@@ -6,7 +6,7 @@
 
 | 要找的內容 | 現在在哪裡 |
 |-----------|-----------|
-| 解題流程（建資料夾、截圖清單、一次解一題、三層掃描、解析輸出格式、索引更新、完成檢核） | `skills/exam-solve/SKILL.md` |
+| 解題流程（附圖擷取、判讀清單、重繪、一次解一題、三層掃描、解析輸出格式、索引更新、完成檢核） | `skills/exam-solve/SKILL.md` |
 | 既有解析的勘誤與重新驗算 | `skills/exam-errata/SKILL.md` |
 | 各科設計哲學框架 | `XX/SUBJECT.md` §8 |
 | 命名、LaTeX、VHA 模板、JSON 欄位 | `CLAUDE-SPEC.md` |

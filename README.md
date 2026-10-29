@@ -54,8 +54,8 @@
 ```
 1. 考卷 PDF 放進 XX/raw/exams/，命名 XX-YYYY_<科目名>.pdf（見 XX/SUBJECT.md §1）
 2. 在 Cowork 開啟知識庫根目錄，說：「解析 YYYY 年 XX 考卷」
-3. 依提醒截圖題目附圖，存入 XX/raw/solutions/XX-YYYY-N/XX-YYYY-N-fig-1.png
-4. 告知 Cowork「截圖完成，請開始解題」（一次解一題）
+3. Cowork 從考卷擷取附圖並列出判讀清單（支承、尺寸、載重…）
+4. 檢查清單後告知 Cowork「判讀確認，請開始解題」（一次解一題）
 5. 人工驗算無誤後：「將 XX-YYYY-N 的 verificationStatus 改為 verified」
 6. 「ingest XX-YYYY-N」→ 該科 wiki 自動更新
 ```

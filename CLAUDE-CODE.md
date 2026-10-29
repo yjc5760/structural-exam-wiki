@@ -15,7 +15,7 @@
 
 | 流程 | 觸發語句 | Skill |
 |------|---------|-------|
-| 解題 SOLVE | `解析 YYYY 年 XX 考卷`、`截圖完成，請開始解題`、`繼續下一題` | `exam-solve` |
+| 解題 SOLVE（含附圖擷取、判讀清單、重繪） | `解析 YYYY 年 XX 考卷`、`判讀確認，請開始解題`、`繼續下一題` | `exam-solve` |
 | 解析勘誤／重新驗算 | `勘誤 XX-YYYY-N`、`重新驗算`、`批次勘誤 XX-Un-m`、`跑 xcheck` | `exam-errata` |
 | 子項命題分析（study XX-Un-m） | `做 XX-Un-m 的命題分析` | `unit-exam-intel` |
 | 全科出題頻率熱圖 | `整科出題頻率` | `subject-frequency-map` |

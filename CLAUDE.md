@@ -30,14 +30,14 @@
 說：「解析 YYYY 年 XX 考卷」
 Cowork 讀取 CLAUDE.md + XX/SUBJECT.md + 考卷 PDF + XX/raw/json/question_index.json
   → 建立所有尚無解析的題目資料夾（已有解析者跳過）
-  → 提醒你將各題附圖截圖存入對應資料夾
-  → 等待你通知「截圖完成，請開始解題」
+  → 從考卷擷取各題附圖，列出判讀清單
+  → 等待你確認「判讀確認，請開始解題」
     ↓
-【你做】依提醒截圖存檔，完成後告知 Cowork
+【你做】檢查判讀清單（尤其標「不確定」的項目），確認後告知 Cowork
     ↓
 【重要】Cowork 一次只解一題，解完存檔後再繼續下一題
     ↓
-你加入補充截圖（chart/eqn/hand）
+需要時加入手寫補充（hand）
 請 Cowork 更新 question_index.json（tags、verified）
     ↓
 說：「ingest XX-YYYY-N」→ Cowork 直接執行，該科 wiki 自動更新
@@ -49,7 +49,7 @@ Cowork 讀取 CLAUDE.md + XX/SUBJECT.md + 考卷 PDF + XX/raw/json/question_inde
 
 | 環境 | 負責什麼 |
 |------|---------|
-| **你（使用者）** | PDF 題目附圖截圖（fig-N.png）、chart/eqn/hand 補充截圖、人工驗算後通知 Cowork 更新 verificationStatus |
+| **你（使用者）** | 確認 Cowork 列出的附圖判讀清單、hand 手寫補充、人工驗算後通知 Cowork 更新 verificationStatus |
 | **Cowork** | 解題（SOLVE，**一次一題**）、存檔（.md；需要圖解時以 struct-diagram 產生 figs/）、更新 question_index.json、**所有 wiki 操作指令**（ingest / compile-all / lint / status / reindex / add-concept / add-method / refresh-dashboard / frequency / analyze / predict / study / find / related / unverified / query，共 16 個，詳見 CLAUDE-CODE.md）、直接維護 wiki/diagnosis/ · wiki/failure-modes/ · wiki/materials/ · wiki/code-ref/ · wiki/queries/ · study/、**修正 raw/solutions/methods/ 的公式錯誤**（須驗算＋同步 wiki＋記 log） |
 
 ---
@@ -97,6 +97,7 @@ Cowork 跨層知識工具                     ──→ XX/wiki/diagnosis/ · fa
 │   ├── refresh_dashboard.py    ← 「更新儀表板資料」的實作
 │   ├── sync_taxonomy.py        ← 正本 → 各科副本
 │   ├── xcheck.py               ← 跨檔一致性掃描（python scripts/xcheck.py XX）
+│   ├── extract_figure.py       ← 從考卷 PDF 擷取附圖（preview 找範圍、crop 擷取＋向量抽取）
 │   └── templates/dashboard-index.html ← 五科共用儀表板樣板
 ├── skills/                  ← 配套 Cowork Skills 原始碼與 .skill 打包檔（五科通用；含 exam-solve、exam-errata）
 │
@@ -178,7 +179,7 @@ Cowork 跨層知識工具                     ──→ XX/wiki/diagnosis/ · fa
    > ④ 在該科 `wiki/log.md` 記錄**改了什麼、為什麼錯、怎麼驗證的**，並在 .md 頁尾加「修正日期」。
    >
    > **不在例外內（仍完整受保護）**：`raw/exams/`（考卷原件）、同資料夾的
-   > `-fig-*.png`／`-chart-*.png`／`-eqn-*.png`／`-hand-*.png`（使用者截圖證據）、
+   > `-fig-*.png`／`-fig-*-vector.svg`／`-chart-*.png`／`-eqn-*.png`／`-hand-*.png`（考卷擷取圖與使用者截圖，皆為證據）、
    > 使用者放入的補充筆記 `*.pdf`。勘誤只准動 `.md` 正本與 Cowork 自己生成的 `gen_XX-YYYY-N.py`、`figs/`（SS 的舊 `*-viz.html` 為停用舊檔，不再修改）。
    >
    > **驗證狀態連動**：解析一經勘誤，該題 `verificationStatus` 必須退回 `unverified`，
@@ -207,3 +208,4 @@ Cowork 跨層知識工具                     ──→ XX/wiki/diagnosis/ · fa
 | 2026-10-29 | **五科合併為單一知識庫**：根目錄 CLAUDE／CODE／SOLVE／SPEC／README 改寫為五科通用（`XX` 代號）；SS 專屬內容（CHANGELOG、設計哲學框架、互動圖內容碼）移入 `SS/SUBJECT.md`；依 SS 架構以 `scripts/scaffold_subject.py` 建立 RC／SA／SD／SM 骨架；`syllabus_taxonomy.json` 以根目錄為正本、各科 `raw/json/` 放同步副本；儀表板改為五科共用樣板（`KB_SUBJECT` 驅動）並新增根目錄五科入口頁；`skills/` 與 `xcheck.py` 移至根目錄共用；改為單一 git repo | 五科架構相同、只有考古題不同，分開維護使同一條規則要改五次 |
 | 2026-10-29 | **解題與勘誤流程改為 skill**：新增 `skills/exam-solve/`（原 CLAUDE-SOLVE.md 的 SOLVE 流程＋CLAUDE-SPEC.md §4.1 完成檢核）與 `skills/exam-errata/`（規則 1 解析勘誤四條件的執行流程＋xcheck 分診）；CLAUDE-SOLVE.md 改為索引頁，ADD-METHOD 移入 CLAUDE-CODE.md；CLAUDE-CODE.md 新增「由 skill 負責的流程」對照表 | 只在解題／勘誤時才需要的長流程不必每次常駐；規則仍留在 CLAUDE.md，格式仍以 CLAUDE-SPEC.md 為唯一依據 |
 | 2026-10-29 | **停用互動圖（`*-viz.html`）**：圖解一律由 `struct-diagram` skill 產生靜態 SVG＋PNG（`figs/`＋`gen_XX-YYYY-N.py`），exam-solve 解完一題後提議、exam-errata 勘誤後重跑；規則 1 的勘誤例外由 `*-viz.html` 改為 `gen_*.py`／`figs/`；SS 既有 19 份 viz 保留為舊檔 | 互動圖與 struct-diagram 功能重疊；靜態圖可重跑、可審核、可進 PDF 與影片管線 |
+| 2026-10-29 | **附圖改由 Cowork 從考卷擷取**：新增 `scripts/extract_figure.py`（preview 座標格線找範圍、crop 產生 500 dpi 證據圖＋向量抽取）；exam-solve 階段一改為「擷取 → 判讀清單（使用者確認）→ struct-diagram 重繪」，觸發語改為「判讀確認，請開始解題」 | 免手動截圖；把判讀攤開確認可在解題前攔下判讀錯誤（SS-2013-4 試作：12 項盲讀全數與勘誤後解析一致，另抓到一處公式來源誤記） |

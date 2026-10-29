@@ -21,9 +21,9 @@
 
 ### `exam-solve.skill`
 
-**功能：** 解題流程（五科通用）——建題目資料夾、列附圖截圖清單、一次解一題寫成 `XX-YYYY-N.md`（三層掃描、VHA、LaTeX）、更新 `question_index.json`
+**功能：** 解題流程（五科通用）——從考卷擷取附圖（`scripts/extract_figure.py`）、判讀清單請使用者確認、struct-diagram 重繪題目圖、一次解一題寫成 `XX-YYYY-N.md`（三層掃描、VHA、LaTeX）、更新 `question_index.json`
 
-**觸發語句：** 「解析 2024 年 RC 考卷」「截圖完成，請開始解題」「繼續下一題」
+**觸發語句：** 「解析 2024 年 RC 考卷」「判讀確認，請開始解題」「繼續下一題」
 
 **依賴：** 根目錄 `CLAUDE.md`（規則）、`CLAUDE-SPEC.md`（格式）、`XX/SUBJECT.md`（科目設定與設計哲學框架）
 

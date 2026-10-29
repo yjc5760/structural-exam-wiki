@@ -82,8 +82,8 @@ SS/                    （CLAUDE*.md、skills/、syllabus_taxonomy.json 在上�
 ```
 1. 在 Cowork 開啟知識庫根目錄（Project）
 2. 說：「解析 2025 年 SS 考卷」
-3. 依提醒截圖題目附圖，存入對應資料夾
-4. 告知 Cowork「截圖完成，請開始解題」
+3. Cowork 從考卷擷取附圖並列出判讀清單
+4. 檢查清單後告知 Cowork「判讀確認，請開始解題」
 5. Cowork 輸出 SS-2025-1.md（一次一題）
 6. 人工驗算無誤後，說：「將 SS-2025-1 的 verificationStatus 改為 verified」
 7. 說：「ingest SS-2025-1」→ Cowork 直接寫入 wiki

@@ -14,8 +14,8 @@
 ```
 1. 把考卷 PDF 放進 raw/exams/，命名 SM-YYYY_土壤力學與基礎設計.pdf
 2. 對 Cowork 說：「解析 YYYY 年 SM 考卷」
-3. 依提醒截圖題目附圖，存入 raw/solutions/SM-YYYY-N/SM-YYYY-N-fig-1.png
-4. 告知 Cowork「截圖完成，請開始解題」（一次解一題）
+3. Cowork 從考卷擷取附圖並列出判讀清單（支承、尺寸、載重…）
+4. 檢查清單後告知 Cowork「判讀確認，請開始解題」（一次解一題）
 5. 人工驗算後：「將 SM-YYYY-N 的 verificationStatus 改為 verified」
 6. 「ingest SM-YYYY-N」→ wiki 自動更新
 7. 「更新儀表板資料」→ index.html 題庫同步

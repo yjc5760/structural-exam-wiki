@@ -23,7 +23,9 @@
 
 ### 1.2 圖檔與補充檔案
 
-- 題目附圖：`XX-YYYY-N-fig-n.png`（由使用者手動截圖）
+- 題目附圖：`XX-YYYY-N-fig-n.png`（由 Cowork 以 `scripts/extract_figure.py` 從考卷 500 dpi 擷取；使用者手動截圖亦可）
+- 題目附圖向量抽取：`XX-YYYY-N-fig-n-vector.svg`（附圖在 PDF 中為向量線條時產生）
+- 題目重繪：`figs/XX-YYYY-N-fig-n-problem.svg`＋`.png`（struct-diagram，依已確認的判讀清單產生）
 - 官方設計圖表截圖：`XX-YYYY-N-chart-n.png`
 - 參考公式截圖：`XX-YYYY-N-eqn-n.png`
 - 手寫補充：`XX-YYYY-N-hand-n.png`
