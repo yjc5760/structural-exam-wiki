@@ -85,7 +85,7 @@ Cowork 跨層知識工具                     ──→ XX/wiki/diagnosis/ · fa
 （知識庫根目錄）
 ├── README.md                ← 冷啟動導覽（五科總覽）
 ├── CLAUDE.md                ← 本檔（身份層）
-├── CLAUDE-SOLVE.md          ← 解題流程（五科共用；科目專屬的設計哲學在 XX/SUBJECT.md §8）
+├── CLAUDE-SOLVE.md          ← 指向 skills/exam-solve（解題流程已改為 skill）
 ├── CLAUDE-CODE.md           ← 16 個指令 Runbook
 ├── CLAUDE-SPEC.md           ← 格式／命名／完成標準
 ├── index.html               ← 五科入口頁（GitHub Pages 首頁）
@@ -98,7 +98,7 @@ Cowork 跨層知識工具                     ──→ XX/wiki/diagnosis/ · fa
 │   ├── sync_taxonomy.py        ← 正本 → 各科副本
 │   ├── xcheck.py               ← 跨檔一致性掃描（python scripts/xcheck.py XX）
 │   └── templates/dashboard-index.html ← 五科共用儀表板樣板
-├── skills/                  ← 配套 Cowork Skills 原始碼與 .skill 打包檔（五科通用）
+├── skills/                  ← 配套 Cowork Skills 原始碼與 .skill 打包檔（五科通用；含 exam-solve、exam-errata）
 │
 ├── SS/ RC/ SA/ SD/ SM/      ← 各科資料夾，結構完全相同：
 │   ├── SUBJECT.md               ← 科目層設定＋科目 CHANGELOG
@@ -168,7 +168,7 @@ Cowork 跨層知識工具                     ──→ XX/wiki/diagnosis/ · fa
    > 「不在例外內」而不敢修；該檔後續被查出把考卷原文「柱 CD 為**靠桿**」讀成「鉸接」，挫屈載重高估約 3 倍。
    > **規則不該讓已知錯誤留在正本裡。**
    >
-   > **修改 `XX-YYYY-N.md` 的四個條件（缺一不可）**：
+   > **修改 `XX-YYYY-N.md` 的四個條件（缺一不可）**（執行步驟見 `skills/exam-errata/SKILL.md`）：
    > ① **回考卷原文**：以 `raw/exams/` 的 PDF 為準重新判讀題意與圖說。
    >    ⚠️ 考卷常為 Adobe-CNS1 CID 字型，`pdftotext` **抽不到中文**，公式與附表也常以影像嵌入；
    >    支承符號、鉸接圓圈、尺寸線只能目視 —— 必須轉圖（300–450 dpi）**逐頁目視判讀**；
@@ -205,3 +205,4 @@ Cowork 跨層知識工具                     ──→ XX/wiki/diagnosis/ · fa
 | 日期 | 變更 | 原因 |
 |------|------|------|
 | 2026-10-29 | **五科合併為單一知識庫**：根目錄 CLAUDE／CODE／SOLVE／SPEC／README 改寫為五科通用（`XX` 代號）；SS 專屬內容（CHANGELOG、設計哲學框架、互動圖內容碼）移入 `SS/SUBJECT.md`；依 SS 架構以 `scripts/scaffold_subject.py` 建立 RC／SA／SD／SM 骨架；`syllabus_taxonomy.json` 以根目錄為正本、各科 `raw/json/` 放同步副本；儀表板改為五科共用樣板（`KB_SUBJECT` 驅動）並新增根目錄五科入口頁；`skills/` 與 `xcheck.py` 移至根目錄共用；改為單一 git repo | 五科架構相同、只有考古題不同，分開維護使同一條規則要改五次 |
+| 2026-10-29 | **解題與勘誤流程改為 skill**：新增 `skills/exam-solve/`（原 CLAUDE-SOLVE.md 的 SOLVE 流程＋CLAUDE-SPEC.md §4.1 完成檢核）與 `skills/exam-errata/`（規則 1 解析勘誤四條件的執行流程＋xcheck 分診）；CLAUDE-SOLVE.md 改為索引頁，ADD-METHOD 移入 CLAUDE-CODE.md；CLAUDE-CODE.md 新增「由 skill 負責的流程」對照表 | 只在解題／勘誤時才需要的長流程不必每次常駐；規則仍留在 CLAUDE.md，格式仍以 CLAUDE-SPEC.md 為唯一依據 |

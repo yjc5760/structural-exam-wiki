@@ -19,6 +19,26 @@
 
 ## Skills 清單
 
+### `exam-solve.skill`
+
+**功能：** 解題流程（五科通用）——建題目資料夾、列附圖截圖清單、一次解一題寫成 `XX-YYYY-N.md`（三層掃描、VHA、LaTeX）、更新 `question_index.json`
+
+**觸發語句：** 「解析 2024 年 RC 考卷」「截圖完成，請開始解題」「繼續下一題」
+
+**依賴：** 根目錄 `CLAUDE.md`（規則）、`CLAUDE-SPEC.md`（格式）、`XX/SUBJECT.md`（科目設定與設計哲學框架）
+
+---
+
+### `exam-errata.skill`
+
+**功能：** 解析勘誤與重新驗算——考卷轉圖目視判讀、程式獨立重算（MISMATCHES: 0）、修正正本、同步全部下游、狀態退回 unverified、寫 log；附 xcheck 分診
+
+**觸發語句：** 「勘誤 SS-2013-2」「這題解析有錯」「重新驗算」「批次勘誤 SS-U1-3」「跑 xcheck」
+
+**依賴：** 根目錄 `CLAUDE.md` 規則 1（勘誤例外的四個條件）、`scripts/xcheck.py`、`scripts/refresh_dashboard.py`
+
+---
+
 ### `vha-treasure-map.skill`
 
 **功能：** 將考題 VHA（變數層次分析）轉化為互動式「藏寶圖」HTML 儀表板

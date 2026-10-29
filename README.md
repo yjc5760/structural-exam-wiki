@@ -24,6 +24,7 @@
 | 你要做什麼 | 怎麼做 |
 |-----------|--------|
 | 解一份新考卷 | 對 **Cowork** 說「解析 2025 年 RC 考卷」 |
+| 勘誤／重新驗算解析 | 「勘誤 SS-2013-2」（exam-errata skill） |
 | 把解析寫進 wiki | 「ingest RC-2025-1」 |
 | 查詢知識 / 跨題分析 | 直接提問（可指定科目） |
 | 更新儀表板 | 「更新 RC 儀表板資料」或「更新五科儀表板資料」 |
@@ -42,7 +43,7 @@
 ├── syllabus_taxonomy.json    ← 命題大綱分類正本
 ├── 命題大綱.pdf
 ├── scripts/                  ← scaffold / refresh_dashboard / sync_taxonomy / xcheck / 儀表板樣板
-├── skills/                   ← 配套 Cowork Skills（五科通用）
+├── skills/                   ← 配套 Cowork Skills（五科通用；解題 exam-solve、勘誤 exam-errata 等）
 └── SS/ RC/ SA/ SD/ SM/       ← 各科：SUBJECT.md、index.html、raw/、wiki/、study/
 ```
 

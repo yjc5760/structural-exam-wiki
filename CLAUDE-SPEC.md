@@ -243,14 +243,8 @@ _需要知道公式名稱與適用條件，套入 L1 即可算出。_
 ## 4. 完成標準清單
 
 ### 4.1 Cowork 解完一題後（SOLVE）
-- [ ] 存檔為 `raw/solutions/XX-XXXX-N/XX-XXXX-N.md`
-- [ ] 標題使用 `H1` 且包含題號 `XX-YYYY-N`
-- [ ] 第 3.5 節的 VHA 卡關欄位 `| |` 均留空（供考生自填）
-- [ ] VHA 的關鍵公式區段正確使用 `\boxed{}` 標記中繼變數
-- [ ] 數學式無純文字的 `Mu`、`Fcr`（皆替換為 `$M_u$`、`$F_{cr}$` 等 LaTeX）
-- [ ] （如有）生互動圖 `-viz.html` 且附上正確對應檔名之 Markdown 連結
-- [ ] 自動更新 `question_index.json`：hasSolution=true，且填入 3 個以上的標籤
-- [ ] 自動填寫 designMethod 與 secondaryTopicIds
+
+見 `skills/exam-solve/SKILL.md`「完成檢核」（2026-10-29 移入，避免兩份清單不同步）。
 
 ### 4.2 ingest 到 Wiki
 - [ ] 前置檢查：`verificationStatus === "verified"`

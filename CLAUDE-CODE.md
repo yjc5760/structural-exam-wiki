@@ -9,6 +9,20 @@
 
 ---
 
+## 由 skill 負責的流程
+
+以下流程較長，改為 skill，說觸發語句時才載入；本文件不重複其內容。原始碼在根目錄 `skills/`。
+
+| 流程 | 觸發語句 | Skill |
+|------|---------|-------|
+| 解題 SOLVE | `解析 YYYY 年 XX 考卷`、`截圖完成，請開始解題`、`繼續下一題` | `exam-solve` |
+| 解析勘誤／重新驗算 | `勘誤 XX-YYYY-N`、`重新驗算`、`批次勘誤 XX-Un-m`、`跑 xcheck` | `exam-errata` |
+| 子項命題分析（study XX-Un-m） | `做 XX-Un-m 的命題分析` | `unit-exam-intel` |
+| 全科出題頻率熱圖 | `整科出題頻率` | `subject-frequency-map` |
+| 觀念講義／給背分界／記憶片／向量圖解 | 見 `skills/README.md` | `unit-lecture` 等 |
+
+---
+
 ## 指令索引
 
 ### 📦 wiki 編譯與維護
@@ -77,6 +91,8 @@
 
 **錯誤更正流程：**
 ```
+> 實際修正解析正本請用 `exam-errata` skill（說「勘誤 XX-XXXX-N」），以下為狀態流轉摘要。
+
 ① 對 Cowork 說：「將 XX-XXXX-N 的 verificationStatus 改為 needs-review」
 ② 對 Cowork 說：在 raw/solutions/XX-XXXX-N/XX-XXXX-N.md 末尾補充更正說明
 ③ 人工重新驗算確認後：「將 XX-XXXX-N 的 verificationStatus 改回 verified」
@@ -215,6 +231,43 @@ solutions/ 已有解析但未驗證：[列出題號]
 2. 建立 raw/solutions/methods/[method_id]/[method_id].md
 3. 建立 wiki/methods/[method_id].md
 4. 在 wiki/log.md 追加紀錄
+```
+
+**另一種觸發：** 在 Cowork 討論某個解題方法後，說「加入知識庫」。（原在 CLAUDE-SOLVE.md，2026-10-29 移入）
+
+**適用內容：**
+```
+解題工具型知識（跨多道題目使用）：
+- 共軛梁法、虛功法、最小功法
+- 彎矩分配法、傾角變位法
+- 平行軸定理應用、組合斷面計算
+- P-M 互制圖繪製
+- 其他考試常用手算方法
+```
+
+**輸出物：**
+```
+1. raw/solutions/methods/[method-id]/[method-id].md
+   → 完整說明文件（LaTeX 公式 + 步驟 + 邊界條件表）
+2. raw/solutions/methods/[method-id]/[method-id]-chart.html
+   → 圖形說明（如有）
+```
+
+**wiki/methods/[method-id].md 格式：**
+```markdown
+# [方法名稱]
+
+**方法 ID：** [method-id]
+**知識分類：** 解題工具
+**適用題型：** [列出適用的 topicId，如 `SS-U1-2`、`SS-U1-3`]
+
+## 核心原理
+## 邊界條件 / 對應關係表
+## 步驟流程
+## 常用型式與結果表
+## 推導示範
+## 圖形
+## 出現題目（使用本方法的考題）
 ```
 
 **修正既有方法論的公式錯誤（FIX-METHOD）**
