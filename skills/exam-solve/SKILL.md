@@ -42,6 +42,8 @@ description: 結構技師考試知識庫（SS/RC/SA/SD/SM）的解題流程：�
    ```
    產生帶 point 座標格線的預覽圖（看圖讀出 bbox），並回報該頁有無嵌入圖片：
    沒有嵌入圖片 → 附圖是向量線條，可無損抽取；有嵌入圖片 → 記下 ppi，低於 100 ppi 的要特別小心小符號。
+   ⚠️ 腳本若在使用者電腦上執行，預覽圖要 stage 到雲端才能看；剛產生的檔案在 Google Drive 同步完成前可能 stage 失敗，
+   此時改為把考卷 PDF（原有檔案可直接 stage）傳到雲端，在雲端跑同一支腳本找 bbox，再回使用者電腦執行 crop。
 3. **擷取**（每張附圖一次）：
    ```
    python scripts/extract_figure.py crop <考卷.pdf> --page <頁> --bbox x0 y0 x1 y1 \
