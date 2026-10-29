@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2014-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2014-1 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2014-1</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>壓力桿件</code> <code>整體挫屈</code> <code>柱強度曲線</code> <code>λc推導</code> <code>有效長度</code> <code>殘留應力</code> <code>非彈性挫屈</code> <code>彈性挫屈</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>根據 AISC-LRFD，柱挫屈強度以下式表示：</p>
+<p>$$F_{cr} = (0.658)^{\lambda_c^2} F_y \quad (\lambda_c \leq 1.5，非彈性範圍)$$</p>
+<p>$$F_{cr} = \left(\frac{0.877}{\lambda_c^2}\right) F_y \quad (\lambda_c > 1.5，彈性範圍)$$</p>
+<p><strong>(一)</strong> 請推導 $\lambda_c = \dfrac{KL}{r\pi}\sqrt{\dfrac{F_y}{E}}$。（10分）</p>
+<p><strong>(二)</strong> 繪出 $F_{cr}/F_y$ 與 $\lambda_c$ 之關係圖，標示兩公式適用範圍；並說明當柱鋼板降伏強度由 350 MPa 提升至 450 MPa 時，柱挫屈強度的變化。（10分）</p>
+<p><strong>(三)</strong> 繪出柱兩端同為鉸接及一端固接另一端為自由端的兩種挫屈變形及相對應的理論 K 值。（5分）</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong></p>
+<ul>
+<li>為什麼 LRFD 用 $\lambda_c$ 這個無因次化參數？→ 它是「降伏應力與彈性挫屈應力之比值的平方根」，統一了不同鋼材強度的挫屈行為</li>
+<li>高強度鋼（HighFy）用於細長壓力桿件有何盲區？→ 彈性挫屈時，Fcr 與 Fy 無關，高強度鋼優勢消失</li>
+</ul>
+<p><strong>出題意圖：</strong></p>
+<ol>
+<li>測試考生能否從 Euler 公式「推導」出 λc，而非死背</li>
+<li>測試對曲線形狀的理解（兩段式、分界點）</li>
+<li>測試材料升級時的工程判斷：高強度鋼≠高挫屈強度（細長柱）</li>
+</ol>
+<p><strong>陷阱預警：</strong></p>
+<ul>
+<li>混淆 λc（無因次化細長比）與 KL/r（有因次細長比）</li>
+<li>誤以為提高 Fy 對所有柱都有效（細長柱完全沒有幫助）</li>
+<li>忘記兩公式在 λc = 1.5 處的連續性（用此驗算公式是否正確）</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1：寫出 Euler 彈性挫屈應力 Fe
+Step 2：定義 λc² = Fy/Fe，推導 λc 公式
+Step 3：驗算分界點（λc=1.5時兩公式結果相同）
+Step 4：繪製曲線，標示兩段與分界點
+Step 5：分析 Fy 提升的影響（分彈性、非彈性兩段討論）
+Step 6：畫挫屈變形圖，標示K值
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<ol>
+<li><strong>λc 的推導起點</strong>：必須從 Euler 公式出發，不能直接背公式</li>
+<li><strong>Fy 提升的討論</strong>：必須區分彈性與非彈性兩個範圍，各有不同結論</li>
+<li><strong>K值的理論與設計值</strong>：本題要求「理論K值」，不是設計建議值</li>
+<li><strong>分界點驗算</strong>：可用兩公式在 λc=1.5 互相驗算，展現邏輯嚴謹度</li>
+</ol>
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 從 Euler 公式推導 $\lambda_c$ → 繪製柱強度曲線 → 分析 $F_y$ 提升的影響 → 畫挫屈模態及理論 K 值</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$F_e = \frac{\pi^2 E}{(KL/r)^2} \quad (\text{Euler 挫屈應力})$$</p>
+<p>$$\lambda_c^2 \equiv \frac{F_y}{F_e} \quad \Rightarrow \quad \boxed{\lambda_c} = \frac{KL}{r\pi}\sqrt{\frac{F_y}{E}}$$</p>
+<p>$$F_{cr}/F_y = \begin{cases} 0.658^{\lambda_c^2} & \lambda_c \leq 1.5 \\ 0.877/\lambda_c^2 & \lambda_c > 1.5 \end{cases}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_{cr}$ 公式</td>
+<td>兩段式（題目給定）</td>
+<td>非彈性（$\lambda_c \leq 1.5$）/ 彈性（$\lambda_c > 1.5$）</td>
+</tr>
+<tr>
+<td>分界點</td>
+<td>$\lambda_c = 1.5$</td>
+<td>兩公式適用範圍邊界</td>
+</tr>
+<tr>
+<td>升強情境</td>
+<td>$F_y$：350 → 450 MPa</td>
+<td>討論挫屈強度變化</td>
+</tr>
+<tr>
+<td>邊界條件A</td>
+<td>兩端鉸接</td>
+<td>畫挫屈圖</td>
+</tr>
+<tr>
+<td>邊界條件B</td>
+<td>一端固接、一端自由</td>
+<td>畫挫屈圖</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：推導 $\lambda_c$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_e$</td>
+<td>$\pi^2 EI/(KL)^2$（Euler 臨界載重）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_e$</td>
+<td>$P_e/A = \pi^2 E/(KL/r)^2$（Euler 挫屈應力）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\lambda_c^2$</td>
+<td>定義為 $F_y/F_e$（降伏應力 / 彈性挫屈應力）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\lambda_c$</td>
+<td>$\sqrt{F_y/F_e} = (KL/r\pi)\sqrt{F_y/E}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：分界點驗算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>非彈性公式在 $\lambda_c=1.5$</td>
+<td>$0.658^{2.25} = 0.389$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>彈性公式在 $\lambda_c=1.5$</td>
+<td>$0.877/2.25 = 0.390$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：$F_y$ 提升影響分析</strong></p>
+<table>
+<thead>
+<tr>
+<th>範圍</th>
+<th>影響</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>彈性挫屈段（細長柱）</td>
+<td>$F_{cr} = 0.877\pi^2E/(KL/r)^2$，與 $F_y$ 完全無關</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>非彈性挫屈段</td>
+<td>$F_{cr}$ 有所提升，但比例小於 $F_y$ 升幅</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>極短柱</td>
+<td>$F_{cr} \approx F_y$，升強效果最大</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：理論 K 值</strong></p>
+<table>
+<thead>
+<tr>
+<th>邊界條件</th>
+<th>K 值</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>兩端鉸接（P-P）</td>
+<td>$K = 1.0$（半正弦波）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>一端固接一端自由（F-Free）</td>
+<td>$K = 2.0$（四分之一正弦波）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\lambda_c$ 的推導起點必須是 Euler 公式</td>
+<td>背公式不算推導；考試要求「寫出推導過程」，需從 $P_e = \pi^2EI/(KL)^2$ 出發</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">lrfd-column</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">COLUMN-STRENGTH-CURVE</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\lambda_c = 1.5$ 分界點的物理意義</td>
+<td>$F_e = F_y/2.25$；低於此點柱在挫屈前已局部降伏（非彈性），高於此點純彈性挫屈</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">COLUMN-STRENGTH-CURVE</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>殘留應力對曲線的影響</td>
+<td>0.658 係數隱含殘留應力（最大 0.3$F_y$）與初始幾何缺陷的實驗回歸修正</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RESIDUAL-STRESS</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">TANGENT-MODULUS-THEORY</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>彈性挫屈段 $F_{cr}$ 與 $F_y$ 無關</td>
+<td>高強度鋼用於細長柱完全無效；$F_{cr} = 0.877\pi^2E/(KL/r)^2$ 只和 $E$、$KL/r$ 有關</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">lrfd-column</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>理論 K 值 vs AISC 設計 K 值</td>
+<td>理論值假設完全固定/完全自由；設計值考慮實際接合半剛性（固接端用 K &gt; 理論值）</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">effective-length-chart</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<blockquote>
+<p>📊 <strong>柱強度曲線互動圖請參閱：</strong> <code>SS-2014-1-column-curve-viz.html</code></p>
+</blockquote>
+<h3>(一) 推導 λc = KL/(rπ) × √(Fy/E)</h3>
+<p><strong>Step 1：Euler 彈性挫屈臨界載重</strong></p>
+<p>彈性理論中，完美直柱的彈性挫屈（尤拉挫屈）臨界載重：</p>
+<p>$$P_e = \frac{\pi^2 EI}{(KL)^2}$$</p>
+<p>對應的挫屈臨界應力（除以斷面積A，利用 $r^2 = I/A$）：</p>
+<p>$$F_e = \frac{P_e}{A} = \frac{\pi^2 E I}{(KL)^2 A} = \frac{\pi^2 E}{(KL/r)^2}$$</p>
+<p><strong>Step 2：定義無因次化細長比 λc</strong></p>
+<p>AISC-LRFD 定義 $\lambda_c$ 使得：</p>
+<p>$$\lambda_c^2 \equiv \frac{F_y}{F_e}$$</p>
+<p>即 $\lambda_c$ 是「降伏應力與彈性挫屈應力比值」的平方根，代表桿件相對細長程度。</p>
+<p><strong>Step 3：代入 Fe 展開</strong></p>
+<p>$$\lambda_c^2 = \frac{F_y}{F_e} = \frac{F_y}{\dfrac{\pi^2 E}{(KL/r)^2}} = \frac{F_y \cdot (KL/r)^2}{\pi^2 E}$$</p>
+<p>取正平方根：</p>
+<p>$$\boxed{\lambda_c = \frac{KL}{r} \cdot \frac{1}{\pi} \cdot \sqrt{\frac{F_y}{E}} = \frac{KL}{r\pi}\sqrt{\frac{F_y}{E}}}$$</p>
+<p><strong>Step 4：物理意義確認</strong></p>
+<ul>
+<li>$\lambda_c = 1.0$：$F_e = F_y$（彈性挫屈應力恰等於降伏應力）</li>
+<li>$\lambda_c = 1.5$：$F_e = F_y/2.25 = 0.444F_y$（兩公式分界點）</li>
+<li>$\lambda_c \to 0$：極短柱，$F_{cr} \to F_y$（全斷面降伏）</li>
+<li>$\lambda_c \to \infty$：極細長柱，$F_{cr} \to 0$（幾乎無強度）</li>
+</ul>
+<p><strong>驗算：分界點 λc = 1.5 時兩公式結果應相同</strong></p>
+<p>非彈性公式：$F_{cr}/F_y = 0.658^{1.5^2} = 0.658^{2.25} = e^{2.25 \times \ln 0.658} = e^{-0.9434} = 0.3894$</p>
+<p>彈性公式：$F_{cr}/F_y = 0.877/1.5^2 = 0.877/2.25 = 0.3898$ ✓（兩者吻合）</p>
+<hr />
+<h3>(二) Fcr/Fy 與 λc 之關係圖及 Fy 提升影響</h3>
+<p><strong>曲線關鍵數值：</strong></p>
+<table>
+<thead>
+<tr>
+<th>$\lambda_c$</th>
+<th>$F_{cr}/F_y$（非彈性）</th>
+<th>$F_{cr}/F_y$（彈性）</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1.000</td>
+<td>—</td>
+<td>極短柱，全塑性</td>
+</tr>
+<tr>
+<td>0.5</td>
+<td>0.878</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>0.658</td>
+<td>—</td>
+<td>$F_e = F_y$</td>
+</tr>
+<tr>
+<td>1.5</td>
+<td><strong>0.389</strong></td>
+<td><strong>0.389</strong></td>
+<td>分界點（兩公式相交）</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td>—</td>
+<td>0.219</td>
+<td></td>
+</tr>
+<tr>
+<td>3.0</td>
+<td>—</td>
+<td>0.097</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>曲線特徵：</strong></p>
+<ul>
+<li>非彈性段（$\lambda_c \leq 1.5$）：$F_{cr}/F_y = 0.658^{\lambda_c^2}$，凹下曲線，考慮初始缺陷與殘留應力</li>
+<li>彈性段（$\lambda_c > 1.5$）：$F_{cr}/F_y = 0.877/\lambda_c^2$，雙曲線，僅打折0.877考慮初始彎曲缺陷</li>
+</ul>
+<p><strong>Fy 由 350 MPa 提升至 450 MPa 時的影響分析：</strong></p>
+<p><strong>核心公式回顧：</strong></p>
+<p>$$\lambda_c = \frac{KL}{r\pi}\sqrt{\frac{F_y}{E}}$$</p>
+<p>對同一物理柱（相同 $KL/r$），$F_y$ 由 350 → 450 MPa：</p>
+<p>$$\frac{\lambda_{c,\text{new}}}{\lambda_{c,\text{old}}} = \sqrt{\frac{450}{350}} = \sqrt{1.286} = 1.134$$</p>
+<p>即同一根柱子在強度曲線上「向右移動」1.134倍。</p>
+<p><strong>分範圍討論：</strong></p>
+<p>①<strong>彈性挫屈段（細長柱，$\lambda_c > 1.5$）：</strong></p>
+<p>$$F_{cr} = \frac{0.877 F_y}{\lambda_c^2} = \frac{0.877 \pi^2 E}{(KL/r)^2}$$</p>
+<blockquote>
+<p>⚠️ <strong>關鍵結論：彈性段的 Fcr 與 Fy 完全無關！</strong></p>
+</blockquote>
+<p>提高 Fy 完全沒有增加細長柱的挫屈強度。高強度鋼的優勢在細長壓力桿件中消失。</p>
+<p>②<strong>非彈性挫屈段（中等細長，$\lambda_c \leq 1.5$）：</strong></p>
+<p>$$F_{cr,\text{new}} = 0.658^{\lambda_{c,\text{new}}^2} \times 450 \quad \text{vs.} \quad F_{cr,\text{old}} = 0.658^{\lambda_{c,\text{old}}^2} \times 350$$</p>
+<p>Fcr 有所提升，但提升幅度小於 Fy 的增加比例（450/350 = 1.286）。</p>
+<p>③<strong>極短柱（$\lambda_c \to 0$）：</strong> $F_{cr} \approx F_y$，提升幅度接近等比例，高強度鋼充分發揮。</p>
+<p><strong>綜合結論：</strong></p>
+<blockquote>
+<p>提高鋼材降伏強度（350→450 MPa）對壓力桿件的效益隨細長比增加而遞減；對彈性挫屈的細長柱完全無效。此為選用高強度鋼材應考量的核心限制。</p>
+</blockquote>
+<hr />
+<h3>(三) 兩種邊界條件的挫屈變形圖與理論 K 值</h3>
+<p><strong>案例A：兩端鉸接（Pin-Pin）</strong></p>
+<pre><code>    ●  ← 鉸接（可旋轉，不可位移）
+    |
+    |  ) 挫屈後呈半正弦波
+    |
+    ●  ← 鉸接（可旋轉，不可位移）
+</code></pre>
+<ul>
+<li>挫屈模態：半正弦波（半波長 = L）</li>
+<li>有效長度：$KL = 1.0 \times L = L$</li>
+</ul>
+<p>$$\boxed{K_{\text{兩端鉸}} = 1.0}$$</p>
+<ul>
+<li>推導：邊界條件 $M(0) = M(L) = 0$ → 最低模態為半正弦波</li>
+</ul>
+<p><strong>案例B：一端固接、另一端自由（Fixed-Free，懸臂柱）</strong></p>
+<pre><code>    ○  ← 自由端（可旋轉、可位移）
+    |
+    |  ) 挫屈後呈四分之一正弦波
+    |
+    ▓  ← 固接端（不可旋轉、不可位移）
+</code></pre>
+<ul>
+<li>挫屈模態：四分之一正弦波（有效長度 = 2L，即兩倍柱長才完成一個半波）</li>
+<li>有效長度：$KL = 2.0 \times L = 2L$</li>
+</ul>
+<p>$$\boxed{K_{\text{固接-自由}} = 2.0}$$</p>
+<ul>
+<li>推導：固接端 $y=0, y'=0$；自由端 $M=0, V=0$ → 最低挫屈模態相當於兩端鉸接柱長度2L的下半段</li>
+</ul>
+<p><strong>兩案例對照：</strong></p>
+<table>
+<thead>
+<tr>
+<th>邊界條件</th>
+<th>理論K值</th>
+<th>有效長度 $KL$</th>
+<th>相對強度（以兩端鉸為基準）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>兩端鉸接（P-P）</td>
+<td>1.0</td>
+<td>L</td>
+<td>1×</td>
+</tr>
+<tr>
+<td>一固一自由（F-F）</td>
+<td>2.0</td>
+<td>2L</td>
+<td>1/4×（$P_e \propto 1/(KL)^2$）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>固接-自由柱的彈性挫屈載重僅為兩端鉸接的 1/4，此即為何懸臂柱設計必須特別謹慎。</p>
+</blockquote>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>①「0.877」係數的來源：</strong><br />
+Euler 公式的「0.877 = 1/1.14²」係數，對應最大初始彎曲缺陷 L/1000（AISC 規定的柱製作容許偏差）。即考慮實際柱不可能完美直的事實。</p>
+<p><strong>②「0.658」係數的來源：</strong><br />
+AISC-LRFD 非彈性公式的 0.658 源自大量實驗回歸，同時考慮：</p>
+<ul>
+<li>初始幾何缺陷</li>
+<li>殘留應力（最大 0.3Fy）</li>
+<li>非線性材料行為</li>
+</ul>
+<p><strong>③設計K值 vs 理論K值：</strong><br />
+本題求理論K值。實務設計中，考慮接合部半剛性，AISC 設計K值通常略大於理論值（保守）。</p>
+<p><strong>④高強度鋼的適用建議：</strong></p>
+<ul>
+<li>軸壓為主、$KL/r$ 大的構件：不建議使用高強度鋼（Fe 與 Fy 無關）</li>
+<li>短柱、拉力桿件：高強度鋼效益顯著</li>
+<li>梁（撓曲）：需考量LTB，高強度鋼同樣有限制</li>
+</ul>
+<p><strong>⑤台灣規範與AISC-LRFD的對應：</strong><br />
+台灣《鋼結構極限設計法規範》第4.1.1節直接引用AISC-LRFD的柱強度公式，但部分版本使用不同的殘留應力模型（Fr = 0.3Fy 或 Fr = 114 MPa）。考試中以題目給定為準。</p>
+</main>
+<footer>來源：raw/solutions/SS-2014-1/SS-2014-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

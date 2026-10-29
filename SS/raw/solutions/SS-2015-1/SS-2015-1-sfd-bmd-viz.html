@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>SS-2015-1 剪力圖與彎矩圖</title>
+<style>
+  body{font-family:Arial,sans-serif;background:#f8f9fa;margin:0;padding:20px;color:#1a1a2e}
+  h2{font-size:16px;margin:0 0 4px}
+  .subtitle{font-size:12px;color:#666;margin-bottom:16px}
+  .panel{background:white;border-radius:8px;padding:16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+  .panel-title{font-size:13px;font-weight:bold;color:#2462c4;margin-bottom:10px;border-left:3px solid #2462c4;padding-left:8px}
+  canvas{display:block;width:100%}
+  .params{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px}
+  .param{background:#f0f4ff;border-radius:6px;padding:6px 12px;font-size:12px}
+  .param span{color:#888;font-size:11px;display:block}
+  .param strong{color:#2462c4}
+</style>
+</head>
+<body>
+<h2>SS-2015-1 剪力圖（SFD）＋ 彎矩圖（BMD）</h2>
+<div class="subtitle">簡支梁，三分點對稱集中載重，P<sub>u</sub> = 82.4 tf，L = 8.4 m</div>
+
+<div class="panel">
+  <div class="panel-title">剪力圖 (SFD)　單位：tf</div>
+  <canvas id="sfd" height="160"></canvas>
+  <div class="params">
+    <div class="param"><span>最大剪力 V<sub>u</sub></span><strong>82.4 tf</strong></div>
+    <div class="param"><span>零剪力段</span><strong>B–C（2.8m ~ 5.6m）</strong></div>
+    <div class="param"><span>控制：剪力降伏</span><strong>h/t<sub>w</sub> = 51.25 &lt; 70.4</strong></div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title">彎矩圖 (BMD)　單位：tf-m</div>
+  <canvas id="bmd" height="160"></canvas>
+  <div class="params">
+    <div class="param"><span>最大彎矩 M<sub>u</sub></span><strong>230.72 tf-m</strong></div>
+    <div class="param"><span>均勻彎矩段（控制 L<sub>b</sub>）</span><strong>B–C，L<sub>b</sub> = 2.8 m</strong></div>
+    <div class="param"><span>選用斷面</span><strong>BH 920×300×19×25（247 kg/m）</strong></div>
+    <div class="param"><span>&phi;<sub>b</sub>M<sub>p</sub>（L<sub>b</sub>&lt;L<sub>p</sub>=3.02 m）</span><strong>233.78 tf-m &#10004;</strong></div>
+  </div>
+</div>
+
+<script>
+const W_BASE=580,pL=65,pR=25,pT=28,pB=38;
+const L=8.4,Pu=82.4,a=L/3;
+
+function setup(id){
+  const c=document.getElementById(id);
+  c.width=c.parentElement.clientWidth-32;
+  return c.getContext('2d');
+}
+function xp(x,W){return pL+(x/L)*(W-pL-pR);}
+
+// ── SFD ──────────────────────────────────────────────────────
+(function(){
+  const ctx=setup('sfd');
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  const dH=H-pT-pB,Vmax=Pu;
+  const zero=pT+dH/2;
+  function yv(v){return zero-v/Vmax*dH*0.82;}
+
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+
+  // 格線
+  ctx.strokeStyle='#eee';ctx.lineWidth=1;
+  [Vmax,Vmax/2,0,-Vmax/2,-Vmax].forEach(v=>{
+    ctx.beginPath();ctx.moveTo(pL,yv(v));ctx.lineTo(W-pR,yv(v));ctx.stroke();
+  });
+
+  // 零軸
+  ctx.strokeStyle='#bbb';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pL,zero);ctx.lineTo(W-pR,zero);ctx.stroke();
+
+  // SFD 填色
+  const pts=[[0,Pu],[a,Pu],[a,0],[2*a,0],[2*a,-Pu],[L,-Pu]];
+  ctx.beginPath();ctx.moveTo(xp(0,W),zero);
+  pts.forEach(([x,v])=>ctx.lineTo(xp(x,W),yv(v)));
+  ctx.lineTo(xp(L,W),zero);ctx.closePath();
+  ctx.fillStyle='rgba(52,120,200,.15)';ctx.fill();
+  ctx.beginPath();ctx.moveTo(xp(0,W),zero);
+  pts.forEach(([x,v])=>ctx.lineTo(xp(x,W),yv(v)));
+  ctx.lineTo(xp(L,W),zero);
+  ctx.strokeStyle='#2462c4';ctx.lineWidth=2.5;ctx.stroke();
+
+  // 數值
+  ctx.fillStyle='#2462c4';ctx.font='bold 11px Arial';ctx.textAlign='center';
+  ctx.fillText('+82.4',xp(a/2,W),yv(Pu)-8);
+  ctx.fillText('0',xp(a+a/2,W),yv(0)-8);
+  ctx.fillText('−82.4',xp(2*a+a/2,W),yv(-Pu)+16);
+
+  // 側撐點
+  ['A(0)','B(2.8m)','C(5.6m)','D(8.4m)'].forEach((lb,i)=>{
+    const x=[0,a,2*a,L][i];
+    ctx.beginPath();ctx.arc(xp(x,W),zero,4,0,Math.PI*2);
+    ctx.fillStyle='#e74c3c';ctx.fill();
+    ctx.fillStyle='#c0392b';ctx.font='10px Arial';ctx.textAlign='center';
+    ctx.fillText(lb,xp(x,W),H-6);
+  });
+
+  // Y軸
+  ctx.fillStyle='#666';ctx.font='10px Arial';ctx.textAlign='right';
+  [Pu,0,-Pu].forEach(v=>ctx.fillText(v===0?'0':(v>0?'+'+v:v),pL-5,yv(v)+4));
+  ctx.save();ctx.translate(13,H/2);ctx.rotate(-Math.PI/2);
+  ctx.textAlign='center';ctx.fillText('V (tf)',0,0);ctx.restore();
+})();
+
+// ── BMD ──────────────────────────────────────────────────────
+(function(){
+  const ctx=setup('bmd');
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  const dH=H-pT-pB,Mu=Pu*a;
+  const zero=pT;
+  function ym(m){return zero+m/Mu*dH*0.82;}
+
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+
+  // 格線
+  ctx.strokeStyle='#eee';ctx.lineWidth=1;
+  [0,Mu/2,Mu].forEach(m=>{
+    ctx.beginPath();ctx.moveTo(pL,ym(m));ctx.lineTo(W-pR,ym(m));ctx.stroke();
+  });
+
+  // 零軸
+  ctx.strokeStyle='#bbb';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pL,zero);ctx.lineTo(W-pR,zero);ctx.stroke();
+
+  // BMD 填色（正彎矩向下）
+  const pts=[[0,0],[a,Mu],[2*a,Mu],[L,0]];
+  ctx.beginPath();ctx.moveTo(xp(0,W),zero);
+  pts.forEach(([x,m])=>ctx.lineTo(xp(x,W),ym(m)));
+  ctx.lineTo(xp(L,W),zero);ctx.closePath();
+  ctx.fillStyle='rgba(192,57,43,.12)';ctx.fill();
+  ctx.beginPath();ctx.moveTo(xp(0,W),zero);
+  pts.forEach(([x,m])=>ctx.lineTo(xp(x,W),ym(m)));
+  ctx.lineTo(xp(L,W),zero);
+  ctx.strokeStyle='#c0392b';ctx.lineWidth=2.5;ctx.stroke();
+
+  // 均勻彎矩段標示
+  ctx.strokeStyle='#27ae60';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+  [a,2*a].forEach(x=>{
+    ctx.beginPath();ctx.moveTo(xp(x,W),zero-8);ctx.lineTo(xp(x,W),ym(Mu)+28);ctx.stroke();
+  });
+  ctx.setLineDash([]);
+  ctx.fillStyle='#27ae60';ctx.font='11px Arial';ctx.textAlign='center';
+  ctx.fillText('均勻彎矩段 Lb = 2.8 m',xp(a+a/2,W),zero-3);
+
+  // 最大彎矩標注
+  ctx.fillStyle='#c0392b';ctx.font='bold 11px Arial';ctx.textAlign='center';
+  ctx.fillText('M_u = 230.72 tf-m',xp(L/2,W),ym(Mu)+18);
+
+  // 側撐點
+  ['A','B','C','D'].forEach((lb,i)=>{
+    const x=[0,a,2*a,L][i];
+    ctx.beginPath();ctx.arc(xp(x,W),zero,4,0,Math.PI*2);
+    ctx.fillStyle='#e74c3c';ctx.fill();
+    ctx.fillStyle='#c0392b';ctx.font='10px Arial';ctx.textAlign='center';
+    ctx.fillText(lb,xp(x,W),H-6);
+  });
+
+  // Y軸
+  ctx.fillStyle='#666';ctx.font='10px Arial';ctx.textAlign='right';
+  [[0,'0'],[Mu/2,'115.36'],[Mu,'230.72']].forEach(([m,lb])=>
+    ctx.fillText(lb,pL-5,ym(m)+4));
+  ctx.save();ctx.translate(13,H/2);ctx.rotate(-Math.PI/2);
+  ctx.textAlign='center';ctx.fillText('M (tf-m)',0,0);ctx.restore();
+})();
+</script>
+</body>
+</html>

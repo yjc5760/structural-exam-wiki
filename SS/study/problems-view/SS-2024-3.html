@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2024-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2024-3 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-2.html" title="SS-U1-2 梁桿件 命題分析">&#128269; U1-2 命題分析</a><a class="lect" href="../lecture-SS-U1-2.html" title="SS-U1-2 梁桿件 觀念講義">&#128218; U1-2 梁桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2024-3</h1>
+<p><strong>主分類：</strong> <code>SS-U1-2</code> 梁桿件<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>梁桿件</code> <code>LTB側扭挫屈</code> <code>非彈性LTB</code> <code>Cb係數</code> <code>強弱軸比較</code> <code>弱軸彎曲</code> <code>SN490B</code> <code>結實斷面</code> <code>塑性彎矩</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>簡支梁，跨距 $L = 6\text{ m}$，C 點（跨中）承受集中載重 $P_{DL} = 5\text{ tf}$，$P_{LL} = 5\text{ tf}$。A、B 兩端翼板有充分側向支撐，中間無側向支撐（$L_b = 600\text{ cm}$）。</p>
+<p><strong>圖(a)</strong> — 強軸彎曲（繞 $x$ 軸）<br />
+<strong>圖(b)</strong> — 弱軸彎曲（同一斷面旋轉 90°，繞 $y$ 軸）</p>
+<p><strong>材料：</strong> SN490B，$F_y = 2.35\text{ tf/cm}^2$，$F_u = 4.0\text{ tf/cm}^2$（結實斷面）</p>
+<p><strong>子問題：</strong></p>
+<ol>
+<li>圖(a) 強軸彎曲：檢核 $\phi_b M_{nx}$ 是否 $\geq M_u$</li>
+<li>圖(b) 弱軸彎曲：檢核 $\phi_b M_{ny}$ 是否 $\geq M_u$</li>
+</ol>
+<p><img alt="SS-2024-3 題目附圖：RH488×300×11×18 簡支梁兩種彎曲配置，圖(a) 強軸彎曲，圖(b) 弱軸彎曲，跨距 6m，C點集中載重 DL=5tf、LL=5tf，A、C、B 三點設有側向及扭轉支撐" src="../../raw/solutions/SS-2024-3/SS-2024-3-fig-1.png" /></p>
+<p><em>圖說：圖(a) 強軸彎曲——H 型鋼斷面繞強軸（$x$ 軸）彎曲，簡支梁 A（鉸支）至 B（輥支），跨距 6 m，跨中 C 點承受集中載重 $DL = 5\text{ tf}$、$LL = 5\text{ tf}$；A 與 B 兩端有側向及扭轉支撐，無側向支撐段長度 $L_b = 600\text{ cm}$。圖(b) 弱軸彎曲——同一 RH488×300×11×18 斷面旋轉 90°（繞弱軸 $y$ 軸），載重與支撐配置相同，弱軸方向撓曲不發生 LTB。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：強弱軸 LTB 差異</strong></p>
+<p>本題用同一斷面、同一載重，對比強軸（發生 LTB）與弱軸（不發生 LTB）的設計強度，突出「弱軸彎曲無側扭挫屈」的核心概念，並測驗 $C_b$ 放大係數在非彈性段的正確應用與上限 $M_p$ 的截取。</p>
+<p><strong>出題者測驗重點：</strong></p>
+<ul>
+<li><strong>強軸 LTB 三段式</strong>：$L_b$ 與 $L_p$、$L_r$ 比較，判斷非彈性段；$C_b$ 放大但不超過 $M_p$</li>
+<li><strong>弱軸不發生 LTB</strong>：弱軸彎曲直接取 $\phi_b M_{p,y} = 0.9 F_y Z_y$，無需計算 LTB</li>
+<li><strong>$C_b$ 的計算</strong>：跨中集中載重的彎矩圖為三角形，$C_b = 12.5M_{max}/(2.5M_{max}+3M_A+4M_B+3M_C)$</li>
+<li><strong>$M_n$ 上限 = $M_p$</strong>：$C_b > 1$ 使計算值超過 $M_p$ 時，必須截取至 $M_p$</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1  Pu = 1.2×5 + 1.6×5 = 14 tf → Mu = PuL/4 = 2100 tf·cm
+Step 2  斷面性質計算：Ix, Iy, Sx, Sy, Zx, Zy, J, Cw, ry
+Step 3  圖(a)強軸：
+        → 算 Lp, X1, X2, Lr（判斷三段）
+        → 算 Cb（跨中集中載重，三角形彎矩圖）
+        → 算 Mn（非彈性 LTB），cap at Mp
+Step 4  圖(b)弱軸：
+        → 直接 φbMny = 0.9 FyZy（無 LTB）
+Step 5  比較強弱軸設計強度 vs Mu
+</code></pre>
+<p><strong>陷阱分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>對策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ 弱軸套強軸 LTB 公式</td>
+<td>弱軸彎曲無側扭挫屈，不能套 LTB 三段公式</td>
+<td>弱軸直接 $\phi_b M_{ny} = 0.9 F_y Z_y$</td>
+</tr>
+<tr>
+<td>❷ $M_n$ 超過 $M_p$ 未截取</td>
+<td>$C_b > 1$ 計算出的 $M_n$ 可能超過 $M_p$，需取上限 $M_p$</td>
+<td>最後加一行：$M_n = \min(計算值, M_p)$</td>
+</tr>
+<tr>
+<td>❸ $C_b$ 代入錯彎矩值</td>
+<td>三角形彎矩圖（跨中集中載重），$M_A = M_C = M_{max}/2$，$M_B = M_{max}$</td>
+<td>從彎矩圖讀取 1/4, 1/2, 3/4 跨點值</td>
+</tr>
+<tr>
+<td>❹ $F_L = F_y - 0.7$ 單位</td>
+<td>殘留應力修正 $0.7\text{ tf/cm}^2$（熱軋型鋼翼板典型值）</td>
+<td>注意 $F_y$ 與 0.7 單位相同（tf/cm²）</td>
+</tr>
+<tr>
+<td>❺ 弱軸 $Z_y$ 計算</td>
+<td>翼板貢獻主導，腹板極小；$Z_y \approx b_f^2 t_f / 2$（忽略腹板）</td>
+<td>兩片翼板各算一半</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> RH488×300×11×18 簡支梁，分別驗核強軸（非彈性 LTB + Cb）與弱軸（直接取 Mp）之設計強度，確認是否 ≥ Mu</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p><strong>需求彎矩</strong><br />
+$$\boxed{P_u} = 1.2 P_{DL} + 1.6 P_{LL}, \quad \boxed{M_u} = \frac{\boxed{P_u} \cdot L}{4}$$</p>
+<p><strong>強軸 LTB（非彈性段）</strong><br />
+$$\boxed{C_b} = \frac{12.5 M_{max}}{2.5 M_{max}+3M_A+4M_B+3M_C}$$<br />
+$$\boxed{M_{n,x}} = \min\!\left(C_b\!\left[M_p - (M_p-M_r)\frac{L_b-L_p}{L_r-L_p}\right],\ M_p\right)$$</p>
+<p><strong>弱軸（無 LTB）</strong><br />
+$$\boxed{M_{n,y}} = M_{p,y} = F_y Z_y$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L$</td>
+<td>6 m = 600 cm</td>
+<td>梁跨距</td>
+</tr>
+<tr>
+<td>$P_{DL}$</td>
+<td>5 tf</td>
+<td>靜載重</td>
+</tr>
+<tr>
+<td>$P_{LL}$</td>
+<td>5 tf</td>
+<td>活載重</td>
+</tr>
+<tr>
+<td>$L_b$</td>
+<td>600 cm</td>
+<td>強軸彎曲無側向支撐長度</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>2.35 tf/cm²</td>
+<td>SN490B</td>
+</tr>
+<tr>
+<td>$F_u$</td>
+<td>4.0 tf/cm²</td>
+<td>極限強度</td>
+</tr>
+<tr>
+<td>斷面</td>
+<td>RH488×300×11×18</td>
+<td>$d$×$b_f$×$t_w$×$t_f$ mm</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：需求彎矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_u$</td>
+<td>$1.2(5)+1.6(5) = 14$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_u$</td>
+<td>$14 	imes 600/4 = 2100$ tf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：斷面性質（由 §4 計算值）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$h_w$</td>
+<td>$d - 2t_f = 48.8 - 3.6 = 45.2$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z_x$, $Z_y$, $S_x$</td>
+<td>翼板 + 腹板各貢獻加總 ⚠ 常見卡關</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$r_y$, $J$, $C_w$</td>
+<td>查表或推導</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：強軸 LTB 判斷</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L_p$</td>
+<td>$1.76 r_y \sqrt{E/F_y}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_r$</td>
+<td>含 $F_r$、$X_1$、$X_2$ 的公式</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>判斷</td>
+<td>$L_p < L_b = 600 \leq L_r?$ → 非彈性 LTB</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_r$</td>
+<td>$(F_y - F_r)S_x$，$F_r = 0.7$ tf/cm²（熱軋）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_b$</td>
+<td>$12.5/(2.5+3(0.5)+4(1.0)+3(0.5)) = 12.5/10.25 = 1.75$（跨中集中，三角形 BMD）⚠</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_n$</td>
+<td>$\min(C_b[M_p-(M_p-M_r)(L_b-L_p)/(L_r-L_p)], M_p)$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：弱軸強度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$Z_y$</td>
+<td>$\approx b_f^2 t_f/2$（翼板主導）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_b M_{n,y}$</td>
+<td>$0.9 F_y Z_y$（無 LTB）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>弱軸彎曲無 LTB</td>
+<td>弱軸旋轉時扭轉中心改變，幾何上不能發生側扭挫屈，直接取 $M_p$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">ltb-3zone</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">LATERAL-TORSIONAL-BUCKLING</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_b$ 三角形彎矩圖的讀值</td>
+<td>集中載重在跨中，BMD 為對稱三角形：$M_A = M_{max}/2$，$M_B = M_{max}$，$M_C = M_{max}/2$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">cb-factor</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">BENDING-MODIFICATION-FACTOR-CB</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_n$ 上限 = $M_p$（乘 $C_b$ 後截取）</td>
+<td>$C_b > 1$ 計算可能得 $M_n > M_p$，必須取 $\min(計算值, M_p)$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">ltb-3zone</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_r = 0.7$ tf/cm²（熱軋）vs 1.16（銲接）</td>
+<td>兩種殘留應力值適用不同斷面類型，影響 $M_r$ 和 $L_r$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RESIDUAL-STRESS</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z_y$ 主要是翼板貢獻</td>
+<td>弱軸 $Z_y \approx 2 \times (b_f/2) \times t_f \times (b_f/4) \times 2 = b_f^2 t_f/2$（腹板極小）</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">plastic-zx</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Calculation)</h2>
+<h3>斷面性質計算</h3>
+<p>RH488×300×11×18：$h = 48.8\text{ cm}$，$b_f = 30\text{ cm}$，$t_w = 1.1\text{ cm}$，$t_f = 1.8\text{ cm}$</p>
+<p>$$h_w = h - 2t_f = 48.8 - 3.6 = 45.2\text{ cm}$$</p>
+<p>$$A = 2(b_f t_f) + h_w t_w = 2(30 \times 1.8) + 45.2 \times 1.1 = 108 + 49.7 = 157.7\text{ cm}^2$$</p>
+<p><strong>強軸慣性矩：</strong></p>
+<p>$$I_x = 2\left[\frac{b_f t_f^3}{12} + b_f t_f \left(\frac{h-t_f}{2}\right)^2\right] + \frac{t_w h_w^3}{12}$$<br />
+$$= 2(14.6 + 54 \times 23.5^2) + \frac{1.1 \times 45.2^3}{12} = 68{,}138\text{ cm}^4$$</p>
+<p>$$S_x = I_x/(h/2) = 68{,}138/24.4 = 2{,}793\text{ cm}^3$$</p>
+<p><strong>弱軸慣性矩：</strong></p>
+<p>$$I_y = 2 \times \frac{t_f b_f^3}{12} + \frac{h_w t_w^3}{12} = 2 \times \frac{1.8 \times 30^3}{12} + 5 = 8{,}105\text{ cm}^4$$</p>
+<p>$$r_y = \sqrt{I_y/A} = \sqrt{8{,}105/157.7} = 7.17\text{ cm}; \quad S_y = I_y/(b_f/2) = 8{,}105/15 = 540\text{ cm}^3$$</p>
+<p><strong>扭轉常數與翹曲常數：</strong></p>
+<p>$$J = \frac{1}{3}\left[2b_f t_f^3 + (d - t_f)t_w^3\right] = \frac{1}{3}[349.9 + 62.6] = 137.5\text{ cm}^4$$</p>
+<p>$$C_w = \frac{I_y (h - t_f)^2}{4} = \frac{8{,}105 \times 47^2}{4} = 4{,}476{,}000\text{ cm}^6$$</p>
+<p><strong>塑性斷面模數：</strong></p>
+<p>$$Z_x = 2\left[b_f t_f \cdot \frac{h - t_f}{2} + \frac{t_w h_w^2}{8}\right] = 2(1{,}269 + 281) = 3{,}100\text{ cm}^3$$</p>
+<p>$$Z_y = 2 \times \frac{t_f b_f^2}{4} + \frac{h_w t_w^2}{4} = 810 + 13.7 = 823.7\text{ cm}^3$$</p>
+<hr />
+<h3>設計用彎矩</h3>
+<p>$$P_u = 1.2 \times 5 + 1.6 \times 5 = 14\text{ tf}$$</p>
+<p>$$M_u = \frac{P_u \cdot L}{4} = \frac{14 \times 600}{4} = 2{,}100\text{ tf·cm}$$</p>
+<hr />
+<h3>圖(a)：強軸彎曲檢核</h3>
+<p><strong>材料參數：</strong> $E = 2{,}040\text{ tf/cm}^2$，$G = 785\text{ tf/cm}^2$，$F_L = F_y - 0.7 = 1.65\text{ tf/cm}^2$</p>
+<p><strong>LTB 特性長度：</strong></p>
+<p>$$L_p = \frac{80r_y}{\sqrt{F_y}} = \frac{80 \times 7.17}{\sqrt{2.35}} = 374\text{ cm}$$</p>
+<p>$$X_1 = \frac{\pi}{S_x}\sqrt{\frac{EGJA}{2}} = \frac{\pi}{2{,}793}\sqrt{\frac{2{,}040 \times 785 \times 137.5 \times 157.7}{2}} = 148.2\text{ tf/cm}^2$$</p>
+<p>$$X_2 = 4\frac{C_w}{I_y}\left(\frac{S_x}{GJ}\right)^2 = 4 \times 552.3 \times (0.02588)^2 = 1.480\ (\text{tf/cm}^2)^{-2}$$</p>
+<p>$$L_r = \frac{r_y X_1}{F_L}\sqrt{1 + \sqrt{1 + X_2 F_L^2}} = \frac{7.17 \times 148.2}{1.65}\sqrt{1 + \sqrt{5.027}} = 644 \times 1.800 = 1{,}160\text{ cm}$$</p>
+<p><strong>判斷區段：</strong></p>
+<p>$$L_p = 374 < L_b = 600 < L_r = 1{,}160 \quad \Rightarrow \text{非彈性 LTB 段}$$</p>
+<p><strong>計算 $C_b$（跨中集中載重，三角形彎矩圖）：</strong></p>
+<ul>
+<li>$M_A = M_C = 1{,}050\text{ tf·cm}$（$L/4$ 和 $3L/4$ 點）</li>
+<li>$M_B = M_{max} = 2{,}100\text{ tf·cm}$（跨中）</li>
+</ul>
+<p>$$C_b = \frac{12.5 \times 2{,}100}{2.5 \times 2{,}100 + 3 \times 1{,}050 + 4 \times 2{,}100 + 3 \times 1{,}050} = \frac{26{,}250}{19{,}950} = 1.316$$</p>
+<p><strong>計算 $M_n$（非彈性 LTB）：</strong></p>
+<p>$$M_p = F_y Z_x = 2.35 \times 3{,}100 = 7{,}285\text{ tf·cm}; \quad M_r = F_L S_x = 1.65 \times 2{,}793 = 4{,}608\text{ tf·cm}$$</p>
+<p>$$M_n = C_b\left[M_p - (M_p - M_r)\frac{L_b - L_p}{L_r - L_p}\right] = 1.316 \times [7{,}285 - 2{,}677 \times 0.287] = 1.316 \times 6{,}516 = 8{,}575\text{ tf·cm}$$</p>
+<p>$$M_n > M_p \Rightarrow M_n = M_p = 7{,}285\text{ tf·cm}; \quad \phi_b M_n = 0.9 \times 7{,}285 = 6{,}557\text{ tf·cm}$$</p>
+<hr />
+<h3>圖(b)：弱軸彎曲檢核</h3>
+<p>弱軸（$y$ 軸）彎曲時，<strong>不發生側扭挫屈（LTB）</strong>，直接取塑性彎矩：</p>
+<p>$$M_{p,y} = F_y Z_y = 2.35 \times 823.7 = 1{,}936\text{ tf·cm}$$</p>
+<p>$$\phi_b M_{n,y} = 0.9 \times 1{,}936 = 1{,}742\text{ tf·cm}$$</p>
+<hr />
+<h2>5. 結果彙整與驗算 (Summary &amp; Verification)</h2>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>$M_u$ (tf·cm)</th>
+<th>$\phi_b M_n$ (tf·cm)</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>強軸（圖a）</strong></td>
+<td>2,100</td>
+<td>6,557</td>
+<td>✅ OK（利用率 32%）</td>
+</tr>
+<tr>
+<td><strong>弱軸（圖b）</strong></td>
+<td>2,100</td>
+<td>1,742</td>
+<td>❌ NG（利用率 121%）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>結論：</strong> 此梁可承受強軸（圖a）之設計載重，但無法承受弱軸（圖b）之同等載重。弱軸強度約為強軸的 27%，差距懸殊。</p>
+<p><strong>關鍵公式彙整：</strong></p>
+<p>$$L_p = \frac{80r_y}{\sqrt{F_{yf}}}, \quad L_r = \frac{r_y X_1}{F_L}\sqrt{1 + \sqrt{1 + X_2 F_L^2}}$$</p>
+<p>$$M_n = C_b\left[M_p - (M_p - M_r)\frac{L_b - L_p}{L_r - L_p}\right] \leq M_p \quad \text{（非彈性 LTB）}$$</p>
+<p>$$C_b = \frac{12.5M_{max}}{2.5M_{max} + 3M_A + 4M_B + 3M_C}; \quad M_{p,y} = F_y Z_y \text{（弱軸，無 LTB）}$$</p>
+</main>
+<footer>來源：raw/solutions/SS-2024-3/SS-2024-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

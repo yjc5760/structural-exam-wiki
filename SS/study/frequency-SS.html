@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS 全科出題頻率熱圖｜鋼結構設計</title>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#78909c;--bd:#e0e6ea;--warn:#c62828;
+--up:#c62828;--up2:#ffebee;--dn:#546e7a;--dn2:#eceff1;--hot:#ef6c00}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:28px 24px}
+header h1{margin:0 0 6px;font-size:1.5em}header p{margin:0;opacity:.85;font-size:.92em}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{text-decoration:none;color:var(--ac);font-size:.88em;padding:5px 10px;border-radius:16px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:1240px;margin:0 auto;padding:20px 16px 60px}
+h2{font-size:1.25em;border-left:5px solid var(--ac);padding-left:10px;margin:26px 0 14px}
+h3{font-size:1.05em;margin:34px 0 10px;padding-bottom:5px;border-bottom:2px solid var(--ac2);scroll-margin-top:56px}
+code{background:#eceff1;border-radius:4px;padding:0 4px;font-size:.92em}
+.role{background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:8px;padding:12px 16px;font-size:.88em;margin-bottom:12px}
+.role b{color:#e65100}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi .n{font-size:1.8em;font-weight:700;color:var(--ac);line-height:1.3}.kpi .l{font-size:.82em;color:var(--mut)}
+.kpi.hot .n{color:var(--hot)}
+.insight{display:grid;gap:10px;margin-top:14px}
+.ins{background:#fff;border:1px solid var(--bd);border-left:5px solid var(--hot);border-radius:8px;padding:10px 14px;font-size:.9em}
+.ins.cold{border-left-color:var(--dn)}
+.ins b.k{color:var(--hot)}.ins.cold b.k{color:var(--dn)}
+.note{font-size:.85em;color:var(--mut);background:#fff;border:1px dashed var(--bd);border-radius:8px;padding:10px 14px;margin-top:12px}
+.tw{overflow-x:auto;background:#fff;border:1px solid var(--bd);border-radius:10px;padding:10px}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:.88em}
+th,td{border:1px solid var(--bd);padding:6px 8px;text-align:left;vertical-align:middle}
+th{background:var(--ac2)}
+td.num,th.num{text-align:center;font-variant-numeric:tabular-nums}
+#hm{width:auto;min-width:100%}
+#hm td,#hm th{border:1px solid #eceff1;padding:0;text-align:center}
+#hm th.rowh{text-align:left;padding:4px 8px;white-space:nowrap;background:#fff;position:sticky;left:0;z-index:3;border-right:2px solid var(--bd);cursor:pointer}
+#hm th.rowh:hover,#hm th.rowh.hl{background:#fff3e0}
+#hm th.rowh .dr{font-size:.75em;margin-left:4px}
+#hm th.yr{font-size:.72em;font-weight:600;color:var(--mut);background:#fff;padding:3px 0;min-width:28px}
+#hm th.yr.r6{background:#fff8e1;color:#e65100}
+#hm th.yr.hl{background:#ffe0b2;color:#bf360c}
+#hm .split{border-left:3px solid #90a4ae !important}
+#hm td.c{width:28px;height:28px;font-size:.78em;font-weight:700;cursor:pointer;transition:box-shadow .1s}
+#hm td.c.empty{cursor:default}
+#hm td.c.r6{outline:1px solid #ffcc80;outline-offset:-1px}
+#hm td.c:not(.empty):hover{box-shadow:inset 0 0 0 2px #ff9800}
+#hm td.c.sel{box-shadow:inset 0 0 0 3px #e65100 !important}
+#hm td.tot{background:#fff;color:#0d47a1;font-weight:700;min-width:42px;font-size:.8em}
+#hm tr.usep td{background:#f2f5f8;height:6px;padding:0;border:none}
+#hm tr.foot th,#hm tr.foot td{background:#fafbfc;font-size:.72em;color:var(--mut);font-weight:600;height:24px}
+#hm tr.half td{font-size:.72em;color:var(--mut);background:#fafbfc;padding:2px 0;height:20px}
+.sec-dot{position:absolute;right:2px;bottom:2px;width:5px;height:5px;border-radius:50%;background:#ef6c00}
+.cellwrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+#tip{position:fixed;pointer-events:none;z-index:50;background:#263238;color:#fff;font-size:.8em;padding:6px 10px;border-radius:6px;max-width:320px;display:none;line-height:1.5;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+#tip .h{color:#ffcc80;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:14px;align-items:center;font-size:.84em;color:var(--mut);margin:10px 0 0}
+.sw{display:inline-block;width:20px;height:16px;border:1px solid #cfd8dc;vertical-align:middle;margin-right:4px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;align-items:center}
+.fbtn{border:1px solid var(--bd);background:#fff;border-radius:18px;padding:6px 14px;cursor:pointer;font-size:.88em;font-family:inherit}
+.fbtn.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.hint{font-size:.82em;color:var(--mut)}
+#detail{margin-top:12px;background:#fff;border:2px solid #ffcc80;border-radius:10px;padding:12px 16px;display:none}
+#detail h4{margin:0 0 8px;font-size:1em;display:flex;justify-content:space-between;align-items:center;gap:10px}
+#detail .x{border:none;background:#eceff1;border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:.9em}
+.ql{list-style:none;margin:0;padding:0}
+.ql li{padding:6px 0;border-bottom:1px dashed #eceff1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.88em}
+.ql li:last-child{border:none}
+.ql .qid{font-weight:700;font-variant-numeric:tabular-nums;min-width:86px}
+.ql a.qid{color:var(--ac);text-decoration:none}.ql a.qid:hover{text-decoration:underline}
+.b{font-size:.72em;border-radius:9px;padding:1px 7px;white-space:nowrap;display:inline-block}
+.b-p{background:#1565c0;color:#fff}.b-s{background:#ffe0b2;color:#e65100}
+.b-v{background:#e8f5e9;color:#1b5e20}.b-u{background:#f5f5f5;color:#9e9e9e}
+.b-t{background:#eceff1;color:#546e7a}
+a.b-vid{background:#fce4ec;color:#ad1457;text-decoration:none}a.b-vid:hover{background:#ad1457;color:#fff}
+.sub{font-size:.82em;color:var(--mut);margin:10px 0 4px;font-weight:700}
+.bar{display:inline-block;height:13px;border-radius:3px;vertical-align:middle;background:var(--ac)}
+.bar2{display:inline-block;height:13px;border-radius:3px;vertical-align:middle;background:#ffcc80}
+.tag{font-size:.72em;border-radius:9px;padding:1px 7px;margin:1px 3px 1px 0;white-space:nowrap;display:inline-block}
+a.tag{text-decoration:none}
+.t-y{background:#e8f5e9;color:#1b5e20}a.t-y:hover{background:#1b5e20;color:#fff}
+.t-n{background:#fafafa;color:#bdbdbd}
+.t-v{background:#fce4ec;color:#ad1457;cursor:pointer;border:none;font-family:inherit}.t-v:hover{background:#ad1457;color:#fff}
+.dr-up,.dr-new{color:var(--up);font-weight:700}.dr-down,.dr-frozen{color:var(--dn);font-weight:700}.dr-flat{color:#9e9e9e}
+#rank th.sk{cursor:pointer;user-select:none;white-space:nowrap}
+#rank th.sk:hover{background:#bbdefb}
+#rank th.sk::after{content:" ⇅";color:#90caf9;font-size:.8em}
+#rank th.sk.asc::after{content:" ▲";color:var(--ac)}#rank th.sk.desc::after{content:" ▼";color:var(--ac)}
+#rank tr.frozen td{background:#f5f7f8;color:#78909c}
+.ubar{display:flex;height:14px;border-radius:4px;overflow:hidden;min-width:160px;background:#eceff1}
+.ubar span{display:block;height:100%}
+.zero{background:#fce4ec !important}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:20px}
+@media(max-width:760px){#hm td.c{width:22px;height:24px;font-size:.7em}#hm th.rowh .nm{display:none}header{padding:20px 16px}}
+@media print{nav,.btns,#detail,#tip,.hint{display:none !important}body{background:#fff}.tw{border:none;padding:0}
+ #hm td.c{-webkit-print-color-adjust:exact;print-color-adjust:exact}h3{break-after:avoid}}
+</style>
+</head>
+<body>
+<header>
+<h1>SS 鋼結構設計 — 全科出題頻率熱圖</h1>
+<p>2002–2025，24 個考年、共 98 題｜資料來源：raw/json/question_index.json｜更新日期 2026-10-09</p>
+</header>
+<nav>
+<a href="#s-sum">出題概況</a><a href="#s-heat">頻率熱圖</a><a href="#s-rank">排名總表</a><a href="#s-unit">各單元的權重</a><a href="#s-read">讀書順序</a>
+</nav>
+<main>
+
+<div class="role" style="background:#ffebee;border-color:#ef9a9a;border-left-color:#c62828">⚠️ <b>資料異常</b>：索引裡有 taxonomy 找不到的 <code>primaryTopicId</code>：<code>MM-U1-1</code>×3、<code>SD-U3-1</code>×5。這些題目<b>沒有</b>畫進熱圖——請先修正 <code>question_index.json</code> 或 <code>syllabus_taxonomy.json</code>。</div>
+<div class="role">
+📊 <b>這張表只回答一件事：整科該從哪裡開始讀。</b>
+它把 98 題逐題攤在「7 個子項 × 24 個考年」的格子上，
+並把考年切成前半（2002–2013）與後半（2014–2025）比較，讓你同時看到「誰一直重要」與「誰最近才重要」。
+各子項的細節（考點結構、風險排序）看該子項的 <code>study-SS-Un-m.html</code> 命題分析頁。<br>
+本頁由 <code>python scripts/build_frequency.py</code> 從題庫自動產生；題庫或教材更新後重跑即可，請勿手改。
+</div>
+
+<h3 id="s-sum">出題概況</h3>
+<div class="kpis">
+<div class="kpi"><div class="n">98</div><div class="l">總題數（24 個考年、共 98 題）</div></div>
+<div class="kpi"><div class="n">7/7</div><div class="l">曾當過主考點的子項</div></div>
+<div class="kpi"><div class="n">24</div><div class="l">全期第一 U1-1 的題數（佔 24.5%）</div></div>
+<div class="kpi hot"><div class="n">12</div><div class="l">後半期第一 U1-1 的題數（佔後半 25.5%）</div></div>
+<div class="kpi"><div class="n">75／15</div><div class="l">U1／U2 各單元題數</div></div>
+<div class="kpi"><div class="n">0/98</div><div class="l">已人工驗證的解析</div></div>
+</div>
+<div class="insight"><div class="ins">▲ <b class="k">U2-2 升溫</b>：<b>U2-2</b> 鋼結構材料特性 前半期 0 題 → 後半期 5 題，近 6 考年出現 0 年、共 0 題。</div><div class="ins">▲ <b class="k">U2-3 升溫</b>：<b>U2-3</b> 設計規範對施工之要求 前半期 2 題 → 後半期 5 題，近 6 考年出現 2 年、共 2 題。</div><div class="ins cold">▼ <b class="k">U1-3 退燒</b>：<b>U1-3</b> 梁柱桿件 前半期 7 題 → 後半期 4 題。</div></div>
+
+<h3 id="s-heat">頻率熱圖</h3>
+<div class="btns" id="modebtns">
+  <button class="fbtn on" onclick="setMode('p',this)">只看主考點</button>
+  <button class="fbtn" onclick="setMode('a',this)">主考點 ＋ 副考點</button>
+  <span class="hint">👆 點格子看該年題目；點子項名稱看它 24 年的全部題目、影片與教材</span>
+</div>
+<div class="tw" id="heat"></div>
+<div class="legend" id="lg"></div>
+<div id="detail"></div>
+<div id="tip"></div>
+<div class="note">
+📌 <b>看熱圖的四個切入點</b>：
+① <b>橫著看</b>——有連續空白就是空窗年段。
+② <b>直著看</b>——最下方「每年合計」就是該年題數，可以直接讀出各子項之間的排擠關係。
+③ <b>左右比</b>——粗灰線左邊是前半期、右邊是後半期；子項名稱旁的 ▲／❄ 就是比較結果。
+④ <b>切到「主＋副」</b>——整列變深的是「工具型子項」：很少單獨成題，卻是別題的第一步。
+</div>
+
+<h3 id="s-rank">排名總表</h3>
+<div class="hint" style="margin-bottom:6px">點欄位名稱可排序（例如點「後半排名」看現在的強弱順序）</div>
+<div class="tw" id="rank"></div>
+<div class="note">
+藍色＝主考點題數，橘色＝副考點題數。「前→後半」是 2002–2013 與 2014–2025 的主考點數比較：
+差 3 題以上算升溫／退燒，後半期 0 題算冷凍。「後半排名」旁的 ↑ 代表比全期排名前進 3 名以上。
+「常見題號位置」看得出這個子項是短題還是壓軸長計算題。「現有教材」綠色可點、灰色尚未製作；🎬 點開看影片清單。
+</div>
+
+<h3 id="s-unit">各單元的權重</h3>
+<div class="tw">
+<table>
+<thead><tr><th>單元</th><th class="num">主考點題數</th><th class="num">佔全科</th><th class="num">前半 → 後半佔比</th><th>子項組成</th><th>包含的子項（題數）</th></tr></thead>
+<tbody>
+<tr><td><b>SS-U1</b> 第一單元：桿件及接合之分析與設計（含 ASD 與 LRFD 法）</td><td class="num">75</td><td class="num">76.5%</td><td class="num">93.0% → <b>74.5%</b></td><td><div class="ubar"><span title="U1-1 拉力及壓力桿件：24 題" style="width:24.5%;background:#1565c0"></span><span title="U1-2 梁桿件：21 題" style="width:21.4%;background:#42a5f5"></span><span title="U1-3 梁柱桿件：11 題" style="width:11.2%;background:#90caf9"></span><span title="U1-4 接合之分析與設計：19 題" style="width:19.4%;background:#bbdefb"></span></div></td><td style="font-size:.85em">U1-1 拉力及壓力桿件（24）、U1-2 梁桿件（21）、U1-3 梁柱桿件（11）、U1-4 接合之分析與設計（19）</td></tr>
+<tr><td><b>SS-U2</b> 第二單元</td><td class="num">15</td><td class="num">15.3%</td><td class="num">7.0% → <b>25.5%</b></td><td><div class="ubar"><span title="U2-1 塑性分析與設計：3 題" style="width:3.1%;background:#1565c0"></span><span title="U2-2 鋼結構材料特性：5 題" style="width:5.1%;background:#42a5f5"></span><span title="U2-3 設計規範對施工之要求：7 題" style="width:7.1%;background:#90caf9"></span></div></td><td style="font-size:.85em">U2-1 塑性分析與設計（3）、U2-2 鋼結構材料特性（5）、U2-3 設計規範對施工之要求（7）</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note">📌 換算成投資：最重的 <b>SS-U1</b>（75 題）是最輕的 <b>SS-U2</b>（15 題）的 <b>5.0 倍</b>。　變動最大的是 <b>SS-U1</b>：佔比從前半期 93.0% 降到後半期 74.5%。</div>
+
+<h3 id="s-read">怎麼用這張表排讀書順序</h3>
+<div class="tw">
+<table>
+<thead><tr><th>如果你…</th><th>先讀哪幾個子項</th><th>理由（可從熱圖直接驗證）</th></tr></thead>
+<tbody>
+<tr><td><b>時間充裕，要拿高分</b></td><td>U1-1 → U1-2 → U1-4 → U1-3 → U2-3</td><td>全期前 5 名，合計 82 題、佔 83.7%；其中 5 個四種教材都已備齊。</td></tr>
+<tr><td><b>只剩一個月</b></td><td>U1-1（後半 12 題）、U1-2（後半 10 題）、U1-4（後半 9 題）</td><td>改用<b>後半期</b>（2014–2025）排名：三者合計 31／47 題、佔 66.0%。比全期前三名更貼近現在的出題口味。</td></tr>
+<tr><td><b>想跟上近年走向</b></td><td>U1-1（6 題／4 年）、U1-2（5 題／4 年）、U1-4（5 題／4 年）</td><td>近 6 考年（2020–2025）共 22 題，前兩名就佔 11 題（50.0%）。看熱圖黃框那 6 欄可驗證。</td></tr>
+<tr><td><b>想知道哪些可以不讀</b></td><td>（無）</td><td>每個子項在後半期都還當過主考點，沒有可以整段跳過的。</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note">
+📌 <b>一句話</b>：這張表告訴你「該讀哪裡」，<code>study-SS-Un-m.html</code> 告訴你「那裡該先練哪幾題」，
+<code>formula-given-SS-Un-m.html</code> 告訴你「那裡哪些公式非背不可」。<br>
+⚠️ <b>使用提醒</b>：頻率高不等於一定會再考，冷凍也不等於不會回來——這張表的用途是<b>分配時間</b>，不是預測考題。
+押題請看各子項命題分析頁的「命題風險排序」。
+</div>
+
+</main>
+<footer>SS 全科出題頻率熱圖｜exam-wiki-SS｜統計基準 raw/json/question_index.json（98 題／24 考年）｜產生器 <code>scripts/build_frequency.py</code></footer>
+<script>
+const D = {"years":[2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],"recent6":[2020,2021,2022,2023,2024,2025],"early":[2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013],"late":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],"earlyTotal":43,"lateTotal":47,"rows":[{"id":"SS-U1-1","short":"U1-1","name":"拉力及壓力桿件","unit":"SS-U1","p":24,"s":7,"share":24.5,"rank":1,"hit":18,"last":2025,"gap":3,"gapSpan":[2019,2021],"r6h":4,"r6q":6,"early":12,"late":12,"lateS":1,"lateSYears":[2019],"drift":"flat","pos":{"1":6,"2":10,"3":6,"4":2},"mat":{"study":"study-SS-U1-1.html","lecture":"lecture-SS-U1-1.html","formula":"formula-given-SS-U1-1.html","deck":"SS-U1-1_拉力及壓力桿件_公式給背分界_記憶片.pdf"},"vids":[],"qvids":1,"cells":[{"p":["SS-2002-3"],"s":["SS-2002-1"]},{"p":["SS-2003-1","SS-2003-2"],"s":["SS-2003-3"]},{"p":[],"s":["SS-2004-2"]},{"p":["SS-2005-1"],"s":[]},{"p":["SS-2006-1"],"s":[]},{"p":["SS-2007-4"],"s":["SS-2007-1"]},{"p":["SS-2008-2"],"s":[]},{"p":[],"s":["SS-2009-3"]},{"p":["SS-2010-3"],"s":[]},{"p":["SS-2011-2","SS-2011-4"],"s":[]},{"p":[],"s":["SS-2012-3"]},{"p":["SS-2013-2","SS-2013-3"],"s":[]},{"p":["SS-2014-1"],"s":[]},{"p":["SS-2015-2","SS-2015-3"],"s":[]},{"p":["SS-2016-3"],"s":[]},{"p":["SS-2017-3"],"s":[]},{"p":["SS-2018-2"],"s":[]},{"p":[],"s":["SS-2019-3"]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":["SS-2022-2"],"s":[]},{"p":["SS-2023-1","SS-2023-2"],"s":[]},{"p":["SS-2024-1","SS-2024-2"],"s":[]},{"p":["SS-2025-2"],"s":[]}],"lateRank":1},{"id":"SS-U1-2","short":"U1-2","name":"梁桿件","unit":"SS-U1","p":21,"s":4,"share":21.4,"rank":2,"hit":17,"last":2025,"gap":2,"gapSpan":[2003,2004],"r6h":4,"r6q":5,"early":11,"late":10,"lateS":3,"lateSYears":[2019,2020],"drift":"flat","pos":{"1":6,"2":3,"3":9,"4":3},"mat":{"study":"study-SS-U1-2.html","lecture":"lecture-SS-U1-2.html","formula":"formula-given-SS-U1-2.html","deck":"SS-U1-2_梁桿件_公式給背分界_記憶片.pdf"},"vids":[],"qvids":0,"cells":[{"p":["SS-2002-1","SS-2002-2"],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":["SS-2005-2"],"s":["SS-2005-4"]},{"p":["SS-2006-4"],"s":[]},{"p":["SS-2007-3"],"s":[]},{"p":["SS-2008-1","SS-2008-3"],"s":[]},{"p":["SS-2009-3"],"s":[]},{"p":["SS-2010-4"],"s":[]},{"p":["SS-2011-3"],"s":[]},{"p":["SS-2012-1"],"s":[]},{"p":[],"s":[]},{"p":["SS-2014-3"],"s":[]},{"p":["SS-2015-1"],"s":[]},{"p":["SS-2016-1","SS-2016-4"],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":["SS-2019-2"],"s":["SS-2019-4"]},{"p":[],"s":["SS-2020-2","SS-2020-4"]},{"p":["SS-2021-3"],"s":[]},{"p":[],"s":[]},{"p":["SS-2023-3"],"s":[]},{"p":["SS-2024-3"],"s":[]},{"p":["SS-2025-1","SS-2025-3"],"s":[]}],"lateRank":2},{"id":"SS-U1-3","short":"U1-3","name":"梁柱桿件","unit":"SS-U1","p":11,"s":1,"share":11.2,"rank":4,"hit":11,"last":2022,"gap":4,"gapSpan":[2015,2018],"r6h":2,"r6q":2,"early":7,"late":4,"lateS":0,"lateSYears":[],"drift":"down","pos":{"1":2,"2":1,"3":3,"4":5},"mat":{"study":"study-SS-U1-3.html","lecture":"lecture-SS-U1-3.html","formula":"formula-given-SS-U1-3.html","deck":"SS-U1-3_梁柱桿件_公式給背分界_記憶片.pdf"},"vids":[],"qvids":0,"cells":[{"p":[],"s":[]},{"p":["SS-2003-4"],"s":[]},{"p":["SS-2004-4"],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":["SS-2007-2"],"s":[]},{"p":["SS-2008-4"],"s":[]},{"p":[],"s":["SS-2009-1"]},{"p":[],"s":[]},{"p":["SS-2011-1"],"s":[]},{"p":["SS-2012-3"],"s":[]},{"p":["SS-2013-4"],"s":[]},{"p":["SS-2014-4"],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":["SS-2019-3"],"s":[]},{"p":["SS-2020-3"],"s":[]},{"p":[],"s":[]},{"p":["SS-2022-1"],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]}],"lateRank":6},{"id":"SS-U1-4","short":"U1-4","name":"接合之分析與設計","unit":"SS-U1","p":19,"s":7,"share":19.4,"rank":3,"hit":15,"last":2024,"gap":4,"gapSpan":[2013,2016],"r6h":4,"r6q":5,"early":10,"late":9,"lateS":4,"lateSYears":[2015,2020,2022,2024],"drift":"flat","pos":{"1":1,"2":4,"3":4,"4":9,"5":1},"mat":{"study":"study-SS-U1-4.html","lecture":"lecture-SS-U1-4.html","formula":"formula-given-SS-U1-4.html","deck":"SS-U1-4_接合之分析與設計_公式給背分界_記憶片.pdf"},"vids":[],"qvids":0,"cells":[{"p":["SS-2002-4"],"s":[]},{"p":["SS-2003-3"],"s":["SS-2003-1"]},{"p":["SS-2004-2","SS-2004-3"],"s":[]},{"p":["SS-2005-3"],"s":["SS-2005-1"]},{"p":["SS-2006-2","SS-2006-5"],"s":[]},{"p":["SS-2007-1"],"s":[]},{"p":[],"s":[]},{"p":["SS-2009-4"],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":["SS-2012-4"],"s":["SS-2012-2"]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":["SS-2015-2"]},{"p":[],"s":[]},{"p":["SS-2017-2","SS-2017-4"],"s":[]},{"p":["SS-2018-3"],"s":[]},{"p":["SS-2019-4"],"s":[]},{"p":["SS-2020-4"],"s":["SS-2020-1"]},{"p":["SS-2021-2","SS-2021-4"],"s":[]},{"p":[],"s":["SS-2022-2"]},{"p":["SS-2023-4"],"s":[]},{"p":["SS-2024-4"],"s":["SS-2024-2"]},{"p":[],"s":[]}],"lateRank":3},{"id":"SS-U2-1","short":"U2-1","name":"塑性分析與設計","unit":"SS-U2","p":3,"s":1,"share":3.1,"rank":7,"hit":3,"last":2025,"gap":14,"gapSpan":[2006,2019],"r6h":2,"r6q":2,"early":1,"late":2,"lateS":1,"lateSYears":[2023],"drift":"flat","pos":{"2":1,"4":2},"mat":{},"vids":[],"qvids":0,"cells":[{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":["SS-2005-4"],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":["SS-2020-2"],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":["SS-2023-3"]},{"p":[],"s":[]},{"p":["SS-2025-4"],"s":[]}],"lateRank":7},{"id":"SS-U2-2","short":"U2-2","name":"鋼結構材料特性","unit":"SS-U2","p":5,"s":2,"share":5.1,"rank":6,"hit":5,"last":2018,"gap":12,"gapSpan":[2002,2013],"r6h":0,"r6q":0,"early":0,"late":5,"lateS":1,"lateSYears":[2022],"drift":"new","pos":{"1":2,"2":1,"4":1,"5":1},"mat":{},"vids":[],"qvids":0,"cells":[{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":["SS-2010-2"]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":["SS-2014-2"],"s":[]},{"p":["SS-2015-4"],"s":[]},{"p":["SS-2016-5"],"s":[]},{"p":["SS-2017-1"],"s":[]},{"p":["SS-2018-1"],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":["SS-2022-4"]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]}],"lateRank":5},{"id":"SS-U2-3","short":"U2-3","name":"設計規範對施工之要求","unit":"SS-U2","p":7,"s":6,"share":7.1,"rank":5,"hit":7,"last":2022,"gap":5,"gapSpan":[2005,2009],"r6h":2,"r6q":2,"early":2,"late":5,"lateS":3,"lateSYears":[2021,2023,2024],"drift":"up","pos":{"1":3,"2":2,"3":1,"4":1},"mat":{"study":"study-SS-U2-3.html","lecture":"lecture-SS-U2-3.html","formula":"formula-given-SS-U2-3.html","deck":"SS-U2-3_設計規範對施工之要求_公式給背分界_記憶片.pdf"},"vids":[],"qvids":1,"cells":[{"p":[],"s":["SS-2002-1"]},{"p":[],"s":[]},{"p":["SS-2004-1"],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":["SS-2009-2","SS-2009-4"]},{"p":["SS-2010-2"],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":[],"s":[]},{"p":["SS-2016-2"],"s":[]},{"p":[],"s":[]},{"p":["SS-2018-4"],"s":[]},{"p":["SS-2019-1"],"s":[]},{"p":[],"s":[]},{"p":["SS-2021-1"],"s":["SS-2021-4"]},{"p":["SS-2022-3"],"s":[]},{"p":[],"s":["SS-2023-4"]},{"p":[],"s":["SS-2024-4"]},{"p":[],"s":[]}],"lateRank":4}],"Q":{"SS-2002-1":{"y":2002,"n":1,"p":"SS-U1-2","s":["SS-U1-1","SS-U2-3"],"tags":["剪力流","弱軸剪力","翼板承剪","殘留應力","壓力桿件","非彈性挫屈"],"v":false,"view":true,"vid":""},"SS-2002-2":{"y":2002,"n":2,"p":"SS-U1-2","s":[],"tags":["梁桿件","容許應力法","LTB側扭挫屈","移動集中載重","側向支撐","Lc"],"v":false,"view":true,"vid":""},"SS-2002-3":{"y":2002,"n":3,"p":"SS-U1-1","s":[],"tags":["壓力桿件","有效長度","K值","端部條件","中間側向支撐","弱軸挫屈"],"v":false,"view":true,"vid":""},"SS-2002-4":{"y":2002,"n":4,"p":"SS-U1-4","s":[],"tags":["接合設計","偏心螺栓群","彈性分析法","承壓型螺栓","A325X","扭矩極慣性矩"],"v":false,"view":true,"vid":""},"SS-2003-1":{"y":2003,"n":1,"p":"SS-U1-1","s":["SS-U1-4"],"tags":["塊狀剪力","block shear","腹板承壓降伏","web yielding","複合柱","有效降伏應力"],"v":false,"view":true,"vid":""},"SS-2003-2":{"y":2003,"n":2,"p":"SS-U1-1","s":[],"tags":["SRC複合柱","包覆型複合柱","有效降伏強度Fmy","修正彈性模數Em","整體挫屈","彈性挫屈"],"v":false,"view":true,"vid":""},"SS-2003-3":{"y":2003,"n":3,"p":"SS-U1-4","s":["SS-U1-1"],"tags":["接合設計","剪力遲滯","U值","螺栓接合","A325X","塊狀剪力"],"v":false,"view":true,"vid":""},"SS-2003-4":{"y":2003,"n":4,"p":"SS-U1-3","s":[],"tags":["梁柱桿件","ASD","雙軸彎矩","P-M互制","Cm係數","放大係數"],"v":false,"view":true,"vid":""},"SS-2004-1":{"y":2004,"n":1,"p":"SS-U2-3","s":[],"tags":["高強度螺栓","施工規範","摩阻型接合","螺栓重複使用","板面密接","墊片"],"v":false,"view":true,"vid":"../解題過程影片/SS-2004-1/video/SS-2004-1.mp4"},"SS-2004-2":{"y":2004,"n":2,"p":"SS-U1-4","s":["SS-U1-1"],"tags":["拉力構材續接","高拉力螺栓","摩阻型接合","A325","翼板連接","連接板設計"],"v":false,"view":true,"vid":""},"SS-2004-3":{"y":2004,"n":3,"p":"SS-U1-4","s":[],"tags":["填角銲","偏心接合","彈性向量法","托架","E70XX","雙角鋼"],"v":false,"view":true,"vid":""},"SS-2004-4":{"y":2004,"n":4,"p":"SS-U1-3","s":[],"tags":["梁柱桿件","ASD","Cm係數","懸臂柱","弱軸彎曲","45°斜置構材"],"v":false,"view":true,"vid":""},"SS-2005-1":{"y":2005,"n":1,"p":"SS-U1-1","s":["SS-U1-4"],"tags":["拉力桿件","剪力遲滯","U值","淨斷面斷裂","塊狀剪力","螺栓接合"],"v":false,"view":true,"vid":"../解題過程影片/SS-2005-1/video/SS-2005-1.mp4"},"SS-2005-2":{"y":2005,"n":2,"p":"SS-U1-2","s":[],"tags":["SRC鋼骨鋼筋混凝土","塑性應力分佈法","公稱彎矩強度","塑性中性軸","降伏力","合成斷面"],"v":false,"view":true,"vid":""},"SS-2005-3":{"y":2005,"n":3,"p":"SS-U1-4","s":[],"tags":["填角銲","偏心接合","箱形斷面","牛腿接合","銲接群分析","彎矩剪力接合"],"v":false,"view":true,"vid":""},"SS-2005-4":{"y":2005,"n":4,"p":"SS-U2-1","s":["SS-U1-2"],"tags":["塑性分析","崩塌機制","塑性鉸","固端梁","T型斷面","塑性斷面模數"],"v":false,"view":true,"vid":""},"SS-2006-1":{"y":2006,"n":1,"p":"SS-U1-1","s":[],"tags":["整體挫屈","局部挫屈","結實斷面","LTB側扭挫屈","彎曲挫屈","有效長度"],"v":false,"view":true,"vid":""},"SS-2006-2":{"y":2006,"n":2,"p":"SS-U1-4","s":[],"tags":["高拉力螺栓","預拉力","塊狀剪力","FCAW","現場銲接","施工規範"],"v":false,"view":true,"vid":""},"SS-2006-3":{"y":2006,"n":3,"p":"MM-U1-1","s":[],"tags":["斷面性質","慣性矩","迴轉半徑","塑性斷面模數","平行軸定理","H型鋼"],"v":false,"view":false,"vid":""},"SS-2006-4":{"y":2006,"n":4,"p":"SS-U1-2","s":[],"tags":["板梁","剪力挫屈","張力場效應","加勁板","腹板","後挫屈強度"],"v":false,"view":true,"vid":""},"SS-2006-5":{"y":2006,"n":5,"p":"SS-U1-4","s":[],"tags":["箱型柱","梁柱接頭","連續板","節點域","CJP銲","耐震接頭"],"v":false,"view":true,"vid":""},"SS-2007-1":{"y":2007,"n":1,"p":"SS-U1-4","s":["SS-U1-1"],"tags":["填角銲","ASD","偏心接合","不等肢角鋼","剪力遲滯","U值"],"v":false,"view":true,"vid":""},"SS-2007-2":{"y":2007,"n":2,"p":"SS-U1-3","s":[],"tags":["梁柱桿件","ASD","雙軸彎矩","LTB側扭挫屈","Cm放大係數","F'e歐拉應力"],"v":false,"view":true,"vid":""},"SS-2007-3":{"y":2007,"n":3,"p":"SS-U1-2","s":[],"tags":["梁桿件","LRFD","LTB側扭挫屈","非彈性LTB","彈性LTB","Cb係數"],"v":false,"view":true,"vid":""},"SS-2007-4":{"y":2007,"n":4,"p":"SS-U1-1","s":[],"tags":["壓力桿件","有效長度","K係數","對位圖","nomograph","側移構架"],"v":false,"view":true,"vid":""},"SS-2008-1":{"y":2008,"n":1,"p":"SS-U1-2","s":[],"tags":["梁桿件","ASD","LTB側扭挫屈","容許撓曲應力","St.Venant扭轉","翹曲扭轉"],"v":false,"view":true,"vid":""},"SS-2008-2":{"y":2008,"n":2,"p":"SS-U1-1","s":[],"tags":["壓力桿件","有效長度係數","靠桿效應","LeMessurier公式","側向挫屈","未束制頂層"],"v":false,"view":true,"vid":""},"SS-2008-3":{"y":2008,"n":3,"p":"SS-U1-2","s":[],"tags":["梁桿件","LRFD","LTB側扭挫屈","Cb彎矩梯度","塑性彎矩","結實斷面"],"v":false,"view":true,"vid":""},"SS-2008-4":{"y":2008,"n":4,"p":"SS-U1-3","s":[],"tags":["梁柱桿件","ASD","P-M互制","偏心軸壓","側向力","有效長度"],"v":false,"view":true,"vid":""},"SS-2009-1":{"y":2009,"n":1,"p":"SD-U3-1","s":["SS-U1-3"],"tags":["強柱弱梁","梁柱彎矩強度比","容量設計","SMRF","韌性抗彎矩構架","P-M互制曲線"],"v":false,"view":true,"vid":""},"SS-2009-2":{"y":2009,"n":2,"p":"SD-U3-1","s":["SS-U2-3"],"tags":["節點域","Panel Zone","腹板厚度","箱型柱","SN耐震鋼材","層狀撕裂"],"v":false,"view":true,"vid":""},"SS-2009-3":{"y":2009,"n":3,"p":"SS-U1-2","s":["SS-U1-1"],"tags":["斷面性質","塑性力矩","降伏力矩","形狀因子","剪力強度","Vn"],"v":false,"view":true,"vid":""},"SS-2009-4":{"y":2009,"n":4,"p":"SS-U1-4","s":["SS-U2-3"],"tags":["銲接","開槽銲","Single V","Single Bevel","SAW潛弧銲","UT超音波檢測"],"v":false,"view":true,"vid":""},"SS-2010-1":{"y":2010,"n":1,"p":"MM-U1-1","s":[],"tags":["斷面性質","降伏力矩","塑性力矩","十字形斷面","平行軸定理","塑性中性軸"],"v":false,"view":false,"vid":""},"SS-2010-2":{"y":2010,"n":2,"p":"SS-U2-3","s":["SS-U2-2"],"tags":["防銹蝕","鏽蝕等級","SIS標準","SSPC","熱浸鍍鋅","犧牲陽極"],"v":false,"view":true,"vid":""},"SS-2010-3":{"y":2010,"n":3,"p":"SS-U1-1","s":[],"tags":["組合柱","壓力桿件","不等肢角鋼","ASD","LRFD","Euler公式"],"v":false,"view":true,"vid":""},"SS-2010-4":{"y":2010,"n":4,"p":"SS-U1-2","s":[],"tags":["梁桿件","斷面選擇","使用性撓度","全側撐","塑性力矩","RH斷面"],"v":false,"view":true,"vid":""},"SS-2011-1":{"y":2011,"n":1,"p":"SS-U1-3","s":[],"tags":["直接分析法","二階分析","初始不完美","剛度修正","AISC 2010","Chapter C"],"v":false,"view":true,"vid":""},"SS-2011-2":{"y":2011,"n":2,"p":"SS-U1-1","s":[],"tags":["壓力桿件","有效長度","LeMessurier公式","靠柱效應","側移構架","整體挫屈"],"v":false,"view":true,"vid":""},"SS-2011-3":{"y":2011,"n":3,"p":"SS-U1-2","s":[],"tags":["梁桿件","LTB側扭挫屈","非彈性LTB","Cb係數","端彎矩","X1X2參數"],"v":false,"view":true,"vid":""},"SS-2011-4":{"y":2011,"n":4,"p":"SS-U1-1","s":[],"tags":["壓力桿件","有效長度","對位圖","nomograph","無側撐構架","非彈性修正"],"v":false,"view":true,"vid":""},"SS-2012-1":{"y":2012,"n":1,"p":"SS-U1-2","s":[],"tags":["梁桿件","LTB側扭挫屈","非彈性LTB","非結實斷面","翼板局部挫屈FLB","Cb係數"],"v":false,"view":true,"vid":""},"SS-2012-2":{"y":2012,"n":2,"p":"SD-U3-1","s":["SS-U1-4"],"tags":["韌性抗彎矩構架","塑性轉角需求","SMRF","側向支撐","塑鉸區","梁柱接頭"],"v":false,"view":true,"vid":""},"SS-2012-3":{"y":2012,"n":3,"p":"SS-U1-3","s":["SS-U1-1"],"tags":["梁柱桿件","P-M互制","雙軸彎矩","斜撐構架","B1放大法","弱軸挫屈"],"v":false,"view":true,"vid":""},"SS-2012-4":{"y":2012,"n":4,"p":"SS-U1-4","s":[],"tags":["接合設計","剪力板","A325螺栓","承壓型螺栓","淨斷面剪力","全滲透銲"],"v":false,"view":true,"vid":""},"SS-2013-1":{"y":2013,"n":1,"p":"MM-U1-1","s":[],"tags":["空心圓管斷面","斷面模數","塑性斷面模數","形狀因子","彈性中性軸","塑性中性軸"],"v":false,"view":false,"vid":""},"SS-2013-2":{"y":2013,"n":2,"p":"SS-U1-1","s":[],"tags":["有效長度係數","對位圖","LeMessurier公式","側移框架","層間穩定","彈性挫屈"],"v":false,"view":true,"vid":""},"SS-2013-3":{"y":2013,"n":3,"p":"SS-U1-1","s":[],"tags":["壓力桿件","有效長度","弱軸挫屈","強軸挫屈","分段側撐","迴旋半徑"],"v":false,"view":true,"vid":""},"SS-2013-4":{"y":2013,"n":4,"p":"SS-U1-3","s":[],"tags":["二階效應","B1B2放大法","無側撐剛架","有效長度係數","對位圖","Mnt"],"v":false,"view":true,"vid":""},"SS-2014-1":{"y":2014,"n":1,"p":"SS-U1-1","s":[],"tags":["壓力桿件","整體挫屈","柱強度曲線","λc推導","有效長度","殘留應力"],"v":false,"view":true,"vid":""},"SS-2014-2":{"y":2014,"n":2,"p":"SS-U2-2","s":[],"tags":["SN耐震鋼材","降伏比","衝擊韌性","容量設計","強柱弱梁","梁柱接頭"],"v":false,"view":false,"vid":""},"SS-2014-3":{"y":2014,"n":3,"p":"SS-U1-2","s":[],"tags":["梁桿件","LTB側扭挫屈","非彈性LTB","Cb係數","雙向彎曲","弱軸彎曲"],"v":false,"view":true,"vid":""},"SS-2014-4":{"y":2014,"n":4,"p":"SS-U1-3","s":[],"tags":["梁柱桿件","P-M互制","B1放大法","B2放大法","二階效應","斜撐構架"],"v":false,"view":true,"vid":""},"SS-2015-1":{"y":2015,"n":1,"p":"SS-U1-2","s":[],"tags":["梁桿件","撓曲構材","LTB側扭挫屈","剪力強度","使用性撓度","斷面選擇"],"v":false,"view":true,"vid":""},"SS-2015-2":{"y":2015,"n":2,"p":"SS-U1-1","s":["SS-U1-4"],"tags":["拉力桿件","接合設計","剪力遲滯","塊狀剪力","填角銲","雙槽鋼"],"v":false,"view":true,"vid":""},"SS-2015-3":{"y":2015,"n":3,"p":"SS-U1-1","s":[],"tags":["壓力桿件","組合柱","ASD","平行軸定理","有效長度","迴旋半徑"],"v":false,"view":true,"vid":""},"SS-2015-4":{"y":2015,"n":4,"p":"SS-U2-2","s":[],"tags":["鋼材材料","型鋼斷面","BH型鋼","RH型鋼","I型鋼","SN耐震鋼材"],"v":false,"view":false,"vid":""},"SS-2016-1":{"y":2016,"n":1,"p":"SS-U1-2","s":[],"tags":["梁桿件","撓曲構材","寬厚比","結實斷面","非結實斷面","局部挫屈"],"v":false,"view":true,"vid":""},"SS-2016-2":{"y":2016,"n":2,"p":"SS-U2-3","s":[],"tags":["施工規範","填角銲","回銲","繞角銲","轉角銲","end return"],"v":false,"view":true,"vid":""},"SS-2016-3":{"y":2016,"n":3,"p":"SS-U1-1","s":[],"tags":["壓力桿件","拉力桿件","殘留應力","柱強度曲線","切線模數"],"v":false,"view":true,"vid":""},"SS-2016-4":{"y":2016,"n":4,"p":"SS-U1-2","s":[],"tags":["梁桿件","撓曲構材","LTB側扭挫屈","整體挫屈"],"v":false,"view":true,"vid":""},"SS-2016-5":{"y":2016,"n":5,"p":"SS-U2-2","s":[],"tags":["鋼材材料","降伏比","SN490B","SN490C","Charpy衝擊值","韌性"],"v":false,"view":false,"vid":""},"SS-2017-1":{"y":2017,"n":1,"p":"SS-U2-2","s":[],"tags":["鋼材材料","鋼種選擇","碳當量","CVN衝擊值","預熱溫度","銲接性"],"v":false,"view":false,"vid":""},"SS-2017-2":{"y":2017,"n":2,"p":"SS-U1-4","s":[],"tags":["接合設計","高強度螺栓","摩阻型接合","Slip-critical","剪力傳遞機制","夾緊力"],"v":false,"view":true,"vid":""},"SS-2017-3":{"y":2017,"n":3,"p":"SS-U1-1","s":[],"tags":["壓力桿件","拉力桿件","柱強度曲線"],"v":false,"view":true,"vid":""},"SS-2017-4":{"y":2017,"n":4,"p":"SS-U1-4","s":[],"tags":["接合設計","填角銲","偏心銲縫","托架接合","扭矩分析","E70XX"],"v":false,"view":true,"vid":""},"SS-2018-1":{"y":2018,"n":1,"p":"SS-U2-2","s":[],"tags":["降伏比","σ-ε曲線","伸長量","均勻伸長","應力集中","韌性"],"v":false,"view":false,"vid":""},"SS-2018-2":{"y":2018,"n":2,"p":"SS-U1-1","s":[],"tags":["壓力桿件","箱型斷面","整體彎曲挫屈","有效長度係數","λc","Fcr"],"v":false,"view":true,"vid":""},"SS-2018-3":{"y":2018,"n":3,"p":"SS-U1-4","s":[],"tags":["填角銲","梁柱接頭","ASD","銲道容許應力","SN400B","箱型柱"],"v":false,"view":true,"vid":""},"SS-2018-4":{"y":2018,"n":4,"p":"SS-U2-3","s":[],"tags":["防蝕塗裝","不予塗裝","施工規範","高強度螺栓","摩阻式接合","工地銲接"],"v":false,"view":true,"vid":""},"SS-2019-1":{"y":2019,"n":1,"p":"SS-U2-3","s":[],"tags":["防蝕","塗裝","熱浸鍍鋅","金屬噴塗","施工注意事項","腐蝕機制"],"v":false,"view":true,"vid":""},"SS-2019-2":{"y":2019,"n":2,"p":"SS-U1-2","s":[],"tags":["合成梁","複合梁","混凝土版","塑性應力分布","PNA","正彎矩強度"],"v":false,"view":true,"vid":""},"SS-2019-3":{"y":2019,"n":3,"p":"SS-U1-3","s":["SS-U1-1"],"tags":["梁柱桿件","偏心載重","ASD","互制公式","Cm","F'e"],"v":false,"view":true,"vid":""},"SS-2019-4":{"y":2019,"n":4,"p":"SS-U1-4","s":["SS-U1-2"],"tags":["填角銲","斷續銲接","蓋板","組合斷面","剪力流","水平剪力"],"v":false,"view":true,"vid":""},"SS-2020-1":{"y":2020,"n":1,"p":"SD-U3-1","s":["SS-U1-4"],"tags":["耐震設計","梁柱接頭","補強式接頭","削弱式接頭","RBS犬骨接頭","塑性鉸"],"v":false,"view":true,"vid":""},"SS-2020-2":{"y":2020,"n":2,"p":"SS-U2-1","s":["SS-U1-2"],"tags":["塑性分析","塑性鉸","虛功法","一端固定一端滾支","均佈載重","極限載重"],"v":false,"view":true,"vid":""},"SS-2020-3":{"y":2020,"n":3,"p":"SS-U1-3","s":[],"tags":["梁柱桿件","P-M互制","雙軸彎矩","載重放大係數","B1放大法","有效長度"],"v":false,"view":true,"vid":""},"SS-2020-4":{"y":2020,"n":4,"p":"SS-U1-4","s":["SS-U1-2"],"tags":["接合設計","腹板續接","四鈑接合","ASD","高強度螺栓","A490螺栓"],"v":false,"view":true,"vid":""},"SS-2021-1":{"y":2021,"n":1,"p":"SS-U2-3","s":[],"tags":["施工規範","非破壞檢測","NDT","銲道瑕疵","咬邊","重疊"],"v":false,"view":true,"vid":""},"SS-2021-2":{"y":2021,"n":2,"p":"SS-U1-4","s":[],"tags":["接合設計","填角銲","塊狀剪力","高拉力螺栓","搭接接合","剪力破壞"],"v":false,"view":true,"vid":""},"SS-2021-3":{"y":2021,"n":3,"p":"SS-U1-2","s":[],"tags":["梁桿件","耐震緊實斷面","LTB側扭挫屈","斷面選擇","側扭挫屈","形狀因子"],"v":false,"view":true,"vid":""},"SS-2021-4":{"y":2021,"n":4,"p":"SS-U1-4","s":["SS-U2-3"],"tags":["接合設計","高拉力螺栓","摩阻型螺栓","銲接","混合接合","施工規範"],"v":false,"view":true,"vid":""},"SS-2022-1":{"y":2022,"n":1,"p":"SS-U1-3","s":[],"tags":["梁柱桿件","箱形柱","雙軸彎矩","軸壓","P-M互制","整體挫屈"],"v":false,"view":true,"vid":""},"SS-2022-2":{"y":2022,"n":2,"p":"SS-U1-1","s":["SS-U1-4"],"tags":["拉力桿件","插銷接合","鉸接","ASD","有效淨面積","剪力斷裂"],"v":false,"view":true,"vid":""},"SS-2022-3":{"y":2022,"n":3,"p":"SS-U2-3","s":[],"tags":["施工規範","NDT","非破壞檢測","韌性抗彎構架","耐震設計","梁柱接頭"],"v":false,"view":true,"vid":""},"SS-2022-4":{"y":2022,"n":4,"p":"SD-U3-1","s":["SS-U2-2"],"tags":["耐震設計","強柱弱梁","容量設計","降伏強度範圍","機率分析","SN耐震鋼材"],"v":false,"view":false,"vid":""},"SS-2023-1":{"y":2023,"n":1,"p":"SS-U1-1","s":[],"tags":["有效長度","K係數","對位圖","查圖法","nomograph","側移構架"],"v":false,"view":true,"vid":""},"SS-2023-2":{"y":2023,"n":2,"p":"SS-U1-1","s":[],"tags":["壓力桿件","ASD","整體挫屈","彈性挫屈","非彈性挫屈","Cc"],"v":false,"view":true,"vid":""},"SS-2023-3":{"y":2023,"n":3,"p":"SS-U1-2","s":["SS-U2-1"],"tags":["非對稱斷面","降伏彎矩","塑性彎矩","中性軸","塑性中性軸","斷面模數"],"v":false,"view":true,"vid":""},"SS-2023-4":{"y":2023,"n":4,"p":"SS-U1-4","s":["SS-U2-3"],"tags":["焊接","破壞形式","填角銲","對接銲","銲喉面積","熱影響區"],"v":false,"view":true,"vid":""},"SS-2024-1":{"y":2024,"n":1,"p":"SS-U1-1","s":[],"tags":["壓力桿件","殘留應力","切線模數","柱強度曲線","非彈性挫屈","彈性挫屈"],"v":false,"view":true,"vid":""},"SS-2024-2":{"y":2024,"n":2,"p":"SS-U1-1","s":["SS-U1-4"],"tags":["拉力桿件","圓管HSS","縱向填角銲","剪力遲滯","U值","半圓管"],"v":false,"view":true,"vid":""},"SS-2024-3":{"y":2024,"n":3,"p":"SS-U1-2","s":[],"tags":["梁桿件","LTB側扭挫屈","非彈性LTB","Cb係數","強弱軸比較","弱軸彎曲"],"v":false,"view":true,"vid":""},"SS-2024-4":{"y":2024,"n":4,"p":"SS-U1-4","s":["SS-U2-3"],"tags":["梁柱接頭","電熱熔渣銲","內橫隔板","翼板銲接","層狀撕裂","HAZ脆化"],"v":false,"view":true,"vid":""},"SS-2025-1":{"y":2025,"n":1,"p":"SS-U1-2","s":[],"tags":["梁桿件","撓曲構材","結實斷面","塑性彎矩","寬厚比","銲接組合斷面"],"v":false,"view":true,"vid":""},"SS-2025-2":{"y":2025,"n":2,"p":"SS-U1-1","s":[],"tags":["拉力桿件","容許應力法","剪力遲滯","U值","淨截面斷裂","全斷面降伏"],"v":false,"view":true,"vid":""},"SS-2025-3":{"y":2025,"n":3,"p":"SS-U1-2","s":[],"tags":["梁桿件","撓曲構材","LTB側扭挫屈","塑性彎矩Mp","彈性限制彎矩Mr","Lp"],"v":false,"view":true,"vid":""},"SS-2025-4":{"y":2025,"n":4,"p":"SS-U2-1","s":[],"tags":["塑性分析","塑性鉸","崩塌機構","極限載重","塑性彎矩","靜不定結構"],"v":false,"view":false,"vid":""}},"maxP":2,"maxA":3};
+const YEARS = D.years, R6 = new Set(D.recent6), SPLIT = D.late[0];
+const DR = {up:['▲','升溫'],new:['★','新出現'],down:['▼','退燒'],frozen:['❄','冷凍'],flat:['＝','持平'],none:['','—']};
+let MODE = 'p', SEL = null;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function shade(v, max){
+  if(!v) return '#f7fafc';
+  const t = Math.min(1, v / max), a=[227,242,253], b=[13,71,161];
+  const c=a.map((x,i)=>Math.round(x+(b[i]-x)*(0.25+0.75*t)));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+function fg(v, max){ return (!v) ? '#cfd8dc' : ((v/max)>0.45 ? '#fff' : '#0d47a1'); }
+const val = c => MODE==='p' ? c.p.length : c.p.length + c.s.length;
+
+function drawHeat(){
+  const max = MODE==='p' ? D.maxP : D.maxA;
+  const sp = y => y===SPLIT ? ' split' : '';
+  let h = '<table id="hm"><thead><tr><th class="rowh" style="cursor:default">子項</th>';
+  YEARS.forEach((y,i)=>{ h += `<th class="yr${R6.has(y)?' r6':''}${sp(y)}" data-yi="${i}">${String(y).slice(2)}</th>`; });
+  h += '<th class="yr" style="min-width:42px">合計</th></tr></thead><tbody>';
+  let lastUnit = null;
+  const colTot = YEARS.map(()=>0);
+  D.rows.forEach((r,ri)=>{
+    if(lastUnit && r.unit!==lastUnit) h += `<tr class="usep"><td colspan="${YEARS.length+2}"></td></tr>`;
+    lastUnit = r.unit;
+    const tot = MODE==='p' ? r.p : (r.p + r.s);
+    const dr = DR[r.drift];
+    h += `<tr data-ri="${ri}"><th class="rowh" data-ri="${ri}" title="點一下看這個子項的全部題目"><b>${r.short}</b> <span class="nm">${esc(r.name)}</span>`
+       + (dr[0] ? `<span class="dr dr-${r.drift}" title="前半 ${r.early} 題 → 後半 ${r.late} 題（${dr[1]}）">${dr[0]}</span>` : '') + '</th>';
+    r.cells.forEach((c,i)=>{
+      const v = val(c), y = YEARS[i];
+      colTot[i] += v;
+      const sel = SEL && SEL.t==='c' && SEL.ri===ri && SEL.yi===i ? ' sel' : '';
+      h += `<td class="c${R6.has(y)?' r6':''}${sp(y)}${v?'':' empty'}${sel}" data-ri="${ri}" data-yi="${i}" style="background:${shade(v,max)};color:${fg(v,max)}">`
+         + `<div class="cellwrap">${v||''}${(MODE==='p'&&c.s.length)?'<span class="sec-dot"></span>':''}</div></td>`;
+    });
+    h += `<td class="tot">${tot||'0'}</td></tr>`;
+  });
+  h += `<tr class="foot"><th class="rowh" style="cursor:default">每年合計</th>`
+     + colTot.map((v,i)=>`<td class="${sp(YEARS[i]).trim()}">${v}</td>`).join('')
+     + `<td>${colTot.reduce((a,b)=>a+b,0)}</td></tr>`;
+  const eN = D.early.length, lN = D.late.length;
+  h += `<tr class="half"><th class="rowh" style="cursor:default;font-size:.72em;color:#78909c">前／後半期</th>`
+     + `<td colspan="${eN}">◀ 前半 ${D.early[0]}–${D.early[eN-1]}（${D.earlyTotal} 題）</td>`
+     + `<td colspan="${lN}" class="split">後半 ${D.late[0]}–${D.late[lN-1]}（${D.lateTotal} 題）▶</td><td></td></tr>`;
+  h += '</tbody></table>';
+  $('heat').innerHTML = h;
+
+  let lg = '';
+  for(let v=0; v<=max; v++) lg += `<span><span class="sw" style="background:${shade(v,max)}"></span>${v} 題</span>`;
+  lg += (MODE==='p' ? '<span>🟠 右下角橘點 ＝ 該年該子項還有副考點</span>' : '<span>此模式的格值 ＝ 主考點 ＋ 副考點</span>');
+  lg += `<span>黃框 ＝ 近 ${D.recent6.length} 考年</span><span>粗灰線 ＝ 前／後半期分界</span>`;
+  lg += '<span>▲升溫 ★新出現 ▼退燒 ❄冷凍（後半期 0 題）</span>';
+  $('lg').innerHTML = lg;
+}
+
+function hl(ri, yi, on){
+  document.querySelectorAll('#hm .hl').forEach(e=>e.classList.remove('hl'));
+  if(!on) return;
+  const th = document.querySelector(`#hm th.yr[data-yi="${yi}"]`); if(th) th.classList.add('hl');
+  const rh = document.querySelector(`#hm th.rowh[data-ri="${ri}"]`); if(rh) rh.classList.add('hl');
+}
+function tipFor(r, yi){
+  const c = r.cells[yi], y = YEARS[yi];
+  const ids = c.p.map(m=>`${m}（第${D.Q[m].n}題）`).concat(c.s.map(m=>`(副) ${m}`));
+  return `<span class="h">${r.short} · ${y}</span><br>` + (ids.length ? ids.join('<br>') + '<br><span style="opacity:.7">點一下看題目</span>' : '無');
+}
+function bindHeat(){
+  const tip = $('tip'), hm = $('heat');
+  hm.addEventListener('mousemove', e=>{
+    const td = e.target.closest('td.c');
+    if(!td){ tip.style.display='none'; hl(0,0,false); return; }
+    const ri=+td.dataset.ri, yi=+td.dataset.yi;
+    hl(ri, yi, true);
+    tip.innerHTML = tipFor(D.rows[ri], yi);
+    tip.style.display='block';
+    const x = Math.min(e.clientX+14, window.innerWidth - tip.offsetWidth - 8);
+    const y = e.clientY + 16 + tip.offsetHeight > window.innerHeight ? e.clientY - tip.offsetHeight - 10 : e.clientY + 16;
+    tip.style.left = x+'px'; tip.style.top = y+'px';
+  });
+  hm.addEventListener('mouseleave', ()=>{ tip.style.display='none'; hl(0,0,false); });
+  hm.addEventListener('click', e=>{
+    const td = e.target.closest('td.c'), rh = e.target.closest('th.rowh[data-ri]');
+    if(td && !td.classList.contains('empty')) showCell(+td.dataset.ri, +td.dataset.yi);
+    else if(rh) showRow(+rh.dataset.ri);
+  });
+}
+
+function qItem(m, role){
+  const q = D.Q[m];
+  const idh = q.view ? `<a class="qid" href="problems-view/${m}.html" target="_blank">${m}</a>` : `<span class="qid">${m}</span>`;
+  let h = `<li>${idh}<span class="b ${role==='p'?'b-p':'b-s'}">${role==='p'?'主考點':'副考點'}</span>`
+        + `<span style="color:#78909c;font-size:.9em">第 ${q.n} 題</span>`;
+  if(role==='s'){ const pr = D.rows.find(r=>r.id===q.p); if(pr) h += `<span style="color:#78909c;font-size:.85em">主＝${pr.short}</span>`; }
+  h += q.v ? '<span class="b b-v">✓ 已驗證</span>' : '<span class="b b-u">未驗證</span>';
+  if(q.vid) h += `<a class="b b-vid" href="${encodeURI(q.vid)}" target="_blank">🎬 解題影片</a>`;
+  h += q.tags.map(t=>`<span class="b b-t">${esc(t)}</span>`).join('');
+  if(!q.view) h += '<span style="font-size:.78em;color:#bdbdbd">（尚無 problems-view 頁）</span>';
+  return h + '</li>';
+}
+function openDetail(title, body){
+  $('detail').innerHTML = `<h4><span>${title}</span><button class="x" onclick="closeDetail()" aria-label="關閉">✕</button></h4>${body}`;
+  $('detail').style.display = 'block';
+  drawHeat();
+  $('detail').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function closeDetail(){ SEL=null; $('detail').style.display='none'; drawHeat(); }
+function showCell(ri, yi){
+  SEL = {t:'c', ri, yi};
+  const r = D.rows[ri], c = r.cells[yi];
+  openDetail(`${r.short} ${esc(r.name)} · ${YEARS[yi]} 年`,
+    '<ul class="ql">' + c.p.map(m=>qItem(m,'p')).join('') + c.s.map(m=>qItem(m,'s')).join('') + '</ul>'
+    + `<div class="hint" style="margin-top:6px">點左側子項名稱可看這個子項 ${YEARS.length} 年的全部題目</div>`);
+}
+const LBL = {study:'命題分析',lecture:'講義',formula:'給／背',deck:'記憶片'};
+function matTags(r){
+  return ['study','lecture','formula','deck'].map(m=> r.mat[m]
+     ? `<a class="tag t-y" href="${encodeURI(r.mat[m])}" target="_blank">${LBL[m]}</a>`
+     : `<span class="tag t-n">${LBL[m]}</span>`).join('');
+}
+function showRow(ri){
+  SEL = {t:'r', ri};
+  const r = D.rows[ri];
+  const P = r.cells.flatMap(c=>c.p), S = r.cells.flatMap(c=>c.s);
+  const dr = DR[r.drift];
+  let b = `<div style="font-size:.88em;margin-bottom:6px">主考點 <b>${r.p}</b> 題、副考點 <b>${r.s}</b> 題｜前半 ${r.early} → 後半 ${r.late}`
+        + (dr[0] ? ` <span class="dr-${r.drift}">${dr[0]} ${dr[1]}</span>` : '') + `｜教材：${matTags(r)}</div>`;
+  if(r.vids.length) b += '<div class="sub">🎬 單元講解影片</div><ul class="ql">'
+      + r.vids.map(v=>`<li><a class="b b-vid" href="${encodeURI(v.href)}" target="_blank">▶ 播放</a>${esc(v.title)}</li>`).join('') + '</ul>';
+  b += `<div class="sub">主考點（${P.length}）</div><ul class="ql">` + (P.map(m=>qItem(m,'p')).join('') || '<li>無</li>') + '</ul>';
+  if(S.length) b += `<div class="sub">副考點（${S.length}）——這個子項是別題的工具</div><ul class="ql">` + S.map(m=>qItem(m,'s')).join('') + '</ul>';
+  openDetail(`${r.short} ${esc(r.name)}`, b);
+}
+function setMode(m, btn){
+  MODE = m;
+  document.querySelectorAll('#modebtns .fbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  drawHeat();
+}
+
+// ---------------- 排名表（可排序）
+const COLS = [
+  {k:'rank',  h:'#', f:r=>r.rank||99, num:1, def:'asc'},
+  {k:'id',    h:'子項', f:r=>r.id, def:'asc'},
+  {k:'p',     h:'主', f:r=>r.p, num:1},
+  {k:'bar',   h:'主＋副題量'},
+  {k:'s',     h:'副', f:r=>r.s, num:1},
+  {k:'share', h:'佔全科', f:r=>r.share, num:1},
+  {k:'drift', h:'前→後半', f:r=>r.late-r.early, num:1},
+  {k:'lateRank', h:'後半<br>排名', f:r=>r.lateRank||99, num:1, def:'asc'},
+  {k:'hit',   h:'出現<br>年數', f:r=>r.hit, num:1},
+  {k:'gap',   h:'最長<br>空窗', f:r=>r.gap, num:1},
+  {k:'last',  h:'最後<br>出現', f:r=>r.last||0, num:1},
+  {k:'r6',    h:'', f:r=>r.r6q, num:1},
+  {k:'pos',   h:'常見題號位置'},
+  {k:'mat',   h:'現有教材', f:r=>Object.keys(r.mat).length + r.vids.length/100},
+];
+let SORT = {k:'rank', dir:'asc'};
+function drawRank(){
+  COLS.find(c=>c.k==='r6').h = `近 ${D.recent6.length}<br>考年`;
+  const maxA = Math.max(1, ...D.rows.map(r=>r.p+r.s));
+  const col = COLS.find(c=>c.k===SORT.k);
+  const sorted = [...D.rows].sort((a,b)=>{
+    const x = col.f(a), y = col.f(b);
+    const d = (x<y?-1:x>y?1:0) * (SORT.dir==='asc'?1:-1);
+    return d || ((a.rank||99)-(b.rank||99));
+  });
+  let h = '<table><thead><tr>' + COLS.map(c=>{
+    const cls = [c.num?'num':'', c.f?'sk':'', SORT.k===c.k?SORT.dir:''].filter(Boolean).join(' ');
+    return `<th class="${cls}"${c.f?` data-k="${c.k}"`:''}>${c.h}</th>`;
+  }).join('') + '</tr></thead><tbody>';
+  sorted.forEach(r=>{
+    const ri = D.rows.indexOf(r);
+    const w = r.p/maxA*150, w2 = r.s/maxA*150;
+    const pos = Object.entries(r.pos).map(([k,v])=>`第${k}題×${v}`).join('、') || '—';
+    const nm = r.mat.study
+        ? `<a href="${encodeURI(r.mat.study)}" target="_blank" style="color:var(--ac);text-decoration:none"><b>${r.short}</b> ${esc(r.name)}</a>`
+        : `<b>${r.short}</b> ${esc(r.name)}`;
+    const dr = DR[r.drift];
+    const nv = r.vids.length + r.qvids;
+    const vt = nv ? `<button class="tag t-v" onclick="showRow(${ri})" title="單元影片 ${r.vids.length} 支、題目解題影片 ${r.qvids} 支">🎬 影片 ${nv}</button>` : '';
+    h += `<tr class="${r.p===0?'zero':''}${r.drift==='frozen'?' frozen':''}"><td class="num">${r.p? (r.rank||'') : '—'}</td>`
+      + `<td>${nm}</td><td class="num"><b>${r.p}</b></td>`
+      + `<td><span class="bar" style="width:${w}px"></span><span class="bar2" style="width:${w2}px"></span></td>`
+      + `<td class="num">${r.s}</td><td class="num">${r.share}%</td>`
+      + `<td class="num">${r.early} → ${r.late}<br><span class="dr-${r.drift}" style="font-size:.85em">${dr[0]} ${dr[1]}</span></td>`
+      + `<td class="num">${r.lateRank||'—'}${r.lateRank && r.rank && r.rank - r.lateRank >= 3 ? ' <span class="dr-up">↑</span>' : ''}</td>`
+      + `<td class="num">${r.hit}/${YEARS.length}</td>`
+      + `<td class="num">${r.gap?`${r.gap} 年<br><span style="font-size:.82em;color:#90a4ae">${r.gapSpan[0]}–${r.gapSpan[1]}</span>`:'—'}</td>`
+      + `<td class="num">${r.last||'—'}</td>`
+      + `<td class="num">${r.r6h}/${D.recent6.length}<br><span style="font-size:.82em;color:#90a4ae">${r.r6q} 題</span></td>`
+      + `<td style="font-size:.82em;color:#78909c">${pos}</td><td>${matTags(r)}${vt}</td></tr>`;
+  });
+  h += '</tbody></table>';
+  $('rank').innerHTML = h;
+  document.querySelectorAll('#rank th.sk').forEach(th=>th.onclick=()=>{
+    const k = th.dataset.k, c = COLS.find(x=>x.k===k);
+    SORT = SORT.k===k ? {k, dir: SORT.dir==='asc'?'desc':'asc'} : {k, dir: c.def||'desc'};
+    drawRank();
+  });
+}
+drawHeat(); bindHeat(); drawRank();
+</script>
+</body>
+</html>

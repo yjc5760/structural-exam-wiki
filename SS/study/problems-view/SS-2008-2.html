@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2008-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2008-2 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2008-2</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> LRFD（概念計算混合題）<br />
+<strong>標籤：</strong> <code>壓力桿件</code> <code>有效長度係數</code> <code>靠桿效應</code> <code>LeMessurier公式</code> <code>側向挫屈</code> <code>未束制頂層</code> <code>鋼架穩定</code> <code>P-Δ效應</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>本題分為兩小題：</p>
+<p><strong>（一）計算 K_AB（10 分）</strong></p>
+<p>圖 1 之鋼架結構條件：</p>
+<ul>
+<li>柱 AB：高度 $L$，勁度 $EI$，底端 A 固定，待求 $K_{AB}$</li>
+<li>柱 CD：高度 $L$，勁度 $EI$，<strong>靠桿</strong>（leaning column，無側向勁度）</li>
+<li>梁 BC：$EI = \infty$（無限剛梁，使 B、C 頂端位移相同）</li>
+<li>各柱頂端載重：$P$（AB 頂 B 處 $P$，CD 頂 C 處 $P$）</li>
+<li>已知：單根柱之 $K = 2.0$（固定端-自由端懸臂柱，$EI$、高 $L$ 與框架柱相同）</li>
+</ul>
+<p>萊梅厥公式（LeMessurier formula）：</p>
+<p>$$K' = \sqrt{\frac{P_e}{P_I} \times \frac{\Sigma P}{\Sigma P_{eK}}}$$</p>
+<p>其中：</p>
+<ul>
+<li>$P_e$：欲求柱之尤拉載重（基本尤拉載重，$K=1$ 時 $P_e = \pi^2 EI / L^2$）</li>
+<li>$P_I$：欲求柱所受垂直載重</li>
+<li>$\Sigma P$：整個結構所受總外載重</li>
+<li>$\Sigma P_{eK}$：所有非靠桿在<strong>考慮有效長度係數後</strong>之挫屈載重</li>
+</ul>
+<p><strong>（二）說明靠桿效應造成 K_AB 增大的原因（15 分）</strong></p>
+<p><img alt="SS-2008-2 題目附圖：左側單根懸臂柱（EI、高L、K=2）及右側頂層未束制鋼架（AB柱EI、CD靠桿EI、BC無限剛梁，各柱頂施P）" src="../../raw/solutions/SS-2008-2/SS-2008-2-fig-1.png" /></p>
+<p><em>圖說：左側為單根懸臂柱（固定底、自由頂，K=2.0，高L，勁度EI，頂端施P）。右側為兩柱一梁框架：AB柱（EI，底端固定，頂端B連接無限剛梁，K=?），CD柱（EI，靠桿），BC梁（EI=∞），水平間距Lb，AB與CD頂端各施垂直載重P。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 靠桿效應（leaning column effect）是鋼框架設計中常被忽略的重要二階效應。靠桿柱自身不提供任何側向抵抗力，但透過剛性梁（樓板系統）將其 P-Δ 不穩定效應「轉嫁」給有側向抵抗能力的柱，使有效長度增大。</p>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>考察 LeMessurier 公式的正確使用（$P_e$ 與 $P_{eK}$ 的區別）</li>
+<li>考察靠桿效應的物理機制（非純計算，需有深度理解）</li>
+</ol>
+<p><strong>關鍵認知：</strong> $P_e$ 為基本尤拉載重（$K=1$）；$\Sigma P_{eK}$ 為非靠桿柱以對齊圖 K 值計算之挫屈載重。兩者不同，不可混淆。</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>解題路徑：</strong></p>
+<pre><code>① 確認 K_AB,0（框架中 AB 柱不含靠桿效應之 K 值）
+      ↓
+② 確認各公式參數：Pe、PI、ΣP、ΣPeK
+      ↓
+③ 代入 LeMessurier 公式求 K'_AB
+      ↓
+④ 驗證 K'_AB &gt; K_AB,0（靠桿效應必定增大 K）
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>錯誤做法</th>
+<th>正確做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① $P_e$ 的定義</td>
+<td>誤用有效長度後的 Euler 載重（含 K）</td>
+<td>$P_e = \pi^2 EI/L^2$（基本尤拉載重，$K=1$）</td>
+</tr>
+<tr>
+<td>② $\Sigma P_{eK}$ 的範圍</td>
+<td>把靠桿 CD 也納入計算</td>
+<td>只計非靠桿（僅 AB）</td>
+</tr>
+<tr>
+<td>③ $\Sigma P$ 的範圍</td>
+<td>只算 AB 的載重 P</td>
+<td>整個框架總載重 = P + P = 2P</td>
+</tr>
+<tr>
+<td>④ K_AB,0 的判斷</td>
+<td>誤以為剛梁提供旋轉束制</td>
+<td>剛梁另端接靠桿，節點 C 自由轉動，B 端亦無旋轉束制，故 $K_{AB,0} = 2.0$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 確認 $K_{AB,0}$ → 代入 LeMessurier 公式（$P_e, P_I, \Sigma P, \Sigma P_{eK}$）→ 求靠桿效應後之 $K'_{AB} = 2\sqrt{2}$</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$P_e = \frac{\pi^2 EI}{L^2}, \quad P_I = P, \quad \Sigma P = 2P$$</p>
+<p>$$\Sigma P_{eK} = \frac{\pi^2 EI}{(\boxed{K_{AB,0}} \cdot L)^2} = \frac{\pi^2 EI}{4L^2}$$</p>
+<p>$$\boxed{K'_{AB}} = \sqrt{\frac{P_e}{P_I} \times \frac{\Sigma P}{\Sigma P_{eK}}} = \sqrt{8} = 2\sqrt{2}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$EI$</td>
+<td>同值（AB 與 CD 相同）</td>
+<td>各柱勁度</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>柱高</td>
+<td>AB 與 CD 均為高度 $L$</td>
+</tr>
+<tr>
+<td>$P$</td>
+<td>頂端外載</td>
+<td>AB 頂（B）與 CD 頂（C）各一個 $P$</td>
+</tr>
+<tr>
+<td>$EI_{beam}$</td>
+<td>$\infty$</td>
+<td>BC 梁為無限剛梁</td>
+</tr>
+<tr>
+<td>$K_{\text{single}}$</td>
+<td>2.0（題目給定）</td>
+<td>單根懸臂柱（固定底-自由頂）有效長度係數</td>
+</tr>
+<tr>
+<td>LeMessurier 公式</td>
+<td>題目給定</td>
+<td>$K' = \sqrt{(P_e/P_I)(\Sigma P/\Sigma P_{eK})}$</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：判斷 $K_{AB,0}$（不含靠桿效應）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CD 為靠桿</td>
+<td>CD 兩端鉸接，無彎矩傳遞能力 → 節點 C 旋轉自由</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\theta_B = \theta_C$</td>
+<td>$EI_{beam} = \infty$ → 剛梁使 B、C 旋轉角相等</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$K_{AB,0}$</td>
+<td>節點 B 旋轉自由 + 固定底端 → 固定-自由懸臂柱 → $K_{AB,0} = 2.0$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：確認各公式參數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_e$</td>
+<td>$\pi^2 EI/L^2$（基本尤拉載重，$K=1$，<strong>非</strong> $K_{AB,0}$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_I$</td>
+<td>$P$（AB 柱承受的載重）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\Sigma P$</td>
+<td>$P + P = 2P$（含靠桿 CD）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\Sigma P_{eK}$</td>
+<td>僅 AB（非靠桿）：$\pi^2 EI/(K_{AB,0} \cdot L)^2 = \pi^2 EI/4L^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：代入公式求 $K'_{AB}$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$K'_{AB}$</td>
+<td>$\sqrt{(\pi^2 EI/L^2)/P \times 2P/(\pi^2 EI/4L^2)} = \sqrt{8} = 2\sqrt{2}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>驗證</td>
+<td>$K'_{AB} = 2\sqrt{2} \approx 2.83 > K_{AB,0} = 2.0$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>靠桿效應（Leaning Column Effect）</td>
+<td>靠桿不提供側向抵抗，但透過剛梁將 P-Δ 不穩定效應轉嫁給有勁度的柱，使 $K$ 增大</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">P-DELTA-EFFECT</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_e$ vs $P_{eK}$ 的差異</td>
+<td>$P_e = \pi^2EI/L^2$（$K=1$）；$P_{eK} = \pi^2EI/(KL)^2$（含有效長度修正）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>靠桿識別</td>
+<td>靠桿 = 無側向勁度的柱；$\Sigma P_{eK}$ 只計非靠桿柱</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>無限剛梁的力學含義</td>
+<td>$EI \to \infty$ → 梁兩端旋轉角相等，傳遞側向不穩定效應</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>靠桿比的影響</td>
+<td>靠桿比 $\alpha = P_\text{leaning}/P_\text{non-leaning}$；$K' = K_0\sqrt{1+\alpha}$，靠桿比越大，$K'$ 越大</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">effective-length-chart</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：判斷 AB 柱不含靠桿效應之有效長度係數 $K_{AB,0}$</h3>
+<p>CD 柱為靠桿，兩端鉸接（無彎矩傳遞能力），故節點 C 可自由轉動：</p>
+<p>$$\text{CD 靠桿} \Rightarrow \text{節點 C 旋轉無束制}$$</p>
+<p>由於梁 BC 為無限剛梁（$EI = \infty$），節點 B 與節點 C 必須有相同旋轉角：</p>
+<p>$$\theta_B = \theta_C \quad (\text{因 } EI_{beam} = \infty)$$</p>
+<p>節點 C 自由轉動 $\Rightarrow$ 節點 B 亦無旋轉束制</p>
+<p>$$\Rightarrow \text{AB 柱之頂端 B 為旋轉自由（等效自由端）}$$</p>
+<p>AB 柱底端 A 固定（固定端），頂端 B 旋轉自由（自由端），側移框架：</p>
+<p>$$\boxed{K_{AB,0} = 2.0 \quad (\text{與單根懸臂柱相同})}$$</p>
+<blockquote>
+<p><strong>策略註解：</strong> 這正是題目給出單根柱 K=2.0 的原因——用來確認 AB 柱的初始 K 值，而非無用資訊。</p>
+</blockquote>
+<hr />
+<h3>Step 2：確認各公式參數</h3>
+<p><strong>① $P_e$（AB 柱基本尤拉載重，$K=1$）：</strong></p>
+<p>$$P_e = \frac{\pi^2 EI}{L^2}$$</p>
+<p><strong>② $P_I$（AB 柱所受垂直載重）：</strong></p>
+<p>$$P_I = P$$</p>
+<p><strong>③ $\Sigma P$（整體結構總垂直載重）：</strong></p>
+<p>$$\Sigma P = P_{AB} + P_{CD} = P + P = 2P$$</p>
+<p><strong>④ $\Sigma P_{eK}$（非靠桿柱以有效長度係數計算之挫屈載重）：</strong></p>
+<p>CD 為靠桿，不計入。僅 AB 柱（$K_{AB,0} = 2.0$）：</p>
+<p>$$\Sigma P_{eK} = \frac{\pi^2 EI}{(K_{AB,0} \cdot L)^2} = \frac{\pi^2 EI}{(2.0 \cdot L)^2} = \frac{\pi^2 EI}{4L^2}$$</p>
+<hr />
+<h3>Step 3：代入 LeMessurier 公式</h3>
+<p>$$K'_{AB} = \sqrt{\frac{P_e}{P_I} \times \frac{\Sigma P}{\Sigma P_{eK}}}$$</p>
+<p>$$K'_{AB} = \sqrt{\frac{\dfrac{\pi^2 EI}{L^2}}{P} \times \frac{2P}{\dfrac{\pi^2 EI}{4L^2}}}$$</p>
+<p>$$= \sqrt{\frac{\pi^2 EI}{PL^2} \times \frac{2P \times 4L^2}{\pi^2 EI}}$$</p>
+<p>$$= \sqrt{\frac{8\pi^2 EI \cdot PL^2}{\pi^2 EI \cdot PL^2}} = \sqrt{8}$$</p>
+<p>$$\boxed{K'_{AB} = 2\sqrt{2} \approx 2.83}$$</p>
+<p><strong>驗證：</strong> $K'_{AB} = 2\sqrt{2} \approx 2.83 > K_{AB,0} = 2.0$ ✓（靠桿效應確實增大 $K_{AB}$）</p>
+<hr />
+<h3>Step 4：（二）靠桿效應造成 K_AB 增大的原因</h3>
+<p><strong>物理機制分析：</strong></p>
+<p>當框架發生側向位移 $\delta$ 時，P-Δ 不穩定效應由所有受重柱共同貢獻，但抵抗力僅來自有側向勁度的非靠桿柱。</p>
+<p><strong>靠桿 CD 的角色：</strong></p>
+<pre><code>      δ（側向位移）
+P──→B════════C──→P
+   ‖    EI=∞   ‖
+   ‖ AB        ‖ CD（靠桿）
+   ‖            ‖
+   A（固定）    D（固定）
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>AB 柱</th>
+<th>CD 靠桿</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>承受垂直載重</td>
+<td>P</td>
+<td>P</td>
+</tr>
+<tr>
+<td>側向位移</td>
+<td>δ</td>
+<td>δ（與B相同，因剛梁）</td>
+</tr>
+<tr>
+<td>P-Δ 不穩定效應</td>
+<td>$P \times \delta$</td>
+<td>$P \times \delta$</td>
+</tr>
+<tr>
+<td>側向抵抗力</td>
+<td>✅ 有（固定底端提供恢復彎矩）</td>
+<td>❌ 無（靠桿，無彎矩能力）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AB 柱的負擔：</strong></p>
+<p>$$\text{總 P-Δ 不穩定效應} = P_{AB} \times \delta + P_{CD} \times \delta = 2P \times \delta$$</p>
+<p>$$\text{總抵抗力} = \text{僅 AB 柱的彈性恢復力}$$</p>
+<p>AB 柱以<strong>原本的側向勁度</strong>（對應 $K_{AB,0} = 2.0$ 之抵抗能力），<strong>必須抵抗原本兩倍的 P-Δ 效應</strong>：</p>
+<p>$$\text{等效垂直載重} = 2P \quad (\text{而非原本的 } P)$$</p>
+<p><strong>有效長度的增大：</strong></p>
+<p>挫屈載重條件：<br />
+$$P_{cr} = \frac{\pi^2 EI}{(K'_{AB} \cdot L)^2} \Rightarrow \text{抵抗 } 2P \text{ 的 P-Δ，需 } K'_{AB} = K_{AB,0} \times \sqrt{\frac{\Sigma P}{P_I}} = 2.0 \times \sqrt{2} = 2\sqrt{2}$$</p>
+<p><strong>結論（考場答題重點）：</strong></p>
+<ol>
+<li>
+<p><strong>靠桿 CD 本身不提供側向抵抗力</strong>，但透過無限剛梁（樓板）與 AB 柱形成動力耦合，使 CD 的 P-Δ 效應完全轉由 AB 承擔。</p>
+</li>
+<li>
+<p><strong>AB 柱之側向勁度固定</strong>（由其 $EI$、$L$ 和端點束制決定），但需抵抗的 P-Δ 不穩定效應加倍（由 $P$ 增為 $2P$）。</p>
+</li>
+<li>
+<p><strong>等效有效長度增大</strong>：在同樣的 $EI$ 和 $L$ 條件下，抵抗更大的 P-Δ 效應等同於柱需要更長的「有效屈曲長度」，亦即 $K_{AB}$ 值上升，從 $2.0$ 增大至 $2\sqrt{2} \approx 2.83$。</p>
+</li>
+</ol>
+<p>$$\boxed{靠桿效應 \Rightarrow \text{AB 必須以固有勁度抵抗多出的靠桿 P-Δ} \Rightarrow K_{AB} \text{ 增大}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>LeMessurier 公式的推導邏輯</h3>
+<p>公式的本質是一個<strong>剛度需求與供給的比值調整</strong>：</p>
+<p>$$K'_{AB} = \underbrace{\sqrt{\frac{P_e}{P_I}}}_{\text{單柱 K 值}} \times \underbrace{\sqrt{\frac{\Sigma P}{\Sigma P_{eK}}}}_{\text{靠桿放大係數}}$$</p>
+<p>本題中：</p>
+<ul>
+<li>單柱 K 值部分：$\sqrt{\pi^2 EI/(L^2 \cdot P)}$ → 對應 K_AB,0 = 2.0 時為 $\sqrt{\pi^2 EI/PL^2}$</li>
+<li>靠桿放大係數：$\sqrt{2P / (\pi^2 EI/4L^2)} = \sqrt{8PL^2/\pi^2 EI}$</li>
+<li>合計：$\sqrt{8} = 2\sqrt{2}$ ✓</li>
+</ul>
+<h3>靠桿比（Leaning Ratio）的影響</h3>
+<p>若定義靠桿比 $\alpha = P_{leaning} / P_{non-leaning}$，本題 $\alpha = 1$（CD 與 AB 各承 P）：</p>
+<p>$$K'_{AB} = K_{AB,0} \times \sqrt{1 + \alpha} = 2.0 \times \sqrt{1+1} = 2\sqrt{2}$$</p>
+<p>靠桿比越大（靠桿承擔越多總載重），$K'_{AB}$ 越大，設計越不利。</p>
+<h3>實務意義</h3>
+<p>現代高層建築常有大量重力柱（靠桿），設計時必須將其 P-Δ 效應分配給少數核心筒或剪力牆，否則嚴重低估有效長度係數。AISC 360 的直接分析法（DAM）通過放大側移 $\Delta$ 的方式間接考慮靠桿效應，更具普遍性。</p>
+</main>
+<footer>來源：raw/solutions/SS-2008-2/SS-2008-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

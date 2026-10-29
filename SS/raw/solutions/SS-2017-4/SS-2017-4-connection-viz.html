@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>SS-2017-4：偏心銲縫群分析</title>
+<style>
+  body { font-family: "Noto Sans TC", sans-serif; background:#f5f5f5; display:flex; flex-direction:column; align-items:center; padding:16px; }
+  h2 { font-size:15px; color:#1a237e; margin:0 0 4px; text-align:center; }
+  p.sub { font-size:11px; color:#555; margin:0 0 10px; text-align:center; }
+  canvas { background:#fff; border:1px solid #bbb; box-shadow:2px 2px 6px rgba(0,0,0,0.15); }
+  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; width:580px; }
+  .info-box { background:#e8eaf6; border-left:4px solid #3f51b5; padding:8px 12px; font-size:11px; line-height:1.8; }
+  .info-box b { color:#1a237e; }
+  .info-box.red { background:#fce4ec; border-color:#c62828; }
+  .info-box.green { background:#e8f5e9; border-color:#2e7d32; }
+  .legend { display:flex; gap:16px; margin-top:8px; font-size:11px; flex-wrap:wrap; justify-content:center; }
+  .legend-item { display:flex; align-items:center; gap:5px; }
+  .swatch { width:20px; height:3px; }
+</style>
+</head>
+<body>
+<h2>SS-2017-4：U 形銲縫偏心接合分析</h2>
+<p class="sub">E70XX ｜ 有效喉厚 te = 10 mm ｜ φ = 0.75 ｜ Pu ≈ 90 tf</p>
+<canvas id="cv" width="580" height="440"></canvas>
+<div class="legend">
+  <div class="legend-item"><div class="swatch" style="background:#1565c0;height:4px"></div><span>銲道（U形）</span></div>
+  <div class="legend-item"><div class="swatch" style="background:#e53935;height:3px;border-top:2px dashed #e53935"></div><span>直接剪力</span></div>
+  <div class="legend-item"><div class="swatch" style="background:#ff8f00;height:3px"></div><span>扭矩剪力</span></div>
+  <div class="legend-item"><div class="swatch" style="background:#2e7d32;height:3px"></div><span>合成剪力</span></div>
+  <div class="legend-item">★ = 臨界點</div>
+</div>
+<div class="info-grid">
+  <div class="info-box">
+    <b>銲道幾何</b><br>
+    上水平銲道：40 cm<br>
+    左垂直銲道：80 cm<br>
+    下水平銲道：40 cm<br>
+    總長 L = 160 cm
+  </div>
+  <div class="info-box">
+    <b>形心位置</b><br>
+    x̄ = b²/(2b+d) = 40²/160 = <b>10 cm</b>（距柱面）<br>
+    ȳ = <b>40 cm</b>（距底，對稱）<br>
+    偏心距 e = 90 − 10 = <b>80 cm</b><br>
+    扭矩 M = P × 80 tf·cm
+  </div>
+  <div class="info-box">
+    <b>極慣性矩 Jw</b><br>
+    上水平段：73,333 cm³<br>
+    垂直段：50,667 cm³<br>
+    下水平段：73,333 cm³<br>
+    <b>Jw = 197,333 cm³</b>
+  </div>
+  <div class="info-box red">
+    <b>臨界點（右端水平銲道）</b><br>
+    (rx, ry) = (30, ±40)<br>
+    直接剪力：P/160 = 0.00625P ↓<br>
+    扭矩 x：0.01621P →<br>
+    扭矩 y：0.01216P ↓<br>
+    <b>合成：0.02454P tf/cm</b>
+  </div>
+  <div class="info-box green" style="grid-column:span 2">
+    <b>強度條件：</b>
+    q<sub>allow</sub> = 0.75 × 0.6 × 4.922 × 1.0 = <b>2.215 tf/cm</b><br>
+    P<sub>u</sub> = 2.215 / 0.02454 = <b>90.3 tf ≈ 90 tf</b>
+  </div>
+</div>
+
+<script>
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const W = cv.width, H = cv.height;
+
+// Layout constants
+const SCALE = 3.8;       // 1 cm → SCALE px
+const OX = 80;           // weld group origin X (left edge of weld)
+const OY = H - 60;       // weld group origin Y (bottom of weld)
+
+// Weld dimensions in cm
+const b = 40, d = 80;
+// Centroid
+const cx_cm = b * b / (2 * b + d); // 10 cm from left
+const cy_cm = d / 2;               // 40 cm from bottom
+
+function toPixel(x_cm, y_cm) {
+  return [OX + x_cm * SCALE, OY - y_cm * SCALE];
+}
+
+// Background
+ctx.fillStyle = '#fafafa';
+ctx.fillRect(0, 0, W, H);
+
+// ── Column (hatched rectangle on left) ──
+ctx.fillStyle = '#cfd8dc';
+ctx.fillRect(0, 0, OX, H);
+// Hatch lines
+ctx.strokeStyle = '#90a4ae';
+ctx.lineWidth = 0.8;
+for (let y = 0; y < H; y += 10) {
+  ctx.beginPath();
+  ctx.moveTo(0, y);
+  ctx.lineTo(OX, y + OX);
+  ctx.stroke();
+}
+ctx.strokeStyle = '#546e7a';
+ctx.lineWidth = 1.5;
+ctx.strokeRect(0, 0, OX, H);
+
+// Column label
+ctx.fillStyle = '#37474f';
+ctx.font = '12px sans-serif';
+ctx.textAlign = 'center';
+ctx.save();
+ctx.translate(OX / 2, H / 2);
+ctx.rotate(-Math.PI / 2);
+ctx.fillText('鋼柱', 0, 0);
+ctx.restore();
+
+// ── Weld group (blue thick lines) ──
+ctx.strokeStyle = '#1565c0';
+ctx.lineWidth = 4;
+ctx.lineCap = 'round';
+
+// Bottom horizontal weld
+let [x1, y1] = toPixel(0, 0);
+let [x2, y2] = toPixel(b, 0);
+ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+
+// Left vertical weld
+let [x3, y3] = toPixel(0, d);
+ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x3, y3); ctx.stroke();
+
+// Top horizontal weld
+let [x4, y4] = toPixel(b, d);
+ctx.beginPath(); ctx.moveTo(x3, y3); ctx.lineTo(x4, y4); ctx.stroke();
+
+// ── Bracket plate (grey) ──
+ctx.fillStyle = 'rgba(158,158,158,0.25)';
+ctx.strokeStyle = '#9e9e9e';
+ctx.lineWidth = 1;
+let [bx1, by1] = toPixel(0, 0);
+let [bx2, by2] = toPixel(b + 50, 0);
+let [bx3, by3] = toPixel(b + 50, d);
+let [bx4, by4] = toPixel(0, d);
+ctx.beginPath();
+ctx.moveTo(bx1, by1); ctx.lineTo(bx2, by2);
+ctx.lineTo(bx3, by3); ctx.lineTo(bx4, by4);
+ctx.closePath();
+ctx.fill(); ctx.stroke();
+
+// ── Dimension lines ──
+function dimLine(x1, y1, x2, y2, label, offset, horiz) {
+  ctx.strokeStyle = '#555'; ctx.lineWidth = 0.8; ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#333'; ctx.font = '10px sans-serif';
+  ctx.textAlign = 'center';
+  if (horiz) ctx.fillText(label, (x1 + x2) / 2, y1 + offset);
+  else ctx.fillText(label, x1 + offset, (y1 + y2) / 2);
+}
+
+// Bottom dimension: b=40cm
+let [da1, da2] = toPixel(0, -8);
+let [db1, db2] = toPixel(b, -8);
+dimLine(da1, da2 + 4, db1, db2 + 4, '40 cm', 14, true);
+
+// Additional 50cm
+let [dc1, dc2] = toPixel(b, -8);
+let [dd1, dd2] = toPixel(b + 50, -8);
+dimLine(dc1, dc2 + 4, dd1, dd2 + 4, '50 cm', 14, true);
+
+// Left dimension: d=80cm
+let [de1, de2] = toPixel(-14, 0);
+let [df1, df2] = toPixel(-14, d);
+dimLine(de1 + 4, de2, df1 + 4, df2, '80 cm', -22, false);
+
+// ── Centroid marker ──
+let [ccx, ccy] = toPixel(cx_cm, cy_cm);
+ctx.fillStyle = '#7b1fa2';
+ctx.beginPath(); ctx.arc(ccx, ccy, 6, 0, Math.PI * 2); ctx.fill();
+ctx.fillStyle = '#7b1fa2'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'left';
+ctx.fillText('C (10, 40)', ccx + 8, ccy - 4);
+ctx.fillText('形心', ccx + 8, ccy + 8);
+
+// ── Critical point (right end, top weld) ──
+let [cpx, cpy] = toPixel(b, d);
+ctx.fillStyle = '#e53935';
+ctx.font = 'bold 14px sans-serif';
+ctx.textAlign = 'center';
+ctx.fillText('★', cpx + 2, cpy - 8);
+ctx.font = '10px sans-serif';
+ctx.fillText('臨界點', cpx + 18, cpy - 14);
+
+// Right end, bottom weld
+let [cpx2, cpy2] = toPixel(b, 0);
+ctx.fillStyle = '#e53935';
+ctx.font = 'bold 14px sans-serif';
+ctx.fillText('★', cpx2 + 2, cpy2 + 18);
+
+// ── Load arrow P ──
+let [px, py] = toPixel(b + 50, d);
+ctx.strokeStyle = '#c62828'; ctx.lineWidth = 2.5; ctx.setLineDash([]);
+ctx.beginPath(); ctx.moveTo(px, py - 35); ctx.lineTo(px, py - 5); ctx.stroke();
+// Arrowhead
+ctx.fillStyle = '#c62828';
+ctx.beginPath(); ctx.moveTo(px, py + 2); ctx.lineTo(px - 7, py - 10); ctx.lineTo(px + 7, py - 10); ctx.closePath(); ctx.fill();
+ctx.fillStyle = '#c62828'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'center';
+ctx.fillText('P', px, py - 40);
+
+// ── Eccentricity line ──
+ctx.strokeStyle = '#ff8f00'; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
+ctx.beginPath(); ctx.moveTo(ccx, ccy); ctx.lineTo(px, ccy); ctx.stroke();
+ctx.setLineDash([]);
+ctx.fillStyle = '#e65100'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+ctx.fillText('e = 80 cm', (ccx + px) / 2, ccy - 6);
+
+// ── Force vectors at critical point (upper right) ──
+const SF = 1100; // scale for force display
+const fv = 0.00625;   // direct shear
+const ftx = 0.01621;  // torsional x
+const fty = -0.01216; // torsional y
+
+// Direct shear (red downward)
+ctx.strokeStyle = '#e53935'; ctx.lineWidth = 2;
+let vLen = fv * SF;
+ctx.beginPath();
+ctx.moveTo(cpx, cpy);
+ctx.lineTo(cpx, cpy + vLen);
+ctx.stroke();
+// arrowhead
+ctx.fillStyle = '#e53935';
+ctx.beginPath(); ctx.moveTo(cpx, cpy + vLen + 6); ctx.lineTo(cpx - 5, cpy + vLen - 3); ctx.lineTo(cpx + 5, cpy + vLen - 3); ctx.closePath(); ctx.fill();
+ctx.fillStyle = '#e53935'; ctx.font = '9px sans-serif'; ctx.textAlign = 'right';
+ctx.fillText('直剪', cpx - 4, cpy + vLen / 2);
+
+// Torsional shear (orange: right + down)
+ctx.strokeStyle = '#ff8f00'; ctx.lineWidth = 2;
+let txLen = ftx * SF, tyLen = -fty * SF;
+// Draw component lines
+ctx.beginPath(); ctx.moveTo(cpx, cpy); ctx.lineTo(cpx + txLen, cpy); ctx.stroke();
+ctx.beginPath(); ctx.moveTo(cpx + txLen, cpy); ctx.lineTo(cpx + txLen, cpy + tyLen); ctx.stroke();
+// resultant torsional
+ctx.strokeStyle = '#ff8f00'; ctx.lineWidth = 2; ctx.setLineDash([3, 2]);
+let resX = cpx + txLen, resY = cpy + tyLen;
+ctx.beginPath(); ctx.moveTo(cpx, cpy); ctx.lineTo(resX, resY); ctx.stroke();
+ctx.setLineDash([]);
+ctx.fillStyle = '#e65100'; ctx.font = '9px sans-serif'; ctx.textAlign = 'left';
+ctx.fillText('扭剪', resX + 3, cpy + tyLen / 2 - 2);
+
+// Combined resultant (green)
+let totalFx = ftx, totalFy = -(fv + (-fty));
+let totalLen = Math.sqrt(totalFx * totalFx + totalFy * totalFy) * SF;
+let angle = Math.atan2(-totalFy, totalFx); // angle in canvas coords
+ctx.strokeStyle = '#2e7d32'; ctx.lineWidth = 2.5;
+let endX = cpx + totalFx * SF, endY = cpy - totalFy * SF;
+ctx.beginPath(); ctx.moveTo(cpx, cpy); ctx.lineTo(endX, endY); ctx.stroke();
+ctx.fillStyle = '#1b5e20'; ctx.font = 'bold 9px sans-serif'; ctx.textAlign = 'left';
+ctx.fillText('合成', endX + 3, endY - 2);
+ctx.fillText('0.02454P', endX + 3, endY + 8);
+
+// ── Labels ──
+ctx.fillStyle = '#1565c0'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+let [mlx, mly] = toPixel(-7, d / 2);
+ctx.save(); ctx.translate(mlx, mly); ctx.rotate(-Math.PI / 2);
+ctx.fillText('垂直銲道 80 cm', 0, 0); ctx.restore();
+
+ctx.fillStyle = '#1565c0'; ctx.textAlign = 'center';
+let [mtx, mty] = toPixel(b / 2, d + 4);
+ctx.fillText('上水平 40 cm', mtx, mty - 6);
+let [mbx, mby] = toPixel(b / 2, -4);
+ctx.fillText('下水平 40 cm', mbx, mby + 14);
+
+// ── Radius line from centroid to critical point ──
+ctx.strokeStyle = '#7b1fa2'; ctx.lineWidth = 1; ctx.setLineDash([4, 3]);
+ctx.beginPath(); ctx.moveTo(ccx, ccy); ctx.lineTo(cpx, cpy); ctx.stroke();
+ctx.setLineDash([]);
+ctx.fillStyle = '#7b1fa2'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+ctx.fillText('r = 50 cm', (ccx + cpx) / 2 + 10, (ccy + cpy) / 2 - 6);
+
+// ── Title ──
+ctx.fillStyle = '#1a237e'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'right';
+ctx.fillText('Jw = 197,333 cm³', W - 12, 22);
+</script>
+</body>
+</html>

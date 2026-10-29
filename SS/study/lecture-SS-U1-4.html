@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-U1-4 接合之分析與設計 — 觀念講義（理解導向）</title>
+<!-- KaTeX 本機資源（assets/katex/），離線亦可正常顯示數學式 -->
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --tension:#2e7d32; --tension2:#e8f5e9;
+  --comp:#c62828; --comp2:#ffebee; --warn:#ef6c00; --warn2:#fff3e0;
+  --key:#6a1b9a; --key2:#f3e5f5;
+  --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:34px 26px}
+header h1{margin:0 0 8px;font-size:1.6em;letter-spacing:.5px}
+header .sub{opacity:.9;font-size:.93em;margin:0}
+header .meta{margin-top:12px;font-size:.82em;opacity:.8}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);
+padding:9px 14px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+nav a{text-decoration:none;color:var(--ac);font-size:.85em;padding:4px 11px;border-radius:14px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:980px;margin:0 auto;padding:24px 18px 80px}
+section{margin-bottom:46px}
+h2{font-size:1.32em;border-left:6px solid var(--ac);padding-left:12px;margin:44px 0 18px;line-height:1.4}
+h3{font-size:1.08em;margin:30px 0 10px;color:#0d47a1}
+h4{font-size:.99em;margin:20px 0 8px;color:#37474f}
+.lead{font-size:1.03em;background:#fff;border:1px solid var(--bd);border-left:5px solid var(--ac);
+border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:16px 18px;margin:16px 0}
+.why{background:var(--key2);border:1px solid #ce93d8;border-left:5px solid var(--key);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.why b:first-child{color:var(--key)}
+.trap{background:var(--warn2);border:1px solid #ffcc80;border-left:5px solid var(--warn);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.trap b:first-child{color:#e65100}
+.tens{background:var(--tension2);border:1px solid #a5d6a7;border-left:5px solid var(--tension);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.comp{background:var(--comp2);border:1px solid #ef9a9a;border-left:5px solid var(--comp);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.fig{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 14px 10px;margin:20px 0;overflow-x:auto}
+.fig svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig .cap{font-size:.85em;color:var(--mut);text-align:center;margin-top:10px;line-height:1.6}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9em;background:#fff}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}li{margin:5px 0}
+.pill{display:inline-block;font-size:.76em;padding:2px 8px;border-radius:10px;margin-right:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+details{background:#fff;border:1px solid var(--bd);border-radius:9px;padding:10px 14px;margin:12px 0}
+summary{cursor:pointer;font-weight:600;color:var(--ac)}
+details p{border-left:3px solid #e0e0e0;padding-left:12px;margin:8px 0;color:#37474f}
+.qlink{color:#1565c0;text-decoration:none;border-bottom:1px dotted #90caf9;font-weight:600}
+.katex-display{margin:14px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SS-U1-4　接合之分析與設計 — 觀念講義</h1>
+  <p class="sub">理解導向教材：先建立「力量換手」的物理圖像，再看每條規範公式為何長這樣。觀念圖解 ＋ 六個完整手算範例。圖解以程式依實際尺寸與範例數值繪製（2026-10 改版）。</p>
+  <p class="meta">科目：鋼結構設計（SS）｜命題大綱：第一單元（四）接合之分析與設計｜歷屆：主分類 19 題、副分類 7 題（共 26 題，2002–2024）— 本科最大單元</p>
+</header>
+
+<nav>
+  <a href="#s0">0 全景</a>
+  <a href="#s1">1 換手鏈</a>
+  <a href="#s2">2 兩把尺</a>
+  <a href="#s3">3 拉力接合端</a>
+  <a href="#s4">4 螺栓</a>
+  <a href="#s5">5 銲接</a>
+  <a href="#s6">6 偏心接合</a>
+  <a href="#s7">7 梁柱接頭</a>
+  <a href="#s8">8 剪力流</a>
+  <a href="#s9">9 施工檢測</a>
+  <a href="#s10">10 因果鏈與流程</a>
+  <a href="#s11">11 考點對應</a>
+  <a href="#s12">12 陷阱總表</a>
+  <a href="#s13" style="background:#f3e5f5;color:#6a1b9a">13 自我檢測</a>
+  <a href="#s14" style="background:#ffe0b2;color:#e65100;font-weight:600">★ 14 精選 6 題</a>
+  <span style="flex:1"></span>
+  <a href="study-SS-U1-4.html" title="命題分析：出題頻率、考點結構、考題清單、命題風險"
+     style="background:#e3f2fd;color:#1565c0">📊 命題分析</a>
+  <a href="formula-given-SS-U1-4.html" title="哪些公式考卷會給、哪些必須自己背"
+     style="background:#ffebee;color:#c62828">🎯 給／背分界</a>
+  <a href="lecture-SS-U1-4.pdf" target="_blank" title="本講義的列印版"
+     style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+
+<main>
+<section id="s0">
+<h2>§0　全景：這個單元只有一句話</h2>
+
+<div class="lead">
+<b>構材設計問「這個斷面撐不撐得住」，答案是<u>一個</u>強度；<br>
+接合設計問「力量在這裡換了幾次手、哪一次換手最弱」，答案是<u>一串</u>強度取最小值。</b>
+</div>
+
+<p>這句話決定了本單元 26 題的全部長相。構材題（U1-1 拉壓、U1-2 梁、U1-3 梁柱）你算的是一個控制斷面；
+接合題你算的是<b>一條傳力路徑</b>：力從母材 A 走進來，交給緊結物（螺栓或銲道），再交還給母材 B。
+每一次「換手」都是一個獨立的極限狀態，任何一站不及格，整個接合就不及格。</p>
+
+<p>由此再往下推一層，就能得到本單元<b>所有公式差異的唯一來源</b>：</p>
+
+<div class="why">
+<b>為什麼公式長那樣？</b>只要問三件事 ——
+<b>①</b> 這個極限狀態發生在<b>哪一個面</b>上？
+<b>②</b> 那個面是被<b>剪</b>的還是被<b>拉</b>的？（剪 → 乘 0.6；拉 → 不乘）
+<b>③</b> 我們允許它<b>降伏</b>還是要它<b>斷裂</b>？（降伏 → 用 \(F_y\) 配毛面積；斷裂 → 用 \(F_u\) 配淨面積）
+<br>三個答案填進去，公式就自己寫出來了。連 \(\phi\) 值也是同一套邏輯的延伸（§2）。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg">
+  <line x1="450" y1="10" x2="450" y2="310" stroke="#b0bec5" stroke-width="2" stroke-dasharray="7,5"/>
+
+  <!-- 左：構材 -->
+  <text x="225" y="30" font-size="17" font-weight="700" fill="#2e7d32" text-anchor="middle">構材設計</text>
+  <rect x="60" y="110" width="330" height="44" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+  <line x1="20" y1="132" x2="58" y2="132" stroke="#2e7d32" stroke-width="3"/>
+  <polygon points="20,132 30,127 30,137" fill="#2e7d32"/>
+  <line x1="392" y1="132" x2="430" y2="132" stroke="#2e7d32" stroke-width="3"/>
+  <polygon points="430,132 420,127 420,137" fill="#2e7d32"/>
+  <line x1="225" y1="90" x2="225" y2="174" stroke="#c62828" stroke-width="2.5" stroke-dasharray="5,4"/>
+  <text x="225" y="82" font-size="13" fill="#c62828" text-anchor="middle">臨界斷面（唯一）</text>
+  <text x="225" y="200" font-size="13.5" fill="#37474f" text-anchor="middle">力從頭到尾都由同一塊母材承擔</text>
+  <text x="225" y="240" font-size="14.5" font-weight="700" fill="#1b5e20" text-anchor="middle">求一個強度</text>
+  <text x="225" y="266" font-size="13" fill="#546e7a" text-anchor="middle">例：Pn = Fy·Ag（一條式子解決）</text>
+
+  <!-- 右：接合 -->
+  <text x="675" y="30" font-size="17" font-weight="700" fill="#c62828" text-anchor="middle">接合設計</text>
+  <rect x="480" y="110" width="90" height="44" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+  <text x="525" y="137" font-size="13" fill="#b71c1c" text-anchor="middle">母材 A</text>
+  <rect x="620" y="110" width="70" height="44" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+  <text x="655" y="137" font-size="13" fill="#e65100" text-anchor="middle">緊結物</text>
+  <rect x="740" y="110" width="90" height="44" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+  <text x="785" y="137" font-size="13" fill="#b71c1c" text-anchor="middle">母材 B</text>
+  <line x1="570" y1="132" x2="618" y2="132" stroke="#455a64" stroke-width="2.5"/>
+  <polygon points="618,132 608,127 608,137" fill="#455a64"/>
+  <line x1="690" y1="132" x2="738" y2="132" stroke="#455a64" stroke-width="2.5"/>
+  <polygon points="738,132 728,127 728,137" fill="#455a64"/>
+  <text x="594" y="102" font-size="12.5" fill="#455a64" text-anchor="middle">換手 1</text>
+  <text x="714" y="102" font-size="12.5" fill="#455a64" text-anchor="middle">換手 2</text>
+  <circle cx="594" cy="170" r="12" fill="#c62828"/><text x="594" y="175" font-size="12.5" fill="#fff" text-anchor="middle">✕</text>
+  <circle cx="655" cy="170" r="12" fill="#c62828"/><text x="655" y="175" font-size="12.5" fill="#fff" text-anchor="middle">✕</text>
+  <circle cx="714" cy="170" r="12" fill="#c62828"/><text x="714" y="175" font-size="12.5" fill="#fff" text-anchor="middle">✕</text>
+  <text x="675" y="200" font-size="13.5" fill="#37474f" text-anchor="middle">每一次換手都是一個可能的破壞面</text>
+  <text x="675" y="240" font-size="14.5" font-weight="700" fill="#b71c1c" text-anchor="middle">求一串強度，取最小值</text>
+  <text x="675" y="266" font-size="13" fill="#546e7a" text-anchor="middle">例：min（螺栓剪斷、承壓、淨斷面、塊狀剪力）</text>
+  <text x="675" y="292" font-size="12.5" fill="#78909c" text-anchor="middle">漏算任何一站 = 這一題直接錯</text>
+</svg>
+<div class="cap">圖 0-1　構材與接合的核心對立。左邊是「一個斷面」的問題，右邊是「一條路徑」的問題。
+考試最常見的失分不是算錯，而是<b>只算了其中一站</b>就交卷。</div>
+</div>
+
+<div class="trap">
+<b>如果你只帶一句話進考場</b>：接合題的第一個動作永遠是「<b>把所有極限狀態列出來</b>」，
+先寫清單再開始算。清單寫對，即使某一項算錯也拿得到大部分分數；清單漏項，算得再漂亮都是不完整的答案。
+</div>
+</section>
+
+<section id="s1">
+<h2>§1　換手鏈：接合的極限狀態清單</h2>
+
+<div class="lead">接合的極限狀態不需要背 —— 沿著力量走一遍，路上會經過哪些面，那些面就是極限狀態。</div>
+
+<h3>1.1 螺栓接合：沿著力走一遍</h3>
+
+<p>拿一個單搭接（lap splice）來走：拉力從母材 A 進來 → 通過 A 的<b>淨斷面</b>（有孔）→ 在孔壁把力<b>壓</b>給螺栓 →
+螺栓桿<b>被剪</b> → 螺栓在 B 的孔壁把力壓回去 → 通過 B 的淨斷面出去。
+另外，螺栓群後方的那塊母材有可能被整塊<b>撕下來</b>（塊狀剪力）；若是摩阻型接合，還多一個「<b>不准滑動</b>」的門檻。</p>
+
+<div class="fig">
+<svg viewBox="0 0 880 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="螺栓搭接接合的六個極限狀態位置" font-family="inherit"><defs><marker id="f11-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker><marker id="f11-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker></defs><text x="30.0" y="26.0" font-size="13" fill="#607d8b" text-anchor="start"><tspan>平面圖（俯視；B 板疊在 A 板上，以半透明表示）</tspan></text><rect x="70.0" y="60.0" width="450.0" height="120.0" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.8"/><rect x="340.0" y="60.0" width="450.0" height="120.0" rx="0" fill="#fff8e1" stroke="#ef6c00" stroke-width="1.8" fill-opacity="0.72"/><text x="110.0" y="52.0" font-size="13" fill="#1565c0" text-anchor="start" font-weight="700"><tspan>母材 A</tspan></text><text x="780.0" y="52.0" font-size="13" fill="#ef6c00" text-anchor="end" font-weight="700"><tspan>母材 B</tspan></text><line x1="190.0" y1="56.0" x2="190.0" y2="184.0" stroke="#2e7d32" stroke-width="1.6" stroke-dasharray="4,3"/><line x1="490.0" y1="56.0" x2="490.0" y2="184.0" stroke="#c62828" stroke-width="2" stroke-dasharray="6,3"/><polygon points="370.0,90.0 520.0,90.0 520.0,150.0 370.0,150.0" fill="#ce93d8" stroke="#6a1b9a" stroke-width="2.2" stroke-linejoin="round" stroke-dasharray="7,3" fill-opacity="0.25"/><circle cx="370.0" cy="90.0" r="8.5" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="370.0" cy="150.0" r="8.5" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="430.0" cy="90.0" r="8.5" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="430.0" cy="150.0" r="8.5" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="490.0" cy="90.0" r="8.5" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="490.0" cy="150.0" r="8.5" fill="#fff" stroke="#455a64" stroke-width="1.6"/><line x1="520.0" y1="60.0" x2="520.0" y2="180.0" stroke="#1565c0" stroke-width="1.2" stroke-dasharray="3,3"/><text x="524.0" y="196.0" font-size="11" fill="#1565c0" text-anchor="start"><tspan>A 端</tspan></text><text x="336.0" y="196.0" font-size="11" fill="#ef6c00" text-anchor="end"><tspan>B 端</tspan></text><line x1="68.0" y1="120.0" x2="22.0" y2="120.0" stroke="#c62828" stroke-width="3" marker-end="url(#f11-r)"/><text x="30.0" y="110.0" font-size="14" fill="#c62828" text-anchor="start" font-weight="700"><tspan>T</tspan></text><line x1="792.0" y1="120.0" x2="850.0" y2="120.0" stroke="#c62828" stroke-width="3" marker-end="url(#f11-r)"/><text x="842.0" y="110.0" font-size="14" fill="#c62828" text-anchor="end" font-weight="700"><tspan>T</tspan></text><circle cx="190.0" cy="202.0" r="10.0" fill="#2e7d32" stroke="#2e7d32" stroke-width="1"/><text x="190.0" y="206.5" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700"><tspan>0</tspan></text><circle cx="445.0" cy="210.0" r="10.0" fill="#6a1b9a" stroke="#6a1b9a" stroke-width="1"/><text x="445.0" y="214.5" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700"><tspan>2</tspan></text><circle cx="490.0" cy="44.0" r="10.0" fill="#c62828" stroke="#c62828" stroke-width="1"/><text x="490.0" y="48.5" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700"><tspan>1</tspan></text><line x1="445.0" y1="200.0" x2="445.0" y2="152.0" stroke="#6a1b9a" stroke-width="1"/><text x="30.0" y="232.0" font-size="13" fill="#607d8b" text-anchor="start"><tspan>立面圖（側視；承壓型已滑移、孔壁貼住螺栓）</tspan></text><rect x="70.0" y="312.0" width="450.0" height="22.0" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.8"/><rect x="340.0" y="290.0" width="450.0" height="22.0" rx="0" fill="#fff8e1" stroke="#ef6c00" stroke-width="1.8"/><rect x="356.0" y="312.9" width="22.0" height="20.2" rx="0" fill="#fff" stroke="none" stroke-width="0"/><rect x="362.0" y="290.9" width="22.0" height="20.2" rx="0" fill="#fff" stroke="none" stroke-width="0"/><rect x="362.0" y="284.0" width="16.0" height="56.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.5"/><rect x="355.0" y="275.0" width="30.0" height="9.0" rx="0" fill="#90a4ae" stroke="#455a64" stroke-width="1.4"/><rect x="355.0" y="340.0" width="30.0" height="9.0" rx="0" fill="#90a4ae" stroke="#455a64" stroke-width="1.4"/><line x1="378.0" y1="314.0" x2="378.0" y2="332.0" stroke="#ef6c00" stroke-width="3.2"/><line x1="362.0" y1="292.0" x2="362.0" y2="310.0" stroke="#ef6c00" stroke-width="3.2"/><rect x="416.0" y="312.9" width="22.0" height="20.2" rx="0" fill="#fff" stroke="none" stroke-width="0"/><rect x="422.0" y="290.9" width="22.0" height="20.2" rx="0" fill="#fff" stroke="none" stroke-width="0"/><rect x="422.0" y="284.0" width="16.0" height="56.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.5"/><rect x="415.0" y="275.0" width="30.0" height="9.0" rx="0" fill="#90a4ae" stroke="#455a64" stroke-width="1.4"/><rect x="415.0" y="340.0" width="30.0" height="9.0" rx="0" fill="#90a4ae" stroke="#455a64" stroke-width="1.4"/><line x1="438.0" y1="314.0" x2="438.0" y2="332.0" stroke="#ef6c00" stroke-width="3.2"/><line x1="422.0" y1="292.0" x2="422.0" y2="310.0" stroke="#ef6c00" stroke-width="3.2"/><rect x="476.0" y="312.9" width="22.0" height="20.2" rx="0" fill="#fff" stroke="none" stroke-width="0"/><rect x="482.0" y="290.9" width="22.0" height="20.2" rx="0" fill="#fff" stroke="none" stroke-width="0"/><rect x="482.0" y="284.0" width="16.0" height="56.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.5"/><rect x="475.0" y="275.0" width="30.0" height="9.0" rx="0" fill="#90a4ae" stroke="#455a64" stroke-width="1.4"/><rect x="475.0" y="340.0" width="30.0" height="9.0" rx="0" fill="#90a4ae" stroke="#455a64" stroke-width="1.4"/><line x1="498.0" y1="314.0" x2="498.0" y2="332.0" stroke="#ef6c00" stroke-width="3.2"/><line x1="482.0" y1="292.0" x2="482.0" y2="310.0" stroke="#ef6c00" stroke-width="3.2"/><line x1="340.0" y1="312.0" x2="520.0" y2="312.0" stroke="#00838f" stroke-width="2.4" stroke-dasharray="2,0"/><line x1="359.0" y1="312.0" x2="381.0" y2="312.0" stroke="#6a1b9a" stroke-width="2.6" stroke-dasharray="4,2"/><line x1="419.0" y1="312.0" x2="441.0" y2="312.0" stroke="#6a1b9a" stroke-width="2.6" stroke-dasharray="4,2"/><line x1="479.0" y1="312.0" x2="501.0" y2="312.0" stroke="#6a1b9a" stroke-width="2.6" stroke-dasharray="4,2"/><line x1="68.0" y1="323.0" x2="22.0" y2="323.0" stroke="#c62828" stroke-width="3" marker-end="url(#f11-r)"/><line x1="792.0" y1="301.0" x2="850.0" y2="301.0" stroke="#c62828" stroke-width="3" marker-end="url(#f11-r)"/><circle cx="430.0" cy="372.0" r="10.0" fill="#6a1b9a" stroke="#6a1b9a" stroke-width="1"/><text x="430.0" y="376.5" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700"><tspan>3</tspan></text><line x1="430.0" y1="362.0" x2="430.0" y2="313.0" stroke="#6a1b9a" stroke-width="1"/><circle cx="510.0" cy="372.0" r="10.0" fill="#ef6c00" stroke="#ef6c00" stroke-width="1"/><text x="510.0" y="376.5" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700"><tspan>4</tspan></text><line x1="503.0" y1="364.0" x2="498.0" y2="326.0" stroke="#ef6c00" stroke-width="1"/><circle cx="330.0" cy="372.0" r="10.0" fill="#00838f" stroke="#00838f" stroke-width="1"/><text x="330.0" y="376.5" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700"><tspan>5</tspan></text><line x1="337.0" y1="363.0" x2="355.0" y2="313.0" stroke="#00838f" stroke-width="1"/><circle cx="40.0" cy="406.0" r="9.0" fill="#2e7d32" stroke="#2e7d32" stroke-width="1"/><text x="40.0" y="410.5" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700"><tspan>0</tspan></text><text x="56.0" y="410.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>全斷面降伏 GSY（孔外，φ=0.90）</tspan></text><circle cx="460.0" cy="406.0" r="9.0" fill="#c62828" stroke="#c62828" stroke-width="1"/><text x="460.0" y="410.5" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700"><tspan>1</tspan></text><text x="476.0" y="410.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>淨斷面斷裂 NSF（過孔斷面；A、B 各驗）</tspan></text><circle cx="40.0" cy="432.0" r="9.0" fill="#6a1b9a" stroke="#6a1b9a" stroke-width="1"/><text x="40.0" y="436.5" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700"><tspan>2</tspan></text><text x="56.0" y="436.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>塊狀剪力 BSR（A 板端被撕下的塊）</tspan></text><circle cx="460.0" cy="432.0" r="9.0" fill="#6a1b9a" stroke="#6a1b9a" stroke-width="1"/><text x="460.0" y="436.5" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700"><tspan>3</tspan></text><text x="476.0" y="436.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>螺栓剪斷（A／B 交界的剪力面）</tspan></text><circle cx="40.0" cy="458.0" r="9.0" fill="#ef6c00" stroke="#ef6c00" stroke-width="1"/><text x="40.0" y="462.5" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700"><tspan>4</tspan></text><text x="56.0" y="462.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>孔壁承壓／撕裂（孔壁朝板端那一側）</tspan></text><circle cx="460.0" cy="458.0" r="9.0" fill="#00838f" stroke="#00838f" stroke-width="1"/><text x="460.0" y="462.5" font-size="12.5" fill="#fff" text-anchor="middle" font-weight="700"><tspan>5</tspan></text><text x="476.0" y="462.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>接觸面滑動（僅摩阻型）</tspan></text></svg>
+<div class="cap">圖 1-1　螺栓搭接的六個關卡（上：平面；下：立面）。⓪ 是唯一的延性項；① 淨斷面要在 A、B 各自「力量還沒交出去的那一排孔」驗（圖示 B 板）；② 破壞塊兩側是被<b>剪</b>的面、後方是被<b>拉</b>的面；③④⑤ 只有在立面才看得到。注意承壓貼住的孔壁永遠是朝<b>板端</b>那一側 —— 這就是 §4.3 撕裂公式要用淨邊距 \(L_c\) 的原因。</div>
+</div>
+
+<table>
+<thead><tr><th>#</th><th>極限狀態</th><th>發生在哪個面</th><th>剪或拉</th><th>LRFD 公式</th><th>φ</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>淨斷面斷裂（NSF）</td><td>母材過孔的斷面</td><td>拉（斷裂）</td><td>\(F_u A_e = F_u\,U A_n\)</td><td>0.75</td></tr>
+<tr><td>2</td><td>塊狀剪力（BSR）</td><td>兩側剪力面 ＋ 後方拉力面</td><td>剪＋拉</td><td>\(0.6F_u A_{nv} + U_{bs}F_u A_{nt}\)（另有上限式）</td><td>0.75</td></tr>
+<tr><td>3</td><td>螺栓剪斷</td><td>螺栓桿的剪力面</td><td>剪</td><td>\(F_{nv} A_b n_s\)</td><td>0.75</td></tr>
+<tr><td>4</td><td>孔壁承壓／撕裂</td><td>孔前方的板材</td><td>局部壓陷</td><td>\(2.4F_u d t\)（邊距足）／\(1.2F_u L_c t\)（邊距不足）</td><td>0.75</td></tr>
+<tr><td>5</td><td>滑動（僅摩阻型）</td><td>兩板的接觸面</td><td>摩擦</td><td>\(\mu D_u h_{sc} T_b n_s\)</td><td>1.0／0.85</td></tr>
+<tr><td>0</td><td>母材全斷面降伏（GSY）</td><td>接合區外的母材</td><td>拉（降伏）</td><td>\(F_y A_g\)</td><td>0.90</td></tr>
+</tbody>
+</table>
+
+<h3>1.2 銲接接合：換手變成三站</h3>
+
+<p>銲接沒有孔，所以「淨斷面」與「承壓」兩站消失了，但多出<b>材料</b>的問題 —— 銲道是現場熔出來的新金屬，
+它和旁邊被熱過一遍的母材（熱影響區 HAZ）都是新的弱點：</p>
+
+<table>
+<thead><tr><th>#</th><th>極限狀態</th><th>發生位置</th><th>強度控制</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>銲喉剪斷</td><td>填角銲 45° 最小斷面（有效喉）</td><td>銲材：\(0.6F_{EXX}\times 0.707w\times L\)</td></tr>
+<tr><td>2</td><td>母材熔合線剪斷</td><td>銲道與母材的交界</td><td>母材：\(0.6F_u \times t \times L\)</td></tr>
+<tr><td>3</td><td>HAZ 脆裂／層狀撕裂</td><td>熱影響區、母材厚度方向</td><td>韌性問題，非強度公式可涵蓋（§9）</td></tr>
+<tr><td>4</td><td>母材淨斷面</td><td>銲接接合仍要驗，但 \(A_n = A_g\)（無孔）</td><td>\(F_u A_e = F_u\,U A_g\)</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>陷阱：銲接接合就不用算淨斷面了？</b>錯。銲接沒有孔，所以 \(A_n = A_g\)，
+但<b>剪力遲滯照樣存在</b>（只連一肢就是只連一肢，跟用什麼接沒關係），所以 \(A_e = U A_g\) 仍需計算。
+出自 <a class="qlink" href="problems-view/SS-2024-2.html" target="_blank">SS-2024-2</a>（圓管以縱向填角銲連接）。
+</div>
+
+<h3>1.3 為什麼還有一條「最小接合強度」規定</h3>
+
+<p>把上面的清單算完，你得到的是「這個接合能傳多少力」。但規範還會再壓一條下限：</p>
+
+<div class="box">
+<b>最小接合強度規定</b>（台灣鋼構規範／AISC 精神一致）：
+<ul>
+<li>一般接合：設計強度不得小於 <b>120 kN</b>（約 12 tf）</li>
+<li><b>續接（splice）</b>：不得小於被續接構材強度的一定比例（考題常見「<b>不得小於構材強度之一半</b>」）</li>
+<li>耐震接頭：需承受構材<b>超強</b>後的力（× \(R_y\) 或 × 1.25，見 §7）</li>
+</ul>
+</div>
+
+<div class="why">
+<b>為什麼要有下限？</b>因為接合是<b>脆性</b>的、而構材是<b>延性</b>的。
+如果接合比構材弱，破壞就會發生在沒有預警的那一端 —— 這叫「弱接合強構材」，是設計上的災難。
+規範用一條下限強迫破壞順序倒過來：<b>先讓構材降伏（看得見、變形大），接合始終保持完整</b>。
+這就是接合版的能力設計（Capacity Design）。
+<br><br><b>考試意義</b>：看到「續接」兩個字，第一個反射動作是去算 \(0.5\times\) 構材強度，
+再和題目給的 \(V_w\)、\(M_w\) 比大小取大者當設計力。
+只用題目給的內力去設計 = 直接扣分。出自 <a class="qlink" href="problems-view/SS-2020-4.html" target="_blank">SS-2020-4</a>。
+</div>
+
+<div class="box" style="border-left:5px solid var(--ac)">
+<b>§1 因果鏈</b>：力量必須換手 → 每一次換手產生一個新的破壞面 → 面有剪／拉之分、有降伏／斷裂之分
+→ 每個面一條公式 → 設計強度取最小值 → 再壓一條「不得低於構材強度」的下限。
+</div>
+</section>
+<section id="s2">
+<h2>§2　兩把尺：0.6 是什麼、\(F_y\) 與 \(F_u\) 怎麼選、\(\phi\) 為什麼不一樣</h2>
+
+<div class="lead">接合章節看起來有二十條公式，其實只有兩把尺在量：<b>「剪還是拉」決定要不要乘 0.6</b>；
+<b>「降伏還是斷裂」決定用 \(F_y\) 配毛面積、還是 \(F_u\) 配淨面積</b>。剩下的只是把材料代號換掉。</div>
+
+<h3>2.1 為什麼是 0.6 —— von Mises 的 \(1/\sqrt{3}\)</h3>
+
+<p>金屬的降伏準則是 von Mises（畸變能準則）。單軸拉伸時降伏發生在 \(\sigma = F_y\)；
+換成<b>純剪</b>狀態，同樣的畸變能只需要</p>
+
+$$\tau_y = \frac{F_y}{\sqrt{3}} = 0.577\,F_y \;\approx\; 0.6\,F_y$$
+
+<p>把 \(F_y\) 換成 \(F_u\)，就是<b>剪力斷裂</b>；把 \(F_u\) 換成銲材強度 \(F_{EXX}\)，就是<b>銲喉剪斷</b>。
+三者是同一條式子的三種材料代號：</p>
+
+<table>
+<thead><tr><th>用在哪裡</th><th>式子</th><th>物理意義</th><th>出現於</th></tr></thead>
+<tbody>
+<tr><td>板材剪力降伏</td><td>\(0.6F_y A_{gv}\)</td><td>剪力面整片降伏（毛面積，尚未斷）</td><td>塊狀剪力上限式、腹板剪力、接合鈑</td></tr>
+<tr><td>板材剪力斷裂</td><td>\(0.6F_u A_{nv}\)</td><td>剪力面真的撕開（淨面積）</td><td>塊狀剪力第一式</td></tr>
+<tr><td>銲喉剪斷</td><td>\(0.6F_{EXX}\,t_e L\)</td><td>銲材沿 45° 喉部剪斷</td><td>所有填角銲設計</td></tr>
+<tr><td>螺栓剪斷</td><td>\(F_{nv}A_b\)（\(F_{nv}\approx 0.5\!\sim\!0.6F_u^{bolt}\)）</td><td>規範已把 0.6 與長接合折減併入 \(F_{nv}\) 表</td><td>承壓型螺栓</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>拉力面為什麼從來不乘 0.6？</b>因為 0.6 是「剪」的折價。拉力面就是被拉開的，直接用 \(F_u A_{nt}\)。
+所以塊狀剪力那兩條看起來很怪的混合式，其實只是「剪的那一項乘 0.6、拉的那一項不乘」——
+你不需要背它，只要能在圖上指出哪個面被剪、哪個面被拉。
+</div>
+
+<h3>2.2 \(F_y\) 配毛面積、\(F_u\) 配淨面積 —— 為什麼一定是這樣配</h3>
+
+<p>這個配對常被當成規定硬記，但它有很實在的理由：</p>
+
+<div class="grid2">
+<div class="tens">
+<b>降伏 → \(F_y\) ＋ 毛面積 \(A_g\)</b><br>
+降伏是<b>整段</b>構材的事。一旦到 \(F_y\)，應變迅速沿整個長度發展、伸長量以公分計，
+孔那一小段（幾公分）的影響可以忽略，所以用全斷面。<br>
+<span style="color:#1b5e20">破壞看得見 → \(\phi = 0.90\)</span>
+</div>
+<div class="comp">
+<b>斷裂 → \(F_u\) ＋ 淨面積 \(A_n\)</b><br>
+斷裂是<b>一個斷面</b>的事，只發生在最弱的那一片。孔削掉多少就是少多少，
+而且局部應力集中讓那一段先進入應變硬化，所以用 \(F_u\) 配淨面積。<br>
+<span style="color:#b71c1c">破壞沒有預警 → \(\phi = 0.75\)</span>
+</div>
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="延性降伏與脆性斷裂的載重-變形曲線" font-family="inherit"><defs><marker id="f21-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker></defs><line x1="80.0" y1="290.0" x2="600.0" y2="290.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#f21-k)"/><line x1="80.0" y1="290.0" x2="80.0" y2="30.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#f21-k)"/><text x="598.0" y="310.0" font-size="12.5" fill="#607d8b" text-anchor="end"><tspan>伸長量 Δ</tspan></text><text x="72.0" y="26.0" font-size="12.5" fill="#607d8b" text-anchor="start"><tspan>載重 P</tspan></text><polyline points="80.0,290.0 110.0,146.0 170.0,146.0 175.5,142.9 181.0,139.9 186.5,137.0 192.0,134.1 197.5,131.4 203.0,128.7 208.5,126.1 214.0,123.5 219.5,121.1 225.0,118.7 230.5,116.4 236.0,114.2 241.5,112.0 247.0,110.0 252.5,108.0 258.0,106.1 263.5,104.2 269.0,102.5 274.5,100.8 280.0,99.2 285.5,97.7 291.0,96.2 296.5,94.9 302.0,93.6 307.5,92.4 313.0,91.2 318.5,90.2 324.0,89.2 329.5,88.3 335.0,87.5 340.5,86.8 346.0,86.1 351.5,85.5 357.0,85.0 362.5,84.6 368.0,84.2 373.5,84.0 379.0,83.8 384.5,83.6 390.0,83.6 395.5,83.8 401.0,84.3 406.5,85.0 412.0,85.8 417.5,86.7 423.0,87.8 428.5,89.0 434.0,90.2 439.5,91.6 445.0,93.1 450.5,94.7 456.0,96.3 461.5,98.1 467.0,99.9 472.5,101.8 478.0,103.8 483.5,105.8 489.0,107.9 494.5,110.1 500.0,112.4" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linejoin="round"/><circle cx="500.0" cy="112.4" r="5.0" fill="#2e7d32" stroke="#2e7d32" stroke-width="1.5"/><text x="508.0" y="116.4" font-size="12" fill="#2e7d32" text-anchor="start"><tspan>斷</tspan></text><line x1="110.0" y1="146.0" x2="110.0" y2="290.0" stroke="#2e7d32" stroke-width="1" stroke-dasharray="3,3"/><text x="110.0" y="306.0" font-size="12" fill="#2e7d32" text-anchor="middle"><tspan>Δ</tspan><tspan dy="3.8" font-size="8.6">y</tspan><tspan dy="-3.8"></tspan></text><text x="280.0" y="69.2" font-size="13" fill="#2e7d32" text-anchor="middle" font-weight="700"><tspan>延性（降伏 F</tspan><tspan dy="4.2" font-size="9.4">y</tspan><tspan dy="-4.2">·A</tspan><tspan dy="4.2" font-size="9.4">g</tspan><tspan dy="-4.2">）：降伏後還走很長一段</tspan></text><line x1="80.0" y1="146.0" x2="110.0" y2="146.0" stroke="#2e7d32" stroke-width="1" stroke-dasharray="3,3"/><text x="74.0" y="150.0" font-size="12" fill="#2e7d32" text-anchor="end"><tspan>P</tspan><tspan dy="3.8" font-size="8.6">y</tspan><tspan dy="-3.8"></tspan></text><polyline points="80.0,290.0 115.0,122.0" fill="none" stroke="#c62828" stroke-width="3" stroke-linejoin="round"/><line x1="115.0" y1="122.0" x2="117.5" y2="290.0" stroke="#c62828" stroke-width="2" stroke-dasharray="5,3"/><circle cx="115.0" cy="122.0" r="5.0" fill="#c62828" stroke="#c62828" stroke-width="1.5"/><text x="125.0" y="189.2" font-size="13" fill="#c62828" text-anchor="start" font-weight="700"><tspan>脆性（斷裂 F</tspan><tspan dy="4.2" font-size="9.4">u</tspan><tspan dy="-4.2">·A</tspan><tspan dy="4.2" font-size="9.4">n</tspan><tspan dy="-4.2">）：到頂就掉</tspan></text><text x="125.0" y="209.2" font-size="12" fill="#c62828" text-anchor="start"><tspan>可用變形 ≈ 0，沒有警告</tspan></text><rect x="612.0" y="52.0" width="250.0" height="104.0" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/><text x="628.0" y="78.0" font-size="13" fill="#2e7d32" text-anchor="start"><tspan>變形大、看得見、可預警</tspan></text><text x="628.0" y="100.0" font-size="13" fill="#2e7d32" text-anchor="start"><tspan>F</tspan><tspan dy="4.2" font-size="9.4">y</tspan><tspan dy="-4.2"> 離散小 → 不確定性小</tspan></text><text x="628.0" y="132.0" font-size="16" fill="#2e7d32" text-anchor="start" font-weight="700"><tspan>φ = 0.90（Ω = 1.67）</tspan></text><rect x="612.0" y="176.0" width="250.0" height="104.0" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.5"/><text x="628.0" y="202.0" font-size="13" fill="#c62828" text-anchor="start"><tspan>無預警、F</tspan><tspan dy="4.2" font-size="9.4">u</tspan><tspan dy="-4.2"> 離散較大</tspan></text><text x="628.0" y="224.0" font-size="13" fill="#c62828" text-anchor="start"><tspan>→ 必須更保守</tspan></text><text x="628.0" y="256.0" font-size="16" fill="#c62828" text-anchor="start" font-weight="700"><tspan>φ = 0.75（Ω = 2.00）</tspan></text></svg>
+<div class="cap">圖 2-1　\(\phi\) 值不是查表背下來的數字，而是「破壞有沒有預警」的量化。
+本單元幾乎所有極限狀態都落在紅色那一組（螺栓、銲道、承壓、斷裂、塊狀剪力全部 \(\phi = 0.75\)），
+唯一例外是母材全斷面降伏（\(\phi=0.90\)）—— 這也剛好解釋了 §1.3「為什麼接合要比構材強」。</div>
+</div>
+
+<table>
+<thead><tr><th>極限狀態</th><th>\(\phi\)</th><th>延性？</th><th>為什麼</th></tr></thead>
+<tbody>
+<tr><td>母材全斷面降伏</td><td>0.90</td><td>延性</td><td>變形明顯、\(F_y\) 離散小</td></tr>
+<tr><td>淨斷面斷裂</td><td>0.75</td><td>脆性</td><td>無預警，且 \(F_u\) 離散性大於 \(F_y\)</td></tr>
+<tr><td>塊狀剪力</td><td>0.75</td><td>脆性</td><td>撕裂型破壞</td></tr>
+<tr><td>螺栓剪斷／承壓</td><td>0.75</td><td>局部脆性</td><td>局部行為，幾何與安裝品質影響大</td></tr>
+<tr><td>銲道（填角銲、PJP）</td><td>0.75</td><td>局部脆性</td><td>現場品質變異、缺陷不易察覺</td></tr>
+<tr><td>摩阻型滑動</td><td>1.00 / 0.85</td><td>不是強度破壞</td><td>「滑動」是功能失效，不是斷掉 → 見 §4.2</td></tr>
+</tbody>
+</table>
+
+<h3>2.3 ASD 版本：同一把尺，除以安全係數</h3>
+
+<p>台灣考題 ASD 與 LRFD 各佔約一半（本單元 ASD 6 題），所以兩套都要能寫。
+關鍵是<b>不要把 ASD 當另一套公式背</b> —— 它就是 LRFD 的標稱強度除以 \(\Omega\)：</p>
+
+<table>
+<thead><tr><th>項目</th><th>LRFD 設計強度</th><th>ASD 容許應力</th><th>隱含的 \(\Omega\)</th></tr></thead>
+<tbody>
+<tr><td>板材剪力</td><td>\(0.90\times 0.6F_y\)</td><td>\(F_v = 0.4F_y\)</td><td>\(0.6/0.4 = 1.5\)</td></tr>
+<tr><td>板材拉力（毛斷面）</td><td>\(0.90\,F_y\)</td><td>\(F_t = 0.6F_y\)</td><td>\(1/0.6 = 1.67\)</td></tr>
+<tr><td>填角銲（銲喉）</td><td>\(0.75\times 0.6F_{EXX} = 0.45F_{EXX}\)</td><td>\(f_w = 0.3F_{EXX}\)</td><td>\(0.6/0.3 = 2.0\)</td></tr>
+<tr><td>高強度螺栓剪力</td><td>\(0.75\,F_{nv}\)</td><td>\(F_{va}\)（規範直接給，如 A490 取 2.8 tf/cm²）</td><td>≈ 2.0</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>一個能救命的自我檢查</b>：\(\dfrac{\text{LRFD 銲道}}{\text{ASD 銲道}} = \dfrac{0.45F_{EXX}}{0.30F_{EXX}} = 1.5\)，
+而 LRFD 的平均載重因數 \(\dfrac{1.2D+1.6L}{D+L}\) 也大約落在 \(1.2\!\sim\!1.6\)（見 <code>code-ref/asd-1.6-coefficient</code>）。
+<br>兩邊剛好抵掉 —— 所以<b>同一個接合用 LRFD 與 ASD 設計，會算出幾乎一樣的銲腳尺寸</b>（§5 範例 C 會實際驗證）。
+若你兩種方法算出來差了 2 倍以上，一定是某一邊漏乘或多乘了係數。
+</div>
+
+<h3>2.4 三個極限檢查，忘記公式時能自救</h3>
+
+<div class="box">
+<b>① 0.6 的方向檢查</b>：剪力強度必須<b>小於</b>拉力強度。若你寫出 \(1.6F_y\)、\(0.06F_y\) 之類的係數，方向就錯了。<br>
+<b>② \(U\) 的邊界檢查</b>：\(U = 1-\bar{x}/L\)。\(\bar{x}=0\)（形心就在連接面上）→ \(U=1\)；
+\(L\to\infty\)（連接很長）→ \(U\to 1\)。兩個極限都必須回到「沒有遲滯」。若算出 \(U>1\)，取 1.0。<br>
+<b>③ 塊狀剪力的量綱檢查</b>：\(0.6F_u A_{nv}\) 與 \(F_u A_{nt}\) 都是<b>力</b>（tf 或 kN），可以相加。
+若你把面積和應力加在一起，馬上就會看出量綱不對。
+</div>
+
+<div class="box" style="border-left:5px solid var(--ac)">
+<b>§2 因果鏈</b>：von Mises → 純剪只需 \(F/\sqrt3\) → 剪的項一律乘 0.6 →
+降伏是整段的事（\(F_y A_g\)）、斷裂是一個斷面的事（\(F_u A_n\)）→
+斷裂沒有預警 → \(\phi\) 從 0.90 降到 0.75 → ASD 就是同一組標稱強度除以 \(\Omega\)（1.5～2.0）。
+</div>
+</section>
+<section id="s3">
+<h2>§3　拉力接合端：剪力遲滯、淨斷面、塊狀剪力</h2>
+
+<div class="lead">本單元最高頻的組合（26 題中 10 題涉及）。三個極限狀態爭同一個位置，
+而它們爭的其實是同一個問題：<b>接合區的力，有沒有辦法均勻地分佈到整個斷面上？</b></div>
+
+<h3>3.1 剪力遲滯：力量不會轉直角</h3>
+
+<p>想像你抓著一支角鋼的<b>一隻肢</b>用力拉。力必須先沿著連接肢傳進來，再<b>橫向剪過去</b>才能傳到另一隻肢。
+剪力傳遞需要距離，所以在接合端附近，未連接的那一肢<b>來不及分擔到它該分擔的份</b> —— 這就是剪力遲滯（Shear Lag）。</p>
+
+<div class="fig">
+<svg viewBox="0 0 880 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="剪力遲滯：角鋼斷面與應力分佈" font-family="inherit"><defs><marker id="f31-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker><marker id="f31-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/></marker></defs><text x="30.0" y="24.0" font-size="13" fill="#263238" text-anchor="start" font-weight="700"><tspan>(a) 斷面 L125×125×12（比例 1:1 縮放）</tspan></text><rect x="129.7" y="34.8" width="20.3" height="215.2" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.4"/><text x="123.7" y="244.0" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>接合板</tspan></text><polygon points="150.0,240.0 150.0,58.8 167.4,58.8 167.4,222.6 331.2,222.6 331.2,240.0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.8" stroke-linejoin="round"/><rect x="121.7" y="158.8" width="53.7" height="31.9" rx="0" fill="#b0bec5" stroke="#455a64" stroke-width="1.2"/><line x1="113.7" y1="174.8" x2="183.4" y2="174.8" stroke="#607d8b" stroke-width="0.8" stroke-dasharray="6,3"/><text x="115.7" y="156.8" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>螺栓線</tspan></text><text x="115.7" y="170.8" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>（距肢背 45）</tspan></text><circle cx="201.2" cy="188.8" r="5.0" fill="#c62828" stroke="#c62828" stroke-width="1.5"/><text x="209.2" y="206.8" font-size="12" fill="#c62828" text-anchor="start"><tspan>形心 C</tspan></text><line x1="150.0" y1="188.8" x2="201.2" y2="188.8" stroke="#c62828" stroke-width="1" stroke-dasharray="3,2"/><line x1="150.0" y1="262.0" x2="201.2" y2="262.0" stroke="#c62828" stroke-width="1"/><line x1="150.0" y1="257.0" x2="150.0" y2="267.0" stroke="#c62828" stroke-width="1"/><line x1="201.2" y1="257.0" x2="201.2" y2="267.0" stroke="#c62828" stroke-width="1"/><text x="175.6" y="280.0" font-size="12.5" fill="#c62828" text-anchor="middle"><tspan font-family=""Times New Roman",Times,serif" font-size="14.0">x̄</tspan><tspan> = 35.3 mm</tspan></text><line x1="150.0" y1="244.0" x2="150.0" y2="268.0" stroke="#c62828" stroke-width="0.8"/><line x1="201.2" y1="194.8" x2="201.2" y2="268.0" stroke="#c62828" stroke-width="0.8" stroke-dasharray="2,2"/><text x="162.7" y="50.8" font-size="12" fill="#1565c0" text-anchor="start"><tspan>連接肢</tspan></text><text x="331.2" y="214.6" font-size="12" fill="#1565c0" text-anchor="end"><tspan>外伸肢</tspan></text><text x="30.0" y="312.0" font-size="12" fill="#607d8b" text-anchor="start"><tspan font-family=""Times New Roman",Times,serif" font-size="13.4">x̄</tspan><tspan>：形心到「連接面」（肢背貼接合板的那一面）</tspan></text><text x="30.0" y="330.0" font-size="12" fill="#607d8b" text-anchor="start"><tspan>的垂直距離 —— 不是到螺栓線。</tspan></text><text x="400.0" y="24.0" font-size="13" fill="#263238" text-anchor="start" font-weight="700"><tspan>(b) 最後一排螺栓處的斷面應力（攤平兩肢）</tspan></text><line x1="430.0" y1="250.0" x2="840.0" y2="250.0" stroke="#455a64" stroke-width="1.4" marker-end="url(#f31-k)"/><line x1="430.0" y1="250.0" x2="430.0" y2="76.0" stroke="#455a64" stroke-width="1.4"/><line x1="620.0" y1="254.0" x2="620.0" y2="84.0" stroke="#607d8b" stroke-width="1" stroke-dasharray="2,3"/><text x="525.0" y="270.0" font-size="12" fill="#1565c0" text-anchor="middle"><tspan>連接肢（125）</tspan></text><text x="715.0" y="270.0" font-size="12" fill="#1565c0" text-anchor="middle"><tspan>外伸肢（125）</tspan></text><text x="620.0" y="288.0" font-size="11" fill="#607d8b" text-anchor="middle"><tspan>角隅</tspan></text><polygon points="430.0,90.0 620.0,90.0 810.0,197.5 810.0,250.0 430.0,250.0" fill="#bbdefb" stroke="#1565c0" stroke-width="2" stroke-linejoin="round"/><line x1="430.0" y1="90.0" x2="826.0" y2="90.0" stroke="#c62828" stroke-width="1.4" stroke-dasharray="6,3"/><text x="424.0" y="94.0" font-size="13" fill="#c62828" text-anchor="end"><tspan>F</tspan><tspan dy="4.2" font-size="9.4">u</tspan><tspan dy="-4.2"></tspan></text><line x1="430.0" y1="116.9" x2="826.0" y2="116.9" stroke="#6a1b9a" stroke-width="1.8" stroke-dasharray="8,4"/><text x="424.0" y="120.9" font-size="13" fill="#6a1b9a" text-anchor="end"><tspan>U·F</tspan><tspan dy="4.2" font-size="9.4">u</tspan><tspan dy="-4.2"></tspan></text><text x="830.0" y="120.9" font-size="12" fill="#6a1b9a" text-anchor="start"><tspan>平均</tspan></text><text x="816.0" y="189.5" font-size="12" fill="#1565c0" text-anchor="end"><tspan>≈0.33F</tspan><tspan dy="3.8" font-size="8.6">u</tspan><tspan dy="-3.8"></tspan></text><text x="721.0" y="109.2" font-size="12" fill="#ef6c00" text-anchor="middle" font-weight="700"><tspan>外伸肢「來不及」分到力</tspan></text><text x="525.0" y="170.0" font-size="12.5" fill="#0d47a1" text-anchor="middle" font-weight="700"><tspan>連接肢先到 F</tspan><tspan dy="4.0" font-size="9.0">u</tspan><tspan dy="-4.0"></tspan></text><text x="400.0" y="300.0" font-size="12" fill="#607d8b" text-anchor="start"><tspan>斷裂的定義是「最大應力點到 F</tspan><tspan dy="3.8" font-size="8.6">u</tspan><tspan dy="-3.8">」。此時全斷面平均只有 U·F</tspan><tspan dy="3.8" font-size="8.6">u</tspan><tspan dy="-3.8">，</tspan></text><text x="400.0" y="318.0" font-size="12" fill="#607d8b" text-anchor="start"><tspan>故 P</tspan><tspan dy="3.8" font-size="8.6">n</tspan><tspan dy="-3.8"> = F</tspan><tspan dy="3.8" font-size="8.6">u</tspan><tspan dy="-3.8">·(U·A</tspan><tspan dy="3.8" font-size="8.6">n</tspan><tspan dy="-3.8">)。圖以範例 A 的 U = 0.832、外伸肢線性遞減反推，</tspan></text><text x="400.0" y="336.0" font-size="12" fill="#607d8b" text-anchor="start"><tspan>屬示意分佈（真實分佈還受孔位應力集中影響）。</tspan></text></svg>
+<div class="cap">圖 3-1　剪力遲滯，以範例 A 的 L125×125×12 實尺寸繪製。(a) \(\bar x\) 是形心到<b>連接面</b>（肢背貼接合板的那一面）的距離 35.3 mm，不是到螺栓線；(b) 斷裂發生在連接肢先到 \(F_u\) 的瞬間，此時全斷面平均應力只有 \(U F_u\) —— 所以 \(U\) 就是「實際分佈面積」佔「均勻 \(F_u\) 面積」的比例。</div>
+</div>
+
+<h3>3.2 \(U = 1-\bar{x}/L\)：兩個參數各自的物理意義</h3>
+
+<div class="why">
+<b>這條公式不是理論推導，是 Munse &amp; Chesson（1963）大量拉力試件試驗的迴歸結果</b>
+（見 <code>code-ref/shear-lag-u-basis</code>）。但它的兩個參數各有很清楚的物理意義：
+<ul>
+<li><b>\(\bar{x}\)（形心到連接面的垂直距離）＝ 偏心程度</b>。\(\bar{x}\) 越大，斷面的「重心」離施力面越遠，
+力要繞的路越長 → 遲滯越嚴重。</li>
+<li><b>\(L\)（接合長度）＝ 剪力有多少距離可以把力送過去</b>。\(L\) 越長，橫向剪力有充分的長度把力送到外伸肢 → 遲滯越輕。</li>
+</ul>
+所以 \(U\) 的形式是 \(\bar{x}/L\) 的函數，這件事本身是可以理解的：<b>偏心量除以可用長度＝無因次的遲滯程度</b>。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 820 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="U 隨接合長度比變化的精確曲線" font-family="inherit"><defs><marker id="f32-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker></defs><line x1="90.0" y1="270.0" x2="730.0" y2="270.0" stroke="#eceff1" stroke-width="1"/><text x="82.0" y="274.0" font-size="12" fill="#607d8b" text-anchor="end"><tspan>0.0</tspan></text><line x1="90.0" y1="224.0" x2="730.0" y2="224.0" stroke="#eceff1" stroke-width="1"/><text x="82.0" y="228.0" font-size="12" fill="#607d8b" text-anchor="end"><tspan>0.2</tspan></text><line x1="90.0" y1="178.0" x2="730.0" y2="178.0" stroke="#eceff1" stroke-width="1"/><text x="82.0" y="182.0" font-size="12" fill="#607d8b" text-anchor="end"><tspan>0.4</tspan></text><line x1="90.0" y1="132.0" x2="730.0" y2="132.0" stroke="#eceff1" stroke-width="1"/><text x="82.0" y="136.0" font-size="12" fill="#607d8b" text-anchor="end"><tspan>0.6</tspan></text><line x1="90.0" y1="86.0" x2="730.0" y2="86.0" stroke="#eceff1" stroke-width="1"/><text x="82.0" y="90.0" font-size="12" fill="#607d8b" text-anchor="end"><tspan>0.8</tspan></text><line x1="90.0" y1="40.0" x2="730.0" y2="40.0" stroke="#eceff1" stroke-width="1"/><text x="82.0" y="44.0" font-size="12" fill="#607d8b" text-anchor="end"><tspan>1.0</tspan></text><line x1="90.0" y1="270.0" x2="90.0" y2="275.0" stroke="#455a64" stroke-width="1"/><text x="90.0" y="290.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>1</tspan></text><line x1="148.2" y1="270.0" x2="148.2" y2="275.0" stroke="#455a64" stroke-width="1"/><text x="148.2" y="290.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>2</tspan></text><line x1="206.4" y1="270.0" x2="206.4" y2="275.0" stroke="#455a64" stroke-width="1"/><text x="206.4" y="290.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>3</tspan></text><line x1="264.5" y1="270.0" x2="264.5" y2="275.0" stroke="#455a64" stroke-width="1"/><text x="264.5" y="290.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>4</tspan></text><line x1="322.7" y1="270.0" x2="322.7" y2="275.0" stroke="#455a64" stroke-width="1"/><text x="322.7" y="290.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>5</tspan></text><line x1="380.9" y1="270.0" x2="380.9" y2="275.0" stroke="#455a64" stroke-width="1"/><text x="380.9" y="290.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>6</tspan></text><line x1="439.1" y1="270.0" x2="439.1" y2="275.0" stroke="#455a64" stroke-width="1"/><text x="439.1" y="290.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>7</tspan></text><line x1="497.3" y1="270.0" x2="497.3" y2="275.0" stroke="#455a64" stroke-width="1"/><text x="497.3" y="290.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>8</tspan></text><line x1="555.5" y1="270.0" x2="555.5" y2="275.0" stroke="#455a64" stroke-width="1"/><text x="555.5" y="290.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>9</tspan></text><line x1="613.6" y1="270.0" x2="613.6" y2="275.0" stroke="#455a64" stroke-width="1"/><text x="613.6" y="290.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>10</tspan></text><line x1="671.8" y1="270.0" x2="671.8" y2="275.0" stroke="#455a64" stroke-width="1"/><text x="671.8" y="290.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>11</tspan></text><line x1="730.0" y1="270.0" x2="730.0" y2="275.0" stroke="#455a64" stroke-width="1"/><text x="730.0" y="290.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>12</tspan></text><line x1="90.0" y1="270.0" x2="738.0" y2="270.0" stroke="#455a64" stroke-width="1.6"/><line x1="90.0" y1="270.0" x2="90.0" y2="21.6" stroke="#455a64" stroke-width="1.6"/><text x="410.0" y="312.0" font-size="13" fill="#263238" text-anchor="middle"><tspan>接合長度比 L / </tspan><tspan font-family=""Times New Roman",Times,serif" font-size="14.6">x̄</tspan><tspan>（無因次）</tspan></text><text x="34.0" y="155.0" font-size="15" fill="#263238" text-anchor="middle" font-family=""Times New Roman",Times,serif" font-style="italic"><tspan>U</tspan></text><line x1="90.0" y1="40.0" x2="730.0" y2="40.0" stroke="#607d8b" stroke-width="1.4" stroke-dasharray="6,4"/><text x="730.0" y="34.0" font-size="12" fill="#607d8b" text-anchor="end"><tspan>U = 1（無遲滯）</tspan></text><line x1="90.0" y1="86.0" x2="730.0" y2="86.0" stroke="#ef6c00" stroke-width="1.2" stroke-dasharray="3,4"/><text x="730.0" y="101.0" font-size="11.5" fill="#ef6c00" text-anchor="end"><tspan>查表 0.80（角鋼，≥4 顆）</tspan></text><line x1="90.0" y1="132.0" x2="730.0" y2="132.0" stroke="#ef6c00" stroke-width="1.2" stroke-dasharray="3,4"/><text x="730.0" y="147.0" font-size="11.5" fill="#ef6c00" text-anchor="end"><tspan>查表 0.60（角鋼，2～3 顆）</tspan></text><polyline points="90.0,270.0 92.9,259.0 95.8,249.1 98.7,240.0 101.6,231.7 104.5,224.0 107.5,216.9 110.4,210.4 113.3,204.3 116.2,198.6 119.1,193.3 122.0,188.4 124.9,183.8 127.8,179.4 130.7,175.3 133.6,171.4 136.5,167.8 139.5,164.3 142.4,161.1 145.3,157.9 148.2,155.0 151.1,152.2 154.0,149.5 156.9,147.0 159.8,144.5 162.7,142.2 165.6,140.0 168.5,137.9 171.5,135.8 174.4,133.9 177.3,132.0 180.2,130.2 183.1,128.5 186.0,126.8 188.9,125.2 191.8,123.6 194.7,122.1 197.6,120.7 200.5,119.3 203.5,118.0 206.4,116.7 209.3,115.4 212.2,114.2 215.1,113.0 218.0,111.9 220.9,110.8 223.8,109.7 226.7,108.7 229.6,107.6 232.5,106.7 235.5,105.7 238.4,104.8 241.3,103.9 244.2,103.0 247.1,102.2 250.0,101.3 252.9,100.5 255.8,99.7 258.7,99.0 261.6,98.2 264.5,97.5 267.5,96.8 270.4,96.1 273.3,95.4 276.2,94.8 279.1,94.1 282.0,93.5 284.9,92.9 287.8,92.3 290.7,91.7 293.6,91.1 296.5,90.5 299.5,90.0 302.4,89.5 305.3,88.9 308.2,88.4 311.1,87.9 314.0,87.4 316.9,86.9 319.8,86.5 322.7,86.0 325.6,85.5 328.5,85.1 331.5,84.7 334.4,84.2 337.3,83.8 340.2,83.4 343.1,83.0 346.0,82.6 348.9,82.2 351.8,81.8 354.7,81.4 357.6,81.1 360.5,80.7 363.5,80.4 366.4,80.0 369.3,79.7 372.2,79.3 375.1,79.0 378.0,78.7 380.9,78.3 383.8,78.0 386.7,77.7 389.6,77.4 392.5,77.1 395.5,76.8 398.4,76.5 401.3,76.2 404.2,75.9 407.1,75.7 410.0,75.4 412.9,75.1 415.8,74.8 418.7,74.6 421.6,74.3 424.5,74.1 427.5,73.8 430.4,73.6 433.3,73.3 436.2,73.1 439.1,72.9 442.0,72.6 444.9,72.4 447.8,72.2 450.7,71.9 453.6,71.7 456.5,71.5 459.5,71.3 462.4,71.1 465.3,70.9 468.2,70.7 471.1,70.5 474.0,70.3 476.9,70.1 479.8,69.9 482.7,69.7 485.6,69.5 488.5,69.3 491.5,69.1 494.4,68.9 497.3,68.8 500.2,68.6 503.1,68.4 506.0,68.2 508.9,68.0 511.8,67.9 514.7,67.7 517.6,67.5 520.5,67.4 523.5,67.2 526.4,67.1 529.3,66.9 532.2,66.7 535.1,66.6 538.0,66.4 540.9,66.3 543.8,66.1 546.7,66.0 549.6,65.8 552.5,65.7 555.5,65.6 558.4,65.4 561.3,65.3 564.2,65.1 567.1,65.0 570.0,64.9 572.9,64.7 575.8,64.6 578.7,64.5 581.6,64.3 584.5,64.2 587.5,64.1 590.4,64.0 593.3,63.8 596.2,63.7 599.1,63.6 602.0,63.5 604.9,63.4 607.8,63.2 610.7,63.1 613.6,63.0 616.5,62.9 619.5,62.8 622.4,62.7 625.3,62.5 628.2,62.4 631.1,62.3 634.0,62.2 636.9,62.1 639.8,62.0 642.7,61.9 645.6,61.8 648.5,61.7 651.5,61.6 654.4,61.5 657.3,61.4 660.2,61.3 663.1,61.2 666.0,61.1 668.9,61.0 671.8,60.9 674.7,60.8 677.6,60.7 680.5,60.6 683.5,60.5 686.4,60.4 689.3,60.4 692.2,60.3 695.1,60.2 698.0,60.1 700.9,60.0 703.8,59.9 706.7,59.8 709.6,59.7 712.5,59.7 715.5,59.6 718.4,59.5 721.3,59.4 724.2,59.3 727.1,59.2 730.0,59.2" fill="none" stroke="#1565c0" stroke-width="3" stroke-linejoin="round"/><circle cx="148.2" cy="155.0" r="5.5" fill="#c62828" stroke="#fff" stroke-width="1.5"/><text x="158.2" y="173.0" font-size="12.5" fill="#c62828" text-anchor="start" font-weight="700"><tspan>(2, 0.50) 嚴重遲滯</tspan></text><circle cx="264.5" cy="97.5" r="5.5" fill="#ef6c00" stroke="#fff" stroke-width="1.5"/><text x="272.5" y="115.5" font-size="12.5" fill="#ef6c00" text-anchor="start" font-weight="700"><tspan>(4, 0.75)</tspan></text><circle cx="377.9" cy="78.7" r="5.5" fill="#6a1b9a" stroke="#fff" stroke-width="1.5"/><text x="367.9" y="66.7" font-size="12.5" fill="#6a1b9a" text-anchor="end" font-weight="700"><tspan>範例 A：(5.95, 0.832)</tspan></text><circle cx="613.6" cy="63.0" r="5.5" fill="#2e7d32" stroke="#fff" stroke-width="1.5"/><text x="613.6" y="51.0" font-size="12.5" fill="#2e7d32" text-anchor="start" font-weight="700"><tspan>(10, 0.90)</tspan></text><rect x="420.0" y="167.4" width="300.0" height="62.0" rx="8" fill="#f3e5f5" stroke="#ce93d8" stroke-width="1.2"/><text x="434.0" y="187.4" font-size="13" fill="#6a1b9a" text-anchor="start" font-weight="700"><tspan>U = 1 − </tspan><tspan font-family=""Times New Roman",Times,serif" font-size="14.6">x̄</tspan><tspan>/L = 1 − 1/(L/</tspan><tspan font-family=""Times New Roman",Times,serif" font-size="14.6">x̄</tspan><tspan>)</tspan></text><text x="434.0" y="209.4" font-size="12" fill="#6a1b9a" text-anchor="start"><tspan>範例 A 算得 0.832 ＞ 查表 0.80 → 能算就用算的</tspan></text></svg>
+<div class="cap">圖 3-2　\(U = 1-\bar x/L\) 的精確曲線（標記點均落在曲線上）。曲線很快就趨近 1，代表<b>把接合做長一點是消除剪力遲滯最便宜的手段</b>；反過來說，短接合（\(L/\bar{x} < 3\)）的懲罰非常重。橘色虛線是角鋼的查表值：範例 A 算得 0.832，高於查表 0.80 —— 查表值是保守下限。</div>
+</div>
+
+<table>
+<thead><tr><th>斷面／連接方式</th><th>\(\bar{x}\) 怎麼取</th><th>規範查表值（無法算 \(\bar{x}\) 時）</th></tr></thead>
+<tbody>
+<tr><td>板件（直接連接）</td><td>\(\bar{x}=0\)</td><td>1.00</td></tr>
+<tr><td>W 型鋼，只連兩翼板</td><td>半個斷面的形心到翼板面</td><td>0.90（\(b_f \geq \tfrac23 d\)）／0.85</td></tr>
+<tr><td>W 型鋼，只連腹板</td><td>—</td><td>0.70</td></tr>
+<tr><td>WT／角鋼，4 排以上螺栓</td><td>形心到連接肢外面</td><td>0.80</td></tr>
+<tr><td>WT／角鋼，2～3 排螺栓</td><td>同上（短接合）</td><td>0.60</td></tr>
+<tr><td>槽鋼，只連腹板</td><td>形心到腹板外面</td><td>0.90（3 排以上）</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>陷阱：\(L\) 是接合長度，不是構材長度。</b>\(L\) = 沿拉力方向<b>最外兩排螺栓中心的距離</b>（銲接則為銲縫長度）。
+一排 4 顆、間距 7 cm 的接合，\(L = 3\times 7 = 21\) cm（三個間距，不是四個）。
+另外題目若給了斷面尺寸能算 \(\bar{x}\)，就<b>用公式不要查表</b> —— 查表值是保守下限，用公式才會拿到滿分。
+</div>
+
+<h3>3.3 塊狀剪力：把破壞塊「畫」出來</h3>
+
+<p>塊狀剪力（Block Shear Rupture）不是新公式，就是 §2 兩把尺的直接應用。它唯一的難點是<b>畫對破壞塊</b>。</p>
+
+<div class="fig">
+<svg viewBox="0 0 880 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="塊狀剪力破壞塊：範例A實尺寸與雙排螺栓示意" font-family="inherit"><defs><marker id="f33-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker><marker id="f33-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker></defs><text x="24.0" y="24.0" font-size="13" fill="#263238" text-anchor="start" font-weight="700"><tspan>(a) 範例 A：L125×125×12 的連接肢（攤平、實際比例）</tspan></text><rect x="74.0" y="120.0" width="396.0" height="150.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="1.6"/><line x1="74.0" y1="270.0" x2="470.0" y2="270.0" stroke="#1565c0" stroke-width="4"/><text x="78.0" y="288.0" font-size="11.5" fill="#1565c0" text-anchor="start"><tspan>肢背（外伸肢從這條邊長出去）</tspan></text><text x="78.0" y="112.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>肢趾（自由邊）</tspan></text><rect x="170.0" y="120.0" width="300.0" height="96.0" rx="0" fill="#fff8e1" stroke="none" stroke-width="0"/><line x1="170.0" y1="216.0" x2="470.0" y2="216.0" stroke="#2e7d32" stroke-width="3"/><line x1="170.0" y1="120.0" x2="170.0" y2="216.0" stroke="#c62828" stroke-width="3"/><circle cx="422.0" cy="216.0" r="15.0" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="338.0" cy="216.0" r="15.0" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="254.0" cy="216.0" r="15.0" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="170.0" cy="216.0" r="15.0" fill="#fff" stroke="#455a64" stroke-width="1.6"/><line x1="74.0" y1="216.0" x2="470.0" y2="216.0" stroke="#607d8b" stroke-width="0.6" stroke-dasharray="4,3"/><line x1="72.0" y1="195.0" x2="28.0" y2="195.0" stroke="#c62828" stroke-width="3" marker-end="url(#f33-r)"/><text x="44.0" y="181.0" font-size="14" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>T</tspan></text><line x1="422.0" y1="312.0" x2="470.0" y2="312.0" stroke="#607d8b" stroke-width="1"/><line x1="422.0" y1="307.0" x2="422.0" y2="317.0" stroke="#607d8b" stroke-width="1"/><line x1="470.0" y1="307.0" x2="470.0" y2="317.0" stroke="#607d8b" stroke-width="1"/><text x="446.0" y="307.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>40</tspan></text><line x1="338.0" y1="312.0" x2="422.0" y2="312.0" stroke="#607d8b" stroke-width="1"/><line x1="338.0" y1="307.0" x2="338.0" y2="317.0" stroke="#607d8b" stroke-width="1"/><line x1="422.0" y1="307.0" x2="422.0" y2="317.0" stroke="#607d8b" stroke-width="1"/><text x="380.0" y="307.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>70</tspan></text><line x1="254.0" y1="312.0" x2="338.0" y2="312.0" stroke="#607d8b" stroke-width="1"/><line x1="254.0" y1="307.0" x2="254.0" y2="317.0" stroke="#607d8b" stroke-width="1"/><line x1="338.0" y1="307.0" x2="338.0" y2="317.0" stroke="#607d8b" stroke-width="1"/><text x="296.0" y="307.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>70</tspan></text><line x1="170.0" y1="312.0" x2="254.0" y2="312.0" stroke="#607d8b" stroke-width="1"/><line x1="170.0" y1="307.0" x2="170.0" y2="317.0" stroke="#607d8b" stroke-width="1"/><line x1="254.0" y1="307.0" x2="254.0" y2="317.0" stroke="#607d8b" stroke-width="1"/><text x="212.0" y="307.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>70</tspan></text><line x1="492.0" y1="216.0" x2="492.0" y2="270.0" stroke="#607d8b" stroke-width="1"/><line x1="487.0" y1="216.0" x2="497.0" y2="216.0" stroke="#607d8b" stroke-width="1"/><line x1="487.0" y1="270.0" x2="497.0" y2="270.0" stroke="#607d8b" stroke-width="1"/><text x="499.0" y="247.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>45</tspan></text><line x1="492.0" y1="120.0" x2="492.0" y2="216.0" stroke="#607d8b" stroke-width="1"/><line x1="487.0" y1="120.0" x2="497.0" y2="120.0" stroke="#607d8b" stroke-width="1"/><line x1="487.0" y1="216.0" x2="497.0" y2="216.0" stroke="#607d8b" stroke-width="1"/><text x="499.0" y="172.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>80</tspan></text><text x="474.0" y="316.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>端部</tspan></text><text x="320.0" y="250.0" font-size="12.5" fill="#2e7d32" text-anchor="middle" font-weight="700"><tspan>剪力面 L</tspan><tspan dy="4.0" font-size="9.0">gv</tspan><tspan dy="-4.0"> = 4 + 3×7 = 25 cm</tspan></text><text x="164.0" y="146.0" font-size="12.5" fill="#c62828" text-anchor="end" font-weight="700"><tspan>拉力面</tspan></text><text x="164.0" y="164.0" font-size="12" fill="#c62828" text-anchor="end"><tspan>8.0 cm</tspan></text><text x="320.0" y="148.0" font-size="12.5" fill="#ef6c00" text-anchor="middle" font-weight="700"><tspan>破壞塊（被整塊撕走）</tspan></text><text x="24.0" y="350.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>A</tspan><tspan dy="4.0" font-size="9.0">gv</tspan><tspan dy="-4.0"> = 25 × 1.2 = 30.0 cm²</tspan></text><text x="24.0" y="370.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>A</tspan><tspan dy="4.0" font-size="9.0">nv</tspan><tspan dy="-4.0"> = (25 − 3.5×2.5) × 1.2 = 19.50 cm²</tspan></text><text x="24.0" y="390.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>A</tspan><tspan dy="4.0" font-size="9.0">nt</tspan><tspan dy="-4.0"> = (8.0 − 0.5×2.5) × 1.2 = 8.10 cm²</tspan></text><text x="24.0" y="410.0" font-size="12" fill="#607d8b" text-anchor="start"><tspan>孔徑 d</tspan><tspan dy="3.8" font-size="8.6">h</tspan><tspan dy="-3.8"> = 2.5 cm；剪力面穿過 3.5 個孔（端孔算半個）</tspan></text><text x="540.0" y="24.0" font-size="13" fill="#263238" text-anchor="start" font-weight="700"><tspan>(b) 雙排螺栓的板件</tspan></text><rect x="560.0" y="60.0" width="270.0" height="180.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="1.6"/><rect x="675.0" y="105.0" width="155.0" height="90.0" rx="0" fill="#fff8e1" stroke="none" stroke-width="0"/><line x1="675.0" y1="105.0" x2="830.0" y2="105.0" stroke="#2e7d32" stroke-width="3"/><line x1="675.0" y1="195.0" x2="830.0" y2="195.0" stroke="#2e7d32" stroke-width="3"/><line x1="675.0" y1="105.0" x2="675.0" y2="195.0" stroke="#c62828" stroke-width="3"/><circle cx="795.0" cy="105.0" r="10.0" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="795.0" cy="195.0" r="10.0" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="735.0" cy="105.0" r="10.0" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="735.0" cy="195.0" r="10.0" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="675.0" cy="105.0" r="10.0" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="675.0" cy="195.0" r="10.0" fill="#fff" stroke="#455a64" stroke-width="1.6"/><line x1="558.0" y1="150.0" x2="520.0" y2="150.0" stroke="#c62828" stroke-width="3" marker-end="url(#f33-r)"/><text x="667.0" y="154.0" font-size="12.5" fill="#c62828" text-anchor="end" font-weight="700"><tspan>拉力面</tspan></text><text x="752.5" y="95.0" font-size="12.5" fill="#2e7d32" text-anchor="middle" font-weight="700"><tspan>剪力面</tspan></text><text x="752.5" y="217.0" font-size="12.5" fill="#2e7d32" text-anchor="middle" font-weight="700"><tspan>剪力面</tspan></text><text x="540.0" y="290.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>剪力面沿螺栓「中心線」走、穿過孔；</tspan></text><text x="540.0" y="310.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>不是貼著孔外緣走。</tspan></text><text x="540.0" y="342.0" font-size="12.5" fill="#6a1b9a" text-anchor="start" font-weight="700"><tspan>剪（綠）→ ×0.6；拉（紅）→ 不乘</tspan></text><text x="540.0" y="364.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>式A：0.6F</tspan><tspan dy="4.0" font-size="9.0">u</tspan><tspan dy="-4.0">A</tspan><tspan dy="4.0" font-size="9.0">nv</tspan><tspan dy="-4.0"> + U</tspan><tspan dy="4.0" font-size="9.0">bs</tspan><tspan dy="-4.0">F</tspan><tspan dy="4.0" font-size="9.0">u</tspan><tspan dy="-4.0">A</tspan><tspan dy="4.0" font-size="9.0">nt</tspan><tspan dy="-4.0"></tspan></text><text x="540.0" y="386.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>式B：0.6F</tspan><tspan dy="4.0" font-size="9.0">y</tspan><tspan dy="-4.0">A</tspan><tspan dy="4.0" font-size="9.0">gv</tspan><tspan dy="-4.0"> + U</tspan><tspan dy="4.0" font-size="9.0">bs</tspan><tspan dy="-4.0">F</tspan><tspan dy="4.0" font-size="9.0">u</tspan><tspan dy="-4.0">A</tspan><tspan dy="4.0" font-size="9.0">nt</tspan><tspan dy="-4.0"></tspan></text><text x="540.0" y="412.0" font-size="13.5" fill="#c62828" text-anchor="start" font-weight="700"><tspan>φR</tspan><tspan dy="4.3" font-size="9.7">n</tspan><tspan dy="-4.3"> = 0.75 × min(式A, 式B)</tspan></text></svg>
+<div class="cap">圖 3-3　(a) 範例 A 的破壞塊，依實際尺寸繪製：<b>一條</b>剪力面（綠，沿螺栓中心線從端部量到最內側螺栓，25 cm）＋<b>一條</b>拉力面（紅，從螺栓線量到肢趾，8.0 cm）。(b) 雙排螺栓則是<b>兩條</b>剪力面＋<b>一條</b>拉力面（兩排之間）。兩種情況剪力面都<b>穿過孔中心</b>，所以 \(A_{nv}\) 要扣孔、\(A_{gv}\) 不扣。</div>
+</div>
+
+<div class="why">
+<b>為什麼是 min(A, B) 而不是相加？</b>因為 A、B 兩式描述的是<b>同一個破壞的兩種可能路徑</b>，不是兩個獨立的抗力來源：
+<ul>
+<li>式 A：剪力面真的<b>斷裂</b>（\(0.6F_u A_{nv}\)）＋ 拉力面斷裂</li>
+<li>式 B：剪力面只到<b>降伏</b>（\(0.6F_y A_{gv}\)）＋ 拉力面斷裂</li>
+</ul>
+實際破壞會沿<b>先發生</b>的那條路徑走，所以取小值。相加＝把同一塊材料的抗力算了兩次。
+<br><br><b>\(U_{bs}\) 的意義</b>：拉力面上的拉力是否均勻。均勻 → 1.0；明顯不均勻（例如單排螺栓的偏心接合、
+梁端切槽 coped beam）→ 0.5。它就是「拉力面沒被充分利用」的折減。
+</div>
+
+<h3>3.4 手算範例 A：三個極限狀態的競爭（塊狀剪力控制）</h3>
+
+<div class="box">
+<b>題目設定</b>：單角鋼 L125×125×12（\(A_g = 28.8\) cm²，形心到肢背 \(\bar{x} = 3.53\) cm），
+以<b>一隻肢</b>用 4 顆 M22 螺栓（\(d_b = 2.2\) cm）連接於接合板，縱向間距 7 cm、端距 4 cm，
+螺栓線距肢背 4.5 cm。鋼材 \(F_y = 2.5\)、\(F_u = 4.1\) tf/cm²。求 LRFD 設計拉力強度。
+
+<h4>Step 0：幾何</h4>
+$$d_h = d_b + 0.3 = 2.5\ \text{cm}\ \text{（計算用孔徑，標準孔 } d_b+0.2 \text{ 再加 } 0.1 \text{ 衝孔損傷）}$$
+$$L = 3\times 7 = 21\ \text{cm（4 顆螺栓 = 3 個間距）}$$
+
+<h4>Step 1：全斷面降伏（GSY）—— 延性，\(\phi = 0.90\)</h4>
+$$\phi_t P_n = 0.90\times 2.5\times 28.8 = \underline{64.8\ \text{tf}}$$
+
+<h4>Step 2：淨斷面斷裂（NSF）—— 脆性，\(\phi = 0.75\)</h4>
+$$A_n = 28.8 - 2.5\times 1.2 = 25.8\ \text{cm}^2$$
+$$U = 1-\frac{\bar x}{L} = 1-\frac{3.53}{21} = 0.832 \quad\Rightarrow\quad A_e = 0.832\times 25.8 = 21.46\ \text{cm}^2$$
+$$\phi_t P_n = 0.75\times 4.1\times 21.46 = \underline{66.0\ \text{tf}}$$
+
+<h4>Step 3：塊狀剪力（BSR）—— 先畫塊</h4>
+單排螺栓 → <b>一條</b>剪力面（從最外螺栓到端部）＋<b>一條</b>拉力面（螺栓線到肢的自由邊）：
+$$L_{gv} = 4 + 3\times 7 = 25\ \text{cm}\quad\Rightarrow\quad A_{gv} = 25\times 1.2 = 30.0\ \text{cm}^2$$
+$$A_{nv} = (25 - 3.5\times 2.5)\times 1.2 = 19.50\ \text{cm}^2 \quad\text{（4 顆螺栓，端孔算半個 → 3.5 孔）}$$
+$$A_{nt} = \big[(12.5-4.5) - 0.5\times 2.5\big]\times 1.2 = 8.10\ \text{cm}^2$$
+取 \(U_{bs} = 1.0\)：
+$$\text{式A} = 0.6(4.1)(19.50) + 1.0(4.1)(8.10) = 47.97 + 33.21 = 81.18\ \text{tf}$$
+$$\text{式B} = 0.6(2.5)(30.0) + 33.21 = 45.00 + 33.21 = 78.21\ \text{tf}$$
+$$\phi R_n = 0.75\times \min(81.18,\ 78.21) = \underline{58.7\ \text{tf}}$$
+
+<h4>Step 4：取最小值</h4>
+$$\phi P_n = \min(64.8,\ 66.0,\ 58.7) = \boxed{58.7\ \text{tf}}\quad\text{塊狀剪力控制}$$
+</div>
+
+<div class="why">
+<b>這個範例的自我檢查</b>：
+<ul>
+<li><b>三個數字應該落在同一個數量級</b>（本例 58.7～66.0，差 12%）。若某一項只有其他項的 1/3，
+通常是漏乘板厚、算錯孔數，或把 \(A_g\) 當 \(A_n\) 用。</li>
+<li><b>式 B 小於式 A 是正常的</b>，因為 \(0.6F_y A_{gv}\)（45.0）小於 \(0.6F_u A_{nv}\)（47.97）。
+若你算出式 B 遠大於式 A，八成是 \(A_{gv}\)、\(A_{nv}\) 弄反了。</li>
+<li><b>塊狀剪力控制是很常見的結果</b>，尤其在端距小、接合短的情況 —— 這就是為什麼考題愛出它：
+它是<b>最容易被漏掉、卻最常控制</b>的那一項。加大端距是最有效的補強手段（直接增加 \(A_{gv}\)、\(A_{nv}\)）。</li>
+</ul>
+</div>
+
+<div class="trap">
+<b>\(U_{bs}\) 的爭議請照題目走。</b>AISC J4.3 對角鋼單排螺栓的正規取值是 \(U_{bs}=1.0\)（拉力面上應力仍屬均勻），
+但部分教科書與 <code>wiki/traps/CONNECTION-TRAPS</code> 對「明顯偏心的單肢角鋼」採 \(U_{bs}=0.5\)。
+考試時：<b>題目給值就用題目的；沒給就用 1.0 並寫一句判斷理由</b>（「螺栓對拉力面對稱、應力均勻，取 \(U_{bs}=1.0\)」）。
+寫出理由比選對數字重要。
+</div>
+
+<div class="box" style="border-left:5px solid var(--ac)">
+<b>§3 因果鏈</b>：只連部分斷面 → 力要橫向剪過去 → 需要距離 → 外伸肢應力落後（剪力遲滯）→
+\(U = 1-\bar x/L\) → \(A_e = U A_n\) → 再加上「整塊被撕下來」的塊狀剪力 →
+拉力接合端一律比 GSY／NSF／BSR 三者，取最小值。
+</div>
+</section>
+<section id="s4">
+<h2>§4　螺栓：兩個完全不同的世界</h2>
+
+<div class="lead">同一顆 A325 螺栓，可以用兩種完全不同的方式傳力。搞清楚「現在是哪個世界」，
+本單元 10 題螺栓題就解決了一半。</div>
+
+<h3>4.1 傳力機制：摩擦 vs 承壓</h3>
+
+<div class="fig">
+<svg viewBox="0 0 880 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="摩阻型與承壓型螺栓的傳力機制與載重滑移曲線" font-family="inherit"><defs><marker id="f41-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker><marker id="f41-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker><marker id="f41-o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef6c00"/></marker><marker id="f41-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/></marker><marker id="f41-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/></marker></defs><text x="210.0" y="28.0" font-size="15" fill="#1565c0" text-anchor="middle" font-weight="700"><tspan>摩阻型（Slip-Critical）</tspan></text><rect x="40.0" y="120.0" width="300.0" height="30.0" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.6"/><rect x="80.0" y="150.0" width="300.0" height="30.0" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.6"/><rect x="195.0" y="121.0" width="30.0" height="58.0" rx="0" fill="#fff" stroke="none" stroke-width="0"/><rect x="199.0" y="112.0" width="22.0" height="76.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.5"/><rect x="184.0" y="100.0" width="52.0" height="12.0" rx="0" fill="#90a4ae" stroke="#455a64" stroke-width="1.4"/><rect x="184.0" y="188.0" width="52.0" height="12.0" rx="0" fill="#90a4ae" stroke="#455a64" stroke-width="1.4"/><line x1="210.0" y1="64.0" x2="210.0" y2="96.0" stroke="#c62828" stroke-width="2.5" marker-end="url(#f41-r)"/><line x1="210.0" y1="238.0" x2="210.0" y2="206.0" stroke="#c62828" stroke-width="2.5" marker-end="url(#f41-r)"/><text x="220.0" y="72.0" font-size="12.5" fill="#c62828" text-anchor="start" font-weight="700"><tspan>夾緊力 T</tspan><tspan dy="4.0" font-size="9.0">b</tspan><tspan dy="-4.0">（預拉力反力）</tspan></text><line x1="50.0" y1="135.0" x2="4.0" y2="135.0" stroke="#455a64" stroke-width="2.4" marker-end="url(#f41-k)"/><line x1="380.0" y1="165.0" x2="424.0" y2="165.0" stroke="#455a64" stroke-width="2.4" marker-end="url(#f41-k)"/><line x1="80.0" y1="150.0" x2="340.0" y2="150.0" stroke="#ef6c00" stroke-width="3"/><line x1="100.0" y1="145.0" x2="150.0" y2="145.0" stroke="#ef6c00" stroke-width="1.8" marker-end="url(#f41-o)"/><line x1="320.0" y1="155.0" x2="270.0" y2="155.0" stroke="#ef6c00" stroke-width="1.8" marker-end="url(#f41-o)"/><text x="50.0" y="250.0" font-size="12" fill="#ef6c00" text-anchor="start"><tspan>接觸面摩擦 μ·T</tspan><tspan dy="3.8" font-size="8.6">b</tspan><tspan dy="-3.8">：桿與孔壁之間仍有間隙</tspan></text><text x="650.0" y="28.0" font-size="15" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>承壓型（Bearing-Type）</tspan></text><rect x="470.0" y="120.0" width="300.0" height="30.0" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.6"/><rect x="530.0" y="150.0" width="300.0" height="30.0" rx="0" fill="#ffebee" stroke="#c62828" stroke-width="1.6"/><rect x="631.0" y="121.0" width="30.0" height="28.0" rx="0" fill="#fff" stroke="none" stroke-width="0"/><rect x="639.0" y="151.0" width="30.0" height="28.0" rx="0" fill="#fff" stroke="none" stroke-width="0"/><rect x="639.0" y="112.0" width="22.0" height="76.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.5"/><rect x="624.0" y="100.0" width="52.0" height="12.0" rx="0" fill="#90a4ae" stroke="#455a64" stroke-width="1.4"/><rect x="624.0" y="188.0" width="52.0" height="12.0" rx="0" fill="#90a4ae" stroke="#455a64" stroke-width="1.4"/><line x1="470.0" y1="135.0" x2="426.0" y2="135.0" stroke="#455a64" stroke-width="2.4" marker-end="url(#f41-k)"/><line x1="830.0" y1="165.0" x2="874.0" y2="165.0" stroke="#455a64" stroke-width="2.4" marker-end="url(#f41-k)"/><line x1="639.0" y1="150.0" x2="661.0" y2="150.0" stroke="#6a1b9a" stroke-width="3" stroke-dasharray="4,2"/><text x="680.0" y="146.0" font-size="12.5" fill="#6a1b9a" text-anchor="start" font-weight="700"><tspan>剪力面</tspan></text><line x1="661.0" y1="122.0" x2="661.0" y2="148.0" stroke="#ef6c00" stroke-width="3.5"/><line x1="639.0" y1="152.0" x2="639.0" y2="178.0" stroke="#ef6c00" stroke-width="3.5"/><text x="672.0" y="112.0" font-size="11.5" fill="#ef6c00" text-anchor="start"><tspan>孔壁承壓（上板孔右壁）</tspan></text><text x="628.0" y="206.0" font-size="11.5" fill="#ef6c00" text-anchor="end"><tspan>孔壁承壓（下板孔左壁）</tspan></text><text x="500.0" y="250.0" font-size="12" fill="#c62828" text-anchor="start"><tspan>板已錯開一個孔隙，孔壁貼住才傳力</tspan></text><line x1="110.0" y1="490.0" x2="830.0" y2="490.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#f41-k)"/><line x1="110.0" y1="490.0" x2="110.0" y2="276.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#f41-k)"/><text x="828.0" y="510.0" font-size="12.5" fill="#607d8b" text-anchor="end"><tspan>接合相對位移 δ</tspan></text><text x="116.0" y="280.0" font-size="12.5" fill="#607d8b" text-anchor="start"><tspan>每顆螺栓傳的力</tspan></text><polyline points="110.0,490.0 150.0,343.1 300.0,343.1 315.7,340.4 331.3,337.8 347.0,335.3 362.7,333.0 378.3,330.7 394.0,328.6 409.7,326.5 425.3,324.6 441.0,322.7 456.7,321.0 472.3,319.4 488.0,317.8 503.7,316.4 519.3,315.1 535.0,313.8 550.7,312.7 566.3,311.6 582.0,310.7 597.7,309.8 613.3,309.0 629.0,308.3 644.7,307.7 660.3,307.2 676.0,306.8 691.7,306.4 707.3,306.1 723.0,305.9 738.7,305.8 754.3,305.7 770.0,305.7" fill="none" stroke="#263238" stroke-width="2.6" stroke-linejoin="round"/><line x1="110.0" y1="343.1" x2="810.0" y2="343.1" stroke="#1565c0" stroke-width="1.3" stroke-dasharray="6,4"/><text x="360.0" y="361.1" font-size="12" fill="#1565c0" text-anchor="start" font-weight="700"><tspan>滑動門檻：範例 B 摩阻型 φR</tspan><tspan dy="3.8" font-size="8.6">n</tspan><tspan dy="-3.8"> = 139.2 kN（φ = 1.0）</tspan></text><line x1="110.0" y1="322.8" x2="810.0" y2="322.8" stroke="#c62828" stroke-width="1.3" stroke-dasharray="6,4"/><text x="160.0" y="314.8" font-size="12" fill="#c62828" text-anchor="start" font-weight="700"><tspan>範例 B 承壓型 φR</tspan><tspan dy="3.8" font-size="8.6">n</tspan><tspan dy="-3.8"> = 158.4 kN（承壓控制）</tspan></text><line x1="150.0" y1="470.0" x2="300.0" y2="470.0" stroke="#ef6c00" stroke-width="1"/><line x1="150.0" y1="465.0" x2="150.0" y2="475.0" stroke="#ef6c00" stroke-width="1"/><line x1="300.0" y1="465.0" x2="300.0" y2="475.0" stroke="#ef6c00" stroke-width="1"/><text x="225.0" y="465.0" font-size="12" fill="#ef6c00" text-anchor="middle"><tspan>滑移 ≈ 孔隙（標準孔 d</tspan><tspan dy="3.8" font-size="8.6">b</tspan><tspan dy="-3.8">+2 mm）</tspan></text><text x="140.0" y="435.0" font-size="12" fill="#1565c0" text-anchor="start"><tspan>① 摩擦傳力</tspan></text><text x="360.0" y="455.0" font-size="12" fill="#c62828" text-anchor="start"><tspan>③ 桿貼孔壁 → 剪力＋承壓</tspan></text><text x="225.0" y="363.1" font-size="12" fill="#ef6c00" text-anchor="middle"><tspan>② 滑動</tspan></text></svg>
+<div class="cap">圖 4-1　同一顆螺栓的兩個世界與它們的載重—位移關係。上排：摩阻型靠<b>夾緊力產生的摩擦</b>，桿與孔壁之間仍有間隙；承壓型的板已錯開一個孔隙，孔壁貼住後<b>螺栓桿才受剪</b>。下排：摩阻型的極限是「滑動門檻」，滑過之後並沒有崩塌，而是進入承壓型的世界 —— 這正是 §4.2 \(\phi\) 可以取 1.0 的理由。兩條水平線取自範例 B。</div>
+</div>
+
+<h3>4.2 摩阻型：為什麼 \(\phi\) 可以等於 1.0</h3>
+
+$$\phi R_n = \phi\,\mu\,D_u\,h_{sc}\,T_b\,n_s$$
+
+<table>
+<thead><tr><th>符號</th><th>典型值</th><th>它從哪裡來</th></tr></thead>
+<tbody>
+<tr><td>\(\mu\)（\(k_s\)）</td><td>A 級 0.33～0.35／B 級 0.50</td><td>接觸面處理試驗值。A 級＝軋延面除鏽；B 級＝噴砂處理</td></tr>
+<tr><td>\(D_u\)</td><td>1.13</td><td><b>實際</b>安裝預拉力的平均值比規範<b>最小值</b>高約 13%（統計結果）</td></tr>
+<tr><td>\(h_{sc}\)</td><td>標準孔 1.0／過大孔 0.85</td><td>孔越大，滑動後移動量越大 → 折減</td></tr>
+<tr><td>\(T_b\)</td><td>A325-M22：176 kN</td><td>規定最小預拉力 ≈ 0.7 \(F_{ub}A_{b,\text{有效}}\)（規範附表直接查）</td></tr>
+<tr><td>\(n_s\)</td><td>單剪 1／雙剪 2</td><td><b>接觸面數</b>，不是螺栓數</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>為什麼摩阻型的 \(\phi\) 是 1.0（或 0.85），而不是 0.75？</b>
+因為<b>滑動不是破壞</b>。接合滑動了幾毫米，結構沒有斷、沒有掉，只是「不再是我原先設計的那個接合」——
+它變成了承壓型，還有第二層防線。既然後果不是崩塌，就不需要脆性破壞那種保守度。
+<ul>
+<li><b>使用性極限（\(\phi = 1.0\)）</b>：服務載重下不准滑動。用於疲勞構件、精密安裝、需要維持幾何的接合。</li>
+<li><b>強度極限（\(\phi = 0.85\)）</b>：因數化載重下不准滑動。用於過大孔、滑動後會導致明顯二次效應的重要接合。</li>
+</ul>
+<b>考試寫法</b>：只寫「極限狀態是滑動」會被扣分，一定要把「使用性 vs 強度」兩層分清楚並說明選用時機。
+出自 <a class="qlink" href="problems-view/SS-2017-2.html" target="_blank">SS-2017-2</a>。
+</div>
+
+<div class="trap">
+<b>版本提醒（2026-10 補註）：</b>上表的 \(\phi = 1.0/0.85\)＋\(h_{sc}\) 是 <b>AISC 360-05</b> 的寫法，也是考題最常沿用的版本。AISC 360-10 起改為：A 級接觸面 \(\mu = 0.30\)、\(\phi\) 依孔型取 1.00（標準孔）／0.85（過大孔、短槽孔）／0.70（長槽孔），\(h_f\) 改為<b>填板係數</b>。台灣容許應力設計法則以表列容許剪應力處理摩阻型（A325 標準孔 1.19 tf/cm²、A490 標準孔 1.47 tf/cm²），並要求滑動係數 ≥ 0.33。<b>考試照題目指定的規範與係數走</b>；題目沒指定時，寫明採用哪一版即可（詳見 <a class="qlink" href="problems-view/SS-2017-2.html" target="_blank">SS-2017-2</a> 勘誤後的 §6）。
+</div>
+
+<h3>4.3 承壓型：\(F_{nv}\) 與那個 2.4 的來源</h3>
+
+<h4>螺栓剪斷 \(F_{nv}\)</h4>
+
+<p>規範直接給表（考試常用值：A325 \(F_{nv}=330\) MPa（N，螺紋在剪力面）／414 MPa（X，螺紋不在剪力面）；
+A490 為 414／517 MPa）。但這些數字是可以「還原」的：</p>
+
+<div class="box">
+\(F_{ub}\)（A325）≈ 830 MPa
+$$\underbrace{0.6}_{\text{von Mises 剪}} \times 830 \times \underbrace{0.8}_{\text{長接合力量不均勻的折減}} \approx 400\ \text{MPa} \;\approx\; F_{nv}(\text{X}) = 414$$
+$$414 \times \underbrace{0.8}_{\text{螺紋處有效面積} \approx 0.75\!\sim\!0.8A_b} \approx 331\ \text{MPa} \;\approx\; F_{nv}(\text{N}) = 330$$
+<b>所以 N／X 的差別 ≈ 0.8 倍</b>，本質是「剪力面上到底是光桿還是螺紋」。記住 0.8 就不會把兩個值記反。
+</div>
+
+<h4>孔壁承壓 \(2.4F_u d t\) 與 \(1.2F_u L_c t\)</h4>
+
+<div class="why">
+<b>2.4 不是實驗湊出來的數字，它就是 1.2 的兩倍。</b>
+承壓的真實破壞是螺栓前方的板材被「犁」出去（撕裂），抗力與<b>淨邊距 \(L_c\)</b> 成正比：
+$$R_n = 1.2\,F_u L_c t$$
+但 \(L_c\) 很大時，破壞模式改成孔壁被壓陷（孔變形），規範以<b>孔變形 6 mm（1/4 in）</b>為使用性上限封頂。
+這個上限剛好對應 \(L_c = 2d\)：
+$$1.2F_u (2d) t = \boxed{2.4F_u d t}$$
+<b>所以 2.4 的物理意義是「淨邊距達到 2d 之後，再加邊距也沒有用了」。</b>
+反過來，題目若給的邊距很小（\(L_c < 2d\)），就必須用 \(1.2F_u L_c t\)，不能直接套 2.4。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="孔壁承壓：撕裂與孔變形兩種破壞" font-family="inherit"><defs><marker id="f42-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker><marker id="f42-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker></defs><text x="24.0" y="24.0" font-size="13" fill="#263238" text-anchor="start" font-weight="700"><tspan>(a) 承壓幾何：力朝板端</tspan></text><rect x="30.0" y="70.0" width="300.0" height="160.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="1.6"/><line x1="330.0" y1="70.0" x2="330.0" y2="230.0" stroke="#455a64" stroke-width="2.4"/><rect x="178.0" y="102.0" width="152.0" height="96.0" rx="0" fill="#fff3e0" stroke="none" stroke-width="0"/><line x1="178.0" y1="102.0" x2="330.0" y2="102.0" stroke="#ef6c00" stroke-width="2.4" stroke-dasharray="5,3"/><line x1="178.0" y1="198.0" x2="330.0" y2="198.0" stroke="#ef6c00" stroke-width="2.4" stroke-dasharray="5,3"/><circle cx="178.0" cy="150.0" r="48.0" fill="#fff" stroke="#455a64" stroke-width="1.6"/><circle cx="182.0" cy="150.0" r="44.0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.4"/><line x1="168.0" y1="150.0" x2="218.0" y2="150.0" stroke="#c62828" stroke-width="2.5" marker-end="url(#f42-r)"/><text x="124.0" y="155.0" font-size="11.5" fill="#c62828" text-anchor="end"><tspan>螺栓推板</tspan></text><line x1="178.0" y1="58.0" x2="330.0" y2="58.0" stroke="#607d8b" stroke-width="1"/><line x1="178.0" y1="53.0" x2="178.0" y2="63.0" stroke="#607d8b" stroke-width="1"/><line x1="330.0" y1="53.0" x2="330.0" y2="63.0" stroke="#607d8b" stroke-width="1"/><text x="254.0" y="53.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>L</tspan><tspan dy="3.8" font-size="8.6">e</tspan><tspan dy="-3.8">（中心到板端）</tspan></text><line x1="178.0" y1="62.0" x2="178.0" y2="150.0" stroke="#607d8b" stroke-width="0.8" stroke-dasharray="2,2"/><line x1="226.0" y1="246.0" x2="330.0" y2="246.0" stroke="#ef6c00" stroke-width="1"/><line x1="226.0" y1="241.0" x2="226.0" y2="251.0" stroke="#ef6c00" stroke-width="1"/><line x1="330.0" y1="241.0" x2="330.0" y2="251.0" stroke="#ef6c00" stroke-width="1"/><text x="278.0" y="264.0" font-size="12" fill="#ef6c00" text-anchor="middle"><tspan>L</tspan><tspan dy="3.8" font-size="8.6">c</tspan><tspan dy="-3.8"> = L</tspan><tspan dy="3.8" font-size="8.6">e</tspan><tspan dy="-3.8"> − d</tspan><tspan dy="3.8" font-size="8.6">h</tspan><tspan dy="-3.8">/2</tspan></text><line x1="226.0" y1="150.0" x2="226.0" y2="250.0" stroke="#ef6c00" stroke-width="0.8" stroke-dasharray="2,2"/><text x="40.0" y="290.0" font-size="12" fill="#263238" text-anchor="start"><tspan>L</tspan><tspan dy="3.8" font-size="8.6">c</tspan><tspan dy="-3.8"> 很小 → 孔前那塊板沿兩條橘線被「犁」出去</tspan></text><text x="40.0" y="308.0" font-size="12" fill="#263238" text-anchor="start"><tspan>抗力 ∝ 兩條剪切面長 2L</tspan><tspan dy="3.8" font-size="8.6">c</tspan><tspan dy="-3.8"> → 1.2F</tspan><tspan dy="3.8" font-size="8.6">u</tspan><tspan dy="-3.8">L</tspan><tspan dy="3.8" font-size="8.6">c</tspan><tspan dy="-3.8">t</tspan></text><text x="40.0" y="326.0" font-size="12" fill="#6a1b9a" text-anchor="start" font-weight="700"><tspan>（0.6F</tspan><tspan dy="3.8" font-size="8.6">u</tspan><tspan dy="-3.8"> × 2L</tspan><tspan dy="3.8" font-size="8.6">c</tspan><tspan dy="-3.8"> × t = 1.2F</tspan><tspan dy="3.8" font-size="8.6">u</tspan><tspan dy="-3.8">L</tspan><tspan dy="3.8" font-size="8.6">c</tspan><tspan dy="-3.8">t）</tspan></text><text x="420.0" y="24.0" font-size="13" fill="#263238" text-anchor="start" font-weight="700"><tspan>(b) 標稱承壓強度 vs 淨邊距</tspan></text><line x1="440.0" y1="270.0" x2="820.0" y2="270.0" stroke="#eceff1" stroke-width="1"/><text x="432.0" y="274.0" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>0.0</tspan></text><line x1="440.0" y1="228.0" x2="820.0" y2="228.0" stroke="#eceff1" stroke-width="1"/><text x="432.0" y="232.0" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>0.6</tspan></text><line x1="440.0" y1="186.0" x2="820.0" y2="186.0" stroke="#eceff1" stroke-width="1"/><text x="432.0" y="190.0" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>1.2</tspan></text><line x1="440.0" y1="144.0" x2="820.0" y2="144.0" stroke="#eceff1" stroke-width="1"/><text x="432.0" y="148.0" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>1.8</tspan></text><line x1="440.0" y1="102.0" x2="820.0" y2="102.0" stroke="#eceff1" stroke-width="1"/><text x="432.0" y="106.0" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>2.4</tspan></text><line x1="440.0" y1="60.0" x2="820.0" y2="60.0" stroke="#eceff1" stroke-width="1"/><text x="432.0" y="64.0" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>3.0</tspan></text><text x="440.0" y="288.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>0</tspan></text><text x="494.3" y="288.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>0.5</tspan></text><text x="548.6" y="288.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>1</tspan></text><text x="602.9" y="288.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>1.5</tspan></text><text x="657.1" y="288.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>2</tspan></text><text x="711.4" y="288.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>2.5</tspan></text><text x="765.7" y="288.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>3</tspan></text><text x="820.0" y="288.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>3.5</tspan></text><line x1="440.0" y1="270.0" x2="826.0" y2="270.0" stroke="#455a64" stroke-width="1.5"/><line x1="440.0" y1="270.0" x2="440.0" y2="53.0" stroke="#455a64" stroke-width="1.5"/><text x="630.0" y="310.0" font-size="13" fill="#263238" text-anchor="middle"><tspan>L</tspan><tspan dy="4.2" font-size="9.4">c</tspan><tspan dy="-4.2"> / d</tspan></text><text x="400.0" y="45.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>R</tspan><tspan dy="4.0" font-size="9.0">n</tspan><tspan dy="-4.0"> / (F</tspan><tspan dy="4.0" font-size="9.0">u</tspan><tspan dy="-4.0">dt)</tspan></text><polyline points="440.0,270.0 657.1,102.0 820.0,102.0" fill="none" stroke="#1565c0" stroke-width="3" stroke-linejoin="round"/><line x1="657.1" y1="102.0" x2="657.1" y2="270.0" stroke="#607d8b" stroke-width="1" stroke-dasharray="3,3"/><circle cx="657.1" cy="102.0" r="5.0" fill="#c62828" stroke="#c62828" stroke-width="1.5"/><text x="663.1" y="92.0" font-size="12.5" fill="#c62828" text-anchor="start" font-weight="700"><tspan>L</tspan><tspan dy="4.0" font-size="9.0">c</tspan><tspan dy="-4.0"> = 2d：1.2×2 = 2.4</tspan></text><text x="532.3" y="147.5" font-size="12.5" fill="#1565c0" text-anchor="end" font-weight="700"><tspan>撕裂控制</tspan></text><text x="532.3" y="165.5" font-size="12.5" fill="#1565c0" text-anchor="end"><tspan>1.2F</tspan><tspan dy="4.0" font-size="9.0">u</tspan><tspan dy="-4.0">L</tspan><tspan dy="4.0" font-size="9.0">c</tspan><tspan dy="-4.0">t</tspan></text><text x="738.6" y="124.0" font-size="12.5" fill="#1565c0" text-anchor="middle" font-weight="700"><tspan>孔變形控制 2.4F</tspan><tspan dy="4.0" font-size="9.0">u</tspan><tspan dy="-4.0">dt</tspan></text><text x="738.6" y="142.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>（變形 ≈ 6 mm 封頂）</tspan></text></svg>
+<div class="cap">圖 4-2　承壓強度的兩段式。(a) \(L_c\) 是孔<b>邊緣</b>到板端（或到下一個孔邊）的淨距離，不是孔中心距；(b) \(L_c < 2d\) 時由撕裂控制（斜線段 \(1.2F_uL_ct\)），\(L_c \geq 2d\) 後由孔變形封頂在 \(2.4F_udt\) —— 兩段的交點就是「2.4 = 1.2 × 2」的由來。</div>
+</div>
+
+<h3>4.4 手算範例 B：同一個接合，兩個世界差多少</h3>
+
+<div class="box">
+<b>題目設定</b>：M22 A325 螺栓，<b>雙剪</b>（\(n_s = 2\)），接合板 \(t = 10\) mm，母材 \(F_u = 400\) MPa。
+A 級接觸面（\(\mu = 0.35\)，\(D_u = 1.13\)，\(h_{sc} = 1.0\)，\(T_b = 176\) kN）。求每顆螺栓的設計強度。
+
+$$A_b = \frac{\pi}{4}(22)^2 = 380.1\ \text{mm}^2$$
+
+<h4>(a) 摩阻型（使用性極限，\(\phi = 1.0\)）</h4>
+$$\phi R_n = 1.0\times 0.35\times 1.13\times 1.0\times 176\times 2 = \underline{139.2\ \text{kN}}$$
+
+<h4>(b) 承壓型 — 螺栓剪斷（\(\phi = 0.75\)）</h4>
+$$\text{N（螺紋在剪力面）：}\ 0.75\times 330\times 380.1\times 2 /1000 = \underline{188.2\ \text{kN}}$$
+$$\text{X（螺紋不在剪力面）：}\ 0.75\times 414\times 380.1\times 2 /1000 = \underline{236.1\ \text{kN}}$$
+
+<h4>(c) 孔壁承壓（母材，假設 \(L_c \geq 2d\)）</h4>
+$$\phi R_n = 0.75\times 2.4\times 400\times 22\times 10 /1000 = \underline{158.4\ \text{kN}}$$
+
+<h4>結論</h4>
+<table>
+<thead><tr><th>設計方式</th><th>控制項</th><th>設計強度</th><th>相對摩阻型</th></tr></thead>
+<tbody>
+<tr><td>摩阻型</td><td>滑動</td><td>139.2 kN</td><td>1.00</td></tr>
+<tr><td>承壓型 A325-N</td><td>孔壁承壓（158.4 &lt; 188.2）</td><td>158.4 kN</td><td>1.14</td></tr>
+<tr><td>承壓型 A325-X</td><td>孔壁承壓（158.4 &lt; 236.1）</td><td>158.4 kN</td><td>1.14</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="why">
+<b>這個範例真正要你看見的三件事</b>：
+<ol>
+<li><b>摩阻型的設計強度明顯低</b>（約承壓型的 60～75%，本例因承壓控制而縮小到 88%）。
+「不准滑動」是一種<b>要花錢買的性能</b>，不是免費的保險。</li>
+<li><b>薄板時承壓常控制，不是螺栓剪斷。</b>本例 \(t=10\) mm 就已經讓承壓（158.4）壓過螺栓 X 的剪斷（236.1）。
+只算螺栓剪力就交卷，是本單元最常見的漏項。</li>
+<li><b>自我檢查</b>：\(F_{nv}\) 的 X／N 比值應該 \(=414/330=1.25\)；
+螺栓剪斷（X）／滑動的比值一般落在 <b>1.3～1.8</b>（本例 236.1/139.2 = 1.70）。
+若你算出摩阻型比承壓型還強，一定是把 \(\phi\) 或 \(n_s\) 用錯了。</li>
+</ol>
+</div>
+
+<h3>4.5 三個必記的構造與施工規定</h3>
+
+<table>
+<thead><tr><th>項目</th><th>規定</th><th>為什麼</th></tr></thead>
+<tbody>
+<tr><td>最小間距 \(s\)</td><td>\(2.67d\)（建議 \(3d\)）</td><td>孔太近 → 兩孔之間的板材被剪穿；也不好施工（扳手空間）</td></tr>
+<tr><td>最小端距／邊距</td><td>\(1.5d\)（衝孔再放大）</td><td>邊距不足 → 承壓變成撕裂（\(1.2F_uL_ct\) 控制）</td></tr>
+<tr><td>最大間距</td><td>\(12t\) 或 150 mm（受拉可放寬）</td><td>間距太大 → 板間縫隙、雨水滲入鏽蝕；板件之間也會分離鼓起</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>陷阱：摩阻型螺栓與銲道不可在同一接合面共同承力（新設結構）。</b>
+原因是<b>剛度不相容</b>：銲道幾乎不變形就達到極限，而摩阻型接合要靠一點點滑移趨勢才動員摩擦，
+兩者不會「同時」出力 → 銲道先破壞。
+<b>例外</b>：改建既有結構時，已依摩阻型規定鎖緊的舊螺栓可承擔<b>既有</b>載重，新加銲道承擔<b>新增</b>載重。
+出自 <a class="qlink" href="problems-view/SS-2021-4.html" target="_blank">SS-2021-4</a>。
+</div>
+
+<div class="box" style="border-left:5px solid var(--ac)">
+<b>§4 因果鏈</b>：高拉力預緊 → 板間夾緊力 \(T_b\) → 接觸面摩擦 \(\mu T_b n_s\) → 滑動前螺栓桿不受剪 →
+「滑動」是功能失效而非崩塌 → \(\phi\) 可取 1.0／0.85 → 一旦滑動，世界切換成承壓型 →
+改由螺栓剪斷（\(F_{nv}A_b n_s\)）與孔壁承壓（\(2.4F_udt\)，邊距不足則 \(1.2F_uL_ct\)）控制。
+</div>
+</section>
+<section id="s5">
+<h2>§5　銲接：0.707 從哪裡來、方向為什麼被忽略</h2>
+
+<div class="lead">填角銲的公式只有一條，而它的每一個數字都能在一張三角形的圖上指出來。
+把這張圖畫對，本單元 10 題銲道計算題就有共同的起點。</div>
+
+<h3>5.1 0.707：一個純幾何的數字</h3>
+
+<div class="fig">
+<svg viewBox="0 0 880 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- 被銲件 -->
+  <rect x="80" y="60" width="34" height="200" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+  <rect x="80" y="226" width="300" height="34" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+  <text x="97" y="52" font-size="12.5" fill="#455a64" text-anchor="middle">豎板</text>
+  <text x="300" y="278" font-size="12.5" fill="#455a64" text-anchor="middle">橫板</text>
+  <!-- 銲道三角形 -->
+  <polygon points="114,226 234,226 114,106" fill="#ffe0b2" stroke="#ef6c00" stroke-width="2.5"/>
+  <!-- 銲腳 w 標註（水平，畫在橫板下方） -->
+  <line x1="114" y1="276" x2="234" y2="276" stroke="#c62828" stroke-width="1.8"/>
+  <line x1="114" y1="270" x2="114" y2="282" stroke="#c62828" stroke-width="1.8"/>
+  <line x1="234" y1="270" x2="234" y2="282" stroke="#c62828" stroke-width="1.8"/>
+  <text x="174" y="298" font-size="14" font-weight="700" fill="#c62828" text-anchor="middle">w（銲腳）</text>
+  <!-- 銲腳 w 標註（垂直，畫在豎板左方） -->
+  <line x1="66" y1="106" x2="66" y2="226" stroke="#c62828" stroke-width="1.8"/>
+  <line x1="60" y1="106" x2="72" y2="106" stroke="#c62828" stroke-width="1.8"/>
+  <line x1="60" y1="226" x2="72" y2="226" stroke="#c62828" stroke-width="1.8"/>
+  <text x="42" y="170" font-size="14" font-weight="700" fill="#c62828" text-anchor="middle">w</text>
+  <!-- 喉部（最短距離） -->
+  <line x1="114" y1="226" x2="174" y2="166" stroke="#1565c0" stroke-width="4"/>
+  <line x1="176" y1="164" x2="248" y2="130" stroke="#1565c0" stroke-width="1.3"/>
+  <text x="252" y="126" font-size="14" font-weight="700" fill="#1565c0">te = 0.707w</text>
+  <text x="252" y="146" font-size="12" fill="#1565c0">有效喉厚 = 最短斷面</text>
+  <!-- 45 度角 -->
+  <path d="M 142 226 A 28 28 0 0 0 134 206" fill="none" stroke="#6a1b9a" stroke-width="1.8"/>
+  <text x="150" y="212" font-size="12" fill="#6a1b9a">45°</text>
+
+  <!-- 右：推導 -->
+  <rect x="430" y="60" width="430" height="112" fill="#f3e5f5" stroke="#ce93d8" stroke-width="1.5" rx="7"/>
+  <text x="446" y="86" font-size="13.5" font-weight="700" fill="#4a148c">為什麼是最短斷面會破壞？</text>
+  <text x="446" y="110" font-size="12.5" fill="#4a148c">材料一定沿「面積最小」的那一刀剪開。</text>
+  <text x="446" y="132" font-size="12.5" fill="#4a148c">等腰直角三角形中，最短的那一刀是 45° 對角線：</text>
+  <text x="446" y="158" font-size="14" font-weight="700" fill="#4a148c">te = w·cos45° = w/√2 = 0.7071w</text>
+
+  <rect x="430" y="192" width="430" height="112" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5" rx="7"/>
+  <text x="446" y="218" font-size="13.5" font-weight="700" fill="#0d47a1">完整公式的三個零件</text>
+  <text x="446" y="242" font-size="12.5" fill="#0d47a1">0.6 ← von Mises 剪切（§2）</text>
+  <text x="446" y="264" font-size="12.5" fill="#0d47a1">0.707w ← 幾何（本圖）</text>
+  <text x="446" y="286" font-size="12.5" fill="#0d47a1">0.75 ← 局部脆性破壞的 φ（§2）</text>
+</svg>
+<div class="cap">圖 5-1　填角銲的全部秘密都在這個三角形裡。\(w\) 是<b>看得見、量得到</b>的銲腳；
+\(t_e = 0.707w\) 是<b>真正承力</b>的最小斷面。兩者差了 29%，混用是本單元最常見的計算錯誤。</div>
+</div>
+
+$$\boxed{\ \phi R_n = \underbrace{0.75}_{\phi} \times \underbrace{0.6F_{EXX}}_{\text{剪切}} \times \underbrace{0.707w}_{t_e} \times L_w\ }$$
+
+<p>E70XX（\(F_{EXX} = 70\) ksi \(= 4.92\) tf/cm² \(= 490\) MPa）代進去，得到一個很好用的速算式：</p>
+
+$$\phi R_n = 0.75\times 0.6\times 4.92\times 0.707\,w\,L = \boxed{1.565\,w\,L}\quad[\text{tf}],\ w,L\ \text{以 cm 代入}$$
+
+<p>ASD 版本：容許應力 \(f_w = 0.3F_{EXX} = 1.476\) tf/cm²，所以</p>
+
+$$R_a = 1.476\times 0.707\,w\,L = \boxed{1.043\,w\,L}\quad[\text{tf}]$$
+
+<h3>5.2 方向性：規範故意忽略的那一半強度</h3>
+
+<div class="why">
+<b>實際上，垂直於銲道方向受力的填角銲比平行受力強約 50%</b>
+（受力方向與銲道軸線的夾角 \(\theta\) 越大，喉部的應力狀態越接近「拉＋剪」而非「純剪」，抗力上升）。
+AISC 允許用方向性公式 \(R_n = 0.6F_{EXX}(1.0+0.5\sin^{1.5}\theta)A_w\) 取回這部分紅利。
+<br><br><b>但規範的預設值把 \(\theta\) 當 0（純剪）</b>，也就是<b>統一用最保守的那一刀</b>。
+理由很實務：一條銲道上各點的受力方向常常不同（想想偏心銲縫，§6），
+若逐點取不同強度，設計會變得極其麻煩，而多出來的那點強度不值得這個複雜度。
+<br><br><b>考試策略</b>：一律用 \(0.6F_{EXX}\times 0.707w\)，除非題目明講「可考慮方向性」。
+但答題時加一句「本計算未計入方向性紅利，屬保守」會加分。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="填角銲方向性強度曲線" font-family="inherit"><defs><marker id="f52-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker><marker id="f52-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker></defs><line x1="90.0" y1="221.4" x2="510.0" y2="221.4" stroke="#eceff1" stroke-width="1"/><text x="82.0" y="225.4" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>1.0</tspan></text><line x1="90.0" y1="192.9" x2="510.0" y2="192.9" stroke="#eceff1" stroke-width="1"/><text x="82.0" y="196.9" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>1.1</tspan></text><line x1="90.0" y1="164.3" x2="510.0" y2="164.3" stroke="#eceff1" stroke-width="1"/><text x="82.0" y="168.3" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>1.2</tspan></text><line x1="90.0" y1="135.7" x2="510.0" y2="135.7" stroke="#eceff1" stroke-width="1"/><text x="82.0" y="139.7" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>1.3</tspan></text><line x1="90.0" y1="107.1" x2="510.0" y2="107.1" stroke="#eceff1" stroke-width="1"/><text x="82.0" y="111.1" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>1.4</tspan></text><line x1="90.0" y1="78.6" x2="510.0" y2="78.6" stroke="#eceff1" stroke-width="1"/><text x="82.0" y="82.6" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>1.5</tspan></text><text x="90.0" y="268.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>0°</tspan></text><text x="160.0" y="268.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>15°</tspan></text><text x="230.0" y="268.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>30°</tspan></text><text x="300.0" y="268.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>45°</tspan></text><text x="370.0" y="268.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>60°</tspan></text><text x="440.0" y="268.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>75°</tspan></text><text x="510.0" y="268.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>90°</tspan></text><line x1="90.0" y1="250.0" x2="516.0" y2="250.0" stroke="#455a64" stroke-width="1.5"/><line x1="90.0" y1="250.0" x2="90.0" y2="55.7" stroke="#455a64" stroke-width="1.5"/><text x="300.0" y="290.0" font-size="13" fill="#263238" text-anchor="middle"><tspan>力與銲道軸線的夾角 θ</tspan></text><text x="30.0" y="45.7" font-size="12.5" fill="#263238" text-anchor="start"><tspan>強度倍數 1 + 0.5 sin</tspan><tspan dy="-4.8" font-size="9.0">1.5</tspan><tspan dy="4.8">θ</tspan></text><polyline points="90.0,221.4 94.7,221.1 99.3,220.5 104.0,219.7 108.7,218.8 113.3,217.8 118.0,216.6 122.7,215.4 127.3,214.0 132.0,212.6 136.7,211.1 141.3,209.5 146.0,207.9 150.7,206.2 155.3,204.4 160.0,202.6 164.7,200.8 169.3,198.8 174.0,196.9 178.7,194.9 183.3,192.9 188.0,190.8 192.7,188.7 197.3,186.5 202.0,184.4 206.7,182.2 211.3,180.0 216.0,177.7 220.7,175.5 225.3,173.2 230.0,170.9 234.7,168.6 239.3,166.3 244.0,164.0 248.7,161.7 253.3,159.4 258.0,157.1 262.7,154.7 267.3,152.4 272.0,150.1 276.7,147.8 281.3,145.5 286.0,143.2 290.7,141.0 295.3,138.7 300.0,136.5 304.7,134.3 309.3,132.1 314.0,129.9 318.7,127.8 323.3,125.6 328.0,123.6 332.7,121.5 337.3,119.5 342.0,117.5 346.7,115.5 351.3,113.6 356.0,111.7 360.7,109.9 365.3,108.1 370.0,106.3 374.7,104.6 379.3,102.9 384.0,101.3 388.7,99.7 393.3,98.2 398.0,96.7 402.7,95.3 407.3,93.9 412.0,92.6 416.7,91.3 421.3,90.1 426.0,88.9 430.7,87.8 435.3,86.8 440.0,85.8 444.7,84.9 449.3,84.0 454.0,83.2 458.7,82.5 463.3,81.8 468.0,81.2 472.7,80.7 477.3,80.2 482.0,79.7 486.7,79.4 491.3,79.1 496.0,78.9 500.7,78.7 505.3,78.6 510.0,78.6" fill="none" stroke="#1565c0" stroke-width="3" stroke-linejoin="round"/><line x1="90.0" y1="221.4" x2="510.0" y2="221.4" stroke="#c62828" stroke-width="1.6" stroke-dasharray="6,4"/><text x="510.0" y="237.4" font-size="12" fill="#c62828" text-anchor="end" font-weight="700"><tspan>規範預設：一律取 1.0（θ = 0，純剪）</tspan></text><circle cx="90.0" cy="221.4" r="5.0" fill="#1565c0" stroke="#fff" stroke-width="1.5"/><text x="98.0" y="213.4" font-size="12.5" fill="#1565c0" text-anchor="start" font-weight="700"><tspan>1.00</tspan></text><circle cx="300.0" cy="136.5" r="5.0" fill="#1565c0" stroke="#fff" stroke-width="1.5"/><text x="292.0" y="128.5" font-size="12.5" fill="#1565c0" text-anchor="end" font-weight="700"><tspan>1.30</tspan></text><circle cx="510.0" cy="78.6" r="5.0" fill="#1565c0" stroke="#fff" stroke-width="1.5"/><text x="502.0" y="70.6" font-size="12.5" fill="#1565c0" text-anchor="end" font-weight="700"><tspan>1.50</tspan></text><text x="332.7" y="170.0" font-size="13" fill="#2e7d32" text-anchor="middle" font-weight="700"><tspan>被放棄的紅利</tspan></text><text x="600.0" y="40.0" font-size="12.5" fill="#263238" text-anchor="start" font-weight="700"><tspan>θ = 0°：縱向銲（平行受力）</tspan></text><rect x="600.0" y="56.0" width="120.0" height="40.0" rx="0" fill="#eceff1" stroke="#455a64" stroke-width="1.4"/><rect x="660.0" y="64.0" width="140.0" height="24.0" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.4"/><line x1="660.0" y1="64.0" x2="720.0" y2="64.0" stroke="#ef6c00" stroke-width="4"/><line x1="660.0" y1="88.0" x2="720.0" y2="88.0" stroke="#ef6c00" stroke-width="4"/><line x1="800.0" y1="76.0" x2="840.0" y2="76.0" stroke="#c62828" stroke-width="2.5" marker-end="url(#f52-r)"/><text x="600.0" y="150.0" font-size="12.5" fill="#263238" text-anchor="start" font-weight="700"><tspan>θ = 90°：橫向銲（垂直受力）</tspan></text><rect x="600.0" y="166.0" width="120.0" height="40.0" rx="0" fill="#eceff1" stroke="#455a64" stroke-width="1.4"/><rect x="660.0" y="174.0" width="140.0" height="24.0" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.4"/><line x1="660.0" y1="174.0" x2="660.0" y2="198.0" stroke="#ef6c00" stroke-width="4"/><line x1="800.0" y1="186.0" x2="840.0" y2="186.0" stroke="#c62828" stroke-width="2.5" marker-end="url(#f52-r)"/><text x="600.0" y="240.0" font-size="11.5" fill="#ef6c00" text-anchor="start"><tspan>橘線 = 填角銲</tspan></text><text x="600.0" y="262.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>同一條銲道上各點 θ 不同（偏心時）</tspan></text><text x="600.0" y="280.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>→ 一律取 1.0 最省事也最保守</tspan></text></svg>
+<div class="cap">圖 5-2　填角銲方向性強度倍數 \(1+0.5\sin^{1.5}\theta\)。θ = 90°（橫向銲）多 50%，45° 約多 30%；規範預設一律取紅線 1.0，等於主動放棄曲線與紅線之間的那塊強度，換取「整條銲道一個數字」的簡單。</div>
+</div>
+
+<h3>5.3 填角銲 vs 開槽銲：誰控制強度</h3>
+
+<table>
+<thead><tr><th>型式</th><th>強度由誰控制</th><th>公式</th><th>什麼時候用</th></tr></thead>
+<tbody>
+<tr><td>填角銲（Fillet）</td><td><b>銲材</b>（喉部剪斷）</td><td>\(0.75\times0.6F_{EXX}\times0.707w L\)</td><td>搭接、角接、大部分剪力接合</td></tr>
+<tr><td>CJP 全滲透開槽銲</td><td><b>母材</b>（銲道比母材強）</td><td>\(\phi F_y A_{BM}\) 或 \(\phi F_u A_{BM}\)（依受力）</td><td>梁翼板、需傳遞全強度的接頭、耐震接頭</td></tr>
+<tr><td>PJP 部分滲透</td><td><b>銲材</b>（有效喉 &lt; 板厚）</td><td>\(0.75\times0.6F_{EXX}\times A_{eff}\)</td><td>厚板受壓接合、不需全強度處</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>陷阱：CJP 的強度不要去算銲條。</b>CJP 的設計理念是「銲道與母材同強或更強」（matching filler metal），
+所以驗算對象是<b>母材</b>，不是 \(F_{EXX}\)。看到 CJP 而去算 \(0.6F_{EXX}\times\) 板厚，方向就錯了。
+反之，PJP 一定要用有效喉深（依坡口型式與銲接位置查表，通常小於板厚），不能當 CJP 用。
+</div>
+
+<h3>5.4 銲腳尺寸的上下限（考題常問「所以要用幾 mm」）</h3>
+
+<div class="grid2">
+<div class="box">
+<b>最小銲腳 \(w_{min}\)（依<u>較薄</u>板厚）</b>
+<table style="margin:8px 0">
+<tr><th>\(w_{min}\)</th><th>AISC 360 表 J2.4</th><th>台灣規範表 10.2-4</th></tr>
+<tr><td>3 mm</td><td>\(t \leq 6\)</td><td>\(t \leq 6\)</td></tr>
+<tr><td>5 mm</td><td>\(6 < t \leq 13\)</td><td>\(6 < t \leq 12\)</td></tr>
+<tr><td>6 mm</td><td>\(13 < t \leq 19\)</td><td>\(12 < t \leq 19\)</td></tr>
+<tr><td>8 mm</td><td>\(t > 19\)</td><td>\(19 < t \leq 38\)</td></tr>
+</table>
+<span style="font-size:.86em;color:#607d8b">兩者只差在 12～13 mm 的分界。台灣級距以 113 年考卷所附表格（轉圖目視確認）為準；作答以題目附表優先。</span><br>
+<b>為什麼有下限？</b>厚板散熱快，銲道太小會急速冷卻 → 淬硬、氫裂。這是<b>冶金</b>要求，不是強度要求。
+</div>
+<div class="box">
+<b>最大銲腳 \(w_{max}\)（依<u>板緣</u>厚度）</b>
+<ul>
+<li>\(t < 6\) mm：\(w_{max} = t\)</li>
+<li>\(t \geq 6\) mm：\(w_{max} = t - 2\) mm</li>
+</ul>
+<b>為什麼有上限？</b>銲到板緣齊平，熔池會把板緣「吃掉」（熔穿／底切），
+留 2 mm 是保證板緣還在。
+<br><br><b>最小銲道長度</b>：\(L \geq 4w\) 且 \(\geq 38\) mm ——
+太短的銲道起弧、收弧的缺陷佔比太高，有效長度不可靠。
+</div>
+</div>
+
+<h3>5.5 手算範例 C：反算銲腳，並用 LRFD／ASD 互相驗算</h3>
+
+<div class="box">
+<b>題目設定</b>：一塊接合板以<b>兩側縱向填角銲</b>接於柱翼板，每側有效銲長 \(L = 25\) cm，E70XX。
+需傳遞的力：LRFD \(P_u = 60\) tf（對應的服務載重約 \(P_a = 60/1.5 = 40\) tf）。
+板厚 \(t = 12\) mm。求所需銲腳 \(w\)。
+
+<h4>(a) LRFD</h4>
+$$\phi R_n = 1.565\,w \times (2\times 25) = 78.3\,w \ \geq\ 60 \quad\Rightarrow\quad w \geq 0.767\ \text{cm} = 7.7\ \text{mm}$$
+
+<h4>(b) ASD</h4>
+$$R_a = 1.043\,w \times (2\times 25) = 52.2\,w \ \geq\ 40 \quad\Rightarrow\quad w \geq 0.767\ \text{cm} = 7.7\ \text{mm}$$
+
+<h4>(c) 構造檢查</h4>
+$$t = 12\ \text{mm} \Rightarrow w_{min} = 5\ \text{mm},\quad w_{max} = 12-2 = 10\ \text{mm}$$
+$$L = 250\ \text{mm} \geq 4w = 32\ \text{mm}\ \checkmark$$
+$$\Rightarrow \boxed{w = 8\ \text{mm}}\quad (5 \leq 8 \leq 10\ \checkmark)$$
+</div>
+
+<div class="why">
+<b>(a) 與 (b) 算出完全相同的 7.7 mm，這不是巧合。</b>
+$$\frac{\text{LRFD 銲道係數}}{\text{ASD 銲道係數}} = \frac{0.75\times 0.6}{0.30} = \frac{0.45}{0.30} = 1.50
+\quad\text{恰等於}\quad \frac{P_u}{P_a} = 1.50$$
+這是 §2.3 那個檢查的實戰版：<b>兩套方法在同樣假設下必須給出同樣答案</b>。
+考試若同一題要求 LRFD 與 ASD 各算一次（本單元很愛這樣考），
+算完把兩個答案的比值算出來 —— <b>比值應落在 1.4～1.6</b>。落在別處，回去找漏掉的係數。
+<br><br><b>最後一步不要忘</b>：強度算出 7.7 mm，實務與規範都要取整到<b>可施工的尺寸</b>，
+並同時滿足 \(w_{min}\)、\(w_{max}\)。只寫「\(w = 7.7\) mm」不算完成答案。
+</div>
+
+<div class="box" style="border-left:5px solid var(--ac)">
+<b>§5 因果鏈</b>：填角銲斷面是等腰直角三角形 → 最短斷面在 45°（\(t_e = 0.707w\)）→
+喉部受純剪 → 乘 0.6（von Mises）→ 現場品質變異大 → \(\phi = 0.75\) →
+得 \(1.565wL\)（LRFD）／\(1.043wL\)（ASD），兩者比值恆為 1.5 →
+強度算完再用 \(w_{min}\)、\(w_{max}\)、\(L\geq 4w\) 三道構造規定收尾。
+</div>
+</section>
+<section id="s6">
+<h2>§6　偏心接合：彈性向量法</h2>
+
+<div class="lead">本單元最會扣分的題型（5 題）。它不難，但有三個陷阱幾乎人人踩：
+<b>形心位置算錯</b>、<b>\(I_p\) 單位搞混</b>、<b>臨界點抓錯</b>。</div>
+
+<h3>6.1 一個假設撐起整個方法</h3>
+
+<p>外力 \(P\) 不通過緊結物群的形心 → 對形心產生扭矩 \(M = P\cdot e\)。彈性向量法只做<b>一個</b>假設：</p>
+
+<div class="why">
+<b>假設：緊結物群被夾在兩塊「剛性」板之間，只能繞形心整體旋轉。</b>
+<br>從這個假設，其他全部是推論：
+<ul>
+<li>剛體旋轉 → 各點的位移 \(\delta_i \propto r_i\)（離轉心越遠位移越大）</li>
+<li>彈性 → 力與位移成正比 → \(R_i \propto r_i\)</li>
+<li>旋轉 → 位移方向<b>垂直</b>於半徑向量 → 力的方向也垂直於 \(r_i\)</li>
+<li>力矩平衡：\(M = \sum R_i r_i = \dfrac{R_{max}}{r_{max}}\sum r_i^2\) → \(\displaystyle R_i = \frac{M r_i}{I_p}\)，其中 \(I_p = \sum r_i^2\)</li>
+</ul>
+<b>所以 \(I_p\) 不是「查來的」，它是力矩平衡的必然產物</b> —— 完全類比於梁的 \(\sigma = My/I\)。
+把「扭矩 ÷ 極慣性矩 × 半徑」記成「彎矩 ÷ 慣性矩 × 距離」的孿生兄弟，就不會忘。
+</div>
+
+<p>直接剪力則<b>平均分配</b>（同一個剛體假設下，平移位移人人相同）：</p>
+
+$$\vec{R}_i = \underbrace{\vec{R}_V}_{P/n\ \text{或}\ P/\Sigma L} + \underbrace{\vec{R}_M}_{M r_i / I_p}
+\qquad R_i = \sqrt{R_x^2 + R_y^2}$$
+
+<h3>6.2 螺栓群 vs 銲縫群：唯一的差別是「點」還是「線」</h3>
+
+<table>
+<thead><tr><th>項目</th><th>螺栓群（離散點）</th><th>銲縫群（連續線）</th></tr></thead>
+<tbody>
+<tr><td>形心</td><td>\(\bar x = \sum x_i / n\)（顆數平均）</td><td>\(\bar x = \sum(L_i x_{i,c})/\sum L_i\)（<b>長度</b>加權）</td></tr>
+<tr><td>\(I_p\)</td><td>\(\sum(x_i^2+y_i^2)\)</td><td>\(\int (x^2+y^2)\,ds\)</td></tr>
+<tr><td><b>\(I_p\) 的單位</b></td><td><b>cm²</b></td><td><b>cm³</b></td></tr>
+<tr><td>直接剪力</td><td>\(R_V = P/n\)（每<b>顆</b>的力，tf）</td><td>\(f_V = P/\sum L\)（每<b>單位長</b>的力，tf/cm）</td></tr>
+<tr><td>扭矩剪力</td><td>\(R_M = Mr/I_p\)（tf）</td><td>\(f_M = Mr/I_p\)（tf/cm）</td></tr>
+<tr><td>驗核對象</td><td>\(R_{max} \leq \phi R_{n,\text{bolt}}\)</td><td>\(f_{max} \leq \phi\,0.6F_{EXX}t_e\)（tf/cm）</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>陷阱：銲縫的 \(I_p\) 單位是 cm³ 不是 cm⁴。</b>
+因為銲縫用「線圖法」：把銲道當成寬度＝1 的線，\(I_p = \int r^2 ds\)（長度 × 長度² ＝ 長度³）。
+喉厚 \(t_e\) 是<b>最後才乘</b>進去的（比較 \(f_{max}\) 與 \(\phi\,0.6F_{EXX}t_e\) 時）。
+若你在算 \(I_p\) 的階段就把 \(t_e\) 乘進去，後面一定會重複計算。<b>單位是最好的自我檢查</b>。
+</div>
+
+<div class="box">
+<b>線圖 \(I_p\) 的組裝方式</b>（各段對<u>整體形心</u>取，再相加）：
+<table style="margin:8px 0">
+<tr><th>銲段</th><th>\(I_x\) 貢獻</th><th>\(I_y\) 貢獻</th></tr>
+<tr><td>水平段，長 \(b\)，形心在 \((x_c,y_c)\)</td><td>\(0 + b(y_c-\bar y)^2\)</td><td>\(\dfrac{b^3}{12} + b(x_c-\bar x)^2\)</td></tr>
+<tr><td>垂直段，長 \(d\)，形心在 \((x_c,y_c)\)</td><td>\(\dfrac{d^3}{12} + d(y_c-\bar y)^2\)</td><td>\(0 + d(x_c-\bar x)^2\)</td></tr>
+</table>
+$$I_p = \sum I_x + \sum I_y$$
+<b>速算形心（考場救命）</b>：U 形（兩水平 \(b\) ＋ 一垂直 \(d\)，開口朝右）：\(\bar x = \dfrac{b^2}{2b+d}\)；
+L 形（一水平 \(b\) ＋ 一垂直 \(d\)）：\(\bar x = \dfrac{b^2}{2(b+d)}\)，\(\bar y = \dfrac{d^2}{2(b+d)}\)。
+</div>
+
+<h3>6.3 手算範例 D：L 形銲道，並證明「最遠點不是臨界點」</h3>
+
+<div class="box">
+<b>題目設定</b>：L 形填角銲（垂直段 \(d = 30\) cm 在 \(x=0\)；水平段 \(b = 20\) cm 在 \(y=0\)），
+銲腳 \(w = 10\) mm（E70XX）。垂直向下集中力 \(P\) 作用在 \(x = 35\) cm 處。求 \(P_u\)。
+
+<h4>Step 1：形心</h4>
+$$\sum L = 30+20 = 50\ \text{cm}$$
+$$\bar x = \frac{30(0) + 20(10)}{50} = 4.0\ \text{cm},\qquad
+\bar y = \frac{30(15) + 20(0)}{50} = 9.0\ \text{cm}$$
+（用速算式驗證：\(\bar x = b^2/[2(b+d)] = 400/100 = 4.0\ \checkmark\)，\(\bar y = d^2/[2(b+d)] = 900/100 = 9.0\ \checkmark\)）
+
+<h4>Step 2：極慣性矩 \(I_p\)（線圖，cm³）</h4>
+垂直段（\(x_c=0,\ y_c=15\)）：
+$$I_x = \frac{30^3}{12} + 30(15-9)^2 = 2250 + 1080 = 3330,\qquad I_y = 30(0-4)^2 = 480$$
+水平段（\(x_c=10,\ y_c=0\)）：
+$$I_x = 20(0-9)^2 = 1620,\qquad I_y = \frac{20^3}{12} + 20(10-4)^2 = 666.7 + 720 = 1386.7$$
+$$I_p = (3330+480) + (1620+1386.7) = 3810 + 3006.7 = \underline{6816.7\ \text{cm}^3}$$
+
+<h4>Step 3：偏心距與扭矩</h4>
+$$e = 35 - \bar x = 31\ \text{cm},\qquad M = 31P\ (\text{順時針})$$
+$$f_V = \frac{P}{\sum L} = \frac{P}{50} = 0.0200P\ \ (\text{向下，tf/cm})$$
+
+<h4>Step 4：比較兩個候選點</h4>
+<table>
+<thead><tr><th>候選點</th><th>\((r_x, r_y)\)</th><th>\(|r|\)</th><th>\(f_{Mx}\)</th><th>\(f_{My}\)</th><th>\(f_y\) 合計</th><th>合力 \(f\)</th></tr></thead>
+<tbody>
+<tr><td><b>右下角</b> (20, 0)</td><td>(+16, −9)</td><td>18.36</td><td>−0.0409P</td><td>−0.0728P</td><td>−0.0928P</td><td><b>0.1014P</b></td></tr>
+<tr><td>左上角 (0, 30)</td><td>(−4, +21)</td><td><b>21.38</b></td><td>+0.0955P</td><td>+0.0182P</td><td>−0.0018P</td><td>0.0955P</td></tr>
+</tbody>
+</table>
+<p>（\(f_{Mx} = M r_y/I_p\)、\(f_{My} = -M r_x/I_p\)，順時針扭矩；\(f_y\) 合計 = \(f_{My} - f_V\)）</p>
+
+<h4>Step 5：由臨界點求 \(P_u\)</h4>
+$$t_e = 0.707\times 1.0 = 0.707\ \text{cm}$$
+$$\phi\,0.6F_{EXX}\,t_e = 0.75\times 0.6\times 4.92\times 0.707 = 1.565\ \text{tf/cm}$$
+$$0.1014\,P \leq 1.565 \quad\Rightarrow\quad \boxed{P_u = 15.4\ \text{tf}}$$
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="範例D偏心L形銲道的幾何與向量合成" font-family="inherit"><defs><marker id="f61-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker><marker id="f61-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/></marker><marker id="f61-o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef6c00"/></marker><marker id="f61-u" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6a1b9a"/></marker><marker id="f61-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker></defs><text x="24.0" y="24.0" font-size="13" fill="#263238" text-anchor="start" font-weight="700"><tspan>(a) 幾何（比例 1 cm = 8 px）</tspan></text><rect x="50.0" y="84.0" width="224.0" height="320.0" rx="0" fill="#eceff1" stroke="#b0bec5" stroke-width="1" fill-opacity="0.7"/><text x="58.0" y="96.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>柱翼板</tspan></text><rect x="90.0" y="132.0" width="304.0" height="240.0" rx="0" fill="#fffde7" stroke="#ef6c00" stroke-width="1.4" fill-opacity="0.85"/><text x="330.0" y="152.0" font-size="11.5" fill="#ef6c00" text-anchor="middle"><tspan>托架板</tspan></text><line x1="90.0" y1="372.0" x2="90.0" y2="132.0" stroke="#ef6c00" stroke-width="6"/><line x1="90.0" y1="372.0" x2="250.0" y2="372.0" stroke="#ef6c00" stroke-width="6"/><text x="80.4" y="252.0" font-size="12" fill="#ef6c00" text-anchor="end"><tspan>d = 30</tspan></text><text x="170.0" y="392.0" font-size="12" fill="#ef6c00" text-anchor="middle"><tspan>b = 20</tspan></text><line x1="122.0" y1="300.0" x2="250.0" y2="372.0" stroke="#607d8b" stroke-width="1" stroke-dasharray="4,3"/><line x1="122.0" y1="300.0" x2="90.0" y2="132.0" stroke="#607d8b" stroke-width="1" stroke-dasharray="4,3"/><circle cx="122.0" cy="300.0" r="5.0" fill="#1565c0" stroke="#1565c0" stroke-width="1.5"/><text x="130.0" y="296.0" font-size="12" fill="#1565c0" text-anchor="start"><tspan>形心 (4, 9)</tspan></text><text x="190.0" y="330.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>r = 18.36</tspan></text><text x="112.0" y="216.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>r = 21.38</tspan></text><path d="M88,300 A34,34 0 0 1 122,266 A34,34 0 0 1 151.6,283.0" fill="none" stroke="#6a1b9a" stroke-width="1.8" marker-end="url(#f61-u)" stroke-linejoin="round"/><text x="160.0" y="268.0" font-size="12" fill="#6a1b9a" text-anchor="start" font-weight="700"><tspan>M = 31P（順）</tspan></text><line x1="370.0" y1="84.0" x2="370.0" y2="196.0" stroke="#c62828" stroke-width="3" marker-end="url(#f61-r)"/><text x="378.0" y="98.0" font-size="15" fill="#c62828" text-anchor="start" font-weight="700"><tspan>P</tspan></text><line x1="122.0" y1="72.0" x2="370.0" y2="72.0" stroke="#6a1b9a" stroke-width="1"/><line x1="122.0" y1="67.0" x2="122.0" y2="77.0" stroke="#6a1b9a" stroke-width="1"/><line x1="370.0" y1="67.0" x2="370.0" y2="77.0" stroke="#6a1b9a" stroke-width="1"/><text x="246.0" y="67.0" font-size="12.5" fill="#6a1b9a" text-anchor="middle"><tspan>e = 35 − 4 = 31 cm</tspan></text><line x1="122.0" y1="292.0" x2="122.0" y2="76.0" stroke="#6a1b9a" stroke-width="0.7" stroke-dasharray="2,3"/><circle cx="250.0" cy="372.0" r="6.0" fill="#c62828" stroke="#fff" stroke-width="1.5"/><text x="260.0" y="390.0" font-size="12" fill="#c62828" text-anchor="start" font-weight="700"><tspan>右下角 (20, 0) → 臨界</tspan></text><circle cx="90.0" cy="132.0" r="6.0" fill="#2e7d32" stroke="#fff" stroke-width="1.5"/><text x="100.0" y="150.0" font-size="12" fill="#2e7d32" text-anchor="start" font-weight="700"><tspan>左上角 (0, 30)：最遠但非臨界</tspan></text><line x1="450.0" y1="40.0" x2="450.0" y2="430.0" stroke="#cfd8dc" stroke-width="1.5" stroke-dasharray="6,5"/><text x="470.0" y="24.0" font-size="13" fill="#263238" text-anchor="start" font-weight="700"><tspan>(b) 兩點的向量合成（同一比例 0.01P = 18 px）</tspan></text><text x="560.0" y="68.0" font-size="13" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>右下角</tspan></text><line x1="560.0" y1="84.0" x2="560.0" y2="120.0" stroke="#1565c0" stroke-width="3" marker-end="url(#f61-b)"/><line x1="560.0" y1="120.0" x2="486.3" y2="251.0" stroke="#ef6c00" stroke-width="3" marker-end="url(#f61-o)"/><line x1="560.0" y1="84.0" x2="486.3" y2="251.0" stroke="#6a1b9a" stroke-width="3.4" marker-end="url(#f61-u)"/><circle cx="560.0" cy="84.0" r="4.0" fill="#c62828" stroke="#c62828" stroke-width="1.5"/><text x="568.0" y="106.0" font-size="12" fill="#1565c0" text-anchor="start"><tspan>f</tspan><tspan dy="3.8" font-size="8.6">V</tspan><tspan dy="-3.8"> = 0.0200P</tspan></text><text x="509.2" y="195.5" font-size="12" fill="#ef6c00" text-anchor="end"><tspan>f</tspan><tspan dy="3.8" font-size="8.6">M</tspan><tspan dy="-3.8"> = 0.0835P</tspan></text><text x="533.2" y="197.5" font-size="13" fill="#6a1b9a" text-anchor="start" font-weight="700"><tspan>合力 0.1014P</tspan></text><text x="560.0" y="281.0" font-size="12" fill="#c62828" text-anchor="middle"><tspan>兩分力都朝下 → 相加</tspan></text><text x="670.0" y="314.0" font-size="13" fill="#2e7d32" text-anchor="middle" font-weight="700"><tspan>左上角</tspan></text><line x1="670.0" y1="330.0" x2="670.0" y2="366.0" stroke="#1565c0" stroke-width="3" marker-end="url(#f61-b)"/><line x1="670.0" y1="366.0" x2="841.9" y2="333.3" stroke="#ef6c00" stroke-width="3" marker-end="url(#f61-o)"/><line x1="670.0" y1="330.0" x2="841.9" y2="333.3" stroke="#6a1b9a" stroke-width="3.4" marker-end="url(#f61-u)"/><circle cx="670.0" cy="330.0" r="4.0" fill="#2e7d32" stroke="#2e7d32" stroke-width="1.5"/><text x="662.0" y="356.0" font-size="12" fill="#1565c0" text-anchor="end"><tspan>f</tspan><tspan dy="3.8" font-size="8.6">V</tspan><tspan dy="-3.8"> = 0.0200P</tspan></text><text x="756.0" y="329.6" font-size="12" fill="#ef6c00" text-anchor="middle"><tspan>f</tspan><tspan dy="3.8" font-size="8.6">M</tspan><tspan dy="-3.8"> = 0.0972P</tspan></text><text x="665.0" y="392.0" font-size="12.5" fill="#6a1b9a" text-anchor="middle" font-weight="700"><tspan>合力 0.0955P（垂直分量只剩 −0.0018P，幾乎抵消）</tspan></text><rect x="470.0" y="410.0" width="390.0" height="40.0" rx="8" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.2"/><text x="665.0" y="435.0" font-size="13.5" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>0.1014P ≤ 1.565 tf/cm → P</tspan><tspan dy="4.3" font-size="9.7">u</tspan><tspan dy="-4.3"> = 15.4 tf</tspan></text></svg>
+<div class="cap">圖 6-1　範例 D，依實際尺寸（1 cm = 8 px）與同一向量比例尺繪製。左上角離形心較遠（21.38 &gt; 18.36），但它的扭矩分力幾乎水平，垂直分量 +0.0182P 與直接剪力 −0.0200P 相互抵消；右下角的扭矩分力斜向下，與直接剪力同向疊加。<b>臨界點取決於「方向是否同向」，不是「距離是否最遠」。</b></div>
+</div>
+
+<div class="why">
+<b>怎麼在三十秒內找到臨界點（不必逐點硬算）</b>
+<ol>
+<li>畫出直接剪力方向（\(P\) 的方向，本例向下）。</li>
+<li>判斷扭矩轉向：\(P\) 在形心的<b>哪一側</b>？本例在右側、力向下 → <b>順時針</b>。</li>
+<li>在圖上手畫幾個角點的扭矩分力（垂直於該點的半徑、順著轉向）。</li>
+<li><b>找扭矩分力與直接剪力夾角最小的那個點</b> —— 通常是「扭矩轉向把它往下推」的那一側最外角。</li>
+<li>只算那個點，另外再驗一個次候選點證明它較小。答題時寫出這個判斷過程，即使算錯數字也拿判斷分。</li>
+</ol>
+</div>
+
+<div class="trap">
+<b>陷阱總結（本節三個必踩）</b>
+<ul>
+<li><b>形心不在幾何中心。</b>L 形、U 形、C 形銲道的形心都要算。忘記算 → 偏心距 \(e\) 錯 → 後面全錯。
+本例若誤以為形心在銲道左端（\(\bar x = 0\)），\(e\) 會變成 35（多了 13%），答案直接偏低。</li>
+<li><b>\(e\) 是「\(P\) 到形心」的距離</b>，不是「\(P\) 到柱面」、也不是「\(P\) 到托架板邊」。</li>
+<li><b>\(I_p\) 要含全部銲段／全部螺栓</b>，包含那些「看起來離形心很近所以應該沒差」的段。</li>
+</ul>
+</div>
+
+<div class="box" style="border-left:5px solid var(--ac)">
+<b>§6 因果鏈</b>：偏心 → 扭矩 \(M = Pe\) → 剛體繞形心旋轉 → 各點力 \(\propto r\) 且 \(\perp r\) →
+力矩平衡給出 \(R = Mr/I_p\) → 疊加平均分配的直接剪力 → <b>向量</b>相加（不是純量相加）→
+臨界點是「兩個分力最同向」的點 → 與該點的緊結物強度比較。
+</div>
+</section>
+<section id="s7">
+<h2>§7　梁柱接頭：彎矩怎麼分、節點域、耐震細部</h2>
+
+<div class="lead">梁柱接頭是本單元的第二主戰場（6 題）且與 SD-U3-1 耐震設計共用的區域。
+它的核心問題只有一個：<b>梁端的彎矩，是靠什麼形狀傳到柱裡去的？</b></div>
+
+<h3>7.1 彎矩分成兩份：翼板的「力偶」與腹板的「彎曲」</h3>
+
+<p>H 型梁的斷面模數，絕大部分由翼板貢獻（翼板離中性軸最遠）。所以梁端彎矩到了接頭處會自然分成兩份：</p>
+
+$$M = \underbrace{M_f}_{\text{翼板}} + \underbrace{M_w}_{\text{腹板}},\qquad
+\frac{M_f}{M} \approx \frac{S_f}{S_x},\quad \frac{M_w}{M}\approx \frac{S_w}{S_x}$$
+
+<div class="why">
+<b>為什麼要分？因為兩者的傳力形狀完全不同。</b>
+<ul>
+<li><b>翼板</b>：離中性軸遠、應力接近 \(F_y\) 且幾乎均勻 → 相當於一對<b>力偶</b> \(T = C = M_f/d\)。
+所以翼板用<b>CJP 全滲透銲</b>（要傳全強度的軸力）。</li>
+<li><b>腹板</b>：應力沿高度線性變化（三角形分佈），中間為零 → 腹板銲道受的是<b>彎曲</b>，
+同時還要承擔全部的<b>剪力 \(V\)</b>。所以腹板銲道必須驗<b>組合應力</b>。</li>
+</ul>
+典型比例：H500 級的梁，\(M_f\) 約佔 80～85%、\(M_w\) 約佔 15～20%
+（<a class="qlink" href="problems-view/SS-2018-3.html" target="_blank">SS-2018-3</a> 給的 124.5 : 25.5 = 83% : 17%，正好落在這個範圍）。
+<b>這個比例可以當自我檢查</b>：若題目要你自己分配，算出翼板只佔 50% 就一定錯了。
+<br><b>⚠ 但要注意：「翼板該用 CJP」是實務原則，不等於考題圖上就是 CJP。</b>107 年（<a class="qlink" href="problems-view/SS-2018-3.html" target="_blank">SS-2018-3</a>）圖面上的三個銲接符號（上翼板／腹板／下翼板）<b>全部都是 6 mm 填角銲</b>——這正是該題的陷阱：翼板必須以<b>銲道喉面積</b>檢核（得 151.6 N/mm² &gt; 90.5，NG，需 10 mm），不能因為「彎矩接頭應該是 CJP」就改用母材強度 \(0.6F_y\) 去驗而判 OK。<b>先數銲接符號，再選公式。</b>
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="梁端彎矩分為翼板力偶與腹板彎曲" font-family="inherit"><defs><marker id="f71-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker><marker id="f71-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/></marker><marker id="f71-o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef6c00"/></marker><marker id="f71-u" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6a1b9a"/></marker><marker id="f71-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker></defs><rect x="50.0" y="30.0" width="36.0" height="300.0" rx="0" fill="#eceff1" stroke="#455a64" stroke-width="1.5"/><text x="68.0" y="24.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>柱</tspan></text><rect x="90.0" y="70.0" width="240.0" height="14.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.4"/><rect x="90.0" y="276.0" width="240.0" height="14.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.4"/><rect x="90.0" y="84.0" width="240.0" height="192.0" rx="0" fill="#f5f5f5" stroke="#455a64" stroke-width="1.2"/><text x="210.0" y="186.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>腹板</tspan></text><polygon points="86.0,70.0 98.0,70.0 90.0,84.0 86.0,84.0" fill="#c62828" stroke="#c62828" stroke-width="1" stroke-linejoin="round"/><polygon points="86.0,276.0 90.0,276.0 98.0,290.0 86.0,290.0" fill="#c62828" stroke="#c62828" stroke-width="1" stroke-linejoin="round"/><line x1="89.0" y1="92.0" x2="89.0" y2="268.0" stroke="#ef6c00" stroke-width="4"/><text x="104.0" y="62.0" font-size="11.5" fill="#c62828" text-anchor="start"><tspan>翼板銲（實務多為 CJP）</tspan></text><text x="100.0" y="114.0" font-size="11.5" fill="#ef6c00" text-anchor="start"><tspan>腹板填角銲</tspan></text><line x1="430.0" y1="60.0" x2="430.0" y2="300.0" stroke="#455a64" stroke-width="1.2"/><line x1="422.0" y1="180.0" x2="560.0" y2="180.0" stroke="#607d8b" stroke-width="1" stroke-dasharray="4,3"/><text x="562.0" y="184.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>中性軸</tspan></text><polygon points="430.0,70.0 520.0,70.0 508.5,84.0 430.0,84.0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.2" stroke-linejoin="round"/><polygon points="430.0,276.0 351.5,276.0 340.0,290.0 430.0,290.0" fill="#bbdefb" stroke="#1565c0" stroke-width="1.2" stroke-linejoin="round"/><polygon points="430.0,84.0 508.5,84.0 430.0,180.0" fill="#ffe0b2" stroke="#ef6c00" stroke-width="1.2" stroke-linejoin="round"/><polygon points="430.0,180.0 351.5,276.0 430.0,276.0" fill="#ffe0b2" stroke="#ef6c00" stroke-width="1.2" stroke-linejoin="round"/><line x1="526.0" y1="77.0" x2="576.0" y2="77.0" stroke="#c62828" stroke-width="2.6" marker-end="url(#f71-r)"/><text x="580.0" y="81.0" font-size="12.5" fill="#c62828" text-anchor="start" font-weight="700"><tspan>T = M</tspan><tspan dy="4.0" font-size="9.0">f</tspan><tspan dy="-4.0">/d</tspan></text><line x1="576.0" y1="283.0" x2="526.0" y2="283.0" stroke="#1565c0" stroke-width="2.6" marker-end="url(#f71-b)"/><text x="580.0" y="287.0" font-size="12.5" fill="#1565c0" text-anchor="start" font-weight="700"><tspan>C = M</tspan><tspan dy="4.0" font-size="9.0">f</tspan><tspan dy="-4.0">/d</tspan></text><text x="460.0" y="144.0" font-size="13" fill="#ef6c00" text-anchor="start" font-weight="700"><tspan>M</tspan><tspan dy="4.2" font-size="9.4">w</tspan><tspan dy="-4.2"></tspan></text><text x="430.0" y="320.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>接頭面應力：翼板≈均勻 → 力偶；腹板三角形 → 彎矩</tspan></text><text x="430.0" y="338.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>SS-2018-3：M</tspan><tspan dy="3.7" font-size="8.3">f</tspan><tspan dy="-3.7"> : M</tspan><tspan dy="3.7" font-size="8.3">w</tspan><tspan dy="-3.7"> = 124.5 : 25.5（83% : 17%）</tspan></text><text x="762.0" y="128.0" font-size="12.5" fill="#263238" text-anchor="middle" font-weight="700"><tspan>範例 E：腹板銲道最上端的應力</tspan></text><path d="M849.1,160 A177.1,177.1 0 0 1 833.8,232.0" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-dasharray="6,4" stroke-linejoin="round"/><text x="853.1" y="152.0" font-size="12" fill="#2e7d32" text-anchor="end"><tspan>容許 f</tspan><tspan dy="3.8" font-size="8.6">a</tspan><tspan dy="-3.8"> = 1.476</tspan></text><line x1="672.0" y1="160.0" x2="804.2" y2="160.0" stroke="#ef6c00" stroke-width="3" marker-end="url(#f71-o)"/><text x="714.0" y="152.0" font-size="12" fill="#ef6c00" text-anchor="middle"><tspan>σ</tspan><tspan dy="3.8" font-size="8.6">M</tspan><tspan dy="-3.8"> = 1.102</tspan></text><line x1="804.2" y1="160.0" x2="804.2" y2="193.5" stroke="#1565c0" stroke-width="3" marker-end="url(#f71-b)"/><text x="798.2" y="211.5" font-size="12" fill="#1565c0" text-anchor="end"><tspan>τ</tspan><tspan dy="3.8" font-size="8.6">V</tspan><tspan dy="-3.8"> = 0.279</tspan></text><line x1="672.0" y1="160.0" x2="804.2" y2="193.5" stroke="#6a1b9a" stroke-width="3.2" marker-end="url(#f71-u)"/><text x="662.0" y="239.5" font-size="12.5" fill="#6a1b9a" text-anchor="start" font-weight="700"><tspan>f = √(σ² + τ²) = 1.137</tspan></text><text x="662.0" y="259.5" font-size="12.5" fill="#2e7d32" text-anchor="start" font-weight="700"><tspan>f / f</tspan><tspan dy="4.0" font-size="9.0">a</tspan><tspan dy="-4.0"> = 0.77 &lt; 1.0 → OK</tspan></text><text x="662.0" y="279.5" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>（單位 tf/cm²，三向量同一比例尺）</tspan></text><text x="662.0" y="299.5" font-size="11.5" fill="#c62828" text-anchor="start"><tspan>直接相加 1.381 → 把向量當純量，錯</tspan></text></svg>
+<div class="cap">圖 7-1　梁端彎矩的兩條路。接頭面應力：翼板近乎均勻 → 合成一對力偶 \(T = C = M_f/d\)；腹板為三角形 → 彎矩 \(M_w\)，再加上全部剪力 \(V\)。右側是範例 E 腹板銲道最上端的應力向量（同一比例尺）：合力 1.137 落在容許應力圓弧 1.476 之內。翼板銲實際是 CJP 還是填角銲，要先看圖上的銲接符號（見上方 SS-2018-3 警語）。</div>
+</div>
+
+<h3>7.2 手算範例 E：腹板填角銲的組合應力（ASD）</h3>
+
+<div class="box">
+<b>題目設定</b>：H 型梁腹板以<b>雙面</b> 8 mm 填角銲接於箱型柱，有效銲長 \(L_w = 38\) cm。
+腹板負擔 \(M_w = 3.0\) tf·m \(= 300\) tf·cm，設計剪力 \(V = 12\) tf。E70XX，ASD。
+
+<h4>Step 1：銲喉幾何與斷面模數</h4>
+$$t_e = 0.707\times 0.8 = 0.566\ \text{cm}$$
+$$S_w = 2\times \frac{t_e L_w^2}{6} = 2\times\frac{0.566\times 38^2}{6} = 272.2\ \text{cm}^3
+\quad(\text{雙面} \to \times 2)$$
+
+<h4>Step 2：兩個應力分量</h4>
+$$\sigma_{M} = \frac{M_w}{S_w} = \frac{300}{272.2} = 1.102\ \text{tf/cm}^2\quad(\text{銲道上下端最大})$$
+$$\tau_{V} = \frac{V}{2\,t_e L_w} = \frac{12}{2\times 0.566\times 38} = 0.279\ \text{tf/cm}^2\quad(\text{均勻})$$
+
+<h4>Step 3：向量合成並與容許應力比較</h4>
+$$f_{res} = \sqrt{1.102^2 + 0.279^2} = 1.137\ \text{tf/cm}^2$$
+$$f_a = 0.3F_{EXX} = 0.3\times 4.92 = 1.476\ \text{tf/cm}^2$$
+$$\frac{1.137}{1.476} = 0.77 < 1.0 \quad\Rightarrow\quad \boxed{\text{8 mm 雙面填角銲 OK}}$$
+</div>
+
+<div class="why">
+<b>三個自我檢查</b>
+<ul>
+<li><b>誰主宰？</b>彎矩項（1.102）遠大於剪力項（0.279），合成值只比彎矩項大 3%。
+這是梁柱接頭的常態 —— <b>若你算出剪力項主宰，先回去檢查 \(S_w\) 有沒有漏乘 2 或把 \(L_w^2\) 寫成 \(L_w\)</b>。</li>
+<li><b>\(\sqrt{a^2+b^2}\) 的合理性</b>：當 \(b \ll a\) 時合力應該只略大於 \(a\)。
+若你合成後得到 1.38（＝直接相加），就是把向量當純量加了。</li>
+<li><b>不足時怎麼補</b>：\(f_{res}\propto 1/t_e \propto 1/w\)（因 \(S_w\)、剪力面積都與 \(t_e\) 成正比）。
+所以需求銲腳 \(w_{req} = w \times \dfrac{f_{res}}{f_a}\) —— 一次就算出來，不必反覆試。
+本例若 \(f_{res} = 1.9 > 1.476\)，則 \(w_{req} = 8\times 1.9/1.476 = 10.3 \to 11\) mm。</li>
+</ul>
+</div>
+
+<h3>7.3 節點域：柱腹板被兩邊的梁「剪」</h3>
+
+<p>力偶傳進柱裡之後不會消失。左右兩根梁的翼板力在柱腹板上形成一組<b>剪力</b>，
+被剪的那塊矩形（梁上下翼板之間、柱翼板之間）就是節點域（Panel Zone）。</p>
+
+<div class="fig">
+<svg viewBox="0 0 880 415" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="節點域剪力的正確受力方向" font-family="inherit"><defs><marker id="f72-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker><marker id="f72-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/></marker><marker id="f72-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker><marker id="f72-u" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6a1b9a"/></marker></defs><rect x="330.0" y="20.0" width="12.0" height="330.0" rx="0" fill="#eceff1" stroke="#455a64" stroke-width="1.4"/><rect x="438.0" y="20.0" width="12.0" height="330.0" rx="0" fill="#eceff1" stroke="#455a64" stroke-width="1.4"/><rect x="342.0" y="20.0" width="96.0" height="330.0" rx="0" fill="#f5f5f5" stroke="#455a64" stroke-width="1"/><rect x="60.0" y="130.0" width="270.0" height="10.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.3"/><rect x="60.0" y="240.0" width="270.0" height="10.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.3"/><rect x="60.0" y="140.0" width="270.0" height="100.0" rx="0" fill="#fafafa" stroke="#b0bec5" stroke-width="0.8"/><rect x="450.0" y="130.0" width="270.0" height="10.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.3"/><rect x="450.0" y="240.0" width="270.0" height="10.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.3"/><rect x="450.0" y="140.0" width="270.0" height="100.0" rx="0" fill="#fafafa" stroke="#b0bec5" stroke-width="0.8"/><text x="160.0" y="196.0" font-size="12.5" fill="#607d8b" text-anchor="middle"><tspan>左梁</tspan></text><text x="620.0" y="196.0" font-size="12.5" fill="#607d8b" text-anchor="middle"><tspan>右梁</tspan></text><rect x="342.0" y="140.0" width="96.0" height="100.0" rx="0" fill="#fff9c4" stroke="#ef6c00" stroke-width="2"/><polygon points="356.0,140.0 452.0,140.0 424.0,240.0 328.0,240.0" fill="none" stroke="#c62828" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6,4"/><text x="390.0" y="195.0" font-size="14" fill="#ef6c00" text-anchor="middle" font-weight="700"><tspan>節點域</tspan></text><line x1="342.0" y1="135.0" x2="438.0" y2="135.0" stroke="#2e7d32" stroke-width="5"/><line x1="342.0" y1="245.0" x2="438.0" y2="245.0" stroke="#2e7d32" stroke-width="5"/><line x1="220.0" y1="135.0" x2="324.0" y2="135.0" stroke="#c62828" stroke-width="3" marker-end="url(#f72-r)"/><text x="220.0" y="125.0" font-size="12" fill="#c62828" text-anchor="start"><tspan>C</tspan><tspan dy="3.8" font-size="8.6">1</tspan><tspan dy="-3.8"> = M</tspan><tspan dy="3.8" font-size="8.6">b1</tspan><tspan dy="-3.8">/d</tspan><tspan dy="3.8" font-size="8.6">b</tspan><tspan dy="-3.8">（壓，推入）</tspan></text><line x1="456.0" y1="135.0" x2="560.0" y2="135.0" stroke="#c62828" stroke-width="3" marker-end="url(#f72-r)"/><text x="460.0" y="125.0" font-size="12" fill="#c62828" text-anchor="start"><tspan>T</tspan><tspan dy="3.8" font-size="8.6">2</tspan><tspan dy="-3.8"> = M</tspan><tspan dy="3.8" font-size="8.6">b2</tspan><tspan dy="-3.8">/d</tspan><tspan dy="3.8" font-size="8.6">b</tspan><tspan dy="-3.8">（拉，拉出）</tspan></text><line x1="324.0" y1="245.0" x2="220.0" y2="245.0" stroke="#1565c0" stroke-width="3" marker-end="url(#f72-b)"/><text x="220.0" y="267.0" font-size="12" fill="#1565c0" text-anchor="start"><tspan>T</tspan><tspan dy="3.8" font-size="8.6">1</tspan><tspan dy="-3.8">（拉，拉出）</tspan></text><line x1="560.0" y1="245.0" x2="456.0" y2="245.0" stroke="#1565c0" stroke-width="3" marker-end="url(#f72-b)"/><text x="460.0" y="267.0" font-size="12" fill="#1565c0" text-anchor="start"><tspan>C</tspan><tspan dy="3.8" font-size="8.6">2</tspan><tspan dy="-3.8">（壓，推入）</tspan></text><line x1="430.0" y1="40.0" x2="350.0" y2="40.0" stroke="#6a1b9a" stroke-width="2.6" marker-end="url(#f72-u)"/><text x="436.0" y="44.0" font-size="13" fill="#6a1b9a" text-anchor="start" font-weight="700"><tspan>V</tspan><tspan dy="4.2" font-size="9.4">c</tspan><tspan dy="-4.2"></tspan></text><line x1="350.0" y1="330.0" x2="430.0" y2="330.0" stroke="#6a1b9a" stroke-width="2.6" marker-end="url(#f72-u)"/><text x="344.0" y="334.0" font-size="13" fill="#6a1b9a" text-anchor="end" font-weight="700"><tspan>V</tspan><tspan dy="4.2" font-size="9.4">c</tspan><tspan dy="-4.2"></tspan></text><text x="40.0" y="380.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>側移（地震）時兩根梁的彎矩同向 → 上翼板兩個力都向右、下翼板都向左 → 在柱腹板疊加成剪力。</tspan></text><text x="40.0" y="400.0" font-size="12" fill="#607d8b" text-anchor="start"><tspan>（若畫成上翼板兩力「相對」，那是對稱重力載重：兩力抵消，節點域幾乎不受剪。）</tspan></text><rect x="560.0" y="20.0" width="300.0" height="96.0" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.2"/><text x="574.0" y="44.0" font-size="12.5" fill="#0d47a1" text-anchor="start" font-weight="700"><tspan>需求：V</tspan><tspan dy="4.0" font-size="9.0">pz</tspan><tspan dy="-4.0"> = M</tspan><tspan dy="4.0" font-size="9.0">b1</tspan><tspan dy="-4.0">/d</tspan><tspan dy="4.0" font-size="9.0">b</tspan><tspan dy="-4.0"> + M</tspan><tspan dy="4.0" font-size="9.0">b2</tspan><tspan dy="-4.0">/d</tspan><tspan dy="4.0" font-size="9.0">b</tspan><tspan dy="-4.0"> − V</tspan><tspan dy="4.0" font-size="9.0">c</tspan><tspan dy="-4.0"></tspan></text><text x="574.0" y="68.0" font-size="12.5" fill="#0d47a1" text-anchor="start"><tspan>強度：φ</tspan><tspan dy="4.0" font-size="9.0">v</tspan><tspan dy="-4.0">V</tspan><tspan dy="4.0" font-size="9.0">n</tspan><tspan dy="-4.0"> = 0.9 × 0.6F</tspan><tspan dy="4.0" font-size="9.0">y</tspan><tspan dy="-4.0">d</tspan><tspan dy="4.0" font-size="9.0">c</tspan><tspan dy="-4.0">t</tspan><tspan dy="4.0" font-size="9.0">w</tspan><tspan dy="-4.0"></tspan></text><text x="574.0" y="92.0" font-size="11.5" fill="#2e7d32" text-anchor="start"><tspan>綠＝連續板（傳翼板集中力，不抗剪）</tspan></text><text x="574.0" y="108.0" font-size="11.5" fill="#c62828" text-anchor="start"><tspan>紅虛線＝剪切後的節點域</tspan></text></svg>
+<div class="cap">圖 7-2　側移（地震）下的節點域。兩根梁的彎矩<b>同向</b>，所以上翼板的兩個力都向右、下翼板都向左，在柱腹板上疊加成剪力，把節點域剪成平行四邊形（紅虛線）。\(V_{pz}\) 要<b>扣掉</b>柱剪力 \(V_c\)（方向與翼板力相反）—— 忘記扣就過度保守。連續板（綠）的作用不是抗剪，是把梁翼板的<b>集中力</b>接續到柱的另一側，避免柱翼板局部彎曲、柱腹板局部降伏。</div>
+</div>
+
+<div class="why">
+<b>節點域「太弱」與「太強」都不好。</b>
+太弱 → 節點域先大量剪切降伏，梁端塑鉸發展不出來、柱翼板被扭出「狗骨頭」變形，銲道根部承受極大應變而脆斷。
+太強 → 全部塑性變形都被逼到梁端一個很小的區域，該處應變需求過高。
+規範因此對節點域強度給的是一個<b>區間</b>而非單邊下限 —— 這是耐震設計裡少見的「不要太強」條款，很值得在概念題引用。
+</div>
+
+<h3>7.4 耐震接頭：從 Northridge 學到的兩條路</h3>
+
+<p>1994 年 Northridge 地震中，大量「梁翼 CJP ＋ 腹板螺栓剪力板」的傳統接頭在<b>翼板銲道根部脆斷</b>，
+遠低於預期的塑性轉角。規範（AISC 341）因此要求 SMF 接頭必須通過試驗、達到 \(\theta_p \geq 0.04\) rad。
+做法分兩大流派：</p>
+
+<div class="fig">
+<svg viewBox="0 0 880 515" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="補強式與削弱式RBS耐震接頭" font-family="inherit"><defs><marker id="f73-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker><marker id="f73-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker></defs><line x1="440.0" y1="20.0" x2="440.0" y2="505.0" stroke="#cfd8dc" stroke-width="1.5" stroke-dasharray="6,5"/><text x="220.0" y="28.0" font-size="14" fill="#1565c0" text-anchor="middle" font-weight="700"><tspan>補強式：把接頭做強（立面）</tspan></text><rect x="30.0" y="60.0" width="30.0" height="300.0" rx="0" fill="#eceff1" stroke="#455a64" stroke-width="1.4"/><rect x="60.0" y="140.0" width="360.0" height="10.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.3"/><rect x="60.0" y="270.0" width="360.0" height="10.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.3"/><rect x="60.0" y="150.0" width="360.0" height="120.0" rx="0" fill="#fafafa" stroke="#b0bec5" stroke-width="0.8"/><rect x="60.0" y="130.0" width="150.0" height="10.0" rx="0" fill="#90caf9" stroke="#1565c0" stroke-width="1.4"/><rect x="60.0" y="280.0" width="150.0" height="10.0" rx="0" fill="#90caf9" stroke="#1565c0" stroke-width="1.4"/><text x="64.0" y="124.0" font-size="11.5" fill="#1565c0" text-anchor="start"><tspan>蓋板</tspan></text><rect x="223.0" y="138.0" width="44.0" height="144.0" rx="0" fill="#ffcdd2" stroke="none" stroke-width="0" fill-opacity="0.6"/><text x="245.0" y="215.0" font-size="12.5" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>塑鉸區</tspan></text><line x1="60.0" y1="314.0" x2="210.0" y2="314.0" stroke="#1565c0" stroke-width="1"/><line x1="60.0" y1="309.0" x2="60.0" y2="319.0" stroke="#1565c0" stroke-width="1"/><line x1="210.0" y1="309.0" x2="210.0" y2="319.0" stroke="#1565c0" stroke-width="1"/><text x="135.0" y="309.0" font-size="11.5" fill="#1565c0" text-anchor="middle"><tspan>補強長度</tspan></text><text x="70.0" y="340.0" font-size="12" fill="#263238" text-anchor="start"><tspan>塑鉸被「推」到補強端之外、遠離柱面銲道</tspan></text><text x="70.0" y="360.0" font-size="12" fill="#607d8b" text-anchor="start"><tspan>代價：柱、節點域、銲道需求都隨 M</tspan><tspan dy="3.8" font-size="8.6">pr</tspan><tspan dy="-3.8"> 移出去而變大</tspan></text><text x="660.0" y="28.0" font-size="14" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>削弱式 RBS：把梁做弱</tspan></text><rect x="456.0" y="38.0" width="14.0" height="148.0" rx="0" fill="#eceff1" stroke="#455a64" stroke-width="1.4"/><polygon points="470.0,58.0 537.5,58.0 537.5,58.0 541.5,60.2 545.6,62.4 549.6,64.3 553.7,66.1 557.8,67.8 561.8,69.4 565.9,70.8 569.9,72.2 574.0,73.4 578.0,74.5 582.0,75.5 586.1,76.3 590.1,77.1 594.2,77.8 598.2,78.3 602.3,78.8 606.4,79.1 610.4,79.4 614.5,79.5 618.5,79.6 622.5,79.5 626.6,79.4 630.6,79.1 634.7,78.8 638.8,78.3 642.8,77.8 646.9,77.1 650.9,76.3 655.0,75.5 659.0,74.5 663.0,73.4 667.1,72.2 671.1,70.8 675.2,69.4 679.2,67.8 683.3,66.1 687.4,64.3 691.4,62.4 695.5,60.2 699.5,58.0 860.0,58.0 860.0,166.0 699.5,166.0 699.5,166.0 695.5,163.8 691.4,161.6 687.4,159.7 683.3,157.9 679.2,156.2 675.2,154.6 671.1,153.2 667.1,151.8 663.0,150.6 659.0,149.5 655.0,148.5 650.9,147.7 646.9,146.9 642.8,146.2 638.8,145.7 634.7,145.2 630.6,144.9 626.6,144.6 622.5,144.5 618.5,144.4 614.5,144.5 610.4,144.6 606.4,144.9 602.3,145.2 598.2,145.7 594.2,146.2 590.1,146.9 586.1,147.7 582.0,148.5 578.0,149.5 574.0,150.6 569.9,151.8 565.9,153.2 561.8,154.6 557.8,156.2 553.7,157.9 549.6,159.7 545.6,161.6 541.5,163.8 537.5,166.0 537.5,166.0 470.0,166.0" fill="#ffebee" stroke="#c62828" stroke-width="1.6" stroke-linejoin="round"/><polygon points="537.5,58.0 537.5,58.0 541.5,60.2 545.6,62.4 549.6,64.3 553.7,66.1 557.8,67.8 561.8,69.4 565.9,70.8 569.9,72.2 574.0,73.4 578.0,74.5 582.0,75.5 586.1,76.3 590.1,77.1 594.2,77.8 598.2,78.3 602.3,78.8 606.4,79.1 610.4,79.4 614.5,79.5 618.5,79.6 622.5,79.5 626.6,79.4 630.6,79.1 634.7,78.8 638.8,78.3 642.8,77.8 646.9,77.1 650.9,76.3 655.0,75.5 659.0,74.5 663.0,73.4 667.1,72.2 671.1,70.8 675.2,69.4 679.2,67.8 683.3,66.1 687.4,64.3 691.4,62.4 695.5,60.2 699.5,58.0 699.5,58.0" fill="#ffffff" stroke="none" stroke-width="0" stroke-linejoin="round"/><line x1="537.5" y1="58.0" x2="699.5" y2="58.0" stroke="#c62828" stroke-width="0.8" stroke-dasharray="3,3"/><line x1="537.5" y1="166.0" x2="699.5" y2="166.0" stroke="#c62828" stroke-width="0.8" stroke-dasharray="3,3"/><line x1="470.0" y1="48.0" x2="537.5" y2="48.0" stroke="#607d8b" stroke-width="1"/><line x1="470.0" y1="43.0" x2="470.0" y2="53.0" stroke="#607d8b" stroke-width="1"/><line x1="537.5" y1="43.0" x2="537.5" y2="53.0" stroke="#607d8b" stroke-width="1"/><text x="503.8" y="43.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>a</tspan></text><line x1="537.5" y1="48.0" x2="699.5" y2="48.0" stroke="#607d8b" stroke-width="1"/><line x1="537.5" y1="43.0" x2="537.5" y2="53.0" stroke="#607d8b" stroke-width="1"/><line x1="699.5" y1="43.0" x2="699.5" y2="53.0" stroke="#607d8b" stroke-width="1"/><text x="618.5" y="43.0" font-size="12" fill="#607d8b" text-anchor="middle"><tspan>b</tspan></text><line x1="618.5" y1="58.0" x2="618.5" y2="79.6" stroke="#c62828" stroke-width="1.4"/><text x="623.5" y="73.6" font-size="12" fill="#c62828" text-anchor="start"><tspan>c</tspan></text><text x="470.0" y="184.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>上翼板平面（俯視）</tspan></text><line x1="618.5" y1="172.0" x2="618.5" y2="212.0" stroke="#c62828" stroke-width="1" stroke-dasharray="3,3"/><text x="474.0" y="446.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>立面（與平面同比例）</tspan></text><rect x="456.0" y="198.0" width="14.0" height="244.0" rx="0" fill="#eceff1" stroke="#455a64" stroke-width="1.4"/><rect x="470.0" y="212.0" width="390.0" height="8.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.2"/><rect x="470.0" y="420.0" width="390.0" height="8.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.2"/><rect x="470.0" y="220.0" width="390.0" height="200.0" rx="0" fill="#fafafa" stroke="#b0bec5" stroke-width="0.8"/><rect x="537.5" y="210.0" width="162.0" height="220.0" rx="0" fill="#ffcdd2" stroke="none" stroke-width="0" fill-opacity="0.6"/><text x="618.5" y="325.0" font-size="12" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>塑鉸區（削弱段中央）</tspan></text><text x="460.0" y="460.0" font-size="11.5" fill="#263238" text-anchor="start"><tspan>AISC 358：a = 0.5～0.75b</tspan><tspan dy="3.7" font-size="8.3">f</tspan><tspan dy="-3.7">、b = 0.65～0.85d、c ≤ 0.25b</tspan><tspan dy="3.7" font-size="8.3">f</tspan><tspan dy="-3.7"></tspan></text><text x="460.0" y="480.0" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>圖以 b</tspan><tspan dy="3.7" font-size="8.3">f</tspan><tspan dy="-3.7"> = 300、d = 600 mm，取 a = 0.625b</tspan><tspan dy="3.7" font-size="8.3">f</tspan><tspan dy="-3.7">、b = 0.75d、c = 0.2b</tspan><tspan dy="3.7" font-size="8.3">f</tspan><tspan dy="-3.7"> 繪製</tspan></text><text x="460.0" y="500.0" font-size="11.5" fill="#c62828" text-anchor="start" font-weight="700"><tspan>削的是翼板「寬度」—— 立面上看不到凹口</tspan></text></svg>
+<div class="cap">圖 7-3　兩條路的目標完全相同：<b>讓塑性鉸離開銲道</b>。補強式把接頭加強到「塑鉸只能長在補強端之外」；RBS 在指定位置把<b>翼板寬度</b>削成圓弧（只有平面圖看得到），讓塑鉸「只能」長在削弱段中央。右圖平面與立面同比例。出自 <a class="qlink" href="problems-view/SS-2020-1.html" target="_blank">SS-2020-1</a>。</div>
+</div>
+
+<div class="box">
+<b>耐震接頭細部檢查清單（概念題直接照抄）</b>
+<ol>
+<li><b>梁翼板 CJP 全滲透銲</b>，銲材需具規定衝擊韌性（如 27 J @ −20 °C）</li>
+<li><b>移除背墊板／回銲根部</b>：下翼板的背墊板本身就是人造裂縫，是 Northridge 的主因之一</li>
+<li><b>銲趾切角（weld access hole）幾何</b>：太尖銳會造成應力集中</li>
+<li><b>連續板</b>：柱翼板／腹板承受不了梁翼集中力時必設</li>
+<li><b>節點域剪力</b>：不可太弱，也不宜過強（§7.3）</li>
+<li><b>強柱弱梁</b>：\(\sum M^*_{pc} / \sum M^*_{pb} > 1.0\)</li>
+<li><b>塑鉸區側撐</b>：塑鉸兩側需設側向支撐，避免 LTB 搶先發生（與 U1-2 相扣，<a class="qlink" href="problems-view/SS-2012-2.html" target="_blank">SS-2012-2</a>）</li>
+<li><b>UT 全數探傷</b>：CJP 銲道 100% 超音波檢測</li>
+</ol>
+</div>
+
+<div class="trap">
+<b>厚板特有的兩個脆化問題（近年考點，<a class="qlink" href="problems-view/SS-2024-4.html" target="_blank">SS-2024-4</a>）</b>
+<ul>
+<li><b>層狀撕裂（Lamellar Tearing）</b>：鋼板在軋延方向的夾雜物呈層狀分佈，<b>厚度方向（Z 向）</b>韌性最差。
+梁翼板 CJP 把拉力直接施加在柱翼板的厚度方向 → 沿夾雜層剝離。
+對策：改善接頭幾何讓拉力不作用於 Z 向、使用 Z 向性能保證鋼板、降低銲接束制。</li>
+<li><b>電熱熔渣銲（ESW）的熱輸入問題</b>：ESW 一次成型效率極高，但熱輸入極大 →
+HAZ 晶粒粗化、韌性大幅下降。用於箱型柱內隔板時必須嚴格管控熱輸入並做衝擊試驗。</li>
+</ul>
+</div>
+
+<div class="box" style="border-left:5px solid var(--ac)">
+<b>§7 因果鏈</b>：梁端彎矩按斷面模數分成翼板（力偶 → CJP）與腹板（彎曲＋剪力 → 填角銲組合應力）→
+力偶進到柱裡變成節點域剪力 \(V_{pz}\) → 需要連續板把集中力接續、必要時加補強板 →
+地震下要求 \(\theta_p \geq 0.04\) rad → 塑鉸不能長在銲道上 →
+補強式（做強接頭）或削弱式（RBS，做弱梁）→ 再加上厚板的層狀撕裂與 HAZ 韌性管控。
+</div>
+</section>
+<section id="s8">
+<h2>§8　剪力流與斷續銲：銲道要「多密」而不是「多大」</h2>
+
+<div class="lead">當接合的任務是「讓兩個構件像一個構件一樣作用」（組合梁加蓋板、組合斷面），
+設計量就不是強度而是<b>單位長度的剪力流</b>。</div>
+
+<p>把蓋板銲在梁翼板上，蓋板要跟著梁一起彎，就必須有水平剪力把它「拖著走」。
+這個每單位長度的水平剪力就是剪力流：</p>
+
+$$q = \frac{VQ}{I}\quad[\text{tf/cm}],\qquad Q = A_{\text{被連接部分}}\times \bar y_{\text{該部分形心到全斷面中性軸}}$$
+
+<div class="why">
+<b>為什麼是 \(Q\)（一次矩）而不是面積？</b>
+因為剪力流來自「彎矩沿長度變化」造成的正應力差。被連接的那塊面積上，
+正應力的合力 \(= \int \sigma\,dA = \dfrac{M}{I}\int y\,dA = \dfrac{MQ}{I}\)。
+把它對 \(x\) 微分：\(\dfrac{d}{dx}\left(\dfrac{MQ}{I}\right) = \dfrac{VQ}{I} = q\)。
+<br>所以 \(Q\) 出現的原因是「該部分離中性軸有多遠、有多大」——
+<b>離中性軸越遠的附加板，需要的銲道越密</b>，這件事是可以直覺理解的。
+</div>
+
+<h3>手算範例 F：斷續銲的間距（結果由構造規定控制）</h3>
+
+<div class="box">
+<b>題目設定</b>：PL 200×12 蓋板銲於 H 梁上翼板（兩側縱向填角銲），
+全斷面 \(I = 200{,}000\) cm⁴，蓋板形心到中性軸 \(\bar y = 26\) cm，設計剪力 \(V = 40\) tf，
+擬用 \(w = 6\) mm 斷續銲、每段長 6 cm。求最大間距 \(s\)。
+
+$$Q = (20\times 1.2)\times 26 = 624\ \text{cm}^3 \qquad
+q = \frac{40\times 624}{200{,}000} = 0.1248\ \text{tf/cm}$$
+<p>兩側銲道分擔 → 每側 \(q_1 = 0.0624\) tf/cm。</p>
+$$\text{每側銲道容量：}\ 1.565\times 0.6 = 0.939\ \text{tf/cm}
+\qquad \frac{q_1}{\text{容量}} = \frac{0.0624}{0.939} = 0.066$$
+<p>即銲道只需「有 6.6% 的長度」就夠。若每段銲 6 cm：</p>
+$$s_{\text{強度}} = \frac{6}{0.066} = 90\ \text{cm}\ (!!)$$
+<p><b>但構造規定封頂</b>：斷續銲的最大間距不得超過 \(24t\)（受壓）或 \(300\) mm：</p>
+$$s \leq 24\times 1.2 = 28.8\ \text{cm} \quad\Rightarrow\quad \boxed{s = 28\ \text{cm}\ \text{（構造規定控制）}}$$
+</div>
+
+<div class="why">
+<b>這個範例的重點不是算術，是結論的性質。</b>
+組合斷面的剪力流通常小到不可思議（本例只需要 6.6% 的銲道長度），
+所以<b>斷續銲的間距幾乎總是由構造規定控制，不是由強度控制</b>。
+考試若你算出 90 cm 就寫上去，會被扣掉構造規定那一段的分數。
+<br><br><b>為什麼要限制間距？</b>三個理由：
+① 兩板之間縫隙太長會滲水鏽蝕（腐蝕）；
+② 受壓時未連接段的板件會像獨立柱一樣局部挫屈（間距即為該段的無支撐長度）；
+③ 蓋板端部的剪力流反而最大（\(V\) 最大處），端部通常需要連續銲。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="蓋板剪力流與斷續銲間距" font-family="inherit"><defs><marker id="f81-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker><marker id="f81-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker></defs><text x="24.0" y="24.0" font-size="13" fill="#263238" text-anchor="start" font-weight="700"><tspan>(a) 斷面：Q 只算「被這條銲道連過去」的蓋板</tspan></text><rect x="128.0" y="60.0" width="84.0" height="5.0" rx="0" fill="#ffcc80" stroke="#ef6c00" stroke-width="1.6"/><rect x="107.0" y="65.0" width="126.0" height="6.7" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.4"/><rect x="167.9" y="71.8" width="4.2" height="196.6" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.2"/><rect x="107.0" y="268.3" width="126.0" height="6.7" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.4"/><polygon points="128.0,60.0 128.0,65.0 123.0,65.0" fill="#ef6c00" stroke="#ef6c00" stroke-width="1" stroke-linejoin="round"/><polygon points="212.0,60.0 212.0,65.0 217.0,65.0" fill="#ef6c00" stroke="#ef6c00" stroke-width="1" stroke-linejoin="round"/><line x1="77.0" y1="171.7" x2="263.0" y2="171.7" stroke="#607d8b" stroke-width="1" stroke-dasharray="5,3"/><text x="267.0" y="175.7" font-size="11.5" fill="#607d8b" text-anchor="start"><tspan>中性軸</tspan></text><line x1="224.0" y1="62.5" x2="252.0" y2="62.5" stroke="#ef6c00" stroke-width="0.8"/><line x1="242.0" y1="62.5" x2="242.0" y2="171.7" stroke="#ef6c00" stroke-width="1"/><line x1="237.0" y1="62.5" x2="247.0" y2="62.5" stroke="#ef6c00" stroke-width="1"/><line x1="237.0" y1="171.7" x2="247.0" y2="171.7" stroke="#ef6c00" stroke-width="1"/><text x="249.0" y="121.1" font-size="12" fill="#ef6c00" text-anchor="start"><tspan>ȳ = 26 cm</tspan></text><text x="170.0" y="52.0" font-size="11.5" fill="#ef6c00" text-anchor="middle"><tspan>PL 200×12（橘色 = Q 的面積）</tspan></text><text x="103.0" y="85.8" font-size="10.5" fill="#607d8b" text-anchor="start"><tspan>H 梁上翼板</tspan></text><text x="24.0" y="315.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>Q = (20 × 1.2) × 26 = 624 cm³</tspan></text><text x="24.0" y="335.0" font-size="12.5" fill="#263238" text-anchor="start"><tspan>q = VQ / I = 40 × 624 / 200,000 = 0.1248 tf/cm</tspan></text><text x="24.0" y="355.0" font-size="12.5" fill="#6a1b9a" text-anchor="start" font-weight="700"><tspan>兩側分擔 → 每側 0.0624 tf/cm</tspan></text><text x="400.0" y="24.0" font-size="13" fill="#263238" text-anchor="start" font-weight="700"><tspan>(b) 側面（沿梁長，比例 1 cm = 2.6 px）</tspan></text><rect x="410.0" y="100.0" width="442.0" height="10.0" rx="0" fill="#ffcc80" stroke="#ef6c00" stroke-width="1.2"/><rect x="410.0" y="110.0" width="442.0" height="8.0" rx="0" fill="#cfd8dc" stroke="#455a64" stroke-width="1.2"/><text x="852.0" y="94.0" font-size="11.5" fill="#ef6c00" text-anchor="end"><tspan>蓋板（橘塊 = 6 cm 銲段）</tspan></text><rect x="410.0" y="107.0" width="15.6" height="6.0" rx="0" fill="#ef6c00" stroke="#ef6c00" stroke-width="0"/><rect x="482.8" y="107.0" width="15.6" height="6.0" rx="0" fill="#ef6c00" stroke="#ef6c00" stroke-width="0"/><rect x="555.6" y="107.0" width="15.6" height="6.0" rx="0" fill="#ef6c00" stroke="#ef6c00" stroke-width="0"/><rect x="628.4" y="107.0" width="15.6" height="6.0" rx="0" fill="#ef6c00" stroke="#ef6c00" stroke-width="0"/><rect x="701.2" y="107.0" width="15.6" height="6.0" rx="0" fill="#ef6c00" stroke="#ef6c00" stroke-width="0"/><rect x="774.0" y="107.0" width="15.6" height="6.0" rx="0" fill="#ef6c00" stroke="#ef6c00" stroke-width="0"/><line x1="482.8" y1="140.0" x2="555.6" y2="140.0" stroke="#2e7d32" stroke-width="1"/><line x1="482.8" y1="135.0" x2="482.8" y2="145.0" stroke="#2e7d32" stroke-width="1"/><line x1="555.6" y1="135.0" x2="555.6" y2="145.0" stroke="#2e7d32" stroke-width="1"/><text x="519.2" y="160.0" font-size="12" fill="#2e7d32" text-anchor="middle"><tspan>s = 28 cm（構造控制）</tspan></text><line x1="410.0" y1="84.0" x2="425.6" y2="84.0" stroke="#ef6c00" stroke-width="1"/><line x1="410.0" y1="79.0" x2="410.0" y2="89.0" stroke="#ef6c00" stroke-width="1"/><line x1="425.6" y1="79.0" x2="425.6" y2="89.0" stroke="#ef6c00" stroke-width="1"/><text x="417.8" y="79.0" font-size="11.5" fill="#ef6c00" text-anchor="middle"><tspan>6</tspan></text><text x="400.0" y="200.0" font-size="12.5" fill="#263238" text-anchor="start" font-weight="700"><tspan>同一段 6 cm 銲道，兩種上限：</tspan></text><rect x="410.0" y="214.0" width="234.0" height="14.0" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.2"/><text x="652.0" y="226.0" font-size="12" fill="#1565c0" text-anchor="start"><tspan>強度需求只要 s ≤ 90 cm</tspan></text><rect x="410.0" y="240.0" width="74.9" height="14.0" rx="0" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.2"/><text x="492.9" y="252.0" font-size="12" fill="#2e7d32" text-anchor="start" font-weight="700"><tspan>構造規定 s ≤ 24t = 28.8 cm（受壓）、≤ 300 mm</tspan></text><text x="400.0" y="290.0" font-size="12" fill="#607d8b" text-anchor="start"><tspan>銲道只需 6.6% 的長度（0.0624 / 0.939），</tspan></text><text x="400.0" y="310.0" font-size="12" fill="#607d8b" text-anchor="start"><tspan>所以間距幾乎永遠是構造規定說了算：</tspan></text><text x="400.0" y="330.0" font-size="12" fill="#607d8b" text-anchor="start"><tspan>防鏽、防止板件在兩段銲道之間局部挫屈。</tspan></text></svg>
+<div class="cap">圖 8-1　範例 F 的斷面與斷續銲配置。(a) \(Q\) 只取蓋板本身的 \(A\bar y\)；(b) 依比例畫出 6 cm 銲段、間距 28 cm。強度只要求 \(s \le 90\) cm，構造規定把它壓到 28.8 cm —— 兩條橫條的長度差，就是「構造控制」的意思。</div>
+</div>
+
+<div class="trap">
+<b>陷阱：\(Q\) 用錯部位。</b>\(Q\) 是<b>被這條銲道連接過去的那部分</b>的一次矩 ——
+蓋板銲道就用蓋板的 \(A\bar y\)，不是全斷面、也不是半個斷面。
+另一個常錯：\(I\) 必須用<b>含蓋板</b>的全斷面慣性矩（加了蓋板後 \(I\) 變大，\(q\) 反而變小）。
+</div>
+</section>
+
+<section id="s9">
+<h2>§9　施工、瑕疵與檢測：概念題的分數在細節裡</h2>
+
+<div class="lead">本單元有 <b>7 題純概念題</b>（26 題中約四分之一），其中 5 題直接考施工、銲接方法與檢測。
+它們不考計算，考的是「你知不知道現場實際會出什麼問題」。把這一節的三張表背熟，這幾題就是穩定分數。</div>
+
+<h3>9.1 銲接方法：四個縮寫與它們的取捨</h3>
+
+<table>
+<thead><tr><th>縮寫</th><th>中文</th><th>優點</th><th>限制／風險</th><th>典型用途</th></tr></thead>
+<tbody>
+<tr><td><b>SMAW</b></td><td>遮護金屬電弧銲（手工電弧銲）</td><td>設備簡單、姿勢靈活、可全位置</td><td>效率低（要換銲條）、品質靠人</td><td>現場修補、複雜接頭</td></tr>
+<tr><td><b>SAW</b></td><td>潛弧銲</td><td>熔深大、效率高、品質穩定</td><td><b>只能平銲</b>（銲劑靠重力覆蓋），不能仰銲／立銲</td><td>工廠長直銲道（組合梁）</td></tr>
+<tr><td><b>GMAW</b></td><td>氣體金屬電弧銲（MIG／MAG）</td><td>半自動、速度快、無銲渣</td><td>怕風（保護氣被吹散）</td><td>廠內薄板、一般結構</td></tr>
+<tr><td><b>FCAW</b></td><td>包藥銲線電弧銲</td><td>效率高，<b>自保護型可露天</b></td><td>氣體保護型仍怕風；銲渣需清</td><td><b>現場</b>銲接、厚板</td></tr>
+<tr><td><b>ESW</b></td><td>電熱熔渣銲</td><td>厚板一次成型，效率極高</td><td><b>熱輸入極大 → HAZ 晶粒粗化、韌性下降</b></td><td>箱型柱內隔板（需嚴管）</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>一句話記住現場／工廠的分界</b>：<b>怕風的留在工廠（GMAW、SAW），不怕風的上工地（SMAW、FCAW 自保護型）。</b>
+考題問「現場銲接應選何種方法」，答 FCAW（自保護型）或 SMAW；問「工廠長銲道」答 SAW。
+出自 <a class="qlink" href="problems-view/SS-2009-4.html" target="_blank">SS-2009-4</a>、<a class="qlink" href="problems-view/SS-2006-2.html" target="_blank">SS-2006-2</a>。
+</div>
+
+<h3>9.2 開槽型式：為什麼要開槽、怎麼選</h3>
+
+<div class="fig">
+<svg viewBox="0 0 880 295" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="開槽銲三種坡口實尺寸" font-family="inherit"><text x="150.0" y="28.0" font-size="14" fill="#1565c0" text-anchor="middle" font-weight="700"><tspan>單 V（Single V）</tspan></text><polygon points="30.0,110.0 108.2,110.0 142.8,170.0 30.0,170.0" fill="#eceff1" stroke="#455a64" stroke-width="1.5" stroke-linejoin="round"/><polygon points="270.0,110.0 191.8,110.0 157.2,170.0 270.0,170.0" fill="#eceff1" stroke="#455a64" stroke-width="1.5" stroke-linejoin="round"/><polygon points="142.8,170.0 108.2,110.0 191.8,110.0 157.2,170.0" fill="#ffcc80" stroke="#ef6c00" stroke-width="1.6" stroke-linejoin="round"/><path d="M108.2,110.0 Q150,100.0 191.8,110.0" fill="#ffcc80" stroke="#ef6c00" stroke-width="1.4" stroke-linejoin="round"/><rect x="114.0" y="170.0" width="72.0" height="19.2" rx="0" fill="#b0bec5" stroke="#455a64" stroke-width="1.2"/><text x="150.0" y="205.2" font-size="11" fill="#607d8b" text-anchor="middle"><tspan>背墊板</tspan></text><path d="M123.7,137.0 A40,40 0 0 1 176.3,137.0" fill="none" stroke="#6a1b9a" stroke-width="1" stroke-linejoin="round"/><text x="150.0" y="129.0" font-size="11.5" fill="#6a1b9a" text-anchor="middle"><tspan>60°</tspan></text><line x1="26.0" y1="110.0" x2="26.0" y2="170.0" stroke="#607d8b" stroke-width="1"/><line x1="21.0" y1="110.0" x2="31.0" y2="110.0" stroke="#607d8b" stroke-width="1"/><line x1="21.0" y1="170.0" x2="31.0" y2="170.0" stroke="#607d8b" stroke-width="1"/><text x="19.0" y="144.0" font-size="11.5" fill="#607d8b" text-anchor="end"><tspan>t</tspan></text><text x="150.0" y="223.2" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>R = 6、開槽角 60°</tspan></text><text x="150.0" y="250.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>對接、單面施銲；中厚板</tspan></text><text x="440.0" y="28.0" font-size="14" fill="#1565c0" text-anchor="middle" font-weight="700"><tspan>單斜（Single Bevel）</tspan></text><polygon points="368.0,40.0 440.0,40.0 440.0,215.0 368.0,215.0" fill="#eceff1" stroke="#455a64" stroke-width="1.5" stroke-linejoin="round"/><text x="404.0" y="52.0" font-size="10.5" fill="#607d8b" text-anchor="middle"><tspan>柱翼板</tspan></text><polygon points="454.4,170.0 514.4,110.0 570.0,110.0 570.0,170.0" fill="#eceff1" stroke="#455a64" stroke-width="1.5" stroke-linejoin="round"/><text x="540.0" y="104.0" font-size="10.5" fill="#607d8b" text-anchor="middle"><tspan>梁翼板</tspan></text><polygon points="440.0,170.0 440.0,110.0 514.4,110.0 454.4,170.0" fill="#ffcc80" stroke="#ef6c00" stroke-width="1.6" stroke-linejoin="round"/><rect x="440.0" y="170.0" width="62.4" height="19.2" rx="0" fill="#ef9a9a" stroke="#c62828" stroke-width="1.2"/><text x="507.2" y="203.2" font-size="11" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>背墊板 = 人造裂縫</tspan></text><text x="507.2" y="219.2" font-size="10.5" fill="#c62828" text-anchor="middle"><tspan>（耐震接頭須移除＋背剷回銲）</tspan></text><path d="M454.4,140.0 A30,30 0 0 1 475.6,148.8" fill="none" stroke="#6a1b9a" stroke-width="1" stroke-linejoin="round"/><text x="478.4" y="140.0" font-size="11.5" fill="#6a1b9a" text-anchor="start"><tspan>45°</tspan></text><text x="440.0" y="250.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>T 型接頭（梁翼對柱）；只能從一側開槽</tspan></text><text x="720.0" y="28.0" font-size="14" fill="#1565c0" text-anchor="middle" font-weight="700"><tspan>雙 V（Double V）</tspan></text><polygon points="600.0,110.0 701.2,110.0 716.4,136.4 716.4,143.6 701.2,170.0 600.0,170.0" fill="#eceff1" stroke="#455a64" stroke-width="1.5" stroke-linejoin="round"/><polygon points="840.0,110.0 738.8,110.0 723.6,136.4 723.6,143.6 738.8,170.0 840.0,170.0" fill="#eceff1" stroke="#455a64" stroke-width="1.5" stroke-linejoin="round"/><polygon points="701.2,110.0 738.8,110.0 723.6,136.4 723.6,143.6 738.8,170.0 701.2,170.0 716.4,143.6 716.4,136.4" fill="#ffcc80" stroke="#ef6c00" stroke-width="1.6" stroke-linejoin="round"/><text x="758.0" y="144.0" font-size="10.5" fill="#607d8b" text-anchor="start"><tspan>根面 f = 3</tspan></text><line x1="724.0" y1="140.0" x2="754.0" y2="140.0" stroke="#607d8b" stroke-width="0.8"/><text x="720.0" y="204.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>R = 3、上下各 60°</tspan></text><text x="720.0" y="250.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>兩面施銲，銲料約省一半；可翻面時</tspan></text><text x="440.0" y="282.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>三圖皆以板厚 t = 25 mm 依同一比例繪製；R = 根部間隙。</tspan></text></svg>
+<div class="cap">圖 9-1　三種常見開槽型式，以板厚 25 mm 依同一比例繪製。<b>選型的兩個依據：板厚（決定要不要開、開多大）與可及性（能不能翻面／兩面施銲）。</b>T 型接頭（梁翼板對柱翼板）只能從一側開槽 → Single Bevel，常加背墊板 —— 耐震接頭須移除背墊板並背剷回銲（§7.4）；對接厚板且可翻面 → Double V，本圖尺寸下銲道面積約為單 V 的 42%。</div>
+</div>
+
+<h3>9.3 銲道瑕疵與 NDT：哪一種瑕疵配哪一種檢測</h3>
+
+<table>
+<thead><tr><th>瑕疵</th><th>成因</th><th>對結構的影響</th><th>適用 NDT</th></tr></thead>
+<tbody>
+<tr><td><b>裂縫</b>（Crack）</td><td>HAZ 脆化、氫裂、束制過大</td><td><b>最嚴重</b>，大幅降低韌性；必須完全去除重銲</td><td>UT、MT、PT</td></tr>
+<tr><td>滲透不足</td><td>電流不足、坡口角度不夠、根部間隙小</td><td>有效斷面減少＋根部應力集中</td><td>UT、RT</td></tr>
+<tr><td>夾渣</td><td>多道銲清渣不徹底</td><td>斷面減少、應力集中</td><td>RT、UT</td></tr>
+<tr><td>氣孔</td><td>水分、油污、保護氣不足</td><td>斷面減少（分散型影響較小）</td><td>RT、UT、VT（大孔）</td></tr>
+<tr><td>底切（Undercut）</td><td>電流過大、運行角度不當</td><td>表面缺口 → 疲勞起裂點</td><td>VT、MT</td></tr>
+<tr><td>搭疊（Overlap）</td><td>電流過小、速度太慢</td><td>幾何缺陷、根部未熔合</td><td>VT</td></tr>
+</tbody>
+</table>
+
+<table>
+<thead><tr><th>NDT</th><th>能查什麼</th><th>限制</th></tr></thead>
+<tbody>
+<tr><td><b>VT</b> 目視</td><td>表面幾何、外觀瑕疵</td><td>只能看表面</td></tr>
+<tr><td><b>MT</b> 磁粉</td><td>表面與近表面裂縫</td><td>只限鐵磁性材料</td></tr>
+<tr><td><b>PT</b> 液滲</td><td>表面開口裂縫</td><td>只限表面開口</td></tr>
+<tr><td><b>UT</b> 超音波</td><td><b>內部</b>面狀瑕疵（裂縫、未熔合）最靈敏</td><td>需熟練人員、幾何受限；<b>CJP 銲道規定用 UT</b></td></tr>
+<tr><td><b>RT</b> 射線</td><td>內部體積型瑕疵（氣孔、夾渣）</td><td>對<b>平行射線方向的裂縫不敏感</b>；輻射管制</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>UT 與 RT 的分工可以一句話記住</b>：<b>UT 抓「面」，RT 抓「體」。</b>
+裂縫與未熔合是薄薄的面狀缺陷，射線穿過去幾乎沒有密度差 → RT 看不到，UT（反射）最敏感。
+氣孔與夾渣是有體積的 → RT 影像清楚。
+<br>因為<b>結構最怕的正是裂縫</b>，所以規範對 CJP 銲道指定 UT，而不是 RT。
+<br><br><b>延遲檢測</b>：氫裂（冷裂）常在銲後<b>數小時到數天</b>才出現，
+所以高強度鋼／厚板的 UT 需要在銲後等待一段時間（例如 48 小時）再做。
+</div>
+
+<h3>9.4 高強度螺栓的施工規定</h3>
+
+<table>
+<thead><tr><th>項目</th><th>內容</th><th>為什麼</th></tr></thead>
+<tbody>
+<tr><td>預拉力施加方法</td><td>① 扭矩控制法 ② 螺帽轉角法（turn-of-nut）③ 直接張力指示器（DTI／墊圈式）④ 扭矩控制型螺栓（TC 螺栓，斷梢）</td><td>扭矩與拉力的關係受潤滑、鏽蝕影響很大，所以有多種替代方法</td></tr>
+<tr><td>鎖緊順序</td><td>由<b>接合中央往外</b>逐次鎖緊</td><td>由外往內會把板件間的縫隙「趕」到中央而無法密貼，預拉力失效</td></tr>
+<tr><td>接觸面處理</td><td>摩阻型：不得塗漆；除鏽、噴砂；<b>不得有油污</b></td><td>\(\mu\) 直接決定強度。漆面 \(\mu\) 可能低到 0.1</td></tr>
+<tr><td>重複使用</td><td>高強度螺栓<b>不得重複使用</b>（尤其 A490 與 TC 螺栓）</td><td>預緊已使螺栓進入塑性，再次鎖緊無法達到規定預拉力</td></tr>
+<tr><td>孔的加工</td><td>標準孔 \(= d_b + 2\) mm；淨面積計算用 \(d_b + 3\) mm</td><td>多算 1 mm 是「衝孔造成的孔緣材料損傷」的補償</td></tr>
+</tbody>
+</table>
+
+<div class="box" style="border-left:5px solid var(--ac)">
+<b>§8＋§9 因果鏈</b>：組合斷面要一起作用 → 需要傳遞水平剪力流 \(q = VQ/I\) → 數值通常很小 →
+斷續銲間距由構造規定（腐蝕、局部挫屈）控制而非強度。<br>
+銲接是<b>現場冶金</b> → 方法受環境（風、位置）限制 → 厚板需開槽讓電弧到達根部 →
+過程會產生瑕疵 → 最怕的是裂縫（面狀）→ 用 UT 檢測 → 氫裂會延遲出現 → 需延遲檢測。
+</div>
+</section>
+<section id="s10">
+<h2>§10　八條因果鏈與解題決策流程</h2>
+
+<h3>10.1 把整個單元濃縮成八句話（能用嘴巴講出來才算懂）</h3>
+
+<div class="box">
+<ol>
+<li><b>換手鏈</b>：力量必須換手 → 每次換手產生一個破壞面 → 每個面一條公式 → 取最小值 → 再壓「不得低於構材強度」的下限。</li>
+<li><b>兩把尺</b>：von Mises → 純剪只需 \(F/\sqrt3\) → 剪的項乘 0.6 → 降伏配 \(F_yA_g\)、斷裂配 \(F_uA_n\) → 斷裂無預警 → \(\phi\) 從 0.90 降到 0.75。</li>
+<li><b>剪力遲滯</b>：只連部分斷面 → 力要橫向剪過去 → 需要距離 → 外伸肢應力落後 → \(U = 1-\bar x/L\) → \(A_e = UA_n\)。</li>
+<li><b>塊狀剪力</b>：畫出破壞塊 → 兩側是剪力面（乘 0.6）、後方是拉力面（不乘）→ 剪力面可能斷裂也可能只降伏 → 兩式取小。</li>
+<li><b>螺栓兩個世界</b>：預緊 → 夾緊力 → 摩擦（滑動前螺栓不受剪）→ 滑動非崩塌 → \(\phi = 1.0/0.85\) → 一旦滑動切換成承壓型（\(F_{nv}A_bn_s\) 與 \(2.4F_udt\)）。</li>
+<li><b>填角銲</b>：等腰直角三角形 → 最短斷面在 45°（\(0.707w\)）→ 喉部純剪（×0.6）→ 品質變異（\(\phi=0.75\)）→ \(1.565wL\)；ASD 為 \(1.043wL\)，比值恆 1.5。</li>
+<li><b>偏心接合</b>：偏心 → 扭矩 \(Pe\) → 剛體繞形心轉 → 力 \(\propto r\) 且 \(\perp r\) → \(R = Mr/I_p\) → <b>向量</b>疊加直接剪力 → 臨界點是「兩分力最同向」處。</li>
+<li><b>梁柱接頭</b>：彎矩按斷面模數分成翼板力偶（CJP）與腹板彎曲（填角銲組合應力）→ 力偶進柱變節點域剪力 → 需連續板 → 耐震要 \(\theta_p\ge0.04\) → 塑鉸不能長在銲道上 → 補強式或 RBS。</li>
+</ol>
+</div>
+
+<h3>10.2 解題決策流程</h3>
+
+<div class="fig">
+<svg viewBox="0 0 880 890" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="接合題解題決策流程" font-family="inherit"><defs><marker id="f101-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker></defs><rect x="180.0" y="15.0" width="520.0" height="46.0" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.8"/><text x="440.0" y="39.0" font-size="13.5" fill="#0d47a1" text-anchor="middle" font-weight="700"><tspan>先列傳力路徑：外力 → 母材 A → 緊結物 → 母材 B</tspan></text><polyline points="440.0,61.0 440.0,88.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><polygon points="440.0,88.0 640.0,130.0 440.0,172.0 240.0,130.0" fill="#fff9c4" stroke="#ef6c00" stroke-width="1.8" stroke-linejoin="round"/><text x="440.0" y="130.0" font-size="13.5" fill="#263238" text-anchor="middle" font-weight="700"><tspan>外力通過緊結物群形心？</tspan></text><text x="440.0" y="149.0" font-size="11.5" fill="#607d8b" text-anchor="middle"><tspan>（托架／牛腿／偏心 = 否）</tspan></text><polyline points="240.0,130.0 140.0,130.0 140.0,246.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><text x="190.0" y="121.0" font-size="12.5" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>否</tspan></text><rect x="20.0" y="245.0" width="240.0" height="110.0" rx="10" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.8"/><text x="140.0" y="269.0" font-size="13.5" fill="#e65100" text-anchor="middle" font-weight="700"><tspan>彈性向量法（§6）</tspan></text><text x="140.0" y="289.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>① 形心（銲道長度加權）</tspan></text><text x="140.0" y="308.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>② I</tspan><tspan dy="3.8" font-size="8.6">p</tspan><tspan dy="-3.8">（螺栓 cm²／銲道 cm³）</tspan></text><text x="140.0" y="327.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>③ M = P·e（e 到形心）</tspan></text><text x="140.0" y="346.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>④ 向量相加找臨界點</tspan></text><polyline points="440.0,172.0 440.0,258.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><text x="456.0" y="220.0" font-size="12.5" fill="#2e7d32" text-anchor="middle" font-weight="700"><tspan>是</tspan></text><polygon points="440.0,260.0 590.0,300.0 440.0,340.0 290.0,300.0" fill="#fff9c4" stroke="#ef6c00" stroke-width="1.8" stroke-linejoin="round"/><text x="440.0" y="305.0" font-size="13.5" fill="#263238" text-anchor="middle" font-weight="700"><tspan>緊結物是螺栓還是銲道？</tspan></text><polyline points="260.0,300.0 288.0,300.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><text x="274.0" y="290.0" font-size="10.5" fill="#ef6c00" text-anchor="middle"><tspan>R</tspan><tspan dy="3.4" font-size="7.6">max</tspan><tspan dy="-3.4"></tspan></text><polyline points="440.0,340.0 440.0,368.0 250.0,368.0 250.0,396.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><text x="330.0" y="360.0" font-size="12.5" fill="#1565c0" text-anchor="middle" font-weight="700"><tspan>螺栓</tspan></text><polyline points="590.0,300.0 690.0,300.0 690.0,396.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><text x="640.0" y="291.0" font-size="12.5" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>銲道</tspan></text><polygon points="250.0,396.0 400.0,432.0 250.0,468.0 100.0,432.0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.8" stroke-linejoin="round"/><text x="250.0" y="437.0" font-size="13.5" fill="#263238" text-anchor="middle" font-weight="700"><tspan>不准滑動（摩阻型）？</tspan></text><polygon points="690.0,396.0 830.0,432.0 690.0,468.0 550.0,432.0" fill="#ffebee" stroke="#c62828" stroke-width="1.8" stroke-linejoin="round"/><text x="690.0" y="437.0" font-size="13.5" fill="#263238" text-anchor="middle" font-weight="700"><tspan>填角銲還是開槽銲？</tspan></text><polyline points="250.0,468.0 250.0,486.0 140.0,486.0 140.0,508.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><text x="186.0" y="480.0" font-size="12.5" fill="#2e7d32" text-anchor="middle" font-weight="700"><tspan>是</tspan></text><polyline points="250.0,486.0 360.0,486.0 360.0,508.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><text x="316.0" y="480.0" font-size="12.5" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>否</tspan></text><polyline points="690.0,468.0 690.0,486.0 610.0,486.0 610.0,508.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><text x="644.0" y="480.0" font-size="12.5" fill="#ef6c00" text-anchor="middle" font-weight="700"><tspan>填角</tspan></text><polyline points="690.0,486.0 785.0,486.0 785.0,508.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><text x="742.0" y="480.0" font-size="12.5" fill="#455a64" text-anchor="middle" font-weight="700"><tspan>開槽</tspan></text><rect x="30.0" y="508.0" width="220.0" height="72.0" rx="10" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.8"/><text x="140.0" y="532.0" font-size="13.5" fill="#0d47a1" text-anchor="middle" font-weight="700"><tspan>滑動強度（§4.2）</tspan></text><text x="140.0" y="552.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>φ μ D</tspan><tspan dy="3.8" font-size="8.6">u</tspan><tspan dy="-3.8"> h</tspan><tspan dy="3.8" font-size="8.6">sc</tspan><tspan dy="-3.8"> T</tspan><tspan dy="3.8" font-size="8.6">b</tspan><tspan dy="-3.8"> n</tspan><tspan dy="3.8" font-size="8.6">s</tspan><tspan dy="-3.8"></tspan></text><text x="140.0" y="571.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>φ = 1.0／0.85</tspan></text><rect x="257.0" y="508.0" width="210.0" height="72.0" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/><text x="362.0" y="532.0" font-size="13.5" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>承壓型（§4.3）</tspan></text><text x="362.0" y="552.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>min( F</tspan><tspan dy="3.8" font-size="8.6">nv</tspan><tspan dy="-3.8">A</tspan><tspan dy="3.8" font-size="8.6">b</tspan><tspan dy="-3.8">n</tspan><tspan dy="3.8" font-size="8.6">s</tspan><tspan dy="-3.8"> ,</tspan></text><text x="362.0" y="571.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>2.4F</tspan><tspan dy="3.8" font-size="8.6">u</tspan><tspan dy="-3.8">dt 或 1.2F</tspan><tspan dy="3.8" font-size="8.6">u</tspan><tspan dy="-3.8">L</tspan><tspan dy="3.8" font-size="8.6">c</tspan><tspan dy="-3.8">t )</tspan></text><rect x="525.0" y="508.0" width="170.0" height="72.0" rx="10" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.8"/><text x="610.0" y="532.0" font-size="13.5" fill="#e65100" text-anchor="middle" font-weight="700"><tspan>填角銲（§5）</tspan></text><text x="610.0" y="552.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>1.565 wL（LRFD）</tspan></text><text x="610.0" y="571.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>1.043 wL（ASD）</tspan></text><rect x="705.0" y="508.0" width="160.0" height="72.0" rx="10" fill="#eceff1" stroke="#455a64" stroke-width="1.8"/><text x="785.0" y="532.0" font-size="13.5" fill="#263238" text-anchor="middle" font-weight="700"><tspan>CJP／PJP（§5.3）</tspan></text><text x="785.0" y="552.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>CJP → 驗母材</tspan></text><text x="785.0" y="571.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>PJP → A</tspan><tspan dy="3.8" font-size="8.6">eff</tspan><tspan dy="-3.8"></tspan></text><line x1="140.0" y1="580.0" x2="140.0" y2="602.0" stroke="#455a64" stroke-width="1.8"/><line x1="362.0" y1="580.0" x2="362.0" y2="602.0" stroke="#455a64" stroke-width="1.8"/><line x1="610.0" y1="580.0" x2="610.0" y2="602.0" stroke="#455a64" stroke-width="1.8"/><line x1="785.0" y1="580.0" x2="785.0" y2="602.0" stroke="#455a64" stroke-width="1.8"/><line x1="140.0" y1="602.0" x2="785.0" y2="602.0" stroke="#455a64" stroke-width="1.8"/><polyline points="440.0,602.0 440.0,622.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><rect x="140.0" y="624.0" width="600.0" height="64.0" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.8"/><text x="440.0" y="648.0" font-size="13.5" fill="#2e7d32" text-anchor="middle" font-weight="700"><tspan>母材端一律再驗三項（§3）—— 最常漏掉的一格</tspan></text><text x="440.0" y="668.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>GSY 0.9F</tspan><tspan dy="3.8" font-size="8.6">y</tspan><tspan dy="-3.8">A</tspan><tspan dy="3.8" font-size="8.6">g</tspan><tspan dy="-3.8">　｜　NSF 0.75F</tspan><tspan dy="3.8" font-size="8.6">u</tspan><tspan dy="-3.8">UA</tspan><tspan dy="3.8" font-size="8.6">n</tspan><tspan dy="-3.8">　｜　BSR 0.75·min(式A, 式B)</tspan></text><polyline points="440.0,688.0 440.0,712.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><polygon points="440.0,712.0 610.0,750.0 440.0,788.0 270.0,750.0" fill="#fff9c4" stroke="#ef6c00" stroke-width="1.8" stroke-linejoin="round"/><text x="440.0" y="755.0" font-size="13.5" fill="#263238" text-anchor="middle" font-weight="700"><tspan>梁柱接頭／續接／耐震？</tspan></text><polyline points="610.0,750.0 650.0,750.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><text x="630.0" y="741.0" font-size="12.5" fill="#2e7d32" text-anchor="middle" font-weight="700"><tspan>是</tspan></text><rect x="650.0" y="702.0" width="220.0" height="96.0" rx="10" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.8"/><text x="760.0" y="726.0" font-size="13.5" fill="#6a1b9a" text-anchor="middle" font-weight="700"><tspan>加做這些（§7、§1.3）</tspan></text><text x="760.0" y="746.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>M</tspan><tspan dy="3.8" font-size="8.6">f</tspan><tspan dy="-3.8">／M</tspan><tspan dy="3.8" font-size="8.6">w</tspan><tspan dy="-3.8"> 分配、腹板組合應力</tspan></text><text x="760.0" y="765.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>節點域 V</tspan><tspan dy="3.8" font-size="8.6">pz</tspan><tspan dy="-3.8">、連續板</tspan></text><text x="760.0" y="784.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>最小接合強度、×R</tspan><tspan dy="3.8" font-size="8.6">y</tspan><tspan dy="-3.8"> 超強</tspan></text><polyline points="440.0,788.0 440.0,822.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><text x="456.0" y="808.0" font-size="12.5" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>否</tspan></text><polyline points="760.0,798.0 760.0,850.0 672.0,850.0" fill="none" stroke="#455a64" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#f101-k)"/><rect x="210.0" y="823.0" width="460.0" height="54.0" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/><text x="440.0" y="847.0" font-size="13.5" fill="#c62828" text-anchor="middle" font-weight="700"><tspan>設計強度 = 清單中所有項目的最小值</tspan></text><text x="440.0" y="867.0" font-size="12" fill="#263238" text-anchor="middle"><tspan>最後回頭檢查構造規定（間距、邊距、w 上下限）</tspan></text></svg>
+<div class="cap">圖 10-1　接合題的完整判斷路徑。三個關鍵分歧點：<b>有沒有偏心</b>（決定要不要用向量法）、
+<b>螺栓還是銲道</b>（決定緊結物公式）、<b>摩阻還是承壓</b>（決定 \(\phi\) 與傳力機制）。
+不論走哪條路，<b>綠色的母材三項驗算都跑不掉</b> —— 這是最常被漏掉的一格。</div>
+</div>
+</section>
+
+<section id="s11">
+<h2>§11　歷屆考點對應表</h2>
+
+<div class="lead">本單元 26 題（主分類 19、副分類 7）。左欄題號可直接點開完整解析。
+「本講義章節」欄告訴你：這題卡住時該回去讀哪一節。</div>
+
+<h3>11.1 主分類（19 題）</h3>
+
+<table>
+<thead><tr><th>題號</th><th>考年</th><th>設計法</th><th>考點群</th><th>本講義章節</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="problems-view/SS-2002-4.html" target="_blank">SS-2002-4</a></td><td>91</td><td>ASD</td><td>偏心<b>螺栓群</b>、彈性分析法、承壓型 A325X、極慣性矩</td><td>§6、§4.3</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2003-3.html" target="_blank">SS-2003-3</a></td><td>92</td><td>LRFD</td><td>WT 斷面、剪力遲滯 U、塊狀剪力、淨斷面斷裂、承壓型螺栓</td><td>§3、§4.3</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2004-2.html" target="_blank">SS-2004-2</a></td><td>93</td><td>ASD</td><td>拉力構材續接、摩阻型 A325、翼板連接、最短接合長度</td><td>§4.2、§1.3、§3.2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2004-3.html" target="_blank">SS-2004-3</a></td><td>93</td><td>LRFD</td><td>偏心<b>填角銲</b>、托架、雙角鋼、E70XX、極慣性矩</td><td>§6、§5</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2005-3.html" target="_blank">SS-2005-3</a></td><td>94</td><td>LRFD</td><td>牛腿接合、箱形斷面、銲接群分析、彎矩＋剪力</td><td>§6、§7.1</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2006-2.html" target="_blank">SS-2006-2</a></td><td>95</td><td>LRFD</td><td>高拉力螺栓預拉力、塊狀剪力、FCAW 現場銲接、施工規範</td><td>§4.2、§3.3、§9.1</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2006-5.html" target="_blank">SS-2006-5</a></td><td>95</td><td>LRFD</td><td>箱型柱梁柱接頭、<b>連續板</b>、節點域、CJP、耐震接頭</td><td>§7.3、§7.4</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2007-1.html" target="_blank">SS-2007-1</a></td><td>96</td><td>ASD</td><td>偏心填角銲、不等肢角鋼、剪力遲滯 U、彎矩力偶、銲道容許應力</td><td>§6、§3.2、§5</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2009-4.html" target="_blank">SS-2009-4</a></td><td>98</td><td>概念</td><td>開槽銲 Single V／Single Bevel、SAW、UT／NDT、螺栓間距與預拉力</td><td>§9.1～9.4</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2012-4.html" target="_blank">SS-2012-4</a></td><td>101</td><td>LRFD</td><td>剪力板接合、A325 承壓型、淨斷面剪力、全滲透銲、螺栓配置</td><td>§4.3、§3、§5.3</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2017-2.html" target="_blank">SS-2017-2</a></td><td>106</td><td>LRFD</td><td><b>摩阻型傳力機制</b>、夾緊力、摩擦係數、極限狀態分類</td><td>§4.1、§4.2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2017-4.html" target="_blank">SS-2017-4</a></td><td>106</td><td>LRFD</td><td>U 形偏心銲縫、銲道群形心、\(J_w\) 極慣性矩、臨界點判斷</td><td>§6</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2018-3.html" target="_blank">SS-2018-3</a></td><td>107</td><td>ASD</td><td>箱型柱－H 梁接頭、梁翼／梁腹彎矩分配、腹板銲道<b>組合應力</b>、SN400B</td><td>§7.1、§7.2、§5</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2019-4.html" target="_blank">SS-2019-4</a></td><td>108</td><td>LRFD</td><td>斷續銲、蓋板、組合斷面、<b>剪力流</b> \(VQ/I\)、銲道長度</td><td>§8</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2020-4.html" target="_blank">SS-2020-4</a></td><td>109</td><td>ASD</td><td>腹板續接、<b>四鈑雙剪</b>、A490、鈑厚設計、<b>最小接合強度規定</b></td><td>§1.3、§4.3、§2.3</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2021-2.html" target="_blank">SS-2021-2</a></td><td>110</td><td>LRFD</td><td>搭接接合、填角銲、塊狀剪力、剪力破壞 vs 拉力破壞、\(0.6F_y\)</td><td>§3.3、§2.1、§5</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2021-4.html" target="_blank">SS-2021-4</a></td><td>110</td><td>概念</td><td><b>混合接合</b>（螺栓與銲道共用）、摩阻型、施工規範、滑動臨界</td><td>§4.5、§4.2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2023-4.html" target="_blank">SS-2023-4</a></td><td>112</td><td>概念</td><td>銲接破壞形式、銲喉面積、HAZ、根部／趾部破壞、塊狀剪力識別</td><td>§5.1、§1.2、§9.3</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2024-4.html" target="_blank">SS-2024-4</a></td><td>113</td><td>概念</td><td>梁柱接頭、<b>電熱熔渣銲</b>、翼板銲接、<b>層狀撕裂</b>、HAZ 脆化、NDT、SN 鋼材</td><td>§7.4、§9.1、§9.3</td></tr>
+</tbody>
+</table>
+
+<h3>11.2 副分類（7 題，主分類在別的單元但接合是關鍵）</h3>
+
+<table>
+<thead><tr><th>題號</th><th>考年</th><th>主分類</th><th>接合部分考什麼</th><th>本講義章節</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="problems-view/SS-2003-1.html" target="_blank">SS-2003-1</a></td><td>92</td><td>拉壓桿件</td><td>塊狀剪力、腹板承壓降伏（web yielding）</td><td>§3.3、§1.2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2005-1.html" target="_blank">SS-2005-1</a></td><td>94</td><td>拉壓桿件</td><td>等肢角鋼三種破壞模式並列、U 值、有效淨面積</td><td>§3</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2012-2.html" target="_blank">SS-2012-2</a></td><td>101</td><td>耐震設計</td><td>SMRF 塑性轉角需求、塑鉸區側撐、梁柱接頭</td><td>§7.4</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2015-2.html" target="_blank">SS-2015-2</a></td><td>104</td><td>拉壓桿件</td><td>雙槽鋼完整拉力設計 ＋ 反算填角銲銲腳</td><td>§3、§5.5</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2020-1.html" target="_blank">SS-2020-1</a></td><td>109</td><td>耐震設計</td><td>補強式 vs 削弱式接頭、RBS、塑鉸、強柱弱梁</td><td>§7.4</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2022-2.html" target="_blank">SS-2022-2</a></td><td>111</td><td>拉壓桿件</td><td>插銷（鉸接）接合、有效淨面積、剪力斷裂、承壓</td><td>§3、§4.3</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2024-2.html" target="_blank">SS-2024-2</a></td><td>113</td><td>拉壓桿件</td><td>圓管 HSS 縱向填角銲、U 值、<b>銲接接合的 \(A_n = A_g\)</b></td><td>§3.2、§1.2</td></tr>
+</tbody>
+</table>
+
+<h3>11.3 考點群的出題頻次（決定複習順序）</h3>
+
+<table>
+<thead><tr><th>考點群</th><th>題數</th><th>章節</th><th>優先度</th></tr></thead>
+<tbody>
+<tr><td>填角銲／銲道強度（含 0.707、ASD／LRFD）</td><td>10</td><td>§5</td><td>★★★</td></tr>
+<tr><td>拉力接合端（剪力遲滯 ＋ 淨斷面 ＋ 塊狀剪力）</td><td>10</td><td>§3</td><td>★★★</td></tr>
+<tr><td>高強度螺栓機制（摩阻型／承壓型／預拉力）</td><td>10</td><td>§4</td><td>★★★</td></tr>
+<tr><td>梁柱接頭（彎矩分配、節點域、耐震細部）</td><td>6</td><td>§7</td><td>★★★</td></tr>
+<tr><td>偏心接合彈性向量法（螺栓 ＋ 銲縫）</td><td>5</td><td>§6</td><td>★★★</td></tr>
+<tr><td>施工規範、銲接方法、NDT</td><td>5</td><td>§9</td><td>★★</td></tr>
+<tr><td>ASD 版本的接合設計</td><td>6（另 7 題純概念題）</td><td>§2.3</td><td>★★</td></tr>
+<tr><td>剪力流／斷續銲</td><td>1</td><td>§8</td><td>★</td></tr>
+</tbody>
+</table>
+</section>
+<section id="s12">
+<h2>§12　陷阱總表（考前十分鐘掃過）</h2>
+
+<div class="lead">18 條，全部來自本單元的實際考題。格式一律是：<b>觸發信號 → 錯誤思維 → 正確認知</b>。</div>
+
+<table>
+<thead><tr><th style="width:4%">#</th><th style="width:20%">觸發信號</th><th style="width:32%">錯誤思維</th><th style="width:34%">正確認知</th><th style="width:10%">出處</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>任何接合題</td><td>算完緊結物就交卷</td><td><b>母材端三項（GSY／NSF／BSR）永遠要驗</b>，設計強度取全部最小值</td><td>通則</td></tr>
+<tr><td>2</td><td>「續接」二字</td><td>只用題目給的 \(V_w\)、\(M_w\) 設計</td><td>先算「構材強度之一半」，與題目內力<b>取大者</b>為設計力</td><td>SS-2020-4</td></tr>
+<tr><td>3</td><td>塊狀剪力兩條式子</td><td>兩式相加，或取大值</td><td><b>取 min</b>。兩式是同一破壞的兩條路徑，不是兩個抗力來源</td><td>SS-2021-2、SS-2003-3</td></tr>
+<tr><td>4</td><td>塊狀剪力的拉力項</td><td>拉力面也乘 0.6，或用 \(F_y\)</td><td>拉力面<b>一律 \(F_uA_{nt}\)</b>（不乘 0.6、用淨面積、用 \(F_u\)）</td><td>SS-2021-2</td></tr>
+<tr><td>5</td><td>剪力面的 \(A_{gv}\) / \(A_{nv}\)</td><td>兩式都用同一個面積</td><td>式A 用<b>淨</b>面積 \(A_{nv}\)（斷裂）、式B 用<b>毛</b>面積 \(A_{gv}\)（降伏）</td><td>§3.3</td></tr>
+<tr><td>6</td><td>計算 \(U = 1-\bar x/L\)</td><td>\(L\) 用構材全長；\(\bar x\) 量到螺栓群</td><td>\(L\) = 最外兩排螺栓中心距（銲縫則為銲縫長）；\(\bar x\) = <b>形心到連接面</b></td><td>SS-2007-1</td></tr>
+<tr><td>7</td><td>算出 \(U > 1\)</td><td>照抄結果</td><td>\(U\) 上限為 <b>1.0</b></td><td>§3.2</td></tr>
+<tr><td>8</td><td><b>銲接</b>拉力構材的淨斷面</td><td>「沒有孔，所以不用驗淨斷面」</td><td>\(A_n = A_g\)（不扣孔），但 <b>\(A_e = U A_g\) 仍要算</b>（剪力遲滯照樣存在）</td><td>SS-2024-2</td></tr>
+<tr><td>9</td><td>填角銲</td><td>用銲腳 \(w\) 當承力厚度</td><td>承力斷面是<b>有效喉厚 \(t_e = 0.707w\)</b>，兩者差 29%</td><td>SS-2023-4</td></tr>
+<tr><td>10</td><td>CJP 全滲透銲</td><td>用 \(0.6F_{EXX}\times\) 板厚算</td><td>CJP 的強度由<b>母材</b>控制（銲材與母材同強或更強）</td><td>SS-2012-4</td></tr>
+<tr><td>11</td><td>偏心<b>銲縫</b>的 \(I_p\)</td><td>單位寫 cm⁴（照螺栓群或面積公式）</td><td>線圖法 → <b>cm³</b>；\(t_e\) 是最後才乘進去比較強度</td><td>SS-2017-4</td></tr>
+<tr><td>12</td><td>U 形／L 形／C 形銲道</td><td>形心在幾何中心或銲道左端</td><td>必須算形心（長度加權）。U 形速算 \(\bar x = b^2/(2b+d)\)</td><td>SS-2017-4</td></tr>
+<tr><td>13</td><td>偏心接合求最大合力</td><td>「離形心最遠的點最危險」</td><td>要看<b>向量方向</b>：扭矩分力與直接剪力<b>同向</b>者才是臨界點</td><td>SS-2017-4、§6.3</td></tr>
+<tr><td>14</td><td>「摩阻型」「Slip-critical」</td><td>用 \(F_{nv}A_b\) 算螺栓剪力</td><td>靠<b>摩擦</b>：\(\phi\mu D_u h_{sc}T_b n_s\)。滑動前螺栓桿幾乎不受剪</td><td>SS-2017-2</td></tr>
+<tr><td>15</td><td>問摩阻型的「極限狀態」</td><td>只寫「滑動」</td><td>必須分兩層：<b>使用性極限（\(\phi=1.0\)）</b>與<b>強度極限（\(\phi=0.85\)）</b>，並說明選用時機</td><td>SS-2017-2</td></tr>
+<tr><td>16</td><td>四鈑接合／腹板兩側加鈑</td><td>用單剪公式（\(n_s=1\)）</td><td><b>雙剪</b>：\(n_s = 2\)，強度加倍。\(n_s\) 數的是<b>接觸面</b>不是板數</td><td>SS-2020-4</td></tr>
+<tr><td>17</td><td>同一接合面上同時有螺栓與銲道</td><td>兩者強度相加</td><td>新設結構<b>不可共同承力</b>（剛度不相容）；改建時舊螺栓承既有載重、新銲道承新增載重</td><td>SS-2021-4</td></tr>
+<tr><td>18</td><td>斷續銲的間距</td><td>只用強度算（會算出很大的間距）</td><td>幾乎總是由<b>構造規定</b>（\(24t\) 或 300 mm）控制</td><td>SS-2019-4</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>兩個「格式分」也要記</b>：
+① 螺栓孔徑計算淨面積時用 <b>\(d_b + 3\) mm</b>（標準孔 \(d_b+2\) 再加 1 mm 衝孔損傷），不是 \(d_b+2\)；
+② 銲腳算完要取整並檢查 \(w_{min}\)（依板厚）與 \(w_{max} = t-2\) mm，只寫小數答案不算完成。
+</div>
+</section>
+
+<section id="s13">
+<h2>§13　自我檢測：12 個「為什麼」</h2>
+
+<div class="lead">看完講義後，用這 12 題檢查你是不是真的懂了。答不出來的，回到括號裡的章節。
+<b>能用自己的話講出「為什麼」，才是真的懂。</b></div>
+
+<details><summary>Q1　為什麼所有「剪」的強度公式都有一個 0.6，而「拉」的沒有？（§2.1）</summary>
+<p>因為 von Mises 準則：純剪狀態下達到相同畸變能只需 \(\tau = F/\sqrt3 = 0.577F\)，規範取整為 \(0.6F\)。
+拉力面本來就是被拉開的，直接用單軸強度，不需要折。</p>
+</details>
+
+<details><summary>Q2　為什麼降伏配毛面積、斷裂配淨面積？不能反過來嗎？（§2.2）</summary>
+<p>降伏是<b>整段構材</b>的行為（伸長量以公分計），孔那幾公分的影響可忽略，所以用 \(A_g\)。
+斷裂只發生在<b>一個最弱斷面</b>，孔削掉多少就是少多少，所以用 \(A_n\)。
+反過來配的話，物理上等於「假設整根構材都在斷裂」或「只有一個斷面在降伏」，兩者都不成立。</p>
+</details>
+
+<details><summary>Q3　為什麼接合的 \(\phi\) 幾乎都是 0.75，而構材彎矩是 0.90？（§2.2）</summary>
+<p>因為 \(\phi\) 量化的是「破壞有沒有預警」。彎矩降伏變形明顯、可觀察；
+螺栓剪斷、銲道破壞、淨斷面斷裂都是脆性、無預警，而且 \(F_u\) 的離散性比 \(F_y\) 大、現場品質變異更大。
+這也順帶回答了「為什麼接合強度必須高於構材」——不要把破壞逼到沒有預警的那一端。</p>
+</details>
+
+<details><summary>Q4　\(U = 1-\bar x/L\) 的兩個參數各代表什麼物理量？（§3.2）</summary>
+<p>\(\bar x\)＝偏心程度（形心離施力面多遠，力要繞多遠的路）；\(L\)＝可用的傳遞長度（剪力有多少距離把力送到外伸肢）。
+兩者相除得到無因次的遲滯程度。極限檢查：\(\bar x = 0 \Rightarrow U=1\)；\(L\to\infty \Rightarrow U\to1\)。</p>
+</details>
+
+<details><summary>Q5　塊狀剪力的兩條式子為什麼取 min 而不是相加？（§3.3）</summary>
+<p>因為它們描述的是<b>同一個破壞</b>的兩種可能路徑（剪力面斷裂＋拉力面斷裂／剪力面降伏＋拉力面斷裂），
+不是兩個獨立的抗力來源。實際破壞沿先發生的那條路走 → 取小值。相加＝把同一塊材料算兩次。</p>
+</details>
+
+<details><summary>Q6　摩阻型接合的 \(\phi\) 為什麼可以等於 1.0？（§4.2）</summary>
+<p>因為滑動<b>不是崩塌</b>。滑動幾毫米後接合變成承壓型，還有第二層防線。
+既然後果不是失去承載力，就不需要脆性破壞那種保守度。若滑動本身即不可接受（過大孔、重要接合），
+則歸為強度極限狀態，取 \(\phi = 0.85\)。</p>
+</details>
+
+<details><summary>Q7　承壓強度公式裡的 2.4 是怎麼來的？（§4.3）</summary>
+<p>它是 1.2 的兩倍。真實抗力與淨邊距成正比：\(R_n = 1.2F_uL_ct\)；
+但孔變形 6 mm 的使用性上限把它封頂，該上限剛好對應 \(L_c = 2d\)：\(1.2F_u(2d)t = 2.4F_udt\)。
+所以 2.4 的意思是「淨邊距超過 \(2d\) 之後再加也沒用」。邊距小於 \(2d\) 時必須用 \(1.2F_uL_ct\)。</p>
+</details>
+
+<details><summary>Q8　0.707 是實驗值還是幾何值？（§5.1）</summary>
+<p>純幾何。填角銲斷面是等腰直角三角形，材料一定沿面積最小的斷面剪開，
+而最小的那一刀是 45° 對角線：\(t_e = w\cos45° = w/\sqrt2 = 0.7071w\)。</p>
+</details>
+
+<details><summary>Q9　為什麼規範預設忽略填角銲的方向性（明明垂直受力強 50%）？（§5.2）</summary>
+<p>因為一條銲道上各點受力方向常不同（尤其偏心銲縫），逐點取不同強度會讓設計極其麻煩，
+多出來的強度不值得這個複雜度。規範採「統一用最保守的純剪」的工程折衷。</p>
+</details>
+
+<details><summary>Q10　偏心銲縫的 \(I_p\) 為什麼是 cm³ 而不是 cm⁴？（§6.2）</summary>
+<p>因為用線圖法：銲道被當成寬度＝1 的線，\(I_p = \int r^2 ds\)（長度³）。
+喉厚 \(t_e\) 是在最後比較 \(f_{max}\) 與 \(\phi\,0.6F_{EXX}t_e\) 時才乘進去的。
+單位本身就是防止重複計算的檢查工具。</p>
+</details>
+
+<details><summary>Q11　為什麼離形心最遠的點不一定是臨界點？（§6.3）</summary>
+<p>因為合力是<b>向量</b>相加。扭矩分力的大小 \(\propto r\)，但方向垂直於半徑；
+若它與直接剪力反向，兩者會抵消，合力反而變小。臨界點是「兩個分力最同向」的那個點。</p>
+</details>
+
+<details><summary>Q12　為什麼節點域「太強」也不好？（§7.3）</summary>
+<p>節點域適度的剪切降伏是耐震設計中預期的消能機制之一。若節點域過強，
+全部塑性變形被逼到梁端一個很小的區域，該處的應變需求（與銲道根部的應變）會過高，反而提早脆斷。
+所以規範對節點域強度給的是一個區間，而非單邊下限 —— 這是耐震條文中少見的「不要太強」條款。</p>
+</details>
+</section>
+
+<section id="s14">
+<h2>§14　★ 精選 6 題（時間有限就練這些）</h2>
+
+<div class="lead">從 26 題中挑出彼此重疊最少、能練到最多<b>獨立技能</b>的 6 題。
+選題邏輯不是「覆蓋率最高」，而是「<b>練完之後，其他 20 題你都知道該從哪裡下手</b>」。</div>
+
+<h3>① <a class="qlink" href="problems-view/SS-2015-2.html" target="_blank">SS-2015-2</a>（104 年，LRFD）— 拉力接合的完整流程</h3>
+<div class="box">
+<b>為什麼選它</b>：一題把 GSY／NSF（含 \(U\) 值）／BSR 三個極限狀態全考完，
+第二小題還要<b>反過來</b>用設計強度去算填角銲銲腳 —— 這是「正算 ＋ 反算」的雙向訓練，別題練不到。
+雙槽鋼還逼你處理「單根斷面性質要 ×2」這個最容易漏的細節。<br>
+<b>先讀</b>：§3（全節）、§5.5<br>
+<b>做完要能回答</b>：三個極限狀態哪一個控制？為什麼？如果我把接合長度 \(L\) 加倍，哪一項會改變、改變多少？
+反算銲腳時，除了強度還要檢查哪兩個構造條件？
+</div>
+
+<h3>② <a class="qlink" href="problems-view/SS-2017-4.html" target="_blank">SS-2017-4</a>（106 年，LRFD）— 偏心銲縫的三個陷阱一次到齊</h3>
+<div class="box">
+<b>為什麼選它</b>：形心不在幾何中心（\(\bar x = b^2/(2b+d)\)）、\(I_p\) 是線圖 cm³、臨界點要看向量方向 ——
+本單元最惡毒的三個陷阱擠在同一題。練會這一題，
+<a class="qlink" href="problems-view/SS-2004-3.html" target="_blank">SS-2004-3</a>、
+<a class="qlink" href="problems-view/SS-2005-3.html" target="_blank">SS-2005-3</a>、
+<a class="qlink" href="problems-view/SS-2007-1.html" target="_blank">SS-2007-1</a> 都是同一套流程換數字。<br>
+<b>先讀</b>：§6（全節，特別是範例 D）<br>
+<b>做完要能回答</b>：如果我把載重作用點往左移 10 cm，\(P_u\) 變多少倍？
+如果改成右側也加一道垂直銲道（變成矩形），形心與 \(I_p\) 各怎麼變？臨界點會換到哪裡？
+</div>
+
+<h3>③ <a class="qlink" href="problems-view/SS-2017-2.html" target="_blank">SS-2017-2</a>（106 年，概念）— 觀念鏈題，投報率最高</h3>
+<div class="box">
+<b>為什麼選它</b>：計算量幾乎為零，但它是<b>整個螺栓章節的因果鏈</b>：
+預緊 → 夾緊力 → 摩擦 → 滑動極限狀態的雙重分類。
+答對這題的思路，會直接讓你在
+<a class="qlink" href="problems-view/SS-2004-2.html" target="_blank">SS-2004-2</a>、
+<a class="qlink" href="problems-view/SS-2006-2.html" target="_blank">SS-2006-2</a>、
+<a class="qlink" href="problems-view/SS-2021-4.html" target="_blank">SS-2021-4</a> 上省下大量時間。
+概念題的分數最好拿也最好丟 —— 差別在有沒有把「使用性 vs 強度」寫出來。<br>
+<b>先讀</b>：§4.1、§4.2、§4.5<br>
+<b>做完要能回答</b>：滑動之後接合還能不能傳力？為什麼摩阻型接合的<b>設計強度</b>反而比承壓型低？
+為什麼摩阻型不能和銲道共用？
+</div>
+
+<h3>④ <a class="qlink" href="problems-view/SS-2020-4.html" target="_blank">SS-2020-4</a>（109 年，ASD）— ASD ＋ 最小接合強度 ＋ 雙剪</h3>
+<div class="box">
+<b>為什麼選它</b>：三個「別題練不到」的東西在同一題：
+(a) <b>最小接合強度規定</b>（設計力不是題目給的內力，要自己算構材強度的一半並取大者）；
+(b) <b>四鈑雙剪</b>（\(n_s=2\)）；
+(c) <b>ASD 全套</b>（\(0.4F_y\)、\(F_{va}\)）而且要同時決定<b>螺栓尺寸</b>與<b>鈑厚</b>（兩個未知量）。
+這題是本單元「需要自己建立前置資料」的代表題型。<br>
+<b>先讀</b>：§1.3、§2.3、§4.3、§4.5<br>
+<b>做完要能回答</b>：設計剪力為什麼不是 \(V_w = 70\) tf？\(V_{a,web}\) 為什麼用腹板面積而不是全斷面？
+鈑厚的控制條件是什麼（剪力降伏還是承壓）？
+</div>
+
+<h3>⑤ <a class="qlink" href="problems-view/SS-2018-3.html" target="_blank">SS-2018-3</a>（107 年，ASD）— 梁柱接頭的彎矩分配與組合應力</h3>
+<div class="box">
+<b>為什麼選它</b>：把「\(M\) 分成 \(M_f\) 與 \(M_w\)」這個梁柱接頭的核心觀念，
+和「腹板銲道同時受彎矩＋剪力 → 向量合成」這個計算技能綁在一起。
+而且它是 ASD、又用 SN400B（耐震鋼材），一題橫跨 §7、§5、§2.3 與 U2-3。
+最後題目刻意設計成 6 mm 銲道 NG，逼你反算所需尺寸 —— 完整的設計循環。<br>
+<b>先讀</b>：§7.1、§7.2、§5.1、§2.3<br>
+<b>做完要能回答</b>：腹板銲道的有效長度為什麼不是梁全高？\(S_w\) 為什麼要乘 2？
+彎矩項與剪力項哪一個主宰？不足時銲腳要放大幾倍（能一步算出來嗎）？
+</div>
+
+<h3>⑥ <a class="qlink" href="problems-view/SS-2009-4.html" target="_blank">SS-2009-4</a>（98 年，概念）— 施工與檢測的一站式複習</h3>
+<div class="box">
+<b>為什麼選它</b>：概念題群（5 題）中覆蓋面最廣的一題：開槽型式（Single V／Single Bevel）、
+銲接方法（SAW）、NDT（UT）、螺栓間距與預拉力 —— 四個主題一次考。
+這一題的內容會直接複用到
+<a class="qlink" href="problems-view/SS-2023-4.html" target="_blank">SS-2023-4</a>、
+<a class="qlink" href="problems-view/SS-2024-4.html" target="_blank">SS-2024-4</a>、
+<a class="qlink" href="problems-view/SS-2006-2.html" target="_blank">SS-2006-2</a> 與 U2-3 整個單元。<br>
+<b>先讀</b>：§9（全節）<br>
+<b>做完要能回答</b>：為什麼 T 型接頭只能用 Single Bevel？為什麼 SAW 不能仰銲？
+為什麼 CJP 指定 UT 而不是 RT？為什麼高強度螺栓不得重複使用？
+</div>
+
+<h3>練這六題的正確方法</h3>
+
+<div class="box">
+<ol>
+<li><b>先讀對應章節，再看題目，不要先看解答。</b>本講義的章節是為了讓你「看到題目就知道該用哪條鏈」而寫的。</li>
+<li><b>計算題先寫「極限狀態清單」再開始算。</b>清單寫對就先拿到骨架分，即使某項算錯也不會全盤皆輸。</li>
+<li><b>每題算完做一次自我檢查</b>（§3.4、§4.4、§5.5、§7.2 各示範了一種）：
+三個模式是否落在同一數量級？LRFD／ASD 比值是否落在 1.4～1.6？彎矩項是否主宰？</li>
+<li><b>概念題（③⑥）用嘴巴答一次再寫。</b>如果你講不出因果鏈，寫出來一定也是條列式的散裝知識，拿不到高分。</li>
+<li><b>做完六題後，回頭掃 §12 陷阱總表。</b>你會發現大部分陷阱你剛剛都親自踩過一次 —— 這時候記住的才會留下來。</li>
+</ol>
+</div>
+
+<h3>誠實告知：這六題<u>沒有</u>涵蓋的考點</h3>
+
+<div class="trap">
+誠實的兩個數字：八大考點群<b>涵蓋 7 個（88%）</b>，唯一完全落空的是「剪力流／斷續銲」；
+但若以<b>標籤權重</b>計，覆蓋率只有 <b>47%</b> —— 因為每個群內部還有很多細項變化，六題只練到每群的主線。
+以下是具體落空的部分，若時間允許請另外補：
+<ul>
+<li><b>節點域與連續板的定量計算</b>（\(V_{pz}\)、doubler plate 厚度）→ 補
+<a class="qlink" href="problems-view/SS-2006-5.html" target="_blank">SS-2006-5</a>（§7.3）</li>
+<li><b>耐震接頭的補強式 vs 削弱式（RBS）</b>→ 補
+<a class="qlink" href="problems-view/SS-2020-1.html" target="_blank">SS-2020-1</a>（§7.4）</li>
+<li><b>層狀撕裂、ESW 熱輸入、HAZ 脆化</b>（近年新考點）→ 補
+<a class="qlink" href="problems-view/SS-2024-4.html" target="_blank">SS-2024-4</a>（§7.4、§9.1）</li>
+<li><b>偏心<u>螺栓群</u>（離散點的 \(I_p\)，cm²）</b>→ 補
+<a class="qlink" href="problems-view/SS-2002-4.html" target="_blank">SS-2002-4</a>（§6.2）。
+與 ② 的銲縫版本並排做，對照效果最好</li>
+<li><b>剪力流 \(VQ/I\) 與斷續銲</b>→ 補
+<a class="qlink" href="problems-view/SS-2019-4.html" target="_blank">SS-2019-4</a>（§8）</li>
+<li><b>混合接合（螺栓與銲道共用）的規定</b>→ 補
+<a class="qlink" href="problems-view/SS-2021-4.html" target="_blank">SS-2021-4</a>（§4.5）</li>
+<li><b>插銷（鉸接）接合</b>→ 補
+<a class="qlink" href="problems-view/SS-2022-2.html" target="_blank">SS-2022-2</a>（§3、§4.3）</li>
+</ul>
+<b>候補優先順序</b>：若只能多練兩題，選
+<b><a class="qlink" href="problems-view/SS-2002-4.html" target="_blank">SS-2002-4</a></b>（補上偏心螺栓群，與②形成完整對照）與
+<b><a class="qlink" href="problems-view/SS-2020-1.html" target="_blank">SS-2020-1</a></b>（補上耐震接頭，且與 SD-U3-1 共用）。
+</div>
+</section>
+</main>
+
+<footer>
+  SS-U1-4 接合之分析與設計 — 觀念講義｜exam-wiki-SS<br>
+  資料來源：<code>raw/json/question_index.json</code>、<code>wiki/code-ref/</code>、<code>wiki/methods/</code>、<code>wiki/traps/CONNECTION-TRAPS.md</code>、<code>wiki/failure-modes/connection-failure.md</code><br>
+  2026-10-23 圖解改版：12 張圖重繪並新增圖 4-2、5-2、8-1，全部依座標與範例數值計算繪製（圖 0-1、5-1 沿用），並修正圖 3-2 標記點偏離曲線、圖 7-2 右梁翼板力方向相反、圖 7-3 RBS 誤畫於立面等問題。
+</footer>
+
+</body>
+</html>

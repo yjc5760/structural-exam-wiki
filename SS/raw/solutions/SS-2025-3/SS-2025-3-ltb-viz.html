@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>SS-2025-3：LRFD 梁 LTB 設計曲線</title>
+<style>
+  body { font-family: "Noto Sans TC", sans-serif; background:#f5f5f5; display:flex; flex-direction:column; align-items:center; padding:16px; }
+  h2 { font-size:15px; color:#1a237e; margin:0 0 4px; text-align:center; }
+  p.sub { font-size:11px; color:#555; margin:0 0 10px; text-align:center; }
+  canvas { background:#fff; border:1px solid #bbb; box-shadow:2px 2px 6px rgba(0,0,0,0.15); }
+  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; width:580px; }
+  .info-box { background:#e8eaf6; border-left:4px solid #3f51b5; padding:8px 12px; font-size:11px; line-height:1.8; }
+  .info-box b { color:#1a237e; }
+  .info-box.green { background:#e8f5e9; border-color:#2e7d32; }
+  .info-box.orange { background:#fff3e0; border-color:#e65100; }
+  .legend { display:flex; gap:16px; margin-top:8px; font-size:11px; flex-wrap:wrap; justify-content:center; }
+  .legend-item { display:flex; align-items:center; gap:5px; }
+  .swatch { width:24px; height:4px; display:inline-block; }
+</style>
+</head>
+<body>
+<h2>SS-2025-3：RH700×300×13×24 LRFD 側向扭轉挫屈（LTB）設計曲線</h2>
+<p class="sub">F<sub>y</sub> = 3.5 tf/cm² ｜ F<sub>r</sub> = 0.7 tf/cm²（熱軋）｜ M<sub>p</sub> = 21,872 tf·cm ｜ M<sub>r</sub> = 15,760 tf·cm</p>
+<canvas id="cv" width="580" height="400"></canvas>
+<div class="legend">
+  <div class="legend-item"><div class="swatch" style="background:#1a237e;height:3px"></div><span>Mn 設計曲線</span></div>
+  <div class="legend-item"><div class="swatch" style="background:#c62828;height:2px;border-top:2px dashed #c62828"></div><span>Mp 上限</span></div>
+  <div class="legend-item"><div class="swatch" style="background:#e65100;height:2px;border-top:2px dashed #e65100"></div><span>Mr 下限（LTB彈性段）</span></div>
+  <div class="legend-item"><div class="swatch" style="background:#2e7d32;height:4px"></div><span>設計點 Lb=3.0m</span></div>
+</div>
+<div class="info-grid">
+  <div class="info-box">
+    <b>斷面性質</b><br>
+    I<sub>x</sub> = 197,000 cm⁴<br>
+    Z<sub>x</sub> = 6,249 cm³<br>
+    S<sub>x</sub> = 5,629 cm³<br>
+    r<sub>y</sub> ≈ 6.87 cm
+  </div>
+  <div class="info-box">
+    <b>LTB 分界點</b><br>
+    L<sub>p</sub> = 3.4 m（L<sub>b,max</sub>，塑性區）<br>
+    L<sub>r</sub> ≈ 9.8 m（彈性 LTB 起始）<br>
+    M<sub>p</sub> = 21,872 tf·cm<br>
+    M<sub>r</sub> = 15,760 tf·cm
+  </div>
+  <div class="info-box green">
+    <b>設計結果</b><br>
+    L<sub>b</sub> = 3.0 m &lt; L<sub>p</sub> = 3.4 m<br>
+    → 塑性區（無 LTB）<br>
+    M<sub>n</sub> = M<sub>p</sub> = 21,872 tf·cm<br>
+    <b>φ<sub>b</sub>M<sub>n</sub> = 19,685 tf·cm ≈ 196.8 tf·m</b>
+  </div>
+  <div class="info-box orange">
+    <b>插值公式（備用，Lp &lt; Lb ≤ Lr）</b><br>
+    M<sub>n</sub> = M<sub>p</sub> − (M<sub>p</sub>−M<sub>r</sub>)×<br>
+    (L<sub>b</sub>−L<sub>p</sub>)/(L<sub>r</sub>−L<sub>p</sub>)<br>
+    本題不適用（Lb &lt; Lp）
+  </div>
+</div>
+
+<script>
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const W = cv.width, H = cv.height;
+
+// Section and material properties
+const Mp = 21872; // tf·cm
+const Mr = 15760; // tf·cm
+const Lp = 3.4;   // m
+const Lr = 9.8;   // m (estimated)
+const Lb = 3.0;   // m (given)
+const phiMn = 0.9 * Mp;
+
+// Chart layout
+const pad = { left: 72, right: 30, top: 40, bottom: 60 };
+const cW = W - pad.left - pad.right;
+const cH = H - pad.top - pad.bottom;
+
+// Scales
+const Lmax = 12; // m (x-axis range)
+const Mmax = 26000; // tf·cm (y-axis range)
+
+function toX(L) { return pad.left + (L / Lmax) * cW; }
+function toY(M) { return pad.top + cH - (M / Mmax) * cH; }
+
+// Background
+ctx.fillStyle = '#fafafa';
+ctx.fillRect(0, 0, W, H);
+
+// Grid lines
+ctx.strokeStyle = '#e0e0e0'; ctx.lineWidth = 0.8; ctx.setLineDash([3, 3]);
+// Horizontal grid
+const Msteps = [0, 5000, 10000, 15000, 20000, 25000];
+Msteps.forEach(M => {
+  ctx.beginPath(); ctx.moveTo(pad.left, toY(M)); ctx.lineTo(W - pad.right, toY(M)); ctx.stroke();
+});
+// Vertical grid
+for (let L = 0; L <= 12; L += 2) {
+  ctx.beginPath(); ctx.moveTo(toX(L), pad.top); ctx.lineTo(toX(L), pad.top + cH); ctx.stroke();
+}
+ctx.setLineDash([]);
+
+// ── Mp horizontal dashed line ──
+ctx.strokeStyle = '#c62828'; ctx.lineWidth = 1.5; ctx.setLineDash([6, 4]);
+ctx.beginPath(); ctx.moveTo(pad.left, toY(Mp)); ctx.lineTo(W - pad.right, toY(Mp)); ctx.stroke();
+ctx.setLineDash([]);
+ctx.fillStyle = '#c62828'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+ctx.fillText('Mp = 21,872', pad.left + 2, toY(Mp) - 4);
+
+// ── Mr horizontal dashed line ──
+ctx.strokeStyle = '#e65100'; ctx.lineWidth = 1.2; ctx.setLineDash([4, 4]);
+ctx.beginPath(); ctx.moveTo(toX(Lr), toY(Mr)); ctx.lineTo(W - pad.right, toY(Mr)); ctx.stroke();
+ctx.setLineDash([]);
+ctx.fillStyle = '#e65100'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+ctx.fillText('Mr = 15,760', toX(Lr) + 3, toY(Mr) - 4);
+
+// ── Main Mn curve ──
+// Zone 1: Lb ≤ Lp → Mn = Mp (horizontal)
+ctx.strokeStyle = '#1a237e'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+ctx.beginPath();
+ctx.moveTo(toX(0), toY(Mp));
+ctx.lineTo(toX(Lp), toY(Mp));
+ctx.stroke();
+
+// Zone 2: Lp < Lb ≤ Lr → linear interpolation
+ctx.beginPath();
+ctx.moveTo(toX(Lp), toY(Mp));
+ctx.lineTo(toX(Lr), toY(Mr));
+ctx.stroke();
+
+// Zone 3: Lb > Lr → elastic LTB (approximated as 1/L^2 curve)
+ctx.beginPath();
+ctx.moveTo(toX(Lr), toY(Mr));
+let prevX = toX(Lr), prevY = toY(Mr);
+for (let L = Lr; L <= Lmax; L += 0.1) {
+  // Elastic LTB: Mn = Mcr ∝ 1/Lb^2 (approximate)
+  const Mcr = Mr * (Lr / L) * (Lr / L);
+  const x = toX(L), y = toY(Mcr);
+  ctx.lineTo(x, y);
+}
+ctx.stroke();
+
+// ── Lp vertical marker ──
+ctx.strokeStyle = '#7b1fa2'; ctx.lineWidth = 1.2; ctx.setLineDash([5, 3]);
+ctx.beginPath(); ctx.moveTo(toX(Lp), pad.top); ctx.lineTo(toX(Lp), toY(0)); ctx.stroke();
+ctx.setLineDash([]);
+ctx.fillStyle = '#7b1fa2'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+ctx.fillText('Lp', toX(Lp), pad.top + cH + 14);
+ctx.fillText('3.4m', toX(Lp), pad.top + cH + 26);
+
+// ── Lr vertical marker ──
+ctx.strokeStyle = '#bf360c'; ctx.lineWidth = 1.0; ctx.setLineDash([4, 3]);
+ctx.beginPath(); ctx.moveTo(toX(Lr), pad.top); ctx.lineTo(toX(Lr), toY(0)); ctx.stroke();
+ctx.setLineDash([]);
+ctx.fillStyle = '#bf360c'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+ctx.fillText('Lr', toX(Lr), pad.top + cH + 14);
+ctx.fillText('≈9.8m', toX(Lr), pad.top + cH + 26);
+
+// ── Design point: Lb = 3.0m ──
+const designM = Mp; // since Lb < Lp → Mn = Mp
+const dpX = toX(Lb), dpY = toY(designM);
+
+// Vertical drop line
+ctx.strokeStyle = '#2e7d32'; ctx.lineWidth = 2; ctx.setLineDash([]);
+ctx.beginPath(); ctx.moveTo(dpX, dpY); ctx.lineTo(dpX, toY(0)); ctx.stroke();
+
+// Design point dot
+ctx.fillStyle = '#2e7d32';
+ctx.beginPath(); ctx.arc(dpX, dpY, 7, 0, Math.PI * 2); ctx.fill();
+ctx.fillStyle = '#fff';
+ctx.beginPath(); ctx.arc(dpX, dpY, 3, 0, Math.PI * 2); ctx.fill();
+
+// Label
+ctx.fillStyle = '#2e7d32'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
+ctx.fillText('設計點', dpX + 6, dpY - 12);
+ctx.fillText('Lb=3.0m', dpX + 6, dpY);
+ctx.fillText('Mn=Mp', dpX + 6, dpY + 12);
+ctx.font = '10px sans-serif';
+ctx.fillText('(塑性區)', dpX + 6, dpY + 24);
+
+// ── Lb label at bottom ──
+ctx.fillStyle = '#2e7d32'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+ctx.fillText('Lb', dpX, pad.top + cH + 14);
+ctx.fillText('3.0m', dpX, pad.top + cH + 26);
+
+// ── Zone labels ──
+ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+
+// Zone 1: Plastic
+ctx.fillStyle = '#1565c0';
+ctx.fillText('① 塑性區', toX(Lp / 2), toY(Mp) + 22);
+ctx.fillText('Mn = Mp', toX(Lp / 2), toY(Mp) + 34);
+
+// Zone 2: Inelastic LTB
+ctx.fillStyle = '#6a1b9a';
+const midL12 = (Lp + Lr) / 2;
+ctx.fillText('② 非彈性 LTB', toX(midL12), toY((Mp + Mr) / 2) - 8);
+ctx.fillText('線性插值', toX(midL12), toY((Mp + Mr) / 2) + 4);
+
+// Zone 3: Elastic LTB
+ctx.fillStyle = '#bf360c';
+ctx.fillText('③ 彈性 LTB', toX(Lr + 1.5), toY(Mr * 0.5));
+ctx.fillText('Mn = Mcr', toX(Lr + 1.5), toY(Mr * 0.5) + 12);
+
+// ── Axes ──
+ctx.strokeStyle = '#333'; ctx.lineWidth = 1.5;
+// Y-axis
+ctx.beginPath(); ctx.moveTo(pad.left, pad.top); ctx.lineTo(pad.left, pad.top + cH); ctx.stroke();
+// X-axis
+ctx.beginPath(); ctx.moveTo(pad.left, pad.top + cH); ctx.lineTo(W - pad.right, pad.top + cH); ctx.stroke();
+
+// Axis labels
+ctx.fillStyle = '#333'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+ctx.fillText('無側向支撐長度 Lb (m)', pad.left + cW / 2, H - 8);
+
+ctx.save();
+ctx.translate(16, pad.top + cH / 2);
+ctx.rotate(-Math.PI / 2);
+ctx.fillText('Mn (tf·cm)', 0, 0);
+ctx.restore();
+
+// X-axis ticks and labels
+ctx.fillStyle = '#333'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+for (let L = 0; L <= 12; L += 2) {
+  const x = toX(L);
+  ctx.beginPath(); ctx.moveTo(x, pad.top + cH); ctx.lineTo(x, pad.top + cH + 4); ctx.stroke();
+  ctx.fillText(L, x, pad.top + cH + 15);
+}
+
+// Y-axis ticks and labels
+ctx.textAlign = 'right';
+Msteps.forEach(M => {
+  const y = toY(M);
+  ctx.beginPath(); ctx.moveTo(pad.left - 4, y); ctx.lineTo(pad.left, y); ctx.stroke();
+  ctx.fillText((M / 1000).toFixed(0) + 'k', pad.left - 6, y + 4);
+});
+
+// φMn annotation
+ctx.fillStyle = '#c62828'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'right';
+ctx.fillText('φbMn = 0.9×Mp = 19,685 tf·cm', W - pad.right - 2, toY(0.9 * Mp) - 4);
+ctx.strokeStyle = '#c62828'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+ctx.beginPath(); ctx.moveTo(pad.left, toY(0.9 * Mp)); ctx.lineTo(W - pad.right, toY(0.9 * Mp)); ctx.stroke();
+ctx.setLineDash([]);
+
+// Title
+ctx.fillStyle = '#1a237e'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'right';
+ctx.fillText('RH700×300×13×24 ｜ Fy=3.5 tf/cm²', W - pad.right - 2, pad.top - 10);
+</script>
+</body>
+</html>

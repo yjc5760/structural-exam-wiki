@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2017-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.88em;line-height:1.5}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;padding:10px 16px;border-radius:0 8px 8px 0}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SS-2017-2 題目解析</h1><a class="quick" href="../study-SS-U1-4.html" title="SS-U1-4 接合之分析與設計 命題分析">&#128269; U1-4 命題分析</a><a class="lect" href="../lecture-SS-U1-4.html" title="SS-U1-4 接合之分析與設計 觀念講義">&#128218; U1-4 接合之分析與設計 講義</a></header>
+<main>
+<h1>考題編號：SS-2017-2</h1>
+<p><strong>主分類：</strong> <code>SS-U1-4</code> 接合之分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>高強度螺栓</code> <code>摩阻型接合</code> <code>Slip-critical</code> <code>剪力傳遞機制</code> <code>極限狀態</code> <code>夾緊力</code> <code>摩擦係數</code> <code>滑動</code> <code>預拉力0.7Fu</code> <code>孔型係數</code> <code>規範版本差異</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>請敘述高強度螺栓接合中摩阻型（Slip-critical）螺栓接合承受剪力時之<strong>傳遞機制</strong>及如何定義其<strong>極限狀態</strong>。（15 分）</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：高強度螺栓靠「夾力 → 摩擦」而非「螺栓直接承壓」來傳遞剪力</strong></p>
+<p>此題測驗考生能否區分摩阻型（Slip-critical）與承壓型（Bearing-type）螺栓接合的根本差異，並正確定義滑動這個「極限狀態」的層面（使用性極限 or 強度極限？）。</p>
+<p><strong>出題者測驗重點：</strong><br />
+- 高拉力預緊 → 夾緊力 → 摩擦力 的因果鏈<br />
+- 摩擦力的計算要素：夾緊力、摩擦係數（μ or ks）、接觸面數<br />
+- 極限狀態分類：滑動可能是 (a) 使用性極限狀態 或 (b) 強度極限狀態，依設計情境而定<br />
+- 摩阻型與承壓型的轉換關係</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>步驟規劃：</strong><br />
+1. 說明「高拉力預緊」是摩阻型接合的先決條件<br />
+2. 說明剪力傳遞機制：摩擦力（非螺栓孔承壓）<br />
+3. 定義滑動極限狀態（主要）+ 其他極限狀態（次要）<br />
+4. 說明 LRFD 下的摩阻型設計公式</p>
+<p><strong>關鍵陷阱：</strong></p>
+<blockquote>
+<p>⚠️ <strong>陷阱1：誤以為摩阻型螺栓靠螺栓桿傳力</strong><br />
+摩阻型設計的核心是<strong>接觸面摩擦力</strong>，不是螺栓桿的剪力或承壓。只要接合未滑動，螺栓桿實際上幾乎不受剪力（全靠夾緊力產生的摩擦）。</p>
+<p>⚠️ <strong>陷阱2：極限狀態只說「滑動」而未說明分類</strong><br />
+滑動在某些情況是使用性極限（服務載重下不能滑動，如：精密機械設備的接合，滑動後影響精度），在某些情況是強度極限（大地震或重要結構，滑動後立即破壞）。需要明確區分。</p>
+<p>⚠️ <strong>陷阱3：忘記「接觸面數（nf）」的影響</strong><br />
+一個螺栓可有單剪（nf = 1）或雙剪（nf = 2）接觸面，摩擦力與接觸面數成正比。</p>
+</blockquote>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 說明摩阻型螺栓靠「預緊→夾緊力→摩擦力」傳遞剪力的機制，並定義滑動（Slip）為主要極限狀態及其使用性/強度極限的分類</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p><strong>台灣 2010 規範（容許應力設計法）—— 表列容許剪應力，不用公式：</strong><br />
+$$f_v \le F_v^{\text{摩阻型}} \quad\text{（A325 標準孔 } 1.19\text{ tf/cm}^2\text{；A490 標準孔 } 1.47\text{ tf/cm}^2\text{）}$$</p>
+<p><strong>AISC 360 系列（公式化）：</strong><br />
+$$\boxed{R_n} = \mu \cdot D_u \cdot h_f \cdot T_b \cdot n_s \quad \text{（每支螺栓）}$$</p>
+<p>$$\text{預拉力：} \; T_b = 0.70\,F_u^b\,A_t \quad\text{（規範表列，「等於最小抗拉強度之 0.7 倍」）}$$</p>
+<blockquote>
+<p>⚠️ $\phi$ 之取法<strong>因規範版本而異</strong>，見 §4(二) 與 §6：AISC 360-05 依「使用性／強度極限」分 1.00／0.85；<strong>AISC 360-10 起改依孔型</strong>分 1.00／0.85／0.70。</p>
+</blockquote>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>接合類型</td>
+<td>摩阻型（Slip-critical）</td>
+<td>靠夾緊摩擦傳力，非螺栓桿直接承壓</td>
+</tr>
+<tr>
+<td>設計法</td>
+<td>LRFD</td>
+<td>強度折減係數 $\phi$ 依極限狀態選取</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：高拉力預緊機制</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$T_b$（$T_o$）</td>
+<td>規定最小螺栓預拉力 = $0.70 F_u^b A_t$（規範表列，$A_t$ 為螺紋處有效抗拉面積）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>夾緊力</td>
+<td>螺桿拉伸 → 頭部/螺帽對鋼板形成正向壓力 $T_o$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>接觸面摩擦力</td>
+<td>$f = \mu \times T_o$（每支螺栓、每個接觸面）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：剪力傳遞機制</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\mu$（$k_s$）</td>
+<td>滑動係數：台灣規範要求「潔淨銹皮與噴氣清除及表面塗以護膜者，其滑動係數應在 <strong>0.33</strong> 以上」；AISC 360-10 起 A 類 = <strong>0.30</strong>、B 類（噴砂）= <strong>0.50</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$n_s$</td>
+<td>接觸面數：單剪 = 1，雙剪 = 2</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$D_u$</td>
+<td>實際／規定最小預拉力之比（AISC 取 <strong>1.13</strong>）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$h_{sc}$ / $h_f$</td>
+<td>AISC 360-05：孔型係數 $h_{sc}$（標準孔 1.0、超大孔 0.85、長槽孔 0.70）；<strong>AISC 360-10 起改為填隙板係數 $h_f$</strong>，孔型效應移入 $\phi$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>螺栓桿受力狀態</td>
+<td>滑動前螺栓桿幾乎不受剪——全靠摩擦傳力</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：極限狀態定義</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主要極限狀態</td>
+<td>接觸面滑動（Slip at faying surface）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>使用性極限</td>
+<td>服務載重下不允許滑動（精密／疲勞接合）；AISC 360-05 之 $\phi = 1.00$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>強度極限</td>
+<td>因數化載重下不允許滑動（安全等級高）；AISC 360-05 之 $\phi = 0.85$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>⚠️ 版本注意</td>
+<td><strong>AISC 360-10 起 $\phi$ 改依孔型</strong>（標準孔／短槽孔垂直力向 1.00；超大孔／短槽孔平行力向 0.85；長槽孔 0.70），不再依使用性／強度區分</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>次要極限狀態</td>
+<td>螺栓桿剪力破壞、孔壁承壓、淨截面斷裂（滑動後轉承壓型）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>摩阻型 vs 承壓型的根本差異</td>
+<td>摩阻型靠摩擦（螺栓桿不受剪）；承壓型靠螺栓桿剪力+孔壁承壓</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>接觸面處理等級</td>
+<td>滑動係數 $\mu$ 取決於表面處理；A/B 類差異大，設計師需在規格書中明定</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>滑動極限的雙重分類</td>
+<td>使用性 vs 強度——這是<strong>概念上</strong>的分類（本題答題核心）；至於 $\phi$ 是否依此分類取值則因規範版本而異（360-05 是、360-10 起否）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>接觸面數 $n_s$</td>
+<td>單剪（一個接觸面）vs 雙剪（兩個接觸面）；強度直接成比例</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>預拉力係數 0.70</td>
+<td>$T_b = 0.70F_u^bA_t$；此係數自 AISC LRFD 1993 至 360-22 未變（台灣規範原文：「等於最小抗拉強度之 0.7 倍」）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>滑動後行為</td>
+<td>接合滑動後螺栓桿接觸孔壁，轉變為承壓型行為，繼續加載才會桿剪破壞</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>(一) 摩阻型螺栓接合承受剪力時的傳遞機制</h3>
+<h4>前提：高拉力預緊（High-Tension Preloading）</h4>
+<p>摩阻型接合的根本前提是螺栓在安裝時被施加高拉力（預緊力），在接合板間產生強大的<strong>夾緊力（Clamping Force）</strong>。</p>
+<p>對於一支螺栓，其規定<strong>最小預拉力</strong> $T_b$ 依規範表列（台灣規範表 10.3-1 之原文：「等於最小抗拉強度之 <strong>0.7 倍</strong>」）：</p>
+<p>$$T_b = 0.70 \times F_u^b \times A_t$$</p>
+<p>其中 $F_u^b$ 為螺栓最小抗拉強度、$A_t$ 為<strong>螺紋處有效抗拉面積</strong>（$\approx 0.75 A_b$）。</p>
+<p><em>數值驗核（3/4 in A325，$F_u^b = 120$ ksi、$A_t = 0.334$ in²）：$0.70 \times 120 \times 0.334 = 28.1$ kips，與 AISC 表 J3.1 所列 28 kips 相符 ✓。若誤用全斷面積 $A_b = 0.442$ in² 則得 37.1 kips，高估 33%。</em></p>
+<p>日系扭剪型螺栓（F10T／S10T）之標準張力另依 JIS／CNS 表列（例如 M20 之設計軸力約 160 kN、M22 約 200 kN），台灣工程實務兩套系統並存，<strong>須依設計圖說所指定之螺栓標準查表</strong>。</p>
+<h4>剪力傳遞機制：接觸面摩擦力</h4>
+<p>當接合承受水平剪力 $V$ 時：</p>
+<pre><code> ─────────────────────────────────
+ 板 1（上）  |  ← V 受剪力
+ ─────────────────────────────────
+     ↑ 夾緊力 T₀        ← 螺栓高拉力預緊，使兩板緊密壓合
+ ─────────────────────────────────
+ 板 2（下）  |
+ ─────────────────────────────────
+     接觸面存在摩擦力 f = μ × T₀
+</code></pre>
+<p><strong>傳遞步驟：</strong></p>
+<ol>
+<li><strong>螺栓預緊</strong>：安裝後，以扭力扳手、轉角法或直接張力指示器（DTI）等方式，將螺栓預緊至設計拉力 $T_o$。</li>
+<li><strong>夾緊力形成</strong>：螺桿拉伸 → 頭部和螺帽對鋼板形成夾緊壓力 $T_o$（正向力）。</li>
+<li><strong>摩擦力抵抗剪力</strong>：在接觸面（faying surface）上，摩擦力 $f = \mu \times T_o$ 抵抗外部剪力。<br />
+   - $\mu$（或 $k_s$）= 滑動係數，取決於接觸面處理方式（未塗裝 / 噴砂 / 熱浸鍍鋅等）</li>
+<li><strong>不滑動狀態</strong>：在外力未超過摩擦力總量之前，接合板不產生相對滑動，<strong>螺栓桿本身幾乎不承受剪力或承壓力</strong>。</li>
+</ol>
+<p><img alt="SS-2017-2 雙剪摩阻型接合剖面：螺栓預拉力使兩片外板與中板壓合，兩個接觸面上各有摩擦力 f = μ·Tb 抵抗外力 V，滑動前螺栓桿不受剪、孔壁不承壓" src="../../raw/solutions/SS-2017-2/figs/SS-2017-2-fig-1-mechanism.svg" /></p>
+<p><em>圖 1　剪力的傳遞路徑：預緊 → 夾緊力 → 接觸面摩擦，力完全不經過螺栓桿。這張圖攔的是「摩阻型靠螺栓桿傳剪」這個最根本的誤解，也標出 $T_b$ 要乘的是螺紋處有效抗拉面積 $A_t$。</em></p>
+<p><strong>設計滑動強度 —— 兩套規範寫法</strong></p>
+<p><strong>(a) 台灣 2010 規範（容許應力設計法第十章）：表列容許剪應力</strong></p>
+<p>台灣 ASD 規範<strong>不用乘積公式</strong>，而是直接表列摩阻型接合之螺栓容許剪應力（表 10.3-2／C10.3-2）：</p>
+<table>
+<thead>
+<tr>
+<th>螺栓</th>
+<th>標準孔</th>
+<th>超大孔／短槽孔</th>
+<th>長槽孔</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A325</td>
+<td>1.19 tf/cm²（17 ksi）</td>
+<td>1.05</td>
+<td>0.84</td>
+</tr>
+<tr>
+<td>A490</td>
+<td>1.47 tf/cm²（21 ksi）</td>
+<td>1.26</td>
+<td>1.05</td>
+</tr>
+</tbody>
+</table>
+<p>並於 §10.3.7 規定接觸面處理：「潔淨銹皮與噴氣清除及表面塗以護膜者，其<strong>滑動係數應在 0.33 以上</strong>」。</p>
+<p><em>（對照：同表之</em><em>承壓型</em><em> A490 螺紋不在剪力面者為 40 ksi = 2.81 tf/cm²——摩阻型僅為承壓型的 </em><em>52%</em><em>，這是摩阻型設計「較保守」的量化證據。）</em></p>
+<p><strong>(b) AISC 360 系列：乘積公式</strong></p>
+<p>$$R_n = \mu \cdot D_u \cdot h_f \cdot T_b \cdot n_s$$</p>
+<p>其中：<br />
+- $\mu$（或 $k_s$）= 平均滑動係數：<strong>AISC 360-10 起</strong> A 類（未塗裝軋製鋼）= <strong>0.30</strong>、B 類（噴砂）= <strong>0.50</strong>（360-05 之 A 類為 0.35；AISC LRFD 1993 與台灣規範為 0.33）<br />
+- $D_u = 1.13$ = 實際安裝預拉力與規定最小值之比<br />
+- $h_f$ = 填隙板（filler）係數（<strong>360-10 起</strong>取代 360-05 之孔型係數 $h_{sc}$）<br />
+- $T_b = 0.70F_u^bA_t$ = 規定最小預拉力<br />
+- $n_s$ = 接觸面（faying surface）數：單剪 = 1，雙剪 = 2</p>
+<p>$$\phi R_n:\quad \begin{cases} \text{AISC 360-05：} &amp; \phi = 1.00\ (\text{使用性極限}),\quad \phi = 0.85\ (\text{強度極限}) \[2pt] \text{AISC 360-10／-16／-22：} &amp; \phi = 1.00\ (\text{標準孔、短槽孔垂直力向}) \ &amp; \phi = 0.85\ (\text{超大孔、短槽孔平行力向}) \ &amp; \phi = 0.70\ (\text{長槽孔}) \end{cases}$$</p>
+<blockquote>
+<p>⚠️ <strong>這是本題最容易答錯的細節</strong>：「$\phi = 1.0$ 用於使用性、$\phi = 0.85$ 用於強度」是 <strong>AISC 360-05（及台灣規範所本之 LRFD 1999 附錄）</strong>的規定；<strong>AISC 360-10 起 $\phi$ 改依孔型取值</strong>，孔型效應由 $h_{sc}$ 移入 $\phi$，而「使用性／強度」之區分則純粹決定<strong>檢核時所用的載重組合</strong>（使用載重 vs 因數化載重），不再影響 $\phi$。</p>
+</blockquote>
+<p><strong>傳力機制示意（雙剪接合）：</strong></p>
+<pre><code>板A ──→ V ──→ 接觸面1（摩擦）──→ 板B ──→ 接觸面2（摩擦）──→ 板A
+                nf = 2 → 總摩擦力 = 2 × μ × T₀（每支螺栓）
+</code></pre>
+<hr />
+<h3>(二) 極限狀態定義</h3>
+<p>摩阻型螺栓接合的<strong>主要極限狀態</strong>是<strong>接合滑動（Slip）</strong>，但依設計情境有不同分類：</p>
+<h4>極限狀態 1：滑動（Slip）—— 主要極限狀態</h4>
+<p><strong>定義：</strong> 當外部剪力超過接觸面摩擦阻力時，接合板產生相對位移（滑動），摩擦傳力失效。此為摩阻型接合的<strong>設計控制極限狀態</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>滑動的設計分類</th>
+<th>檢核載重</th>
+<th>適用情境</th>
+<th>AISC 360-05 之 $\phi$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>使用性極限狀態（Serviceability）</strong></td>
+<td><strong>服務載重</strong>（未因數化）</td>
+<td>精密接合、疲勞接合、需避免板件相對位移影響幾何精度者；滑動後結構仍安全</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td><strong>強度極限狀態（Strength）</strong></td>
+<td><strong>因數化設計載重</strong></td>
+<td>接合一旦滑動即危及結構安全（如超大孔或長槽孔使滑動量過大、或滑動後承壓型強度不足者）</td>
+<td>0.85</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>AISC 360-10 起之改變</strong>：「使用性／強度」之區分<strong>仍然存在</strong>，但只決定<strong>用哪一組載重去檢核</strong>；$\phi$ 改依<strong>孔型</strong>取值（1.00／0.85／0.70）。台灣 2010 規範（ASD）則以表列容許剪應力涵蓋孔型效應（標準孔／超大孔／長槽孔三欄），概念一致。</p>
+</blockquote>
+<p><img alt="SS-2017-2 荷重–滑移曲線：摩擦線性段 → 滑動平台 → 轉為承壓型後再上升 → 螺栓桿剪力破壞，縱軸刻度取台灣 ASD 表 C10.3-2 之 A490 標準孔容許剪應力 1.47 與 2.81 tf/cm²" src="../../raw/solutions/SS-2017-2/figs/SS-2017-2-fig-2-slip-behavior.svg" /></p>
+<p><em>圖 2　滑動不是「破壞」，而是傳力機制的切換；滑動後接合轉為承壓型行為，還要再檢核螺栓剪力、孔壁承壓與淨斷面。這張圖攔的是極限狀態只答「滑動」而說不出後續與分類。</em></p>
+<h4>極限狀態 2：螺栓桿破壞（Bolt Shear Failure）</h4>
+<p>一旦接合滑動後（摩擦喪失），螺栓桿直接接觸孔壁，接合轉變為「承壓型行為」。繼續加載會導致螺栓桿剪力破壞：</p>
+<p>$$R_n = F_{nv} \cdot A_b$$</p>
+<p>其中 $F_{nv}$ = 螺栓剪力強度，$A_b$ = 螺栓截面積。</p>
+<h4>極限狀態 3：承壓破壞（Bearing Failure）</h4>
+<p>螺栓孔壁承壓應力超過鋼板極限強度，孔壁擠壓擴孔：</p>
+<p>$$R_n = 1.2 L_c t F_u \le 2.4 F_u d t \quad\text{（AISC 360-16 §J3.10；360-22 拆為承壓 §J3.11 + 撕出 §J3.12）}$$</p>
+<h4>極限狀態 4：淨截面斷裂（Net Section Rupture）</h4>
+<p>接合板有孔，在螺栓排列方向的最危險斷面拉斷。</p>
+<hr />
+<p><strong>各極限狀態的設計優先序（摩阻型）：</strong></p>
+<pre><code>摩阻型設計 → 首要控制：Slip Resistance ≥ 設計剪力
+                     ↓（若滑動後）
+                  轉承壓型行為 → 檢核：螺栓剪力 + 承壓 + 淨截面
+</code></pre>
+<p>$$\boxed{\text{主要極限狀態：接觸面滑動（Slip at faying surface）}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>摩阻型 vs 承壓型的設計哲學差異</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>摩阻型（Slip-critical）</th>
+<th>承壓型（Bearing-type）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>傳力方式</td>
+<td>接觸面摩擦力</td>
+<td>螺栓桿剪力 + 孔壁承壓</td>
+</tr>
+<tr>
+<td>需要預緊？</td>
+<td>是（且需驗證）</td>
+<td>需要安裝，但不依賴特定預緊力</td>
+</tr>
+<tr>
+<td>允許滑動？</td>
+<td>不允許（服務或強度）</td>
+<td>允許滑動至孔壁接觸再傳力</td>
+</tr>
+<tr>
+<td>設計強度</td>
+<td>通常較低（保守）</td>
+<td>通常較高（利用螺栓全強度）</td>
+</tr>
+<tr>
+<td>適用場合</td>
+<td>動態/疲勞/精密/孔大</td>
+<td>靜態/一般/孔標準</td>
+</tr>
+</tbody>
+</table>
+<h3>接觸面處理的重要性與規範版本差異</h3>
+<p>滑動係數 $\mu$ 對設計強度影響很大，且<strong>各版規範數值不同</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>表面等級</th>
+<th>台灣 2010／AISC LRFD 1993</th>
+<th>AISC 360-05</th>
+<th>AISC 360-10／-16／-22</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A 類</strong>（未塗裝清潔軋製鋼面、經噴氣清除之銹皮面）</td>
+<td><strong>0.33</strong></td>
+<td>0.35</td>
+<td><strong>0.30</strong></td>
+</tr>
+<tr>
+<td><strong>B 類</strong>（噴砂清潔至近白色，SSPC-SP6）</td>
+<td>0.50</td>
+<td>0.50</td>
+<td>0.50</td>
+</tr>
+<tr>
+<td>C 類（熱浸鍍鋅後打毛）</td>
+<td>0.35（部分版本）</td>
+<td>併入 A 類</td>
+<td>併入 A 類</td>
+</tr>
+</tbody>
+</table>
+<p>台灣規範 §10.3.7(g) 之原文要求：「潔淨銹皮與噴氣清除及表面塗以護膜者，其<strong>滑動係數應在 0.33 以上</strong>」。</p>
+<p>設計者必須在規格書中明確要求接觸面處理方式，並在施工前確認——<strong>這是唯一無法靠計算補救的參數</strong>。實務常見問題：<br />
+- 接觸面誤塗防銹底漆（未經認可之塗裝會使 $\mu$ 降至 0.1 以下）<br />
+- 熱浸鍍鋅面未打毛<br />
+- 施工期間接觸面沾附油污、泥土</p>
+<h3>摩阻型接合強度為何遠低於承壓型？（量化）</h3>
+<p>由台灣 ASD 規範表 C10.3-2（標準孔）：</p>
+<table>
+<thead>
+<tr>
+<th>螺栓</th>
+<th>摩阻型</th>
+<th>承壓型（螺紋在剪力面 N）</th>
+<th>承壓型（螺紋不在剪力面 X）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A325</td>
+<td>1.19 tf/cm²</td>
+<td>1.48 tf/cm²</td>
+<td>2.11 tf/cm²</td>
+</tr>
+<tr>
+<td>A490</td>
+<td>1.47 tf/cm²</td>
+<td>1.97 tf/cm²</td>
+<td>2.81 tf/cm²</td>
+</tr>
+<tr>
+<td>A490 摩阻型／承壓型 X</td>
+<td>—</td>
+<td>—</td>
+<td><strong>52%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>摩阻型只能用到承壓型（X）約一半的容量。原因：摩阻型的強度上限由「$\mu \times$ 夾持力」決定，而夾持力受限於螺栓不得超過其抗拉強度的 70%；而承壓型可用到螺栓的<strong>剪力強度</strong>（約 $0.5F_u^b$）。</p>
+<p><strong>設計意涵</strong>：摩阻型不是「更強」，而是「更嚴格地不允許位移」。若接合並無避免滑動之需求，採承壓型較經濟。</p>
+<p><img alt="SS-2017-2 長條圖：台灣 ASD 表 C10.3-2 標準孔之容許剪應力，A325 與 A490 各列摩阻型、承壓型 N、承壓型 X，A490 摩阻型僅為承壓型 X 的 52%" src="../../raw/solutions/SS-2017-2/figs/SS-2017-2-fig-3-strength-compare.svg" /></p>
+<p><em>圖 3　摩阻型的容許剪應力只有承壓型 X 的一半。上限由「$\mu \times$ 夾持力」決定，而夾持力受限於預拉力只能到 $0.7F_u$；這張圖攔的是「摩阻型比較強」的直覺——它換到的是「不允許位移」，不是強度。</em></p>
+<h3>何時必須用摩阻型？（規範強制情形）</h3>
+<table>
+<thead>
+<tr>
+<th>情形</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>承受反復荷重需<strong>變換方向</strong>之接合</td>
+<td>滑動會造成反復衝擊、螺栓疲勞</td>
+</tr>
+<tr>
+<td>使用<strong>超大孔或長槽孔</strong>且不允許相對位移者</td>
+<td>滑動量過大會影響幾何</td>
+</tr>
+<tr>
+<td>承受<strong>疲勞</strong>載重之接合（AISC 附錄 3）</td>
+<td>滑動處易生磨蝕疲勞</td>
+</tr>
+<tr>
+<td><strong>耐震</strong>抗彎構架之特定接合（AISC 341）</td>
+<td>韌性需求，滑動會改變塑鉸位置</td>
+</tr>
+<tr>
+<td>螺栓與銲接<strong>共同承擔</strong>同一力者</td>
+<td>銲道剛度遠高於承壓型螺栓，須靠摩擦分擔</td>
+</tr>
+</tbody>
+</table>
+<h3>考場安全答法</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>核心答法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>傳遞機制</td>
+<td>「螺栓高拉力預緊（$T_b = 0.7F_u^bA_t$）→ 板間夾緊力 → 接觸面摩擦力抵抗剪力；<strong>滑動前螺栓桿幾乎不受剪、孔壁不承壓</strong>」</td>
+</tr>
+<tr>
+<td>傳遞公式</td>
+<td>「$R_n = \mu \cdot D_u \cdot h_f \cdot T_b \cdot n_s$（每支螺栓）；台灣 ASD 則直接查表列容許剪應力」</td>
+</tr>
+<tr>
+<td>極限狀態（主）</td>
+<td>「<strong>接觸面滑動（slip at faying surface）</strong>」</td>
+</tr>
+<tr>
+<td>滑動之分類</td>
+<td>「依滑動之後果分為<strong>使用性極限狀態</strong>（以服務載重檢核）與<strong>強度極限狀態</strong>（以因數化載重檢核）」</td>
+</tr>
+<tr>
+<td>極限狀態（次）</td>
+<td>「滑動後轉為承壓型行為：螺栓剪力破壞、孔壁承壓／撕出、板件全斷面降伏與淨斷面斷裂、塊狀撕裂」</td>
+</tr>
+<tr>
+<td>加分句</td>
+<td>「$\mu$ 取決於接觸面處理，須於規格書明訂並於施工前查驗；$\mu$ 值各版規範不同（台灣 0.33、AISC 360-16 之 A 類 0.30、B 類 0.50）」</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>6. 依最新規範（AISC 360-16／-22）對照</h2>
+<blockquote>
+<p><strong>本題主答案所依規範</strong>：內政部「鋼構造建築物鋼結構設計技術規範」民國 99 年（2010）修正版。本題為敘述題，機制與極限狀態之定義三套規範一致；差異在<strong>強度式的表達方式與 $\phi$／$\mu$ 之取值</strong>。</p>
+</blockquote>
+<h3>6.1 設計滑動強度之表達方式演進</h3>
+<table>
+<thead>
+<tr>
+<th>規範</th>
+<th>形式</th>
+<th>$\phi$（或容許應力）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>台灣 2010 <strong>ASD</strong></td>
+<td>表列容許剪應力（依螺栓等級 × 孔型）</td>
+<td>A325 標準孔 1.19、A490 標準孔 1.47 tf/cm²</td>
+</tr>
+<tr>
+<td>台灣 2010 <strong>LRFD</strong></td>
+<td>設計滑動強度（依 AISC LRFD 1999 體系）</td>
+<td>滑動係數 ≥ 0.33</td>
+</tr>
+<tr>
+<td><strong>AISC 360-05</strong></td>
+<td>$R_n = \mu D_u h_{sc} T_b n_s$</td>
+<td>$\phi = 1.00$（使用性）／$0.85$（強度）</td>
+</tr>
+<tr>
+<td><strong>AISC 360-10／-16／-22</strong></td>
+<td>$R_n = \mu D_u h_f T_b n_s$</td>
+<td><strong>$\phi$ 依孔型</strong>：1.00 / 0.85 / 0.70</td>
+</tr>
+</tbody>
+</table>
+<p><strong>兩項關鍵改變（360-05 → 360-10）：</strong></p>
+<ol>
+<li><strong>孔型係數 $h_{sc}$ → 填隙板係數 $h_f$</strong>：孔型效應由乘積項移入 $\phi$。理由：孔型影響的是「滑動後可容許之位移量」（即可靠度需求），而非摩擦機制本身的強度。</li>
+<li><strong>$\phi$ 由「使用性／強度」改為「依孔型」</strong>：使用性／強度之區分仍在，但只決定所用的<strong>載重組合</strong>。</li>
+</ol>
+<h3>6.2 滑動係數 $\mu$ 之數值變動</h3>
+<table>
+<thead>
+<tr>
+<th>表面等級</th>
+<th>台灣 2010</th>
+<th>AISC 360-05</th>
+<th>AISC 360-10／-16／-22</th>
+<th>變動</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A 類</td>
+<td>0.33</td>
+<td>0.35</td>
+<td><strong>0.30</strong></td>
+<td>−14%（相對 360-05）</td>
+</tr>
+<tr>
+<td>B 類</td>
+<td>0.50</td>
+<td>0.50</td>
+<td>0.50</td>
+<td>不變</td>
+</tr>
+</tbody>
+</table>
+<p>360-10 調降 A 類 $\mu$ 是基於更多試驗數據（未塗裝軋製鋼面之離散性大）。<strong>設計影響</strong>：採 A 類表面之摩阻型接合，AISC 360-16 所得強度較台灣規範低約 9%。</p>
+<h3>6.3 預拉力 $T_b$ 與螺栓標準</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>台灣 2010</th>
+<th>AISC 360-16／-22</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>預拉力定義</td>
+<td>「等於最小抗拉強度之 <strong>0.7 倍</strong>」</td>
+<td>「Equal to <strong>0.70</strong> times the minimum tensile strength」</td>
+</tr>
+<tr>
+<td>面積</td>
+<td>螺紋處有效抗拉面積 $A_t$</td>
+<td>同</td>
+</tr>
+<tr>
+<td>螺栓標準</td>
+<td>ASTM A325／A490；日系 F10T／S10T</td>
+<td><strong>ASTM F3125</strong>（Grade A325／A490 已整併入此標準）</td>
+</tr>
+<tr>
+<td>$D_u$</td>
+<td>隱含於表列值</td>
+<td>1.13（明列）</td>
+</tr>
+</tbody>
+</table>
+<p>⇒ <strong>0.70 這個係數自 AISC LRFD 1993 至 360-22 從未改變</strong>，是本題最穩固的答案要素。</p>
+<h3>6.4 滑動後之極限狀態：360-22 之細化</h3>
+<table>
+<thead>
+<tr>
+<th>極限狀態</th>
+<th>台灣 2010</th>
+<th>AISC 360-16</th>
+<th>AISC 360-22</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>滑動</td>
+<td>§10.3（摩阻型）</td>
+<td>§J3.8</td>
+<td>§J3.8</td>
+</tr>
+<tr>
+<td>螺栓剪力</td>
+<td>表列 $F_v$</td>
+<td>§J3.7 $F_{nv}A_b$</td>
+<td>§J3.7</td>
+</tr>
+<tr>
+<td>孔壁承壓</td>
+<td>式(10.3-1)</td>
+<td>§J3.10（<strong>承壓＋撕出合併</strong>）</td>
+<td><strong>§J3.11 承壓 + §J3.12 撕出（分列）</strong></td>
+</tr>
+<tr>
+<td>板件淨斷面斷裂</td>
+<td>第五章</td>
+<td>§D2、§J4.1</td>
+<td>同</td>
+</tr>
+<tr>
+<td>塊狀撕裂</td>
+<td>§10.4</td>
+<td>§J4.3</td>
+<td>同</td>
+</tr>
+</tbody>
+</table>
+<h3>6.5 對照總表</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>台灣 2010（本文主答案）</th>
+<th>AISC 360-16／-22</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>傳遞機制</td>
+<td>預拉力 → 夾緊力 → 接觸面摩擦力</td>
+<td><strong>完全相同</strong></td>
+</tr>
+<tr>
+<td>主要極限狀態</td>
+<td>接觸面滑動</td>
+<td><strong>完全相同</strong></td>
+</tr>
+<tr>
+<td>滑動之分類</td>
+<td>使用性 / 強度</td>
+<td><strong>概念相同</strong>；但 $\phi$ 自 360-10 起改依孔型</td>
+</tr>
+<tr>
+<td>強度表達</td>
+<td>ASD 表列容許剪應力</td>
+<td>$R_n = \mu D_u h_f T_b n_s$</td>
+</tr>
+<tr>
+<td>$\mu$（A 類 / B 類）</td>
+<td>0.33 / 0.50</td>
+<td><strong>0.30</strong> / 0.50</td>
+</tr>
+<tr>
+<td>孔型效應</td>
+<td>表列三欄（標準／超大／長槽）</td>
+<td>移入 $\phi$（1.00 / 0.85 / 0.70）</td>
+</tr>
+<tr>
+<td>預拉力係數</td>
+<td>0.70</td>
+<td>0.70（不變）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>修正日期：2026-08-22</em><br />
+<em>本次修正內容：①</em><em>釐清 $\phi$ 值之規範版本歸屬</em><em>——舊版逕稱「$\phi = 1.0$ 使用性、$\phi = 0.85$ 強度」，此為 </em><em>AISC 360-05</em><em> 之規定；</em><em>AISC 360-10 起 $\phi$ 改依孔型取值</em><em>（標準孔／短槽孔垂直力向 1.00、超大孔／短槽孔平行力向 0.85、長槽孔 0.70），且孔型係數 $h_{sc}$ 已改為填隙板係數 $h_f$；②補入</em><em>台灣 2010 規範之實際做法</em><em>（容許應力設計法以表列容許剪應力處理，不用乘積公式）並列出規範表值 A325 標準孔 1.19 tf/cm²、A490 標準孔 1.47 tf/cm²，及 §10.3.7(g)「滑動係數應在 0.33 以上」之原文；③更正滑動係數表：台灣 0.33、AISC 360-05 為 0.35、</em><em>AISC 360-10 起 A 類為 0.30</em><em>（舊版誤將 0.33 標為 AISC 值）；④</em><em>移除來源不明之 F10T 預拉力表</em><em>，改以規範原文「等於最小抗拉強度之 0.7 倍」＝ $0.70F_u^bA_t$（$A_t$ 為螺紋處有效抗拉面積）表述，並以 3/4 in A325 之 28 kips 表值作數值驗核；⑤補入「摩阻型僅為承壓型 X 之 52%」之量化比較、規範強制採用摩阻型之情形、承壓／撕出之 360-16 → -22 拆分；⑥新增 §6 依最新規範對照。</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2017-2/SS-2017-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body></html>

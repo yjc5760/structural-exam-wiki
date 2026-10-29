@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2008-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2008-1 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-2.html" title="SS-U1-2 梁桿件 命題分析">&#128269; U1-2 命題分析</a><a class="lect" href="../lecture-SS-U1-2.html" title="SS-U1-2 梁桿件 觀念講義">&#128218; U1-2 梁桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2008-1</h1>
+<p><strong>主分類：</strong> <code>SS-U1-2</code> 梁桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> ASD（概念題）<br />
+<strong>標籤：</strong> <code>梁桿件</code> <code>ASD</code> <code>LTB側扭挫屈</code> <code>容許撓曲應力</code> <code>St.Venant扭轉</code> <code>翹曲扭轉</code> <code>Fb公式選取</code> <code>概念辨析</code> <code>公式係數推導</code> <code>單位換算</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>依據 ASD 設計概念，容許撓曲應力 $F_b$ 在不同 $L/r_T$ 值下，需分別使用以下公式：</p>
+<p><strong>公式（7.2-6）</strong>（中度側向細長比，非彈性 LTB 範圍）：</p>
+<p>$$F_b = \left[\frac{2}{3} - \frac{F_y(L/r_T)^2}{107600C_b}\right]F_y \leq 0.6F_y$$</p>
+<p>適用範圍：$\sqrt{\dfrac{7160C_b}{F_y}} \leq \dfrac{L}{r_T} \leq \sqrt{\dfrac{35800C_b}{F_y}}$</p>
+<p><strong>公式（7.2-7）</strong>（大側向細長比，彈性 LTB 範圍）：</p>
+<p>$$F_b = \frac{12000C_b}{(L/r_T)^2} \leq 0.6F_y$$</p>
+<p>適用範圍：$\dfrac{L}{r_T} \geq \sqrt{\dfrac{35800C_b}{F_y}}$</p>
+<p><strong>公式（7.2-8）</strong>（以 $L_d/A_f$ 為參數）：</p>
+<p>$$F_b = \frac{840C_b}{(L_d/A_f)} \leq 0.6F_y$$</p>
+<blockquote>
+<p><strong>原卷逐字</strong>：「依據 ASD 設計概念，容許撓曲應力 $F_b$ 在不同 $L/r_T$ 值，必須分別使用公式（7.2-6）及（7.2-7），但二者還需要再與公式（7.2-8）比較後<strong>取較大者</strong>。<strong>一般保守設計比較後取較小值，為何此處需要取較大值</strong>，請簡述其理由。（15 分）」</p>
+</blockquote>
+<p><strong>提示公式：</strong> 受均佈彎矩之簡支梁側向扭轉挫屈臨界彎矩：</p>
+<p>$$M_{o,cr} = \sqrt{\left(\frac{\pi}{L}\right)^2 EI_y GJ + \left(\frac{\pi}{L}\right)^4 EI_y EC_W}$$</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>這題考的是<strong>對公式物理意義的深層理解</strong>，而非計算能力。</p>
+<p>出題者意圖：考生必須理解 $L/r_T$ 系列公式（7.2-6）/（7.2-7）與 $L_d/A_f$ 公式（7.2-8）<strong>並非描述兩種獨立破壞模式</strong>，而是以<strong>不同幾何參數近似同一破壞機制（LTB）</strong>。</p>
+<p>核心觀念：$M_{o,cr}$ 公式包含<strong>兩個物理機制</strong>：<br />
+1. <strong>St. Venant 扭轉剛度</strong>（$GJ$ 項）<br />
+2. <strong>翹曲扭轉剛度</strong>（$EC_W$ 項）</p>
+<p>兩組公式各自「抓住」其中一個機制，取較大值才能反映實際強度。</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>推導邏輯：</strong></p>
+<pre><code>臨界彎矩 Mcr = √[ (π/L)²EIyGJ + (π/L)⁴EIyECw ]
+                  ↑                   ↑
+              St. Venant 扭轉項    翹曲扭轉項
+                  ↑                   ↑
+           (7.2-8) 主要來源    (7.2-6)(7.2-7) 主要來源
+</code></pre>
+<p><strong>關鍵陷阱：</strong><br />
+1. <strong>陷阱①：誤以為是兩種獨立極限狀態</strong> → 兩者都近似 LTB，不同在於哪個扭轉機制為主。<br />
+2. <strong>陷阱②：混淆「保守取小」的適用場合</strong> → 「取小值」適用於<strong>兩種獨立破壞模式</strong>（如拉力桿件：降伏 vs 斷裂），取其強度<strong>較小者</strong>為控制。此處是同一破壞模式的<strong>不同近似</strong>，取較大值才能抓住真實強度。<br />
+3. <strong>陷阱③：只背公式，不理解分子</strong> → $r_T$ 與 $L_d/A_f$ 各自近似翹曲項和扭轉項的效應，這是取大值的根本原因。</p>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 說明 ASD 中 $(L/r_T)$ 系列公式與 $(Ld/A_f)$ 公式為何取較大值——因兩者分別近似 LTB 的翹曲扭轉與 St. Venant 扭轉機制，互補而非競爭</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$M_{o,cr} = \sqrt{\underbrace{\left(\frac{\pi}{L}\right)^2 EI_y GJ}<em _text_翹曲項（7.2-6_7="\text{翹曲項（7.2-6/7" 近似）="近似）">{St.\,Venant\text{ 項（7.2-8 近似）}} + \underbrace{\left(\frac{\pi}{L}\right)^4 EI_y EC_W}</em>$$}}</p>
+<p>$$\boxed{F_b} = \max!\left(F_{b,(7.2\text{-}6/7)},\; F_{b,(7.2\text{-}8)}\right) \leq 0.6F_y$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>公式 (7.2-6)</td>
+<td>$[2/3 - F_y(L/r_T)^2/(107600C_b)]F_y$</td>
+<td>非彈性 LTB，以 $L/r_T$ 為參數</td>
+</tr>
+<tr>
+<td>公式 (7.2-7)</td>
+<td>$12000C_b/(L/r_T)^2$</td>
+<td>彈性 LTB，以 $L/r_T$ 為參數</td>
+</tr>
+<tr>
+<td>公式 (7.2-8)</td>
+<td>$840C_b/(Ld/A_f)$</td>
+<td>St. Venant 扭轉近似</td>
+</tr>
+<tr>
+<td>$M_{o,cr}$ 提示公式</td>
+<td>$\sqrt{(\pi/L)^2 EI_y GJ + (\pi/L)^4 EI_y EC_W}$</td>
+<td>均勻彎矩簡支梁側向扭轉挫屈臨界彎矩</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：解析 $M_{o,cr}$ 的兩個物理項</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>St. Venant 扭轉項</td>
+<td>$(\pi/L)^2 EI_y GJ$（純扭，厚翼板短跨主導）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>翹曲扭轉項</td>
+<td>$(\pi/L)^4 EI_y EC_W$（翼板彎曲抵抗翹曲，細長梁主導）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>兩項關係</td>
+<td>根號內相加 → 實際強度 $\geq$ 任一項單獨計算值</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：識別各公式對應的物理機制</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$r_T$</td>
+<td>$\sqrt{(I_y/2)/(A_f + A_w/6)}$，壓力翼板視為柱，反映翹曲抵抗</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>(7.2-6)/(7.2-7) 的來源</td>
+<td>$EC_W$ 翹曲項展開（$F_b^{cr} = \pi^2E/(L/r_T)^2$，壓力翼板當柱），低估 $GJ$ 貢獻</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Ld/A_f$ 的來源</td>
+<td>$GJ$ St. Venant 項近似（因 $\sqrt{I_yJ} \approx A_f^2/3$、$S_x \approx A_fd$），低估 $EC_W$ 貢獻</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：取較大值的邏輯</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同一破壞模式</td>
+<td>兩組公式均描述 LTB，非獨立極限狀態</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>取大值含義</td>
+<td>哪個扭轉機制在當下情況主導，哪個公式給出較高值 → 取大值更接近真實強度</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>取小值的謬誤</td>
+<td>雙重保守（已忽略某機制 + 再取小值），不合理</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LTB 側向扭轉挫屈機制</td>
+<td>壓力翼板如柱挫屈，扭轉剛度 ($GJ$) 與翹曲剛度 ($EC_W$) 共同抵抗</td>
+<td style="text-align: center;">[[LATERAL-TORSIONAL-BUCKLING]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>St. Venant 扭轉 vs 翹曲扭轉</td>
+<td>厚板/短跨：$GJ$ 主導；薄翼板/長跨：$EC_W$ 主導；I 形斷面兩者並存</td>
+<td style="text-align: center;">[[LATERAL-TORSIONAL-BUCKLING]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>獨立極限狀態 vs 同一機制不同近似</td>
+<td>獨立極限狀態取小值（如降伏 vs 斷裂）；同一機制不同近似取大值</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>ASD 容許應力 $0.6F_y$ 上限</td>
+<td>即使公式算出更大值，不得超過 $0.6F_y$</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$r_T$ 的物理意義</td>
+<td>壓力翼板 + 腹板壓力區 $1/6$ 組成的 T 形斷面迴轉半徑，代表翹曲方向抵抗能力</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<blockquote>
+<p>本題為概念題，以推導說明代替數值計算。</p>
+</blockquote>
+<h3>Step 1：解析 $M_{o,cr}$ 的物理意義</h3>
+<p>由提示公式：</p>
+<p>$$M_{o,cr} = \sqrt{\underbrace{\left(\frac{\pi}{L}\right)^2 EI_y GJ}<em _text_翹曲扭轉貢獻="\text{翹曲扭轉貢獻">{\text{St. Venant 扭轉貢獻}} + \underbrace{\left(\frac{\pi}{L}\right)^4 EI_y EC_W}</em>$$}}</p>
+<ul>
+<li><strong>$GJ$ 項</strong>：截面抵抗純扭轉（扭力矩沿梁軸均勻分布），對厚實翼板或短跨梁貢獻大。</li>
+<li><strong>$EC_W$ 項</strong>：截面抵抗翹曲（翼板彎曲阻止翹曲），對細長梁、薄翼板或長跨梁貢獻大。</li>
+</ul>
+<p>兩項共同決定實際 LTB 強度；<strong>實際強度 ≥ 任一單項單獨計算的結果</strong>。</p>
+<hr />
+<h3>Step 2：公式（7.2-6）/（7.2-7）——近似翹曲扭轉項</h3>
+<p>這兩個公式以 $L/r_T$ 為細長比，其中：</p>
+<p>$$r_T = \sqrt{\frac{I_y/2}{A_f + A_w/6}}$$</p>
+<p>$r_T$ 是壓力翼板加上腹板壓力區 $1/6$ 的迴轉半徑，代表<strong>壓力翼板作為「柱」在翹曲方向的抵抗能力</strong>。</p>
+<p>這組公式主要來自 $EC_W$ 項的展開，<strong>對翹曲扭轉較敏感</strong>：<br />
+- 在長跨/薄翼板情況，翹曲項主導 → 此組公式較準確<br />
+- 但此組公式<strong>低估了 $GJ$ 的貢獻</strong>，對 St. Venant 扭轉剛度大的情況較保守</p>
+<h4>反推驗證：$12000C_b$ 這個係數從哪裡來？</h4>
+<p><strong>只保留翹曲項</strong>（令 $GJ = 0$）：</p>
+<p>$$M_{cr}^{warp} = \left(\frac{\pi}{L}\right)^2\sqrt{EI_y \cdot EC_W} = \frac{\pi^2 E}{L^2}\sqrt{I_y C_W}$$</p>
+<p>代入 I 型斷面近似 $C_W \approx I_y h^2/4$（$h$＝翼板中心距）、$S_x \approx A_f h$、$I_y \approx A_f b_f^2/6$：</p>
+<p>$$\sqrt{I_yC_W} = \frac{I_y h}{2} \quad \Rightarrow \quad F_b^{cr} = \frac{M_{cr}}{S_x} = \frac{\pi^2E}{L^2}\cdot\frac{I_yh}{2A_fh} = \frac{\pi^2E}{L^2}\cdot\frac{b_f^2}{12}$$</p>
+<p>而 $r_T \approx \sqrt{\dfrac{I_y/2}{A_f}} = \dfrac{b_f}{\sqrt{12}}$（忽略腹板 $1/6$ 項），故 $b_f^2 = 12r_T^2$：</p>
+<p>$$\boxed{F_b^{cr} = \frac{\pi^2 E}{(L/r_T)^2}} \quad \text{—— 標準的「壓力翼板當柱」尤拉式}$$</p>
+<p>除以 ASD 安全係數 $FS = 5/3$，並以英制 $E = 29{,}000$ ksi 代入：</p>
+<p>$$F_b = \frac{\pi^2(29{,}000)}{1.667\,(L/r_T)^2} = \frac{171{,}700}{(L/r_T)^2} \text{ ksi} \ \approx \ \frac{170{,}000C_b}{(L/r_T)^2} \ \text{（AISC ASD 原式）}$$</p>
+<p>換算為題目的 tf/cm² 單位（1 ksi $= 0.070307$ tf/cm²）：</p>
+<p>$$170{,}000 \times 0.070307 = 11{,}952 \ \approx \ \mathbf{12{,}000} \quad \checkmark$$</p>
+<p><strong>係數 12000 就是 $\pi^2E/FS$ 的公制版本</strong>——這證明 (7.2-7) 確實是純翹曲（壓力翼板側向柱挫屈）的解。</p>
+<hr />
+<h3>Step 3：公式（7.2-8）——近似 St. Venant 扭轉項</h3>
+<p>$$F_b = \frac{840C_b}{L_d/A_f}$$</p>
+<p><strong>只保留 St. Venant 項</strong>（令 $C_W = 0$）：</p>
+<p>$$M_{cr}^{SV} = \frac{\pi}{L}\sqrt{EI_y \cdot GJ} = \frac{\pi}{L}\sqrt{EG}\sqrt{I_yJ}$$</p>
+<p>關鍵在於 $\sqrt{I_yJ}$ 對 I 型斷面可化為<strong>翼板面積的平方</strong>：</p>
+<p>$$I_y \approx \frac{t_fb_f^3}{6}，\quad J \approx \frac{2b_ft_f^3}{3} \quad \Rightarrow \quad I_yJ \approx \frac{t_f b_f^3}{6}\cdot\frac{2b_ft_f^3}{3} = \frac{b_f^4t_f^4}{9} = \frac{A_f^4}{9}$$</p>
+<p>$$\Rightarrow \quad \sqrt{I_yJ} \approx \frac{A_f^2}{3}$$</p>
+<p>再代入 $S_x \approx A_f d$（I 型斷面彎矩幾乎全由兩翼板承擔）：</p>
+<p>$$F_b^{cr} = \frac{M_{cr}^{SV}}{S_x} = \frac{\pi\sqrt{EG}}{L}\cdot\frac{A_f^2/3}{A_fd} = \frac{\pi\sqrt{EG}}{3}\cdot\frac{A_f}{Ld} = \boxed{\frac{\pi\sqrt{EG}/3}{(L_d/A_f)}}$$</p>
+<p><strong>$L_d/A_f$ 這個看似古怪的參數，正是 St. Venant 扭轉項的自然產物</strong>——因為 $\sqrt{I_yJ}$ 恰好正比於 $A_f^2$，除以 $S_x \approx A_fd$ 後只剩 $A_f/(Ld)$。</p>
+<p>反推係數（英制 $E = 29{,}000$、$G = 11{,}200$ ksi，$FS = 5/3$）：</p>
+<p>$$\frac{\pi\sqrt{EG}}{3} = \frac{\pi\sqrt{29{,}000 \times 11{,}200}}{3} = \frac{\pi \times 18{,}022}{3} = 18{,}873 \text{ ksi}$$</p>
+<p>$$F_b = \frac{18{,}873}{1.667\,(L_d/A_f)} = \frac{11{,}320}{(L_d/A_f)} \text{ ksi} \ \approx \ \frac{12{,}000C_b}{(L_d/A_f)} \ \text{（AISC ASD 原式）}$$</p>
+<p>換算為 tf/cm²：$12{,}000 \times 0.070307 = 843.7 \approx \mathbf{840}$ ✓</p>
+<blockquote>
+<p>⚠️ <strong>常見錯誤（本解析前版即犯此誤）</strong>：把 $L_d/A_f$ 說成「壓力翼板側向彎曲柱效應」。<br />
+<strong>壓力翼板當柱側向彎曲＝翹曲機制，那是 $r_T$ 系列（7.2-6/7）的物理圖像，不是 (7.2-8)</strong>。<br />
+(7.2-8) 對應的是斷面整體的<strong>純扭轉（St. Venant）剛度 $GJ$</strong>，其記憶點是「$\sqrt{I_yJ} \propto A_f^2$」。</p>
+<p>簡言之：$L_d/A_f$ 公式對<strong>短跨、厚翼板</strong>情況（St. Venant 扭轉主導）較準確，<strong>但低估了翹曲剛度的貢獻</strong>。</p>
+</blockquote>
+<hr />
+<h3>Step 4：為何取較大值——核心答案</h3>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>公式（7.2-6）/（7.2-7）</th>
+<th>公式（7.2-8）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主要近似機制</td>
+<td>翹曲扭轉（$EC_W$ 項）</td>
+<td>St. Venant 扭轉（$GJ$ 項）</td>
+</tr>
+<tr>
+<td>準確情況</td>
+<td>長跨、薄翼板</td>
+<td>短跨、厚翼板</td>
+</tr>
+<tr>
+<td>低估情況</td>
+<td>忽略 $GJ$ 貢獻</td>
+<td>忽略 $EC_W$ 貢獻</td>
+</tr>
+<tr>
+<td>描述的破壞模式</td>
+<td><strong>同一模式（LTB）</strong></td>
+<td><strong>同一模式（LTB）</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>關鍵理由：</strong></p>
+<p>由於 $M_{o,cr}$ 本身是 <strong>$GJ$ 與 $EC_W$ 兩者共同作用的根號和</strong>，任何單獨只考慮其中一項的公式都會<strong>低估實際強度</strong>。</p>
+<ul>
+<li>若取較小值 → 雙重保守：原本其中一公式已忽略某一扭轉機制，再取較小值等於再次低估，不合理。</li>
+<li>若取較大值 → 哪個扭轉機制在該情況下貢獻較大，哪個公式就給出較高值，取較大者即反映了<strong>主導扭轉機制的真實貢獻</strong>，更接近實際 $M_{o,cr}$。</li>
+</ul>
+<p>換言之：<strong>兩組公式描述的是同一破壞模式的不同面向，互補而非競爭</strong>。取較大值是為了避免對同一機制進行雙重懲罰，確保設計強度不過度低估實際側向扭轉挫屈能力。</p>
+<p>$$\boxed{\text{取較大值原因：兩組公式各自只涵蓋部分扭轉抵抗機制（}GJ \text{ 或 } EC_W\text{），取大值才能合理反映 LTB 真實強度}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>與「獨立極限狀態取小值」的根本區別</h3>
+<p>在 LRFD 拉力桿件設計中，「全斷面降伏」與「淨斷面斷裂」是<strong>兩種獨立的破壞路徑</strong>，先到達的控制設計，故取小值。</p>
+<p>但此處（7.2-6）/（7.2-7）與（7.2-8）<strong>不是獨立的破壞路徑</strong>，而是對<strong>同一破壞路徑（LTB）的不同近似計算方式</strong>。取最大值等同於找出哪個近似方式在當下情況更接近真實值，是一種「取最佳近似」的邏輯。</p>
+<h3>LRFD 的對應處理</h3>
+<p>LRFD（AISC 360）將 LTB 計算統一到 $M_n$ 公式中，同時考慮了 $L_p$、$L_r$（分別考慮翹曲與扭轉對應的參數），避免了 ASD 中這種「選哪個公式」的困惑，是更嚴謹的做法。</p>
+<h3>原卷公式係數的公制換算全表（自我校核用）</h3>
+<p>題目的係數都是 AISC ASD 英制原式（psi／ksi）換算成 tf/cm² 的結果。<strong>任一係數對不上，就代表換算或記憶有誤</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>題目（tf/cm² 制）</th>
+<th>AISC ASD 原式（英制）</th>
+<th>換算驗證</th>
+<th style="text-align: center;">誤差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$107600C_b$</td>
+<td>$1{,}530 \times 10^3$（ksi 制的 1530 ksi）</td>
+<td>$1530 \times 0.070307 \times 1000 = 107{,}570$</td>
+<td style="text-align: center;">0.03%</td>
+</tr>
+<tr>
+<td>$7160C_b/F_y$</td>
+<td>$102 \times 10^3$</td>
+<td>$102 \times 0.070307 \times 1000 = 7{,}171$</td>
+<td style="text-align: center;">0.16%</td>
+</tr>
+<tr>
+<td>$35800C_b/F_y$</td>
+<td>$510 \times 10^3$</td>
+<td>$510 \times 0.070307 \times 1000 = 35{,}857$</td>
+<td style="text-align: center;">0.16%</td>
+</tr>
+<tr>
+<td>$12000C_b$</td>
+<td>$170 \times 10^3$ ksi</td>
+<td>$170{,}000 \times 0.070307 = 11{,}952$</td>
+<td style="text-align: center;">0.40%</td>
+</tr>
+<tr>
+<td>$840C_b$</td>
+<td>$12 \times 10^3$ ksi</td>
+<td>$12{,}000 \times 0.070307 = 844$</td>
+<td style="text-align: center;">0.44%</td>
+</tr>
+</tbody>
+</table>
+<h3>三個公式的連續性驗證（可反證係數無誤）</h3>
+<p><strong>① 在非彈性段起點</strong> $L/r_T = \sqrt{7160C_b/F_y}$，(7.2-6) 應恰好等於上限 $0.6F_y$：</p>
+<p>$$F_b = \left[\frac{2}{3} - \frac{F_y}{107600C_b}\cdot\frac{7160C_b}{F_y}\right]F_y = \left[\frac{2}{3} - \frac{7160}{107600}\right]F_y = [0.6667 - 0.0665]F_y = 0.600F_y \ \checkmark$$</p>
+<p><strong>② 在非彈性／彈性交界</strong> $L/r_T = \sqrt{35800C_b/F_y}$，(7.2-6) 與 (7.2-7) 應相等：</p>
+<p>$$\text{(7.2-6)} = \left[\frac{2}{3} - \frac{35800}{107600}\right]F_y = [0.6667 - 0.3327]F_y = 0.334F_y \approx \frac{F_y}{3}$$<br />
+$$\text{(7.2-7)} = \frac{12000C_b}{35800C_b/F_y} = \frac{12000}{35800}F_y = 0.335F_y \approx \frac{F_y}{3} \ \checkmark$$</p>
+<p>兩式在交界處都收斂到 $F_y/3$，且 $107600 = 3 \times 35867 \approx 3 \times 35800$ 正是這個設計的來源。</p>
+<h3>考場建議</h3>
+<p>概念題答案要點（15 分，建議寫成四段）：<br />
+1. <strong>點出 $M_{o,cr}$ 有兩個相加項</strong>：$GJ$（St. Venant 純扭轉）與 $EC_W$（翹曲扭轉），根號內<strong>相加</strong><br />
+2. <strong>對號入座</strong>：$L/r_T$ 系列（7.2-6／7.2-7）≈ 翹曲項（壓力翼板當柱，$\pi^2E/(L/r_T)^2$）；$L_d/A_f$（7.2-8）≈ St. Venant 項（$\sqrt{I_yJ} \propto A_f^2$）<br />
+3. <strong>邏輯核心</strong>：兩者是<strong>同一極限狀態（LTB）的兩個部分近似</strong>，各自都只算了一半的抗扭機制、都低估真實強度；取大值＝取「較接近真實」的那個近似，取小值則是對同一機制<strong>重複折減</strong><br />
+4. <strong>對比說明</strong>：取小值的正確場合是<strong>互相獨立的極限狀態</strong>（如拉桿的全斷面降伏 vs 淨斷面斷裂、或接合的剪斷 vs 支承 vs 撕裂），先到者控制，故取小</p>
+<hr />
+<h2>6. 依最新規範（AISC 360-16／-22）對照</h2>
+<blockquote>
+<p><strong>主答依據</strong>：題目明列「依據 ASD 設計概念」及公式 (7.2-6)～(7.2-8)，即內政部「鋼構造建築物鋼結構設計技術規範」<strong>容許應力設計法</strong>（＝AISC ASD 9th ed. 體系）。台灣 ASD 章節至今未隨 AISC 360 改版，<strong>本題主答維持 ASD 原邏輯</strong>；以下說明新規範如何處理同一問題。</p>
+</blockquote>
+<h3>6.1 AISC 360 已<strong>取消</strong>「取較大值」這道手續</h3>
+<p>AISC 360（自 2005 年版起）把 LTB 統一為 §F2 單一公式，直接用<strong>完整的</strong> $M_{cr}$（$GJ$ 與 $C_W$ 兩項都在裡面），不再提供兩個互為備選的近似式：</p>
+<p>$$F_{cr} = \frac{C_b\pi^2E}{(L_b/r_{ts})^2}\sqrt{1 + 0.078\frac{Jc}{S_xh_o}\left(\frac{L_b}{r_{ts}}\right)^2}$$</p>
+<p>對照結構一目瞭然：</p>
+<table>
+<thead>
+<tr>
+<th>$M_{o,cr}$ 的組成</th>
+<th>ASD 9th ed. 的近似</th>
+<th>AISC 360-16 §F2 的處理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>翹曲項 $(\pi/L)^4EI_yEC_W$</td>
+<td>(7.2-6)／(7.2-7)：$\pi^2E/(L/r_T)^2$ 系列</td>
+<td>$\dfrac{C_b\pi^2E}{(L_b/r_{ts})^2}$ ← 根號<strong>外</strong>的主項</td>
+</tr>
+<tr>
+<td>St. Venant 項 $(\pi/L)^2EI_yGJ$</td>
+<td>(7.2-8)：$840C_b/(L_d/A_f)$</td>
+<td>$\sqrt{1+0.078\dfrac{Jc}{S_xh_o}(L_b/r_{ts})^2}$ ← 根號<strong>內</strong>的放大因子</td>
+</tr>
+<tr>
+<td>兩項<strong>相加</strong></td>
+<td>需人工「比較後取大」</td>
+<td><strong>公式內建</strong>，自動疊加</td>
+</tr>
+</tbody>
+</table>
+<p>其中 $r_{ts} = \sqrt{\dfrac{\sqrt{I_yC_W}}{S_x}}$ 正是把 $\sqrt{I_yC_W}$（翹曲項的核心）直接寫進定義，取代了半經驗的 $r_T$；而 $Jc/(S_xh_o)$ 則是 $GJ$ 項的無因次化形式。</p>
+<p><strong>因此，如果本題改以 AISC 360-16 出題，「為何取較大值」這個問題本身就不存在</strong>——新規範用一條含兩項的公式取代了兩條各含一項的近似式。這正好從反面印證了本題答案的正確性：ASD 之所以要「取大」，就是因為它的兩條式子各自只有一半。</p>
+<h3>6.2 相對應的參數變化</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>台灣 ASD（＝AISC ASD 9th）</th>
+<th>AISC 360-16 §F2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>翹曲代表參數</td>
+<td>$r_T = \sqrt{\dfrac{I_y/2}{A_f + A_w/6}}$（半經驗，含 $1/6$ 腹板）</td>
+<td>$r_{ts} = \sqrt{\dfrac{\sqrt{I_yC_W}}{S_x}}$（由 $C_W$ 精確定義）</td>
+</tr>
+<tr>
+<td>扭轉代表參數</td>
+<td>$L_d/A_f$（隱含 $\sqrt{I_yJ} \approx A_f^2/3$）</td>
+<td>$\dfrac{Jc}{S_xh_o}$（顯式用 $J$）</td>
+</tr>
+<tr>
+<td>安全係數</td>
+<td>$FS = 5/3$（ASD 容許應力）</td>
+<td>$\Omega_b = 1.67$（ASD）／$\phi_b = 0.90$（LRFD）</td>
+</tr>
+<tr>
+<td>上限</td>
+<td>$0.6F_y$（＝$F_y/1.67$，對 $S_x$）</td>
+<td>$M_p/\Omega_b$（可達塑性彎矩，對 $Z_x$）</td>
+</tr>
+<tr>
+<td>選式手續</td>
+<td>(7.2-6/7) 與 (7.2-8) <strong>取大</strong></td>
+<td>無此手續</td>
+</tr>
+</tbody>
+</table>
+<p>值得注意的是 ASD 的 $0.6F_y$ 上限是對<strong>彈性</strong>斷面模數 $S_x$，而 AISC 360 的上限是 $M_p/\Omega_b = F_yZ_x/1.67$；對結實斷面（$Z_x/S_x \approx 1.12$）新規範約高 12%，這是 ASD 與新規範最主要的強度差異來源，與本題的「取大值」議題無關。</p>
+<h3>6.3 對照結論</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>台灣 ASD（主答）</th>
+<th>AISC 360-16／-22</th>
+<th style="text-align: center;">差異</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本題問題「為何取較大值」</td>
+<td><strong>因兩式各為 LTB 的部分近似（分別對應 $EC_W$ 與 $GJ$），取大才不重複折減</strong></td>
+<td>問題不存在（§F2 已把兩項合併於單一公式）</td>
+<td style="text-align: center;">觀念一致，手續不同</td>
+</tr>
+<tr>
+<td>翹曲項處理</td>
+<td>$\pi^2E/(L/r_T)^2$</td>
+<td>根號外主項 $C_b\pi^2E/(L_b/r_{ts})^2$</td>
+<td style="text-align: center;">參數更嚴謹</td>
+</tr>
+<tr>
+<td>扭轉項處理</td>
+<td>$840C_b/(L_d/A_f)$</td>
+<td>根號內 $0.078Jc(L_b/r_{ts})^2/(S_xh_o)$</td>
+<td style="text-align: center;">參數更嚴謹</td>
+</tr>
+</tbody>
+</table>
+<p><strong>答案的核心觀念在新舊規範下完全相同</strong>：LTB 的抗力由 $GJ$ 與 $EC_W$ <strong>共同</strong>提供；差別只在舊規範把它拆成兩條式子要人工取大，新規範則直接寫成一條。</p>
+<hr />
+<p><em>修正日期：2026-08-22（勘誤：</em><em>Step 3 推導全面改寫</em><em>——原文誤從「$EC_W$ 項主導、$C_W \approx I_yd^2/4$」起算，又把 $L_d/A_f$ 歸因於「壓力翼板側向彎曲柱效應」（該圖像實屬翹曲機制、對應 $r_T$ 系列），方向顛倒；今改為由 $\sqrt{I_yJ} \approx A_f^2/3$、$S_x \approx A_fd$ 正確導出 $F_b \propto 1/(L_d/A_f)$。另新增：(7.2-7) 之 $\pi^2E/(L/r_T)^2$ 反推、兩式係數 12000／840 的英制反算與 tf/cm² 換算全表、三公式連續性驗證（0.6Fy 與 Fy/3 兩個接點）、§6 最新規範對照。§2、§4 Step 4 原本的機制對號與「取大值」核心結論本即正確，未變動）</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2008-1/SS-2008-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

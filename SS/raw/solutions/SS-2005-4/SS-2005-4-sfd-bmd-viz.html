@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>SS-2005-4 剪力圖與彎矩圖</title>
+<style>
+  body { font-family: 'Arial', sans-serif; background: #f9f9f9; margin: 0; padding: 16px; }
+  h2 { font-size: 15px; color: #1a1a2e; margin: 0 0 4px; }
+  .subtitle { font-size: 12px; color: #555; margin-bottom: 12px; }
+  .info-box { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 14px; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 10px 14px; font-size: 12px; }
+  .card strong { display: block; font-size: 13px; color: #2c3e50; margin-bottom: 4px; }
+  canvas { display: block; background: #fff; border: 1px solid #ccc; border-radius: 6px; }
+  .label { font-size: 11px; color: #666; margin-top: 4px; text-align: center; }
+  .highlight { color: #c0392b; font-weight: bold; }
+  .blue { color: #2471a3; font-weight: bold; }
+</style>
+</head>
+<body>
+<h2>SS-2005-4 ｜ 塑性崩塌機制：剪力圖（SFD）與彎矩圖（BMD）</h2>
+<div class="subtitle">Propped Cantilever，T型梁，L = 600 cm，均布載重 wu = 0.0658 tf/cm</div>
+
+<div class="info-box">
+  <div class="card">
+    <strong>T 型斷面</strong>
+    翼板：40 × 2.6 cm<br>
+    腹板：24 × 2.4 cm<br>
+    Z = 813 cm³
+  </div>
+  <div class="card">
+    <strong>塑性彎矩 Mp</strong>
+    Mp = Fy × Z<br>
+    = 2.5 × 813<br>
+    = <span class="highlight">2032.5 tf·cm</span>
+  </div>
+  <div class="card">
+    <strong>崩塌載重</strong>
+    wu = (6+4√2)Mp/L²<br>
+    = <span class="highlight">0.0658 tf/cm</span><br>
+    = 6.58 tf/m
+  </div>
+  <div class="card">
+    <strong>塑性鉸位置</strong>
+    固端 A：MA = −Mp<br>
+    C 點 x = <span class="highlight">351.5 cm</span><br>
+    = L(2−√2) ≈ 0.586 L
+  </div>
+  <div class="card">
+    <strong>反力</strong>
+    RA = <span class="blue">23.13 tf</span><br>
+    RB = <span class="blue">16.33 tf</span><br>
+    MA = <span class="highlight">−2032.5 tf·cm</span>
+  </div>
+</div>
+
+<canvas id="diagCanvas" width="580" height="500"></canvas>
+<p class="label">藍色 = SFD（剪力圖）｜紅色 = BMD（彎矩圖）｜綠點 = 塑性鉸（Mp = ±2032.5 tf·cm）</p>
+
+<script>
+const canvas = document.getElementById('diagCanvas');
+const ctx = canvas.getContext('2d');
+
+// Parameters
+const L = 600;
+const wu = 0.065808;
+const Mp = 2032.36;
+const RA = 23.1297;
+const RB = 39.48 - RA; // wu*L - RA
+const MA_moment = -Mp; // at fixed end
+const x_hinge = L * (2 - Math.sqrt(2)); // ~351.5
+
+// Canvas layout
+const padL = 70, padR = 20, padT = 30, padB = 20;
+const W = canvas.width - padL - padR;
+const H = (canvas.height - padT - padB);
+
+// Three rows: structure (H/4), SFD (H/3), BMD (H/3)
+const structH = H * 0.18;
+const sfdH = H * 0.37;
+const bmdH = H * 0.37;
+const gap = H * 0.04;
+
+const structY = padT;
+const sfdY = structY + structH + gap;
+const bmdY = sfdY + sfdH + gap;
+
+function xToCanvas(x) { return padL + (x / L) * W; }
+
+// ---- Draw Structure ----
+const sy = structY + structH * 0.6;
+
+// Fixed support at left
+ctx.fillStyle = '#555';
+ctx.fillRect(padL - 12, sy - 20, 12, 40);
+for (let i = 0; i < 5; i++) {
+  ctx.beginPath();
+  ctx.moveTo(padL - 12, sy - 20 + i * 10);
+  ctx.lineTo(padL - 22, sy - 10 + i * 10);
+  ctx.strokeStyle = '#888'; ctx.lineWidth = 1.5;
+  ctx.stroke();
+}
+// Beam
+ctx.beginPath();
+ctx.moveTo(padL, sy);
+ctx.lineTo(padL + W, sy);
+ctx.strokeStyle = '#2c3e50'; ctx.lineWidth = 4;
+ctx.stroke();
+
+// Pin support at right
+ctx.beginPath();
+ctx.moveTo(padL + W, sy);
+ctx.lineTo(padL + W - 10, sy + 18);
+ctx.lineTo(padL + W + 10, sy + 18);
+ctx.closePath();
+ctx.fillStyle = '#555'; ctx.fill();
+ctx.beginPath();
+ctx.moveTo(padL + W - 14, sy + 20);
+ctx.lineTo(padL + W + 14, sy + 20);
+ctx.strokeStyle = '#555'; ctx.lineWidth = 2; ctx.stroke();
+
+// Distributed load arrows
+ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 1.5;
+for (let i = 0; i <= 12; i++) {
+  const ax = padL + (i / 12) * W;
+  ctx.beginPath();
+  ctx.moveTo(ax, sy - 28);
+  ctx.lineTo(ax, sy - 8);
+  ctx.stroke();
+  // arrowhead
+  ctx.beginPath();
+  ctx.moveTo(ax, sy - 8);
+  ctx.lineTo(ax - 3, sy - 15);
+  ctx.lineTo(ax + 3, sy - 15);
+  ctx.closePath();
+  ctx.fillStyle = '#e74c3c'; ctx.fill();
+}
+// Line on top
+ctx.beginPath();
+ctx.moveTo(padL, sy - 28);
+ctx.lineTo(padL + W, sy - 28);
+ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 1.5; ctx.stroke();
+ctx.fillStyle = '#c0392b'; ctx.font = 'bold 12px Arial';
+ctx.fillText('wu = 0.0658 tf/cm', padL + W/2 - 60, sy - 32);
+
+// Plastic hinge markers on structure
+function drawHinge(x, y, label) {
+  ctx.beginPath();
+  ctx.arc(x, y, 7, 0, 2 * Math.PI);
+  ctx.fillStyle = '#27ae60'; ctx.fill();
+  ctx.strokeStyle = '#1e8449'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = '#155724'; ctx.font = 'bold 10px Arial';
+  ctx.fillText(label, x - 4, y + 3);
+}
+drawHinge(padL, sy, 'A');
+drawHinge(xToCanvas(x_hinge), sy, 'C');
+
+// Labels
+ctx.fillStyle = '#2c3e50'; ctx.font = '11px Arial';
+ctx.fillText('A (固端)', padL - 8, sy + 30);
+ctx.fillText('B (鉸支)', padL + W - 16, sy + 30);
+ctx.fillText(`600 cm`, padL + W/2 - 20, sy + 30);
+ctx.fillStyle = '#27ae60';
+ctx.fillText(`x=${x_hinge.toFixed(0)}cm`, xToCanvas(x_hinge) - 30, sy - 8);
+
+// ---- SFD ----
+// V(x) = RA - wu*x + MA adjustment
+// Actually: M(x) = MA + RA*x - wu*x^2/2 and V(x) = RA - wu*x
+// At x=0: V = RA = 23.13 tf
+// V = 0 at x = RA/wu = 23.13/0.0658 = 351.5 cm (matches hinge!)
+// At B: V = RA - wu*L = 23.13 - 39.48 = -16.35 tf (= -RB)
+
+const sfdCenterY = sfdY + sfdH / 2;
+const Vmax = RA; // 23.13
+const sfdScale = (sfdH * 0.42) / Vmax;
+
+ctx.strokeStyle = '#aaa'; ctx.lineWidth = 1;
+ctx.setLineDash([4, 3]);
+ctx.beginPath();
+ctx.moveTo(padL, sfdCenterY);
+ctx.lineTo(padL + W, sfdCenterY);
+ctx.stroke();
+ctx.setLineDash([]);
+
+// SFD label
+ctx.fillStyle = '#2471a3'; ctx.font = 'bold 12px Arial';
+ctx.fillText('SFD（剪力圖）', padL, sfdY + 14);
+
+// Plot SFD (linear due to UDL)
+ctx.beginPath();
+ctx.moveTo(padL, sfdCenterY - RA * sfdScale);
+ctx.lineTo(padL + W, sfdCenterY - (RA - wu * L) * sfdScale);
+ctx.strokeStyle = '#2471a3'; ctx.lineWidth = 2.5; ctx.stroke();
+
+// Fill SFD
+ctx.beginPath();
+ctx.moveTo(padL, sfdCenterY);
+ctx.lineTo(padL, sfdCenterY - RA * sfdScale);
+const x0_sfd = xToCanvas(x_hinge);
+ctx.lineTo(x0_sfd, sfdCenterY);
+ctx.closePath();
+ctx.fillStyle = 'rgba(36, 113, 163, 0.15)'; ctx.fill();
+
+ctx.beginPath();
+ctx.moveTo(x0_sfd, sfdCenterY);
+ctx.lineTo(padL + W, sfdCenterY - (RA - wu * L) * sfdScale);
+ctx.lineTo(padL + W, sfdCenterY);
+ctx.closePath();
+ctx.fillStyle = 'rgba(231, 76, 60, 0.1)'; ctx.fill();
+
+// Dashed zero crossing
+ctx.setLineDash([3, 3]);
+ctx.beginPath();
+ctx.moveTo(x0_sfd, sfdY);
+ctx.lineTo(x0_sfd, sfdY + sfdH);
+ctx.strokeStyle = '#27ae60'; ctx.lineWidth = 1; ctx.stroke();
+ctx.setLineDash([]);
+
+// Labels
+ctx.fillStyle = '#2471a3'; ctx.font = '11px Arial';
+ctx.fillText(`V_A = ${RA.toFixed(1)} tf`, padL + 3, sfdCenterY - RA * sfdScale - 4);
+ctx.fillText(`V_B = ${Math.abs(RA - wu*L).toFixed(1)} tf`, padL + W - 60, sfdCenterY + Math.abs(RA - wu*L) * sfdScale + 12);
+ctx.fillText('V = 0', x0_sfd + 3, sfdCenterY + 12);
+
+// Axis labels
+ctx.fillStyle = '#666'; ctx.font = '10px Arial';
+ctx.fillText('0', padL - 14, sfdCenterY + 4);
+ctx.fillText('+', padL - 12, sfdCenterY - 14);
+ctx.fillText('−', padL - 14, sfdCenterY + 18);
+
+// ---- BMD ----
+// M(x) = MA + RA*x - wu*x^2/2 = -Mp + RA*x - wu*x^2/2
+// At x=0: M = -Mp = -2032.5
+// At x=x_hinge: M = +Mp = +2032.5
+// At x=L: M = 0 (pin support)
+
+const bmdCenterY = bmdY + bmdH * 0.45;
+const Mmax = Mp;
+const bmdScale = (bmdH * 0.42) / Mmax;
+
+ctx.strokeStyle = '#aaa'; ctx.lineWidth = 1;
+ctx.setLineDash([4, 3]);
+ctx.beginPath();
+ctx.moveTo(padL, bmdCenterY);
+ctx.lineTo(padL + W, bmdCenterY);
+ctx.stroke();
+ctx.setLineDash([]);
+
+ctx.fillStyle = '#c0392b'; ctx.font = 'bold 12px Arial';
+ctx.fillText('BMD（彎矩圖）', padL, bmdY + 14);
+
+// Plot BMD
+const nPoints = 100;
+ctx.beginPath();
+for (let i = 0; i <= nPoints; i++) {
+  const x = (i / nPoints) * L;
+  const M = -Mp + RA * x - wu * x * x / 2;
+  const cx = xToCanvas(x);
+  const cy = bmdCenterY - M * bmdScale;
+  if (i === 0) ctx.moveTo(cx, cy);
+  else ctx.lineTo(cx, cy);
+}
+ctx.strokeStyle = '#c0392b'; ctx.lineWidth = 2.5; ctx.stroke();
+
+// Fill BMD
+ctx.beginPath();
+ctx.moveTo(padL, bmdCenterY);
+for (let i = 0; i <= nPoints; i++) {
+  const x = (i / nPoints) * L;
+  const M = -Mp + RA * x - wu * x * x / 2;
+  const cx = xToCanvas(x);
+  const cy = bmdCenterY - M * bmdScale;
+  ctx.lineTo(cx, cy);
+}
+ctx.lineTo(padL + W, bmdCenterY);
+ctx.closePath();
+ctx.fillStyle = 'rgba(192, 57, 43, 0.1)'; ctx.fill();
+
+// Dashed lines for Mp limits
+ctx.setLineDash([4, 3]);
+ctx.beginPath();
+ctx.moveTo(padL, bmdCenterY + Mp * bmdScale);
+ctx.lineTo(padL + W, bmdCenterY + Mp * bmdScale);
+ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 1; ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(padL, bmdCenterY - Mp * bmdScale);
+ctx.lineTo(padL + W, bmdCenterY - Mp * bmdScale);
+ctx.stroke();
+ctx.setLineDash([]);
+
+// Plastic hinge markers on BMD
+function drawBMDHinge(xCoord) {
+  const M_val = -Mp + RA * xCoord - wu * xCoord * xCoord / 2;
+  const cx = xToCanvas(xCoord);
+  const cy = bmdCenterY - M_val * bmdScale;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 6, 0, 2 * Math.PI);
+  ctx.fillStyle = '#27ae60'; ctx.fill();
+  ctx.strokeStyle = '#1e8449'; ctx.lineWidth = 2; ctx.stroke();
+}
+drawBMDHinge(0);
+drawBMDHinge(x_hinge);
+
+// Key labels
+ctx.fillStyle = '#c0392b'; ctx.font = '11px Arial';
+ctx.fillText('−Mp = −2032.5 tf·cm', padL + 2, bmdCenterY + Mp * bmdScale - 3);
+ctx.fillText('+Mp = +2032.5 tf·cm', padL + W / 2 - 20, bmdCenterY - Mp * bmdScale - 4);
+ctx.fillStyle = '#155724'; ctx.font = '10px Arial';
+ctx.fillText('塑性鉸 A', padL - 2, bmdCenterY + Mp * bmdScale + 12);
+ctx.fillText('塑性鉸 C', xToCanvas(x_hinge) - 28, bmdCenterY - Mp * bmdScale - 4);
+
+ctx.fillStyle = '#666'; ctx.font = '10px Arial';
+ctx.fillText('0', padL - 14, bmdCenterY + 4);
+
+</script>
+</body>
+</html>

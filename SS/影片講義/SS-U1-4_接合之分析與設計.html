@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SS-U1-4 接合之分析與設計｜影片講義</title>
+<link rel="stylesheet" href="../study/assets/katex/katex.min.css">
+<script defer src="../study/assets/katex/katex.min.js"></script>
+<script defer src="../study/assets/katex/auto-render.min.js"></script>
+<style>
+:root{
+  --paper:#faf7f0; --ink:#26302b; --muted:#6b736e; --line:#ddd6c6;
+  --board:#2c4a3e; --board-ink:#eef3ea; --chalk-y:#e8c64a;
+  --shear:#c2456b; --tens:#2f7fb0; --yield:#3f8f4f; --frac:#c0392b; --accent:#b8860b;
+  --warn-bg:#fdeeee; --warn-bd:#d9534f; --ok-bg:#ecf6ee; --ok-bd:#4f9d5f; --key-bg:#fdf6dc; --key-bd:#d4a91a;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  line-height:1.8;font-size:16.5px}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 60px}
+.cover{background:var(--board);color:var(--board-ink);border-radius:10px;padding:30px 28px 26px;
+  box-shadow:inset 0 0 60px rgba(0,0,0,.25)}
+.cover .tag{font-size:13px;letter-spacing:.12em;color:#b9cdbf}
+.cover h1{margin:6px 0 8px;font-size:30px;color:var(--chalk-y);font-weight:700;line-height:1.35}
+.cover .meta{font-size:14px;color:#c9d8cd}
+.cover .core{margin-top:18px;border:1.5px solid var(--chalk-y);border-radius:6px;padding:10px 14px;font-size:17px}
+.toc{margin:22px 0;border:1px solid var(--line);border-radius:8px;padding:14px 18px;background:#fff}
+.toc h2{margin:0 0 6px;font-size:16px;color:var(--muted);border:0;padding:0}
+.toc ol{margin:0;padding-left:0;list-style:none;columns:2;column-gap:28px}
+.toc li{break-inside:avoid;display:flex;justify-content:space-between;gap:10px;padding:2px 0;border-bottom:1px dotted var(--line)}
+.toc a{color:var(--ink);text-decoration:none}
+.toc .t{color:var(--muted);font-variant-numeric:tabular-nums}
+.player{position:sticky;top:0;z-index:5;background:var(--paper);padding:8px 0}
+video{width:100%;border-radius:8px;background:#000;display:block}
+h2{font-size:22px;margin:42px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--board);
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+h2 .no{color:var(--accent);font-size:15px;font-weight:600}
+.seek{margin-left:auto;font:inherit;font-size:13px;border:1px solid var(--board);color:var(--board);
+  background:#fff;border-radius:999px;padding:2px 12px;cursor:pointer}
+.seek:hover{background:var(--board);color:#fff}
+p{margin:10px 0}
+h3{font-size:17px;margin:26px 0 8px;color:var(--board)}
+figure{margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+figure img{width:100%;display:block}
+figcaption{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;color:var(--muted);padding:7px 12px}
+figcaption .ts{white-space:nowrap;font-variant-numeric:tabular-nums}
+.box{border-left:4px solid;border-radius:6px;padding:10px 14px;margin:14px 0}
+.box b.h{display:block;margin-bottom:2px}
+.warn{background:var(--warn-bg);border-color:var(--warn-bd)}
+.ok{background:var(--ok-bg);border-color:var(--ok-bd)}
+.key{background:var(--key-bg);border-color:var(--key-bd)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;background:#fff}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:#eef0ea}
+td:first-child,th:first-child{white-space:nowrap}
+.katex-display{margin:.7em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
+.sh{color:var(--shear);font-weight:600}.te{color:var(--tens);font-weight:600}
+.yl{color:var(--yield);font-weight:600}.fr{color:var(--frac);font-weight:600}
+footer{margin-top:40px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+@media (max-width:620px){.toc ol{columns:1}.cover h1{font-size:24px}body{font-size:16px}}
+@media print{
+  @page{size:A4}
+  body{background:#fff;font-size:11.5pt}
+  .wrap{max-width:none;padding:0}
+  .player,.seek{display:none!important}
+  figure,.box,table,.katex-display{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  h3+figure{break-before:auto}
+  .cover,.toc{break-inside:avoid}
+  figure img{max-height:118mm;width:auto;max-width:100%;margin:0 auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <div class="tag">鋼結構設計（SS）・命題大綱 SS-U1-4・影片講義</div>
+  <h1>接合之分析與設計<br>一個本質＋兩把尺＋三個關卡</h1>
+  <div class="meta">影片 8 分 55 秒・9 章・25 段</div>
+  <div class="core">接合求的是一串破壞面的最小值——找出最弱的那一環，就是答案。</div>
+</header>
+
+<nav class="toc">
+  <h2>目錄</h2>
+  <ol>
+    <li><a href="#c0">0　一個本質</a><span class="t">0:00</span></li>
+    <li><a href="#c1">1　兩把尺</a><span class="t">0:45</span></li>
+    <li><a href="#c2">2　關卡一　母材端</a><span class="t">1:44</span></li>
+    <li><a href="#c3">3　塊狀剪力</a><span class="t">3:11</span></li>
+    <li><a href="#c4">4　關卡二　螺栓</a><span class="t">4:35</span></li>
+    <li><a href="#c5">5　關卡二　銲接</a><span class="t">6:04</span></li>
+    <li><a href="#c6">6　關卡三　偏心</a><span class="t">6:48</span></li>
+    <li><a href="#c7">7　高頻陷阱</a><span class="t">7:56</span></li>
+    <li><a href="#c8">8　總結</a><span class="t">8:29</span></li>
+  </ol>
+</nav>
+
+<div class="player">
+  <video id="vid" controls preload="metadata" src="video/SS-U1-4.mp4"></video>
+</div>
+
+<!-- c0 -->
+<section id="c0">
+<h2><span class="no">0</span>一個本質<button class="seek" data-t="0">▶ 0:00</button></h2>
+<figure><img src="img/SS-U1-4/s01.jpg" alt="構材設計 vs 接合設計"><figcaption><span>構材設計問「撐不撐得住」，接合設計問「換了幾次手、哪一次最弱」</span><span class="ts">影片 0:19</span></figcaption></figure>
+<p>接合這個單元，題目最多，但公式不用死背幾十條，只要抓住<b>一個本質、兩把尺</b>。</p>
+<table>
+<tr><th>設計對象</th><th>問的問題</th></tr>
+<tr><td>構材設計</td><td>一個斷面撐不撐得住？</td></tr>
+<tr><td>接合設計</td><td>力量在這裡換了幾次手？哪一次換手最弱？</td></tr>
+</table>
+<figure><img src="img/SS-U1-4/s02.jpg" alt="換手鏈"><figcaption><span>換手鏈：母材 A → 螺栓／銲道 → 母材 B，每次換手對應一個破壞面</span><span class="ts">影片 0:44</span></figcaption></figure>
+<p>力從母材 A 交給螺栓或銲道，再交給母材 B，每一次換手，都對應一個破壞面。整條鏈的強度就是最弱的那一環，所以答案永遠取最小值：</p>
+$$\text{整條鏈的強度} = \min(\cdots)$$
+<div class="box warn"><b class="h">不是相加，也不是平均</b>答案永遠取最小值。</div>
+<div class="box key"><b class="h">解題第一步：寫出「極限狀態清單」</b>清單漏一項，後面算得再準都是錯的。</div>
+</section>
+
+<!-- c1 -->
+<section id="c1">
+<h2><span class="no">1</span>兩把尺<button class="seek" data-t="45.25">▶ 0:45</button></h2>
+<p>規範公式不用硬背，全部是兩把尺組合出來的。</p>
+<figure><img src="img/SS-U1-4/s03.jpg" alt="第一把尺：受力型態"><figcaption><span>第一把尺：<span class="sh">被剪的面 ×0.6</span>、<span class="te">被拉的面 ×1</span></span><span class="ts">影片 0:57</span></figcaption></figure>
+<p><b>第一把尺，看受力型態</b>：<span class="sh">被剪的面</span>，強度一律乘 0.6；<span class="te">被拉的面</span>，不乘。</p>
+<figure><img src="img/SS-U1-4/s04.jpg" alt="0.6 的來源"><figcaption><span>0.6 的來源：von Mises 畸變能準則</span><span class="ts">影片 1:17</span></figcaption></figure>
+<p>0.6 從哪來？依照 von Mises 的畸變能準則，純剪降伏強度等於 \(F_y\) 除以 \(\sqrt3\)，大約 0.577，規範取整成 0.6。</p>
+$$\tau_y=\frac{F_y}{\sqrt3}\approx 0.577\,F_y\approx \boxed{0.6\,F_y}$$
+<div class="box key"><b class="h">0.6 只看「這個面是不是被剪」</b>跟用 \(F_y\) 還是 \(F_u\) 無關。</div>
+<figure><img src="img/SS-U1-4/s05.jpg" alt="第二把尺：破壞機制"><figcaption><span>第二把尺：<span class="yl">全斷面降伏</span>／<span class="fr">淨斷面斷裂</span></span><span class="ts">影片 1:44</span></figcaption></figure>
+<p><b>第二把尺，看破壞機制。</b></p>
+<table>
+<tr><th>破壞機制</th><th>行為</th><th>強度</th><th>\(\phi\)</th></tr>
+<tr><td class="yl">全斷面降伏</td><td>整段伸長，有預警（延性）</td><td>\(F_y\times A_g\)（毛面積）</td><td>0.90</td></tr>
+<tr><td class="fr">淨斷面斷裂</td><td>在孔洞處突然撕開，沒有預警（脆性）</td><td>\(F_u\times A_e\)（有效淨面積）</td><td>0.75（收緊）</td></tr>
+</table>
+<p>兩把尺互相獨立，任意組合，就生出規範裡的每一條式子：</p>
+$$\color{#3f8f4f}{\text{GSY}:F_yA_g}\qquad \color{#c0392b}{\text{NSF}:F_uA_e}\qquad \text{BSR}:0.6(\text{shear})+F_uA_{nt}$$
+</section>
+
+<!-- c2 -->
+<section id="c2">
+<h2><span class="no">2</span>關卡一　母材端<button class="seek" data-t="104.7">▶ 1:44</button></h2>
+<figure><img src="img/SS-U1-4/s06.jpg" alt="三個關卡與母材三項"><figcaption><span>三個關卡：① 母材端 ② 緊結物 ③ 偏心；母材三項取 min</span><span class="ts">影片 2:01</span></figcaption></figure>
+<p>接下來沿著力的路徑，走過三個關卡。<b>第一關，母材端。</b>不管用螺栓還是銲接，母材永遠要驗三項，三項取最小：</p>
+<table>
+<tr><th>代號</th><th>極限狀態</th><th>設計強度</th></tr>
+<tr><td class="yl">GSY</td><td>全斷面降伏</td><td>\(0.90\,F_yA_g\)</td></tr>
+<tr><td class="fr">NSF</td><td>淨斷面斷裂</td><td>\(0.75\,F_uA_e\)</td></tr>
+<tr><td class="sh">BSR</td><td>塊狀剪力</td><td>\(0.75\,\min[\cdots]\)</td></tr>
+</table>
+<figure><img src="img/SS-U1-4/s07.jpg" alt="剪力遲滯係數 U"><figcaption><span>角鋼只鎖一肢：\(\bar x\) 為形心到接觸面距離，\(L\) 為最外排螺栓間距</span><span class="ts">影片 2:22</span></figcaption></figure>
+<p>淨斷面還要再乘<b>剪力遲滯係數</b> \(U\)：</p>
+$$U = 1-\frac{\bar x}{L}$$
+<p>角鋼只鎖住一肢，另一肢出力慢半拍。\(\bar x\) 是形心到接觸面的距離，越遠折減越兇；\(L\) 是最外排螺栓之間的長度，傳力距離越長，應力越追得上。</p>
+
+<h3>例①　角鋼拉力構材</h3>
+<figure><img src="img/SS-U1-4/s09.jpg" alt="例① 計算"><figcaption><span>例①：GSY 42.75 tf 與 NSF 43.3 tf 很接近，由 GSY 控制</span><span class="ts">影片 3:10</span></figcaption></figure>
+<p>條件：角鋼 L100×100×10，\(A_g=19.0\ \text{cm}^2\)，\(\bar x = 2.82\ \text{cm}\)，A36 鋼材（\(F_y=2.5\)、\(F_u=4.1\ \text{tf/cm}^2\)），單肢一排 4 支 M20，間距 6 cm，\(d_h=2.3\)。</p>
+$$\color{#3f8f4f}{\text{GSY}:\ 0.9\times2.5\times19.0=42.75\ \text{tf}}$$
+<p>淨斷面：扣一個孔。</p>
+$$A_n = 19.0-2.3\times1.0 = 16.70\ \text{cm}^2$$
+$$L=3\times6=18\ \text{cm},\qquad U=1-\frac{2.82}{18}=0.843$$
+$$A_e = 0.843\times16.70 = 14.08\ \text{cm}^2$$
+$$\color{#c0392b}{\text{NSF}:\ 0.75\times4.1\times14.08=43.3\ \text{tf}}$$
+$$\boxed{\phi P_n = 42.75\ \text{tf}}\quad\text{GSY 控制（兩項很接近）}$$
+<div class="box warn"><b class="h">螺栓少一點，控制就反過來</b>螺栓少一點 → \(L\) 變短 → \(U\) 一掉，淨斷面就會反過來控制。</div>
+</section>
+
+<!-- c3 -->
+<section id="c3">
+<h2><span class="no">3</span>塊狀剪力<button class="seek" data-t="191.37">▶ 3:11</button></h2>
+<figure><img src="img/SS-U1-4/s11.jpg" alt="塊狀剪力兩式"><figcaption><span><span class="sh">粉紅＝剪面</span>（縱向）、<span class="te">藍＝拉面</span>（橫向）；兩式取 min，不可相加</span><span class="ts">影片 3:50</span></figcaption></figure>
+<p>第三項，<b>塊狀剪力</b>：整塊材料被撕下來，同時有剪面和拉面。兩把尺照用：<span class="sh">剪面乘 0.6</span>，<span class="te">拉面不乘</span>。所以公式有兩條：</p>
+$$R_{n1}=\color{#c2456b}{0.6F_uA_{nv}}+\color{#2f7fb0}{U_{bs}F_uA_{nt}}$$
+$$R_{n2}=\color{#c2456b}{0.6F_yA_{gv}}+\color{#2f7fb0}{U_{bs}F_uA_{nt}}$$
+$$\boxed{\phi R_n = 0.75\,\min(R_{n1},\,R_{n2})}$$
+<p>這兩條是同一個破壞面的兩種可能路徑，差別只在剪面是斷裂還是降伏，所以<b>取小，絕對不能相加</b>。拉面項在兩式完全一樣。</p>
+<table>
+<tr><th>拉應力分布</th><th>\(U_{bs}\)</th></tr>
+<tr><td>均勻</td><td>1.0</td></tr>
+<tr><td>不均勻</td><td>0.5</td></tr>
+</table>
+
+<h3>例②　單排三支螺栓的塊狀剪力</h3>
+<figure><img src="img/SS-U1-4/s13.jpg" alt="例② 計算"><figcaption><span>例②：剪面 4＋6＋6；左端孔只算半個（½），式二控制</span><span class="ts">影片 4:35</span></figcaption></figure>
+<p>條件：板厚 \(t=1.0\) cm，單排 3 支 M20，間距 6，端距 4，邊距 4，孔徑 \(d_h=2.3\)。</p>
+<p>剪面長 4＋6＋6＝16 cm；剪線切過兩個整孔加半個孔，扣 2.5 個孔。拉面 4 cm，扣半個孔：</p>
+$$\color{#c2456b}{A_{gv}=(4+6+6)(1.0)=16.0,\qquad A_{nv}=16.0-2.5\times2.3=10.25}$$
+$$\color{#2f7fb0}{A_{gt}=4.0,\qquad A_{nt}=4.0-0.5\times2.3=2.85}$$
+$$R_{n1}=0.6(4.1)(10.25)+4.1(2.85)=36.90$$
+$$R_{n2}=0.6(2.5)(16.0)+4.1(2.85)=35.69$$
+$$\boxed{\phi R_n = 0.75\times35.69 = 26.8\ \text{tf}}\quad\text{式二控制}$$
+</section>
+
+<!-- c4 -->
+<section id="c4">
+<h2><span class="no">4</span>關卡二　螺栓<button class="seek" data-t="275.6">▶ 4:35</button></h2>
+<figure><img src="img/SS-U1-4/s15.jpg" alt="摩阻型與承壓型"><figcaption><span>緊結物分螺栓／銲接；螺栓再分摩阻型與承壓型</span><span class="ts">影片 5:14</span></figcaption></figure>
+<p><b>第二關，緊結物</b>，分成螺栓和銲接兩個世界。螺栓又分兩種：</p>
+<table>
+<tr><th>型式</th><th>傳力方式</th><th>\(\phi\)</th></tr>
+<tr><td>摩阻型</td><td>預拉力 \(T_b\) 把板夾緊，力走摩擦面，螺栓桿其實不受剪；滑動只是使用性極限</td><td>1.0</td></tr>
+<tr><td>承壓型</td><td>允許板滑到貼緊，力改走螺栓桿受剪，加上孔壁承壓</td><td>0.75</td></tr>
+</table>
+<div class="box key"><b class="h">看到這些關鍵字 → 往摩阻型想</b>不得滑動、反復載重、長槽孔。</div>
+<div class="box warn"><b class="h">摩阻型算完不能交卷</b>滑動之後，仍要用承壓型再驗一次強度。</div>
+
+<figure><img src="img/SS-U1-4/s16.jpg" alt="孔壁承壓"><figcaption><span>孔壁承壓：<span class="sh">兩條剪力線撕出</span>／<span class="te">孔被壓長</span>；\(L_c\) 為淨距</span><span class="ts">影片 5:36</span></figcaption></figure>
+<p>孔壁承壓為什麼有兩項取小？</p>
+$$R_n=\min\left(\color{#c2456b}{1.2F_uL_ct},\ \color{#2f7fb0}{2.4F_udt}\right)$$
+<table>
+<tr><th>情況</th><th>破壞</th><th>強度</th></tr>
+<tr><td>邊距不夠</td><td>孔前方材料沿兩條剪力線被撕出：0.6 × 2</td><td class="sh">\(1.2F_uL_ct\)</td></tr>
+<tr><td>邊距夠了</td><td>孔被壓長，強度封頂</td><td class="te">\(2.4F_udt\)</td></tr>
+</table>
+<div class="box warn"><b class="h">\(L_c\) 是淨距，不是中心距</b>邊螺栓 \(L_c=L_e-d_h/2\)；內螺栓 \(L_c=s-d_h\)。</div>
+
+<h3>例③　四支 M20 單剪</h3>
+<figure><img src="img/SS-U1-4/s17.jpg" alt="例③ 計算"><figcaption><span>例③：剪斷 31.1 tf ＜ 承壓 52.8 tf，剪斷控制</span><span class="ts">影片 6:03</span></figcaption></figure>
+<p>條件：4-M20 單剪，\(A_b=3.14\)，\(F_{nv}=3.3\)，\(t=1.0\)，\(F_u=4.1\)，\(s=6\)，\(L_e=4\)。</p>
+<p><b>① 螺栓剪斷</b>：每支 7.77，四支 31.1 tf。</p>
+$$0.75(3.3)(3.14)=7.77,\qquad \times4=31.1\ \text{tf}$$
+<p><b>② 孔壁承壓（逐支算）</b>：</p>
+$$\text{邊：}L_c=4-1.1=2.9\ \Rightarrow\ 14.3\qquad \text{內：}L_c=6-2.2=3.8\ \Rightarrow\ 18.7$$
+$$\le 2.4(4.1)(2.0)=19.7\ \checkmark$$
+$$\Sigma=14.3+3(18.7)=70.4,\qquad \times0.75=52.8\ \text{tf}$$
+$$\boxed{\phi R_n=\min(31.1,\ 52.8)=31.1\ \text{tf}}\quad\text{剪斷控制}$$
+</section>
+
+<!-- c5 -->
+<section id="c5">
+<h2><span class="no">5</span>關卡二　銲接<button class="seek" data-t="364.23">▶ 6:04</button></h2>
+<figure><img src="img/SS-U1-4/s19.jpg" alt="填角銲喉部與強度"><figcaption><span>填角銲：45° 喉部 \(t_e=0.707w\)（紅虛線）；E70 每 cm 銲長 × 每 cm 銲腳 1.565 tf</span><span class="ts">影片 6:48</span></figcaption></figure>
+<p>換到銲接。填角銲有三個候選破壞面，最小的是 45° 的<b>喉部</b>：</p>
+$$t_e = 0.707\,w$$
+<p>銲道也是被剪的面，所以帶 0.6；脆性破壞，\(\phi=0.75\)。兩把尺在這裡照樣適用。</p>
+<p>代入 E70 銲條（\(F_{EXX}=4.92\ \text{tf/cm}^2\)）：</p>
+$$\phi R_n = 0.75\times0.6\times4.92\times0.707\,wL_w=\boxed{1.565\,w\,L_w\quad(\text{tf},\ \text{cm})}$$
+<p>也就是每 1 cm 銲長、每 1 cm 銲腳，可以扛 1.565 tf。</p>
+<div class="box ok"><b class="h">算完要檢查</b>算出 \(w\) 要取整，再檢查上限 \(w_{max}=t-2\ \text{mm}\)。</div>
+<p>至於<b>全滲透開槽銲（CJP）</b>，銲道比母材強，直接由母材控制。</p>
+</section>
+
+<!-- c6 -->
+<section id="c6">
+<h2><span class="no">6</span>關卡三　偏心<button class="seek" data-t="408.78">▶ 6:48</button></h2>
+<figure><img src="img/SS-U1-4/s20.jpg" alt="偏心螺栓群"><figcaption><span>偏心力搬到形心 C：一個力 \(P\) ＋ 一個扭矩 \(M=P\cdot e\)</span><span class="ts">影片 7:12</span></figcaption></figure>
+<p><b>第三關，有沒有偏心距 \(e\)。</b>沒有偏心，平均分配就好。有偏心，像托架、牛腿，就把偏心力搬到形心，變成一個力加一個扭矩：</p>
+$$M = P\cdot e$$
+<table>
+<tr><th>分量</th><th>公式</th><th>特性</th></tr>
+<tr><td>直接剪力</td><td>\(R_v=\dfrac{P}{n}\)</td><td>每支都一樣</td></tr>
+<tr><td>扭矩剪力</td><td>\(R_M=\dfrac{M\,r}{I_p}\)</td><td>大小和 \(r\) 成正比，方向垂直 \(r\)</td></tr>
+</table>
+
+<h3>例④　六支螺栓偏心接合</h3>
+<p>條件：6 支螺栓，兩行三列，\(x=\pm4\)，\(y=0,\ \pm7.5\)，\(P=10\ \text{tf}\)，偏心 \(e=20\ \text{cm}\)。</p>
+$$I_p=\Sigma x^2+\Sigma y^2=96+225=321\ \text{cm}^2$$
+$$M=10\times20=200\ \text{tf}\cdot\text{cm},\qquad R_v=10/6=1.67\ \text{tf}$$
+<figure><img src="img/SS-U1-4/s22.jpg" alt="臨界螺栓合力"><figcaption><span>臨界螺栓在右上角：垂直分量先與直接剪力相加，最後才開根號</span><span class="ts">影片 7:56</span></figcaption></figure>
+<p>臨界螺栓在右上角。扭矩剪力拆成分量：</p>
+$$R_{Mx}=\frac{200\times7.5}{321}=4.67\ (\rightarrow),\qquad R_{My}=\frac{200\times4}{321}=2.49\ (\downarrow)$$
+<p>垂直方向先和直接剪力相加：</p>
+$$R_y=1.67+2.49=4.16\ (\downarrow)$$
+$$\boxed{R=\sqrt{4.67^2+4.16^2}=6.26\ \text{tf}}$$
+<div class="box warn"><b class="h">先加分量，再開根號</b>順序顛倒（先開根號再相加），會低估合力。</div>
+</section>
+
+<!-- c7 -->
+<section id="c7">
+<h2><span class="no">7</span>高頻陷阱<button class="seek" data-t="476.98">▶ 7:56</button></h2>
+<figure><img src="img/SS-U1-4/s24.jpg" alt="四個高頻陷阱"><figcaption><span>四張陷阱卡</span><span class="ts">影片 8:28</span></figcaption></figure>
+<div class="box warn"><b class="h">陷阱一：續接的設計力</b>看到續接，設計力要取題目給的內力，和構材強度的一半，兩者的大者：
+$$P_{u,\text{design}}=\max(P_u,\ 0.5\,\phi P_n)$$</div>
+<div class="box warn"><b class="h">陷阱二：銲接也有剪力遲滯</b>銲接沒有孔，\(A_n=A_g\)，但剪力遲滯還在，照樣要乘 \(U\)：\(A_e=U\,A_g\)。</div>
+<div class="box warn"><b class="h">陷阱三：承力厚度是喉厚</b>填角銲的承力厚度是喉厚 \(t_e=0.707\,w\)，不是銲腳 \(w\)。</div>
+<div class="box warn"><b class="h">陷阱四：塊狀剪力取 min</b>\(\min(R_{n1},R_{n2})\)，不能相加；而且拉面永遠不乘 0.6。</div>
+</section>
+
+<!-- c8 -->
+<section id="c8">
+<h2><span class="no">8</span>總結<button class="seek" data-t="509.47">▶ 8:29</button></h2>
+<figure><img src="img/SS-U1-4/s25.jpg" alt="總結"><figcaption><span>總結三點</span><span class="ts">影片 8:54</span></figcaption></figure>
+<table>
+<tr><th>第一</th><td>接合求的是一串破壞面的最小值 → 先寫極限狀態清單</td></tr>
+<tr><th>第二</th><td>兩把尺：<span class="sh">剪面 ×0.6</span>；<span class="yl">降伏用 \(F_yA_g\)</span>、<span class="fr">斷裂用 \(F_uA_e\)</span></td></tr>
+<tr><th>第三</th><td>三個關卡：母材三項 → 緊結物 → 偏心</td></tr>
+</table>
+<div class="box key"><b class="h">找出最弱的那一環，就是答案。</b></div>
+</section>
+
+<footer>
+來源：<code>video/SS-U1-4.mp4</code>（8:55）、<code>video/segments.py</code>（逐字旁白，25 段 9 章）、<code>video/SS-U1-4.srt</code>（時間軸）。黑板圖取自各段結束前 0.5 秒畫面；例題①–④ 數值已依 <code>HANDOFF.md</code> 與獨立複算核對。顏色對應黑板用色：<span class="sh">粉紅＝剪面</span>、<span class="te">藍＝拉面</span>、<span class="yl">綠＝降伏</span>、<span class="fr">紅＝斷裂</span>。
+</footer>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  renderMathInElement(document.body,{delimiters:[
+    {left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+  var v=document.getElementById('vid');
+  document.querySelectorAll('.seek').forEach(function(b){
+    b.addEventListener('click',function(){v.currentTime=parseFloat(b.dataset.t);v.play();});
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2024-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2024-1 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2024-1</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> LRFD（本題為<strong>挫屈強度理論推導</strong>，不含 $\phi$ 折減）<br />
+<strong>標籤：</strong> <code>壓力桿件</code> <code>殘留應力</code> <code>切線模數</code> <code>柱強度曲線</code> <code>非彈性挫屈</code> <code>彈性挫屈</code> <code>有效慣性矩</code> <code>塊狀殘留應力</code> <code>強軸挫屈</code> <code>強度平台段</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>型鋼桿件中若存在殘餘應力可能導致桿件軸向壓力強度下降。在無殘餘應力之理想狀態下，桿件之挫屈強度曲線可由 $\dfrac{F_{cr}}{F_y}$ 對應 $\lambda = \dfrac{KL}{\pi r}\sqrt{\dfrac{F_y}{E}}$ 如圖 (a) 所示。</p>
+<p>試考慮一斷面為 <strong>RH400×400×13×21</strong> 之受壓桿件，假設其斷面因製程過程所導致之殘餘應力分布如圖 (b) 所示，包含<strong>殘餘壓應力 $0.5F_y$</strong> 及<strong>殘餘拉應力 $0.4F_y$</strong>。假設其鋼材之應力–應變關係為<strong>完全彈塑性</strong>（圖 c），而斷面之慣性矩 $I_x = 66{,}600$ cm⁴、$I_y = 22{,}400$ cm⁴。</p>
+<p>針對此具殘餘應力影響之受壓桿件，繪製該斷面<strong>強軸（$x$ 軸）挫屈方向</strong>之挫屈強度曲線圖（$\dfrac{F_{cr}}{F_y}\sim\lambda$ 圖），圖中須標註<strong>曲線之函數方程式</strong>，並標註圖中<strong>轉折點之坐標數值</strong>。（25 分）</p>
+<p><strong>殘餘應力分布（圖 b，單位 mm）：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">部位</th>
+<th style="text-align: left;">寬度／高度</th>
+<th style="text-align: left;">殘餘應力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">上、下翼板<strong>外側兩端</strong></td>
+<td style="text-align: left;">各 113.5 mm（共 4 塊）</td>
+<td style="text-align: left;">$-0.5F_y$（壓）</td>
+</tr>
+<tr>
+<td style="text-align: left;">上、下翼板<strong>中央段</strong></td>
+<td style="text-align: left;">173 mm</td>
+<td style="text-align: left;">$+0.4F_y$（拉）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>腹板</strong>（全高）</td>
+<td style="text-align: left;">$400 - 2(21) = 358$ mm</td>
+<td style="text-align: left;">$+0.4F_y$（拉）</td>
+</tr>
+</tbody>
+</table>
+<p><em>自平衡驗算：</em> 翼板 $2 \times 21 \times [2(113.5)(-0.5) + 173(+0.4)] = -1{,}861$ mm²·$F_y$；腹板 $358 \times 13 \times (+0.4) = +1{,}862$ mm²·$F_y$，合計 $\approx 0$ ✓（確認題目給的分布是自平衡的）</p>
+<p><strong>參考公式（考卷提供，並註明「僅供參考應自負確認與勘誤責任」）：</strong></p>
+<p>$$\lambda = \frac{KL}{\pi r}\sqrt{\frac{F_y}{E}},\qquad \frac{F_{cr}}{F_y} = \frac{1}{\lambda^2},\quad \frac{F_{cr}}{F_y} = 1-\frac{\lambda^2}{4},\quad \frac{F_{cr}}{F_y} = 0.658^{\lambda^2},\quad \frac{F_{cr}}{F_y} = \frac{0.877}{\lambda^2}$$</p>
+<p><img alt="SS-2024-1 題目附圖：左為圖(b) RH400×400×13×21 之殘餘應力分布（翼板外側各113.5mm為 −0.5Fy 壓、中央173mm 與腹板為 +0.4Fy 拉）；右上為圖(a) 無殘餘應力之理想挫屈強度曲線（λ≤1.0 為 Fcr/Fy=1.0 水平段，λ&gt;1.0 為 Fcr/Fy=1/λ²）；右下為圖(c) 完全彈塑性應力-應變關係" src="../../raw/solutions/SS-2024-1/SS-2024-1-fig-1.png" /></p>
+<p><em>圖說：圖(b) RH400×400×13×21 斷面（$x$ 軸為強軸、水平；$y$ 軸為弱軸、垂直），翼板寬 400 mm 分為 113.5＋173＋113.5 三段，外側兩段標 $-0.5F_y$（壓）、中央段標 $+0.4F_y$（拉）；腹板側面亦標 $+0.4F_y$（拉）。圖(a) 為理想（無殘餘應力）曲線：$\lambda \le 1.0$ 時 $F_{cr}/F_y = 1.0$ 之水平段，$\lambda &gt; 1.0$ 轉為 $F_{cr}/F_y = 1/\lambda^2$ 之 Euler 雙曲線，轉折點在 $(1.0,\ 1.0)$。圖(c) 為完全彈塑性（elastic–perfectly plastic）應力–應變圖，到 $\varepsilon_y$ 後應力恆為 $F_y$。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：完全彈塑性 ＋ 塊狀殘餘應力 ⇒ 有效慣性矩「階梯式」驟降 ⇒ 強度曲線出現一段「強度平台」。</strong></p>
+<p>推導鏈：</p>
+<pre><code>殘餘壓應力 0.5Fy
+  → 平均應力達 0.5Fy 時，外側 4 塊「同時」降伏（塊狀分布的特徵）
+  → 完全彈塑性 ⇒ 降伏區 Et = 0 ⇒ 有效慣性矩 Ie = Ix − ΔI(外側4塊)
+  → 非彈性挫屈 Fcr = π²E·Ie /[A(KL)²] ⇒ Fcr/Fy = (Ie/Ix)/λ²
+  → 每個分支只在「與自身假設一致」的應力區間內成立
+  → 兩分支都不成立的區間 ⇒ 強度被鎖在 0.5Fy（平台段）
+</code></pre>
+<p><strong>出題者測驗重點：</strong></p>
+<ol>
+<li>由殘餘壓應力 $0.5F_y$ 判出<strong>比例限 $F_p = 0.5F_y$</strong>，並算出對應的 $\lambda = \sqrt{2}$</li>
+<li>由「強軸」二字判斷降伏區在翼板<strong>外側</strong>（對 $I_x$ 貢獻大，$\propto$ 寬度 × 力臂²），使 $I_e/I_x$ 掉到約 0.49</li>
+<li><strong>每個分支的有效區間</strong>：這是本題真正的難點（見 §5.1），也是最容易寫錯的地方</li>
+<li>圖上要標函數式與轉折點座標（<strong>三個</strong>轉折點）</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1  比例限：F + 0.5Fy = Fy → Fp = 0.5Fy → 彈性分支下界 λ = √2
+Step 2  有效慣性矩：Ie = Ix − 4·ΔI(外側塊) → Ie/Ix ≈ 0.485
+Step 3  非彈性分支：Fcr/Fy = 0.485/λ²，僅在 Fcr ≥ 0.5Fy 成立 → λ ≤ 0.985
+Step 4  壓潰上限：Fcr/Fy ≤ 1.0 → λ ≥ 0.697 才進入非彈性分支
+Step 5  0.985 &lt; λ &lt; 1.414 兩分支皆不成立 → Fcr = 0.5Fy 平台段
+Step 6  繪四段曲線 + 標三個轉折點座標
+</code></pre>
+<p><strong>陷阱分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>對策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ <strong>誤畫成「不連續跳躍」</strong></td>
+<td>若把非彈性分支硬拉到 $\lambda=\sqrt2$，會得到 $0.485/2 = 0.243$，比同點的彈性值 0.5 還低，形成「$\lambda$ 變大、強度反而變大」的跳躍——<strong>物理上不可能</strong>（柱做長不會變強）</td>
+<td>各分支只在與自身假設相容的區間成立；中間以<strong>平台段</strong> $F_{cr} = 0.5F_y$ 銜接</td>
+</tr>
+<tr>
+<td>❷ 非彈性段公式來源</td>
+<td>需從 Euler 式代換 $I_e$：$F_{cr} = \pi^2EI_e/[A(KL)^2]$，除以 $F_y$ 後化為 $(I_e/I_x)/\lambda^2$</td>
+<td>$\lambda$ 的定義用<strong>實際</strong> $r = \sqrt{I_x/A}$，故比值出現在分子</td>
+</tr>
+<tr>
+<td>❸ 強軸 vs 弱軸算法不同</td>
+<td>強軸：$\Delta I \approx b_{out}t_f\bar y_f^2$（力臂主導，$\propto$ 寬度一次方）；弱軸：$\propto$ 寬度三次方，$I_e/I_y$ 會掉到約 0.08</td>
+<td>本題只問強軸；弱軸僅供比較（§5.4）</td>
+</tr>
+<tr>
+<td>❹ 中央翼板與腹板會不會降伏</td>
+<td>兩者殘餘應力為 $+0.4F_y$（拉），需外加 $1.4F_y &gt; F_y$ 才降伏 → <strong>全程保持彈性</strong></td>
+<td>有效斷面 = 中央翼板 ＋ 全腹板（＋圓弧填角）</td>
+</tr>
+<tr>
+<td>❺ 誤用 $1-\lambda^2/4$ 當答案</td>
+<td>考卷列的 $1-\lambda^2/4$ 是 CRC 經驗拋物線（隱含<strong>線性</strong>殘餘應力分布），與本題<strong>塊狀</strong>分布不同</td>
+<td>本題須自行推導；CRC 曲線僅作對照（§5.3）</td>
+</tr>
+</tbody>
+</table>
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 建立具塊狀殘餘應力之 RH400×400 柱、強軸方向的 $F_{cr}/F_y \sim \lambda$ 四段強度曲線，並標出三個轉折點座標</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p><strong>Step 1：比例限與彈性分支下界</strong></p>
+<p>$$F_p + 0.5F_y = F_y \;\Rightarrow\; \frac{F_p}{F_y} = 0.5 \;\Rightarrow\; \frac{1}{\boxed{\lambda_3}^2} = 0.5 \;\Rightarrow\; \boxed{\lambda_3} = \sqrt{2}$$</p>
+<p><strong>Step 2：有效慣性矩（降伏區 $E_t = 0$）</strong></p>
+<p>$$\boxed{\Delta I_{one}} = \frac{b_{out}t_f^3}{12} + b_{out}t_f\,\bar y_f^{\,2},\qquad \boxed{I_e} = I_x - 4\,\boxed{\Delta I_{one}}$$</p>
+<p><strong>Step 3：非彈性分支及其有效區間</strong></p>
+<p>$$\frac{F_{cr}}{F_y} = \frac{\boxed{I_e/I_x}}{\lambda^2}\quad\text{（僅當 } F_{cr} \ge 0.5F_y\text{，即 }\lambda \le \boxed{\lambda_2}\text{）}$$</p>
+<p>$$\boxed{\lambda_1} = \sqrt{\boxed{I_e/I_x}}\ \ (F_{cr}=F_y),\qquad \boxed{\lambda_2} = \sqrt{\frac{\boxed{I_e/I_x}}{0.5}}\ \ (F_{cr}=0.5F_y)$$</p>
+<p><strong>Step 4：四段曲線</strong></p>
+<p>$$\frac{F_{cr}}{F_y} = \begin{cases} 1.0, &amp; 0 \le \lambda \le \boxed{\lambda_1} \[4pt] \dfrac{\boxed{I_e/I_x}}{\lambda^2}, &amp; \boxed{\lambda_1} \le \lambda \le \boxed{\lambda_2} \[4pt] 0.5, &amp; \boxed{\lambda_2} \le \lambda \le \boxed{\lambda_3} \[4pt] \dfrac{1}{\lambda^2}, &amp; \lambda \ge \boxed{\lambda_3} \end{cases}$$</p>
+<h3>L1：題目直接給定</h3>
+<p><em>看到題目就能讀出的數字，不需要任何公式。</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">數值</th>
+<th style="text-align: left;">說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">斷面</td>
+<td style="text-align: left;">RH400×400×13×21</td>
+<td style="text-align: left;">$H$=400、$b_f$=400、$t_w$=13、$t_f$=21 mm</td>
+</tr>
+<tr>
+<td style="text-align: center;">$b_{out}$</td>
+<td style="text-align: left;">113.5 mm = 11.35 cm</td>
+<td style="text-align: left;">翼板外側降伏段寬（每邊，共 4 塊）</td>
+</tr>
+<tr>
+<td style="text-align: center;">$b_{mid}$</td>
+<td style="text-align: left;">173 mm = 17.3 cm</td>
+<td style="text-align: left;">翼板中央段寬</td>
+</tr>
+<tr>
+<td style="text-align: center;">$\sigma_r$（翼板外側）</td>
+<td style="text-align: left;">$-0.5F_y$</td>
+<td style="text-align: left;">殘餘<strong>壓</strong>應力</td>
+</tr>
+<tr>
+<td style="text-align: center;">$\sigma_r$（翼板中央、腹板）</td>
+<td style="text-align: left;">$+0.4F_y$</td>
+<td style="text-align: left;">殘餘<strong>拉</strong>應力</td>
+</tr>
+<tr>
+<td style="text-align: center;">$I_x$</td>
+<td style="text-align: left;">66,600 cm⁴</td>
+<td style="text-align: left;">強軸慣性矩</td>
+</tr>
+<tr>
+<td style="text-align: center;">$I_y$</td>
+<td style="text-align: left;">22,400 cm⁴</td>
+<td style="text-align: left;">弱軸慣性矩（本題不用，僅供比較）</td>
+</tr>
+<tr>
+<td style="text-align: center;">材料</td>
+<td style="text-align: left;">完全彈塑性</td>
+<td style="text-align: left;">降伏後 $E_t = 0$</td>
+</tr>
+<tr>
+<td style="text-align: center;">$\lambda$ 定義</td>
+<td style="text-align: left;">$\dfrac{KL}{\pi r}\sqrt{\dfrac{F_y}{E}}$</td>
+<td style="text-align: left;">考卷提供；$r = \sqrt{I_x/A}$ 為<strong>實際</strong>斷面性質</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><em>需要知道公式名稱與適用條件，套入 L1 即可算出。</em></p>
+<p><strong>第一階段：降伏啟始（比例限）</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$F_p$</td>
+<td style="text-align: left;">外側殘餘壓應力最大 $0.5F_y$ → $F_p = F_y - 0.5F_y = 0.5F_y$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$\lambda_3$</td>
+<td style="text-align: left;">$1/\lambda_3^2 = 0.5 \Rightarrow \lambda_3 = \sqrt{2} = 1.414$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">中央段／腹板</td>
+<td style="text-align: left;">$+0.4F_y$ 拉 → 需 $1.4F_y$ 才降伏 → 全程彈性</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>第二階段：有效慣性矩</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$\bar y_f$</td>
+<td style="text-align: left;">$(H-t_f)/2 = (40-2.1)/2 = 18.95$ cm</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$A_{out}$</td>
+<td style="text-align: left;">$11.35 \times 2.1 = 23.84$ cm²</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$\Delta I_{one}$</td>
+<td style="text-align: left;">$\frac{1}{12}(11.35)(2.1)^3 + 23.84(18.95)^2 = 8{,}568$ cm⁴</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$I_e$</td>
+<td style="text-align: left;">$66{,}600 - 4(8{,}568) = 32{,}330$ cm⁴</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$I_e/I_x$</td>
+<td style="text-align: left;">$32{,}330/66{,}600 = 0.485$</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>第三階段：三個轉折點</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$\lambda_1$</td>
+<td style="text-align: left;">$0.485/\lambda_1^2 = 1.0 \Rightarrow \lambda_1 = \sqrt{0.485} = 0.697$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$\lambda_2$</td>
+<td style="text-align: left;">$0.485/\lambda_2^2 = 0.5 \Rightarrow \lambda_2 = \sqrt{0.970} = 0.985$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$\lambda_3$</td>
+<td style="text-align: left;">$1/\lambda_3^2 = 0.5 \Rightarrow \lambda_3 = \sqrt{2} = 1.414$</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">知識點</th>
+<th style="text-align: left;">說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">切線模數／有效斷面理論</td>
+<td style="text-align: left;">完全彈塑性材料的降伏區 $E_t = 0$，等於「把降伏塊從斷面上挖掉」再算 Euler</td>
+<td style="text-align: center;">[[TANGENT-MODULUS-THEORY]] · [[COLUMN-STRENGTH-CURVE]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">$I_e$ 代入 Euler 的化簡</td>
+<td style="text-align: left;">$F_{cr} = \pi^2EI_e/[A(KL)^2] = (I_e/I_x)\cdot\pi^2E/(KL/r)^2$，除 $F_y$ 得 $(I_e/I_x)/\lambda^2$</td>
+<td style="text-align: center;">[[TANGENT-MODULUS-THEORY]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>分支的有效區間</strong></td>
+<td style="text-align: left;">彈性分支只在 $F_{cr}\le0.5F_y$ 成立；非彈性分支只在 $F_{cr}\ge0.5F_y$ 成立；中間由平台 $0.5F_y$ 補上</td>
+<td style="text-align: center;">[[COLUMN-STRENGTH-CURVE]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">強度曲線必須單調不遞增</td>
+<td style="text-align: left;">$F_{cr}$ 隨 $\lambda$ 增加不得上升（柱做長不會變強）——可用來自我檢查有沒有畫錯</td>
+<td style="text-align: center;">[[COLUMN-STRENGTH-CURVE]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">塊狀 vs 線性殘餘應力分布</td>
+<td style="text-align: left;">塊狀 → 外側整塊同時降伏 → 剛度階梯式驟降 → 出現平台段；線性（拋物線）→ 逐漸降伏 → 平滑（即 CRC $1-\lambda^2/4$）</td>
+<td style="text-align: center;">[[RESIDUAL-STRESS]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">強軸與弱軸的敏感度差異</td>
+<td style="text-align: left;">強軸 $\Delta I \propto b\,\bar y^2$（削 51%）；弱軸 $\Delta I \propto b^3$（削 92%）→ 殘餘應力對弱軸殺傷力大得多</td>
+<td style="text-align: center;">[[RESIDUAL-STRESS]]</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Calculation)</h2>
+<blockquote>
+<p>📊 互動圖：<a href="../../raw/solutions/SS-2024-1/SS-2024-1-column-curve-viz.html">柱強度曲線（含殘餘應力）SS-2024-1-column-curve-viz.html</a></p>
+</blockquote>
+<h3>步驟一：確定降伏啟始應力（比例限）</h3>
+<p>翼板外側 4 塊之殘餘應力為 $-0.5F_y$（壓）。外加平均壓應力 $F$ 時，該處總應力 $= F + 0.5F_y$，達 $F_y$ 即降伏：</p>
+<p>$$F + 0.5F_y = F_y \quad \Rightarrow \quad \boxed{F_p = 0.5F_y}$$</p>
+<p><strong>塊狀分布的關鍵特徵：</strong> 外側 4 塊的殘餘應力<strong>均勻</strong>為 $-0.5F_y$，因此在 $F = 0.5F_y$ 這一瞬間<strong>整塊同時降伏</strong>（不像拋物線分布是由邊緣逐步向內推進）。</p>
+<p><strong>中央翼板與腹板：</strong> 殘餘應力 $+0.4F_y$（拉），降伏需 $F = F_y + 0.4F_y = 1.4F_y &gt; F_y$，在軸壓下<strong>永不降伏</strong>，全程保持彈性。</p>
+<hr />
+<h3>步驟二：計算有效慣性矩 $I_e$（強軸）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">參數</th>
+<th style="text-align: left;">數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">$b_{out}$</td>
+<td style="text-align: left;">11.35 cm</td>
+</tr>
+<tr>
+<td style="text-align: left;">$t_f$</td>
+<td style="text-align: left;">2.1 cm</td>
+</tr>
+<tr>
+<td style="text-align: left;">$A_{out} = b_{out}t_f$</td>
+<td style="text-align: left;">23.84 cm²</td>
+</tr>
+<tr>
+<td style="text-align: left;">$\bar y_f = (H - t_f)/2$</td>
+<td style="text-align: left;">$(40 - 2.1)/2 = 18.95$ cm</td>
+</tr>
+</tbody>
+</table>
+<p>單一外側塊對 $x$ 軸的慣性矩貢獻：</p>
+<p>$$\Delta I_{one} = \frac{b_{out}t_f^3}{12} + A_{out}\bar y_f^{\,2} = \frac{(11.35)(2.1)^3}{12} + 23.84(18.95)^2 = 8.8 + 8{,}559 = 8{,}568 \ \text{cm}^4$$</p>
+<p>4 塊（上下翼板 × 左右兩側）合計扣除：</p>
+<p>$$\Delta I = 4 \times 8{,}568 = 34{,}272 \ \text{cm}^4$$</p>
+<p>$$\boxed{I_e = I_x - \Delta I = 66{,}600 - 34{,}272 = 32{,}328 \approx 32{,}330 \ \text{cm}^4}$$</p>
+<p>$$\boxed{\frac{I_e}{I_x} = \frac{32{,}330}{66{,}600} = 0.485}$$</p>
+<p><img alt="SS-2024-1 圖 2：兩格斷面圖。左格為圖(b) 殘餘應力分布——RH400×400×13×21 斷面，上下翼板各分為113.5／173／113.5 mm 三段，外側兩段標 −0.5F_y（壓，藍），中央段與腹板標 +0.4F_y（拉，紅），外側 4 塊在平均應力達 0.5F_y 時整塊同時降伏；右格為有效斷面——外側 4 塊以斜線表示已被挖除（E_t = 0），翼板形心距中性軸 y_f = 18.95 cm，ΔI_one = 8,568 cm⁴、I_e = 66,600 − 34,272 = 32,328 cm⁴，I_e/I_x = 0.485" src="../../raw/solutions/SS-2024-1/figs/SS-2024-1-fig-2-section.svg" /></p>
+<p><em>圖 2　被挖掉的 4 塊正好位於力臂最長的翼板外側，$\Delta I$ 的主項是 $b\,t_f\,y_f^2$，所以強軸剛度一口氣掉到 $I_e/I_x = 0.485$。<strong>攔錯：</strong>誤以為中央翼板或腹板也會降伏（它們是殘餘拉應力，需 $1.4F_y$ 才降伏，全程彈性），或把強軸的扣除量按弱軸的 $b^3$ 方式算。</em></p>
+<blockquote>
+<p><strong>策略註解：</strong> 用<strong>題目給的</strong> $I_x = 66{,}600$ 扣除降伏塊，而非自行重算全斷面。理由：翼腹交會的圓弧填角位於中央（未降伏）區、全程有效，用給定值扣除才能把它留下來。<br />
+<em>驗算：</em> 若完全忽略填角、純以三片矩形板計算，$I_{x,\text{geom}} = 65{,}362$、$I_{e,\text{geom}} = 31{,}090$，比值 $0.476$——與 0.485 相差 2%，不影響曲線形狀與結論。</p>
+</blockquote>
+<hr />
+<h3>步驟三：兩條挫屈分支及其<strong>有效區間</strong>（本題核心）</h3>
+<p><strong>（A）彈性分支（全斷面有效）</strong></p>
+<p>$$\frac{F_{cr}}{F_y} = \frac{1}{\lambda^2}\qquad \text{成立條件：}F_{cr}\le F_p = 0.5F_y \;\Rightarrow\; \lambda \ge \sqrt{2} = 1.414$$</p>
+<p><strong>（B）非彈性分支（外側 4 塊已降伏，$E_t = 0$）</strong></p>
+<p>$$F_{cr} = \frac{\pi^2 E I_e}{A(KL)^2} = \frac{I_e}{I_x}\cdot\frac{\pi^2E}{(KL/r)^2} \;\Rightarrow\; \frac{F_{cr}}{F_y} = \frac{I_e/I_x}{\lambda^2} = \frac{0.485}{\lambda^2}$$</p>
+<p>成立條件：平均應力必須<strong>已經超過</strong> $0.5F_y$（否則外側塊還沒降伏、應該用全斷面）：</p>
+<p>$$\frac{0.485}{\lambda^2} \ge 0.5 \;\Rightarrow\; \lambda \le \sqrt{\frac{0.485}{0.5}} = \sqrt{0.970} = \boxed{0.985}$$</p>
+<p>再受壓潰上限 $F_{cr} \le F_y$ 約束：</p>
+<p>$$\frac{0.485}{\lambda^2} \le 1.0 \;\Rightarrow\; \lambda \ge \sqrt{0.485} = \boxed{0.697}$$</p>
+<p><strong>（C）平台段（$0.985 &lt; \lambda &lt; 1.414$）：兩分支都不成立</strong></p>
+<p>在此區間：</p>
+<ul>
+<li>用彈性分支算：$1/\lambda^2 &gt; 0.5$ → 但應力若真超過 $0.5F_y$，外側塊必已降伏，「全斷面有效」假設<strong>自相矛盾</strong></li>
+<li>用非彈性分支算：$0.485/\lambda^2 &lt; 0.5$ → 但應力若低於 $0.5F_y$，外側塊尚未降伏，「$E_t = 0$」假設<strong>自相矛盾</strong></li>
+</ul>
+<p>實際加載過程：柱在 $F &lt; 0.5F_y$ 時全斷面彈性，$1/\lambda^2 &gt; F/F_y$ 故不挫屈，可持續加載；一旦 $F$ 達 $0.5F_y$，外側 4 塊瞬間降伏、勁度掉到 $I_e$，此時可用挫屈容量 $0.485F_y/\lambda^2 &lt; 0.5F_y = $ 當下應力 → <strong>立刻失穩</strong>。故此區間之極限強度恰為比例限：</p>
+<p>$$\boxed{\frac{F_{cr}}{F_y} = 0.5 \quad (0.985 \le \lambda \le 1.414)}$$</p>
+<p><strong>（D）壓潰段（$\lambda \le 0.697$）</strong></p>
+<p>$$\frac{F_{cr}}{F_y} = 1.0$$</p>
+<hr />
+<h3>步驟四：轉折點座標</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">轉折點</th>
+<th style="text-align: center;">$\lambda$</th>
+<th style="text-align: center;">$F_{cr}/F_y$</th>
+<th style="text-align: left;">意義</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>A</strong></td>
+<td style="text-align: center;">$\lambda_1 = \sqrt{0.485} = 0.697$</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: left;">壓潰段 → 非彈性段</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>B</strong></td>
+<td style="text-align: center;">$\lambda_2 = \sqrt{0.485/0.5} = 0.985$</td>
+<td style="text-align: center;">0.500</td>
+<td style="text-align: left;">非彈性段 → 平台段</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>C</strong></td>
+<td style="text-align: center;">$\lambda_3 = \sqrt{2} = 1.414$</td>
+<td style="text-align: center;">0.500</td>
+<td style="text-align: left;">平台段 → 彈性 Euler 段</td>
+</tr>
+</tbody>
+</table>
+<p>三點皆<strong>連續</strong>（B、C 的 $F_{cr}/F_y$ 同為 0.500），整條曲線單調不遞增 ✓</p>
+<p><img alt="SS-2024-1 圖 3：柱強度曲線 F_cr/F_y 對 λ。本題曲線（藍粗實線）分四段：λ ≤ 0.697 為 1.0、0.697 至 0.985 為 0.485/λ²、0.985 至 1.414 為水平平台 0.5、λ ≥ 1.414 為 1/λ²；三個轉折點標為 A(0.697, 1.000)、B(0.985, 0.500)、C(1.414, 0.500)。另繪三條對照線：圖(a) 無殘餘應力之理想曲線（灰虛線）、CRC 拋物線 1 − λ²/4（綠虛線）、以及常見誤畫的不連續跳躍（紅點線，把非彈性分支硬拉到 λ = √2 得 0.243 再跳回 0.500）" src="../../raw/solutions/SS-2024-1/figs/SS-2024-1-fig-3-column-curve.svg" /></p>
+<p><em>圖 3　四段曲線與三個轉折點座標，並把常見的錯誤畫法一併畫上做對照。<strong>攔錯：</strong>把非彈性分支 $0.485/\lambda^2$ 硬拉到 $\lambda = \sqrt2$（得 0.243）再跳回 0.500——圖上一眼可見那條紅線讓「$\lambda$ 變大、強度反而變大」，違反柱強度隨 $\lambda$ 單調不遞增。</em></p>
+<hr />
+<h3>步驟五：完整曲線方程式（作答用）</h3>
+<p>$$\frac{F_{cr}}{F_y} = \begin{cases} 1.0, &amp; 0 \le \lambda \le 0.697 \quad \text{（壓潰）}\[6pt] \dfrac{0.485}{\lambda^2}, &amp; 0.697 \le \lambda \le 0.985 \quad \text{（非彈性挫屈，}I_e\text{ 有效）}\[6pt] 0.5, &amp; 0.985 \le \lambda \le 1.414 \quad \text{（強度平台，殘餘應力控制）}\[6pt] \dfrac{1}{\lambda^2}, &amp; \lambda \ge 1.414 \quad \text{（彈性 Euler 挫屈）} \end{cases}$$</p>
+<p><strong>與理想（無殘餘應力）曲線的比較：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">$\lambda$</th>
+<th style="text-align: center;">理想曲線 $F_{cr}/F_y$</th>
+<th style="text-align: center;">本題（含殘餘應力）</th>
+<th style="text-align: center;">折減</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">0.70</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">0.990</td>
+<td style="text-align: center;">−1%</td>
+</tr>
+<tr>
+<td style="text-align: center;">0.85</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">0.671</td>
+<td style="text-align: center;">−33%</td>
+</tr>
+<tr>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">0.500</td>
+<td style="text-align: center;">−50%</td>
+</tr>
+<tr>
+<td style="text-align: center;">1.20</td>
+<td style="text-align: center;">0.694</td>
+<td style="text-align: center;">0.500</td>
+<td style="text-align: center;">−28%</td>
+</tr>
+<tr>
+<td style="text-align: center;">1.414</td>
+<td style="text-align: center;">0.500</td>
+<td style="text-align: center;">0.500</td>
+<td style="text-align: center;">0%</td>
+</tr>
+<tr>
+<td style="text-align: center;">2.00</td>
+<td style="text-align: center;">0.250</td>
+<td style="text-align: center;">0.250</td>
+<td style="text-align: center;">0%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>結論：</strong> 殘餘應力的殺傷力集中在<strong>中等細長比</strong>（$\lambda \approx 0.7\sim1.4$，即實務上最常見的柱），最嚴重處折減達 50%；極短柱（壓潰控制）與極長柱（彈性挫屈控制）皆不受影響。</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>5.1 為什麼不是「不連續跳躍」？（本題最易錯處）</h3>
+<p>一種常見寫法是把非彈性分支硬拉到 $\lambda = \sqrt{2}$，得</p>
+<p>$$\left.\frac{F_{cr}}{F_y}\right|<em _lambda="\sqrt2">{\lambda=\sqrt2} = \frac{0.485}{2} = 0.243 \quad\text{vs.}\quad \left.\frac{1}{\lambda^2}\right|</em> = 0.500$$</p>
+<p>然後宣稱「曲線在 $\lambda=\sqrt2$ 處由 0.243 跳到 0.500」。<strong>這是錯的</strong>，理由有三：</p>
+<ol>
+<li><strong>違反單調性。</strong> 柱強度曲線必須隨 $\lambda$ 單調不遞增。若 $\lambda = 1.40$ 時強度 0.247、$\lambda = 1.45$ 時強度 0.476，代表「柱做長一點反而變強」——物理上不可能。</li>
+<li><strong>分支被用超出適用範圍。</strong> $0.485/\lambda^2$ 的前提是「外側塊已降伏」，即當下應力 $\ge 0.5F_y$。當 $\lambda &gt; 0.985$ 時該式算出的值已低於 $0.5F_y$，前提不成立。</li>
+<li><strong>同一 $\lambda$ 不會有兩個強度值。</strong> 一根給定的柱只有一個極限強度；$\lambda=\sqrt2$ 處的正確值是 0.500（平台段與 Euler 段在此相接）。</li>
+</ol>
+<p><strong>正確的圖形特徵</strong>應描述為：塊狀（均勻）殘餘應力使<strong>剛度階梯式驟降</strong>，因而在強度曲線上留下一段<strong>水平平台</strong> $F_{cr} = F_p = 0.5F_y$（$\lambda$ 自 0.985 至 1.414），而不是跳躍。平台的存在正是「整塊同時降伏」的指紋。</p>
+<h3>5.2 平台段的長度由 $I_e/I_x$ 決定</h3>
+<p>平台區間為 $\left[\sqrt{2(I_e/I_x)},\ \sqrt{2}\right]$，長度隨 $I_e/I_x$ 減小而變長：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">$I_e/I_x$</th>
+<th style="text-align: center;">平台起點 $\lambda_2$</th>
+<th style="text-align: center;">平台長度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1.00（無殘餘應力）</td>
+<td style="text-align: center;">1.414</td>
+<td style="text-align: center;">0（無平台）</td>
+</tr>
+<tr>
+<td style="text-align: center;">0.485（本題強軸）</td>
+<td style="text-align: center;">0.985</td>
+<td style="text-align: center;">0.429</td>
+</tr>
+<tr>
+<td style="text-align: center;">0.081（本題弱軸，見 §5.4）</td>
+<td style="text-align: center;">0.403</td>
+<td style="text-align: center;">1.011</td>
+</tr>
+</tbody>
+</table>
+<p>極端情形 $I_e/I_x \to 0$ 時，平台自 $\lambda = 0$ 一路延伸到 $\sqrt2$，強度上限被殘餘應力完全鎖在 $0.5F_y$。</p>
+<h3>5.3 與規範曲線的對照（含最新規範）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">曲線</th>
+<th style="text-align: left;">方程式</th>
+<th style="text-align: left;">隱含的殘餘應力假設</th>
+<th style="text-align: left;">轉折點</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">本題（塊狀，強軸）</td>
+<td style="text-align: left;">1.0 ／ $0.485/\lambda^2$ ／ 0.5 ／ $1/\lambda^2$</td>
+<td style="text-align: left;">塊狀 $0.5F_y$，外側整塊同時降伏</td>
+<td style="text-align: left;">(0.697, 1.0)、(0.985, 0.5)、(1.414, 0.5)</td>
+</tr>
+<tr>
+<td style="text-align: left;">CRC 拋物線（考卷所列）</td>
+<td style="text-align: left;">$1-\lambda^2/4$（$\lambda\le\sqrt2$）</td>
+<td style="text-align: left;">最大殘餘壓應力 $0.5F_y$，<strong>線性</strong>分布、逐步降伏</td>
+<td style="text-align: left;">(1.414, 0.5)，與 Euler 相切</td>
+</tr>
+<tr>
+<td style="text-align: left;">台灣現行規範／AISC 舊 LRFD</td>
+<td style="text-align: left;">$0.658^{\lambda^2}$（$\lambda\le1.5$）；$0.877/\lambda^2$（$\lambda&gt;1.5$）</td>
+<td style="text-align: left;">SSRC Curve 2P，含殘餘應力＋初始彎曲＋統計折減</td>
+<td style="text-align: left;">(1.5, 0.404)</td>
+</tr>
+<tr>
+<td style="text-align: left;">AISC 360-16／-22（E3）</td>
+<td style="text-align: left;">$\left[0.658^{F_y/F_e}\right]F_y$（$KL/r \le 4.71\sqrt{E/F_y}$）；$0.877F_e$</td>
+<td style="text-align: left;">同上（<strong>與 $0.658^{\lambda^2}$ 完全相同</strong>，因 $F_y/F_e \equiv \lambda^2$）</td>
+<td style="text-align: left;">等價於 $\lambda = 1.5$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>依最新規範的說明：</strong></p>
+<ul>
+<li>AISC 360-16／-22 把判準由 $\lambda_c \le 1.5$ 改寫為 $KL/r \le 4.71\sqrt{E/F_y}$，兩者<strong>數學上等價</strong>（$1.5\pi = 4.712$），$F_{cr}$ 公式本身<strong>未改</strong>。</li>
+<li>真正改變的是<strong>強度折減係數：$\phi_c$ 由 0.85 提高為 0.90</strong>（AISC 360-05 起）。台灣現行「鋼構造建築物鋼結構設計技術規範」（民國 99 年版）仍為 $\phi_c = 0.85$；參照 AISC 360-16 之修正草案已完成研究但尚未發布施行。</li>
+<li>本題只問<strong>標稱</strong>挫屈強度曲線（$F_{cr}/F_y$），不涉及 $\phi_c$，故新舊規範對本題答案<strong>無影響</strong>。</li>
+</ul>
+<h3>5.4 若改問弱軸（$y$ 軸），答案差多少？</h3>
+<p>弱軸慣性矩以翼板寬度的<strong>三次方</strong>計算，削掉外側後：</p>
+<p>$$I_y = 2\cdot\frac{t_f b_f^3}{12} + \frac{(H-2t_f)t_w^3}{12} = 2\cdot\frac{2.1(40)^3}{12} + 6.6 = 22{,}407 \ \text{cm}^4 \ (\approx 22{,}400\ \checkmark)$$</p>
+<p>$$I_{e,y} = 2\cdot\frac{t_f b_{mid}^3}{12} + 6.6 = 2\cdot\frac{2.1(17.3)^3}{12} + 6.6 = 1{,}819 \ \text{cm}^4 \;\Rightarrow\; \frac{I_{e,y}}{I_y} = 0.081$$</p>
+<p>轉折點變為 $\lambda_1 = \sqrt{0.081} = 0.285$、$\lambda_2 = \sqrt{0.162} = 0.403$、$\lambda_3 = 1.414$——平台段長達 1.011，幾乎整個實用範圍都被鎖在 $0.5F_y$。</p>
+<p><strong>這就是為什麼規範的柱曲線採「偏弱軸」的保守值</strong>：殘餘應力對弱軸的破壞遠大於強軸，而實務上柱多由弱軸控制。</p>
+<h3>5.5 考場作答的最短路徑</h3>
+<ol>
+<li>寫 $F_p = F_y - 0.5F_y = 0.5F_y$，得 $\lambda_3 = \sqrt2$</li>
+<li>算 $\Delta I_{one}$（主項就是 $b_{out}t_f\bar y_f^2$）、$I_e/I_x = 0.485$</li>
+<li>寫四段式，<strong>明確寫出每段的 $\lambda$ 區間</strong></li>
+<li>畫圖，標 (0.697, 1.0)、(0.985, 0.5)、(1.414, 0.5) 三點，並在平台段旁註「$F_{cr}=F_p=0.5F_y$，外側翼板整塊同時降伏所致」</li>
+<li>一句話收尾：殘餘應力使中等細長比柱強度最多折減 50%</li>
+</ol>
+<p><em>解析完成時間：2026-05-27</em><br />
+<em>修正日期：2026-08-22（更正「不連續跳躍」為「強度平台段」，補 $\lambda_2 = 0.985$ 轉折點；同步 <code>-column-curve-viz.html</code>）</em><br />
+<em>圖解補繪：2026-08-29（向量圖，腳本 <code>gen_SS-2024-1.py</code>，可重跑）</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2024-1/SS-2024-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

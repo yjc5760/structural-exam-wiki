@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-U1-4 主要公式｜考卷會給 vs. 必須自己背</title>
+<!-- KaTeX 本機資源（assets/katex/），離線亦可正常顯示數學式 -->
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd;
+  --must:#c62828; --must2:#ffebee;     /* 必背 */
+  --half:#ef6c00; --half2:#fff3e0;     /* 半數機率 */
+  --give:#2e7d32; --give2:#e8f5e9;     /* 通常會給 */
+  --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#78909c; --bd:#e0e6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:26px 24px}
+header h1{margin:0 0 6px;font-size:1.45em}
+header p{margin:0;opacity:.88;font-size:.9em}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{text-decoration:none;color:var(--ac);font-size:.86em;padding:5px 10px;border-radius:16px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:1120px;margin:0 auto;padding:20px 16px 70px}
+section{margin-bottom:40px}
+h2{font-size:1.22em;border-left:5px solid var(--ac);padding-left:10px;margin:32px 0 12px}
+h3{font-size:1.02em;margin:22px 0 8px;color:#37474f}
+p.lead{font-size:.94em;color:#455a64}
+
+/* 判定說明 */
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:14px 0}
+.lg{border-radius:10px;padding:12px 14px;border:1px solid var(--bd);border-left:6px solid;background:var(--card)}
+.lg h4{margin:0 0 4px;font-size:.98em}
+.lg p{margin:0;font-size:.83em;color:var(--mut)}
+.lg.must{border-left-color:var(--must)} .lg.must h4{color:var(--must)}
+.lg.half{border-left-color:var(--half)} .lg.half h4{color:var(--half)}
+.lg.give{border-left-color:var(--give)} .lg.give h4{color:var(--give)}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:8px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi .n{font-size:1.8em;font-weight:700;color:var(--ac)}
+.kpi .l{font-size:.8em;color:var(--mut)}
+
+/* 篩選 */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 6px;align-items:center}
+.filters .lb{font-size:.83em;color:var(--mut);margin-right:2px}
+button.f{border:1px solid var(--bd);background:#fff;color:var(--ink);border-radius:18px;padding:6px 14px;font-size:.85em;cursor:pointer;font-family:inherit;transition:.15s}
+button.f:hover{border-color:var(--ac)}
+button.f.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+button.f.on.must{background:var(--must);border-color:var(--must)}
+button.f.on.half{background:var(--half);border-color:var(--half)}
+button.f.on.give{background:var(--give);border-color:var(--give)}
+#count{font-size:.83em;color:var(--mut);margin-left:6px}
+
+/* 公式卡 */
+.cards{display:grid;grid-template-columns:1fr;gap:14px;margin-top:12px}
+.fc{background:var(--card);border:1px solid var(--bd);border-left:7px solid;border-radius:10px;padding:14px 18px}
+.fc.must{border-left-color:var(--must)}
+.fc.half{border-left-color:var(--half)}
+.fc.give{border-left-color:var(--give)}
+.fc .top{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;margin-bottom:6px}
+.fc .nm{font-weight:700;font-size:1.02em}
+.tag{font-size:.72em;padding:2px 9px;border-radius:12px;font-weight:700;white-space:nowrap}
+.tag.must{background:var(--must2);color:var(--must)}
+.tag.half{background:var(--half2);color:var(--half)}
+.tag.give{background:var(--give2);color:var(--give)}
+.tag.grp{background:#eceff1;color:#546e7a;font-weight:400}
+.fc .eq{background:#fafcfd;border:1px dashed var(--bd);border-radius:8px;padding:8px 12px;margin:6px 0;overflow-x:auto}
+.fc .meta{font-size:.85em;color:#455a64;margin:6px 0 0}
+.fc .meta b{color:var(--ink)}
+.fc .ev{font-size:.79em;color:var(--mut);border-top:1px dashed var(--bd);margin-top:9px;padding-top:7px}
+.fc .ev .yr{display:inline-block;background:#eceff1;border-radius:4px;padding:0 5px;margin:1px 2px 1px 0;font-family:ui-monospace,monospace}
+.fc .ev .yr.no{background:var(--must2);color:var(--must)}
+.fc .ev .yr.ok{background:var(--give2);color:var(--give)}
+
+/* 表格 */
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--bd);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.85em;min-width:720px}
+th,td{border-bottom:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;color:#37474f;font-weight:700;position:sticky;top:44px;z-index:5}
+tbody tr:hover{background:#f5f9fd}
+td.c{text-align:center}
+.y{color:var(--give);font-weight:700}
+.n{color:#cfd8dc}
+
+.note{background:var(--half2);border-left:5px solid var(--half);border-radius:8px;padding:12px 16px;font-size:.88em;margin:14px 0}
+.note b{color:var(--half)}
+.warn{background:var(--must2);border-left:5px solid var(--must);border-radius:8px;padding:12px 16px;font-size:.88em;margin:14px 0}
+.warn b{color:var(--must)}
+footer{max-width:1120px;margin:0 auto;padding:0 16px 40px;font-size:.8em;color:var(--mut)}
+
+@media print{
+  nav,.filters{display:none}
+  body{background:#fff}
+  .fc{break-inside:avoid;box-shadow:none}
+  th{position:static}
+  header{background:#0d47a1 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .fc,.lg,.kpi,.tag{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SS-U1-4 接合之分析與設計 — 主要公式「考卷會給 vs. 必須自己背」</h1>
+  <p>證據來源：<code>raw/exams/</code> 2002–2025 全 24 份鋼結構設計考卷之「參考公式／參考資料」區塊逐份比對（含影像頁逐頁目視判讀）｜ 判定標準：保守（任一年考了沒給就算必背）</p>
+</header>
+
+<nav>
+  <a href="#how">判定方法</a>
+  <a href="#cards">公式清單</a>
+  <a href="#matrix">逐年證據表</a>
+  <a href="#strategy">背誦策略</a>
+  <a href="lecture-SS-U1-4.html">▶ U1-4 觀念講義</a>
+  <a href="study-SS-U1-4.html">▶ U1-4 命題分析</a>
+  <a href="formula-given-SS-U1-1.html">▶ U1-1 給／背分界</a>
+  <a href="formula-given-SS-U1-2.html">▶ U1-2 給／背分界</a>
+  <a href="formula-given-SS-U1-3.html">▶ U1-3 給／背分界</a>
+  <a href="formula-given-SS-U2-3.html">▶ U2-3 給／背分界</a>
+  <a href="formula-given-SS-U1-4.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+
+<main>
+
+<section id="how">
+  <h2>一、我怎麼判定的</h2>
+  <p class="lead">
+    鋼結構設計考卷把公式印出來有三種擺法：<b>（a）</b>集中放在最後一題之後（如 104、108、110 年）、
+    <b>（b）</b>跟在該題題目正下方（如 101、106、107、113 年）、
+    <b>（c）</b>混在題目敘述裡當已知條件（如 96 年直接給 <span>\(U=0.85\)</span>、94 年直接給螺栓標稱剪力強度 4.2 tf/cm²、109 年直接給 <span>\(F_{va}=2.8\)</span>）。
+    三種都算「有給」。本頁涵蓋 <b>26 題</b>（主分類 19 題 + 副分類 7 題），橫跨 91–113 年共 17 個考年。
+  </p>
+  <div class="note">
+    <b>關鍵前提：考卷本身寫得很明白。</b>
+    104 年的用語是「<i>請自行選擇適合的公式，並檢查其正確性，若有問題應自行修正</i>」；
+    111、113 年更直接：「<i>題目所列之計算公式僅供參考應自負確認與勘誤責任</i>」。
+    也就是說 —— <b>就算有給，你也必須認得出哪一條該用、哪一條被改錯了</b>。給公式不等於免背。
+  </div>
+  <div class="warn">
+    <b>本單元最強的一項證據：偏心接合考過四次（91、93、94、106 年），四次都沒給任何一條彈性向量法的式子。</b>
+    這四題合計 105 分，全部靠 <span>\(I_p=\sum(x_i^2+y_i^2)\)</span> 與 <span>\(R_M=Mr_i/I_p\)</span> 這兩條沒印過的式子起手。
+    另一項：95 年（2006）整張考卷零公式，而該年<b>兩題都是 U1-4</b>（高強度螺栓＋梁柱接頭）。
+    98 年（2009）、112 年（2023）同樣是零公式的 U1-4 年。
+    所以本頁採<b>保守判定</b>：只要歷年出現過「該考點被考、但公式沒給」，就標成 <span style="color:var(--must);font-weight:700">必背</span>。
+  </div>
+  <div class="warn" style="background:#fff;border-left-color:var(--half)">
+    <b>影像頁警告（本輪實際踩到）：</b>113 年（2024）第二題印出了一張<b>「接合部板厚 → 填角銲最小尺寸」對照表</b>，
+    但它是以圖片嵌入的，<code>pdftotext</code> 完全抽不到 —— 只靠文字抽取會誤判成「沒給」。
+    本頁 91、94、96、101、107、109、112、113 八個年份已逐頁轉圖目視確認過。
+  </div>
+
+  <div class="legend">
+    <div class="lg must"><h4>🔴 必背（自己要寫得出來）</h4><p>曾經被考、但當年考卷完全沒給；或根本不曾在任何一年被印出來過。</p></div>
+    <div class="lg half"><h4>🟠 會給但別賭（仍建議背）</h4><p>多數年份有給，但有明確的沒給先例；或給的是舊版／簡化版，需自己判斷修正。</p></div>
+    <div class="lg give"><h4>🟢 通常會給（背概念即可）</h4><p>凡是考該題型，幾乎必定連同公式或數值一起印出；重點放在「會不會用」而非「記不記得」。</p></div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="n">24</div><div class="l">份考卷全數比對</div></div>
+    <div class="kpi"><div class="n">26</div><div class="l">題 U1-4 考題</div></div>
+    <div class="kpi"><div class="n">37</div><div class="l">條 U1-4 主要公式</div></div>
+    <div class="kpi"><div class="n" style="color:var(--must)">26</div><div class="l">必背</div></div>
+    <div class="kpi"><div class="n" style="color:var(--half)">7</div><div class="l">會給但別賭</div></div>
+    <div class="kpi"><div class="n" style="color:var(--give)">4</div><div class="l">通常會給</div></div>
+  </div>
+</section>
+
+<section id="cards">
+  <h2>二、U1-4 主要公式逐條分界</h2>
+  <div class="filters">
+    <span class="lb">判定：</span>
+    <button class="f on" data-k="lv" data-v="all">全部</button>
+    <button class="f must" data-k="lv" data-v="must">🔴 必背</button>
+    <button class="f half" data-k="lv" data-v="half">🟠 別賭</button>
+    <button class="f give" data-k="lv" data-v="give">🟢 通常會給</button>
+    <span class="lb" style="margin-left:14px">主題：</span>
+    <button class="f on" data-k="g" data-v="all">全部</button>
+    <button class="f" data-k="g" data-v="拉力接合端">拉力接合端</button>
+    <button class="f" data-k="g" data-v="螺栓">螺栓</button>
+    <button class="f" data-k="g" data-v="銲接">銲接</button>
+    <button class="f" data-k="g" data-v="偏心接合">偏心接合</button>
+    <button class="f" data-k="g" data-v="梁柱接頭">梁柱接頭 · 續接</button>
+    <button class="f" data-k="g" data-v="構造施工">構造 · 施工規定</button>
+    <span id="count"></span>
+  </div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section id="matrix">
+  <h2>三、逐年證據表（哪一年給了什麼）</h2>
+  <p class="lead">✔ = 該年考卷印出此公式（含題目內文直接給值、圖片嵌入之表格）；空白 = 沒給。灰底列 = 該年有 U1-4 題目。</p>
+  <div class="tw">
+    <table id="mx">
+      <thead>
+        <tr>
+          <th style="min-width:66px">考卷年</th>
+          <th style="min-width:120px">U1-4 題號</th>
+          <th class="c">\(U\) · \(A_e\)</th>
+          <th class="c">\(T_n\) 兩式</th>
+          <th class="c">塊剪雙式</th>
+          <th class="c">螺栓剪力</th>
+          <th class="c">螺栓承壓</th>
+          <th class="c">摩阻型</th>
+          <th class="c">填角銲強度</th>
+          <th class="c">喉厚 \(0.707w\)</th>
+          <th class="c">銲腳尺寸</th>
+          <th class="c">偏心向量法</th>
+          <th style="min-width:170px">備註</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="strategy">
+  <h2>四、由此推出的背誦策略</h2>
+
+  <h3>① 一句話診斷：U1-4 是六科裡「公式最不給」的單元</h3>
+  <div class="warn" style="background:#fff;border-left-color:var(--must)">
+    24 年裡，<b>沒有任何一年在「該年沒有 U1-4 題目」的情況下印出過接合公式</b>。
+    也就是說接合公式只在「當年考接合」時才可能出現，而且出現的永遠是<b>零碎的一兩條</b>，
+    從來不是一整套。對照 U1-1：ASD 的 \(F_a\) 完整式九年全給、對位圖必印。
+    U1-4 沒有這種「長而難抄所以會給」的公式 —— 接合的式子都很短，短到出題者覺得你本來就該會。<br><br>
+    直接後果：<b>U1-4 的準備方式和 U1-1 不同。</b>U1-1 練的是「看到給的公式會不會挑對、會不會用」；
+    U1-4 練的是「一張白紙上能不能把極限狀態清單默寫出來」。
+  </div>
+
+  <h3>② 四條「怎樣都得自己寫」的骨幹（零容忍）</h3>
+  <div class="warn" style="background:#fff;border-left-color:var(--must)">
+    <b>1. 極限狀態清單 + 取小值的流程。</b>
+    螺栓接合：螺栓剪斷 → 孔壁承壓 → 淨斷面斷裂 → 全斷面降伏 → 塊狀剪力，五站取最小。
+    銲接接合：銲喉剪斷 → 母材（銲道邊）剪斷 → 構材本體。
+    <b>24 年從未印出過這份清單</b>，而閱卷給分主要在流程。113 年 <code>SS-2024-2</code>(1) 直接寫「請詳述可能之極限狀態種類」—— 這就是在測清單。<br><br>
+    <b>2. 有效喉厚 \(t_e=0.707w\)。</b>只有 107 年（2018）以 \(6/\sqrt{2}\) 的形式間接出現過一次。
+    104 年給了 \(\phi R_n=(0.75)(0.6F_{EXX})(t)(L)\)，卻要你反算銲腳 \(w\)；
+    113 年給了「最小銲腳尺寸表」，卻要你設計銲腳尺寸。<b>兩次都在同一個缺口上出題。</b><br><br>
+    <b>3. 彈性向量法整套。</b>\(M=Pe\)、\(I_p=\sum(x_i^2+y_i^2)\)、\(R_V=P/n\)、\(R_M=Mr_i/I_p\)、向量疊加、
+    以及「控制點不一定是離形心最遠的那一點」。91、93、94、106 四年、四題、105 分，<b>一條都沒給過</b>。<br><br>
+    <b>4. 折減係數與係數值。</b>\(\phi=0.75\)（螺栓、銲道、塊剪、淨斷面斷裂）、\(\phi=0.9\)（全斷面降伏）、
+    ASD 銲道容許應力 \(0.3F_{EXX}\)、承壓上限 \(2.4dtF_u\)、孔徑 \(d_b+3\) mm、預拉力 \(0.7F_uA_b\)。
+    這些字數最少、最常決定整題對錯，而考卷幾乎不印。
+  </div>
+
+  <h3>③ 三個「有給也要會判斷」的陷阱</h3>
+  <div class="note">
+    <b>陷阱 A：113 年給的是配菜，不是主菜。</b><br>
+    <code>SS-2024-2</code> 第二小題要你「設計此接頭之銲道尺寸」。考卷印出的是
+    \(U=1-\bar{x}/L\)、\(\bar{x}=D/\pi\)、\(U=3L^2/(3L^2+W^2)\) 以及一張最小銲腳尺寸表 ——
+    這些全是<b>第一小題</b>與<b>構造下限</b>要用的。真正決定第二小題答案的
+    \(\phi R_n=0.75\times0.6F_{EXX}\times0.707w\times L\)，<b>一個字都沒有</b>。
+    給了公式反而讓人以為「該給的都給了」，這是最容易失分的給法。<br><br>
+    <b>陷阱 B：104、110 年印的塊剪式沒有 \(U_{bs}\)。</b><br>
+    兩年印的都是台灣 2010 規範版本
+    \(\phi R_n=\phi[0.6F_yA_{gv}+F_uA_{nt}]\)，AISC 360 現行版則是
+    \(\phi[0.6F_uA_{nv}+U_{bs}F_uA_{nt}]\)。若題目要求依 AISC，或破壞塊不對稱（角鋼單肢、偏心接合），
+    \(U_{bs}=0.5\) 這一項考卷不會提醒你。另外<b>兩式是「擇一取小」不是「取大」</b> ——
+    110 年第二題就是專門問你為什麼要這樣取。<br><br>
+    <b>陷阱 C：107 年把中間值算好給你，等於藏住了一半。</b><br>
+    <code>SS-2018-3</code> 直接給 \(M_f=124.5\) kNm、\(M_w=25.5\) kNm、
+    銲喉斷面模數 \(S_w=212.9\) cm³、銲道容許應力 \(f_a=90.5\) N/mm²。
+    看起來很慷慨，但<b>「彎矩怎麼分成翼板與腹板兩份」的原則沒給</b>，
+    翼板那一半 \(F_f=M_f/(d-t_f)\) 也沒給 —— 而那正是配分較高的一半。
+  </div>
+
+  <h3>④ 可以放心「只背用法」的少數幾條</h3>
+  <p class="lead">
+    <b>承壓型螺栓的標稱剪力強度</b>（A325-N 3.36、A325-X 4.20 tf/cm²）在 91、92、93、94、101、109 年
+    <b>六次全部有給</b>，沒有「考螺栓剪力卻不給強度值」的先例；
+    你要背的是「螺紋在不在剪力平面」「幾個剪力面」這兩個<b>判斷</b>，而不是數字本身。<br>
+    <b>U 值替代表</b>（0.90 / 0.85 / 0.75）在 92、94、96、104 年四次全給；
+    但表值涵蓋不到的斷面（113 年半圓管、96 年不等肢角鋼）就得靠 \(U=1-\bar{x}/L\)，
+    所以定義式仍要背 —— 24 年只有 113 年印過它。<br>
+    <b>螺栓拉剪互制</b>（\(F_t=8.2-1.9f_v\le6.3\)）只在 92 年考過一次且有給，優先順序可以放最後。
+  </p>
+
+  <h3>⑤ 一句話總結</h3>
+  <div class="note" style="background:var(--ac2);border-left-color:var(--ac)">
+    <b>U1-4 考卷願意給的，是「材料強度值」（\(F_{EXX}\)、\(F_{nv}\)、\(F_{va}\)、\(U\) 表）；
+    不給的，是「怎麼把這些值組成一條力的路徑」（極限狀態清單、\(0.707\)、彈性向量法、\(\phi\) 值、構造規定）。</b>
+    材料強度值題目一定會給，背了是浪費；力的路徑一次都沒給過，不背就整題卡死。
+    複習時間請全部押在後者。
+  </div>
+</section>
+
+</main>
+
+<footer>
+  生成日期 2026-08-07 ｜ 資料來源：exam-wiki-SS <code>raw/exams/SS-2002~2025_鋼結構設計.pdf</code>（全文抽取 + 影像頁逐頁目視判讀）、
+  <code>raw/json/question_index.json</code>（26 題）、
+  <code>raw/solutions/methods/{block-shear, shear-lag-u, eccentric-bolt, eccentric-weld}</code>、
+  <code>study/lecture-SS-U1-4.html</code>
+</footer>
+
+<script>
+/* ---------- 資料 ---------- */
+/* lv: must / half / give ；ok: 考卷印出過的年（西元）；no: 考了卻沒印的年 */
+const F=[
+/* ===== 拉力接合端 ===== */
+{g:"拉力接合端",lv:"give",nm:"U 值替代表（0.90 / 0.85 / 0.75）",
+ eq:"$$A_e=U\\,A_n\\;;\\qquad U=0.90\\,/\\,0.85\\,/\\,0.75\\ (\\text{依斷面與每行螺栓數})$$",
+ meta:"92、94、104 年把整段條文原文印出（含「翼板寬與深比不小於 2/3」「每行不少於 3 根」的判定條件）；96 年直接在題目內文寫 <b>U = 0.85</b>。四次全給，沒有「考剪力遲滯卻不給 U 表」的先例。要背的是<b>怎麼對號入座</b>，不是數字。",
+ ok:[2003,2005,2007,2015],no:[]},
+
+{g:"拉力接合端",lv:"half",nm:"U = 1 − x̄/L 定義式與 x̄ 的取法",
+ eq:"$$U=1-\\frac{\\bar{x}}{L}\\le 1.0\\;;\\qquad \\bar{x}=\\text{接合面到斷面形心的垂直距離}$$",
+ meta:"<b>24 年只有 113 年（2024）印過這條定義式</b>，而且連 \\(\\bar{x}=D/\\pi\\)（半圓管形心）都一併給了。其餘年份只給表值 —— 問題是表值涵蓋不到的斷面（113 年圓管、96 年不等肢角鋼 <code>SS-2007-1</code>）就非用定義式不可。式子只有一行，直接背。",
+ ok:[2024],no:[]},
+
+{g:"拉力接合端",lv:"must",nm:"全斷面降伏與淨斷面斷裂兩式",
+ eq:"$$\\phi_t T_n=0.90\\,F_yA_g \\qquad ; \\qquad \\phi_t T_n=0.75\\,F_uA_e$$",
+ meta:"92 年（\\(P_n=F_yA_g,\\phi_t=0.9\\)／\\(P_n=F_uA_e,\\phi_t=0.75\\)）與 104 年（\\(T_{ds}\\) 兩式）有給。但 94 年 <code>SS-2005-1</code> 叫你算 \\(\\phi P_n\\)、113 年 <code>SS-2024-2</code> 叫你算 \\(\\phi_tT_n\\)、111 年 <code>SS-2022-2</code> 明寫「除受拉全斷面降伏，亦應考慮下列極限狀態」<b>卻只給後面那幾條</b> —— 三次考了沒給。\\(\\phi\\) 一個 0.9 一個 0.75，寫反就整題錯。",
+ ok:[2003,2015],no:[2005,2022,2024]},
+
+{g:"拉力接合端",lv:"half",nm:"交錯螺栓孔淨寬（s²/4g 修正）",
+ eq:"$$w_n=w_g-\\sum d_h+\\sum \\frac{s^2}{4g}$$",
+ meta:"只有 104 年印過。U1-4 的螺栓題多半是單列或矩形排列用不到，但一旦出現交錯（zig-zag）配置就必須自己寫 —— 而且要記得<b>每一段斜線各加一次</b> \\(s^2/4g\\)，並取所有可能破壞路徑的最小淨寬。",
+ ok:[2015],no:[]},
+
+{g:"拉力接合端",lv:"half",nm:"計算用孔徑 = 螺栓直徑 + 3 mm",
+ eq:"$$d_h=d_b+3\\ \\text{mm}\\quad(\\text{標準孔}\\ d_b+1.5\\!\\sim\\!2\\ \\text{mm}\\ \\text{再加衝孔損傷})$$",
+ meta:"92 年寫「計算時必須扣除之螺栓孔徑為 22 mm」（\\(d_b=19\\)）、94 年寫「螺栓孔直徑為 23.5 mm」、113 年寫「半圓孔徑 = 22 mm」—— <b>三次都是直接給數字，不是給規則</b>。104 年 <code>SS-2015-2</code> 只說「直徑 2.5 cm 的 A325」，孔徑要自己補。式子一行，別省。",
+ ok:[2003,2005,2024],no:[2015]},
+
+{g:"拉力接合端",lv:"must",nm:"塊狀剪力雙式與 φ = 0.75",
+ eq:"$$\\phi R_n=\\phi\\left[0.6F_uA_{nv}+F_uA_{nt}\\right]\\ \\ \\text{或}\\ \\ \\phi\\left[0.6F_yA_{gv}+F_uA_{nt}\\right]\\;,\\quad \\text{擇一且}\\le\\phi\\left[0.6F_uA_{nv}+F_uA_{nt}\\right]$$",
+ meta:"104、110 年有給（110 年連 \\(\\phi=0.75\\) 都寫出來）。但 92 年第一題①、95 年第二題②要你「繪圖說明塊狀剪力」，94 年 <code>SS-2005-1</code>、101 年 <code>SS-2012-4</code>、112 年 <code>SS-2023-4</code>、113 年 <code>SS-2024-2</code> 都用得到 —— <b>六次考了沒給</b>。注意兩式是<b>擇一取小</b>不是取大；台灣版沒有 AISC 的 \\(U_{bs}\\)（不對稱塊體取 0.5），題目若引 AISC 要自己補。",
+ ok:[2015,2021],no:[2003,2005,2006,2012,2023,2024]},
+
+{g:"拉力接合端",lv:"must",nm:"極限狀態清單與取小值（流程骨架）",
+ eq:"$$\\phi R_n=\\min\\{\\text{螺栓剪斷},\\ \\text{孔壁承壓},\\ \\phi_tF_uA_e,\\ \\phi_tF_yA_g,\\ \\text{塊狀剪力}\\}$$",
+ meta:"沒有數學符號，卻是配分最重的一項。<b>24 年一次都沒印過。</b>113 年 <code>SS-2024-2</code>(1) 明寫「請詳述可能之極限狀態種類」—— 直接測這份清單；94 年 <code>SS-2005-1</code>、104 年 <code>SS-2015-2</code> 也是漏一站就少一段分。銲接接合的版本是三站：銲喉剪斷 → 母材（銲道邊）剪斷 → 構材本體。",
+ ok:[],no:[2003,2005,2012,2015,2021,2024]},
+
+/* ===== 螺栓 ===== */
+{g:"螺栓",lv:"give",nm:"承壓型螺栓剪力強度",
+ eq:"$$\\phi R_n=0.75\\,F_{nv}A_b\\,m\\quad(F_{nv}:\\ \\text{A325-N}=3.36,\\ \\text{A325-X}=4.20\\ \\mathrm{tf/cm^2})$$",
+ meta:"91、93 年給 ASD 容許應力全表；92 年給 LRFD 標稱強度表含 \\(\\phi=0.75\\)；94 年題目內文給 4.2 tf/cm²、101 年給 330 MPa、109 年給 \\(F_{va}=2.8\\) tf/cm²（A490）。<b>六次全給</b>，沒有例外。要背的是判斷：螺紋在不在剪力平面（N 或 X）、單剪還是雙剪（\\(m\\)）。",
+ ok:[2002,2003,2004,2005,2012,2020],no:[]},
+
+{g:"螺栓",lv:"half",nm:"螺栓孔承壓強度",
+ eq:"$$R_n=1.2L_ctF_u\\le 2.4\\,d\\,t\\,F_u\\ (\\text{LRFD})\\;;\\qquad F_p=1.2F_u\\ (\\text{ASD})$$",
+ meta:"91 年給 ASD 三條 \\(F_p\\)（含長槽孔 1.0\\(F_u\\)、邊距不足 \\(LF_u/2d\\)）；92 年給 LRFD 全套分支；94 年給 \\(R_n=2.4dtF_u\\)；101 年給 \\(1.2L_ctF_u\\le2.4dtF_u\\)。<b>但 93 年 <code>SS-2004-2</code> 要設計連接板厚、109 年 <code>SS-2020-4</code> 要設計鈑厚與螺栓尺寸，兩年都得檢核承壓卻沒給。</b>記住上限 \\(2.4dtF_u\\) 這一條就能過大半。",
+ ok:[2002,2003,2005,2012],no:[2004,2020]},
+
+{g:"螺栓",lv:"must",nm:"摩阻型（滑動臨界）滑動強度",
+ eq:"$$R_{str}=1.13\\,\\mu\\,T_b\\,N_s\\,N_b\\;;\\qquad \\phi=1.0\\ (\\text{標準孔})$$",
+ meta:"91、93 年只是在 ASD 容許應力表裡列出摩阻型的容許剪應力（標準孔／擴大孔／長槽孔四欄），<b>不是這條式子</b>。95 年第二題①（預拉力的意義）、106 年 <code>SS-2017-2</code>（傳遞機制與極限狀態定義）、110 年 <code>SS-2021-4</code>（能否與銲接共同分擔）三次都是申論，要你講出 1.13、\\(\\mu\\)、\\(T_b\\)、\\(N_s\\) 各代表什麼 —— 考卷一次都沒印。",
+ ok:[2002,2004],no:[2006,2017,2021]},
+
+{g:"螺栓",lv:"must",nm:"最小預拉力 Tb = 0.7 Fu Ab",
+ eq:"$$T_b\\ge 0.70\\,F_u\\,A_b\\quad(\\text{螺栓標稱抗拉強度的 }70\\%)$$",
+ meta:"98 年 <code>SS-2009-4</code>⑤<b>就是直接問「最小預拉力應達到多少倍的 </b>\\(F_u\\)<b>」</b>，95 年問「施加預拉力的意義」，106、110 年的摩阻型申論也繞著它轉。四次考到，<b>零次印出</b>。順便記住施拉方法：扭矩控制法、螺帽旋轉法、直接張力指示器、扭剪型（TC）螺栓。",
+ ok:[],no:[2006,2009,2017,2021]},
+
+{g:"螺栓",lv:"half",nm:"螺栓間距與邊距規定",
+ eq:"$$s\\ge 3d_b\\ (\\text{慣用})\\;,\\quad s_{\\min}=2\\tfrac{2}{3}d_b\\;;\\qquad L_e\\ge 1.5d_b\\;;\\qquad s_{\\max}=\\min(24t,\\ 30\\ \\mathrm{cm})$$",
+ meta:"91–94 年這四年都把「\\(L_e>1.5d\\)、心距 \\(>3d\\)」寫進題目當<b>已知條件</b>（因為要你套用承壓公式的分支）。但 98 年改成<b>問你</b>「相鄰螺栓孔中心距不得小於幾倍直徑」，101、109 年則要你實際配置螺栓卻不給規定。給法從「送你」變成「考你」，別再當作一定會給。",
+ ok:[2002,2003,2004,2005],no:[2009,2012,2020]},
+
+{g:"螺栓",lv:"give",nm:"螺栓拉剪互制（承壓型）",
+ eq:"$$F_t=8.2-1.9f_v\\le 6.3\\ \\mathrm{tf/cm^2}\\ (\\text{A325})$$",
+ meta:"24 年只在 92 年考過一次，而且整條連同 \\(\\phi=0.75\\) 印在背面表格裡。冷門且有給先例，<b>優先順序放最後</b>；真要背就記住形式（線性削減）而非係數。",
+ ok:[2003],no:[]},
+
+/* ===== 銲接 ===== */
+{g:"銲接",lv:"half",nm:"填角銲設計強度（LRFD）",
+ eq:"$$\\phi R_n=0.75\\times 0.6F_{EXX}\\times A_w\\;,\\qquad A_w=t_e\\,L$$",
+ meta:"93 年印出規範表 10.2.5 全表（母材／銲材、\\(\\phi=0.75\\)、\\(0.6F_{EXX}\\)）；104、106、108 年也都給。<b>唯一的破口是 113 年 <code>SS-2024-2</code>(2)：要你設計銲道尺寸，卻一條銲道強度式都沒印</b>（只印了 U 值與最小銲腳表）。式子短，別賭。",
+ ok:[2004,2015,2017,2019],no:[2024]},
+
+{g:"銲接",lv:"must",nm:"有效喉厚 te = 0.707 w",
+ eq:"$$t_e=0.707\\,w=\\frac{w}{\\sqrt{2}}\\quad(\\text{等腳填角銲，}45^\\circ\\text{ 最小截面})$$",
+ meta:"<b>本單元最值得背的一條。</b>只有 107 年間接出現（\\(S_w=2\\times 6/\\sqrt{2}\\times 388^2/6\\) 這個算式裡的 \\(6/\\sqrt{2}\\)）。104 年給了 \\(\\phi R_n=(0.75)(0.6F_{EXX})(t)(L)\\)，<b>給的是喉厚 t，卻要你反算銲腳 w</b>；113 年給了最小銲腳尺寸表，同樣要你設計 \\(w\\)；93、96、108 年也都停在銲腳。<b>兩次以上在同一個缺口出題，不是巧合。</b>",
+ ok:[2018],no:[2004,2007,2015,2019,2024]},
+
+{g:"銲接",lv:"must",nm:"ASD 填角銲容許應力 Fw = 0.3 FEXX",
+ eq:"$$F_w=0.30\\,F_{EXX}\\quad(\\text{E70XX}:\\ 0.3\\times 4.9=1.47\\ \\mathrm{tf/cm^2})$$",
+ meta:"107 年是唯一給了值的一年（\\(f_a=90.5\\) N/mm²，直接寫在題目裡）。但 94 年 <code>SS-2005-3</code>、96 年 <code>SS-2007-1</code> 兩題都是 ASD 銲接設計，<b>只給銲材 </b>\\(F_u=4.9\\)<b> tf/cm²，那個 0.3 要自己補上</b>。順帶記住它與 LRFD 的關係：\\(0.75\\times0.6=0.45\\)，\\(0.45/1.5\\approx0.3\\)。",
+ ok:[2018],no:[2005,2007]},
+
+{g:"銲接",lv:"must",nm:"銲腳尺寸上下限",
+ eq:"$$w_{\\min}:\\ t\\le 6\\!\\to\\!3,\\ 6<t\\le 12\\!\\to\\!5,\\ 12<t\\le 19\\!\\to\\!6,\\ 19<t\\le 38\\!\\to\\!8\\ (\\mathrm{mm})$$",
+ meta:"113 年<b>以圖片嵌入</b>印出這張最小尺寸表（文字抽取看不到，本輪是轉圖目視才發現）。除此之外 24 年再無第二次。而<b>最大尺寸規定從未印過</b>：沿板緣施銲時，板厚 \\(t<6\\) mm 取 \\(w=t\\)，\\(t\\ge 6\\) mm 取 \\(w=t-2\\) mm。96 年 <code>SS-2007-1</code>、104 年 <code>SS-2015-2</code>、108 年 <code>SS-2019-4</code> 的答案都可能被這條上限壓下來。",
+ ok:[2024],no:[2007,2015,2019]},
+
+{g:"銲接",lv:"give",nm:"縱向填角銲的剪力遲滯折減 U = 3L²/(3L²+w²)",
+ eq:"$$U=\\frac{3L^2}{3L^2+w^2}\\qquad(\\text{僅有縱向銲道、無橫向銲道時})$$",
+ meta:"113 年 <code>SS-2024-2</code> 考圓管縱向填角銲時完整印出。這是 AISC D3 的特例條款，24 年只出現這一次而且有給。<b>但要認得它的觸發條件</b>：只有縱向銲、沒有橫向銲，且 \\(L\\ge w\\)（\\(w\\) 是兩條銲道的橫向間距，不是銲腳）。",
+ ok:[2024],no:[]},
+
+{g:"銲接",lv:"must",nm:"填角銲有效長度與斷續銲構造規定",
+ eq:"$$L_{\\text{eff}}\\ge 4w\\ \\text{且}\\ \\ge 40\\ \\mathrm{mm}\\;;\\qquad L>100w\\ \\text{時需折減}\\;;\\qquad \\text{回銲長}\\ge 2w$$",
+ meta:"108 年 <code>SS-2019-4</code> 整題就是求斷續銲道長度 \\(L\\)，<b>算出來的值最後往往由這條下限控制而不是由強度控制</b>，考卷只給了 \\(\\phi 0.6F_{EXX}\\)。113 年設計銲道尺寸同理。105 年（2016）第二題還專門考「回銲（end return）」的定義與適用時機 —— 那年整張零公式。",
+ ok:[],no:[2019,2024]},
+
+{g:"銲接",lv:"must",nm:"開槽銲（CJP / PJP）設計強度",
+ eq:"$$\\text{CJP}:\\ \\phi R_n=0.90F_yA_{BM}\\ (\\text{與母材同強度})\\;;\\qquad \\text{PJP}:\\ \\phi=0.80,\\ 0.60F_{EXX}$$",
+ meta:"「全滲透銲與母材同強度，不必另行檢核銲道」這句話 <b>24 年沒有任何一年印過</b>，但 101 年 <code>SS-2012-4</code>（梁翼全滲透銲）、95 年 <code>SS-2006-5</code>（箱型柱 CJP）都靠它省掉計算。98 年 <code>SS-2009-4</code>① 還要你畫 Single V 與 Single Bevel 的差別。",
+ ok:[],no:[2006,2009,2012,2023,2024]},
+
+{g:"銲接",lv:"must",nm:"0.6 的來源（von Mises）與方向性折減",
+ eq:"$$\\tau_y=\\frac{F_y}{\\sqrt{3}}=0.577F_y\\approx 0.6F_y\\;;\\qquad \\text{規範忽略}\\ (1.0+0.5\\sin^{1.5}\\theta)\\ \\text{的方向增強}$$",
+ meta:"110 年 <code>SS-2021-2</code> <b>白紙黑字要求「請詳細說明式(1)中 </b>\\(0.6F_yA_{gv}\\)<b> 之 </b>\\(0.6F_y\\)<b> 所代表之意義」</b> —— 那一年印了塊剪式，卻沒印它為什麼是 0.6。112 年 <code>SS-2023-4</code>（銲接破壞形式）也需要這個概念來解釋銲喉為何比母材先破壞。這是純觀念題的送分點。",
+ ok:[],no:[2021,2023]},
+
+/* ===== 偏心接合 ===== */
+{g:"偏心接合",lv:"must",nm:"彈性向量法：直接剪力 + 扭矩剪力疊加",
+ eq:"$$M=P\\,e\\;;\\quad R_V=\\frac{P}{n}\\;;\\quad R_M=\\frac{M\\,r_i}{I_p}\\;;\\quad R_{\\max}=\\sqrt{(R_{Vx}+R_{Mx})^2+(R_{Vy}+R_{My})^2}$$",
+ meta:"<b>91、93、94、106 四年、四題、合計 105 分，四次全部零公式。</b>91 年 <code>SS-2002-4</code>（偏心螺栓群 ASD）、93 年 <code>SS-2004-3</code>（托架填角銲 LRFD）、94 年 <code>SS-2005-3</code>（牛腿箱型斷面 ASD）、106 年 <code>SS-2017-4</code>（托架 LRFD）。考卷給的只有材料強度與螺栓／銲道容許值，方法本身完全靠自己。這是本單元 CP 值最高的背誦標的。",
+ ok:[],no:[2002,2004,2005,2017]},
+
+{g:"偏心接合",lv:"must",nm:"螺栓群極慣性矩 Ip",
+ eq:"$$I_p=\\sum\\left(x_i^2+y_i^2\\right)\\qquad(\\text{座標以螺栓群形心為原點})$$",
+ meta:"91、93、106 年三次考偏心螺栓群，三次都沒給。注意兩件事：<b>①</b> 螺栓不等距或排列不對稱時，形心要先用 \\(\\bar{x}=\\sum x_i/n\\) 算過；<b>②</b> \\(I_p\\) 要含<b>全部</b> \\(n\\) 根螺栓，只算單邊是常見錯誤。",
+ ok:[],no:[2002,2004,2017]},
+
+{g:"偏心接合",lv:"must",nm:"銲縫群（線圖）極慣性矩",
+ eq:"$$I_p=\\sum\\left(I_x+I_y\\right)\\;;\\quad \\text{水平段}\\ \\frac{b^3}{12}+b\\bar{y}^2\\;;\\quad \\text{垂直段}\\ \\frac{d^3}{12}+d\\bar{x}^2$$",
+ meta:"107 年是唯一「幫你算好」的一年（直接給銲喉斷面模數 \\(S_w=212.9\\) cm³）。93、94、106 年三次要你自己建線圖。關鍵觀念：<b>把銲道當成寬度 1 的線</b>，所以 \\(I_p\\) 的單位是 cm³ 不是 cm⁴，最後再乘有效喉厚 \\(0.707w\\) 換回力。",
+ ok:[2018],no:[2004,2005,2017]},
+
+{g:"偏心接合",lv:"must",nm:"銲縫群形心（長度加權）",
+ eq:"$$\\bar{x}=\\frac{\\sum L_i x_i}{\\sum L_i}\\;,\\qquad \\bar{y}=\\frac{\\sum L_i y_i}{\\sum L_i}$$",
+ meta:"C 形、L 形銲道的形心不在幾何中心，而偏心距 \\(e\\) 是「外力作用線到<b>形心</b>的距離」—— 形心算錯，後面全錯。94 年 <code>SS-2005-3</code> 的 C 形銲道、106 年 <code>SS-2017-4</code> 的 L 形銲道都卡在這一步。是<b>長度</b>加權不是面積加權。",
+ ok:[],no:[2005,2017]},
+
+{g:"偏心接合",lv:"must",nm:"控制點的判斷規則（不一定是最遠點）",
+ eq:"$$\\text{控制點}=\\arg\\max_i\\left|\\vec{R}_V+\\vec{R}_{M,i}\\right|\\ne \\arg\\max_i r_i$$",
+ meta:"沒有數學符號的部分才是扣分主因：\\(R_M\\) 與 \\(r_i\\) 成正比，但方向垂直於 \\(r_i\\)；<b>只有當 </b>\\(R_M\\)<b> 與 </b>\\(R_V\\)<b> 方向夾角小時合力才最大</b>。四題偏心接合都要你指出哪一根螺栓／哪一點是臨界，四次都沒給規則。實務上要把 2～3 個候選點都算過再比。",
+ ok:[],no:[2002,2004,2005,2017]},
+
+/* ===== 梁柱接頭 · 續接 ===== */
+{g:"梁柱接頭",lv:"must",nm:"翼板力偶與腹板分擔彎矩",
+ eq:"$$M=M_f+M_w\\;;\\qquad F_f=\\frac{M_f}{d-t_f}\\;;\\qquad \\frac{M_f}{M_w}=\\frac{I_f}{I_w}$$",
+ meta:"107 年 <code>SS-2018-3</code> 把 \\(M_f=124.5\\) kNm 與 \\(M_w=25.5\\) kNm <b>直接分好給你</b>，但「怎麼分」與翼板那一半的 \\(F_f=M_f/(d-t_f)\\) 都沒給 —— 而翼板銲道通常是配分較重的一半。95 年 <code>SS-2006-5</code>、101 年 <code>SS-2012-4</code>、113 年 <code>SS-2024-4</code> 更是連結果都沒有。",
+ ok:[2018],no:[2006,2012,2024]},
+
+{g:"梁柱接頭",lv:"must",nm:"銲道組合應力檢核",
+ eq:"$$f_r=\\sqrt{f_x^2+f_y^2+f_z^2}\\le F_w\\quad(\\text{ASD})\\;;\\qquad \\text{或}\\ \\sqrt{\\sigma^2+3\\tau^2}\\le F_w$$",
+ meta:"94 年 <code>SS-2005-3</code>、106 年 <code>SS-2017-4</code>、107 年 <code>SS-2018-3</code> 三題都要把「直接剪力 + 彎矩拉應力」或「垂直 + 水平分量」合成後再比對容許值。<b>三次都沒給合成方式。</b>台灣規範採<b>向量平方和開根</b>（不分正應力剪應力），這一點常被 von Mises 的寫法混淆。",
+ ok:[],no:[2005,2017,2018]},
+
+{g:"梁柱接頭",lv:"must",nm:"節點域（Panel Zone）腹板最小厚度",
+ eq:"$$t_z\\ge\\frac{d_z+w_z}{90}\\qquad(d_z:\\ \\text{梁深},\\ w_z:\\ \\text{柱深})$$",
+ meta:"98 年 <code>SS-2009-4</code>①（韌性抗彎矩構架的 \\(t_z\\) 最小厚度限制）<b>就是直接問這條</b>，95 年 <code>SS-2006-5</code> 問連續板的功能與缺少連續板的破壞情形。兩次考到、零次印出。順便記住節點域剪力需求 \\(V_u=\\sum M_{pb}/(d_b-t_f)-V_c\\)。",
+ ok:[],no:[2006,2009]},
+
+{g:"梁柱接頭",lv:"half",nm:"續接之最小接合強度規定",
+ eq:"$$R_{\\text{接合}}\\ge 0.5\\,R_{\\text{構材}}\\quad(\\text{梁續接不得小於構材強度之一半})$$",
+ meta:"109 年 <code>SS-2020-4</code> 把這條規定<b>寫進題幹</b>（「規範規定：梁續接之接合強度不得小於梁桿件強度之一半」）—— 因為它是整題的設計依據，不給就沒法解。但 93 年 <code>SS-2004-2</code> 的拉力構材續接要求「在規定範圍內盡量縮短接合長度」，那條最短接合長度的規定就沒給。給不給看它是不是題目的必要條件。",
+ ok:[2020],no:[2004]},
+
+{g:"梁柱接頭",lv:"must",nm:"剪力流 q = VQ/I（蓋板銲道與斷續銲間距）",
+ eq:"$$q=\\frac{VQ}{I}\\;;\\qquad s=\\frac{2\\,\\phi R_{n,\\text{每段}}}{q}\\quad(\\text{雙側銲})$$",
+ meta:"108 年 <code>SS-2019-4</code>（H 型鋼上翼板加銲蓋板、斷續銲）<b>整題就是這一條</b>，而該年的參考公式只有一行「\\(\\phi 0.6F_{EXX}\\)，\\(\\phi=0.75\\)」。\\(Q\\) 是蓋板對中性軸的一次矩 \\(A_{\\text{蓋板}}\\bar{y}\\)、\\(I\\) 是<b>組合後</b>的慣性矩，兩個都要自己算 —— 這才是這題的真正難度。",
+ ok:[],no:[2019]},
+
+{g:"梁柱接頭",lv:"must",nm:"耐震接頭：強柱弱梁與塑鉸外移",
+ eq:"$$\\frac{\\sum M^*_{pc}}{\\sum M^*_{pb}}>1.0\\;;\\qquad \\text{RBS}\\ \\text{削弱}\\ \\ 0.5b_f\\!\\le\\! a\\!\\le\\!0.75b_f,\\ 0.65d\\!\\le\\! b\\!\\le\\!0.85d$$",
+ meta:"109 年 <code>SS-2020-1</code>（補強式 vs 削弱式接頭的力學原理）、101 年 <code>SS-2012-2</code>（塑鉸區側撐）、113 年 <code>SS-2024-4</code>（梁柱接頭潛在破壞模式）三次考到，<b>零次給任何數字</b>。要能講出 Northridge 之後的兩條路：把接頭補強（蓋板、肋板）或把梁削弱（RBS 犬骨），目的都是<b>讓塑鉸離開銲道熱影響區</b>。",
+ ok:[],no:[2012,2020,2024]},
+
+/* ===== 構造 · 施工規定 ===== */
+{g:"構造施工",lv:"must",nm:"塑性轉角需求（SMRF 0.03 rad）",
+ eq:"$$\\theta_p\\ge 0.03\\ \\mathrm{rad}\\ (\\text{韌性抗彎矩構架})\\;;\\qquad \\theta_p\\ge 0.02\\ \\mathrm{rad}\\ (\\text{部分韌性})$$",
+ meta:"101 年 <code>SS-2012-2</code>① 直接問「韌性抗彎矩構架接頭所需的塑性轉角需求規定」。純記憶題，考卷不可能給。同一題②還要畫塑鉸區側撐的施作方式與間距原則（\\(L_b\\le 0.086 r_yE/F_y\\)）。",
+ ok:[],no:[2012]},
+
+{g:"構造施工",lv:"must",nm:"箱型柱鋼板厚度與 SN 鋼材等級規定",
+ eq:"$$t\\ge 40\\ \\mathrm{mm}\\ \\Rightarrow\\ \\text{須用 SN400C / SN490C}\\ (\\text{含板厚方向}\\ Z\\ \\text{向性能})$$",
+ meta:"98 年 <code>SS-2009-4</code>② 直接問「箱型鋼柱之鋼板厚度大於或等於多少 mm 時應使用 SN400C／SN490C」，113 年 <code>SS-2024-4</code> 問層狀撕裂（lamellar tearing）的預防 —— 兩題同一個知識點的兩面。C 級的關鍵是<b>板厚方向斷面縮率 </b>\\(\\ge 25\\%\\)，用來抵抗層狀撕裂。105 年還考過 SN490B 與 SN490C 的降伏比規定（\\(\\le 80\\%\\)）與 Charpy 值。",
+ ok:[],no:[2009,2024]},
+
+{g:"構造施工",lv:"must",nm:"工地銲接環境限制",
+ eq:"$$\\text{相對溼度}>90\\%\\ \\text{或}\\ \\text{風速}>5\\ \\mathrm{m/s}\\ (\\text{氣體遮護法}\\ 2\\ \\mathrm{m/s})\\ \\Rightarrow\\ \\text{不得施銲}$$",
+ meta:"95 年 <code>SS-2006-2</code>④ 直接問「在何種相對溼度與多大風速之下不得進行工地現場銲接」—— 而那一年整張考卷零公式。另外 91 年也考過「銲條與銲藥要保持乾燥的原因」（防止氫氣進入銲道造成氫致裂縫 / 冷裂）。這類數字沒有任何推導可言，只能記。",
+ ok:[],no:[2006]},
+
+{g:"構造施工",lv:"must",nm:"銲接方法縮寫（SMAW / SAW / FCAW / ESW）",
+ eq:"$$\\text{SMAW 被覆電弧}\\;;\\ \\text{SAW 潛弧}\\;;\\ \\text{FCAW 包藥銲線}\\;;\\ \\text{ESW 電熱熔渣}$$",
+ meta:"95 年問 FCAW 全名與中譯、98 年問 SAW、113 年 <code>SS-2024-4</code> 考電熱熔渣銲（ESW）在箱型柱隔板的應用與其<b>高輸入熱造成 HAZ 粗晶脆化</b>的問題。三年三次，全是送分或全失分。記各自的適用位置：SAW 工廠平銲長銲道、FCAW 工地全位置、ESW 厚板垂直一次成型。",
+ ok:[],no:[2006,2009,2024]},
+
+{g:"構造施工",lv:"must",nm:"NDT 方法與瑕疵的對應",
+ eq:"$$\\text{VT 外觀}\\;;\\ \\text{PT 表面開口}\\;;\\ \\text{MT 表面／近表面}\\;;\\ \\text{RT 內部體積型}\\;;\\ \\text{UT 內部面狀型（裂縫、未熔合）}$$",
+ meta:"98 年問 UT 全名、110 年 <code>SS-2021-1</code> 給四種瑕疵要你各配一種檢測法（25 分整題）、111 年問韌性抗彎鋼構架的重要銲接部位與所需 NDT、113 年問檢測方式。<b>四年四次，全部零提示。</b>關鍵判斷：<b>面狀（裂縫、未熔合、層狀撕裂）用 UT，體積狀（氣孔、夾渣）用 RT</b> —— 這一句能答對四題裡的一大半。",
+ ok:[],no:[2009,2021,2022,2024]}
+];
+
+/* 逐年證據表：欄位依序 U / Tn / 塊剪 / 螺栓剪 / 承壓 / 摩阻 / 填角銲 / 0.707 / 銲腳尺寸 / 偏心 */
+const MX=[
+ [2002,"91","SS-2002-4",0,0,0,1,1,1,0,0,0,0,"ASD 螺栓容許應力全表＋三條 \\(F_p\\) 承壓式；<b>偏心彈性向量法整套未給</b>"],
+ [2003,"92","SS-2003-3（副 -1）",1,1,0,1,1,0,0,0,0,0,"給法最慷慨的一年：\\(A_e=UA_n\\)、U 表、承壓全套分支、\\(\\phi_t\\) 兩值、拉剪互制"],
+ [2004,"93","SS-2004-2, -3",0,0,0,1,0,1,1,0,0,0,"給規範表 10.2.5 銲接設計強度；托架偏心銲一條方法都沒有"],
+ [2005,"94","SS-2005-3（副 -1）",1,0,0,1,1,0,0,0,0,0,"給 U 表與 \\(2.4dtF_u\\)；ASD 銲道容許應力與偏心法皆缺"],
+ [2006,"95","SS-2006-2, -5",0,0,0,0,0,0,0,0,0,0,"<b>整張零公式</b>，而該年兩題都是 U1-4（螺栓施工＋梁柱接頭）"],
+ [2007,"96","SS-2007-1",1,0,0,0,0,0,0,0,0,0,"題目內文給 \\(U=0.85\\) 與銲材 \\(F_u=4.9\\)；第三頁公式集<b>全是梁柱與挫屈</b>"],
+ [2008,"97","（—）",0,0,0,0,0,0,0,0,0,0,"參考公式最齊的一年之一，但<b>沒有一條與接合有關</b>"],
+ [2009,"98","SS-2009-4",0,0,0,0,0,0,0,0,0,0,"<b>零公式</b>；整題五小問全是構造與施工規定的數字"],
+ [2010,"99","（—）",0,0,0,0,0,0,0,0,0,0,"參考公式集僅柱與梁"],
+ [2011,"100","（—）",0,0,0,0,0,0,0,0,0,0,"參考公式集僅柱、梁、穩定"],
+ [2012,"101","SS-2012-4（副 -2）",0,0,0,1,1,0,0,0,0,0,"給 \\(R_n=1.2L_ctF_u\\le2.4dtF_u\\) 與螺栓標稱剪力 330 MPa；<b>\\(\\phi\\)、剪力板降伏／斷裂、塊剪皆無</b>"],
+ [2013,"102","（—）",0,0,0,0,0,0,0,0,0,0,"對位圖與萊梅厥公式（皆為影像頁）"],
+ [2014,"103","（—）",0,0,0,0,0,0,0,0,0,0,"僅 \\(C_b\\) 與 P-M 互制式"],
+ [2015,"104","SS-2015-2（副）",1,1,1,0,0,0,1,0,0,0,"接合公式最完整的一年：U 表、\\(T_{ds}\\) 兩式、塊剪雙式、填角銲 —— <b>但喉厚 \\(0.707w\\) 沒給卻要你求 \\(w\\)</b>"],
+ [2016,"105","（—）",0,0,0,0,0,0,0,0,0,0,"考回銲（end return）觀念，整張零公式"],
+ [2017,"106","SS-2017-2, -4",0,0,0,0,0,0,1,0,0,0,"給 \\(\\phi 0.6F_{EXX}\\)、\\(\\phi=0.75\\) 與有效喉厚 10 mm（繞過 0.707）；偏心法未給"],
+ [2018,"107","SS-2018-3",0,0,0,0,0,0,1,1,0,0,"把 \\(S_w\\)、\\(\\tau_{w1}\\)、\\(f_a=90.5\\) 全算好；<b>但彎矩怎麼分成翼板／腹板沒給</b>"],
+ [2019,"108","SS-2019-4",0,0,0,0,0,0,1,0,0,0,"僅一行「\\(\\phi 0.6F_{EXX}\\)，\\(\\phi=0.75\\)」；剪力流 \\(VQ/I\\) 與斷續銲構造規定皆無"],
+ [2020,"109","SS-2020-4",0,0,0,1,0,0,0,0,0,0,"題內給 \\(F_{va}=2.8\\) 與續接強度規定；第 3 頁參考資料<b>全是柱與梁柱</b>"],
+ [2021,"110","SS-2021-2, -4",0,0,1,0,0,0,0,0,0,0,"塊剪雙式印兩次（題內＋參考區）並寫明 \\(\\phi=0.75\\)；卻要你解釋 \\(0.6F_y\\) 的意義"],
+ [2022,"111","（副 -2）",0,0,0,0,0,0,0,0,0,0,"插銷接合三式（\\(F_u(2tb_e)\\)、\\(0.6F_uA_{sf}\\)、\\(1.8F_yA_{pb}\\)）為冷門特例，全斷面降伏那條反而沒給"],
+ [2023,"112","SS-2023-4",0,0,0,0,0,0,0,0,0,0,"<b>U1-4 零公式</b>（申論題：銲接接合的破壞形式）"],
+ [2024,"113","SS-2024-4（副 -2）",1,0,0,0,0,0,0,0,1,0,"給 \\(U=1-\\bar{x}/L\\)、\\(\\bar{x}=D/\\pi\\)、\\(U=3L^2/(3L^2+w^2)\\) 與<b>最小銲腳尺寸表（圖片嵌入）</b>；銲道強度式全無"],
+ [2025,"114","（—）",0,0,0,0,0,0,0,0,0,0,"<b>整張考卷零參考公式</b>"]
+];
+
+/* ---------- 渲染 ---------- */
+const LVN={must:["🔴 必背","must"],half:["🟠 別賭","half"],give:["🟢 通常會給","give"]};
+const box=document.getElementById('cards');
+function yrs(a,cls){return a.map(y=>`<span class="yr ${cls}">${y-1911}年</span>`).join('')}
+function render(){
+  const lv=document.querySelector('[data-k="lv"].on').dataset.v;
+  const g=document.querySelector('[data-k="g"].on').dataset.v;
+  const sel=F.filter(f=>(lv==='all'||f.lv===lv)&&(g==='all'||f.g===g));
+  box.innerHTML=sel.map(f=>`
+    <div class="fc ${f.lv}">
+      <div class="top">
+        <span class="nm">${f.nm}</span>
+        <span class="tag ${f.lv}">${LVN[f.lv][0]}</span>
+        <span class="tag grp">${f.g}</span>
+      </div>
+      <div class="eq">${f.eq}</div>
+      <p class="meta">${f.meta}</p>
+      <div class="ev">
+        ${f.ok.length?`<b>考卷給過：</b>${yrs(f.ok,'ok')}`:'<b>考卷給過：</b><span style="color:var(--must)">從未</span>'}
+        ${f.no.length?`　｜　<b>考了卻沒給：</b>${yrs(f.no,'no')}`:''}
+      </div>
+    </div>`).join('');
+  document.getElementById('count').textContent=`顯示 ${sel.length} / ${F.length} 條`;
+  if(window.renderMathInElement)renderMathInElement(box,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+}
+document.querySelectorAll('button.f').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll(`button.f[data-k="${b.dataset.k}"]`).forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');render();
+}));
+
+const tb=document.querySelector('#mx tbody');
+tb.innerHTML=MX.map(r=>{
+  const has=r[2]!=='(—)';
+  const cells=r.slice(3,13).map(v=>`<td class="c">${v?'<span class="y">✔</span>':'<span class="n">·</span>'}</td>`).join('');
+  return `<tr style="${has?'background:#fafcfd':''}">
+    <td><b>${r[0]}</b><br><span style="font-size:.85em;color:var(--mut)">${r[1]}年</span></td>
+    <td style="font-size:.9em">${r[2]}</td>${cells}
+    <td style="font-size:.9em">${r[13]}</td></tr>`;
+}).join('');
+
+render();
+window.addEventListener('load',()=>{if(window.renderMathInElement)renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});});
+</script>
+</body>
+</html>

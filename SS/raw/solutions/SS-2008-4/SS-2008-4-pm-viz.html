@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>SS-2008-4 P-M 互制圖</title>
+<style>
+  body { font-family: "Noto Sans TC", Arial, sans-serif; background: #f8f9fa; margin: 20px; }
+  .container { max-width: 700px; margin: auto; background: white; border-radius: 10px;
+               padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+  h2 { color: #2c3e50; font-size: 1.1rem; margin-bottom: 4px; }
+  .subtitle { color: #666; font-size: 0.85rem; margin-bottom: 20px; }
+  canvas { display: block; margin: 0 auto 16px; border: 1px solid #ddd; border-radius: 6px; }
+  .result-box { background: #f1f3f5; border-radius: 8px; padding: 14px; margin-top: 14px;
+                 font-size: 0.85rem; line-height: 1.8; }
+  .ratio-value { font-size: 1.4rem; font-weight: bold; color: #e74c3c; }
+  .status { font-size: 1.0rem; font-weight: bold; color: #e74c3c; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 12px; }
+  th { background: #34495e; color: white; padding: 6px 10px; }
+  td { padding: 5px 10px; border-bottom: 1px solid #eee; }
+  tr:hover { background: #f9f9f9; }
+  .note { font-size: 0.78rem; color: #888; margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>SS-2008-4 — P-M 互制圖（ASD）</h2>
+  <div class="subtitle">W型鋼梁柱（偏心+側向力）ASD 求最大容許P | 斷面：W型鋼（A36，A=76cm²）</div>
+  <canvas id="chart" width="580" height="420"></canvas>
+  <div class="result-box">
+    <table>
+      <tr><th colspan="3">應力驗算</th></tr>
+      <tr><td>fa = 0.1461 tf/cm²</td><td>Fa = 0.7 tf/cm²</td><td>fa/Fa = <b>0.209</b></td></tr>
+      <tr><td>fbx = 3.661313160987074 tf/cm²</td><td>Fbx = 1.5 tf/cm²</td><td>fbx/Fbx = <b>2.441</b></td></tr>
+      
+    </table>
+    <div style="margin-top:10px">
+      <b>穩定式 + 強度式（fa/Fa > 0.15）</b><br>
+      互制比 = <span class="ratio-value">2.978</span>
+      &nbsp;<span class="status">N.G. ❌</span>
+    </div>
+    <div class="note">穩定方程式求最大P：fa/Fa + Cm·fbx/[(1-fa/F'ex)Fbx] = 1.0<br>最大容許 P ≈ 11.1 tf（穩定式控制）<br>fa/Fa = 0.209 &gt; 0.15 → 使用完整互制式<br>偏心距 d = 25cm，側向力 H = 2.5t</div>
+  </div>
+  <div class="note">※ 本題為求最大P（逆向設計），P=11.1tf 時互制比 = 1.0（充分利用）</div>
+</div>
+<script>
+const canvas = document.getElementById('chart');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const PAD = {left:60, right:30, top:30, bottom:50};
+const cW = W - PAD.left - PAD.right;
+const cH = H - PAD.top - PAD.bottom;
+const threshold = 0.15;
+
+function toX(m) { return PAD.left + Math.min(m, 1.5) / 1.5 * cW; }
+function toY(p) { return PAD.top + (1 - Math.min(p, 1.5) / 1.5) * cH; }
+
+// Background
+ctx.fillStyle = '#fafafa';
+ctx.fillRect(0,0,W,H);
+
+// Grid
+ctx.strokeStyle = '#e0e0e0'; ctx.lineWidth = 1;
+for (let i=0; i<=10; i++) {
+  let x = PAD.left + i/10*cW, y = PAD.top + i/10*cH;
+  ctx.beginPath(); ctx.moveTo(x, PAD.top); ctx.lineTo(x, H-PAD.bottom); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(W-PAD.right, y); ctx.stroke();
+}
+
+// ASD interaction lines
+// fa/Fa ≤ 0.15: fa/Fa + ΣM ≤ 1 → line from (0,1) to (1,0)
+// fa/Fa > 0.15: 穩定式 is more complex; draw simplified boundary
+// Simple boundary: diagonal from (0,1) to (1,0)
+ctx.fillStyle = 'rgba(52,152,219,0.08)';
+ctx.beginPath();
+ctx.moveTo(toX(0), toY(1)); ctx.lineTo(toX(1), toY(0));
+ctx.lineTo(toX(0), toY(0)); ctx.closePath(); ctx.fill();
+
+ctx.strokeStyle = '#2980b9'; ctx.lineWidth = 2.5;
+ctx.beginPath(); ctx.moveTo(toX(0), toY(1)); ctx.lineTo(toX(1), toY(0)); ctx.stroke();
+
+// fa/Fa = threshold line (vertical dashed)
+ctx.strokeStyle = '#e67e22'; ctx.lineWidth = 1.5; ctx.setLineDash([4,4]);
+ctx.beginPath(); ctx.moveTo(toX(0), toY(threshold)); ctx.lineTo(toX(1.2), toY(threshold)); ctx.stroke();
+ctx.setLineDash([]);
+
+// Design point
+const dp_p = 0.209;
+const dp_m = 2.441;
+const dpX = toX(dp_m), dpY = toY(dp_p);
+ctx.beginPath(); ctx.arc(dpX, dpY, 8, 0, 2*Math.PI);
+ctx.fillStyle = '#e74c3c'; ctx.fill();
+ctx.strokeStyle = 'white'; ctx.lineWidth = 2; ctx.stroke();
+ctx.fillStyle = '#2c3e50'; ctx.font = '12px Arial';
+ctx.fillText(`設計點 (2.441, 0.209)`, dpX+12, dpY-10);
+ctx.fillText(`互制比 = 2.978`, dpX+12, dpY+6);
+
+// Axes
+ctx.strokeStyle = '#2c3e50'; ctx.lineWidth = 2;
+ctx.beginPath(); ctx.moveTo(PAD.left, PAD.top); ctx.lineTo(PAD.left, H-PAD.bottom); ctx.stroke();
+ctx.beginPath(); ctx.moveTo(PAD.left, H-PAD.bottom); ctx.lineTo(W-PAD.right, H-PAD.bottom); ctx.stroke();
+
+ctx.fillStyle = '#2c3e50'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center';
+ctx.fillText('fbx/Fbx + fby/Fby', W/2, H-8);
+ctx.save(); ctx.translate(14, H/2); ctx.rotate(-Math.PI/2);
+ctx.fillText('fa / Fa', 0, 0); ctx.restore();
+
+ctx.font = '11px Arial'; ctx.textAlign = 'center'; ctx.fillStyle = '#555';
+for (let i=0; i<=10; i++) {
+  ctx.fillText((i/10).toFixed(1), PAD.left+i/10*cW, H-PAD.bottom+16);
+}
+ctx.textAlign = 'right';
+for (let i=0; i<=10; i++) {
+  ctx.fillText((i/10*1.5).toFixed(2), PAD.left-6, PAD.top+i/10*cH+4);
+}
+
+ctx.font = '11px Arial'; ctx.textAlign = 'left'; ctx.fillStyle = '#2980b9';
+ctx.fillText('─ 互制邊界線 (ASD)', PAD.left+10, PAD.top+20);
+ctx.fillStyle = '#e67e22';
+ctx.fillText(`--- fa/Fa = 0.15 分界`, PAD.left+10, PAD.top+36);
+</script>
+</body>
+</html>

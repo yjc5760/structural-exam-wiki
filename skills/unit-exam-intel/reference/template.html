@@ -1,0 +1,286 @@
+<!-- =====================================================================
+  unit-exam-intel — 單元命題情報頁模板
+  ---------------------------------------------------------------------
+  用法：
+    1. 複製本檔為 study/study-XX-Un-m.html
+    2. 全域取代所有 {{...}} 佔位符
+    3. 換掉 Q[] 陣列、CATC / CATN 分群定義
+    4. 依 SKILL.md Step 3 改寫六個 <h3> 區塊的文字內容
+    5. 跑 scripts/verify.py 對帳
+
+  佔位符清單：
+    {{UNIT}}         單元代號，如 SS-U1-1
+    {{UNIT_NAME}}    單元正式名稱（取自 syllabus_taxonomy.json）
+    {{SUBJECT_NAME}} 科目全名，如 鋼結構設計
+    {{SUBJECT_Q}}    全科題數
+    {{EXAM_YEARS}}   考年總數
+    {{YEAR_FROM}} / {{YEAR_TO}}  考年範圍
+    {{DATE}}         產生日期
+
+  本檔內的文字內容取自 SS-U1-1 實例，僅供結構參考——
+  ★ 每個單元的解讀、漂移結論、風險理由都必須重寫，不可沿用。
+  ★ 每個數字都必須來自 scripts/stats.py，不可沿用也不可手打。
+===================================================================== -->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{UNIT}} {{UNIT_NAME}}｜命題分析</title>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--t:#f57c00;--k:#2e7d32;--c:#1565c0;--x:#8e24aa;
+--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#78909c;--bd:#e0e6ea;--warn:#c62828}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:28px 24px}
+header h1{margin:0 0 6px;font-size:1.5em}header p{margin:0;opacity:.85;font-size:.92em}
+nav{position:sticky;top:0;z-index:9;background:#fff;border-bottom:2px solid var(--bd);padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{text-decoration:none;color:var(--ac);font-size:.88em;padding:5px 10px;border-radius:16px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+section{margin-bottom:34px}
+h2{font-size:1.25em;border-left:5px solid var(--ac);padding-left:10px;margin:26px 0 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+h3{font-size:1.05em;margin:30px 0 10px;padding-bottom:5px;border-bottom:2px solid var(--ac2)}
+.role{background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:8px;padding:12px 16px;font-size:.88em;margin-bottom:6px}
+.role b{color:#e65100}
+.btnbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.btnbar a{padding:5px 14px;border-radius:6px;font-size:.9em;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi .n{font-size:1.9em;font-weight:700;color:var(--ac)}.kpi .l{font-size:.82em;color:var(--mut)}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:14px}
+.cat{background:var(--card);border:1px solid var(--bd);border-left:6px solid;border-radius:10px;padding:12px 14px;cursor:pointer;transition:.15s}
+.cat:hover{transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.cat h3{margin:0 0 4px;font-size:1em;border:none;padding:0}.cat p{margin:0;font-size:.82em;color:var(--mut)}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:760px){.charts{grid-template-columns:1fr}}
+.chartbox{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px}
+.chartbox h4{margin:0 0 8px;font-size:.95em;color:var(--mut)}
+canvas{width:100%;height:auto}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:middle}
+th{background:var(--ac2)}
+td.num{text-align:center;font-variant-numeric:tabular-nums}
+.bar{display:inline-block;height:12px;border-radius:3px;vertical-align:middle}
+.up{color:#2e7d32;font-weight:700}.down{color:var(--warn);font-weight:700}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.fbtn{border:1px solid var(--bd);background:#fff;border-radius:18px;padding:6px 14px;cursor:pointer;font-size:.88em;font-family:inherit}
+.fbtn.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.qrow{background:var(--card);border:1px solid var(--bd);border-left:6px solid;border-radius:8px;padding:10px 14px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.qrow.sec{background:#fafafa;border-style:dashed}
+.qrow a{font-weight:700;text-decoration:none;color:var(--ac);min-width:92px}
+.qrow a:hover{text-decoration:underline}
+.qrow .sum{flex:1;min-width:200px;font-size:.92em}
+.qrow .tags{font-size:.75em;color:var(--mut)}
+.qrow .meta{font-size:.72em;white-space:nowrap;color:#fff;border-radius:10px;padding:1px 8px}
+.note{font-size:.85em;color:var(--mut);background:#fff;border:1px dashed var(--bd);border-radius:8px;padding:10px 14px;margin-top:12px}
+.risk-hi{background:#ffebee}.risk-md{background:#fff8e1}.risk-lo{background:#f1f8e9}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:20px}
+</style>
+</head>
+<body>
+<header>
+<h1>{{UNIT}} {{UNIT_NAME}} — 命題分析</h1>
+<p>結構技師「{{SUBJECT_NAME}}」子項命題情報頁｜資料來源：raw/json/question_index.json（{{YEAR_FROM}}–{{YEAR_TO}}，{{EXAM_YEARS}} 個考年、{{SUBJECT_Q}} 題）｜更新日期 {{DATE}}</p>
+</header>
+<nav>
+<a href="#b1">出題概況</a><a href="#b2">考點結構</a><a href="#b3">考點漂移</a>
+<a href="#b4">ASD／LRFD</a><a href="#b5">考題清單</a><a href="#b6">命題風險</a>
+</nav>
+<main>
+
+<section id="s1">
+<h2><span>命題分析</span></h2>
+
+<div class="role">
+📚 <b>本頁只回答一件事：這個子項「考什麼」。</b>
+原理與圖解看 <b>觀念講義</b>、公式要不要背看 <b>給／背分界</b>、本頁提供的是可從 <code>question_index.json</code> 重生的命題事實：頻率、結構、漂移、方法別、清單、風險。<br>
+建議順序：<b style="color:#6a1b9a;">觀念講義</b>（練題前建立直覺）→ <b style="color:var(--warn);">給／背分界</b>（決定記憶投資）→ <b>本頁</b>（決定練題順序與押題）。
+</div>
+<div class="btnbar">
+  <a href="lecture-{{UNIT}}.html" title="原理圖解、公式來源、自我檢測、精選必練 5 題" style="background:#6a1b9a;color:#fff;">觀念講義 📘</a>
+  <a href="lecture-{{UNIT}}.pdf" target="_blank" style="background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8;">講義 PDF 🖨️</a>
+  <a href="formula-given-{{UNIT}}.html" title="30 條公式 × 24 年考卷證據：哪些會印給你、哪些必須自己背" style="background:#c62828;color:#fff;">給／背分界 🎯</a>
+  <a href="formula-given-{{UNIT}}.pdf" target="_blank" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;">分界 PDF 🖨️</a>
+</div>
+
+<h3 id="b1">出題概況</h3>
+<div class="kpis">
+<div class="kpi"><div class="n">24</div><div class="l">主考點題數（另有 7 題副考點）</div></div>
+<div class="kpi"><div class="n">24.5%</div><div class="l">佔全科比例（24／98）</div></div>
+<div class="kpi"><div class="n">#1</div><div class="l">全科出題排名（U1-2 21 題居次）</div></div>
+<div class="kpi"><div class="n">4/6</div><div class="l">近 6 考年出題年數（2020–25 共 6 題）</div></div>
+</div>
+<div class="charts">
+<div class="chartbox"><h4>年度分布（依題型堆疊，主考點 24 題）</h4><canvas id="cvBar" width="520" height="260"></canvas></div>
+<div class="chartbox"><h4>題型比例</h4><canvas id="cvPie" width="520" height="260"></canvas></div>
+</div>
+<div class="note">
+📌 <b>三個要記住的數字</b>：① 全科第一大單元，每四題就有一題出自這裡；② 24 個考年裡 18 年出現過，是「幾乎年年見面」的單元；③ 2019–2021 連續三年空白，2022 起連四年回歸（6 題），空窗不代表退場。
+</div>
+
+<h3 id="b2">考點結構（點卡片可篩選下方考題清單）</h3>
+<div class="cats">
+<div class="cat" style="border-left-color:var(--t)" onclick="filterQ('T')"><h3>🔩 拉力桿件（5 題）</h3><p>剪力遲滯 U、淨斷面斷裂、塊狀剪力、插銷接合</p></div>
+<div class="cat" style="border-left-color:var(--k)" onclick="filterQ('K')"><h3>📐 有效長度 K 值（7 題）</h3><p>對位圖、LeMessurier、靠桿效應、側移構架</p></div>
+<div class="cat" style="border-left-color:var(--c)" onclick="filterQ('C')"><h3>🏛️ 柱挫屈強度（8 題）</h3><p>柱強度曲線、λc、殘留應力、切線模數</p></div>
+<div class="cat" style="border-left-color:var(--x)" onclick="filterQ('X')"><h3>🧱 組合／複合柱（4 題）</h3><p>SRC 複合柱、組合柱平行軸定理</p></div>
+</div>
+
+<h3 id="b3">考點漂移：前 12 年 vs. 後 12 年</h3>
+<p style="font-size:.9em;margin:0 0 10px;color:var(--mut)">把 2002–2013（12 題）與 2014–2025（12 題）對切，題數剛好各半，可直接比較結構變化。</p>
+<table>
+<thead><tr><th>題型</th><th class="num">2002–2013</th><th class="num">2014–2025</th><th class="num">變化</th><th>解讀</th></tr></thead>
+<tbody>
+<tr><td><span class="bar" style="width:12px;background:var(--k)"></span> 有效長度 K 值</td><td class="num">6</td><td class="num">1</td><td class="num down">▼ −5</td><td>對位圖／LeMessurier <b>近 12 年只出過 1 題（2023-1，且是概念題）</b>；最後一題計算型在 2013-2，已空窗 12 年</td></tr>
+<tr><td><span class="bar" style="width:12px;background:var(--c)"></span> 柱挫屈強度</td><td class="num">2</td><td class="num">6</td><td class="num up">▲ +4</td><td>現在的主戰場。柱強度曲線推導＋殘留應力／切線模數三度重複（2014-1、2016-3、2024-1）</td></tr>
+<tr><td><span class="bar" style="width:12px;background:var(--t)"></span> 拉力桿件</td><td class="num">1</td><td class="num">4</td><td class="num up">▲ +3</td><td>剪力遲滯 U 值連兩年出現（2024-2、2025-2），且載體從螺栓換到銲接與圓管 HSS</td></tr>
+<tr><td><span class="bar" style="width:12px;background:var(--x)"></span> 組合／複合柱</td><td class="num">3</td><td class="num">1</td><td class="num down">▼ −2</td><td>SRC 複合柱最後一次為 2003-2；組合柱最後一次 2015-3，已空窗 10 年</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>一句話</b>：這個單元的重心從「<b>穩定分析（K 值怎麼查）</b>」漂到「<b>強度曲線的物理來源（Fcr 為什麼長這樣）</b>」。
+若你的複習時間依「歷史總題數」分配，會嚴重高估 K 值、低估柱強度曲線推導。
+</div>
+
+<h3 id="b4">設計法走向：ASD 沒有退場</h3>
+<table>
+<thead><tr><th>期間</th><th class="num">LRFD</th><th class="num">ASD</th><th class="num">混合</th><th class="num">純概念</th><th>觀察</th></tr></thead>
+<tbody>
+<tr><td>2002–2013</td><td class="num">8</td><td class="num">1</td><td class="num">2</td><td class="num">1</td><td>LRFD 一面倒</td></tr>
+<tr><td>2014–2025</td><td class="num">6</td><td class="num">5</td><td class="num">0</td><td class="num">1</td><td><b>ASD 由 1 題增至 5 題</b></td></tr>
+<tr style="background:#fff8e1"><td><b>近 4 年 2022–25</b></td><td class="num">2</td><td class="num"><b>3</b></td><td class="num">0</td><td class="num">1</td><td>ASD 反而過半（2022-2、2023-2、2025-2）</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>對複習的直接影響</b>：ASD 那套（<code>Cc</code>、變動的 <code>FS</code>、<code>Fa</code> 兩段式）不能當成「舊制度」跳過。
+兩套判別分界不同（LRFD 看 <code>λc</code> 與 1.5、ASD 看 <code>KL/r</code> 與 <code>Cc</code>），是本單元最常見的混用錯誤。
+公式在考卷上給不給，見 <a href="formula-given-{{UNIT}}.html">給／背分界</a>。
+</div>
+
+<h3 id="b5">考題清單（主 24 ＋ 副 7 ＝ 31 題，點題號開啟解析）</h3>
+<div class="filters">
+<button class="fbtn on" onclick="filterQ('ALL',this)">全部（31）</button>
+<button class="fbtn" onclick="filterQ('T',this)">拉力桿件（8）</button>
+<button class="fbtn" onclick="filterQ('K',this)">有效長度 K（9）</button>
+<button class="fbtn" onclick="filterQ('C',this)">柱挫屈強度（9）</button>
+<button class="fbtn" onclick="filterQ('X',this)">組合／複合柱（5）</button>
+<button class="fbtn" onclick="filterQ('PRI',this)">僅主考點（24）</button>
+<button class="fbtn" onclick="filterQ('SEC',this)">僅副考點（7）</button>
+</div>
+<div id="qlist"></div>
+<div class="note">虛線灰底＝副考點（主考點在別的子項，但解題會用到 U1-1 的知識）。標籤色塊為設計法：<b>LRFD／ASD／混合／概念題</b>。</div>
+
+<h3 id="b6">命題風險排序（下一次最可能考什麼）</h3>
+<p style="font-size:.9em;margin:0 0 10px;color:var(--mut)">依「歷史頻率 × 空窗年數 × 近年趨勢」排序。這是推測而非預言，用途是決定<b>練題順序</b>。</p>
+<table>
+<thead><tr><th>風險</th><th>考點</th><th class="num">歷史題數</th><th>最後出現</th><th class="num">空窗</th><th>理由</th></tr></thead>
+<tbody>
+<tr class="risk-hi"><td><b>高</b></td><td>柱強度曲線推導＋殘留應力／切線模數</td><td class="num">3</td><td>2024-1</td><td class="num">1 年</td><td>近 12 年出現 3 次且題型幾乎重複（畫曲線＋說明比例限 0.5F<sub>y</sub>），是最穩定的送分題型</td></tr>
+<tr class="risk-hi"><td><b>高</b></td><td>剪力遲滯 U 值（銲接／HSS 載體）</td><td class="num">5</td><td>2025-2</td><td class="num">0 年</td><td>連兩年出題且每次換載體（螺栓→縱向填角銲→圓管 HSS），下一個未考過的載體是可預期的變形</td></tr>
+<tr class="risk-md"><td><b>中高</b></td><td>對位圖 G 值／LeMessurier <u>計算題</u></td><td class="num">7</td><td>2013-2（計算）</td><td class="num">12 年</td><td>歷史第二高頻卻長期空窗；2023-1 以概念題形式回鍋，可能是計算題復出的前兆</td></tr>
+<tr class="risk-md"><td><b>中高</b></td><td>組合柱平行軸定理（雙槽鋼／雙角鋼）</td><td class="num">4</td><td>2015-3</td><td class="num">10 年</td><td>計算量適中、可與 ASD 檢核綁定出題，符合近年 ASD 回升的走向</td></tr>
+<tr class="risk-lo"><td><b>中</b></td><td>塊狀剪力多路徑取小</td><td class="num">3</td><td>2015-2</td><td class="num">10 年</td><td>常以接合題（U1-4）的子問題形式出現，未必以 U1-1 主考點現身</td></tr>
+<tr class="risk-lo"><td><b>低</b></td><td>SRC 包覆型複合柱 F<sub>my</sub>／E<sub>m</sub></td><td class="num">2</td><td>2003-2</td><td class="num">22 年</td><td>22 年未再出現，且與 RC／SRC 科目重疊，投報率最低</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>若只剩三天</b>：先把「柱強度曲線推導」與「剪力遲滯 U」練到能默寫流程（占近年 U1-1 題數過半），再回頭補「對位圖計算」這個空窗最久的高頻考點。
+逐題練習順序建議見 <a href="lecture-{{UNIT}}.html#s13">觀念講義 §13「時間有限？就練這 5 題」</a>。
+</div>
+
+</section>
+
+<footer>study {{UNIT}} 命題分析｜exam-wiki-SS 知識庫｜統計基準 raw/json/question_index.json（{{SUBJECT_Q}} 題 / {{EXAM_YEARS}} 考年）｜題號連結指向 study/problems-view/</footer>
+</main>
+
+<script>
+const CATC={T:'#f57c00',K:'#2e7d32',C:'#1565c0',X:'#8e24aa'};
+const CATN={T:'拉力桿件',K:'有效長度K',C:'柱挫屈強度',X:'組合/複合柱'};
+const MC={'LRFD':'#1565c0','ASD':'#f57c00','混合':'#6a1b9a','概念題':'#546e7a'};
+// [題號, 分類, 摘要, 標籤, 有viz, 設計法, 主(1)/副(0), 副考點的主分類]
+const Q=[
+["SS-2002-3","K","兩段側撐柱弱軸挫屈與 K 值端部條件",["有效長度","K值","中間側向支撐","弱軸挫屈"],0,"混合",1,""],
+["SS-2003-1","X","塊狀剪力、腹板承壓降伏與複合柱有效降伏應力（概念）",["塊狀剪力","腹板承壓降伏","複合柱","概念題"],0,"概念題",1,""],
+["SS-2003-2","X","SRC 包覆型複合柱 Fmy／Em 與整體挫屈強度",["SRC複合柱","Fmy","Em","整體挫屈"],0,"LRFD",1,""],
+["SS-2005-1","T","螺栓接合拉力桿件：淨斷面、剪力遲滯 U、塊狀剪力",["剪力遲滯","U值","淨斷面斷裂","塊狀剪力"],0,"LRFD",1,""],
+["SS-2006-1","C","整體挫屈 vs 局部挫屈 vs LTB 概念比較",["整體挫屈","局部挫屈","結實斷面","LTB"],0,"LRFD",1,""],
+["SS-2007-4","K","側移構架對位圖（nomograph）求 K",["對位圖","nomograph","側移構架"],0,"LRFD",1,""],
+["SS-2008-2","K","靠桿效應 LeMessurier 修正 K",["LeMessurier","靠桿效應","未束制頂層"],0,"LRFD",1,""],
+["SS-2010-3","X","不等肢角鋼組合柱 ASD／LRFD 比較",["組合柱","不等肢角鋼","Euler公式"],0,"混合",1,""],
+["SS-2011-2","K","LeMessurier 公式與靠柱效應",["LeMessurier","靠柱效應","側移構架"],0,"LRFD",1,""],
+["SS-2011-4","K","無側撐構架對位圖＋非彈性修正（ASD）",["對位圖","無側撐構架","非彈性修正"],0,"ASD",1,""],
+["SS-2013-2","K","對位圖與 LeMessurier 層間穩定",["對位圖","LeMessurier","層間穩定"],0,"LRFD",1,""],
+["SS-2013-3","C","分段側撐強弱軸挫屈控制",["弱軸挫屈","強軸挫屈","分段側撐","迴旋半徑"],0,"LRFD",1,""],
+["SS-2014-1","C","柱強度曲線 λc 推導與殘留應力",["柱強度曲線","λc推導","殘留應力"],1,"LRFD",1,""],
+["SS-2015-2","T","雙槽鋼拉力桿件填角銲接合設計",["剪力遲滯","塊狀剪力","填角銲","雙槽鋼"],0,"LRFD",1,""],
+["SS-2015-3","X","組合柱平行軸定理 ASD 檢核",["組合柱","平行軸定理","ASD","迴旋半徑"],0,"ASD",1,""],
+["SS-2016-3","C","殘留應力對柱強度曲線影響（切線模數）",["殘留應力","柱強度曲線","切線模數"],1,"LRFD",1,""],
+["SS-2017-3","C","拉壓桿件柱強度曲線（ASD）",["壓力桿件","拉力桿件","柱強度曲線"],0,"ASD",1,""],
+["SS-2018-2","C","箱型斷面整體彎曲挫屈 λc、Fcr",["箱型斷面","整體彎曲挫屈","λc","Fcr"],0,"LRFD",1,""],
+["SS-2022-2","T","插銷（pin）接合拉力桿件 ASD",["插銷接合","鉸接","有效淨面積","剪力斷裂"],0,"ASD",1,""],
+["SS-2023-1","K","對位圖查圖法與 K 係數（概念）",["對位圖","查圖法","K係數","概念題"],0,"概念題",1,""],
+["SS-2023-2","C","ASD 彈性／非彈性挫屈 Cc 判別",["ASD","彈性挫屈","非彈性挫屈","Cc"],0,"ASD",1,""],
+["SS-2024-1","C","殘留應力／切線模數柱強度曲線",["殘留應力","切線模數","柱強度曲線"],1,"LRFD",1,""],
+["SS-2024-2","T","圓管 HSS 縱向填角銲剪力遲滯 U",["圓管HSS","縱向填角銲","剪力遲滯","U值"],0,"LRFD",1,""],
+["SS-2025-2","T","ASD 拉力桿件全斷面降伏／淨斷面斷裂",["ASD","剪力遲滯","淨截面斷裂","全斷面降伏"],0,"ASD",1,""],
+["SS-2002-1","C","剪力流與弱軸剪力（含殘留應力、壓力桿件概念）",["剪力流","弱軸剪力","殘留應力"],0,"概念題",0,"U1-2 梁桿件"],
+["SS-2003-3","T","螺栓接合設計中的剪力遲滯 U 值判定",["接合設計","剪力遲滯","U值","A325X"],0,"LRFD",0,"U1-4 接合"],
+["SS-2004-2","T","拉力構材續接：高拉力螺栓摩阻型接合",["拉力構材續接","摩阻型","A325","翼板連接"],0,"ASD",0,"U1-4 接合"],
+["SS-2007-1","T","不等肢角鋼填角銲偏心接合（含剪力遲滯）",["填角銲","偏心接合","不等肢角鋼","剪力遲滯"],0,"ASD",0,"U1-4 接合"],
+["SS-2009-3","X","斷面性質：塑性力矩、降伏力矩與形狀因子",["斷面性質","塑性力矩","形狀因子"],0,"LRFD",0,"U1-2 梁桿件"],
+["SS-2012-3","K","梁柱 P-M 互制雙軸彎矩（斜撐構架 B1 放大法）",["梁柱桿件","P-M互制","B1放大法","斜撐構架"],0,"LRFD",0,"U1-3 梁柱"],
+["SS-2019-3","K","梁柱偏心載重 ASD 互制公式與 Cm",["梁柱桿件","偏心載重","互制公式","Cm"],0,"ASD",0,"U1-3 梁柱"]
+];
+function renderQ(cat){
+  const box=document.getElementById('qlist');box.innerHTML='';
+  const sel=Q.filter(q=>{
+    if(cat==='ALL')return true;
+    if(cat==='PRI')return q[6]===1;
+    if(cat==='SEC')return q[6]===0;
+    return q[1]===cat;});
+  sel.sort((a,b)=>a[0].localeCompare(b[0])).forEach(q=>{
+    const d=document.createElement('div');
+    d.className='qrow'+(q[6]?'':' sec');d.style.borderLeftColor=CATC[q[1]];
+    d.innerHTML=`<a href="problems-view/${q[0]}.html" target="_blank">${q[0]}</a>
+    <span class="meta" style="background:${MC[q[5]]}">${q[5]}</span>
+    ${q[6]?'':`<span class="meta" style="background:#90a4ae">副・${q[7]}</span>`}
+    <span class="sum">${q[2]}</span><span class="tags">${q[3].join('・')}</span>
+    <span class="ico" title="解析／互動圖／已驗證">📄${q[4]?' 📊':''} ✅</span>`;
+    box.appendChild(d);});
+}
+function filterQ(cat,btn){renderQ(cat);
+  const order=['ALL','T','K','C','X','PRI','SEC'];
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  const idx=order.indexOf(cat);if(idx>=0)document.querySelectorAll('.fbtn')[idx].classList.add('on');
+  if(!btn)document.getElementById('b5').scrollIntoView({behavior:'smooth'});
+}
+renderQ('ALL');
+// ---- charts: 主考點 24 題 ----
+const PQ=Q.filter(q=>q[6]===1);
+const byYear={};PQ.forEach(q=>{const y=q[0].split('-')[1];(byYear[y]=byYear[y]||{T:0,K:0,C:0,X:0})[q[1]]++;});
+function drawBar(){
+  const cv=document.getElementById('cvBar'),ctx=cv.getContext('2d');
+  const years=Object.keys(byYear).sort(),W=cv.width,H=cv.height,bw=(W-60)/years.length;
+  const max=Math.max(...years.map(y=>Object.values(byYear[y]).reduce((a,b)=>a+b,0)));
+  ctx.font='10px sans-serif';ctx.fillStyle='#78909c';
+  for(let i=0;i<=max;i++){const yy=H-30-(H-60)*i/max;ctx.fillText(i,8,yy+3);ctx.strokeStyle='#eceff1';ctx.beginPath();ctx.moveTo(24,yy);ctx.lineTo(W-10,yy);ctx.stroke();}
+  years.forEach((y,i)=>{let acc=0;
+    ['T','K','C','X'].forEach(c=>{const v=byYear[y][c];if(!v)return;
+      const h=(H-60)*v/max;ctx.fillStyle=CATC[c];
+      ctx.fillRect(30+i*bw,H-30-acc-h,bw*0.7,h);acc+=h;});
+    ctx.fillStyle='#78909c';ctx.save();ctx.translate(30+i*bw+bw*0.35,H-18);ctx.rotate(-0.7);ctx.fillText(y.slice(2),0,0);ctx.restore();});
+}
+function drawPie(){
+  const cv=document.getElementById('cvPie'),ctx=cv.getContext('2d');
+  const cnt={T:0,K:0,C:0,X:0};PQ.forEach(q=>cnt[q[1]]++);
+  const tot=PQ.length,cx=cv.width*0.32,cy=cv.height/2,r=Math.min(cx,cy)-16;let a=-Math.PI/2;
+  Object.keys(cnt).forEach(c=>{const frac=cnt[c]/tot,a2=a+frac*2*Math.PI;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,a,a2);ctx.closePath();ctx.fillStyle=CATC[c];ctx.fill();a=a2;});
+  ctx.font='12px sans-serif';let ly=40;
+  Object.keys(cnt).forEach(c=>{ctx.fillStyle=CATC[c];ctx.fillRect(cv.width*0.62,ly-9,12,12);
+    ctx.fillStyle='#263238';ctx.fillText(`${CATN[c]}：${cnt[c]} 題（${Math.round(cnt[c]/tot*100)}%）`,cv.width*0.62+18,ly);ly+=26;});
+}
+drawBar();drawPie();
+</script>
+</body>
+</html>

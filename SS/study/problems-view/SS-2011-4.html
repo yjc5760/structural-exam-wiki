@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2011-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2011-4 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2011-4</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> ASD<br />
+<strong>標籤：</strong> <code>壓力桿件</code> <code>有效長度</code> <code>對位圖</code> <code>nomograph</code> <code>無側撐構架</code> <code>非彈性修正</code> <code>τ_a折減</code> <code>ASD</code> <code>G值計算</code> <code>邊界條件修正</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>圖示為一<strong>無側撐鋼架（Unbraced Frame）</strong>，且 <strong>G 點不可轉動</strong>、<strong>H 點可轉動</strong>。各梁與柱之 I 值如下表所示。試依據 Alignment Chart，並進行必要的修正，求彈性範圍之柱 DE 及柱 EF 的有效長度係數 K，並使用 ASD 規範求取<strong>非彈性範圍之柱 EF</strong> 的有效長度係數 K。（柱邊界為鉸接（hinged end）時 G 可使用 10，為固接（Fixed end）時 G 可使用 1。）（25 分）</p>
+<p><strong>斷面慣性矩表（單位：cm⁴）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>柱 AB、柱 BC</th>
+<th>柱 DE、柱 EF</th>
+<th>梁 AD</th>
+<th>梁 DG</th>
+<th>梁 BE</th>
+<th>梁 EH</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10700</td>
+<td>11400</td>
+<td>24000</td>
+<td>28000</td>
+<td>30000</td>
+<td>36000</td>
+</tr>
+</tbody>
+</table>
+<p><strong>柱 EF 材料及斷面性質：</strong><br />
+$F_y = 2.52 \text{ tf/cm}^2$，$E = 2040 \text{ tf/cm}^2$，$r_x = 10.5 \text{ cm}$，$I_x = 11400 \text{ cm}^4$，$A = 104 \text{ cm}^2$</p>
+<p><strong>構架幾何（見附圖）：</strong></p>
+<ul>
+<li>各樓層高：上層 4 m（A-D-G 至 B-E-H）、下層 5 m（B-E-H 至 C-F）</li>
+<li>各跨度：左灣 6 m（A-D, B-E）、右灣 8 m（D-G, E-H）</li>
+<li>G 點：右上角，固定不可轉動（固接端）</li>
+<li>H 點：右中角，可轉動（鉸接端）</li>
+<li>C、F 點：柱底，固接基礎</li>
+</ul>
+<p><img alt="SS-2011-4 題目附圖：無側撐鋼架（左柱 ABC、中柱 DEF、梁 AD/DG/BE/EH），G 點固接不可轉動，H 點鉸接可轉動；柱高 4m/5m，跨度 6m/8m；對位圖（Sidesway not prevented）" src="../../raw/solutions/SS-2011-4/SS-2011-4-fig-1.png" /></p>
+<p><em>圖說：無側撐構架，節點 A、D、G 在頂層，B、E、H 在中層，C、F 為固接基礎。柱 EF 性質：F_y=2.52 tf/cm²，E=2040 tf/cm²，r_x=10.5 cm，I_x=11400 cm⁴，A=104 cm²。右側附對位圖（Sidesway not prevented, Unbraced frame）可供查取 K 值。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong></p>
+<ol>
+<li>G 值計算中，遠端邊界條件（固接/鉸接）需修正梁的貢獻</li>
+<li>ASD 非彈性修正流程（$\tau_a = F_a/F'_e$ 折減 G 值後重查對位圖）</li>
+</ol>
+<p><strong>出題者意圖：</strong></p>
+<ul>
+<li>G 點固接 → 梁 DG 遠端固接 → 修正因子 2/3（梁較標準假設更不靈活）</li>
+<li>H 點鉸接 → 梁 EH 遠端鉸接 → 修正因子 1/2（梁更不靈活）</li>
+<li>ASD 非彈性 K：$G_{inelastic} = \tau_a G_{elastic}$，需迭代收斂</li>
+</ul>
+<p><strong>關鍵陷阱：</strong></p>
+<ol>
+<li>未修正梁遠端條件 → G 值偏低 → K 值偏低（不安全）</li>
+<li>ASD 非彈性修正：τ_a 只作用在柱剛度（分子），梁剛度不變</li>
+<li>固接底部 G_F = 1.0（實用值），非理論值 0</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<pre><code>【彈性 K 計算】
+Step 1a：確認遠端修正因子
+
+  - 梁 DG（遠端 G = 固接）：梁貢獻 × 2/3
+  - 梁 EH（遠端 H = 鉸接）：梁貢獻 × 1/2
+
+Step 1b：計算各節點 G 值
+  G_D = 柱 DE 剛度 / (梁 AD + 修正梁 DG) = 0.450
+  G_E = (柱 DE + 柱 EF) / (梁 BE + 修正梁 EH) = 0.708
+  G_F = 1.0（固接底部，使用規範規定值）
+
+Step 1c：查對位圖（Sidesway not prevented）
+  柱 DE：G_top=0.450, G_bot=0.708 → K_DE ≈ 1.21
+  柱 EF：G_top=0.708, G_bot=1.0 → K_EF ≈ 1.27
+
+【ASD 非彈性 K 計算 - 柱 EF】
+Step 2a：初始值用彈性 K = 1.27
+Step 2b：計算 KL/r、判斷 ASD 區段（KL/r &lt; Cc → 非彈性）
+Step 2c：計算 F_a（ASD 容許應力）和 F'_e（ASD Euler 應力）
+Step 2d：τ_a = F_a/F'_e → 修正 G → 查圖得新 K
+Step 2e：迭代至收斂
+</code></pre>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 用對位圖求柱 DE 與柱 EF 的彈性有效長度係數 K，再以 ASD 非彈性修正（$\tau_a$ 迭代）求柱 EF 的非彈性 K</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\boxed{G} = \frac{\sum(EI_c/L_c)}{\sum(EI_b/L_b)^{*}} \quad (\text{* 含遠端修正因子})$$<br />
+$$\boxed{K_{elastic}} \quad \text{（查對位圖 Sidesway not prevented）}$$<br />
+$$\tau_a = \frac{F_a}{F'_e}, \quad G_{inelastic} = \tau_a \cdot G_{elastic}$$<br />
+$$\boxed{K_{inelastic}} \quad \text{（迭代至收斂）}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$I_{柱AB,BC}$</td>
+<td>10700 cm⁴</td>
+<td>左側柱慣性矩</td>
+</tr>
+<tr>
+<td>$I_{柱DE,EF}$</td>
+<td>11400 cm⁴</td>
+<td>中柱慣性矩</td>
+</tr>
+<tr>
+<td>$I_{梁AD}$</td>
+<td>24000 cm⁴</td>
+<td>上層左跨梁</td>
+</tr>
+<tr>
+<td>$I_{梁DG}$</td>
+<td>28000 cm⁴</td>
+<td>上層右跨梁（遠端 G 固接）</td>
+</tr>
+<tr>
+<td>$I_{梁BE}$</td>
+<td>30000 cm⁴</td>
+<td>下層左跨梁</td>
+</tr>
+<tr>
+<td>$I_{梁EH}$</td>
+<td>36000 cm⁴</td>
+<td>下層右跨梁（遠端 H 鉸接）</td>
+</tr>
+<tr>
+<td>上層柱高</td>
+<td>4 m = 400 cm</td>
+<td>A–D–G 至 B–E–H</td>
+</tr>
+<tr>
+<td>下層柱高</td>
+<td>5 m = 500 cm</td>
+<td>B–E–H 至 C–F</td>
+</tr>
+<tr>
+<td>左跨</td>
+<td>6 m = 600 cm</td>
+<td>A–D、B–E</td>
+</tr>
+<tr>
+<td>右跨</td>
+<td>8 m = 800 cm</td>
+<td>D–G、E–H</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>2.52 tf/cm²</td>
+<td>柱 EF 材料</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>2040 tf/cm²</td>
+<td>柱 EF 材料</td>
+</tr>
+<tr>
+<td>$r_x$</td>
+<td>10.5 cm</td>
+<td>柱 EF 迴旋半徑</td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>104 cm²</td>
+<td>柱 EF 斷面積</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：遠端邊界條件修正因子</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>梁 DG 修正因子</td>
+<td>G 固接 → 梁呈單曲率，近端剛度 $4EI/L$，修正因子 $4/6 = 2/3$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>梁 EH 修正因子</td>
+<td>H 鉸接 → 近端剛度 $3EI/L$，修正因子 $3/6 = 1/2$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：彈性 G 值計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$G_D$</td>
+<td>$(11400/400)/(24000/600 + 28000/800 \times 2/3) = 28.50/63.33 = 0.450$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$G_E$</td>
+<td>$(28.50 + 22.80)/(50.00 + 45.00 \times 1/2) = 51.30/72.50 = 0.708$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$G_F$</td>
+<td>$1.0$（固接底部，依規範取用值）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$K_{DE}$</td>
+<td>查對位圖（$G_{top}=0.450, G_{bot}=0.708$）→ $\approx 1.21$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$K_{EF,elastic}$</td>
+<td>查對位圖（$G_{top}=0.708, G_{bot}=1.0$）→ $\approx 1.27$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：ASD 非彈性修正（柱 EF，迭代）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_c$</td>
+<td>$\sqrt{2\pi^2 E/F_y} = 126.4$（彈性/非彈性分界）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$KL/r$</td>
+<td>$K \times 500/10.5$（各次迭代代入新 K）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_a$</td>
+<td>ASD 非彈性公式（$KL/r < C_c$）→ 第1次：1.218 tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F'_e$</td>
+<td>$12\pi^2 E / [23(KL/r)^2]$（ASD Euler 應力）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\tau_a$</td>
+<td>$F_a/F'_e$ → 第1次：0.424</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$G'_E, G'_F$</td>
+<td>$\tau_a \times G_{elastic}$，再查圖得新 K</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$K_{EF,inelastic}$</td>
+<td>迭代 3 次後收斂 → $\approx 1.11$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有效長度係數 K</td>
+<td>對位圖（Alignment Chart）需區分有側撐（braced）與無側撐（unbraced）框架；本題為無側撐</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">effective-length-chart</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>遠端修正因子</td>
+<td>對位圖假設梁雙曲率（$6EI/L$）；遠端固接 → 單曲率 $4EI/L$（×2/3），遠端鉸接 → $3EI/L$（×1/2）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>ASD 非彈性修正 $\tau_a$</td>
+<td>非彈性屈服使切線模數 $E_t < E$，柱剛度降低，等效 G 值增大，K 值下降（但仍 &gt; 1）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>ASD Cc 值</td>
+<td>$C_c = \sqrt{2\pi^2 E/F_y}$，是彈性/非彈性挫屈分界之細長比；$KL/r < C_c$ → 非彈性公式</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">asd-column</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>固接底部 G 取 1.0</td>
+<td>理論上 G = 0，但規範規定實際固接取 G = 1.0 以反映施工不確定性</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Part 1：彈性有效長度係數</h3>
+<h4>Step 1a：遠端邊界條件修正因子</h4>
+<p>在無側撐構架的對位圖 G 值推導中，梁的標準假設為兩端各旋轉相等方向相反（雙曲率，Double curvature），等效剛度為 $6EI/L$。當遠端條件不同時：</p>
+<table>
+<thead>
+<tr>
+<th>梁</th>
+<th>遠端條件</th>
+<th>近端等效剛度</th>
+<th>標準值</th>
+<th>修正因子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DG</td>
+<td>G 固接（不可轉動）</td>
+<td>$4EI/L$</td>
+<td>$6EI/L$</td>
+<td>$4/6 = \mathbf{2/3}$</td>
+</tr>
+<tr>
+<td>EH</td>
+<td>H 鉸接（可自由轉動）</td>
+<td>$3EI/L$</td>
+<td>$6EI/L$</td>
+<td>$3/6 = \mathbf{1/2}$</td>
+</tr>
+<tr>
+<td>AD</td>
+<td>A 為普通節點</td>
+<td>$6EI/L$</td>
+<td>$6EI/L$</td>
+<td>$1.0$</td>
+</tr>
+<tr>
+<td>BE</td>
+<td>B 為普通節點</td>
+<td>$6EI/L$</td>
+<td>$6EI/L$</td>
+<td>$1.0$</td>
+</tr>
+</tbody>
+</table>
+<h4>Step 1b：各節點 G 值計算</h4>
+<p><strong>各構材剛度（EI/L）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>構材</th>
+<th>I (cm⁴)</th>
+<th>L (cm)</th>
+<th>EI/L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>柱 DE</td>
+<td>11400</td>
+<td>400</td>
+<td>28.50</td>
+</tr>
+<tr>
+<td>柱 EF</td>
+<td>11400</td>
+<td>500</td>
+<td>22.80</td>
+</tr>
+<tr>
+<td>梁 AD</td>
+<td>24000</td>
+<td>600</td>
+<td>40.00</td>
+</tr>
+<tr>
+<td>梁 DG</td>
+<td>28000</td>
+<td>800</td>
+<td>35.00 → ×2/3 = <strong>23.33</strong></td>
+</tr>
+<tr>
+<td>梁 BE</td>
+<td>30000</td>
+<td>600</td>
+<td>50.00</td>
+</tr>
+<tr>
+<td>梁 EH</td>
+<td>36000</td>
+<td>800</td>
+<td>45.00 → ×1/2 = <strong>22.50</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>節點 D（柱 DE 頂端）：</strong></p>
+<p>$$G_D = \frac{\sum(EI_c/L_c)}{\sum(EI_b/L_b)^{*}} = \frac{28.50}{40.00 + 23.33} = \frac{28.50}{63.33}$$</p>
+<p>$$\boxed{G_D = 0.450}$$</p>
+<p><strong>節點 E（柱 DE 底端 = 柱 EF 頂端）：</strong></p>
+<p>$$G_E = \frac{28.50 + 22.80}{50.00 + 22.50} = \frac{51.30}{72.50}$$</p>
+<p>$$\boxed{G_E = 0.708}$$</p>
+<p><strong>節點 F（柱 EF 底端，固接基礎）：</strong></p>
+<p>$$\boxed{G_F = 1.0} \quad \text{（固接端，依規範取用值）}$$</p>
+<h4>Step 1c：查對位圖，讀取彈性 K</h4>
+<p><strong>柱 DE</strong>（$G_{top} = G_D = 0.450$，$G_{bot} = G_E = 0.708$，無側撐構架）：</p>
+<p>$$\boxed{K_{DE} \approx 1.21} \quad \text{（查 Alignment Chart）}$$</p>
+<p><strong>柱 EF</strong>（$G_{top} = G_E = 0.708$，$G_{bot} = G_F = 1.0$，無側撐構架）：</p>
+<p>$$\boxed{K_{EF,elastic} \approx 1.27} \quad \text{（查 Alignment Chart）}$$</p>
+<hr />
+<h3>Part 2：ASD 非彈性有效長度係數（柱 EF）</h3>
+<p><strong>非彈性修正原理：</strong> 柱在非彈性挫屈範圍時，有效切線模數 $E_t < E$，柱剛度降低，等效 G 值增大：</p>
+<p>$$G_{inelastic} = \frac{E_t}{E} \cdot G_{elastic} = \tau_a \cdot G_{elastic}$$</p>
+<p>ASD 中：$\tau_a = \dfrac{F_a}{F'_e}$，其中 $F'_e = \dfrac{12\pi^2 E}{23(KL/r)^2}$（ASD Euler 應力含安全係數）</p>
+<p><strong>確認計算參數：</strong></p>
+<p>$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}} = \sqrt{\frac{2\pi^2 \times 2040}{2.52}} = \sqrt{15,980} = 126.4$$</p>
+<p>柱 EF：$L = 5 \text{ m} = 500 \text{ cm}$，$r_x = 10.5 \text{ cm}$</p>
+<hr />
+<h4>第 1 次迭代（初始值 $K = 1.27$）</h4>
+<p>$$KL/r = \frac{1.27 \times 500}{10.5} = 60.5 < C_c = 126.4 \quad \Rightarrow \text{非彈性區}$$</p>
+<p><strong>容許應力 $F_a$（非彈性 ASD）：</strong></p>
+<p>$$F_a = \frac{\left[1 - \dfrac{(KL/r)^2}{2C_c^2}\right] F_y}{\dfrac{5}{3} + \dfrac{3(KL/r)}{8C_c} - \dfrac{(KL/r)^3}{8C_c^3}}$$</p>
+<p>分子：$\left[1 - \dfrac{60.5^2}{2 \times 126.4^2}\right] \times 2.52 = \left[1 - \dfrac{3660}{31,962}\right] \times 2.52 = 0.8855 \times 2.52 = 2.231 \text{ tf/cm}^2$</p>
+<p>分母：$\dfrac{5}{3} + \dfrac{3(60.5)}{8(126.4)} - \dfrac{60.5^3}{8(126.4)^3} = 1.6667 + 0.1795 - 0.01371 = 1.832$</p>
+<p>$$F_a = \frac{2.231}{1.832} = 1.218 \text{ tf/cm}^2$$</p>
+<p><strong>ASD Euler 應力 $F'_e$：</strong></p>
+<p>$$F'_e = \frac{12\pi^2 E}{23(KL/r)^2} = \frac{12\pi^2 \times 2040}{23 \times 3660} = \frac{241,625}{84,180} = 2.870 \text{ tf/cm}^2$$</p>
+<p><strong>折減係數：</strong></p>
+<p>$$\tau_a = \frac{F_a}{F'_e} = \frac{1.218}{2.870} = 0.424$$</p>
+<p><strong>修正後 G 值：</strong></p>
+<p>$$G_{E}' = \tau_a \times G_E = 0.424 \times 0.708 = 0.300$$</p>
+<p>$$G_{F}' = \tau_a \times G_F = 0.424 \times 1.0 = 0.424$$</p>
+<p>查對位圖（$G_{top}=0.300$，$G_{bot}=0.424$）：$K^{(1)} \approx 1.14$</p>
+<hr />
+<h4>第 2 次迭代（$K = 1.14$）</h4>
+<p>$$KL/r = \frac{1.14 \times 500}{10.5} = 54.3$$</p>
+<p>分子：$\left[1 - \dfrac{54.3^2}{31,962}\right] \times 2.52 = [1 - 0.09228] \times 2.52 = 2.288$ tf/cm²</p>
+<p>分母：$1.6667 + \dfrac{3(54.3)}{1011.2} - \dfrac{54.3^3}{16,152,568} = 1.6667 + 0.1611 - 0.009912 = 1.818$</p>
+<p>$$F_a = 2.288/1.818 = 1.259 \text{ tf/cm}^2$$</p>
+<p>$$F'_e = \frac{241,625}{23 \times 54.3^2} = \frac{241,625}{67,820} = 3.562 \text{ tf/cm}^2$$</p>
+<p>$$\tau_a = 1.259/3.562 = 0.354$$</p>
+<p>$$G_E'' = 0.354 \times 0.708 = 0.251, \quad G_F'' = 0.354 \times 1.0 = 0.354$$</p>
+<p>查圖（$G_{top}=0.251$，$G_{bot}=0.354$）：$K^{(2)} \approx 1.12$</p>
+<hr />
+<h4>第 3 次迭代（$K = 1.12$）</h4>
+<p>$$KL/r = \frac{1.12 \times 500}{10.5} = 53.33$$</p>
+<p>分子：$[1 - 53.33^2/31,962] \times 2.52 = 0.9110 \times 2.52 = 2.296$ tf/cm²</p>
+<p>分母：$1.6667 + 0.1582 - 0.00940 = 1.816$</p>
+<p>$$F_a = 2.296/1.816 = 1.265 \text{ tf/cm}^2$$</p>
+<p>$$F'_e = \frac{241,625}{23 \times 53.33^2} = \frac{241,625}{65,438} = 3.693 \text{ tf/cm}^2$$</p>
+<p>$$\tau_a = 1.265/3.693 = 0.342$$</p>
+<p>$$G_E''' = 0.342 \times 0.708 = 0.242, \quad G_F''' = 0.342 \times 1.0 = 0.342$$</p>
+<p>查圖（$G_{top}=0.242$，$G_{bot}=0.342$）：$K^{(3)} \approx 1.11$ ← 與前一步相同，<strong>收斂</strong></p>
+<p>$$\boxed{K_{EF,inelastic} \approx 1.11}$$</p>
+<hr />
+<h3>計算結果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>柱</th>
+<th>$G_{top}$</th>
+<th>$G_{bot}$</th>
+<th>彈性 K</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DE</td>
+<td>0.450</td>
+<td>0.708</td>
+<td><strong>1.21</strong></td>
+<td>查 Alignment Chart</td>
+</tr>
+<tr>
+<td>EF</td>
+<td>0.708</td>
+<td>1.0</td>
+<td><strong>1.27</strong></td>
+<td>查 Alignment Chart</td>
+</tr>
+<tr>
+<td>EF（非彈性，ASD）</td>
+<td>0.242</td>
+<td>0.342</td>
+<td><strong>1.11</strong></td>
+<td>迭代 3 次後收斂</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>遠端修正因子的物理意義</h3>
+<p>對位圖的 G 值計算隱含「梁的雙曲率假設（Double-curvature）」，等效梁端剛度為 $6EI/L$。</p>
+<p>當遠端邊界條件改變：</p>
+<ul>
+<li><strong>遠端固接（G=fixed）：</strong> 梁呈「固定-自由旋轉」= 近端剛度 $4EI/L$，比雙曲率標準更不靈活，$\dfrac{4}{6}=\dfrac{2}{3}$</li>
+<li><strong>遠端鉸接（H=pinned）：</strong> 近端剛度 $3EI/L$，更不靈活，$\dfrac{3}{6}=\dfrac{1}{2}$</li>
+<li>兩者均使 G 增大 → K 增大</li>
+</ul>
+<p>這違反直覺（固接遠端應更硬），但在<strong>無側撐</strong>構架的<strong>側移模式</strong>下，固接遠端讓梁「單曲率」而非「雙曲率」，反而降低了梁對側移的抵抗能力。</p>
+<h3>非彈性修正 τ_a 的收斂特性</h3>
+<table>
+<thead>
+<tr>
+<th>迭代次數</th>
+<th>K</th>
+<th>KL/r</th>
+<th>F_a</th>
+<th>F'_e</th>
+<th>τ_a</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0（彈性）</td>
+<td>1.27</td>
+<td>60.5</td>
+<td>1.218</td>
+<td>2.870</td>
+<td>0.424</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1.14</td>
+<td>54.3</td>
+<td>1.259</td>
+<td>3.562</td>
+<td>0.354</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1.12</td>
+<td>53.3</td>
+<td>1.265</td>
+<td>3.693</td>
+<td>0.342</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1.11</td>
+<td>52.9</td>
+<td>1.268</td>
+<td>3.760</td>
+<td>0.337</td>
+</tr>
+</tbody>
+</table>
+<p>K 由彈性 1.27 降至非彈性 1.11，約減少 <strong>12.6%</strong>。</p>
+<h3>考場建議</h3>
+<ul>
+<li>G 值修正計算完整寫出（含修正因子推導），佔大部分分數</li>
+<li>非彈性迭代只需 2-3 次即可：「收斂」是關鍵，不需精確到第 4 位</li>
+<li>若考試提供 K 的近似公式（如 LeMessurier 公式），可用公式驗算代替查圖</li>
+</ul>
+</main>
+<footer>來源：raw/solutions/SS-2011-4/SS-2011-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2002-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2002-3 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2002-3</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong>（無）<br />
+<strong>設計法：</strong> 混合（ASD + LRFD）<br />
+<strong>標籤：</strong> <code>壓力桿件</code> <code>有效長度</code> <code>K值</code> <code>端部條件</code> <code>弱軸挫屈</code> <code>強軸挫屈</code> <code>中間側向支撐</code> <code>ASD</code> <code>LRFD</code> <code>Cc</code> <code>Fa</code> <code>λc</code> <code>Fcr</code> <code>φcPn</code> <code>W型鋼</code> <code>A36</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>有一受軸向載重之鋼柱，長度 $L = 10\ \text{m}$，斷面為 W14×53（A36），為結實斷面。柱之邊界條件：</p>
+<ul>
+<li><strong>底部</strong>：固接於基礎（fixed）</li>
+<li><strong>頂端</strong>：鉸接（pinned）</li>
+<li><strong>中間（距底部 5m）</strong>：垂直於弱軸有鉸接側向支撐（prevents weak-axis displacement）</li>
+</ul>
+<p><img alt="SS-2002-3 柱結構示意：X-Z 面（強軸平面）與 Y-Z 面（弱軸平面），柱高 10m，底部固接、頂部鉸接，中間弱軸側向支撐" src="../../raw/solutions/SS-2002-3/SS-2002-3-fig-1.png" /></p>
+<p><em>圖說：X-Z 平面（強軸平面）：柱高 10m，底部固接、頂部鉸接，無中間側向支撐（強軸），有效長度係數 $K_x = 0.80$。Y-Z 平面（弱軸平面）：柱高 10m，在 5m 處（中間）設鉸接側向支撐，將弱軸分為上下兩段各 5m；下段固接-鉸接 $K_y=0.80$，上段鉸接-鉸接 $K_y=1.0$，上段控制。</em></p>
+<p><img alt="SS-2002-3 有效長度 K 值對照圖：六種端部邊界條件（K=0.65、0.80、1.2、1.0、2.1、2.0）" src="../../raw/solutions/SS-2002-3/SS-2002-3-fig-2.png" /></p>
+<p><em>圖說：(a) 兩端固接：$K=0.65$；(b) 一端固接、一端鉸接（無側移）：$K=0.80$；(c) 一端固接、一端固接但有側移：$K=1.2$；(d) 兩端鉸接（無側移）：$K=1.0$；(e) 一端固接、一端自由（懸臂）：$K=2.1$；(f) 一端鉸接、一端自由：$K=2.0$。</em></p>
+<p><strong>斷面與材料：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A$</td>
+<td>$100.64\ \text{cm}^2$</td>
+</tr>
+<tr>
+<td>$r_x$（強軸迴轉半徑）</td>
+<td>$14.96\ \text{cm}$</td>
+</tr>
+<tr>
+<td>$r_y$（弱軸迴轉半徑）</td>
+<td>$4.88\ \text{cm}$</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>$2.50\ \text{tf/cm}^2$</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>$2100\ \text{tf/cm}^2$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>求：</strong></p>
+<ol>
+<li>ASD：容許載重 $P_a$</li>
+<li>LRFD：設計載重 $\phi_c P_n$</li>
+</ol>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 壓力柱設計需同時考慮<strong>強軸</strong>與<strong>弱軸</strong>兩個方向的有效細長比，取較大值（較不利方向）控制設計。中間側向支撐只對<strong>特定軸</strong>有效，不能同時改善兩軸。</p>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗考生能否從邊界條件圖表正確查取 $K$ 值</li>
+<li>測驗中間側向支撐的影響：只作用於弱軸，強軸不受影響</li>
+<li>要求同一斷面用 ASD 與 LRFD 兩法計算，比較兩種設計哲學</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>解題順序：</strong><br />
+$$\text{判斷各軸端部條件} \to K \to KL/r \text{（強軸 vs 弱軸）} \to \text{弱軸控制} \to \text{ASD: }F_a,\,P_a \to \text{LRFD: }\lambda_c,\,F_{cr},\,\phi_c P_n$$</p>
+<p><strong>關鍵陷阱：</strong></p>
+<ol>
+<li>
+<p><strong>中間側向支撐只對弱軸有效</strong>：中間支撐「垂直於弱軸」表示它阻止了弱軸方向的位移，故僅在計算弱軸有效長度時分段計算，強軸仍用全長 10m。</p>
+</li>
+<li>
+<p><strong>弱軸兩段取控制段</strong>：下段（固接-鉸接）$K=0.80$，$KL=4.0\ \text{m}$；上段（鉸接-鉸接）$K=1.0$，$KL=5.0\ \text{m}$。上段細長比較大，<strong>上段控制</strong>。</p>
+</li>
+<li>
+<p><strong>強軸有效長度係數</strong>：底固頂鉸、無側移 → $K_x = 0.80$（查表 (b)），而非 $K=0.7$（理論值）或 $K=1.0$（兩端鉸接）。</p>
+</li>
+<li>
+<p><strong>$C_c$ 與彈性/非彈性判斷</strong>：ASD 中 $KL/r$ 與 $C_c$ 比較決定使用哪個公式，容易忽略或算錯 $C_c$。</p>
+</li>
+</ol>
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 判斷強弱軸端部條件 → 查取 $K$ → 比較 $KL/r$（弱軸控制）→ ASD：$\boxed{P_a}$；LRFD：$\boxed{\phi_c P_n}$</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\frac{KL_x}{r_x} = \frac{0.8 \times 1000}{14.96} = 53.5, \quad \frac{KL_y}{r_y} = \frac{1.0 \times 500}{4.88} = \boxed{102.5}\text{（控制）}$$</p>
+<p><strong>ASD：</strong><br />
+$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}} = 128.8, \quad KL/r < C_c \Rightarrow \boxed{F_a} \text{（非彈性拋物線）} \Rightarrow \boxed{P_a} = F_a \cdot A$$</p>
+<p><strong>LRFD：</strong><br />
+$$\lambda_c = \frac{KL}{r\pi}\sqrt{\frac{F_y}{E}} = \boxed{1.125} < 1.5 \Rightarrow F_{cr} = e^{-0.419\lambda_c^2}F_y \Rightarrow \boxed{\phi_c P_n} = 0.85 F_{cr} A$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L$</td>
+<td>10 m</td>
+<td>柱全長</td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>100.64 cm²</td>
+<td>W14×53 斷面積</td>
+</tr>
+<tr>
+<td>$r_x$</td>
+<td>14.96 cm</td>
+<td>強軸迴轉半徑</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>4.88 cm</td>
+<td>弱軸迴轉半徑</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>2.50 tf/cm²</td>
+<td>A36 降伏應力</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>2100 tf/cm²</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>底端條件</td>
+<td>固接</td>
+<td>旋轉、平移均束制</td>
+</tr>
+<tr>
+<td>頂端條件</td>
+<td>鉸接</td>
+<td>允許旋轉，束制平移</td>
+</tr>
+<tr>
+<td>弱軸中間支撐</td>
+<td>距底 5 m，鉸接</td>
+<td>只對弱軸有效</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：判斷各軸端部條件與 K 值</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$K_x$</td>
+<td>強軸底固頂鉸，查圖表 (b) → $K_x = 0.80$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$KL_x$</td>
+<td>$0.80 \times 10 = 8.0$ m（強軸全長）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$K_{y,下}$</td>
+<td>弱軸下段固接-鉸接，查 (b) → $K = 0.80$，$KL = 4.0$ m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$K_{y,上}$</td>
+<td>弱軸上段兩端鉸接，查 (d) → $K = 1.0$，$KL = 5.0$ m（控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：計算細長比，確認控制軸</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$(KL/r)_x$</td>
+<td>$800/14.96 = 53.5$（強軸）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$(KL/r)_y$</td>
+<td>$500/4.88 = 102.5$（弱軸，控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3(a)：ASD — $F_a$ 與 $P_a$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_c$</td>
+<td>$\sqrt{2\pi^2 E/F_y} = 128.8$（彈性/非彈性分界）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>挫屈類型</td>
+<td>$102.5 < 128.8 \Rightarrow$ 非彈性，用拋物線公式</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_a$</td>
+<td>分子 $(1-(KL/r)^2/2C_c^2)F_y$，分母 $5/3+3\alpha/8-\alpha^3/8$ → $0.898$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_a$</td>
+<td>$F_a \times A = 0.898 \times 100.64 \approx 90.4$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3(b)：LRFD — $\lambda_c$、$F_{cr}$ 與 $\phi_c P_n$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\lambda_c$</td>
+<td>$(KL/r\pi)\sqrt{F_y/E} = 1.125 < 1.5$（非彈性）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_{cr}$</td>
+<td>$e^{-0.419 \times 1.125^2} \times F_y = 1.471$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_c P_n$</td>
+<td>$0.85 \times F_{cr} \times A = 125.8$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中間側向支撐只對特定軸有效</td>
+<td>弱軸側撐只改善弱軸 $KL$，強軸仍取全長</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">effective-length-chart</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>弱軸分段取控制段（較大 $KL$）</td>
+<td>兩段分別算 $KL$，取較大者做設計</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>ASD $C_c$ 物理意義</td>
+<td>Euler 臨界應力 $= F_y/2$ 時的細長比；非「最大細長比」</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">asd-column</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>LRFD $\lambda_c$ vs $C_c$ 換算</td>
+<td>$\lambda_c = (KL/r)/C_c \cdot \sqrt{2}/\pi$，$\lambda_c=1.0$ 對應 $KL/r \approx C_c/\sqrt{2}$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">lrfd-column</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">COLUMN-STRENGTH-CURVE</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>K 值查表用設計值而非理論值</td>
+<td>設計推薦值（如 0.80）比理論值（0.70）保守，反映實際固接不完全</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">effective-length-chart</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>步驟 1：判斷各軸端部條件並查取 K 值</h3>
+<p><strong>強軸（x-x，X-Z 平面）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>端部</th>
+<th>條件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底部</td>
+<td>固接（旋轉 ✗，平移 ✗）</td>
+</tr>
+<tr>
+<td>頂端</td>
+<td>鉸接（旋轉 ○，平移 ✗）</td>
+</tr>
+<tr>
+<td>中間</td>
+<td>無側向支撐</td>
+</tr>
+</tbody>
+</table>
+<p>→ 對應 K 值圖表條件 <strong>(b)</strong>（底固頂鉸，無側移）：</p>
+<p>$$K_x = 0.80$$</p>
+<p>$$KL_x = 0.80 \times 10 = 8.0\ \text{m} = 800\ \text{cm}$$</p>
+<hr />
+<p><strong>弱軸（y-y，Y-Z 平面）：</strong> 中間（5m 處）有鉸接側向支撐，分為兩段</p>
+<p><strong>下段（0 ～ 5m）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>端部</th>
+<th>條件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底部（0m）</td>
+<td>固接（旋轉 ✗，平移 ✗）</td>
+</tr>
+<tr>
+<td>中間（5m）</td>
+<td>鉸接側撐（旋轉 ○，平移 ✗）</td>
+</tr>
+</tbody>
+</table>
+<p>→ 條件 <strong>(b)</strong>，$K_y = 0.80$：</p>
+<p>$$KL_{y,下} = 0.80 \times 5 = 4.0\ \text{m} = 400\ \text{cm}$$</p>
+<p><strong>上段（5m ～ 10m）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>端部</th>
+<th>條件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中間（5m）</td>
+<td>鉸接側撐（旋轉 ○，平移 ✗）</td>
+</tr>
+<tr>
+<td>頂端（10m）</td>
+<td>鉸接（旋轉 ○，平移 ✗）</td>
+</tr>
+</tbody>
+</table>
+<p>→ 條件 <strong>(d)</strong>（兩端鉸接，無側移），$K_y = 1.0$：</p>
+<p>$$KL_{y,上} = 1.0 \times 5 = 5.0\ \text{m} = 500\ \text{cm}$$</p>
+<p>弱軸取較大值：$KL_y = 500\ \text{cm}$（上段控制）</p>
+<hr />
+<h3>步驟 2：計算各軸細長比，確認控制軸</h3>
+<p>$$\frac{KL_x}{r_x} = \frac{800}{14.96} = 53.5$$</p>
+<p>$$\frac{KL_y}{r_y} = \frac{500}{4.88} = 102.5$$</p>
+<p>$$\boxed{\frac{KL}{r} = 102.5 \quad \text{（弱軸控制，}KL_y/r_y \gg KL_x/r_x\text{）}}$$</p>
+<hr />
+<h3>步驟 3（一）ASD — 計算容許載重 $P_a$</h3>
+<p><strong>計算臨界細長比 $C_c$（彈性/非彈性分界）：</strong></p>
+<p>$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}} = \sqrt{\frac{2 \times 9.870 \times 2100}{2.5}} = \sqrt{\frac{41454}{2.5}} = \sqrt{16581} = 128.8$$</p>
+<p><strong>判斷挫屈類型：</strong></p>
+<p>$$\frac{KL}{r} = 102.5 < C_c = 128.8 \quad \Rightarrow \text{非彈性挫屈}$$</p>
+<p><strong>計算容許應力 $F_a$（ASD 非彈性挫屈公式）：</strong></p>
+<p>$$F_a = \frac{\left[1 - \dfrac{(KL/r)^2}{2C_c^2}\right]F_y}{\dfrac{5}{3} + \dfrac{3(KL/r)}{8C_c} - \dfrac{(KL/r)^3}{8C_c^3}}$$</p>
+<p>計算各項：</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>計算</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$(KL/r)^2$</td>
+<td>$102.5^2$</td>
+<td>$10506$</td>
+</tr>
+<tr>
+<td>$2C_c^2$</td>
+<td>$2 \times 128.8^2$</td>
+<td>$33170$</td>
+</tr>
+<tr>
+<td>$(KL/r)^2/(2C_c^2)$</td>
+<td>$10506/33170$</td>
+<td>$0.3167$</td>
+</tr>
+<tr>
+<td><strong>分子</strong></td>
+<td>$(1-0.3167)\times 2.5$</td>
+<td><strong>$1.708\ \text{tf/cm}^2$</strong></td>
+</tr>
+<tr>
+<td>$3(KL/r)/(8C_c)$</td>
+<td>$3\times102.5/(8\times128.8)$</td>
+<td>$0.2984$</td>
+</tr>
+<tr>
+<td>$(KL/r)^3/(8C_c^3)$</td>
+<td>$1075922/(8\times2135860)$</td>
+<td>$0.0630$</td>
+</tr>
+<tr>
+<td><strong>分母</strong></td>
+<td>$1.6667+0.2984-0.0630$</td>
+<td><strong>$1.9021$</strong></td>
+</tr>
+</tbody>
+</table>
+<p>$$F_a = \frac{1.708}{1.9021} = 0.898\ \text{tf/cm}^2$$</p>
+<p><strong>容許載重：</strong></p>
+<p>$$\boxed{P_a = F_a \times A = 0.898 \times 100.64 \approx 90.4\ \text{tf}}$$</p>
+<hr />
+<h3>步驟 3（二）LRFD — 計算設計載重 $\phi_c P_n$</h3>
+<p><strong>計算等效細長比 $\lambda_c$：</strong></p>
+<p>$$\lambda_c = \frac{KL}{r\pi}\sqrt{\frac{F_y}{E}} = \frac{102.5}{\pi}\sqrt{\frac{2.5}{2100}} = 32.61 \times 0.03450 = 1.125$$</p>
+<p><strong>判斷：</strong> $\lambda_c = 1.125 < 1.5$ → <strong>非彈性挫屈</strong></p>
+<p><strong>計算臨界應力 $F_{cr}$：</strong></p>
+<p>$$F_{cr} = \left[\exp(-0.419\lambda_c^2)\right]F_y = \exp(-0.419 \times 1.125^2) \times 2.5$$</p>
+<p>$$= \exp(-0.419 \times 1.266) \times 2.5 = \exp(-0.530) \times 2.5 = 0.5886 \times 2.5$$</p>
+<p>$$\boxed{F_{cr} = 1.471\ \text{tf/cm}^2}$$</p>
+<p><strong>名目強度與設計強度：</strong></p>
+<p>$$P_n = F_{cr} \times A = 1.471 \times 100.64 = 148.0\ \text{tf}$$</p>
+<p>$$\boxed{\phi_c P_n = 0.85 \times 148.0 = 125.8\ \text{tf}}$$</p>
+<hr />
+<h3>計算結果總覽</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>強軸</th>
+<th>弱軸（上段）</th>
+<th>弱軸（下段）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>端部條件</td>
+<td>底固頂鉸</td>
+<td>兩端鉸</td>
+<td>底固、頂鉸（側撐）</td>
+</tr>
+<tr>
+<td>K</td>
+<td>0.80</td>
+<td>1.0</td>
+<td>0.80</td>
+</tr>
+<tr>
+<td>計算長度 KL</td>
+<td>800 cm</td>
+<td>500 cm</td>
+<td>400 cm</td>
+</tr>
+<tr>
+<td>r</td>
+<td>$r_x = 14.96\ \text{cm}$</td>
+<td>$r_y = 4.88\ \text{cm}$</td>
+<td>$r_y = 4.88\ \text{cm}$</td>
+</tr>
+<tr>
+<td>KL/r</td>
+<td>53.5</td>
+<td><strong>102.5（控制）</strong></td>
+<td>82.0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>設計法</th>
+<th>控制 KL/r</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASD</td>
+<td>102.5（&lt; $C_c=128.8$，非彈性）</td>
+<td>$P_a = \mathbf{90.4\ \text{tf}}$</td>
+</tr>
+<tr>
+<td>LRFD</td>
+<td>$\lambda_c = 1.125$（&lt; 1.5，非彈性）</td>
+<td>$\phi_c P_n = \mathbf{125.8\ \text{tf}}$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>Q：為何強軸 $K_x = 0.80$ 而非 $0.70$（理論值）？</h3>
+<p>AISC 設計表所列 $K$ 值（如 0.80）為<strong>設計推薦值</strong>，比理論值（0.70）略為保守，以考慮：</p>
+<ol>
+<li>實際固接節點的旋轉剛度不完全無窮大</li>
+<li>施工誤差與不完整約束</li>
+<li>設計安全裕度</li>
+</ol>
+<p>本題從查表（設計 K 圖）得 $K_x = 0.80$，此為正確做法。</p>
+<h3>Q：ASD 與 LRFD 結果比較</h3>
+<p>$$\frac{\phi_c P_n}{P_a} = \frac{125.8}{90.4} = 1.39$$</p>
+<p>典型比值在 1.3~1.5 之間，這反映兩種設計法的荷重組合差異：</p>
+<ul>
+<li>ASD：$P_a$ 對應<strong>工作載重（實際使用載重）</strong></li>
+<li>LRFD：$\phi_c P_n$ 對應<strong>因數化極限載重</strong>（如 $1.2D + 1.6L$）</li>
+</ul>
+<p>若活載重占主導（$L/D \approx 3$），因數化載重約為工作載重的 1.4~1.5 倍，與上述比值吻合。</p>
+<h3>Q：若 $KL/r > C_c$（彈性挫屈區），ASD 使用哪個公式？</h3>
+<p>$$F_a = \frac{12\pi^2 E}{23(KL/r)^2} \quad (KL/r > C_c)$$</p>
+<p>本題 $KL/r = 102.5 < C_c = 128.8$，故使用非彈性區公式。</p>
+<h3>Q：LRFD 中 $\lambda_c > 1.5$ 時呢？</h3>
+<p>$$\lambda_c > 1.5: \quad F_{cr} = \frac{0.877}{\lambda_c^2} F_y \quad \text{（彈性挫屈）}$$</p>
+<p>本題 $\lambda_c = 1.125 < 1.5$，為非彈性挫屈，使用指數公式。</p>
+<h3>強軸驗算（確認弱軸控制）</h3>
+<p>$$\lambda_{c,x} = \frac{53.5}{\pi}\sqrt{\frac{2.5}{2100}} = 17.03 \times 0.03450 = 0.587$$</p>
+<p>$$F_{cr,x} = \exp(-0.419 \times 0.587^2) \times 2.5 = \exp(-0.144) \times 2.5 = 0.866 \times 2.5 = 2.165\ \text{tf/cm}^2$$</p>
+<p>$$\phi_c P_{n,x} = 0.85 \times 2.165 \times 100.64 = 184.9\ \text{tf}$$</p>
+<p>強軸設計載重 184.9 tf ≫ 弱軸 125.8 tf，<strong>弱軸控制確認</strong>。</p>
+</main>
+<footer>來源：raw/solutions/SS-2002-3/SS-2002-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

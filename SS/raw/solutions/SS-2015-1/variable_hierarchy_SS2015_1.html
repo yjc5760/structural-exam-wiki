@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, sans-serif; background: transparent; color: var(--text-primary, #1a1a1a); padding: 12px; }
+  
+  h2.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+  
+  .title { font-size: 13px; font-weight: 700; color: var(--text-secondary, #555); margin-bottom: 14px; letter-spacing: 0.3px; }
+  
+  .target-box {
+    background: var(--bg-secondary, #f0f0f0);
+    border: 2px solid var(--border-strong, #888);
+    border-radius: 8px;
+    padding: 10px 16px;
+    text-align: center;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+  .target-box .label { font-size: 11px; color: var(--text-muted, #777); margin-bottom: 2px; }
+  .target-box .formula { font-weight: 700; font-size: 14px; }
+
+  .arrow-down { text-align: center; font-size: 16px; color: var(--text-muted, #999); margin: 4px 0 10px; }
+
+  .layer { margin-bottom: 14px; }
+  .layer-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .layer-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  .l1-badge { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+  .l2-badge { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+  .l3-badge { background: #fef9c3; color: #a16207; border: 1px solid #fde047; }
+
+  .layer-title { font-size: 12px; font-weight: 600; color: var(--text-secondary, #555); }
+
+  .var-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+  
+  .var-chip {
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 11.5px;
+    line-height: 1.35;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    border: 1px solid transparent;
+  }
+  .var-chip:hover { opacity: 0.8; }
+  
+  .l1-chip { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+  .l2-chip { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+  .l2-chip.stuck { background: #fff1f2; border-color: #fecdd3; color: #be123c; }
+  .l3-chip { background: #fefce8; border-color: #fef08a; color: #854d0e; }
+  .l3-chip.stuck { background: #fff7ed; border-color: #fed7aa; color: #9a3412; }
+  
+  .var-sym { font-weight: 700; font-size: 12px; }
+  .var-name { font-size: 10px; opacity: 0.85; margin-top: 1px; }
+
+  .sub-chip-label {
+    font-size: 10px;
+    color: var(--text-muted, #999);
+    margin: 6px 0 3px 2px;
+    font-style: italic;
+  }
+
+  .divider { height: 1px; background: var(--border-subtle, #e5e7eb); margin: 10px 0; }
+
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-subtle, #e5e7eb); }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10.5px; color: var(--text-muted, #666); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+  
+  .trap-note {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 11px;
+    color: #9f1239;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+  .trap-note strong { display: block; margin-bottom: 3px; }
+</style>
+</head>
+<body>
+<h2 class="sr-only">SS-2015-1 梁設計題的變數層次分析圖，分三層顯示已知變數、需推導的變數與深層知識點</h2>
+
+<div class="title">SS-2015-1 · 變數層次分析（梁設計三步驟）</div>
+
+<!-- 目標 -->
+<div class="target-box">
+  <div class="label">最終目標</div>
+  <div class="formula">選最輕斷面 → 驗剪力 → 驗撓度</div>
+</div>
+<div class="arrow-down">↓ 需要哪些變數？</div>
+
+<!-- L1 已知 -->
+<div class="layer">
+  <div class="layer-header">
+    <span class="layer-badge l1-badge">L1　題目直接給定</span>
+    <span class="layer-title">看到題目就能讀出的數字</span>
+  </div>
+  <div class="var-grid">
+    <div class="var-chip l1-chip"><div class="var-sym">L = 8.4 m</div><div class="var-name">跨距</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">P_D = 22 tf</div><div class="var-name">靜載重</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">P_L = 35 tf</div><div class="var-name">活載重</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">L_b = 2.8 m</div><div class="var-name">側撐距（三分點）</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">F_y = 2.52 tf/cm²</div><div class="var-name">降伏應力</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">k_v = 5.0</div><div class="var-name">剪力屈曲係數</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">圖1(b)</div><div class="var-name">設計輔助圖</div></div>
+  </div>
+</div>
+
+<div class="arrow-down">↓</div>
+
+<!-- L2 推導 -->
+<div class="layer">
+  <div class="layer-header">
+    <span class="layer-badge l2-badge">L2　需知識點推導</span>
+    <span class="layer-title">公式已知，套入 L1 即可算</span>
+  </div>
+
+  <div class="sub-chip-label">Step 1：需求彎矩</div>
+  <div class="var-grid">
+    <div class="var-chip l2-chip"><div class="var-sym">P_u = 82.4 tf</div><div class="var-name">1.2P_D + 1.6P_L　(LRFD組合)</div></div>
+    <div class="var-chip l2-chip"><div class="var-sym">M_u = 230.7 tf-m</div><div class="var-name">P_u × L/3　(三分點彎矩)</div></div>
+  </div>
+
+  <div class="sub-chip-label">Step 2：選斷面（依圖讀值 + 塑性檢核）</div>
+  <div class="var-grid">
+    <div class="var-chip l2-chip"><div class="var-sym">L_p 判斷</div><div class="var-name">80r_y / √F_y 是否 > L_b</div></div>
+    <div class="var-chip l2-chip"><div class="var-sym">Z_x</div><div class="var-name">b_f t_f(H-t_f) + t_w h_w²/4</div></div>
+    <div class="var-chip l2-chip"><div class="var-sym">φ_b M_p</div><div class="var-name">0.9 × F_y × Z_x</div></div>
+  </div>
+
+  <div class="sub-chip-label">Step 3：剪力檢核</div>
+  <div class="var-grid">
+    <div class="var-chip l2-chip"><div class="var-sym">V_u = 82.4 tf</div><div class="var-name">支承反力（對稱）</div></div>
+    <div class="var-chip l2-chip l2-chip stuck"><div class="var-sym">h/t_w 段落判斷</div><div class="var-name">比較 50√(k_v/F_y)　⚠ 常卡</div></div>
+    <div class="var-chip l2-chip"><div class="var-sym">A_w = d × t_w</div><div class="var-name">腹板面積（全深 d）</div></div>
+    <div class="var-chip l2-chip"><div class="var-sym">φ_v V_n</div><div class="var-name">0.9 × 0.6F_y × A_w</div></div>
+  </div>
+
+  <div class="sub-chip-label">Step 4：撓度檢核</div>
+  <div class="var-grid">
+    <div class="var-chip l2-chip stuck"><div class="var-sym">δ = 23PL³/648EI</div><div class="var-name">三分點公式（非 5wL⁴/384EI）⚠ 常卡</div></div>
+    <div class="var-chip l2-chip"><div class="var-sym">I_x（查表）</div><div class="var-name">選定斷面慣性矩</div></div>
+    <div class="var-chip l2-chip"><div class="var-sym">δ ≤ L/360</div><div class="var-name">活載重限制（P = P_L 未因數化）</div></div>
+  </div>
+</div>
+
+<div class="arrow-down">↓ 部分 L2 變數本身需要更深的知識</div>
+
+<!-- L3 深層知識 -->
+<div class="layer">
+  <div class="layer-header">
+    <span class="layer-badge l3-badge">L3　深層知識（不懂就卡住）</span>
+    <span class="layer-title">需要背景概念才能應用的知識點</span>
+  </div>
+  <div class="var-grid">
+    <div class="var-chip l3-chip stuck"><div class="var-sym">LRFD 載重組合</div><div class="var-name">為何 1.2D + 1.6L？　⚠</div></div>
+    <div class="var-chip l3-chip"><div class="var-sym">L_b vs L_p 三段式</div><div class="var-name">塑性/非彈性/彈性 LTB 判斷邏輯</div></div>
+    <div class="var-chip l3-chip stuck"><div class="var-sym">撓度服務載重</div><div class="var-name">使用性 → 未因數化 P_L　⚠</div></div>
+    <div class="var-chip l3-chip"><div class="var-sym">A_w 定義差異</div><div class="var-name">台灣規範用全深 d（非淨高 h_w）</div></div>
+    <div class="var-chip l3-chip stuck"><div class="var-sym">三分點撓度推導</div><div class="var-name">Pa(3L²-4a²)/24EI → 23PL³/648EI　⚠</div></div>
+  </div>
+</div>
+
+<div class="trap-note">
+  <strong>⚠ 標示 = 本題常見卡關點（依陷阱分析歸納）</strong>
+  複習時只針對紅色打 ⚠ 的格子補強，不需重看整題。
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#dbeafe;border:1px solid #93c5fd;"></div> L1 直接讀題</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#dcfce7;border:1px solid #86efac;"></div> L2 公式推導</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fef9c3;border:1px solid #fde047;"></div> L3 深層知識</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fff1f2;border:1px solid #fecdd3;"></div> ⚠ 常見卡關點</div>
+</div>
+</body>
+</html>

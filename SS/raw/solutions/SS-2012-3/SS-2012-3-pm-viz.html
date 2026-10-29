@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>SS-2012-3 P-M 互制圖</title>
+<style>
+  body { font-family: "Noto Sans TC", Arial, sans-serif; background: #f8f9fa; margin: 20px; }
+  .container { max-width: 700px; margin: auto; background: white; border-radius: 10px;
+               padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+  h2 { color: #2c3e50; font-size: 1.1rem; margin-bottom: 4px; }
+  .subtitle { color: #666; font-size: 0.85rem; margin-bottom: 20px; }
+  canvas { display: block; margin: 0 auto 16px; border: 1px solid #ddd; border-radius: 6px; }
+  .result-box { background: #f1f3f5; border-radius: 8px; padding: 14px; margin-top: 14px;
+                 font-size: 0.85rem; line-height: 1.8; }
+  .ratio-value { font-size: 1.4rem; font-weight: bold; color: #27ae60; }
+  .status { font-size: 1.0rem; font-weight: bold; color: #27ae60; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 12px; }
+  th { background: #34495e; color: white; padding: 6px 10px; }
+  td { padding: 5px 10px; border-bottom: 1px solid #eee; }
+  tr:hover { background: #f9f9f9; }
+  .note { font-size: 0.78rem; color: #888; margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>SS-2012-3 — P-M 互制圖（LRFD）</h2>
+  <div class="subtitle">W14×68 斜撐構架梁柱 LRFD 雙軸彎矩檢核 | 斷面：W14×68（A572 Gr.50）</div>
+  <canvas id="chart" width="580" height="420"></canvas>
+  <div class="result-box">
+    <table>
+      <tr><th colspan="3">設計載重</th></tr>
+      <tr><td>軸壓 P<sub>u</sub></td><td>800 kN</td><td>P<sub>u</sub>/φP<sub>n</sub> = <b>0.308</b></td></tr>
+      <tr><td>強軸 M<sub>ux</sub></td><td>100 kN·m</td><td>M<sub>ux</sub>/φM<sub>nx</sub> = <b>0.168</b></td></tr>
+      <tr><td>弱軸 M<sub>uy</sub></td><td>50 kN·m</td><td>M<sub>uy</sub>/φM<sub>ny</sub> = <b>0.262</b></td></tr>
+      <tr><th colspan="3">設計強度</th></tr>
+      <tr><td>φ<sub>c</sub>P<sub>n</sub></td><td colspan="2">2594 kN</td></tr>
+      <tr><td>φ<sub>b</sub>M<sub>nx</sub></td><td colspan="2">593.6 kN·m</td></tr>
+      <tr><td>φ<sub>b</sub>M<sub>ny</sub></td><td colspan="2">190.5 kN·m</td></tr>
+    </table>
+    <div style="margin-top:10px">
+      <b>H1-1a: Pu/φPn + (8/9)(Mux/φMnx + Muy/φMny)</b><br>
+      互制比 = <span class="ratio-value">0.691</span>
+      &nbsp;<span class="status">OK ✅</span>
+    </div>
+    <div class="note">λc = 0.966（弱軸控制），Fcr = 236.6 MPa<br>B1x = B1y = 1.0（計算值 &lt; 1.0，取下限）<br>充分支撐 → φbMnx = 0.9FyZx = 593.6 kN·m</div>
+  </div>
+  <div class="note">※ KL = 4.5m（強弱軸相同），弱軸 λc = 0.966 控制柱強度</div>
+</div>
+<script>
+const canvas = document.getElementById('chart');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const PAD = {left:60, right:30, top:30, bottom:50};
+const cW = W - PAD.left - PAD.right;
+const cH = H - PAD.top - PAD.bottom;
+
+function toX(m) { return PAD.left + m * cW; }
+function toY(p) { return PAD.top + (1 - p) * cH; }
+
+// Background
+ctx.fillStyle = '#fafafa';
+ctx.fillRect(0,0,W,H);
+
+// Grid
+ctx.strokeStyle = '#e0e0e0'; ctx.lineWidth = 1;
+for (let i=0; i<=10; i++) {
+  let x = toX(i/10), y = toY(i/10);
+  ctx.beginPath(); ctx.moveTo(x, PAD.top); ctx.lineTo(x, H-PAD.bottom); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(W-PAD.right, y); ctx.stroke();
+}
+
+// H1-1b region (p < 0.2): p/2 + m = 1
+ctx.fillStyle = 'rgba(52,152,219,0.08)';
+ctx.beginPath();
+ctx.moveTo(toX(0), toY(0));
+ctx.lineTo(toX(0), toY(1));     // m=0 p=1 is outside; let's do corners
+ctx.lineTo(toX(0), toY(1));
+// The H1-1a/b bilinear region
+ctx.beginPath();
+ctx.moveTo(toX(0), toY(1));   // (m=0, p=1)
+ctx.lineTo(toX(0.9), toY(0.2)); // H1-1a end near p=0.2
+ctx.lineTo(toX(1.0), toY(0));
+ctx.lineTo(toX(0), toY(0));
+ctx.closePath();
+ctx.fill();
+
+// H1-1a line: p + (8/9)*m = 1, for p in [0.2, 1.0]
+// → m = (1-p)*9/8
+ctx.strokeStyle = '#2980b9'; ctx.lineWidth = 2.5;
+ctx.beginPath();
+let p02 = 0.2, m02 = (1-0.2)*9/8;  // (0.9, 0.2) in (m,p) space
+ctx.moveTo(toX(m02), toY(p02));
+ctx.lineTo(toX(0), toY(1.0));
+ctx.stroke();
+
+// H1-1b line: p/2 + m = 1, for p in [0, 0.2]
+// → m = 1 - p/2
+ctx.strokeStyle = '#1abc9c'; ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(toX(1.0), toY(0));
+ctx.lineTo(toX(m02), toY(p02));
+ctx.stroke();
+
+// p=0.2 threshold line
+ctx.strokeStyle = '#bdc3c7'; ctx.lineWidth = 1; ctx.setLineDash([4,4]);
+ctx.beginPath(); ctx.moveTo(toX(0), toY(0.2)); ctx.lineTo(toX(1.2), toY(0.2)); ctx.stroke();
+ctx.setLineDash([]);
+
+// Design point
+const dp = {m: 0.4309, p: 0.3084};
+const dpX = toX(dp.m), dpY = toY(dp.p);
+ctx.beginPath();
+ctx.arc(dpX, dpY, 8, 0, 2*Math.PI);
+ctx.fillStyle = '#27ae60';
+ctx.fill();
+ctx.strokeStyle = 'white'; ctx.lineWidth = 2;
+ctx.stroke();
+
+// Design point label
+ctx.fillStyle = '#2c3e50'; ctx.font = '12px Arial';
+ctx.fillText(`設計點 (0.431, 0.308)`, dpX+12, dpY-10);
+ctx.fillText(`互制比 = 0.691`, dpX+12, dpY+6);
+
+// Axes
+ctx.strokeStyle = '#2c3e50'; ctx.lineWidth = 2;
+ctx.beginPath(); ctx.moveTo(PAD.left, PAD.top); ctx.lineTo(PAD.left, H-PAD.bottom); ctx.stroke();
+ctx.beginPath(); ctx.moveTo(PAD.left, H-PAD.bottom); ctx.lineTo(W-PAD.right, H-PAD.bottom); ctx.stroke();
+
+// Axis labels
+ctx.fillStyle = '#2c3e50'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center';
+ctx.fillText('ΣM/φMn', W/2, H-8);
+ctx.save(); ctx.translate(14, H/2); ctx.rotate(-Math.PI/2);
+ctx.fillText('Pu / φcPn', 0, 0); ctx.restore();
+
+// Tick labels
+ctx.font = '11px Arial'; ctx.textAlign = 'center'; ctx.fillStyle = '#555';
+for (let i=0; i<=10; i++) {
+  ctx.fillText((i/10).toFixed(1), toX(i/10), H-PAD.bottom+16);
+}
+ctx.textAlign = 'right';
+for (let i=0; i<=10; i++) {
+  ctx.fillText((i/10).toFixed(1), PAD.left-6, toY(i/10)+4);
+}
+
+// Legend
+ctx.font = '11px Arial'; ctx.textAlign = 'left'; ctx.fillStyle = '#2980b9';
+ctx.fillText('─ H1-1a (Pu ≥ 0.2φPn)', PAD.left+10, PAD.top+20);
+ctx.fillStyle = '#1abc9c';
+ctx.fillText('─ H1-1b (Pu < 0.2φPn)', PAD.left+10, PAD.top+36);
+ctx.fillStyle = '#777';
+ctx.fillText('--- Pu = 0.2φPn 分界', PAD.left+10, PAD.top+52);
+</script>
+</body>
+</html>

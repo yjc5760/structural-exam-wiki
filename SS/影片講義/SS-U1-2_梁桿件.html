@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>梁桿件 影片講義</title>
+<link rel="stylesheet" href="../study/assets/katex/katex.min.css">
+<script defer src="../study/assets/katex/katex.min.js"></script>
+<script defer src="../study/assets/katex/auto-render.min.js"></script>
+<style>
+:root{
+  --paper:#f7f3ea; --ink:#26302b; --muted:#6b736d; --board:#22372d; --board2:#2c4538;
+  --chalk:#f4f1e6; --yellow:#e8c547; --red:#c8553d; --blue:#3d7fb0; --green:#4f9a5c; --orange:#d9822b;
+  --line:#ddd5c4;
+}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;line-height:1.85;font-size:16.5px}
+main{max-width:860px;margin:0 auto;padding:28px 16px 60px}
+.cover{background:linear-gradient(160deg,var(--board),var(--board2));color:var(--chalk);
+  border-radius:14px;padding:30px 30px 26px;margin-bottom:26px}
+.cover .tag{font-size:13px;letter-spacing:.08em;color:#c9d4cc}
+.cover h1{margin:6px 0 4px;font-size:34px;color:var(--yellow);letter-spacing:.04em}
+.cover .meta{font-size:14px;color:#c9d4cc}
+.cover .core{margin-top:18px;font-size:22px;border-left:4px solid var(--yellow);padding:4px 0 4px 14px}
+h2{font-size:22px;margin:42px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--board);
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h2 .no{background:var(--board);color:var(--chalk);border-radius:6px;padding:0 9px;font-size:15px}
+.seek{margin-left:auto;font:inherit;font-size:13px;border:1px solid var(--board);background:#fff;color:var(--board);
+  border-radius:999px;padding:2px 12px;cursor:pointer}
+.seek:hover{background:var(--board);color:var(--chalk)}
+nav.toc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 20px;margin-bottom:22px}
+nav.toc h3{margin:0 0 6px;font-size:15px;color:var(--muted)}
+nav.toc ol{margin:0;padding:0;list-style:none;columns:2;column-gap:28px}
+nav.toc li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dotted var(--line);font-size:15px;break-inside:avoid}
+nav.toc a{color:var(--ink);text-decoration:none}
+nav.toc a:hover{color:var(--blue)}
+nav.toc span{color:var(--muted);font-variant-numeric:tabular-nums}
+.player{position:sticky;top:0;z-index:5;background:var(--paper);padding:6px 0 10px}
+.player video{width:100%;border-radius:10px;background:#000;display:block;max-height:46vh}
+figure{margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;break-inside:avoid}
+figure img{width:100%;display:block;border-radius:6px}
+figcaption{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;color:var(--muted);padding:6px 4px 0}
+figcaption b{color:var(--ink);font-weight:600}
+figcaption .t{white-space:nowrap;font-variant-numeric:tabular-nums}
+p{margin:10px 0}
+.warn,.ok,.key{border-radius:8px;padding:10px 14px;margin:14px 0;break-inside:avoid}
+.warn b.h,.ok b.h,.key b.h{display:block;font-size:14px;letter-spacing:.05em;margin-bottom:2px}
+.warn{background:#fbeae6;border-left:4px solid var(--red)} .warn b.h{color:var(--red)}
+.ok{background:#e7f3e9;border-left:4px solid var(--green)} .ok b.h{color:var(--green)}
+.key{background:#fbf3d6;border-left:4px solid var(--yellow)} .key b.h{color:#9b7a10}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;background:#fff;break-inside:avoid}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:#eef0ea}
+td:first-child,th:first-child{white-space:nowrap}
+.katex-display{margin:.7em 0;overflow-x:auto;overflow-y:hidden}
+ol.steps{padding-left:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;padding:4px 0 4px 40px;position:relative;border-bottom:1px dotted var(--line)}
+ol.steps li::before{content:counter(s);position:absolute;left:4px;top:5px;width:24px;height:24px;border-radius:50%;
+  background:var(--board);color:var(--chalk);text-align:center;font-size:13px;line-height:24px}
+ol.steps li.hl{background:#fbf3d6}
+footer{margin-top:46px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+.r{color:var(--red)} .bl{color:var(--blue)} .g{color:var(--green)} .o{color:var(--orange)}
+@media (max-width:640px){
+  nav.toc ol{columns:1} .cover h1{font-size:28px} .cover .core{font-size:19px}
+  .player{position:static}
+}
+@media print{
+  @page{size:A4;margin:14mm}
+  body{font-size:12.5pt;line-height:1.7}
+  main{max-width:none;padding:0}
+  .player,.seek{display:none!important}
+  .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  figure,.box,table,ol.steps li{break-inside:avoid}
+  h2{break-after:avoid}
+  .head{break-inside:avoid}
+  nav.toc a{color:var(--ink)}
+}
+</style>
+</head>
+<body>
+<main>
+
+<header class="cover">
+  <div class="tag">鋼結構設計（SS）· 命題大綱 SS-U1-2 · 影片講義</div>
+  <h1>梁桿件</h1>
+  <div class="meta">影片長度 10:47　·　12 章　·　25 段　·　16 張黑板畫面</div>
+  <div class="core">這根梁，有沒有資格把塑性彎矩容量 \(M_p\) 用完？</div>
+</header>
+
+<nav class="toc">
+  <h3>目錄</h3>
+  <ol>
+    <li><a href="#c0">0　一句話</a><span>0:00</span></li>
+    <li><a href="#c1">1　為什麼會側扭</a><span>0:17</span></li>
+    <li><a href="#c2">2　逐級扣減</a><span>1:02</span></li>
+    <li><a href="#c3">3　本錢 Zx</a><span>1:50</span></li>
+    <li><a href="#c4">4　關卡一　局部挫屈</a><span>2:37</span></li>
+    <li><a href="#c5">5　關卡二　側扭挫屈</a><span>3:58</span></li>
+    <li><a href="#c6">6　實算一次</a><span>5:34</span></li>
+    <li><a href="#c7">7　Cb 紅利</a><span>6:34</span></li>
+    <li><a href="#c8">8　獨立檢核</a><span>8:19</span></li>
+    <li><a href="#c9">9　弱軸彎曲</a><span>9:09</span></li>
+    <li><a href="#c10">10　七步流程</a><span>9:41</span></li>
+    <li><a href="#c11">11　總結</a><span>10:12</span></li>
+  </ol>
+</nav>
+
+<div class="player"><video id="v" controls preload="metadata" src="video/SS-U1-2.mp4"></video></div>
+
+<!-- c0 -->
+<section id="c0">
+<div class="head"><h2><span class="no">0</span>一句話 <button class="seek" data-t="0.3">▶ 0:00</button></h2>
+<figure><img src="img/SS-U1-2/s01.jpg" alt="黑板：這根梁有沒有資格把 Mp 用完"><figcaption><b>整個單元只問一個問題</b><span class="t">影片 0:16</span></figcaption></figure></div>
+<p>這個單元所有的公式，其實都在回答同一個問題：<strong>這根梁，有沒有資格把塑性彎矩容量 \(M_p\) 用完？</strong>抓住這個問句，三道關卡、三個區段，都會自己排好隊。</p>
+<p class="small" style="color:var(--muted);font-size:14px">（黑板：\(M_p\) ＝ 塑性彎矩容量（全斷面降伏）；三道關卡｜三個區段｜取最不利）</p>
+</section>
+
+<!-- c1 -->
+<section id="c1">
+<div class="head"><h2><span class="no">1</span>為什麼會側扭 <button class="seek" data-t="17.5">▶ 0:17</button></h2>
+<p>先看梁受彎的時候發生什麼事。彎矩把梁分成上壓下拉：</p></div>
+<table>
+<tr><th>部位</th><th>受力</th><th>行為</th></tr>
+<tr><td class="r">上翼板</td><td>受壓</td><td>就像一根壓桿，想往側面挫屈</td></tr>
+<tr><td class="bl">下翼板</td><td>受拉</td><td>張力把它拉得筆直，不肯動</td></tr>
+</table>
+<figure><img src="img/SS-U1-2/s03.jpg" alt="黑板：立面、俯視與斷面側移扭轉"><figcaption><b>左：上壓下拉與俯視（只有上翼板彎出去 u）；右：斷面側移 u ＋扭轉 θ 同時發生</b><span class="t">影片 1:01</span></figcaption></figure>
+<p>可是兩片翼板被腹板綁在一起。上面想跑、下面不跑，斷面只好<strong>一邊側移、一邊扭轉</strong>，這就是側扭挫屈，LTB。</p>
+<div class="key"><b class="h">重點</b>LTB ＝ 側移 ＋ 扭轉。所以抵抗 LTB，一定同時要有側向彎曲勁度 \(EI_y\)，以及扭轉勁度 \(GJ\) 和翹曲勁度 \(EC_w\)。</div>
+</section>
+
+<!-- c2 -->
+<section id="c2">
+<div class="head"><h2><span class="no">2</span>逐級扣減 <button class="seek" data-t="62.5">▶ 1:02</button></h2>
+<p>解題架構是一條流水線。斷面先給本錢：\(M_p = F_yZ_x\)，全斷面降伏。接著過兩道關卡：</p></div>
+<table>
+<tr><th>站</th><th>判斷</th><th>問的是</th></tr>
+<tr><td>斷面本錢</td><td>\(M_p = F_yZ_x\)</td><td>全斷面降伏</td></tr>
+<tr><td class="r">關卡一 FLB</td><td>\(\lambda\) vs \(\lambda_p,\lambda_r\)</td><td>板件會不會先皺（局部挫屈）</td></tr>
+<tr><td class="bl">關卡二 LTB</td><td>\(L_b\) vs \(L_p,L_r\)</td><td>側撐夠不夠密（側扭挫屈）</td></tr>
+<tr><td class="g">設計強度</td><td>\(\phi_bM_n\)</td><td>取最不利 × 折減</td></tr>
+</table>
+<figure><img src="img/SS-U1-2/s05.jpg" alt="黑板：四格流水線與兩條獨立檢核"><figcaption><b>斷面先給本錢，再逐級扣減；下方兩條獨立檢核線</b><span class="t">影片 1:50</span></figcaption></figure>
+<p>關卡是<strong>串聯</strong>的，只要一關沒過，強度就打折，最後取最不利者，再乘 \(\phi_b = 0.90\)。關卡只會把 \(M_n\) 往下壓，永遠不會超過 \(M_p\)：</p>
+$$M_n \le M_p$$
+<p>另外還有剪力和撓度兩條獨立檢核，跟彎矩無關，但一樣會落選：剪力 \(V_n = 0.6F_yA_wC_v\)；使用性撓度 \(\delta \le L/360\)（服務載重）。</p>
+</section>
+
+<!-- c3 -->
+<section id="c3">
+<div class="head"><h2><span class="no">3</span>本錢 Zx <button class="seek" data-t="110.6">▶ 1:50</button></h2>
+<p>先把本錢算對。</p></div>
+<figure><img src="img/SS-U1-2/s06.jpg" alt="黑板：彈性 Sx 三角形應力 vs 塑性 Zx 兩塊矩形"><figcaption><b>① 彈性 \(S_x\)：三角形應力、ENA 在形心　② 塑性 \(Z_x\)：兩塊矩形、PNA 在等面積軸</b><span class="t">影片 2:11</span></figcaption></figure>
+<table>
+<tr><th></th><th>彈性 \(S_x\)</th><th>塑性 \(Z_x\)</th></tr>
+<tr><td>對應狀態</td><td>最外緣剛好降伏</td><td>全斷面降伏</td></tr>
+<tr><td>應力分布</td><td>三角形</td><td>上下兩塊矩形</td></tr>
+<tr><td>中性軸</td><td>形心（ENA）</td><td>等面積軸（PNA）</td></tr>
+<tr><td>公式</td><td>\(S_x = I_x/c,\ M_y = F_yS_x\)</td><td>\(Z_x = \sum A_i\bar y_i,\ M_p = F_yZ_x\)</td></tr>
+</table>
+<figure><img src="img/SS-U1-2/s07.jpg" alt="黑板：Zx 不等於 Ix/c、形狀因子條"><figcaption><b>\(Z_x \ne I_x/c\)；形狀因子 \(Z_x/S_x\)：H 型鋼強軸 1.12、矩形 1.50</b><span class="t">影片 2:37</span></figcaption></figure>
+<p>所以 \(Z_x\) 的算法是：塑性中性軸上下兩側的面積，各自對它取一次矩再相加，<span class="r">完全用不到 \(I_x\)</span>。</p>
+<div class="key"><b class="h">重點</b>對稱斷面兩個中性軸重合（ENA ＝ PNA）；非對稱斷面一定要分開算。</div>
+<div class="ok"><b class="h">檢查</b>H 型鋼強軸的 \(Z_x/S_x\) 大約 1.12，算完先拿它驗算。</div>
+</section>
+
+<!-- c4 -->
+<section id="c4">
+<div class="head"><h2><span class="no">4</span>關卡一　局部挫屈 <button class="seek" data-t="157.6">▶ 2:37</button></h2>
+<p>關卡一，寬厚比：<strong>翼板量一半，腹板量淨高。</strong></p></div>
+<figure><img src="img/SS-U1-2/s09.jpg" alt="黑板：翼板懸臂板、腹板兩端支承板、寬厚比限值"><figcaption><b>翼板 ≈ 懸臂板（一邊自由）、腹板 ≈ 兩端支承板；\(F_y = 2.5\) 時的 \(\lambda_p\)</b><span class="t">影片 3:30</span></figcaption></figure>
+<p>翼板從腹板往兩側懸出，外緣是自由端，是懸臂板；腹板上下都被翼板夾住，是兩端支承板，\(h\) 是淨高，不含翼板厚：</p>
+$$\color{#c8553d}{\lambda_f = \frac{b_f}{2t_f}}\qquad \color{#3d7fb0}{\lambda_w = \frac{h}{t_w}}$$
+<p>邊界條件不同，限值差很多。\(F_y = 2.5\) 的時候，翼板 \(\lambda_{pf} \approx 10.9\)，腹板 \(\lambda_{pw} \approx 107\)（一邊自由 → 最易皺 → 限值嚴；兩邊夾住 → 寬鬆）。</p>
+<div class="warn"><b class="h">最常見的錯</b>\(b_f\) 忘了除以二：寬厚比變兩倍，結實斷面全被誤判成非結實。</div>
+<figure><img src="img/SS-U1-2/s10.jpg" alt="黑板：結實、非結實、細長三分區圖"><figcaption><b>寬厚比三分區：結實／非結實／細長</b><span class="t">影片 3:58</span></figcaption></figure>
+<table>
+<tr><th>區</th><th>條件</th><th>強度</th></tr>
+<tr><td class="g">結實 Compact</td><td>\(\lambda \le \lambda_p\)</td><td>板不會先皺，可以進第二關爭取 \(M_p\)</td></tr>
+<tr><td class="o">非結實</td><td>\(\lambda_p < \lambda \le \lambda_r\)</td><td>從 \(M_p\) 線性折減到 \(M_r\)</td></tr>
+<tr><td class="r">細長 Slender</td><td>\(\lambda > \lambda_r\)</td><td>彈性局部挫屈</td></tr>
+</table>
+<div class="key"><b class="h">重點</b>翼板 \(\lambda_f\) 和腹板 \(\lambda_w\) 要分別檢核。</div>
+</section>
+
+<!-- c5 -->
+<section id="c5">
+<div class="head"><h2><span class="no">5</span>關卡二　側扭挫屈 <button class="seek" data-t="238.5">▶ 3:58</button></h2>
+<p>關卡二是全單元最核心的一張圖。橫軸是無側撐長度 \(L_b\)，縱軸是 \(M_n\)，\(L_p\) 和 \(L_r\) 把它切成三區。</p></div>
+<figure><img src="img/SS-U1-2/s12.jpg" alt="黑板：LTB 三區段圖"><figcaption><b>LTB 三區段：① 塑性區　② 非彈性 LTB　③ 彈性 LTB</b><span class="t">影片 4:43</span></figcaption></figure>
+<table>
+<tr><th>區段</th><th>條件</th><th>\(M_n\)</th></tr>
+<tr><td class="g">① 塑性區</td><td>\(L_b \le L_p\)</td><td>\(M_n = M_p\)，不需要乘 \(C_b\)</td></tr>
+<tr><td class="o">② 非彈性 LTB ★最常考</td><td>\(L_p < L_b \le L_r\)</td><td>從 \(M_p\) 線性內插到 \(M_r\)，再乘 \(C_b\)</td></tr>
+<tr><td class="bl">③ 彈性 LTB</td><td>\(L_b > L_r\)</td><td>\(M_n = C_bM_{cr}\)，再和 \(M_p\) 取小：\(\min(C_bM_{cr},\,M_p)\)</td></tr>
+</table>
+<p>\(M_r\) 是怎麼來的？答案是<strong>殘留應力 \(F_r\)</strong>。軋製冷卻不均，翼板尖端本來就帶著壓應力，熱軋型取 0.7，銲接組合取 1.16 tf/cm²。外加應力只要 \(F_y - F_r\)，尖端就開始降伏，所以</p>
+$$M_r = (F_y - F_r)\,S_x$$
+<figure><img src="img/SS-U1-2/s14.jpg" alt="黑板：殘留應力、加彎曲應力、全斷面降伏"><figcaption><b>① 軋製殘留應力　② 加上彎曲應力，尖端先到 \(F_y\)　③ 繼續加載到底，整片都是 \(F_y\)</b><span class="t">影片 5:34</span></figcaption></figure>
+<p>但殘留應力是自相平衡的，合力和合彎矩都是零。等到全斷面降伏，它就自行抵銷。所以 \(F_r\) 只進 \(M_r\) 和 \(L_r\)，絕對不影響 \(M_p = F_yZ_x\)。</p>
+<div class="key"><b class="h">重點</b>看到題目給 \(F_r\)，就丟進 \(M_r\) 和 \(L_r\)，\(M_p\) 那一行不用理它。</div>
+</section>
+
+<!-- c6 -->
+<section id="c6">
+<div class="head"><h2><span class="no">6</span>實算一次 <button class="seek" data-t="334.9">▶ 5:34</button></h2>
+<p>實際跑一次。熱軋 H400×200×8×13，\(F_y = 2.5\)，側撐間距 4 m。</p></div>
+<figure><img src="img/SS-U1-2/s16.jpg" alt="黑板：H400x200x8x13 完整算例"><figcaption><b>完整算例：寬厚比 → 分界點 → 內插 → 乘 \(C_b\) → 截頂檢查 → 乘 0.9</b><span class="t">影片 6:34</span></figcaption></figure>
+<p>翼板寬厚比 7.69、腹板 46.8，都在限值內，結實斷面：</p>
+$$\lambda_f = 7.69 < 10.9,\qquad \lambda_w = 46.8 < 107\quad\text{結實}$$
+$$M_p = 2.5(1286) = 3215\ \text{tf}\cdot\text{cm},\qquad M_r = (2.5-0.7)(1148) = 2067\ \text{tf}\cdot\text{cm}$$
+<p>\(L_p = 2.31\) m、\(L_r = 6.81\) m，\(L_b = 4.0\) m 落在 ② 非彈性區。內插：</p>
+$$M_n = 3215 - 1148\cdot\frac{400-231}{681-231} = 2784\ \text{tf}\cdot\text{cm}$$
+<p>均布載重 \(C_b = 1.14\)，乘完 3174，小於 \(M_p\) 3215，不必截頂。再乘 0.9：</p>
+$$C_bM_n = 1.14(2784) = 3174 < M_p = 3215\quad\text{不必截頂}$$
+$$\phi_bM_n = 0.9(3174) = 2857\ \text{tf}\cdot\text{cm} = 28.6\ \text{tf}\cdot\text{m}$$
+<div class="ok"><b class="h">觀察</b>\(C_b\) 幾乎把非彈性的折減全部補了回來。</div>
+</section>
+
+<!-- c7 -->
+<section id="c7">
+<div class="head"><h2><span class="no">7</span>Cb 紅利 <button class="seek" data-t="395.0">▶ 6:34</button></h2>
+<p>\(C_b\) 是彎矩梯度的紅利：同一根梁、同一個 \(L_b\)，彎矩圖越不飽滿，能撐的就越多。</p></div>
+<table>
+<tr><th>彎矩圖</th><th>\(C_b\)</th><th>說明</th></tr>
+<tr><td class="r">兩端等彎矩（均勻彎矩）</td><td>1.00</td><td>每個斷面都吃滿，最不利，是基準</td></tr>
+<tr><td class="o">簡支均布載重</td><td>1.14</td><td>小紅利</td></tr>
+<tr><td class="g">一端有彎矩、一端是零（線性）</td><td>1.67</td><td>紅利最大</td></tr>
+</table>
+<figure><img src="img/SS-U1-2/s18.jpg" alt="黑板：三種彎矩圖的 Cb 與四分點公式"><figcaption><b>三種彎矩圖的 \(C_b\)；下方：四分點取樣公式</b><span class="t">影片 7:31</span></figcaption></figure>
+<p>公式用四分點取樣：把無側撐段切成四等分，讀 \(M_A\)、\(M_B\)、\(M_C\)：</p>
+$$C_b = \frac{12.5M_{max}}{2.5M_{max} + 3M_A + 4M_B + 3M_C} \le 3.0$$
+<div class="key"><b class="h">重點</b>全部取絕對值；不確定時取 1.0，永遠偏保守。</div>
+<figure><img src="img/SS-U1-2/s19.jpg" alt="黑板：Cb 抬升曲線與截頂"><figcaption><b>\(C_b = 1.3\) 把整條曲線往上抬，超過 \(M_p\) 的部分一律削平</b><span class="t">影片 7:52</span></figcaption></figure>
+<p>陷阱在上限。\(C_b\) 把整條曲線往上抬，但天花板 \(M_p\) 不會跟著抬，抬過頭的部分一律削平。\(C_b = 1.3\) 的時候，非彈性區左邊一大段都會超過 \(M_p\)。</p>
+<div class="warn"><b class="h">陷阱</b>乘完 \(C_b\) 一定要多寫一行，和 \(M_p\) 比（截頂 \(\le M_p\)）。</div>
+<figure><img src="img/SS-U1-2/s20.jpg" alt="黑板：兩個側撐點切三段"><figcaption><b>兩個側撐點切三段，各段 \(L_b\)、\(C_b\) 不同；本例由第 ② 段控制（數值為示意）</b><span class="t">影片 8:18</span></figcaption></figure>
+<p>有多個側撐點時，要逐段各算各的：每一段用自己的 \(L_b\) 和 \(C_b\) 算 \(\phi_bM_n\)，再跟該段自己的 \(M_u\) 比。</p>
+<table>
+<tr><th>段</th><th>\(L_b\)</th><th>\(C_b\)</th><th>特徵</th></tr>
+<tr><td>第 ① 段</td><td>3.0 m</td><td>≈ 1.4</td><td>彎矩小、\(C_b\) 大</td></tr>
+<tr><td class="r">第 ② 段 ★控制</td><td>2.4 m</td><td>≈ 1.0</td><td>彎矩最大、\(C_b\) 最小</td></tr>
+<tr><td>第 ③ 段</td><td>3.2 m</td><td>≈ 1.52</td><td>\(L_b\) 最長但彎矩小</td></tr>
+</table>
+<p>\(L_b\) 最長的那段，常被 \(C_b\) 救回來；中段 \(L_b\) 短，但 \(C_b\) 接近 1，又碰上最大彎矩，往往才是控制段。</p>
+</section>
+
+<!-- c8 -->
+<section id="c8">
+<div class="head"><h2><span class="no">8</span>獨立檢核 <button class="seek" data-t="499.1">▶ 8:19</button></h2>
+<p>強度算完，還有兩條獨立檢核。</p></div>
+<figure><img src="img/SS-U1-2/s22.jpg" alt="黑板：剪力與撓度檢核"><figcaption><b>上：剪力（全深 \(d\) vs 淨高 \(h\)）；下：撓度用服務載重</b><span class="t">影片 9:09</span></figcaption></figure>
+<p><strong>剪力：</strong>剪力幾乎全由腹板承擔。</p>
+$$V_n = 0.6\,F_yA_wC_v,\qquad 0.6 \leftarrow \frac{1}{\sqrt3} = 0.577\ \text{（純剪降伏）},\qquad A_w = d\times t_w,\qquad \phi_v = 0.90$$
+<p>剪力面積用全深 \(d\) 乘 \(t_w\)，不是淨高 \(h\)。</p>
+<div class="warn"><b class="h">陷阱</b>同一題裡，<span class="r">剪力用 \(d\)</span>、<span class="bl">寬厚比用 \(h\)</span>，代錯就整題報銷。</div>
+<p><strong>撓度：</strong>撓度是使用性檢核，例如 \(\delta \le L/360\)，一定要用服務載重和彈性的 \(I_x\)，不能用 1.2D+1.6L。</p>
+<div class="warn"><b class="h">陷阱</b>用了因數化載重，撓度會高估四到六成，選出來的斷面就太大了。</div>
+</section>
+
+<!-- c9 -->
+<section id="c9">
+<div class="head"><h2><span class="no">9</span>弱軸彎曲 <button class="seek" data-t="549.6">▶ 9:09</button></h2>
+<figure><img src="img/SS-U1-2/s23.jpg" alt="黑板：強軸彎曲 vs 弱軸彎曲"><figcaption><b>強軸彎曲：受壓翼板往弱向側移 → LTB 會發生；弱軸彎曲：要往強向側移 → 挫不動</b><span class="t">影片 9:40</span></figcaption></figure></div>
+<p>弱軸彎曲為什麼沒有 LTB？挫屈一定往比較弱的方向去。繞弱軸彎的時候，受壓區要側移只能往強軸方向，挫不動，所以和 \(L_b\) 完全無關。但另有上限：</p>
+$$M_{ny} = \min\left(F_yZ_y,\ 1.5F_yS_y\right)$$
+<table>
+<tr><th>形狀因子 Z/S</th><th>值</th></tr>
+<tr><td>H 型鋼強軸</td><td>1.12</td></tr>
+<tr><td>H 型鋼弱軸</td><td>1.55</td></tr>
+<tr><td>規範上限</td><td>1.50</td></tr>
+</table>
+<div class="key"><b class="h">重點</b>H 型鋼弱軸形狀因子大約 1.55，超過 1.5，就由上限 \(1.5F_yS_y\) 控制。</div>
+</section>
+
+<!-- c10 -->
+<section id="c10">
+<div class="head"><h2><span class="no">10</span>七步流程 <button class="seek" data-t="581.3">▶ 9:41</button></h2>
+<figure><img src="img/SS-U1-2/s24.jpg" alt="黑板：七步流程"><figcaption><b>拿到一題梁，照七步走</b><span class="t">影片 10:11</span></figcaption></figure></div>
+<ol class="steps">
+<li>算斷面性質：\(Z_x\)、\(S_x\)、\(I_x\)、\(r_y\)（非對稱分開算 ENA／PNA）</li>
+<li>驗寬厚比：\(\lambda_f = b_f/2t_f\)、\(\lambda_w = h/t_w\) → 結實？</li>
+<li>圈出側撐點，算每段的 \(L_b\) 和 \(C_b\)</li>
+<li>算分界點：\(M_p\)、\(M_r\)、\(L_p\)、\(L_r\)</li>
+<li>判定 \(L_b\) 落在哪一區，代對應公式</li>
+<li class="hl">× \(C_b\) → 截頂 \(\le M_p\) → × \(\phi_b = 0.90\)</li>
+<li>收尾檢核：剪力 \(\phi_vV_n\) 與服務載重撓度 \(\delta\)</li>
+</ol>
+</section>
+
+<!-- c11 -->
+<section id="c11">
+<div class="head"><h2><span class="no">11</span>總結 <button class="seek" data-t="612.3">▶ 10:12</button></h2>
+<figure><img src="img/SS-U1-2/s25.jpg" alt="黑板：四條重點總結"><figcaption><b>四條重點</b><span class="t">影片 10:46</span></figcaption></figure></div>
+<table>
+<tr><th>第一</th><td>斷面給本錢 \(M_p = F_yZ_x\)；\(Z_x\) 不是 \(I_x/c\)</td></tr>
+<tr><th class="r">第二</th><td>關卡一（板的尺度）：翼板量一半、腹板量淨高</td></tr>
+<tr><th class="bl">第三</th><td>關卡二（桿的尺度）：\(L_b\) 落在哪一區，乘完 \(C_b\) 要截頂</td></tr>
+<tr><th class="o">第四</th><td>剪力（全深 \(d\)）和撓度（服務載重）另外檢核</td></tr>
+</table>
+<div class="key"><b class="h">整個單元的答案</b>這根梁有沒有資格把 \(M_p\) 用完？</div>
+</section>
+
+<footer>
+來源：<code>video/SS-U1-2.mp4</code>（10:47）、<code>video/segments.py</code>（逐字旁白，25 段／12 章）、<code>video/SS-U1-2.srt</code>（時間軸）。黑板畫面取自各段結束前 0.5 秒。<br>
+本講義只將旁白轉寫為數學符號並整理成表格，未新增影片以外的內容；算例數值見 <code>video/HANDOFF.md</code>，第 7 章多側撐段 \(L_b\)／\(C_b\) 為示意值。
+</footer>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+  var v=document.getElementById('v');
+  document.querySelectorAll('.seek').forEach(function(b){b.addEventListener('click',function(){
+    v.currentTime=parseFloat(b.dataset.t);v.play();v.scrollIntoView({behavior:'smooth',block:'nearest'});});});
+});
+</script>
+</body>
+</html>

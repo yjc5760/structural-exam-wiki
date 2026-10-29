@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2007-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2007-3 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-2.html" title="SS-U1-2 梁桿件 命題分析">&#128269; U1-2 命題分析</a><a class="lect" href="../lecture-SS-U1-2.html" title="SS-U1-2 梁桿件 觀念講義">&#128218; U1-2 梁桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2007-3</h1>
+<p><strong>主分類：</strong> <code>SS-U1-2</code> 梁桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>梁桿件</code> <code>LRFD</code> <code>LTB側扭挫屈</code> <code>非彈性LTB</code> <code>彈性LTB</code> <code>Cb係數</code> <code>X1X2參數</code> <code>Lp</code> <code>Lr</code> <code>φbMn</code></p>
+<hr />
+<h2>1. 原始題目重述</h2>
+<p>H 700×200×12×25（$d \times b_f \times t_w \times t_f$，單位 mm），以 LRFD 求各種側向無支撐長度下的設計彎矩強度 $\phi_b M_n$。</p>
+<p><strong>材料：</strong> $F_y = 3.5 \text{ tf/cm}^2$，$E = 2040 \text{ tf/cm}^2$，$G = 790 \text{ tf/cm}^2$，殘留應力 $F_r = 1.16 \text{ tf/cm}^2$</p>
+<p><strong>斷面性質（題目提供）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>性質</th>
+<th>數值</th>
+<th></th>
+<th>性質</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$d$</td>
+<td>70 cm</td>
+<td></td>
+<td>$A$</td>
+<td>178 cm²</td>
+</tr>
+<tr>
+<td>$b_f$</td>
+<td>20 cm</td>
+<td></td>
+<td>$r_y$</td>
+<td>4.33 cm</td>
+</tr>
+<tr>
+<td>$t_w$</td>
+<td>1.2 cm</td>
+<td></td>
+<td>$r_x$</td>
+<td>28.19 cm</td>
+</tr>
+<tr>
+<td>$t_f$</td>
+<td>2.5 cm</td>
+<td></td>
+<td>$Z_x$</td>
+<td>4642.5 cm³</td>
+</tr>
+<tr>
+<td>$I_x$</td>
+<td>141421 cm⁴</td>
+<td></td>
+<td>$S_x$</td>
+<td>4040.6 cm³</td>
+</tr>
+<tr>
+<td>$I_y$</td>
+<td>3343 cm⁴</td>
+<td></td>
+<td>$S_y$</td>
+<td>334.3 cm³</td>
+</tr>
+<tr>
+<td>$J$</td>
+<td>245.77 cm⁴</td>
+<td></td>
+<td>$C_w$</td>
+<td>3807536.63 cm⁶</td>
+</tr>
+</tbody>
+</table>
+<p><strong>三種計算條件：</strong></p>
+<ul>
+<li><strong>(一)</strong> 完全側向支撐（$L_b \leq L_p$）</li>
+<li><strong>(二)</strong> $L_b = 5\text{ m}$，$C_b = 1.0$（非彈性 LTB）</li>
+<li><strong>(三)</strong> $L_b = 8\text{ m}$，$C_b = 1.7$（彈性 LTB）</li>
+</ul>
+<p>（無附圖，斷面性質及條件均以文字給定）</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖</h2>
+<p>本題完整覆蓋 LTB 三個區段（塑性區、非彈性 LTB、彈性 LTB），測試考生能否：</p>
+<ol>
+<li>計算 $X_1$、$X_2$ 兩個 LTB 輔助參數</li>
+<li>正確計算 $L_p$、$L_r$ 並判斷三個區段</li>
+<li>在 $C_b \neq 1$ 時正確套用彈性 LTB 公式</li>
+</ol>
+<p>出題意圖：$C_b = 1.7$ 使案例(三)即使 $L_b > L_r$ 也能補償部分強度，讓考生體會 $C_b$ 的作用。</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析</h2>
+<p><strong>解題步驟：</strong></p>
+<ol>
+<li>確認斷面結實（compact section）</li>
+<li>計算 $M_p$、$M_r$</li>
+<li>計算 $X_1$、$X_2$（LTB 輔助參數）</li>
+<li>計算 $L_p$、$L_r$（LTB 分界長度）</li>
+<li>依各條件判斷 LTB 區段，套用對應公式</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<ol>
+<li><strong>$X_2$ 的計算</strong>：$X_2 = 4(C_w/I_y)[S_x/(GJ)]^2$，各項單位必須一致（cm、tf）</li>
+<li><strong>$F_r$ 的用途</strong>：殘留應力只出現在 $M_r = (F_y - F_r)S_x$ 和 $L_r$ 公式中，不出現在 $M_p$</li>
+<li><strong>$C_b$ 在彈性 LTB 的乘法位置</strong>：$M_n = C_b \times [\cdots] \leq M_p$，要在最後才限制 $M_p$</li>
+</ol>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 計算 H700×200 三種 $L_b$ 條件下的 $\phi_bM_n$（覆蓋 LTB 三個區段）</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\boxed{L_p} = \frac{80r_y}{\sqrt{F_y}},\quad \boxed{L_r} = \frac{r_y X_1}{F_y - F_r}\sqrt{1 + \sqrt{1 + X_2(F_y-F_r)^2}}$$</p>
+<p>$$\text{非彈性 LTB：}\boxed{M_n} = C_b\left[M_p - (M_p - M_r)\frac{L_b - L_p}{L_r - L_p}\right] \leq M_p$$</p>
+<p>$$\text{彈性 LTB：}\boxed{M_n} = \frac{C_b S_x X_1 \sqrt{2}}{L_b/r_y}\sqrt{1 + \frac{X_1^2 X_2}{2(L_b/r_y)^2}} \leq M_p$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_y$</td>
+<td>3.5 tf/cm²</td>
+<td>降伏應力</td>
+</tr>
+<tr>
+<td>$F_r$</td>
+<td>1.16 tf/cm²</td>
+<td>殘留應力（壓縮）</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>2040 tf/cm²</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>$G$</td>
+<td>790 tf/cm²</td>
+<td>剪切模數</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>4.33 cm</td>
+<td>弱軸迴轉半徑</td>
+</tr>
+<tr>
+<td>$Z_x$</td>
+<td>4642.5 cm³</td>
+<td>塑性斷面模數</td>
+</tr>
+<tr>
+<td>$S_x$</td>
+<td>4040.6 cm³</td>
+<td>彈性斷面模數</td>
+</tr>
+<tr>
+<td>$I_y$</td>
+<td>3343 cm⁴</td>
+<td>弱軸慣性矩</td>
+</tr>
+<tr>
+<td>$J$</td>
+<td>245.77 cm⁴</td>
+<td>聖維南扭轉常數</td>
+</tr>
+<tr>
+<td>$C_w$</td>
+<td>3807536.63 cm⁶</td>
+<td>翹曲常數</td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>178 cm²</td>
+<td>斷面積</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：基本強度參數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_p$</td>
+<td>$F_y Z_x = 3.5 \times 4642.5 = 16249$ tf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_r$</td>
+<td>$(F_y - F_r)S_x = 2.34 \times 4040.6 = 9455$ tf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：LTB 輔助參數 X₁、X₂</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$X_1$</td>
+<td>$\frac{\pi}{S_x}\sqrt{\frac{EGJA}{2}} = 146.0$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$GJ$</td>
+<td>$790 \times 245.77 = 194158$ tf·cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$X_2$</td>
+<td>$\frac{4C_w}{I_y}\left(\frac{S_x}{GJ}\right)^2 = 1.973$ cm⁴/tf²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：LTB 分界長度 Lp、Lr</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L_p$</td>
+<td>$80r_y/\sqrt{F_y} = 80 \times 4.33/1.871 = 185.1$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\sqrt{1 + X_2(F_y-F_r)^2}$</td>
+<td>$\sqrt{1 + 1.973 \times 2.34^2} = \sqrt{11.80} = 3.436$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_r$</td>
+<td>$r_y X_1/(F_y-F_r) \times \sqrt{1+3.436} = 568.9$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：三案例 $\phi_bM_n$</strong></p>
+<table>
+<thead>
+<tr>
+<th>案例</th>
+<th>$L_b$</th>
+<th>$C_b$</th>
+<th>區段</th>
+<th>$\phi_bM_n$</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(一)</td>
+<td>$\leq L_p$</td>
+<td>—</td>
+<td>塑性</td>
+<td>146.2 tf·m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>(二)</td>
+<td>500 cm</td>
+<td>1.0</td>
+<td>非彈性 LTB</td>
+<td>96.1 tf·m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>(三)</td>
+<td>800 cm</td>
+<td>1.7</td>
+<td>彈性 LTB</td>
+<td>87.8 tf·m</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LTB 三段判斷邏輯</td>
+<td>先算 $L_p$、$L_r$，與 $L_b$ 比大小後才套公式，順序不可顛倒</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">ltb-3zone</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">LATERAL-TORSIONAL-BUCKLING</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_r$ 殘留應力的用途</td>
+<td>只出現在 $M_r = (F_y-F_r)S_x$ 與 $L_r$ 公式中，<strong>不</strong>出現在 $M_p$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RESIDUAL-STRESS</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$X_2$ 公式各項單位一致性</td>
+<td>$C_w$（cm⁶）、$I_y$（cm⁴）、$S_x$（cm³）、$GJ$（tf·cm²），計算前統一單位</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_b$ 在彈性 LTB 的乘法位置</td>
+<td>$M_n = C_b \times [\cdots]$，最後才限制 $M_n \leq M_p$，不是先除 $C_b$ 再算</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">cb-factor</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">BENDING-MODIFICATION-FACTOR-CB</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$X_1$、$X_2$ 的物理意義</td>
+<td>$X_1$：扭轉挫屈應力（tf/cm²）；$X_2$：翹曲相對扭轉貢獻（無因次）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程</h2>
+<h3>Step 1：斷面結實性驗算</h3>
+<p><strong>翼板：</strong><br />
+$$\lambda_f = \frac{b_f}{2t_f} = \frac{20}{2 \times 2.5} = 4.0 \leq \frac{17}{\sqrt{F_y}} = 9.08 \implies \text{結實 ✓}$$</p>
+<p><strong>腹板（純彎）：</strong><br />
+$$\lambda_w = \frac{h}{t_w} = \frac{65}{1.2} = 54.2 \leq \frac{138}{\sqrt{F_y}} = 73.8 \implies \text{結實 ✓}$$</p>
+<h3>Step 2：基本強度 Mp 與 Mr</h3>
+<p>$$M_p = F_y Z_x = 3.5 \times 4642.5 = \mathbf{16{,}248.8 \text{ tf·cm}}$$</p>
+<p>$$M_r = (F_y - F_r)S_x = 2.34 \times 4040.6 = \mathbf{9{,}455.0 \text{ tf·cm}}$$</p>
+<h3>Step 3：計算輔助參數 X₁ 和 X₂</h3>
+<p>$$EGJA = 2040 \times 790 \times 245.77 \times 178 = 70{,}503 \times 10^6 \text{ tf}^2 \text{cm}^2$$</p>
+<p>$$X_1 = \frac{\pi}{S_x}\sqrt{\frac{EGJA}{2}} = \frac{\pi}{4040.6} \times 187{,}750 = \mathbf{146.0 \text{ tf/cm}^2}$$</p>
+<p>$$GJ = 790 \times 245.77 = 194{,}158 \text{ tf·cm}^2$$</p>
+<p>$$X_2 = \frac{4C_w}{I_y}\left[\frac{S_x}{GJ}\right]^2 = 4556.6 \times (0.02081)^2 = \mathbf{1.973 \text{ cm}^4/\text{tf}^2}$$</p>
+<h3>Step 4：計算 Lp 和 Lr</h3>
+<p>$$L_p = \frac{80 r_y}{\sqrt{F_y}} = \frac{80 \times 4.33}{1.871} = \mathbf{185.1 \text{ cm} = 1.85 \text{ m}}$$</p>
+<p>$$L_r = \frac{r_y X_1}{F_y - F_r}\sqrt{1 + \sqrt{1 + X_2(F_y-F_r)^2}} = \frac{4.33 \times 146.0}{2.34} \times 2.106 = \mathbf{568.9 \text{ cm} \approx 5.69 \text{ m}}$$</p>
+<h3>案例 (一)：完全側向支撐，Lb ≤ Lp = 1.85 m</h3>
+<p>$$\boxed{\phi_b M_n = 0.9 \times 16{,}248.8 = 14{,}623.9 \text{ tf·cm} \approx \mathbf{146.2 \text{ tf·m}}}$$</p>
+<h3>案例 (二)：Lb = 5 m = 500 cm，Cb = 1.0（非彈性 LTB）</h3>
+<p>$$\frac{L_b - L_p}{L_r - L_p} = \frac{500 - 185.1}{568.9 - 185.1} = 0.8204$$</p>
+<p>$$M_n = 1.0 \times [16{,}248.8 - 6{,}793.8 \times 0.8204] = 10{,}676.6 \text{ tf·cm}$$</p>
+<p>$$\boxed{\phi_b M_n = 0.9 \times 10{,}676.6 = 9{,}608.9 \text{ tf·cm} \approx \mathbf{96.1 \text{ tf·m}}}$$</p>
+<h3>案例 (三)：Lb = 8 m = 800 cm，Cb = 1.7（彈性 LTB）</h3>
+<p>$$\frac{L_b}{r_y} = \frac{800}{4.33} = 184.76 \quad ; \quad \frac{X_1^2 X_2}{2(L_b/r_y)^2} = 0.616$$</p>
+<p>$$M_n = 1.7 \times \frac{4040.6 \times 146.0 \times \sqrt{2}}{184.76} \times \sqrt{1.616} = 1.7 \times 5737.3 = 9{,}753.4 \text{ tf·cm}$$</p>
+<p>$$\boxed{\phi_b M_n = 0.9 \times 9{,}753.4 = 8{,}778.1 \text{ tf·cm} \approx \mathbf{87.8 \text{ tf·m}}}$$</p>
+<h3>三案例結果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>案例</th>
+<th>$L_b$</th>
+<th>$C_b$</th>
+<th>LTB 區段</th>
+<th>$M_n$ (tf·cm)</th>
+<th>$\phi_b M_n$ (tf·m)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(一)</td>
+<td>≤ 1.85 m</td>
+<td>—</td>
+<td>塑性區（無 LTB）</td>
+<td>16,249</td>
+<td><strong>146.2</strong></td>
+</tr>
+<tr>
+<td>(二)</td>
+<td>5 m</td>
+<td>1.0</td>
+<td>非彈性 LTB</td>
+<td>10,677</td>
+<td><strong>96.1</strong></td>
+</tr>
+<tr>
+<td>(三)</td>
+<td>8 m</td>
+<td>1.7</td>
+<td>彈性 LTB</td>
+<td>9,753</td>
+<td><strong>87.8</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討</h2>
+<p><strong>$C_b = 1.7$ 的效益分析</strong></p>
+<p>若案例(三)改為 $C_b = 1.0$，則：<br />
+$$M_n = \frac{1.0}{1.7} \times 9{,}753.4 = 5{,}737.3 \text{ tf·cm} \implies \phi_b M_n = 51.6 \text{ tf·m}$$</p>
+<p>$C_b = 1.7$ 使強度從 51.6 tf·m 提升至 87.8 tf·m（提升 70%），清楚展示 $C_b$ 在彈性 LTB 中的放大效益。</p>
+<p><strong>X₁、X₂ 的物理意義</strong></p>
+<ul>
+<li>$X_1$ 相當於無側向支撐時的彈性挫屈應力（含扭轉項），單位 tf/cm²</li>
+<li>$X_2 \cdot (F_y - F_r)^2$ 代表翹曲剛度對扭轉勁度的貢獻比（無因次）</li>
+<li>當 $X_2 \cdot (F_y - F_r)^2 \gg 1$ 時（深而寬翼板），翹曲勁度主導 LTB，$L_r$ 較大</li>
+</ul>
+<p><strong>本題斷面特性：</strong> H700×200 屬於窄翼板深腹板型（$b_f/d = 200/700 = 0.29$），$r_y = 4.33$ cm 很小，$L_p = 1.85$ m 極短，代表此斷面對 LTB 非常敏感，實際設計中必須仔細檢核側向支撐間距。</p>
+</main>
+<footer>來源：raw/solutions/SS-2007-3/SS-2007-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2016-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2016-3 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2016-3</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>殘留應力</code> <code>壓力桿件</code> <code>柱強度曲線</code> <code>切線模數</code> <code>挫屈應力</code> <code>比例限</code> <code>Euler曲線</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>子問題：</strong></p>
+<ol>
+<li><strong>(一)</strong> 何謂殘留應力？（5 分）</li>
+<li><strong>(二)</strong> 殘留應力的來源有哪些？（5 分）</li>
+<li><strong>(三)</strong> 殘留應力對受壓桿件的影響為何？（5 分）</li>
+<li><strong>(四)</strong> 圖 1 所示為某一斷面殘留應力的分布圖（翼板外側各 $b/3$ 為壓應力 $F_y/4$，內側為拉應力 $F_y/4$），請繪出該斷面受壓時強軸的 $F_{cr}$ vs $L/r$ 曲線（$F_{cr}$：由軸壓力所引致的挫屈應力；$y$ 軸為 $F_{cr}$，$x$ 軸為 $L/r$，假設 $K=1$）。已知材料降伏應力 $F_y = 2.5 \text{ tf/cm}^2$，完美彈塑性曲線如圖 2，$E = 2040 \text{ tf/cm}^2$。（15 分）</li>
+</ol>
+<p><strong>殘留應力分佈（圖 1）：</strong></p>
+<pre><code>        ←── 翼板寬 b ──→
+   ┌────┬────────────┬────┐  ← 翼板（厚 t）
+   │-b/3│    b/3     │-b/3│
+   │壓Fy/4│ 拉Fy/4  │壓Fy/4│
+   └────┴────────────┴────┘
+   （翼板兩端 b/3 為殘留壓應力，中段為殘留拉應力）
+   （腹板區域：拉應力 Fy/4 ← 圖 1 標示在下方）
+</code></pre>
+<p><img alt="SS-2016-3 圖1 斷面示意圖：翼板寬度 b 分三段，外側各 b/3 為殘留壓應力 Fy/4（壓），中央 b/3 為殘留拉應力 Fy/4（拉），腹板亦為 Fy/4 拉應力，翼板厚度標示為 t" src="../../raw/solutions/SS-2016-3/SS-2016-3-fig-1.png" /></p>
+<p><em>圖說（圖 1 斷面示意圖）：翼板寬度 $b$，厚度 $t$，殘留應力為塊狀分佈：翼板兩端各 $b/3$ 區段為殘留</em><em>壓</em><em>應力 $F_y/4$（圖中標「壓」），中央 $b/3$ 區段為殘留</em><em>拉</em><em>應力 $F_y/4$（圖中標「拉」）；腹板區域（圖下方小方塊）亦為拉應力 $F_y/4$。殘留應力呈自平衡分佈：壓區合力 $= 2 \times (b/3) \times t \times (F_y/4)$，拉區合力 $= (b/3) \times t \times (F_y/4) + \text{腹板拉力}$，合計淨力為零。</em></p>
+<p><img alt="SS-2016-3 圖2 材料性質圖：完全彈塑性應力-應變關係，彈性段斜率 E=2040 tf/cm²，達 Fy 後水平延伸（無應變硬化）" src="../../raw/solutions/SS-2016-3/SS-2016-3-fig-2.png" /></p>
+<p><em>圖說（圖 2 材料性質圖）：鋼材採完全彈塑性假設（Perfect Elastic-Plastic）。彈性段：應力 $F = E\varepsilon$，斜率 $E = 2040\text{ tf/cm}^2$，至降伏應變 $\varepsilon_y = F_y/E$。塑性段：應力維持 $F = F_y = 2.5\text{ tf/cm}^2$ 水平延伸（無應變硬化，無下降段）。此假設是切線模數理論的材料基礎——降伏後切線模數 $E_t = 0$，降伏前 $E_t = E$。</em></p>
+<blockquote>
+<p>📊 <strong>互動圖請參閱：</strong> <code>SS-2016-3-column-curve-viz.html</code></p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：殘留應力降低柱的挫屈強度——中間細長比最危險</strong></p>
+<p>此題系統性地測驗考生對殘留應力的全面理解：從定義、來源、影響機制，到<strong>定量繪製柱強度曲線</strong>的能力。第四小題需要具體計算曲線上的關鍵轉折點。</p>
+<p><strong>出題者測驗重點：</strong></p>
+<ul>
+<li>殘留應力的「比例限（Proportional Limit）」概念</li>
+<li>切線模數（Tangent Modulus）與有效彈性模數的關係</li>
+<li>能否正確計算 $L/r$ 的轉折點（由彈性轉向非彈性的臨界細長比）</li>
+<li>Euler 曲線 vs 實際柱強度曲線的形狀差異</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>步驟規劃（第四題）：</strong></p>
+<ol>
+<li>由殘留應力分佈求出<strong>比例限</strong>（Proportional Limit）$F_{PL}$</li>
+<li>計算彈性挫屈轉折點 $(L/r)_{\text{trans}}$：令 $F_e = F_{PL}$</li>
+<li>確定曲線的三個區域：塑性（短柱）、非彈性挫屈（中等柱）、彈性 Euler（長柱）</li>
+<li>計算關鍵點的數值，繪製示意圖</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<blockquote>
+<p>⚠️ <strong>陷阱1：比例限的計算方向</strong><br />
+殘留應力為<strong>壓應力</strong> $F_{rc} = F_y/4$ 時，疊加外部壓應力 $F_a$ 後，翼板尖端最先達到降伏：<br />
+$F_a + F_{rc} = F_y$ → $F_a = F_y - F_{rc} = 3F_y/4$<br />
+比例限 $F_{PL} = 3F_y/4 = 1.875 \text{ tf/cm}^2$，<strong>非</strong> $F_y$ 本身。</p>
+<p>⚠️ <strong>陷阱2：曲線形狀描述不完整</strong><br />
+完整的 $F_{cr}$ vs $L/r$ 曲線需包含三段：(a) $F_{cr} = F_y$（極短柱），(b) 切線模數非彈性曲線，(c) Euler 彈性曲線。漏掉任何一段均不完整。</p>
+<p>⚠️ <strong>陷阱3：Euler 曲線的起始點計算錯誤</strong><br />
+Euler 曲線的有效起始點是 $(L/r)_{\text{trans}}$，其數值由 $F_e = F_{PL}$ 求出，而非由 $F_e = F_y$ 求出。</p>
+</blockquote>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 定義殘留應力 → 說明來源與對壓力桿影響 → 計算比例限 $F_{PL}$ 與轉折點 $(L/r)_{trans}$ → 繪製三段式柱強度曲線</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\boxed{F_{PL}} = F_y - F_{rc} = F_y - \frac{F_y}{4} = \frac{3F_y}{4}$$</p>
+<p>$$\boxed{(L/r)_{trans}} = \sqrt{\frac{\pi^2 E}{F_{PL}}} = \sqrt{\frac{4\pi^2 E}{3F_y}}$$</p>
+<p>$$F_{cr}^{(\text{非彈性})} = \frac{F_y \cdot F_e}{F_e + F_{rc}} \quad (L/r \leq (L/r)_{trans})$$</p>
+<p>$$F_{cr}^{(\text{彈性})} = \frac{\pi^2 E}{(L/r)^2} \quad (L/r > (L/r)_{trans})$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_y$</td>
+<td>2.5 tf/cm²</td>
+<td>降伏應力</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>2,040 tf/cm²</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>$F_{rc}$</td>
+<td>$F_y/4 = 0.625$ tf/cm²</td>
+<td>殘留壓應力（翼板外側各 $b/3$）</td>
+</tr>
+<tr>
+<td>$K$</td>
+<td>1.0</td>
+<td>有效長度係數（題目假設）</td>
+</tr>
+<tr>
+<td>殘留應力分佈</td>
+<td>翼板外側各 $b/3$ 壓，中段 $b/3$ 拉，腹板拉</td>
+<td>塊狀分佈（圖 1）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：殘留應力定義與來源（子問題一、二）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定義</td>
+<td>無外力作用下，截面自平衡的初始應力系統</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>主要來源</td>
+<td>① 不均勻冷卻（熱軋型鋼）② 焊接 ③ 冷加工</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：殘留應力對壓力桿的影響（子問題三）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>提前降伏條件</td>
+<td>$F_a + F_{rc} \geq F_y$ → 翼板尖端提前降伏</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>切線模數降低</td>
+<td>$E_t < E$ → $F_{cr} < F_e$（Euler）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>影響最大的範圍</td>
+<td>中等細長比（非彈性挫屈段），短柱和長柱影響較小</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：比例限與轉折點（子問題四）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_{PL}$</td>
+<td>$F_y - F_{rc} = 2.5 - 0.625 = 1.875$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$(L/r)_{trans}$</td>
+<td>$\sqrt{4\pi^2 E / 3F_y} = \sqrt{10742} = 103.6$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：三段式 Fcr 曲線</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>短柱（$L/r \to 0$）</td>
+<td>$F_{cr} = F_y = 2.5$ tf/cm²（全截面降伏）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>非彈性段（$L/r \leq 103.6$）</td>
+<td>$F_{cr} = F_y F_e / (F_e + F_{rc})$（切線模數理論）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>彈性段（$L/r > 103.6$）</td>
+<td>$F_{cr} = \pi^2 E / (L/r)^2$（Euler）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>轉折點</td>
+<td>$(L/r = 103.6, F_{cr} = 1.875)$（兩段連續）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>比例限 $F_{PL}$ 的計算方向</td>
+<td>$F_{PL} = F_y - F_{rc}$（外壓 + 殘留壓 = 降伏），$F_{PL}$ 是外壓的上限</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RESIDUAL-STRESS</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>切線模數理論（Shanley）</td>
+<td>挫屈時應力單調增加，全截面用 $E_t$，為保守下界；優於雙模數理論</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">TANGENT-MODULUS-THEORY</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>Euler 曲線的起始點</td>
+<td>由 $F_e = F_{PL}$ 決定，不是 $F_e = F_y$！（常見錯誤）</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">COLUMN-STRENGTH-CURVE</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>三段曲線的形狀</td>
+<td>短柱水平線（$F_y$）→ 非彈性下彎段（低於 Euler）→ 彈性 Euler 曲線</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">COLUMN-STRENGTH-CURVE</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>殘留應力自平衡條件</td>
+<td>壓區合力 = 拉區合力，淨力與淨力矩均為零</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RESIDUAL-STRESS</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>(一) 殘留應力的定義</h3>
+<p><strong>殘留應力（Residual Stress）</strong> 是構材在沒有任何外力作用下，由於製造、加工或施工過程中的不均勻處理，仍殘留於截面內部的自平衡應力系統。</p>
+<ul>
+<li>截面內部的殘留應力<strong>自我平衡</strong>：壓區合力 = 拉區合力（淨力 = 0，淨力矩 = 0）</li>
+<li>屬於初始應力（Initial Stress），在外力施加前即已存在</li>
+<li>無法用一般量測外部反力的方式檢測，需截斷取樣或 X 射線繞射法量測</li>
+</ul>
+<hr />
+<h3>(二) 殘留應力的來源</h3>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>說明</th>
+<th>典型場合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>①不均勻冷卻</strong></td>
+<td>熱軋型鋼脫模後，截面各部位冷卻速率不同（翼板尖端最薄，冷最快；翼板-腹板交叉處最厚，冷最慢）。先冷部位受拉，後冷部位因受先冷部位的拘束而受壓。</td>
+<td>熱軋 H 型鋼（最主要）</td>
+</tr>
+<tr>
+<td><strong>②焊接（熱輸入不均）</strong></td>
+<td>焊縫處局部加熱冷卻後收縮，在焊縫鄰近區域產生壓應力，遠處產生拉應力</td>
+<td>組合斷面、補強板</td>
+</tr>
+<tr>
+<td><strong>③冷加工（Cold Working）</strong></td>
+<td>在常溫下進行彎曲、矯正、剪切等加工，使材料局部超過降伏點後，卸載時彈性回彈不完全</td>
+<td>冷彎型鋼、機械矯直</td>
+</tr>
+<tr>
+<td><strong>④表面處理</strong></td>
+<td>噴砂、研磨等處理使表層產生局部壓縮殘留應力（通常有利）</td>
+<td>疲勞強化處理</td>
+</tr>
+<tr>
+<td><strong>⑤裝配應力</strong></td>
+<td>強迫對位、預應力螺栓拉緊等施工操作</td>
+<td>鋼構架施工</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>(三) 殘留應力對受壓桿件的影響</h3>
+<p><strong>影響機制（三步驟說明）：</strong></p>
+<p><strong>步驟 1：提前降伏，減小有效彈性截面</strong></p>
+<p>當施加的外部壓應力 $F_a$ 加上截面殘留壓應力 $F_{rc}$ 超過 $F_y$ 時，該處纖維提前降伏：</p>
+<p>$$F_a + F_{rc} \geq F_y \quad \Rightarrow \quad F_a \geq F_y - F_{rc}$$</p>
+<p>此時截面只有<strong>未降伏的彈性區域</strong>能抵抗額外的壓力增量，有效截面積減小。</p>
+<p><strong>步驟 2：切線模數（Tangent Modulus）降低</strong></p>
+<p>由於部分截面已降伏（斜率 $E_t < E$），有效剛度降低：</p>
+<p>$$E_t < E \quad \Rightarrow \quad F_{cr} = \frac{\pi^2 E_t}{(KL/r)^2} < \frac{\pi^2 E}{(KL/r)^2} = F_e$$</p>
+<p><strong>步驟 3：柱強度在中等細長比（Intermediate Slenderness）時降低最多</strong></p>
+<ul>
+<li><strong>極短柱</strong>（$L/r \to 0$）：$F_{cr} \to F_y$（全截面壓縮降伏），殘留應力影響有限</li>
+<li><strong>中等細長比</strong>（$30 < L/r < 130$ 左右）：挫屈發生在非彈性範圍，殘留應力大幅降低 $F_{cr}$</li>
+<li><strong>極長柱</strong>（$L/r$ 很大）：彈性挫屈，殘留應力已無顯著影響（因為 $F_e < F_{PL}$，整截面仍彈性）</li>
+</ul>
+<p>$$\boxed{\text{殘留應力對中等細長比的柱影響最大，實際 } F_{cr} \text{ 低於 Euler 理論值}}$$</p>
+<hr />
+<h3>(四) 繪製 $F_{cr}$ vs $L/r$ 曲線（強軸，$K = 1$）</h3>
+<p><strong>已知：</strong><br />
+$$F_y = 2.5 \text{ tf/cm}^2, \quad E = 2040 \text{ tf/cm}^2, \quad F_{rc} = F_y/4 = 0.625 \text{ tf/cm}^2$$</p>
+<h4>步驟 1：求比例限 $F_{PL}$</h4>
+<p>翼板尖端受殘留壓應力 $F_{rc} = F_y/4$，外部壓應力疊加達降伏：</p>
+<p>$$F_{PL} = F_y - F_{rc} = F_y - \frac{F_y}{4} = \frac{3F_y}{4} = \frac{3 \times 2.5}{4} = \boxed{1.875 \text{ tf/cm}^2}$$</p>
+<h4>步驟 2：求彈性-非彈性轉折點 $(L/r)_{\text{trans}}$</h4>
+<p>彈性 Euler 挫屈臨界應力等於比例限時，為由彈性進入非彈性的轉折點：</p>
+<p>$$F_e = \frac{\pi^2 E}{(L/r)^2} = F_{PL} = \frac{3F_y}{4}$$</p>
+<p>$$(L/r)_{\text{trans}}^2 = \frac{\pi^2 E}{3F_y/4} = \frac{4\pi^2 E}{3F_y} = \frac{4 \times 9.870 \times 2040}{3 \times 2.5} = \frac{80,567}{7.5} = 10,742$$</p>
+<p>$$(L/r)_{\text{trans}} = \sqrt{10{,}742} = \boxed{103.6}$$</p>
+<h4>步驟 3：建立各區域的 $F_{cr}$ 公式</h4>
+<p><strong>區域 A（彈性挫屈，$L/r > 103.6$）：</strong></p>
+<p>$$F_{cr} = F_e = \frac{\pi^2 E}{(L/r)^2} = \frac{\pi^2 \times 2040}{(L/r)^2}$$</p>
+<p><strong>區域 B（非彈性挫屈，$0 \leq L/r \leq 103.6$）：</strong></p>
+<p>依切線模數理論，對於本題殘留應力分佈（翼板端部均勻壓應力 $F_{rc}$），推導得：</p>
+<p>$$F_{cr} = \frac{F_y \cdot F_e}{F_e + F_{rc}} = \frac{F_y}{\displaystyle 1 + \frac{F_{rc}}{F_e}}$$</p>
+<p>其中 $F_{rc} = F_y/4 = 0.625 \text{ tf/cm}^2$。</p>
+<p>邊界條件驗證：</p>
+<ul>
+<li>$L/r \to 0$：$F_e \to \infty$，$F_{cr} \to F_y = 2.5 \text{ tf/cm}^2$ ✓</li>
+<li>$L/r = 103.6$：$F_e = 1.875 = F_{PL}$，$F_{cr} = \dfrac{2.5 \times 1.875}{1.875 + 0.625} = \dfrac{4.688}{2.500} = 1.875$ ✓（與彈性段連續）</li>
+</ul>
+<h4>步驟 4：計算曲線關鍵數值</h4>
+<table>
+<thead>
+<tr>
+<th>$L/r$</th>
+<th>$F_e = \pi^2 E / (L/r)^2$ (tf/cm²)</th>
+<th>$F_{cr}$ (tf/cm²)</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>∞</td>
+<td><strong>2.500</strong></td>
+<td>等於 $F_y$（短柱降伏）</td>
+</tr>
+<tr>
+<td>40</td>
+<td>12.57</td>
+<td>$2.5 \times 12.57/13.20 =$ <strong>2.381</strong></td>
+<td>非彈性</td>
+</tr>
+<tr>
+<td>60</td>
+<td>5.59</td>
+<td>$2.5 \times 5.59/6.22 =$ <strong>2.247</strong></td>
+<td>非彈性</td>
+</tr>
+<tr>
+<td>80</td>
+<td>3.147</td>
+<td>$2.5 \times 3.147/3.772 =$ <strong>2.086</strong></td>
+<td>非彈性</td>
+</tr>
+<tr>
+<td>100</td>
+<td>2.013</td>
+<td>$2.5 \times 2.013/2.638 =$ <strong>1.909</strong></td>
+<td>非彈性</td>
+</tr>
+<tr>
+<td><strong>103.6</strong></td>
+<td><strong>1.875</strong></td>
+<td><strong>1.875</strong></td>
+<td>← 轉折點（$F_{PL}$）</td>
+</tr>
+<tr>
+<td>120</td>
+<td>1.395</td>
+<td><strong>1.395</strong></td>
+<td>彈性 Euler</td>
+</tr>
+<tr>
+<td>150</td>
+<td>0.896</td>
+<td><strong>0.896</strong></td>
+<td>彈性 Euler</td>
+</tr>
+<tr>
+<td>200</td>
+<td>0.504</td>
+<td><strong>0.504</strong></td>
+<td>彈性 Euler</td>
+</tr>
+</tbody>
+</table>
+<h4>步驟 5：曲線特徵描述</h4>
+<pre><code>F_cr
+(tf/cm²)
+  2.5 ─── ○ ─────────────────────────────── F_y = 2.5（短柱塑性降伏線）
+           ╲
+           ╲  ← 非彈性區（切線模數曲線，位於 Euler 曲線之下）
+  1.875 ─── ╲ ─ ○ ─────────────────────
+               ╲ ╲ ← 轉折點 (L/r=103.6, Fcr=1.875)
+                ╲   ╲ Euler 曲線（彈性，L/r &gt; 103.6）
+                 ╲     ╲
+                  ╲       ╲
+  0 ────────────────────────────────── L/r
+                  |
+               103.6
+</code></pre>
+<p><strong>三段特徵：</strong></p>
+<ol>
+<li><strong>$L/r \leq$ 約 5</strong>：$F_{cr} \approx F_y$（完全塑性降伏，短柱不挫屈）</li>
+<li><strong>$5 < L/r \leq 103.6$</strong>：非彈性挫屈（切線模數）曲線，位於 Euler 曲線之下，位於 $F_y$ 之下</li>
+<li><strong>$L/r > 103.6$</strong>：彈性 Euler 曲線，$F_{cr} = \pi^2 E / (L/r)^2$</li>
+</ol>
+<p>$$\boxed{(L/r)_{\text{trans}} = 103.6, \quad F_{PL} = 1.875 \text{ tf/cm}^2}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>切線模數公式的推導背景</h3>
+<p>本解採用的非彈性 $F_{cr}$ 公式 $F_{cr} = F_y F_e/(F_e + F_{rc})$ 是針對<strong>翼板尖端有均勻殘留壓應力，且分佈為矩形塊狀</strong>（每側 $b/3$ 寬度）的情況推導。若殘留應力為線性（三角形）分佈，公式會略有不同，但曲線形狀趨勢相同。</p>
+<h3>Shanley 切線模數理論 vs 雙模數理論</h3>
+<ul>
+<li><strong>切線模數理論（Tangent Modulus Theory）</strong>：Shanley（1947）証明柱在挫屈發生時，<strong>截面各點應力單調增加</strong>（無回彈），故全截面使用切線模數 $E_t$，為保守下界。</li>
+<li><strong>雙模數理論（Double Modulus Theory / Engesser）</strong>：假設挫屈時一側回彈（$E$）一側繼續加載（$E_t$），理論上偏不保守。</li>
+<li>實驗結果接近切線模數理論，現行規範（AISC/LRFD）採用切線模數作為基礎。</li>
+</ul>
+<h3>強軸 vs 弱軸差異</h3>
+<p>本題要求強軸。若計算弱軸（$r_y < r_x$），相同的 $L/r$ 值對應更低的 $r$，即物理上更短的無支撐長度才達到同等細長比——弱軸通常控制整體挫屈設計。</p>
+<h3>考場安全答法</h3>
+<table>
+<thead>
+<tr>
+<th>子題</th>
+<th>核心答法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(一)</td>
+<td>「無外力作用下，由製造過程產生、截面自平衡的初始應力」</td>
+</tr>
+<tr>
+<td>(二)</td>
+<td>「不均勻冷卻（主要）、焊接、冷加工」（至少三項）</td>
+</tr>
+<tr>
+<td>(三)</td>
+<td>「提前降伏 → 有效截面縮小 → 切線模數下降 → 挫屈強度降低，中等細長比影響最大」</td>
+</tr>
+<tr>
+<td>(四)</td>
+<td>計算 $F_{PL} = 3F_y/4 = 1.875$，$(L/r)_{\text{trans}} = 103.6$，畫出三段式曲線</td>
+</tr>
+</tbody>
+</table>
+</main>
+<footer>來源：raw/solutions/SS-2016-3/SS-2016-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2009-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2009-3 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-2.html" title="SS-U1-2 梁桿件 命題分析">&#128269; U1-2 命題分析</a><a class="lect" href="../lecture-SS-U1-2.html" title="SS-U1-2 梁桿件 觀念講義">&#128218; U1-2 梁桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2009-3</h1>
+<p><strong>主分類：</strong> <code>SS-U1-2</code> 梁桿件<br />
+<strong>副分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>斷面性質</code> <code>塑性力矩</code> <code>降伏力矩</code> <code>形狀因子</code> <code>剪力強度</code> <code>λc</code> <code>弱軸挫屈</code> <code>H型鋼</code> <code>平行軸定理</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>如右圖所示之鋼骨構材斷面，標示為 H 500×304×15×24（mm），鋼材 $F_y = 3.5\ \text{tf/cm}^2$，$E_s = 2{,}040\ \text{tf/cm}^2$。</p>
+<ol>
+<li>若作為鋼梁，求強軸之 $M_p / M_y = ?$（8 分）</li>
+<li>假設腹板不會發生剪力挫屈，求標稱剪力強度 $V_n = ?$（8 分）</li>
+<li>若作為鋼柱，弱軸有效長度 $K_y L_y = 4\ \text{m}$，求弱軸 $\lambda_c = ?$（9 分）</li>
+</ol>
+<p><img alt="H型鋼斷面示意：H500×304×15×24" src="../../raw/solutions/SS-2009-3/SS-2009-3-fig-1.png" /></p>
+<p><em>圖說：H 型鋼斷面 H500×304×15×24（mm）：總深 d=500mm、翼板寬 bf=304mm、腹板厚 tw=15mm、翼板厚 tf=24mm。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：H 型鋼斷面三大設計量——形狀因子、剪力強度、壓力細長比</strong></p>
+<p>本題為一個斷面同時作為梁（子題一、二）與柱（子題三）的設計量計算，測驗考生「計算一次斷面性質，同時應用於多種設計情境」的效率與正確性。</p>
+<p><strong>出題者測驗重點：</strong></p>
+<ul>
+<li><strong>形狀因子 $Z_x/S_x \approx 1.12\sim1.15$</strong>：H 型鋼翼板面積集中，力臂已接近彈性模數所用值，形狀因子遠小於矩形（1.5）</li>
+<li><strong>$A_w = d \times t_w$（非 $h \times t_w$）</strong>：規範定義腹板面積用<strong>全深</strong> $d$，這是常見筆誤</li>
+<li><strong>弱軸為控制挫屈軸</strong>：$b_f = 30.4\text{ cm} < d = 50\text{ cm}$，故 $r_y < r_x$，弱軸細長比大</li>
+<li><strong>$\lambda_c$ 公式含 $\pi$</strong>：$\lambda_c = (KL/r\pi)\sqrt{F_y/E}$，分母有 $\pi$，初學者常忘記</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>前置：統一單位 cm，計算斷面幾何
+
+(一) Mp/My：
+  Step 1  Ix（平行軸定理）→ Sx → My
+  Step 2  Zx（PNA 以上一次面積矩 ×2）→ Mp
+  Step 3  形狀因子 = Zx/Sx
+
+(二) Vn：
+  Step 4  確認 Cv = 1（h/tw &lt; 2.45√(E/Fy)）
+  Step 5  Vn = 0.6 Fy Aw，Aw = d × tw（全深）
+
+(三) λc：
+  Step 6  Iy、ry = √(Iy/Ag)
+  Step 7  λc = (KL/rπ)√(Fy/E)
+</code></pre>
+<p><strong>陷阱分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>對策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ $A_w$ 用錯</td>
+<td>$A_w = d \times t_w$（全深），非 $h \times t_w$</td>
+<td>AISC 規定用全深 $d$</td>
+</tr>
+<tr>
+<td>❷ 翼板形心距算錯</td>
+<td>$d_f = d/2 - t_f/2$，非 $d/2$</td>
+<td>翼板形心在翼板中央</td>
+</tr>
+<tr>
+<td>❸ $Z_x$ 上半腹板</td>
+<td>上半腹板高 = $d/2 - t_f = 22.6\text{ cm}$，形心在 $11.3\text{ cm}$ 處</td>
+<td>清楚分拆上翼板 + 上半腹板</td>
+</tr>
+<tr>
+<td>❹ $\lambda_c$ 分母漏 $\pi$</td>
+<td>$\lambda_c = (KL/r)/(\pi\sqrt{E/F_y})$</td>
+<td>分母有 $\pi$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 計算 H500×304×15×24 斷面的形狀因子 $M_p/M_y$、標稱剪力強度 $V_n$、弱軸 $\lambda_c$</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p><strong>子題一：形狀因子</strong><br />
+$$\boxed{I_x} = 2\left[\frac{b_f t_f^3}{12} + b_f t_f \cdot d_f^2\right] + \frac{t_w h^3}{12}$$<br />
+$$\boxed{S_x} = \frac{\boxed{I_x}}{d/2}, \quad \boxed{Z_x} = 2\left(b_f t_f \cdot d_f + t_w \cdot \frac{(h/2)^2}{2}\right)$$<br />
+$$\boxed{M_p/M_y} = \frac{\boxed{Z_x}}{\boxed{S_x}}$$</p>
+<p><strong>子題二：剪力強度</strong><br />
+$$\boxed{V_n} = 0.6 F_y \cdot (d \times t_w) \cdot C_v$$</p>
+<p><strong>子題三：弱軸 $\lambda_c$</strong><br />
+$$\boxed{I_y} = 2 \times \frac{t_f b_f^3}{12} + \frac{h t_w^3}{12}, \quad \boxed{r_y} = \sqrt{\frac{\boxed{I_y}}{A_g}}$$<br />
+$$\boxed{\lambda_c} = \frac{K_y L_y}{\boxed{r_y} \cdot \pi}\sqrt{\frac{F_y}{E}}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$d$</td>
+<td>50.0 cm</td>
+<td>全深</td>
+</tr>
+<tr>
+<td>$b_f$</td>
+<td>30.4 cm</td>
+<td>翼板寬</td>
+</tr>
+<tr>
+<td>$t_w$</td>
+<td>1.5 cm</td>
+<td>腹板厚</td>
+</tr>
+<tr>
+<td>$t_f$</td>
+<td>2.4 cm</td>
+<td>翼板厚</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>3.5 tf/cm²</td>
+<td>降伏強度</td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td>2040 tf/cm²</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>$K_y L_y$</td>
+<td>400 cm</td>
+<td>弱軸有效長度</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：斷面幾何量</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$h$</td>
+<td>$d - 2t_f = 45.2$ cm（清淨腹板高）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_g$</td>
+<td>$2 b_f t_f + h t_w = 213.72$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$d_f$</td>
+<td>$d/2 - t_f/2 = 23.8$ cm（翼板形心距全斷面形心）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：形狀因子</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$I_x$</td>
+<td>$2[b_f t_f^3/12 + b_f t_f d_f^2] + t_w h^3/12 = 94{,}265$ cm⁴</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$S_x$</td>
+<td>$I_x / (d/2) = 3{,}771$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z_x$</td>
+<td>PNA 以上各件一次面積矩 $\times 2 = 4{,}239$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_p/M_y$</td>
+<td>$Z_x / S_x = 1.124$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：標稱剪力強度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$h/t_w$</td>
+<td>$45.2/1.5 = 30.1$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_v$</td>
+<td>$30.1 < 2.45\sqrt{E/F_y} = 59.1$ → $C_v = 1.0$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_w$</td>
+<td>$d \times t_w = 75.0$ cm²（<strong>全深</strong> $d$，非淨高 $h$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_n$</td>
+<td>$0.6 \times 3.5 \times 75.0 \times 1.0 = 157.5$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：弱軸 $\lambda_c$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$I_y$</td>
+<td>$2 \times t_f b_f^3/12 + h t_w^3/12 = 11{,}251$ cm⁴</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>$\sqrt{I_y/A_g} = 7.255$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$kL/r_y$</td>
+<td>$400/7.255 = 55.1$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\lambda_c$</td>
+<td>$(55.1/\pi)\sqrt{3.5/2040} = 0.727$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$Z_x$ 計算（I 形斷面）</td>
+<td>PNA 以上各件對 PNA 一次面積矩之和；翼板形心距 $d_f = d/2 - t_f/2$，非 $d/2$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">plastic-zx</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_w = d \times t_w$（全深）</td>
+<td>AISC 規定腹板剪力面積用全深 $d$，非淨高 $h$；用錯會低估 $V_n$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">SHEAR-BUCKLING-WEB</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_v = 1.0$ 的判斷條件</td>
+<td>$h/t_w \leq 2.45\sqrt{E/F_y}$ 時，腹板無剪力挫屈，$C_v = 1.0$</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\lambda_c$ 公式分母含 $\pi$</td>
+<td>$\lambda_c = (kL/r)/(\pi\sqrt{E/F_y})$；漏掉 $\pi$ 會使 $\lambda_c$ 高估約 3.14 倍</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">lrfd-column</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">COLUMN-STRENGTH-CURVE</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>弱軸為 Y 軸的理由</td>
+<td>$b_f < d$，故 $I_y < I_x$；翼板繞弱軸慣性矩靠板寬三次方，遠小於強軸</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>殘留應力 / 切線模數</td>
+<td>$\lambda_c = 0.727 \leq 1.5$ → 非彈性挫屈段，殘留應力使有效剛度下降</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RESIDUAL-STRESS</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">TANGENT-MODULUS-THEORY</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Calculation)</h2>
+<h3>斷面幾何（cm 單位）</h3>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>符號</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全深</td>
+<td>$d$</td>
+<td>$50.0\ \text{cm}$</td>
+</tr>
+<tr>
+<td>翼板寬</td>
+<td>$b_f$</td>
+<td>$30.4\ \text{cm}$</td>
+</tr>
+<tr>
+<td>腹板厚</td>
+<td>$t_w$</td>
+<td>$1.5\ \text{cm}$</td>
+</tr>
+<tr>
+<td>翼板厚</td>
+<td>$t_f$</td>
+<td>$2.4\ \text{cm}$</td>
+</tr>
+<tr>
+<td>清淨腹板高</td>
+<td>$h$</td>
+<td>$45.2\ \text{cm}$</td>
+</tr>
+<tr>
+<td>全斷面積</td>
+<td>$A_g$</td>
+<td>$213.72\ \text{cm}^2$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>一、$M_p / M_y$（形狀因子）</h3>
+<p>翼板形心距全斷面形心：$d_f = 25.0 - 1.2 = 23.8\ \text{cm}$</p>
+<p>$$I_x = 2\left[\frac{30.4 \times 2.4^3}{12} + 72.96 \times 23.8^2\right] + \frac{1.5 \times 45.2^3}{12} = 82{,}722 + 11{,}543 = \mathbf{94{,}265\ \text{cm}^4}$$</p>
+<p>$$S_x = \frac{94{,}265}{25} = 3{,}771\ \text{cm}^3; \quad M_y = 3.5 \times 3{,}771 = 13{,}198\ \text{tf·cm}$$</p>
+<p>PNA 以上一次面積矩（PNA 在 $y = 25\ \text{cm}$）：</p>
+<table>
+<thead>
+<tr>
+<th>構件</th>
+<th>$A_i$</th>
+<th>$\bar{e}_i$</th>
+<th>$A_i\bar{e}_i$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>上翼板</td>
+<td>$72.96$</td>
+<td>$23.8$</td>
+<td>$1{,}736.4$</td>
+</tr>
+<tr>
+<td>上半腹板（$h/2=22.6$cm）</td>
+<td>$33.9$</td>
+<td>$11.3$</td>
+<td>$383.1$</td>
+</tr>
+</tbody>
+</table>
+<p>$$Z_x = 2 \times 2{,}119.5 = 4{,}239\ \text{cm}^3; \quad M_p = 3.5 \times 4{,}239 = 14{,}837\ \text{tf·cm}$$</p>
+<p>$$\boxed{\frac{M_p}{M_y} = \frac{4{,}239}{3{,}771} \approx 1.124}$$</p>
+<hr />
+<h3>二、標稱剪力強度 $V_n$</h3>
+<p>$$\frac{h}{t_w} = \frac{45.2}{1.5} = 30.1 < 2.45\sqrt{\frac{2{,}040}{3.5}} = 59.1 \quad \Rightarrow C_v = 1.0$$</p>
+<p>$$A_w = d \times t_w = 50.0 \times 1.5 = 75.0\ \text{cm}^2$$</p>
+<p>$$\boxed{V_n = 0.6 \times 3.5 \times 75.0 \times 1.0 = 157.5\ \text{tf}}$$</p>
+<hr />
+<h3>三、弱軸 $\lambda_c$</h3>
+<p>$$I_y = 2 \times \frac{2.4 \times 30.4^3}{12} + \frac{45.2 \times 1.5^3}{12} = 11{,}238 + 12.7 = 11{,}251\ \text{cm}^4$$</p>
+<p>$$r_y = \sqrt{\frac{11{,}251}{213.72}} = 7.255\ \text{cm}; \quad \frac{K_y L_y}{r_y} = \frac{400}{7.255} = 55.1$$</p>
+<p>$$\boxed{\lambda_c = \frac{400}{7.255 \times \pi}\sqrt{\frac{3.5}{2{,}040}} = 17.55 \times 0.04143 = 0.727}$$</p>
+<p>$\lambda_c = 0.727 \leq 1.5$，非彈性挫屈段，$F_{cr} = 0.658^{0.529} \times 3.5 = 2.80\ \text{tf/cm}^2$（供參）</p>
+<hr />
+<h2>5. 結果彙整與驗算 (Summary &amp; Verification)</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>計算結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$I_x$</td>
+<td>$94{,}265\ \text{cm}^4$</td>
+</tr>
+<tr>
+<td>$S_x$ / $Z_x$</td>
+<td>$3{,}771$ / $4{,}239\ \text{cm}^3$</td>
+</tr>
+<tr>
+<td><strong>$M_p / M_y$（形狀因子）</strong></td>
+<td><strong>$1.124$</strong></td>
+</tr>
+<tr>
+<td>$A_w = d \times t_w$</td>
+<td>$75.0\ \text{cm}^2$</td>
+</tr>
+<tr>
+<td><strong>$V_n$</strong></td>
+<td><strong>$157.5\ \text{tf}$</strong></td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>$7.255\ \text{cm}$</td>
+</tr>
+<tr>
+<td><strong>$\lambda_c$</strong></td>
+<td><strong>$0.727$</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>觀念精析：</strong></p>
+<p>H 型鋼形狀因子 $\approx 1.12\sim1.15$：翼板面積集中在遠離形心處，塑性儲備已接近彈性極限，遠小於矩形斷面（1.5）。</p>
+<p>$A_w = d \times t_w$ 而非 $h \times t_w$：AISC 定義腹板剪力面積用全深 $d$，含角落翼腹交界的剪力流貢獻。</p>
+<p>弱軸 $r_y \ll r_x$ 的原因：翼板寬 $b_f < $ 全深 $d$，弱軸慣性矩 $I_y$ 主要靠翼板（形如薄板繞窄邊），而強軸靠翼板遠離形心（力臂大），故 $r_y < r_x$，弱軸為控制挫屈軸。</p>
+</main>
+<footer>來源：raw/solutions/SS-2009-3/SS-2009-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

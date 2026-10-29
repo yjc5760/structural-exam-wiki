@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-U1-3 主要公式｜考卷會給 vs. 必須自己背</title>
+<!-- KaTeX 本機資源（assets/katex/），離線亦可正常顯示數學式 -->
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd;
+  --must:#c62828; --must2:#ffebee;
+  --half:#ef6c00; --half2:#fff3e0;
+  --give:#2e7d32; --give2:#e8f5e9;
+  --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#78909c; --bd:#e0e6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:26px 24px}
+header h1{margin:0 0 6px;font-size:1.45em}
+header p{margin:0;opacity:.88;font-size:.9em}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{text-decoration:none;color:var(--ac);font-size:.86em;padding:5px 10px;border-radius:16px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:1120px;margin:0 auto;padding:20px 16px 70px}
+section{margin-bottom:40px}
+h2{font-size:1.22em;border-left:5px solid var(--ac);padding-left:10px;margin:32px 0 12px}
+h3{font-size:1.02em;margin:22px 0 8px;color:#37474f}
+p.lead{font-size:.94em;color:#455a64}
+
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:14px 0}
+.lg{border-radius:10px;padding:12px 14px;border:1px solid var(--bd);border-left:6px solid;background:var(--card)}
+.lg h4{margin:0 0 4px;font-size:.98em}
+.lg p{margin:0;font-size:.83em;color:var(--mut)}
+.lg.must{border-left-color:var(--must)} .lg.must h4{color:var(--must)}
+.lg.half{border-left-color:var(--half)} .lg.half h4{color:var(--half)}
+.lg.give{border-left-color:var(--give)} .lg.give h4{color:var(--give)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:8px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi .n{font-size:1.8em;font-weight:700;color:var(--ac)}
+.kpi .l{font-size:.8em;color:var(--mut)}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 6px;align-items:center}
+.filters .lb{font-size:.83em;color:var(--mut);margin-right:2px}
+button.f{border:1px solid var(--bd);background:#fff;color:var(--ink);border-radius:18px;padding:6px 14px;font-size:.85em;cursor:pointer;font-family:inherit;transition:.15s}
+button.f:hover{border-color:var(--ac)}
+button.f.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+button.f.on.must{background:var(--must);border-color:var(--must)}
+button.f.on.half{background:var(--half);border-color:var(--half)}
+button.f.on.give{background:var(--give);border-color:var(--give)}
+#count{font-size:.83em;color:var(--mut);margin-left:6px}
+
+.cards{display:grid;grid-template-columns:1fr;gap:14px;margin-top:12px}
+.fc{background:var(--card);border:1px solid var(--bd);border-left:7px solid;border-radius:10px;padding:14px 18px}
+.fc.must{border-left-color:var(--must)}
+.fc.half{border-left-color:var(--half)}
+.fc.give{border-left-color:var(--give)}
+.fc .top{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;margin-bottom:6px}
+.fc .nm{font-weight:700;font-size:1.02em}
+.tag{font-size:.72em;padding:2px 9px;border-radius:12px;font-weight:700;white-space:nowrap}
+.tag.must{background:var(--must2);color:var(--must)}
+.tag.half{background:var(--half2);color:var(--half)}
+.tag.give{background:var(--give2);color:var(--give)}
+.tag.grp{background:#eceff1;color:#546e7a;font-weight:400}
+.fc .eq{background:#fafcfd;border:1px dashed var(--bd);border-radius:8px;padding:8px 12px;margin:6px 0;overflow-x:auto}
+.fc .meta{font-size:.85em;color:#455a64;margin:6px 0 0}
+.fc .meta b{color:var(--ink)}
+.fc .ev{font-size:.79em;color:var(--mut);border-top:1px dashed var(--bd);margin-top:9px;padding-top:7px}
+.fc .ev .yr{display:inline-block;background:#eceff1;border-radius:4px;padding:0 5px;margin:1px 2px 1px 0;font-family:ui-monospace,monospace}
+.fc .ev .yr.no{background:var(--must2);color:var(--must)}
+.fc .ev .yr.ok{background:var(--give2);color:var(--give)}
+
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--bd);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.85em;min-width:840px}
+th,td{border-bottom:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;color:#37474f;font-weight:700;position:sticky;top:44px;z-index:5}
+tbody tr:hover{background:#f5f9fd}
+td.c{text-align:center}
+.y{color:var(--give);font-weight:700}
+.n{color:#cfd8dc}
+
+.note{background:var(--half2);border-left:5px solid var(--half);border-radius:8px;padding:12px 16px;font-size:.88em;margin:14px 0}
+.note b{color:var(--half)}
+.warn{background:var(--must2);border-left:5px solid var(--must);border-radius:8px;padding:12px 16px;font-size:.88em;margin:14px 0}
+.warn b{color:var(--must)}
+footer{max-width:1120px;margin:0 auto;padding:0 16px 40px;font-size:.8em;color:var(--mut)}
+
+@media print{
+  nav,.filters{display:none}
+  body{background:#fff}
+  .fc{break-inside:avoid;box-shadow:none}
+  th{position:static}
+  header{background:#0d47a1 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .fc,.lg,.kpi,.tag{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SS-U1-3 梁柱桿件 — 主要公式「考卷會給 vs. 必須自己背」</h1>
+  <p>證據來源：<code>raw/exams/</code> 2002–2025 全 24 份鋼結構設計考卷之「參考公式／參考資料」區塊逐份比對（含影像頁逐頁目視判讀）｜ 判定標準：保守（任一年考了沒給就算必背）</p>
+</header>
+
+<nav>
+  <a href="#how">判定方法</a>
+  <a href="#cards">公式清單</a>
+  <a href="#matrix">逐年證據表</a>
+  <a href="#strategy">背誦策略</a>
+  <a href="lecture-SS-U1-3.html">▶ U1-3 觀念講義</a>
+  <a href="study-SS-U1-3.html">▶ U1-3 命題分析</a>
+  <a href="formula-given-SS-U1-1.html">▶ U1-1 給／背分界</a>
+  <a href="formula-given-SS-U1-2.html">▶ U1-2 給／背分界</a>
+  <a href="formula-given-SS-U1-4.html">▶ U1-4 給／背分界</a>
+  <a href="formula-given-SS-U2-3.html">▶ U2-3 給／背分界</a>
+  <a href="formula-given-SS-U1-3.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+
+<main>
+
+<section id="how">
+  <h2>一、我怎麼判定的</h2>
+  <p class="lead">
+    鋼結構設計考卷把公式印出來有三種擺法：<b>（a）</b>集中放在最後一題之後（如 96、97、100、108 年）、
+    <b>（b）</b>跟在該題題目正下方（如 101、102、103、107、111 年）、
+    <b>（c）</b>混在題目敘述裡當已知條件（如 93 年直接給 <span>\(C_c=127\)</span>、<span>\(C_m=0.85\)</span>、<span>\(F_{bx}=0.66F_y\)</span>；
+    97 年直接給 <span>\(C_m=1.0\)</span>；103 年直接給 <span>\(K_x=1.79\)</span>）。三種都算「有給」。
+    本頁涵蓋 <b>12 題</b>（主分類 11 題 + 副分類 1 題），橫跨 92–111 年共 12 個考年 ——
+    <b>是 SS 唯一一個「ASD 與 LRFD 兩套並存、且兩套的給法完全相反」的單元</b>。
+  </p>
+  <div class="note">
+    <b>關鍵前提：考卷本身寫得很明白。</b>
+    97、100、108、110、112 年的用語是「<i>請自行選擇適合的公式，並檢查其正確性，若有問題應自行修正</i>」；
+    111、113 年更直接：「<i>題目所列之計算公式僅供參考應自負確認與勘誤責任</i>」。
+    也就是說 —— <b>就算有給，你也必須認得出哪一條該用、哪一條被改錯了</b>。給公式不等於免背。
+  </div>
+  <div class="warn">
+    <b>本單元的一句話結論：ASD 那一套「幾乎必給」，LRFD 那一套「幾乎必漏一半」。</b>
+    六個 ASD 梁柱年（92、93、96、97、100、108）<b>每一年都印出完整的互制三式</b>，
+    連 \(f_a/F_a=0.15\) 的分界都印；可是四個 LRFD 梁柱年裡，
+    <b>111 年（<code>SS-2022-1</code>）整題就是雙軸彎矩梁柱，卻一條 P-M 互制式都沒印</b>，
+    98 年（<code>SS-2009-1</code>）叫你「繪出 P-M 互制曲線圖」也是零公式。
+    更狠的是 102 年（<code>SS-2013-4</code>）：題目點名要 \(M_u\)、\(B_1\)、\(B_2\)、\(M_{nt}\)、\(M_{lt}\)，
+    \(B_1\)、\(B_2\)、\(C_m\)、\(P_{eK}\) 四條全給，
+    <b>唯獨把它們接起來的 \(M_u=B_1M_{nt}+B_2M_{lt}\) 沒印</b>。
+  </div>
+  <div class="warn" style="background:#fff;border-left-color:var(--half)">
+    <b>影像頁警告（本輪實際踩到）：</b>109 年（2020）第 3 頁「＊參考資料」<b>整區都是圖片</b>，
+    <code>pdftotext</code> 只抽到「<code>= ， = exp −0.419 ∙ ， = ∙</code>」這種變數全掉光的殘骸。
+    目視後才看到那一頁其實給了 \(\lambda_c\)、\(F_{cr}\) 兩式、P-M 兩段式、
+    <b>台灣版 \(B_1\)（0.64／0.32 形式）</b>、\(P_{e1}=A_gF_y/\lambda_c^2\) 與 \(L_p\)。
+    只靠文字抽取會把 109 年誤判成「零公式年」——而它其實是 LRFD 梁柱給得最完整的一年。
+    102（對位圖兩張 + K 值表）、112（\(C_c\)、\(F_a\)）、113（\(F_{cr}\) 曲線組）三年同樣是影像，本輪已逐頁轉圖確認。
+  </div>
+
+  <div class="legend">
+    <div class="lg must"><h4>🔴 必背（自己要寫得出來）</h4><p>曾經被考、但當年考卷完全沒給；或根本不曾在任何一年被印出來過。</p></div>
+    <div class="lg half"><h4>🟠 會給但別賭（仍建議背）</h4><p>多數年份有給，但有明確的沒給先例；或給的是舊版／簡化版，需自己判斷修正。</p></div>
+    <div class="lg give"><h4>🟢 通常會給（背概念即可）</h4><p>凡是考該題型，幾乎必定連同公式或數值一起印出；重點放在「會不會用」而非「記不記得」。</p></div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="n">24</div><div class="l">份考卷全數比對</div></div>
+    <div class="kpi"><div class="n">12</div><div class="l">題 U1-3 考題</div></div>
+    <div class="kpi"><div class="n">40</div><div class="l">條 U1-3 主要公式</div></div>
+    <div class="kpi"><div class="n" style="color:var(--must)">18</div><div class="l">必背</div></div>
+    <div class="kpi"><div class="n" style="color:var(--half)">10</div><div class="l">會給但別賭</div></div>
+    <div class="kpi"><div class="n" style="color:var(--give)">12</div><div class="l">通常會給</div></div>
+  </div>
+</section>
+
+<section id="cards">
+  <h2>二、U1-3 主要公式逐條分界</h2>
+  <div class="filters">
+    <span class="lb">判定：</span>
+    <button class="f on" data-k="lv" data-v="all">全部</button>
+    <button class="f must" data-k="lv" data-v="must">🔴 必背</button>
+    <button class="f half" data-k="lv" data-v="half">🟠 別賭</button>
+    <button class="f give" data-k="lv" data-v="give">🟢 通常會給</button>
+    <span class="lb" style="margin-left:14px">主題：</span>
+    <button class="f on" data-k="g" data-v="all">全部</button>
+    <button class="f" data-k="g" data-v="ASD互制">ASD 互制</button>
+    <button class="f" data-k="g" data-v="LRFD-PM">LRFD P-M</button>
+    <button class="f" data-k="g" data-v="二階B1B2">二階 B1 · B2</button>
+    <button class="f" data-k="g" data-v="有效長度">有效長度 · 框架穩定</button>
+    <button class="f" data-k="g" data-v="柱梁強度">柱與梁強度（前置）</button>
+    <button class="f" data-k="g" data-v="直接分析法">直接分析法</button>
+    <span id="count"></span>
+  </div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section id="matrix">
+  <h2>三、逐年證據表（哪一年給了什麼）</h2>
+  <p class="lead">✔ = 該年考卷印出此公式（含題目內文直接給值、圖片嵌入之公式組）；空白 = 沒給。灰底列 = 該年有 U1-3 題目。</p>
+  <div class="tw">
+    <table id="mx">
+      <thead>
+        <tr>
+          <th style="min-width:66px">考卷年</th>
+          <th style="min-width:112px">U1-3 題號</th>
+          <th class="c">ASD 互制三式</th>
+          <th class="c">\(F'_e\) 定義</th>
+          <th class="c">\(C_m\) 定義</th>
+          <th class="c">LRFD P-M</th>
+          <th class="c">\(B_1\)</th>
+          <th class="c">\(B_2\)</th>
+          <th class="c">\(P_{e}\) 定義</th>
+          <th class="c">對位圖 · 萊梅厥</th>
+          <th class="c">\(\lambda_c\,F_{cr}\)</th>
+          <th class="c">\(F_a\,C_c\)</th>
+          <th class="c">ASD \(F_b\)</th>
+          <th style="min-width:170px">備註</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="strategy">
+  <h2>四、由此推出的背誦策略</h2>
+
+  <h3>① 一句話診斷：U1-3 給你「零件」，不給你「圖紙」</h3>
+  <div class="warn" style="background:#fff;border-left-color:var(--must)">
+    把 12 題攤開看，出題者的習慣非常一致：<b>長得像公式的東西他會印，長得像規則的東西他不印。</b><br><br>
+    印的是 —— ASD 互制三式（6/6 年全給）、\(B_1\)（3/3 年全給）、\(B_2\)（2/2 年全給）、
+    萊梅厥公式（3/3 年全給）、對位圖（4/4 年全給）、\(\lambda_c\) 與 \(F_{cr}\)（12 年全給）。<br><br>
+    不印的是 —— <b>\(M_u=B_1M_{nt}+B_2M_{lt}\)</b>、<b>\(M_1/M_2\) 的正負號規則</b>、
+    <b>\(M_{nt}\) 與 \(M_{lt}\) 怎麼分</b>、<b>\(\phi_c=0.85\) 與 \(\phi_b=0.90\)</b>、
+    <b>\(M_n=F_yZ_x\)</b>、<b>\(G\) 值的定義式</b>、<b>「ASD 兩式都要驗」</b>。
+    這七項全部零次或近乎零次印出 —— 而它們決定的是<b>整題的架構</b>，不是某一步的數值。
+    零件缺一個算不出來，圖紙缺了整題方向就錯。
+  </div>
+
+  <h3>② 六條「怎樣都得自己寫」的骨幹（零容忍）</h3>
+  <div class="warn" style="background:#fff;border-left-color:var(--must)">
+    <b>1. \(M_u=B_1M_{nt}+B_2M_{lt}\)。</b>
+    102 年 <code>SS-2013-4</code> 題目字面就是「求柱 BC 之二階設計彎矩 \(M_u\) 及 \(B_1\)、\(B_2\)、\(M_{nt}\)、\(M_{lt}\)」，
+    \(B_1\)、\(B_2\)、\(C_m\)、\(P_{eK}\) 四條全印在題目下方，<b>就是不印這一行</b>。
+    103 年 <code>SS-2014-4</code> 同樣。兩年、一行字、五十分。<br><br>
+    <b>2. \(M_1/M_2\) 的符號與大小規則。</b>單曲率為負、雙曲率為正、\(|M_2|\ge|M_1|\)。
+    <b>24 年零次印出</b>，而 92、96、101、102、103、108、109 七年都要用。
+    109 年 <code>SS-2020-3</code> 兩軸都是單曲率 —— 判成雙曲率，\(B_1\) 直接掉到 1.0，兩軸彎矩全部低估。<br><br>
+    <b>3. \(\phi_c=0.85\) 與 \(\phi_b=0.90\)。</b>
+    101、103、109、111 四個 LRFD 年印的 P-M 式子裡寫的都只是 \(\phi P_n\)、\(\phi M_n\)，
+    <b>從來不告訴你這兩個 \(\phi\) 不一樣</b>。統一用 0.9 是本單元最常見的送分失誤。<br><br>
+    <b>4. \(M_{nx}=F_yZ_x\)、\(M_{ny}=F_yZ_y\)。</b>與 U1-2 的結論一致：24 年一次都沒印過。
+    P-M 式的分母沒有它就是空的。<br><br>
+    <b>5. \(G=\sum(I_c/L_c)\big/\sum(I_b/L_b)\) 與梁遠端修正（遠端鉸接 \(\times\tfrac34\)、對稱雙曲率 \(\times2\)）。</b>
+    對位圖 96、100、102、112 四年全印，<b>但 \(G\) 的定義式只有 96、100 兩年印過</b>，
+    梁遠端修正則是零次 —— 而 100 年 <code>SS-2011-4</code>（G 點不可轉動、H 點可轉動）、
+    112 年 <code>SS-2023-1</code>（一端 Hinge）正是在測這個。<br><br>
+    <b>6. 「ASD 兩個互制方程式都要驗」。</b>
+    穩定式（含 \(C_m\)、\(F'_e\)）與強度式（\(f_a/0.6F_y\)）六年都印在一起，
+    <b>但沒有任何一年寫「兩式都必須滿足」</b>。只驗一式就是漏掉一半的配分。
+  </div>
+
+  <h3>③ 五個「有給也要會判斷」的陷阱</h3>
+  <div class="note">
+    <b>陷阱 A：\(F_{cr}\) 與 \(B_1\) 各有新舊兩版，同一年只會給一種。</b><br>
+    \(F_{cr}\)：舊版 \(F_{cr}=\exp(-0.419\lambda_c^2)F_y\)（91、92、98、99、100、107、109、111 年）
+    與新版 \(F_{cr}=(0.658^{\lambda_c^2})F_y\)（97、101、103、113 年）數值幾乎相同，是同一條。<br>
+    \(B_1\)：標準版 \(C_m/(1-P_u/P_{e1})\)（101、102、103 年）
+    與台灣版 \(\frac{0.64}{1-P_u/P_{e1}}\left[1-\frac{M_1}{M_2}\right]+0.32\frac{M_1}{M_2}\)（109 年）
+    —— 後者把 \(C_m\) 吃進式子裡了，<b>看到它就不要再另外乘 \(C_m\)</b>。<br><br>
+    <b>陷阱 B：96 年印了整套互制式，卻不定義 \(F'_e\) 與 \(C_c\)。</b><br>
+    <code>SS-2007-2</code> 的公式集裡 \(F'_{ex}\)、\(F'_{ey}\) 出現在分母，
+    \(C_c\) 出現在 \(F_a\) 的分段條件，<b>兩個符號都沒有定義式</b>。
+    108 年更明顯：互制式裡的 \(C_{mx}\)、\(C_{my}\) 從頭到尾沒定義，
+    印出來的只有 \(C_b\)（那是 LTB 用的，不是同一個東西）。<br><br>
+    <b>陷阱 C：101、103 年給了 \(B_1\)，卻不給 \(P_{e1}\)。</b><br>
+    101 年寫 \(B_1=C_m/(1-P_u/P_{e1})\)、103 年寫 \(B_1=C_m/(1-P_u/P_e)\)，
+    <b>兩年都沒說 \(P_{e1}=\pi^2EI/(KL)^2\) 且要用 \(K=1\)</b>。
+    只有 102 年印了 \(P_{eK}=\pi^2EI/(KL)^2=P_e/K^2\)，109 年印了捷徑版 \(P_{e1}=A_gF_y/\lambda_c^2\)。<br><br>
+    <b>陷阱 D：97、100 年印萊梅厥公式，卻只給 \(P_e\) 的中文名。</b><br>
+    「\(P_e\)：尤拉載重（Euler buckling load）」—— 只有名詞，沒有 \(\pi^2EI/(KL)^2\)。
+    <code>SS-2008-2</code> 與 <code>SS-2011-2</code> 整題就在算 \(\sum P_{eK}\)。<br><br>
+    <b>陷阱 E：92 年給了 \(L_c=4.05\)、\(L_u=19.6\)，卻沒給 \(F_{bx}=0.66F_y\)。</b><br>
+    <code>SS-2003-4</code> 的 \(L_b=3.7<L_c\)，答案就是 \(0.66F_y\) —— 但這個「0.66」與弱軸的「0.75」
+    <b>24 年只有 93 年印過一次</b>（而且是印在題目內文當已知）。ASD 梁柱題不會算 \(F_{bx}\)、\(F_{by}\) 就整題不用做。
+  </div>
+
+  <h3>④ 可以放心「只背用法」的少數幾條</h3>
+  <p class="lead">
+    <b>ASD 互制三式</b>（\(0.15\) 分界 + 穩定式 + 強度式）六個 ASD 梁柱年全給，是 SS 全科給得最穩定的一組；
+    <b>\(\lambda_c\) 與 \(F_{cr}\)</b> 12 年全給；<b>\(F_a\) 兩段式</b> 9 年有給；
+    <b>萊梅厥公式</b>與<b>對位圖</b>凡考必印（含 \(\sum P_{eK}\)「只計非靠桿」的定義）；
+    <b>\(B_1\)、\(B_2\) 的本體</b>凡考必印。<br>
+    這幾條背概念與適用時機即可。真正要練的是：拿到這些現成式子後，
+    <b>三分鐘內判斷 ASD 走哪一式、LRFD 落在 0.2 的哪一側、\(B_1\) 用 \(K=1\) 而 \(B_2\) 用對位圖的 \(K\)</b>。
+  </p>
+
+  <h3>⑤ 100 年 <code>SS-2011-1</code> 是個獨立警訊</h3>
+  <div class="note">
+    直接分析法（AISC 2010 Chapter C）那一題問的四件事 —— 二階與一階的差別、用什麼模擬起始不完美、
+    為何要折減勁度、1.6 這個係數怎麼來的 —— <b>當年考卷一條公式都沒給</b>，
+    而 100 年偏偏是參考公式最齊的一年（ASD 互制、\(F_b\) 三式、\(\lambda_c/F_{cr}\)、萊梅厥、非彈性 \(G\) 修正全印）。
+    這說明一件事：<b>出題者只印「計算題用得到的」，說明題一律零支援。</b>
+    所以 \(N_i=0.002Y_i\)、\(EI^*=0.8\tau_bEI\)、\(\Omega=1.6\) 這三個數字必須默寫得出來。
+  </div>
+
+  <h3>⑥ 一句話總結</h3>
+  <div class="note" style="background:var(--ac2);border-left-color:var(--ac)">
+    <b>U1-3 的考卷像一台拆開的引擎：零件（\(B_1\)、\(B_2\)、\(C_m\)、\(F_a\)、\(F_{cr}\)、對位圖）攤在桌上，
+    組裝說明書（\(M_u=B_1M_{nt}+B_2M_{lt}\)、\(M_1/M_2\) 符號、\(\phi_c\ne\phi_b\)、兩式都要驗）沒有。</b>
+    這 12 題有 9 題是完整計算題，架構錯了零件再齊也拼不起來。
+    背誦資源請押在第 ② 節那六條上 —— 加起來不到半頁，卻決定你能不能開始寫第一行。
+  </div>
+</section>
+
+</main>
+
+<footer>
+  生成日期 2026-08-08 ｜ 資料來源：exam-wiki-SS <code>raw/exams/SS-2002~2025_鋼結構設計.pdf</code>（全文抽取 + 102/105/109/111/112/113 年影像頁逐頁目視判讀）、
+  <code>raw/json/question_index.json</code>（12 題）、
+  <code>wiki/methods/{asd-beam-column, pm-interaction, b1b2-amplification, b1-m1m2-sign-convention, effective-length-chart}</code>、
+  <code>wiki/code-ref/{b1-amplification-derivation, b2-amplification-derivation, phi-resistance-factors}</code>
+</footer>
+
+<script>
+/* ---------- 資料 ---------- */
+/* lv: must / half / give ；ok: 考卷印出過的年（西元）；no: 考了卻沒印的年 */
+const F=[
+/* ===== ASD 互制 ===== */
+{g:"ASD互制",lv:"must",nm:"兩個互制方程式都必須滿足（流程骨架）",
+ eq:"$$\\text{穩定式（含 }C_m,F'_e\\text{ 放大）}\\ \\wedge\\ \\text{強度式（}f_a/0.6F_y\\text{）}\\ \\le 1.0$$",
+ meta:"92、93、96、97、100、108 六年都把兩式<b>並排印在一起</b>，但<b>沒有任何一年寫出「兩式都要驗」</b>。這是本單元最典型的「沒有數學符號卻決定給分」的規則：穩定式管的是含二階放大的桿件穩定，強度式管的是端部斷面降伏，兩者控制的極限狀態不同，不能擇一。<code>SS-2007-2</code>、<code>SS-2008-4</code>、<code>SS-2019-3</code> 三題的正解都是「穩定式過、強度式也過」才算完成。",
+ ok:[],no:[2003,2004,2007,2008,2019]},
+
+{g:"ASD互制",lv:"give",nm:"fa/Fa = 0.15 的分界判斷",
+ eq:"$$\\frac{f_a}{F_a}\\le 0.15\\ \\Rightarrow\\ \\text{簡化式}\\qquad\\frac{f_a}{F_a}>0.15\\ \\Rightarrow\\ \\text{完整式（含 }C_m/(1-f_a/F'_e)\\text{）}$$",
+ meta:"六個 ASD 梁柱年（92、93、96、97、100、108）<b>全部印出</b>，而且都明寫兩個分支。這是 SS 全科少數「凡考必給、零例外」的判斷式之一。實務上梁柱題的 \\(f_a/F_a\\) 幾乎都遠大於 0.15（<code>SS-2003-4</code> 為 0.72、<code>SS-2008-4</code> 為 0.55），簡化式極少用到 —— 但仍要先寫出這一步，閱卷看的是流程完整。",
+ ok:[2003,2004,2007,2008,2011,2019],no:[]},
+
+{g:"ASD互制",lv:"give",nm:"ASD 穩定式（含 Cm 與 F'e 放大）",
+ eq:"$$\\frac{f_a}{F_a}+\\frac{C_{mx}f_{bx}}{\\left(1-\\dfrac{f_a}{F'_{ex}}\\right)F_{bx}}+\\frac{C_{my}f_{by}}{\\left(1-\\dfrac{f_a}{F'_{ey}}\\right)F_{by}}\\le 1.0$$",
+ meta:"六年全給，連 96 年那份把公式印成三行糊在一起的版本都完整。注意這條裡的 \\(1/(1-f_a/F'_e)\\) 就是 ASD 版的二階放大 —— <b>它與 LRFD 的 \\(B_1\\) 是同一個物理量</b>，只是一個作用在應力上、一個作用在彎矩上。看懂這件事，ASD 與 LRFD 兩套就不必分開背。",
+ ok:[2003,2004,2007,2008,2011,2019],no:[]},
+
+{g:"ASD互制",lv:"give",nm:"ASD 強度式（0.6Fy 斷面式）",
+ eq:"$$\\frac{f_a}{0.6F_y}+\\frac{f_{bx}}{F_{bx}}+\\frac{f_{by}}{F_{by}}\\le 1.0$$",
+ meta:"六年全給。分母是 \\(0.6F_y\\) 不是 \\(F_a\\) —— 因為這一式檢核的是<b>端部斷面的降伏</b>（不含挫屈折減），所以軸壓項用的是純降伏的容許值。這也是為什麼它不需要 \\(C_m\\) 與 \\(F'_e\\)：端部斷面沒有二階放大的問題。",
+ ok:[2003,2004,2007,2008,2011,2019],no:[]},
+
+{g:"ASD互制",lv:"half",nm:"F'e = 12π²E / [23(KLb/rb)²]",
+ eq:"$$F'_e=\\frac{12\\pi^2E}{23\\,(K L_b/r_b)^2}$$",
+ meta:"92、93、97、100、108 五年有給，<b>但 96 年（<code>SS-2007-2</code>）沒有</b> —— 那年的公式集裡 \\(F'_{ex}\\)、\\(F'_{ey}\\) 只出現在互制式的分母，定義式從缺。這是典型的「用了卻不定義」。<br>省事的記法：\\(F'_e\\) 的式子<b>與 \\(F_a\\) 的彈性段完全相同</b>，差別只在 \\(F'_e\\) 用<b>該彎曲平面</b>的 \\(KL_b/r_b\\)（強軸彎矩配 \\(K_xL/r_x\\)），而 \\(F_a\\) 用兩軸取大。這一點考卷從來沒說過。",
+ ok:[2003,2004,2008,2011,2019],no:[2007]},
+
+{g:"ASD互制",lv:"half",nm:"Cm = 0.6 − 0.4(M1/M2)",
+ eq:"$$C_m=0.6-0.4\\left(\\frac{M_1}{M_2}\\right)$$",
+ meta:"92、93、96、97、100、102 六年有給（97 年還附上 \\(\\ge0.4\\) 的下限、102 年寫成 \\(M_A/M_B\\)）。<b>但 101 年（<code>SS-2012-3</code>）與 108 年（<code>SS-2019-3</code>）都沒給</b>：101 年印了 \\(B_1=C_m/(1-P_u/P_{e1})\\) 卻不定義 \\(C_m\\)；108 年的互制式裡有 \\(C_{mx}\\)、\\(C_{my}\\)，公式區印的卻是 \\(C_b\\)（LTB 用的，完全不同的東西）—— <b>兩個符號長得像，用錯就整題偏</b>。<br>93 年的考法最有意思：題目直接問「原本 \\(C_m=0.6-0.4(M_1/M_2)\\ge0.4\\) 的下限為何我國規範不再採用」，公式印在題幹裡當<b>題目的一部分</b>。",
+ ok:[2003,2004,2007,2008,2011,2013],no:[2012,2019]},
+
+{g:"ASD互制",lv:"must",nm:"Cm 的三種端點情況（0.85 / 0.6−0.4 / 1.00）",
+ eq:"$$\\begin{aligned}&\\text{可側移構架之受壓構材：}&&C_m=0.85\\\\&\\text{有斜撐、兩端點間無橫向載重：}&&C_m=0.6-0.4(M_1/M_2)\\\\&\\text{有斜撐、有橫向載重且端部受束制／未束制：}&&C_m=0.85\\ /\\ 1.00\\end{aligned}$$",
+ meta:"<b>24 年只有 92 年（<code>SS-2003-4</code>）把三種情況完整印出來過一次。</b>其餘年份要嘛只給 \\(0.6-0.4(M_1/M_2)\\) 那一條、要嘛直接在題目裡塞一個數值（93 年給 \\(C_m=0.85\\)、97 年給 \\(C_m=1.0\\)）。危險在於：<b>\\(0.6-0.4(M_1/M_2)\\) 只適用於「兩端點間無橫向載重」</b>，而 97 年 <code>SS-2008-4</code>（跨中有橫向力 H）、108 年 <code>SS-2019-3</code>（偏心載重）都<b>不</b>屬於這種情況。看到公式就套是最常見的誤用。",
+ ok:[2003],no:[2007,2012,2019]},
+
+{g:"ASD互制",lv:"must",nm:"M1/M2 的符號規則與大小排列",
+ eq:"$$\\left|\\frac{M_1}{M_2}\\right|\\le1\\quad;\\qquad \\text{單曲率}\\Rightarrow\\frac{M_1}{M_2}<0\\ ,\\qquad \\text{雙曲率}\\Rightarrow\\frac{M_1}{M_2}>0$$",
+ meta:"<b>24 年零次印出</b>，而 92、96、101、102、103、108、109 七年都要用。物理上：單曲率兩端彎矩推波助瀾，二階效應加劇 → \\(C_m\\to1.0\\)、放大最多；雙曲率彎矩互相抵消 → \\(C_m\\to0.2\\)、\\(B_1\\) 常被壓到 1.0。<br><b>109 年 <code>SS-2020-3</code> 兩軸都是單曲率</b>（\\(M_1/M_2=-1\\) 與 \\(-0.5\\)），判成雙曲率的話 \\(B_1\\) 直接掉到下限 1.0，兩軸彎矩全部低估、互制比看起來安全其實不安全。另一半的規則同樣沒印過：<b>大端放分母</b>，寫成 \\(|M_1/M_2|>1\\) 公式就失效。",
+ ok:[],no:[2003,2007,2012,2013,2014,2019,2020]},
+
+/* ===== LRFD P-M ===== */
+{g:"LRFD-PM",lv:"half",nm:"P-M 互制兩段式（H1-1a / H1-1b）",
+ eq:"$$\\frac{P_u}{\\phi_cP_n}\\ge0.2:\\ \\frac{P_u}{\\phi_cP_n}+\\frac{8}{9}\\!\\left(\\frac{M_{ux}}{\\phi_bM_{nx}}+\\frac{M_{uy}}{\\phi_bM_{ny}}\\right)\\le1.0$$$$\\frac{P_u}{\\phi_cP_n}<0.2:\\ \\frac{P_u}{2\\phi_cP_n}+\\left(\\frac{M_{ux}}{\\phi_bM_{nx}}+\\frac{M_{uy}}{\\phi_bM_{ny}}\\right)\\le1.0$$",
+ meta:"101、103、109 三年有給（109 年是<b>影像</b>，文字抽取全漏），<b>但 98 年與 111 年沒給</b>。這兩次沒給都不是小事：98 年 <code>SS-2009-1</code>②直接叫你「繪出鋼柱受 \\(P\\) 與 \\(M\\) 共同作用下之交互作用曲線圖」—— 沒有這兩式就畫不出折線；111 年 <code>SS-2022-1</code> 是 BOX 800 雙軸彎矩梁柱檢核，考卷只印了 \\(\\lambda_c\\)、\\(F_{cr}\\)、\\(\\lambda_p\\)、\\(h/t_w\\)、\\(V_n\\)，<b>整題最關鍵的那兩行一個字都沒有</b>。5 次裡漏 2 次，不能賭。",
+ ok:[2012,2014,2020],no:[2009,2022]},
+
+{g:"LRFD-PM",lv:"must",nm:"P-M 互制圖的三個折點座標",
+ eq:"$$(0,\\,1.0)\\ \\longrightarrow\\ \\left(0.9,\\,0.2\\right)\\ \\longrightarrow\\ (1.0,\\,0)\\qquad\\left(x=\\tfrac{M_u}{\\phi_bM_n},\\ y=\\tfrac{P_u}{\\phi_cP_n}\\right)$$",
+ meta:"98 年 <code>SS-2009-1</code>②的配分（15 分）全在這張圖上，<b>當年零公式</b>。折點在 \\(y=0.2\\) 是因為兩式在此相接：把 \\(P_u/\\phi_cP_n=0.2\\) 代進 H1-1a 得 \\(x=\\tfrac{9}{8}(1-0.2)=0.9\\)，代進 H1-1b 得 \\(x=1-0.1=0.9\\) —— 兩式在此<b>連續但不平滑</b>。畫成一條直線（不折）是最常見的失分。",
+ ok:[],no:[2009]},
+
+{g:"LRFD-PM",lv:"must",nm:"φc = 0.85（軸壓）",
+ eq:"$$\\phi_c P_n=0.85\\,F_{cr}A_g$$",
+ meta:"91、92 兩年印過（91 年印在柱公式旁的 \\(\\phi=0.85\\)、92 年是合成柱題的 \\(\\phi_c=0.85\\)）。<b>四個 LRFD 梁柱年（101、103、109、111）一次都沒印</b> —— 那幾年的 P-M 式子裡寫的都只是 \\(\\phi P_n\\)、\\(\\phi M_n\\)，<b>從不告訴你這兩個 \\(\\phi\\) 是不同的數字</b>。統一用 0.9 會讓 \\(\\phi_cP_n\\) 高估約 6%，互制比低估，判成「安全」。<br>提醒：台灣規範用 0.85，AISC 360-05 以後改為 0.90。<b>考試以題目所依規範為準；若未指明，用 0.85 並註明來源。</b>",
+ ok:[2002,2003],no:[2012,2014,2020,2022]},
+
+{g:"LRFD-PM",lv:"must",nm:"φb = 0.90（撓曲）",
+ eq:"$$\\phi_b M_n=0.90\\,M_n$$",
+ meta:"整個 SS 24 年裡，\\(\\phi_b=0.9\\) 只在 110 年（<code>SS-2021-3</code> 的 \\(M_n\\) 式旁）明白印過一次，而那是<b>梁</b>題不是梁柱題。四個 LRFD 梁柱年零次。<br>陷阱：93 年的表 10.2.5 裡也有一個 \\(\\phi=0.90\\)，但那是<b>銲接母材平行銲軸拉壓</b>用的，與 \\(\\phi_b\\) 無關；104 年印的 \\(\\phi_v=0.9\\) 是<b>剪力</b>用的。三個 0.9 意義完全不同。",
+ ok:[2021],no:[2012,2014,2020,2022]},
+
+{g:"LRFD-PM",lv:"must",nm:"Mnx = FyZx、Mny = FyZy（P-M 式的分母）",
+ eq:"$$M_{nx}=F_yZ_x\\ ,\\qquad M_{ny}=F_yZ_y\\qquad(\\text{結實斷面且 }L_b\\le L_p)$$",
+ meta:"與 U1-2 的結論完全一致：<b>24 年一次都沒印過</b>。四個 LRFD 梁柱年都給了 \\(Z_x\\)、\\(Z_y\\) 的<b>數值</b>（101 年 \\(Z_x=1884512\\) mm³、109 年 \\(Z_x=3707\\)、\\(Z_y=1773\\) cm³），就是不給這兩行字。<br>另外要記得判斷 \\(L_b\\)：103 年 <code>SS-2014-4</code> 特別註明「柱長 3.75 m（\\(<L_p\\)）」就是在提示你不必跑 LTB；109 年 <code>SS-2020-3</code> 則要自己用 \\(L_p=80r_y/\\sqrt{F_y}\\)（那年有印）判斷。",
+ ok:[],no:[2012,2014,2020,2022]},
+
+{g:"LRFD-PM",lv:"must",nm:"強柱弱梁：Mpc 的軸壓修正",
+ eq:"$$\\frac{\\sum M^*_{pc}}{\\sum M^*_{pb}}\\ge1.0\\ ,\\qquad M^*_{pc}=Z_c\\!\\left(F_{yc}-\\frac{P_{uc}}{A_g}\\right)$$",
+ meta:"98 年 <code>SS-2009-1</code>①（10 分）直接問「如何滿足強柱弱梁之梁柱彎矩強度比要求」，<b>當年零公式</b>。關鍵是柱的 \\(M_{pc}\\) <b>必須扣掉軸壓佔用的斷面強度</b>，寫成 \\(Z_cF_{yc}\\) 就漏掉了整個題意 —— 因為柱有軸力、梁沒有，這正是「柱比較弱」的來源。111 年 <code>SS-2022-4</code> 從機率角度考同一個觀念（\\(Z_c=1.25Z_b\\) 是否足夠）。",
+ ok:[],no:[2009]},
+
+/* ===== 二階 B1 B2 ===== */
+{g:"二階B1B2",lv:"must",nm:"Mu = B1·Mnt + B2·Mlt（二階彎矩主控式）",
+ eq:"$$M_u=B_1M_{nt}+B_2M_{lt}$$",
+ meta:"<b>本頁最重要的一條，也是最誇張的一條：24 年零次印出。</b>102 年 <code>SS-2013-4</code> 的題目字面就是「求柱 BC 之二階設計彎矩 \\(M_u\\) 及 \\(B_1\\)、\\(B_2\\)、\\(M_{nt}\\)、\\(M_{lt}\\)」，題目下方把 \\(B_1\\)、\\(C_m\\)、\\(P_{eK}\\)、\\(B_2\\) 四條印得清清楚楚，<b>就是不印這一行把它們接起來</b>。103 年 <code>SS-2014-4</code> 同樣：給了 \\(B_1\\)、\\(B_2\\) 與兩組分析結果（垂直力分析 / 側力分析），要你自己知道前者是 \\(M_{nt}\\)、後者是 \\(M_{lt}\\)、然後相加。<br>一行字，兩年，五十分。",
+ ok:[],no:[2013,2014]},
+
+{g:"二階B1B2",lv:"give",nm:"B1 = Cm / (1 − Pu/Pe1) ≥ 1.0",
+ eq:"$$B_1=\\frac{C_m}{1-P_u/P_{e1}}\\ \\ge\\ 1.0$$",
+ meta:"101、102、103 三個需要它的年份<b>全部印出</b>（102 年還特別標了 \\(\\ge1.0\\)）。這是 U1-3 給得最穩的一條。要注意的是三年印的都只有<b>外殼</b>：101 年不定義 \\(C_m\\) 也不定義 \\(P_{e1}\\)、103 年不定義 \\(C_m\\) 也不定義 \\(P_e\\) —— 殼給你，兩個零件要自己生。<br>\\(\\ge1.0\\) 這個下限的意義：\\(B_1\\) 是「放大」係數，雙曲率時算出來可能小於 1，但規範不允許縮小。",
+ ok:[2012,2013,2014],no:[]},
+
+{g:"二階B1B2",lv:"half",nm:"B1 台灣版（0.64 / 0.32 形式）",
+ eq:"$$B_1=\\frac{0.64}{1-(P_u/P_{e1})}\\left[1-\\frac{M_1}{M_2}\\right]+0.32\\frac{M_1}{M_2}\\ \\ge\\ 1.0$$",
+ meta:"<b>只有 109 年印過這一版</b>（而且是影像頁，文字抽取只剩「\\(=\\)」與「\\(0.64\\)」的碎片）。它和標準版 \\(C_m/(1-P_u/P_{e1})\\) 是<b>同一條的變形</b>：把 \\(C_m\\approx0.64-0.32(M_1/M_2)\\) 吃進式子裡了（係數與 AISC 的 \\(0.6-0.4\\) 略有差異，以題目給定為準）。<br><b>陷阱：看到這一版就不要再另外乘 \\(C_m\\)</b>，那會放大兩次。反之若題目給的是標準版而你背的是這一版，代進去 \\(M_1/M_2\\) 的符號規則不變、但係數要用題目的。<b>兩版都要認得，這是「同一條公式兩種寫法」的典型。</b>",
+ ok:[2020],no:[]},
+
+{g:"二階B1B2",lv:"must",nm:"Pe1 = π²EI/(KL)²，且 B1 用 K = 1",
+ eq:"$$P_{e1}=\\frac{\\pi^2EI}{(K L)^2}\\bigg|_{K=1}\\qquad(\\text{取彎曲平面之 }I)$$",
+ meta:"102 年印了 \\(P_{eK}=\\pi^2EI/(KL)^2=P_e/K^2\\)，<b>但 101 年與 103 年都只寫 \\(B_1=C_m/(1-P_u/P_{e1})\\) 而不定義分母</b>。四次裡漏兩次。<br>更關鍵的是<b>「\\(B_1\\) 用 \\(K=1\\)」這條規則 24 年零次印出</b>：\\(B_1\\) 處理的是<b>桿件本身</b>的 P-δ 效應（節點不動），所以用 \\(K=1\\)；\\(B_2\\) 處理的是<b>整層側移</b>的 P-Δ 效應，才用對位圖查出來的真實 \\(K\\)。兩個都用對位圖 \\(K\\) 是高頻錯誤，會讓 \\(B_1\\) 明顯偏大。",
+ ok:[2013],no:[2012,2014]},
+
+{g:"二階B1B2",lv:"half",nm:"Pe1 = Ag·Fy / λc²（等價捷徑）",
+ eq:"$$P_{e1}=\\frac{A_gF_y}{\\lambda_c^{2}}\\qquad\\left(\\lambda_c=\\frac{KL}{r\\pi}\\sqrt{\\frac{F_y}{E}}\\right)$$",
+ meta:"<b>109 年印在影像頁裡的一條「暗器」</b>。它與 \\(\\pi^2EI/(KL)^2\\) 完全等價：把 \\(\\lambda_c^2=\\frac{(KL/r)^2F_y}{\\pi^2E}\\) 代入即得。實戰價值很高 —— 梁柱題本來就要先算 \\(\\lambda_c\\) 求 \\(F_{cr}\\)，<b>算完直接除一下就有 \\(P_{e1}\\)，不必再回頭找 \\(I\\)</b>。<br>只出現過一次，所以不能指望它會印；但背下來等於多一條驗算路徑（兩式互算對得上，就知道 \\(\\lambda_c\\) 沒算錯）。",
+ ok:[2020],no:[]},
+
+{g:"二階B1B2",lv:"give",nm:"B2 = 1 / (1 − ΣPu/ΣPeK)",
+ eq:"$$B_2=\\frac{1}{1-\\dfrac{\\sum P_u}{\\sum P_{eK}}}\\ ,\\qquad \\sum P_{eK}=\\sum\\frac{\\pi^2EI}{(K L)^2}\\bigg|_{K\\,\\text{由對位圖}}$$",
+ meta:"102 年（<code>SS-2013-4</code>）印出，且同一張考卷的題二把 \\(\\sum P_{eK}\\) 的定義寫得很完整（「整體結構所有<b>非靠桿</b>且考慮相應有效長度係數後之柱挫屈載重」）—— 這句話很重要，靠桿（leaning column）的 \\(P_u\\) 要算進分子、\\(P_{eK}\\) <b>不</b>算進分母，這正是靠桿讓框架變不穩的數學表現。<br>\\(\\sum\\) 的範圍是<b>整層所有柱</b>，不是單根。只算自己那根是常見錯誤。",
+ ok:[2013],no:[]},
+
+{g:"二階B1B2",lv:"half",nm:"B2 側移角版（ΣPuΔoh / ΣH·L）",
+ eq:"$$B_2=\\frac{1}{1-\\dfrac{\\sum P_u\\,\\Delta_{oh}}{\\sum H\\cdot L}}$$",
+ meta:"103 年（<code>SS-2014-4</code>）印的是這一版，而且題目給的正是它要的資料：樓層最大垂直載重 9000 kN、側力 600 kN、<b>側位移角 5/1000</b>（即 \\(\\Delta_{oh}/L=0.005\\)）。<b>102 年印的則是 \\(\\sum P_{eK}\\) 版</b> —— 兩版是同一條的不同輸入，看題目給什麼就用哪一版。<br>判斷技巧：題目給「側位移角」或「層間位移」→ 用這一版；題目給 \\(I\\)、\\(L\\) 與對位圖 → 用 \\(\\sum P_{eK}\\) 版。搞混會發現手上的數字代不進去。",
+ ok:[2014],no:[2013]},
+
+{g:"二階B1B2",lv:"must",nm:"Mnt 與 Mlt 的識別規則",
+ eq:"$$M_{nt}:\\ \\text{阻止側移後的一階彎矩}\\qquad M_{lt}:\\ \\text{僅側移（水平力）造成的一階彎矩}$$",
+ meta:"<b>24 年零次印出</b>，但 102、103 兩年都要用。103 年 <code>SS-2014-4</code> 的表格已經幫你分好了（「垂直力分析 1.2D+0.5L」= \\(M_{nt}\\)、「側力（地震力）分析 1.0E」= \\(M_{lt}\\)），可是<b>它沒告訴你哪個對哪個</b>。102 年更難：<code>SS-2013-4</code> 是無側撐剛架同時受 \\(P\\) 與 \\(H\\)，要自己拆成兩個載重況。<br>判斷口訣：<b>把水平力拿掉、把節點釘住，剩下的彎矩就是 \\(M_{nt}\\)；水平力單獨作用的就是 \\(M_{lt}\\)。</b>對稱結構受對稱豎向載重時 \\(M_{lt}=0\\)（此時 \\(M_u=B_1M_{nt}\\)），這是 101 年斜撐構架題的情況。",
+ ok:[],no:[2013,2014]},
+
+/* ===== 有效長度 · 框架穩定 ===== */
+{g:"有效長度",lv:"give",nm:"AISC 對位圖（Alignment Chart，兩張）",
+ eq:"$$G_A\\ \\longleftrightarrow\\ K\\ \\longleftrightarrow\\ G_B\\qquad(\\text{側位移束制}:K\\le1.0\\ ;\\ \\text{側位移不束制}:K\\ge1.0)$$",
+ meta:"96、100、102、112 四年凡考必印（102 年<b>兩張都印</b>、112 年印有側移那張、96 年印 Sidesway Uninhibited）。<b>都是影像</b>，文字抽取只會看到一堆孤零零的數字（100.0、50.0、20.0…）。<br>唯一要自己判斷的是<b>選哪一張</b>：有斜撐／剪力牆 → 束制（\\(K\\le1\\)）；無斜撐且有水平力 → 不束制（\\(K\\ge1\\)）。選錯那張，\\(K\\) 可以差到兩倍以上。這條規則考卷沒寫過，但圖上的標題（側位移束制／不束制）等於給了提示。",
+ ok:[2007,2011,2013,2023],no:[]},
+
+{g:"有效長度",lv:"must",nm:"G = Σ(Ic/Lc) / Σ(Ib/Lb)",
+ eq:"$$G=\\frac{\\sum(I_c/L_c)}{\\sum(I_b/L_b)}\\qquad(\\text{分子是柱，分母是梁})$$",
+ meta:"96 年（印在公式集最後一行）與 100 年（印成 \\(G_{inelastic}=\\frac{\\sum(EI/L)_{col}}{\\sum(EI/L)_{beam}}\\tau_a\\)）有給，<b>但 102、112 兩年只印對位圖不印 \\(G\\) 的定義</b>。三次考、漏兩次。<br>分子分母倒置是本條唯一但致命的錯：\\(G\\) 大表示<b>柱相對硬、梁相對軟</b>（拘束差）→ \\(K\\) 大。112 年 <code>SS-2023-1</code> 的柱 DG、EH 只有 \\(I=3000\\) 而梁 DE、GH 高達 35000，\\(G\\) 會非常小 —— 倒置的話結果會完全相反。",
+ ok:[2007,2011],no:[2013,2023]},
+
+{g:"有效長度",lv:"give",nm:"固接 G = 1、鉸接 G = 10（設計取值）",
+ eq:"$$\\text{基礎固接：}G=1.0\\quad(\\text{理論}0)\\ ;\\qquad \\text{基礎鉸接：}G=10\\quad(\\text{理論}\\infty)$$",
+ meta:"96、100、102、112 四年<b>全部在題目裡明講</b>（「鉸接（hinge）時 G 可使用 10，固接（fixed）時 G 可使用 1」）—— 這是 U1-3 少數凡考必給、而且是用中文寫在題幹裡的規定。<br>背後理由值得知道（可能被問）：理論上固接 \\(G=0\\)、鉸接 \\(G=\\infty\\)，但真實基礎既不是完全剛性也不是完全無摩擦，規範改用 1 與 10 作為<b>設計取值</b>，比理論值保守（固接）／不那麼極端（鉸接）。",
+ ok:[2007,2011,2013,2023],no:[]},
+
+{g:"有效長度",lv:"must",nm:"梁遠端條件修正（×3/4、×2）",
+ eq:"$$\\text{遠端鉸接：}\\ \\frac{3}{4}\\frac{I_b}{L_b}\\ ;\\qquad \\text{對稱雙曲率：}\\ 2\\frac{I_b}{L_b}\\ ;\\qquad \\text{遠端固接：}\\ \\frac{I_b}{L_b}$$",
+ meta:"<b>24 年零次印出</b>，卻是 100 年 <code>SS-2011-4</code>（「G 點不可轉動、H 點可轉動」）與 112 年 <code>SS-2023-1</code>（C 點 Hinge）的主要考點 —— 題目特地把遠端條件寫進去，就是在測這個。<br>物理直覺：梁遠端如果可以自由轉動（鉸接），這根梁對節點的<b>轉動拘束變差</b>，所以線剛度打折（×3/4）；如果梁兩端反向轉動（對稱框架受對稱載重的雙曲率），拘束反而<b>加倍</b>（×2）。不修正的話 \\(G\\) 偏小、\\(K\\) 偏小、柱強度高估。",
+ ok:[],no:[2011,2023]},
+
+{g:"有效長度",lv:"half",nm:"理論 K 值 / 設計 K 值表（六種端點）",
+ eq:"$$\\begin{array}{lcccccc}\\text{端點}&\\text{固-固}&\\text{鉸-固}&\\text{鉸-鉸}&\\text{固*-固}&\\text{固*-鉸}&\\text{自由*-固}\\\\ \\text{理論}&0.5&0.7&1.0&1.0&2.0&2.0\\\\ \\text{設計}&0.65&0.8&1.0&1.2&2.0&2.1\\end{array}$$",
+ meta:"102 年把整張表印在 <code>SS-2013-3</code> 題目下方（<b>影像</b>）。91 年 <code>SS-2002-3</code>（柱底固接、頂端鉸接、中間有弱軸側撐）則什麼都沒給，要自己知道「固-鉸」設計值取 0.8 而非理論值 0.7。<br>重點在<b>「設計值」比「理論值」大</b>：因為真實的固接端達不到完全無轉動。考試若題目沒指明，<b>用設計 K 值並註明</b>。103 年 <code>SS-2014-4</code> 則直接給 \\(K_x=1.79\\)（顯然是有側移框架查圖來的），連查都省了。",
+ ok:[2013],no:[2002]},
+
+{g:"有效長度",lv:"give",nm:"萊梅厥公式（LeMessurier，靠桿修正）",
+ eq:"$$K'=\\sqrt{\\frac{P_e}{P_i}\\cdot\\frac{\\sum P}{\\sum P_{eK}}}$$",
+ meta:"97、100、102 三年凡考必印，而且<b>每次都把四個符號的中文定義一併寫出</b>（\\(P_i\\)：欲求 K 值之柱所受垂直載重；\\(P_e\\)：該柱之尤拉載重；\\(\\sum P\\)：整體總垂直載重；\\(\\sum P_{eK}\\)：<b>所有非靠桿</b>且考慮 \\(K\\) 後之挫屈載重）。這是 U1-3 給得最慷慨的一條 —— 因為式子長、符號多，不印會有爭議。<br>要自己懂的是<b>觀念</b>：靠桿（\\(EI=\\infty\\) 的鉸接柱）自己不提供側向勁度，卻要別的柱幫它撐 \\(P\\Delta\\)，所以 \\(\\sum P\\) 含它、\\(\\sum P_{eK}\\) 不含它 → \\(K'\\) 被推大。97 年 <code>SS-2008-2</code>②與 100 年 <code>SS-2011-2</code> 都要你「說明原因」，光會代數字拿不到那一半的分。",
+ ok:[2008,2011,2013],no:[]},
+
+{g:"有效長度",lv:"must",nm:"Pe = π²EI/(KL)²（尤拉載重定義）",
+ eq:"$$P_e=\\frac{\\pi^2EI}{(K L)^2}\\ ,\\qquad P_{eK}=\\frac{P_e}{K^2}\\bigg|_{K=1\\text{ 的 }P_e}$$",
+ meta:"<b>97、100 兩年印了萊梅厥公式，卻只寫「\\(P_e\\)：尤拉載重（Euler buckling load）」這個中文名詞，不給式子。</b>而 <code>SS-2008-2</code>、<code>SS-2011-2</code> 整題就在算 \\(P_e\\) 與 \\(\\sum P_{eK}\\) 的比值。只有 102 年印出 \\(P_{eK}=\\pi^2EI/(KL)^2=P_e/K^2\\)。<br>100 年那題還要再進一步：求兩個框架的<b>總挫屈載重比值</b> \\(\\sum P^{(I)}_{cr}/\\sum P^{(II)}_{cr}\\)，等於要理解「框架失穩發生在 \\(\\sum P=\\sum P_{eK}\\) 時」這個條件 —— 這句話同樣零次印出。",
+ ok:[2013],no:[2008,2011]},
+
+{g:"有效長度",lv:"give",nm:"非彈性 G 修正係數 τa",
+ eq:"$$G_{inelastic}=\\tau_a\\,G_{elastic}\\ ,\\qquad \\tau_a=\\frac{E_t}{E}=\\frac{F_{cr,inelastic}}{F_{cr,elastic}}\\ (\\text{LSD})\\ ;\\qquad \\tau_a=\\frac{F_a}{F'_e}\\ (\\text{ASD})$$",
+ meta:"100 年（<code>SS-2011-4</code>「使用 ASD 規範求取<b>非彈性</b>範圍之柱 EF 的有效長度係數 K」）把兩套 \\(\\tau_a\\) 都印出來了，是唯一一次考、也是唯一一次給。<br>觀念：柱進入非彈性後切線模數 \\(E_t<E\\)，柱變「軟」，<b>相對於梁的拘束比例下降</b> → \\(G\\) 變小 → \\(K\\) 變小 → 強度反而比彈性假設高一點。所以非彈性修正是<b>放寬</b>不是收緊，這是很多人直覺會反過來的地方。",
+ ok:[2011],no:[]},
+
+/* ===== 柱與梁強度（前置） ===== */
+{g:"柱梁強度",lv:"give",nm:"λc = (KL / rπ)·√(Fy / E)",
+ eq:"$$\\lambda_c=\\frac{K L}{r\\pi}\\sqrt{\\frac{F_y}{E}}$$",
+ meta:"91、92、97、98、99、100、101、103、107、109、111、113 年 —— <b>幾乎每一個有柱題或梁柱題的年份都印</b>，是 SS 全科最常出現的一條。103 年 <code>SS-2014-1</code>①甚至反過來考：印出 \\(F_{cr}\\) 兩式，叫你<b>推導</b> \\(\\lambda_c\\)（從 \\(F_e=\\pi^2E/(KL/r)^2\\) 與 \\(\\lambda_c^2=F_y/F_e\\) 出發）。<br>只要記住它的物理意義：\\(\\lambda_c^2=F_y/F_e\\) 是<b>「材料強度 ÷ 挫屈強度」</b>，所以 \\(\\lambda_c=1\\) 代表兩者相等、\\(\\lambda_c<1\\) 是短柱（強度控制）、\\(\\lambda_c>1.5\\) 是長柱（彈性挫屈控制）。",
+ ok:[2002,2003,2008,2010,2011,2012,2014,2018,2020,2022,2024],no:[]},
+
+{g:"柱梁強度",lv:"give",nm:"Fcr 兩段（新舊兩版寫法）",
+ eq:"$$\\lambda_c\\le1.5:\\ F_{cr}=\\left(0.658^{\\lambda_c^2}\\right)F_y\\ \\equiv\\ \\exp\\!\\left(-0.419\\lambda_c^2\\right)F_y\\ ;\\qquad \\lambda_c>1.5:\\ F_{cr}=\\frac{0.877}{\\lambda_c^2}F_y$$",
+ meta:"12 年有給，凡考必印。<b>但要認得兩種寫法是同一條</b>：\\(0.658^{\\lambda_c^2}\\)（97、101、103、113 年）與 \\(\\exp(-0.419\\lambda_c^2)\\)（91、92、98、99、100、107、109、111 年）—— 因為 \\(\\ln0.658=-0.4187\\)。<b>同一年只會給一種</b>，看到不熟的那種就以為考卷印錯是常見的慌張點。<br>113 年 <code>SS-2024-1</code> 是誘餌型給法：印出的四條是<b>無殘餘應力的理想曲線</b>（\\(F_{cr}/F_y=1/\\lambda^2\\)、\\(1-\\lambda^2/4\\)），題目要的卻是<b>含</b>殘餘應力（\\(0.5F_y\\) 壓、\\(0.4F_y\\) 拉）的曲線 —— 照抄就全錯。",
+ ok:[2002,2003,2008,2009,2010,2011,2012,2014,2018,2020,2022,2024],no:[]},
+
+{g:"柱梁強度",lv:"give",nm:"Fa 兩段式（ASD 容許軸壓應力）",
+ eq:"$$\\frac{KL}{r}\\le C_c:\\ F_a=\\frac{\\left[1-\\dfrac{(KL/r)^2}{2C_c^2}\\right]F_y}{\\dfrac{5}{3}+\\dfrac{3(KL/r)}{8C_c}-\\dfrac{(KL/r)^3}{8C_c^3}}\\ ;\\qquad \\frac{KL}{r}>C_c:\\ F_a=\\frac{12\\pi^2E}{23(KL/r)^2}$$",
+ meta:"91、92、93、96、97、99、100、108、112 九年有給，是 ASD 題型的標準配備。<br>要自己記的是<b>用哪一個 \\(KL/r\\)</b>：\\(F_a\\) 取<b>兩軸較大者</b>（最不利），而互制式分母的 \\(F'_{ex}\\)、\\(F'_{ey}\\) 各用<b>自己那一軸</b>。這一點考卷沒有任何一年說明過，而 92 年 <code>SS-2003-4</code>、96 年 <code>SS-2007-2</code>、108 年 <code>SS-2019-3</code> 都是雙軸彎矩題 —— 全用同一個 \\(KL/r\\) 是常見錯誤。",
+ ok:[2002,2003,2004,2007,2008,2010,2011,2019,2023],no:[]},
+
+{g:"柱梁強度",lv:"half",nm:"Cc = √(2π²E / Fy)",
+ eq:"$$C_c=\\sqrt{\\frac{2\\pi^2E}{F_y}}$$",
+ meta:"91、92、93（題內給 \\(C_c=127\\)）、99、108、112 年有給，<b>但 96、97、100 三年印了含 \\(C_c\\) 的 \\(F_a\\) 分段式卻不定義 \\(C_c\\)</b> —— 又一個「用了不定義」。<br>物理意義是 92 年 <code>SS-2003-1</code>⑤直接考的（「何謂臨界長細比 \\(C_c\\)？其推導之理論背景為何？」，5 分）：它是 <b>Euler 曲線與 \\(F_y/2\\) 的交點</b>，即殘餘應力假設為 \\(0.5F_y\\) 時，比例極限 \\(F_p=F_y-\\sigma_r=0.5F_y\\) 對應的長細比。這段推導零次印出。",
+ ok:[2002,2003,2004,2010,2019,2023],no:[2007,2008,2011]},
+
+{g:"柱梁強度",lv:"half",nm:"ASD Fb 的 LTB 三式（取大值）",
+ eq:"$$F_b=\\left[\\frac{2}{3}-\\frac{F_y(L/r_T)^2}{107600C_b}\\right]F_y\\ \\ \\text{或}\\ \\ \\frac{12000C_b}{(L/r_T)^2}\\ ;\\qquad \\text{與}\\ \\ F_b=\\frac{840C_b}{Ld/A_f}\\ \\ \\textbf{取大}\\ ,\\ \\le0.6F_y$$",
+ meta:"96、97、100、108 四年印全套（含 \\(r_T=\\sqrt{I_y/2\\big/(A_f+A_w/6)}\\) 與 \\(C_b\\)），<b>但 92 年（<code>SS-2003-4</code>）一條都沒有</b>，只在斷面性質裡給 \\(L_c=4.05\\)、\\(L_u=19.6\\)。<br>97 年 <code>SS-2008-1</code> 把這三式印在<b>題幹上</b>問你「為何此處需取<b>大</b>值而非小值」（15 分）—— 答案是兩式各自只計了純扭轉（\\(840C_b/(Ld/A_f)\\)）與翹曲扭轉（\\(r_T\\) 那兩式），各自都是保守下界，真實抗力是兩者之和，故取大者較接近真值。這個理由零次印出。",
+ ok:[2007,2008,2011,2019],no:[2003]},
+
+{g:"柱梁強度",lv:"must",nm:"Fbx = 0.66Fy 與 Fby = 0.75Fy",
+ eq:"$$F_{bx}=0.66F_y\\ (\\text{結實斷面且 }L_b\\le L_c)\\ ;\\qquad F_{by}=0.75F_y\\ (\\text{結實斷面弱軸，無 LTB})$$",
+ meta:"<b>24 年只有 93 年（<code>SS-2004-4</code>）印過一次，而且是印在題目內文當已知條件。</b>四個需要它的 ASD 梁柱年（92、96、97、108）全部沒給。<br>92 年 <code>SS-2003-4</code> 的 \\(L_b=3.7\\text{ m}<L_c=4.05\\text{ m}\\)，答案直接就是 \\(0.66F_y\\)；96 年 <code>SS-2007-2</code> 的 \\(L=10\\) m 遠大於 \\(L_c\\)，要跑完整 LTB。<br>弱軸的 0.75 要能講出理由：<b>弱軸不會發生 LTB</b>（挫屈本來就往弱軸跑），限制只來自局部挫屈與塑性儲備，所以係數比強軸高。",
+ ok:[2004],no:[2003,2007,2008,2019]},
+
+{g:"柱梁強度",lv:"half",nm:"梁柱腹板的 λpd（含 fa/Fy 修正）",
+ eq:"$$\\lambda_{pd,\\text{web}}=\\frac{170}{\\sqrt{F_y}}\\left(1-3.74\\frac{f_a}{F_y}\\right)\\ \\ \\left(\\frac{f_a}{F_y}\\le0.16\\right)\\ ;\\qquad \\frac{68}{\\sqrt{F_y}}\\ \\ \\left(\\frac{f_a}{F_y}>0.16\\right)$$",
+ meta:"97、100 年印的是 \\(170/3.74\\) 版，<b>96 年印的卻是 \\(138/\\sqrt{F_y}\\,(1-3.17f_a/F_y)\\)</b> —— 同一條規定、兩組係數，這是舊版與新版規範的差異。同一年只給一種。<br>為什麼梁柱的腹板界限要隨 \\(f_a\\) 下降：軸壓讓腹板的<b>受壓區變大</b>（中性軸下移），能承受的寬厚比自然變小。\\(f_a/F_y>0.16\\) 時整片腹板近乎全受壓，界限直接掉到 \\(68/\\sqrt{F_y}\\)。這個物理理由零次印出。",
+ ok:[2007,2008,2011],no:[]},
+
+/* ===== 直接分析法 ===== */
+{g:"直接分析法",lv:"must",nm:"假想水平力（Notional Load）Ni = 0.002 Yi",
+ eq:"$$N_i=0.002\\,Y_i\\qquad(Y_i=\\text{該層之豎向載重})$$",
+ meta:"100 年 <code>SS-2011-1</code> 直接問「二階分析除直接設置結構起始不完美外，亦可使用<b>何者</b>來模擬此起始不完美？」——答案就是假想水平力。<b>當年零公式</b>，而 100 年偏偏是參考公式最齊的一年（ASD 互制、\\(F_b\\) 三式、萊梅厥、\\(\\tau_a\\) 全印）。<br>0.002 的來源要能講：對應規範容許的<b>柱傾斜製造公差 1/500</b>（\\(\\Delta/L=0.002\\)），把幾何不完美等效成一組水平力。",
+ ok:[],no:[2011]},
+
+{g:"直接分析法",lv:"must",nm:"勁度折減 EI* = 0.8τb·EI、EA* = 0.8EA",
+ eq:"$$EI^*=0.8\\,\\tau_b\\,EI\\ ,\\quad EA^*=0.8\\,EA\\ ;\\qquad \\tau_b=1.0\\ (\\alpha P_r\\le0.5P_y)\\ ,\\quad 4\\frac{\\alpha P_r}{P_y}\\!\\left(1-\\frac{\\alpha P_r}{P_y}\\right)\\ (\\text{otherwise})$$",
+ meta:"100 年 <code>SS-2011-1</code> 問「二階分析為何要作勁度修正？什麼情況下需要作？」，<b>零公式</b>。兩個係數各有各的理由：<b>0.8 對應殘餘應力造成的整體勁度損失</b>（以及規範對非彈性行為的概括折減）；<b>\\(\\tau_b\\) 額外處理軸力大時的局部非彈性</b>，軸壓超過 \\(0.5P_y\\) 才啟動。<br>直接分析法的精神是：既然把不完美與非彈性都<b>直接模進分析</b>了，就<b>不必再查對位圖求 \\(K\\)</b>（一律取 \\(K=1\\)）—— 這句話是整題的題眼，也零次印出。",
+ ok:[],no:[2011]},
+
+{g:"直接分析法",lv:"must",nm:"1.6 倍 ASD 載重的由來（Ω = 1.6）",
+ eq:"$$1.6\\times(\\text{ASD 組合})\\ \\approx\\ \\text{LRFD 組合}\\qquad\\left(\\Omega=\\frac{\\phi\\cdot\\text{平均載重因子}}{1}\\approx\\frac{1.6}{1.0}\\right)$$",
+ meta:"100 年 <code>SS-2011-1</code> 的第四小問字面就是「1.6 倍 ASD 載重中，<b>如何得出此係數 1.6</b>？」，零公式。<br>答題骨架：二階效應是<b>非線性</b>的，必須在<b>極限載重</b>下分析才不會低估。ASD 用的是工作載重，所以要先放大到與 LRFD 相當的水準再做二階分析，分析完再除回 1.6 得到工作應力。1.6 這個數字來自 ASD 與 LRFD 的安全係數關係（撓曲 \\(\\Omega_b=1.67\\approx0.9/0.6\\)、\\(\\Omega_c=1.67\\)，取整為 1.6）。",
+ ok:[],no:[2011]}
+];
+
+const MX=[
+ [2002,"91","—",0,0,0,0,0,0,0,0,1,1,0,"柱公式完整（\\(C_c\\)、\\(F_a\\) 兩式、\\(F_{cr}\\) 兩式、\\(\\lambda_c\\)、\\(\\phi=0.85\\)）；<b>無任何梁柱互制</b>"],
+ [2003,"92","SS-2003-4",1,1,1,0,0,0,0,0,1,1,0,"ASD 互制兩式 + \\(C_m\\) <b>三種情況全給</b>（24 年唯一一次）；<b>但 \\(F_b\\) 三式一條都沒有</b>，只在斷面性質給 \\(L_c=4.05,\\ L_u=19.6\\)"],
+ [2004,"93","SS-2004-4",1,1,1,0,0,0,0,0,0,1,1,"\\(F_a\\) 兩式 + \\(F'_e\\) + 互制三式；題內直接給 \\(C_c=127,\\ C_m=0.85,\\ F_{bx}=0.66F_y,\\ F_{by}=0.75F_y\\)（<b>0.66／0.75 的唯一一次</b>）"],
+ [2005,"94","—",0,0,0,0,0,0,0,0,0,0,0,"參考資料全為拉力構材（\\(U\\) 值、\\(R_n=2.4dtF_u\\)）"],
+ [2006,"95","—",0,0,0,0,0,0,0,0,0,0,0,"<b>整張零參考公式</b>"],
+ [2007,"96","SS-2007-2",1,0,1,0,0,0,0,1,0,1,1,"公式集最完整的一年：互制三式、\\(F_b\\) 三式、\\(\\lambda_{pd}\\)、對位圖、<b>連 \\(G\\) 定義式都印</b>；<b>但 \\(F'_e\\) 與 \\(C_c\\) 用了不定義</b>"],
+ [2008,"97","SS-2008-4",1,1,1,0,0,0,0,1,1,1,1,"萊梅厥公式印在題幹（含「非靠桿」定義）；ASD 互制 + \\(F_b\\) 三式 + \\(\\lambda_c/F_{cr}\\) 齊全；<b>\\(P_e\\) 只給中文名不給式子</b>"],
+ [2009,"98","SS-2009-1（副）",0,0,0,0,0,0,0,0,1,0,0,"<b>零參考公式區</b>；題三僅印 \\(P_n=[\\exp(-0.419\\lambda_c^2)]F_yA_s\\)。<b><code>SS-2009-1</code> 要你畫 P-M 互制曲線，互制式一條沒給</b>"],
+ [2010,"99","—",0,0,0,0,0,0,0,0,1,1,0,"參考公式集完整（\\(C_c,F_a,\\lambda_c,F_{cr},L_p/L_r,M_n,C_b\\)），<b>但完全沒有梁柱互制</b>"],
+ [2011,"100","SS-2011-1",1,1,1,0,0,0,0,1,1,1,1,"史上最齊的一年：ASD 互制 + \\(F_b\\) + \\(\\lambda_c/F_{cr}\\) + 萊梅厥 + <b>非彈性 \\(G\\) 修正 \\(\\tau_a\\)</b>；<b>但 <code>SS-2011-1</code> 問的直接分析法（\\(N_i\\)、\\(0.8\\tau_b\\)、1.6 由來）一條都沒有</b>"],
+ [2012,"101","SS-2012-3",0,0,0,1,1,0,0,0,1,0,0,"題三下方給 \\(\\lambda_c\\)、\\(F_{cr}\\) 兩式、\\(B_1\\)、P-M 兩段式；<b>但 \\(C_m\\) 與 \\(P_{e1}\\) 兩個零件都沒定義</b>"],
+ [2013,"102","SS-2013-4",0,0,1,0,1,1,1,1,0,0,0,"\\(B_1\\)、\\(B_2\\)、\\(C_m\\)、\\(P_{eK}\\)、萊梅厥、<b>兩張對位圖 + K 值表</b>全給（<b>皆為影像頁</b>）；<b>但 \\(M_u=B_1M_{nt}+B_2M_{lt}\\) 沒印</b>"],
+ [2014,"103","SS-2014-4",0,0,0,1,1,1,0,0,1,0,0,"題四給 P-M 兩段式 + \\(B_1\\) + \\(B_2\\)（<b>側位移角版</b>）；<b>\\(C_m\\)、\\(P_e\\)、\\(M_u\\) 組合式皆無</b>；題一把 \\(F_{cr}\\) 印出來叫你<b>推導</b> \\(\\lambda_c\\)"],
+ [2015,"104","—",0,0,0,0,0,0,0,0,0,0,0,"參考公式全為拉力構材與梁（\\(T_{ds}\\)、\\(U\\)、\\(M_n\\)、\\(V_n\\)）"],
+ [2016,"105","—",0,0,0,0,0,0,0,0,0,0,0,"僅印 \\(\\lambda_p/\\lambda_r\\) 寬厚比表（且那題是要你解釋制定考量）"],
+ [2017,"106","—",0,0,0,0,0,0,0,0,0,0,0,"<b>整張零參考公式</b>"],
+ [2018,"107","—",0,0,0,0,0,0,0,0,1,0,0,"僅題二印 \\(\\lambda_c\\) 與 \\(F_{cr}\\) 兩式"],
+ [2019,"108","SS-2019-3",1,1,0,0,0,0,0,0,0,1,1,"ASD 公式最完整的年份之一（\\(C_c\\)、\\(F_a\\) 兩式、\\(L_c\\)、\\(F_b\\) 三式、\\(C_b\\)、互制三式、\\(F'_e\\)）；<b>但式子裡的 \\(C_{mx},C_{my}\\) 從頭到尾沒定義</b>"],
+ [2020,"109","SS-2020-3",0,0,0,1,1,0,1,0,1,0,0,"第 3 頁參考資料<b>整區都是影像</b>（pdftotext 只抽到「= ，= exp−0.419∙」）：\\(\\lambda_c\\)、\\(F_{cr}\\) 兩式、P-M 兩段式、<b>台灣版 \\(B_1\\)（0.64／0.32）</b>、\\(P_{e1}=A_gF_y/\\lambda_c^2\\)、\\(L_p\\)"],
+ [2021,"110","—",0,0,0,0,0,0,0,0,0,0,0,"參考公式為 LTB 與塊狀剪力；<b>\\(\\phi=0.9\\) 在 \\(M_n\\) 式旁（24 年唯一一次看得到 \\(\\phi_b\\)）</b>"],
+ [2022,"111","SS-2022-1",0,0,0,0,0,0,0,0,1,0,0,"<b><code>SS-2022-1</code> 是 BOX 800 雙軸彎矩梁柱題，卻只給 \\(\\lambda_c\\)、\\(F_{cr}\\)、\\(\\lambda_p\\)、\\(h/t_w\\)、\\(V_n\\) —— P-M 互制式一條都沒有</b>"],
+ [2023,"112","—",0,0,0,0,0,0,0,1,0,1,0,"題一印<b>對位圖（影像）</b>；題二 \\(C_c\\) 與 \\(F_a\\) 兩式<b>亦為影像</b>。無任何梁柱互制"],
+ [2024,"113","—",0,0,0,0,0,0,0,0,1,0,0,"題一印 \\(F_{cr}\\) 兩式與 \\(\\lambda\\)（<b>影像</b>），但那是<b>無殘餘應力理想曲線</b>、題目要的是含殘餘應力（誘餌型）"],
+ [2025,"114","—",0,0,0,0,0,0,0,0,0,0,0,"<b>整張考卷零參考公式</b>"]
+];
+
+/* ---------- 渲染 ---------- */
+const LVN={must:["🔴 必背","must"],half:["🟠 別賭","half"],give:["🟢 通常會給","give"]};
+const box=document.getElementById('cards');
+function yrs(a,cls){return a.map(y=>`<span class="yr ${cls}">${y-1911}年</span>`).join('')}
+function render(){
+  const lv=document.querySelector('[data-k="lv"].on').dataset.v;
+  const g=document.querySelector('[data-k="g"].on').dataset.v;
+  const sel=F.filter(f=>(lv==='all'||f.lv===lv)&&(g==='all'||f.g===g));
+  box.innerHTML=sel.map(f=>`
+    <div class="fc ${f.lv}">
+      <div class="top">
+        <span class="nm">${f.nm}</span>
+        <span class="tag ${f.lv}">${LVN[f.lv][0]}</span>
+        <span class="tag grp">${f.g}</span>
+      </div>
+      <div class="eq">${f.eq}</div>
+      <p class="meta">${f.meta}</p>
+      <div class="ev">
+        ${f.ok.length?`<b>考卷給過：</b>${yrs(f.ok,'ok')}`:'<b>考卷給過：</b><span style="color:var(--must)">從未</span>'}
+        ${f.no.length?`　｜　<b>考了卻沒給：</b>${yrs(f.no,'no')}`:''}
+      </div>
+    </div>`).join('');
+  document.getElementById('count').textContent=`顯示 ${sel.length} / ${F.length} 條`;
+  if(window.renderMathInElement)renderMathInElement(box,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+}
+document.querySelectorAll('button.f').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll(`button.f[data-k="${b.dataset.k}"]`).forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');render();
+}));
+
+const tb=document.querySelector('#mx tbody');
+tb.innerHTML=MX.map(r=>{
+  const has=r[2]!=='—';
+  const cells=r.slice(3,14).map(v=>`<td class="c">${v?'<span class="y">✔</span>':'<span class="n">·</span>'}</td>`).join('');
+  return `<tr style="${has?'background:#fafcfd':''}">
+    <td><b>${r[0]}</b><br><span style="font-size:.85em;color:var(--mut)">${r[1]}年</span></td>
+    <td style="font-size:.9em">${r[2]}</td>${cells}
+    <td style="font-size:.9em">${r[14]}</td></tr>`;
+}).join('');
+
+render();
+window.addEventListener('load',()=>{if(window.renderMathInElement)renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});});
+</script>
+</body>
+</html>

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2008-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.88em;line-height:1.5}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;padding:10px 16px;border-radius:0 8px 8px 0}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SS-2008-4 題目解析</h1><a class="quick" href="../study-SS-U1-3.html" title="SS-U1-3 梁柱桿件 命題分析">&#128269; U1-3 命題分析</a><a class="lect" href="../lecture-SS-U1-3.html" title="SS-U1-3 梁柱桿件 觀念講義">&#128218; U1-3 梁柱桿件 講義</a></header>
+<main><h1>考題編號：SS-2008-4</h1>
+<p><strong>主分類：</strong> <code>SS-U1-3</code> 梁柱桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> ASD<br />
+<strong>標籤：</strong> <code>梁柱桿件</code> <code>ASD</code> <code>P-M互制</code> <code>偏心軸壓</code> <code>側向力</code> <code>有效長度</code> <code>Fa</code> <code>Fbx</code> <code>穩定方程式</code> <code>強度方程式</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>W 型鋼梁柱構件，總長 $L = 12$ m，在 A、B、C 三點有側向束制。</p>
+<p><strong>載重：</strong></p>
+<ul>
+<li>偏心軸壓力 $P$（偏心距 $d = 25$ cm，施加於端點 A）</li>
+<li>側向力 $H = 2.5$ t（施加於中點 B，y 方向）</li>
+</ul>
+<p><strong>已知：</strong> $K_x = K_y = 1.0$，$C_m = 1.0$，A36 鋼材 $F_y = 2.5$ t/cm²，$E = 2040$ t/cm²</p>
+<p><strong>斷面參數：</strong></p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>數值</th>
+<th>參數</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A$</td>
+<td>76 cm²</td>
+<td>$S_x$</td>
+<td>851 cm³</td>
+</tr>
+<tr>
+<td>$d$ (斷面深度)</td>
+<td>30.3 cm</td>
+<td>$r_y$</td>
+<td>4.91 cm</td>
+</tr>
+<tr>
+<td>$b_f$</td>
+<td>20.3 cm</td>
+<td>$r_x$</td>
+<td>13 cm</td>
+</tr>
+<tr>
+<td>$t_f$</td>
+<td>1.31 cm</td>
+<td>$I_y$</td>
+<td>1830 cm⁴</td>
+</tr>
+<tr>
+<td>$t_w$</td>
+<td>0.749 cm</td>
+<td>$E$</td>
+<td>2040 t/cm²</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="SS-2008-4 題目附圖：梁柱構件立面圖與斷面圖，偏心軸壓P（偏心d=25cm）施加於A端，側向力H=2.5t施加於B點，A、B、C三點側向束制，AB=BC=L/2=6m" src="../../raw/solutions/SS-2008-4/SS-2008-4-fig-1.png" /></p>
+<p><em>圖說：水平梁柱構件，總長L=12m，A為左端（施偏心P，偏心距d=25cm在斷面深度方向），B為中點（施H=2.5t側向力向下），C為右端（P集中在斷面形心）。A、B、C均有側撐。斷面為W型鋼，x為強軸，y為弱軸。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>ASD 梁柱互制方程式：同時考量偏心（端部彎矩）與橫向載重（H），需決定彎矩分布，再套用穩定及強度兩個互制方程式求解最大允許 P。</p>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>正確建立彎矩圖（偏心矩 + H 的疊加）</li>
+<li>辨別有效長度方向（強軸用全長，弱軸用半跨）</li>
+<li>同時解穩定方程式（Eq.1）與強度方程式（Eq.2），取控制值</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>解題順序：</strong></p>
+<pre><code>① 建立彎矩圖（偏心 P×d 端矩 + H 三角形矩）
+② 計算 Cc、Fa（弱軸 KyLy/ry 控制）
+③ 計算 Fbx（ASD LTB 公式）
+④ 計算 F'ex（強軸，全長）
+⑤ 判斷 fa/Fa &gt; 0.15，套用兩個互制方程式求 P
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>錯誤</th>
+<th>正確</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有效長度判斷</td>
+<td>強軸弱軸都用 L/2</td>
+<td>弱軸用 L/2（受中點束制），強軸用全長 L</td>
+</tr>
+<tr>
+<td>彎矩最大位置</td>
+<td>誤以為在端點 A</td>
+<td>P &lt; 60 t 時最大彎矩在 B（兩種載重疊加）</td>
+</tr>
+<tr>
+<td>兩個方程式的 fbx</td>
+<td>方程式 2 用端矩</td>
+<td>兩個方程式都用 M_max（在 B）</td>
+</tr>
+<tr>
+<td>F'ex 對應軸</td>
+<td>用弱軸計算</td>
+<td>F'ex 用強軸有效長度（彎曲所在平面）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 建立彎矩圖（偏心矩 $Pd$ + 橫向 $H$）→ 求 $F_a, F_{bx}, F'_{ex}$ → 聯立穩定（Eq.1）與強度（Eq.2）互制方程式 → 穩定方程式控制 → $P_{max} \approx 11.1$ t</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$M_B = \frac{P \cdot d \cdot (L - L/2)}{L} + \frac{HL}{4} = 12.5P + 750 \text{ (t·cm)}$$</p>
+<p>$$\boxed{F_a} = \frac{[1-(KL/r)^2/(2C_c^2)]F_y}{FS}, \quad \boxed{F'_{ex}} = \frac{12\pi^2 E}{23(K_x L_x/r_x)^2}$$</p>
+<p>$$\text{Eq.1: } \frac{f_a}{F_a} + \frac{C_m f_{bx}}{(1 - f_a/F'_{ex})F_{bx}} \leq 1, \quad \text{Eq.2: } \frac{f_a}{0.6F_y} + \frac{f_{bx}}{F_{bx}} \leq 1$$</p>
+<p>$$\boxed{P_{max}} = \min(P_{\text{Eq.1}},\, P_{\text{Eq.2}}) \approx 11.1 \text{ t}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L$</td>
+<td>12 m = 1200 cm</td>
+<td>梁柱總長</td>
+</tr>
+<tr>
+<td>$d_{\text{偏心}}$</td>
+<td>25 cm</td>
+<td>偏心距（載重偏心）</td>
+</tr>
+<tr>
+<td>$H$</td>
+<td>2.5 t</td>
+<td>側向力（施於中點 B）</td>
+</tr>
+<tr>
+<td>$K_x = K_y$</td>
+<td>1.0</td>
+<td>有效長度係數</td>
+</tr>
+<tr>
+<td>$C_m$</td>
+<td>1.0</td>
+<td>彎矩放大係數（題目給定，含側向載重）</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>2.5 t/cm²</td>
+<td>降伏應力（A36）</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>2040 t/cm²</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>76 cm²</td>
+<td>斷面積</td>
+</tr>
+<tr>
+<td>$S_x$</td>
+<td>851 cm³</td>
+<td>彈性斷面模數（強軸）</td>
+</tr>
+<tr>
+<td>$r_x$</td>
+<td>13 cm</td>
+<td>強軸迴轉半徑</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>4.91 cm</td>
+<td>弱軸迴轉半徑</td>
+</tr>
+<tr>
+<td>$b_f$</td>
+<td>20.3 cm</td>
+<td>翼板寬度</td>
+</tr>
+<tr>
+<td>$t_f$</td>
+<td>1.31 cm</td>
+<td>翼板厚度</td>
+</tr>
+<tr>
+<td>$t_w$</td>
+<td>0.749 cm</td>
+<td>腹板厚度</td>
+</tr>
+<tr>
+<td>$I_y$</td>
+<td>1830 cm⁴</td>
+<td>弱軸慣性矩</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：有效長度與彎矩圖</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$K_x L_x$</td>
+<td>$1.0 \times 1200 = 1200$ cm（強軸，B 點束制不阻止面內撓曲）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$K_y L_y$</td>
+<td>$1.0 \times 600 = 600$ cm（弱軸，B 點阻止弱軸位移）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_A$</td>
+<td>$P \times 25 = 25P$ t·cm（偏心矩）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_H\|_{B}$</td>
+<td>$HL/4 = 2.5 \times 1200/4 = 750$ t·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_B$</td>
+<td>$12.5P + 750$ t·cm（最大，$P < 60$ t 時）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：柱強度 $F_a$（弱軸控制）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_c$</td>
+<td>$\sqrt{2\pi^2 E/F_y} = 126.9$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$(KL/r)_y$</td>
+<td>$600/4.91 = 122.2$（控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$FS$</td>
+<td>$5/3 + 3(KL/r)/(8C_c) - (KL/r)^3/(8C_c^3) = 1.916$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_a$</td>
+<td>非彈性挫屈公式 → $0.700$ t/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：容許撓曲應力 $F_{bx}$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$r_T$</td>
+<td>$\sqrt{(I_y/2)/(A_f + A_w/6)} = 5.52$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L/r_T$</td>
+<td>$600/5.52 = 108.7$（$C_b = 1.75$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>適用公式</td>
+<td>$70.8 < 108.7 < 158.3$ → 用非彈性 LTB (7.2-6)</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_{b,(7.2\text{-}6)}$</td>
+<td>$1.275$ t/cm²；$F_{b,(7.2\text{-}8)} = 2.15 > 0.6F_y$ → 取大值並蓋頂</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_{bx}$</td>
+<td>$0.6F_y = 1.5$ t/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：歐拉應力 $F'_{ex}$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F'_{ex}$</td>
+<td>$12\pi^2 E/[23(K_xL_x/r_x)^2] = 12\pi^2\times2040/[23\times(1200/13)^2] = 1.232$ t/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：互制方程式求 P</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$fa/Fa > 0.15$ 判斷</td>
+<td>$P > 7.98$ t → 用完整互制方程式</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_{\text{Eq.1}}$</td>
+<td>穩定方程式 → 二次方程式 → $P \approx 11.1$ t（控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_{\text{Eq.2}}$</td>
+<td>強度方程式 → 線性 → $P \approx 22.2$ t</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASD 柱設計 / $C_c$ / $F_a$</td>
+<td>$C_c$ 分界彈性/非彈性挫屈；$KL/r < C_c$ 用中等細長比公式，$> C_c$ 用彈性公式</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">asd-column</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>強軸 vs 弱軸有效長度判斷</td>
+<td>B 點束制只阻止弱軸位移（$K_yL_y = L/2$），不影響強軸面內彎曲（$K_xL_x = L$）</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">effective-length-chart</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>ASD LTB 公式取大值</td>
+<td>(7.2-6)/(7.2-7) 與 (7.2-8) 各近似不同扭轉機制，取大值；再蓋 $0.6F_y$ 上限</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">LATERAL-TORSIONAL-BUCKLING</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F'_{ex}$ 的定義</td>
+<td>強軸歐拉應力（彎曲平面，用 $K_xL_x/r_x$），用於穩定方程式放大係數</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_m = 1.0$ 的條件</td>
+<td>含橫向載重構件用 $C_m = 1.0$（保守）；純端矩構件用 $0.6 - 0.4(M_1/M_2)$</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>穩定 vs 強度方程式</td>
+<td>Eq.1 含 P-Δ 放大（$1/(1-fa/F'_{ex})$），為主控方程；Eq.2 驗斷面承載，兩者取控制</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">asd-column</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：建立彎矩分布</h3>
+<p><strong>有效長度設定：</strong></p>
+<ul>
+<li>強軸（x 軸）：$K_x L_x = 1.0 \times 1200 = 1200$ cm（端點 A、C 為鉸，B 的束制不阻止強軸面內位移）</li>
+<li>弱軸（y 軸）：$K_y L_y = 1.0 \times 600 = 600$ cm（B 點束制阻止弱軸位移，各段 $L_b = 600$ cm）</li>
+</ul>
+<p><strong>彎矩疊加（A、C 為鉸支，偏心矩 $M_A = P \cdot d$ 施加於 A 端）：</strong></p>
+<p>偏心矩引起的彎矩（線性分布，從 A 到 C）：<br />
+$$M_{ecc}(x) = P \cdot d \cdot \left(1 - \frac{x}{L}\right) = 25P\left(1 - \frac{x}{1200}\right)$$</p>
+<p>H 引起的彎矩（三角形，峰值在 B）：<br />
+$$M_H\bigg|_{x=600} = \frac{H \cdot L}{4} = \frac{2.5 \times 1200}{4} = 750 \text{ t·cm}$$</p>
+<p><strong>各點總彎矩（兩者同向相加）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>$x$ (cm)</th>
+<th>$M$ (t·cm)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>0</td>
+<td>$25P$</td>
+</tr>
+<tr>
+<td>B（中點）</td>
+<td>600</td>
+<td>$12.5P + 750$（← 最大，當 $P < 60$ t）</td>
+</tr>
+<tr>
+<td>C</td>
+<td>1200</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>驗證最大彎矩在 B：</strong> 僅當 $P < 60$ t 時成立（$dM/dx = -25P/1200 + 1.25 > 0$ 時彎矩向 B 遞增）。由最終結果 $P \approx 11$ t &lt; 60 t，故 $M_{max} = M_B = 12.5P + 750$。</p>
+</blockquote>
+<hr />
+<h3>Step 2：柱強度 $F_a$</h3>
+<p><strong>Cc（臨界細長比）：</strong></p>
+<p>$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}} = \sqrt{\frac{2\pi^2 \times 2040}{2.5}} = \sqrt{16,109} = 126.9$$</p>
+<p><strong>控制細長比：</strong></p>
+<p>$$\frac{K_x L_x}{r_x} = \frac{1200}{13} = 92.3$$</p>
+<p>$$\frac{K_y L_y}{r_y} = \frac{600}{4.91} = 122.2 \leftarrow \text{控制}$$</p>
+<p>$122.2 < C_c = 126.9$ → 非彈性挫屈，用中等細長比公式：</p>
+<p><strong>安全係數 FS：</strong></p>
+<p>$$FS = \frac{5}{3} + \frac{3(KL/r)}{8C_c} - \frac{(KL/r)^3}{8C_c^3}$$</p>
+<p>$$= 1.667 + \frac{3 \times 122.2}{8 \times 126.9} - \frac{(122.2)^3}{8 \times (126.9)^3}$$</p>
+<p>$$= 1.667 + \frac{366.6}{1015.2} - \frac{1{,}823{,}588}{16{,}348{,}000} = 1.667 + 0.361 - 0.112 = 1.916$$</p>
+<p><strong>容許壓應力 Fa：</strong></p>
+<p>$$F_a = \frac{\left[1 - \dfrac{(KL/r)^2}{2C_c^2}\right]F_y}{FS} = \frac{\left[1 - \dfrac{14{,}932.8}{32{,}207}\right] \times 2.5}{1.916} = \frac{0.5364 \times 2.5}{1.916} = \mathbf{0.700 \text{ t/cm}^2}$$</p>
+<hr />
+<h3>Step 3：容許撓曲應力 $F_{bx}$</h3>
+<p><strong>計算 $r_T$（壓力翼板 T 斷面之迴轉半徑）：</strong></p>
+<p>$$r_T = \sqrt{\frac{I_y/2}{A_f + A_w/6}}$$</p>
+<p>$$A_f = b_f \cdot t_f = 20.3 \times 1.31 = 26.59 \text{ cm}^2$$</p>
+<p>$$A_w = (d - 2t_f) \cdot t_w = (30.3 - 2 \times 1.31) \times 0.749 = 27.68 \times 0.749 = 20.73 \text{ cm}^2$$</p>
+<p>$$r_T = \sqrt{\frac{1830/2}{26.59 + 20.73/6}} = \sqrt{\frac{915}{26.59 + 3.455}} = \sqrt{\frac{915}{30.045}} = \sqrt{30.46} = 5.52 \text{ cm}$$</p>
+<p><strong>判斷 LTB 公式適用範圍（$L_b = 600$ cm，$C_b = 1.75$ for segment B-C）：</strong></p>
+<p>$$L/r_T = 600/5.52 = 108.7$$</p>
+<p>$$\sqrt{\frac{7160 C_b}{F_y}} = \sqrt{\frac{7160 \times 1.75}{2.5}} = \sqrt{5012} = 70.8$$</p>
+<p>$$\sqrt{\frac{35800 C_b}{F_y}} = \sqrt{\frac{35800 \times 1.75}{2.5}} = \sqrt{25060} = 158.3$$</p>
+<p>$70.8 < 108.7 < 158.3$ → 使用非彈性 LTB 公式 (7.2-6)：</p>
+<p>$$F_{b,(7.2\text{-}6)} = \left[\frac{2}{3} - \frac{F_y (L/r_T)^2}{107600 C_b}\right] F_y = \left[0.667 - \frac{2.5 \times 108.7^2}{107600 \times 1.75}\right] \times 2.5$$</p>
+<p>$$= \left[0.667 - \frac{29{,}540}{188{,}300}\right] \times 2.5 = [0.667 - 0.157] \times 2.5 = 0.510 \times 2.5 = 1.275 \text{ t/cm}^2$$</p>
+<p><strong>公式 (7.2-8) 校核：</strong></p>
+<p>$$\frac{L_d}{A_f} = \frac{600 \times 30.3}{26.59} = 683.6$$</p>
+<p>$$F_{b,(7.2\text{-}8)} = \frac{840 C_b}{L_d/A_f} = \frac{840 \times 1.75}{683.6} = 2.15 \text{ t/cm}^2 > 0.6F_y = 1.5 \text{ t/cm}^2$$</p>
+<p>取兩公式較大值，但不超過 $0.6F_y$：</p>
+<p>$$\boxed{F_{bx} = \max(1.275, 2.15) = 2.15 \text{ t/cm}^2 \to \text{蓋頂} \to F_{bx} = 0.6F_y = 1.5 \text{ t/cm}^2}$$</p>
+<hr />
+<h3>Step 4：歐拉應力 $F'_{ex}$</h3>
+<p>（彎曲在強軸平面，用強軸有效長度 $K_x L_x = 1200$ cm）</p>
+<p>$$F'_{ex} = \frac{12\pi^2 E}{23(K_x L_x/r_x)^2} = \frac{12\pi^2 \times 2040}{23 \times (1200/13)^2} = \frac{241{,}570}{23 \times 8521} = \frac{241{,}570}{195{,}983} = 1.232 \text{ t/cm}^2$$</p>
+<hr />
+<h3>Step 5：互制方程式（判斷適用情況）</h3>
+<p><strong>$f_a/F_a > 0.15$ 的 P 門檻：</strong><br />
+$P/(76 \times 0.700) > 0.15 \Rightarrow P > 7.98$ t</p>
+<p>最終 P 必定 &gt; 8 t，故使用<strong>完整互制方程式（fa/Fa &gt; 0.15 情況）</strong>：</p>
+<hr />
+<p><strong>方程式 1（穩定，Stability）：</strong></p>
+<p>$$\frac{f_a}{F_a} + \frac{C_m f_{bx}}{\left(1 - \dfrac{f_a}{F'_{ex}}\right) F_{bx}} \leq 1$$</p>
+<p>$$\frac{P/76}{0.700} + \frac{1.0 \times (12.5P + 750)/851}{\left(1 - \dfrac{P/76}{1.232}\right) \times 1.5} = 1$$</p>
+<p>$$\frac{P}{53.2} + \frac{12.5P + 750}{1276.5\left(1 - \dfrac{P}{93.63}\right)} = 1 \quad \cdots (1)$$</p>
+<p>整理為一元二次方程式：</p>
+<p>令 $\alpha = 1/53.2$，$\beta = 12.5/1276.5$，$\gamma = 750/1276.5 = 0.5877$，$\kappa = 1/93.63$</p>
+<p>$$\alpha\kappa P^2 - (\alpha + \beta + \kappa)P + (1 - \gamma) = 0$$</p>
+<p>$$0.000201 P^2 - 0.039269 P + 0.4123 = 0$$</p>
+<p>除以 $0.000201$：</p>
+<p>$$P^2 - 195.4P + 2051 = 0$$</p>
+<p>$$P = \frac{195.4 \pm \sqrt{195.4^2 - 4 \times 2051}}{2} = \frac{195.4 \pm \sqrt{38{,}181 - 8{,}204}}{2} = \frac{195.4 \pm \sqrt{29{,}977}}{2}$$</p>
+<p>$$= \frac{195.4 \pm 173.1}{2}$$</p>
+<p>取較小根（物理解）：</p>
+<p>$$\boxed{P_{max,1} = \frac{195.4 - 173.1}{2} = \frac{22.3}{2} \approx 11.1 \text{ t}}$$</p>
+<hr />
+<p><strong>方程式 2（強度，Yielding）：</strong></p>
+<p>$$\frac{f_a}{0.6F_y} + \frac{f_{bx}}{F_{bx}} \leq 1$$</p>
+<p>$$\frac{P/76}{1.5} + \frac{(12.5P + 750)/851}{1.5} = 1$$</p>
+<p>$$\frac{P}{114} + \frac{12.5P + 750}{1276.5} = 1$$</p>
+<p>$$P\left(\frac{1}{114} + \frac{12.5}{1276.5}\right) = 1 - \frac{750}{1276.5}$$</p>
+<p>$$P \times 0.018565 = 0.4123$$</p>
+<p>$$P_{max,2} = \frac{0.4123}{0.018565} \approx 22.2 \text{ t}$$</p>
+<hr />
+<p><strong>控制方程式：</strong> 方程式 1（穩定）控制</p>
+<p>$$\boxed{P_{max} \approx 11.1 \text{ t}}$$</p>
+<hr />
+<h3>Step 6：驗算</h3>
+<p>以 $P = 11.1$ t 代入方程式 1：</p>
+<p>$$f_a = 11.1/76 = 0.1461 \text{ t/cm}^2, \quad f_a/F_a = 0.1461/0.700 = 0.209 > 0.15 \checkmark$$</p>
+<p>$$1 - f_a/F'_{ex} = 1 - 0.1461/1.232 = 0.881$$</p>
+<p>$$M_B = 12.5(11.1) + 750 = 888.8 \text{ t·cm}, \quad f_{bx} = 888.8/851 = 1.044 \text{ t/cm}^2$$</p>
+<p>$$\text{方程式 1} = 0.209 + \frac{1.0 \times 1.044}{0.881 \times 1.5} = 0.209 + \frac{1.044}{1.322} = 0.209 + 0.790 = 0.999 \approx 1.00 \checkmark$$</p>
+<p>$$\text{方程式 2} = \frac{0.1461}{1.5} + \frac{1.044}{1.5} = 0.097 + 0.696 = 0.793 < 1 \checkmark$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>強軸 vs 弱軸的有效長度選取</h3>
+<p>本題的關鍵設計決策：</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>強軸（x 軸）</th>
+<th>弱軸（y 軸）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>束制方向</td>
+<td>面內，B 點無阻止面內撓曲</td>
+<td>面外，B 點阻止弱軸位移</td>
+</tr>
+<tr>
+<td>有效長度</td>
+<td>$K_x L = 1200$ cm</td>
+<td>$K_y L/2 = 600$ cm</td>
+</tr>
+<tr>
+<td>細長比</td>
+<td>92.3</td>
+<td>122.2（<strong>控制</strong> $F_a$）</td>
+</tr>
+</tbody>
+</table>
+<h3>Cm = 1.0 的意義</h3>
+<p>$C_m = 1.0$ 適用於有橫向載重（如 H）的構件。若僅有端部彎矩：<br />
+$$C_m = 0.6 - 0.4(M_A/M_B) = 0.6 - 0.4 \times \frac{25P}{12.5P+750}$$</p>
+<p>本題以較保守的 $C_m = 1.0$ 給定，體現「橫向載重造成撓度放大」的考量。</p>
+<h3>二階效應的物理意義</h3>
+<p>穩定方程式中的放大係數 $1/(1 - f_a/F'_{ex})$：</p>
+<ul>
+<li>當 $f_a \to F'_{ex}$（歐拉臨界應力），放大係數 $\to \infty$（理論上挫屈）</li>
+<li>本題：$f_a/F'_{ex} = 0.119$，放大係數 = $1/0.881 = 1.135$（約 13.5% 放大）</li>
+</ul>
+<p>偏心矩 $P \times d$ + 橫向 $H$，加上 P-Δ 放大，使容許 P 僅約 11.1 t（約為純壓容許值 $F_a \times A = 0.700 \times 76 = 53.2$ t 的 20.9%）。</p></main>
+<footer>來源：raw/solutions/SS-2008-4/SS-2008-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body></html>

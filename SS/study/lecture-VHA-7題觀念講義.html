@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VHA 七題觀念講義 — 拉壓桿件的完整理解路徑</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code','option','svg']});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --tension:#2e7d32; --tension2:#e8f5e9;
+  --comp:#c62828; --comp2:#ffebee; --warn:#ef6c00; --warn2:#fff3e0;
+  --key:#6a1b9a; --key2:#f3e5f5; --l3:#00695c; --l32:#e0f2f1;
+  --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.78;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 55%,#42a5f5);color:#fff;padding:36px 26px}
+header h1{margin:0 0 8px;font-size:1.62em;letter-spacing:.5px}
+header .sub{opacity:.93;font-size:.95em;margin:0}
+header .meta{margin-top:14px;font-size:.82em;opacity:.85;line-height:1.9}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);
+  padding:9px 14px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+nav a{text-decoration:none;color:var(--ac);font-size:.85em;padding:4px 11px;border-radius:14px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:1000px;margin:0 auto;padding:24px 18px 80px}
+section{margin-bottom:52px}
+h2{font-size:1.34em;border-left:7px solid var(--ac);padding-left:13px;margin:48px 0 18px;line-height:1.45}
+h2.t{border-color:var(--tension)} h2.c{border-color:var(--comp)} h2.k{border-color:var(--key)}
+h3{font-size:1.09em;margin:32px 0 10px;color:#0d47a1;border-bottom:1px solid var(--bd);padding-bottom:5px}
+h3.t{color:#1b5e20} h3.c{color:#b71c1c} h3.l3{color:var(--l3)}
+h4{font-size:1em;margin:22px 0 8px;color:#37474f}
+p{margin:10px 0}
+.lead{font-size:1.02em;background:#fff;border:1px solid var(--bd);border-left:5px solid var(--ac);
+  border-radius:0 10px 10px 0;padding:15px 18px;margin:16px 0}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:16px 18px;margin:16px 0}
+.why{background:var(--key2);border:1px solid #ce93d8;border-left:5px solid var(--key);
+  border-radius:0 10px 10px 0;padding:14px 17px;margin:16px 0}
+.why b:first-child{color:var(--key)}
+.trap{background:var(--warn2);border:1px solid #ffcc80;border-left:5px solid var(--warn);
+  border-radius:0 10px 10px 0;padding:14px 17px;margin:16px 0}
+.trap b:first-child{color:#e65100}
+.l3box{background:var(--l32);border:1px solid #80cbc4;border-left:5px solid var(--l3);
+  border-radius:0 10px 10px 0;padding:14px 17px;margin:18px 0}
+.l3box b:first-child{color:var(--l3)}
+.tens{background:var(--tension2);border:1px solid #a5d6a7;border-left:5px solid var(--tension);
+  border-radius:0 10px 10px 0;padding:14px 17px;margin:16px 0}
+.comp{background:var(--comp2);border:1px solid #ef9a9a;border-left:5px solid var(--comp);
+  border-radius:0 10px 10px 0;padding:14px 17px;margin:16px 0}
+.hand{background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;
+  border-radius:0 10px 10px 0;padding:15px 18px;margin:20px 0}
+.hand h4{color:#e65100;margin-top:0}
+.hand .step{border-left:3px solid #ffcc80;padding-left:13px;margin:14px 0}
+.hand .step b{color:#bf360c}
+.fig{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 14px 10px;margin:22px 0;overflow-x:auto}
+.fig svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig .cap{font-size:.85em;color:var(--mut);text-align:center;margin-top:10px;line-height:1.65}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9em;background:#fff}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+td.c,th.c{text-align:center}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}
+li{margin:6px 0}
+.pill{display:inline-block;font-size:.76em;padding:2px 9px;border-radius:10px;margin-right:4px}
+.p-t{background:var(--tension2);color:#1b5e20;border:1px solid #a5d6a7}
+.p-c{background:var(--comp2);color:#b71c1c;border:1px solid #ef9a9a}
+.p-k{background:var(--key2);color:#4a148c;border:1px solid #ce93d8}
+.p-w{background:var(--warn2);color:#e65100;border:1px solid #ffcc80}
+.p-l3{background:var(--l32);color:#004d40;border:1px solid #80cbc4}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.chapnum{display:inline-block;background:#0d47a1;color:#fff;border-radius:7px;
+  padding:2px 11px;font-size:.72em;vertical-align:middle;margin-right:9px;letter-spacing:1px}
+.qtag{font-size:.72em;background:#eceff1;color:#455a64;border-radius:6px;padding:2px 8px;margin-left:6px}
+.katex-display{margin:15px 0!important;overflow-x:auto;overflow-y:hidden}
+.chk{background:#fff;border:2px dashed #b0bec5;border-radius:10px;padding:14px 18px;margin:20px 0}
+.chk b{color:#37474f}
+footer{text-align:center;color:var(--mut);font-size:.83em;padding:28px;border-top:1px solid var(--bd)}
+@media print{
+  body{background:#fff;font-size:11pt;line-height:1.62}
+  nav{display:none}
+  header{background:#0d47a1!important}
+  main{max-width:100%;padding:0}
+  section{page-break-before:always}
+  section#s0{page-break-before:avoid}
+  h2{page-break-after:avoid} h3{page-break-after:avoid}
+  .fig,table,.why,.trap,.tens,.comp,.hand,.l3box,.chk{page-break-inside:avoid}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>VHA 七題觀念講義 — 拉壓桿件的完整理解路徑</h1>
+  <p class="sub">從七題考古題的「主要公式 → L2 推導 → L3 深層知識」重建成一條可理解的觀念鏈。<br>
+  每一條公式都追問「它從哪來、它在怕什麼」，每一章都有完整手算範例。拒絕死背。</p>
+  <p class="meta">
+    來源：SS-2005-1、SS-2013-2、SS-2013-3、SS-2015-3、SS-2018-2、SS-2024-1、SS-2025-2 之 §3.5 VHA<br>
+    七題全屬命題大綱 <b>SS-U1-1 拉力及壓力桿件</b>｜章節依主題邏輯排序（拉力 → 斷面 → 長度 → 強度公式來源 → 框架）<br>
+    共 7 章 + 序章 + 附錄｜含 7 則完整手算範例、24 條 L3 深層知識、七章卡關清單
+  </p>
+</header>
+
+<nav>
+  <a href="#s0">序 全景</a>
+  <a href="#s1">1 拉力三道防線</a>
+  <a href="#s2">2 剪力遲滯最佳化</a>
+  <a href="#s3">3 組合柱斷面</a>
+  <a href="#s4">4 有效長度分段</a>
+  <a href="#s5">5 箱型柱檢核</a>
+  <a href="#s6">6 殘留應力與柱曲線</a>
+  <a href="#s7">7 框架整體穩定</a>
+  <a href="#sa" style="background:#ffe0b2;color:#e65100;font-weight:600">附錄 速查＋卡關表</a>
+  <span style="flex:1"></span>
+  <a href="lecture-SS-U1-1.html" style="background:#eceff1;color:#455a64">📘 U1-1 講義</a>
+  <a href="lecture-VHA-7題觀念講義.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+
+<main>
+
+<section id="s0">
+<h2>序章　七題其實是同一條故事線</h2>
+
+<p class="lead">這七題全部落在命題大綱同一子項（SS-U1-1 拉力及壓力桿件），但它們不是七個獨立技巧，
+而是<b>同一個問題被切成七刀</b>：一根桿件承受軸力時，「它會怎麼壞？我要怎麼算它的強度？」
+把七題排成一條線之後，你會發現後面的題目其實是在補前面題目沒交代的東西。</p>
+
+<h3>0.1 軸力桿件的兩個世界</h3>
+
+<div class="grid2">
+<div class="tens"><b>拉力世界（斷面問題）</b><br>
+拉力不會挫屈。桿件多長都無所謂，強度<b>只由斷面決定</b>。
+所以拉力題的全部戲劇性都集中在「有效斷面到底剩多少」：孔洞扣掉多少、應力有沒有均勻傳進整個斷面、
+會不會沿著螺栓群整塊被撕下來。<br>
+<span class="pill p-t">第 1 章</span><span class="pill p-t">第 2 章</span></div>
+
+<div class="comp"><b>壓力世界（斷面 × 長度 × 材料）</b><br>
+壓力會挫屈，於是強度不再只看斷面，還要看<b>「有效長度」</b>與<b>「材料的殘留應力」</b>。
+壓力題永遠是三個問題疊在一起：斷面多硬（$I$、$r$）、桿件多長（$KL$）、材料在哪裡開始不聽話（$F_y$、殘留應力）。<br>
+<span class="pill p-c">第 3～7 章</span></div>
+</div>
+
+<h3>0.2 七章的邏輯排列（為什麼是這個順序）</h3>
+
+<table>
+<thead><tr><th class="c">章</th><th>題號</th><th>主題</th><th>它補上了什麼</th></tr></thead>
+<tbody>
+<tr><td class="c"><b>1</b></td><td>SS-2005-1 <span class="qtag">LRFD</span></td><td>拉力桿件三道防線＋塊狀剪力</td><td>建立「極限狀態取最小值」的基本思維框架</td></tr>
+<tr><td class="c"><b>2</b></td><td>SS-2025-2 <span class="qtag">ASD</span></td><td>剪力遲滯 $U$ 的最佳化</td><td>把第 1 章的 $U$ 從「查表」升級成「可微分的函數」</td></tr>
+<tr><td class="c"><b>3</b></td><td>SS-2015-3 <span class="qtag">ASD</span></td><td>組合柱斷面性質＋反算長度</td><td>進入壓力世界：先搞定「斷面多硬」（$I$、$r_{\min}$）</td></tr>
+<tr><td class="c"><b>4</b></td><td>SS-2013-3 <span class="qtag">ASD+LRFD</span></td><td>強弱軸分段有效長度</td><td>搞定「桿件多長」：$K$ 與分段控制，並對照兩種設計法</td></tr>
+<tr><td class="c"><b>5</b></td><td>SS-2018-2 <span class="qtag">LRFD</span></td><td>箱型柱 LRFD 完整檢核</td><td>把第 3、4 章合起來跑一次完整流程（含斷面代數化簡）</td></tr>
+<tr><td class="c"><b>6</b></td><td>SS-2024-1 <span class="qtag">理論</span></td><td>殘留應力、切線模數、柱強度曲線</td><td>回答「第 4、5 章那些 $0.658^{\lambda^2}$ 公式到底從哪來」</td></tr>
+<tr><td class="c"><b>7</b></td><td>SS-2013-2 <span class="qtag">ASD</span></td><td>對位圖＋LeMessurier 層間穩定</td><td>把單根柱升級成整層框架：$K$ 不是查表得來的，是框架剛度算出來的</td></tr>
+</tbody>
+</table>
+
+<div class="why"><b>怎麼用這份講義：</b>
+每章結構固定為 —
+<b>①主要公式（每條都追來源）→ ②L2 逐步推導（為什麼這樣算）→ ③L3 深層知識（不懂就卡住，本講義的重點）→ ④完整手算範例 → ⑤易錯點與 30 秒自我檢核</b>。
+第一輪讀 ①③④；第二輪只讀 ③⑤ 中你標記過的卡關項。</div>
+
+<h3>0.3 一張圖看完七題的位置</h3>
+
+<div class="fig">
+<svg viewBox="0 0 940 420" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, sans-serif">
+  <rect x="14" y="14" width="440" height="392" rx="12" fill="#e8f5e9" stroke="#a5d6a7"/>
+  <rect x="486" y="14" width="440" height="392" rx="12" fill="#ffebee" stroke="#ef9a9a"/>
+  <text x="234" y="44" font-size="17" font-weight="bold" fill="#1b5e20" text-anchor="middle">拉力世界：強度＝f(斷面)</text>
+  <text x="706" y="44" font-size="17" font-weight="bold" fill="#b71c1c" text-anchor="middle">壓力世界：強度＝f(斷面, 長度, 材料)</text>
+
+  <rect x="40" y="66" width="388" height="70" rx="9" fill="#fff" stroke="#66bb6a"/>
+  <text x="56" y="90" font-size="13.5" font-weight="bold" fill="#1b5e20">第 1 章｜SS-2005-1　三道防線</text>
+  <text x="56" y="111" font-size="12" fill="#33691e">全斷面降伏 Ag ／ 淨斷面斷裂 UAn ／ 塊狀剪力</text>
+  <text x="56" y="129" font-size="12" fill="#33691e">→ 取最小值。發現 BSR 竟只有降伏強度的 40%</text>
+
+  <rect x="40" y="150" width="388" height="70" rx="9" fill="#fff" stroke="#66bb6a"/>
+  <text x="56" y="174" font-size="13.5" font-weight="bold" fill="#1b5e20">第 2 章｜SS-2025-2　U 的最佳化</text>
+  <text x="56" y="195" font-size="12" fill="#33691e">U=1-x-bar/Lw 裡的 x-bar 竟然是變數</text>
+  <text x="56" y="213" font-size="12" fill="#33691e">→ 拉力容量變成拋物線，有最佳板寬</text>
+
+  <rect x="40" y="248" width="388" height="140" rx="9" fill="#f1f8e9" stroke="#aed581" stroke-dasharray="4 3"/>
+  <text x="234" y="272" font-size="13" font-weight="bold" fill="#33691e" text-anchor="middle">拉力世界的共同心法</text>
+  <text x="56" y="296" font-size="12" fill="#33691e">① 極限狀態各自獨立計算，最後取最小值</text>
+  <text x="56" y="317" font-size="12" fill="#33691e">② 降伏用毛斷面 Ag（整根平均），斷裂用有效淨斷面 Ae</text>
+  <text x="56" y="338" font-size="12" fill="#33691e">③ 折減係數不同：LRFD φ=0.90 vs 0.75；ASD 0.6Fy vs 0.5Fu</text>
+  <text x="56" y="359" font-size="12" fill="#33691e">④ 「斷裂」永遠比「降伏」保守，因為斷裂沒有預警</text>
+  <text x="56" y="380" font-size="12" fill="#33691e">⑤ 接合區的幾何（端距、行距）常常才是真正的控制者</text>
+
+  <rect x="512" y="66" width="388" height="58" rx="9" fill="#fff" stroke="#ef5350"/>
+  <text x="528" y="88" font-size="13.5" font-weight="bold" fill="#b71c1c">第 3 章｜SS-2015-3　斷面多硬</text>
+  <text x="528" y="110" font-size="12" fill="#c62828">平行軸定理 → Imin → rmin，再反算容許長度</text>
+
+  <rect x="512" y="134" width="388" height="58" rx="9" fill="#fff" stroke="#ef5350"/>
+  <text x="528" y="156" font-size="13.5" font-weight="bold" fill="#b71c1c">第 4 章｜SS-2013-3　桿件多長</text>
+  <text x="528" y="178" font-size="12" fill="#c62828">強弱軸各自分段算 KL/r，取最大者控制</text>
+
+  <rect x="512" y="202" width="388" height="58" rx="9" fill="#fff" stroke="#ef5350"/>
+  <text x="528" y="224" font-size="13.5" font-weight="bold" fill="#b71c1c">第 5 章｜SS-2018-2　完整跑一次</text>
+  <text x="528" y="246" font-size="12" fill="#c62828">r → KL/r → λc → Fcr → φc Pn ≥ Pu</text>
+
+  <rect x="512" y="270" width="388" height="58" rx="9" fill="#fff3e0" stroke="#fb8c00" stroke-width="2"/>
+  <text x="528" y="292" font-size="13.5" font-weight="bold" fill="#e65100">第 6 章｜SS-2024-1　公式的出生證明</text>
+  <text x="528" y="314" font-size="12" fill="#ef6c00">殘留應力 → Et=0 → Ie → 三段柱曲線的由來</text>
+
+  <rect x="512" y="338" width="388" height="52" rx="9" fill="#fff" stroke="#ef5350"/>
+  <text x="528" y="360" font-size="13.5" font-weight="bold" fill="#b71c1c">第 7 章｜SS-2013-2　K 從哪裡來</text>
+  <text x="528" y="381" font-size="12" fill="#c62828">框架剛度比 G → 對位圖 → 層間穩定 Σ P = Σ Pe</text>
+
+  <path d="M470 200 L470 120 M470 200 L470 280" stroke="#90a4ae" stroke-width="0"/>
+  <text x="470" y="212" font-size="26" fill="#90a4ae" text-anchor="middle">→</text>
+</svg>
+<div class="cap">圖 0-1　七題的知識地圖。左側拉力世界只需處理斷面；右側壓力世界必須同時處理斷面、長度、材料三個變數，
+第 6 章是唯一往下挖到「公式來源」的一題，它解釋了第 4、5 章所有規範公式的物理根據。</div>
+</div>
+
+</section>
+
+<section id="s1">
+<h2 class="t"><span class="chapnum">第 1 章</span>拉力桿件的三道防線 —— 為什麼最弱的那道是接合區</h2>
+
+<p class="lead"><b>來源題：SS-2005-1</b>（LRFD，L200×200×20 等肢角鋼，6 顆 22 mm 螺栓通過單肢接合）<br>
+<b>本章要建立的核心直覺：</b>拉力桿件的強度不是「一個公式」，而是<b>三個獨立的破壞劇本各算一次，取最小值</b>。
+而最戲劇性的結論是 —— 本題三者相差 2.5 倍，控制者是很多人根本沒算的<b>塊狀剪力</b>。</p>
+
+<h3 class="t">1.1 主要公式：每一條在怕什麼</h3>
+
+<p>VHA 列出的四條主要公式，本質上是三個「破壞劇本」加一個「面積修正」。先看它們各自在怕什麼：</p>
+
+<h4>① 全斷面降伏（GSY）—— 怕整根桿件被拉長到無法使用</h4>
+$$\phi_t P_n^{(1)} = 0.90\, F_y\, A_g$$
+<div class="why"><b>來源與物理：</b>桿件遠離接合區的中段，應力均勻分布在整個斷面上。當這裡的應力達到 $F_y$，
+整根桿件開始塑性伸長 —— 這不是「斷掉」，而是<b>「變形大到不能用」</b>。
+所以它是<b>使用性導向的極限狀態</b>：有明顯預警（桿件肉眼可見伸長、下垂），故折減係數寬鬆，$\phi_t = 0.90$。<br>
+用 $A_g$（毛斷面）是因為：桿件中段沒有螺栓孔，整個斷面都在承力。</div>
+
+<h4>② 淨斷面斷裂（NSF）—— 怕接合區螺栓孔那一刀被拉斷</h4>
+$$A_e = U \times A_n, \qquad \phi_t P_n^{(2)} = 0.75\, F_u\, A_e$$
+<div class="why"><b>來源與物理：</b>螺栓孔所在的斷面積少了，應力局部升高，材料被拉到極限強度 $F_u$ 後<b>斷裂</b>。
+斷裂是脆性的、局部的、<b>沒有預警</b>的 —— 所以：
+<ul>
+<li>折減係數壓到 $\phi_t = 0.75$（比降伏的 0.90 嚴）</li>
+<li>用的是 $F_u$ 而非 $F_y$：因為孔邊材料會先局部降伏、應變硬化，真正的失效門檻是極限強度</li>
+<li>還要再乘一個 $U \le 1$：因為<b>應力來不及傳遍整個斷面</b>（見 ③）</li>
+</ul></div>
+
+<h4>③ 剪力遲滯係數 $U$ —— 怕應力「還沒傳到」遠端的肢</h4>
+<div class="l3box"><b>物理故事（這是第 2 章的伏筆）：</b>
+本題角鋼只有<b>一隻肢</b>用螺栓接到接合板。力從螺栓進來，先進入被接的那隻肢，
+再靠<b>剪力</b>沿著角鋼的角部「轉彎」傳到另一隻沒接的肢。轉彎需要距離，
+如果接合長度太短，力還沒傳勻，未接的那隻肢就沒吃到多少力 —— 這叫<b>剪力遲滯（Shear Lag）</b>。<br><br>
+規範用 $U$ 來打折：$U = 1 - \bar{x}/L$，其中 $\bar{x}$ 是<b>斷面形心到接合面的距離</b>（力要「繞」多遠），
+$L$ 是<b>接合長度</b>（有多長的距離可以慢慢傳）。<br>
+$\bar{x}$ 大 → 要繞得遠 → $U$ 小；$L$ 長 → 有距離傳勻 → $U$ 接近 1。</div>
+
+<h4>④ 塊狀剪力（BSR）—— 怕螺栓群連著一整塊母材被撕下來</h4>
+$$R_n^{BSR} = 0.6F_u A_{nv} + U_{bs}F_u A_{nt} \;\le\; 0.6F_y A_{gv} + U_{bs}F_u A_{nt}$$
+<div class="why"><b>來源與物理：</b>想像用手指把郵票從一整張紙上撕下來 —— 破壞面是一個「ㄈ」字形：
+沿載重方向的兩側是<b>剪切面</b>（被剪開），垂直載重方向的末端是<b>拉力面</b>（被拉斷）。
+兩者<b>同時參與</b>，所以公式是兩項相加：
+<ul>
+<li>剪切項 $0.6F_u A_{nv}$：$0.6$ 來自 von Mises 剪切降伏準則 $\tau_y \approx F_y/\sqrt{3} \approx 0.58F_y$，規範取 0.6</li>
+<li>拉力項 $U_{bs}F_u A_{nt}$：$U_{bs}=1.0$ 表示拉力面上應力均勻；若接合偏心使拉力分布不均，取 0.5</li>
+</ul>
+右邊那個<b>上限式</b>是本題的關鍵，見 §1.3。</div>
+
+<h3 class="t">1.2 L2：需要推導的變數，逐一講清楚</h3>
+
+<h4>Step 1　角鋼斷面積 $A_g$ 與形心距 $\bar{x}$</h4>
+
+<div class="fig">
+<svg viewBox="0 0 880 300" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, sans-serif">
+  <!-- left: cross-section with centroid -->
+  <text x="150" y="26" font-size="14" font-weight="bold" fill="#1b5e20" text-anchor="middle">(a) L200×200×20 斷面分割</text>
+  <polygon points="40,60 60,60 60,220 200,220 200,240 40,240" fill="#c8e6c9" stroke="#2e7d32" stroke-width="2"/>
+  <line x1="60" y1="220" x2="60" y2="240" stroke="#66bb6a" stroke-dasharray="3 3"/>
+  <text x="50" y="150" font-size="11" fill="#1b5e20" transform="rotate(-90 50 150)" text-anchor="middle">垂直肢 A₂</text>
+  <text x="130" y="234" font-size="11" fill="#1b5e20" text-anchor="middle">水平肢 A₁</text>
+  <text x="120" y="262" font-size="11" fill="#455a64" text-anchor="middle">200 mm</text>
+  <line x1="40" y1="252" x2="200" y2="252" stroke="#455a64"/>
+  <text x="24" y="150" font-size="11" fill="#455a64" transform="rotate(-90 24 150)" text-anchor="middle">200 mm</text>
+  <line x1="30" y1="60" x2="30" y2="240" stroke="#455a64"/>
+  <text x="215" y="232" font-size="10" fill="#455a64">t=20</text>
+  <!-- centroid -->
+  <circle cx="97" cy="197" r="4" fill="#c62828"/>
+  <text x="106" y="192" font-size="11" fill="#c62828">形心 (x-bar=57.4mm)</text>
+  <line x1="40" y1="197" x2="97" y2="197" stroke="#c62828" stroke-dasharray="4 2"/>
+  <text x="60" y="212" font-size="10.5" fill="#c62828">x-bar</text>
+  <text x="30" y="288" font-size="11" fill="#455a64">重疊角只能算一次 → Ag=(200+200−20)×20</text>
+
+  <!-- right: shear lag concept -->
+  <text x="590" y="26" font-size="14" font-weight="bold" fill="#1b5e20" text-anchor="middle">(b) 力如何「轉彎」：剪力遲滯</text>
+  <rect x="420" y="150" width="330" height="34" fill="#c8e6c9" stroke="#2e7d32" stroke-width="2"/>
+  <rect x="420" y="70" width="34" height="80" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="437" y="112" font-size="10" fill="#1b5e20" transform="rotate(-90 437 112)" text-anchor="middle">未接肢</text>
+  <text x="470" y="200" font-size="11" fill="#1b5e20">被接的肢（螺栓在此）</text>
+  <circle cx="500" cy="167" r="6" fill="#fff" stroke="#37474f" stroke-width="1.6"/>
+  <circle cx="560" cy="167" r="6" fill="#fff" stroke="#37474f" stroke-width="1.6"/>
+  <circle cx="620" cy="167" r="6" fill="#fff" stroke="#37474f" stroke-width="1.6"/>
+  <path d="M500 155 Q470 130 445 110" stroke="#ef6c00" stroke-width="2.2" fill="none" marker-end="url(#ar1)"/>
+  <path d="M560 155 Q505 125 448 100" stroke="#ef6c00" stroke-width="2.2" fill="none" marker-end="url(#ar1)"/>
+  <defs><marker id="ar1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+    <path d="M0,0 L6,3 L0,6 z" fill="#ef6c00"/></marker></defs>
+  <text x="480" y="88" font-size="10.5" fill="#e65100">力要靠剪力繞過角部</text>
+  <text x="480" y="103" font-size="10.5" fill="#e65100">→ 需要距離 L</text>
+  <text x="770" y="170" font-size="22" fill="#2e7d32">→P</text>
+  <text x="420" y="230" font-size="11.5" fill="#455a64">接合長度 L 越短、形心離接合面越遠（x-bar 越大）</text>
+  <text x="420" y="248" font-size="11.5" fill="#455a64">→ 未接肢吃到的力越少 → U 越小 → 有效斷面越小</text>
+  <text x="420" y="272" font-size="12" font-weight="bold" fill="#1b5e20">U = 1 − x-bar / L</text>
+</svg>
+<div class="cap">圖 1-1　(a) 等肢角鋼的斷面分割與形心：注意兩肢重疊的角部只能算一次。
+(b) 剪力遲滯的物理圖像：力從螺栓進入被接的肢後，必須靠剪力繞過角部才能傳到未接的肢。</div>
+</div>
+
+<p><b>$A_g$ 為什麼是 $(200+200-20) \times 20$？</b>
+把角鋼想成兩片長 200 mm 的板拼成 L 形，交會的角部（$20 \times 20$）被算了兩次，所以要扣掉一次厚度：</p>
+$$A_g = (200 + 200 - 20) \times 20 = 380 \times 20 = 7600\ \text{mm}^2 = 76.0\ \text{cm}^2$$
+
+<p><b>$\bar{x}$ 用分割法</b>（以肢背面 heel 為原點，取水平方向）：</p>
+<table>
+<thead><tr><th>分割塊</th><th class="c">面積 (mm²)</th><th class="c">形心距肢背 (mm)</th><th class="c">一次矩 (mm³)</th></tr></thead>
+<tbody>
+<tr><td>水平肢 $A_1 = 200\times20$</td><td class="c">4000</td><td class="c">100</td><td class="c">400,000</td></tr>
+<tr><td>垂直肢（扣重疊）$A_2 = 180\times20$</td><td class="c">3600</td><td class="c">10</td><td class="c">36,000</td></tr>
+<tr><td><b>合計</b></td><td class="c"><b>7600</b></td><td class="c">—</td><td class="c"><b>436,000</b></td></tr>
+</tbody>
+</table>
+$$\bar{x} = \frac{436{,}000}{7600} = 57.4\ \text{mm} = 5.74\ \text{cm}$$
+
+<h4>Step 2　剪力遲滯係數 $U$：公式值與表格值打起來了</h4>
+
+<p>接合長度 $L = 2s = 2 \times 7.5 = 15$ cm（第一顆到最後一顆螺栓的距離，<b>不含端距</b>）。</p>
+$$U_{\text{公式}} = 1 - \frac{\bar{x}}{L} = 1 - \frac{5.74}{15} = 0.617
+\qquad\text{vs}\qquad U_{\text{表格}} = 0.85\ \text{（角鋼，每行≥3顆）}$$
+
+<div class="trap"><b>⚠ 這裡是本題第一個大坑：</b>
+兩個值差很多，該用哪個？<br>
+<b>規範的邏輯是「表格值是簡化的下限保證，公式值是精算」</b>，多數版本規定<b>取較大值</b>（即表格值不得被公式值拉低）。
+本題官方解採 <b>$U = 0.85$</b>。<br>
+<b>考場作法：</b>兩個都算出來，寫明依據，取表格值 0.85 並註明「公式值 0.617 較保守，若規範要求採計算值則 $A_e$ 降為 41.1 cm²」。
+這樣不管閱卷者採哪一版，你都拿到分數。</div>
+
+<h4>Step 3　淨斷面積 $A_n$：扣幾個孔？</h4>
+<p>臨界斷面是<b>垂直於載重、同時切過最多孔</b>的那一刀。本題螺栓 2 行 × 3 列，
+「行」是橫向（穿越肢寬），所以任何一刀都會切到 <b>2 個孔</b>：</p>
+$$A_n = A_g - 2 \times d_h \times t = 76.0 - 2 \times 2.35 \times 2.0 = 76.0 - 9.4 = 66.6\ \text{cm}^2$$
+$$A_e = U A_n = 0.85 \times 66.6 = 56.61\ \text{cm}^2$$
+
+<div class="trap"><b>⚠ 常見錯誤：</b>看到「6 顆螺栓」就扣 6 個孔（$A_n$ 會變成 47.8 cm²，嚴重低估）。
+<b>扣孔數 = 臨界斷面上的孔數 = 行數</b>，不是螺栓總數。列（沿載重方向）只影響接合長度與 BSR，不影響扣孔。</div>
+
+<h4>Step 4　塊狀剪力：三條可能的撕裂路徑</h4>
+
+<div class="fig">
+<svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, sans-serif">
+  <text x="450" y="22" font-size="14" font-weight="bold" fill="#1b5e20" text-anchor="middle">被接肢的俯視圖（寬 20 cm，厚 2 cm）：三種塊狀剪力路徑</text>
+  <g id="base">
+  </g>
+  <!-- three panels -->
+  <g transform="translate(20,42)">
+    <rect x="0" y="0" width="250" height="200" fill="#f1f8e9" stroke="#9ccc65"/>
+    <text x="125" y="18" font-size="12" font-weight="bold" fill="#33691e" text-anchor="middle">模式 A：外側行剪出</text>
+    <!-- member -->
+    <rect x="30" y="40" width="190" height="130" fill="#fff" stroke="#455a64"/>
+    <text x="20" y="48" font-size="9.5" fill="#455a64">heel</text>
+    <text x="20" y="176" font-size="9.5" fill="#455a64">toe</text>
+    <!-- bolts row1 y=72 (5cm from heel), row2 y=121 -->
+    <circle cx="80" cy="72" r="4.5" fill="#fff" stroke="#37474f"/><circle cx="130" cy="72" r="4.5" fill="#fff" stroke="#37474f"/><circle cx="180" cy="72" r="4.5" fill="#fff" stroke="#37474f"/>
+    <circle cx="80" cy="121" r="4.5" fill="#fff" stroke="#37474f"/><circle cx="130" cy="121" r="4.5" fill="#fff" stroke="#37474f"/><circle cx="180" cy="121" r="4.5" fill="#fff" stroke="#37474f"/>
+    <!-- failure path: shear along row2 to right, tension to toe -->
+    <path d="M220 121 L80 121 L80 170" stroke="#d32f2f" stroke-width="2.6" fill="none"/>
+    <text x="150" y="115" font-size="9.5" fill="#d32f2f">剪切面 Anv</text>
+    <text x="86" y="152" font-size="9.5" fill="#d32f2f">拉力面 7.5cm</text>
+    <text x="35" y="192" font-size="10" fill="#455a64">φRn = 83.9 tf</text>
+  </g>
+  <g transform="translate(300,42)">
+    <rect x="0" y="0" width="250" height="200" fill="#ffebee" stroke="#ef9a9a" stroke-width="2"/>
+    <text x="125" y="18" font-size="12" font-weight="bold" fill="#b71c1c" text-anchor="middle">模式 B：內側行剪出 ← 控制</text>
+    <rect x="30" y="40" width="190" height="130" fill="#fff" stroke="#455a64"/>
+    <circle cx="80" cy="72" r="4.5" fill="#fff" stroke="#37474f"/><circle cx="130" cy="72" r="4.5" fill="#fff" stroke="#37474f"/><circle cx="180" cy="72" r="4.5" fill="#fff" stroke="#37474f"/>
+    <circle cx="80" cy="121" r="4.5" fill="#fff" stroke="#37474f"/><circle cx="130" cy="121" r="4.5" fill="#fff" stroke="#37474f"/><circle cx="180" cy="121" r="4.5" fill="#fff" stroke="#37474f"/>
+    <path d="M220 72 L80 72 L80 40" stroke="#d32f2f" stroke-width="3" fill="none"/>
+    <text x="150" y="66" font-size="9.5" fill="#d32f2f">剪切面 Anv</text>
+    <text x="86" y="56" font-size="9.5" fill="#d32f2f">拉力面只有 5cm</text>
+    <text x="35" y="192" font-size="10.5" font-weight="bold" fill="#b71c1c">φRn = 68.6 tf ← 最小</text>
+  </g>
+  <g transform="translate(580,42)">
+    <rect x="0" y="0" width="250" height="200" fill="#f1f8e9" stroke="#9ccc65"/>
+    <text x="125" y="18" font-size="12" font-weight="bold" fill="#33691e" text-anchor="middle">模式 C：兩行同時剪出</text>
+    <rect x="30" y="40" width="190" height="130" fill="#fff" stroke="#455a64"/>
+    <circle cx="80" cy="72" r="4.5" fill="#fff" stroke="#37474f"/><circle cx="130" cy="72" r="4.5" fill="#fff" stroke="#37474f"/><circle cx="180" cy="72" r="4.5" fill="#fff" stroke="#37474f"/>
+    <circle cx="80" cy="121" r="4.5" fill="#fff" stroke="#37474f"/><circle cx="130" cy="121" r="4.5" fill="#fff" stroke="#37474f"/><circle cx="180" cy="121" r="4.5" fill="#fff" stroke="#37474f"/>
+    <path d="M220 72 L80 72 L80 121 L220 121" stroke="#d32f2f" stroke-width="2.6" fill="none"/>
+    <text x="150" y="66" font-size="9.5" fill="#d32f2f">剪切面 ×2</text>
+    <text x="86" y="103" font-size="9.5" fill="#d32f2f">拉力面 7.5cm</text>
+    <text x="35" y="192" font-size="10" fill="#455a64">φRn = 121.7 tf</text>
+  </g>
+  <text x="30" y="272" font-size="12.5" fill="#455a64">關鍵洞察：模式 B 的剪切面積與模式 A 相同（都是一條 20 cm 長的剪切面），</text>
+  <text x="30" y="293" font-size="12.5" fill="#455a64">但拉力面只有 5 cm（第 1 行到 heel 的距離）而非 7.5 cm → 拉力項少了 40%，因此 B 控制。</text>
+  <text x="30" y="320" font-size="12.5" font-weight="bold" fill="#b71c1c">→ 「螺栓離邊緣最近的那一側」通常就是塊狀剪力的控制路徑。</text>
+</svg>
+<div class="cap">圖 1-2　三種塊狀剪力路徑。破壞面永遠是「剪切面 + 拉力面」的組合；哪一條路徑的<b>總抗力最小</b>就由它控制。</div>
+</div>
+
+<p>共同的幾何量（剪切長度 = 端距 + 兩個列距）：</p>
+$$L_{shear} = e + 2s = 5 + 7.5 + 7.5 = 20\ \text{cm}$$
+$$A_{gv} = 20 \times 2 = 40\ \text{cm}^2 \text{（每條剪切面）}, \qquad
+A_{nv} = (20 - 2.5 \times 2.35) \times 2 = 28.25\ \text{cm}^2$$
+
+<div class="why"><b>「扣 2.5 個孔」是怎麼來的？</b>
+剪切面沿載重方向切過 3 個孔，但最末端那個孔只被切到<b>一半</b>（破壞面從最後一顆螺栓的孔中心轉向拉力面），
+所以是 $2 \times 1.0 + 1 \times 0.5 = 2.5$ 個孔徑。<br>
+同理，拉力面上每個孔<b>只被切到半個</b>，所以拉力面扣 $0.5 d_h$：$A_{nt} = (\text{邊距} - 0.5 d_h) \times t \times (\text{面數})$。</div>
+
+<h3 class="l3">1.3 L3 深層知識 —— 不懂就一定卡住的五件事</h3>
+
+<div class="l3box"><b>L3-1　$U$ 值三種規定：關鍵在「斷面型式」不是「螺栓數」</b><br>
+很多人只記「≥3 顆用 0.85」，結果看到 W 型鋼也套 0.85，或看到角鋼套 0.90。正確的判讀順序是<b>先看斷面、再看螺栓數</b>：
+<table style="margin-top:10px">
+<thead><tr><th class="c">U</th><th>適用條件</th><th>為什麼</th></tr></thead>
+<tbody>
+<tr><td class="c"><b>0.90</b></td><td>W、H、S、I 型鋼，<b>翼板接合</b>且 $b_f \ge \tfrac{2}{3}d$，每行 ≥3 顆</td><td>翼板夠寬＝斷面「矮胖」，力繞到腹板的路徑短</td></tr>
+<tr><td class="c"><b>0.85</b></td><td>W/H/I/T 但 $b_f < \tfrac{2}{3}d$；<b>或其他斷面（含角鋼、槽鋼）</b>，每行 ≥3 顆</td><td>斷面「瘦高」或不對稱，力要繞遠路</td></tr>
+<tr><td class="c"><b>0.75</b></td><td>角鋼、槽鋼等，僅單元件接合，每行<b>只有 2 顆</b></td><td>接合長度只剩 1 個間距，傳力距離嚴重不足</td></tr>
+</tbody></table>
+<b>本題：</b>角鋼（不是 W）＋ 每行 3 顆 → 情況 2 → $U = 0.85$。</div>
+
+<div class="l3box"><b>L3-2　$U$ 只打折「斷裂」，絕不碰「降伏」</b><br>
+這是每年都有人失分的地方。理由回到物理：
+<ul>
+<li><b>降伏</b>發生在桿件中段，距離接合區很遠。那裡應力早就傳勻了，剪力遲滯根本不存在 → 用 $A_g$，不乘 $U$。</li>
+<li><b>斷裂</b>發生在接合區的孔斷面，正是剪力遲滯最嚴重的地方 → 用 $A_e = U A_n$。</li>
+</ul>
+記法：<b>「U 是接合區的地方稅，出了接合區就不用繳」。</b></div>
+
+<div class="l3box"><b>L3-3　塊狀剪力的上限式：為什麼要 $\le 0.6F_y A_{gv} + F_u A_{nt}$</b><br>
+這是本題最容易被忽略、但<b>三個模式全部由它控制</b>的一項。<br><br>
+兩項的物理不對等：
+<ul>
+<li><b>拉力面</b>破壞模式是「斷裂」→ 用 $F_u$、用淨面積 $A_{nt}$（合理）</li>
+<li><b>剪切面</b>如果也用「斷裂」（$0.6F_u A_{nv}$），意思是剪切面上材料被剪斷。但真實情況是：<br>
+剪切面很長（本題 20 cm），沿線應力分布不均，<b>末端的材料還沒被剪斷，起端就已經整段剪力降伏了</b>。
+一旦剪力降伏，變形迅速累積，此時抗力被<b>剪力降伏的平台值 $0.6F_y A_{gv}$</b> 卡住，不可能再爬到剪斷強度。</li>
+</ul>
+所以規範加上限：<b>剪切面的貢獻不得超過它的降伏平台</b>。<br>
+<b>本題驗證：</b>
+$$0.6F_u A_{nv} = 0.6(4.1)(28.25) = 69.5\ \text{tf}\qquad\text{vs}\qquad 0.6F_y A_{gv} = 0.6(2.5)(40) = 60.0\ \text{tf}$$
+斷裂項 (69.5) 比降伏平台 (60.0) 大 → 規範的 $\le$ 要求取小者 → <b>由上限式控制</b>，三個模式皆如此。<br><br>
+<b>一眼判準（考場省時）：</b>比較 $\dfrac{A_{nv}}{A_{gv}}$ 與 $\dfrac{F_y}{F_u}$ ——
+$$\frac{A_{nv}}{A_{gv}} = \frac{28.25}{40} = 0.706 \;>\; \frac{F_y}{F_u} = \frac{2.5}{4.1} = 0.610
+\quad\Rightarrow\quad \text{上限式控制}$$
+意義：孔洞削掉的剪切面積比例（約 29%）小於材料的降伏／極限強度差（約 39%），
+所以剪切面「還沒被削弱到需要動用 $F_u$」就先降伏了。<b>孔小、剪切面長的接合，幾乎都是上限式控制。</b></div>
+
+<div class="l3box"><b>L3-4　多行螺栓必須枚舉所有路徑</b><br>
+BSR 不是一個公式，是一個<b>「找最弱撕裂路徑」的搜尋問題</b>。2 行螺栓就有 3 條路徑（外側行、內側行、兩行同時）。
+搜尋的直覺捷徑：<br>
+<b>拉力面越短 → 越弱。</b>所以優先檢查「螺栓距自由邊最近」的那條路徑（本題模式 B，只有 5 cm）。
+但別只算它 —— 兩行同時剪出（模式 C）雖然拉力面長，剪切面卻加倍，須實算比較。</div>
+
+<div class="l3box"><b>L3-5　為什麼本題 BSR (68.6 tf) 只有降伏 (171 tf) 的 40%</b><br>
+這不是計算錯誤，而是<b>接合設計不良的真實反映</b>。原因兩個：
+<ol>
+<li><b>接合太短</b>：20 cm 的剪切長度，要傳遞 76 cm² 斷面的全部拉力，塊狀剪力面積根本不夠。</li>
+<li><b>螺栓太靠邊</b>：第 1 行距 heel 僅 5 cm（僅 2.1 倍螺栓直徑），拉力面積小得可憐。</li>
+</ol>
+<b>改善方向（考題常追問）：</b>增加列數（拉長剪切面）、增大端距 $e$、把螺栓行往斷面中央移、或改用雙肢接合（$U \to 1.0$）。
+<b>設計哲學：</b>桿件本體再強，接合區沒設計好就是白費 —— 這是鋼結構最重要的一句話。</div>
+
+<h3 class="t">1.4 完整手算範例</h3>
+
+<div class="hand">
+<h4>【手算範例 1】L200×200×20 角鋼單肢螺栓接合的 LRFD 設計拉力強度</h4>
+<p><b>已知：</b>$F_y = 2.5$、$F_u = 4.1$ tf/cm²；6 顆 22 mm 螺栓（2 行 × 3 列），$d_h = 2.35$ cm；
+$g = s = 7.5$ cm，$e = 5$ cm；第 1 行距 heel 5 cm。</p>
+
+<div class="step"><b>Step 1　斷面性質</b>
+$$A_g = (20+20-2)\times 2 = 76.0\ \text{cm}^2, \qquad
+\bar{x} = \frac{40\times10 + 36\times1}{76} = \frac{436}{76} = 5.74\ \text{cm}$$
+（單位一律先換成 cm，考場最省時間的習慣。）</div>
+
+<div class="step"><b>Step 2　剪力遲滯係數</b>
+$$L = 2s = 15\ \text{cm};\quad U_{\text{公式}} = 1 - \tfrac{5.74}{15} = 0.617;\quad
+U_{\text{表格}} = 0.85\ \text{（角鋼，每行3顆）}$$
+$$\Rightarrow \text{採 } U = 0.85$$</div>
+
+<div class="step"><b>Step 3　極限狀態①　全斷面降伏</b>
+$$\phi_t P_n = 0.90 \times 2.5 \times 76.0 = \mathbf{171.0\ tf}$$</div>
+
+<div class="step"><b>Step 4　極限狀態②　淨斷面斷裂</b>
+$$A_n = 76.0 - 2(2.35)(2.0) = 66.6\ \text{cm}^2;\quad A_e = 0.85 \times 66.6 = 56.61\ \text{cm}^2$$
+$$\phi_t P_n = 0.75 \times 4.1 \times 56.61 = \mathbf{174.1\ tf}$$</div>
+
+<div class="step"><b>Step 5　極限狀態③　塊狀剪力（三路徑）</b>
+共同量：$L_{shear}=20$ cm，$A_{gv}=40$ cm²/面，$A_{nv}=(20-2.5\times2.35)\times2=28.25$ cm²/面
+<table style="margin-top:8px;font-size:.92em">
+<thead><tr><th>模式</th><th class="c">拉力面寬</th><th class="c">$A_{nt}$ (cm²)</th><th class="c">斷裂式 $0.6F_uA_{nv}+F_uA_{nt}$</th><th class="c">上限式 $0.6F_yA_{gv}+F_uA_{nt}$</th><th class="c">$\phi R_n$</th></tr></thead>
+<tbody>
+<tr><td>A 外側行</td><td class="c">7.5 cm</td><td class="c">12.65</td><td class="c">69.5+51.9=121.4</td><td class="c">60.0+51.9=<b>111.9</b></td><td class="c">83.9</td></tr>
+<tr style="background:#ffebee"><td><b>B 內側行</b></td><td class="c">5.0 cm</td><td class="c">7.65</td><td class="c">69.5+31.4=100.9</td><td class="c">60.0+31.4=<b>91.4</b></td><td class="c"><b>68.6 ←控制</b></td></tr>
+<tr><td>C 兩行同時</td><td class="c">7.5 cm</td><td class="c">10.30</td><td class="c">138.9+42.2=181.1</td><td class="c">120.0+42.2=<b>162.2</b></td><td class="c">121.7</td></tr>
+</tbody></table>
+<b>$A_{nt}$ 算法示範（模式 B）：</b>拉力面淨寬 = 邊距 − 半個孔 = $5 - 0.5(2.35) = 3.825$ cm，
+乘板厚 $t = 2$ cm：
+$$A_{nt} = 3.825 \times 2 = 7.65\ \text{cm}^2$$
+模式 C 有<b>兩條剪切面</b>，故 $A_{gv}$、$A_{nv}$ 都加倍；拉力面在兩行之間，扣<b>一整個</b>孔：
+$A_{nt} = (7.5 - 2.35)\times 2 = 10.30$ cm²。全部 $\phi = 0.75$。</div>
+
+<div class="step"><b>Step 6　彙整取最小值</b>
+$$\phi P_n = \min(171.0,\ 174.1,\ 83.9,\ 68.6,\ 121.7) = \boxed{68.6\ \text{tf}}\quad\text{（BSR 模式 B 控制）}$$
+補充檢核螺栓承壓：$R_n = 2.4 d t F_u = 2.4(2.2)(2.0)(4.1) = 43.5$ tf/顆
+→ $6 \times 0.75 \times 43.5 = 195.6$ tf ≫ 68.6 tf，不控制。</div>
+
+<div class="step"><b>答題收尾（拿分關鍵）</b>
+「設計拉力強度 $\phi P_n = 68.6$ tf，由<b>塊狀剪力（內側行剪出模式）</b>控制，
+僅為全斷面降伏容量的 40%，顯示<b>接合區幾何（端距 5 cm 過小、接合長度 20 cm 過短）為設計瓶頸</b>，
+建議增加螺栓列數或加大邊距以提升 $A_{nt}$。」<br>
+—— 這句「診斷 + 建議」在申論題常值 3～5 分。</div>
+</div>
+
+<h3 class="t">1.5 易錯點與 30 秒自我檢核</h3>
+
+<table>
+<thead><tr><th>易錯點</th><th>錯誤後果</th><th>正確作法</th></tr></thead>
+<tbody>
+<tr><td>把 $U$ 乘進降伏式</td><td>$\phi P_n$ 低估 15%</td><td>降伏用 $A_g$，只有斷裂用 $A_e$</td></tr>
+<tr><td>角鋼誤用 $U=0.90$</td><td>強度高估、不安全</td><td>0.90 只給 W/H 型鋼翼板接合</td></tr>
+<tr><td>扣孔數＝螺栓總數 (6)</td><td>$A_n$ 少算 30%</td><td>扣孔數 = 臨界斷面上的<b>行數</b> (2)</td></tr>
+<tr><td>只算一種 BSR 路徑</td><td>可能漏掉真正的控制者</td><td>2 行 → 3 條路徑全算</td></tr>
+<tr><td>忘記 BSR 上限式</td><td>本題會高估 8～10%</td><td>兩式都算取小；$A_{nv}/A_{gv} > F_y/F_u$ 時上限控制</td></tr>
+<tr><td>剪切面扣孔數算錯</td><td>$A_{nv}$ 偏差</td><td>3 孔的路徑扣 2.5 個孔（末孔只切一半）</td></tr>
+<tr><td>$\phi$ 用錯</td><td>直接失分</td><td>拉力降伏 0.90、拉力斷裂 0.75、BSR 0.75</td></tr>
+</tbody>
+</table>
+
+<div class="chk"><b>30 秒自我檢核（讀完本章請默答）</b>
+<ol>
+<li>為什麼降伏的 $\phi$ 是 0.90 而斷裂是 0.75？（答：斷裂脆性、無預警）</li>
+<li>$U = 1 - \bar{x}/L$ 裡的 $L$ 是桿件長度還是接合長度？（答：接合長度，第一顆到最後一顆螺栓）</li>
+<li>BSR 上限式為什麼把剪切項換成 $0.6F_y A_{gv}$？（答：長剪切面會先整段剪力降伏，抗力被平台值卡住）</li>
+<li>如果把第 1 行螺栓從距 heel 5 cm 移到 7.5 cm，$\phi P_n$ 會變多少？（答：模式 B 的 $A_{nt}$ 從 7.65 增至 12.65，$\phi R_n$ 升到 83.9 tf，控制者變成模式 A → 全題強度 83.9 tf，提升 22%）</li>
+</ol></div>
+
+</section>
+
+<section id="s2">
+<h2 class="t"><span class="chapnum">第 2 章</span>剪力遲滯的最佳化 —— 當 $U$ 不再是查表值，而是一個函數</h2>
+
+<p class="lead"><b>來源題：SS-2025-2</b>（ASD，鋼板寬 $L$、厚 2 cm，銲接至寬 3 cm 的連接板，求使容許拉力最大的 $L$）<br>
+<b>本章要建立的核心直覺：</b>第 1 章的 $U$ 是查表得來的常數。本題把 $\bar{x}$ 變成了<b>設計變數的函數</b>，
+於是「板越寬越強」這個直覺<b>完全失效</b> —— 拉力容量變成一條有頂點的拋物線。
+這是整份講義最能訓練「不要死背公式，要看懂公式在說什麼」的一題。</p>
+
+<h3 class="t">2.1 主要公式：一條線與一條拋物線的博弈</h3>
+
+<p>本題只有兩個極限狀態（銲接無孔，沒有塊狀剪力），但它們對板寬 $L$ 的反應完全不同：</p>
+
+$$\underbrace{P_{GY} = 0.6 F_y A_g = 0.6(2.5)(2L) = 3L}_{\text{線性遞增：板越寬越強}}$$
+
+$$\underbrace{P_{NSF} = 0.5 F_u A_e = 0.5(4.1)\,U\,A_g = 4.1L\left(1 - \frac{L}{6}\right)}_{\text{拋物線：先增後減，有頂點}}$$
+
+<div class="why"><b>ASD 的 0.6 與 0.5 從哪來？</b>
+ASD 用「容許應力」概念，安全係數藏在係數裡：
+<ul>
+<li>降伏：$F_t = 0.6F_y \Rightarrow \text{FS} = 1/0.6 = 1.67$（＝ LRFD 的 5/3）</li>
+<li>斷裂：$F_t = 0.5F_u \Rightarrow \text{FS} = 1/0.5 = 2.0$</li>
+</ul>
+斷裂的安全係數比降伏大（2.0 &gt; 1.67），理由和第 1 章的 $\phi$（0.75 &lt; 0.90）完全相同：<b>斷裂沒有預警</b>。
+<b>ASD 與 LRFD 只是換一套包裝，物理判斷一模一樣。</b></div>
+
+<h3 class="t">2.2 L2：$\bar{x} = L/2$ 這一步為什麼是全題關鍵</h3>
+
+<div class="fig">
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, sans-serif">
+  <text x="230" y="24" font-size="13.5" font-weight="bold" fill="#1b5e20" text-anchor="middle">(a) 幾何：x-bar 隨板寬 L 變化</text>
+  <!-- plate -->
+  <rect x="60" y="60" width="200" height="150" fill="#c8e6c9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="160" y="140" font-size="12" fill="#1b5e20" text-anchor="middle">受拉鋼板</text>
+  <text x="160" y="158" font-size="12" fill="#1b5e20" text-anchor="middle">寬 L，厚 2cm</text>
+  <!-- gusset -->
+  <polygon points="260,120 340,135 340,150 260,150" fill="#ffe0b2" stroke="#ef6c00" stroke-width="2"/>
+  <text x="300" y="172" font-size="10.5" fill="#e65100" text-anchor="middle">連接板</text>
+  <text x="300" y="186" font-size="10.5" fill="#e65100" text-anchor="middle">Lw = 3cm</text>
+  <!-- weld hatch -->
+  <line x1="260" y1="120" x2="260" y2="150" stroke="#d84315" stroke-width="5"/>
+  <!-- centroid -->
+  <circle cx="160" cy="135" r="4.5" fill="#c62828"/>
+  <line x1="160" y1="135" x2="260" y2="135" stroke="#c62828" stroke-dasharray="5 3" stroke-width="1.8"/>
+  <text x="205" y="128" font-size="11.5" fill="#c62828" text-anchor="middle">x-bar = L/2</text>
+  <text x="160" y="120" font-size="10" fill="#c62828" text-anchor="middle">形心</text>
+  <text x="40" y="135" font-size="20" fill="#2e7d32">P→</text>
+  <line x1="50" y1="60" x2="50" y2="210" stroke="#455a64"/>
+  <text x="36" y="140" font-size="11" fill="#455a64" transform="rotate(-90 36 140)" text-anchor="middle">L</text>
+  <text x="60" y="242" font-size="11.5" fill="#455a64">力只從右端一個小面（3cm）進入，</text>
+  <text x="60" y="260" font-size="11.5" fill="#455a64">卻要傳遍整個寬度 L 的斷面。</text>
+  <text x="60" y="282" font-size="12" font-weight="bold" fill="#b71c1c">L 越寬 → x-bar 越大 → U 越小</text>
+
+  <!-- right: graph -->
+  <text x="640" y="24" font-size="13.5" font-weight="bold" fill="#1b5e20" text-anchor="middle">(b) 兩條容許力曲線</text>
+  <line x1="480" y1="240" x2="880" y2="240" stroke="#455a64" stroke-width="1.5"/>
+  <line x1="480" y1="240" x2="480" y2="45" stroke="#455a64" stroke-width="1.5"/>
+  <text x="885" y="245" font-size="11" fill="#455a64">L (cm)</text>
+  <text x="470" y="42" font-size="11" fill="#455a64" text-anchor="end">P (tf)</text>
+  <!-- axis ticks: L 0..6 -> x 480..840 ; P 0..12 -> y 240..60 -->
+  <g font-size="10" fill="#607d8b">
+    <text x="540" y="256" text-anchor="middle">1</text><text x="600" y="256" text-anchor="middle">2</text>
+    <text x="660" y="256" text-anchor="middle">3</text><text x="720" y="256" text-anchor="middle">4</text>
+    <text x="780" y="256" text-anchor="middle">5</text><text x="840" y="256" text-anchor="middle">6</text>
+    <text x="474" y="196" text-anchor="end">3</text><text x="474" y="150" text-anchor="end">6</text><text x="474" y="105" text-anchor="end">9</text>
+  </g>
+  <!-- PGY = 3L : at L=6 -> 18 tf out of range; draw to L=4 (12tf -> y=60) -->
+  <line x1="480" y1="240" x2="720" y2="60" stroke="#1565c0" stroke-width="2.4"/>
+  <text x="700" y="76" font-size="11" fill="#1565c0">P_GY = 3L</text>
+  <!-- PNSF parabola: P=4.1L(1-L/6); y=240-15P -->
+  <path d="M480,240 L510,188 L540,190 L570,161 L600,158 L630,150 L660,148 L690,150 L720,158 L750,172 L780,190 L810,213 L840,240"
+        fill="none" stroke="#2e7d32" stroke-width="0"/>
+  <path d="M480,240 Q660,88 840,240" fill="none" stroke="#2e7d32" stroke-width="2.6"/>
+  <text x="750" y="130" font-size="11" fill="#2e7d32">P_NSF = 4.1L(1−L/6)</text>
+  <!-- controlling envelope -->
+  <path d="M480,240 L577,167" stroke="#d32f2f" stroke-width="4.5" opacity="0.55"/>
+  <path d="M577,167 Q670,105 840,240" stroke="#d32f2f" stroke-width="0"/>
+  <text x="505" y="215" font-size="10" fill="#b71c1c">GY控制</text>
+  <!-- peak marker -->
+  <circle cx="660" cy="148" r="5" fill="#f9a825" stroke="#e65100" stroke-width="1.8"/>
+  <line x1="660" y1="148" x2="660" y2="240" stroke="#e65100" stroke-dasharray="4 3"/>
+  <text x="668" y="140" font-size="11.5" font-weight="bold" fill="#e65100">頂點 L=3</text>
+  <text x="668" y="156" font-size="11" fill="#e65100">P=6.15 tf</text>
+  <circle cx="577" cy="167" r="4" fill="#fff" stroke="#455a64" stroke-width="1.6"/>
+  <text x="520" y="122" font-size="10.5" fill="#455a64">交叉點 L=1.61</text>
+  <line x1="577" y1="167" x2="560" y2="128" stroke="#90a4ae"/>
+  <text x="480" y="284" font-size="11.5" fill="#455a64">L&lt;1.61：GY 控制（P 隨 L 上升）　　L&gt;1.61：NSF 控制（在 L=3 達頂點後下降）</text>
+</svg>
+<div class="cap">圖 2-1　(a) 本題的特殊幾何：銲縫長度固定 3 cm，但形心到銲縫面的距離隨板寬同步增大。
+(b) 兩條曲線的博弈：真正的容許力是<b>兩者的下包絡線</b>，其最高點在 NSF 拋物線的頂點 $L=3$ cm，<b>不是</b>兩線交叉點。</div>
+</div>
+
+<div class="l3box"><b>$\bar{x} = L/2$ 為什麼？</b>
+$\bar{x}$ 的定義是<b>「受拉構件斷面形心 → 接合面」的距離</b>，量的是「力要繞多遠」。
+本題鋼板的斷面形心在板寬的正中央，而接合面（銲縫）在板的<b>一側端面</b>，兩者距離就是 $L/2$。<br><br>
+<b>與第 1 章的對照，這才是理解的關鍵：</b>
+<table style="margin-top:8px">
+<thead><tr><th></th><th>第 1 章（角鋼）</th><th>第 2 章（鋼板）</th></tr></thead>
+<tbody>
+<tr><td>$\bar{x}$</td><td>5.74 cm（斷面固定 → <b>常數</b>）</td><td>$L/2$（斷面是未知數 → <b>變數</b>）</td></tr>
+<tr><td>$L_{weld}$ 或 $L$</td><td>15 cm（螺栓排列決定）</td><td>3 cm（固定，連接板寬）</td></tr>
+<tr><td>$U$</td><td>0.85（查表定案）</td><td>$1 - L/6$（$L$ 的函數）</td></tr>
+<tr><td>題型</td><td>檢核（算強度）</td><td><b>最佳化</b>（求極值）</td></tr>
+</tbody></table></div>
+
+$$U = 1 - \frac{\bar{x}}{L_{weld}} = 1 - \frac{L/2}{3} = 1 - \frac{L}{6}$$
+$$A_g = 2L, \qquad A_n = A_g \text{（銲接無孔）}, \qquad A_e = U A_n = 2L\left(1 - \frac{L}{6}\right)$$
+
+<div class="trap"><b>⚠ 陷阱：銲接接合就不用扣面積？</b>
+對，也不對。<b>$A_n = A_g$ 沒錯</b>（沒有螺栓孔），但<b>$A_e$ ≠ $A_g$</b> ——
+剪力遲滯與孔洞是兩件完全獨立的事：孔洞是<b>幾何上少了材料</b>，剪力遲滯是<b>應力沒傳勻</b>。
+銲接消除了前者，卻完全沒有解決後者。本題 $L = 3$ 時 $U = 0.5$，<b>整整一半的斷面在打混</b>。</div>
+
+<h3 class="l3">2.3 L3 深層知識 —— 四件不懂就卡住的事</h3>
+
+<div class="l3box"><b>L3-1　$\bar{x}$ 量的是「形心到接合面」，不是任何其他距離</b><br>
+考場最常見的錯：把 $\bar{x}$ 寫成板寬 $L$、或寫成連接板寬 3 cm、或寫成銲縫到板邊的距離。
+記住它的物理問句：<b>「力進來以後，要橫向走多遠才能到達斷面的『重心』？」</b>
+走得越遠 → 越多材料吃不到力 → $U$ 越小。</div>
+
+<div class="l3box"><b>L3-2　最佳點 ≠ 兩曲線的交叉點（本題最深的一個坑）</b><br>
+直覺會告訴你「兩個極限狀態相等時最經濟」（$L = 1.61$ cm，$P = 4.83$ tf）。
+這個直覺在<b>兩條曲線都單調遞增</b>時是對的，但本題 NSF 是拋物線，過了交叉點之後 $P_{NSF}$ 還會繼續上升到頂點才回落。<br><br>
+$$P_{allow}(L) = \min(3L,\; 4.1L(1-L/6))$$
+下包絡線的最大值出現在<b>「NSF 拋物線的頂點」</b>而非交叉點：交叉點 4.83 tf &lt; 頂點 6.15 tf。<br>
+<b>方法論：</b>先分別找出每條曲線在其控制區間內的最大值，再比較。不要憑「兩者相等最經濟」的口訣直接下結論。</div>
+
+<div class="l3box"><b>L3-3　為什麼頂點恰好在 $L = L_{weld} = 3$ cm？（漂亮的通則）</b><br>
+把 $P_{NSF}$ 一般化：$P_{NSF} = 0.5F_u \cdot tL \cdot \left(1 - \dfrac{L}{2L_w}\right)$，對 $L$ 微分：
+$$\frac{dP}{dL} = 0.5F_u t\left(1 - \frac{L}{L_w}\right) = 0 \quad\Rightarrow\quad \boxed{L_{opt} = L_w}$$
+<b>通則：最佳板寬恰等於銲縫長度，此時 $U = 0.5$。</b><br>
+物理意義很美 —— 板寬每增加一點，帶來的「新面積」是線性的好處，但同時讓 $U$ 線性下降變成壞處。
+兩者打平的位置永遠在 $L = L_w$，也就是<b>「斷面剛好利用一半」</b>的地方。
+這條通則記住，同類題可以 30 秒作答。</div>
+
+<div class="l3box"><b>L3-4　求出極值後<b>必須</b>回頭驗證控制者</b><br>
+$P_{NSF}$ 的頂點只有在「該點仍由 NSF 控制」時才是全局答案。驗證：
+$$P_{NSF}(3) = 6.15\ \text{tf} \;<\; P_{GY}(3) = 9.0\ \text{tf} \quad\checkmark \text{（NSF 確實控制）}$$
+若反過來（$P_{NSF} > P_{GY}$），則該點的容許力被 GY 卡住，最大值會落在交叉點，答案完全不同。
+<b>「求極值 → 驗證控制者」是所有最佳化題的固定兩步，缺第二步等於沒答完。</b></div>
+
+<h3 class="t">2.4 完整手算範例</h3>
+
+<div class="hand">
+<h4>【手算範例 2】求使 ASD 容許拉力最大的板寬</h4>
+<p><b>已知：</b>板厚 $t = 2$ cm，連接板寬（＝有效銲縫長）$L_w = 3$ cm，$F_y = 2.5$、$F_u = 4.1$ tf/cm²，ASD。</p>
+
+<div class="step"><b>Step 1　把所有量寫成 $L$ 的函數</b>
+$$A_g = tL = 2L\ \text{cm}^2$$
+$$\bar{x} = \frac{L}{2}\ \text{（形心 → 銲縫面）}, \qquad U = 1 - \frac{\bar{x}}{L_w} = 1 - \frac{L}{6}$$
+$$A_n = A_g\ \text{（銲接無孔）}, \qquad A_e = U A_g = 2L\left(1-\frac{L}{6}\right)$$</div>
+
+<div class="step"><b>Step 2　兩個極限狀態的容許力</b>
+$$P_{GY} = 0.6F_y A_g = 0.6(2.5)(2L) = 3L\ \text{[tf]}$$
+$$P_{NSF} = 0.5F_u A_e = 0.5(4.1)(2L)\left(1-\frac{L}{6}\right) = 4.1L - \frac{4.1L^2}{6}\ \text{[tf]}$$</div>
+
+<div class="step"><b>Step 3　對 $P_{NSF}$ 求極值</b>
+$$\frac{dP_{NSF}}{dL} = 4.1 - \frac{2(4.1)L}{6} = 4.1\left(1 - \frac{L}{3}\right) = 0
+\quad\Rightarrow\quad \boxed{L_{opt} = 3\ \text{cm}}$$
+（二階導數 $= -4.1/3 < 0$，確為極大值。）此時 $U = 1 - 3/6 = 0.50$。</div>
+
+<div class="step"><b>Step 4　驗證此點由 NSF 控制</b>
+$$P_{GY}(3) = 3(3) = 9.0\ \text{tf}, \qquad P_{NSF}(3) = 4.1(3)(0.5) = 6.15\ \text{tf}$$
+$$P_{NSF} < P_{GY} \Rightarrow \text{NSF 控制} \checkmark$$</div>
+
+<div class="step"><b>Step 5　列表確認是全局最大（考場加分動作）</b>
+<table style="margin-top:8px;font-size:.92em">
+<thead><tr><th class="c">$L$ (cm)</th><th class="c">$U=1-L/6$</th><th class="c">$P_{GY}=3L$</th><th class="c">$P_{NSF}$</th><th class="c">$P_{allow}=\min$</th></tr></thead>
+<tbody>
+<tr><td class="c">1.0</td><td class="c">0.833</td><td class="c">3.00</td><td class="c">3.42</td><td class="c">3.00</td></tr>
+<tr><td class="c">1.61</td><td class="c">0.732</td><td class="c">4.83</td><td class="c">4.83</td><td class="c">4.83（交叉）</td></tr>
+<tr><td class="c">2.0</td><td class="c">0.667</td><td class="c">6.00</td><td class="c">5.47</td><td class="c">5.47</td></tr>
+<tr style="background:#fff8e1"><td class="c"><b>3.0</b></td><td class="c"><b>0.500</b></td><td class="c">9.00</td><td class="c"><b>6.15</b></td><td class="c"><b>6.15 ← 最大</b></td></tr>
+<tr><td class="c">4.0</td><td class="c">0.333</td><td class="c">12.00</td><td class="c">5.47</td><td class="c">5.47</td></tr>
+<tr><td class="c">6.0</td><td class="c">0</td><td class="c">18.00</td><td class="c">0</td><td class="c">0（完全失效）</td></tr>
+</tbody></table>
+注意 $L = 6$ cm 時 $U = 0$ —— 物理意義是「板太寬，力完全傳不出去」，這是公式的合理外推極限。</div>
+
+<div class="step"><b>Step 6　結論</b>
+$$\boxed{L_{opt} = 3\ \text{cm}, \qquad P_{max} = 6.15\ \text{tf}}$$
+答題補一句診斷：「最佳板寬恰等於銲縫長度（$L = L_w$），此時 $U = 0.5$。
+若要進一步提升容許力，唯一有效的方法是<b>加長銲縫</b>（同步放大 $L_{opt}$ 與 $P_{max}$），
+單純加寬鋼板反而降低容許力。」</div>
+</div>
+
+<h3 class="t">2.5 易錯點與 30 秒自我檢核</h3>
+
+<table>
+<thead><tr><th>易錯點</th><th>正確作法</th></tr></thead>
+<tbody>
+<tr><td>把 $\bar{x}$ 當常數，或誤用 $\bar{x}=L$</td><td>$\bar{x}$＝形心到接合面＝$L/2$</td></tr>
+<tr><td>認為銲接接合 $U=1.0$</td><td>單面接合仍有剪力遲滯，$U<1$</td></tr>
+<tr><td>直接解 $P_{GY}=P_{NSF}$ 當答案</td><td>交叉點 4.83 tf 不是最大值；要對 NSF 求極值</td></tr>
+<tr><td>求出極值就交卷</td><td>必須驗證該點是否仍由 NSF 控制</td></tr>
+<tr><td>ASD 誤用 $0.6F_u$ 或 $0.5F_y$</td><td>降伏 $0.6F_y$、斷裂 $0.5F_u$，別交叉配對</td></tr>
+</tbody>
+</table>
+
+<div class="chk"><b>30 秒自我檢核</b>
+<ol>
+<li>若銲縫長改為 5 cm，最佳板寬與最大容許力各是多少？<br>
+（答：$L_{opt} = L_w = 5$ cm，$U = 0.5$，$A_e = 2(5)(0.5) = 5$ cm²，$P_{max} = 0.5(4.1)(5) = 10.25$ tf）</li>
+<li>本題若改為 LRFD（$\phi = 0.90/0.75$），$L_{opt}$ 會變嗎？<br>
+（答：<b>不會</b>。$L_{opt} = L_w$ 只由幾何決定，與係數無關；只有 $P_{max}$ 的數值會變）</li>
+<li>為什麼 $L$ 超過最佳值反而變弱？（答：新增的斷面積吃不到力，同時 $U$ 的下降拖累了原本有效的部分）</li>
+</ol></div>
+
+</section>
+
+<section id="s3">
+<h2 class="c"><span class="chapnum">第 3 章</span>壓力桿件（一）斷面多硬 —— 組合柱與平行軸定理的陷阱</h2>
+
+<p class="lead"><b>來源題：SS-2015-3</b>（ASD，2×C200×75 槽鋼組合柱，$k=2.0$，求 $r_{\min}$ 與容許最大長度 $L$）<br>
+<b>本章要建立的核心直覺：</b>進入壓力世界的第一件事 —— <b>挫屈只會發生在最弱的方向</b>。
+所以壓力題永遠先問「哪個軸最弱」。本題的殺手級洞察是：<b>把兩根槽鋼拉得再開，弱軸也不會變強</b>，
+因為弱軸根本不是那個方向。</p>
+
+<h3 class="c">3.1 主要公式：從斷面幾何一路推到容許長度</h3>
+
+$$I_X = 2 I_x \quad\text{（形心都在 X 軸上 → 不需平行軸）}$$
+$$I_Y = 2\left(I_y + A d^2\right), \qquad d = \frac{30}{2} - C_y \quad\text{（形心偏離 Y 軸 → 需平行軸）}$$
+$$r_{\min} = \sqrt{\frac{I_{\min}}{A_{total}}}$$
+$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}}, \qquad F_a = \frac{12\pi^2 E}{23(KL/r)^2}\quad (KL/r > C_c)$$
+
+<div class="why"><b>平行軸定理在講什麼：</b>$I = I_{\text{自身}} + A d^2$。<br>
+第一項是「材料自己有多分散」，第二項是「這塊材料離轉軸有多遠」。
+關鍵在於 $d^2$ —— <b>距離的平方</b>，所以把材料搬遠一點，慣性矩會暴增。
+這就是為什麼工程師愛用「把材料放遠」的斷面（箱型、桁架、雙槽鋼組合）。<br><br>
+但也正因為是 $Ad^2$，<b>當 $d = 0$ 時第二項完全消失</b> —— 這正是本題 $I_X$ 的情況，也是本題的核心陷阱。</div>
+
+<h3 class="c">3.2 L2：幾何判讀（本題真正的難點在這裡，不在公式）</h3>
+
+<div class="fig">
+<svg viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, sans-serif">
+  <text x="450" y="22" font-size="14" font-weight="bold" fill="#b71c1c" text-anchor="middle">2×C200×75 組合斷面（[ ] 型排列：翼板朝內、腹板朝外）</text>
+  <!-- left channel -->
+  <g stroke="#c62828" stroke-width="2.2" fill="#ffcdd2">
+    <polygon points="120,80 190,80 190,95 135,95 135,225 190,225 190,240 120,240"/>
+    <polygon points="580,80 510,80 510,95 565,95 565,225 510,225 510,240 580,240"/>
+  </g>
+  <!-- axes -->
+  <line x1="80" y1="160" x2="620" y2="160" stroke="#1565c0" stroke-width="2"/>
+  <text x="632" y="164" font-size="13" font-weight="bold" fill="#1565c0">X 軸</text>
+  <line x1="350" y1="50" x2="350" y2="270" stroke="#2e7d32" stroke-width="2"/>
+  <text x="356" y="46" font-size="13" font-weight="bold" fill="#2e7d32">Y 軸</text>
+  <!-- centroids of each channel -->
+  <circle cx="145" cy="160" r="5" fill="#4a148c"/>
+  <circle cx="555" cy="160" r="5" fill="#4a148c"/>
+  <text x="145" y="146" font-size="10.5" fill="#4a148c" text-anchor="middle">形心</text>
+  <text x="555" y="146" font-size="10.5" fill="#4a148c" text-anchor="middle">形心</text>
+  <!-- d dimension -->
+  <line x1="145" y1="192" x2="350" y2="192" stroke="#4a148c" stroke-dasharray="5 3" stroke-width="1.8"/>
+  <text x="247" y="186" font-size="11.5" font-weight="bold" fill="#4a148c" text-anchor="middle">d = 12.51 cm</text>
+  <!-- 30 cm outer width -->
+  <line x1="120" y1="285" x2="580" y2="285" stroke="#455a64" stroke-width="1.4"/>
+  <line x1="120" y1="278" x2="120" y2="292" stroke="#455a64"/><line x1="580" y1="278" x2="580" y2="292" stroke="#455a64"/>
+  <text x="350" y="303" font-size="12" font-weight="bold" fill="#455a64" text-anchor="middle">30 cm ＝ 兩腹板外緣間距（總外寬）</text>
+  <!-- Cy -->
+  <line x1="120" y1="66" x2="145" y2="66" stroke="#e65100" stroke-width="2"/>
+  <text x="132" y="58" font-size="10.5" fill="#e65100" text-anchor="middle">Cy=2.49</text>
+  <!-- 20cm depth -->
+  <line x1="660" y1="80" x2="660" y2="240" stroke="#455a64" stroke-width="1.4"/>
+  <line x1="653" y1="80" x2="667" y2="80" stroke="#455a64"/><line x1="653" y1="240" x2="667" y2="240" stroke="#455a64"/>
+  <text x="700" y="150" font-size="12" fill="#455a64">20 cm</text>
+  <text x="700" y="168" font-size="11" fill="#455a64">＝腹板高（C200</text>
+  <text x="700" y="184" font-size="11" fill="#455a64">的「200」）</text>
+  <text x="700" y="206" font-size="11.5" font-weight="bold" fill="#b71c1c">不是形心間距！</text>
+  <!-- conclusion -->
+  <rect x="80" y="315" width="740" height="1" fill="none"/>
+  <text x="80" y="330" font-size="12.5" fill="#455a64">→ d = 30/2 − Cy = 15 − 2.49 = 12.51 cm　　IX = 2Ix = 3940 cm⁴（無 Ad²）　　IY = 2(Iy+Ad²) = 9699 cm⁴</text>
+</svg>
+<div class="cap">圖 3-1　組合斷面幾何。<b>30 cm 是外寬、20 cm 是腹板高</b>，兩者都不是形心間距 —— 
+每根槽鋼的形心距組合中心是 $30/2 - C_y = 12.51$ cm。這一步判讀錯，整題就錯。</div>
+</div>
+
+<h4>Step 1　幾何：$d$ 到底是多少</h4>
+$$d = \frac{30}{2} - C_y = 15 - 2.49 = 12.51\ \text{cm}, \qquad A_{total} = 2(29.9) = 59.8\ \text{cm}^2$$
+
+<div class="trap"><b>⚠ 本題頭號陷阱：把 20 cm 當成形心間距</b><br>
+圖上有兩個尺寸，30 cm 與 20 cm，很多人隨手抓一個當 $d$（或當 $2d$）。判讀法：
+<ul>
+<li><b>20 cm</b> ← 這是 C<b>200</b>×75 的「200 mm」，也就是<b>斷面深度（腹板高）</b>，方向是<b>垂直</b>的</li>
+<li><b>30 cm</b> ← 標在<b>水平</b>方向，是兩片腹板外緣的距離，也就是組合斷面的總外寬</li>
+</ul>
+$C_y$ 的定義（題目已給）是「形心到腹板<b>外面</b>的距離」＝ 2.49 cm，
+所以形心位置就是從外緣往內量 2.49 cm → 距組合中心 $15 - 2.49 = 12.51$ cm。<br>
+<b>檢查手法：</b>$d$ 必須小於外寬的一半（12.51 &lt; 15 ✓）。若你算出的 $d$ 大於 15，一定錯了。</div>
+
+<h4>Step 2　兩個軸的慣性矩</h4>
+$$I_X = 2 I_x = 2(1970) = 3{,}940\ \text{cm}^4 \quad\text{（不加 } Ad^2\text{）}$$
+$$I_Y = 2\left(I_y + A d^2\right) = 2\left(170 + 29.9 \times 12.51^2\right) = 2(170 + 4{,}679) = 9{,}699\ \text{cm}^4$$
+$$I_{\min} = I_X = 3{,}940\ \text{cm}^4 \quad\Rightarrow\quad
+r_{\min} = \sqrt{\frac{3940}{59.8}} = \sqrt{65.9} = 8.12\ \text{cm}$$
+
+<h4>Step 3　ASD 反算容許長度</h4>
+$$f_a = \frac{P_a}{A_{total}} = \frac{21.1}{59.8} = 0.353\ \text{tf/cm}^2$$
+$$C_c = \sqrt{\frac{2\pi^2(2040)}{2.52}} = \sqrt{15{,}980} = 126.4$$
+令 $F_a = f_a$，先假設<b>彈性段</b>：
+$$\left(\frac{KL}{r}\right)^2 = \frac{12\pi^2 E}{23 f_a} = \frac{12(9.870)(2040)}{23(0.353)} = \frac{241{,}640}{8.119} = 29{,}764
+\;\Rightarrow\; \frac{KL}{r} = 172.5$$
+$$172.5 > C_c = 126.4 \;\checkmark\ \text{（假設成立）} \quad\Rightarrow\quad
+L = \frac{172.5 \times 8.12}{2.0} = 700\ \text{cm}$$
+
+<h3 class="l3">3.3 L3 深層知識 —— 五件不懂就卡住的事</h3>
+
+<div class="l3box"><b>L3-1　哪個軸需要平行軸修正：問「這塊材料的形心離轉軸多遠」</b><br>
+不是「哪個軸比較特別」，而是純粹的幾何問句：
+<ul>
+<li><b>X 軸（水平）</b>：兩根槽鋼的形心<b>都坐在 X 軸上</b>，$d_X = 0$ → $Ad_X^2 = 0$ → $I_X = 2I_x$</li>
+<li><b>Y 軸（垂直）</b>：兩根槽鋼的形心各偏離 12.51 cm → $I_Y = 2(I_y + Ad^2)$</li>
+</ul>
+<b>反直覺提醒：</b>$I_x = 1970$（單根強軸）看起來很大，但 $2 \times 1970 = 3940$ 竟然<b>小於</b> $I_Y = 9699$。
+原因是 $Ad^2 = 29.9 \times 12.51^2 = 4679$ 這一項太恐怖了 —— 它單獨就比 $I_x$ 大 2.4 倍。
+<b>$Ad^2$ 通常會壓倒 $I_{\text{自身}}$，這是組合斷面的通則。</b></div>
+
+<div class="l3box"><b>L3-2　最重要的設計洞察：把槽鋼拉開，救不了弱軸</b><br>
+如果嫌這根柱不夠強，你會想「把兩根槽鋼的間距加大吧」。看看數學：
+$$\text{間距} \uparrow \;\Rightarrow\; d \uparrow \;\Rightarrow\; I_Y \uparrow\uparrow \quad\text{但}\quad I_X = 2I_x\ \text{完全不變}$$
+而 $I_X$ 才是弱軸！所以<b>加大間距對這根柱的承載力毫無幫助</b>（只是讓 $I_Y$ 更浪費）。<br><br>
+<b>真正有效的做法：</b>
+<ol>
+<li>換用 $I_x$ 更大的槽鋼規格（例如 C250、C300）—— 直接提升 $I_X$</li>
+<li>改變槽鋼朝向（翼板朝上下），讓原本的強軸落在弱方向</li>
+<li>對 X 方向加設側向支撐（降低該方向的 $KL$，見第 4 章）</li>
+</ol>
+<b>這個「最佳間距」的觀念是考題常追問的申論點：</b>理想的組合斷面應該讓 $I_X \approx I_Y$
+（兩方向同等強，材料才沒浪費）。本題 $I_Y/I_X = 2.46$，斷面設計其實是失衡的。</div>
+
+<div class="l3box"><b>L3-3　ASD 柱公式為什麼分兩段：$C_c$ 是什麼</b><br>
+$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}}$$
+把 Euler 應力 $F_e = \pi^2 E/(KL/r)^2$ 設為 $F_y/2$，反解 $KL/r$ 就得到 $C_c$。
+所以 $C_c$ 的物理定義是：<b>「彈性挫屈應力剛好等於 $F_y$ 的一半」的那個長細比。</b><br><br>
+<b>為什麼是一半而不是全部？</b>因為<b>殘留應力</b>（第 6 章的主角）。
+熱軋型鋼的殘留壓應力量級約 $0.3\sim0.5F_y$，所以外加應力只到 $\approx 0.5F_y$ 時，
+斷面某些部位就已經降伏了，柱從那時起就不再是「完全彈性」的。<br>
+$$KL/r > C_c:\ \text{柱很細長，挫屈時應力還很低，全斷面彈性} \to \text{Euler 公式（除以 FS}=23/12)$$
+$$KL/r < C_c:\ \text{柱較粗短，挫屈前已部分降伏} \to \text{拋物線公式（FS 隨長細比變化）}$$
+<b>兩段公式不是規範任性，而是「有沒有部分降伏」這個物理事實的分界。</b></div>
+
+<div class="l3box"><b>L3-4　彈性段 ASD 公式裡的 $12/23$ 是什麼</b><br>
+$$F_a = \frac{12\pi^2 E}{23(KL/r)^2} = \frac{F_e}{23/12} = \frac{F_e}{1.917}$$
+就是 Euler 應力除以安全係數 $\text{FS} = 23/12 = 1.917$。
+這個 1.917 是<b>非彈性段 FS 公式在 $KL/r = C_c$ 時的值</b>，
+規範讓兩段在分界點的 FS 連續（不會跳），所以彈性段就一路沿用 1.917。<br>
+非彈性段的 FS 從 $KL/r = 0$ 的 $5/3 = 1.667$ 平滑爬到 $C_c$ 處的 $23/12 = 1.917$ ——
+<b>越細長的柱安全係數越大</b>，因為細長柱對初始缺陷、偏心更敏感。</div>
+
+<div class="l3box"><b>L3-5　$k = 2.0$ 的判讀：「可平移但不能轉動」是什麼意思</b><br>
+題目條件：<b>底部鉸接、頂端可平移但不能轉動</b>。分開看：
+<ul>
+<li>頂端「不能轉動」＝ 轉動被拘束 ≈ 固接的轉動特性</li>
+<li>頂端「可平移」＝ 側移不受限</li>
+<li>底端「鉸接」＝ 可自由轉動</li>
+</ul>
+挫屈形狀畫出來，會是一段從底端鉸點彎出去的曲線，其<b>反曲點外推距離為 $2L$</b> —— 
+等效於一根長度 $L$ 的懸臂柱（一端固定、一端自由），故 $k = 2.0$。<br>
+<b>務必與這兩個常錯值區分：</b>一端固定一端鉸接（無側移）$k = 0.7$；兩端固定（無側移）$k = 0.5$。
+<b>判斷心法：先問「有沒有側移」，有側移的 $k$ 一定 &gt; 1；再問「兩端能不能轉」。</b></div>
+
+<h3 class="c">3.4 完整手算範例</h3>
+
+<div class="hand">
+<h4>【手算範例 3】2×C200×75 組合柱：$r_{\min}$ 與容許最大長度</h4>
+<p><b>已知（單根 C200×75）：</b>$I_x = 1970$ cm⁴、$I_y = 170$ cm⁴、$A = 29.9$ cm²、$C_y = 2.49$ cm；
+組合外寬 30 cm；$F_y = 2.52$、$E = 2040$ tf/cm²；$K = 2.0$；$P_a = 21.1$ tf。</p>
+
+<div class="step"><b>Step 1　幾何（先畫圖再算，這步錯全題錯）</b>
+$$d = \frac{30}{2} - C_y = 15 - 2.49 = 12.51\ \text{cm} \quad (\text{檢查：} 12.51 < 15\ \checkmark)$$
+$$A_{total} = 2 \times 29.9 = 59.8\ \text{cm}^2$$</div>
+
+<div class="step"><b>Step 2　兩軸慣性矩（判斷誰要平行軸）</b>
+$$I_X = 2 I_x = 2(1970) = 3{,}940\ \text{cm}^4 \quad(\text{形心在 X 軸上，} d_X = 0)$$
+$$I_Y = 2\left[I_y + A d^2\right] = 2\left[170 + 29.9(12.51)^2\right] = 2\left[170 + 4{,}679\right] = 9{,}699\ \text{cm}^4$$</div>
+
+<div class="step"><b>Step 3　最小迴旋半徑</b>
+$$I_{\min} = \min(3940,\ 9699) = I_X = 3{,}940\ \text{cm}^4 \quad\Rightarrow\quad \text{X 軸為弱軸}$$
+$$\boxed{r_{\min} = \sqrt{\frac{3940}{59.8}} = \sqrt{65.89} = 8.12\ \text{cm}}$$</div>
+
+<div class="step"><b>Step 4　需求應力與 $C_c$</b>
+$$f_a = \frac{21.1}{59.8} = 0.3528\ \text{tf/cm}^2$$
+$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}} = \sqrt{\frac{2(9.8696)(2040)}{2.52}} = \sqrt{\frac{40{,}268}{2.52}} = \sqrt{15{,}980} = 126.4$$</div>
+
+<div class="step"><b>Step 5　反算 $KL/r$（假設彈性段，事後驗證）</b>
+$$F_a = \frac{12\pi^2 E}{23(KL/r)^2} = f_a
+\;\Rightarrow\; \left(\frac{KL}{r}\right)^2 = \frac{12\pi^2(2040)}{23(0.3528)} = \frac{241{,}640}{8.114} = 29{,}780$$
+$$\frac{KL}{r} = \sqrt{29{,}780} = 172.5$$
+<b>驗證假設：</b>$172.5 > C_c = 126.4$ → 確實在彈性段 ✓
+（若算出來 $< C_c$，就得改用非彈性段公式重解，那會是一個含 FS 的三次式，須試誤法。）</div>
+
+<div class="step"><b>Step 6　反算柱長</b>
+$$\frac{KL}{r_{\min}} = 172.5 \;\Rightarrow\; \frac{2.0 L}{8.12} = 172.5
+\;\Rightarrow\; \boxed{L = \frac{172.5 \times 8.12}{2.0} = 700\ \text{cm} = 7.0\ \text{m}}$$
+<b>回代驗算：</b>$KL/r = 2.0(700)/8.12 = 172.4$；
+$F_a = \dfrac{241{,}640}{23(172.4)^2} = \dfrac{241{,}640}{684{,}700} = 0.353$ tf/cm² $= f_a$ ✓</div>
+
+<div class="step"><b>答題收尾</b>
+「$r_{\min} = 8.12$ cm（由 <b>X 軸</b>控制，因兩槽鋼形心均在 X 軸上，$I_X$ 無平行軸增益）；
+容許最大長度 $L = 700$ cm，此時 $KL/r = 172.5 > C_c = 126.4$，屬<b>彈性挫屈</b>控制。<br>
+補充：$KL/r = 172.5$ 已接近規範建議的壓力構件上限 200，屬細長柱，
+若欲加長須改用 $I_x$ 較大的槽鋼規格 —— <b>加大兩槽鋼間距無效，因為間距只影響 $I_Y$（強軸）</b>。」<br>
+另註：題目雖說繫條面積不計，但<b>繫條必須存在且有足夠剛度</b>，否則兩根槽鋼會各自單獨挫屈，
+須另檢核單根的 $KL_b/r_{\text{單根}}$ 不得大於組合柱整體的 $KL/r$。</div>
+</div>
+
+<h3 class="c">3.5 易錯點與 30 秒自我檢核</h3>
+
+<table>
+<thead><tr><th>易錯點</th><th>正確作法</th></tr></thead>
+<tbody>
+<tr><td>用 20 cm 當形心間距（或 $2d$）</td><td>20 cm 是腹板高；$d = 30/2 - C_y = 12.51$ cm</td></tr>
+<tr><td>$I_X$ 也加 $Ad^2$</td><td>形心在 X 軸上，$d_X=0$，$I_X = 2I_x$</td></tr>
+<tr><td>$I_Y$ 忘記加 $Ad^2$</td><td>$I_Y$ 少算 96%，弱軸判斷全錯</td></tr>
+<tr><td>$r_{\min}$ 分母用單根 $A$</td><td>用 $A_{total}=59.8$ cm²（組合斷面）</td></tr>
+<tr><td>忘記乘 $K=2.0$</td><td>$L$ 會算成 1400 cm（高估一倍）</td></tr>
+<tr><td>沒驗證彈性／非彈性段</td><td>先假設一段 → 解出 $KL/r$ → 與 $C_c$ 比對</td></tr>
+</tbody>
+</table>
+
+<div class="chk"><b>30 秒自我檢核</b>
+<ol>
+<li>若外寬從 30 cm 改成 40 cm，$r_{\min}$ 變多少？<br>
+（答：<b>不變</b>，仍是 8.12 cm。$d$ 變大只增加 $I_Y$，弱軸 $I_X$ 完全不受影響 —— 這就是 L3-2）</li>
+<li>$C_c$ 的物理意義是什麼？（答：Euler 應力剛好等於 $F_y/2$ 的長細比，也是「殘留應力使柱提前降伏」的分界）</li>
+<li>如果算出 $KL/r = 100 < C_c$，接下來要怎麼做？<br>
+（答：改用非彈性段公式 $F_a = [1-(KL/r)^2/2C_c^2]F_y/\text{FS}$，且 FS 本身含 $KL/r$，需試誤或迭代求解）</li>
+</ol></div>
+
+</section>
+
+<section id="s4">
+<h2 class="c"><span class="chapnum">第 4 章</span>壓力桿件（二）桿件多長 —— 分段有效長度與 ASD／LRFD 對照</h2>
+
+<p class="lead"><b>來源題：SS-2013-3</b>（W14×61，總長 16 m，中間有單向側撐，同時要求 ASD 的 $P_a$ 與 LRFD 的 $\phi P_n$）<br>
+<b>本章要建立的核心直覺：</b>「有效長度」不是一根柱一個值，而是<b>每個方向、每個區段各有一個值</b>。
+本題有 3 個候選值（強軸全長、弱軸下段、弱軸上段），控制者是<b>最大的那一個</b>。
+而最違反直覺的結論是：<b>物理長度較長的下段控制，但不是因為它比較長</b>，是因為它的 $K \times L$ 較大。</p>
+
+<h3 class="c">4.1 主要公式：ASD 與 LRFD 的雙軌對照</h3>
+
+<table>
+<thead><tr><th>步驟</th><th>ASD（容許應力法）</th><th>LRFD（極限設計法）</th></tr></thead>
+<tbody>
+<tr><td>① 長細比</td><td colspan="2" class="c">$(KL/r)_{\max} = \max\big[(KL/r)_x,\ (KL/r)_{y,\text{下}},\ (KL/r)_{y,\text{上}}\big]$　<b>（兩法完全相同）</b></td></tr>
+<tr><td>② 分界判斷</td><td>$C_c = \sqrt{\dfrac{2\pi^2E}{F_y}}$，比較 $KL/r \lessgtr C_c$</td><td>$\lambda_c = \dfrac{KL/r}{\pi}\sqrt{\dfrac{F_y}{E}}$，比較 $\lambda_c \lessgtr 1.5$</td></tr>
+<tr><td>③ 應力</td><td>$F_a = \dfrac{\left[1-\frac{(KL/r)^2}{2C_c^2}\right]F_y}{\text{FS}}$<br>
+$\text{FS} = \dfrac{5}{3} + \dfrac{3(KL/r)}{8C_c} - \dfrac{(KL/r)^3}{8C_c^3}$</td>
+<td>$F_{cr} = 0.658^{\lambda_c^2} F_y \quad (\lambda_c \le 1.5)$<br>
+$F_{cr} = \dfrac{0.877}{\lambda_c^2}F_y \quad (\lambda_c > 1.5)$</td></tr>
+<tr><td>④ 強度</td><td>$P_a = F_a \times A$</td><td>$\phi_c P_n = 0.85 F_{cr} A$</td></tr>
+</tbody>
+</table>
+
+<div class="why"><b>$C_c$ 與 $\lambda_c = 1.5$ 其實是同一件事：</b>
+$$\lambda_c = 1.5 \;\Leftrightarrow\; \frac{KL/r}{\pi}\sqrt{\frac{F_y}{E}} = 1.5
+\;\Leftrightarrow\; \frac{KL}{r} = 1.5\pi\sqrt{\frac{E}{F_y}} = \sqrt{2.25\pi^2 \frac{E}{F_y}}$$
+而 $C_c = \sqrt{2\pi^2 E/F_y}$。兩者只差係數 2.25 與 2（相差 6% 的長細比），
+所以 <b>ASD 的 $C_c$ 與 LRFD 的 $\lambda_c = 1.5$ 幾乎是同一個分界點</b>，
+物理上都是「殘留應力導致部分降伏」的門檻（見第 6 章）。<br>
+記住這個對應，就不必把兩套公式當兩件事背。</div>
+
+<h3 class="c">4.2 L2：三個候選長細比怎麼算出來</h3>
+
+<div class="fig">
+<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, sans-serif">
+  <text x="450" y="22" font-size="14" font-weight="bold" fill="#b71c1c" text-anchor="middle">W14×61 柱：兩個平面必須分開看</text>
+
+  <!-- strong axis plane -->
+  <g transform="translate(40,40)">
+    <rect x="0" y="0" width="360" height="330" rx="10" fill="#fff" stroke="#bdbdbd"/>
+    <text x="180" y="24" font-size="12.5" font-weight="bold" fill="#1565c0" text-anchor="middle">(a) 強軸平面（y-z 面）：無中間支撐</text>
+    <!-- column -->
+    <line x1="120" y1="50" x2="120" y2="290" stroke="#455a64" stroke-width="7"/>
+    <!-- fixed base -->
+    <rect x="95" y="290" width="50" height="12" fill="#455a64"/>
+    <line x1="90" y1="302" x2="150" y2="316" stroke="#455a64" stroke-width="1.5"/>
+    <line x1="105" y1="302" x2="165" y2="316" stroke="#455a64" stroke-width="1.5"/>
+    <text x="150" y="308" font-size="11" fill="#455a64">A 固接</text>
+    <!-- pin top -->
+    <circle cx="120" cy="50" r="7" fill="#fff" stroke="#455a64" stroke-width="2.5"/>
+    <text x="136" y="48" font-size="11" fill="#455a64">C 鉸接</text>
+    <!-- buckle shape -->
+    <path d="M120,50 C 175,110 175,220 120,290" fill="none" stroke="#c62828" stroke-width="2.2" stroke-dasharray="6 4"/>
+    <text x="186" y="170" font-size="10.5" fill="#c62828">挫屈形狀</text>
+    <!-- dimension -->
+    <line x1="70" y1="50" x2="70" y2="290" stroke="#607d8b"/>
+    <text x="56" y="175" font-size="11" fill="#607d8b" transform="rotate(-90 56 175)" text-anchor="middle">L = 1600 cm</text>
+    <text x="30" y="330" font-size="12" fill="#1565c0">固接–鉸接 → K = 0.7</text>
+    <text x="30" y="350" font-size="12.5" font-weight="bold" fill="#1565c0">(KL/r)x = 0.7(1600)/15.17 = 73.8</text>
+  </g>
+
+  <!-- weak axis plane -->
+  <g transform="translate(460,40)">
+    <rect x="0" y="0" width="400" height="330" rx="10" fill="#fff8e1" stroke="#ffcc80"/>
+    <text x="200" y="24" font-size="12.5" font-weight="bold" fill="#e65100" text-anchor="middle">(b) 弱軸平面（x-z 面）：B 點有側撐 → 分兩段</text>
+    <line x1="130" y1="50" x2="130" y2="290" stroke="#455a64" stroke-width="7"/>
+    <rect x="105" y="290" width="50" height="12" fill="#455a64"/>
+    <line x1="100" y1="302" x2="160" y2="316" stroke="#455a64" stroke-width="1.5"/>
+    <text x="160" y="308" font-size="11" fill="#455a64">A 固接</text>
+    <circle cx="130" cy="50" r="7" fill="#fff" stroke="#455a64" stroke-width="2.5"/>
+    <text x="146" y="48" font-size="11" fill="#455a64">C 鉸接</text>
+    <!-- brace at B: 0.6L from A -> from bottom 290 up 0.6*240=144 -> y=146 -->
+    <polygon points="130,146 108,158 108,134" fill="#2e7d32"/>
+    <line x1="88" y1="128" x2="88" y2="164" stroke="#2e7d32" stroke-width="3"/>
+    <text x="30" y="150" font-size="11" font-weight="bold" fill="#2e7d32">B 側撐</text>
+    <!-- two buckle shapes -->
+    <path d="M130,50 C 168,80 168,116 130,146" fill="none" stroke="#c62828" stroke-width="2" stroke-dasharray="5 3"/>
+    <path d="M130,146 C 172,190 172,250 130,290" fill="none" stroke="#c62828" stroke-width="2.4" stroke-dasharray="5 3"/>
+    <!-- dims -->
+    <line x1="200" y1="50" x2="200" y2="146" stroke="#607d8b"/>
+    <text x="214" y="100" font-size="10.5" fill="#607d8b">640 cm</text>
+    <text x="214" y="116" font-size="10.5" fill="#607d8b">兩端鉸 K=1.0</text>
+    <text x="214" y="132" font-size="10.5" font-weight="bold" fill="#607d8b">KL=640</text>
+    <line x1="200" y1="146" x2="200" y2="290" stroke="#607d8b"/>
+    <text x="214" y="200" font-size="10.5" fill="#b71c1c">960 cm</text>
+    <text x="214" y="216" font-size="10.5" fill="#b71c1c">固–鉸 K=0.7</text>
+    <text x="214" y="232" font-size="10.5" font-weight="bold" fill="#b71c1c">KL=672 ← 較大</text>
+    <text x="20" y="330" font-size="12" fill="#e65100">下段 (KL/r)=672/6.215=108.1　←　控制</text>
+    <text x="20" y="350" font-size="12" fill="#e65100">上段 (KL/r)=640/6.215=103.0</text>
+  </g>
+  <text x="40" y="392" font-size="12.5" font-weight="bold" fill="#b71c1c">(KL/r)max = max(73.8, 108.1, 103.0) = 108.1 → 弱軸下段控制</text>
+</svg>
+<div class="cap">圖 4-1　同一根柱，兩個平面的邊界條件完全不同。B 點的側撐<b>只作用在弱軸平面</b>，
+強軸平面仍是全長 1600 cm。注意下段雖然 $K$ 較小（0.7），但因為長度較長，$KL$ 反而比上段大。</div>
+</div>
+
+<h4>Step 1　迴旋半徑</h4>
+$$r_x = \sqrt{\frac{26{,}700}{116}} = 15.17\ \text{cm}, \qquad r_y = \sqrt{\frac{4{,}480}{116}} = 6.215\ \text{cm}$$
+
+<h4>Step 2　三個候選長細比</h4>
+<table>
+<thead><tr><th>方向／區段</th><th class="c">邊界條件</th><th class="c">$K$</th><th class="c">$L$ (cm)</th><th class="c">$KL$ (cm)</th><th class="c">$r$ (cm)</th><th class="c">$KL/r$</th></tr></thead>
+<tbody>
+<tr><td>強軸（全柱）</td><td class="c">A 固接 – C 鉸接</td><td class="c">0.7</td><td class="c">1600</td><td class="c">1120</td><td class="c">15.17</td><td class="c">73.8</td></tr>
+<tr style="background:#ffebee"><td><b>弱軸下段 A–B</b></td><td class="c">固接 – 鉸接支撐</td><td class="c">0.7</td><td class="c">960</td><td class="c"><b>672</b></td><td class="c">6.215</td><td class="c"><b>108.1 ←控制</b></td></tr>
+<tr><td>弱軸上段 B–C</td><td class="c">鉸接 – 鉸接</td><td class="c">1.0</td><td class="c">640</td><td class="c">640</td><td class="c">6.215</td><td class="c">103.0</td></tr>
+</tbody>
+</table>
+
+<div class="why"><b>為什麼下段控制？答案在 $KL$ 而非 $L$：</b>
+$$\text{下段}: 0.7 \times 960 = 672\ \text{cm} \qquad > \qquad \text{上段}: 1.0 \times 640 = 640\ \text{cm}$$
+下段雖然有固接底端的「加持」（$K$ 只有 0.7），但它比上段長 50%，最後還是它比較危險。<br>
+<b>心法：比較區段時永遠比 $KL$（有效長度），不要比 $L$，也不要比 $K$。</b></div>
+
+<h3 class="l3">4.3 L3 深層知識 —— 六件不懂就卡住的事</h3>
+
+<div class="l3box"><b>L3-1　側向支撐只約束「它所在的那個平面」</b><br>
+B 點是一個 x-z 平面上的鉸接側撐。它擋住的是柱在<b>弱軸方向（繞 y 軸挫屈）</b>的側移，
+對<b>強軸方向（繞 x 軸挫屈）</b>完全沒作用。<br>
+所以強軸的有效長度仍然是全柱 1600 cm。<b>看到「側向支撐」四個字，第一件事是問「支撐在哪個平面」。</b><br><br>
+<b>常見錯誤：</b>看到中間有支撐就把兩個方向都分段 → 強軸算成 $0.7(960)/15.17 = 44.3$，
+最後控制值變成 103.0（弱軸上段），$P_a$ 高估約 6%，且理由完全錯誤。</div>
+
+<div class="l3box"><b>L3-2　上段的邊界條件為什麼是「兩端鉸」</b><br>
+B 點是<b>側向（平移）約束</b>，它只擋住位移，<b>不擋轉動</b>（題目說是鉸接側撐）。
+從上段 B–C 自己的角度看：下端 B 位移被固定但可轉、上端 C 也是位移固定可轉 → <b>兩端鉸接，$K = 1.0$</b>。<br>
+若題目改成「B 點為剛性側撐（可抗彎）」，上段就變成「固接–鉸接」，$K = 0.7$，$KL = 448$ cm，
+控制者依然是下段，但數值不同。<b>「約束平移」與「約束轉動」是兩件獨立的事，要分開判讀。</b></div>
+
+<div class="l3box"><b>L3-3　ASD 的 FS 是變動的，不是固定值</b><br>
+$$\text{FS} = \frac{5}{3} + \frac{3(KL/r)}{8C_c} - \frac{(KL/r)^3}{8C_c^3}$$
+這是一條<b>三次曲線</b>，設計成在兩個端點取特定值：
+<table style="margin-top:8px">
+<thead><tr><th class="c">$KL/r$</th><th class="c">FS</th><th>物理意義</th></tr></thead>
+<tbody>
+<tr><td class="c">0（純壓潰）</td><td class="c">$5/3 = 1.667$</td><td>短柱：不會挫屈，安全係數同拉力構件</td></tr>
+<tr><td class="c">$C_c$（分界）</td><td class="c">$23/12 = 1.917$</td><td>細長柱：對初始彎曲、載重偏心極敏感 → 要更保守</td></tr>
+<tr><td class="c">$> C_c$（彈性段）</td><td class="c">固定 1.917</td><td>沿用分界點值，保證曲線連續</td></tr>
+</tbody></table>
+本題 $KL/r = 108.1$（接近 $C_c = 126.9$），FS = 1.909，果然很靠近 1.917。<br>
+<b>「FS 隨細長比遞增」的設計哲學：柱越細長，我們對它的信心越低。</b></div>
+
+<div class="l3box"><b>L3-4　LRFD 的 $\lambda_c$ 是什麼：一個無量綱的「危險度」</b><br>
+$$\lambda_c = \frac{KL/r}{\pi}\sqrt{\frac{F_y}{E}}
+\quad\text{且可證明}\quad \lambda_c = \sqrt{\frac{F_y}{F_e}},\quad F_e = \frac{\pi^2 E}{(KL/r)^2}$$
+<b>$\lambda_c^2$ 就是「降伏應力 ÷ 彈性挫屈應力」</b>，這才是它真正的意義：
+<ul>
+<li>$\lambda_c < 1$：$F_e > F_y$ → 材料先降伏，挫屈是次要的（粗短柱）</li>
+<li>$\lambda_c > 1$：$F_e < F_y$ → 挫屈先發生（細長柱）</li>
+<li>$\lambda_c = 1.5$：規範定的分界，此後可視為完全彈性挫屈</li>
+</ul>
+本題驗證：$F_e = \dfrac{\pi^2(2040)}{108.1^2} = \dfrac{20{,}134}{11{,}686} = 1.722$ tf/cm²，
+$\lambda_c = \sqrt{2.5/1.722} = \sqrt{1.452} = 1.205$ ✓（與公式一致）<br>
+<b>這個等價關係讓 $\lambda_c$ 從「一個要背的公式」變成「一個可以推導的比值」。</b></div>
+
+<div class="l3box"><b>L3-5　$0.658^{\lambda_c^2}$ 與 $0.877/\lambda_c^2$ 的來源</b><br>
+<ul>
+<li><b>彈性段 $\dfrac{0.877}{\lambda_c^2}F_y$</b>：$\dfrac{F_y}{\lambda_c^2} = F_e$ 就是純 Euler 應力，
+乘 <b>0.877</b> 是對「初始彎曲缺陷」的折減（規範假設初始側彎 $L/1500$）。
+所以彈性段 = Euler × 0.877。</li>
+<li><b>非彈性段 $0.658^{\lambda_c^2}F_y$</b>：這是<b>經驗曲線</b>，用來模擬「殘留應力使斷面逐步降伏、剛度逐步衰減」的過程。
+0.658 這個數字沒有優雅的閉合推導，它是 SSRC 柱曲線的曲線配適結果 —— 
+但<b>它模擬的物理正是第 6 章要手算的東西</b>（切線模數 → 有效慣性矩）。</li>
+</ul>
+另等價寫法：$0.658^{\lambda_c^2} = e^{-0.419\lambda_c^2}$（因 $\ln 0.658 = -0.419$）。考卷兩種都出現過，看到別慌。</div>
+
+<div class="l3box"><b>L3-6　$\phi_c = 0.85$，不是 0.90</b><br>
+LRFD 折減係數是「按極限狀態的可靠度」訂的，容易記混：
+<table style="margin-top:8px">
+<thead><tr><th class="c">$\phi$</th><th>適用</th><th>為什麼</th></tr></thead>
+<tbody>
+<tr><td class="c">0.90</td><td>拉力降伏、彎曲（$\phi_b$）</td><td>韌性、有預警、變異小</td></tr>
+<tr><td class="c"><b>0.85</b></td><td><b>壓力（$\phi_c$）</b></td><td>挫屈受初始缺陷、殘留應力影響，變異較大</td></tr>
+<tr><td class="c">0.75</td><td>拉力斷裂、塊狀剪力、螺栓</td><td>脆性、無預警</td></tr>
+</tbody></table>
+（註：新版 AISC 已把 $\phi_c$ 調為 0.90，但台灣技師考題與舊版規範多採 <b>0.85</b>；
+考場依題目給定公式為準，題目沒給就寫 0.85 並註明依據。）</div>
+
+<h3 class="c">4.4 完整手算範例</h3>
+
+<div class="hand">
+<h4>【手算範例 4】W14×61 柱：ASD 的 $P_a$ 與 LRFD 的 $\phi P_n$</h4>
+<p><b>已知：</b>$E=2040$、$F_y=2.5$ tf/cm²；$A=116$ cm²、$I_x=26{,}700$、$I_y=4{,}480$ cm⁴；
+$L=1600$ cm；A 端固接、C 端鉸接；B 點（距 A 960 cm）有弱軸鉸接側撐。</p>
+
+<div class="step"><b>Step 1　迴旋半徑</b>
+$$r_x = \sqrt{26{,}700/116} = \sqrt{230.2} = 15.17\ \text{cm}, \qquad
+r_y = \sqrt{4{,}480/116} = \sqrt{38.62} = 6.215\ \text{cm}$$</div>
+
+<div class="step"><b>Step 2　列出所有候選 $KL/r$（不要漏任何一個）</b>
+$$\text{強軸全柱}: \frac{0.7(1600)}{15.17} = \frac{1120}{15.17} = 73.8$$
+$$\text{弱軸下段 A–B}: \frac{0.7(960)}{6.215} = \frac{672}{6.215} = 108.1$$
+$$\text{弱軸上段 B–C}: \frac{1.0(640)}{6.215} = \frac{640}{6.215} = 103.0$$
+$$\Rightarrow \left(\frac{KL}{r}\right)_{\max} = 108.1 \quad\text{（弱軸下段控制）}$$</div>
+
+<div class="step"><b>Step 3　(一) ASD：$C_c$ 與區段判斷</b>
+$$C_c = \sqrt{\frac{2\pi^2(2040)}{2.5}} = \sqrt{\frac{40{,}270}{2.5}} = \sqrt{16{,}108} = 126.9$$
+$$KL/r = 108.1 < C_c = 126.9 \quad\Rightarrow\quad \text{非彈性挫屈段}$$</div>
+
+<div class="step"><b>Step 4　ASD：安全係數 FS（三項要逐項算，別跳步）</b>
+$$\text{FS} = \frac{5}{3} + \frac{3(108.1)}{8(126.9)} - \frac{(108.1)^3}{8(126.9)^3}$$
+$$= 1.6667 + \frac{324.3}{1015.2} - \frac{1{,}263{,}214}{16{,}351{,}704}$$
+$$= 1.6667 + 0.3195 - 0.0773 = 1.909$$</div>
+
+<div class="step"><b>Step 5　ASD：容許應力與容許壓力</b>
+$$F_a = \frac{\left[1 - \dfrac{(108.1)^2}{2(126.9)^2}\right](2.5)}{1.909}
+= \frac{\left[1 - \dfrac{11{,}686}{32{,}214}\right](2.5)}{1.909}
+= \frac{(1-0.3627)(2.5)}{1.909}$$
+$$= \frac{1.5933}{1.909} = 0.8346\ \text{tf/cm}^2$$
+$$\boxed{P_a = F_a A = 0.8346 \times 116 = 96.8 \approx 97\ \text{tf}}$$</div>
+
+<div class="step"><b>Step 6　(二) LRFD：$\lambda_c$</b>
+$$\sqrt{\frac{E}{F_y}} = \sqrt{\frac{2040}{2.5}} = \sqrt{816} = 28.57$$
+$$\lambda_c = \frac{KL/r}{\pi\sqrt{E/F_y}} = \frac{108.1}{\pi(28.57)} = \frac{108.1}{89.75} = 1.205$$
+$$\lambda_c = 1.205 \le 1.5 \quad\Rightarrow\quad \text{非彈性段公式}$$</div>
+
+<div class="step"><b>Step 7　LRFD：$F_{cr}$ 與 $\phi P_n$</b>
+$$\lambda_c^2 = 1.205^2 = 1.452$$
+$$0.658^{1.452} = e^{1.452\ln 0.658} = e^{1.452(-0.4193)} = e^{-0.6088} = 0.5441$$
+$$F_{cr} = 0.5441 \times 2.5 = 1.360\ \text{tf/cm}^2$$
+$$\boxed{\phi_c P_n = 0.85 \times 1.360 \times 116 = 134.2 \approx 134\ \text{tf}}$$</div>
+
+<div class="step"><b>Step 8　兩法比較（申論加分段）</b>
+$$P_a = 97\ \text{tf (ASD)} \qquad \phi_c P_n = 134\ \text{tf (LRFD)}$$
+兩者<b>不能直接比大小</b>：ASD 的 $P_a$ 要與<b>未放大的</b>使用載重比較，
+LRFD 的 $\phi P_n$ 要與<b>放大後的</b>設計載重 $P_u$ 比較。
+若典型載重組合的放大倍率約 1.4：
+$$\frac{134}{1.4} = 95.7\ \text{tf} \approx P_a = 97\ \text{tf} \quad\checkmark$$
+<b>兩法的安全水準基本一致</b> —— 這正是 LRFD 制定時的校準目標。<br><br>
+補充診斷：「控制者為弱軸下段（$KL = 672$ cm）。若在弱軸下段中點（距 A 480 cm）再加一道側撐，
+下段 $KL$ 降為 $0.7 \times 480 = 336$ cm，控制值變成上段的 103.0，
+$P_a$ 可提升至約 101 tf。<b>加側撐是提升柱承載力最便宜的手段。</b>」</div>
+</div>
+
+<h3 class="c">4.5 易錯點與 30 秒自我檢核</h3>
+
+<table>
+<thead><tr><th>易錯點</th><th>正確作法</th></tr></thead>
+<tbody>
+<tr><td>只算弱軸，不算強軸</td><td>三個候選值都要算，取最大</td></tr>
+<tr><td>強軸也跟著分段</td><td>側撐只作用在它所在的平面</td></tr>
+<tr><td>上段誤用 $K=0.7$</td><td>鉸接側撐不擋轉動 → 上段兩端鉸，$K=1.0$</td></tr>
+<tr><td>比較區段時比 $L$ 或比 $K$</td><td>比 $KL$（本題 672 &gt; 640）</td></tr>
+<tr><td>ASD 用固定 FS = 5/3 或 23/12</td><td>非彈性段 FS 隨 $KL/r$ 變，要用三項式</td></tr>
+<tr><td>$\phi_c$ 寫 0.90</td><td>壓力構件 0.85（舊版規範／台灣考題）</td></tr>
+<tr><td>$\lambda_c$ 忘記除 $\pi$</td><td>$\lambda_c = \dfrac{KL/r}{\pi}\sqrt{F_y/E}$</td></tr>
+</tbody>
+</table>
+
+<div class="chk"><b>30 秒自我檢核</b>
+<ol>
+<li>B 點側撐若移到距 A 端 800 cm 處，控制長細比變多少？<br>
+（答：下段 $0.7(800)/6.215 = 90.0$；上段 $1.0(800)/6.215 = 128.7$ → 上段控制，比原本更差！
+<b>側撐位置不是越中間越好，要讓兩段的 $KL$ 相等才最佳</b> —— 
+本題最佳位置解 $0.7a = 1.0(1600-a)$ → $a = 941$ cm）</li>
+<li>$\lambda_c$ 與 $C_c$ 的關係是什麼？（答：$\lambda_c = \dfrac{KL/r}{\pi\sqrt{E/F_y}}$，而 $C_c$ 對應 $\lambda_c = \sqrt{2}=1.414$，與規範分界 1.5 幾乎同位置）</li>
+<li>ASD 與 LRFD 算出 97 與 134 tf，哪個比較保守？（答：<b>無法直接比較</b>，須先把載重放大倍率考慮進去；換算後兩者相當）</li>
+</ol></div>
+
+</section>
+
+<section id="s5">
+<h2 class="c"><span class="chapnum">第 5 章</span>壓力桿件（三）完整跑一次 —— 箱型柱與斷面代數化簡</h2>
+
+<p class="lead"><b>來源題：SS-2018-2</b>（LRFD，80×80 cm 箱型斷面、板厚 3.2 cm、柱長 400 cm、$K_1=2.284$、$K_2=2.397$，檢核 $P_u = 1119$ tf）<br>
+<b>本章要建立的核心直覺：</b>把第 3 章（斷面）與第 4 章（長度）串成一次完整流程。
+但本題還藏了一個更深的教訓：<b>$K$ 高達 2.4（看起來很危險）的柱，居然利用率只有 43%</b> —— 
+因為決定挫屈的從來不是 $K$，也不是 $L$，而是<b>三者的比值 $KL/r$</b>。</p>
+
+<h3 class="c">5.1 主要公式：一條完整的 LRFD 壓力桿件流程</h3>
+
+$$r = \sqrt{\frac{b_o^2 + b_i^2}{12}} \quad\text{（正方形箱型專用化簡）}$$
+$$\left(\frac{KL}{r}\right)_{\max} = \max\left(\frac{K_1 L}{r},\ \frac{K_2 L}{r}\right)
+\;\Rightarrow\; \lambda_c = \frac{KL/r}{\pi}\sqrt{\frac{F_y}{E}}
+\;\Rightarrow\; F_{cr} = e^{-0.419\lambda_c^2}F_y
+\;\Rightarrow\; \phi_c P_n = 0.85 F_{cr} A \ \ge P_u$$
+
+<h3 class="c">5.2 L2：那個化簡公式是怎麼變出來的</h3>
+
+<div class="fig">
+<svg viewBox="0 0 880 300" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, sans-serif">
+  <text x="200" y="24" font-size="13.5" font-weight="bold" fill="#b71c1c" text-anchor="middle">(a) 箱型斷面＝大實心方 − 小實心方</text>
+  <!-- big square -->
+  <rect x="70" y="50" width="200" height="200" fill="#ffcdd2" stroke="#c62828" stroke-width="2.2"/>
+  <rect x="102" y="82" width="136" height="136" fill="#fff" stroke="#c62828" stroke-width="2.2" stroke-dasharray="6 4"/>
+  <text x="170" y="150" font-size="12" fill="#455a64" text-anchor="middle">空心</text>
+  <text x="170" y="168" font-size="12" fill="#455a64" text-anchor="middle">bi = 73.6</text>
+  <line x1="70" y1="268" x2="270" y2="268" stroke="#455a64"/>
+  <text x="170" y="284" font-size="11.5" fill="#455a64" text-anchor="middle">bo = 80 cm</text>
+  <line x1="70" y1="62" x2="102" y2="62" stroke="#e65100" stroke-width="3"/>
+  <text x="86" y="44" font-size="10.5" fill="#e65100" text-anchor="middle">t=3.2</text>
+  <text x="290" y="120" font-size="12.5" fill="#455a64">A = bo² − bi²</text>
+  <text x="290" y="142" font-size="12.5" fill="#455a64">I = (bo⁴ − bi⁴)/12</text>
+
+  <!-- right: derivation -->
+  <text x="640" y="24" font-size="13.5" font-weight="bold" fill="#1565c0" text-anchor="middle">(b) 為什麼 r² 可以化簡</text>
+  <rect x="440" y="45" width="400" height="205" rx="9" fill="#e3f2fd" stroke="#90caf9"/>
+  <text x="460" y="76" font-size="12.5" fill="#0d47a1">r² = I / A</text>
+  <text x="460" y="104" font-size="12.5" fill="#0d47a1">= [(bo⁴ − bi⁴)/12] ÷ (bo² − bi²)</text>
+  <text x="460" y="136" font-size="12" fill="#1565c0">分子用平方差：bo⁴ − bi⁴ = (bo²+bi²)(bo²−bi²)</text>
+  <text x="460" y="168" font-size="12.5" fill="#0d47a1">= (bo²+bi²)(bo²−bi²) / [12(bo²−bi²)]</text>
+  <line x1="460" y1="182" x2="800" y2="182" stroke="#1565c0"/>
+  <text x="460" y="208" font-size="14" font-weight="bold" fill="#0d47a1">r² = (bo² + bi²) / 12</text>
+  <text x="460" y="236" font-size="11.5" fill="#c62828">⚠ 僅限正方形箱型（兩方向尺寸相同）</text>
+</svg>
+<div class="cap">圖 5-1　箱型斷面的「大方減小方」思路與 $r^2$ 的代數化簡。
+化簡的關鍵是<b>平方差公式讓 $(b_o^2-b_i^2)$ 上下對消</b> —— 這也是為什麼它只在正方形箱型成立。</div>
+</div>
+
+<h4>Step 1　斷面幾何</h4>
+$$b_i = b_o - 2t = 80 - 2(3.2) = 73.6\ \text{cm}$$
+$$A = b_o^2 - b_i^2 = 6400 - 5416.96 = 983.04\ \text{cm}^2$$
+$$r^2 = \frac{b_o^2 + b_i^2}{12} = \frac{6400 + 5416.96}{12} = \frac{11{,}816.96}{12} = 984.75\ \text{cm}^2
+\;\Rightarrow\; r = 31.38\ \text{cm}$$
+
+<h4>Step 2～4　控制方向 → $\lambda_c$ → $F_{cr}$ → $\phi_c P_n$</h4>
+$$\frac{K_1 L}{r} = \frac{2.284(400)}{31.38} = 29.11, \qquad
+\frac{K_2 L}{r} = \frac{2.397(400)}{31.38} = 30.55 \ \text{（控制）}$$
+$$\lambda_c = \frac{30.55}{\pi}\sqrt{\frac{3.3}{2040}} = 9.724 \times 0.04022 = 0.391 \;\le\; 1.5$$
+$$F_{cr} = e^{-0.419(0.391)^2}(3.3) = e^{-0.0641}(3.3) = 0.9379(3.3) = 3.095\ \text{tf/cm}^2$$
+$$\phi_c P_n = 0.85(3.095)(983.04) = 2{,}586\ \text{tf} \;\gg\; P_u = 1119\ \text{tf} \quad\checkmark$$
+
+<h3 class="l3">5.3 L3 深層知識 —— 五件不懂就卡住的事</h3>
+
+<div class="l3box"><b>L3-1　化簡公式的適用條件（考場最容易誤用的一條）</b><br>
+$$r^2 = \frac{b_o^2+b_i^2}{12} \quad\text{只在}\ \textbf{正方形}\ \text{箱型成立}$$
+推導時我們把 $(b_o^2-b_i^2)$ 上下對消，這一步<b>需要 $A$ 與 $I$ 用的是同一組 $b$</b>。
+矩形箱型（$h$ ≠ $b$）的 $I_x$ 與 $A$ 沒有這個對消關係，必須老實算：
+$$I_x = \frac{b_o h_o^3 - b_i h_i^3}{12}, \qquad I_y = \frac{h_o b_o^3 - h_i b_i^3}{12}, \qquad
+r_x = \sqrt{I_x/A},\ r_y = \sqrt{I_y/A}$$
+<b>考場判斷：看到「正方形」「$b \times b$」才用化簡；看到兩個不同尺寸就分軸硬算。</b></div>
+
+<div class="l3box"><b>L3-2　為什麼 $K = 2.4$ 卻只有 43% 利用率（本題最重要的洞察）</b><br>
+直覺會說「$K$ 快 2.4，這柱幾乎是懸臂，一定很危險」。但看看拆解：
+$$KL = 2.397 \times 400 = 959\ \text{cm} \approx 9.6\ \text{m（有效長度確實很長）}$$
+$$\text{但}\quad r = 31.38\ \text{cm（斷面極為肥厚）} \;\Rightarrow\; \frac{KL}{r} = 30.55\ \text{（短柱！）}$$
+<b>$KL/r = 30.55$ 落在「短柱」範疇（一般以 $KL/r < 50$ 為短柱），$F_{cr}/F_y = 0.938$ —— 
+幾乎沒有挫屈折減，強度基本由降伏控制。</b><br><br>
+<b>心法：$KL$ 與 $r$ 都只是配角，主角永遠是比值 $KL/r$。</b>
+80×80 cm 的箱型斷面把材料全部推到最外圈，$r$ 因此極大 —— 這正是箱型斷面被稱為「最有效率的壓力斷面」的原因：
+<ul>
+<li>兩個方向的 $r$ 相同 → 沒有「弱軸」的浪費（對照第 3 章的組合柱 $I_Y/I_X = 2.46$，一半材料在打混）</li>
+<li>閉合斷面扭轉勁度極大 → 不必擔心扭轉挫屈</li>
+</ul></div>
+
+<div class="l3box"><b>L3-3　兩個 $K$ 值時取「$\lambda_c$ 較大者」，本質是取 $KL/r$ 較大者</b><br>
+本題兩方向 $r$ 相同（正方形），所以直接比 $K$ 就行（$2.397 > 2.284$）。<br>
+<b>但這是特例！</b>一般斷面（如 W 型鋼）兩方向 $r$ 不同，必須各自算 $KL/r$ 再比較。
+常見情形：$K_x$ 較大但 $r_x$ 也大，最後反而是 $y$ 方向控制。
+<b>永遠比 $KL/r$，不要比 $K$。</b>（與第 4 章 L3「比 $KL$ 不比 $L$」是同一個心法的延伸。）</div>
+
+<div class="l3box"><b>L3-4　$e^{-0.419\lambda_c^2}$ 與 $0.658^{\lambda_c^2}$ 完全等價</b><br>
+$$0.658^{\lambda_c^2} = e^{\lambda_c^2 \ln 0.658} = e^{-0.419\lambda_c^2} \quad (\because \ln 0.658 = -0.4193)$$
+考卷用哪一種都一樣，計算機按法：
+<ul>
+<li>指數形式：算出 $-0.419\lambda_c^2$，按 <code>e^x</code></li>
+<li>次方形式：按 <code>0.658</code> → <code>x^y</code> → 輸入 $\lambda_c^2$</li>
+</ul>
+<b>看到「$e^{-0.419\lambda^2}$」不要以為是新公式，它就是柱曲線的老朋友。</b></div>
+
+<div class="l3box"><b>L3-5　檢核題的完整答法：不只寫 OK</b><br>
+「檢核」類題目的滿分答案有三段：
+<ol>
+<li><b>數值判定</b>：$P_u = 1119 < \phi_c P_n = 2586$ tf → 強度足夠</li>
+<li><b>量化程度</b>：DCR $= 1119/2586 = 0.433$（利用率 43.3%）</li>
+<li><b>工程判讀</b>：斷面過於充裕，可考慮減薄板厚。試算：若 $t = 2.0$ cm，
+$b_i = 76$、$A = 624$ cm²、$r^2 = (6400+5776)/12 = 1014.7$、$r = 31.85$ cm、
+$KL/r = 30.1$、$\lambda_c = 0.385$、$F_{cr} = 3.098$、
+$\phi_c P_n = 0.85(3.098)(624) = 1643$ tf → DCR = 0.68，<b>仍安全且省鋼 36%</b>。
+但須另檢核<b>板寬厚比（局部挫屈）</b>：$b_i/t = 76/2.0 = 38$，
+須符合箱型斷面加勁肢限值 $\lambda_r = 1.40\sqrt{E/F_y} = 1.40\sqrt{2040/3.3} = 34.8$ → <b>38 &gt; 34.8，超限！</b>
+故 $t = 2.0$ cm 會變成細長肢斷面，需重新考量。</li>
+</ol>
+<b>第 3 點是拉開分數的地方 —— 它證明你懂「整體挫屈通過 ≠ 設計完成」，還有局部挫屈要顧。</b></div>
+
+<h3 class="c">5.4 完整手算範例</h3>
+
+<div class="hand">
+<h4>【手算範例 5】箱型柱 LRFD 強度檢核</h4>
+<p><b>已知：</b>$b_o = 80$ cm、$t = 3.2$ cm、$L = 400$ cm、$K_1 = 2.284$、$K_2 = 2.397$、
+$F_y = 3.3$、$E = 2040$ tf/cm²、$P_u = 1119$ tf。</p>
+
+<div class="step"><b>Step 1　斷面幾何</b>
+$$b_i = 80 - 2(3.2) = 73.6\ \text{cm}$$
+$$A = 80^2 - 73.6^2 = 6400 - 5416.96 = 983.04\ \text{cm}^2$$
+$$I = \frac{80^4 - 73.6^4}{12} = \frac{40{,}960{,}000 - 29{,}345{,}138}{12} = \frac{11{,}614{,}862}{12} = 967{,}905\ \text{cm}^4$$
+$$r = \sqrt{\frac{967{,}905}{983.04}} = \sqrt{984.6} = 31.38\ \text{cm}$$
+<b>或直接用化簡式（省時間）：</b>$r^2 = \dfrac{6400+5416.96}{12} = 984.75 \Rightarrow r = 31.38$ cm ✓（兩法一致）</div>
+
+<div class="step"><b>Step 2　兩方向長細比，取控制者</b>
+$$\frac{K_1L}{r} = \frac{2.284(400)}{31.38} = \frac{913.6}{31.38} = 29.11$$
+$$\frac{K_2L}{r} = \frac{2.397(400)}{31.38} = \frac{958.8}{31.38} = 30.55 \quad\leftarrow \text{控制}$$
+（檢查：$30.55 < 200$，符合壓力構件長細比上限 ✓）</div>
+
+<div class="step"><b>Step 3　細長比參數與挫屈型式判斷</b>
+$$\sqrt{\frac{F_y}{E}} = \sqrt{\frac{3.3}{2040}} = \sqrt{0.001618} = 0.04022$$
+$$\lambda_c = \frac{30.55}{3.1416}(0.04022) = 9.724 \times 0.04022 = 0.391$$
+$$\lambda_c = 0.391 \le 1.5 \quad\Rightarrow\quad \text{非彈性挫屈}$$</div>
+
+<div class="step"><b>Step 4　臨界應力</b>
+$$\lambda_c^2 = 0.391^2 = 0.1529$$
+$$F_{cr} = e^{-0.419(0.1529)}(3.3) = e^{-0.06406}(3.3) = 0.9379 \times 3.3 = 3.095\ \text{tf/cm}^2$$
+<b>合理性檢查：</b>$F_{cr}/F_y = 0.938$ —— 短柱理應接近 1.0 ✓</div>
+
+<div class="step"><b>Step 5　設計強度與檢核</b>
+$$\phi_c P_n = 0.85 \times 3.095 \times 983.04 = 0.85 \times 3{,}042.5 = 2{,}586\ \text{tf}$$
+$$\text{DCR} = \frac{P_u}{\phi_c P_n} = \frac{1119}{2586} = 0.433 < 1.0
+\quad\Rightarrow\quad \boxed{\text{強度設計通過 OK}}$$</div>
+
+<div class="step"><b>Step 6　答題收尾（含工程判讀）</b>
+「$\phi_c P_n = 2586$ tf ≫ $P_u = 1119$ tf，利用率 43.3%，強度檢核通過。<br>
+<b>診斷：</b>雖然有效長度係數高達 2.397（有效長度 9.6 m，近似懸臂），但箱型斷面 $r = 31.38$ cm 極大，
+使 $KL/r$ 僅 30.55 落於短柱範疇（$F_{cr}/F_y = 0.938$），故強度幾乎不受挫屈折減。<br>
+<b>建議：</b>斷面偏充裕，惟若欲減薄板厚須另檢核板寬厚比 $b_i/t$ 是否超過加勁肢限值
+$1.40\sqrt{E/F_y} = 34.8$（現況 $73.6/3.2 = 23.0 < 34.8$，屬非細長肢，無局部挫屈之虞）。」</div>
+</div>
+
+<h3 class="c">5.5 易錯點與 30 秒自我檢核</h3>
+
+<table>
+<thead><tr><th>易錯點</th><th>正確作法</th></tr></thead>
+<tbody>
+<tr><td>$I$ 只算外形 $b_o^4/12$，忘扣內孔</td><td>$I = (b_o^4-b_i^4)/12$，或直接用 $r^2$ 化簡式</td></tr>
+<tr><td>$b_i = b_o - t$（只扣一個板厚）</td><td>$b_i = b_o - 2t$（兩側都有板）</td></tr>
+<tr><td>矩形箱型也套化簡式</td><td>化簡式只限正方形；矩形須分軸算</td></tr>
+<tr><td>只算一個方向</td><td>兩個 $K$ 都算，取 $KL/r$ 大者</td></tr>
+<tr><td>$\phi_c$ 用 0.90</td><td>壓力用 0.85</td></tr>
+<tr><td>只寫「OK」不給 DCR</td><td>檢核題要寫出利用率並做工程判讀</td></tr>
+<tr><td>忘記檢核板寬厚比</td><td>薄壁箱型須查局部挫屈限值 $1.40\sqrt{E/F_y}$</td></tr>
+</tbody>
+</table>
+
+<div class="chk"><b>30 秒自我檢核</b>
+<ol>
+<li>若板厚改為 1.6 cm，$b_i/t$ 是多少？會怎樣？<br>
+（答：$b_i = 76.8$，$b_i/t = 48 > 34.8$ → <b>細長肢，局部挫屈控制</b>，整體挫屈公式已不適用，須用有效寬度法折減）</li>
+<li>$r^2 = (b_o^2+b_i^2)/12$ 為什麼不能用在矩形箱？（答：化簡靠 $(b_o^2-b_i^2)$ 上下對消，矩形斷面 $A$ 與 $I$ 不具此關係）</li>
+<li>本題如果 $F_y$ 改成 5.0 tf/cm²（高強度鋼），$F_{cr}/F_y$ 會變大還是變小？<br>
+（答：$\lambda_c \propto \sqrt{F_y}$ 變大 → $F_{cr}/F_y$ 變小。<b>高強度鋼在細長柱上發揮不出優勢</b>，
+因為 Euler 挫屈只看 $E$ 不看 $F_y$ —— 這是壓力構件的重要設計哲學）</li>
+</ol></div>
+
+</section>
+
+<section id="s6">
+<h2 class="k"><span class="chapnum">第 6 章</span>公式的出生證明 —— 殘留應力、切線模數與柱強度曲線</h2>
+
+<p class="lead"><b>來源題：SS-2024-1</b>（RH400×400×13×21，翼板塊狀殘留應力 $-0.5F_y$／$+0.4F_y$，求 $F_{cr}/F_y \sim \lambda$ 曲線）<br>
+<b>本章要建立的核心直覺：</b>前面三章一直在用 $0.658^{\lambda_c^2}$、$C_c$、$\lambda_c = 1.5$ 這些「規範給的數字」。
+本章要親手把它們造出來 —— <b>你會發現柱強度曲線不是規範規定的，是殘留應力算出來的</b>。
+讀懂這一章，前面所有壓力桿件公式都不需要背了。</p>
+
+<h3 class="k">6.1 主要公式：四個步驟造出一條曲線</h3>
+
+$$\textbf{①降伏啟始}: \quad F + 0.5F_y = F_y \;\Rightarrow\; \frac{F_{cr}}{F_y} = 0.5 \;\Rightarrow\; \lambda_2 = \sqrt{2}$$
+$$\textbf{②有效慣性矩}: \quad \Delta I_{one} = \frac{b_{out}t_f^3}{12} + b_{out}t_f\bar{y}_f^2, \qquad I_e = I_x - 4\Delta I_{one}$$
+$$\textbf{③三段公式}: \quad \frac{F_{cr}}{F_y} =
+\begin{cases}
+1.0 & \lambda \le \lambda_1 \quad\text{（壓潰）}\\[4pt]
+\dfrac{I_e/I_x}{\lambda^2} & \lambda_1 \le \lambda \le \lambda_2 \quad\text{（非彈性）}\\[6pt]
+\dfrac{1}{\lambda^2} & \lambda \ge \lambda_2 \quad\text{（彈性 Euler）}
+\end{cases}$$
+$$\textbf{④轉折點}: \quad \lambda_1 = \sqrt{I_e/I_x} = 0.697, \qquad \lambda_2 = \sqrt{2} = 1.414$$
+
+<h3 class="k">6.2 先搞懂殘留應力是什麼、從哪來</h3>
+
+<div class="fig">
+<svg viewBox="0 0 900 350" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, sans-serif">
+  <text x="220" y="22" font-size="13.5" font-weight="bold" fill="#4a148c" text-anchor="middle">(a) 殘留應力的成因：冷卻速度不均</text>
+  <!-- H section -->
+  <g transform="translate(60,42)">
+    <rect x="40" y="0" width="220" height="26" fill="#e1bee7" stroke="#6a1b9a" stroke-width="2"/>
+    <rect x="130" y="26" width="40" height="150" fill="#e1bee7" stroke="#6a1b9a" stroke-width="2"/>
+    <rect x="40" y="176" width="220" height="26" fill="#e1bee7" stroke="#6a1b9a" stroke-width="2"/>
+    <!-- cooling arrows -->
+    <text x="30" y="16" font-size="18" fill="#1565c0">(冷)</text><text x="272" y="16" font-size="18" fill="#1565c0">(冷)</text>
+    <text x="30" y="196" font-size="18" fill="#1565c0">(冷)</text><text x="272" y="18" font-size="0" fill="#1565c0"></text>
+    <text x="272" y="196" font-size="18" fill="#1565c0">(冷)</text>
+    <text x="150" y="105" font-size="16" fill="#d32f2f" text-anchor="middle">(熱)</text>
+    <text x="30" y="40" font-size="10.5" fill="#1565c0">翼板端部：</text>
+    <text x="30" y="54" font-size="10.5" fill="#1565c0">兩面接觸空氣</text>
+    <text x="30" y="68" font-size="10.5" fill="#1565c0">→ 冷得快</text>
+    <text x="185" y="105" font-size="10.5" fill="#d32f2f">腹板交會處：</text>
+    <text x="185" y="119" font-size="10.5" fill="#d32f2f">材料厚、散熱慢</text>
+    <text x="185" y="133" font-size="10.5" fill="#d32f2f">→ 冷得慢</text>
+    <text x="0" y="240" font-size="11.5" fill="#455a64">先冷卻的部分先凝固定型；後冷卻的部分想收縮</text>
+    <text x="0" y="258" font-size="11.5" fill="#455a64">卻被已定型的部分拉住 →</text>
+    <text x="0" y="280" font-size="12" font-weight="bold" fill="#455a64">先冷者被壓（殘留壓應力）、後冷者被拉（殘留拉應力）</text>
+    <text x="0" y="302" font-size="11.5" fill="#c62828">※ 全斷面自平衡：Σ(殘留應力×面積) = 0</text>
+  </g>
+
+  <!-- (b) block model -->
+  <text x="670" y="22" font-size="13.5" font-weight="bold" fill="#4a148c" text-anchor="middle">(b) 本題的塊狀模型（翼板）</text>
+  <g transform="translate(480,50)">
+    <!-- flange strip -->
+    <rect x="0" y="60" width="113" height="34" fill="#ffcdd2" stroke="#c62828" stroke-width="2"/>
+    <rect x="113" y="60" width="174" height="34" fill="#c8e6c9" stroke="#2e7d32" stroke-width="2"/>
+    <rect x="287" y="60" width="113" height="34" fill="#ffcdd2" stroke="#c62828" stroke-width="2"/>
+    <text x="56" y="82" font-size="11" fill="#b71c1c" text-anchor="middle">−0.5Fy</text>
+    <text x="200" y="82" font-size="11" fill="#1b5e20" text-anchor="middle">+0.4Fy</text>
+    <text x="343" y="82" font-size="11" fill="#b71c1c" text-anchor="middle">−0.5Fy</text>
+    <text x="56" y="112" font-size="10" fill="#455a64" text-anchor="middle">113.5mm</text>
+    <text x="200" y="112" font-size="10" fill="#455a64" text-anchor="middle">173mm</text>
+    <text x="343" y="112" font-size="10" fill="#455a64" text-anchor="middle">113.5mm</text>
+    <text x="200" y="42" font-size="11" fill="#455a64" text-anchor="middle">翼板寬 400mm，tf = 21mm</text>
+    <!-- yield illustration -->
+    <text x="0" y="150" font-size="11.5" fill="#b71c1c">紅區已帶 0.5Fy 壓應力 → 外加壓應力只要達</text>
+    <text x="0" y="168" font-size="11.5" fill="#b71c1c">0.5Fy，紅區就整塊同時降伏（塊狀＝同時！）</text>
+    <text x="0" y="194" font-size="11.5" fill="#1b5e20">綠區帶 0.4Fy 拉應力 → 需外加 1.4Fy 才降伏</text>
+    <text x="0" y="212" font-size="11.5" fill="#1b5e20">→ 超過 Fy，不可能發生 → 綠區永不降伏</text>
+    <text x="0" y="244" font-size="12" font-weight="bold" fill="#4a148c">結果：4 塊外翼板（每側翼板 2 塊 × 上下翼板）</text>
+    <text x="0" y="262" font-size="12" font-weight="bold" fill="#4a148c">同時失去剛度 → 有效斷面只剩中央 + 腹板</text>
+  </g>
+</svg>
+<div class="cap">圖 6-1　(a) 殘留應力的物理成因：熱軋型鋼冷卻速度不均，先冷的翼板端部被後冷的腹板交會處「壓住」。
+(b) 本題的塊狀（矩形分布）模型：外側兩塊帶 $-0.5F_y$，中央帶 $+0.4F_y$。</div>
+</div>
+
+<div class="l3box"><b>為什麼殘留應力會降低柱強度？三句話講完：</b>
+<ol>
+<li>斷面某些部位<b>出廠時就已經帶著壓應力</b>（本題 $-0.5F_y$）。</li>
+<li>柱受壓時，這些部位只要再吃 $0.5F_y$ 就<b>提前降伏</b>，而不是等到 $F_y$。</li>
+<li>降伏的部位<b>切線模數 $E_t = 0$</b>（完全彈塑性材料），對抵抗挫屈<b>完全沒有貢獻</b> —— 
+等於斷面被「挖掉」一塊，$I$ 變小，挫屈強度下降。</li>
+</ol>
+<b>殘留應力不改變降伏強度（$F_y$ 不變、$A$ 不變），但它改變「什麼時候開始降伏」，進而改變挫屈強度。</b></div>
+
+<h3 class="k">6.3 L2：四個步驟逐步推導</h3>
+
+<h4>步驟一　降伏啟始點 $\lambda_2$：曲線的第一個轉折</h4>
+<p>外側翼板已有 $-0.5F_y$，外加壓應力 $F$ 使該處總應力達 $F_y$：</p>
+$$F + 0.5F_y = F_y \quad\Rightarrow\quad F = 0.5F_y \quad\Rightarrow\quad \frac{F_{cr}}{F_y} = 0.5$$
+<p>代回無量綱 Euler 曲線 $F_{cr}/F_y = 1/\lambda^2$：</p>
+$$0.5 = \frac{1}{\lambda_2^2} \quad\Rightarrow\quad \lambda_2 = \sqrt{2} = 1.414$$
+<div class="why"><b>$\lambda$ 為什麼可以這樣代？</b>把 $\lambda = \dfrac{KL}{\pi r}\sqrt{\dfrac{F_y}{E}}$ 平方倒過來：
+$$\frac{1}{\lambda^2} = \frac{\pi^2 r^2 E}{(KL)^2 F_y} = \frac{\pi^2 E}{(KL/r)^2 F_y} = \frac{F_e}{F_y}$$
+所以 <b>$1/\lambda^2$ 就是「Euler 應力 ÷ 降伏應力」</b> —— 無量綱化之後，Euler 曲線永遠是 $y = 1/x^2$，
+不管什麼鋼材、什麼斷面。這就是無量綱座標的威力：<b>一張圖適用所有柱。</b></div>
+
+<p>同時驗證中央段：$+0.4F_y$ 拉應力 → 需外加 $F = 1.4F_y > F_y$ 才降伏 → <b>不可能，中央段永不降伏</b>。</p>
+
+<h4>步驟二　有效慣性矩 $I_e$：把降伏的塊「挖掉」</h4>
+<p>4 塊外翼板（上、下翼板各 2 塊）失去剛度，用平行軸定理算出它們對 $I_x$ 的貢獻並扣除：</p>
+<table>
+<thead><tr><th>量</th><th class="c">計算</th><th class="c">數值</th></tr></thead>
+<tbody>
+<tr><td>$b_{out}$（外側塊寬）</td><td class="c">題給 113.5 mm</td><td class="c">11.35 cm</td></tr>
+<tr><td>$t_f$（翼板厚）</td><td class="c">21 mm</td><td class="c">2.1 cm</td></tr>
+<tr><td>$A_{out}$（每塊面積）</td><td class="c">$11.35 \times 2.1$</td><td class="c">23.84 cm²</td></tr>
+<tr><td>$\bar{y}_f$（翼板形心到中性軸）</td><td class="c">$(H-t_f)/2 = (40-2.1)/2$</td><td class="c">18.95 cm</td></tr>
+<tr><td>$\Delta I_{one}$（每塊）</td><td class="c">$\frac{11.35(2.1)^3}{12} + 23.84(18.95)^2 = 8.8 + 8{,}559$</td><td class="c">8,568 cm⁴</td></tr>
+<tr><td>$I_e$</td><td class="c">$66{,}600 - 4(8{,}568)$</td><td class="c"><b>32,328 cm⁴</b></td></tr>
+<tr><td>$I_e/I_x$</td><td class="c">$32{,}328/66{,}600$</td><td class="c"><b>0.486</b></td></tr>
+</tbody>
+</table>
+
+<div class="why"><b>注意 $\Delta I_{one}$ 裡兩項的懸殊比例：</b>
+自身項 8.8 cm⁴ vs 平行軸項 8,559 cm⁴ —— <b>相差 973 倍</b>。<br>
+這是因為 $\bar{y}_f = 18.95$ cm 太遠了（翼板在斷面最外緣），$Ad^2$ 完全主導。<br>
+<b>工程意義：對強軸慣性矩貢獻最大的材料，就在最外緣的翼板。而殘留壓應力偏偏就長在翼板端部 —— 
+挫屈抵抗力最寶貴的地方，正是最先失效的地方。這是柱強度被殘留應力嚴重削弱的根本原因。</b></div>
+
+<h4>步驟三　非彈性段公式的推導</h4>
+<p>把 Euler 公式裡的 $I_x$ 換成 $I_e$：</p>
+$$F_{cr} = \frac{\pi^2 E I_e}{(KL)^2 A}
+= \underbrace{\frac{\pi^2 E I_x}{(KL)^2 A}}_{= F_e} \times \frac{I_e}{I_x}
+= F_e \cdot \frac{I_e}{I_x}$$
+$$\Rightarrow\quad \frac{F_{cr}}{F_y} = \frac{F_e}{F_y}\cdot\frac{I_e}{I_x}
+= \frac{I_e/I_x}{\lambda^2} = \frac{0.486}{\lambda^2}$$
+
+<h4>步驟四　壓潰段轉折點 $\lambda_1$</h4>
+$$1.0 = \frac{0.486}{\lambda_1^2} \quad\Rightarrow\quad \lambda_1 = \sqrt{0.486} = 0.697$$
+
+<div class="fig">
+<svg viewBox="0 0 900 430" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, sans-serif">
+  <text x="450" y="22" font-size="14" font-weight="bold" fill="#4a148c" text-anchor="middle">本題的柱強度曲線：三段 + 一個不連續跳躍</text>
+  <!-- axes: lambda 0..2.5 -> x 90..830 ; Fcr/Fy 0..1.15 -> y 380..60 -->
+  <line x1="90" y1="380" x2="850" y2="380" stroke="#455a64" stroke-width="1.6"/>
+  <line x1="90" y1="380" x2="90" y2="50" stroke="#455a64" stroke-width="1.6"/>
+  <text x="855" y="384" font-size="12" fill="#455a64">λ</text>
+  <text x="86" y="46" font-size="12" fill="#455a64" text-anchor="end">Fcr/Fy</text>
+  <g font-size="10.5" fill="#607d8b">
+    <text x="386" y="398" text-anchor="middle">1.0</text>
+    <text x="682" y="398" text-anchor="middle">2.0</text>
+    <text x="238" y="398" text-anchor="middle">0.5</text>
+    <text x="534" y="398" text-anchor="middle">1.5</text>
+    <text x="84" y="105" text-anchor="end">1.0</text>
+    <text x="84" y="242" text-anchor="end">0.5</text>
+    <text x="84" y="174" text-anchor="end">0.75</text>
+    <text x="84" y="311" text-anchor="end">0.25</text>
+  </g>
+  <line x1="90" y1="102" x2="850" y2="102" stroke="#cfd8dc" stroke-dasharray="4 4"/>
+  <line x1="90" y1="241" x2="850" y2="241" stroke="#cfd8dc" stroke-dasharray="4 4"/>
+  <!-- ideal Euler (no residual) dashed grey: y = 380-278/λ² ; λ=1 ->102 -->
+  <path d="M296,60 L326,72 L356,88 L386,102 L416,116 L446,130 L476,145 L506,180 L536,205 L566,226 L596,244 L626,259 L656,272 L686,283 L716,293 L746,301 L776,309 L806,315 L836,321"
+        fill="none" stroke="#b0bec5" stroke-width="1.8" stroke-dasharray="7 4"/>
+  <text x="700" y="278" font-size="10.5" fill="#78909c">理想 Euler 1/λ² （無殘留應力）</text>
+  <!-- crush segment: lambda 0..0.697 -> x 90..296 at y=102 -->
+  <line x1="90" y1="102" x2="296" y2="102" stroke="#c62828" stroke-width="4"/>
+  <text x="140" y="92" font-size="11.5" font-weight="bold" fill="#b71c1c">壓潰段 Fcr/Fy = 1.0</text>
+  <!-- inelastic: 0.486/λ² from 0.697 to 1.414 : λ=0.697->1.0(y102); λ=1.0 ->0.486(y247); λ=1.414->0.243(y313) -->
+  <path d="M296,102 L326,124 L356,155 L386,247 L416,262 L446,283 L476,300 L505,313"
+        fill="none" stroke="#ef6c00" stroke-width="0"/>
+  <path d="M296,102 Q380,215 505,313" fill="none" stroke="#ef6c00" stroke-width="3.6"/>
+  <text x="330" y="200" font-size="11.5" font-weight="bold" fill="#e65100">非彈性段</text>
+  <text x="330" y="216" font-size="11" fill="#e65100">Fcr/Fy = 0.486/λ²</text>
+  <!-- elastic from λ=1.414 (x=505) at 0.5 (y=241) -->
+  <path d="M505,241 Q640,296 836,321" fill="none" stroke="#1565c0" stroke-width="3.6"/>
+  <text x="620" y="330" font-size="11.5" font-weight="bold" fill="#0d47a1">彈性段 Fcr/Fy = 1/λ²</text>
+  <!-- jump -->
+  <line x1="505" y1="313" x2="505" y2="241" stroke="#6a1b9a" stroke-width="3" stroke-dasharray="5 3"/>
+  <circle cx="505" cy="313" r="5.5" fill="#ef6c00" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="505" cy="241" r="5.5" fill="#1565c0" stroke="#fff" stroke-width="1.5"/>
+  <text x="516" y="318" font-size="11" font-weight="bold" fill="#e65100">B (1.414, 0.243)</text>
+  <text x="516" y="236" font-size="11" font-weight="bold" fill="#0d47a1">B′ (1.414, 0.500)</text>
+  <text x="516" y="278" font-size="11.5" font-weight="bold" fill="#6a1b9a">跳躍！</text>
+  <!-- point A -->
+  <circle cx="296" cy="102" r="5.5" fill="#c62828" stroke="#fff" stroke-width="1.5"/>
+  <text x="240" y="130" font-size="11" font-weight="bold" fill="#b71c1c">A (0.697, 1.0)</text>
+  <line x1="296" y1="102" x2="296" y2="380" stroke="#ef9a9a" stroke-dasharray="4 3"/>
+  <line x1="505" y1="380" x2="505" y2="313" stroke="#ce93d8" stroke-dasharray="4 3"/>
+  <text x="296" y="414" font-size="10.5" fill="#b71c1c" text-anchor="middle">λ₁=0.697</text>
+  <text x="505" y="414" font-size="10.5" fill="#6a1b9a" text-anchor="middle">λ₂=√2=1.414</text>
+</svg>
+<div class="cap">圖 6-2　三段柱強度曲線。灰色虛線是無殘留應力的理想 Euler 曲線；
+橘色非彈性段整體被壓低到只有 0.486/λ²，在 $\lambda = \sqrt{2}$ 處與彈性段之間出現<b>不連續跳躍</b>（0.243 → 0.500）。</div>
+</div>
+
+<h3 class="l3">6.4 L3 深層知識 —— 五件不懂就卡住的事</h3>
+
+<div class="l3box"><b>L3-1　切線模數理論：為什麼降伏區「剛度歸零」</b><br>
+題目說材料是<b>完全彈塑性</b>（elastic–perfectly plastic），意思是應力–應變曲線降伏後是一條水平線：
+$$\text{降伏後}\quad \frac{d\sigma}{d\varepsilon} = E_t = 0$$
+挫屈是一個<b>「增量」問題</b>：柱在某個載重下開始側彎，問的是「多出來的一點彎曲變形，斷面能提供多少額外抵抗彎矩」。
+已降伏的纖維再拉一點應變，應力<b>完全不增加</b>（$E_t = 0$）→ 提供 0 的額外抵抗 → 對抗挫屈的貢獻是零。<br><br>
+<b>所以「有效慣性矩」的定義是：只把還沒降伏的部分算進去。</b>
+這就是 Engesser 切線模數理論的核心，也是所有非彈性挫屈公式的源頭。<br>
+（若材料有應變硬化，$E_t > 0$，降伏區仍有部分貢獻，計算會更複雜；考題通常設定完全彈塑性以簡化。）</div>
+
+<div class="l3box"><b>L3-2　為什麼會有「跳躍」？塊狀分布 vs 拋物線分布的關鍵差異</b><br>
+本題 $\lambda = \sqrt{2}$ 處出現不連續（0.243 → 0.500），根源是<b>「塊狀（矩形）殘留應力分布」這個理想化假設</b>：
+<ul>
+<li><b>塊狀分布：</b>外側 113.5 mm 內每一根纖維的殘留應力<b>都恰好是 $-0.5F_y$</b>。
+所以外加應力一達 $0.5F_y$，這 4 塊<b>在同一瞬間全部降伏</b> → 剛度<b>斷崖式</b>從 $I_x$ 掉到 $I_e$ → 曲線跳躍。</li>
+<li><b>真實（拋物線）分布：</b>殘留應力從翼板端部的 $-0.5F_y$ 平滑漸變到中央的 $+0.4F_y$。
+外加應力上升時，降伏區<b>由外向內逐漸擴展</b>，$I_e$ 連續下降 → 曲線<b>平滑無跳躍</b>。</li>
+</ul>
+<b>結論：跳躍是「模型的產物」，不是真實物理。</b>
+規範的 $0.658^{\lambda_c^2}$ 之所以是平滑曲線，正因為它隱含了拋物線（真實）分布。<br>
+<b>考題價值：</b>本題是刻意用最簡化的模型讓你「手算出」規範曲線的形狀，理解它為何長那樣。</div>
+
+<div class="l3box"><b>L3-3　跳躍處取哪一個值？取「較高者」（彈性 0.500）</b><br>
+$\lambda = \sqrt{2}$ 這一點，非彈性分支給 0.243，彈性分支給 0.500，該用哪個？<br>
+<b>答案是 0.500（彈性值）</b>，理由回到「降伏何時開始」的定義：
+<ul>
+<li>$\lambda > \sqrt{2}$ 的柱：挫屈應力 $< 0.5F_y$，還沒到降伏門檻 → <b>全斷面彈性</b> → 用完整 $I_x$ → $1/\lambda^2$</li>
+<li>$\lambda < \sqrt{2}$ 的柱：挫屈應力 $> 0.5F_y$，外側已降伏 → 用 $I_e$ → $0.486/\lambda^2$</li>
+</ul>
+所以 $\lambda = \sqrt{2}$ 是「剛好開始降伏」的臨界點 —— <b>降伏還沒真正發生</b>，剛度仍是完整的 $I_x$，取 0.500。
+非彈性分支在該點的值 0.243 是「假設它已降伏」的外推，物理上不成立。<br>
+<b>畫圖時要把 B (0.243) 與 B′ (0.500) 兩點都標出來，並用虛線垂直連接標明「不連續」—— 這是本題的得分要點。</b></div>
+
+<div class="l3box"><b>L3-4　腹板為什麼可以忽略</b><br>
+題目說腹板亦有拉伸殘留應力，但對<b>強軸</b> $I_x$ 可以忽略，理由是幾何：
+<ul>
+<li>腹板位於<b>中性軸附近</b>（$y \approx 0$），$Ad^2$ 貢獻極小</li>
+<li>而且腹板是<b>拉伸</b>殘留應力，本來就不會提前降伏（需外加 $1.4F_y$）</li>
+</ul>
+<b>但若問弱軸（繞 y 軸）挫屈，故事完全不同：</b>此時翼板端部（本題的降伏區）離 y 軸最遠，
+$I_y$ 的損失比例會<b>比強軸更嚴重</b> —— 因為 $I_y$ 幾乎全靠翼板寬度方向的分布提供。
+<b>這也是為什麼「殘留應力對弱軸挫屈的削弱通常比強軸更大」。</b>（本題只問強軸，但這是常見追問。）</div>
+
+<div class="l3box"><b>L3-5　把這一章接回第 4、5 章：規範公式的血緣</b><br>
+現在回頭看第 4、5 章那些「規範給的」公式，它們的來源全部清楚了：
+<table style="margin-top:8px">
+<thead><tr><th>規範項目</th><th>本章解釋</th></tr></thead>
+<tbody>
+<tr><td>$C_c = \sqrt{2\pi^2E/F_y}$（對應 $F_e = 0.5F_y$）</td><td>正是「殘留壓應力約 $0.5F_y$ 時的降伏啟始點」，即本題的 $\lambda_2 = \sqrt{2}$</td></tr>
+<tr><td>$\lambda_c$ 或 $\lambda$ 的分界 1.414～1.5</td><td>同一個門檻（規範取 1.5 略保守）</td></tr>
+<tr><td>非彈性段 $0.658^{\lambda^2}$ 是平滑曲線</td><td>因為隱含拋物線殘留應力分布，降伏區連續擴展</td></tr>
+<tr><td>非彈性段強度低於理想 Euler</td><td>就是本章的 $I_e/I_x < 1$ 造成的折減</td></tr>
+<tr><td>彈性段 $0.877/\lambda^2$ 的 0.877</td><td>另一項折減（初始彎曲缺陷），與殘留應力並列的第二個「不完美」</td></tr>
+<tr><td>壓力 $\phi_c$ 比彎曲 $\phi_b$ 小</td><td>殘留應力與初始缺陷的變異性大，可靠度較低</td></tr>
+</tbody></table>
+<b>一句話總結整章：柱強度曲線 = 理想 Euler 曲線 − 殘留應力的折減 − 初始缺陷的折減。</b></div>
+
+<h3 class="k">6.5 完整手算範例</h3>
+
+<div class="hand">
+<h4>【手算範例 6】RH400×400×13×21 具塊狀殘留應力的柱強度曲線</h4>
+<p><b>已知：</b>$H=b=40$ cm、$t_w = 1.3$ cm、$t_f = 2.1$ cm；$I_x = 66{,}600$ cm⁴；
+翼板外側各 11.35 cm 帶 $-0.5F_y$，中央 17.3 cm 帶 $+0.4F_y$；材料完全彈塑性。</p>
+
+<div class="step"><b>Step 1　幾何自我檢查（先確認題目的分區加起來合理）</b>
+$$11.35 + 17.3 + 11.35 = 40.0\ \text{cm} = b \quad\checkmark$$
+（順手檢查殘留應力自平衡：$2(11.35)(-0.5F_y) + 17.3(+0.4F_y) = -11.35F_y + 6.92F_y = -4.43F_y$，
+翼板本身不平衡，其餘由腹板的拉應力平衡 —— 與題目說明一致。）</div>
+
+<div class="step"><b>Step 2　哪些區會降伏？</b>
+<table style="margin-top:8px">
+<thead><tr><th>區域</th><th class="c">殘留應力</th><th class="c">還需外加多少才降伏</th><th class="c">會降伏？</th></tr></thead>
+<tbody>
+<tr><td>翼板外側（4 塊）</td><td class="c">$-0.5F_y$（壓）</td><td class="c">$F_y - 0.5F_y = 0.5F_y$</td><td class="c"><b>會（在 $0.5F_y$）</b></td></tr>
+<tr><td>翼板中央</td><td class="c">$+0.4F_y$（拉）</td><td class="c">$F_y + 0.4F_y = 1.4F_y$</td><td class="c">不會（&gt; $F_y$）</td></tr>
+<tr><td>腹板</td><td class="c">拉</td><td class="c">&gt; $F_y$</td><td class="c">不會</td></tr>
+</tbody></table></div>
+
+<div class="step"><b>Step 3　降伏啟始點 $\lambda_2$</b>
+$$\frac{F_{cr}}{F_y} = 0.5 = \frac{1}{\lambda_2^2} \quad\Rightarrow\quad \lambda_2 = \sqrt{2} = 1.414$$</div>
+
+<div class="step"><b>Step 4　有效慣性矩（平行軸定理，逐塊算）</b>
+$$A_{out} = 11.35 \times 2.1 = 23.835\ \text{cm}^2$$
+$$\bar{y}_f = \frac{H - t_f}{2} = \frac{40 - 2.1}{2} = 18.95\ \text{cm}$$
+$$\Delta I_{one} = \underbrace{\frac{11.35(2.1)^3}{12}}_{\text{自身} = 8.76} + \underbrace{23.835(18.95)^2}_{\text{平行軸} = 8{,}559} = 8{,}568\ \text{cm}^4$$
+$$I_e = I_x - 4\Delta I_{one} = 66{,}600 - 4(8{,}568) = 66{,}600 - 34{,}272 = 32{,}328\ \text{cm}^4$$
+$$\frac{I_e}{I_x} = \frac{32{,}328}{66{,}600} = 0.486$$
+<b>合理性檢查：</b>0.486 意味著<b>強軸剛度損失超過一半</b>。這符合直覺 —— 
+被挖掉的是離中性軸最遠（$\bar{y}_f = 18.95$ cm）的翼板端部，那裡對 $I_x$ 的貢獻最大。</div>
+
+<div class="step"><b>Step 5　三段公式與轉折點</b>
+$$\text{壓潰段轉折}: \quad 1.0 = \frac{0.486}{\lambda_1^2} \Rightarrow \lambda_1 = \sqrt{0.486} = 0.697$$
+$$\frac{F_{cr}}{F_y} =
+\begin{cases}
+1.0 & 0 \le \lambda \le 0.697\\[3pt]
+\dfrac{0.486}{\lambda^2} & 0.697 \le \lambda \le 1.414\\[6pt]
+\dfrac{1}{\lambda^2} & \lambda \ge 1.414
+\end{cases}$$</div>
+
+<div class="step"><b>Step 6　標示轉折點座標（畫圖必標）</b>
+<table style="margin-top:8px">
+<thead><tr><th class="c">點</th><th class="c">$\lambda$</th><th class="c">$F_{cr}/F_y$</th><th>說明</th></tr></thead>
+<tbody>
+<tr><td class="c"><b>A</b></td><td class="c">0.697</td><td class="c">1.000</td><td>壓潰段 → 非彈性段</td></tr>
+<tr><td class="c"><b>B</b></td><td class="c">1.414</td><td class="c">0.243</td><td>非彈性分支下端（$=0.486/2$）</td></tr>
+<tr><td class="c"><b>B′</b></td><td class="c">1.414</td><td class="c">0.500</td><td>彈性分支起點（$=1/2$）<b>← 採此值</b></td></tr>
+</tbody></table>
+$$\text{B 與 B′ 之間為不連續跳躍：} \quad 0.243 \to 0.500$$
+<b>畫圖要點：</b>①三段用不同線型；②A、B、B′ 三點座標全標；
+③B–B′ 用垂直虛線連接並註明「不連續（塊狀殘留應力所致）」；
+④疊上理想 Euler 曲線 $1/\lambda^2$ 作對照，凸顯非彈性段的折減幅度。</div>
+
+<div class="step"><b>答題收尾（申論加分）</b>
+「本曲線的不連續跳躍源自<b>塊狀（矩形）殘留應力分布</b>的理想化假設 —— 
+外側 4 塊翼板的殘留壓應力皆為 $-0.5F_y$，因此在 $\lambda = \sqrt{2}$ 處<b>同時降伏</b>，
+有效慣性矩由 $I_x$ 斷崖式降至 $I_e = 0.486I_x$。<br>
+真實熱軋型鋼的殘留應力呈<b>拋物線</b>連續分布，降伏區由外緣逐漸內移，$I_e$ 連續衰減，
+故實測與規範曲線（如 AISC 的 $0.658^{\lambda^2}$）均為<b>平滑無跳躍</b>。<br>
+此外，$-0.5F_y$ 的殘留壓應力使降伏提前於 $\lambda = \sqrt{2}$ 開始，
+較無殘留應力的理想柱（$\lambda = 1.0$ 才降伏）大幅提早，
+且非彈性段強度僅為理想值的 48.6%，顯示<b>殘留應力對中等長細比柱的削弱最為嚴重</b>。」</div>
+</div>
+
+<h3 class="k">6.6 易錯點與 30 秒自我檢核</h3>
+
+<table>
+<thead><tr><th>易錯點</th><th>正確作法</th></tr></thead>
+<tbody>
+<tr><td>把中央翼板也算成降伏</td><td>$+0.4F_y$ 拉 → 需 $1.4F_y$，不可能降伏</td></tr>
+<tr><td>$\Delta I$ 只算自身項，漏 $Ad^2$</td><td>$Ad^2$ 是自身項的 973 倍，漏了就全錯</td></tr>
+<tr><td>只扣 2 塊（忘了上下翼板各 2 塊）</td><td>共 <b>4</b> 塊：2 個翼板 × 每翼板 2 側</td></tr>
+<tr><td>$\bar{y}_f$ 用 $H/2 = 20$ cm</td><td>翼板<b>形心</b>到中性軸 $=(H-t_f)/2 = 18.95$ cm</td></tr>
+<tr><td>非彈性段寫成 $1/\lambda^2$</td><td>要乘 $I_e/I_x$：$0.486/\lambda^2$</td></tr>
+<tr><td>跳躍處取低值 0.243</td><td>取彈性值 <b>0.500</b>（該點尚未真正降伏）</td></tr>
+<tr><td>畫圖不標轉折點座標</td><td>A、B、B′ 三點座標與方程式都要寫</td></tr>
+</tbody>
+</table>
+
+<div class="chk"><b>30 秒自我檢核</b>
+<ol>
+<li>若殘留壓應力改為 $-0.3F_y$，$\lambda_2$ 變多少？<br>
+（答：$F = 0.7F_y \Rightarrow 0.7 = 1/\lambda_2^2 \Rightarrow \lambda_2 = 1.195$。<b>殘留應力越小，降伏啟始越晚，柱越強</b>）</li>
+<li>為什麼 $\Delta I$ 的平行軸項比自身項大近千倍？<br>
+（答：翼板塊很薄（$t_f = 2.1$）但離中性軸很遠（18.95 cm），$d^2$ 效應主導）</li>
+<li>本題如果問弱軸（繞 y 軸）曲線，$I_e/I_y$ 會比 0.486 大還是小？<br>
+（答：<b>小</b>。降伏的是翼板<b>端部</b>，那正是離 y 軸最遠的地方，對 $I_y$ 的貢獻比例更高，損失更嚴重）</li>
+<li>規範的 $0.658^{\lambda^2}$ 為什麼沒有跳躍？（答：隱含拋物線殘留應力分布，降伏區連續擴展）</li>
+</ol></div>
+
+</section>
+
+<section id="s7">
+<h2 class="c"><span class="chapnum">第 7 章</span>$K$ 從哪裡來 —— 對位圖、框架剛度與 LeMessurier 層間穩定</h2>
+
+<p class="lead"><b>來源題：SS-2013-2</b>（門型剛架，柱 AB 底端固接、柱 CD 底端鉸接，梁上承受均佈載重 $w$，
+求 $K_{AB}$、拉屈載重 $w_u$、容許堆載高度 $d_m$）<br>
+<b>本章要建立的核心直覺：</b>前四章的 $K$ 都是題目給的或查表的。本章要回答<b>「$K$ 是怎麼算出來的」</b> ——
+答案是：<b>$K$ 不是柱的性質，是「柱與周圍構件的剛度比」的性質</b>。
+而更進一步的洞察是：框架的穩定不是逐柱判定，而是<b>整層一起判定</b>。</p>
+
+<h3 class="c">7.1 主要公式：從剛度比到整層臨界載重</h3>
+
+$$G = \frac{\sum (I_c/L_c)}{\sum (I_b/L_b)} \quad\text{（節點的柱／梁勁度比）}$$
+$$G_A,\,G_B \;\xrightarrow{\ \text{對位圖}\ }\; K_{AB}
+\qquad\text{（近似式：} K = \sqrt{\frac{1.6G_AG_B + 4(G_A+G_B) + 7.5}{G_A+G_B+7.5}}\text{）}$$
+$$P_{e,j} = \frac{\pi^2 E I_c}{(K_j L)^2}$$
+$$\sum P_j = \sum P_{e,j} \quad\text{（LeMessurier 層間穩定條件）} \;\Rightarrow\; w_u L = P_{e,AB} + P_{e,CD}$$
+$$d_m = \frac{w_u}{\rho}$$
+
+<h3 class="c">7.2 L2：逐步推導</h3>
+
+<div class="fig">
+<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, sans-serif">
+  <text x="450" y="22" font-size="14" font-weight="bold" fill="#b71c1c" text-anchor="middle">門型剛架（有側移）：兩柱的邊界條件不同，K 也不同</text>
+  <!-- frame -->
+  <g transform="translate(60,50)">
+    <!-- beam -->
+    <line x1="60" y1="60" x2="360" y2="60" stroke="#455a64" stroke-width="8"/>
+    <!-- columns -->
+    <line x1="60" y1="60" x2="60" y2="260" stroke="#455a64" stroke-width="8"/>
+    <line x1="360" y1="60" x2="360" y2="260" stroke="#455a64" stroke-width="8"/>
+    <!-- udl -->
+    <g stroke="#2e7d32" stroke-width="2">
+      <line x1="70" y1="26" x2="70" y2="52"/><line x1="110" y1="26" x2="110" y2="52"/>
+      <line x1="150" y1="26" x2="150" y2="52"/><line x1="190" y1="26" x2="190" y2="52"/>
+      <line x1="230" y1="26" x2="230" y2="52"/><line x1="270" y1="26" x2="270" y2="52"/>
+      <line x1="310" y1="26" x2="310" y2="52"/><line x1="350" y1="26" x2="350" y2="52"/>
+    </g>
+    <line x1="60" y1="26" x2="360" y2="26" stroke="#2e7d32" stroke-width="2.5"/>
+    <text x="210" y="18" font-size="13" font-weight="bold" fill="#1b5e20" text-anchor="middle">w （tf/m）</text>
+    <!-- fixed base A -->
+    <rect x="38" y="260" width="44" height="11" fill="#455a64"/>
+    <line x1="34" y1="271" x2="86" y2="285" stroke="#455a64" stroke-width="1.6"/>
+    <line x1="50" y1="271" x2="102" y2="285" stroke="#455a64" stroke-width="1.6"/>
+    <text x="60" y="302" font-size="12" font-weight="bold" fill="#455a64" text-anchor="middle">A 固接</text>
+    <text x="60" y="318" font-size="11.5" fill="#c62828" text-anchor="middle">GA = 1</text>
+    <!-- pin base D -->
+    <polygon points="360,260 350,275 370,275" fill="#fff" stroke="#455a64" stroke-width="2"/>
+    <line x1="342" y1="275" x2="378" y2="275" stroke="#455a64" stroke-width="2.5"/>
+    <line x1="344" y1="275" x2="336" y2="286" stroke="#455a64"/>
+    <line x1="356" y1="275" x2="348" y2="286" stroke="#455a64"/>
+    <line x1="368" y1="275" x2="360" y2="286" stroke="#455a64"/>
+    <text x="360" y="302" font-size="12" font-weight="bold" fill="#455a64" text-anchor="middle">D 鉸接</text>
+    <text x="360" y="318" font-size="11.5" fill="#c62828" text-anchor="middle">GD = 10</text>
+    <!-- labels -->
+    <text x="46" y="56" font-size="12" font-weight="bold" fill="#0d47a1">B</text>
+    <text x="368" y="56" font-size="12" font-weight="bold" fill="#0d47a1">C</text>
+    <text x="42" y="165" font-size="11.5" fill="#1565c0" transform="rotate(-90 42 165)" text-anchor="middle">柱 AB</text>
+    <text x="378" y="165" font-size="11.5" fill="#1565c0" transform="rotate(-90 378 165)" text-anchor="middle">柱 CD</text>
+    <!-- sidesway shape -->
+    <path d="M60,260 C 60,200 110,120 118,60 L 418,60 C 410,130 360,200 360,260"
+          fill="none" stroke="#ef6c00" stroke-width="2" stroke-dasharray="6 4" opacity="0.75"/>
+    <text x="150" y="98" font-size="11" fill="#e65100">側移挫屈形狀 → K &gt; 1</text>
+    <text x="0" y="348" font-size="11.5" fill="#455a64">L = 600 cm（梁、柱同長）　Ic = 30,094 cm⁴　Ib = 136,108 cm⁴</text>
+  </g>
+  <!-- right: G/K table -->
+  <g transform="translate(520,60)">
+    <rect x="0" y="0" width="340" height="290" rx="10" fill="#e3f2fd" stroke="#90caf9"/>
+    <text x="170" y="26" font-size="13" font-weight="bold" fill="#0d47a1" text-anchor="middle">節點勁度比 G 的物理意義</text>
+    <text x="16" y="54" font-size="12" fill="#0d47a1">G = Σ(Ic/Lc) / Σ(Ib/Lb)</text>
+    <text x="16" y="80" font-size="11.5" fill="#1565c0">＝「柱有多硬」÷「梁有多硬」</text>
+    <line x1="16" y1="94" x2="324" y2="94" stroke="#90caf9"/>
+    <text x="16" y="118" font-size="11.5" fill="#455a64">G 小 → 梁很硬，能牢牢夾住柱端</text>
+    <text x="16" y="136" font-size="11.5" fill="#455a64">　　　→ 柱端接近固接 → K 小</text>
+    <text x="16" y="160" font-size="11.5" fill="#455a64">G 大 → 梁很軟，夾不住柱端</text>
+    <text x="16" y="178" font-size="11.5" fill="#455a64">　　　→ 柱端接近鉸接 → K 大</text>
+    <line x1="16" y1="194" x2="324" y2="194" stroke="#90caf9"/>
+    <text x="16" y="218" font-size="11.5" font-weight="bold" fill="#b71c1c">本題 GB = GC = Ic/Ib = 0.221</text>
+    <text x="16" y="238" font-size="11" fill="#c62828">（梁的 I 是柱的 4.5 倍 → 梁很硬 → G 很小）</text>
+    <text x="16" y="264" font-size="11.5" font-weight="bold" fill="#0d47a1">KAB = 1.21（固接底）</text>
+    <text x="16" y="282" font-size="11.5" font-weight="bold" fill="#0d47a1">KCD = 1.71（鉸接底）</text>
+  </g>
+</svg>
+<div class="cap">圖 7-1　門型剛架與節點勁度比 $G$ 的物理意義。$G$ 越小代表梁越硬、越能拘束柱端轉動，$K$ 就越小。
+本題梁的慣性矩是柱的 4.5 倍，所以 $G_B = G_C = 0.221$ 很小，$K$ 才只有 1.21。</div>
+</div>
+
+<h4>Step 1　節點 B、C 的 $G$ 值</h4>
+$$G_B = G_C = \frac{I_c/L}{I_b/L} = \frac{I_c}{I_b} = \frac{30{,}094}{136{,}108} = 0.221$$
+<p>端部條件依題目給定：$G_A = 1$（固接）、$G_D = 10$（鉸接）。</p>
+
+<h4>Step 2　查<b>有側移</b>對位圖求 $K$</h4>
+$$K_{AB}: G_A = 1.0,\ G_B = 0.221 \;\Rightarrow\; K_{AB} = 1.21$$
+$$K_{CD}: G_C = 0.221,\ G_D = 10 \;\Rightarrow\; K_{CD} = 1.71$$
+<p>用 Jackson–Moreland 近似式驗算（考場沒有對位圖時的救命公式）：</p>
+$$K_{AB} = \sqrt{\frac{1.6(1.0)(0.221) + 4(1.221) + 7.5}{1.221 + 7.5}}
+= \sqrt{\frac{0.354 + 4.884 + 7.5}{8.721}} = \sqrt{\frac{12.738}{8.721}} = 1.209 \;\checkmark$$
+$$K_{CD} = \sqrt{\frac{1.6(0.221)(10) + 4(10.221) + 7.5}{10.221 + 7.5}}
+= \sqrt{\frac{3.536 + 40.884 + 7.5}{17.721}} = \sqrt{2.930} = 1.712 \;\checkmark$$
+
+<h4>Step 3　各柱彈性挫屈載重</h4>
+$$\pi^2 E I_c = 9.8696 \times 2040 \times 30{,}094 = 6.059 \times 10^8\ \text{tf}\cdot\text{cm}^2$$
+$$P_{e,AB} = \frac{6.059\times10^8}{(1.21 \times 600)^2} = \frac{6.059\times10^8}{526{,}876} = 1{,}150\ \text{tf}$$
+$$P_{e,CD} = \frac{6.059\times10^8}{(1.712 \times 600)^2} = \frac{6.059\times10^8}{1{,}055{,}139} = 574\ \text{tf}$$
+
+<h4>Step 4～5　層間穩定 → $w_u$ → $d_m$</h4>
+$$w_u L = P_{e,AB} + P_{e,CD} = 1150 + 574 = 1{,}724\ \text{tf}$$
+$$w_u = \frac{1724}{600\ \text{cm}} = 2.873\ \text{tf/cm} = 287.3\ \text{tf/m}$$
+$$d_m = \frac{w_u}{\rho} = \frac{287.3}{240} = 1.20\ \text{m}$$
+
+<h3 class="l3">7.3 L3 深層知識 —— 六件不懂就卡住的事</h3>
+
+<div class="l3box"><b>L3-1　有側移／無側移對位圖是兩張完全不同的圖（選錯直接全錯）</b><br>
+<table style="margin-top:8px">
+<thead><tr><th></th><th>無側移（sidesway inhibited）</th><th>有側移（sidesway permitted）</th></tr></thead>
+<tbody>
+<tr><td>$K$ 範圍</td><td>$0.5 \le K \le 1.0$</td><td><b>$1.0 \le K \le \infty$</b></td></tr>
+<tr><td>適用</td><td>有斜撐、剪力牆、核心筒的框架</td><td><b>純剛接框架（本題門型剛架）</b></td></tr>
+<tr><td>物理</td><td>柱頂被擋住不能側移，只能 S 形彎</td><td>柱頂可側移，挫屈模態是整層一起歪</td></tr>
+</tbody></table>
+<b>判斷方法：問「這一層有沒有東西擋住側移？」</b>門型剛架沒有斜撐 → 有側移 → $K > 1$。<br>
+若誤用無側移圖，本題 $K$ 會查到 0.7 左右，$P_e$ 高估 3 倍，答案嚴重不安全。<br>
+<b>檢查習慣：算完 $K$ 看數值 —— 有側移框架若算出 $K < 1$，一定是查錯圖。</b></div>
+
+<div class="l3box"><b>L3-2　$G_A = 1$（不是 0）、$G_D = 10$（不是 $\infty$）：規範的務實修正</b><br>
+理論上完全固接 $G = 0$、完全鉸接 $G = \infty$，但 AISC 規定用 1 和 10：
+<table style="margin-top:8px">
+<thead><tr><th>端部</th><th class="c">理論 $G$</th><th class="c">規範 $G$</th><th>為什麼要改</th></tr></thead>
+<tbody>
+<tr><td>固接（柱腳鎖在基礎）</td><td class="c">0</td><td class="c"><b>1</b></td><td>基礎與地盤都有彈性，$G=0$ 太樂觀（會低估 $K$、高估強度）</td></tr>
+<tr><td>鉸接（柱腳鉸支承）</td><td class="c">$\infty$</td><td class="c"><b>10</b></td><td>實際鉸接仍有摩擦與少量轉動拘束；且 $\infty$ 無法代入公式計算</td></tr>
+</tbody></table>
+<b>「$G=1$ 比 $G=0$ 保守」的方向要記住：</b>$G$ 越大 → $K$ 越大 → $P_e$ 越小 → 越保守。
+考場若題目沒明講，寫「依 AISC 建議採固接 $G=1$、鉸接 $G=10$」並註明理由，是標準答法。</div>
+
+<div class="l3box"><b>L3-3　$G$ 的物理意義：它是「梁夾得住柱嗎」的量化</b><br>
+$$G = \frac{\sum(I_c/L_c)}{\sum(I_b/L_b)} = \frac{\text{柱的轉動勁度}}{\text{梁的轉動勁度}}$$
+柱端挫屈時想要轉動，梁會抵抗這個轉動。誰硬誰贏：
+<ul>
+<li>梁很硬（$G$ 小）→ 柱端幾乎轉不動 → 接近固接 → $K$ 小</li>
+<li>梁很軟（$G$ 大）→ 柱端可自由轉 → 接近鉸接 → $K$ 大</li>
+</ul>
+本題 $I_b/I_c = 136{,}108/30{,}094 = 4.52$（梁比柱硬 4.5 倍），所以 $G = 0.221$ 很小。<br>
+<b>設計啟示：想降低柱的 $K$（提高柱承載力），最有效的不是加大柱斷面（那會讓 $G$ 變大！），
+而是<b>加大梁斷面</b>或<b>加斜撐</b>。這是很多人直覺相反的地方 —— 
+加大柱的 $I_c$ 雖然直接提升 $P_e$ 的分子，但同時讓 $G$ 變大、$K$ 變大，部分抵銷。</b></div>
+
+<div class="l3box"><b>L3-4　LeMessurier 層間穩定：整層一起判定，不是逐柱判定</b><br>
+這是本題最深的觀念，也是原始解析中一度算錯又修正的地方。<br><br>
+<b>錯誤想法：</b>「兩柱各承擔一半載重，讓每根柱都達到自己的 $P_e$。」<br>
+驗算就知道不行：$P_{AB} = P_{CD} = w_uL/2 = 2.873(600)/2 = 862$ tf，
+$$\frac{862}{1150} + \frac{862}{574} = 0.750 + 1.502 = 2.25$$
+<p style="margin:6px 0">結果是 2.25，明顯<b>不等於 1</b> —— 可見「逐柱各自達到 $P_e$」的想法不成立。</p>
+<b>正確條件：</b>
+$$\sum_j P_j \;\le\; \sum_j P_{e,j} \quad\Rightarrow\quad w_u L \le P_{e,AB} + P_{e,CD}$$
+<b>為什麼是「整層加總」？</b>因為側移挫屈是<b>整層一起發生的模態</b> —— 
+兩根柱的柱頂被同一根梁綁在一起，不可能一根歪了另一根不歪。
+所以抵抗側移的能力可以<b>互相支援、共同分擔</b>：
+較強的 AB 柱（$P_e = 1150$）可以幫較弱的 CD 柱（$P_e = 574$）撐住，只要總量夠就穩定。<br><br>
+<b>對照「傾斜柱（leaning column）」的情形：</b>若某根柱兩端皆鉸接（完全沒有側移抵抗能力），
+它的 $P_e$ 貢獻為 0，但它的重力載重<b>仍要算進 $\sum P_j$</b>，全靠其他柱撐。
+LeMessurier 公式的原始價值就在處理這種情形。本題兩柱都有剛接梁，無傾斜柱，故條件簡化為上式。</div>
+
+<div class="l3box"><b>L3-5　單位換算：$w_u$ 是 tf/m 還是 tf/cm？（本題最容易算錯的一步）</b><br>
+$$\sum P_e = 1724\ \text{tf}\quad\text{（力）}, \qquad L = 600\ \text{cm} = 6\ \text{m}\quad\text{（長度）}$$
+$$w_u = \frac{1724\ \text{tf}}{600\ \text{cm}} = 2.873\ \text{tf/cm}
+\qquad\text{或}\qquad \frac{1724\ \text{tf}}{6\ \text{m}} = 287.3\ \text{tf/m}$$
+<b>1 tf/cm = 100 tf/m</b>，差 100 倍，這是本題最常見的失分點。<br>
+<b>安全作法：</b>算 $P_e$ 時全程用 cm（因 $E$、$I$ 都是 cm 制），最後<b>要交出 $w_u$ 前才換成 m</b>，並在答案旁寫明單位。</div>
+
+<div class="l3box"><b>L3-6　$d_m$ 的量綱推導：$\rho$ 是「單位面積重」不是「單位體積重」</b><br>
+題目給 $\rho = 240$ tf/m²，這是<b>每平方公尺樓板、每公尺堆高</b>的重量嗎？看量綱就知道：
+$$w\ [\text{tf/m}] = \rho\ [\text{tf/m}^2] \times d_m\ [\text{m}] \times \underbrace{1\ [\text{m 寬}]}_{\text{取單位寬度}}$$
+$$\Rightarrow\quad d_m = \frac{w_u}{\rho} = \frac{287.3}{240} = 1.20\ \text{m}$$
+$\rho = 240$ tf/m² 相當於單位體積重 $240\ \text{tf/m}^3$ —— 這比鋼（7.85 tf/m³）還重 30 倍，
+物理上不太合理（題目應是刻意設定的數字），但<b>考場只要量綱對得上就照做並註明假設</b>。<br>
+<b>心法：所有「反推幾何量」的題目，先把量綱寫出來對齊，再代數字。</b></div>
+
+<h3 class="c">7.4 完整手算範例</h3>
+
+<div class="hand">
+<h4>【手算範例 7】門型剛架的拉屈載重與容許堆載高度</h4>
+<p><b>已知：</b>$E = 2040$ tf/cm²；$L_{\text{梁}} = L_{\text{柱}} = 600$ cm；
+$I_c = 30{,}094$ cm⁴、$I_b = 136{,}108$ cm⁴；$G$（固接）$=1$、$G$（鉸接）$=10$；$\rho = 240$ tf/m²。</p>
+
+<div class="step"><b>Step 1　框架型式判定（決定用哪張對位圖）</b>
+門型剛架、無斜撐、柱頂可側移 → <b>有側移（sidesway permitted）對位圖，$K > 1$</b>。<br>
+柱 AB：底端 A 固接、頂端 B 與梁剛接。柱 CD：底端 D 鉸接、頂端 C 與梁剛接。</div>
+
+<div class="step"><b>Step 2　節點勁度比</b>
+$$G_B = G_C = \frac{I_c/L}{I_b/L} = \frac{30{,}094}{136{,}108} = 0.221$$
+$$G_A = 1\ \text{（固接，AISC 建議值）}, \qquad G_D = 10\ \text{（鉸接，AISC 建議值）}$$</div>
+
+<div class="step"><b>Step 3　有效長度係數（查圖 + 近似式驗算）</b>
+$$K_{AB}\ (G_A=1.0,\ G_B=0.221) = \boxed{1.21}$$
+$$K_{CD}\ (G_C=0.221,\ G_D=10) = \boxed{1.71}$$
+近似式驗算：
+$$K = \sqrt{\frac{1.6G_AG_B + 4(G_A+G_B) + 7.5}{G_A+G_B+7.5}}$$
+$$K_{AB} = \sqrt{\frac{0.354+4.884+7.5}{8.721}} = \sqrt{1.4606} = 1.209\ \checkmark$$
+$$K_{CD} = \sqrt{\frac{3.536+40.884+7.5}{17.721}} = \sqrt{2.930} = 1.712\ \checkmark$$
+<b>合理性檢查：</b>兩者都 &gt; 1（有側移 ✓）；鉸接底的 $K$ 較大（1.71 &gt; 1.21）✓ 符合直覺。</div>
+
+<div class="step"><b>Step 4　各柱彈性挫屈載重（先算共用量省時間）</b>
+$$\pi^2 E I_c = 9.8696 \times 2040 \times 30{,}094 = 6.059 \times 10^8\ \text{tf}\cdot\text{cm}^2$$
+$$P_{e,AB} = \frac{6.059\times10^8}{(1.21\times600)^2} = \frac{6.059\times10^8}{(726)^2} = \frac{6.059\times10^8}{526{,}876} = 1{,}150\ \text{tf}$$
+$$P_{e,CD} = \frac{6.059\times10^8}{(1.712\times600)^2} = \frac{6.059\times10^8}{(1027.2)^2} = \frac{6.059\times10^8}{1{,}055{,}139} = 574\ \text{tf}$$
+<b>合理性檢查：</b>$K$ 大 2 倍 ⟹ $P_e$ 小 4 倍（$P_e \propto 1/K^2$）。
+$(1.712/1.21)^2 = 2.00$，而 $1150/574 = 2.00$ ✓</div>
+
+<div class="step"><b>Step 5　LeMessurier 層間穩定條件求 $w_u$</b>
+$$\sum P_j = \sum P_{e,j} \;\Rightarrow\; w_u L = P_{e,AB} + P_{e,CD} = 1150 + 574 = 1{,}724\ \text{tf}$$
+$$w_u = \frac{1724}{600\ \text{cm}} = 2.873\ \text{tf/cm} = \boxed{287.3\ \text{tf/m}}$$
+（梁上總垂直載重 $w_uL$ 全部由兩柱承擔，故等於兩柱 $P_e$ 之和。）</div>
+
+<div class="step"><b>Step 6　容許堆載高度</b>
+$$w = \rho \times d_m \times (1\ \text{m 寬}) = 240 d_m\ [\text{tf/m}]$$
+$$240 d_m = 287.3 \;\Rightarrow\; \boxed{d_m = 1.20\ \text{m}}$$</div>
+
+<div class="step"><b>Step 7　結果彙整與敏感度討論（申論加分）</b>
+<table style="margin-top:8px;font-size:.92em">
+<thead><tr><th>項目</th><th class="c">數值</th></tr></thead>
+<tbody>
+<tr><td>$G_B = G_C$</td><td class="c">0.221</td></tr>
+<tr><td>$K_{AB}$（固接底）</td><td class="c"><b>1.21</b></td></tr>
+<tr><td>$K_{CD}$（鉸接底）</td><td class="c">1.71</td></tr>
+<tr><td>$P_{e,AB}$</td><td class="c">1,150 tf</td></tr>
+<tr><td>$P_{e,CD}$</td><td class="c">574 tf</td></tr>
+<tr><td>$w_u$</td><td class="c"><b>287 tf/m</b></td></tr>
+<tr><td>$d_m$</td><td class="c"><b>1.20 m</b></td></tr>
+</tbody></table>
+<b>敏感度：底端條件的影響有多大？</b>
+<ul>
+<li>兩柱皆固接底（$K=1.21$）：$\sum P_e = 2(1150) = 2300$ tf → $w_u = 383$ tf/m（<b>+33%</b>）</li>
+<li>兩柱皆鉸接底（$K=1.71$）：$\sum P_e = 2(574) = 1148$ tf → $w_u = 191$ tf/m（<b>−33%</b>）</li>
+</ul>
+「柱腳由鉸接改為固接，可使該柱的層間穩定貢獻提升一倍（$P_e$ 從 574 增至 1150 tf）。
+在無斜撐的剛接框架中，<b>柱腳的轉動拘束是最經濟的穩定來源</b>；
+但須確認基礎能實際提供該轉動勁度，否則 $G_A = 1$ 的假設不成立。」</div>
+</div>
+
+<h3 class="c">7.5 易錯點與 30 秒自我檢核</h3>
+
+<table>
+<thead><tr><th>易錯點</th><th>正確作法</th></tr></thead>
+<tbody>
+<tr><td>誤用無側移對位圖</td><td>門型剛架無斜撐 → 有側移圖，$K>1$</td></tr>
+<tr><td>$G_A$ 用 0、$G_D$ 用 $\infty$</td><td>依 AISC 用 1 與 10</td></tr>
+<tr><td>$G$ 的分子分母顛倒</td><td>分子是<b>柱</b>、分母是<b>梁</b>（$G$ 小＝梁硬）</td></tr>
+<tr><td>逐柱套 $P_j/P_{e,j} \le 1$</td><td>層間穩定是 $\sum P_j \le \sum P_{e,j}$</td></tr>
+<tr><td>$w_u$ 單位混用 tf/cm 與 tf/m</td><td>1 tf/cm = 100 tf/m，交答案前確認</td></tr>
+<tr><td>$\pi^2EI$ 寫成 605,946（掉 10³）</td><td>$= 6.059\times10^8$ tf·cm²，量級要對</td></tr>
+<tr><td>兩柱 $P_e$ 只算一根就乘 2</td><td>兩柱 $K$ 不同，必須分別算</td></tr>
+</tbody>
+</table>
+
+<div class="chk"><b>30 秒自我檢核</b>
+<ol>
+<li>若把柱斷面加大（$I_c$ 變 2 倍），$w_u$ 會變 2 倍嗎？<br>
+（答：<b>不會，會少於 2 倍</b>。$P_e$ 的分子 $I_c$ 變 2 倍，但 $G = I_c/I_b$ 也變 2 倍（0.442）→ $K$ 上升 → 部分抵銷。
+這正是 L3-3 的重點：<b>加大柱斷面會同時惡化自己的 $K$</b>）</li>
+<li>若把梁斷面加大，$K_{AB}$ 會變大還是變小？（答：變小。$I_b\uparrow \Rightarrow G\downarrow \Rightarrow K\downarrow$）</li>
+<li>什麼是傾斜柱（leaning column）？它的 $P_e$ 貢獻是多少？<br>
+（答：兩端皆鉸接、無側移抵抗能力的柱；$P_e$ 貢獻 <b>0</b>，但其重力載重仍須計入 $\sum P_j$，全由其他柱承擔）</li>
+<li>$P_e \propto 1/K^2$ 這件事怎麼用來檢查答案？<br>
+（答：$K$ 相差幾倍，$P_e$ 就相差平方倍。本題 $(1.712/1.21)^2 = 2.0 = 1150/574$ ✓）</li>
+</ol></div>
+
+</section>
+
+<section id="sa">
+<h2 class="k"><span class="chapnum">附錄</span>公式速查、七章卡關清單與觀念總結</h2>
+
+<h3>A.1 七章答案一覽（確認你的手算對得上）</h3>
+
+<table>
+<thead><tr><th class="c">章</th><th>題號</th><th>求什麼</th><th class="c">答案</th><th>控制者／關鍵</th></tr></thead>
+<tbody>
+<tr><td class="c">1</td><td>SS-2005-1</td><td>$\phi P_n$</td><td class="c"><b>68.6 tf</b></td><td>塊狀剪力 模式 B（內側行剪出）</td></tr>
+<tr><td class="c">2</td><td>SS-2025-2</td><td>$L_{opt}$、$P_{max}$</td><td class="c"><b>3 cm、6.15 tf</b></td><td>NSF 拋物線頂點，$L_{opt}=L_w$、$U=0.5$</td></tr>
+<tr><td class="c">3</td><td>SS-2015-3</td><td>$r_{\min}$、$L$</td><td class="c"><b>8.12 cm、700 cm</b></td><td>X 軸為弱軸（無平行軸增益）；彈性段</td></tr>
+<tr><td class="c">4</td><td>SS-2013-3</td><td>$P_a$、$\phi P_n$</td><td class="c"><b>97 tf、134 tf</b></td><td>弱軸下段 $KL/r = 108.1$；非彈性段</td></tr>
+<tr><td class="c">5</td><td>SS-2018-2</td><td>檢核</td><td class="c"><b>2,586 tf，DCR 0.433 OK</b></td><td>$K_2$ 方向；短柱（$KL/r=30.6$）</td></tr>
+<tr><td class="c">6</td><td>SS-2024-1</td><td>柱曲線</td><td class="c"><b>$\lambda_1=0.697$、$\lambda_2=1.414$、$I_e/I_x=0.486$</b></td><td>塊狀殘留應力 → B(0.243)/B′(0.500) 跳躍</td></tr>
+<tr><td class="c">7</td><td>SS-2013-2</td><td>$K_{AB}$、$w_u$、$d_m$</td><td class="c"><b>1.21、287 tf/m、1.20 m</b></td><td>有側移對位圖；LeMessurier $\sum P = \sum P_e$</td></tr>
+</tbody>
+</table>
+
+<h3>A.2 公式速查（含來源，別只背左邊）</h3>
+
+<h4>拉力構件</h4>
+<table>
+<thead><tr><th>公式</th><th>LRFD</th><th>ASD</th><th>它在怕什麼</th></tr></thead>
+<tbody>
+<tr><td>全斷面降伏</td><td>$0.90F_yA_g$</td><td>$0.6F_yA_g$</td><td>整根伸長到不能用（有預警）</td></tr>
+<tr><td>淨斷面斷裂</td><td>$0.75F_uA_e$</td><td>$0.5F_uA_e$</td><td>孔斷面被拉斷（無預警 → 更嚴）</td></tr>
+<tr><td>有效淨面積</td><td colspan="2" class="c">$A_e = U A_n$</td><td>應力來不及傳遍斷面（剪力遲滯）</td></tr>
+<tr><td>剪力遲滯</td><td colspan="2" class="c">$U = 1 - \bar{x}/L$；表格 0.90／0.85／0.75</td><td>$\bar{x}$＝形心到接合面；$L$＝接合長度</td></tr>
+<tr><td>塊狀剪力</td><td colspan="2" class="c">$R_n = 0.6F_uA_{nv} + U_{bs}F_uA_{nt} \le 0.6F_yA_{gv} + U_{bs}F_uA_{nt}$</td><td>螺栓群連著母材整塊撕下；上限＝剪切面先降伏</td></tr>
+</tbody>
+</table>
+
+<h4>壓力構件</h4>
+<table>
+<thead><tr><th>公式</th><th>內容</th><th>它在說什麼</th></tr></thead>
+<tbody>
+<tr><td>迴旋半徑</td><td>$r = \sqrt{I/A}$</td><td>材料分散程度＝斷面「抗挫屈的效率」</td></tr>
+<tr><td>平行軸定理</td><td>$I = I_{\text{自身}} + Ad^2$</td><td>$Ad^2$ 通常主導；$d=0$ 時完全消失</td></tr>
+<tr><td>正方形箱型</td><td>$r^2 = (b_o^2+b_i^2)/12$</td><td>由平方差對消而來，<b>僅限正方形</b></td></tr>
+<tr><td>Euler 應力</td><td>$F_e = \pi^2E/(KL/r)^2$</td><td>完全彈性、無缺陷的理想挫屈應力</td></tr>
+<tr><td>無量綱長細比</td><td>$\lambda_c = \dfrac{KL/r}{\pi}\sqrt{\dfrac{F_y}{E}} = \sqrt{\dfrac{F_y}{F_e}}$</td><td>$1/\lambda^2 = F_e/F_y$；一張圖適用所有柱</td></tr>
+<tr><td>ASD 分界</td><td>$C_c = \sqrt{2\pi^2E/F_y}$</td><td>$F_e = F_y/2$ 之處＝殘留應力使降伏啟始</td></tr>
+<tr><td>ASD 非彈性</td><td>$F_a = \dfrac{[1-(KL/r)^2/2C_c^2]F_y}{\text{FS}}$，FS $=\frac53+\frac{3(KL/r)}{8C_c}-\frac{(KL/r)^3}{8C_c^3}$</td><td>FS 從 1.667 遞增至 1.917：越細長越保守</td></tr>
+<tr><td>ASD 彈性</td><td>$F_a = \dfrac{12\pi^2E}{23(KL/r)^2} = F_e/1.917$</td><td>Euler ÷ FS(23/12)，與分界點連續</td></tr>
+<tr><td>LRFD 非彈性</td><td>$F_{cr} = 0.658^{\lambda_c^2}F_y = e^{-0.419\lambda_c^2}F_y$（$\lambda_c \le 1.5$）</td><td>經驗曲線，模擬殘留應力使 $I_e$ 連續衰減</td></tr>
+<tr><td>LRFD 彈性</td><td>$F_{cr} = \dfrac{0.877}{\lambda_c^2}F_y$（$\lambda_c > 1.5$）</td><td>Euler × 0.877（初始彎曲缺陷折減）</td></tr>
+<tr><td>LRFD 強度</td><td>$\phi_cP_n = 0.85F_{cr}A$</td><td>$\phi_c = 0.85$（不是 0.90）</td></tr>
+<tr><td>切線模數</td><td>$F_{cr}/F_y = (I_e/I_x)/\lambda^2$</td><td>降伏區 $E_t=0$ → 從 $I$ 中挖掉</td></tr>
+<tr><td>對位圖 $G$</td><td>$G = \dfrac{\sum(I_c/L_c)}{\sum(I_b/L_b)}$；固接 1、鉸接 10</td><td>柱／梁勁度比＝「梁夾得住柱嗎」</td></tr>
+<tr><td>$K$ 近似式</td><td>$K = \sqrt{\dfrac{1.6G_AG_B+4(G_A+G_B)+7.5}{G_A+G_B+7.5}}$</td><td>有側移框架用；沒對位圖時的救命公式</td></tr>
+<tr><td>層間穩定</td><td>$\sum P_j \le \sum P_{e,j}$，$P_{e,j}=\dfrac{\pi^2EI_c}{(K_jL)^2}$</td><td>整層一起判定，柱間可互相支援</td></tr>
+</tbody>
+</table>
+
+<h3 class="l3">A.3 七章 L3 卡關清單（第二輪只讀這張表）</h3>
+
+<p>讀完後在「卡關?」欄自行標記 <b>⚠</b>；第二次複習只回頭讀有標記的項目。</p>
+
+<table>
+<thead><tr><th class="c">章</th><th>L3 深層知識</th><th class="c">卡關?</th></tr></thead>
+<tbody>
+<tr><td class="c">1</td><td>$U$ 值三種規定：先看斷面型式，再看螺栓數（角鋼 ≠ W 型鋼）</td><td class="c">☐</td></tr>
+<tr><td class="c">1</td><td>$U$ 只打折斷裂，不碰降伏（「接合區的地方稅」）</td><td class="c">☐</td></tr>
+<tr><td class="c">1</td><td>BSR 上限式：長剪切面會先整段剪力降伏；判準 $A_{nv}/A_{gv} > F_y/F_u$</td><td class="c">☐</td></tr>
+<tr><td class="c">1</td><td>多行螺栓須枚舉所有撕裂路徑（拉力面越短越弱）</td><td class="c">☐</td></tr>
+<tr><td class="c">1</td><td>接合區幾何（端距、接合長度）常是真正的設計瓶頸</td><td class="c">☐</td></tr>
+<tr><td class="c">2</td><td>$\bar{x}$ ＝形心到<b>接合面</b>的距離（本題 $=L/2$，是變數不是常數）</td><td class="c">☐</td></tr>
+<tr><td class="c">2</td><td>最佳點是 NSF 拋物線頂點，<b>不是</b>兩曲線交叉點</td><td class="c">☐</td></tr>
+<tr><td class="c">2</td><td>通則 $L_{opt} = L_w$（此時 $U = 0.5$）</td><td class="c">☐</td></tr>
+<tr><td class="c">2</td><td>求極值後必須回頭驗證控制者仍是 NSF</td><td class="c">☐</td></tr>
+<tr><td class="c">3</td><td>哪個軸要平行軸修正：問「這塊材料形心離轉軸多遠」</td><td class="c">☐</td></tr>
+<tr><td class="c">3</td><td>加大兩槽鋼間距只增 $I_Y$，救不了弱軸 $I_X$</td><td class="c">☐</td></tr>
+<tr><td class="c">3</td><td>$C_c$ 的物理＝「$F_e = F_y/2$」＝殘留應力使降伏啟始</td><td class="c">☐</td></tr>
+<tr><td class="c">3</td><td>ASD 彈性段 FS $=23/12$ 是為了與非彈性段在 $C_c$ 處連續</td><td class="c">☐</td></tr>
+<tr><td class="c">3</td><td>$k=2.0$：底鉸＋頂可平移不可轉 ＝ 懸臂型</td><td class="c">☐</td></tr>
+<tr><td class="c">4</td><td>側向支撐只約束它所在的那個平面</td><td class="c">☐</td></tr>
+<tr><td class="c">4</td><td>鉸接側撐擋平移不擋轉動 → 上段兩端鉸 $K=1.0$</td><td class="c">☐</td></tr>
+<tr><td class="c">4</td><td>比較區段時比 $KL$，不比 $L$ 也不比 $K$</td><td class="c">☐</td></tr>
+<tr><td class="c">4</td><td>ASD 非彈性段 FS 隨 $KL/r$ 遞增（1.667 → 1.917）</td><td class="c">☐</td></tr>
+<tr><td class="c">4</td><td>$\lambda_c^2 = F_y/F_e$（可推導，不必背）</td><td class="c">☐</td></tr>
+<tr><td class="c">4</td><td>$\phi_c = 0.85$（壓力）vs $\phi_b = 0.90$（彎曲）vs $0.75$（斷裂）</td><td class="c">☐</td></tr>
+<tr><td class="c">5</td><td>$r^2$ 化簡式僅限正方形箱（平方差對消）</td><td class="c">☐</td></tr>
+<tr><td class="c">5</td><td>$K=2.4$ 卻是短柱：主角是比值 $KL/r$，不是 $K$ 或 $L$</td><td class="c">☐</td></tr>
+<tr><td class="c">5</td><td>整體挫屈通過 ≠ 設計完成，還要檢核板寬厚比（局部挫屈）</td><td class="c">☐</td></tr>
+<tr><td class="c">6</td><td>切線模數：降伏區 $E_t = 0$ → 對抗挫屈的貢獻為零</td><td class="c">☐</td></tr>
+<tr><td class="c">6</td><td>跳躍來自「塊狀」假設；拋物線分布則平滑（規範曲線之所以平滑）</td><td class="c">☐</td></tr>
+<tr><td class="c">6</td><td>跳躍處取彈性值 0.500（該點降伏尚未真正發生）</td><td class="c">☐</td></tr>
+<tr><td class="c">6</td><td>殘留應力對弱軸的削弱通常比強軸更嚴重</td><td class="c">☐</td></tr>
+<tr><td class="c">6</td><td>柱曲線 ＝ 理想 Euler − 殘留應力折減 − 初始缺陷折減(0.877)</td><td class="c">☐</td></tr>
+<tr><td class="c">7</td><td>有側移／無側移是兩張圖；有側移 $K>1$（算出 &lt;1 就是查錯）</td><td class="c">☐</td></tr>
+<tr><td class="c">7</td><td>$G_A=1$（非 0）、$G_D=10$（非 $\infty$）；方向上是保守修正</td><td class="c">☐</td></tr>
+<tr><td class="c">7</td><td>加大柱斷面會同時惡化自己的 $K$；加大梁斷面才降 $K$</td><td class="c">☐</td></tr>
+<tr><td class="c">7</td><td>層間穩定是 $\sum P_j \le \sum P_{e,j}$，不是逐柱判定</td><td class="c">☐</td></tr>
+<tr><td class="c">7</td><td>1 tf/cm = 100 tf/m（本題最常見的單位錯誤）</td><td class="c">☐</td></tr>
+</tbody>
+</table>
+
+<h3>A.4 觀念總結：把七章壓縮成十句話</h3>
+
+<div class="box">
+<ol>
+<li><b>拉力桿件</b>把三個破壞劇本各算一次，取最小值 —— 而控制者常常是接合區，不是斷面。</li>
+<li><b>剪力遲滯</b>不是「面積不夠」，是「應力沒傳勻」。銲接消除孔洞，但消不掉剪力遲滯。</li>
+<li><b>塊狀剪力</b>是一個搜尋問題：枚舉路徑，找拉力面最短的那一條；別忘上限式。</li>
+<li><b>壓力桿件</b>永遠先問「哪個方向最弱」，弱在斷面（$r$ 小）還是弱在長度（$KL$ 大）。</li>
+<li><b>平行軸定理</b>的 $Ad^2$ 通常主導一切；但 $d=0$ 時它完全消失 —— 這是組合斷面的陷阱。</li>
+<li>比較永遠比<b>比值與乘積</b>：比 $KL$ 不比 $L$，比 $KL/r$ 不比 $K$。</li>
+<li><b>柱強度曲線</b>不是規範規定的，是殘留應力算出來的：$0.658^{\lambda^2}$ 就是第 6 章那個手算的平滑版。</li>
+<li><b>切線模數</b>一句話：降伏的材料對抵抗挫屈毫無貢獻，把它從 $I$ 裡挖掉。</li>
+<li><b>$K$ 不是柱的性質</b>，是「柱與梁的剛度比」的性質。想降 $K$ 就加大梁，不是加大柱。</li>
+<li><b>框架穩定是整層的事</b>：柱頂被同一根梁綁在一起，強柱可以支援弱柱，只要總量夠。</li>
+</ol>
+</div>
+
+<div class="why"><b>最後一句：</b>
+這七題沒有一題需要「背公式」。它們要的是 ——
+<b>看到一個構件，能問對三個問題：它會怎麼壞？哪一種壞法最先發生？決定那個壞法的變數是什麼？</b>
+VHA 的 L1／L2／L3 分層，本質上就是在訓練這個提問順序。</div>
+
+</section>
+
+</main>
+
+<footer>
+VHA 七題觀念講義｜exam-wiki-SS｜資料來源：raw/solutions/ 之 §3.5 變數層次分析<br>
+七題全部數值已以程式重算交叉驗證（含原解析中 $\pi^2EI_c$ 的量級筆誤已修正為 $6.059\times10^8$ tf·cm²）<br>
+產出日期：2026-07-30
+</footer>
+
+</body>
+</html>

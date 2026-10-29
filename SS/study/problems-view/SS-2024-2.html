@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2024-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.88em;line-height:1.5}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;padding:10px 16px;border-radius:0 8px 8px 0}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SS-2024-2 題目解析</h1><a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a></header>
+<main><h1>考題編號：SS-2024-2</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> <code>SS-U1-4</code> 接合之分析與設計<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>拉力桿件</code> <code>圓管HSS</code> <code>縱向填角銲</code> <code>剪力遲滯</code> <code>U值</code> <code>半圓管</code> <code>淨截面斷裂</code> <code>銲道設計</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>STK273×10 圓管（$D = 273\text{ mm}$，$t = 10\text{ mm}$），A500 Grade 50 鋼材，縱向填角銲與十字形連接板相連接。銲道長度 $L = D = 273\text{ mm}$，使用 E70 系列銲條。</p>
+<p><strong>已知：</strong></p>
+<ul>
+<li>$F_y = 2.3\text{ tf/cm}^2$，$F_u = 3.1\text{ tf/cm}^2$</li>
+<li>$A_g = 82.6\text{ cm}^2$（圓管斷面積）</li>
+<li>$t_g = 20\text{ mm}$（十字形連接板厚）</li>
+</ul>
+<p><strong>參考公式：</strong> $U = 1 - \bar{x}/L$，$\bar{x} = D/\pi$（半圓管），$U = 3L^2/(3L^2+W^2)$</p>
+<p><strong>子問題：</strong></p>
+<ol>
+<li>求拉力桿件之設計強度 $\phi_t T_n$</li>
+<li>設計填角銲尺寸</li>
+</ol>
+<p><img alt="SS-2024-2 題目附圖：STK273×10 圓管斷面正視與側視圖，十字形連接板穿過圓管四個角落各有填角銲，銲道長度 L=D，並附填角銲最小尺寸規範表" src="../../raw/solutions/SS-2024-2/SS-2024-2-fig-1.png" /></p>
+<p><em>圖說：左側為 STK273×10 圓管斷面示意（正視），十字形連接板（厚 $t_g$）貫穿圓管中心，沿板邊四個角落各施作一道縱向填角銲（共 4 道）。中間側視圖顯示銲道長度 $L = D = 273\text{ mm}$，管端有半圓孔（直徑 22 mm）作為銲接起弧孔，$\bar{x}$ 標示半圓管形心至銲道面之距離。右側為規範規定之填角銲最小尺寸表：$t \leq 6\text{ mm} \Rightarrow 3\text{ mm}$；$6 < t \leq 12 \Rightarrow 5\text{ mm}$；$12 < t \leq 19 \Rightarrow 6\text{ mm}$；$19 < t \leq 38 \Rightarrow 8\text{ mm}$（本題連接板 $t_g = 20\text{ mm}$，故最小銲腳 = 8 mm）。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：圓管拉力桿件的剪力遲滯與銲道設計</strong></p>
+<p>本題涵蓋拉力桿件設計的兩個面向：強度驗算（三種極限狀態）與銲道幾何設計。測驗考生對縱向填角銲圓管接頭的特殊幾何（半圓管形心距 $\bar{x} = D/\pi$）及銲腳尺寸上下限同時約束的處理能力。</p>
+<p><strong>出題者測驗重點：</strong></p>
+<ul>
+<li><strong>三種極限狀態並行</strong>：GSY（全斷面降伏）、NSF（淨截面斷裂含 $U$ 折減）、BSR（塊狀剪力），以最小值控制</li>
+<li><strong>半圓管幾何</strong>：十字形連接板將圓管分為兩個半圓截面，形心偏移 $\bar{x} = D/\pi$（非 $D/2$）</li>
+<li><strong>四道縱向銲</strong>：十字形板有 4 個自由邊，總銲道長 $4L$</li>
+<li><strong>銲腳三重限制</strong>：所需強度（需求面）、最小銲腳（薄板母材控制）、最大銲腳（管壁控制）同時存在</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>甲題（設計強度）：
+  Step 1  GSY：φt Tn = 0.9 Fy Ag
+  Step 2  NSF：確認 An = Ag（無孔），計算 x̄ = D/π，U = 1-x̄/L，φt Tn = 0.75 U Fu Ag
+  Step 3  BSR：此類型接頭以 NSF 控制，BSR 通常不起控制（縱向銲）
+  Step 4  取最小值
+
+乙題（銲道設計）：
+  Step 5  確認 4 道銲，總長 = 4D = 4×27.3 = 109.2 cm
+  Step 6  所需 a：T_u ÷ (φ Rw × 總長)
+  Step 7  最小 a：查連接板厚 tg=20mm → 最小 8mm
+  Step 8  最大 a：母材剪力強度限制，a ≤ t×0.6Fu/φRw_per_cm
+  Step 9  取 max(所需, 最小) ≤ 最大 → a = 8 mm
+</code></pre>
+<p><strong>陷阱分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>對策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ $\bar{x}$ 誤用 $D/2$</td>
+<td>半圓管形心在 $D/\pi \approx 0.318D$（非半徑 $D/2$）</td>
+<td>$\bar{x} = D/\pi$；矩形管為 $b/4$（若只有一條邊連接）</td>
+</tr>
+<tr>
+<td>❷ 銲道數量算錯</td>
+<td>十字形板有 4 個自由邊，每邊一道填角銲，共 <strong>4 道</strong></td>
+<td>正視圖數方塊邊，共 4 道（非 2 道）</td>
+</tr>
+<tr>
+<td>❸ $\phi$ 值混用</td>
+<td>淨截面斷裂用 $\phi_t = 0.75$；全斷面降伏用 $\phi_t = 0.90$</td>
+<td>NSF 和 GSY 用不同 $\phi$</td>
+</tr>
+<tr>
+<td>❹ 最小銲腳查錯</td>
+<td>最小銲腳取決於<strong>較厚母材</strong>（連接板 $t_g = 20\text{ mm} > $ 管壁 10 mm），查表得 8 mm</td>
+<td>查表時用較厚那片母材（20 mm 對應 8 mm）</td>
+</tr>
+<tr>
+<td>❺ 忘記母材剪力限制</td>
+<td>若 $a$ 過大會使銲道強度超過母材剪力強度，需同時驗算上限</td>
+<td>上限：$a \leq \phi R_{BM}/(\phi R_w\text{ per }a)$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> STK273×10 圓管十字形銲接接頭：①求設計拉力強度（GSY/NSF/BSR 三控）②設計填角銲腳尺寸（需求/最小/最大三重限制）</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p><strong>甲題：設計拉力強度</strong><br />
+$$\phi_t T_{n,GSY} = 0.90 F_y A_g$$<br />
+$$\boxed{U} = 1 - \frac{\bar{x}}{L} = 1 - \frac{D/\pi}{D}, \quad \boxed{\phi_t T_{n,NSF}} = 0.75 F_u U A_g$$<br />
+$$\boxed{\phi_t T_n} = \min(T_{GSY}, T_{NSF})$$</p>
+<p><strong>乙題：填角銲尺寸</strong><br />
+$$a_{req} = \frac{T_u}{\phi R_w \times 4L}, \quad a_{min}\text{（查表，較厚母材）}, \quad a_{max}\text{（母材剪力限制）}$$<br />
+$$\boxed{a} = \max(a_{req}, a_{min}) \leq a_{max}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$D$</td>
+<td>273 mm = 27.3 cm</td>
+<td>圓管外徑</td>
+</tr>
+<tr>
+<td>$t$</td>
+<td>10 mm = 1.0 cm</td>
+<td>圓管壁厚</td>
+</tr>
+<tr>
+<td>$A_g$</td>
+<td>82.6 cm²</td>
+<td>圓管毛斷面積</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>2.3 tf/cm²</td>
+<td>降伏強度</td>
+</tr>
+<tr>
+<td>$F_u$</td>
+<td>3.1 tf/cm²</td>
+<td>極限強度</td>
+</tr>
+<tr>
+<td>$t_g$</td>
+<td>20 mm</td>
+<td>十字形連接板厚</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>$D = 27.3$ cm</td>
+<td>銲道長度（縱向）</td>
+</tr>
+<tr>
+<td>銲條</td>
+<td>E70</td>
+<td>$F_{EXX} = 49$ tf/cm²</td>
+</tr>
+<tr>
+<td>接合形式</td>
+<td>十字形連接板，縱向填角銲，共 4 道</td>
+<td></td>
+</tr>
+<tr>
+<td>$\bar{x}$ 公式</td>
+<td>$D/\pi$（半圓管形心距）</td>
+<td>題目給定參考公式</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>甲題 Step 1：全斷面降伏（GSY）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\phi_t T_{n,GSY}$</td>
+<td>$0.90 \times 2.3 \times 82.6 = 171.0$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>甲題 Step 2：淨截面斷裂（NSF）含剪力遲滯</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\bar{x}$</td>
+<td>$D/\pi = 27.3/\pi = 8.69$ cm ⚠ 常見卡關（非 $D/2$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$U$</td>
+<td>$1 - 8.69/27.3 = 1 - 0.318 = 0.682$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_e$</td>
+<td>$U \times A_g = 0.682 \times 82.6 = 56.3$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_t T_{n,NSF}$</td>
+<td>$0.75 \times 3.1 \times 56.3 = 130.9$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>甲題 Step 3：設計強度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\phi_t T_n$</td>
+<td>$\min(171.0, 130.9) = 130.9$ tf（NSF 控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>乙題：銲道設計（設計強度需求 $T_u$ 由題目給定或同上限值）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>銲道總長</td>
+<td>$4 \times D = 4 \times 27.3 = 109.2$ cm ⚠ 常見卡關（4 道非 2 道）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi R_w$（每 cm 每 cm 銲腳）</td>
+<td>$0.75 \times 0.6 F_{EXX} \times 0.707 = 0.75 \times 0.6 \times 49 \times 0.707 = 15.6$ tf/cm/cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a_{req}$</td>
+<td>$T_u / (15.6 \times 109.2)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a_{min}$</td>
+<td>8 mm（查表，$t_g = 20$ mm 在 $19\text{-}38$ mm 範圍）⚠ 常見卡關</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>半圓管 $\bar{x} = D/\pi$（非 $D/2$）</td>
+<td>半圓形心到直徑面距離 = $2r/\pi = D/\pi$，不是半徑 $D/2$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">shear-lag-u</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">SHEAR-LAG</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>十字形板 = 4 道縱向銲</td>
+<td>十字板有 4 個自由邊，每邊一道填角銲，共 4 道（非 2 道）</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">CONNECTION-DESIGN</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>NSF 的 $\phi_t = 0.75$（非 0.9）</td>
+<td>斷裂型極限狀態用 0.75；降伏型用 0.90</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">TENSION-MEMBER-DESIGN</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>最小銲腳查<strong>較厚</strong>母材</td>
+<td>本題連接板 $t_g = 20$ mm &gt; 管壁 10 mm，查 20 mm 對應 8 mm</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">WELDED-CONNECTION-DESIGN</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>銲道強度公式含 0.707（有效喉深）</td>
+<td>填角銲有效喉深 = $0.707a$（45°），故 $\phi R_w = 0.75 \times 0.6 F_{EXX} \times 0.707a$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">WELDED-CONNECTION-DESIGN</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Calculation)</h2>
+<h3>甲題：拉力桿件設計強度</h3>
+<p>已知：$D = 27.3\text{ cm}$，$t = 1.0\text{ cm}$，$A_g = 82.6\text{ cm}^2$，$L = 27.3\text{ cm}$</p>
+<h4>Step 1：全斷面降伏（GSY）</h4>
+<p>$$\phi_t T_n = 0.90 \times F_y \times A_g = 0.90 \times 2.3 \times 82.6 = 171.0\ \text{tf}$$</p>
+<h4>Step 2：淨截面斷裂（NSF）</h4>
+<p>圓管與連接板以縱向填角銲連接，<strong>無孔</strong>，故 $A_n = A_g = 82.6\text{ cm}^2$。</p>
+<p>半圓管形心至銲道面之距離：</p>
+<p>$$\bar{x} = \frac{D}{\pi} = \frac{27.3}{\pi} = 8.69\ \text{cm}$$</p>
+<p>剪力遲滯係數：</p>
+<p>$$U = 1 - \frac{\bar{x}}{L} = 1 - \frac{8.69}{27.3} = 1 - 0.318 = 0.682$$</p>
+<p>有效淨截面積：</p>
+<p>$$A_e = U \times A_n = 0.682 \times 82.6 = 56.3\ \text{cm}^2$$</p>
+<p>淨截面斷裂設計強度：</p>
+<p>$$\phi_t T_n = 0.75 \times F_u \times A_e = 0.75 \times 3.1 \times 56.3 = 130.8\ \text{tf}$$</p>
+<h4>Step 3：控制極限狀態</h4>
+<table>
+<thead>
+<tr>
+<th>極限狀態</th>
+<th>$\phi_t T_n$（tf）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全斷面降伏（GSY）</td>
+<td>171.0</td>
+</tr>
+<tr>
+<td><strong>淨截面斷裂（NSF，控制）</strong></td>
+<td><strong>130.8</strong></td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{\phi_t T_n = 130.8\ \text{tf}\ \text{（淨截面斷裂控制）}}$$</p>
+<hr />
+<h3>乙題：銲道尺寸設計</h3>
+<p>以甲題設計強度 $T_u = \phi_t T_n = 130.8\text{ tf}$ 為銲接設計力。</p>
+<h4>銲道幾何</h4>
+<p>十字形連接板穿過圓管，每側各有 2 道縱向填角銲（上下各一），共 <strong>4 道</strong>，每道長度 $L_w = D = 27.3\text{ cm}$。</p>
+<p>$$\text{總銲道長} = 4 \times 27.3 = 109.2\ \text{cm}$$</p>
+<h4>Step 4：E70 填角銲設計強度</h4>
+<p>E70 銲條：$F_{EXX} = 70\text{ ksi} = 70 \times 0.0703 = 4.92\text{ tf/cm}^2$</p>
+<p>每 cm 銲道設計強度（$a$ = 銲腳尺寸，cm）：</p>
+<p>$$\phi R_w = 0.75 \times 0.6 F_{EXX} \times 0.707a = 1.564a\ \text{(tf/cm)}$$</p>
+<h4>Step 5：母材剪力限制（管壁 $t = 10\text{ mm} = 1.0\text{ cm}$）</h4>
+<p>$$\phi R_{BM} = 0.75 \times 0.6 F_u \times t = 0.75 \times 0.6 \times 3.1 \times 1.0 = 1.395\ \text{tf/cm}$$</p>
+<p>銲道強度每 cm 應 $\leq 1.395$ tf/cm，即：$1.564a \leq 1.395$，$a \leq 8.92\text{ mm}$</p>
+<h4>Step 6：所需銲腳尺寸</h4>
+<p>$$a_{req} \geq \frac{130.8}{1.564 \times 109.2} = 0.766\ \text{cm} = 7.66\ \text{mm}$$</p>
+<h4>Step 7：最小銲腳（規範限制）</h4>
+<p>較厚母材為連接板 $t_g = 20\text{ mm}$（查規範表，$19 < t \leq 38\text{ mm}$ → 最小銲腳 = <strong>8 mm</strong>）</p>
+<h4>Step 8：銲腳尺寸確認</h4>
+<p>$$a \geq \max(a_{req},\ a_{min}) = \max(7.66,\ 8.0) = 8.0\ \text{mm}$$</p>
+<p>$$a \leq a_{max} = 8.92\ \text{mm} \quad \checkmark$$</p>
+<p>$$\boxed{a = 8\ \text{mm}\ \text{（最小銲腳控制）}}$$</p>
+<hr />
+<h2>5. 結果彙整與驗算 (Summary &amp; Verification)</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_g$</td>
+<td>$82.6\ \text{cm}^2$</td>
+</tr>
+<tr>
+<td>$\bar{x} = D/\pi$</td>
+<td>$8.69\ \text{cm}$</td>
+</tr>
+<tr>
+<td>$U = 1 - \bar{x}/L$</td>
+<td>$0.682$</td>
+</tr>
+<tr>
+<td>$A_e = U \cdot A_n$</td>
+<td>$56.3\ \text{cm}^2$</td>
+</tr>
+<tr>
+<td>GSY：$\phi_t T_n$</td>
+<td>$171.0\ \text{tf}$</td>
+</tr>
+<tr>
+<td><strong>NSF：$\phi_t T_n$（控制）</strong></td>
+<td><strong>$130.8\ \text{tf}$</strong></td>
+</tr>
+<tr>
+<td>總銲道長（4 道 × 27.3 cm）</td>
+<td>$109.2\ \text{cm}$</td>
+</tr>
+<tr>
+<td>所需銲腳 $a_{req}$</td>
+<td>$7.66\ \text{mm}$</td>
+</tr>
+<tr>
+<td>最小銲腳 $a_{min}$（規範）</td>
+<td>$8.0\ \text{mm}$</td>
+</tr>
+<tr>
+<td><strong>設計銲腳 $a$</strong></td>
+<td><strong>$8\ \text{mm}$</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>觀念精析：</strong></p>
+<p>$\bar{x} = D/\pi$ 的幾何推導：圓管橫截面為完整圓環，被十字形板切成四個相等的「四分之一圓弧」扇形；但由於銲道在板面（平面），每個半圓的形心到板面的距離 = 半圓形心到直徑的距離 = $2r/\pi = D/\pi$。這是圓弧形心公式的直接應用，非 $D/2$（圓心到直徑的距離為零）。</p>
+<p>最小銲腳由<strong>較厚母材</strong>決定：連接板 $t_g = 20\text{ mm} > $ 管壁 $t = 10\text{ mm}$，故查 20 mm 那行，最小銲腳 8 mm。所需強度（7.66 mm）小於最小值（8 mm），最終設計值 8 mm 由規範最小銲腳控制。</p>
+<p>母材剪力上限（8.92 mm）&gt; 設計值（8 mm）✅，三重限制均滿足。</p></main>
+<footer>來源：raw/solutions/SS-2024-2/SS-2024-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body></html>

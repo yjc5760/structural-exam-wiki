@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2013-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2013-3 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2013-3</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> 混合（ASD + LRFD）<br />
+<strong>標籤：</strong> <code>壓力桿件</code> <code>有效長度</code> <code>弱軸挫屈</code> <code>強軸挫屈</code> <code>分段側撐</code> <code>迴旋半徑</code> <code>ASD容許應力</code> <code>LRFD設計強度</code> <code>兩平面邊界不同</code> <code>Cc判斷</code> <code>λc</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>如圖 3 所示之一受軸壓力 $P$ 作用之鋼柱，已知鋼柱<strong>總長度為 16 m</strong>，柱底 A 點處及柱頂 C 點處之邊界條件如圖 3 所示；另於柱中 B 點處的 <strong>x-z 面</strong>上有一<strong>鉸接之側向支撐</strong>。若此鋼柱採用 <strong>W14×61</strong> 型鋼：</p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>彈性模數 $E$</td>
+<td>2,040 tf/cm²</td>
+</tr>
+<tr>
+<td>降伏強度 $F_y$</td>
+<td>2.5 tf/cm²</td>
+</tr>
+<tr>
+<td>斷面積 $A$</td>
+<td>116 cm²</td>
+</tr>
+<tr>
+<td>斷面深度 $d$</td>
+<td>35.3 cm</td>
+</tr>
+<tr>
+<td>腹板厚度 $t_w$</td>
+<td>0.952 cm</td>
+</tr>
+<tr>
+<td>翼板寬度 $b_f$</td>
+<td>25.4 cm</td>
+</tr>
+<tr>
+<td>翼板厚度 $t_f$</td>
+<td>1.64 cm</td>
+</tr>
+<tr>
+<td>強軸慣性矩 $I_x$</td>
+<td>26,700 cm⁴</td>
+</tr>
+<tr>
+<td>弱軸慣性矩 $I_y$</td>
+<td>4,480 cm⁴</td>
+</tr>
+</tbody>
+</table>
+<p><strong>子問題：</strong></p>
+<ol>
+<li><strong>(一)</strong> 試以<strong>容許應力設計法（ASD）</strong>，求解該柱之容許壓力強度 $P_a$（15 分）</li>
+<li><strong>(二)</strong> 試以<strong>極限設計法（LRFD）</strong>，求解該柱之設計壓力強度 $\phi_c P_n$（10 分）</li>
+</ol>
+<p><strong>考卷附有效長度係數表：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">條件</th>
+<th style="text-align: center;">邊界無側位移</th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">邊界有側位移*</th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>端點型式</strong></td>
+<td style="text-align: center;">固接-固接</td>
+<td style="text-align: center;">鉸接-固接</td>
+<td style="text-align: center;">鉸接-鉸接</td>
+<td style="text-align: center;">固接*-固接</td>
+<td style="text-align: center;">固接*-鉸接</td>
+<td style="text-align: center;">自由端*-固接</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>理論 K 值</strong></td>
+<td style="text-align: center;">0.5</td>
+<td style="text-align: center;"><strong>0.7</strong></td>
+<td style="text-align: center;"><strong>1.0</strong></td>
+<td style="text-align: center;">1.0</td>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;">2.0</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>設計 K 值</strong></td>
+<td style="text-align: center;">0.65</td>
+<td style="text-align: center;"><strong>0.8</strong></td>
+<td style="text-align: center;"><strong>1.0</strong></td>
+<td style="text-align: center;">1.2</td>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;">2.1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>邊界條件（由圖 3 逐一判讀——本題兩個平面的邊界並不相同）：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">平面</th>
+<th style="text-align: left;">對應軸</th>
+<th style="text-align: left;">柱底 A</th>
+<th style="text-align: left;">柱中 B</th>
+<th style="text-align: left;">柱頂 C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>y-z 面</strong>（左圖）</td>
+<td style="text-align: left;">變位在 $y$ 向 → 繞 $x$ 軸彎曲 → <strong>強軸</strong>（$I_x$、$r_x$）</td>
+<td style="text-align: left;"><strong>鉸支承</strong>（三角形符號）</td>
+<td style="text-align: left;">無支撐</td>
+<td style="text-align: left;"><strong>固接但可沿軸向滑動</strong>（實心方塊夾在兩片有滾輪的斜線牆之間：轉動被拘束、側向位移被拘束、僅容許沿 z 軸滑動）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>x-z 面</strong>（右圖）</td>
+<td style="text-align: left;">變位在 $x$ 向 → 繞 $y$ 軸彎曲 → <strong>弱軸</strong>（$I_y$、$r_y$）</td>
+<td style="text-align: left;"><strong>固接</strong>（斜線陰影固定端）</td>
+<td style="text-align: left;"><strong>鉸接側向支撐</strong>（滾輪貼斜線牆：僅拘束側向位移，容許轉動），位置距 A 為 $0.6L = 960$ cm</td>
+<td style="text-align: left;"><strong>鉸接側向支撐</strong>（滾輪貼斜線牆）</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="SS-2013-3 題目附圖：W14×61 柱總長 16 m。左圖為 y-z 面（強軸平面）：柱底 A 為鉸支承（三角形）、柱頂 C 為夾在兩側滾輪導軌間的方塊（固接但可沿軸向滑動），全長 L 無中間支撐。右圖為 x-z 面（弱軸平面）：柱底 A 為固接（斜線陰影）、距 A 為 0.6L 處的 B 點與柱頂 C 點各有一滾輪式鉸接側向支撐，故分為下段 0.6L 與上段 0.4L 兩段。最右為 W 型鋼斷面示意，x 軸水平、y 軸垂直" src="../../raw/solutions/SS-2013-3/SS-2013-3-fig-1.png" /></p>
+<p><em>圖說：W14×61 受軸壓柱，總長 $L = 16$ m $= 1600$ cm。</em><em>左側 y-z 面（強軸平面，用 $I_x$、$r_x$）</em><em>：柱底 A 為鉸支承（三角形），柱頂 C 為「固接可滑動」（實心方塊夾在兩排滾輪之間，轉動與側向位移皆被拘束、僅能沿軸向 z 滑動），全長無中間支撐 → 端點型式屬「</em><em>鉸接-固接、邊界無側位移</em><em>」，理論 $K = 0.7$（設計 $K = 0.8$）。</em><em>右側 x-z 面（弱軸平面，用 $I_y$、$r_y$）</em><em>：柱底 A 為</em><em>固接</em><em>（斜線陰影固定端），B 點（距 A $= 0.6L = 960$ cm）與柱頂 C 點各有一「滾輪貼牆」式</em><em>鉸接側向支撐</em><em>（只拘束側向位移、容許轉動）→ 弱軸分為下段 A–B（$0.6L = 960$ cm，固接-鉸接，理論 $K = 0.7$）與上段 B–C（$0.4L = 640$ cm，鉸接-鉸接，$K = 1.0$）。</em><em>兩個平面的柱底條件相反（強軸鉸、弱軸固），是本題最主要的判讀陷阱。</em><em> 最右側為 W 型鋼斷面：翼板水平、$x$ 軸水平（強軸）、$y$ 軸垂直（弱軸）。</em></p>
+<p><img alt="SS-2013-3 圖 2：兩個正交平面的邊界條件與挫屈模態向量圖。左格 y-z 面（強軸）為柱底 A 鉸支承、柱頂 C 固接可軸向滑動，全長 1600 cm 無中間支撐，模態為單一鼓曲並在距 A 之 0.699L 處有一反曲點，有效長度 KL = 1120 cm、KL/r = 73.8；右格 x-z 面（弱軸）為柱底 A 固接、B（0.6L）與 C 各有鉸接側向支撐，分為下段 960 cm（固接-鉸接，KL = 672 cm，KL/r = 108.1，控制）與上段 640 cm（鉸接-鉸接，KL = 640 cm，KL/r = 103.0）" src="../../raw/solutions/SS-2013-3/figs/SS-2013-3-fig-2-boundaries.svg" /></p>
+<p><em>圖 2　同一根柱在兩個正交平面各自的邊界條件與挫屈模態；圖上的 $KL$ 就是該平面內兩個彎矩零點（鉸端或反曲點）之間的距離，反曲點位置由挫屈特徵方程 $\tan u = u$ 解出而非目測。<strong>攔錯：</strong>把兩平面的柱底當成同一種支承（強軸實為鉸、弱軸實為固），或誤把 B 點側撐拿去切割強軸。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：兩個正交平面各自獨立判斷邊界與分段，把三個 $KL/r$ 都算出來，取最大者控制；再以同一個 $KL/r$ 分別跑 ASD 與 LRFD 兩套公式。</strong></p>
+<table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>ASD</th>
+<th>LRFD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>計算 $(KL/r)_{\max}$（三段比較）</td>
+<td>計算 $(KL/r)_{\max}$（同一值）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>算 $C_c = \sqrt{2\pi^2E/F_y}$，判斷彈性／非彈性</td>
+<td>算 $\lambda_c = \dfrac{KL/r}{\pi}\sqrt{F_y/E}$，判斷 $\lambda_c \lessgtr 1.5$</td>
+</tr>
+<tr>
+<td>3</td>
+<td>代入 $F_a$（含變動安全係數 FS）</td>
+<td>代入 $F_{cr} = 0.658^{\lambda_c^2}F_y$</td>
+</tr>
+<tr>
+<td>4</td>
+<td>$P_a = F_a A$</td>
+<td>$\phi_c P_n = \phi_c F_{cr} A$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>出題者測驗重點：</strong></p>
+<ol>
+<li><strong>兩平面邊界不同</strong>：強軸平面柱底是<strong>鉸</strong>、弱軸平面柱底是<strong>固</strong>——粗心者會兩個平面用同一組邊界</li>
+<li><strong>弱軸要分段</strong>：B 點側向支撐把弱軸切成 0.6L 與 0.4L 兩段，兩段的 $K$ 值還不一樣</li>
+<li><strong>強軸不分段</strong>：B 點的支撐只在 x-z 面，對強軸（y-z 面）完全無效，強軸仍用全長 1600 cm</li>
+<li>ASD 非彈性段的安全係數 FS 是 $KL/r$ 的三次函數，不是常數</li>
+<li>LRFD 的 $\lambda_c$ 定義與 $0.658^{\lambda_c^2}$ 的指數運算</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1  計算 rx, ry
+Step 2  強軸（y-z面，全長1600cm）：A鉸 - C固（無側位移）→ K=0.7 → KL/rx
+Step 3  弱軸（x-z面，分兩段）：
+        下段 A-B（A固 - B鉸，960cm）→ K=0.7 → KL/ry,下
+        上段 B-C（B鉸 - C鉸，640cm）→ K=1.0 → KL/ry,上
+Step 4  取最大值 (KL/r)_max → 判斷設計區段
+Step 5  ASD: Cc → FS → Fa → Pa
+Step 6  LRFD: λc → Fcr → φcPn
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<blockquote>
+<p>⚠️ <strong>陷阱 1（本題最主要）：兩個平面的柱底條件相反</strong><br />
+左圖（y-z 面／強軸）A 是<strong>三角形鉸支承</strong>；右圖（x-z 面／弱軸）A 是<strong>斜線陰影固定端</strong>。<br />
+若把兩個平面都當成「A 固接」或都當成「A 鉸接」，強軸的 $K$ 就會取錯。<br />
+（本題碰巧強軸「鉸-固」與弱軸下段「固-鉸」的 $K$ 同為 0.7，<strong>答案不變但敘述會錯</strong>——<br />
+若考官改動任一端條件，這個誤讀就會直接吃分。）</p>
+<p>⚠️ <strong>陷阱 2：柱頂 C 在 y-z 面是「固接」不是「鉸接」</strong><br />
+圖上 C 是一個<strong>實心方塊夾在兩排滾輪導軌之間</strong>：滾輪允許沿軸向（z）滑動，但方塊被兩片牆夾住，<br />
+<strong>轉動與側向位移都被拘束</strong> → 屬「固接（無側位移）」。若誤判為鉸接（鉸-鉸），$K$ 會變成 1.0，<br />
+$KL/r_x = 105.5$，雖仍不控制，但推理已錯。</p>
+<p>⚠️ <strong>陷阱 3：B 點側向支撐只影響弱軸</strong><br />
+B 點的支撐畫在 <strong>x-z 面</strong>，只拘束 $x$ 向位移 → 只切割弱軸。強軸（y-z 面）中間無支撐，<br />
+有效長度仍為全長 1600 cm。誤把強軸也分段會嚴重高估承載力。</p>
+<p>⚠️ <strong>陷阱 4：弱軸兩段的 $K$ 值不同，且「短的那段不一定控制」</strong><br />
+下段 $K = 0.7$、$L = 960$ → $KL = 672$ cm；上段 $K = 1.0$、$L = 640$ → $KL = 640$ cm。<br />
+下段雖然 $K$ 較小，但長度較長，$KL$ 反而較大 → <strong>下段控制</strong>。必須比 $KL$ 而非比 $L$。</p>
+<p>⚠️ <strong>陷阱 5：ASD 的安全係數 FS 是三項式</strong><br />
+非彈性區 $\text{FS} = \dfrac{5}{3} + \dfrac{3(KL/r)}{8C_c} - \dfrac{(KL/r)^3}{8C_c^3}$，<br />
+隨 $KL/r$ 由 1.667 變化到 1.917，<strong>不可用固定值 5/3 或 23/12</strong>。</p>
+<p>⚠️ <strong>陷阱 6：理論 K 值 vs 設計 K 值</strong><br />
+考卷同時給了兩列。圖上支承畫得很理想化，多數解答採<strong>理論 K</strong>；若採<strong>設計 K</strong>（0.8／1.0），<br />
+$P_a$ 會從 96.8 掉到 79.6 tf、$\phi_cP_n$ 從 134 掉到 111 tf（詳見 §5.2）。<br />
+作答時<strong>務必寫明採用哪一列</strong>。</p>
+</blockquote>
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> W14×61 柱（兩平面邊界不同、弱軸分段）→ $(KL/r)_{\max}$ → ASD 容許壓力 $P_a$ 及 LRFD 設計強度 $\phi_c P_n$</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\boxed{r_x} = \sqrt{I_x/A}, \qquad \boxed{r_y} = \sqrt{I_y/A}$$</p>
+<p>$$\boxed{\left(\frac{KL}{r}\right)<em _text_強軸全柱="\text{強軸全柱">{\max}} = \max!\left[\underbrace{\frac{0.7(1600)}{\boxed{r_x}}}</em>}},\;\underbrace{\frac{0.7(960)}{\boxed{r_y}}<em _text_弱軸上段="\text{弱軸上段">{\text{弱軸下段}},\;\underbrace{\frac{1.0(640)}{\boxed{r_y}}}</em>\right]$$}</p>
+<p>$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}} \quad \text{(ASD 彈性／非彈性分界)}$$</p>
+<p>$$\boxed{\text{FS}} = \frac{5}{3} + \frac{3\boxed{(KL/r)}}{8C_c} - \frac{\boxed{(KL/r)}^3}{8C_c^3}$$</p>
+<p>$$\boxed{F_a} = \frac{\left[1 - \dfrac{\boxed{(KL/r)}^2}{2C_c^2}\right] F_y}{\boxed{\text{FS}}}, \qquad \boxed{P_a} = \boxed{F_a} \times A$$</p>
+<p>$$\boxed{\lambda_c} = \frac{\boxed{(KL/r)}}{\pi}\sqrt{\frac{F_y}{E}}, \qquad \boxed{F_{cr}} = 0.658^{\boxed{\lambda_c}^2} F_y, \qquad \boxed{\phi_c P_n} = 0.85\,\boxed{F_{cr}}\,A$$</p>
+<h3>L1：題目直接給定</h3>
+<p><em>看到題目就能讀出的數字，不需要任何公式。</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">數值</th>
+<th style="text-align: left;">說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$E$</td>
+<td style="text-align: left;">2,040 tf/cm²</td>
+<td style="text-align: left;">彈性模數</td>
+</tr>
+<tr>
+<td style="text-align: center;">$F_y$</td>
+<td style="text-align: left;">2.5 tf/cm²</td>
+<td style="text-align: left;">降伏強度</td>
+</tr>
+<tr>
+<td style="text-align: center;">$A$</td>
+<td style="text-align: left;">116 cm²</td>
+<td style="text-align: left;">斷面積</td>
+</tr>
+<tr>
+<td style="text-align: center;">$I_x$</td>
+<td style="text-align: left;">26,700 cm⁴</td>
+<td style="text-align: left;">強軸慣性矩</td>
+</tr>
+<tr>
+<td style="text-align: center;">$I_y$</td>
+<td style="text-align: left;">4,480 cm⁴</td>
+<td style="text-align: left;">弱軸慣性矩</td>
+</tr>
+<tr>
+<td style="text-align: center;">$L$</td>
+<td style="text-align: left;">1,600 cm</td>
+<td style="text-align: left;">柱總長</td>
+</tr>
+<tr>
+<td style="text-align: center;">B 點位置</td>
+<td style="text-align: left;">$0.6L = 960$ cm（距 A）</td>
+<td style="text-align: left;">弱軸側向支撐點</td>
+</tr>
+<tr>
+<td style="text-align: center;">A（y-z 面／強軸）</td>
+<td style="text-align: left;"><strong>鉸支承</strong></td>
+<td style="text-align: left;">三角形符號</td>
+</tr>
+<tr>
+<td style="text-align: center;">C（y-z 面／強軸）</td>
+<td style="text-align: left;"><strong>固接（可軸向滑動、無側位移）</strong></td>
+<td style="text-align: left;">方塊＋兩側滾輪導軌</td>
+</tr>
+<tr>
+<td style="text-align: center;">A（x-z 面／弱軸）</td>
+<td style="text-align: left;"><strong>固接</strong></td>
+<td style="text-align: left;">斜線陰影固定端</td>
+</tr>
+<tr>
+<td style="text-align: center;">B、C（x-z 面／弱軸）</td>
+<td style="text-align: left;"><strong>鉸接側向支撐</strong></td>
+<td style="text-align: left;">滾輪貼牆</td>
+</tr>
+<tr>
+<td style="text-align: center;">$K$ 值表</td>
+<td style="text-align: left;">理論 0.5／0.7／1.0／…；設計 0.65／0.8／1.0／…</td>
+<td style="text-align: left;">考卷提供</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><em>需要知道公式名稱與適用條件，套入 L1 即可算出。</em></p>
+<p><strong>Step 1：斷面迴旋半徑</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$r_x$</td>
+<td style="text-align: left;">$\sqrt{26700/116} = 15.17$ cm</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$r_y$</td>
+<td style="text-align: left;">$\sqrt{4480/116} = 6.215$ cm</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：三個有效長細比（採理論 $K$ 值）</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$(KL/r)_x$</td>
+<td style="text-align: left;">$0.7(1600)/15.17 = 73.8$（強軸全柱；A 鉸-C 固，無側位移，$K = 0.7$）</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$(KL/r)_{y,\text{下}}$</td>
+<td style="text-align: left;">$0.7(960)/6.215 = 108.1$（弱軸下段 A–B；A 固-B 鉸，$K = 0.7$）← <strong>控制</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$(KL/r)_{y,\text{上}}$</td>
+<td style="text-align: left;">$1.0(640)/6.215 = 103.0$（弱軸上段 B–C；B 鉸-C 鉸，$K = 1.0$）</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$(KL/r)_{\max}$</td>
+<td style="text-align: left;">$108.1$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">細長比上限檢核</td>
+<td style="text-align: left;">$108.1 &lt; 200$（規範建議上限）✓</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：(一) ASD 容許壓力 $P_a$</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$C_c$</td>
+<td style="text-align: left;">$\sqrt{2\pi^2(2040)/2.5} = 126.9$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">區段判定</td>
+<td style="text-align: left;">$108.1 &lt; 126.9$ → <strong>非彈性挫屈</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">FS</td>
+<td style="text-align: left;">$5/3 + 3(108.1)/(8 \times 126.9) - 108.1^3/(8 \times 126.9^3) = 1.909$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$F_a$</td>
+<td style="text-align: left;">$<a href="2.5">1-108.1^2/(2 \times 126.9^2)</a>/1.909 = 0.834$ tf/cm²</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$P_a$</td>
+<td style="text-align: left;">$0.834 \times 116 = 96.8$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：(二) LRFD 設計強度 $\phi_c P_n$</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$\sqrt{E/F_y}$</td>
+<td style="text-align: left;">$\sqrt{2040/2.5} = 28.57$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$\lambda_c$</td>
+<td style="text-align: left;">$108.1/(\pi \times 28.57) = 1.205$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">區段判定</td>
+<td style="text-align: left;">$\lambda_c = 1.205 &lt; 1.5$ → <strong>非彈性挫屈</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$F_{cr}$</td>
+<td style="text-align: left;">$0.658^{1.452} \times 2.5 = 1.362$ tf/cm²</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$\phi_c P_n$</td>
+<td style="text-align: left;">$0.85 \times 1.362 \times 116 = 134.3$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">局部挫屈檢核</td>
+<td style="text-align: left;">翼板 $b_f/2t_f = 7.74 &lt; 0.56\sqrt{E/F_y} = 16.0$；腹板 $h/t_w = 33.6 &lt; 1.49\sqrt{E/F_y} = 42.6$ → 非細長 ✓</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">知識點</th>
+<th style="text-align: left;">說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">兩正交平面須各自獨立判斷</td>
+<td style="text-align: left;">同一根柱在兩個平面可以有完全不同的支承與分段；本題柱底一鉸一固</td>
+<td style="text-align: center;">[[effective-length-chart]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">「y-z 面」對應哪個軸</td>
+<td style="text-align: left;">變位在 $y$ 向 → 繞 $x$ 軸彎曲 → 用 $I_x$、$r_x$（強軸）。判別靠斷面圖的軸向定義</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">側向支撐只作用於其所在平面</td>
+<td style="text-align: left;">B 點畫在 x-z 面 → 只切弱軸；強軸仍是全長</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">分段後應比較 $KL$ 而非 $L$</td>
+<td style="text-align: left;">下段 $K$ 小但長，$KL = 672 &gt;$ 上段 $KL = 640$ → 下段控制</td>
+<td style="text-align: center;">[[lrfd-column]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">「固接可滑動」的 $K$ 判定</td>
+<td style="text-align: left;">轉動被拘束＋側向位移被拘束＋僅軸向可滑動 → 屬「固接、無側位移」端</td>
+<td style="text-align: center;">[[effective-length-chart]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">ASD 非彈性挫屈安全係數 FS</td>
+<td style="text-align: left;">FS 隨 $KL/r$ 由 5/3（$=1.667$）變化到 23/12（$=1.917$），是三項式而非常數</td>
+<td style="text-align: center;">[[asd-column]] · [[asd-fa-formula-basis]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">LRFD $\lambda_c$ 的物理意義</td>
+<td style="text-align: left;">$\lambda_c = \sqrt{F_y/F_e}$；$\lambda_c \le 1.5$ 用 $0.658^{\lambda_c^2}$，$&gt;1.5$ 用 $0.877/\lambda_c^2$</td>
+<td style="text-align: center;">[[lrfd-column]] · [[COLUMN-STRENGTH-CURVE]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">殘留應力對非彈性挫屈的影響</td>
+<td style="text-align: left;">LRFD 的 $0.658$ 曲線與 ASD 的 $C_c$ 都隱含殘留應力（約 $0.5F_y$）效應</td>
+<td style="text-align: center;">[[RESIDUAL-STRESS]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">理論 K 值與設計 K 值的取捨</td>
+<td style="text-align: left;">支承理想化明確時可用理論值；實際施工難達理想時規範建議用設計值（較大）</td>
+<td style="text-align: center;">[[effective-length-chart]]</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>一、斷面迴旋半徑</h3>
+<p>$$r_x = \sqrt{\frac{I_x}{A}} = \sqrt{\frac{26{,}700}{116}} = \sqrt{230.2} = 15.17 \ \text{cm}$$</p>
+<p>$$r_y = \sqrt{\frac{I_y}{A}} = \sqrt{\frac{4{,}480}{116}} = \sqrt{38.62} = 6.215 \ \text{cm}$$</p>
+<hr />
+<h3>二、強軸（y-z 面）有效長度</h3>
+<p><strong>邊界：</strong> 柱底 A <strong>鉸支承</strong>、柱頂 C <strong>固接（可軸向滑動、側向位移被拘束）</strong>，中間無支撐。</p>
+<p>依考卷表：端點型式「<strong>鉸接-固接</strong>」、「<strong>邊界無側位移</strong>」→ 理論 $K = 0.7$</p>
+<p>$$\left(\frac{KL}{r}\right)_x = \frac{0.7 \times 1600}{15.17} = \frac{1120}{15.17} = 73.8$$</p>
+<blockquote>
+<p><strong>策略註解：</strong> 強軸用<strong>全長 1600 cm</strong>。B 點的側向支撐畫在 x-z 面，對本平面（y-z）沒有任何作用。</p>
+</blockquote>
+<hr />
+<h3>三、弱軸（x-z 面）有效長度（分段計算）</h3>
+<p><strong>邊界：</strong> 柱底 A <strong>固接</strong>；B 點（距 A $= 0.6L = 960$ cm）與柱頂 C <strong>鉸接側向支撐</strong>。</p>
+<p><strong>下段 A–B（長 $0.6L = 960$ cm）：</strong> A 固接、B 鉸接 → 「鉸接-固接、無側位移」→ $K = 0.7$</p>
+<p>$$\left(\frac{KL}{r}\right)_{y,\text{下}} = \frac{0.7 \times 960}{6.215} = \frac{672}{6.215} = \boxed{108.1}$$</p>
+<p><strong>上段 B–C（長 $0.4L = 640$ cm）：</strong> B 鉸接、C 鉸接 → 「鉸接-鉸接」→ $K = 1.0$</p>
+<p>$$\left(\frac{KL}{r}\right)_{y,\text{上}} = \frac{1.0 \times 640}{6.215} = \frac{640}{6.215} = 103.0$$</p>
+<hr />
+<h3>四、控制長細比</h3>
+<p>$$\left(\frac{KL}{r}\right)_{\max} = \max(73.8,\; 108.1,\; 103.0) = \boxed{108.1}$$</p>
+<p><strong>控制段：弱軸下段（A–B）</strong>，$KL/r = 108.1$</p>
+<p>$$108.1 &lt; 200 \quad \text{（壓力桿件細長比上限）} \ \checkmark$$</p>
+<p><img alt="SS-2013-3 圖 3：三段有效長細比的長條比較圖。強軸全柱 KL/r = 73.8（68%）、弱軸下段 A–B KL/r = 108.1（100%，控制）、弱軸上段 B–C KL/r = 103.0（95%），以及將 B 點下移至 941 cm 使兩段 KL 相等之最佳化情形 KL/r = 106.0（98%）；每列左側附該情形的挫屈模態迷你示意圖" src="../../raw/solutions/SS-2013-3/figs/SS-2013-3-fig-3-slenderness.svg" /></p>
+<p><em>圖 3　三段各自算出 $KL/r$ 之後再比大小。<strong>攔錯：</strong>拿物理長度 $L$ 或有效長度 $KL$ 互比而選錯控制段——強軸 $KL = 1120$ cm 為三者最大，卻因 $r_x$ 大而不控制；弱軸上段 $L = 640$ cm 最短，卻因 $K = 1.0$ 而幾乎與下段同樣嚴苛。</em></p>
+<hr />
+<h3>五、(一) ASD 容許壓力強度 $P_a$</h3>
+<p><strong>計算 $C_c$（彈性／非彈性界限長細比）：</strong></p>
+<p>$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}} = \sqrt{\frac{2 \times 9.8696 \times 2040}{2.5}} = \sqrt{\frac{40{,}268}{2.5}} = \sqrt{16{,}107} = 126.9$$</p>
+<p><strong>判斷區段：</strong> $KL/r = 108.1 &lt; C_c = 126.9$ → <strong>非彈性挫屈（Inelastic Buckling）</strong></p>
+<p><strong>計算安全係數 FS（隨 $KL/r$ 變化）：</strong></p>
+<p>$$\text{FS} = \frac{5}{3} + \frac{3(KL/r)}{8C_c} - \frac{(KL/r)^3}{8C_c^3}$$</p>
+<p>$$= 1.6667 + \frac{3 \times 108.1}{8 \times 126.9} - \frac{108.1^3}{8 \times 126.9^3} = 1.6667 + \frac{324.3}{1015.2} - \frac{1{,}263{,}214}{16{,}344{,}566}$$</p>
+<p>$$= 1.6667 + 0.3194 - 0.0773 = \boxed{1.909}$$</p>
+<p><strong>計算容許應力 $F_a$：</strong></p>
+<p>$$F_a = \frac{\left[1 - \dfrac{(KL/r)^2}{2C_c^2}\right] F_y}{\text{FS}} = \frac{\left[1 - \dfrac{108.1^2}{2(126.9)^2}\right] \times 2.5}{1.909}$$</p>
+<p>$$= \frac{\left[1 - \dfrac{11{,}686}{32{,}211}\right] \times 2.5}{1.909} = \frac{(1 - 0.3628) \times 2.5}{1.909} = \frac{1.593}{1.909} = \boxed{0.834 \ \text{tf/cm}^2}$$</p>
+<p><strong>容許壓力強度：</strong></p>
+<p>$$\boxed{P_a = F_a \times A = 0.834 \times 116 = 96.8 \ \text{tf}}$$</p>
+<hr />
+<h3>六、(二) LRFD 設計壓力強度 $\phi_c P_n$</h3>
+<p><strong>計算 $\lambda_c$（無量綱長細參數）：</strong></p>
+<p>$$\sqrt{\frac{E}{F_y}} = \sqrt{\frac{2040}{2.5}} = \sqrt{816} = 28.57$$</p>
+<p>$$\lambda_c = \frac{KL/r}{\pi}\sqrt{\frac{F_y}{E}} = \frac{108.1}{\pi \times 28.57} = \frac{108.1}{89.73} = \boxed{1.205}$$</p>
+<p><strong>判斷 $F_{cr}$ 公式：</strong> $\lambda_c = 1.205 &lt; 1.5$ → <strong>非彈性挫屈</strong></p>
+<p>$$\lambda_c^2 = 1.205^2 = 1.452$$</p>
+<p>$$0.658^{1.452} = e^{1.452 \ln 0.658} = e^{1.452(-0.4187)} = e^{-0.6080} = 0.5446$$</p>
+<p>$$F_{cr} = 0.5446 \times 2.5 = 1.362 \ \text{tf/cm}^2$$</p>
+<p><strong>局部挫屈檢核（不可略）：</strong></p>
+<p>$$\text{翼板（無側支撐板元）：}\ \frac{b_f}{2t_f} = \frac{25.4}{2(1.64)} = 7.74 \;&lt;\; 0.56\sqrt{\frac{E}{F_y}} = 0.56(28.57) = 16.0 \ \checkmark$$</p>
+<p>$$\text{腹板（有側支撐板元）：}\ \frac{h}{t_w} = \frac{35.3 - 2(1.64)}{0.952} = 33.6 \;&lt;\; 1.49\sqrt{\frac{E}{F_y}} = 1.49(28.57) = 42.6 \ \checkmark$$</p>
+<p>兩者均為<strong>非細長斷面</strong>，故無需折減（$Q = 1.0$），$F_{cr}$ 可直接採整體彎曲挫屈值。</p>
+<p><strong>設計壓力強度（台灣現行規範 $\phi_c = 0.85$）：</strong></p>
+<p>$$\boxed{\phi_c P_n = 0.85 \times F_{cr} \times A = 0.85 \times 1.362 \times 116 = 134.3 \approx 134 \ \text{tf}}$$</p>
+<hr />
+<h3>七、結果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>量</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$r_x$</td>
+<td>15.17 cm</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>6.215 cm</td>
+</tr>
+<tr>
+<td>$(KL/r)_x$（強軸全柱，A 鉸-C 固，$K = 0.7$）</td>
+<td>73.8</td>
+</tr>
+<tr>
+<td>$(KL/r)_{y,\text{下}}$（弱軸下段，A 固-B 鉸，$K = 0.7$）</td>
+<td><strong>108.1 ← 控制</strong></td>
+</tr>
+<tr>
+<td>$(KL/r)_{y,\text{上}}$（弱軸上段，B 鉸-C 鉸，$K = 1.0$）</td>
+<td>103.0</td>
+</tr>
+<tr>
+<td>$C_c$</td>
+<td>126.9</td>
+</tr>
+<tr>
+<td>FS</td>
+<td>1.909</td>
+</tr>
+<tr>
+<td>$F_a$</td>
+<td>0.834 tf/cm²</td>
+</tr>
+<tr>
+<td><strong>$P_a$（ASD）</strong></td>
+<td><strong>96.8 tf</strong></td>
+</tr>
+<tr>
+<td>$\lambda_c$</td>
+<td>1.205</td>
+</tr>
+<tr>
+<td>$F_{cr}$</td>
+<td>1.362 tf/cm²</td>
+</tr>
+<tr>
+<td><strong>$\phi_c P_n$（LRFD，$\phi_c = 0.85$）</strong></td>
+<td><strong>134 tf</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>5.1 為何弱軸下段控制？——比 $KL$，不比 $L$</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">段</th>
+<th style="text-align: center;">$K$</th>
+<th style="text-align: center;">$L$ (cm)</th>
+<th style="text-align: center;">$KL$ (cm)</th>
+<th style="text-align: center;">$KL/r_y$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">下段 A–B</td>
+<td style="text-align: center;">0.7</td>
+<td style="text-align: center;">960</td>
+<td style="text-align: center;"><strong>672</strong></td>
+<td style="text-align: center;"><strong>108.1 ← 控制</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">上段 B–C</td>
+<td style="text-align: center;">1.0</td>
+<td style="text-align: center;">640</td>
+<td style="text-align: center;">640</td>
+<td style="text-align: center;">103.0</td>
+</tr>
+</tbody>
+</table>
+<p>上段物理長度較短（640 &lt; 960 cm），但兩端皆鉸（$K = 1.0$）；下段雖有固接底端（$K = 0.7$）卻長得多，<br />
+$KL$ 反而較大。<strong>「短的那段不一定安全」是本題的設計直覺重點。</strong></p>
+<p><strong>設計啟示：</strong> 若要提升承載力，最有效的是把 B 點側撐往下移（讓兩段的 $KL$ 相等）。<br />
+令 $0.7a = 1.0(1600-a)$ 得 $a = 941$ cm，此時兩段 $KL = 659$ cm、$KL/r_y = 106.0$，$P_a$ 可提升約 1.5%；<br />
+若在弱軸再加一道側撐（三分點），$KL/r_y$ 可降到約 72，$P_a$ 提升約 40%。</p>
+<h3>5.2 理論 K 值 vs 設計 K 值：答案差 18%</h3>
+<p>考卷同時給出兩列 $K$ 值，因此必須交代採用哪一列：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">採用</th>
+<th style="text-align: center;">$(KL/r)_x$</th>
+<th style="text-align: center;">$(KL/r)_{y,\text{下}}$</th>
+<th style="text-align: center;">$(KL/r)_{y,\text{上}}$</th>
+<th style="text-align: center;">控制值</th>
+<th style="text-align: center;">$F_a$</th>
+<th style="text-align: center;"><strong>$P_a$</strong></th>
+<th style="text-align: center;">$\lambda_c$</th>
+<th style="text-align: center;">$F_{cr}$</th>
+<th style="text-align: center;"><strong>$\phi_cP_n$</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>理論 K</strong>（0.7／0.7／1.0）</td>
+<td style="text-align: center;">73.8</td>
+<td style="text-align: center;"><strong>108.1</strong></td>
+<td style="text-align: center;">103.0</td>
+<td style="text-align: center;">108.1</td>
+<td style="text-align: center;">0.834</td>
+<td style="text-align: center;"><strong>96.8 tf</strong></td>
+<td style="text-align: center;">1.205</td>
+<td style="text-align: center;">1.362</td>
+<td style="text-align: center;"><strong>134 tf</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>設計 K</strong>（0.8／0.8／1.0）</td>
+<td style="text-align: center;">84.4</td>
+<td style="text-align: center;"><strong>123.6</strong></td>
+<td style="text-align: center;">103.0</td>
+<td style="text-align: center;">123.6</td>
+<td style="text-align: center;">0.686</td>
+<td style="text-align: center;"><strong>79.6 tf</strong></td>
+<td style="text-align: center;">1.377</td>
+<td style="text-align: center;">1.130</td>
+<td style="text-align: center;"><strong>111 tf</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>如何選？</strong></p>
+<ul>
+<li>圖 3 把支承畫成<strong>理想化符號</strong>（純鉸、純固定端、滾輪導軌），且題目未指示「支承僅能近似理想條件」<br />
+  → 多數解答採<strong>理論 K 值</strong>（本檔採用）。</li>
+<li>若強調「設計」二字、認為實際柱底不可能是完美鉸／完美固接 → 採<strong>設計 K 值</strong>（規範建議值），答案較保守。</li>
+<li><strong>考場作法：</strong> 主答採理論 K 值，並在旁註明「若採設計 K 值（0.8）則 $P_a = 79.6$ tf、$\phi_cP_n = 111$ tf」。<br />
+  兩列都給了，兩種答案都應該被接受，但<strong>不寫明依據</strong>才會被扣分。</li>
+</ul>
+<h3>5.3 依最新規範計算的差異</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">項目</th>
+<th style="text-align: left;">本題所用（台灣現行規範，民國 99 年版）</th>
+<th style="text-align: left;">AISC 360-16／-22</th>
+<th style="text-align: left;">本題影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>LRFD $\phi_c$</strong></td>
+<td style="text-align: left;"><strong>0.85</strong></td>
+<td style="text-align: left;"><strong>0.90</strong></td>
+<td style="text-align: left;">$\phi_cP_n$：134 → <strong>142 tf</strong>（+6%）</td>
+</tr>
+<tr>
+<td style="text-align: left;">LRFD 界限判準</td>
+<td style="text-align: left;">$\lambda_c \le 1.5$</td>
+<td style="text-align: left;">$KL/r \le 4.71\sqrt{E/F_y} = 134.5$</td>
+<td style="text-align: left;">等價（$1.5\pi = 4.712$），本題 108.1 &lt; 134.5，同屬非彈性</td>
+</tr>
+<tr>
+<td style="text-align: left;">LRFD $F_{cr}$ 式</td>
+<td style="text-align: left;">$0.658^{\lambda_c^2}F_y$</td>
+<td style="text-align: left;">$\left[0.658^{F_y/F_e}\right]F_y$</td>
+<td style="text-align: left;"><strong>完全相同</strong>（$F_y/F_e \equiv \lambda_c^2$）；$F_e = \pi^2E/(KL/r)^2 = 1.723$ tf/cm²，$F_y/F_e = 1.451$ → $F_{cr} = 1.362$ ✓</td>
+</tr>
+<tr>
+<td style="text-align: left;">ASD 架構</td>
+<td style="text-align: left;">$F_a$（$C_c$＋變動 FS）</td>
+<td style="text-align: left;">統一：$P_a = F_{cr}A/\Omega$，$\Omega = 1.67$</td>
+<td style="text-align: left;">$F_{cr}/\Omega = 1.362/1.67 = 0.816$ tf/cm² → $P_a = 94.6$ tf（比 96.8 低 2.3%）</td>
+</tr>
+<tr>
+<td style="text-align: left;">細長比上限</td>
+<td style="text-align: left;">建議 $KL/r \le 200$</td>
+<td style="text-align: left;">同（E2 條文說明）</td>
+<td style="text-align: left;">108.1 ✓</td>
+</tr>
+</tbody>
+</table>
+<p><strong>結論：</strong> 台灣現行有效版本仍為<strong>民國 99 年（2010）修正版</strong>，$\phi_c$ 仍是 <strong>0.85</strong>；參照 AISC 360-16 的修正草案<br />
+（建研所研究案）已完成但尚未發布施行。因此<strong>考場請照 $\phi_c = 0.85$ 作答</strong>（$\phi_c P_n = 134$ tf）；<br />
+若為實務設計並採 AISC 360-22，則為 142 tf。ASD 兩套架構的結果只差 2.3%，可互為驗算。</p>
+<h3>5.4 ASD 與 LRFD 結果的合理性交叉檢核</h3>
+<p>$$\frac{\phi_c P_n}{P_a} = \frac{134.3}{96.8} = 1.39$$</p>
+<p>若以典型載重組合 $P_u \approx 1.4 P_{service}$（$D:L = 1:1$ 時 $\dfrac{1.2+1.6}{2} = 1.4$）反推：</p>
+<p>$$P_{service,\text{允許}} = \frac{134.3}{1.4} = 95.9 \ \text{tf} \approx P_a = 96.8 \ \text{tf} \quad \checkmark$$</p>
+<p>兩法給出幾乎相同的可用服務載重，代表計算沒有量級錯誤——這是考場上最快的自我檢查。</p>
+<h3>5.5 ASD 安全係數的設計哲學</h3>
+<p>$$\text{FS}\big|<em KL_r="KL/r">{KL/r = 0} = \frac{5}{3} = 1.667, \qquad \text{FS}\big|</em> = 1.917$$} = \frac{23}{12</p>
+<p>本題 FS = 1.909，已非常接近彈性挫屈邊界的 1.917（因 $KL/r = 108.1$ 已接近 $C_c = 126.9$）。<br />
+<strong>物理意義：</strong> 長柱的挫屈行為對初始缺陷與殘留應力更敏感、離散度更大，故規範給較大的安全係數。</p>
+<p><em>解析完成時間：2026-04-23</em><br />
+<em>修正日期：2026-08-22（依考卷圖 3 逐一改正兩平面之邊界判讀：強軸為「A 鉸-C 固接可滑動」、弱軸柱底為「固接」；修正 $F_a$ 0.835→0.834、$P_a$ 96.9→96.8；補設計 K 值對照與最新規範 $\phi_c = 0.90$ 對照）</em><br />
+<em>圖解補繪：2026-08-29（向量圖，腳本 <code>gen_SS-2013-3.py</code>，可重跑）</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2013-3/SS-2013-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

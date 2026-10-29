@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2015-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2015-1 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-2.html" title="SS-U1-2 梁桿件 命題分析">&#128269; U1-2 命題分析</a><a class="lect" href="../lecture-SS-U1-2.html" title="SS-U1-2 梁桿件 觀念講義">&#128218; U1-2 梁桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2015-1</h1>
+<p><strong>主分類：</strong> <code>SS-U1-2</code> 梁桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>LTB側扭挫屈</code> <code>斷面選擇</code> <code>剪力強度</code> <code>使用性撓度</code> <code>圖表判讀</code> <code>Lp判斷</code> <code>三分點集中力</code> <code>最輕斷面判定</code> <code>腹板面積定義</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>結構描述：</strong><br />
+- 跨距 $L = 8.4$ m 之簡支承鋼梁<br />
+- 三分點各承受集中力：靜載重 $P_D = 22$ tf，活載重 $P_L = 35$ tf（兩點對稱）<br />
+- 側向支撐位置：支承點 + 兩載重點（A、B、C、D 四點）→ $L_b = 2.8$ m<br />
+- 材料：A709-36 級，$F_y = 2.52$ tf/cm²，$E_s = 2040$ tf/cm²<br />
+- 設計圖表：題目提供圖 1(b)（$C_b = 1.0$ 條件下，各斷面設計彎矩強度 vs $L_b$）</p>
+<p><img alt="圖1(a)簡支梁示意圖：跨距8.4m，三分點載重PD=22tf與PL=35tf，A(x=0)B(x=2.8m)C(x=5.6m)D(x=8.4m)四點均設側向支撐，BH型鋼斷面標示H×B×tw×tf單位mm" src="../../raw/solutions/SS-2015-1/SS-2015-1-fig-1.png" /></p>
+<p><em>圖說：簡支梁總長 8.4 m，兩個集中載重分別作用於 x = 2.8 m 和 x = 5.6 m（三分點）。A、B、C、D 四點均有側向支撐，故無側撐長度 $L_b = 2.8$ m（非梁總長）。BH 型鋼命名：H × B × tw × tf，尺寸單位 mm。</em></p>
+<p><img alt="圖1(b)梁設計彎矩強度圖：橫軸Lb(m)範圍2~5，縱軸φbMn(tf-m)，Fy=2.52 tf/cm²，Cb=1.0，含多條BH型鋼強度曲線，y軸標記235、230、227三條水平虛線" src="../../raw/solutions/SS-2015-1/SS-2015-1-chart-1.png" /></p>
+<p><em>圖說：設計輔助圖，橫軸 $L_b$（m），縱軸 $\phi_b M_n$（tf-m），$F_y = 2.52$ tf/cm²，$C_b = 1.0$。候選斷面（由輕到重）：BH 870×350×16×25（240 kg/m）、BH 920×300×19×25（247 kg/m）、BH 826×350×16×28（251 kg/m）、BH 820×400×16×25（254 kg/m）、BH 610×350×19×45（325 kg/m）、BH 600×400×19×40（329 kg/m）、BH 500×500×25×40（396 kg/m）。y 軸水平虛線在 235、230、227 tf-m。</em></p>
+<p><strong>子問題：</strong><br />
+1. 由圖 1(b) 設計<strong>最佳</strong>（最輕）之抗彎矩斷面<br />
+2. 檢核此斷面之剪力強度（$\phi_v = 0.9$，無加勁板，$k_v = 5.0$）<br />
+3. 檢核因<strong>活載重</strong>造成之撓度是否符合規範限制</p>
+<p><img alt="SS-2015-1參考公式截圖：剪力強度三段式（h/tw判斷）及LTB公式" src="../../raw/solutions/SS-2015-1/SS-2015-1-eqn-1.png" /></p>
+<p><em>圖說：題目提供之剪力強度公式（三段判斷）：</em><br />
+- <em>段一 $\dfrac{h}{t_w} \leq 50\sqrt{\dfrac{k_v}{F_{yw}}}$：$V_n = 0.6 F_{yw} A_w$</em><br />
+- <em>段二 $50\sqrt{\dfrac{k_v}{F_{yw}}} &lt; \dfrac{h}{t_w} \leq 62\sqrt{\dfrac{k_v}{F_{yw}}}$：$V_n = 0.6 F_{yw} A_w \cdot \dfrac{50\sqrt{k_v/F_{yw}}}{h/t_w}$</em><br />
+- <em>段三 $62\sqrt{\dfrac{k_v}{F_{yw}}} &lt; \dfrac{h}{t_w} \leq 260$：$V_n = \dfrac{1860\,k_v}{(h/t_w)^2} A_w$</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：梁設計完整流程</strong><br />
+此題模擬真實梁設計三步驟——彎矩選斷面 → 剪力檢核 → 使用性撓度檢核。測驗考生是否能以「最輕斷面」為目標進行有效篩選，同時正確區分<strong>極限載重（因數化）</strong> vs. <strong>服務載重（未因數化）</strong>的應用場合。</p>
+<p><strong>出題者測驗重點：</strong><br />
+- 圖表判讀：能否將 $(L_b, M_u)$ 座標點映射到圖中，找出滿足的最輕曲線<br />
+- $L_b$ 判讀：側撐點在「支承點 + 載重點」，故 $L_b = 2.8$ m（非梁全長）<br />
+- 剪力段落判斷：$h/t_w$ 對應哪一段公式<br />
+- 三分點撓度公式：需用 $23PL^3/648EI$（單個 $P$），非均佈公式</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1  Pu = 1.2PD + 1.6PL → Mu = Pu × (L/3)
+Step 2  圖 1(b) Lb=2.8m 處畫水平線 Mu=230.72 tf-m，
+        由輕到重逐一確認 φbMn ≥ Mu，計算 φbMp 驗算
+Step 3  Vu = Pu（支承反力），計算 h/tw，判斷剪力段，求 φvVn
+Step 4  δL = 23PL·L³/(648EI)（P = 未因數化活載重 35 tf）
+        比較 δL ≤ L/360
+</code></pre>
+<p><strong>陷阱分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>對策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ 圖中最輕誤判</td>
+<td>BH 870×350×16×25（240 kg/m）外觀最輕，但 $\phi_bM_p = 228.69$ tf-m &lt; 230.72，不足</td>
+<td>計算 $Z_x$ 驗算，不單靠圖讀</td>
+</tr>
+<tr>
+<td>❷ 跳過次輕斷面</td>
+<td>870 不合格後<strong>直接跳到 BH 826×350×16×28（251 kg/m）</strong>，漏掉中間的 BH 920×300×19×25（<strong>247 kg/m</strong>）</td>
+<td>候選曲線須依單位重<strong>由輕到重排序後逐一</strong>檢核，不可跳號</td>
+</tr>
+<tr>
+<td>❸ 撓度用因數化載重</td>
+<td>使用 $P_u = 82.4$ tf 而非 $P_L = 35$ tf 計算撓度</td>
+<td>使用性 → 未因數化活載重</td>
+</tr>
+<tr>
+<td>❹ 剪力 Aw 定義</td>
+<td>本卷第三頁公式表<strong>只給 $V_n$ 三段式，未定義 $A_w$</strong></td>
+<td>台灣規範（及 100 年考卷公式表）明列 $A_w = (d-2t_f)t_w$；AISC 360 為 $d\,t_w$。取前者較保守，兩者本題皆遠大於 $V_u$</td>
+</tr>
+<tr>
+<td>❺ 三分點公式</td>
+<td>誤用均佈或跨中集中力撓度公式</td>
+<td>三分點對稱兩集中力：$\delta = 23PL^3/648EI$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 選最輕合格斷面（彎矩） → 驗剪力強度 → 驗活載重撓度</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p><strong>Step 1：需求彎矩（LRFD）</strong><br />
+$$\boxed{P_u} = 1.2 P_D + 1.6 P_L$$<br />
+$$\boxed{M_u} = \boxed{P_u} \times \frac{L}{3}$$</p>
+<p><strong>Step 2：選最輕斷面（讀圖 + 塑性驗算）</strong><br />
+$$\boxed{Z_x} = b_f t_f (H - t_f) + t_w \frac{h_w^2}{4}$$<br />
+$$\boxed{\phi_b M_p} = 0.9 \, F_y \, \boxed{Z_x} \geq \boxed{M_u} \quad \checkmark$$</p>
+<p><strong>Step 3：剪力強度</strong><br />
+$$\boxed{A_w} = (d - 2t_f)\, t_w \quad (\text{台灣規範定義；AISC 360 為 } d\,t_w)$$<br />
+$$\boxed{\phi_v V_n} = \phi_v \times 0.6 F_{yw} \times \boxed{A_w} \geq V_u \quad \checkmark$$</p>
+<p><strong>Step 4：活載重撓度</strong><br />
+$$\boxed{\delta} = \frac{23 \, P_L \, L^3}{648 \, E \, \boxed{I_x}} \leq \frac{L}{360} \quad \checkmark$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L$</td>
+<td>8.4 m</td>
+<td>梁跨距</td>
+</tr>
+<tr>
+<td>$P_D$</td>
+<td>22 tf</td>
+<td>靜載重（每個集中力）</td>
+</tr>
+<tr>
+<td>$P_L$</td>
+<td>35 tf</td>
+<td>活載重（每個集中力）</td>
+</tr>
+<tr>
+<td>$L_b$</td>
+<td>2.8 m</td>
+<td>側向無束制長度（支承＋三分點支撐）</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>2.52 tf/cm²</td>
+<td>降伏應力（A709-36 級）</td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td>2040 tf/cm²</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>$k_v$</td>
+<td>5.0</td>
+<td>剪力屈曲係數（無加勁板）</td>
+</tr>
+<tr>
+<td>$\phi_v$</td>
+<td>0.9</td>
+<td>剪力強度折減係數</td>
+</tr>
+<tr>
+<td>設計圖表</td>
+<td>圖1(b)</td>
+<td>$\phi_bM_n$ vs $L_b$（含候選斷面曲線）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：需求彎矩（LRFD）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_u$</td>
+<td>$1.2P_D + 1.6P_L = 82.4$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$R_a$</td>
+<td>$P_u$（對稱簡支，兩載重均等）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_u$</td>
+<td>$R_a \times L/3 = 230.72$ tf-m</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：選最輕斷面</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>候選排序</td>
+<td>依單位重由輕到重：240 → <strong>247</strong> → 251 → 254 → 325 → 329 → 396 kg/m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>圖讀 $\phi_bM_n$</td>
+<td>在 $L_b = 2.8$ m 處對各曲線讀值</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_p$ 確認</td>
+<td>$80 r_y / \sqrt{F_{yf}}$（確認是否在塑性區）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>$\sqrt{I_y / A}$（查斷面手冊或計算）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z_x$</td>
+<td>$b_f t_f(H - t_f) + t_w h_w^2 / 4$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_b M_p$</td>
+<td>$0.9 \times F_y \times Z_x$（塑性區的上限）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：剪力強度檢核</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_u$</td>
+<td>$R_a = 82.4$ tf（支承反力）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$h/t_w$</td>
+<td>$h_w / t_w = 87.0 / 1.9 = 45.8$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>段落門檻</td>
+<td>$50\sqrt{k_v / F_{yw}} = 70.4$ → <strong>段一</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_w$</td>
+<td>$(d - 2t_f)t_w = 87.0 \times 1.9 = 165.3$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_v V_n$</td>
+<td>$0.9 \times 0.6 F_{yw} \times A_w = 224.9$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：活載重撓度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_{服務}$</td>
+<td>$P_L = 35$ tf（<strong>未因數化</strong>活載重）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\delta$</td>
+<td>$23 P_L L^3 / (648 E I_x)$（三分點對稱公式）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_x$</td>
+<td>選定斷面 BH 920×300×19×25：$I_x = 404\,726$ cm⁴</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>限制值</td>
+<td>$L / 360 = 840 / 360 = 2.33$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LRFD 載重組合</td>
+<td>為何用 $1.2D + 1.6L$？係數代表什麼意義？</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>LTB 塑性區判斷</td>
+<td>$L_b \leq L_p$ 才能取 $\phi_bM_n = \phi_bM_p$；超過要線性內插</td>
+<td style="text-align: center;">[[ltb-3zone]] · [[LATERAL-TORSIONAL-BUCKLING]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>使用性 vs 強度載重</td>
+<td>撓度用<strong>服務載重</strong>（未因數化），強度設計用因數化載重</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_w$ 定義差異</td>
+<td>台灣規範取腹板淨高 $(d-2t_f)t_w$；AISC 360 取全深 $d\,t_w$</td>
+<td style="text-align: center;">[[SHEAR-BUCKLING-WEB]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>三分點撓度推導</td>
+<td>$Pa(3L^2 - 4a^2)/24EI$，令 $a = L/3$ 化簡得 $23PL^3/648EI$</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<blockquote>
+<p>📊 <strong>剪力圖與彎矩圖請參閱：</strong> <code>SS-2015-1-sfd-bmd-viz.html</code></p>
+</blockquote>
+<h3>Step 1：需求彎矩計算</h3>
+<p><strong>因數化集中力：</strong><br />
+$$P_u = 1.2 P_D + 1.6 P_L = 1.2 \times 22 + 1.6 \times 35 = 26.4 + 56.0 = 82.4 \text{ tf}$$</p>
+<p><strong>反力（對稱）：</strong> $R_a = R_b = P_u = 82.4$ tf</p>
+<p><strong>最大彎矩（兩載重點之間為等彎矩段）：</strong><br />
+$$M_u = R_a \times \frac{L}{3} = 82.4 \times 2.8 = \boxed{230.72 \text{ tf-m}}$$</p>
+<hr />
+<h3>Step 2：圖 1(b) 選擇最佳斷面</h3>
+<p><strong>條件：</strong> $L_b = 2.8$ m，需 $\phi_b M_n \geq 230.72$ tf-m</p>
+<p><strong>先把圖 1(b) 的 7 條曲線依單位重排序</strong>（「最佳」＝最輕，故必須依重量而非依圖面高低逐一檢核）：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">順位</th>
+<th>斷面</th>
+<th style="text-align: center;">單位重 (kg/m)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td>BH 870×350×16×25</td>
+<td style="text-align: center;">240</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td><strong>BH 920×300×19×25</strong></td>
+<td style="text-align: center;"><strong>247</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td>BH 826×350×16×28</td>
+<td style="text-align: center;">251</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td>BH 820×400×16×25</td>
+<td style="text-align: center;">254</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td>BH 610×350×19×45</td>
+<td style="text-align: center;">325</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td>BH 600×400×19×40</td>
+<td style="text-align: center;">329</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td>BH 500×500×25×40</td>
+<td style="text-align: center;">396</td>
+</tr>
+</tbody>
+</table>
+<p>斷面性質公式（BH 為銲接組合斷面，$h_w = H - 2t_f$）：<br />
+$$Z_x = b_f t_f (H - t_f) + t_w \frac{h_w^2}{4}，\quad I_y = \frac{t_f b_f^3}{6} + \frac{h_w t_w^3}{12}，\quad r_y = \sqrt{I_y/A}，\quad L_p = \frac{80 r_y}{\sqrt{F_{yf}}}$$</p>
+<h4>順位 1：BH 870×350×16×25（240 kg/m）❌</h4>
+<p>$$h_w = 87 - 2(2.5) = 82.0，\quad A = 2(35)(2.5) + 82(1.6) = 175 + 131.2 = 306.2 \text{ cm}^2$$<br />
+$$Z_x = 35 \times 2.5 \times (87-2.5) + 1.6 \times \frac{82^2}{4} = 7393.8 + 2689.6 = 10\,083 \text{ cm}^3$$<br />
+$$\phi_b M_p = 0.9 \times 2.52 \times 10\,083 = 22\,869 \text{ tf-cm} = 228.69 \text{ tf-m}$$<br />
+$$I_y = \frac{2.5 \times 35^3}{6} + \frac{82 \times 1.6^3}{12} = 17\,864 + 28.0 = 17\,892 \text{ cm}^4，\ r_y = \sqrt{\tfrac{17\,892}{306.2}} = 7.64 \text{ cm}$$<br />
+$$L_p = \frac{80 \times 7.64}{1.5875} = 385 \text{ cm} = 3.85 \text{ m} &gt; L_b = 2.8 \text{ m} \Rightarrow \text{塑性區，} \phi_bM_n = \phi_bM_p$$<br />
+$$\phi_b M_n = 228.69 &lt; M_u = 230.72 \text{ tf-m} \quad ❌ \text{ 不足 2.03 tf-m（0.88\%）}$$</p>
+<h4>順位 2：BH 920×300×19×25（247 kg/m）✓ ← <strong>最輕合格斷面</strong></h4>
+<p>$$h_w = 92 - 2(2.5) = 87.0，\quad A = 2(30)(2.5) + 87(1.9) = 150 + 165.3 = 315.3 \text{ cm}^2$$<br />
+$$Z_x = 30 \times 2.5 \times (92 - 2.5) + 1.9 \times \frac{87^2}{4} = 75 \times 89.5 + 1.9 \times 1892.25$$<br />
+$$= 6712.5 + 3595.3 = 10\,308 \text{ cm}^3$$<br />
+$$\phi_b M_p = 0.9 \times 2.52 \times 10\,308 = 23\,378 \text{ tf-cm} = \boxed{233.78 \text{ tf-m}}$$</p>
+<p>確認在塑性區：<br />
+$$I_y = \frac{2.5 \times 30^3}{6} + \frac{87 \times 1.9^3}{12} = 11\,250 + 49.7 = 11\,300 \text{ cm}^4$$<br />
+$$r_y = \sqrt{\frac{11\,300}{315.3}} = \sqrt{35.83} = 5.99 \text{ cm}，\quad L_p = \frac{80 \times 5.99}{1.5875} = 302 \text{ cm} = 3.02 \text{ m}$$</p>
+<p>$L_b = 2.8 \text{ m} &lt; L_p = 3.02 \text{ m}$ → <strong>恰在塑性區間內</strong>（僅餘裕 0.22 m，這正是圖 1(b) 中此曲線在 $L_b \approx 3.0$ m 就開始陡降的原因）</p>
+<p>$$\phi_b M_n = 233.78 \text{ tf-m} \geq M_u = 230.72 \text{ tf-m} \quad \checkmark \quad (\text{使用率 } 98.7\%)$$</p>
+<h4>其餘順位（供對照，均合格但更重）</h4>
+<table>
+<thead>
+<tr>
+<th>斷面</th>
+<th style="text-align: center;">單位重</th>
+<th style="text-align: center;">$Z_x$ (cm³)</th>
+<th style="text-align: center;">$\phi_bM_p$ (tf-m)</th>
+<th style="text-align: center;">$L_p$ (m)</th>
+<th style="text-align: center;">判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BH 870×350×16×25</td>
+<td style="text-align: center;">240</td>
+<td style="text-align: center;">10 083</td>
+<td style="text-align: center;">228.69</td>
+<td style="text-align: center;">3.85</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr>
+<td><strong>BH 920×300×19×25</strong></td>
+<td style="text-align: center;"><strong>247</strong></td>
+<td style="text-align: center;"><strong>10 308</strong></td>
+<td style="text-align: center;"><strong>233.78</strong></td>
+<td style="text-align: center;"><strong>3.02</strong></td>
+<td style="text-align: center;"><strong>✓ 選用</strong></td>
+</tr>
+<tr>
+<td>BH 826×350×16×28</td>
+<td style="text-align: center;">251</td>
+<td style="text-align: center;">10 192</td>
+<td style="text-align: center;">231.15</td>
+<td style="text-align: center;">3.99</td>
+<td style="text-align: center;">✓（較重）</td>
+</tr>
+<tr>
+<td>BH 820×400×16×25</td>
+<td style="text-align: center;">254</td>
+<td style="text-align: center;">10 322</td>
+<td style="text-align: center;">234.09</td>
+<td style="text-align: center;">4.58</td>
+<td style="text-align: center;">✓（較重）</td>
+</tr>
+<tr>
+<td>BH 610×350×19×45</td>
+<td style="text-align: center;">325</td>
+<td style="text-align: center;">10 183</td>
+<td style="text-align: center;">230.95</td>
+<td style="text-align: center;">4.44</td>
+<td style="text-align: center;">✓（較重）</td>
+</tr>
+<tr>
+<td>BH 600×400×19×40</td>
+<td style="text-align: center;">329</td>
+<td style="text-align: center;">10 244</td>
+<td style="text-align: center;">232.34</td>
+<td style="text-align: center;">5.09</td>
+<td style="text-align: center;">✓（較重）</td>
+</tr>
+<tr>
+<td>BH 500×500×25×40</td>
+<td style="text-align: center;">396</td>
+<td style="text-align: center;">10 302</td>
+<td style="text-align: center;">233.66</td>
+<td style="text-align: center;">6.48</td>
+<td style="text-align: center;">✓（較重）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>上表 $\phi_bM_p$ 與 $L_p$ 與圖 1(b) 的曲線平台高度、轉折位置逐條吻合（例如 826 於 4.0 m 轉折、870 於 3.85 m 轉折、920 於 3.0 m 轉折、500×500 全區間 5 m 內不轉折），可反證斷面性質計算無誤。</p>
+<p>⚠️ <strong>關鍵陷阱</strong>：BH 920×300×19×25 的平台高度（233.78）與 BH 500×500×25×40（233.66）在圖上幾乎重疊，且其標籤在圖 1(b) 中是以<strong>引線指向 $L_b \approx 3.1$ m 的陡降段</strong>，極易被誤讀或漏看，因此常見解法從 240 不合格後「直接跳到 251」。實際上 247 kg/m 才是最輕合格者。</p>
+</blockquote>
+<p><strong>選定斷面：BH 920×300×19×25（247 kg/m）</strong></p>
+<hr />
+<h3>Step 3：剪力強度檢核</h3>
+<p><strong>需求剪力：</strong> $V_u = R_a = 82.4$ tf</p>
+<p><strong>腹板細長比（$h$ 指腹板淨高 $h_w = H - 2t_f$）：</strong><br />
+$$\frac{h}{t_w} = \frac{h_w}{t_w} = \frac{87.0}{1.9} = 45.8$$</p>
+<p><strong>段落判斷（$k_v = 5.0$，$F_{yw} = 2.52$ tf/cm²）：</strong><br />
+$$50\sqrt{\frac{k_v}{F_{yw}}} = 50\sqrt{\frac{5.0}{2.52}} = 50 \times 1.4086 = 70.4$$</p>
+<p>$h/t_w = 45.8 &lt; 70.4$ → <strong>段一（完全塑性剪力降伏，無剪力挫屈折減）</strong></p>
+<p><strong>腹板面積：</strong><br />
+$$A_w = (d - 2t_f)\,t_w = 87.0 \times 1.9 = 165.3 \text{ cm}^2$$</p>
+<p><strong>標稱剪力強度：</strong><br />
+$$V_n = 0.6 F_{yw} A_w = 0.6 \times 2.52 \times 165.3 = 249.9 \text{ tf}$$</p>
+<p>$$\phi_v V_n = 0.9 \times 249.9 = \boxed{224.9 \text{ tf}} \gg V_u = 82.4 \text{ tf} \quad \checkmark$$</p>
+<p><strong>使用率：</strong> $82.4/224.9 = 36.6\%$，剪力強度充裕。</p>
+<blockquote>
+<p><strong>若採 $A_w = d\,t_w$（AISC 360 定義）</strong>：$A_w = 92 \times 1.9 = 174.8$ cm²，$\phi_vV_n = 0.9 \times 0.6 \times 2.52 \times 174.8 = 237.9$ tf。兩種定義相差 5.7%，本題<strong>結論相同</strong>。</p>
+</blockquote>
+<hr />
+<h3>Step 4：活載重撓度檢核</h3>
+<p><strong>三分點對稱集中力撓度公式推導：</strong></p>
+<p>對稱簡支梁，兩個等載重 $P$ 各距支承 $a = L/3$，跨中最大撓度：<br />
+$$\delta_{max} = \frac{Pa\left(3L^2 - 4a^2\right)}{24EI} = \frac{P \cdot \frac{L}{3}\left(3L^2 - \frac{4L^2}{9}\right)}{24EI} = \frac{P \cdot \frac{L}{3} \cdot \frac{23L^2}{9}}{24EI} = \frac{23PL^3}{648EI}$$</p>
+<p><strong>計算 $I_x$（BH 920×300×19×25）：</strong></p>
+<p>各翼板形心距總中性軸距離：$\dfrac{h_w}{2} + \dfrac{t_f}{2} = \dfrac{87}{2} + \dfrac{2.5}{2} = 43.5 + 1.25 = 44.75$ cm</p>
+<p>$$I_x = 2\left[\frac{b_f t_f^3}{12} + b_f t_f \times 44.75^2\right] + \frac{t_w h_w^3}{12}$$<br />
+$$= 2\left[\frac{30 \times 2.5^3}{12} + 30 \times 2.5 \times 2002.6\right] + \frac{1.9 \times 87^3}{12}$$<br />
+$$= 2\left[39.1 + 150\,192\right] + \frac{1.9 \times 658\,503}{12}$$<br />
+$$= 2 \times 150\,231 + 104\,263 = 300\,463 + 104\,263 = \boxed{404\,726 \text{ cm}^4}$$</p>
+<p><strong>代入公式（$P = P_L = 35$ tf，$L = 840$ cm）：</strong></p>
+<p>$$\delta_L = \frac{23 \times 35 \times 840^3}{648 \times 2040 \times 404\,726}$$</p>
+<ul>
+<li>分子：$23 \times 35 \times 592\,704\,000 = 805 \times 592\,704\,000 = 4.7713 \times 10^{11}$</li>
+<li>分母：$648 \times 2040 \times 404\,726 = 1\,321\,920 \times 404\,726 = 5.3502 \times 10^{11}$</li>
+</ul>
+<p>$$\delta_L = \frac{4.7713 \times 10^{11}}{5.3502 \times 10^{11}} = \boxed{0.892 \text{ cm}}$$</p>
+<p><strong>規範限制：</strong><br />
+$$\delta_{allow} = \frac{L}{360} = \frac{840}{360} = 2.33 \text{ cm}$$</p>
+<p>$$\delta_L = 0.892 \text{ cm} &lt; \delta_{allow} = 2.33 \text{ cm} \quad \checkmark \quad \text{（僅達限制值的 38.2\%）}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>爭議一：「最佳」＝最輕，必須依單位重逐一檢核（本題最易失分處）</strong></p>
+<p>圖 1(b) 的曲線在圖面上是依 $\phi_bM_n$ 高低排列，<strong>與單位重的排序不一致</strong>。實際重量排序為 240 → 247 → 251 → 254 → 325 → 329 → 396 kg/m，而圖面高低（$\phi_bM_p$）排序卻是 254 → 247 ≈ 396 → 329 → 251 ≈ 325 → 240。</p>
+<ul>
+<li>BH 870×350×16×25（240）：$\phi_bM_p = 228.69 &lt; 230.72$ ❌</li>
+<li>BH 920×300×19×25（<strong>247</strong>）：$\phi_bM_p = 233.78 \geq 230.72$ ✓ ← 最輕合格</li>
+<li>BH 826×350×16×28（251）：$\phi_bM_p = 231.15$ ✓ 但比 247 重 4 kg/m</li>
+</ul>
+<p><strong>BH 920×300×19×25 的平台高度 233.78 與 BH 500×500×25×40 的 233.66 在圖上幾乎重疊</strong>，且其標籤引線指向 $L_b \approx 3.1$ m 的陡降段（因 $L_p = 3.02$ m 最小），故極易被誤判為「不合格」或整條被漏看。這是把 251 誤當成答案的根本原因。</p>
+<p><strong>爭議二：腹板面積 $A_w$ 定義（本卷未給定）</strong></p>
+<p>本卷第三頁參考公式<strong>只列 $V_n$ 三段式，並未定義 $A_w$</strong>。兩種來源：</p>
+<table>
+<thead>
+<tr>
+<th>來源</th>
+<th>$A_w$ 定義</th>
+<th style="text-align: center;">本題數值</th>
+<th style="text-align: center;">$\phi_vV_n$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>台灣規範／100 年考卷公式表明列 $A_w = (d - 2t_f)t_w$</td>
+<td>腹板淨高</td>
+<td style="text-align: center;">87.0 × 1.9 = 165.3 cm²</td>
+<td style="text-align: center;"><strong>224.9 tf</strong></td>
+</tr>
+<tr>
+<td>AISC 360-16 §G2.1 $A_w = d\,t_w$</td>
+<td>全深</td>
+<td style="text-align: center;">92 × 1.9 = 174.8 cm²</td>
+<td style="text-align: center;">237.9 tf</td>
+</tr>
+</tbody>
+</table>
+<p>兩者相差 5.7%。本解析採<strong>較保守的淨高定義</strong>為主答，並註明 AISC 定義；由於 $V_u = 82.4$ tf 遠小於兩者，<strong>結論不受影響</strong>。考場作答時建議明寫所採定義。</p>
+<p><strong>進階：深梁特性（撓度充裕的原因）</strong></p>
+<p>所選斷面 $L/d = 840/92 = 9.1$，屬深梁（一般梁 $L/d \approx 15\sim25$）。深梁 $I_x$ 大，自然使撓度遠低於限制。<strong>此題由彎矩強度控制，撓度與剪力自動滿足</strong>，此為鋼結構梁桿件之常見現象。</p>
+<hr />
+<h2>6. 依最新規範（AISC 360-16／-22）對照</h2>
+<blockquote>
+<p><strong>主答依據</strong>：內政部「鋼構造建築物鋼結構設計技術規範」<strong>民國 99 年（2010）修正版</strong>——本卷注意事項（四）明文：「作答請採用內政部發布 2010 年『鋼結構設計技術規範』為原則」。以 AISC 360-16 為基礎之修訂版<strong>尚未發布</strong>，故僅列為對照。</p>
+</blockquote>
+<h3>6.1 $L_p$ 公式：形式不同、數值幾乎相同</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>台灣 2010（＝AISC LRFD 1993）</th>
+<th>AISC 360-16 §F2.2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>公式</td>
+<td>$L_p = \dfrac{80 r_y}{\sqrt{F_{yf}}}$（$F_y$ 單位 tf/cm²）</td>
+<td>$L_p = 1.76 r_y \sqrt{E/F_y}$</td>
+</tr>
+<tr>
+<td>本題（$r_y = 5.99$ cm）</td>
+<td>3.02 m</td>
+<td>$1.76 \times 5.99 \times \sqrt{2040/2.52} = 3.00$ m</td>
+</tr>
+</tbody>
+</table>
+<p>$80/\sqrt{F_y}$ 與 $1.76\sqrt{E/F_y}$ 在 $E = 2040$ tf/cm² 時等價（$1.76\sqrt{2040} = 79.5 \approx 80$），故<strong>兩規範的塑性區界限實質相同</strong>。$L_b = 2.8$ m 在兩者下皆 $&lt; L_p$，$M_n = M_p$ 成立，<strong>選定斷面不變</strong>。</p>
+<h3>6.2 斷面結實性（compact）檢核</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: center;">本題值</th>
+<th style="text-align: center;">台灣 2010 $\lambda_p$</th>
+<th style="text-align: center;">AISC 360-16 $\lambda_p$</th>
+<th style="text-align: center;">判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>翼板 $b_f/2t_f$</td>
+<td style="text-align: center;">30/5 = <strong>6.00</strong></td>
+<td style="text-align: center;">$17/\sqrt{F_y} = 10.71$</td>
+<td style="text-align: center;">$0.38\sqrt{E/F_y} = 10.81$</td>
+<td style="text-align: center;">結實 ✓</td>
+</tr>
+<tr>
+<td>腹板 $h/t_w$</td>
+<td style="text-align: center;"><strong>45.79</strong></td>
+<td style="text-align: center;">$170/\sqrt{F_y} = 107.1$</td>
+<td style="text-align: center;">$3.76\sqrt{E/F_y} = 106.98$</td>
+<td style="text-align: center;">結實 ✓</td>
+</tr>
+</tbody>
+</table>
+<p>兩規範界限值差異 &lt; 1%，判定一致。</p>
+<h3>6.3 剪力：AISC 360-16 §G2 的 $\phi_v = 1.00$</h3>
+<p>$$\frac{h}{t_w} = 45.79 \leq 2.24\sqrt{\frac{E}{F_y}} = 2.24 \times 28.45 = 63.7$$</p>
+<p>→ AISC 360-16 允許 $\phi_v = \mathbf{1.00}$（而非 0.90），且 $C_{v1} = 1.0$：<br />
+$$V_n = 0.6 F_y A_w = 0.6 \times 2.52 \times 174.8 = 264.3 \text{ tf}，\quad \phi_v V_n = 264.3 \text{ tf}$$</p>
+<p>vs 台灣 2010（本題指定 $\phi_v = 0.9$）：224.9 tf。<strong>AISC 高出 17.5%</strong>（$\phi_v$ 0.9→1.0 與 $A_w$ 淨高→全深兩項疊加）。但本題已由題目指定 $\phi_v = 0.9$，主答仍用 0.9。</p>
+<h3>6.4 使用性撓度</h3>
+<p>AISC 360 本體不規定撓度限值（歸屬 Chapter L 及 IBC）；$L/360$（活載重）為兩地通用慣例，<strong>無差異</strong>。</p>
+<h3>6.5 對照結論</h3>
+<table>
+<thead>
+<tr>
+<th>子題</th>
+<th>台灣 2010（主答）</th>
+<th>AISC 360-16</th>
+<th style="text-align: center;">差異</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(一) 最佳斷面</td>
+<td><strong>BH 920×300×19×25（247 kg/m）</strong></td>
+<td>同</td>
+<td style="text-align: center;">無</td>
+</tr>
+<tr>
+<td>(二) $\phi_v V_n$</td>
+<td>224.9 tf ≫ 82.4 tf ✓</td>
+<td>264.3 tf ✓</td>
+<td style="text-align: center;">+17.5%，結論同</td>
+</tr>
+<tr>
+<td>(三) $\delta_L$</td>
+<td>0.892 cm &lt; 2.33 cm ✓</td>
+<td>同</td>
+<td style="text-align: center;">無</td>
+</tr>
+</tbody>
+</table>
+<p><strong>三小題的答案在兩規範下完全一致</strong>；差異僅在剪力容量的數值大小。</p>
+<hr />
+<p><em>解析完成時間：2026-04-08（重新解析，依當前 CLAUDE.md 格式）</em><br />
+<em>修正日期：2026-08-22（勘誤：子題(一)最佳斷面由 BH 826×350×16×28 改為 </em><em>BH 920×300×19×25</em><em>；連帶修正 $A_w$ 定義、$h/t_w$、$\phi_vV_n$、$I_x$、$\delta_L$；新增 §6 最新規範對照）</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2015-1/SS-2015-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

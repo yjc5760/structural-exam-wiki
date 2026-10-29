@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>結構技師考試知識庫</title>
+<style>
+  :root{--bg:#f5f6f8;--card:#fff;--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;--accent:#0f766e}
+  @media (prefers-color-scheme:dark){:root{--bg:#111827;--card:#1f2937;--ink:#e5e7eb;--muted:#9ca3af;--line:#374151;--accent:#2dd4bf}}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px 16px}
+  h1{font-size:1.5rem}
+  .sub{color:var(--muted);font-size:.9rem;margin:4px 0 20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;color:inherit;text-decoration:none;border-top:4px solid var(--c)}
+  a.card:hover{box-shadow:0 4px 14px rgba(0,0,0,.08)}
+  .code{font-weight:800;color:var(--c);font-size:1.1rem}
+  .name{font-weight:700;margin:2px 0 8px}
+  .meta{font-size:.85rem;color:var(--muted)}
+  .n{font-size:1.6rem;font-weight:800}
+  .units{font-size:.8rem;color:var(--muted);margin-top:8px}
+  footer{margin-top:24px;font-size:.8rem;color:var(--muted)}
+  code{background:rgba(127,127,127,.15);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📚 結構工程技師考試知識庫</h1>
+  <p class="sub">專技高考結構工程技師・五科共用架構・每科一個資料夾。點卡片進入該科儀表板。</p>
+  <div class="grid" id="grid"></div>
+  <footer>題數來自各科 <code>dashboard-data.js</code>；索引變動後對 Cowork 說「更新五科儀表板資料」。分類依 <code>syllabus_taxonomy.json</code>（來源：命題大綱.pdf）。</footer>
+</div>
+<script>
+const SUBJ=[['SS','鋼結構設計','#2563eb'],['RC','鋼筋混凝土設計與預力混凝土設計','#d97706'],['SA','結構學','#059669'],['SD','結構動力分析與耐震設計','#7c3aed'],['SM','土壤力學與基礎設計','#b45309']];
+const grid=document.getElementById('grid');
+function card(code,name,color,info){
+  const q=info&&info.q||[], years=[...new Set(q.map(r=>+r[0].split('-')[1]))].sort();
+  const units=info&&info.s&&info.s.unitOrder?info.s.unitOrder.length:'—';
+  return `<a class="card" href="${code}/index.html" style="--c:${color}">
+    <div class="code">${code}</div><div class="name">${(info&&info.s&&info.s.name)||name}</div>
+    <div class="n">${q.length} <span class="meta">題</span></div>
+    <div class="meta">${years.length?`${years[0]}–${years[years.length-1]}（${years.length} 考年）`:'尚未收錄題目'}</div>
+    <div class="units">命題大綱 ${units} 個單元</div></a>`;
+}
+(async()=>{
+  const out={};
+  for(const [code] of SUBJ){
+    delete window.KB_SUBJECT;delete window.KB_QUESTIONS;delete window.SS_QUESTIONS;
+    await new Promise(res=>{const s=document.createElement('script');s.src=code+'/dashboard-data.js';s.onload=res;s.onerror=res;document.head.appendChild(s);});
+    out[code]={s:window.KB_SUBJECT,q:window.KB_QUESTIONS||window.SS_QUESTIONS};
+  }
+  grid.innerHTML=SUBJ.map(([c,n,col])=>card(c,n,col,out[c])).join('');
+})();
+grid.innerHTML=SUBJ.map(([c,n,col])=>card(c,n,col,null)).join('');
+</script>
+</body>
+</html>

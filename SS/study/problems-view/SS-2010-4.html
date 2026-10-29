@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2010-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2010-4 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-2.html" title="SS-U1-2 梁桿件 命題分析">&#128269; U1-2 命題分析</a><a class="lect" href="../lecture-SS-U1-2.html" title="SS-U1-2 梁桿件 觀念講義">&#128218; U1-2 梁桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2010-4</h1>
+<p><strong>主分類：</strong> <code>SS-U1-2</code> 梁桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>梁桿件</code> <code>斷面選擇</code> <code>使用性撓度</code> <code>LRFD</code> <code>全側撐</code> <code>塑性力矩</code> <code>RH斷面</code> <code>樓版載重</code> <code>撓度檢核</code> <code>自重迭代</code> <code>翼板結實性</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>有一 15 cm 厚鋼筋混凝土版由鋼梁支撐，鋼梁為跨距 6.0 m 之簡支承，梁與梁之間距為 3.0 m，上翼版埋入混凝土版內（如圖三），混凝土單位重 2.4 tf/m³，版面上貼大理石面磚，重 30 kg/m²，樓版承受活載重 400 kg/m²，荷重僅考慮靜載重與活載重之組合，試使用 A992 鋼料（降伏強度 $F_y = 3.52\ \text{tf/cm}^2$，$E = 2{,}040\ \text{tf/cm}^2$），以極限設計法（LSD）參考下表設計：</p>
+<ol>
+<li>僅就力矩考量，設計一最經濟之 RH 梁斷面。（15 分）</li>
+<li>檢核此斷面之撓度是否合乎 L/360 之規定。（15 分）</li>
+</ol>
+<p><img alt="簡支鋼梁跨距 6.0m，梁間距 3.0m，15cm 厚 RC 版，上翼版埋入混凝土中" src="../../raw/solutions/SS-2010-4/SS-2010-4-fig-1.png" /></p>
+<p><em>圖說：鋼梁跨距 6.0m，梁間距 3.0m（兩側各 3.0m），RC 版厚 15cm。梁的上翼版埋入混凝土版內，即壓力翼版全程獲側向支撐（不發生側扭挫屈）。</em></p>
+<p><strong>題目給定之 RH 斷面表（原卷「參考下表」，共 5 組候選）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>RH 斷面 (H×B)</th>
+<th style="text-align: center;">$S_x$ (cm³)</th>
+<th style="text-align: center;">$Z_x$ (cm³)</th>
+<th style="text-align: center;">$I_x$ (cm⁴)</th>
+<th style="text-align: center;">$r_y$ (cm)</th>
+<th style="text-align: center;">$X_1$ (tf/cm²)</th>
+<th style="text-align: center;">$X_2$ (cm²/tf)²</th>
+<th style="text-align: center;">單位重 (kg/m)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>175×175</td>
+<td style="text-align: center;">331</td>
+<td style="text-align: center;">370</td>
+<td style="text-align: center;">2,900</td>
+<td style="text-align: center;">4.37</td>
+<td style="text-align: center;">288</td>
+<td style="text-align: center;">0.102</td>
+<td style="text-align: center;">40.4</td>
+</tr>
+<tr>
+<td><strong>298×149</strong></td>
+<td style="text-align: center;">424</td>
+<td style="text-align: center;"><strong>475</strong></td>
+<td style="text-align: center;"><strong>6,320</strong></td>
+<td style="text-align: center;">3.29</td>
+<td style="text-align: center;">128</td>
+<td style="text-align: center;">3.07</td>
+<td style="text-align: center;"><strong>32.0</strong></td>
+</tr>
+<tr>
+<td>200×200</td>
+<td style="text-align: center;">472</td>
+<td style="text-align: center;">525</td>
+<td style="text-align: center;">4,720</td>
+<td style="text-align: center;">5.02</td>
+<td style="text-align: center;">267</td>
+<td style="text-align: center;">0.135</td>
+<td style="text-align: center;">49.9</td>
+</tr>
+<tr>
+<td><strong>244×175</strong></td>
+<td style="text-align: center;">495</td>
+<td style="text-align: center;"><strong>550</strong></td>
+<td style="text-align: center;"><strong>6,040</strong></td>
+<td style="text-align: center;">4.21</td>
+<td style="text-align: center;">201</td>
+<td style="text-align: center;">0.451</td>
+<td style="text-align: center;"><strong>43.6</strong></td>
+</tr>
+<tr>
+<td>200×204</td>
+<td style="text-align: center;">498</td>
+<td style="text-align: center;">565</td>
+<td style="text-align: center;">4,980</td>
+<td style="text-align: center;">4.88</td>
+<td style="text-align: center;">309</td>
+<td style="text-align: center;">0.0853</td>
+<td style="text-align: center;">56.2</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>表中 $X_1$、$X_2$ 為 LTB 參數（$L_r$ 計算用），本題因上翼版全側撐而<strong>不需使用</strong>，屬題目故意放置之干擾資訊。</p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：梁設計雙重驗算——強度（$\phi_b M_n \geq M_u$）與使用性（$\delta_L \leq L/360$）</strong></p>
+<p>本題為樓版支撐鋼梁的完整設計流程：先由強度條件選斷面，再驗算活載重撓度。題目關鍵條件是「上翼版埋入混凝土版內」，直接告知考生無側扭挫屈（LTB），可直接取 $\phi_b M_p$。撓度與強度往往各自控制不同情況，本題示範撓度（使用率 98.6%）比強度（87.2%）更接近上限的典型案例。</p>
+<p><strong>出題者測驗重點：</strong></p>
+<ul>
+<li><strong>「上翼版埋入」= 全側撐 = 無 LTB</strong>：壓力翼版全程側向支撐，$\phi_b M_n = \phi_b M_p = \phi_b F_y Z_x$</li>
+<li><strong>載重集水寬度</strong>：每根梁承擔 3.0 m 寬的載重（梁間距），線載重 = 面積載重 × 集水寬</li>
+<li><strong>撓度用未因數化活載重</strong>：$L/360$ 限值針對<strong>活載重</strong>撓度，用服務載重（不乘 1.6），非因數化載重</li>
+<li><strong>自重迭代</strong>：初步選斷面後須含自重再驗算，本題 RH298×149 因含自重後 $M_u$ 微超 $\phi_b M_n$ 而被淘汰</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>(一) 斷面設計：
+  Step 1  計算線載重：wD（RC版 + 面磚）× 3m，wL × 3m
+  Step 2  設計力矩：wu = 1.2wD + 1.6wL，Mu = wuL²/8
+  Step 3  需求 Zx ≥ Mu/(φb Fy)
+  Step 4  從斷面表選最輕的 Zx 足夠者（含自重迭代驗算）
+
+(二) 撓度檢核：
+  Step 5  以活載重（服務載重，wL，不乘係數）計算撓度
+  Step 6  δL = 5wLL⁴/(384EIx)
+  Step 7  比較 δallow = L/360
+</code></pre>
+<p><strong>陷阱分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>對策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ 撓度用因數化載重</td>
+<td>撓度為<strong>使用性</strong>（Serviceability）驗算，用<strong>未因數化</strong>活載重，非 $1.6w_L$</td>
+<td>$\delta = 5w_L L^4/(384EI)$，$w_L$ 是服務載重</td>
+</tr>
+<tr>
+<td>❷ 忘記含自重後迭代</td>
+<td>初步選斷面後需加入梁自重重新計算 $M_u$，再驗算是否仍通過</td>
+<td>自重修正通常使 $M_u$ 增加 1～3%，可能使原斷面不足</td>
+</tr>
+<tr>
+<td>❸ 「上翼版埋入」不知含義</td>
+<td>誤以為仍需計算 LTB，套 $C_b$、$L_p$、$L_r$</td>
+<td>壓力翼版全側撐 → 直接 $\phi_b M_n = \phi_b F_y Z_x$</td>
+</tr>
+<tr>
+<td>❹ 集水寬搞錯</td>
+<td>梁間距 3.0 m，但承擔的是<strong>左右各 1.5 m 共 3.0 m</strong>的載重</td>
+<td>集水寬 = 梁間距 = 3.0 m（每根梁各承擔兩側各半）</td>
+</tr>
+<tr>
+<td>❺ 單位換算</td>
+<td>$w_L$ 須從 tf/m 換為 tf/cm（除以 100），$L$ 須從 m 換為 cm（乘以 100）</td>
+<td>撓度公式全用 cm 單位：$w_L = 0.0120$ tf/cm，$L = 600$ cm</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 選最輕合格 RH 鋼梁斷面（$\phi_b M_n \geq M_u$）→ 驗算活載重撓度（$\delta_L \leq L/360$）</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p><strong>Step 1：需求力矩（LRFD）</strong><br />
+$$\boxed{w_u} = 1.2 w_D + 1.6 w_L, \quad \boxed{M_u} = \frac{\boxed{w_u} L^2}{8}$$</p>
+<p><strong>Step 2：斷面強度需求</strong><br />
+$$\boxed{Z_{x,req}} \geq \frac{\boxed{M_u}}{\phi_b F_y}$$<br />
+$$\phi_b M_n = \phi_b F_y \boxed{Z_x} \geq \boxed{M_u} \quad \text{（全側撐 → 無 LTB）}$$</p>
+<p><strong>Step 3：活載重撓度</strong><br />
+$$\boxed{\delta_L} = \frac{5 w_L L^4}{384 E \boxed{I_x}} \leq \frac{L}{360}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L$</td>
+<td>6.0 m = 600 cm</td>
+<td>梁跨距</td>
+</tr>
+<tr>
+<td>梁間距</td>
+<td>3.0 m</td>
+<td>集水寬</td>
+</tr>
+<tr>
+<td>RC 版厚</td>
+<td>15 cm</td>
+<td>單位重 2.4 tf/m³</td>
+</tr>
+<tr>
+<td>面磚</td>
+<td>30 kg/m²</td>
+<td>靜載重附加</td>
+</tr>
+<tr>
+<td>活載重</td>
+<td>400 kg/m²</td>
+<td>服務載重</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>3.52 tf/cm²</td>
+<td>A992 鋼料</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>2040 tf/cm²</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>$\phi_b$</td>
+<td>0.9</td>
+<td>彎曲強度折減係數</td>
+</tr>
+<tr>
+<td>側撐條件</td>
+<td>上翼版埋入 RC 版</td>
+<td>全側撐，無 LTB</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：線載重計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$w_D^{(0)}$</td>
+<td>$(0.15 \times 2.4 + 0.030) \times 3.0 = 1.170$ tf/m（不含自重）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w_L$</td>
+<td>$0.400 \times 3.0 = 1.200$ tf/m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w_u^{(0)}$</td>
+<td>$1.2 \times 1.170 + 1.6 \times 1.200 = 3.324$ tf/m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_u^{(0)}$</td>
+<td>$3.324 \times 6.0^2 / 8 = 14.96$ tf-m = 1496 tf-cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：斷面選擇（含自重迭代）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$Z_{x,req}$</td>
+<td>$M_u^{(0)} / (\phi_b F_y) = 1496 / (0.9 \times 3.52) = 472.2$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>RH298×149</td>
+<td>$Z_x = 475$ cm³，自重 32.0 kg/m → 含自重 $M_u = 1513 &gt; \phi_b M_n = 1505$（不通過）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>RH175×175</td>
+<td>$Z_x = 370 \ll 472.2$ → 強度不足，逕予淘汰</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>RH244×175</td>
+<td>$Z_x = 550$ cm³，自重 43.6 kg/m → 含自重 $M_u = 1519 &lt; \phi_b M_n = 1742$（通過）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：活載重撓度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$w_L$（tf/cm）</td>
+<td>$1.200 / 100 = 0.01200$ tf/cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_x$</td>
+<td>6040 cm⁴（RH244×175，查手冊）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\delta_L$</td>
+<td>$5 \times 0.01200 \times 600^4 / (384 \times 2040 \times 6040) = 1.643$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\delta_{allow}$</td>
+<td>$L/360 = 600/360 = 1.667$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>結果</td>
+<td>$1.643 &lt; 1.667$ ✓（使用率 98.6%）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「上翼版埋入」= 全側撐 = 無 LTB</td>
+<td>壓力翼版全程側向支撐，$\phi_b M_n = \phi_b M_p = \phi_b F_y Z_x$，不需算 $C_b$、$L_p$、$L_r$</td>
+<td style="text-align: center;">[[ltb-3zone]] · [[LATERAL-TORSIONAL-BUCKLING]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>撓度用服務載重（未因數化）</td>
+<td>撓度為使用性（Serviceability）驗算，用 $w_L$（非 $1.6w_L$）；強度用因數化 $w_u$</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>自重迭代必要性</td>
+<td>初估合格的最輕斷面加入自重後可能 $M_u &gt; \phi_b M_n$（本題 RH298×149 超過 0.55%）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>翼板結實性</td>
+<td>$\lambda_f = b_f/2t_f \leq 17/\sqrt{F_y}$ 才可取 $M_n = M_p$；RH298×149 之 $\lambda_f = 9.31 &gt; 9.06$ 為<strong>非結實</strong></td>
+<td style="text-align: center;">[[LOCAL-BUCKLING-FLANGE]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>集水寬 = 梁間距</td>
+<td>每根梁承擔兩側各 1.5 m，共 3.0 m；非兩倍梁間距</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>單位換算（tf/m → tf/cm）</td>
+<td>撓度公式全用 cm 單位：$w_L$ 除以 100，$L$ 乘以 100</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Calculation)</h2>
+<h3>側向支撐條件</h3>
+<p><strong>上翼版埋入混凝土版內</strong> → 壓力翼版全長側向支撐（$L_b = 0$），無側扭挫屈（LTB）：</p>
+<p>$$\phi_b M_n = \phi_b M_p = \phi_b F_y Z_x = 0.9 \times 3.52 \times Z_x$$</p>
+<hr />
+<h3>一、斷面設計（僅就力矩）</h3>
+<h4>Step 1：載重計算（集水寬 = 3.0 m）</h4>
+<table>
+<thead>
+<tr>
+<th>靜載重來源</th>
+<th>單位面積重</th>
+<th>線載重（×3.0 m）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RC 版（$0.15 \times 2.4$）</td>
+<td>$0.360\ \text{tf/m}^2$</td>
+<td>$1.080\ \text{tf/m}$</td>
+</tr>
+<tr>
+<td>大理石面磚</td>
+<td>$0.030\ \text{tf/m}^2$</td>
+<td>$0.090\ \text{tf/m}$</td>
+</tr>
+<tr>
+<td>合計（不含自重）</td>
+<td></td>
+<td>$w_D^{(0)} = 1.170\ \text{tf/m}$</td>
+</tr>
+</tbody>
+</table>
+<p>$$w_L = 0.400 \times 3.0 = 1.200\ \text{tf/m}$$</p>
+<p><img alt="SS-2010-4 圖 2：兩格圖。① 橫斷面——15 cm 厚 RC 版下方每 3.0 m 一根鋼梁，上翼版埋入版內；中間那根梁的集水寬即梁間距 3.0 m（左右各 1.5 m），該範圍以網底與向下載重箭頭標示；RC 0.360 + 面磚 0.030 = 0.390 tf/m²，w_D = 1.170 tf/m（不含自重）、w_L = 1.200 tf/m。② 縱向——跨距 6.0 m 簡支梁，梁上為強度用的因數化載重 w_u = 3.376 tf/m（含自重），梁下為撓度用的服務活載重 w_L = 1.200 tf/m 及其變形形狀；M_u = 1,519 tf·cm、δ_L = 1.643 cm 小於容許 1.667 cm" src="../../raw/solutions/SS-2010-4/figs/SS-2010-4-fig-2-load-path.svg" /></p>
+<p><em>圖 2　同一根梁，兩套載重各有各的用途：強度用因數化的 $w_u$、撓度用未因數化的 $w_L$。集水寬就是梁間距（左右各 1.5 m），不是梁間距的兩倍。<strong>攔錯：</strong>撓度誤用 $1.6w_L$（會高估 60%），或集水寬取錯。</em></p>
+<h4>Step 2：設計力矩（不含自重初估）</h4>
+<p>$$w_u^{(0)} = 1.2 \times 1.170 + 1.6 \times 1.200 = 1.404 + 1.920 = 3.324\ \text{tf/m}$$</p>
+<p>$$M_u^{(0)} = \frac{3.324 \times 6.0^2}{8} = 14.96\ \text{tf·m} = 1{,}496\ \text{tf·cm}$$</p>
+<h4>Step 3：需求塑性斷面模數</h4>
+<p>$$Z_{x,req} \geq \frac{M_u}{\phi_b F_y} = \frac{1{,}496}{0.9 \times 3.52} = 472.2\ \text{cm}^3$$</p>
+<h4>Step 4：選擇斷面（含自重迭代）</h4>
+<p>初選 RH298×149（最輕，$Z_x = 475\ \text{cm}^3$，自重 32.0 kg/m）含自重驗算：</p>
+<p>$$w_u = 1.2 \times (1.170 + 0.032) + 1.6 \times 1.200 = 1.442 + 1.920 = 3.362\ \text{tf/m}$$</p>
+<p>$$M_u = \frac{3.362 \times 36}{8} = 1{,}513\ \text{tf·cm}; \quad \phi_b M_n = 0.9 \times 3.52 \times 475 = 1{,}505\ \text{tf·cm}$$</p>
+<p>$$M_u = 1{,}513 &gt; 1{,}505 \quad \Rightarrow \text{不通過（超過 0.55%，嚴格不合格；另見 §5.5 之翼板非結實佐證）}$$</p>
+<p>依單位重由輕到重的下一組是 RH175×175（40.4 kg/m），但 $Z_x = 370 \ll 472.2$，強度差距 29%，逕予淘汰。</p>
+<p>再改選 <strong>RH244×175</strong>（$Z_x = 550\ \text{cm}^3$，自重 43.6 kg/m）：</p>
+<p>$$w_u = 1.2 \times (1.170 + 0.0436) + 1.6 \times 1.200 = 1.4563 + 1.920 = 3.376\ \text{tf/m}$$</p>
+<p>$$M_u = \frac{3.376 \times 36}{8} = 1{,}519\ \text{tf·cm}; \quad \phi_b M_n = 0.9 \times 3.52 \times 550 = 1{,}742\ \text{tf·cm}$$</p>
+<p>$$M_u = 1{,}519 &lt; 1{,}742 \quad \checkmark \quad (\text{使用率 } 87.2\%)$$</p>
+<p>$$\boxed{\text{選用 RH244×175（最經濟斷面，自重 43.6 kg/m）}}$$</p>
+<h4>Step 4 附表：五組候選斷面全檢核（含自重迭代）</h4>
+<table>
+<thead>
+<tr>
+<th>斷面</th>
+<th style="text-align: center;">單位重 (kg/m)</th>
+<th style="text-align: center;">$Z_x$</th>
+<th style="text-align: center;">$\phi_bM_p$ (tf·cm)</th>
+<th style="text-align: center;">含自重 $M_u$ (tf·cm)</th>
+<th style="text-align: center;">彎矩</th>
+<th style="text-align: center;">$I_x$</th>
+<th style="text-align: center;">$\delta_L$ (cm)</th>
+<th style="text-align: center;">撓度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>298×149</td>
+<td style="text-align: center;"><strong>32.0</strong></td>
+<td style="text-align: center;">475</td>
+<td style="text-align: center;">1,504.8</td>
+<td style="text-align: center;">1,513.1</td>
+<td style="text-align: center;">❌ 100.55%</td>
+<td style="text-align: center;">6,320</td>
+<td style="text-align: center;">1.571</td>
+<td style="text-align: center;">✓ 94.2%</td>
+</tr>
+<tr>
+<td>175×175</td>
+<td style="text-align: center;">40.4</td>
+<td style="text-align: center;">370</td>
+<td style="text-align: center;">1,172.2</td>
+<td style="text-align: center;">1,517.6</td>
+<td style="text-align: center;">❌ 129.5%</td>
+<td style="text-align: center;">2,900</td>
+<td style="text-align: center;">3.423</td>
+<td style="text-align: center;">❌ 205%</td>
+</tr>
+<tr>
+<td><strong>244×175</strong></td>
+<td style="text-align: center;"><strong>43.6</strong></td>
+<td style="text-align: center;"><strong>550</strong></td>
+<td style="text-align: center;"><strong>1,742.4</strong></td>
+<td style="text-align: center;"><strong>1,519.3</strong></td>
+<td style="text-align: center;"><strong>✓ 87.2%</strong></td>
+<td style="text-align: center;"><strong>6,040</strong></td>
+<td style="text-align: center;"><strong>1.643</strong></td>
+<td style="text-align: center;"><strong>✓ 98.6%</strong></td>
+</tr>
+<tr>
+<td>200×200</td>
+<td style="text-align: center;">49.9</td>
+<td style="text-align: center;">525</td>
+<td style="text-align: center;">1,663.2</td>
+<td style="text-align: center;">1,522.7</td>
+<td style="text-align: center;">✓ 91.6%</td>
+<td style="text-align: center;">4,720</td>
+<td style="text-align: center;">2.103</td>
+<td style="text-align: center;">❌ 126%</td>
+</tr>
+<tr>
+<td>200×204</td>
+<td style="text-align: center;">56.2</td>
+<td style="text-align: center;">565</td>
+<td style="text-align: center;">1,789.9</td>
+<td style="text-align: center;">1,526.1</td>
+<td style="text-align: center;">✓ 85.3%</td>
+<td style="text-align: center;">4,980</td>
+<td style="text-align: center;">1.993</td>
+<td style="text-align: center;">❌ 120%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RH244×175 是五組中唯一同時滿足彎矩與撓度者</strong>——這正是出題者設計此表的用意：$Z_x$ 較大的 200×200、200×204 因梁深僅 20 cm、$I_x$ 偏小而撓度不合格；最輕的 298×149 則因自重迭代後彎矩超出 0.55% 被淘汰。</p>
+<p><img alt="SS-2010-4 圖 3：五組候選斷面的雙準則長條圖，依單位重由輕到重排列。每組上排為含自重之彎矩使用率、下排為服務活載重之撓度使用率，並有一條貫穿的 100% 上限線。RH298×149（32.0 kg/m）彎矩 100.6%、撓度 94.2%；RH175×175（40.4）彎矩 129.5%、撓度 205.4%；RH244×175（43.6）彎矩 87.2%、撓度 98.6%，是唯一兩根長條都在線內者（該列以底色標示）；RH200×200（49.9）彎矩 91.6%、撓度 126.2%；RH200×204（56.2）彎矩 85.3%、撓度 119.6%" src="../../raw/solutions/SS-2010-4/figs/SS-2010-4-fig-3-screen.svg" /></p>
+<p><em>圖 3　把五組候選的兩個使用率並排，100% 線一次看穿：只有 RH244×175 兩根長條都在線內。<strong>攔錯：</strong>只檢核強度（或只挑最輕）就定案——$Z_x$ 更大的 200×200、200×204 彎矩都過關，卻因梁深只有 20 cm、$I_x$ 偏小而撓度不合格。</em></p>
+<hr />
+<h3>二、撓度檢核</h3>
+<p>以<strong>服務載重（未因數化）活載重</strong> $w_L = 1.200\ \text{tf/m}$ 計算。</p>
+<h4>Step 5：撓度公式</h4>
+<p>$$\delta_L = \frac{5 w_L L^4}{384 E I_x}$$</p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$w_L$（換算 tf/cm）</td>
+<td>$1.200/100 = 0.01200\ \text{tf/cm}$</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>$600\ \text{cm}$</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>$2{,}040\ \text{tf/cm}^2$</td>
+</tr>
+<tr>
+<td>$I_x$（RH244×175）</td>
+<td>$6{,}040\ \text{cm}^4$</td>
+</tr>
+</tbody>
+</table>
+<h4>Step 6：計算撓度</h4>
+<p>$$\delta_L = \frac{5 \times 0.01200 \times 600^4}{384 \times 2{,}040 \times 6{,}040} = \frac{7.776 \times 10^9}{4.731 \times 10^9} = 1.643\ \text{cm}$$</p>
+<h4>Step 7：容許撓度比較</h4>
+<p>$$\delta_{allow} = \frac{L}{360} = \frac{600}{360} = 1.667\ \text{cm}$$</p>
+<p>$$\boxed{\delta_L = 1.643\ \text{cm} &lt; 1.667\ \text{cm} \quad \checkmark \quad \text{撓度合乎 L/360（使用率 98.6\%）}}$$</p>
+<hr />
+<h2>5. 結果彙整與驗算 (Summary &amp; Verification)</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>集水寬</td>
+<td>$3.0\ \text{m}$</td>
+</tr>
+<tr>
+<td>$w_D$（含梁自重 43.6 kg/m）</td>
+<td>$1.2136\ \text{tf/m}$</td>
+</tr>
+<tr>
+<td>$w_L$</td>
+<td>$1.200\ \text{tf/m}$</td>
+</tr>
+<tr>
+<td>設計力矩 $M_u$（含自重）</td>
+<td>$1{,}519\ \text{tf·cm}$</td>
+</tr>
+<tr>
+<td><strong>選用斷面</strong></td>
+<td><strong>RH244×175（43.6 kg/m）</strong></td>
+</tr>
+<tr>
+<td>$\phi_b M_n$</td>
+<td>$1{,}742\ \text{tf·cm}$（強度使用率 87.2%）</td>
+</tr>
+<tr>
+<td>活載重撓度 $\delta_L$</td>
+<td>$1.643\ \text{cm}$</td>
+</tr>
+<tr>
+<td>容許撓度 $L/360$</td>
+<td>$1.667\ \text{cm}$</td>
+</tr>
+<tr>
+<td><strong>撓度檢核</strong></td>
+<td><strong>✅ 通過（使用率 98.6%）</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>觀念精析：</strong></p>
+<p>「上翼版埋入混凝土 = 全側撐」的理由：LRFD 中，壓力翼版若獲連續側向支撐，LTB 不發生，$L_b = 0$，故 $\phi_b M_n = \phi_b M_p = \phi_b F_y Z_x$，無需計算 $C_b$、$L_p$、$L_r$。本題上翼版為正彎矩的壓力翼版，嵌入混凝土使其全程受到支撐。</p>
+<p>RH298×149 雖最輕但被淘汰：初估 $Z_x = 475 &gt; 472.2\ \text{cm}^3$ 看似合格，但加入自重後 $M_u = 1{,}513\ \text{tf·cm}$ 超過 $\phi_b M_n = 1{,}505\ \text{tf·cm}$（差 0.55%），嚴格不通過。設計中必須以最終自重迭代驗算。</p>
+<p>本題撓度（98.6%）比強度（87.2%）更控制斷面選擇，說明使用性設計（Serviceability Design）有時比強度設計（Strength Design）更為嚴苛，二者必須同時驗算。</p>
+<hr />
+<h2>5.5 關鍵爭議：RH298×149 該不該被 0.55% 淘汰？</h2>
+<p>這是本題<strong>唯一真正的爭議點</strong>，也是最容易被質疑的地方，必須正面處理。</p>
+<h3>爭議的來源：298×149 在兩項指標上都「贏過」244×175</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: center;">RH298×149</th>
+<th style="text-align: center;">RH244×175</th>
+<th style="text-align: center;">誰較優</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>單位重</td>
+<td style="text-align: center;"><strong>32.0 kg/m</strong></td>
+<td style="text-align: center;">43.6 kg/m</td>
+<td style="text-align: center;">298×149（輕 26.6%）</td>
+</tr>
+<tr>
+<td>$I_x$</td>
+<td style="text-align: center;"><strong>6,320 cm⁴</strong></td>
+<td style="text-align: center;">6,040 cm⁴</td>
+<td style="text-align: center;">298×149（大 4.6%）</td>
+</tr>
+<tr>
+<td>活載重撓度 $\delta_L$</td>
+<td style="text-align: center;"><strong>1.571 cm（94.2%）</strong></td>
+<td style="text-align: center;">1.643 cm（98.6%）</td>
+<td style="text-align: center;">298×149</td>
+</tr>
+<tr>
+<td>含自重 $M_u / \phi_bM_p$</td>
+<td style="text-align: center;">1.0055 ❌</td>
+<td style="text-align: center;">0.872 ✓</td>
+<td style="text-align: center;">244×175</td>
+</tr>
+</tbody>
+</table>
+<p>換句話說，被淘汰的斷面<strong>又輕又剛</strong>，只在彎矩上差 0.55%。若僅憑「0.55% 太小、可忽略」的工程直覺放行，就會選出 32.0 kg/m 的斷面，重量足足少四分之一——這使得「0.55% 是否可忽略」變成價值 26.6% 鋼料的決定，不能含糊帶過。</p>
+<h3>三個獨立理由支持淘汰 298×149</h3>
+<p><strong>理由一：0.55% 不是誤差，是確定的超出。</strong><br />
+自重 32.0 kg/m 是斷面表給定的<strong>確定值</strong>，不是估算值，$M_u = 1{,}513 &gt; \phi_bM_n = 1{,}505$ 是確定的不等式。LRFD 是機率基礎的極限狀態設計，$\phi$ 已把材料與模型的不確定性納入；再從 $\phi_bM_n$ 借用額外餘裕，等於私自把 $\phi_b$ 由 0.9 調升為 0.905，無規範依據。</p>
+<p><strong>理由二（獨立佐證）：RH298×149 的翼板實為「非結實」，$M_n &lt; M_p$。</strong></p>
+<p>RH298×149 即 CNS／JIS H-298×149×5.5×8（$A = 40.80$ cm² → $40.80 \times 7.85 \times 10^{-3} \times 100 = 32.0$ kg/m ✓，$I_x = 6{,}320$ ✓，$r_y = 3.29$ ✓，與題目表格完全吻合）。檢核其翼板細長比：</p>
+<p>$$\lambda_f = \frac{b_f}{2t_f} = \frac{149}{2 \times 8} = 9.313$$<br />
+$$\lambda_p = \frac{17}{\sqrt{F_y}} = \frac{17}{\sqrt{3.52}} = 9.061 \quad \Rightarrow \quad \lambda_f = 9.313 &gt; \lambda_p = 9.061 \ \textbf{（非結實！）}$$</p>
+<p>因此 $M_n$ 不得取 $M_p$，須依翼板局部挫屈（FLB）內插：</p>
+<p>$$\lambda_r = \frac{141}{\sqrt{F_y - F_r}}\Big|_{\text{ksi}} \to \frac{37.39}{\sqrt{F_y - 0.703}} = \frac{37.39}{\sqrt{2.817}} = 22.28 \quad (F_r = 10 \text{ ksi} = 0.703 \text{ tf/cm}^2)$$<br />
+$$M_p = F_y Z_x = 3.52 \times 475 = 1{,}672 \text{ tf·cm}，\quad M_r = (F_y - F_r)S_x = 2.817 \times 424 = 1{,}194 \text{ tf·cm}$$<br />
+$$M_n = M_p - (M_p - M_r)\frac{\lambda_f - \lambda_p}{\lambda_r - \lambda_p} = 1{,}672 - 478 \times \frac{0.252}{13.22} = 1{,}663 \text{ tf·cm}$$<br />
+$$\phi_b M_n = 0.9 \times 1{,}663 = \mathbf{1{,}497 \text{ tf·cm}}$$</p>
+<p><img alt="SS-2010-4 圖 4：RH298×149 的四個彎矩值長條比較（橫軸自 1,450 起，非自零，否則 1% 的差距看不出來）。需求 M_u 不含自重 1,496 tf·cm、含自重 32.0 kg/m 後 1,513 tf·cm；容量 φ_b M_p（誤設結實）1,505 tf·cm、φ_b M_n（FLB 修正後）1,497 tf·cm。下方列出翼板細長比 λ_f = 14.9/(2×0.8) = 9.312 大於 λ_p = 9.061 故為非結實，FLB 內插得 M_n = 1,663、φ_b M_n = 1,497 tf·cm" src="../../raw/solutions/SS-2010-4/figs/SS-2010-4-fig-4-298-debate.svg" /></p>
+<p><em>圖 4　被淘汰的斷面又輕（32.0 kg/m）又剛（$I_x$ 更大、撓度只用 94.2%），唯一的問題是含自重後彎矩確定超出。翼板非結實的 FLB 檢核又獨立把容量壓到 1,497，連不含自重的需求都只剩 0.05% 餘裕。<strong>攔錯：</strong>初選後忘記把自重加回去再驗算一次，或看到「只差 0.55%」就放行——那等於私自把 $\phi_b$ 由 0.9 調升為 0.905。</em></p>
+<p>此值<strong>連不含自重的 $M_u = 1{,}496$ tf·cm 都只剩 0.04% 餘裕</strong>，含自重的 1,513 tf·cm 更是明確超出 1.1%。也就是說：即使有人主張「僅就力矩考量、可不計自重」，298×149 依然只是「零餘裕」而非合格。<strong>FLB 檢核獨立地確認了淘汰的正確性。</strong></p>
+<blockquote>
+<p>對照 RH244×175（＝H-244×175×7×11）：$\lambda_f = 175/22 = 7.95 &lt; 9.061$ ✓ <strong>結實</strong>，$M_n = M_p$ 成立無虞。</p>
+</blockquote>
+<p><strong>理由三：298×149 的 $r_y = 3.29$ cm 是全表最小，容錯最差。</strong><br />
+本題因上翼版埋入而不需算 LTB，但施工階段（混凝土未凝結前）上翼版尚無側撐，$r_y$ 最小的斷面在施工期最危險。選擇 244×175（$r_y = 4.21$）在施工階段也較安全。</p>
+<h3>結論</h3>
+<p><strong>主答：RH244×175（43.6 kg/m）</strong>，理由為含自重之彎矩檢核與翼板結實性檢核<strong>雙重確認</strong>。若考場時間有限，至少須寫出自重迭代與 0.55% 超出的判斷，並明白宣告「從嚴淘汰」；若答 RH298×149 而未處理自重，屬漏檢。</p>
+<hr />
+<h2>6. 依最新規範（AISC 360-16／-22）對照</h2>
+<blockquote>
+<p><strong>主答依據</strong>：內政部「鋼構造建築物鋼結構設計技術規範」<strong>民國 99 年（2010）修正版</strong>（本卷即 99 年考題）。以 AISC 360-16 為基礎之修訂版<strong>尚未發布</strong>，故僅列為對照。</p>
+</blockquote>
+<h3>6.1 結實斷面之 $M_n$：完全相同</h3>
+<p>AISC 360-16 §F2.1 對結實斷面全側撐梁：$M_n = M_p = F_y Z_x$，$\phi_b = 0.90$ —— 與台灣 2010 規範<strong>逐字相同</strong>。</p>
+<p>$$\phi_b M_n (\text{RH244×175}) = 0.9 \times 3.52 \times 550 = 1{,}742 \text{ tf·cm} \quad (\text{兩規範同值})$$</p>
+<h3>6.2 翼板結實界限：差異 &lt; 1%，判定相同</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: center;">台灣 2010</th>
+<th style="text-align: center;">AISC 360-16 §F3 / Table B4.1b</th>
+<th style="text-align: center;">RH298×149 之 $\lambda_f = 9.313$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\lambda_{pf}$</td>
+<td style="text-align: center;">$17/\sqrt{F_y} = 9.061$</td>
+<td style="text-align: center;">$0.38\sqrt{E/F_y} = 9.148$</td>
+<td style="text-align: center;">兩者皆<strong>超出</strong> → 非結實</td>
+</tr>
+<tr>
+<td>$\lambda_{rf}$</td>
+<td style="text-align: center;">$141/\sqrt{F_y-F_r} \to 22.28$</td>
+<td style="text-align: center;">$1.0\sqrt{E/F_y} = 24.07$</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td>FLB 內插起點</td>
+<td style="text-align: center;">$M_r = (F_y-F_r)S_x = 1{,}194$</td>
+<td style="text-align: center;">$0.7F_yS_x = 1{,}045$</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td>$\phi_bM_n$</td>
+<td style="text-align: center;"><strong>1,497 tf·cm</strong></td>
+<td style="text-align: center;"><strong>1,499 tf·cm</strong></td>
+<td style="text-align: center;">差 0.13%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AISC 360-10 起以 $0.7F_y S_x$ 取代舊版 $(F_y - F_r)S_x$</strong>（不再顯式使用殘餘應力 $F_r = 10$ ksi），但由於 $\lambda_f$ 只略超 $\lambda_{pf}$，內插量極小，兩者結果幾乎一致。<strong>兩規範都判 298×149 為非結實、都得到 $\phi_bM_n \approx 1{,}497\sim1{,}499$，都不足以承受含自重的 1,513 tf·cm。</strong></p>
+<h3>6.3 載重組合</h3>
+<table>
+<thead>
+<tr>
+<th>規範</th>
+<th>組合</th>
+<th style="text-align: center;">本題 $w_u$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>台灣 2010 / ASCE 7 舊版</td>
+<td>$1.2D + 1.6L$</td>
+<td style="text-align: center;">3.376 tf/m</td>
+</tr>
+<tr>
+<td>ASCE 7-16／-22（AISC 360-22 引用）</td>
+<td>$1.2D + 1.6L$（未變）</td>
+<td style="text-align: center;">3.376 tf/m</td>
+</tr>
+</tbody>
+</table>
+<p>載重組合<strong>無變動</strong>，$M_u$ 相同。</p>
+<h3>6.4 撓度限值</h3>
+<p>AISC 360 本體不規定撓度限值（見 Chapter L 及 IBC/ASCE 7 附錄）；$L/360$（活載重）為兩地通用慣例，<strong>無差異</strong>：$\delta_L = 1.643 &lt; 1.667$ cm ✓。</p>
+<h3>6.5 對照結論</h3>
+<table>
+<thead>
+<tr>
+<th>子題</th>
+<th>台灣 2010（主答）</th>
+<th>AISC 360-16</th>
+<th style="text-align: center;">差異</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(一) 最經濟 RH 斷面</td>
+<td><strong>RH244×175（43.6 kg/m）</strong></td>
+<td>同</td>
+<td style="text-align: center;">無</td>
+</tr>
+<tr>
+<td>298×149 之判定</td>
+<td>❌（$\phi_bM_n$ 1,505 或 1,497 &lt; 1,513）</td>
+<td>❌（1,499 &lt; 1,513）</td>
+<td style="text-align: center;">無</td>
+</tr>
+<tr>
+<td>(二) $\delta_L$</td>
+<td>1.643 cm &lt; 1.667 cm ✓</td>
+<td>同</td>
+<td style="text-align: center;">無</td>
+</tr>
+</tbody>
+</table>
+<p><strong>兩規範結論完全一致。</strong></p>
+<hr />
+<p><em>修正日期：2026-08-22（勘誤：補入題目原表 5 組候選斷面之完整檢核表、新增 §5.5「RH298×149 該不該被 0.55% 淘汰」之三項獨立論證（含翼板非結實 FLB 驗算）、新增 §6 最新規範對照、補上頁尾驗證狀態；主答 RH244×175 與撓度 1.643 cm 不變）</em><br />
+<em>圖解補繪：2026-08-29（向量圖，腳本 <code>gen_SS-2010-4.py</code>，可重跑）</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2010-4/SS-2010-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

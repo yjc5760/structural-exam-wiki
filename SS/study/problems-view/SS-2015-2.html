@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2015-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.88em;line-height:1.5}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;padding:10px 16px;border-radius:0 8px 8px 0}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SS-2015-2 題目解析</h1><a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a></header>
+<main>
+<h1>考題編號：SS-2015-2</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> <code>SS-U1-4</code> 接合之分析與設計<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>拉力桿件</code> <code>剪力遲滯</code> <code>塊狀剪力</code> <code>填角銲</code> <code>雙槽鋼</code> <code>U值</code> <code>接合設計</code> <code>上限式</code> <code>方向性強度</code> <code>孔壁承壓</code> <code>錯列淨斷面</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>結構描述：</strong><br />
+- 雙槽鋼（2×C200×75）拉力桿，透過連接板與 H 柱翼板接合<br />
+- C200×75 斷面：$H \times B \times t_w \times t_f = 200 \times 75 \times 6 \times 12.5$ mm<br />
+- 斷面性質：$A = 29.9$ cm²，$C_y = 2.49$ cm<br />
+  - ⚠️ <strong>此二值第二題本身並未給定</strong>，係取自<strong>同一份試卷第三題</strong>所列之「單一槽鋼 C200×75：$I_x = 1970$ cm⁴、$I_y = 170$ cm⁴、$A = 29.9$ cm²、$C_y = 2.49$ cm」。兩題斷面相同，援用合理。<br />
+  - 若僅由 $200 \times 75 \times 6 \times 12.5$ 作矩形理想化：$A_g = 2(7.5)(1.25) + (20 - 2.5)(0.6) = 18.75 + 10.5 = 29.25$ cm²（差 2.2%，型鋼實際有翼板斜度與圓角）。<br />
+- 螺栓：A325，$d_b = 2.5$ cm（高拉力螺栓，承壓型），<strong>共 4 支（縱向 2 排 × 橫向 2 列）</strong><br />
+- 連接板：$t = 1.6$ cm，與 H 柱有效銲長 $L_w = 35$ cm<br />
+- 鋼材：A992，$F_y = 3.5$ tf/cm²，$F_u = 4.6$ tf/cm²<br />
+- 銲條：E70，$F_{EXX} = 4.9$ tf/cm²<br />
+- $E_s = 2040$ tf/cm²</p>
+<p><img alt="SS-2015-2圖2接合詳圖：雙槽鋼C200×75背靠背，螺栓水平5-10-7cm垂直10cm間距，連接板厚1.6cm，有效銲長35cm，單位cm" src="../../raw/solutions/SS-2015-2/SS-2015-2-fig-1.png" /></p>
+<p><em>圖說：雙槽鋼拉力桿接合詳圖（單位：cm）。中央為連接板（gusset），兩側各一根 C200×75，槽鋼</em><em>腹板</em><em>貼合連接板、翼板朝外，螺栓僅貫穿腹板。螺栓配置（2026-08-22 重新判讀原始試卷確認）：</em><em>縱向</em><em>（力方向）自槽鋼端緣起 5 cm → 第一排螺栓 → 10 cm → 第二排螺栓 → 7 cm 至連接板邊緣（圖中虛線）；</em><em>橫向</em><em>（垂直力方向）兩列螺栓間距 $g = 10$ cm（見中央端視圖之「10」尺寸）。故</em><em>每根槽鋼腹板上共 4 個螺栓孔（2×2）</em><em>。接合長度（縱向最外兩排螺栓中心距）$L = 10$ cm。連接板厚 $t = 1.6$ cm，與 H 柱翼板之填角銲有效銲長 $L_w = 35$ cm（板兩側各一道），銲腳長度 $w$ 待求；拉力 $T$ 之作用線與銲道軸（鉛垂）成 3:4 斜率（與水平夾 36.87°），並通過銲道群形心（無附加偏心彎矩）。$C_y = 2.49$ cm 為單一 C200×75 斷面形心到腹板外面之距離。</em></p>
+<blockquote>
+<p>🔍 <strong>關鍵圖面判讀更正</strong>：圖中「7 cm」量至一條<strong>虛線</strong>（隱藏線），該虛線為<strong>連接板之邊緣</strong>，非槽鋼之端緣；槽鋼右側有折斷符號表示構材延續。因此對<strong>槽鋼</strong>而言，自由端在左側（端距 5 cm），塊狀撕裂之剪力面長度為 $5 + 10 = 15$ cm，<strong>不是</strong> 7 cm 側。舊版解析誤將 7 cm 當成槽鋼端距並據以取拉力面，須更正（見 §4 極限狀態三）。</p>
+</blockquote>
+<p><img alt="SS-2015-2參考公式截圖：淨寬公式、GSY/NSF拉力設計強度、U值、塊狀剪力兩段式、填角銲設計強度" src="../../raw/solutions/SS-2015-2/SS-2015-2-eqn-1.png" /></p>
+<p><em>圖說：題目提供參考公式。【淨寬】$w_n = w_g - \sum d_h + \sum \frac{s^2}{4g}$。【拉力設計強度】$T_{ds} = 0.9F_yA_g$（GSY）；$T_{ds} = 0.75F_uA_e$（NSF），$U = 0.9, 0.85, 0.75$。【塊狀剪力（BSR）】當 $F_uA_{nt} \geq 0.6F_uA_{nv}$：$\phi R_n = \phi[0.6F_yA_{gv} + F_uA_{nt}] \leq \phi[0.6F_uA_{nv} + F_uA_{nt}]$；當 $0.6F_uA_{nv} \geq F_uA_{nt}$：$\phi R_n = \phi[0.6F_uA_{nv} + F_yA_{gt}] \leq \phi[0.6F_uA_{nv} + F_uA_{nt}]$。【填角銲】$\phi R_n = (0.75)(0.6F_{EXX})(t)(L)$，$t = 0.707w$。</em></p>
+<p><strong>子問題：</strong><br />
+1. 求此拉力桿的<strong>設計強度</strong>（20 分）<br />
+2. 若連接板強度足夠，求設計<strong>填角銲銲腳長度</strong> $w$（10 分）</p>
+<hr />
+<p><img alt="SS-2015-2 接合詳圖向量重繪：雙槽鋼腹板上 2 縱排×2 橫列共 4 個螺栓孔，自槽鋼自由端起 5 cm 至第一排、10 cm 至第二排、再 7 cm 至連接板邊緣虛線；橫向 gauge 10 cm；連接板厚 1.6 cm、與柱之填角銲有效長 35 cm；拉力 T 與銲軸夾 53.13 度" src="../../raw/solutions/SS-2015-2/figs/SS-2015-2-fig-1-connection.svg" /></p>
+<p><em>圖 1　接合詳圖重繪。圖中「7 cm」量到的是連接板邊緣的虛線而非槽鋼端緣；這張圖攔的是把自由端判在 7 cm 那側，該誤判會讓塊狀剪力的拉力面整個放錯位置。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：拉力桿件三重極限狀態 × 接合反算設計</strong></p>
+<p>拉力桿件設計必須同時評估三個互相競爭的破壞模式，取最脆弱者（最小值）為設計強度。第二小題再以此強度「反推」銲腳尺寸，測驗完整的接合設計流程。</p>
+<p><strong>出題者測驗重點：</strong><br />
+- <strong>GSY</strong>：全斷面降伏（$A_g$ 使用全斷面，$\phi = 0.9$）<br />
+- <strong>NSF</strong>：淨斷面斷裂（用 $U$ 折減，$\phi = 0.75$）；雙槽鋼只有腹板接觸螺栓 → 剪力遲滯必考<br />
+- <strong>BSR</strong>：塊狀剪力（識別破壞路徑、正確選用 $F_uA_{nt}$ vs $F_yA_{gt}$ 的條件公式）<br />
+- <strong>填角銲</strong>：從需求強度反算銲腳尺寸，並與最小銲腳尺寸取較大值</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1  整理幾何：斷面尺寸（mm→cm）、孔徑 dh、螺栓排列
+Step 2  GSY：最快，φt × Fy × (2Ag)
+Step 3  NSF：An（扣 2 孔，橫向 gauge 10cm）→ U = 0.75（規範表列）→ Ae = U·An
+         → φt × Fu × (2Ae)
+Step 4  BSR：先定自由端（5cm 側）→ 剪力面 2 條（長 15cm，扣 1.5 孔）
+         → 拉力面 1 條（寬 g=10cm，扣 1 孔）→ 比較 FuAnt vs 0.6FuAnv
+         → 選對條件公式 → 再與上限取小 → 乘 2（雙槽鋼）
+Step 5  取三者最小值 = 設計強度
+Step 6  填角銲：φRn = 0.75 × 0.6FEXX × 0.707w × (2 × 35) ≥ 設計強度 → 解 w
+</code></pre>
+<p><strong>陷阱分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>對策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ 忘記乘 2</td>
+<td>C200×75 是單根性質，需 ×2</td>
+<td>每步計算完單根後立即標註 ×2</td>
+</tr>
+<tr>
+<td>❷ 螺栓孔徑</td>
+<td>標準孔 = $d_b + 0.3$ cm</td>
+<td>$d_h = 2.5 + 0.3 = 2.8$ cm</td>
+</tr>
+<tr>
+<td>❸ NSF 扣孔數</td>
+<td>橫向臨界截面同時穿過<strong>同一縱向位置之 2 個孔</strong>（橫向間距 $g = 10$ cm）；<strong>不是</strong> 1 孔</td>
+<td>$A_n = A_g - \mathbf{2} \times d_h \times t_w$</td>
+</tr>
+<tr>
+<td>❹ BSR 條件公式選錯</td>
+<td>比較 $F_uA_{nt}$ 與 $0.6F_uA_{nv}$，<strong>較大者配 Fu（淨面積），較小者改用 Fy（全面積）</strong>；且<strong>兩式均受上限拘束</strong></td>
+<td>先判斷哪個大，再套對應公式，最後與上限取小</td>
+</tr>
+<tr>
+<td>❺ BSR 破壞塊之方位</td>
+<td>剪力面沿<strong>兩條螺栓列線</strong>由槽鋼自由端（5 cm 側）延伸至最遠一排螺栓（長 15 cm）；拉力面為<strong>通過最遠一排螺栓、寬度等於橫向間距 $g$</strong> 之橫斷面</td>
+<td>先確認自由端在哪一側（本題為 5 cm 側），再畫塊</td>
+</tr>
+<tr>
+<td>❻ 銲道兩側</td>
+<td>連接板兩側各一道填角銲，有效總長 = 2 × 35 = 70 cm</td>
+<td>$\phi R_n = 0.75 \times 0.6F_{EXX} \times 0.707w \times 70$</td>
+</tr>
+<tr>
+<td>❼ 最小銲腳尺寸查錯</td>
+<td>台灣規範表 10.2-4：$12 &lt; t \le 19$ mm → 最小 <strong>6 mm</strong>（$19 &lt; t \le 38$ mm 才是 8 mm）</td>
+<td>連接板 16 mm ⇒ 最小 6 mm，本題由<strong>強度</strong>控制</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 三種極限狀態（GSY / NSF / BSR）取最小值為設計強度 → 反算填角銲銲腳尺寸 $w$</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\phi_t P_n^{(GSY)} = 0.9 F_y (2A_g)$$</p>
+<p>$$\boxed{A_e} = \boxed{U} \cdot \boxed{A_n}, \quad \phi_t P_n^{(NSF)} = 0.75 F_u (2\boxed{A_e})$$</p>
+<p>$$\boxed{\phi R_n^{(BSR)}} = 0.75 \times \min!\left(0.6 F_u \boxed{A_{nv}} + F_y \boxed{A_{gt}},\;\; 0.6F_u\boxed{A_{nv}} + F_u\boxed{A_{nt}}\right) \times 2$$</p>
+<p>$$\boxed{\phi_t P_n} = \min\left(\phi_t P_n^{(GSY)},\ \phi_t P_n^{(NSF)},\ \phi R_n^{(BSR)}\right)$$</p>
+<p>$$\boxed{w} \geq \frac{\boxed{\phi_t P_n}}{0.75 \times 0.6 F_{EXX} \times 0.707 \times 2L_w}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_g$（單根）</td>
+<td>29.9 cm²</td>
+<td>C200×75 斷面積（取自同卷第三題）</td>
+</tr>
+<tr>
+<td>$C_y$</td>
+<td>2.49 cm</td>
+<td>形心到腹板外面距離（同卷第三題）</td>
+</tr>
+<tr>
+<td>$t_w$</td>
+<td>0.6 cm</td>
+<td>腹板厚度</td>
+</tr>
+<tr>
+<td>$t_f$</td>
+<td>1.25 cm</td>
+<td>翼板厚度</td>
+</tr>
+<tr>
+<td>$d_b$</td>
+<td>2.5 cm</td>
+<td>螺栓直徑</td>
+</tr>
+<tr>
+<td>$L_w$</td>
+<td>35 cm</td>
+<td>連接板有效銲長（各側）</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>3.5 tf/cm²</td>
+<td>降伏應力（A992）</td>
+</tr>
+<tr>
+<td>$F_u$</td>
+<td>4.6 tf/cm²</td>
+<td>抗拉強度（A992）</td>
+</tr>
+<tr>
+<td>$F_{EXX}$</td>
+<td>4.9 tf/cm²</td>
+<td>銲條抗拉強度（E70）</td>
+</tr>
+<tr>
+<td>$e_1$</td>
+<td>5 cm</td>
+<td><strong>槽鋼自由端</strong>至第一排螺栓（縱向端距）</td>
+</tr>
+<tr>
+<td>$s$</td>
+<td>10 cm</td>
+<td>縱向螺栓間距（＝接合長度 $L$）</td>
+</tr>
+<tr>
+<td>$e_2$</td>
+<td>7 cm</td>
+<td>第二排螺栓至<strong>連接板邊緣</strong>（虛線；非槽鋼端距）</td>
+</tr>
+<tr>
+<td>$g$</td>
+<td>10 cm</td>
+<td>橫向螺栓間距（gauge）</td>
+</tr>
+<tr>
+<td>$T$ 之方向</td>
+<td>3:4（與水平 36.87°）</td>
+<td>與鉛垂銲道軸夾 53.13°</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：幾何整理</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$d_h$</td>
+<td>$d_b + 0.3 = 2.8$ cm（標準孔）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>接合長度 $L$</td>
+<td>縱向螺栓間距 = 10 cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：GSY 全斷面降伏</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\phi_t P_n^{(GSY)}$</td>
+<td>$0.9 \times 3.5 \times (2 \times 29.9) = 188.4$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：NSF 淨斷面斷裂</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_n$</td>
+<td>$A_g - \mathbf{2} \times d_h \times t_w = 29.9 - 3.36 = 26.54$ cm²（橫斷面切過 2 孔）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$U$（規範表列）</td>
+<td>每線 2 個螺栓 → $U = 0.75$（試卷參考公式僅列 0.9 / 0.85 / 0.75）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$U$（AISC 公式）</td>
+<td>$1 - \bar{x}/L = 1 - C_y/L = 1 - 2.49/10 = 0.751$（幾乎同值）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_e$</td>
+<td>$0.75 \times 26.54 = 19.905$ cm²（單根）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_t P_n^{(NSF)}$</td>
+<td>$0.75 \times 4.6 \times (2 \times 19.905) = 137.3$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：BSR 塊狀剪力</strong>（破壞塊：兩條縱向剪力面 + 一條橫向拉力面）</p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>剪力面長度</td>
+<td>$e_1 + s = 5 + 10 = 15$ cm（自槽鋼自由端至最遠一排螺栓）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{gv}$（全剪力面）</td>
+<td>$2 \times 15 \times 0.6 = 18.0$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{nv}$（淨剪力面）</td>
+<td>$2 \times [15 - 1.5 d_h] \times t_w = 2 \times 10.8 \times 0.6 = 12.96$ cm²（每面切 1 整孔 + 1 半孔）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{gt}$（全拉力面）</td>
+<td>$g \times t_w = 10 \times 0.6 = 6.0$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{nt}$（淨拉力面）</td>
+<td>$(g - 2 \times d_h/2) \times t_w = 7.2 \times 0.6 = 4.32$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>判斷控制模式</td>
+<td>$F_uA_{nt} = 19.87 &lt; 0.6F_uA_{nv} = 35.77$ → 剪力斷裂 + 張力降伏（第二式）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>第二式 $R_n$</td>
+<td>$0.6F_uA_{nv} + F_yA_{gt} = 35.77 + 21.00 = 56.77$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>上限 $R_n$</td>
+<td>$0.6F_uA_{nv} + F_uA_{nt} = 35.77 + 19.87 = 55.64$ tf → <strong>上限控制</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi R_n$（單根）</td>
+<td>$0.75 \times 55.64 = 41.73$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi R_n^{(BSR)}$（雙根）</td>
+<td>$2 \times 41.73 = 83.5$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：設計強度 &amp; 填角銲</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\phi_t P_n$</td>
+<td>$\min(188.4,\ 137.3,\ 83.5) = 83.5$ tf（BSR 控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w$ 需求</td>
+<td>$83.46 / (0.75 \times 0.6 \times 4.9 \times 0.707 \times 70) = 83.46/109.13 = 0.765$ cm $= 7.65$ mm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>最小銲腳</td>
+<td>表 10.2-4：較厚板 16 mm（$12 &lt; t \le 19$）→ <strong>6 mm</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w$ 取用</td>
+<td>$\max(7.65,\ 6) = 7.65$ mm → 進位取 <strong>8 mm</strong>（強度控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>剪力遲滯 U 值：表列 vs 公式</td>
+<td>台灣 2010 規範／本試卷僅列 $U = 0.9 / 0.85 / 0.75$（依斷面型式與每線螺栓數）；$U = 1 - \bar{x}/L$ 為 AISC 360-05 起之公式，$\bar{x} = C_y$（槽鋼僅腹板連接）</td>
+<td style="text-align: center;">[[shear-lag-u]] · [[SHEAR-LAG]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>BSR 條件公式選擇</td>
+<td>比較 $F_uA_{nt}$ 與 $0.6F_uA_{nv}$：較大者用淨面積+Fu，較小者改全面積+Fy；<strong>兩式都要再與上限 $0.6F_uA_{nv}+F_uA_{nt}$ 取小</strong>（本題即由上限控制）</td>
+<td style="text-align: center;">[[block-shear]] · [[BLOCK-SHEAR-RUPTURE]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>BSR 幾何從「自由端」畫起</td>
+<td>剪力面自<strong>構材自由端</strong>沿螺栓列線量至最遠一排螺栓；拉力面寬度為橫向間距 $g$。判錯自由端是本題最大陷阱</td>
+<td style="text-align: center;">[[block-shear]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>剪力面之扣孔為 $1.5 d_h$</td>
+<td>剪力面通過第 1 孔（整孔）與第 2 孔（僅半孔，因面終止於孔心）⇒ 共扣 1.5 個孔徑</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>雙槽鋼需乘 2</td>
+<td>所有單根計算完後，設計強度乘以 2（GSY、NSF、BSR 均需）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>螺栓孔徑扣 $d_b + 0.3$</td>
+<td>標準孔，強度計算時扣孔徑 = $d_b + 0.3$ cm（不是 $d_b$）；AISC 360-16 為 $d_b + 1/8''= d_b + 0.318$ cm，實質同值</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>填角銲最小銲腳尺寸</td>
+<td>台灣表 10.2-4：$t \le 6 \to 3$；$6 &lt; t \le 12 \to 5$；$12 &lt; t \le 19 \to \mathbf{6}$；$19 &lt; t \le 38 \to 8$ mm。與計算需求取較大值</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p><img alt="手寫補充1：剪力遲滯係數U值三種查表情況與公式法整理" src="../../raw/solutions/SS-2015-2/SS-2015-2-hand-1.png" /></p>
+<p><em>圖說：U 值計算整理。查表法：① W/H/S/T 型鋼翼板連接，沿力方向每排 ≥3 個螺栓 → U=0.9；② 其他斷面（含槽鋼）每排 ≥3 個螺栓 → U=0.85；③ 每排 2 個螺栓 → U=0.75。公式法：$U = 1 - \bar{x}/L$（$\bar{x}$ 為斷面形心到剪力傳力面之距離，$L$ 為接合縱向長度）；C 型鋼只有腹板連接時 $\bar{x} = C_y$。</em></p>
+<blockquote>
+<p>📌 <strong>規範版本提醒</strong>：筆記所寫「兩者取較大值」是 <strong>AISC 360-05 之後</strong>的規定。台灣 2010 規範與本試卷第三頁參考公式<strong>只列表列值</strong> $U = 0.9 / 0.85 / 0.75$，並未給公式法。本題兩法為 0.75 vs 0.751（差 0.13%），作答依表列值 0.75 為宜（詳 §5 爭議三、§6.1）。</p>
+</blockquote>
+<p><img alt="手寫補充2：拉力構材LRFD三種極限狀態概念與塊狀撕裂兩條判斷規則" src="../../raw/solutions/SS-2015-2/SS-2015-2-hand-2.png" /></p>
+<p><em>圖說：三種極限狀態概念。GSY：全斷面降伏，$\phi=0.9$，$P_n = F_yA_g$。NSF：有效淨截面斷裂，$\phi=0.75$，$P_n = F_uA_e = F_u U A_n$。BSR：塊狀剪力，$\phi=0.75$；兩條判斷規則：(a) $F_uA_{nt} \geq 0.6F_uA_{nv}$ → 張力斷裂 + 剪力降伏：$R_n = 0.6F_yA_{gv} + F_uA_{nt}$；(b) $0.6F_uA_{nv} &gt; F_uA_{nt}$ → 剪力斷裂 + 張力降伏：$R_n = 0.6F_uA_{nv} + F_yA_{gt}$。兩種情況均有上限：$R_n \leq 0.6F_uA_{nv} + F_uA_{nt}$。</em></p>
+<h3>基本幾何整理</h3>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>單位換算</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H = 200$ mm</td>
+<td>→ cm</td>
+<td>20.0 cm</td>
+</tr>
+<tr>
+<td>$B = 75$ mm</td>
+<td>→ cm</td>
+<td>7.5 cm</td>
+</tr>
+<tr>
+<td>$t_w = 6$ mm</td>
+<td>→ cm</td>
+<td>0.6 cm</td>
+</tr>
+<tr>
+<td>$t_f = 12.5$ mm</td>
+<td>→ cm</td>
+<td>1.25 cm</td>
+</tr>
+<tr>
+<td>$A_g$（單根）</td>
+<td>同卷第三題</td>
+<td>29.9 cm²</td>
+</tr>
+<tr>
+<td>$C_y$（形心到腹板外面）</td>
+<td>同卷第三題</td>
+<td>2.49 cm</td>
+</tr>
+<tr>
+<td>$d_h = d_b + 0.3$</td>
+<td>$= 2.5 + 0.3$</td>
+<td>2.8 cm</td>
+</tr>
+<tr>
+<td>接合長度 $L$</td>
+<td>縱向螺栓間距</td>
+<td>10 cm</td>
+</tr>
+<tr>
+<td>槽鋼端距 $e_1$</td>
+<td>圖讀（自由端側）</td>
+<td>5 cm</td>
+</tr>
+<tr>
+<td>至連接板邊緣 $e_2$</td>
+<td>圖讀（虛線）</td>
+<td>7 cm</td>
+</tr>
+<tr>
+<td>橫向間距 $g$</td>
+<td>圖讀（端視圖）</td>
+<td>10 cm</td>
+</tr>
+<tr>
+<td>螺栓數</td>
+<td>縱向 2 排 × 橫向 2 列</td>
+<td>4 支</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>Part (一)：拉力桿設計強度</h3>
+<h4>極限狀態一：全斷面降伏（GSY）</h4>
+<p>$$\phi_t P_n = \phi_t F_y (2 A_g) = 0.9 \times 3.5 \times (2 \times 29.9) = 0.9 \times 3.5 \times 59.8 = \boxed{188.4 \text{ tf}}$$</p>
+<blockquote>
+<p>策略註解：GSY 使用<strong>全斷面積</strong>，不扣孔，不考慮剪力遲滯。此值通常是三者中最大的。</p>
+</blockquote>
+<hr />
+<h4>極限狀態二：淨斷面斷裂（NSF）</h4>
+<p><strong>淨斷面積 $A_n$（單根槽鋼）：</strong></p>
+<p>⚠️ <strong>本項為舊版解析之錯誤所在。</strong> 腹板上螺栓為 <strong>2×2</strong> 配置（橫向間距 $g = 10$ cm），故任一垂直於力方向之橫斷面<strong>同時切過 2 個孔</strong>，不是 1 個：</p>
+<p>$$A_n = A_g - \mathbf{2} \times d_h \times t_w = 29.9 - 2 \times 2.8 \times 0.6 = 29.9 - 3.36 = \boxed{26.54 \text{ cm}^2}$$</p>
+<p><strong>錯列（stagger）路徑交叉驗核</strong>——依試卷參考公式 $w_n = w_g - \sum d_h + \sum \dfrac{s^2}{4g}$：</p>
+<table>
+<thead>
+<tr>
+<th>破壞路徑</th>
+<th>扣除量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>直線（切 2 孔，同一縱向位置）</td>
+<td>$2 d_h = 5.60$ cm</td>
+</tr>
+<tr>
+<td>斜線（由 (5, +5) 至 (15, −5)，切 2 孔並回加 $s^2/4g$）</td>
+<td>$2 d_h - \dfrac{10^2}{4 \times 10} = 5.60 - 2.50 = 3.10$ cm</td>
+</tr>
+</tbody>
+</table>
+<p>直線扣除 5.60 cm &gt; 斜線 3.10 cm ⇒ <strong>直線斷面控制</strong> ✓（無需考慮錯列）</p>
+<p><strong>剪力遲滯係數 $U$：</strong></p>
+<p>雙槽鋼只有<strong>腹板</strong>連接至螺栓，翼板力流需繞過，發生剪力遲滯。</p>
+<p><strong>本試卷第三頁參考公式明載</strong> $U = 0.9,\ 0.85,\ 0.75$ 三個表列值（並未給 $U = 1-\bar{x}/L$ 公式），與台灣 2010 規範一致：</p>
+<table>
+<thead>
+<tr>
+<th>情況</th>
+<th>$U$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>W/S/H 型鋼翼板連接，$b_f \ge 2d/3$，每線 ≥ 3 螺栓</td>
+<td>0.90</td>
+</tr>
+<tr>
+<td>其他斷面（含槽鋼），每線 ≥ 3 螺栓</td>
+<td>0.85</td>
+</tr>
+<tr>
+<td><strong>每線 2 個螺栓（本題）</strong></td>
+<td><strong>0.75</strong></td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{U = 0.75}$$</p>
+<p><em>交叉驗核（AISC 360-05 起之公式法，見 §6）：</em><br />
+$$U = 1 - \frac{\bar{x}}{L} = 1 - \frac{C_y}{L} = 1 - \frac{2.49}{10} = 0.751$$<br />
+兩者差 0.13%，實質同值。$\bar{x} = C_y = 2.49$ cm 為斷面形心到<strong>剪力傳力面</strong>（腹板外面）之距離；$L = 10$ cm 為縱向最外兩排螺栓中心距。</p>
+<p><strong>有效淨斷面積：</strong><br />
+$$A_e = U \cdot A_n = 0.75 \times 26.54 = 19.905 \text{ cm}^2 \text{（單根）}$$</p>
+<p><strong>設計強度：</strong><br />
+$$\phi_t P_n = 0.75 \times F_u \times (2 A_e) = 0.75 \times 4.6 \times (2 \times 19.905) = 0.75 \times 4.6 \times 39.81 = \boxed{137.3 \text{ tf}}$$</p>
+<p><em>（若採 $U = 0.751$：137.5 tf，差 0.13%）</em></p>
+<hr />
+<h4>極限狀態三：塊狀剪力破壞（BSR）</h4>
+<p><img alt="手寫補充3：塊狀撕裂兩種破壞路徑圖解及公式對照" src="../../raw/solutions/SS-2015-2/SS-2015-2-hand-3.png" /></p>
+<p><em>圖說：手寫筆記，塊狀撕裂兩種破壞路徑圖解（無具體數值）。上方兩幅示意圖畫出破壞塊：</em><em>兩側為剪力面（平行於 $T_u$）、遠端一條為張力面（垂直於 $T_u$）</em><em>——與本題更正後所採之幾何一致。(a)「剪力斷裂—張力降伏」：$R_n = 0.6F_u A_{nv} + F_y A_{gt}$（剪力用淨斷面積、張力用全斷面積），成立條件 $0.6F_uA_{nv} \ge F_uA_{nt}$，設計式 $\phi[0.6F_uA_{nv} + F_yA_{gt}] \ge T_u$，$\phi = 0.75$。(b)「剪力降伏—張力斷裂」：$R_n = 0.6F_y A_{gv} + F_u A_{nt}$，成立條件 $F_uA_{nt} \ge 0.6F_uA_{nv}$，設計式 $\phi[0.6F_yA_{gv} + F_uA_{nt}] \ge T_u$。筆記中圈註「$A_{nv}, A_{nt}$ → 斷裂破壞；$A_{gv}, A_{gt}$ → 降伏破壞」。</em></p>
+<blockquote>
+<p>📌 <strong>筆記未含之規範細節</strong>：試卷參考公式在兩式後方均加註上限 $\le \phi[0.6F_uA_{nv} + F_uA_{nt}]$。本題即由此上限控制（見下方計算與 §5 爭議二），手寫筆記未涵蓋此點。</p>
+</blockquote>
+<p><strong>破壞路徑幾何（單根槽鋼腹板）—— 已依重新判讀之圖面更正：</strong></p>
+<p>槽鋼腹板上有 <strong>2×2 = 4 個螺栓</strong>（縱向間距 $s = 10$ cm、橫向間距 $g = 10$ cm）。$T$ 將槽鋼往右拉，螺栓對腹板施加<strong>向左</strong>之承壓力，故破壞塊往<strong>左側自由端（$e_1 = 5$ cm 一側）</strong>擠出：</p>
+<ul>
+<li><strong>剪力面（2 條，平行於力）</strong>：沿上、下兩條螺栓列線，自槽鋼自由端（$x=0$）延伸至最遠一排螺栓（$x=15$ cm）</li>
+<li><strong>拉力面（1 條，垂直於力）</strong>：通過最遠一排螺栓、寬度等於橫向間距 $g = 10$ cm</li>
+</ul>
+<pre><code>   T 之反向（螺栓推腹板向左）  ←──
+   x=0        x=5        x=15
+    │          │           │
+────┼──────────●───────────●────────  ← 剪力面①（上列螺栓線） y=+5
+    │                      ┃
+    │      破壞塊          ┃ 拉力面（寬 g=10 cm）
+    │                      ┃
+────┼──────────●───────────●────────  ← 剪力面②（下列螺栓線） y=−5
+    ↑                      ↑
+  槽鋼自由端            最遠一排螺栓
+  （剪力面長 5+10 = 15 cm）
+</code></pre>
+<p><img alt="SS-2015-2 兩格對照：左為正解，剪力面自自由端量 15 cm、拉力面通過最遠一排螺栓且寬度等於 gauge 10 cm；右為舊版誤讀，把拉力面放在 7 cm 側且完全未用到橫向間距" src="../../raw/solutions/SS-2015-2/figs/SS-2015-2-fig-2-block-shear.svg" /></p>
+<p><em>圖 2　塊狀剪力破壞塊的幾何。剪力面切 1 整孔加 1 半孔（扣 $1.5d_h$）、拉力面寬度就是橫向間距 $g$；這張圖攔的是自由端判錯與拉力面寬度誤取 $e_2$，兩者一起發生時破壞機構的物理圖像完全不同。</em></p>
+<p><strong>剪力全／淨面積（2 個剪力面）：</strong></p>
+<p>每個剪力面長度 $= e_1 + s = 5 + 10 = 15$ cm。剪力面通過第 1 孔（<strong>整孔</strong>）與第 2 孔（<strong>僅半孔</strong>，因剪力面終止於該孔心）：</p>
+<p>$$A_{gv} = 2 \times 15 \times t_w = 2 \times 15 \times 0.6 = \boxed{18.0 \text{ cm}^2}$$</p>
+<p>$$A_{nv} = 2 \times \left[15 - 1.5\,d_h\right] \times t_w = 2 \times [15 - 1.5 \times 2.8] \times 0.6 = 2 \times 10.8 \times 0.6 = \boxed{12.96 \text{ cm}^2}$$</p>
+<p><strong>拉力全／淨面積（1 個拉力面，寬度 = $g$，兩端各扣半孔）：</strong></p>
+<p>$$A_{gt} = g \times t_w = 10 \times 0.6 = \boxed{6.0 \text{ cm}^2}$$</p>
+<p>$$A_{nt} = \left(g - 2 \times \frac{d_h}{2}\right) \times t_w = (10 - 2.8) \times 0.6 = 7.2 \times 0.6 = \boxed{4.32 \text{ cm}^2}$$</p>
+<p><strong>判斷哪個破壞模式控制：</strong><br />
+$$F_u A_{nt} = 4.6 \times 4.32 = 19.87 \text{ tf}$$<br />
+$$0.6 F_u A_{nv} = 0.6 \times 4.6 \times 12.96 = 35.77 \text{ tf}$$</p>
+<p>因 $0.6 F_u A_{nv}\ (35.77) &gt; F_u A_{nt}\ (19.87)$ → <strong>剪力斷裂 + 張力降伏</strong>（試卷參考公式第二式）</p>
+<p>$$\phi R_n = \phi \left[0.6 F_u A_{nv} + F_y A_{gt}\right] \leq \phi \left[0.6 F_u A_{nv} + F_u A_{nt}\right]$$</p>
+<p>$$\text{第二式：} \; 0.6F_uA_{nv} + F_yA_{gt} = 35.77 + 3.5 \times 6.0 = 35.77 + 21.00 = 56.77 \text{ tf}$$</p>
+<p>$$\text{上限：} \; 0.6F_uA_{nv} + F_uA_{nt} = 35.77 + 19.87 = 55.64 \text{ tf}$$</p>
+<p>⚠️ <strong>上限（55.64）小於第二式（56.77）⇒ 本題由上限控制</strong>（此為易漏之細節：兩條件式皆受上限拘束）：</p>
+<p>$$\phi R_n = 0.75 \times 55.64 = 41.73 \text{ tf/根}$$</p>
+<p><strong>雙槽鋼 BSR 強度：</strong><br />
+$$\phi R_n = 2 \times 41.73 = \boxed{83.5 \text{ tf}}$$</p>
+<blockquote>
+<p>策略註解：條件二（剪力斷裂 + 張力降伏）中，剪力面用 $F_u \times A_{nv}$（淨面積、斷裂），張力面用 $F_y \times A_{gt}$（全面積、降伏）。切記「<strong>0.6 跟著剪力走</strong>」，是哪種破壞（斷裂 or 降伏）就配對應的面積；最後<strong>務必再與上限取小</strong>。</p>
+</blockquote>
+<hr />
+<p><img alt="SS-2015-2 兩格長條圖：左為 GSY 188.4、NSF 137.3、BSR 83.5 tf 與接合端補充檢核（螺栓雙剪 99.0、孔壁承壓 85.5）；右為 BSR 內部之式二 56.77 與上限 55.64 tf 的比較" src="../../raw/solutions/SS-2015-2/figs/SS-2015-2-fig-3-limit-states.svg" /></p>
+<p><em>圖 3　三種極限狀態取最小，而 BSR 內部還要再與上限取小。右格顯示式二算出的 56.77 大於上限 55.64，故本題由上限控制；這張圖攔的是漏掉「兩條件式皆受上限拘束」這一句。</em></p>
+<h4>三種極限狀態比較</h4>
+<table>
+<thead>
+<tr>
+<th>極限狀態</th>
+<th>公式</th>
+<th>設計強度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GSY 全斷面降伏</td>
+<td>$0.9 F_y (2A_g)$</td>
+<td>188.4 tf</td>
+</tr>
+<tr>
+<td>NSF 淨斷面斷裂</td>
+<td>$0.75 F_u (2A_e)$</td>
+<td>137.3 tf</td>
+</tr>
+<tr>
+<td><strong>BSR 塊狀剪力（控制）</strong></td>
+<td>$0.75 \times 2 \times \min(\text{式二},\ \text{上限})$</td>
+<td><strong>83.5 tf</strong></td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{\phi P_n = 83.5 \text{ tf，由塊狀剪力破壞控制}}$$</p>
+<p><strong>接合端補充檢核（試卷參考公式未列，但實務必須；見 §5）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>設計強度</th>
+<th>是否控制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>螺栓雙剪（A325，螺紋在剪力面 N）</td>
+<td>99.0 tf</td>
+<td>否</td>
+</tr>
+<tr>
+<td>螺栓雙剪（A325，螺紋不在剪力面 X）</td>
+<td>123.8 tf</td>
+<td>否</td>
+</tr>
+<tr>
+<td>腹板孔壁承壓／撕出（雙根合計）</td>
+<td>85.5 tf</td>
+<td>否（僅高於 BSR 2.4%）</td>
+</tr>
+</tbody>
+</table>
+<p>三者皆 &gt; 83.5 tf，故 <strong>BSR 仍為控制模式</strong>。</p>
+<hr />
+<h3>Part (二)：填角銲銲腳長度 $w$</h3>
+<p><strong>銲道設計：</strong><br />
+- 連接板兩側各一道填角銲（對稱），有效銲長各 35 cm<br />
+- 銲道需傳遞拉力桿設計強度：$T = 83.46$ tf<br />
+- 由圖面，$T$ 之作用線通過銲道群形心（35 cm 之中點），故<strong>無附加偏心彎矩</strong>，僅需檢核合成剪力</p>
+<p><strong>填角銲強度公式（試卷參考公式，有效喉厚 $t = 0.707w$）：</strong><br />
+$$\phi R_n = (0.75)(0.6 F_{EXX})(0.707w)(L_{total})$$</p>
+<p>其中總有效銲長 $L_{total} = 2 \times 35 = 70$ cm（兩側各 35 cm）：</p>
+<p>$$\phi R_n = 0.75 \times 0.6 \times 4.9 \times 0.707w \times 70 = 2.205 \times 49.49 \times w = 109.13\,w \quad (w \text{ in cm})$$</p>
+<p><strong>解 $w$：</strong><br />
+$$109.13\,w \geq 83.46 \text{ tf}$$<br />
+$$w \geq \frac{83.46}{109.13} = 0.765 \text{ cm} = 7.65 \text{ mm}$$</p>
+<p><img alt="SS-2015-2 長條圖：強度需求 7.65 mm、規範最小銲腳 6 mm、AISC 方向性強度下之需求 5.63 mm、選用值 8 mm" src="../../raw/solutions/SS-2015-2/figs/SS-2015-2-fig-4-weld.svg" /></p>
+<p><em>圖 4　銲腳尺寸的三個門檻。本題強度需求 7.65 mm 大於規範最小值 6 mm ⇒ 由強度控制；這張圖攔的是查錯表 10.2-4（$12 &lt; t \leq 19$ mm 為 6 mm，不是 8 mm）而把控制理由說成「規範最小值」。</em></p>
+<p><strong>最小／最大銲腳尺寸確認：</strong></p>
+<table>
+<thead>
+<tr>
+<th>檢核</th>
+<th>依據</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最小銲腳</td>
+<td>台灣規範表 10.2-4：較厚板 $t = 16$ mm 落在 $12 &lt; t \le 19$ → 最小 <strong>6 mm</strong></td>
+<td>7.65 &gt; 6 ✓ <strong>強度控制</strong></td>
+</tr>
+<tr>
+<td>最大銲腳（沿板緣）</td>
+<td>$t \ge 6$ mm 時 $w \le t - 2 = 14$ mm</td>
+<td>8 ≤ 14 ✓</td>
+</tr>
+</tbody>
+</table>
+<p>⚠️ 舊版解析稱「$t &gt; 12$ mm 時最小銲腳 = 8 mm，故由最小規定控制」，係誤查規範表（$19 &lt; t \le 38$ mm 才是 8 mm）。本題最終答案相同，但<strong>控制理由不同</strong>：是強度需求 7.65 mm 進位而得，非規範最小值。</p>
+<p>$$\boxed{w = 8 \text{ mm} = 0.8 \text{ cm}}$$</p>
+<p><strong>驗算：</strong> $\phi R_n = 109.13 \times 0.8 = 87.3 \text{ tf} &gt; 83.5 \text{ tf}$ ✓</p>
+<p><strong>母材檢核（連接板沿銲道之剪力）：</strong><br />
+$$\phi R_n = 0.75 \times 0.6 F_u \times t_p L_w = 0.75 \times 0.6 \times 4.6 \times 1.6 \times 35 = 115.9 \text{ tf} &gt; 83.5 \; \checkmark$$<br />
+$$\phi R_n = 1.0 \times 0.6 F_y \times t_p L_w = 1.0 \times 0.6 \times 3.5 \times 1.6 \times 35 = 117.6 \text{ tf} &gt; 83.5 \; \checkmark$$</p>
+<p><img alt="手寫補充4：0.6跟著剪力走三條判斷規則及BSR面積識別整理" src="../../raw/solutions/SS-2015-2/SS-2015-2-hand-4.png" /></p>
+<p><em>圖說：手寫筆記【重點】「0.6 是跟著剪力走」。① 比較 $F_uA_{nt}$ 與 $0.6F_uA_{nv}$，「看誰大」；② 大的那一項仍用 $F_u$ → 配 $A_{nv}$、$A_{nt}$（斷裂破壞）；小的那一項改用 $F_y$ → 配 $A_{gv}$、$A_{gt}$（降伏破壞）；③ 兩者相加後乘 $\phi$，並列出兩式 $\phi[0.6F_yA_{gv} + F_uA_{nt}]$ 與 $\phi[0.6F_uA_{nv} + F_yA_{gt}]$。筆記為通則整理，不含本題數值，亦未列上限式。</em></p>
+<p><strong>套用於本題：</strong> $0.6F_uA_{nv} = 35.77$ tf $&gt;$ $F_uA_{nt} = 19.87$ tf → 剪力斷裂（用 $F_u A_{nv}$）+ 張力降伏（用 $F_y A_{gt}$），得 56.77 tf；再與上限 55.64 tf 取小 ⇒ <strong>55.64 tf/根</strong>。</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>爭議一（本次最重要更正）：BSR 破壞塊之幾何</strong></p>
+<p>舊版解析把腹板螺栓誤讀為「1 排縱向 2 支」，因而：<br />
+1. 把<strong>拉力面</strong>放在「最遠螺栓到 7 cm 板端」——但 7 cm 是量到<strong>連接板邊緣的虛線</strong>，不是槽鋼端緣；<br />
+2. 完全未使用<strong>橫向間距 $g = 10$ cm</strong>（拉力面的真正寬度）；<br />
+3. 剪力面之扣孔寫成「各扣 2 孔」但數值代 $2 \times 1.4 = 2.8$（實為 1 個孔徑），符號與數值不一致。</p>
+<p>更正後之幾何與結果對照：</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>舊版</th>
+<th>本版（更正）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>剪力面長度</td>
+<td>15 cm</td>
+<td>15 cm（同）</td>
+</tr>
+<tr>
+<td>剪力面扣孔</td>
+<td>$1.0\,d_h$</td>
+<td>$1.5\,d_h$（1 整孔 + 1 半孔）</td>
+</tr>
+<tr>
+<td>$A_{nv}$</td>
+<td>14.64 cm²</td>
+<td><strong>12.96 cm²</strong></td>
+</tr>
+<tr>
+<td>拉力面</td>
+<td>$e_2 - d_h/2 = 5.6$ cm（誤用 7 cm 側）</td>
+<td>$g - d_h = 7.2$ cm（通過最遠一排螺栓）</td>
+</tr>
+<tr>
+<td>$A_{nt}$</td>
+<td>3.36 cm²</td>
+<td><strong>4.32 cm²</strong></td>
+</tr>
+<tr>
+<td>$A_{gt}$</td>
+<td>4.2 cm²</td>
+<td><strong>6.0 cm²</strong></td>
+</tr>
+<tr>
+<td>控制式</td>
+<td>第二式 41.33 tf/根</td>
+<td><strong>上限式 41.73 tf/根</strong></td>
+</tr>
+<tr>
+<td>BSR（雙根）</td>
+<td>82.7 tf</td>
+<td><strong>83.5 tf</strong></td>
+</tr>
+</tbody>
+</table>
+<p>雖然最終數值僅差 1.0%（幾何的兩處誤差恰好部分相消），但<strong>破壞機構的物理圖像完全不同</strong>，若題目改變 $g$ 或 $e_1$，舊版會給出嚴重錯誤的答案。</p>
+<p><strong>爭議二：兩條件式皆受上限拘束（本題由上限控制）</strong></p>
+<p>試卷參考公式兩式後方均寫有 $\le \phi[0.6F_uA_{nv} + F_uA_{nt}]$。本題：</p>
+<p>$$\text{式二} = 56.77 \text{ tf} \;&gt;\; \text{上限} = 55.64 \text{ tf} \;\Rightarrow\; \text{取上限}$$</p>
+<p>物理意義：張力面若以 $F_y A_{gt}$（降伏 × 全面積）計得的貢獻 21.00 tf 超過其斷裂能力 $F_u A_{nt} = 19.87$ tf，即為不合理，故以斷裂值封頂。</p>
+<p><strong>爭議三：$U$ 值——表列 vs 公式</strong></p>
+<p>本試卷第三頁參考公式<strong>只給表列值</strong> $U = 0.9 / 0.85 / 0.75$（與台灣 2010 規範一致，源自 AISC LRFD 1993）。$U = 1 - \bar{x}/L$ 是 AISC 360-05 才納入之公式（Table D3.1 Case 2）。</p>
+<p>本題兩者為 0.75 vs 0.751，差 0.13%，對答案（137.3 vs 137.5 tf）與最終控制模式（BSR 83.5 tf）皆無影響。<strong>作答建議依試卷給定之表列值 0.75</strong>，並可註明公式法亦得 0.751。</p>
+<p><strong>爭議四：$A_g$ 之取值</strong></p>
+<p>第二題本身未給 $A_g$。若考生未注意到第三題已列 $A = 29.9$ cm²，而自行以 $200 \times 75 \times 6 \times 12.5$ 矩形理想化得 29.25 cm²，則：</p>
+<table>
+<thead>
+<tr>
+<th>$A_g$</th>
+<th>GSY</th>
+<th>NSF</th>
+<th>BSR</th>
+<th>設計強度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>29.9 cm²（本文）</td>
+<td>188.4</td>
+<td>137.3</td>
+<td>83.5</td>
+<td><strong>83.5 tf</strong></td>
+</tr>
+<tr>
+<td>29.25 cm²（矩形化）</td>
+<td>184.3</td>
+<td>130.6</td>
+<td>83.5</td>
+<td><strong>83.5 tf</strong></td>
+</tr>
+</tbody>
+</table>
+<p>因 BSR 只用腹板局部面積、與 $A_g$ 無關，<strong>設計強度不受影響</strong>——這是本題的幸運之處。</p>
+<p><strong>補充檢核：螺栓剪力與孔壁承壓（試卷未列，實務必要）</strong></p>
+<p>$A_b = \pi (2.5)^2/4 = 4.909$ cm²，4 支螺栓、雙剪（每支貫穿槽鋼—連接板—槽鋼，2 個剪力面）：</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>計算</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>螺栓剪力（N，$F_v = 0.4F_u^b = 3.36$）</td>
+<td>$0.75 \times 4 \times 2 \times 4.909 \times 3.36$</td>
+<td>99.0 tf</td>
+</tr>
+<tr>
+<td>螺栓剪力（X，$F_v = 0.5F_u^b = 4.20$）</td>
+<td>$0.75 \times 4 \times 2 \times 4.909 \times 4.20$</td>
+<td>123.8 tf</td>
+</tr>
+<tr>
+<td>承壓：端螺栓 $L_c = 5 - 1.4 = 3.6$</td>
+<td>$\min(1.2 L_c t_w F_u,\ 2.4 d t_w F_u) = \min(11.92,\ 16.56)$</td>
+<td>11.92 tf/支</td>
+</tr>
+<tr>
+<td>承壓：內螺栓 $L_c = 10 - 2.8 = 7.2$</td>
+<td>$\min(23.85,\ 16.56)$</td>
+<td>16.56 tf/支</td>
+</tr>
+<tr>
+<td>承壓合計（2 根槽鋼）</td>
+<td>$0.75 \times 2 \times (2 \times 11.92 + 2 \times 16.56)$</td>
+<td>85.5 tf</td>
+</tr>
+</tbody>
+</table>
+<p>$A_{325}$ 之 $F_u^b = 8.4$ tf/cm²。三者皆 &gt; 83.5 tf ⇒ <strong>BSR 仍控制</strong>，惟承壓僅高出 2.4%，屬同一量級，實務上應一併列出。</p>
+<p><strong>進階：為何 BSR 遠低於 NSF？</strong></p>
+<p>BSR = 83.5 tf vs NSF = 137.3 tf，差 1.6 倍。原因：BSR 涉及的有效受力面積（$A_{nv}$、$A_{nt}$）都是<strong>腹板局部面積</strong>（$t_w = 0.6$ cm，總計不到 20 cm²），而 NSF 的 $A_n$ 是<strong>整個斷面</strong>的淨面積（26.5 cm²）並乘 $F_u$。雙槽鋼僅腹板連接，腹板局部面積小，故 BSR 往往控制。</p>
+<p>此結果提示：提高拉力桿強度最有效的途徑是<strong>改善接合詳圖</strong>（增加縱向螺栓排數以拉長剪力面、或加大橫向間距 $g$ 以加寬拉力面），而非單純換用更強的鋼材。試算：若縱向改為 3 排（$s = 10$ cm ×2），剪力面長 25 cm，$A_{nv} = 2(25 - 2.5 \times 2.8)(0.6) = 21.6$ cm²，$0.6F_uA_{nv} = 59.6$ tf，BSR 升至約 119 tf，且 $U$ 可由 0.75 提高至 0.85。</p>
+<hr />
+<h2>6. 依最新規範（AISC 360-16／-22）對照</h2>
+<blockquote>
+<p><strong>本題主答案所依規範</strong>：內政部「鋼構造建築物鋼結構設計技術規範」民國 99 年（2010）修正版之<strong>鋼結構極限設計法</strong>（第五章受拉構材、第十章接合設計）。本試卷第一頁注意事項（四）明載：「作答請採用內政部發布 2010 年『鋼結構設計技術規範』為原則，並依題目指定設計法作答。」故以下 AISC 對照僅供延伸理解。</p>
+</blockquote>
+<h3>6.1 有效淨斷面積 $U$：表列 → 公式</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>台灣 2010／AISC LRFD 1993</th>
+<th>AISC 360-05 起（至 -22）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>規定形式</td>
+<td><strong>表列</strong> $U = 0.90 / 0.85 / 0.75$</td>
+<td><strong>Table D3.1 分 8 種 Case</strong></td>
+</tr>
+<tr>
+<td>槽鋼僅腹板連接</td>
+<td>每線 2 螺栓 → $U = 0.75$</td>
+<td>Case 2：$U = 1 - \bar{x}/L$</td>
+</tr>
+<tr>
+<td>本題數值</td>
+<td><strong>0.75</strong></td>
+<td>$1 - 2.49/10 = 0.751$</td>
+</tr>
+<tr>
+<td>NSF 設計強度</td>
+<td><strong>137.3 tf</strong></td>
+<td>137.5 tf</td>
+</tr>
+</tbody>
+</table>
+<p>360-05 起改為公式法的意義：表列值對「接合長度很長」的情形過於保守（$L$ 越長，剪力遲滯越輕微，$U \to 1$）。本題 $L$ 僅 10 cm 而 $C_y = 2.49$ cm，兩法恰好同值。</p>
+<h3>6.2 塊狀撕裂：二式 → 單式（本題同值！）</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>台灣 2010（本試卷參考公式）</th>
+<th>AISC 360-05 起 §J4.3 式 (J4-5)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>形式</td>
+<td><strong>兩條件式</strong>（依 $F_uA_{nt}$ 與 $0.6F_uA_{nv}$ 大小分歧），各受上限拘束</td>
+<td><strong>單一式</strong>：$R_n = 0.60F_uA_{nv} + U_{bs}F_uA_{nt} \le 0.60F_yA_{gv} + U_{bs}F_uA_{nt}$</td>
+</tr>
+<tr>
+<td>張力面係數</td>
+<td>—</td>
+<td>$U_{bs} = 1.0$（張力均勻）／0.5（不均勻）</td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td>0.75</td>
+<td>0.75（$\Omega = 2.00$）</td>
+</tr>
+</tbody>
+</table>
+<p>本題代入 AISC 單式（$U_{bs} = 1.0$）：</p>
+<p>$$R_n = 35.77 + 19.87 = 55.64 \text{ tf};\qquad \text{上限} = 0.6(3.5)(18.0) + 19.87 = 37.80 + 19.87 = 57.67 \text{ tf}$$</p>
+<p>$$\Rightarrow R_n = 55.64 \text{ tf} \;\Rightarrow\; \phi R_n \times 2 = \boxed{83.5 \text{ tf}}$$</p>
+<p><strong>與台灣二式結果完全相同</strong>——因為台灣二式的「上限」在本題控制，而該上限式正是 AISC 單式的主式。這是理解兩套寫法關係的最佳範例：AISC 只是把台灣的「上限」提為主式，把「$0.6F_yA_{gv}$」改為新的上限。</p>
+<h3>6.3 填角銲：方向性強度使需求銲腳由 8 mm 降為 6 mm</h3>
+<p>台灣 2010 規範一律取 $0.6F_{EXX}$。AISC 360-16 §J2.4(a) 允許：</p>
+<p>$$F_{nw} = 0.60F_{EXX}\left(1.00 + 0.50\sin^{1.5}\theta\right)$$</p>
+<p>本題 $T$ 與鉛垂銲道軸夾 $\theta = 90° - \arctan(3/4) = 53.13°$（$\sin\theta = 0.8$）：</p>
+<p>$$1.00 + 0.50(0.8)^{1.5} = 1.358$$</p>
+<p>$$w \ge \frac{83.46}{0.75 \times 0.6 \times 4.9 \times 1.358 \times 0.707 \times 70} = \frac{83.46}{148.2} = 0.563 \text{ cm} = 5.63 \text{ mm}$$</p>
+<p>$$\Rightarrow \text{改由最小銲腳 6 mm 控制} \;\Rightarrow\; \boxed{w = 6 \text{ mm}}\ (\text{台灣 2010：8 mm})$$</p>
+<p>即 <strong>AISC 360-16 可省下 25% 銲腳尺寸</strong>（銲接量與 $w^2$ 成正比，約省 44% 銲料）。此為 AISC 360 系列對填角銲最實質的放寬。</p>
+<blockquote>
+<p>⚠️ 本題 $T$ 通過銲道群形心（同心受力、單一直線銲道群），正好落在 §J2.4(a) 明確允許的適用範圍內，故此增益可直接使用（不同於 SS-2017-4 之偏心銲道群需經瞬心法）。</p>
+</blockquote>
+<h3>6.4 螺栓孔徑與承壓／撕出</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>台灣 2010</th>
+<th>AISC 360-16</th>
+<th>AISC 360-22</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>淨斷面用孔徑</td>
+<td>$d_b + 0.3$ cm</td>
+<td>$d_b + 1/8'' = d_b + 0.318$ cm</td>
+<td>同 -16</td>
+</tr>
+<tr>
+<td>承壓／撕出</td>
+<td>併於承壓式（$F_p$ 或 $1.2L_ct F_u \le 2.4dtF_u$）</td>
+<td>§J3.10 <strong>合併</strong>為一式</td>
+<td>§J3.11 承壓／<strong>§J3.12 撕出分列</strong></td>
+</tr>
+<tr>
+<td>本題數值影響</td>
+<td>$d_h = 2.8$ vs 2.818 cm，$A_n$ 差 0.03%</td>
+<td>—</td>
+<td>分列後需分別檢核，數值不變</td>
+</tr>
+</tbody>
+</table>
+<p>360-22 把「承壓（bearing）」與「撕出（tear-out）」拆為兩個獨立極限狀態，是為釐清概念（撕出屬剪力破壞、承壓屬壓陷），計算結果與 -16 之合併式相同。</p>
+<h3>6.5 對照總表</h3>
+<table>
+<thead>
+<tr>
+<th>極限狀態</th>
+<th>台灣 2010（本文主答案）</th>
+<th>AISC 360-16／-22</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GSY</td>
+<td>$0.9F_y(2A_g) = 188.4$ tf</td>
+<td>同（$\phi_t = 0.90$）</td>
+</tr>
+<tr>
+<td>NSF</td>
+<td>$U = 0.75$（表列）→ <strong>137.3 tf</strong></td>
+<td>$U = 0.751$（公式）→ 137.5 tf</td>
+</tr>
+<tr>
+<td>BSR</td>
+<td>二式 + 上限 → <strong>83.5 tf</strong></td>
+<td>單式 (J4-5) → <strong>83.5 tf</strong>（同值）</td>
+</tr>
+<tr>
+<td><strong>設計強度</strong></td>
+<td><strong>83.5 tf（BSR 控制）</strong></td>
+<td><strong>83.5 tf（BSR 控制）</strong></td>
+</tr>
+<tr>
+<td>填角銲 $w$</td>
+<td>$0.6F_{EXX}$ → <strong>8 mm</strong></td>
+<td>方向性強度 → <strong>6 mm</strong>（最小銲腳控制）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>修正日期：2026-08-22</em><br />
+<em>本次修正內容：①以 300–500 dpi 影像重新判讀試卷圖 2，確認腹板螺栓為 2×2 配置、橫向間距 $g = 10$ cm、且「7 cm」係量至</em><em>連接板邊緣虛線</em><em>而非槽鋼端緣；②NSF 之 $A_n$ 由「扣 1 孔」更正為「扣 2 孔」（28.22 → 26.54 cm²），NSF 由 146.2 → </em><em>137.3 tf</em><em>，並補入錯列路徑 $s^2/4g$ 交叉驗核；③$U$ 改採試卷／規範表列值 0.75（原用 AISC 公式 0.751），並註明兩者差異來源；④BSR 破壞塊幾何全面更正（剪力面扣 $1.5d_h$、拉力面寬度改為 $g$），$A_{nv}$ 14.64→12.96、$A_{nt}$ 3.36→4.32、$A_{gt}$ 4.2→6.0 cm²，並發現</em><em>上限式控制</em><em>，BSR 由 82.7 → </em><em>83.5 tf</em><em>；⑤更正最小銲腳尺寸查表（表 10.2-4：$12&lt;t\le19$ mm 為 6 mm，非 8 mm），$w$ 需求 7.58 → </em><em>7.65 mm</em><em>，取用 8 mm 之理由由「規範最小值」改為「強度控制」；⑥補入 $A_g$ 出處說明（同卷第三題）、$T$ 之 3:4 方向、螺栓剪力與孔壁承壓補充檢核、母材檢核；⑦新增 §6 依最新規範對照。設計強度由 82.7 → </em><em>83.5 tf</em><em>（仍由 BSR 控制）。</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2015-2/SS-2015-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body></html>

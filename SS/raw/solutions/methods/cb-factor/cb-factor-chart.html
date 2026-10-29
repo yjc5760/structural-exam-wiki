@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>Cb 彎矩梯度修正因子 — 互動視覺化</title>
+<style>
+  body { font-family: "Noto Sans TC", sans-serif; background: #f5f5f5; display: flex; flex-direction: column; align-items: center; padding: 16px; }
+  h2 { font-size: 15px; color: #1a237e; margin: 0 0 4px; text-align: center; }
+  p.sub { font-size: 11px; color: #555; margin: 0 0 12px; text-align: center; }
+
+  .panels { display: flex; gap: 14px; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
+
+  /* Left panel: controls */
+  .ctrl-panel { background: #fff; border: 1px solid #bbb; border-radius: 6px; padding: 14px 16px; width: 220px; box-shadow: 2px 2px 6px rgba(0,0,0,0.1); }
+  .ctrl-panel h3 { font-size: 12px; color: #1a237e; margin: 0 0 10px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+
+  .shape-btn { display: block; width: 100%; padding: 6px 10px; margin-bottom: 6px; border: 1.5px solid #90a4ae; border-radius: 4px; background: #eceff1; font-size: 11px; cursor: pointer; text-align: left; transition: all 0.15s; }
+  .shape-btn:hover { background: #bbdefb; border-color: #1565c0; }
+  .shape-btn.active { background: #1a237e; color: #fff; border-color: #1a237e; font-weight: bold; }
+
+  .cb-result { margin-top: 12px; background: #e8f5e9; border-left: 4px solid #2e7d32; padding: 10px 12px; border-radius: 0 4px 4px 0; }
+  .cb-result .cb-val { font-size: 22px; font-weight: bold; color: #1b5e20; }
+  .cb-result .cb-label { font-size: 10px; color: #555; margin-top: 2px; }
+  .cb-result .moments { font-size: 10px; color: #333; margin-top: 6px; line-height: 1.8; }
+
+  /* Right panels: canvases */
+  .chart-col { display: flex; flex-direction: column; gap: 10px; }
+  canvas { background: #fff; border: 1px solid #bbb; box-shadow: 2px 2px 6px rgba(0,0,0,0.12); display: block; }
+
+  .formula-box { background: #fff3e0; border: 1px solid #ffb300; border-radius: 4px; padding: 10px 14px; font-size: 11px; max-width: 580px; line-height: 1.9; }
+  .formula-box .f { font-family: "Courier New", monospace; font-size: 12px; color: #bf360c; font-weight: bold; }
+  .info-row { display: flex; gap: 10px; margin-top: 10px; max-width: 580px; flex-wrap: wrap; }
+  .info-chip { background: #e3f2fd; border: 1px solid #90caf9; border-radius: 12px; padding: 3px 10px; font-size: 10px; color: #1565c0; white-space: nowrap; }
+</style>
+</head>
+<body>
+<h2>C<sub>b</sub>：彎矩梯度修正因子 互動視覺化</h2>
+<p class="sub">選擇不同彎矩分布類型，即時計算 C<sub>b</sub> 值與四分點彎矩</p>
+
+<div class="formula-box">
+  <span class="f">C<sub>b</sub> = 12.5·M<sub>max</sub> / (2.5·M<sub>max</sub> + 3·M<sub>A</sub> + 4·M<sub>B</sub> + 3·M<sub>C</sub>) ≤ 3.0</span><br>
+  所有彎矩值均取 <b>絕對值</b>｜M<sub>A</sub>: 1/4 點｜M<sub>B</sub>: 中點｜M<sub>C</sub>: 3/4 點
+</div>
+
+<div class="info-row">
+  <div class="info-chip">均勻彎矩 → C<sub>b</sub> = 1.0（最不利）</div>
+  <div class="info-chip">三角形彎矩 → C<sub>b</sub> ≈ 1.67</div>
+  <div class="info-chip">反曲線 → C<sub>b</sub> ≈ 2.3（最有利）</div>
+  <div class="info-chip">所有情況 C<sub>b</sub> ≤ 3.0</div>
+</div>
+
+<div class="panels" style="margin-top:14px;">
+  <div class="ctrl-panel">
+    <h3>選擇彎矩分布</h3>
+    <button class="shape-btn active" onclick="setShape('uniform')">① 均勻彎矩<br><span style="font-size:9px;opacity:0.7">C<sub>b</sub> = 1.0（最不利）</span></button>
+    <button class="shape-btn" onclick="setShape('triangle')">② 三角形（線性）<br><span style="font-size:9px;opacity:0.7">一端最大，一端=0</span></button>
+    <button class="shape-btn" onclick="setShape('parabola')">③ 拋物線（均布載重）<br><span style="font-size:9px;opacity:0.7">中點最大，端部=0</span></button>
+    <button class="shape-btn" onclick="setShape('midpoint')">④ 對稱三角形（中點集中）<br><span style="font-size:9px;opacity:0.7">中點最大</span></button>
+    <button class="shape-btn" onclick="setShape('double')">⑤ 雙曲率（反曲線）<br><span style="font-size:9px;opacity:0.7">C<sub>b</sub> ≈ 2.27（最有利）</span></button>
+    <button class="shape-btn" onclick="setShape('partial')">⑥ 部分均勻（一端小）<br><span style="font-size:9px;opacity:0.7">工程常見情況</span></button>
+
+    <div class="cb-result">
+      <div class="cb-val" id="cbVal">—</div>
+      <div class="cb-label">C<sub>b</sub> 計算結果</div>
+      <div class="moments" id="momentsDisplay">—</div>
+    </div>
+  </div>
+
+  <div class="chart-col">
+    <!-- BMD canvas -->
+    <canvas id="bmdCanvas" width="520" height="200"></canvas>
+    <!-- LTB curve canvas -->
+    <canvas id="ltbCanvas" width="520" height="260"></canvas>
+  </div>
+</div>
+
+<script>
+// ── Shape definitions ──
+// Each shape is a function from x in [0,1] → M (normalized, can be negative)
+const shapes = {
+  uniform:  { label: '均勻彎矩', fn: x => 1.0,                  color: '#c62828' },
+  triangle: { label: '三角形（線性）', fn: x => x,              color: '#e65100' },
+  parabola: { label: '拋物線（均布載重）', fn: x => 4*x*(1-x), color: '#1565c0' },
+  midpoint: { label: '對稱三角形（跨中集中）', fn: x => x <= 0.5 ? 2*x : 2*(1-x), color: '#6a1b9a' },
+  double:   { label: '雙曲率（反曲線）', fn: x => {
+    // Goes from -1 at x=0 to +1 at x=1 with zero crossing at x=0.5
+    // Sinusoidal reverse curvature
+    return Math.sin(Math.PI * x) * 0.6 - 0.4 + 0.8*x;
+    // Simpler: linear from -1 to 1
+  }, color: '#2e7d32' },
+  partial:  { label: '部分均勻（一端小）', fn: x => x < 0.3 ? x/0.3*0.5 : 0.5 + (x-0.3)/0.7*0.5, color: '#f57c00' },
+};
+
+// Use simpler reverse curvature: linear from -1 to +1 (double curvature)
+shapes.double.fn = x => 2*x - 1;
+
+let currentShape = 'uniform';
+
+function computeCb(fn) {
+  // Evaluate at 1/4, 1/2, 3/4 and find max in [0,1]
+  const MA = Math.abs(fn(0.25));
+  const MB = Math.abs(fn(0.50));
+  const MC = Math.abs(fn(0.75));
+  // Find Mmax by sampling
+  let Mmax = 0;
+  for (let i = 0; i <= 100; i++) {
+    const v = Math.abs(fn(i / 100));
+    if (v > Mmax) Mmax = v;
+  }
+  const denom = 2.5 * Mmax + 3 * MA + 4 * MB + 3 * MC;
+  const Cb = Math.min(12.5 * Mmax / denom, 3.0);
+  return { Cb, MA, MB, MC, Mmax };
+}
+
+function setShape(key) {
+  currentShape = key;
+  document.querySelectorAll('.shape-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', Object.keys(shapes)[i] === key);
+  });
+  render();
+}
+
+function render() {
+  const shape = shapes[currentShape];
+  const fn = shape.fn;
+  const { Cb, MA, MB, MC, Mmax } = computeCb(fn);
+
+  // Update result display
+  document.getElementById('cbVal').textContent = Cb.toFixed(3);
+  document.getElementById('momentsDisplay').innerHTML =
+    `M<sub>max</sub> = ${(Mmax).toFixed(3)}&nbsp;&nbsp;|&nbsp;&nbsp;M<sub>A</sub> = ${MA.toFixed(3)}<br>` +
+    `M<sub>B</sub> = ${MB.toFixed(3)}&nbsp;&nbsp;|&nbsp;&nbsp;M<sub>C</sub> = ${MC.toFixed(3)}<br>` +
+    `（各值以 M<sub>max</sub> = 1.0 歸一化）`;
+
+  drawBMD(fn, shape);
+  drawLTB(Cb, shape);
+}
+
+// ── Draw BMD ──
+function drawBMD(fn, shape) {
+  const cv = document.getElementById('bmdCanvas');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#fafafa';
+  ctx.fillRect(0, 0, W, H);
+
+  const pad = { left: 50, right: 30, top: 28, bottom: 32 };
+  const cW = W - pad.left - pad.right;
+  const cH = H - pad.top - pad.bottom;
+
+  // Find min/max to scale
+  let ymin = 0, ymax = 0;
+  for (let i = 0; i <= 200; i++) {
+    const v = fn(i / 200);
+    if (v < ymin) ymin = v;
+    if (v > ymax) ymax = v;
+  }
+  const yRange = Math.max(Math.abs(ymin), Math.abs(ymax)) * 1.15 || 1;
+
+  function toX(xNorm) { return pad.left + xNorm * cW; }
+  function toY(m) { return pad.top + cH * 0.5 - (m / yRange) * cH * 0.5; }
+
+  // Zero axis
+  ctx.strokeStyle = '#888'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad.left, toY(0)); ctx.lineTo(pad.left + cW, toY(0)); ctx.stroke();
+
+  // BMD fill
+  ctx.beginPath();
+  ctx.moveTo(toX(0), toY(fn(0)));
+  for (let i = 1; i <= 200; i++) {
+    ctx.lineTo(toX(i / 200), toY(fn(i / 200)));
+  }
+  ctx.lineTo(toX(1), toY(0));
+  ctx.lineTo(toX(0), toY(0));
+  ctx.closePath();
+  ctx.fillStyle = shape.color + '33';
+  ctx.fill();
+
+  // BMD curve
+  ctx.beginPath();
+  ctx.moveTo(toX(0), toY(fn(0)));
+  for (let i = 1; i <= 200; i++) {
+    ctx.lineTo(toX(i / 200), toY(fn(i / 200)));
+  }
+  ctx.strokeStyle = shape.color;
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // Quarter point markers
+  const qColors = ['#e53935', '#8e24aa', '#1e88e5', '#43a047'];
+  const labels = ['MA', 'MB', 'MC'];
+  [0.25, 0.5, 0.75].forEach((x, i) => {
+    const m = fn(x);
+    const px = toX(x), py = toY(m);
+    // Vertical dashed line
+    ctx.strokeStyle = '#aaa'; ctx.lineWidth = 0.8; ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(px, toY(0)); ctx.lineTo(px, py); ctx.stroke();
+    ctx.setLineDash([]);
+    // Dot
+    ctx.fillStyle = qColors[i + 1];
+    ctx.beginPath(); ctx.arc(px, py, 5, 0, 2 * Math.PI); ctx.fill();
+    // Label
+    ctx.fillStyle = qColors[i + 1];
+    ctx.font = 'bold 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(labels[i], px, py + (m >= 0 ? -10 : 14));
+    ctx.font = '9px sans-serif';
+    ctx.fillStyle = '#555';
+    ctx.fillText('|' + Math.abs(m).toFixed(2) + '|', px, py + (m >= 0 ? -20 : 24));
+  });
+
+  // Axis
+  ctx.strokeStyle = '#333'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(pad.left, pad.top); ctx.lineTo(pad.left, pad.top + cH); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(pad.left, pad.top + cH); ctx.lineTo(pad.left + cW, pad.top + cH); ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = '#333'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('無支撐段長度 (0 → Lb)', pad.left + cW / 2, H - 6);
+
+  ctx.save(); ctx.translate(12, pad.top + cH / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('M（歸一化）', 0, 0); ctx.restore();
+
+  // Title
+  ctx.fillStyle = shape.color; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('彎矩圖 — ' + shape.label, pad.left + 2, pad.top - 8);
+
+  // Quarter point x-axis marks
+  ctx.fillStyle = '#888'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+  [0, 0.25, 0.5, 0.75, 1.0].forEach(x => {
+    const px = toX(x);
+    ctx.beginPath(); ctx.strokeStyle = '#aaa'; ctx.lineWidth = 0.8;
+    ctx.moveTo(px, pad.top + cH); ctx.lineTo(px, pad.top + cH + 4); ctx.stroke();
+    const lbl = ['0', 'L/4', 'L/2', '3L/4', 'Lb'][Math.round(x * 4)];
+    ctx.fillText(lbl, px, pad.top + cH + 14);
+  });
+}
+
+// ── Draw LTB Curve ──
+function drawLTB(Cb, shape) {
+  const cv = document.getElementById('ltbCanvas');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#fafafa';
+  ctx.fillRect(0, 0, W, H);
+
+  const pad = { left: 60, right: 30, top: 34, bottom: 50 };
+  const cW = W - pad.left - pad.right;
+  const cH = H - pad.top - pad.bottom;
+
+  // Constants (normalized: Mp = 1.0, Mr = 0.72, Lp = 1, Lr = 2.88)
+  const Mp = 1.0, Mr = 0.72;
+  const Lp = 1.0, Lr = 2.88;
+  const Lmax = 4.5;
+  const Mmax_axis = 1.15;
+
+  function toX(L) { return pad.left + (L / Lmax) * cW; }
+  function toY(M) { return pad.top + cH - (M / Mmax_axis) * cH; }
+
+  // Grid
+  ctx.strokeStyle = '#e0e0e0'; ctx.lineWidth = 0.8; ctx.setLineDash([3, 3]);
+  [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2].forEach(M => {
+    ctx.beginPath(); ctx.moveTo(pad.left, toY(M)); ctx.lineTo(W - pad.right, toY(M)); ctx.stroke();
+  });
+  for (let L = 0; L <= Lmax; L += 0.5) {
+    ctx.beginPath(); ctx.moveTo(toX(L), pad.top); ctx.lineTo(toX(L), pad.top + cH); ctx.stroke();
+  }
+  ctx.setLineDash([]);
+
+  // Cb=1.0 curve (reference, dashed grey)
+  ctx.strokeStyle = '#bdbdbd'; ctx.lineWidth = 1.5; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(toX(0), toY(Mp));
+  ctx.lineTo(toX(Lp), toY(Mp));
+  ctx.lineTo(toX(Lr), toY(Mr));
+  for (let L = Lr; L <= Lmax; L += 0.05) {
+    const Mcr = Mr * (Lr / L) * (Lr / L);
+    ctx.lineTo(toX(L), toY(Mcr));
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#999'; ctx.font = '9px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('Cb = 1.0（基準）', toX(Lp) + 4, toY(Mp) + 16);
+
+  // Cb curve (colored)
+  // Zone 1: Mn = Mp (plastic, Lb <= Lp)
+  ctx.strokeStyle = '#1a237e'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(toX(0), toY(Mp)); ctx.lineTo(toX(Lp), toY(Mp)); ctx.stroke();
+
+  // Zone 2: Cb-scaled (inelastic LTB) — capped at Mp
+  ctx.strokeStyle = shape.color; ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(toX(Lp), toY(Mp));
+  let pastMp = false;
+  const n = 300;
+  for (let i = 0; i <= n; i++) {
+    const L = Lp + (Lr - Lp) * i / n;
+    const Mn1 = Mp - (Mp - Mr) * (L - Lp) / (Lr - Lp);
+    const MnCb = Math.min(Cb * Mn1, Mp);
+    if (i === 0 || MnCb < Mp) ctx.lineTo(toX(L), toY(MnCb));
+  }
+  ctx.stroke();
+
+  // Zone 3: Cb-scaled elastic LTB
+  ctx.strokeStyle = shape.color; ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  // Find starting L where Cb*Mn1 = Mp
+  let Lstart = Lp;
+  for (let i = 0; i <= n; i++) {
+    const L = Lp + (Lr - Lp) * i / n;
+    const Mn1 = Mp - (Mp - Mr) * (L - Lp) / (Lr - Lp);
+    if (Cb * Mn1 <= Mp) { Lstart = L; break; }
+  }
+  // Connect zone 2 → 3 at Lr
+  const MrCb = Math.min(Cb * Mr, Mp);
+  ctx.moveTo(toX(Lr), toY(MrCb));
+  for (let L = Lr; L <= Lmax; L += 0.05) {
+    const Mcr = Mr * (Lr / L) * (Lr / L);
+    const MnCb = Math.min(Cb * Mcr, Mp);
+    ctx.lineTo(toX(L), toY(MnCb));
+  }
+  ctx.stroke();
+
+  // Mp cap dashed line
+  ctx.strokeStyle = '#c62828'; ctx.lineWidth = 1.2; ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(pad.left, toY(Mp)); ctx.lineTo(W - pad.right, toY(Mp)); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#c62828'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('Mp（上限）', pad.left + 2, toY(Mp) - 4);
+
+  // Mr line
+  ctx.strokeStyle = '#e65100'; ctx.lineWidth = 1.0; ctx.setLineDash([4, 4]);
+  ctx.beginPath(); ctx.moveTo(toX(Lr), toY(Mr)); ctx.lineTo(W - pad.right, toY(Mr)); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Lp, Lr vertical markers
+  ctx.strokeStyle = '#7b1fa2'; ctx.lineWidth = 1; ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.moveTo(toX(Lp), pad.top); ctx.lineTo(toX(Lp), pad.top + cH); ctx.stroke();
+  ctx.strokeStyle = '#bf360c';
+  ctx.beginPath(); ctx.moveTo(toX(Lr), pad.top); ctx.lineTo(toX(Lr), pad.top + cH); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = '#7b1fa2'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Lp', toX(Lp), pad.top + cH + 16);
+  ctx.fillStyle = '#bf360c';
+  ctx.fillText('Lr', toX(Lr), pad.top + cH + 16);
+
+  // Cb annotation
+  const annX = toX(Lr + 0.4);
+  const MrCbAnn = Math.min(Cb * Mr, Mp);
+  ctx.fillStyle = shape.color; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('Cb = ' + Math.min(Cb, 3.0).toFixed(3), annX, toY(MrCbAnn) - 14);
+  const shift = Cb > 1.05 ? ' ↑ 提升 ' + ((Cb - 1) * 100).toFixed(0) + '%' : '（基準）';
+  ctx.font = '10px sans-serif'; ctx.fillStyle = '#555';
+  ctx.fillText(shift, annX, toY(MrCbAnn));
+
+  // Axes
+  ctx.strokeStyle = '#333'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(pad.left, pad.top); ctx.lineTo(pad.left, pad.top + cH); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(pad.left, pad.top + cH); ctx.lineTo(W - pad.right, pad.top + cH); ctx.stroke();
+
+  ctx.fillStyle = '#333'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('無側向支撐長度 Lb（歸一化，Lp = 1.0）', pad.left + cW / 2, H - 8);
+  ctx.save(); ctx.translate(13, pad.top + cH / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Mn / Mp（歸一化）', 0, 0); ctx.restore();
+
+  // X ticks
+  ctx.fillStyle = '#666'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+  for (let L = 0; L <= Lmax; L += 0.5) {
+    const px = toX(L);
+    ctx.beginPath(); ctx.strokeStyle = '#aaa'; ctx.lineWidth = 0.8;
+    ctx.moveTo(px, pad.top + cH); ctx.lineTo(px, pad.top + cH + 4); ctx.stroke();
+    ctx.fillText(L.toFixed(1), px, pad.top + cH + 16);
+  }
+
+  // Y ticks
+  ctx.textAlign = 'right';
+  [0, 0.2, 0.4, 0.6, 0.8, 1.0].forEach(M => {
+    const py = toY(M);
+    ctx.beginPath(); ctx.strokeStyle = '#aaa'; ctx.lineWidth = 0.8;
+    ctx.moveTo(pad.left - 4, py); ctx.lineTo(pad.left, py); ctx.stroke();
+    ctx.fillText(M.toFixed(1), pad.left - 6, py + 4);
+  });
+
+  // Title
+  ctx.fillStyle = '#1a237e'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('LTB 設計曲線（' + shape.label + '）', pad.left, pad.top - 12);
+  ctx.font = '10px sans-serif'; ctx.fillStyle = '#555';
+  ctx.fillText('藍色=塑性區（不受Cb影響）｜彩色=Cb修正曲線｜灰色虛線=Cb=1.0基準', pad.left, pad.top - 2);
+}
+
+// Initial render
+render();
+</script>
+</body>
+</html>

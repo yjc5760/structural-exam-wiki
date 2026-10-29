@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2005-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2005-4 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-2.html" title="SS-U1-2 梁桿件 命題分析（副分類）">&#128269; U1-2 命題分析（副分類）</a><a class="lect" href="../lecture-SS-U1-2.html" title="SS-U1-2 梁桿件 觀念講義（副分類）">&#128218; U1-2 梁桿件 講義（副分類）</a>
+</header>
+<main>
+<h1>考題編號：SS-2005-4</h1>
+<p><strong>主分類：</strong> <code>SS-U2-1</code> 塑性分析與設計<br />
+<strong>副分類：</strong> <code>SS-U1-2</code> 梁桿件<br />
+<strong>設計法：</strong> Plastic Design（塑性設計）<br />
+<strong>標籤：</strong> <code>塑性分析</code> <code>崩塌機制</code> <code>塑性鉸</code> <code>固端梁</code> <code>T型斷面</code> <code>塑性斷面模數</code> <code>虛功法</code> <code>均布載重</code> <code>propped cantilever</code></p>
+<hr />
+<h2>1. 原始題目重述</h2>
+<p>一根<strong>一端固定、一端鉸支（propped cantilever）</strong>的 T 型鋼梁，跨度 $L = 600\ \text{cm}$，承受均布載重 $w_u$（因數化載重），材料 $F_y = 2.5\ \text{tf/cm}^2$。</p>
+<p><strong>T 型斷面（鋼梁斷面）：</strong></p>
+<ul>
+<li>翼板：$b_f = 40\ \text{cm}$，$t_f = 2.6\ \text{cm}$</li>
+<li>腹板：$h_w = 24\ \text{cm}$，$t_w = 2.4\ \text{cm}$</li>
+<li>全高：$d = 2.6 + 24 = 26.6\ \text{cm}$</li>
+</ul>
+<p>使用<strong>塑性設計（Plastic design）</strong>求此梁所能承受之最大均布載重 $w_u$。</p>
+<p><img alt="SS-2005-4 題目附圖：一端固定一端鉸支T型梁，跨度600cm，均布載重wu，T型斷面翼板40cm×2.6cm、腹板24cm×2.4cm" src="../../raw/solutions/SS-2005-4/SS-2005-4-fig-1.png" /></p>
+<p><em>圖說：左端固定支撐（固端），右端鉸接（pin），跨度600cm，均布載重wu作用於全跨。T型斷面（右圖）：翼板寬40cm、厚2.6cm；腹板高24cm、厚2.4cm；翼板位於截面頂部（正彎矩時受壓）。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖</h2>
+<p>本題測驗<strong>塑性分析（plastic analysis）</strong>的完整流程：</p>
+<ol>
+<li>識別結構超靜定次數 → 確定崩塌所需塑性鉸個數</li>
+<li>計算 T 型斷面的<strong>塑性斷面模數 Z</strong> 與 <strong>Mp</strong></li>
+<li>以<strong>虛功法（virtual work method）</strong>推導均布載重下的崩塌載重</li>
+</ol>
+<p>核心難點：propped cantilever 的最佳鉸位置 $x$ 不固定，需對 $x$ 求極值，導出含 $\sqrt{2}$ 的解。</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>確認崩塌機制：固端 + 跨中某點 = 2 個塑性鉸</li>
+<li>計算 T 型斷面 PNA、Z、Mp</li>
+<li>設 PNA 位於距固端 $x$ 處，用虛功法建立方程</li>
+<li>對 $x$ 求最小 $w_u$（最不利崩塌機制）</li>
+<li>代入解析解 $x = L(2-\sqrt{2})$</li>
+</ol>
+<p><strong>陷阱分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠️ 誤以為鉸在中央</td>
+<td>均布載重的最佳鉸位置 <strong>不在跨中</strong></td>
+<td>需對 $x$ 微分求極值 → $x = L(2-\sqrt{2}) \approx 0.586L$</td>
+</tr>
+<tr>
+<td>⚠️ PNA 誤算</td>
+<td>T 型斷面的 PNA 需逐步確認是否在翼板</td>
+<td>先檢查半面積 vs. 翼板面積</td>
+</tr>
+<tr>
+<td>⚠️ 負彎矩也需達 Mp</td>
+<td>固端為負彎矩區，需確認 T 型斷面 $M_p^-$</td>
+<td>T 斷面 $Z^+ = Z^-$（等面積分割不依方向改變）</td>
+</tr>
+<tr>
+<td>⚠️ 忘記驗算</td>
+<td>求出 $w_u$ 後應代回確認 $M(x) = M_p$</td>
+<td>用平衡法驗算</td>
+</tr>
+</tbody>
+</table>
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> propped cantilever T 型梁塑性分析 → 計算 $M_p$ → 虛功法求崩塌載重 $w_u$（鉸位置需微分求極值）</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\text{半面積} = A_g/2 \Rightarrow \boxed{c_{\text{PNA}}} \quad \text{（PNA 在翼板內）}$$</p>
+<p>$$\boxed{Z} = \Sigma A_i |y_i - c_{\text{PNA}}| \quad \text{（塑性斷面模數）}$$</p>
+<p>$$\boxed{M_p} = F_y \times \boxed{Z}$$</p>
+<p>$$w_u(x) = \frac{2M_p(2L-x)}{Lx(L-x)} \quad \text{（虛功法）}$$</p>
+<p>$$\frac{dw_u}{dx} = 0 \Rightarrow \boxed{x} = L(2-\sqrt{2}) \approx 0.586L$$</p>
+<p>$$\boxed{w_u} = (6+4\sqrt{2})\frac{M_p}{L^2}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L$</td>
+<td>600 cm</td>
+<td>梁跨度</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>2.5 tf/cm²</td>
+<td>材料強度</td>
+</tr>
+<tr>
+<td>邊界條件</td>
+<td>一端固定（A），一端鉸支（B）</td>
+<td>超靜定次數 1</td>
+</tr>
+<tr>
+<td>$b_f$</td>
+<td>40 cm</td>
+<td>翼板寬</td>
+</tr>
+<tr>
+<td>$t_f$</td>
+<td>2.6 cm</td>
+<td>翼板厚</td>
+</tr>
+<tr>
+<td>$h_w$</td>
+<td>24 cm</td>
+<td>腹板高</td>
+</tr>
+<tr>
+<td>$t_w$</td>
+<td>2.4 cm</td>
+<td>腹板厚</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：T 型斷面 PNA 與塑性模數 Z</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_g$</td>
+<td>$40\times2.6 + 24\times2.4 = 104 + 57.6 = 161.6$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A/2$</td>
+<td>80.8 cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>翼板面積</td>
+<td>104 cm² &gt; 80.8 → PNA 在翼板內</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$c_{\text{PNA}}$</td>
+<td>$40 \times \bar{y} = 80.8 \Rightarrow \bar{y} = 2.02$ cm（距翼板頂）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z$（壓力側）</td>
+<td>$40\times2.02\times1.01 = 81.6$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z$（拉力側）</td>
+<td>$40\times0.58\times0.29 + 57.6\times12.58 = 6.7 + 724.6 = 731.3$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z$ 合計</td>
+<td>$81.6 + 731.3 = 813$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_p$</td>
+<td>$2.5 \times 813 = 2032.5$ tf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：崩塌機制（虛功法）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>塑性鉸數</td>
+<td>超靜定次數 1 + 1 = 2 個（固端 A + 跨中 C）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>虛轉角 $\theta_A$</td>
+<td>固端 A 之虛轉角</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\delta_C$</td>
+<td>$x \cdot \theta_A$（C 點虛位移）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\theta_C$（相對）</td>
+<td>$\theta_A \cdot L/(L-x)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$W_{ext}$</td>
+<td>$w_u \cdot Lx\theta_A/2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$W_{int}$</td>
+<td>$M_p \theta_A(2L-x)/(L-x)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w_u(x)$</td>
+<td>$2M_p(2L-x)/[Lx(L-x)]$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：求最小崩塌載重（對 $x$ 求極值）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$dw_u/dx = 0$</td>
+<td>$x^2 - 4Lx + 2L^2 = 0$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$x$</td>
+<td>$L(2-\sqrt{2}) = 0.5858L = 351.5$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w_u$</td>
+<td>$(6+4\sqrt{2})M_p/L^2 = 11.657 \times 2032.5 / 360000 = 0.0658$ tf/cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>塑性鉸機構分析</td>
+<td>超靜定次數 $n$ → 需 $n+1$ 個塑性鉸才能崩塌</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">plastic-mechanism</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">PLASTIC-HINGE</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>propped cantilever 鉸位置不在跨中</td>
+<td>均布載重的最佳鉸在 $x = L(2-\sqrt{2})\approx0.586L$，非 $L/2$</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>T 型斷面 PNA 確定方法</td>
+<td>先比較翼板面積與半面積大小，確認 PNA 所在區域再計算</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">plastic-zx</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>T 型斷面正負彎矩 $Z$ 相同</td>
+<td>塑性斷面模數 Z 等面積分割，與彎矩方向無關；正負 $M_p$ 相等</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>虛功法外功計算</td>
+<td>均布載重 $w_u$ 作用在形心位移 $\delta/2$ 上，需分 AC/CB 段分別算</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>結實斷面（compact section）要求</td>
+<td>塑性設計前必須確認翼板 $b/t$ 與腹板 $h/t$ 滿足 $\lambda_p$ 限制</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程</h2>
+<h3>4.1 超靜定次數與崩塌機制</h3>
+<p>結構：一端固定（固端）、一端鉸支（pin），<strong>超靜定次數 = 1</strong></p>
+<p>崩塌所需塑性鉸數 = 超靜定次數 + 1 = <strong>2 個塑性鉸</strong></p>
+<p><strong>崩塌機制：</strong></p>
+<ol>
+<li>固定端 A 形成塑性鉸（$M_A = -M_p$，負彎矩）</li>
+<li>跨中某點 C（距 A 為 $x$）形成塑性鉸（$M_C = +M_p$，正彎矩）</li>
+</ol>
+<hr />
+<h3>4.2 T 型斷面塑性中性軸（PNA）與塑性斷面模數 Z</h3>
+<p><strong>斷面積：</strong><br />
+$$A_g = b_f t_f + h_w t_w = 40 \times 2.6 + 24 \times 2.4 = 104 + 57.6 = 161.6\ \text{cm}^2$$</p>
+<p><strong>半面積：</strong><br />
+$$\frac{A}{2} = \frac{161.6}{2} = 80.8\ \text{cm}^2$$</p>
+<p><strong>PNA 位置（翼板面積 = 104 cm² &gt; 80.8 cm² → PNA 在翼板內）：</strong></p>
+<p>設 PNA 距翼板頂面深度為 $\bar{y}$：<br />
+$$b_f \times \bar{y} = \frac{A}{2} \implies 40\bar{y} = 80.8 \implies \boxed{\bar{y} = 2.02\ \text{cm（距翼板頂面）}}$$</p>
+<p><strong>塑性斷面模數 Z（取矩至 PNA）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>區塊</th>
+<th>面積 (cm²)</th>
+<th>距 PNA (cm)</th>
+<th>貢獻 (cm³)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>翼板上半（壓力側）</td>
+<td>$40 \times 2.02 = 80.8$</td>
+<td>$2.02/2 = 1.01$</td>
+<td><strong>81.6</strong></td>
+</tr>
+<tr>
+<td>翼板下半（拉力側）</td>
+<td>$40 \times 0.58 = 23.2$</td>
+<td>$0.58/2 = 0.29$</td>
+<td><strong>6.7</strong></td>
+</tr>
+<tr>
+<td>腹板（拉力側）</td>
+<td>$24 \times 2.4 = 57.6$</td>
+<td>$0.58 + 12 = 12.58$</td>
+<td><strong>724.6</strong></td>
+</tr>
+<tr>
+<td><strong>合計</strong></td>
+<td>—</td>
+<td>—</td>
+<td><strong>813.0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>$$Z = 81.6 + 6.7 + 724.6 = 813.0\ \text{cm}^3$$</p>
+<p><strong>塑性彎矩 Mp：</strong><br />
+$$M_p = F_y \times Z = 2.5 \times 813.0 = \boxed{2032.5\ \text{tf·cm} = 20.32\ \text{tf·m}}$$</p>
+<blockquote>
+<p>📝 <strong>說明：</strong> T 型斷面正、負彎矩的 $M_p$ 相同（$Z^+ = Z^- = 813\ \text{cm}^3$），因等面積分割與應力方向無關。</p>
+</blockquote>
+<hr />
+<h3>4.3 虛功法求崩塌載重 wu</h3>
+<p><strong>設崩塌機制（鉸在 A 與距 A 為 $x$ 的 C 點）：</strong></p>
+<p>令固端 A 發生虛轉角 $\theta_A$（向上轉，對應 $-M_p$ 方向），則：</p>
+<ul>
+<li>C 點虛位移（向下）：$\delta_C = x \cdot \theta_A$</li>
+<li>
+<p>由於 B 為鉸支（$\delta_B = 0$），CB 段剛體轉動：<br />
+$$\theta_{CB} = \frac{\delta_C}{L - x} = \frac{x \cdot \theta_A}{L - x}$$</p>
+</li>
+<li>
+<p>C 點的相對轉角：$\theta_C = \theta_A + \theta_{CB} = \theta_A \left(1 + \frac{x}{L-x}\right) = \theta_A \cdot \frac{L}{L-x}$</p>
+</li>
+</ul>
+<p><strong>外功（External Work）：</strong></p>
+<p>$$W_{ext} = w_u \cdot \frac{x \cdot \delta_C}{2} + w_u \cdot \frac{(L-x) \cdot \delta_C}{2} = w_u \cdot \frac{L \cdot x \cdot \theta_A}{2}$$</p>
+<p><strong>內功（Internal Work）：</strong></p>
+<p>$$W_{int} = M_p \cdot \theta_A + M_p \cdot \theta_A \cdot \frac{L}{L-x} = M_p \cdot \theta_A \left(1 + \frac{L}{L-x}\right) = M_p \cdot \theta_A \cdot \frac{2L-x}{L-x}$$</p>
+<p><strong>令 $W_{ext} = W_{int}$：</strong></p>
+<p>$$w_u \cdot \frac{L x}{2} = M_p \cdot \frac{2L-x}{L-x}$$</p>
+<p>$$w_u(x) = \frac{2M_p(2L-x)}{Lx(L-x)}$$</p>
+<hr />
+<h3>4.4 求最小崩塌載重（對 x 求極值）</h3>
+<p>對 $w_u(x)$ 求導，令 $\dfrac{dw_u}{dx} = 0$，整理後得：</p>
+<p>$$x^2 - 4Lx + 2L^2 = 0$$</p>
+<p>$$x = \frac{4L \pm \sqrt{16L^2 - 8L^2}}{2} = L(2 \pm \sqrt{2})$$</p>
+<p>取有效解（$0 < x < L$）：</p>
+<p>$$\boxed{x = L(2 - \sqrt{2}) = 600 \times 0.5858 = 351.5\ \text{cm}\ \text{（距固端）}}$$</p>
+<p>代入 $w_u(x)$，化簡得解析解（詳細代數過程見「進階探討 5.1」）：</p>
+<p>$$w_u = \frac{(6 + 4\sqrt{2}) M_p}{L^2}$$</p>
+<p><strong>數值計算：</strong></p>
+<p>$$w_u = \frac{(6 + 4 \times 1.4142) \times 2032.5}{600^2} = \frac{11.657 \times 2032.5}{360000}$$</p>
+<p>$$= \frac{23694}{360000} = \boxed{0.0658\ \text{tf/cm} = 6.58\ \text{tf/m}}$$</p>
+<blockquote>
+<p>📊 <strong>剪力圖與彎矩圖請參閱：</strong> <code>SS-2005-4-sfd-bmd-viz.html</code></p>
+</blockquote>
+<hr />
+<h3>4.5 驗算（平衡法確認）</h3>
+<p>固端 A 的垂直反力：<br />
+$$R_A = \frac{w_u L}{2} + \frac{M_p}{L} = \frac{0.0658 \times 600}{2} + \frac{2032.5}{600} = 19.74 + 3.39 = 23.13\ \text{tf}$$</p>
+<p>C 點彎矩（$x = 351.5\ \text{cm}$）：<br />
+$$M(x) = R_A \cdot x - w_u \cdot \frac{x^2}{2} - M_p$$<br />
+$$= 23.13 \times 351.5 - 0.0658 \times \frac{351.5^2}{2} - 2032.5$$<br />
+$$= 8131.4 - 4065.8 - 2032.5 = \boxed{2033.1 \approx M_p = 2032.5\ \text{tf·cm}}\ \checkmark$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討</h2>
+<h3>5.1 解析解的化簡過程</h3>
+<p>代入 $x = L(2-\sqrt{2})$、$L-x = L(\sqrt{2}-1)$、$2L-x = L\sqrt{2}$：</p>
+<p>$$w_u = \frac{2M_p \cdot L\sqrt{2}}{L \cdot L(2-\sqrt{2}) \cdot L(\sqrt{2}-1)} = \frac{2\sqrt{2} M_p}{L^2 (2-\sqrt{2})(\sqrt{2}-1)}$$</p>
+<p>展開 $(2-\sqrt{2})(\sqrt{2}-1) = 2\sqrt{2} - 2 - 2 + \sqrt{2} = 3\sqrt{2} - 4$，<br />
+有理化後：</p>
+<p>$$w_u = \frac{2\sqrt{2}(3\sqrt{2}+4)}{(3\sqrt{2}-4)(3\sqrt{2}+4)} \cdot \frac{M_p}{L^2} = \frac{2\sqrt{2}(3\sqrt{2}+4)}{18-16} \cdot \frac{M_p}{L^2} = \frac{12 + 8\sqrt{2}}{2} \cdot \frac{M_p}{L^2} = (6+4\sqrt{2})\frac{M_p}{L^2}$$</p>
+<h3>5.2 與彈性設計的比較</h3>
+<p>彈性設計（$M_{max}$ 在固端）：</p>
+<p>$$M_{max} = \frac{w_e L^2}{8} \leq M_y = F_y S$$</p>
+<p>計算彈性斷面模數 $S$（以彈性中性軸計算）：</p>
+<p>彈性中性軸位置（距頂面 $\bar{Y}$，利用 $\Sigma A_i y_i / A$）：<br />
+$$\bar{Y} = \frac{104 \times 1.3 + 57.6 \times (2.6 + 12)}{161.6} = \frac{135.2 + 840.96}{161.6} = \frac{976.16}{161.6} = 6.04\ \text{cm}$$</p>
+<p>$$I = \frac{40 \times 2.6^3}{12} + 104 \times (6.04-1.3)^2 + \frac{2.4 \times 24^3}{12} + 57.6 \times (14.6-6.04)^2$$<br />
+$$= 58.7 + 2336 + 2764.8 + 4213.7 = 9373\ \text{cm}^4$$</p>
+<p>$$S_{top} = \frac{I}{\bar{Y}} = \frac{9373}{6.04} = 1552\ \text{cm}^3$$</p>
+<p>$$w_e = \frac{8 F_y S_{top}}{L^2} = \frac{8 \times 2.5 \times 1552}{600^2} = \frac{31040}{360000} = 0.0862\ \text{tf/cm}$$</p>
+<p>Wait—this gives $w_e > w_u$! This seems paradoxical (plastic should give more capacity). Let me reconsider.</p>
+<p>Actually, for elastic design the moment at the FIXED END governs (negative moment). But:<br />
+$$M_{fix} = \frac{w_e L^2}{8},\quad M_{mid-span,max} = \frac{9w_e L^2}{128}$$</p>
+<p>The <strong>negative</strong> moment at fixed end controls for elastic design:<br />
+$$S_{bottom} = \frac{I}{d - \bar{Y}} = \frac{9373}{26.6 - 6.04} = \frac{9373}{20.56} = 455.8\ \text{cm}^3$$</p>
+<p>Wait, the bottom fiber is in TENSION for the negative moment at the fixed end. For the T-section, the bottom of the web is farther from the neutral axis (20.56 cm vs. 6.04 cm), so $S_{bot} < S_{top}$.</p>
+<p>For negative moment (fixed end), the critical fiber is the bottom (maximum tension):<br />
+$$w_e = \frac{8 F_y S_{bot}}{L^2} = \frac{8 \times 2.5 \times 455.8}{360000} = 0.0253\ \text{tf/cm}$$</p>
+<p>Plastic design allows <strong>wu/we = 0.0658/0.0253 = 2.6 times more capacity</strong>—significant overstrength from plastic action.</p>
+<h3>5.3 斷面結實性（Compact Section）檢核</h3>
+<p>使用塑性設計前須確認斷面為結實斷面：</p>
+<p><strong>翼板 b/t 比：</strong><br />
+$$\frac{b_f/2}{t_f} = \frac{20}{2.6} = 7.69 \leq \lambda_p = \frac{65}{\sqrt{F_y(\text{ksi})}} = \frac{65}{\sqrt{36}} = 10.8\ \checkmark$$</p>
+<p><strong>腹板 h/t 比：</strong><br />
+$$\frac{h_w}{t_w} = \frac{24}{2.4} = 10 \leq \lambda_p \approx 107\ \checkmark$$</p>
+<p>結論：T 型斷面滿足結實斷面要求，可進行塑性設計。</p>
+<h3>5.4 設計結果彙整</h3>
+<p>$$\boxed{w_u = (6 + 4\sqrt{2})\frac{M_p}{L^2} = \frac{(6+4\sqrt{2}) \times 2032.5}{600^2} = 0.0658\ \text{tf/cm} \approx 6.58\ \text{tf/m}}$$</p>
+<p>$$\text{塑性鉸位置：}\ x = L(2-\sqrt{2}) = 351.5\ \text{cm（距固端）}$$</p>
+</main>
+<footer>來源：raw/solutions/SS-2005-4/SS-2005-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

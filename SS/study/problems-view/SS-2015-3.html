@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2015-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2015-3 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2015-3</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> ASD<br />
+<strong>標籤：</strong> <code>壓力桿件</code> <code>組合柱</code> <code>ASD</code> <code>平行軸定理</code> <code>有效長度</code> <code>迴旋半徑</code> <code>Cc判斷</code> <code>彈性挫屈</code> <code>繫條</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>結構描述：</strong><br />
+- 組合柱：2×C200×75 槽鋼，以繫條穩固接合（繫條面積省略不計）<br />
+- C200×75 斷面性質（題目給定，單根）：<br />
+  - $I_x = 1970$ cm⁴，$I_y = 170$ cm⁴<br />
+  - $A = 29.9$ cm²，$C_y = 2.49$ cm（形心到腹板外面之距離）<br />
+- 鋼材：SM400，$F_y = 2.52$ tf/cm²，$E_s = 2040$ tf/cm²<br />
+- 邊界條件：底部鉸接、頂端可平移但不能轉動 → 「固接*-鉸接」→ $k = 2.0$（題目給定）</p>
+<p><img alt="SS-2015-3圖3組合柱：兩根C200×75背靠背，截面總寬30cm，形心間距20cm，柱高L，底鉸頂可平移，載重Pa施於頂端，單根槽鋼性質Ix=1970cm⁴,Iy=170cm⁴,A=29.9cm²,Cy=2.49cm" src="../../raw/solutions/SS-2015-3/SS-2015-3-fig-1.png" /></p>
+<p><em>圖說：組合柱斷面配置。兩根 C200×75 翼板朝內、腹板朝外（ <code>[ ]</code> 型排列），兩側腹板外緣間距（總外寬）= 30 cm；腹板高度（斷面深度）= 20 cm（即 C200×75 的「200」mm）。每根槽鋼形心距組合中心 $d = 30/2 - C_y = 15 - 2.49 = 12.51$ cm。柱高 $L$，底部鉸接、頂端可平移不能轉動，有效長度係數 $k = 2.0$。</em></p>
+<p><strong>子問題：</strong><br />
+1. 假設繫條斷面積省略不計，求組合柱斷面之<strong>最小迴旋半徑</strong> $r$（cm）<br />
+2. 若此組合柱須承受軸心載重 $P_a = 21.1$ tf，求容許之<strong>最大長度</strong> $L$（cm）</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：組合斷面慣性矩 × ASD 壓力桿完整流程</strong></p>
+<p>此題分兩步驟：先用<strong>平行軸定理</strong>求複合斷面的最小慣性矩（決定弱軸），再套 ASD 壓力桿設計公式（計算 $C_c$、判斷彈性/非彈性挫屈段、反算最大長度）。</p>
+<p><strong>出題者測驗重點：</strong><br />
+- 識別複合斷面的強／弱軸（$I_X$ vs $I_Y$ 的比較）<br />
+- 平行軸定理：哪個軸需要用，哪個不需要<br />
+- ASD 公式：先算 $C_c$，再判斷 $KL/r$ vs $C_c$，選正確段公式<br />
+- 邊界條件：底端鉸接、頂端可平移但不能轉動 → 「固接*-鉸接（有側位移）」→ $k = 2.0$（題目給定）</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1  確認幾何：30 cm = 腹板外緣總寬，20 cm = 腹板高度（非形心間距！）
+        每根槽鋼形心距組合中心 d = 30/2 − Cy = 15 − 2.49 = 12.51 cm
+Step 2  IX = 2×Ix（形心在X軸上，無平行軸修正）
+        IY = 2(Iy + A×d²)（d = 12.51 cm，需平行軸）
+Step 3  比較 IX vs IY，取最小者求 rmin
+Step 4  ASD 流程：fa = Pa/Atotal → Cc → 比較 KL/r → Fa → 反算 L
+</code></pre>
+<p><strong>陷阱分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>對策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ <strong>20 cm 誤讀為形心間距</strong></td>
+<td>圖中 20 cm 是腹板高度（C200 的深度），不是形心間距！</td>
+<td>槽鋼排列為翼板朝內腹板朝外；形心間距 $d = 30/2 - C_y = 12.51$ cm</td>
+</tr>
+<tr>
+<td>❷ IX 用平行軸</td>
+<td>$I_X$ 不需要平行軸（兩形心都在 X 軸上）</td>
+<td>$I_X = 2 \times I_x = 3940$ cm⁴</td>
+</tr>
+<tr>
+<td>❸ IY 忘記平行軸</td>
+<td>$I_Y$ 的形心離 Y 軸有偏移，必須用 $I_y + Ad^2$</td>
+<td>$d = 12.51$ cm（距組合中心 Y 軸距離）</td>
+</tr>
+<tr>
+<td>❹ $k = 2.0$ 忘記套用</td>
+<td>$KL/r$ 計算時忘乘 $k$</td>
+<td>$KL = 2.0 \times L$</td>
+</tr>
+<tr>
+<td>❻ 把 $k=2.0$ 說成懸臂柱</td>
+<td>本題為「固接*-鉸接」，理論 $k$ 恰巧也是 2.0，但<strong>設計 $k$</strong> 為 2.0（懸臂柱是 2.1）</td>
+<td>依「轉動／側移」兩欄逐項判定，勿憑印象</td>
+</tr>
+<tr>
+<td>❺ ASD 段落選錯</td>
+<td>未先確認是否超過 $C_c$</td>
+<td>先算 $C_c$，再比較</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 平行軸定理求最小迴旋半徑 $r_{min}$ → ASD 彈性挫屈公式反算容許最大長度 $L$</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$I_X = 2 I_x, \quad \boxed{I_Y} = 2\left(I_y + A \cdot \boxed{d}^2\right), \quad \boxed{d} = \frac{30}{2} - C_y$$</p>
+<p>$$\boxed{r_{min}} = \sqrt{\frac{I_{min}}{2A}}$$</p>
+<p>$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}}, \quad F_a = \frac{12\pi^2 E}{23(KL/r)^2} \quad (KL/r &gt; C_c)$$</p>
+<p>$$\boxed{L} = \frac{\boxed{KL/r} \cdot r_{min}}{K}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$I_x$（單根）</td>
+<td>1,970 cm⁴</td>
+<td>C200×75 強軸慣性矩</td>
+</tr>
+<tr>
+<td>$I_y$（單根）</td>
+<td>170 cm⁴</td>
+<td>C200×75 弱軸慣性矩</td>
+</tr>
+<tr>
+<td>$A$（單根）</td>
+<td>29.9 cm²</td>
+<td>C200×75 斷面積</td>
+</tr>
+<tr>
+<td>$C_y$</td>
+<td>2.49 cm</td>
+<td>形心到腹板外面距離</td>
+</tr>
+<tr>
+<td>組合外寬</td>
+<td>30 cm</td>
+<td>兩腹板外緣間距</td>
+</tr>
+<tr>
+<td>$K$</td>
+<td>2.0</td>
+<td>有效長度係數（底鉸接＋頂可平移不能轉動＝固接*-鉸接；題目給定）</td>
+</tr>
+<tr>
+<td>$P_a$</td>
+<td>21.1 tf</td>
+<td>軸心設計載重</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>2.52 tf/cm²</td>
+<td>降伏應力（SM400）</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>2,040 tf/cm²</td>
+<td>彈性模數</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：組合斷面幾何</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$d$</td>
+<td>$30/2 - C_y = 15 - 2.49 = 12.51$ cm（每根形心距組合 Y 軸）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{total}$</td>
+<td>$2 \times 29.9 = 59.8$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：各軸慣性矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$I_X$</td>
+<td>$2 \times 1970 = 3940$ cm⁴（無平行軸，形心在 X 軸）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_Y$</td>
+<td>$2(170 + 29.9 \times 12.51^2) = 9698$ cm⁴（需平行軸修正）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_{min}$</td>
+<td>$I_X = 3940$ cm⁴（X 軸為弱軸）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$r_{min}$</td>
+<td>$\sqrt{3940/59.8} = 8.12$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：ASD 柱設計（反算 L）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_a$</td>
+<td>$P_a / A_{total} = 21.1/59.8 = 0.353$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_c$</td>
+<td>$\sqrt{2\pi^2 E / F_y} = 126.4$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$(KL/r)^2$</td>
+<td>令 $F_a = 0.353$：$12\pi^2 E / (23 \times 0.353) = 29{,}764$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$KL/r$</td>
+<td>$\sqrt{29764} = 172.5 &gt; C_c = 126.4$ → 彈性段 ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>$172.5 \times r_{min} / K = 172.5 \times 8.12 / 2.0 = 700$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30 cm 是外寬非形心間距</td>
+<td>圖中 30 cm 為腹板外緣間距；每根形心距組合中心需減去 $C_y$</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>X 軸不需平行軸修正</td>
+<td>兩槽鋼形心都在 X 軸上，$I_X = 2I_x$（不加 $Ad^2$）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>ASD 柱設計 Cc 判斷</td>
+<td>$KL/r &lt; C_c$ 非彈性段；$&gt; C_c$ 彈性段（各用不同公式）</td>
+<td style="text-align: center;">[[asd-column]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$k=2.0$ 的邊界型式</td>
+<td>底鉸接＋頂可平移不能轉 = <strong>固接*-鉸接</strong>（理論 $k$＝設計 $k$＝2.0）；<strong>不是</strong>懸臂柱（自由端*-固接，設計 $k$＝2.1）</td>
+<td style="text-align: center;">[[effective-length-chart]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>先假設彈性段再驗證</td>
+<td>先用彈性公式解 $KL/r$，解完後確認是否 $&gt; C_c$</td>
+<td style="text-align: center;">[[asd-column]]</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Part (一)：最小迴旋半徑</h3>
+<p><strong>組合斷面幾何確認：</strong></p>
+<p>兩根 C200×75 翼板朝內、腹板朝外排列（<code>[ ]</code> 型）：<br />
+- 圖中 <strong>30 cm</strong> = 兩側腹板外緣間距（組合斷面總外寬）<br />
+- 圖中 <strong>20 cm</strong> = 腹板高度（C200×75 的斷面深度，即截面名稱中的「200 mm」）</p>
+<p>每根槽鋼形心距組合中心 Y 軸的距離：<br />
+$$d = \frac{30}{2} - C_y = 15 - 2.49 = 12.51 \text{ cm}$$</p>
+<p>複合斷面的 X 軸（水平）通過兩個槽鋼的形心，Y 軸（垂直）為對稱軸。</p>
+<p><strong>計算 $I_X$（關於水平 X 軸）：</strong></p>
+<p>兩槽鋼形心均在 X 軸上 → <strong>不需要平行軸修正</strong>：</p>
+<p>$$I_X = 2 \times I_x = 2 \times 1970 = 3940 \text{ cm}^4$$</p>
+<p><strong>計算 $I_Y$（關於垂直 Y 軸）：</strong></p>
+<p>每根槽鋼形心距複合 Y 軸距離 $d = 12.51$ cm → 需要平行軸修正：</p>
+<p>$$I_Y = 2\left(I_y + A \cdot d^2\right) = 2\left(170 + 29.9 \times 12.51^2\right) = 2(170 + 4{,}679) = 2 \times 4{,}849 = 9{,}698 \text{ cm}^4$$</p>
+<p><strong>比較兩軸慣性矩：</strong></p>
+<p>$$I_X = 3940 \text{ cm}^4 &lt; I_Y = 9{,}698 \text{ cm}^4$$</p>
+<p>→ <strong>X 軸為弱軸</strong>，$I_{min} = I_X = 3940$ cm⁴</p>
+<blockquote>
+<p>策略註解：增大槽鋼間距（加大外寬）只影響 $I_Y$，而不影響 $I_X$。因此，對本複合斷面，<strong>無論槽鋼間距如何，$I_X$ 始終是弱軸</strong>（僅能靠換用較大 $I_x$ 的槽鋼規格才能改善）。</p>
+</blockquote>
+<p><strong>最小迴旋半徑：</strong></p>
+<p>$$r_{min} = r_X = \sqrt{\frac{I_X}{A_{total}}} = \sqrt{\frac{3940}{2 \times 29.9}} = \sqrt{\frac{3940}{59.8}} = \sqrt{65.89} = \boxed{8.12 \text{ cm}}$$</p>
+<p><img alt="SS-2015-3 圖 2：三格斷面圖。第一格為斷面尺寸判讀——兩根 C200×75 翼板朝內、腹板朝外的「[ ]」型排列，外寬 30 cm、腹板高 20 cm，C_y = 2.49 cm，故每根形心距組合 Y 軸 d = 15 − 2.49 = 12.51 cm；第二格為繞 X 軸——兩形心都落在 X 軸上，不需平行軸，I_X = 2(1,970) = 3,940 cm⁴、r_X = 8.12 cm，為最小迴旋半徑並控制本題；第三格為繞 Y 軸——形心偏離 Y 軸 d = 12.51 cm，必須加 Ad²，I_Y = 2(170 + 29.9×12.51²) = 9,699 cm⁴、r_Y = 12.74 cm，不控制" src="../../raw/solutions/SS-2015-3/figs/SS-2015-3-fig-2-section.svg" /></p>
+<p><em>圖 2　哪一軸需要平行軸定理，直接決定了誰是弱軸：兩根槽鋼的形心都落在 $X$ 軸上，$I_X$ 拿不到任何 $Ad^2$ 的加持，因此無論間距多大，$X$ 軸永遠是弱軸。<strong>攔錯：</strong>把圖上的 20 cm（腹板高）當成形心間距，或對 $I_X$ 也誤加平行軸項。</em></p>
+<hr />
+<h3>Part (二)：容許最大長度 $L$</h3>
+<p><strong>需求應力：</strong><br />
+$$f_a = \frac{P_a}{A_{total}} = \frac{21.1}{59.8} = 0.353 \text{ tf/cm}^2$$</p>
+<p><strong>計算 $C_c$（彈性/非彈性挫屈分界）：</strong><br />
+$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}} = \sqrt{\frac{2 \times \pi^2 \times 2040}{2.52}} = \sqrt{\frac{40268}{2.52}} = \sqrt{15980} = 126.4$$</p>
+<p><strong>設定 $F_a = f_a$ 反算 $KL/r$（先假設彈性挫屈段）：</strong></p>
+<p>彈性挫屈段（$KL/r &gt; C_c$）容許應力：<br />
+$$F_a = \frac{12\pi^2 E}{23(KL/r)^2}$$</p>
+<p>令 $F_a = 0.353$ tf/cm²：<br />
+$$(KL/r)^2 = \frac{12\pi^2 \times 2040}{23 \times 0.353} = \frac{12 \times 9.870 \times 2040}{8.119} = \frac{241\,640}{8.119} = 29\,764$$</p>
+<p>$$KL/r = \sqrt{29\,764} = 172.5$$</p>
+<p><strong>驗證段落假設：</strong> $KL/r = 172.5 &gt; C_c = 126.4$ → <strong>確為彈性挫屈段</strong> ✓</p>
+<p><strong>反算最大柱長 $L$：</strong></p>
+<p>$$\frac{KL}{r} = 172.5 \Rightarrow \frac{2.0 \times L}{8.12} = 172.5$$</p>
+<p>$$L = \frac{172.5 \times 8.12}{2.0} = \frac{1400.7}{2.0} = \boxed{700 \text{ cm}}\quad(\text{精算 } 700.3\ \text{cm})$$</p>
+<p><strong>驗算：</strong><br />
+$$KL/r = \frac{2.0 \times 700}{8.12} = \frac{1400}{8.12} = 172.4 \quad \checkmark$$<br />
+$$F_a = \frac{12\pi^2 \times 2040}{23 \times 172.4^2} = \frac{241\,640}{684\,690} = 0.353 \text{ tf/cm}^2 = f_a \quad \checkmark$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>爭議一：20 cm vs 30 cm 的幾何意義</strong></p>
+<p>從圖中可清楚判讀：<br />
+- <strong>30 cm</strong> = 兩側腹板外緣間距（整體外寬），標示於斷面橫向<br />
+- <strong>20 cm</strong> = 腹板高度（截面深度，即 C<strong>200</strong>×75 中「200 mm」所對應的尺寸），標示於斷面縱向</p>
+<p>槽鋼排列方式為翼板朝內、腹板朝外（<code>[ ]</code> 型）。30 cm 是量腹板背面到背面的水平距離，因此：</p>
+<p>$$d = \frac{30}{2} - C_y = 15 - 2.49 = 12.51 \text{ cm} \quad \text{（每根形心距組合中心）}$$</p>
+<p><strong>爭議二：繫條的力學作用</strong></p>
+<p>題目要求「繫條斷面積省略不計」，意指在計算截面積時忽略繫條本身，但<strong>繫條的存在確保兩根槽鋼能共同作動、不分開挫屈</strong>。若無繫條或繫條剛度不足，需額外檢核單根槽鋼的局部挫屈（個別構件的 $KL_b/r$ 不得超過組合柱整體的 $KL/r$）。</p>
+<p><strong>進階：$k = 2.0$ 是哪一種邊界？（常見誤解）</strong></p>
+<p>邊界條件：「<strong>底部鉸接，頂端可平移但不能轉動</strong>」。逐項拆解：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">端點</th>
+<th style="text-align: left;">轉動</th>
+<th style="text-align: left;">側向位移</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">底端（鉸接）</td>
+<td style="text-align: left;"><strong>自由</strong></td>
+<td style="text-align: left;">拘束</td>
+</tr>
+<tr>
+<td style="text-align: left;">頂端（可平移不能轉動）</td>
+<td style="text-align: left;"><strong>拘束</strong></td>
+<td style="text-align: left;"><strong>自由</strong></td>
+</tr>
+</tbody>
+</table>
+<p>$\Rightarrow$ 這是「<strong>固接（可側移）－鉸接</strong>」，即 2013 年考卷 K 值表中的「<strong>固接*-鉸接</strong>」欄，<br />
+理論 $k = 2.0$、設計 $k = 2.0$（兩者相同）。</p>
+<blockquote>
+<p>⚠️ <strong>不要說成「等效於懸臂柱」。</strong> 懸臂柱是「一端固定－一端<strong>自由</strong>」（自由端連側向位移都不拘束，<br />
+且該端無任何轉動拘束），理論 $k$ 同為 2.0 <strong>但設計 $k = 2.1$</strong>，挫屈形狀也不同：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">型式</th>
+<th style="text-align: left;">底端</th>
+<th style="text-align: left;">頂端</th>
+<th style="text-align: center;">理論 $k$</th>
+<th style="text-align: center;">設計 $k$</th>
+<th style="text-align: left;">挫屈形狀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">本題（固接*-鉸接）</td>
+<td style="text-align: left;">鉸（可轉、不可移）</td>
+<td style="text-align: left;">固（不可轉、可移）</td>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;"><strong>2.0</strong></td>
+<td style="text-align: left;">反曲點在柱底外側延伸</td>
+</tr>
+<tr>
+<td style="text-align: left;">懸臂柱（自由端*-固接）</td>
+<td style="text-align: left;">固（不可轉、不可移）</td>
+<td style="text-align: left;">自由（可轉、可移）</td>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;"><strong>2.1</strong></td>
+<td style="text-align: left;">單曲率、頂端最大位移</td>
+</tr>
+</tbody>
+</table>
+<p>兩者 $k$ 的<strong>理論值巧合相同</strong>，但物理機制相反（一個是頂端固、底端鉸；一個是底端固、頂端全自由）。<br />
+<p><img alt="SS-2015-3 圖 3：兩格挫屈模態對照。左格為本題的「固接*-鉸接」——柱底鉸接（可轉、不可移）、柱頂可平移但不可轉動，挫屈形狀為 sin(πξ/2)，曲率最大在頂端、柱底彎矩為零，理論 k = 2.0、設計 k = 2.0，L = 172.5 × 8.12 / 2.0 = 700 cm；右格為懸臂柱「自由端*-固接」——柱底固接、柱頂完全自由，挫屈形狀為 1 − cos(πξ/2)，曲率最大在柱底、頂端彎矩為零，理論 k = 2.0 但設計 k = 2.1，若誤判則 L 降為 667 cm。兩格皆以灰虛線畫出把柱補成兩端彎矩為零的虛擬延伸段，兩個空心圓之間即 KL = 2L" src="../../raw/solutions/SS-2015-3/figs/SS-2015-3-fig-3-boundary.svg" /></p>
+<p><em>圖 3　兩種柱的理論 $k$ 巧合都是 2.0，但把柱補成「兩端彎矩為零」的等值柱後，虛擬延伸段的方向完全相反：本題柱底是鉸、曲率最大在頂端；懸臂柱柱底是固接、曲率最大在柱底。<strong>攔錯：</strong>把本題說成「等效於懸臂柱」而取設計 $k = 2.1$，容許長度會由 700 cm 掉到 667 cm。</em></p>
+本題題目已直接給 $k = 2.0$，不必查表；但若考官只給邊界文字敘述，判錯型式就會取到 2.1。</p>
+</blockquote>
+<p><strong>進階：依最新規範計算的差異</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">項目</th>
+<th style="text-align: left;">本題所用（台灣現行 ASD，民國 99 年版）</th>
+<th style="text-align: left;">AISC 360-16／-22</th>
+<th style="text-align: left;">本題影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">ASD 架構</td>
+<td style="text-align: left;">$F_a$ 分段式（$C_c$ 分界；彈性段 $F_a = \dfrac{12\pi^2E}{23(KL/r)^2}$）</td>
+<td style="text-align: left;">統一：$P_a = \dfrac{F_{cr}A}{\Omega}$，$\Omega = 1.67$；彈性段 $F_{cr} = 0.877F_e$</td>
+<td style="text-align: left;">係數 $\dfrac{12}{23} = 0.5217$ vs $\dfrac{0.877}{1.67} = 0.5251$ → <strong>僅差 0.65%</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">彈性／非彈性分界</td>
+<td style="text-align: left;">$C_c = \sqrt{2\pi^2E/F_y} = 126.4$</td>
+<td style="text-align: left;">$4.71\sqrt{E/F_y} = 134.0$</td>
+<td style="text-align: left;">本題 $KL/r = 172.5$ 遠大於兩者，同屬彈性段</td>
+</tr>
+<tr>
+<td style="text-align: left;">反算最大長度</td>
+<td style="text-align: left;">$KL/r = 172.5 \Rightarrow L = 700$ cm</td>
+<td style="text-align: left;">$KL/r = 173.1 \Rightarrow L = 703$ cm</td>
+<td style="text-align: left;"><strong>差 3 cm（0.4%）</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">細長比上限</td>
+<td style="text-align: left;">建議 $KL/r \le 200$</td>
+<td style="text-align: left;">同</td>
+<td style="text-align: left;">$172.5 &lt; 200$ ✓</td>
+</tr>
+<tr>
+<td style="text-align: left;">組合構材（繫條）</td>
+<td style="text-align: left;">以組合斷面之 $r_{\min}$ 計算</td>
+<td style="text-align: left;">E6.1 對「以螺栓／銲接中間連接件相連」之組合構材另訂<strong>修正細長比</strong> $(KL/r)_m$</td>
+<td style="text-align: left;">本題<strong>不需修正</strong>（見下）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>為何本題不需 AISC E6.1 的修正細長比？</strong></p>
+<p>修正細長比是為了處理「組合構材繞<strong>需靠連接件傳遞剪力</strong>的軸挫屈」時，連接件滑動造成的勁度損失。<br />
+本題控制軸為 $X$ 軸（水平軸），兩根槽鋼各自繞<strong>自身強軸</strong>彎曲、彼此間<strong>不需傳遞剪力</strong><br />
+（$I_X = 2I_x$，無 $Ad^2$ 項）→ 屬 AISC 所稱之「不需修正」的情形。<br />
+若控制軸是 $Y$ 軸（需 $Ad^2$、連接件承受剪力）才須修正——但本題 $I_Y = 9{,}699 \gg I_X = 3{,}940$，$Y$ 軸不控制。</p>
+<p><strong>但仍應檢核「單根槽鋼在兩繫條之間」不先挫屈</strong>（AISC E6.2 / 台灣規範同旨）：</p>
+<p>$$\frac{a}{r_i} \le 0.75\left(\frac{KL}{r}\right)<em y_text_單根="y,\text{單根">{\text{組合}} = 0.75(172.5) = 129 \;\Rightarrow\; a \le 129 \times r</em>$$}} = 129 \times \sqrt{170/29.9} = 129(2.385) = 308\ \text{cm</p>
+<p>即繫條間距不得超過約 <strong>3.0 m</strong>（本題柱長 7 m，至少需 2 道中間繫條）。題目未問，但這是「臨時支撐組合柱」<br />
+在實務上一定要交代的一句。</p>
+<hr />
+<h2>手寫補充</h2>
+<p><img alt="SS-2015-3有效長度係數k六種邊界條件對照：理論值與規範建議值，含挫屈形狀示意" src="../../raw/solutions/SS-2015-3/SS-2015-3-hand-1.png" /></p>
+<p><em>圖說：有效長度係數 $k$ 六種邊界條件對照圖。左半（兩端支間無側向位移，$k \leq 1.0$）：兩端固定 $k=0.5/0.65$、一端固定一端鉸接 $k=0.7/0.8$、兩端鉸接 $k=1.0/1.0$。右半（兩端支間有相對側移，$k &gt; 1.0$）：一端固定一端鉸接（側移型）$k=1.0/1.2$、一端固定一端自由 $k=2.0/2.1$、一端固定一端可移（不轉）$k=2.0/2.0$。本題（底鉸頂可平移不能轉動）對應最右側，$k=2.0$。每種情形均附挫屈形狀示意。</em></p>
+<hr />
+<p><em>解析完成時間：2026-04-08（重新解析，依當前 CLAUDE.md 格式）</em><br />
+<em>修正日期：2026-08-22（H1 標題改依 CLAUDE-SPEC；更正「等效於懸臂柱」之誤述為「固接*-鉸接」；補最新規範 ASD 統一式對照與組合構材繫條間距檢核）</em><br />
+<em>圖解補繪：2026-08-29（向量圖，腳本 <code>gen_SS-2015-3.py</code>，可重跑）</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2015-3/SS-2015-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

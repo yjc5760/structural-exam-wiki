@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2023-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2023-3 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-2.html" title="SS-U1-2 梁桿件 命題分析">&#128269; U1-2 命題分析</a><a class="lect" href="../lecture-SS-U1-2.html" title="SS-U1-2 梁桿件 觀念講義">&#128218; U1-2 梁桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2023-3</h1>
+<p><strong>主分類：</strong> <code>SS-U1-2</code> 梁桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> 概念題（含計算）<br />
+<strong>標籤：</strong> <code>非對稱斷面</code> <code>降伏彎矩</code> <code>塑性彎矩</code> <code>中性軸</code> <code>塑性中性軸</code> <code>斷面模數</code> <code>塑性斷面模數</code> <code>形狀因子</code> <code>平行軸定理</code> <code>等面積法</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>下圖為一梁斷面，鋼之 $F_y = 2.5 \text{ tf/cm}^2$，$E = 2050 \text{ tf/cm}^2$，假設此梁有完全的側向支撐，試求此斷面之：</p>
+<ol>
+<li><strong>降伏彎矩</strong>（10 分）</li>
+<li><strong>塑性彎矩</strong>（15 分）</li>
+</ol>
+<p><strong>斷面幾何（由上而下）：</strong><br />
+- 頂翼板：寬 50 cm × 厚 5 cm<br />
+- 腹板：高 100 cm × 厚 2 cm<br />
+- 底翼板：寬 30 cm × 厚 5 cm<br />
+- 斷面總高：110 cm</p>
+<p><img alt="SS-2023-3 題目附圖：非對稱 I 型斷面，頂翼板 50cm×5cm、腹板 100cm×2cm、底翼板 30cm×5cm，總高 110cm" src="../../raw/solutions/SS-2023-3/SS-2023-3-fig-1.png" /></p>
+<p><em>圖說：非對稱 I 型鋼梁斷面。頂翼板（上）：寬 50 cm、厚 5 cm（最寬）；腹板（中）：高 100 cm、厚 2 cm；底翼板（下）：寬 30 cm、厚 5 cm（最窄）。斷面關於垂直軸不對稱（頂寬底窄），中性軸位置須由一次矩計算決定，塑性中性軸由等面積法決定。$F_y = 2.5 \text{ tf/cm}^2$。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：非對稱斷面的彈性中性軸（ENA）≠ 斷面幾何中心，且控制截面模數為距 ENA 較遠的一側（較小的 S）；塑性中性軸（PNA）由等面積法決定，與 ENA 不同位置</strong></p>
+<p>降伏彎矩與塑性彎矩的對比：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>彈性彎矩（My）</th>
+<th>塑性彎矩（Mp）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中性軸位置</td>
+<td>彈性中性軸（ENA）= 形心軸</td>
+<td>塑性中性軸（PNA）= 等面積軸</td>
+</tr>
+<tr>
+<td>應力分布</td>
+<td>線性（三角形）</td>
+<td>矩形（全截面降伏）</td>
+</tr>
+<tr>
+<td>控制量</td>
+<td>$S = I/c$（最小 S 控制）</td>
+<td>$Z = \Sigma A_i \cdot \bar{d}_i$</td>
+</tr>
+<tr>
+<td>強度</td>
+<td>$M_y = F_y \cdot S_{\min}$</td>
+<td>$M_p = F_y \cdot Z$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>出題者測驗重點：</strong><br />
+1. 能用一次矩計算非對稱斷面的形心位置（ENA）<br />
+2. 能用平行軸定理計算各子斷面對 ENA 的慣性矩（I）<br />
+3. 能判斷哪一側距 ENA 較遠（控制截面模數 S）<br />
+4. 能用等面積法找 PNA，並計算各子面積對 PNA 的一次矩（Z）</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong><br />
+1. 計算各子斷面面積與形心高度<br />
+2. 一次矩計算形心（ENA 位置）<br />
+3. 平行軸定理計算 $I_x$<br />
+4. 計算兩側截面模數 $S_{\text{top}}$ 和 $S_{\text{bot}}$，取小值求 $M_y$<br />
+5. 等面積法找 PNA（從底部往上累加面積至 A/2）<br />
+6. 各子面積乘以對 PNA 的距離，求 $Z$，再求 $M_p$</p>
+<p><strong>關鍵陷阱：</strong></p>
+<blockquote>
+<p>⚠️ <strong>陷阱1：My 由距 ENA 較遠那側控制（c 較大 → S 較小）</strong><br />
+本題頂翼板較寬（250 cm²），底翼板較窄（150 cm²）。形心偏向頂翼板，距底緣較遠 → 底側 c 較大 → $S_{\text{bot}} &lt; S_{\text{top}}$ → 底緣先降伏，$M_y = F_y \cdot S_{\text{bot}}$ 控制。</p>
+<p>⚠️ <strong>陷阱2：PNA 和 ENA 是不同的軸，不可混用</strong><br />
+ENA = 形心軸（一次矩 = 0 軸），PNA = 等面積軸。非對稱斷面兩者不重合。</p>
+<p>⚠️ <strong>陷阱3：計算 Z 時要分別計算 PNA 上方和下方所有子面積</strong><br />
+若 PNA 落在腹板中，腹板需拆成兩段（PNA 以上和 PNA 以下）分別計算。</p>
+</blockquote>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 非對稱 I 型斷面（頂 50×5 / 腹 100×2 / 底 30×5）計算降伏彎矩 $M_y$ 和塑性彎矩 $M_p$</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\boxed{\bar{y}} = \frac{\sum A_i y_i}{\sum A_i} \quad \text{（ENA 位置）}$$<br />
+$$\boxed{I_x} = \sum \left(\frac{bh^3}{12} + A_i d_i^2\right) \quad \text{（平行軸定理）}$$<br />
+$$\boxed{M_y} = F_y \cdot \min(S_{top}, S_{bot}) = F_y \cdot \min\left(\frac{I_x}{c_{top}}, \frac{I_x}{c_{bot}}\right)$$<br />
+$$\text{PNA：等面積軸，} A_{above} = A_{below} = A_{total}/2$$<br />
+$$\boxed{M_p} = F_y \cdot Z = F_y \sum A_i |d_i^{PNA}|$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>子構件</th>
+<th>尺寸</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>頂翼板</td>
+<td>50 cm × 5 cm</td>
+<td>最寬</td>
+</tr>
+<tr>
+<td>腹板</td>
+<td>100 cm × 2 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>底翼板</td>
+<td>30 cm × 5 cm</td>
+<td>最窄</td>
+</tr>
+<tr>
+<td>總高</td>
+<td>110 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>2.5 tf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>側向支撐</td>
+<td>完全</td>
+<td>$M_n = M_p$（但本題只問 $M_y$ 和 $M_p$）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：面積與一次矩（ENA 位置）</strong></p>
+<table>
+<thead>
+<tr>
+<th>子構件</th>
+<th>$A_i$ (cm²)</th>
+<th>$y_i$（從底緣）(cm)</th>
+<th>$A_i y_i$</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>頂翼板</td>
+<td>250</td>
+<td>107.5</td>
+<td>26875</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>腹板</td>
+<td>200</td>
+<td>55</td>
+<td>11000</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>底翼板</td>
+<td>150</td>
+<td>2.5</td>
+<td>375</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>總計</strong></td>
+<td><strong>600</strong></td>
+<td>—</td>
+<td><strong>38250</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\bar{y}$</td>
+<td>—</td>
+<td>$38250/600 = 63.75$ cm（從底）</td>
+<td></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：慣性矩（平行軸定理）</strong></p>
+<table>
+<thead>
+<tr>
+<th>子構件</th>
+<th>$I_{自身} = bh^3/12$ (cm⁴)</th>
+<th>$d_i$ (cm)</th>
+<th>$A d^2$ (cm⁴)</th>
+<th>小計 (cm⁴)</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>頂翼板</td>
+<td>$50 \times 5^3/12 = 521$</td>
+<td>43.75</td>
+<td>478,516</td>
+<td>479,037</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>腹板</td>
+<td>$2 \times 100^3/12 = 166{,}667$</td>
+<td>8.75</td>
+<td>15,313</td>
+<td>181,980</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>底翼板</td>
+<td>$30 \times 5^3/12 = 313$</td>
+<td>61.25</td>
+<td>562,734</td>
+<td>563,047</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_x$</td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>1,224,062 cm⁴</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ 腹板的 $I_{自身} = 166{,}667$ cm⁴ 佔總 $I_x$ 的 13.6%，<strong>絕不可省略</strong>；三個 $I_{自身}$ 合計 167,501 cm⁴。</p>
+</blockquote>
+<p><strong>Step 3：降伏彎矩 My</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$c_{top}$</td>
+<td>$110 - 63.75 = 46.25$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$c_{bot}$</td>
+<td>$63.75$ cm（較大，底側先降伏）⚠ 常見卡關</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$S_{top}$</td>
+<td>$1{,}224{,}062/46.25 = 26{,}466$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$S_{bot}$</td>
+<td>$1{,}224{,}062/63.75 = 19{,}201$ cm³（<strong>較小 → 控制</strong>）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_y$</td>
+<td>$2.5 \times 19{,}201 = 48{,}003$ tf·cm $= 480.0$ tf·m</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：塑性彎矩 Mp（PNA = 等面積軸）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_{total}/2$</td>
+<td>$600/2 = 300$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>底翼板</td>
+<td>150 cm²；腹板下段 = 300-150 = 150 cm²，高 $= 150/2 = 75$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>PNA 位置</td>
+<td>從底緣 $5 + 75 = 80$ cm ⚠ 常見卡關（PNA ≠ ENA）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z$</td>
+<td>各子面積 × 距 PNA 距離，上下加總 $= 24{,}750$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_p$</td>
+<td>$F_y \times Z = 2.5 \times 24{,}750 = 61{,}875$ tf·cm $= 618.75$ tf·m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>形狀因子</td>
+<td>$M_p/M_y = 61{,}875/48{,}003 = 1.289$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_y$ 由距 ENA 較遠側（c 較大 → S 較小）控制</td>
+<td>底寬 &lt; 頂寬 → 形心偏上 → 底側 c 大 → 底側先降伏</td>
+<td style="text-align: center;">[[YIELD-MOMENT-MY]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>PNA ≠ ENA（非對稱斷面）</td>
+<td>ENA 使一次矩 = 0（形心軸）；PNA 使上下面積相等（等面積軸）</td>
+<td style="text-align: center;">[[PLASTIC-NEUTRAL-AXIS-PNA]] · [[plastic-zx]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>PNA 落在腹板時需拆腹板為兩段</td>
+<td>從底翼板累積面積至 $A/2$，超出後 PNA 在腹板中，需計算腹板截斷高度</td>
+<td style="text-align: center;">[[plastic-zx]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z$ 計算：$Z = \sum A_i</td>
+<td>dist_i</td>
+<td style="text-align: center;">$（PNA 上下各自計算）</td>
+<td style="text-align: center;">不是 $I_x / c$（那是 S）；Z 是各子面積到 PNA 距離乘積之和</td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>一、各子斷面幾何</h3>
+<p>以<strong>底緣</strong>為基準（y = 0），各子斷面形心高度（$\bar{y}_i$）：</p>
+<table>
+<thead>
+<tr>
+<th>子斷面</th>
+<th>寬（cm）</th>
+<th>高/厚（cm）</th>
+<th>面積 $A_i$（cm²）</th>
+<th>形心高 $\bar{y}_i$（cm）</th>
+<th>$A_i \cdot \bar{y}_i$（cm³）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底翼板</td>
+<td>30</td>
+<td>5</td>
+<td>150</td>
+<td>2.5</td>
+<td>375</td>
+</tr>
+<tr>
+<td>腹板</td>
+<td>2</td>
+<td>100</td>
+<td>200</td>
+<td>55.0</td>
+<td>11,000</td>
+</tr>
+<tr>
+<td>頂翼板</td>
+<td>50</td>
+<td>5</td>
+<td>250</td>
+<td>107.5</td>
+<td>26,875</td>
+</tr>
+<tr>
+<td><strong>合計</strong></td>
+<td>—</td>
+<td>—</td>
+<td><strong>600</strong></td>
+<td>—</td>
+<td><strong>38,250</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>二、形心（彈性中性軸 ENA）位置</h3>
+<p>$$\bar{y} = \frac{\sum A_i \bar{y}_i}{\sum A_i} = \frac{38{,}250}{600} = \boxed{63.75 \text{ cm（距底緣）}}$$</p>
+<p>距頂緣：$110 - 63.75 = 46.25 \text{ cm}$</p>
+<hr />
+<h3>三、計算慣性矩 $I_x$（平行軸定理）</h3>
+<p>各子斷面對 ENA 的距離 $d_i = \bar{y}_i - 63.75$：<br />
+- 底翼板：$d = 2.5 - 63.75 = -61.25$ cm（距離 61.25 cm）<br />
+- 腹板：$d = 55.0 - 63.75 = -8.75$ cm（距離 8.75 cm）<br />
+- 頂翼板：$d = 107.5 - 63.75 = +43.75$ cm（距離 43.75 cm）</p>
+<p>$$I_x = \sum \left(\frac{b h^3}{12} + A_i d_i^2\right)$$</p>
+<p><strong>底翼板：</strong><br />
+$$I_1 = \frac{30 \times 5^3}{12} + 150 \times 61.25^2 = 312.5 + 562{,}734.4 = 563{,}047 \text{ cm}^4$$</p>
+<p><strong>腹板：</strong><br />
+$$I_2 = \frac{2 \times 100^3}{12} + 200 \times 8.75^2 = 166{,}667 + 15{,}313 = 181{,}980 \text{ cm}^4$$</p>
+<p><strong>頂翼板：</strong><br />
+$$I_3 = \frac{50 \times 5^3}{12} + 250 \times 43.75^2 = 521 + 478{,}516 = 479{,}037 \text{ cm}^4$$</p>
+<p>$$\boxed{I_x = 563{,}047 + 181{,}980 + 479{,}037 = 1{,}224{,}064 \text{ cm}^4}$$</p>
+<blockquote>
+<p><strong>雙路徑交叉驗算（「實心減缺口」法）</strong>：把斷面視為 $50 \times 110$ 實心矩形，扣掉<br />
+① 兩側翼板間的缺口（各 $24 \times 100$，$y = 5 \sim 105$）、② 底翼板兩側缺口（各 $10 \times 5$，$y = 0 \sim 5$）。<br />
+先算對底緣的慣性矩：<br />
+$$I_{base} = \frac{50 \times 110^3}{3} - \frac{48(105^3 - 5^3)}{3} - \frac{20 \times 5^3}{3} = 22{,}183{,}333 - 18{,}520{,}000 - 833 = 3{,}662{,}500$$<br />
+再移軸至形心：$I_x = 3{,}662{,}500 - 600 \times 63.75^2 = 3{,}662{,}500 - 2{,}438{,}438 = \mathbf{1{,}224{,}062.5}$ cm⁴<br />
+與逐項疊加法一致（差異僅四捨五入）。同法驗 $A = 5500 - 4800 - 100 = 600$ ✓、$\sum A\bar{y} = 302{,}500 - 264{,}000 - 250 = 38{,}250$ ✓。</p>
+</blockquote>
+<hr />
+<h3>四、截面模數與降伏彎矩 $M_y$</h3>
+<p>$$S_{\text{top}} = \frac{I_x}{c_{\text{top}}} = \frac{1{,}224{,}062}{46.25} = 26{,}466 \text{ cm}^3$$</p>
+<p>$$S_{\text{bot}} = \frac{I_x}{c_{\text{bot}}} = \frac{1{,}224{,}062}{63.75} = 19{,}201 \text{ cm}^3$$</p>
+<p>控制截面模數（距 ENA 較遠 → S 較小 → 先降伏）：$S_{\min} = S_{\text{bot}} = 19{,}201 \text{ cm}^3$（底緣控制）</p>
+<p>$$\boxed{M_y = F_y \cdot S_{\min} = 2.5 \times 19{,}201 = 48{,}003 \text{ tf·cm} \approx 480 \text{ tf·m}}$$</p>
+<p><img alt="SS-2023-3 圖 2：三格圖，縱向比例共用。① 斷面與兩條中性軸——頂翼板 50×5、腹板 100×2、底翼板 30×5、總高 110 cm，ENA（形心軸）距底緣 63.75 cm、PNA（等面積軸）距底緣 80 cm，I_x = 1,224,062 cm⁴；② 彈性 M = M_y——應力繞 ENA 線性分布，底緣先達 F_y = 2.5（受拉），頂緣僅 1.814 尚未降伏，因 c_bot = 63.75 大於 c_top = 46.25 故 S_bot = 19,201 小於 S_top = 26,466，M_y = 48,003 tf·cm；③ 塑性 M = M_p——全斷面降伏，PNA 以上整塊受壓、以下整塊受拉，上下各 300 cm² 使合力自動平衡，Z = 24,750 cm³、M_p = 61,875 tf·cm" src="../../raw/solutions/SS-2023-3/figs/SS-2023-3-fig-2-ena-pna.svg" /></p>
+<p><em>圖 2　三格共用同一縱向比例，ENA 與 PNA 的高低差 16.25 cm 一眼可見：ENA 由一次矩定、PNA 由等面積定，非對稱斷面兩者必不重合。<strong>攔錯：</strong>把 ENA 當成 PNA（或反過來）；以及誤以為較寬的頂翼板那側先降伏——實際上是距 ENA 較遠、$S$ 較小的**底緣**先到 $F_y$。</em></p>
+<hr />
+<h3>五、塑性中性軸（PNA）位置——等面積法</h3>
+<p>$$\frac{A}{2} = \frac{600}{2} = 300 \text{ cm}^2$$</p>
+<p>從底部往上累加：<br />
+1. 底翼板（30 × 5 = 150 cm²）→ 累計 150 cm²，不足 300 cm²<br />
+2. 繼續往上進入腹板：需再 150 cm² → 腹板高度 $h_{web} = 150/2 = 75$ cm</p>
+<p>$$\text{PNA 距底緣} = 5 \text{（底翼板厚）} + 75 \text{（腹板段）} = \boxed{80 \text{ cm}}$$</p>
+<p>驗算：<br />
+- PNA 以下：底翼板 150 + 腹板（75 × 2 = 150）= 300 cm² ✓<br />
+- PNA 以上：腹板（25 × 2 = 50）+ 頂翼板 250 = 300 cm² ✓</p>
+<hr />
+<h3>六、塑性截面模數 $Z$ 與塑性彎矩 $M_p$</h3>
+<p>各子面積對 PNA 的距離（形心至 PNA）：</p>
+<p><strong>PNA 以下（共 300 cm²）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>子斷面</th>
+<th>面積（cm²）</th>
+<th>形心至 PNA 距離（cm）</th>
+<th>$A_i \cdot d_i$（cm³）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底翼板</td>
+<td>150</td>
+<td>$80 - 2.5 = 77.5$</td>
+<td>11,625</td>
+</tr>
+<tr>
+<td>腹板下段（75 cm × 2 cm）</td>
+<td>150</td>
+<td>$80 - (5 + 75/2) = 80 - 42.5 = 37.5$</td>
+<td>5,625</td>
+</tr>
+</tbody>
+</table>
+<p><strong>PNA 以上（共 300 cm²）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>子斷面</th>
+<th>面積（cm²）</th>
+<th>形心至 PNA 距離（cm）</th>
+<th>$A_i \cdot d_i$（cm³）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>腹板上段（25 cm × 2 cm）</td>
+<td>50</td>
+<td>$(80 + 25/2) - 80 = 12.5$</td>
+<td>625</td>
+</tr>
+<tr>
+<td>頂翼板</td>
+<td>250</td>
+<td>$107.5 - 80 = 27.5$</td>
+<td>6,875</td>
+</tr>
+</tbody>
+</table>
+<p>$$Z = \sum A_i \cdot |d_i| = 11{,}625 + 5{,}625 + 625 + 6{,}875 = \boxed{24{,}750 \text{ cm}^3}$$</p>
+<p>$$\boxed{M_p = F_y \cdot Z = 2.5 \times 24{,}750 = 61{,}875 \text{ tf·cm} = 618.75 \text{ tf·m}}$$</p>
+<p><img alt="SS-2023-3 圖 3：兩格圖。① 等面積法——由底往上累加，底翼板 150 cm² 不足 A/2 = 300，還差 150 cm² 故進入腹板 75 cm，PNA 距底緣 5 + 75 = 80 cm；圖上把腹板在 PNA 處切成下段 75×2 = 150 cm²（與底翼板合計 300）與上段 25×2 = 50 cm²（與頂翼板合計 300），並同時標出 ENA 63.75 供對照；② Z 的四項組成——底翼板 150×77.5 = 11,625、腹板下段 150×37.5 = 5,625、腹板上段 50×12.5 = 625、頂翼板 250×27.5 = 6,875，合計 Z = 24,750 cm³，M_p = 2.5 × 24,750 = 61,875 tf·cm = 618.75 tf·m" src="../../raw/solutions/SS-2023-3/figs/SS-2023-3-fig-3-equal-area.svg" /></p>
+<p><em>圖 3　等面積法的落點在腹板內，所以腹板必須在 PNA 處切成上下兩段，四項面積各自乘上「離開 PNA 的距離」再全部相加才是 $Z$。<strong>攔錯：</strong>把腹板當成一整塊算 $A\cdot d$，或誤用 $I_x/c$（那是彈性的 $S$，不是 $Z$）。</em></p>
+<hr />
+<h3>七、形狀因子</h3>
+<p>$$\text{形狀因子} = \frac{M_p}{M_y} = \frac{618.75}{480} = \boxed{1.289}$$</p>
+<p>非對稱 I 型斷面的形狀因子（約 1.29）介於矩形斷面（1.50）和對稱 I 型斷面（約 1.12）之間，反映非對稱斷面有較大的塑性儲備（較對稱 I 型而言）。</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>ENA（彈性中性軸）vs PNA（塑性中性軸）位置比較</h3>
+<table>
+<thead>
+<tr>
+<th>中性軸</th>
+<th>距底緣高度</th>
+<th>定義</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ENA（形心軸）</td>
+<td>63.75 cm</td>
+<td>$\sum A_i d_i = 0$（一次矩為零）</td>
+</tr>
+<tr>
+<td>PNA（等面積軸）</td>
+<td>80.00 cm</td>
+<td>上方面積 = 下方面積 = A/2</td>
+</tr>
+</tbody>
+</table>
+<p>PNA（80 cm）高於 ENA（63.75 cm），原因：頂翼板面積較大（250 cm²），等面積分割點須偏向較大翼板的那側，才能使上下面積各半。</p>
+<h3>非對稱斷面的設計意義</h3>
+<p>本斷面頂翼板（50×5 = 250 cm²）&gt; 底翼板（30×5 = 150 cm²），適用於：<br />
+- <strong>正彎矩區：</strong> 頂翼板受壓、底翼板受拉。底翼板距 ENA 較遠（63.75 cm &gt; 46.25 cm），受拉側應力更大，底翼板先達到降伏。<br />
+- 若梁的受壓翼板為較大的頂翼板，壓力較小（$\sigma = M/S_{\text{top}}$），有助於延遲壓側局部挫屈。</p>
+<h3>為何不需 $E$？</h3>
+<p>題目雖給出 $E = 2050 \text{ tf/cm}^2$，但本題<strong>只問 $M_y$ 和 $M_p$</strong>，兩者均只需 $F_y$ 和斷面幾何。$E$ 在此題為<strong>干擾數據</strong>（可能用於計算撓度，若有第三小題）。</p>
+<h3>考場答題建議</h3>
+<ul>
+<li>先列表計算各子斷面的 $A$、$\bar{y}$、$A \bar{y}$，清晰不易算錯</li>
+<li>ENA 計算後，務必確認「哪側距離較大（c 較大 → S 較小 → 降伏先發生）」</li>
+<li>PNA 計算後，腹板必須拆成上下兩段分別計算 $A \cdot d$</li>
+<li>最後以 tf·m 呈現彎矩（將 tf·cm 除以 100）</li>
+</ul>
+<h3>原卷筆誤</h3>
+<p>原卷第二頁題三寫作「$E_y = 2050$ tf/cm²」，下標 $y$ 應為誤植（彈性模數無「降伏」下標），即 $E = 2050$ tf/cm²。本題不需用到 $E$，不影響作答。</p>
+<hr />
+<h2>6. 依最新規範（AISC 360-16／-22）對照</h2>
+<blockquote>
+<p><strong>主答依據</strong>：內政部「鋼構造建築物鋼結構設計技術規範」<strong>民國 99 年（2010）修正版</strong>。以 AISC 360-16 為基礎之修訂版<strong>尚未發布</strong>，故僅列為對照。</p>
+</blockquote>
+<h3>6.1 $M_y$ 與 $M_p$ 本身與規範版本無關</h3>
+<p>$M_y = F_y S_{\min}$ 與 $M_p = F_y Z$ 都是<strong>斷面幾何量乘以 $F_y$</strong>，任何版本規範都是同一個定義。因此本題兩個答案在台灣 2010 規範與 AISC 360-22 下<strong>完全相同</strong>：</p>
+<p>$$M_y = 48{,}003 \text{ tf·cm} = 480.0 \text{ tf·m}，\quad M_p = 61{,}875 \text{ tf·cm} = 618.75 \text{ tf·m}$$</p>
+<p>差異只出現在<strong>若進一步問標稱彎矩強度 $M_n$</strong> 時的上限規定，見下。</p>
+<h3>6.2 斷面分類：兩規範皆判「結實」</h3>
+<table>
+<thead>
+<tr>
+<th>元件</th>
+<th style="text-align: center;">本題值</th>
+<th style="text-align: center;">台灣 2010 $\lambda_p$</th>
+<th style="text-align: center;">AISC 360-16 $\lambda_p$</th>
+<th style="text-align: center;">判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>受壓（頂）翼板 $b_f/2t_f$</td>
+<td style="text-align: center;">50/10 = <strong>5.00</strong></td>
+<td style="text-align: center;">$17/\sqrt{F_y} = 10.75$</td>
+<td style="text-align: center;">$0.38\sqrt{E/F_y} = 10.88$</td>
+<td style="text-align: center;">結實 ✓</td>
+</tr>
+<tr>
+<td>腹板 $h/t_w$</td>
+<td style="text-align: center;">100/2 = <strong>50.0</strong></td>
+<td style="text-align: center;">$170/\sqrt{F_y} = 107.5$</td>
+<td style="text-align: center;">$\lambda_{pw}$（F4，見下）$= 163.2$</td>
+<td style="text-align: center;">結實 ✓</td>
+</tr>
+</tbody>
+</table>
+<p>AISC 360-16 對<strong>單軸對稱</strong>斷面的腹板界限採 $h_c/t_w$（$h_c$＝ENA 至受壓翼板內緣距離的兩倍）：<br />
+$$h_c = 2(46.25 - 5) = 82.5 \text{ cm}，\quad \frac{h_c}{t_w} = 41.25$$<br />
+$$\lambda_{pw} = \frac{(h_c/h_p)\sqrt{E/F_y}}{\left(0.54\,M_p/M_{yc} - 0.09\right)^2} \leq \lambda_{rw} = 5.70\sqrt{E/F_y} = 163.2$$<br />
+其中 $h_p = 2(105 - 80) = 50$ cm，$M_p/M_{yc} = 61{,}875/(2.5 \times 26{,}466) = 0.935$，算得 274.5，受 $\lambda_{rw}$ 上限約束取 163.2。$41.25 \ll 163.2$ → <strong>結實腹板</strong>。</p>
+<h3>6.3 AISC 360-16 §F4 對單軸對稱斷面的兩個額外限制狀態</h3>
+<p>本題斷面為<strong>單軸對稱 I 型（頂翼板寬於底翼板）</strong>，AISC 360-16 明確歸入 <strong>§F4</strong>（台灣 2010 規範無對應的獨立條文，僅以 $F_y S_{\min}$ / $F_y Z$ 處理）：</p>
+<table>
+<thead>
+<tr>
+<th>限制狀態</th>
+<th>AISC 360-16 條文</th>
+<th>本題計算</th>
+<th style="text-align: center;">是否折減</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>受壓翼板降伏（CFY）</td>
+<td>F4.1：$M_n = R_{pc}M_{yc} \leq 1.6 S_{xc}F_y$</td>
+<td>$R_{pc}M_{yc} = M_p = 61{,}875$；$1.6S_{xc}F_y = 1.6 \times 26{,}466 \times 2.5 = 105{,}865$</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>受拉翼板降伏（TFY）</td>
+<td>F4.4：$S_{xt} &lt; S_{xc}$ 時 $M_n = R_{pt}M_{yt}$</td>
+<td>$S_{xt} = 19{,}201 &lt; S_{xc} = 26{,}466$ → 適用；$R_{pt} = M_p/M_{yt} = 1.289$，$M_n = 1.289 \times 48{,}003 = 61{,}875$</td>
+<td style="text-align: center;">否</td>
+</tr>
+<tr>
+<td>LTB</td>
+<td>F4.2</td>
+<td>題目給定「完全側支撐」→ 不控制</td>
+<td style="text-align: center;">否</td>
+</tr>
+</tbody>
+</table>
+<p>$$\Rightarrow M_n = M_p = 61{,}875 \text{ tf·cm}，\quad \phi_b M_n = 0.9 \times 61{,}875 = 55{,}688 \text{ tf·cm} = 556.9 \text{ tf·m}$$</p>
+<p><strong>關鍵觀察</strong>：TFY（F4.4）是 AISC 360 針對「受拉側斷面模數較小」的單軸對稱斷面特別加入的限制狀態，正是本題的幾何特徵（$S_{xt} &lt; S_{xc}$）。但因腹板結實使 $R_{pt} = M_p/M_{yt}$，代回後 $M_n$ 仍等於 $M_p$，<strong>未造成折減</strong>；若腹板為非結實，$R_{pt} &lt; M_p/M_{yt}$ 才會使 $M_n &lt; M_p$。</p>
+<p>$1.6 S_{xc} F_y$ 這個上限（AISC 360-10 起，舊版為 $1.5$）的用意是限制單軸對稱斷面的塑性儲備不得過度倚賴受壓側；本題 $M_p/(S_{xc}F_y) = 0.935 \ll 1.6$，遠未觸及。</p>
+<h3>6.4 對照結論</h3>
+<table>
+<thead>
+<tr>
+<th>子題</th>
+<th>台灣 2010（主答）</th>
+<th>AISC 360-16／-22</th>
+<th style="text-align: center;">差異</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(一) $M_y$</td>
+<td><strong>480.0 tf·m</strong>（底緣控制）</td>
+<td>同（$M_{yt}$）</td>
+<td style="text-align: center;">無</td>
+</tr>
+<tr>
+<td>(二) $M_p$</td>
+<td><strong>618.75 tf·m</strong></td>
+<td>同</td>
+<td style="text-align: center;">無</td>
+</tr>
+<tr>
+<td>形狀因子</td>
+<td>1.289</td>
+<td>同</td>
+<td style="text-align: center;">無</td>
+</tr>
+<tr>
+<td>（延伸）$M_n$</td>
+<td>$M_p$（完全側撐）</td>
+<td>$M_p$（F4.1／F4.4 皆不折減）</td>
+<td style="text-align: center;">無</td>
+</tr>
+</tbody>
+</table>
+<p><strong>兩規範答案完全一致</strong>；AISC 360 的貢獻在於把單軸對稱斷面的限制狀態（CFY／TFY／$1.6S_{xc}F_y$ 上限）條文化，使檢核程序更明確。</p>
+<hr />
+<p><em>修正日期：2026-08-22（勘誤：§3.5 L2 Step 2／Step 3 表格數值全面更正——$I_{自身}$ 由誤值 1563 改為 521／313、$I_x$ 由 748,580 改為 </em><em>1,224,062</em><em>、$S_{bot}$ 由 11,740 改為 </em><em>19,201</em><em>、$M_y$ 由 29,350 改為 </em><em>48,003</em><em> tf·cm，與 §4 的正確計算一致；新增「實心減缺口」雙路徑交叉驗算、原卷 $E_y$ 筆誤說明、§6 最新規範對照。§4 之計算與兩個主答數值原本即正確，未變動）</em><br />
+<em>圖解補繪：2026-08-29（向量圖，腳本 <code>gen_SS-2023-3.py</code>，可重跑）</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2023-3/SS-2023-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

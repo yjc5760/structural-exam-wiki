@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>共軛梁法推導圖解</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; color: #1a1a2e; }
+  h2 { font-size: 16px; margin: 0 0 4px; }
+  .subtitle { font-size: 12px; color: #666; margin-bottom: 16px; }
+  .panel { background: white; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .panel-title { font-size: 13px; font-weight: bold; color: #2462c4; margin-bottom: 10px; border-left: 3px solid #2462c4; padding-left: 8px; }
+  canvas { display: block; width: 100%; }
+  .formula-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+  .formula-box { background: #f0f4ff; border-radius: 6px; padding: 8px 12px; font-size: 12px; flex: 1; min-width: 160px; }
+  .formula-box .label { color: #666; font-size: 11px; }
+  .formula-box .val { font-weight: bold; color: #2462c4; font-size: 14px; font-family: Georgia, serif; }
+  .result-box { background: #fff8e1; border: 2px solid #f0a500; border-radius: 6px; padding: 10px 16px; text-align: center; font-size: 15px; font-weight: bold; color: #8b6000; margin-top: 12px; }
+  .step-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+  .step-table th { background: #e8edf5; padding: 6px 8px; text-align: left; }
+  .step-table td { padding: 5px 8px; border-bottom: 1px solid #eee; }
+  .step-table tr:last-child td { border-bottom: none; font-weight: bold; background: #f0f8f0; }
+</style>
+</head>
+<body>
+
+<h2>共軛梁法推導：三分點對稱載重跨中撓度</h2>
+<div class="subtitle">簡支梁，兩個集中載重 P 作用於三分點，求跨中最大位移 δ_max</div>
+
+<!-- Panel 1：真實梁 -->
+<div class="panel">
+  <div class="panel-title">① 真實梁 — 彎矩圖（M 圖）</div>
+  <canvas id="c_bmd" height="140"></canvas>
+  <div class="formula-row">
+    <div class="formula-box"><div class="label">支承反力</div><div class="val">R_A = R_B = P</div></div>
+    <div class="formula-box"><div class="label">最大彎矩（中段均勻）</div><div class="val">M_max = PL/3</div></div>
+    <div class="formula-box"><div class="label">共軛梁虛載重高度</div><div class="val">PL / 3EI</div></div>
+  </div>
+</div>
+
+<!-- Panel 2：M/EI 圖分解 -->
+<div class="panel">
+  <div class="panel-title">② M/EI 圖分解為三塊幾何形狀（共軛梁虛載重）</div>
+  <canvas id="c_decomp" height="200"></canvas>
+
+  <table class="step-table">
+    <tr><th>塊</th><th>形狀</th><th>面積</th><th>形心距 A</th><th>對跨中截面的矩</th></tr>
+    <tr>
+      <td style="color:#2462c4">左三角 △</td>
+      <td>底=L/3，高=PL/3EI</td>
+      <td>PL²/18EI</td>
+      <td>2L/9</td>
+      <td>PL²/18EI × 5L/18 = 5PL³/324EI</td>
+    </tr>
+    <tr>
+      <td style="color:#27ae60">中矩形 □（左半）</td>
+      <td>底=L/6，高=PL/3EI</td>
+      <td>PL²/18EI</td>
+      <td>5L/12</td>
+      <td>PL²/18EI × L/12 = PL³/216EI</td>
+    </tr>
+    <tr>
+      <td style="color:#888">右三角 △（對稱）</td>
+      <td colspan="4">對稱，計算支承反力時已考慮</td>
+    </tr>
+    <tr>
+      <td colspan="2"><b>共軛梁支承反力 R'_A（= 端點轉角）</b></td>
+      <td colspan="3"><b>R'_A = 總虛載重/2 = PL²/9EI = θ_A</b></td>
+    </tr>
+  </table>
+</div>
+
+<!-- Panel 3：最終計算 -->
+<div class="panel">
+  <div class="panel-title">③ 跨中截面共軛梁彎矩 = 真實梁跨中位移</div>
+  <canvas id="c_result" height="140"></canvas>
+
+  <div class="formula-row" style="margin-top:12px">
+    <div class="formula-box">
+      <div class="label">Step A：R'_A × L/2</div>
+      <div class="val">PL²/9EI × L/2 = PL³/18EI = 36PL³/648EI</div>
+    </div>
+    <div class="formula-box">
+      <div class="label">Step B：扣左三角矩</div>
+      <div class="val">−5PL³/324EI = −10PL³/648EI</div>
+    </div>
+    <div class="formula-box">
+      <div class="label">Step C：扣中矩形左半矩</div>
+      <div class="val">−PL³/216EI = −3PL³/648EI</div>
+    </div>
+  </div>
+
+  <div class="result-box">
+    δ_max = (36 − 10 − 3) × PL³/648EI = <b>23PL³ / 648EI</b>　✓
+  </div>
+</div>
+
+<script>
+// ── 共用 ──────────────────────────────────────────
+const colors = { blue:'#2462c4', red:'#c0392b', green:'#27ae60', grey:'#888', light_blue:'rgba(52,120,200,0.18)', light_red:'rgba(192,57,43,0.15)', light_green:'rgba(39,174,96,0.18)' };
+
+function setupCanvas(id) {
+  const canvas = document.getElementById(id);
+  canvas.width = canvas.parentElement.clientWidth - 32;
+  return canvas.getContext('2d');
+}
+
+function drawBeam(ctx, W, zero, padL, drawW, L) {
+  ctx.strokeStyle = '#555'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(padL, zero); ctx.lineTo(padL + drawW, zero); ctx.stroke();
+}
+
+function xPx(x, padL, drawW, L) { return padL + (x/L)*drawW; }
+
+// ── ① BMD ────────────────────────────────────────
+(function(){
+  const ctx = setupCanvas('c_bmd');
+  const W = ctx.canvas.width, H = ctx.canvas.height;
+  const padL=60, padR=20, padT=30, padB=35;
+  const drawW=W-padL-padR, drawH=H-padT-padB;
+  const L=1, Mmax=1;
+  const zero = padT + drawH;
+  function yM(m){ return zero - m/Mmax*drawH*0.82; }
+  function xP(x){ return xPx(x,padL,drawW,L); }
+
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+
+  // BMD
+  const pts=[[0,0],[L/3,Mmax],[2*L/3,Mmax],[L,0]];
+  ctx.beginPath(); ctx.moveTo(xP(0),zero);
+  pts.forEach(([x,m])=>ctx.lineTo(xP(x),yM(m)));
+  ctx.lineTo(xP(L),zero); ctx.closePath();
+  ctx.fillStyle=colors.light_red; ctx.fill();
+  ctx.strokeStyle=colors.red; ctx.lineWidth=2.5; ctx.stroke();
+
+  // 標注
+  ctx.fillStyle=colors.red; ctx.font='bold 12px Arial'; ctx.textAlign='center';
+  ctx.fillText('M_max = PL/3', xP(0.5), yM(Mmax)-10);
+  ctx.fillStyle=colors.blue; ctx.font='11px Arial';
+  ctx.fillText('均勻彎矩段（Lb = L/3）', xP(0.5), padT+12);
+
+  // 載重箭頭
+  [L/3, 2*L/3].forEach(x=>{
+    ctx.strokeStyle=colors.blue; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(xP(x),padT-2); ctx.lineTo(xP(x),zero); ctx.stroke();
+    ctx.fillStyle=colors.blue; ctx.font='bold 11px Arial'; ctx.textAlign='center';
+    ctx.fillText('P', xP(x)+14, padT+6);
+  });
+
+  // 支點標籤
+  ['A(0)','L/3','2L/3','B(L)'].forEach((lb,i)=>{
+    const x=[0,L/3,2*L/3,L][i];
+    ctx.beginPath(); ctx.arc(xP(x),zero,4,0,Math.PI*2);
+    ctx.fillStyle='#555'; ctx.fill();
+    ctx.fillStyle='#333'; ctx.font='10px Arial'; ctx.textAlign='center';
+    ctx.fillText(lb,xP(x),H-6);
+  });
+
+  // Y軸
+  ctx.fillStyle='#555'; ctx.font='10px Arial'; ctx.textAlign='right';
+  ctx.fillText('PL/3',padL-4,yM(Mmax)+4);
+  ctx.fillText('0',padL-4,zero+4);
+  ctx.save(); ctx.translate(12,H/2); ctx.rotate(-Math.PI/2);
+  ctx.textAlign='center'; ctx.fillText('M',0,0); ctx.restore();
+})();
+
+// ── ② 分解圖 ──────────────────────────────────────
+(function(){
+  const ctx = setupCanvas('c_decomp');
+  const W = ctx.canvas.width, H = ctx.canvas.height;
+  const padL=60, padR=20, padT=35, padB=35;
+  const drawW=W-padL-padR, drawH=H-padT-padB;
+  const L=1, Mmax=1;
+  const zero = padT + drawH;
+  function yM(m){ return zero - m/Mmax*drawH*0.82; }
+  function xP(x){ return xPx(x,padL,drawW,L); }
+
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+
+  // 零軸
+  ctx.strokeStyle='#ddd'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(padL,zero); ctx.lineTo(W-padR,zero); ctx.stroke();
+
+  // 左三角（藍）
+  ctx.beginPath(); ctx.moveTo(xP(0),zero); ctx.lineTo(xP(L/3),yM(Mmax)); ctx.lineTo(xP(L/3),zero); ctx.closePath();
+  ctx.fillStyle=colors.light_blue; ctx.fill();
+  ctx.strokeStyle=colors.blue; ctx.lineWidth=2; ctx.stroke();
+
+  // 中矩形（綠）
+  ctx.beginPath(); ctx.moveTo(xP(L/3),zero); ctx.lineTo(xP(L/3),yM(Mmax)); ctx.lineTo(xP(2*L/3),yM(Mmax)); ctx.lineTo(xP(2*L/3),zero); ctx.closePath();
+  ctx.fillStyle=colors.light_green; ctx.fill();
+  ctx.strokeStyle=colors.green; ctx.lineWidth=2; ctx.stroke();
+
+  // 右三角（藍 淡）
+  ctx.beginPath(); ctx.moveTo(xP(2*L/3),zero); ctx.lineTo(xP(2*L/3),yM(Mmax)); ctx.lineTo(xP(L),zero); ctx.closePath();
+  ctx.fillStyle='rgba(52,120,200,0.10)'; ctx.fill();
+  ctx.strokeStyle='rgba(52,120,200,0.5)'; ctx.lineWidth=1.5; ctx.setLineDash([4,3]); ctx.stroke(); ctx.setLineDash([]);
+
+  // 跨中截面線
+  ctx.strokeStyle=colors.red; ctx.lineWidth=1.5; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(xP(L/2),padT-5); ctx.lineTo(xP(L/2),zero+15); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // 形心點
+  [[2*L/9, Mmax/3, colors.blue,'PL²/18EI\n形心:2L/9'],
+   [L/2,   Mmax/2, colors.green,'PL²/9EI\n形心:L/2'],
+  ].forEach(([x,y,c,lb])=>{
+    ctx.beginPath(); ctx.arc(xP(x),yM(y),5,0,Math.PI*2);
+    ctx.fillStyle=c; ctx.fill();
+    ctx.fillStyle=c; ctx.font='10px Arial'; ctx.textAlign='center';
+    lb.split('\n').forEach((line,i)=>ctx.fillText(line,xP(x),yM(y)-12-i*13));
+  });
+
+  // 支反力標注
+  ctx.fillStyle=colors.red; ctx.font='bold 11px Arial'; ctx.textAlign='center';
+  ctx.fillText("R'_A = PL²/9EI", xP(0)+36, zero+16);
+  ctx.fillText("R'_B = PL²/9EI", xP(L)-36, zero+16);
+  ctx.fillText('x = L/2', xP(L/2), padT-8);
+
+  // 支點
+  ['A','L/3','L/2','2L/3','B'].forEach((lb,i)=>{
+    const x=[0,L/3,L/2,2*L/3,L][i];
+    ctx.beginPath(); ctx.arc(xP(x),zero,3.5,0,Math.PI*2);
+    ctx.fillStyle= lb==='L/2' ? colors.red : '#555'; ctx.fill();
+    ctx.fillStyle= lb==='L/2' ? colors.red : '#333';
+    ctx.font= lb==='L/2' ? 'bold 10px Arial' : '10px Arial';
+    ctx.textAlign='center';
+    ctx.fillText(lb,xP(x),H-6);
+  });
+})();
+
+// ── ③ 最終計算圖 ──────────────────────────────────
+(function(){
+  const ctx = setupCanvas('c_result');
+  const W = ctx.canvas.width, H = ctx.canvas.height;
+  const padL=60, padR=20, padT=20, padB=35;
+  const drawW=W-padL-padR, drawH=H-padT-padB;
+  const L=1, Mmax=1;
+  const zero = padT + drawH;
+  function yM(m){ return zero - m/Mmax*drawH*0.82; }
+  function xP(x){ return xPx(x,padL,drawW,L); }
+
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+
+  // 梁線
+  ctx.strokeStyle='#999'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(xP(0),zero); ctx.lineTo(xP(L),zero); ctx.stroke();
+
+  // 位移曲線（示意用正弦近似）
+  ctx.beginPath(); ctx.moveTo(xP(0),zero);
+  for(let i=1;i<=100;i++){
+    const x=i/100;
+    const d = Math.sin(x*Math.PI)*0.85; // 示意
+    ctx.lineTo(xP(x),yM(d));
+  }
+  ctx.strokeStyle=colors.red; ctx.lineWidth=2.5; ctx.stroke();
+
+  // 跨中最大位移標示
+  const xMid=xP(0.5), yMid=yM(0.85);
+  ctx.beginPath(); ctx.setLineDash([3,3]);
+  ctx.moveTo(xMid,yMid); ctx.lineTo(xMid,zero); ctx.strokeStyle='#aaa'; ctx.lineWidth=1; ctx.stroke();
+  ctx.setLineDash([]);
+
+  // 雙向箭頭
+  ctx.strokeStyle=colors.red; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(xMid+15,yMid); ctx.lineTo(xMid+15,zero); ctx.stroke();
+  ctx.fillStyle=colors.red;
+  ctx.beginPath(); ctx.moveTo(xMid+15,yMid); ctx.lineTo(xMid+11,yMid+8); ctx.lineTo(xMid+19,yMid+8); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(xMid+15,zero); ctx.lineTo(xMid+11,zero-8); ctx.lineTo(xMid+19,zero-8); ctx.closePath(); ctx.fill();
+
+  // 標注
+  ctx.fillStyle=colors.red; ctx.font='bold 12px Arial'; ctx.textAlign='left';
+  ctx.fillText('δ_max = 23PL³/648EI', xMid+22, (yMid+zero)/2+5);
+
+  // 載重符號
+  [L/3,2*L/3].forEach(x=>{
+    ctx.fillStyle=colors.blue; ctx.font='bold 12px Arial'; ctx.textAlign='center';
+    ctx.fillText('↓P', xP(x), padT+6);
+  });
+
+  // 支點
+  ['A','B'].forEach((lb,i)=>{
+    const x=[0,L][i];
+    ctx.beginPath(); ctx.arc(xP(x),zero,4,0,Math.PI*2);
+    ctx.fillStyle='#555'; ctx.fill();
+    ctx.fillStyle='#333'; ctx.font='10px Arial'; ctx.textAlign='center';
+    ctx.fillText(lb,xP(x),H-6);
+  });
+})();
+</script>
+</body>
+</html>

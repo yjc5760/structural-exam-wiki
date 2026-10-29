@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2025-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2025-2 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2025-2</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> 無（題目已明言「假設銲道強度足夠」，接合設計本身不在考核範圍）<br />
+<strong>設計法：</strong> ASD<br />
+<strong>標籤：</strong> <code>拉力桿件</code> <code>容許應力法</code> <code>剪力遲滯</code> <code>U值</code> <code>淨截面斷裂</code> <code>全斷面降伏</code> <code>最佳化</code> <code>銲接拉力接合</code> <code>板類縱向銲接</code> <code>l/w規定</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>如圖示之銲接結合，<strong>受拉桿件寬度為 $L$ cm、厚度為 2 cm</strong>，<strong>連接板厚度為 1 cm</strong>。假設<strong>銲道強度足夠</strong>，請依<strong>容許應力設計法（ASD）規範</strong>，計算 <strong>$L$ 值最大或最小值應為何值，可使工作拉力 $P$ 為最大</strong>？所有鋼材 $F_y = 2.5$ tf/cm²、$F_u = 4.1$ tf/cm²。（25 分）</p>
+<p><strong>銲道配置（由圖判讀）：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">銲道</th>
+<th style="text-align: left;">長度</th>
+<th style="text-align: left;">位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">縱向銲道（沿載重方向）</td>
+<td style="text-align: left;"><strong>各 3 cm，共 2 道</strong></td>
+<td style="text-align: left;">受拉桿件上、下兩側邊緣</td>
+</tr>
+<tr>
+<td style="text-align: left;">橫向銲道（垂直載重方向）</td>
+<td style="text-align: left;">$L$（＝板寬）</td>
+<td style="text-align: left;">受拉桿件端面</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="SS-2025-2 題目附圖：受拉桿件（矩形板，寬 L、厚 2 cm）自左方受拉力 P，其右端搭接於梯形連接板（厚 1 cm）；接合以填角銲三面圍焊——沿板上、下兩長邊各一道長 3 cm 的縱向銲道（圖上標「3 cm」），以及沿板端面一道長 L 的橫向銲道（圖上以「L」尺寸標示）；連接板右方受反向拉力 P" src="../../raw/solutions/SS-2025-2/SS-2025-2-fig-1.png" /></p>
+<p><em>圖說：受拉桿件為矩形鋼板，寬 $L$ cm、厚 2 cm，自左方受拉力 $P$；其右端搭接於梯形連接板（厚 1 cm）之左緣。接合為</em><em>三面圍焊</em><em>：沿受拉桿件上、下兩長邊各一道</em><em>長 3 cm 的縱向銲道</em><em>（圖上以「3 cm」標示，斜線陰影），以及沿桿件端面一道</em><em>長 $L$ 的橫向銲道</em><em>（圖右以「$L$」之尺寸線標示）。板寬 $L$ 為待求量，縱向銲長固定為 3 cm——這正是本題「$L$ 有上限」的來源。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：板類構件以兩側縱向銲道傳力時，規範用「銲長 $l$ 與板寬 $w$ 的比值」規定 $U$，並且要求 $l \ge w$——這是一條「階梯函數＋硬性上限」，不是連續公式。</strong></p>
+<p>規範（鋼結構容許應力設計法規範 §4.3 有效淨斷面積；AISC 360 Table D3.1 Case 4 相同）規定：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">條件</th>
+<th style="text-align: center;">$U$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">$l \ge 2w$</td>
+<td style="text-align: center;">1.00</td>
+</tr>
+<tr>
+<td style="text-align: left;">$2w &gt; l \ge 1.5w$</td>
+<td style="text-align: center;">0.87</td>
+</tr>
+<tr>
+<td style="text-align: left;">$1.5w &gt; l \ge w$</td>
+<td style="text-align: center;">0.75</td>
+</tr>
+<tr>
+<td style="text-align: left;">$l &lt; w$</td>
+<td style="text-align: center;"><strong>規範未規定（不允許）</strong></td>
+</tr>
+</tbody>
+</table>
+<p>本題 $l = 3$ cm 固定、$w = L$ 待求，因此：</p>
+<p>$$L \le l = 3 \ \text{cm}$$</p>
+<p>而 ASD 兩個極限狀態的容許力<strong>都隨 $L$ 線性增加</strong>：</p>
+<p>$$P_{GY} = 0.6F_y A_g = 3.0L,\qquad P_{NSF} = 0.5F_u\,U\,A_g = 4.1\,U\,L$$</p>
+<p>所以 $P$ 在<strong>允許範圍的最大端</strong>取得最大值 $\Rightarrow$ $\boxed{L_{\max} = 3 \ \text{cm}}$。</p>
+<p><strong>出題者測驗重點：</strong></p>
+<ol>
+<li>認出這是「板類構件＋兩側縱向銲道」的 $U$ 規定（$l/w$ 階梯值），而<strong>不是</strong> $U = 1-\bar{x}/l$ 的偏心距公式</li>
+<li>知道規範對此情形有 <strong>$l \ge w$ 的硬性下限</strong>——這就是題目問「最大或最小值」的用意</li>
+<li>ASD 兩極限狀態的容許應力不同：$0.6F_y$（全斷面）vs $0.5F_u$（有效淨斷面）</li>
+<li>在 $U = 0.75$ 時比較兩者誰控制（答案：$0.5F_u \times 0.75 = 3.075 &gt; 0.6F_y = 3.0$，<strong>全斷面降伏控制</strong>，但只差 2.5%）</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1  查規範：板類 + 兩側縱向銲道 → U = f(l/w)，且要求 l ≥ w
+Step 2  l = 3 cm 固定 → L(=w) ≤ 3 cm，得 L 的「最大值」
+Step 3  寫出 P_GY = 0.6Fy(2L) = 3.0L 與 P_NSF = 0.5Fu·U·(2L) = 4.1UL
+Step 4  分段列表（L ≤ 1.5 / 1.5~2 / 2~3），確認 P 隨 L 遞增
+Step 5  L = 3 cm：U = 0.75 → P = min(9.0, 9.225) = 9.0 tf（GY 控制）
+Step 6  補檢核：銲道旁母材剪斷（ASD Fv = 0.4Fy）
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<blockquote>
+<p>⚠️ <strong>陷阱 1（本題最致命）：不可用 $U = 1-\bar{x}/l$</strong><br />
+$U = 1-\bar{x}/l$ 的 $\bar{x}$ 是「被連接元件形心到整個斷面形心的<strong>偏心距</strong>」，用於角鋼、槽鋼、T 型鋼等<br />
+「只有部分肢材被連接」的斷面。本題受拉桿件是<strong>單一板片、全斷面都被銲道連接</strong>，偏心距為零，<br />
+該公式不適用。若誤取 $\bar{x} = L/2$（把板寬的一半當偏心距）會得到 $U = 1-L/6$ 這種<br />
+「板越寬 $U$ 越小」的連續函數，進而算出 $P_{\max} = 6.15$ tf——<strong>低估 32%</strong>，且完全偏離規範條文。</p>
+<p>⚠️ <strong>陷阱 2：$U$ 是階梯函數，不是連續函數</strong><br />
+規範只給 1.00 / 0.87 / 0.75 三個值。不能內插，也不能對 $L$ 微分求極值。<br />
+本題的「最佳化」是<strong>在階梯上找最右端的允許點</strong>，而不是微分找拋物線頂點。</p>
+<p>⚠️ <strong>陷阱 3：$l \ge w$ 是硬性規定</strong><br />
+$l &lt; w$（本題即 $L &gt; 3$ cm）時規範<strong>沒有 $U$ 值</strong>，等於不允許這樣設計。這就是「$L$ 有最大值」的來源。<br />
+物理上：縱向銲道太短、板太寬時，板中央的應力根本傳不出去，剪力遲滯嚴重到規範不願意給折減值。</p>
+<p>⚠️ <strong>陷阱 4：ASD 的兩個容許應力別記混</strong><br />
+全斷面降伏用 $F_t = 0.6F_y = 1.5$ tf/cm²（作用於 $A_g$）；<br />
+有效淨斷面斷裂用 $F_t = 0.5F_u = 2.05$ tf/cm²（作用於 $A_e$）。<br />
+兩者的交叉點在 $U = 0.6F_y/(0.5F_u) = 1.5/2.05 = 0.732$——$U = 0.75$ 剛好<strong>略高於</strong>它，故 GY 控制。</p>
+<p>⚠️ <strong>陷阱 5：橫向銲道不能用來主張 $U = 1.0$</strong><br />
+規範對「純橫向銲道傳力」才規定 $U = 1.0$（且 $A_e$ 只取直接連接元件面積）。本題為<br />
+縱向＋橫向並用之<strong>板類</strong>構件，仍應套板類的 $l/w$ 規定（見 §5.3 的規範條文層級討論）。</p>
+</blockquote>
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 依 ASD 規範板類構件縱向銲接之 $U$ 規定，求容許的板寬 $L$ 上限及對應的最大工作拉力 $P$</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\text{Step 1:}\quad A_g = t \cdot L = 2L,\qquad A_n = A_g\ (\text{銲接無孔})$$</p>
+<p>$$\text{Step 2:}\quad \boxed{U} = \begin{cases}1.00 &amp; l \ge 2w\ 0.87 &amp; 2w &gt; l \ge 1.5w\ 0.75 &amp; 1.5w &gt; l \ge w\end{cases},\qquad l = 3\ \text{cm},\ w = L$$</p>
+<p>$$\text{Step 3:}\quad \boxed{L_{\max}} :\ l \ge w \;\Rightarrow\; L \le 3\ \text{cm}$$</p>
+<p>$$\text{Step 4:}\quad P_{GY} = 0.6F_y A_g,\qquad \boxed{P_{NSF}} = 0.5F_u \cdot \boxed{U} \cdot A_g$$</p>
+<p>$$\text{Step 5:}\quad \boxed{P_{\max}} = \min\left(P_{GY},\ \boxed{P_{NSF}}\right)\Big|<em _max="\max">{L = \boxed{L</em>$$}}</p>
+<h3>L1：題目直接給定</h3>
+<p><em>看到題目就能讀出的數字，不需要任何公式。</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">數值</th>
+<th style="text-align: left;">說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$t$</td>
+<td style="text-align: left;">2 cm</td>
+<td style="text-align: left;">受拉桿件厚度</td>
+</tr>
+<tr>
+<td style="text-align: center;">$L$（$= w$）</td>
+<td style="text-align: left;">待求</td>
+<td style="text-align: left;">受拉桿件寬度</td>
+</tr>
+<tr>
+<td style="text-align: center;">$l$</td>
+<td style="text-align: left;">3 cm</td>
+<td style="text-align: left;"><strong>縱向</strong>銲道長度（每側一道，共 2 道）</td>
+</tr>
+<tr>
+<td style="text-align: center;">橫向銲道長</td>
+<td style="text-align: left;">$L$</td>
+<td style="text-align: left;">沿桿件端面</td>
+</tr>
+<tr>
+<td style="text-align: center;">連接板厚</td>
+<td style="text-align: left;">1 cm</td>
+<td style="text-align: left;">題目給定（不控制，見 §5.4）</td>
+</tr>
+<tr>
+<td style="text-align: center;">$F_y$</td>
+<td style="text-align: left;">2.5 tf/cm²</td>
+<td style="text-align: left;">降伏強度</td>
+</tr>
+<tr>
+<td style="text-align: center;">$F_u$</td>
+<td style="text-align: left;">4.1 tf/cm²</td>
+<td style="text-align: left;">抗拉強度</td>
+</tr>
+<tr>
+<td style="text-align: center;">設計法</td>
+<td style="text-align: left;">ASD</td>
+<td style="text-align: left;">容許應力設計法</td>
+</tr>
+<tr>
+<td style="text-align: center;">銲道強度</td>
+<td style="text-align: left;">足夠（題目假設）</td>
+<td style="text-align: left;">不需檢核銲道本身</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><em>需要知道公式名稱與適用條件，套入 L1 即可算出。</em></p>
+<p><strong>第一階段：$U$ 值的規範判定</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">適用條文</td>
+<td style="text-align: left;">ASD 規範 §4.3「板類構件僅以兩側縱向銲道傳遞拉力」</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$l \ge 2w$</td>
+<td style="text-align: left;">$3 \ge 2L \Rightarrow L \le 1.5$ cm → $U = 1.00$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$1.5w \le l &lt; 2w$</td>
+<td style="text-align: left;">$1.5 &lt; L \le 2.0$ cm → $U = 0.87$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$w \le l &lt; 1.5w$</td>
+<td style="text-align: left;">$2.0 &lt; L \le 3.0$ cm → $U = 0.75$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$l &lt; w$</td>
+<td style="text-align: left;">$L &gt; 3$ cm → <strong>規範未規定，不允許</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>第二階段：ASD 容許力（$L$ 的函數）</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$A_g$</td>
+<td style="text-align: left;">$tL = 2L$ cm²</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$P_{GY}$</td>
+<td style="text-align: left;">$0.6F_yA_g = 0.6(2.5)(2L) = 3.0L$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$P_{NSF}$</td>
+<td style="text-align: left;">$0.5F_u\,U\,A_g = 0.5(4.1)U(2L) = 4.1UL$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">控制判準</td>
+<td style="text-align: left;">$0.5F_uU \gtrless 0.6F_y \Rightarrow U \gtrless 0.732$</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>第三階段：取極大</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$L_{\max}$</td>
+<td style="text-align: left;">$l \ge w \Rightarrow L = 3.0$ cm</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$U$</td>
+<td style="text-align: left;">$1.5w = 4.5 &gt; l = 3 \ge w = 3 \Rightarrow U = 0.75$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$A_g$</td>
+<td style="text-align: left;">$2 \times 3 = 6.0$ cm²</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$A_e$</td>
+<td style="text-align: left;">$0.75 \times 6.0 = 4.5$ cm²</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$P_{GY}$</td>
+<td style="text-align: left;">$1.5 \times 6.0 = 9.0$ tf ← <strong>控制</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$P_{NSF}$</td>
+<td style="text-align: left;">$2.05 \times 4.5 = 9.225$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$P_{\max}$</td>
+<td style="text-align: left;">$\min(9.0,\ 9.225) = 9.0$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">知識點</th>
+<th style="text-align: left;">說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">板類縱向銲接的 $U$ 是 $l/w$ 階梯值</td>
+<td style="text-align: left;">規範對「板類 + 兩側縱向銲道」單獨列條文（1.00/0.87/0.75），<strong>不用</strong> $1-\bar x/l$</td>
+<td style="text-align: center;">[[shear-lag-u]] · [[SHEAR-LAG]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">$U = 1-\bar x/l$ 的適用對象</td>
+<td style="text-align: left;">$\bar x$ 是「被連接元件到全斷面形心」的偏心距；只用於角鋼、槽鋼、T 型鋼等部分肢材連接之斷面</td>
+<td style="text-align: center;">[[shear-lag-u]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">$l \ge w$ 的物理意義</td>
+<td style="text-align: left;">縱向銲太短、板太寬時，力無法由邊緣擴散至板中央（$45°$ 擴散不足），剪力遲滯超出規範適用範圍</td>
+<td style="text-align: center;">[[SHEAR-LAG]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">ASD 兩極限狀態的容許應力</td>
+<td style="text-align: left;">$0.6F_y$（$FS = 1.67$，作用於 $A_g$）vs $0.5F_u$（$FS = 2.0$，作用於 $A_e$）；後者較嚴是因斷裂為脆性破壞</td>
+<td style="text-align: center;">[[TENSION-MEMBER-DESIGN]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">銲接接合 $A_n = A_g$</td>
+<td style="text-align: left;">無螺栓孔，故淨面積等於全面積；但 $U$ 造成的折減仍在</td>
+<td style="text-align: center;">[[shear-lag-u]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">銲道旁母材剪斷檢核</td>
+<td style="text-align: left;">銲道足夠 ≠ 母材足夠；仍需檢核沿銲道的母材剪力面（見 §4 Step 5）</td>
+<td style="text-align: center;">[[fillet-weld-0707]]</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：斷面與銲道幾何</h3>
+<p>$$A_g = t \times L = 2L \ \text{cm}^2,\qquad A_n = A_g\ (\text{銲接接合，無螺栓孔})$$</p>
+<p>$$l = 3\ \text{cm（縱向銲道長，兩側各一道）},\qquad w = L\ \text{（板寬）}$$</p>
+<hr />
+<h3>Step 2：依規範判定 $U$ 值與 $L$ 的允許範圍</h3>
+<p>依「鋼結構容許應力設計法規範」§4.3——<strong>板類構件僅以兩側縱向銲道傳遞拉力時</strong>：</p>
+<p>$$U = \begin{cases} 1.00, &amp; l \ge 2w \ 0.87, &amp; 2w &gt; l \ge 1.5w \ 0.75, &amp; 1.5w &gt; l \ge w \end{cases}$$</p>
+<p>代入 $l = 3$ cm：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">$U$</th>
+<th style="text-align: left;">條件</th>
+<th style="text-align: left;">換算成 $L$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: left;">$3 \ge 2L$</td>
+<td style="text-align: left;">$L \le 1.5$ cm</td>
+</tr>
+<tr>
+<td style="text-align: center;">0.87</td>
+<td style="text-align: left;">$2L &gt; 3 \ge 1.5L$</td>
+<td style="text-align: left;">$1.5 &lt; L \le 2.0$ cm</td>
+</tr>
+<tr>
+<td style="text-align: center;">0.75</td>
+<td style="text-align: left;">$1.5L &gt; 3 \ge L$</td>
+<td style="text-align: left;">$2.0 &lt; L \le 3.0$ cm</td>
+</tr>
+<tr>
+<td style="text-align: center;">—</td>
+<td style="text-align: left;">$3 &lt; L$</td>
+<td style="text-align: left;"><strong>超出規範適用範圍（不允許）</strong></td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{\therefore L \le l = 3.0 \ \text{cm}\quad\text{（}L\text{ 存在「最大值」而非最小值）}}$$</p>
+<hr />
+<h3>Step 3：建立 ASD 容許力函數</h3>
+<p><strong>① 全斷面降伏（Gross Yielding, GY）：</strong></p>
+<p>$$P_{GY} = F_t A_g = 0.6F_y \cdot 2L = 0.6(2.5)(2L) = 3.0L \ \text{tf}$$</p>
+<p><strong>② 有效淨斷面斷裂（Net Section Fracture, NSF）：</strong></p>
+<p>$$P_{NSF} = F_t A_e = 0.5F_u \cdot U A_g = 0.5(4.1)\,U\,(2L) = 4.1\,U\,L \ \text{tf}$$</p>
+<p><strong>容許工作拉力：</strong> $P = \min(P_{GY},\ P_{NSF})$</p>
+<hr />
+<h3>Step 4：分段列表，確認 $P$ 隨 $L$ 遞增</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">$L$ (cm)</th>
+<th style="text-align: center;">$U$</th>
+<th style="text-align: center;">$A_g$ (cm²)</th>
+<th style="text-align: center;">$P_{GY} = 3.0L$</th>
+<th style="text-align: center;">$P_{NSF} = 4.1UL$</th>
+<th style="text-align: center;">$P = \min$</th>
+<th style="text-align: center;">控制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1.0</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;">3.00</td>
+<td style="text-align: center;">4.10</td>
+<td style="text-align: center;"><strong>3.00</strong></td>
+<td style="text-align: center;">GY</td>
+</tr>
+<tr>
+<td style="text-align: center;">1.5</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">3.0</td>
+<td style="text-align: center;">4.50</td>
+<td style="text-align: center;">6.15</td>
+<td style="text-align: center;"><strong>4.50</strong></td>
+<td style="text-align: center;">GY</td>
+</tr>
+<tr>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;">0.87</td>
+<td style="text-align: center;">4.0</td>
+<td style="text-align: center;">6.00</td>
+<td style="text-align: center;">7.13</td>
+<td style="text-align: center;"><strong>6.00</strong></td>
+<td style="text-align: center;">GY</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3.0</strong></td>
+<td style="text-align: center;"><strong>0.75</strong></td>
+<td style="text-align: center;"><strong>6.0</strong></td>
+<td style="text-align: center;"><strong>9.00</strong></td>
+<td style="text-align: center;"><strong>9.23</strong></td>
+<td style="text-align: center;"><strong>9.00</strong></td>
+<td style="text-align: center;"><strong>GY</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">&gt;3.0</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">不允許</td>
+<td style="text-align: center;">—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>觀察：</strong> 在每一個允許的分段內，$P_{NSF} &gt; P_{GY}$（因為 $0.5F_uU = 2.05U \ge 2.05(0.75) = 1.538 &gt; 1.5 = 0.6F_y$），故<strong>全程由全斷面降伏控制</strong>，$P = 3.0L$ 單調遞增。因此 $P$ 在 $L$ 的最大允許值處達到最大。</p>
+<blockquote>
+<p><strong>策略註解：</strong> 這裡不需要（也不可以）微分。$U$ 是階梯函數，$P$ 在每段內都是線性遞增，只在跨段時可能掉一階；本題三段皆由 $P_{GY} = 3.0L$ 控制，所以 $P$ 在整個允許區間內<strong>嚴格遞增</strong>，最大值必在右端點 $L = 3$ cm。</p>
+</blockquote>
+<hr />
+<h3>Step 5：$L = 3$ cm 的完整檢核</h3>
+<p>$$U = 0.75\quad(\because 1.5w = 4.5 &gt; l = 3 \ge w = 3)$$</p>
+<p>$$A_g = 2 \times 3 = 6.0 \ \text{cm}^2,\qquad A_e = U A_g = 0.75 \times 6.0 = 4.5 \ \text{cm}^2$$</p>
+<p><strong>① 全斷面降伏：</strong><br />
+$$P_{GY} = 0.6(2.5)(6.0) = 1.5 \times 6.0 = 9.00 \ \text{tf}$$</p>
+<p><strong>② 有效淨斷面斷裂：</strong><br />
+$$P_{NSF} = 0.5(4.1)(4.5) = 2.05 \times 4.5 = 9.23 \ \text{tf}$$</p>
+<p><strong>③ 銲道旁母材剪斷（補充檢核）：</strong> ASD 容許剪應力 $F_v = 0.4F_y = 1.0$ tf/cm²，兩道縱向銲道旁之母材剪力面</p>
+<p>$$A_v = 2 \times l \times t = 2 \times 3 \times 2 = 12 \ \text{cm}^2 \;\Rightarrow\; P_v = 1.0 \times 12 = 12.0 \ \text{tf} &gt; 9.0 \ \text{tf} \ \checkmark$$</p>
+<p>（且端面另有長 $L$ 的橫向銲道直接傳力，實際更寬裕。）</p>
+<p><strong>結論：</strong></p>
+<p>$$\boxed{L_{\max} = 3 \ \text{cm}\ (=\ l),\qquad P_{\max} = \min(9.00,\ 9.23,\ 12.0) = 9.00 \ \text{tf}\ \text{（全斷面降伏控制）}}$$</p>
+<hr />
+<h3>Step 6：結果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L$ 的性質</td>
+<td><strong>有最大值</strong>（不是最小值）：$L \le l = 3$ cm</td>
+</tr>
+<tr>
+<td>$L_{\max}$</td>
+<td><strong>3 cm</strong></td>
+</tr>
+<tr>
+<td>$U$（$l/w = 1.0$）</td>
+<td>0.75</td>
+</tr>
+<tr>
+<td>$A_g$</td>
+<td>6.0 cm²</td>
+</tr>
+<tr>
+<td>$A_e$</td>
+<td>4.5 cm²</td>
+</tr>
+<tr>
+<td>$P_{GY}$</td>
+<td>9.00 tf ← <strong>控制</strong></td>
+</tr>
+<tr>
+<td>$P_{NSF}$</td>
+<td>9.23 tf</td>
+</tr>
+<tr>
+<td>母材剪斷</td>
+<td>12.0 tf</td>
+</tr>
+<tr>
+<td><strong>$P_{\max}$</strong></td>
+<td><strong>9.00 tf</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>5.1 為什麼題目說「最大<strong>或</strong>最小」？</h3>
+<p>這是出題者的提示：要考生自己判斷 $L$ 的限制是上限還是下限。</p>
+<ul>
+<li>若只看 $P_{GY} = 3.0L$、$P_{NSF} = 4.1UL$，兩者都隨 $L$ 遞增 → 想把 $L$ 做越大越好</li>
+<li>但規範的 $l \ge w$ 把 $L$ 卡在 3 cm → <strong>$L$ 有最大值</strong></li>
+</ul>
+<p>所以正確答案是「$L$ <strong>最大</strong>取 3 cm」。若答「$L$ 有最小值」則方向答反。</p>
+<h3>5.2 誤用 $U = 1-\bar x/l$ 會差多少？</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">作法</th>
+<th style="text-align: center;">$U(L=3)$</th>
+<th style="text-align: center;">$A_e$</th>
+<th style="text-align: center;">$P_{NSF}$</th>
+<th style="text-align: center;">最終 $P_{\max}$</th>
+<th style="text-align: center;">誤差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>規範 $l/w$ 階梯值（正解）</strong></td>
+<td style="text-align: center;"><strong>0.75</strong></td>
+<td style="text-align: center;">4.5 cm²</td>
+<td style="text-align: center;">9.23 tf</td>
+<td style="text-align: center;"><strong>9.00 tf</strong>（GY 控制）</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">誤用 $U = 1-\dfrac{L/2}{3} = 1-\dfrac{L}{6}$</td>
+<td style="text-align: center;">0.50</td>
+<td style="text-align: center;">3.0 cm²</td>
+<td style="text-align: center;">6.15 tf</td>
+<td style="text-align: center;">6.15 tf（NSF 控制）</td>
+<td style="text-align: center;"><strong>低估 32%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>誤用法還會導出一個假象：「$P_{NSF} = 4.1L(1-L/6)$ 是拋物線，微分得頂點 $L = 3$」。頂點位置<strong>碰巧</strong>也是 3 cm，<br />
+但那是 $l/2 \times 2 = l$ 的數學巧合，與規範規定無關；控制的極限狀態與 $P$ 值都錯。</p>
+<p><strong>根本錯誤：</strong> $\bar x$ 是<strong>偏心距</strong>，量的是「被連接元件的形心」到「整個斷面形心」的垂直距離。<br />
+單一板片被三面圍焊，被連接元件就是板本身，$\bar x = 0$。把「板寬的一半」當偏心距，等於假設<br />
+全部拉力都從板的一條邊緣進入，與圖示的三面圍焊不符。</p>
+<h3>5.3 縱向＋橫向並用時，究竟該套哪一條？（規範條文層級）</h3>
+<p>「鋼結構容許應力設計法規範」§4.3 銲接部分有三種情形：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">情形</th>
+<th style="text-align: left;">規定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">(i) 拉力僅由<strong>縱向</strong>銲道，或<strong>縱向與橫向並用</strong>，傳遞至<strong>鋼板以外</strong>之構材</td>
+<td style="text-align: left;">$A_e = U A_g$，$U$ 依構材類型查表（0.90／0.85／0.75）</td>
+</tr>
+<tr>
+<td style="text-align: left;">(ii) 拉力僅由<strong>橫向</strong>銲道傳遞</td>
+<td style="text-align: left;">$A_e = $ 直接連接元件之面積，$U = 1.0$</td>
+</tr>
+<tr>
+<td style="text-align: left;">(iii) <strong>板類構材</strong>之拉力由<strong>兩側縱向</strong>銲道傳遞</td>
+<td style="text-align: left;">$A_e = UA_g$，$U$ 依 $l/w$ 取 1.00／0.87／0.75，且須 $l \ge w$</td>
+</tr>
+</tbody>
+</table>
+<p>本題受拉桿件是<strong>板類</strong>構材（(i) 明文排除鋼板），且縱向銲道是傳力主體 → 套 <strong>(iii)</strong>。<br />
+（AISC 360-16 Table D3.1 亦同：Case 4 專門處理「plates ... where the tension load is transmitted by longitudinal welds only」，$U$ 依 $l/w$；Case 3 才是純橫向銲道 $U=1.0$。）</p>
+<p>若有人主張「端面有橫向銲道、全斷面直接連接，故 $U = 1.0$」，則 $P_{NSF} = 4.1L$ 恆大於 $P_{GY} = 3.0L$，<br />
+$L$ 將無上限、題目也就沒有答案——反證此讀法與題意不符。<strong>考場答 $L_{\max} = 3$ cm、$P_{\max} = 9.0$ tf。</strong></p>
+<h3>5.4 連接板（1 cm 厚）要不要檢核？</h3>
+<p>題目給了連接板厚度 1 cm，但<strong>未給其寬度</strong>（圖上為梯形、明顯比受拉桿件寬）。既然「假設銲道強度足夠」，<br />
+且連接板的 Whitmore 有效寬度（自銲道起點以 $30°$ 向外擴散）為 $3 + 2(3\tan30°) = 6.46$ cm，<br />
+斷面積 $1 \times 6.46 = 6.46$ cm²，容許力 $\approx 1.5 \times 6.46 = 9.7$ tf $&gt; 9.0$ tf，不控制。<br />
+此估算僅供理解「為什麼題目敢略過連接板」——實際連接板遠寬於此。</p>
+<h3>5.5 依最新規範（AISC 360-16／-22）的對照</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">項目</th>
+<th style="text-align: left;">台灣現行規範（民國 99 年版 ASD）</th>
+<th style="text-align: left;">AISC 360-16／-22</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">$U$（板類縱向銲）</td>
+<td style="text-align: left;">$l/w$ 階梯值 1.00／0.87／0.75，$l \ge w$</td>
+<td style="text-align: left;">Table D3.1 <strong>Case 4</strong>，數值與條件<strong>完全相同</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">全斷面降伏</td>
+<td style="text-align: left;">$F_t = 0.6F_y$ 作用於 $A_g$</td>
+<td style="text-align: left;">$P_n/\Omega = F_yA_g/1.67 = 0.599F_yA_g$（<strong>等價</strong>）</td>
+</tr>
+<tr>
+<td style="text-align: left;">有效淨斷面斷裂</td>
+<td style="text-align: left;">$F_t = 0.5F_u$ 作用於 $A_e$</td>
+<td style="text-align: left;">$P_n/\Omega = F_uA_e/2.00 = 0.5F_uA_e$（<strong>完全相同</strong>）</td>
+</tr>
+</tbody>
+</table>
+<p>$\Rightarrow$ <strong>本題在新舊規範下答案完全一致</strong>（$0.6 \approx 1/1.67$、$0.5 = 1/2.00$），$L_{\max} = 3$ cm、$P_{\max} = 9.0$ tf。</p>
+<h3>5.6 若要提高 $P$，該改什麼？</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">措施</th>
+<th style="text-align: left;">效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">加長縱向銲道 $l$</td>
+<td style="text-align: left;">$L$ 上限同步放寬（$L \le l$），且 $l \ge 2w$ 時 $U$ 升到 1.00 → 最直接有效</td>
+</tr>
+<tr>
+<td style="text-align: left;">只加寬板 $L$</td>
+<td style="text-align: left;"><strong>無效</strong>（超過 3 cm 即超出規範適用範圍）</td>
+</tr>
+<tr>
+<td style="text-align: left;">加厚板 $t$</td>
+<td style="text-align: left;">$P_{GY} \propto t$，線性有效，但接合處剪力遲滯不變</td>
+</tr>
+<tr>
+<td style="text-align: left;">只加大銲腳尺寸</td>
+<td style="text-align: left;"><strong>無效</strong>（題目已假設銲道強度足夠；瓶頸在母材的剪力遲滯，不在銲道）</td>
+</tr>
+</tbody>
+</table>
+<p><em>解析完成時間：2026-06-xx</em><br />
+<em>修正日期：2026-08-22（改以規範 §4.3「板類兩側縱向銲道」$l/w$ 階梯 $U$ 值取代誤用之 $U = 1-\bar x/l$；答案由 $P_{\max}=6.15$ tf 更正為 9.00 tf）</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2025-2/SS-2025-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

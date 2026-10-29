@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2021-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.88em;line-height:1.5}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;padding:10px 16px;border-radius:0 8px 8px 0}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SS-2021-2 題目解析</h1><a class="quick" href="../study-SS-U1-4.html" title="SS-U1-4 接合之分析與設計 命題分析">&#128269; U1-4 命題分析</a><a class="lect" href="../lecture-SS-U1-4.html" title="SS-U1-4 接合之分析與設計 觀念講義">&#128218; U1-4 接合之分析與設計 講義</a></header>
+<main><h1>考題編號：SS-2021-2</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> <code>SS-U1-4</code> 接合之分析與設計<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>拉力桿件</code> <code>塊狀剪力</code> <code>銲接拉力接合</code> <code>填角銲</code> <code>疊接</code> <code>斷裂模式</code> <code>0.6Fy意義</code> <code>剪力降伏</code> <code>LRFD</code> <code>概念題</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>圖二所示拉力構材為 SM400 鋼材，$F_y = 2.5$ tf/cm²，$F_u = 4.1$ tf/cm²，$E = 2040$ tf/cm²，板厚分別為 $t = 20$ mm 及 $t = 25$ mm，採用填角銲道疊接。</p>
+<p><strong>試求（依現行鋼結構極限設計法規範）：</strong></p>
+<ol>
+<li>分別繪製<strong>拉力斷裂</strong>及<strong>塊狀剪力破壞</strong>之模式</li>
+<li>詳細說明式(1)中 $0.6F_y A_{gv}$ 的 $0.6F_y$ 所代表之意義</li>
+<li>詳細說明塊狀剪力破壞式(1)及式(2)擇一且不大於 $0.6F_u A_{nv} + F_u A_{nt}$ 之原因（20 分）</li>
+</ol>
+<p><strong>題目給定公式：</strong><br />
+$$\phi R_n = \phi(0.6F_y A_{gv} + F_u A_{nt}) \leq \phi(0.6F_u A_{nv} + F_u A_{nt}) \quad \cdots (1)$$<br />
+$$\phi R_n = \phi(0.6F_u A_{nv} + F_y A_{gt}) \leq \phi(0.6F_u A_{nv} + F_u A_{nt}) \quad \cdots (2)$$<br />
+$$\phi = 0.75$$</p>
+<p><strong>幾何條件（由圖二）：</strong></p>
+<ul>
+<li>外板（trapezoid gusset）：$t = 25$ mm = 2.5 cm</li>
+<li>內板（矩形受拉板）：$t = 20$ mm = 2 cm，寬度 = 150 mm = 15 cm</li>
+<li>疊接長度：100 mm = 10 cm（沿拉力方向）</li>
+<li>拉力 $P$ 施加於 $t = 20$ mm 板右端，左端透過填角銲傳至 $t = 25$ mm 板</li>
+</ul>
+<p><img alt="SS-2021-2 題目附圖（圖二）：填角銲疊接拉力構材，t=25mm 外板（三角形承力板，固定端）與 t=20mm 矩形受拉板搭接，填角銲沿搭接邊緣施作，搭接長度 100mm，受拉板寬 150mm，拉力 P 由右端施加，反力由左端傳出" src="../../raw/solutions/SS-2021-2/SS-2021-2-fig-1.png" /></p>
+<p><em>圖說：圖二為正視圖（側面）。左側為三角形 / 梯形 gusset 板（$t = 25$ mm），固定於牆面，右端面作為承接面；右側為矩形受拉板（$t = 20$ mm，寬 150 mm），自左方插入與 gusset 板搭接 100 mm，填角銲施於搭接邊緣（上下各一條，長度 = 100 mm）。拉力 $P$ 由右端箭頭施加；反力（$\leftarrow$）由 gusset 板傳至固定端。虛線表示 $t = 20$ mm 板與 gusset 板的界面（銲縫位置）。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：塊狀剪力破壞的物理機制——剪力降伏 vs 剪力斷裂的競爭</strong></p>
+<p>本題以「說明題」形式，考查考生是否真正理解塊狀剪力公式背後的力學邏輯，而非僅會套公式。三個子問題環環相扣：</p>
+<ol>
+<li><strong>繪圖</strong>：確認考生能辨認銲接疊接的受力面與破壞面幾何</li>
+<li><strong>$0.6F_y$ 的意義</strong>：考查基礎力學——von Mises 剪力降伏準則</li>
+<li><strong>公式選擇邏輯與上限原因</strong>：考查對「最弱路徑」與「強度上限」的理解</li>
+</ol>
+<p><strong>出題者考查重點：</strong></p>
+<ul>
+<li>剪力降伏應力 $\tau_y = 0.6F_y$ 的力學依據</li>
+<li>公式(1)/(2)分別對應「剪切面先降伏、拉伸面先斷裂」和「剪切面先斷裂、拉伸面先降伏」</li>
+<li>上限 $0.6F_u A_{nv} + F_u A_{nt}$ 防止低估剪切面能承受的最大力</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>關鍵陷阱：</strong></p>
+<blockquote>
+<p>⚠️ <strong>陷阱1：銲接疊接無螺栓孔 → An = Ag</strong><br />
+本題為填角銲接合，無螺栓孔，因此 $A_{nv} = A_{gv}$，$A_{nt} = A_{gt}$。但塊狀剪力概念仍適用（銲縫界定了剪力面與拉力面）。</p>
+<p>⚠️ <strong>陷阱2：誤將 $0.6F_y$ 說成「安全係數」</strong><br />
+$0.6F_y$ 不是安全係數，而是<strong>剪力降伏應力 $\tau_y$</strong> 的近似值，來自材料力學的 von Mises 降伏準則。</p>
+<p>⚠️ <strong>陷阱3：誤用 $F_y A_{gt}$ 作上限中的拉力項</strong><br />
+上限公式中的拉力項是 $F_u A_{nt}$（斷裂），不是 $F_y A_{gt}$（降伏）。因為上限代表「兩個面都斷裂」的最壞情況。</p>
+</blockquote>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 繪製拉力斷裂與塊狀剪力破壞模式 → 說明 $0.6F_y$ 的力學意義 → 解釋公式(1)(2)擇一及上限原因（概念說明題，無數值計算目標）</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>鋼材</td>
+<td>SM400</td>
+<td>—</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>2.5 tf/cm²</td>
+<td>降伏應力</td>
+</tr>
+<tr>
+<td>$F_u$</td>
+<td>4.1 tf/cm²</td>
+<td>極限應力</td>
+</tr>
+<tr>
+<td>$t$（外板）</td>
+<td>25 mm = 2.5 cm</td>
+<td>gusset 板厚</td>
+</tr>
+<tr>
+<td>$t$（內板）</td>
+<td>20 mm = 2.0 cm</td>
+<td>受拉板厚</td>
+</tr>
+<tr>
+<td>$b$（受拉板）</td>
+<td>150 mm = 15 cm</td>
+<td>受拉板寬</td>
+</tr>
+<tr>
+<td>疊接長度</td>
+<td>100 mm = 10 cm</td>
+<td>沿拉力方向</td>
+</tr>
+<tr>
+<td>接合方式</td>
+<td>填角銲（疊接）</td>
+<td>無螺栓孔</td>
+</tr>
+<tr>
+<td>$\phi$（塊狀剪力）</td>
+<td>0.75</td>
+<td>題目給定</td>
+</tr>
+<tr>
+<td>BSR 公式 (1)(2)</td>
+<td>題目直接給出</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>拉力斷裂檢核</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_n$</td>
+<td>$t \times b = 2 \times 15 = 30$ cm²（銲接無孔 → $A_n = A_g$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi R_n$（NSF）</td>
+<td>$\phi F_u A_n = 0.75 \times 4.1 \times 30 = 92.25$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>塊狀剪力面積計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_{gv}$（剪力面）</td>
+<td>銲縫長 × 板厚 × 2條 = $10 \times 2 \times 2 = 40$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{gt}$（拉力面）</td>
+<td>板寬 × 板厚 = $15 \times 2 = 30$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{nv} = A_{gv}$</td>
+<td>無螺栓孔，淨面積 = 毛面積</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{nt} = A_{gt}$</td>
+<td>無螺栓孔，淨面積 = 毛面積</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>BSR 公式(1) vs 公式(2) 判斷</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>公式(1)適用條件</td>
+<td>剪力面降伏 + 拉力面斷裂（$F_u A_{nt} \geq 0.6F_u A_{nv}$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>公式(2)適用條件</td>
+<td>剪力面斷裂 + 拉力面降伏（$0.6F_u A_{nv} > F_u A_{nt}$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>上限</td>
+<td>$\phi(0.6F_u A_{nv} + F_u A_{nt})$（兩面均斷裂的最大值）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$0.6F_y$ 的力學來源</td>
+<td>von Mises 準則：純剪降伏應力 $\tau_y = F_y/\sqrt{3} \approx 0.577F_y$，規範取近似 $0.6F_y$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">BLOCK-SHEAR-RUPTURE</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>降伏（yielding）vs 斷裂（fracture）</td>
+<td>$0.6F_y A_{gv}$ = 剪切降伏（延性）；$0.6F_u A_{nv}$ = 剪切斷裂（脆性）；公式(1)(2)選最低承載路徑</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">block-shear</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">BLOCK-SHEAR-RUPTURE</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>銲接接合無孔 → $A_n = A_g$</td>
+<td>填角銲不需要打孔，故 $A_{nv} = A_{gv}$，$A_{nt} = A_{gt}$</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>上限的意義</td>
+<td>防止低估：剪切面不可能同時發生降伏又超過斷裂值；上限 = 兩個面都達到斷裂強度時的最大可能承載</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">block-shear</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>「最弱路徑」概念</td>
+<td>BSR 取公式(1)(2)中的<strong>較小值</strong>，代表實際破壞發生在承載力較低的那條路徑</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">block-shear</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">BLOCK-SHEAR-RUPTURE</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>一、繪製破壞模式</h3>
+<h4>(A) 拉力斷裂模式（Net Section Fracture）</h4>
+<p><strong>破壞描述：</strong> 在最靠近拉力端的截面（即從 $t = 20$ mm 板的右側填角銲邊緣），沿垂直拉力方向的淨截面發生斷裂。</p>
+<pre><code>P →                  ← 固定端（gusset板）
+         ┌──────────┐
+─────────┤ t=20 mm  ├────────
+         └──────────┘
+              ↑ 此處淨截面斷裂（垂直P方向）
+</code></pre>
+<ul>
+<li>破壞面：垂直於拉力 $P$ 的橫截面</li>
+<li>$A_n = A_g$（銲接，無孔）= $t \times b = 2 \times 15 = 30$ cm²（$t=20$ mm 板）</li>
+<li>$\phi R_n = \phi \times F_u \times A_n = 0.75 \times 4.1 \times 30 = 92.25$ tf</li>
+</ul>
+<h4>(B) 塊狀剪力破壞模式（Block Shear Failure）</h4>
+<p><strong>破壞描述：</strong> 一個 L 形（或 U 形）的金屬塊從 $t = 20$ mm 板上撕裂，破壞路徑由<strong>剪力面</strong>（平行於 $P$，沿疊接長度）和<strong>拉力面</strong>（垂直於 $P$，在疊接端部）組成。</p>
+<pre><code>P →  ┌─────────────┐
+     │             │ ← 拉力面（端面斷裂，⊥P）
+─────┤  撕裂塊     │─────
+     │             │
+     └─────────────┘
+     ↑ 剪力面（沿銲縫，‖P）
+</code></pre>
+<ul>
+<li><strong>剪力面（Shear plane）</strong>：$A_{gv}$ = 銲縫長度 × 板厚 = $2 \times (10 \times 2) = 40$ cm²（上下兩條銲縫各一個剪切面）</li>
+<li><strong>拉力面（Tension plane）</strong>：$A_{nt}$ = 板寬 × 板厚 = $15 \times 2 = 30$ cm²</li>
+</ul>
+<p>（銲接無孔：$A_{nv} = A_{gv} = 40$ cm²，$A_{nt} = A_{gt} = 30$ cm²）</p>
+<hr />
+<h3>二、說明 $0.6F_y$ 之力學意義</h3>
+<p>$0.6F_y A_{gv}$ 中的 $0.6F_y$ 是<strong>剪力降伏應力（Shear Yield Stress）$\tau_y$</strong> 的近似值。</p>
+<p><strong>力學依據（von Mises 降伏準則）：</strong></p>
+<p>對於單軸拉伸試驗中的材料，降伏強度為 $F_y$。根據 von Mises（最大扭應變能）降伏準則，純剪力狀態下的降伏剪應力為：</p>
+<p>$$\tau_y = \frac{F_y}{\sqrt{3}} \approx 0.577 F_y$$</p>
+<p>為計算方便，規範取近似值：<br />
+$$\tau_y \approx 0.6 F_y$$</p>
+<p><strong>物理意義：</strong></p>
+<blockquote>
+<p>當剪力面上的剪應力達到 $0.6F_y$ 時，剪切面進入<strong>降伏（yielding）</strong>狀態，但尚未斷裂（fracture）。此時剪切面的承載力 = $\tau_y \times A_{gv} = 0.6F_y \times A_{gv}$。</p>
+</blockquote>
+<p>因此，$0.6F_y A_{gv}$ 代表<strong>剪切面（面積 $A_{gv}$）因剪力降伏所能承擔的力</strong>，是一種延性的「降伏」模式，而非脆性的「斷裂」模式。</p>
+<hr />
+<h3>三、說明公式(1)、(2)擇一及上限原因</h3>
+<h4>(A) 公式選擇邏輯：「較弱的面先失效」</h4>
+<p>塊狀剪力破壞是<strong>同時</strong>在剪力面和拉力面發生的混合失效。但兩個面的失效模式（降伏 vs 斷裂）是競爭關係：</p>
+<table>
+<thead>
+<tr>
+<th>條件</th>
+<th>意義</th>
+<th>控制公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_u A_{nt} \geq 0.6 F_u A_{nv}$</td>
+<td>拉力面斷裂力 ≥ 剪力面斷裂力</td>
+<td><strong>拉力面先斷裂</strong>（脆性）→ 剪力面降伏（延性）→ 用式(1)</td>
+</tr>
+<tr>
+<td>$0.6 F_u A_{nv} > F_u A_{nt}$</td>
+<td>剪力面斷裂力 &gt; 拉力面斷裂力</td>
+<td><strong>剪力面先斷裂</strong>（脆性）→ 拉力面降伏（延性）→ 用式(2)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>直覺解釋：</strong></p>
+<ul>
+<li>哪個面的「斷裂力」較小，哪個面就先斷裂（控制失效模式）</li>
+<li>先斷裂的面用「斷裂強度」計算（$F_u \times A_n$）</li>
+<li>另一個面（後失效）用「降伏強度」計算（$0.6F_y A_{gv}$ 或 $F_y A_{gt}$），因為它在另一面斷裂前只會達到降伏</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>公式</th>
+<th>剪力面</th>
+<th>拉力面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>式(1)</td>
+<td>降伏（$0.6F_y A_{gv}$，後失效）</td>
+<td>斷裂（$F_u A_{nt}$，先失效）</td>
+</tr>
+<tr>
+<td>式(2)</td>
+<td>斷裂（$0.6F_u A_{nv}$，先失效）</td>
+<td>降伏（$F_y A_{gt}$，後失效）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4>(B) 上限原因：防止高估剪力面的降伏貢獻</h4>
+<p>式(1)的計算值不得超過：<br />
+$$\phi(0.6F_u A_{nv} + F_u A_{nt})$$</p>
+<p><strong>原因說明：</strong></p>
+<p>式(1)中，剪力面使用降伏強度 $0.6F_y A_{gv}$。但若螺栓孔面積（或銲接情況的其他因素）使得 $A_{gv}$ 遠大於 $A_{nv}$，則：</p>
+<p>$$0.6F_y A_{gv} \text{ 可能} > 0.6F_u A_{nv}$$</p>
+<p>即：降伏模式計算出的「剪力貢獻」，竟然超過了「剪力斷裂」所能提供的最大力！這在物理上是不可能的：<strong>降伏強度計算值不能超過斷裂強度計算值</strong>。</p>
+<p>因此設定上限 $0.6F_u A_{nv} + F_u A_{nt}$：</p>
+<blockquote>
+<p>此上限代表「剪力面斷裂 + 拉力面斷裂」同時發生的最大可能強度。任何一種路徑的計算結果都不能超過這個最壞情況的同時斷裂值。</p>
+</blockquote>
+<p><strong>數學邏輯（以式(1)為例）：</strong></p>
+<p>$$R_n = \min\!\left(0.6F_y A_{gv} + F_u A_{nt},\; 0.6F_u A_{nv} + F_u A_{nt}\right)$$</p>
+<p>若 $0.6F_y A_{gv} \leq 0.6F_u A_{nv}$（正常情況，無孔）→ 取式(1)計算值<br />
+若 $0.6F_y A_{gv} > 0.6F_u A_{nv}$（異常，大孔減少淨面積）→ 取上限值</p>
+<p><strong>本題（銲接，無孔）：</strong><br />
+$A_{nv} = A_{gv}$ 且 $F_u > F_y$，故：</p>
+<p>$$0.6F_u A_{nv} = 0.6F_u A_{gv} > 0.6F_y A_{gv}$$</p>
+<p>上限不會控制（有孔接合時才需注意）。</p>
+<hr />
+<h3>計算彙整（本題概念部分）</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>拉力斷裂面</td>
+<td>垂直 P，$A_n = 30$ cm²，$\phi R_n = 92.25$ tf</td>
+</tr>
+<tr>
+<td>塊狀剪力剪力面</td>
+<td>平行 P（沿銲縫），$A_{gv} = 40$ cm²</td>
+</tr>
+<tr>
+<td>塊狀剪力拉力面</td>
+<td>垂直 P（端面），$A_{nt} = 30$ cm²</td>
+</tr>
+<tr>
+<td>$0.6F_y$ 意義</td>
+<td>剪力降伏應力 $\tau_y = F_y/\sqrt{3} \approx 0.6F_y$（von Mises）</td>
+</tr>
+<tr>
+<td>公式(1)條件</td>
+<td>$F_u A_{nt} \geq 0.6F_u A_{nv}$（拉力面斷裂先控制）</td>
+</tr>
+<tr>
+<td>公式(2)條件</td>
+<td>$0.6F_u A_{nv} > F_u A_{nt}$（剪力面斷裂先控制）</td>
+</tr>
+<tr>
+<td>上限原因</td>
+<td>降伏計算值不得超過斷裂計算值（$0.6F_y A_{gv} \leq 0.6F_u A_{nv}$）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>銲接疊接與螺栓接合的塊狀剪力差異</h3>
+<p>對於螺栓接合，$A_{nv}$ 和 $A_{nt}$ 需扣除螺栓孔面積（減去孔面積 $A_{hole}$），而對於銲接接合（無孔），$A_{nv} = A_{gv}$，$A_{nt} = A_{gt}$。因此：</p>
+<ul>
+<li>銲接疊接：上限通常不控制（因 $F_u > F_y$，$0.6F_u > 0.6F_y$，且 $A_{nv} = A_{gv}$）</li>
+<li>螺栓接合：若孔面積大，$A_{nv} < A_{gv}$，上限可能控制</li>
+</ul>
+<h3>考場安全答法</h3>
+<p><strong>① 破壞模式繪圖：</strong></p>
+<ul>
+<li>拉力斷裂：在 $t=20$ mm 板的右端（接近 P 端）畫一條垂直線，標示「淨截面斷裂」</li>
+<li>塊狀剪力：在 $t=20$ mm 板靠 gusset 板端，畫 L 形路徑（上下兩條平行銲縫 = 剪力面；端面 = 拉力面），標示「剪力面降伏 + 拉力面斷裂」（或反之）</li>
+</ul>
+<p><strong>② $0.6F_y$ 意義：</strong></p>
+<blockquote>
+<p>依 von Mises 降伏準則，材料在純剪力狀態下的降伏剪應力 $\tau_y = F_y/\sqrt{3} \approx 0.577 F_y \approx 0.6 F_y$。$0.6F_y A_{gv}$ 代表<strong>剪切面（毛面積 $A_{gv}$）因剪力降伏所能承擔的剪力</strong>，是一種延性失效模式。</p>
+</blockquote>
+<p><strong>③ 公式選擇 + 上限原因：</strong></p>
+<blockquote>
+<p>依失效面哪側「斷裂力」較小選擇公式（較弱一側用斷裂，較強一側用降伏）。<br />
+上限 $0.6F_u A_{nv} + F_u A_{nt}$ 防止降伏計算值超過斷裂值（物理上不可能），確保計算保守正確。</p>
+</blockquote></main>
+<footer>來源：raw/solutions/SS-2021-2/SS-2021-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body></html>

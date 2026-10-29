@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>SS-2014-4 P-M 互制圖 W14×90</title>
+<style>
+  body { font-family: "Microsoft JhengHei", Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 16px; }
+  h2 { font-size: 15px; margin: 0 0 4px 0; color: #1a1a2e; }
+  .subtitle { font-size: 11px; color: #555; margin-bottom: 12px; }
+  canvas { display: block; background: white; border: 1px solid #ddd; border-radius: 4px; }
+  .legend { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+  .legend-color { width: 24px; height: 3px; }
+  .result-box { background: #dcfce7; border: 1px solid #16a34a; border-radius: 4px; padding: 8px 12px; margin-top: 10px; font-size: 11px; line-height: 1.7; }
+  .result-box strong { color: #15803d; }
+</style>
+</head>
+<body>
+<h2>SS-2014-4 P-M 互制圖：W14×90 梁柱桿件（AISC-LRFD）</h2>
+<div class="subtitle">φcPn = 4433 kN ｜ φbMnx = 810.4 kN-m ｜ 設計點：Pu=2050 kN，Mux=326.2 kN-m</div>
+
+<canvas id="cv" width="580" height="400"></canvas>
+
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-color" style="background:#2563eb;height:3px;"></div>
+    <span>P-M 互制曲線（AISC-LRFD H1）</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-color" style="background:#dc2626;height:2px;border-top:2px dashed #dc2626;"></div>
+    <span>0.2φcPn 邊界線（Pu/φcPn = 0.2）</span>
+  </div>
+  <div class="legend-item">
+    <svg width="14" height="14" style="flex-shrink:0">
+      <circle cx="7" cy="7" r="5" fill="#f97316" stroke="#ea580c" stroke-width="1.5"/>
+    </svg>
+    <span>設計點（Mux=326.2, Pu=2050）</span>
+  </div>
+</div>
+
+<div class="result-box">
+  <strong>計算結果：</strong><br>
+  Pu/φcPn = 2050/4433 = <strong>0.463 ≥ 0.2</strong>，使用 H1-a 公式：<br>
+  互制比 = 0.463 + (8/9) × (326.2/810.4) = 0.463 + 0.358 = <strong>0.821 ≤ 1.0 ✅</strong><br>
+  <span style="color:#166534">W14×90 柱滿足 AISC-LRFD 設計要求（剩餘強度裕度 17.9%）</span>
+</div>
+
+<script>
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+
+const W = cv.width, H = cv.height;
+const pad = { top: 30, right: 30, bottom: 58, left: 72 };
+const plotW = W - pad.left - pad.right;
+const plotH = H - pad.top - pad.bottom;
+
+// Design values
+const phiPn = 4433;   // kN
+const phiMn = 810.4;  // kN-m
+const Pu_design = 2050;
+const Mu_design = 326.2;
+
+const xMax = phiMn * 1.15;
+const yMax = phiPn * 1.05;
+
+function xPx(v) { return pad.left + v / xMax * plotW; }
+function yPx(v) { return pad.top + (1 - v / yMax) * plotH; }
+
+// Grid
+ctx.strokeStyle = '#e5e7eb'; ctx.lineWidth = 1;
+for (let i = 0; i <= 5; i++) {
+  const v = i * xMax / 5;
+  ctx.beginPath(); ctx.moveTo(xPx(v), pad.top); ctx.lineTo(xPx(v), pad.top + plotH); ctx.stroke();
+}
+for (let i = 0; i <= 5; i++) {
+  const v = i * yMax / 5;
+  ctx.beginPath(); ctx.moveTo(pad.left, yPx(v)); ctx.lineTo(pad.left + plotW, yPx(v)); ctx.stroke();
+}
+
+// Axes
+ctx.strokeStyle = '#374151'; ctx.lineWidth = 2;
+ctx.beginPath(); ctx.moveTo(pad.left, pad.top); ctx.lineTo(pad.left, pad.top + plotH); ctx.lineTo(pad.left + plotW, pad.top + plotH); ctx.stroke();
+
+// Axis labels
+ctx.fillStyle = '#374151'; ctx.font = '10px Arial'; ctx.textAlign = 'center';
+for (let i = 0; i <= 5; i++) {
+  const v = i * xMax / 5;
+  ctx.fillText(v.toFixed(0), xPx(v), pad.top + plotH + 16);
+}
+ctx.fillText('Mux (kN-m)', pad.left + plotW / 2, H - 5);
+
+ctx.textAlign = 'right'; ctx.font = '10px Arial';
+for (let i = 0; i <= 5; i++) {
+  const v = i * yMax / 5;
+  ctx.fillText(v.toFixed(0), pad.left - 6, yPx(v) + 4);
+}
+ctx.save(); ctx.translate(13, pad.top + plotH / 2); ctx.rotate(-Math.PI / 2);
+ctx.textAlign = 'center'; ctx.font = '12px Arial';
+ctx.fillText('Pu (kN)', 0, 0); ctx.restore();
+
+// Shade safe zone
+ctx.fillStyle = 'rgba(220, 252, 231, 0.4)';
+ctx.beginPath();
+// Upper region (H1-a): Pu/phiPn + 8/9*(M/phiMn) = 1 for Pu >= 0.2*phiPn
+// P = phiPn * (1 - 8/9*(M/phiMn))
+// Lower region (H1-b): P/(2phiPn) + M/phiMn = 1 for Pu < 0.2*phiPn
+// P = 2*phiPn*(1 - M/phiMn)
+// Start at origin
+ctx.moveTo(xPx(0), yPx(0));
+// Along lower boundary (H1-b) from M=0 to M at P=0.2*phiPn
+// At P=0.2*phiPn: M = phiMn*(1 - 0.2*phiPn/(2*phiPn)) = phiMn*0.9
+const P_boundary = 0.2 * phiPn;
+const M_at_boundary_lower = phiMn * (1 - P_boundary / (2 * phiPn));
+ctx.lineTo(xPx(0), yPx(P_boundary));
+// Go along H1-b up to boundary
+// H1-b: P = 2*phiPn*(1-M/phiMn)
+for (let M = 0; M <= M_at_boundary_lower; M += 5) {
+  const P = 2 * phiPn * (1 - M / phiMn);
+  if (P < P_boundary) break;
+  ctx.lineTo(xPx(M), yPx(P));
+}
+// Go along H1-a from boundary to M-axis
+for (let M = M_at_boundary_lower; M <= phiMn; M += 5) {
+  const P = phiPn * (1 - (8/9) * (M / phiMn));
+  if (P < 0) break;
+  ctx.lineTo(xPx(M), yPx(Math.max(0, P)));
+}
+ctx.lineTo(xPx(phiMn), yPx(0));
+ctx.lineTo(xPx(0), yPx(0));
+ctx.closePath();
+ctx.fill();
+
+// H1-a line (upper, Pu >= 0.2phiPn): Pu/phiPn + 8/9*(M/phiMn) = 1
+// Pu = phiPn*(1 - 8/9*M/phiMn)
+ctx.beginPath(); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5;
+// From Pu=phiPn (M=0) to transition
+const M_transition = phiMn * (1 - (P_boundary / phiPn)) * 9 / 8;
+ctx.moveTo(xPx(0), yPx(phiPn));
+for (let M = 0; M <= M_transition + 5; M += 5) {
+  const P = phiPn * (1 - (8/9) * M / phiMn);
+  ctx.lineTo(xPx(M), yPx(P));
+}
+ctx.stroke();
+
+// H1-b line (lower, Pu < 0.2phiPn): P/(2phiPn) + M/phiMn = 1
+// P = 2phiPn*(1 - M/phiMn)
+ctx.beginPath(); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5;
+ctx.moveTo(xPx(M_transition), yPx(P_boundary));
+for (let M = M_transition; M <= phiMn; M += 5) {
+  const P = 2 * phiPn * (1 - M / phiMn);
+  if (P < 0) break;
+  ctx.lineTo(xPx(M), yPx(Math.max(0, P)));
+}
+ctx.stroke();
+
+// Mark max points on axes
+ctx.beginPath(); ctx.arc(xPx(0), yPx(phiPn), 4, 0, 2*Math.PI);
+ctx.fillStyle = '#2563eb'; ctx.fill();
+ctx.fillStyle = '#1e40af'; ctx.font = '10px Arial'; ctx.textAlign = 'left';
+ctx.fillText(`φcPn=${phiPn}`, xPx(0)+6, yPx(phiPn)+4);
+
+ctx.beginPath(); ctx.arc(xPx(phiMn), yPx(0), 4, 0, 2*Math.PI);
+ctx.fillStyle = '#2563eb'; ctx.fill();
+ctx.textAlign = 'center';
+ctx.fillText(`φbMnx=${phiMn}`, xPx(phiMn), yPx(0)+22);
+
+// 0.2*phiPn boundary line (dashed red)
+ctx.setLineDash([7, 4]); ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1.5;
+ctx.beginPath(); ctx.moveTo(pad.left, yPx(P_boundary)); ctx.lineTo(pad.left + plotW, yPx(P_boundary)); ctx.stroke();
+ctx.setLineDash([]);
+ctx.fillStyle = '#b91c1c'; ctx.font = '10px Arial'; ctx.textAlign = 'right';
+ctx.fillText(`0.2φcPn = ${(0.2*phiPn).toFixed(0)} kN`, pad.left + plotW - 4, yPx(P_boundary) - 4);
+
+// Transition point
+const Mx_trans = phiMn * (9/8) * (1 - 0.2);  // = phiMn * 9/8 * 0.8
+ctx.beginPath(); ctx.arc(xPx(Mx_trans), yPx(P_boundary), 4, 0, 2*Math.PI);
+ctx.fillStyle = '#7c3aed'; ctx.fill();
+
+// Design point
+const dpx = xPx(Mu_design), dpy = yPx(Pu_design);
+ctx.beginPath(); ctx.arc(dpx, dpy, 8, 0, 2*Math.PI);
+ctx.fillStyle = '#f97316'; ctx.strokeStyle = '#ea580c'; ctx.lineWidth = 2; ctx.fill(); ctx.stroke();
+
+// Design point label
+ctx.fillStyle = '#c2410c'; ctx.font = 'bold 10px Arial'; ctx.textAlign = 'left';
+ctx.fillText(`(${Mu_design}, ${Pu_design})`, dpx + 10, dpy - 5);
+ctx.font = '10px Arial';
+ctx.fillText('設計點', dpx + 10, dpy + 8);
+
+// Draw line from origin to design point (load path)
+ctx.setLineDash([4, 3]); ctx.strokeStyle = '#f97316'; ctx.lineWidth = 1;
+ctx.beginPath(); ctx.moveTo(xPx(0), yPx(0)); ctx.lineTo(dpx, dpy); ctx.stroke();
+ctx.setLineDash([]);
+
+// Interaction ratio annotation
+const intRatio = 0.821;
+// Find point on curve at same ratio
+const M_on_curve = Mu_design / intRatio;
+const P_on_curve = phiPn * (1 - (8/9) * M_on_curve / phiMn);
+const cpx = xPx(M_on_curve * intRatio + (M_on_curve - M_on_curve*intRatio)*0.5);
+
+ctx.fillStyle = '#374151'; ctx.font = 'bold 11px Arial'; ctx.textAlign = 'center';
+ctx.fillText('互制比 = 0.821 ✅', pad.left + plotW/2, pad.top + 22);
+
+// H1-a / H1-b labels on curve
+ctx.fillStyle = '#1e40af'; ctx.font = '10px Arial'; ctx.textAlign = 'left';
+ctx.fillText('H1-a 公式', xPx(50), yPx(3800));
+ctx.fillText('(Pu≥0.2φcPn)', xPx(50), yPx(3590));
+ctx.fillText('H1-b 公式', xPx(500), yPx(700));
+ctx.fillText('(Pu<0.2φcPn)', xPx(500), yPx(490));
+
+// Axis min points
+ctx.beginPath(); ctx.arc(xPx(0), yPx(0), 3, 0, 2*Math.PI);
+ctx.fillStyle = '#374151'; ctx.fill();
+</script>
+</body>
+</html>

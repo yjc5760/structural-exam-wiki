@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>SS-2013-4 B1-B2 二階彎矩放大法</title>
+<style>
+  body { font-family: "Noto Sans TC", Arial, sans-serif; background: #f8f9fa; margin: 20px; }
+  .container { max-width: 680px; margin: auto; background: white; border-radius: 10px;
+               padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+  h2 { color: #2c3e50; font-size: 1.1rem; margin-bottom: 4px; }
+  .subtitle { color: #666; font-size: 0.85rem; margin-bottom: 20px; }
+  canvas { display: block; margin: 0 auto 16px; border: 1px solid #ddd; border-radius: 6px; }
+  .info { background: #eaf3fb; border-left: 4px solid #3498db; border-radius: 6px;
+          padding: 14px; font-size: 0.85rem; line-height: 1.9; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 10px; }
+  th { background: #2c3e50; color: white; padding: 6px 10px; }
+  td { padding: 5px 10px; border-bottom: 1px solid #eee; font-family: monospace; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>SS-2013-4 — B₁-B₂ 放大法概念圖（有側移框架）</h2>
+  <div class="subtitle">SS-U1-3 梁柱桿件 | 單柱抗側移剛架（A、D 為滾支承），LRFD</div>
+  <canvas id="chart" width="580" height="380"></canvas>
+  <div class="info">
+    <table>
+      <tr><th>量</th><th>物理意義</th><th>結果</th></tr>
+      <tr><td>Mnt,BC</td><td>無側移下柱 BC 彎矩</td><td>= 0（P 與柱同軸＋梁跨對稱 ⇒ θ_B = 0，節點不傳彎矩）</td></tr>
+      <tr><td>Mlt,BC</td><td>側移下柱 BC 彎矩（唯一抗側力構材）</td><td>= H·L（層剪力全由 BC 承擔；對 C 取矩）</td></tr>
+      <tr><td>K_BC</td><td>對位圖查得有效長度係數</td><td>≈ 1.85（柱頂 G_B = 0.75 含兩側梁；柱底鉸接 G_C = 10；精解 1.847）</td></tr>
+      <tr><td>ΣPeK</td><td>全層彈性側移挫屈載重（本結構僅 1 根柱）</td><td>= π²EI/(1.85L)² = 2.88EI/L²</td></tr>
+      <tr><td>B₂</td><td>P-Δ 層間側移放大係數</td><td>= 2.88EI / (2.88EI − PL²)</td></tr>
+      <tr><td>B₁</td><td>P-δ 構件撓曲放大係數</td><td>≥ 1.0（Mnt=0 → B₁ 不影響）</td></tr>
+      <tr><td>Mu,BC</td><td>二階設計彎矩</td><td>= B₂ × H·L = 2.88EI·HL / (2.88EI − PL²)</td></tr>
+    </table>
+    <div style="margin-top:10px;color:#555">
+      ※ 本題以符號解答（無具體數值），圖示說明 B₁-B₂ 放大法的物理概念與流程
+    </div>
+  </div>
+</div>
+<script>
+const canvas = document.getElementById('chart');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+ctx.fillStyle = '#f8f9fa'; ctx.fillRect(0,0,W,H);
+
+// Draw frame schematic
+function drawFrame(xOff, yOff, scale, B2, label) {
+  const s = scale;
+  // Ground
+  ctx.strokeStyle = '#555'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(xOff-20, yOff); ctx.lineTo(xOff+180, yOff); ctx.stroke();
+  // Hatch ground
+  for (let i = -20; i < 180; i += 10) {
+    ctx.beginPath(); ctx.moveTo(xOff+i, yOff); ctx.lineTo(xOff+i+8, yOff+8); ctx.stroke();
+  }
+  // Columns
+  ctx.strokeStyle = '#2c3e50'; ctx.lineWidth = 3;
+  // Left col
+  ctx.beginPath(); ctx.moveTo(xOff, yOff); ctx.lineTo(xOff, yOff-100*s); ctx.stroke();
+  // Mid col (with lateral drift for sway)
+  let drift = B2 > 1 ? 15*(B2-1) : 0;
+  ctx.beginPath(); ctx.moveTo(xOff+75, yOff); ctx.lineTo(xOff+75+drift, yOff-100*s); ctx.stroke();
+  // Right col
+  ctx.beginPath(); ctx.moveTo(xOff+150, yOff); ctx.lineTo(xOff+150+drift*1.1, yOff-100*s); ctx.stroke();
+  // Beam
+  ctx.beginPath(); ctx.moveTo(xOff, yOff-100*s); ctx.lineTo(xOff+150+drift*1.1, yOff-100*s); ctx.stroke();
+  // Hinge circles at base
+  for (let cx of [xOff, xOff+75, xOff+150]) {
+    ctx.beginPath(); ctx.arc(cx, yOff, 5, 0, 2*Math.PI);
+    ctx.fillStyle = '#fff'; ctx.fill();
+    ctx.strokeStyle = '#2c3e50'; ctx.lineWidth = 2; ctx.stroke();
+  }
+  // Label
+  ctx.fillStyle = '#555'; ctx.font = '11px Arial'; ctx.textAlign = 'center';
+  ctx.fillText(label, xOff+75, yOff+20);
+}
+
+// Non-sway (Mnt)
+drawFrame(40, 300, 1, 1.0, '無側移分析（Mnt）');
+ctx.fillStyle = '#3498db'; ctx.font = 'bold 11px Arial';
+ctx.fillText('Mnt,BC = 0', 115, 250);
+
+// Sway (Mlt with B2)
+drawFrame(310, 300, 1, 1.4, '有側移分析（B₂×Mlt）');
+ctx.fillStyle = '#e74c3c'; ctx.font = 'bold 11px Arial';
+ctx.fillText('Mu = B₂×HL/3', 385, 250);
+
+// Arrow H
+ctx.strokeStyle = '#f39c12'; ctx.lineWidth = 2.5;
+ctx.beginPath(); ctx.moveTo(310, 205); ctx.lineTo(340, 205);
+ctx.lineTo(330, 200); ctx.moveTo(340, 205); ctx.lineTo(330, 210); ctx.stroke();
+ctx.fillStyle = '#f39c12'; ctx.font = '11px Arial'; ctx.textAlign = 'left';
+ctx.fillText('H', 344, 208);
+
+// P vertical
+ctx.strokeStyle = '#8e44ad'; ctx.lineWidth = 2.5;
+ctx.beginPath(); ctx.moveTo(460, 195); ctx.lineTo(460, 215);
+ctx.lineTo(455, 208); ctx.moveTo(460, 215); ctx.lineTo(465, 208); ctx.stroke();
+ctx.fillStyle = '#8e44ad'; ctx.fillText('P', 464, 210);
+
+// Plus sign between
+ctx.fillStyle = '#2c3e50'; ctx.font = 'bold 20px Arial'; ctx.textAlign = 'center';
+ctx.fillText('+', 285, 250);
+
+// Mu = B1*Mnt + B2*Mlt
+ctx.fillStyle = '#2c3e50'; ctx.font = 'bold 13px Arial'; ctx.textAlign = 'center';
+ctx.fillText('Mu = B₁·Mnt + B₂·Mlt  →  Mu = B₂·HL/3（因 Mnt=0）', W/2, 340);
+
+ctx.fillStyle = '#777'; ctx.font = '11px Arial';
+ctx.fillText('AISC LRFD B₁-B₂ 放大法（SS-2013-4：有側移框架）', W/2, 360);
+</script>
+</body>
+</html>

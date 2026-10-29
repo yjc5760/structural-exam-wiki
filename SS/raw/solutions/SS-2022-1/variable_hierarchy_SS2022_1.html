@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, sans-serif; background: transparent; color: var(--text-primary, #1a1a1a); padding: 12px; }
+  h2.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+  .title { font-size: 13px; font-weight: 700; color: var(--text-secondary, #555); margin-bottom: 14px; }
+
+  .target-box {
+    background: var(--bg-secondary, #f0f0f0);
+    border: 2px solid var(--border-strong, #888);
+    border-radius: 8px;
+    padding: 9px 16px;
+    text-align: center;
+    margin-bottom: 14px;
+    font-size: 12.5px;
+  }
+  .target-box .label { font-size: 10px; color: var(--text-muted, #777); margin-bottom: 2px; }
+  .target-box .formula { font-weight: 700; font-size: 13px; }
+  .arrow-down { text-align: center; font-size: 15px; color: var(--text-muted, #999); margin: 3px 0 9px; }
+
+  .layer { margin-bottom: 12px; }
+  .layer-header { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .layer-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
+  .l1-badge { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+  .l2-badge { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+  .l3-badge { background: #fef9c3; color: #a16207; border: 1px solid #fde047; }
+  .layer-title { font-size: 11.5px; color: var(--text-secondary, #555); }
+
+  .var-grid { display: flex; flex-wrap: wrap; gap: 5px; }
+  .var-chip { border-radius: 6px; padding: 4px 9px; font-size: 11px; line-height: 1.35; border: 1px solid transparent; }
+  .l1-chip { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+  .l2-chip { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+  .l2-chip.stuck { background: #fff1f2; border-color: #fecdd3; color: #be123c; }
+  .l3-chip { background: #fefce8; border-color: #fef08a; color: #854d0e; }
+  .l3-chip.stuck { background: #fff7ed; border-color: #fed7aa; color: #9a3412; }
+  .var-sym { font-weight: 700; font-size: 11.5px; }
+  .var-name { font-size: 9.5px; opacity: 0.85; margin-top: 1px; }
+
+  .step-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 7px; }
+  .step-label {
+    font-size: 9.5px; font-weight: 700; background: #e0f2fe; color: #0369a1;
+    border: 1px solid #bae6fd; border-radius: 10px; padding: 2px 7px;
+    white-space: nowrap; margin-top: 1px; flex-shrink: 0;
+  }
+
+  .trap-note {
+    background: #fff1f2; border: 1px solid #fecdd3; border-radius: 6px;
+    padding: 7px 10px; font-size: 11px; color: #9f1239; margin-top: 10px; line-height: 1.5;
+  }
+  .trap-note strong { display: block; margin-bottom: 3px; }
+
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border-subtle, #e5e7eb); }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text-muted, #666); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  .divider { height: 1px; background: var(--border-subtle, #eee); margin: 8px 0; }
+</style>
+</head>
+<body>
+<h2 class="sr-only">SS-2022-1 梁柱桿件題的變數層次分析，分三層顯示已知值、推導變數與深層知識點</h2>
+
+<div class="title">SS-2022-1 · 變數層次分析（梁柱桿件三重檢核）</div>
+
+<div class="target-box">
+  <div class="label">最終目標</div>
+  <div class="formula">φ_cP_n + φ_bM_n + φ_vV_n → P-M 互制公式 H1-1a/b → ≤ 1.0</div>
+</div>
+<div class="arrow-down">↓</div>
+
+<!-- L1 -->
+<div class="layer">
+  <div class="layer-header">
+    <span class="layer-badge l1-badge">L1　題目直接給定</span>
+    <span class="layer-title">讀題即得，無需任何公式</span>
+  </div>
+  <div class="var-grid">
+    <div class="var-chip l1-chip"><div class="var-sym">b_o = 80 cm</div><div class="var-name">外廓邊長</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">t = 3.2 cm</div><div class="var-name">板厚</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">(KL/r)_eff = 30.54</div><div class="var-name">有效長細比（直接給）</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">F_y = 3.3 tf/cm²</div><div class="var-name">降伏應力</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">E = 2040 tf/cm²</div><div class="var-name">彈性模數</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">P_u = 1119 tf</div><div class="var-name">軸壓需求</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">M_u2 = 179 tf·m</div><div class="var-name">軸2彎矩需求</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">M_u3 = 19.4 tf·m</div><div class="var-name">軸3彎矩需求</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">V_u2 = 86.77 tf</div><div class="var-name">軸2剪力需求</div></div>
+    <div class="var-chip l1-chip"><div class="var-sym">充分側向支撐</div><div class="var-name">題目明示 → 無 LTB</div></div>
+  </div>
+</div>
+
+<div class="arrow-down">↓</div>
+
+<!-- L2 -->
+<div class="layer">
+  <div class="layer-header">
+    <span class="layer-badge l2-badge">L2　需知識點推導</span>
+    <span class="layer-title">公式已知，套入 L1 即可</span>
+  </div>
+
+  <div class="step-row">
+    <span class="step-label">Step 1 斷面性質</span>
+    <div class="var-grid">
+      <div class="var-chip l2-chip"><div class="var-sym">b_i = 73.6 cm</div><div class="var-name">b_o − 2t（清淨寬）</div></div>
+      <div class="var-chip l2-chip"><div class="var-sym">A = 983 cm²</div><div class="var-name">b_o² − b_i²</div></div>
+      <div class="var-chip l2-chip"><div class="var-sym">I = 968,045 cm⁴</div><div class="var-name">(b_o⁴ − b_i⁴)/12</div></div>
+      <div class="var-chip l2-chip"><div class="var-sym">Z = 28,328 cm³</div><div class="var-name">(b_o³ − b_i³)/4</div></div>
+      <div class="var-chip l2-chip"><div class="var-sym">r = 31.38 cm</div><div class="var-name">√(I/A)</div></div>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <span class="step-label">Step 2 局部挫屈</span>
+    <div class="var-grid">
+      <div class="var-chip l2-chip"><div class="var-sym">b/t = 23.0</div><div class="var-name">b_i / t</div></div>
+      <div class="var-chip l2-chip"><div class="var-sym">λ_p = 27.5</div><div class="var-name">50/√F_y → 23.0 < 27.5 ✅</div></div>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <span class="step-label">Step 3 壓力強度</span>
+    <div class="var-grid">
+      <div class="var-chip l2-chip"><div class="var-sym">λ_c = 0.391</div><div class="var-name">(KL/r)/π · √(F_y/E)</div></div>
+      <div class="var-chip l2-chip stuck"><div class="var-sym">0.658^(λ_c²) 計算</div><div class="var-name">e^(λ_c²·ln0.658) ⚠ 常出錯</div></div>
+      <div class="var-chip l2-chip"><div class="var-sym">F_cr = 3.095 tf/cm²</div><div class="var-name">0.9379 × F_y</div></div>
+      <div class="var-chip l2-chip"><div class="var-sym">φ_cP_n = 2586 tf</div><div class="var-name">0.85 × F_cr × A</div></div>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <span class="step-label">Step 4 彎曲強度</span>
+    <div class="var-grid">
+      <div class="var-chip l2-chip"><div class="var-sym">M_p = 934.8 tf·m</div><div class="var-name">F_y × Z（充分支撐跳過LTB）</div></div>
+      <div class="var-chip l2-chip"><div class="var-sym">φ_bM_n = 841.3 tf·m</div><div class="var-name">0.9 × M_p（兩軸相同）</div></div>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <span class="step-label">Step 5 剪力強度</span>
+    <div class="var-grid">
+      <div class="var-chip l2-chip stuck"><div class="var-sym">A_w = 2ht_w = 471 cm²</div><div class="var-name">兩片平行腹板（非四片）⚠</div></div>
+      <div class="var-chip l2-chip"><div class="var-sym">φ_vV_n = 839.3 tf</div><div class="var-name">0.9 × 0.6F_y × A_w</div></div>
+    </div>
+  </div>
+
+  <div class="step-row">
+    <span class="step-label">Step 6 P-M 互制</span>
+    <div class="var-grid">
+      <div class="var-chip l2-chip stuck"><div class="var-sym">0.433 ≥ 0.2 → H1-1a</div><div class="var-name">P_u/φ_cP_n 與 0.2 比較 ⚠</div></div>
+      <div class="var-chip l2-chip"><div class="var-sym">0.643 ≤ 1.0 ✅</div><div class="var-name">0.433 + (8/9)(0.213+0.023)</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-down">↓</div>
+
+<!-- L3 -->
+<div class="layer">
+  <div class="layer-header">
+    <span class="layer-badge l3-badge">L3　深層知識（不懂就卡住）</span>
+    <span class="layer-title">L2 公式背後需要的概念理解</span>
+  </div>
+  <div class="var-grid">
+    <div class="var-chip l3-chip stuck"><div class="var-sym">BOX 斷面公式系統</div><div class="var-name">Z=(b_o³−b_i³)/4，與 I 形完全不同 ⚠</div></div>
+    <div class="var-chip l3-chip"><div class="var-sym">φ_c = 0.85（非 0.9）</div><div class="var-name">壓力桿件 < 彎曲桿件，因柱破壞更突然</div></div>
+    <div class="var-chip l3-chip stuck"><div class="var-sym">0.658^λ 指數計算</div><div class="var-name">用 e^(x·ln0.658)，手算易錯 ⚠</div></div>
+    <div class="var-chip l3-chip stuck"><div class="var-sym">A_w 方向認定</div><div class="var-name">只取平行剪力方向的板，非四片全算 ⚠</div></div>
+    <div class="var-chip l3-chip stuck"><div class="var-sym">H1-1a vs H1-1b</div><div class="var-name">0.2門檻：≥用a，<用b；8/9係數位置 ⚠</div></div>
+    <div class="var-chip l3-chip"><div class="var-sym">充分支撐 → 直取 M_p</div><div class="var-name">跳過 L_p/L_r 三段判斷，省去 C_b 計算</div></div>
+    <div class="var-chip l3-chip"><div class="var-sym">正方形兩軸對稱</div><div class="var-name">I₂=I₃, Z₂=Z₃，算一次即兩軸強度</div></div>
+  </div>
+</div>
+
+<div class="trap-note">
+  <strong>⚠ 本題四大卡關點（依陷阱分析歸納）</strong>
+  ① BOX 斷面 Z 公式（≠ I 形）　② 0.658^λ 指數算法　③ A_w 只取兩片　④ H1-1a/b 選擇門檻
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#dbeafe;border:1px solid #93c5fd;"></div> L1 直接讀題</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#dcfce7;border:1px solid #86efac;"></div> L2 公式推導</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fef9c3;border:1px solid #fde047;"></div> L3 深層知識</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fff1f2;border:1px solid #fecdd3;"></div> ⚠ 常見卡關點</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2012-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.88em;line-height:1.5}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;padding:10px 16px;border-radius:0 8px 8px 0}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SS-2012-3 題目解析</h1><a class="quick" href="../study-SS-U1-3.html" title="SS-U1-3 梁柱桿件 命題分析">&#128269; U1-3 命題分析</a><a class="lect" href="../lecture-SS-U1-3.html" title="SS-U1-3 梁柱桿件 觀念講義">&#128218; U1-3 梁柱桿件 講義</a></header>
+<main><h1>考題編號：SS-2012-3</h1>
+<p><strong>主分類：</strong> <code>SS-U1-3</code> 梁柱桿件<br />
+<strong>副分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>梁柱桿件</code> <code>P-M互制</code> <code>雙軸彎矩</code> <code>斜撐構架</code> <code>B1放大法</code> <code>弱軸挫屈</code> <code>固接柱</code> <code>有效長度</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>題幹：</strong> 有一鋼造斜撐構架系統，經過載重組合分析後得柱軸力 800 kN，柱底端強軸彎矩為 100 kN·m，弱軸彎矩為 50 kN·m，柱底端為固接端，另一端為鉸接端，此柱在強軸及弱軸的<strong>有效長度（KL）均為 4.5 m</strong>，請利用極限設計法（LRFD）<strong>檢核此柱所承受之軸力彎矩需求強度比</strong>是否符合設計需求。（25 分）</p>
+<p><strong>給定條件：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>鋼材</td>
+<td>ASTM A572 Gr.50</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>350 MPa</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>200,000 MPa</td>
+</tr>
+<tr>
+<td>$P_u$（軸壓力，已因數化）</td>
+<td>800 kN</td>
+</tr>
+<tr>
+<td>$M_{ux}$（強軸彎矩，已因數化）</td>
+<td>100 kN·m（柱底固接端）</td>
+</tr>
+<tr>
+<td>$M_{uy}$（弱軸彎矩，已因數化）</td>
+<td>50 kN·m（柱底固接端）</td>
+</tr>
+<tr>
+<td>柱底端條件</td>
+<td>固接（有彎矩）</td>
+</tr>
+<tr>
+<td>柱頂端條件</td>
+<td>鉸接（無彎矩）</td>
+</tr>
+<tr>
+<td>有效長度 $KL$（強弱軸）</td>
+<td>4.5 m</td>
+</tr>
+</tbody>
+</table>
+<p><strong>W14×68 斷面性質（題目提供）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>性質</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$Z_x$（強軸塑性斷面模數）</td>
+<td>1,884,512 mm³</td>
+</tr>
+<tr>
+<td>$Z_y$（弱軸塑性斷面模數）</td>
+<td>604,683 mm³</td>
+</tr>
+<tr>
+<td>$A$（斷面積）</td>
+<td>12,903 mm²</td>
+</tr>
+<tr>
+<td>$r_x$（強軸迴旋半徑）</td>
+<td>153 mm</td>
+</tr>
+<tr>
+<td>$r_y$（弱軸迴旋半徑）</td>
+<td>62 mm</td>
+</tr>
+</tbody>
+</table>
+<p><strong>規範公式（題目提供）：</strong></p>
+<p>$$\lambda_c = \frac{KL}{r\pi}\sqrt{\frac{F_y}{E}}; \quad F_{cr} = (0.658)^{\lambda_c^2} F_y \ (\lambda_c \leq 1.5); \quad F_{cr} = \frac{0.877}{\lambda_c^2} F_y \ (\lambda_c > 1.5)$$</p>
+<p>$$B_1 = \frac{C_m}{1 - P_u/P_{el}}$$</p>
+<p>$$\frac{P_u}{2\phi P_n} + \left(\frac{M_{ux}}{\phi M_{nx}} + \frac{M_{uy}}{\phi M_{ny}}\right), \quad P_u < 0.2\phi P_n$$</p>
+<p>$$\frac{P_u}{\phi P_n} + \frac{8}{9}\left(\frac{M_{ux}}{\phi M_{nx}} + \frac{M_{uy}}{\phi M_{ny}}\right), \quad P_u \geq 0.2\phi P_n$$</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 本題考驗梁柱（Beam-Column）的完整 LRFD 檢核流程，包含：</p>
+<ol>
+<li>以弱軸（控制軸）計算柱強度 $\phi_c P_n$</li>
+<li>判斷是否需要 $B_1$ 力矩放大（斜撐構架，無側移，$B_2 = 1$）</li>
+<li>依 $P_u/\phi_c P_n$ 比值選擇正確的 P-M 互制公式</li>
+</ol>
+<p><strong>特別之處：</strong></p>
+<ul>
+<li>柱為固接-鉸接（底固頂鉸），單曲率，彎矩梯度 $C_m = 0.6$</li>
+<li>$B_1$ 計算結果 $< 1.0$，需取 $B_1 = 1.0$（不能縮減一階彎矩）</li>
+<li>雙軸彎矩同時作用，必須代入互制方程</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1: 計算 λc（弱軸控制），求 Fcr → φcPn
+Step 2: 計算各軸 Pel，求 B1 → 放大彎矩（B1&lt;1.0 取 1.0）
+Step 3: 計算 φbMnx、φbMny（假設全側撐，φbMn = φbMp）
+Step 4: 判斷 Pu/φcPn 比值 → 選擇 H1-1a 或 H1-1b
+Step 5: 代入 P-M 互制公式，輸出 D/C 比值
+</code></pre>
+<p><strong>三大陷阱：</strong></p>
+<ol>
+<li>
+<p><strong>⚠️ 陷阱 1：控制軸判斷</strong> — 強弱軸 KL 相同，但弱軸 $r_y = 62$ mm &lt;&lt; 強軸 $r_x = 153$ mm，弱軸細長比大得多，<strong>弱軸挫屈控制</strong>。</p>
+</li>
+<li>
+<p><strong>⚠️ 陷阱 2：B1 &lt; 1.0 的處理</strong> — 本例 $C_m = 0.6$，算出的 $B_1 < 1$，必須<strong>取 $B_1 = 1.0$</strong>，不可因此縮減彎矩設計值。</p>
+</li>
+<li>
+<p><strong>⚠️ 陷阱 3：P-M 公式選擇</strong> — 必須先算 $P_u/\phi_c P_n$：若 $\geq 0.2$ 用 H1-1a（含 8/9 係數），若 $< 0.2$ 用 H1-1b（除以 2 的弱化版）。</p>
+</li>
+</ol>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 對 W14×68 (A572 Gr.50) 梁柱進行 LRFD P-M 互制檢核，確認 D/C 比值 ≤ 1.0</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\boxed{\lambda_c} = \frac{KL}{r_y \pi}\sqrt{\frac{F_y}{E}} \quad \Rightarrow \quad \boxed{F_{cr}} = (0.658)^{\lambda_c^2} F_y$$<br />
+$$\boxed{\phi_c P_n} = 0.85 \times F_{cr} \times A$$<br />
+$$B_1 = \frac{C_m}{1 - P_u/P_{el}} \geq 1.0$$<br />
+$$\frac{P_u}{\phi_c P_n} + \frac{8}{9}\left(\frac{M_{ux}}{\phi_b M_{nx}} + \frac{M_{uy}}{\phi_b M_{ny}}\right) \leq 1.0 \quad (P_u \geq 0.2\phi_c P_n)$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_y$</td>
+<td>350 MPa</td>
+<td>A572 Gr.50</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>200,000 MPa</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>$P_u$</td>
+<td>800 kN</td>
+<td>因數化軸壓力</td>
+</tr>
+<tr>
+<td>$M_{ux}$</td>
+<td>100 kN·m</td>
+<td>因數化強軸彎矩（柱底）</td>
+</tr>
+<tr>
+<td>$M_{uy}$</td>
+<td>50 kN·m</td>
+<td>因數化弱軸彎矩（柱底）</td>
+</tr>
+<tr>
+<td>$KL$（強弱軸）</td>
+<td>4.5 m</td>
+<td>有效長度（題目直接給）</td>
+</tr>
+<tr>
+<td>$Z_x$</td>
+<td>1,884,512 mm³</td>
+<td>強軸塑性斷面模數</td>
+</tr>
+<tr>
+<td>$Z_y$</td>
+<td>604,683 mm³</td>
+<td>弱軸塑性斷面模數</td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>12,903 mm²</td>
+<td>斷面積</td>
+</tr>
+<tr>
+<td>$r_x$</td>
+<td>153 mm</td>
+<td>強軸迴旋半徑</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>62 mm</td>
+<td>弱軸迴旋半徑</td>
+</tr>
+<tr>
+<td>邊界條件</td>
+<td>底固接、頂鉸接</td>
+<td>單曲率，$C_m = 0.6$</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：控制軸判斷與柱強度 $\phi_c P_n$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$(KL/r)_x$</td>
+<td>$4500/153 = 29.41$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$(KL/r)_y$</td>
+<td>$4500/62 = 72.58$（控制，較大）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\lambda_c$</td>
+<td>$(72.58/\pi)\sqrt{350/200{,}000} = 0.966$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_{cr}$</td>
+<td>$(0.658)^{0.933} \times 350 = 236.6$ MPa</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_c P_n$</td>
+<td>$0.85 \times 236.6 \times 12{,}903 = 2{,}594$ kN</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：$B_1$ 力矩放大係數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_m$</td>
+<td>$0.6 - 0.4(M_1/M_2) = 0.6$（$M_1 = 0$ 頂鉸）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_{el,x}$</td>
+<td>$\pi^2 E I_x/(KL)^2 = 29{,}443$ kN</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_{el,y}$</td>
+<td>$29{,}443 \times (I_y/I_x) = 4{,}831$ kN</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$B_{1,x}$</td>
+<td>$0.6/(1-800/29{,}443) = 0.617 < 1.0$ → 取 $B_1 = 1.0$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$B_{1,y}$</td>
+<td>$0.6/(1-800/4{,}831) = 0.719 < 1.0$ → 取 $B_1 = 1.0$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：彎曲強度與 P-M 互制</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\phi_b M_{nx}$</td>
+<td>$0.9 \times F_y \times Z_x = 593.6$ kN·m（假設全側撐）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_b M_{ny}$</td>
+<td>$0.9 \times F_y \times Z_y = 190.5$ kN·m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_u/\phi_c P_n$</td>
+<td>$800/2{,}594 = 0.308 \geq 0.2$ → 用 H1-1a</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>D/C 比</td>
+<td>$0.308 + (8/9)(0.169 + 0.263) = 0.691 < 1.0$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P-M 互制 H1-1a vs H1-1b</td>
+<td>$P_u/\phi_c P_n \geq 0.2$ 用 H1-1a（含 8/9 係數）；&lt; 0.2 用 H1-1b（$P_u/2\phi P_n$ 項）</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">pm-interaction</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">BEAM-COLUMN-INTERACTION</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>弱軸控制判斷</td>
+<td>$KL$ 相同時，$r_y < r_x$ → 弱軸細長比較大 → 弱軸挫屈控制 $\phi_c P_n$</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>B1 放大係數</td>
+<td>$B_1 < 1.0$ 時必須取 $B_1 = 1.0$，不可縮減一階彎矩</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">b1b2-amplification</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">MOMENT-AMPLIFICATION-B1-B2</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_m$ 計算</td>
+<td>固接-鉸接柱（$M_1/M_2 = 0$）→ $C_m = 0.6$；雙固（等曲率）→ $C_m = 0.85$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">b1b2-amplification</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>斜撐構架無 B2</td>
+<td>斜撐系統阻止側移，$B_2 = 1.0$；只需計算 $B_1$ (P-δ 效應)</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">b1b2-amplification</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：計算柱軸壓強度 φcPn</h3>
+<p><strong>比較各軸細長比：</strong></p>
+<p>$$\frac{KL_x}{r_x} = \frac{4500}{153} = 29.41$$</p>
+<p>$$\frac{KL_y}{r_y} = \frac{4500}{62} = 72.58 \quad \leftarrow \text{控制（較大）}$$</p>
+<p><strong>計算 λc（弱軸控制）：</strong></p>
+<p>$$\lambda_c = \frac{KL}{r_y \pi}\sqrt{\frac{F_y}{E}} = \frac{72.58}{\pi}\sqrt{\frac{350}{200{,}000}}$$</p>
+<p>$$= \frac{72.58}{3.14159} \times \sqrt{0.00175} = 23.10 \times 0.04183 = \boxed{0.966}$$</p>
+<p>$$\because \lambda_c = 0.966 < 1.5 \quad \rightarrow \text{非彈性挫屈}$$</p>
+<p><strong>計算 Fcr：</strong></p>
+<p>$$F_{cr} = (0.658)^{\lambda_c^2} \cdot F_y = (0.658)^{0.966^2} \cdot 350 = (0.658)^{0.933} \cdot 350$$</p>
+<p>計算 $(0.658)^{0.933}$：<br />
+$$= e^{0.933 \times \ln(0.658)} = e^{0.933 \times (-0.4193)} = e^{-0.391} = 0.676$$</p>
+<p>$$F_{cr} = 0.676 \times 350 = 236.6 \text{ MPa}$$</p>
+<p><strong>計算 φcPn（取 φc = 0.85）：</strong></p>
+<p>$$\phi_c P_n = 0.85 \times F_{cr} \times A = 0.85 \times 236.6 \times 12{,}903$$</p>
+<p>$$= 0.85 \times 3{,}052{,}258 = 2{,}594{,}419 \text{ N} = \boxed{2{,}594 \text{ kN}}$$</p>
+<h3>Step 2：B1 力矩放大係數計算</h3>
+<p>斜撐構架中無側移（$B_2 = 1.0$），僅考慮 P-δ 效應的 $B_1$。</p>
+<p>柱底固接、頂鉸接，彎矩由底端（$M_2 = 100$ kN·m）線性遞減至頂端（$M_1 = 0$）：</p>
+<p>$$C_m = 0.6 - 0.4 \times \frac{M_1}{M_2} = 0.6 - 0.4 \times \frac{0}{100} = 0.6$$</p>
+<p><strong>計算 Pel（彈性歐拉挫屈載重）：</strong></p>
+<p>強軸慣性矩：<br />
+$$I_x = r_x^2 \times A = 153^2 \times 12{,}903 = 23{,}409 \times 12{,}903 = 3.020 \times 10^8 \text{ mm}^4$$</p>
+<p>$$P_{el,x} = \frac{\pi^2 E I_x}{(KL)^2} = \frac{9.8696 \times 200{,}000 \times 3.020 \times 10^8}{4500^2} = \frac{5.962 \times 10^{14}}{2.025 \times 10^7} = \boxed{29{,}443 \text{ kN}}$$</p>
+<p>弱軸慣性矩：<br />
+$$I_y = r_y^2 \times A = 62^2 \times 12{,}903 = 3{,}844 \times 12{,}903 = 4.958 \times 10^7 \text{ mm}^4$$</p>
+<p>$$P_{el,y} = P_{el,x} \times \frac{I_y}{I_x} = 29{,}443 \times \frac{4.958 \times 10^7}{3.020 \times 10^8} = 29{,}443 \times 0.1642 = \boxed{4{,}831 \text{ kN}}$$</p>
+<p><strong>計算 B1：</strong></p>
+<p>強軸：<br />
+$$B_{1,x} = \frac{C_m}{1 - P_u / P_{el,x}} = \frac{0.6}{1 - 800/29{,}443} = \frac{0.6}{1 - 0.0272} = \frac{0.6}{0.9728} = 0.617 < 1.0$$</p>
+<p>弱軸：<br />
+$$B_{1,y} = \frac{C_m}{1 - P_u / P_{el,y}} = \frac{0.6}{1 - 800/4{,}831} = \frac{0.6}{1 - 0.1656} = \frac{0.6}{0.8344} = 0.719 < 1.0$$</p>
+<p><em>策略註解：兩軸 $B_1$ 均小於 1.0，</em><em>必須取 $B_1 = 1.0$</em><em>，不可縮減一階彎矩，否則設計偏危險。</em></p>
+<p><strong>放大後設計彎矩：</strong></p>
+<p>$$M_{ux}' = \max(B_{1,x}, 1.0) \times M_{ux} = 1.0 \times 100 = \boxed{100 \text{ kN·m}}$$</p>
+<p>$$M_{uy}' = \max(B_{1,y}, 1.0) \times M_{uy} = 1.0 \times 50 = \boxed{50 \text{ kN·m}}$$</p>
+<h3>Step 3：計算彎曲強度 φbMnx、φbMny</h3>
+<p>斜撐構架中柱有樓板提供足夠的側向支撐（本題無特別說明不穩定），取全截面塑性彎矩：</p>
+<p>$$\phi_b M_{nx} = \phi_b \cdot F_y \cdot Z_x = 0.9 \times 350 \times 1{,}884{,}512$$</p>
+<p>$$= 0.9 \times 659{,}579{,}200 = 593{,}621{,}280 \text{ N·mm} = \boxed{593.6 \text{ kN·m}}$$</p>
+<p>$$\phi_b M_{ny} = \phi_b \cdot F_y \cdot Z_y = 0.9 \times 350 \times 604{,}683$$</p>
+<p>$$= 0.9 \times 211{,}639{,}050 = 190{,}475{,}145 \text{ N·mm} = \boxed{190.5 \text{ kN·m}}$$</p>
+<h3>Step 4：判斷 P-M 互制公式</h3>
+<p>$$\frac{P_u}{\phi_c P_n} = \frac{800}{2{,}594} = 0.308 \geq 0.2$$</p>
+<p><strong>→ 使用 H1-1a（AISC/LRFD）：</strong></p>
+<p>$$\frac{P_u}{\phi_c P_n} + \frac{8}{9}\left(\frac{M_{ux}}{\phi_b M_{nx}} + \frac{M_{uy}}{\phi_b M_{ny}}\right) \leq 1.0$$</p>
+<h3>Step 5：P-M 互制方程檢核</h3>
+<p>$$= \frac{800}{2{,}594} + \frac{8}{9}\left(\frac{100}{593.6} + \frac{50}{190.5}\right)$$</p>
+<p>$$= 0.308 + 0.889 \times (0.1685 + 0.2625)$$</p>
+<p>$$= 0.308 + 0.889 \times 0.4310$$</p>
+<p>$$= 0.308 + 0.383 = \boxed{0.691}$$</p>
+<p>$$\because 0.691 < 1.0 \quad \checkmark \quad \text{符合設計需求}$$</p>
+<p><strong>結論：</strong> 此 W14×68 柱之軸力彎矩需求強度比（D/C Ratio）= <strong>0.691 &lt; 1.0，設計充裕，OK。</strong></p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>5.1 固接-鉸接柱的 Cm 合理性</h3>
+<p>理論上，底固頂鉸的柱在均勻軸壓下，彎矩由底端最大線性遞減至頂端為零（單曲率）。$C_m = 0.6$ 是此種情況的下限值（$M_1/M_2 = 0$）。雖然 $B_1 < 1.0$，但保守規定取 $B_1 = 1.0$，符合工程保守設計原則。</p>
+<h3>5.2 強度餘裕與各分量貢獻分析</h3>
+<table>
+<thead>
+<tr>
+<th>分量</th>
+<th>需求</th>
+<th>容量</th>
+<th>比值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>軸壓 $P_u/\phi_c P_n$</td>
+<td>800 kN</td>
+<td>2,594 kN</td>
+<td>0.308</td>
+</tr>
+<tr>
+<td>強軸彎曲 $M_{ux}/\phi_b M_{nx}$</td>
+<td>100 kN·m</td>
+<td>593.6 kN·m</td>
+<td>0.169</td>
+</tr>
+<tr>
+<td>弱軸彎曲 $M_{uy}/\phi_b M_{ny}$</td>
+<td>50 kN·m</td>
+<td>190.5 kN·m</td>
+<td>0.263</td>
+</tr>
+<tr>
+<td><strong>總和（H1-1a）</strong></td>
+<td></td>
+<td></td>
+<td><strong>0.691</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>弱軸彎矩（50/190.5 = 0.263）雖然數值小，但因弱軸容量相對有限，對互制比值貢獻不亞於強軸彎矩（0.169）。</li>
+<li>軸壓貢獻最大（0.308），說明此柱主要受控於壓力。</li>
+</ul>
+<h3>5.3 若不乘 8/9 係數的誤算後果</h3>
+<p>H1-1a 中的 8/9 係數是 LRFD 規範對雙向彎矩梁柱的修正，移除後：<br />
+$$0.308 + (0.169 + 0.263) = 0.740 > 0.691$$（偏保守但公式不同）</p>
+<p>規範 H1-1a 含 8/9 是經過驗證的最合理近似互制公式，不可省略。</p>
+<h3>5.4 弱軸對控制的重要性</h3>
+<p>若 $r_y = 62$ mm 再降低（斷面更細長），$\phi_c P_n$ 會更小，$P_u/\phi_c P_n$ 超過 0.2 後軸力項比重大增，整體 D/C 比迅速攀升。本題 D/C = 0.69 仍有相當餘裕，說明 W14×68 對於此組合載重是合適的斷面。</p></main>
+<footer>來源：raw/solutions/SS-2012-3/SS-2012-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body></html>

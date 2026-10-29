@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>SS-2011-1 直接分析法概念圖</title>
+<style>
+  body { font-family: "Noto Sans TC", Arial, sans-serif; background: #f8f9fa; margin: 20px; }
+  .container { max-width: 680px; margin: auto; background: white; border-radius: 10px;
+               padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+  h2 { color: #2c3e50; font-size: 1.1rem; margin-bottom: 4px; }
+  .subtitle { color: #666; font-size: 0.85rem; margin-bottom: 20px; }
+  canvas { display: block; margin: 0 auto 16px; border: 1px solid #ddd; border-radius: 6px; }
+  .info { background: #eaf3fb; border-left: 4px solid #2980b9; border-radius: 6px;
+          padding: 14px; font-size: 0.85rem; line-height: 1.9; }
+  .tag { display: inline-block; background: #2980b9; color: white;
+         border-radius: 4px; padding: 2px 8px; font-size: 0.78rem; margin: 2px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 12px; }
+  th { background: #34495e; color: white; padding: 6px 10px; }
+  td { padding: 6px 10px; border-bottom: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>SS-2011-1 — AISC 2010 直接分析法（DAM）概念圖</h2>
+  <div class="subtitle">SS-U1-3 梁柱桿件（穩定分析）| 概念題（非數值計算）</div>
+  <canvas id="chart" width="580" height="380"></canvas>
+  <div class="info">
+    <span class="tag">二階分析</span>
+    <span class="tag">P-Δ 效應</span>
+    <span class="tag">P-δ 效應</span>
+    <span class="tag">初始不完美</span>
+    <span class="tag">勁度折減 0.8τ_b</span>
+    <span class="tag">ASD 1.6 倍</span>
+    <br><br>
+    <table>
+      <tr><th>子題</th><th>核心概念</th><th>關鍵公式/數值</th></tr>
+      <tr><td>(一)</td><td>二階 vs 一階分析</td><td>P-Δ（整體側移）+ P-δ（構件撓曲）</td></tr>
+      <tr><td>(二)</td><td>初始不完美模擬</td><td>等效假想水平力 N_i = 0.002α·Y_i（Y_i 為該層重力載重）</td></tr>
+      <tr><td>(三)</td><td>剛度折減條件</td><td>一律 0.8；αP_r/P_y &gt; 0.5 時再乘 τ_b</td></tr>
+      <tr><td>(四)</td><td>ASD 1.6 倍係數</td><td>α = 1.6（載重係數，不是 Ω）；(1.2D+1.6L)/(D+L) 之上限</td></tr>
+    </table>
+    <div style="margin-top:10px;color:#555">
+      ※ 本題為純概念說明題，無 P-M 數值計算。圖示說明直接分析法（DAM）與傳統有效長度法（ELM）的主要差異。
+    </div>
+  </div>
+</div>
+<script>
+const canvas = document.getElementById('chart');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+
+ctx.fillStyle = '#f8f9fa'; ctx.fillRect(0,0,W,H);
+
+// Draw a conceptual P-M diagram showing DAM vs ELM
+const PAD = {left:60, right:20, top:40, bottom:50};
+const cW = W - PAD.left - PAD.right;
+const cH = H - PAD.top - PAD.bottom;
+
+function toX(m) { return PAD.left + m * cW; }
+function toY(p) { return PAD.top + (1 - p) * cH; }
+
+// Grid
+ctx.strokeStyle = '#e8e8e8'; ctx.lineWidth = 1;
+for (let i = 0; i <= 10; i++) {
+  ctx.beginPath(); ctx.moveTo(toX(i/10), PAD.top); ctx.lineTo(toX(i/10), H-PAD.bottom); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(PAD.left, toY(i/10)); ctx.lineTo(W-PAD.right, toY(i/10)); ctx.stroke();
+}
+
+// ELM curve (effective length method) - larger curve
+ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 2.5;
+ctx.setLineDash([6,4]);
+ctx.beginPath();
+ctx.moveTo(toX(0), toY(1));
+// Slightly convex outward (ELM is more conservative = smaller capacity region)
+for (let p = 1; p >= 0; p -= 0.05) {
+  let m = Math.pow(1 - p, 1.0);
+  ctx.lineTo(toX(m), toY(p));
+}
+ctx.stroke();
+ctx.setLineDash([]);
+
+// DAM curve (direct analysis method) - actual bilinear
+ctx.strokeStyle = '#2980b9'; ctx.lineWidth = 2.5;
+ctx.beginPath();
+ctx.moveTo(toX(0), toY(1));
+ctx.lineTo(toX((1-0.2)*9/8), toY(0.2));
+ctx.lineTo(toX(1), toY(0));
+ctx.stroke();
+
+// DAM region
+ctx.fillStyle = 'rgba(41,128,185,0.1)';
+ctx.beginPath();
+ctx.moveTo(toX(0), toY(0));
+ctx.lineTo(toX(0), toY(1));
+ctx.lineTo(toX((1-0.2)*9/8), toY(0.2));
+ctx.lineTo(toX(1), toY(0));
+ctx.closePath(); ctx.fill();
+
+// Annotations
+ctx.font = 'bold 12px Arial'; ctx.textAlign = 'left';
+ctx.fillStyle = '#2980b9';
+ctx.fillText('DAM（直接分析法）', toX(0.05), toY(0.55));
+ctx.fillStyle = '#e74c3c';
+ctx.fillText('ELM（有效長度法）', toX(0.05), toY(0.35));
+
+// P-delta effect arrow
+ctx.strokeStyle = '#f39c12'; ctx.lineWidth = 2; ctx.setLineDash([]);
+ctx.beginPath(); ctx.moveTo(toX(0.6), toY(0.5)); ctx.lineTo(toX(0.65), toY(0.5)); ctx.stroke();
+ctx.fillStyle = '#f39c12'; ctx.font = '11px Arial';
+ctx.fillText('P-Δ 效應', toX(0.67), toY(0.49));
+
+// P-delta (small) effect arrow
+ctx.fillStyle = '#8e44ad';
+ctx.fillText('P-δ 效應', toX(0.67), toY(0.62));
+
+// Stiffness reduction
+ctx.fillStyle = '#16a085'; ctx.font = '11px Arial';
+ctx.fillText('τₐ 剛度折減', toX(0.67), toY(0.75));
+
+// Axes
+ctx.strokeStyle = '#2c3e50'; ctx.lineWidth = 2;
+ctx.beginPath(); ctx.moveTo(PAD.left, PAD.top); ctx.lineTo(PAD.left, H-PAD.bottom); ctx.stroke();
+ctx.beginPath(); ctx.moveTo(PAD.left, H-PAD.bottom); ctx.lineTo(W-PAD.right, H-PAD.bottom); ctx.stroke();
+
+ctx.fillStyle = '#2c3e50'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center';
+ctx.fillText('需求彎矩 Mr / 容量 Mc', W/2, H-8);
+ctx.save(); ctx.translate(14, H/2); ctx.rotate(-Math.PI/2);
+ctx.fillText('需求軸力 Pr / 容量 Pc', 0, 0); ctx.restore();
+
+ctx.font = '11px Arial'; ctx.textAlign = 'center'; ctx.fillStyle = '#555';
+for (let i = 0; i <= 10; i++) {
+  ctx.fillText((i/10).toFixed(1), toX(i/10), H-PAD.bottom+16);
+}
+ctx.textAlign = 'right';
+for (let i = 0; i <= 10; i++) {
+  ctx.fillText((i/10).toFixed(1), PAD.left-6, toY(i/10)+4);
+}
+
+// Title
+ctx.fillStyle = '#2c3e50'; ctx.font = 'bold 13px Arial'; ctx.textAlign = 'center';
+ctx.fillText('AISC 2010 穩定設計方法比較', W/2, 20);
+</script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2023-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SS-2023-4 題目解析</h1><a class="quick" href="../study-SS-U1-4.html" title="SS-U1-4 接合之分析與設計 命題分析">&#128269; U1-4 命題分析</a><a class="lect" href="../lecture-SS-U1-4.html" title="SS-U1-4 接合之分析與設計 觀念講義">&#128218; U1-4 接合之分析與設計 講義</a></header>
+<main><h1>考題編號：SS-2023-4</h1>
+<p><strong>主分類：</strong> <code>SS-U1-4</code> 接合之分析與設計<br />
+<strong>副分類：</strong> <code>SS-U2-3</code> 設計規範對施工之要求<br />
+<strong>設計法：</strong> 概念題<br />
+<strong>標籤：</strong> <code>焊接</code> <code>破壞形式</code> <code>填角銲</code> <code>對接銲</code> <code>剪力破壞</code> <code>拉伸破壞</code> <code>銲喉面積</code> <code>熱影響區</code> <code>HAZ</code> <code>根部破壞</code> <code>趾部破壞</code> <code>接合設計</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>請說明焊接接合的破壞形式。</strong>（25 分）</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：焊接接合的破壞不只發生在銲道本身，也可能在母材（熱影響區）或銲道-母材介面發生；不同銲接型式（填角銲 vs 對接銲）有不同的控制破壞模式</strong></p>
+<p>焊接接合的強度設計建立在對破壞機制的理解之上：若無法正確識別潛在破壞模式，就無法選擇對應的設計公式與限制條件。</p>
+<p><strong>出題者測驗重點：</strong></p>
+<ol>
+<li>能分辨填角銲（fillet weld）和完全熔透對接銲（CJP groove weld）的幾何差異與破壞特徵</li>
+<li>能說明至少 4~5 種破壞形式，並指出各自的位置（銲道剪力面、根部、趾部、HAZ、母材）</li>
+<li>能說明規範設計時如何針對各破壞模式設定強度限制</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong><br />
+按照「破壞位置」分類作答，結構最清晰：</p>
+<ol>
+<li><strong>銲道本身破壞</strong>（填角銲剪切、對接銲拉伸/剪切）</li>
+<li><strong>母材破壞</strong>（銲道根部、銲道趾部）</li>
+<li><strong>熱影響區（HAZ）破壞</strong></li>
+<li><strong>母材淨斷面拉斷</strong>（非銲道破壞，但屬接合破壞形式之一）</li>
+<li><strong>疲勞裂縫及脆性破壞</strong>（特殊環境）</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<blockquote>
+<p>⚠️ <strong>陷阱1：填角銲的設計假設是以「有效銲喉（effective throat）」的剪切面破壞</strong><br />
+AISC 規範將填角銲統一設計成沿有效銲喉平面的<strong>剪切破壞</strong>，即使施力方向平行或垂直於銲道軸，均以剪切強度計算。實際上垂直填角銲因剪切-拉伸複合作用，強度比平行填角銲高（規範以係數 1.5 修正）。</p>
+<p>⚠️ <strong>陷阱2：破壞可能發生在「母材」而非銲道</strong><br />
+當銲道強度高於母材時（如超音波檢測等級 E70XX 銲條配 A36 母材），破壞發生在母材淨斷面，而非銲道本身。設計時需同時核核銲道強度和母材強度。</p>
+</blockquote>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 系統說明銲接接合的各種破壞形式（按破壞位置分類：銲道 / 母材 / HAZ / 疲勞脆斷）</p>
+<h3>主要公式（概念題關鍵公式）</h3>
+<p><strong>填角銲剪切強度</strong><br />
+$$\phi R_n = \phi \times 0.6 F_{EXX} \times 0.707a \times L$$</p>
+<p><strong>完全滲透銲（CJP）設計強度</strong><br />
+$$\phi R_n = \phi F_u A_{weld} \quad \text{（拉伸）; 或} \quad \phi \times 0.6 F_u A_{weld} \quad \text{（剪切）}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>題目要求</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>銲接接合破壞形式</td>
+<td>按類型說明，無數值計算</td>
+</tr>
+<tr>
+<td>25 分</td>
+<td>需系統性分類，不可遺漏主要形式</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導（各破壞類型）</h3>
+<p><strong>① 銲道本身（Weld Metal）</strong></p>
+<table>
+<thead>
+<tr>
+<th>破壞形式</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>填角銲剪切破壞</td>
+<td>沿有效銲喉面剪切，$\tau = V/(0.707a \times L)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>CJP 銲道拉斷</td>
+<td>母材強度 &gt; 銲材時，銲道拉斷</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>根部未熔合（LOF）</td>
+<td>CJP 根部未完全熔透，形成缺口效應 ⚠ 常見卡關</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>② 母材（Base Metal）</strong></p>
+<table>
+<thead>
+<tr>
+<th>破壞形式</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>銲道根部母材裂縫</td>
+<td>缺口應力集中，特別是背銲條保留時</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>銲道趾部撕裂</td>
+<td>趾部應力集中，疲勞或脆性環境下先裂</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>層狀撕裂</td>
+<td>沿板材夾雜物面，在板厚方向撕裂（需 Z 向鋼材）⚠</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>淨截面斷裂</td>
+<td>銲縫強度足夠但母材淨截面不足</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>③ 熱影響區（HAZ）</strong></p>
+<table>
+<thead>
+<tr>
+<th>破壞形式</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HAZ 脆化</td>
+<td>高熱輸入（如 ESW）使晶粒粗大，韌性下降</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>低氫裂（冷裂）</td>
+<td>大熱輸入後快速冷卻，吸氫後延遲裂縫</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>④ 疲勞與脆性</strong></p>
+<table>
+<thead>
+<tr>
+<th>破壞形式</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>疲勞裂縫</td>
+<td>反覆應力下在應力集中點（趾部）萌生裂縫</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>脆性斷裂</td>
+<td>低溫 + 三軸應力 + 缺口 → 低應力下脆斷</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>填角銲統一設計為有效銲喉剪切面</td>
+<td>不論力向平行/垂直銲道，均以 0.707a 喉深的剪切計算</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">WELDED-CONNECTION-DESIGN</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>層狀撕裂在母材（非銲縫），需 Z 向鋼材</td>
+<td>沿軋製夾雜物面，在板厚方向；用 SN-C 或 A633 Z 向鋼材解決</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">SEISMIC-STEEL-SN</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>背銲條 → 根部缺口 → 脆性裂縫起始</td>
+<td>北嶺地震後重要發現，現規範要求完全滲透接頭移除背銲條</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">WELDED-CONNECTION-DESIGN</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>LOF（未熔合）用 UT 檢測（非 RT）</td>
+<td>UT 適合平面型缺陷（LOF/裂縫）；RT 適合體積型（氣孔）</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">WELDED-CONNECTION-DESIGN</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 詳細說明 (Detailed Explanation)</h2>
+<h3>一、填角銲（Fillet Weld）的破壞形式</h3>
+<p>填角銲為最常用的銲接型式，應用於 T 形、角形、搭接接合。其破壞形式包括：</p>
+<h4>(1) 銲道沿有效銲喉的剪切破壞（最常見設計破壞模式）</h4>
+<p><strong>位置：</strong> 銲道截面的 45° 有效銲喉平面（$a_e = 0.707s$，$s$ 為銲腳尺寸）</p>
+<p><strong>機制：</strong> 銲道受剪，沿有效銲喉面產生最大剪應力，達到銲材剪切強度時破壞。</p>
+<p>$$R_n = F_{nw} \cdot A_{we}$$</p>
+<p>其中 $F_{nw} = 0.6F_{EXX}$（銲材標稱抗拉強度的 60%），$A_{we}$ 為有效銲喉面積。</p>
+<p><strong>LRFD 規範：</strong> $\phi = 0.75$；<strong>ASD 規範：</strong> $\Omega = 2.00$</p>
+<h4>(2) 銲道根部（root）破壞</h4>
+<p><strong>位置：</strong> 銲道與母材接觸的最深處（根部）</p>
+<p><strong>機制：</strong> 當銲腳尺寸不足、銲道熔深不夠，或接合幾何使根部產生應力集中時，裂縫從根部萌生。常見於：</p>
+<ul>
+<li>單面填角銲受彎矩（根部拉開）</li>
+<li>銲道尺寸不足或未完全熔合（lack of fusion）</li>
+</ul>
+<p><strong>預防：</strong> 規範規定最小銲腳尺寸（$s_{\min}$）；要求完全熔合，NDT 檢驗。</p>
+<h4>(3) 銲道趾部（toe）破壞（疲勞裂縫萌生點）</h4>
+<p><strong>位置：</strong> 銲道與母材表面的交界線（趾部）</p>
+<p><strong>機制：</strong> 趾部是幾何突變處，應力集中係數最大。在循環載重（疲勞）下，裂縫常從趾部萌生，沿母材擴展。</p>
+<p><strong>預防：</strong> 磨平趾部（toe grinding）可顯著提升疲勞壽命；TIG 補銲修整趾部形狀。</p>
+<h4>(4) 母材在銲道旁的剪切撕裂（塊狀剪力，Block Shear）</h4>
+<p><strong>位置：</strong> 母材板件在銲道周圍沿剪力面撕裂</p>
+<p><strong>機制：</strong> 受拉構件通過填角銲傳力時，母材可能沿銲道邊緣發生剪力降伏（上方）+ 拉力斷裂（一端），形成「塊狀剪力」破壞模式。</p>
+<p>$$R_n = 0.6F_u A_{nv} + U_{bs} F_u A_{nt}$$</p>
+<hr />
+<h3>二、完全熔透對接銲（CJP Groove Weld）的破壞形式</h3>
+<p>對接銲將兩構件完全熔合，強度（理論上）等於或超過母材。破壞形式：</p>
+<h4>(5) 銲道拉伸斷裂</h4>
+<p><strong>位置：</strong> 沿銲道截面（垂直於拉力方向）</p>
+<p><strong>機制：</strong> 對接銲受拉時，若銲材抗拉強度低於母材（欠焊材等級匹配），或銲道有內部缺陷（氣孔、夾渣、裂縫），則銲道先斷裂。</p>
+<p><strong>規範要求：</strong> 銲材必須「強度匹配（matching）」，即 $F_{EXX} \geq F_u$（母材）。E70XX 配 A36，E80XX 配 A572 Gr.50。</p>
+<h4>(6) 銲道剪切破壞</h4>
+<p><strong>位置：</strong> 沿銲道截面（平行於銲縫方向）</p>
+<p><strong>機制：</strong> 對接銲受剪時，可能沿銲道發生剪切。</p>
+<p>$$F_{nw} = 0.6F_{EXX}$$（與填角銲相同的剪切強度公式）</p>
+<hr />
+<h3>三、熱影響區（HAZ, Heat Affected Zone）破壞</h3>
+<p><strong>位置：</strong> 緊鄰銲道的母材區域（溫度曾超過 Ac₁ 線，微觀組織改變）</p>
+<p><strong>機制：</strong></p>
+<ol>
+<li><strong>HAZ 脆化：</strong> 高碳當量（CE）鋼材在快速冷卻後，HAZ 可能產生麻田散鐵組織，硬化且脆化，衝擊韌性大幅下降。這是 <strong>Northridge 地震（1994）</strong> 中梁柱接合脆性斷裂的重要原因之一。</li>
+<li><strong>HAZ 軟化：</strong> 某些高強度鋼（調質鋼）在 HAZ 受到回火作用，強度降低，成為局部弱點。</li>
+<li><strong>延遲裂縫（氫致裂縫）：</strong> 溶入 HAZ 的氫在冷卻後析出，在高應力區引發冷裂。</li>
+</ol>
+<p><strong>預防措施：</strong> 預熱（preheat）、控制道間溫度（interpass temperature）、選用低氫銲條、焊後熱處理（PWHT）。</p>
+<hr />
+<h3>四、破壞形式彙整表</h3>
+<table>
+<thead>
+<tr>
+<th>破壞類型</th>
+<th>位置</th>
+<th>主要誘因</th>
+<th>對應規範措施</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>銲道剪切（填角銲）</td>
+<td>有效銲喉平面</td>
+<td>過載</td>
+<td>$F_{nw} = 0.6F_{EXX}$，最小銲腳</td>
+</tr>
+<tr>
+<td>根部破壞</td>
+<td>銲道根部</td>
+<td>銲腳不足、根部應力集中</td>
+<td>最小銲腳規定、完全熔合要求</td>
+</tr>
+<tr>
+<td>趾部疲勞裂縫</td>
+<td>銲道趾部</td>
+<td>循環載重、幾何突變</td>
+<td>磨平處理、疲勞設計</td>
+</tr>
+<tr>
+<td>塊狀剪力</td>
+<td>母材淨斷面</td>
+<td>連接幾何</td>
+<td>Block shear 公式核核</td>
+</tr>
+<tr>
+<td>銲道拉伸斷裂（CJP）</td>
+<td>銲道截面</td>
+<td>銲材強度不足或缺陷</td>
+<td>強度匹配、NDT 全檢</td>
+</tr>
+<tr>
+<td>HAZ 脆化</td>
+<td>母材熱影響區</td>
+<td>高CE、快速冷卻</td>
+<td>預熱、低氫銲條、韌性要求</td>
+</tr>
+<tr>
+<td>延遲裂縫（氫致）</td>
+<td>HAZ 及銲道</td>
+<td>高氫含量</td>
+<td>低氫銲條、烘乾、預熱</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>五、耐震設計的特殊要求</h3>
+<p>Northridge 地震（1994）後，AISC 對特殊彎矩構架（SMF）的銲接接合提出更嚴格要求：</p>
+<ol>
+<li><strong>梁翼板與柱翼板的 CJP 對接銲：</strong> 須使用衝擊韌性銲材（$C_{v} \geq 27 \text{ J at } -29°C$），並以超音波探傷（UT）100% 檢驗。</li>
+<li><strong>柱拼接 CJP 銲道：</strong> UT 全檢。</li>
+<li><strong>加強板（continuity plate）銲道：</strong> 通常使用 CJP 或大尺寸填角銲，並以磁粉探傷（MT）或超音波（UT）檢驗。</li>
+<li><strong>犬骨接頭（RBS）：</strong> 透過移除部分梁翼板，將塑鉸位置從 CJP 銲道移開，避免脆性破壞。</li>
+</ol>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>填角銲「有效銲喉」的設計假設</h3>
+<p>AISC 將填角銲的破壞面統一假設為「45° 剪切面」，不論受力方向為何。這是保守的統一假設，原因：</p>
+<ul>
+<li>實際上平行填角銲（縱向）較傾向銲道剪切</li>
+<li>垂直填角銲（橫向）因複合應力，強度約為平行填角銲的 1.5 倍</li>
+<li>規範設計使用平行填角銲強度為基準（保守側），可用 $\beta$ 係數修正</li>
+</ul>
+<h3>「銲材強度匹配」原則</h3>
+<ul>
+<li><strong>Matching（匹配）：</strong> 銲材強度 ≥ 母材強度（CJP 對接銲的基本要求）</li>
+<li><strong>Undermatching（低匹配）：</strong> 銲材強度 &lt; 母材強度（僅在特殊情況允許，如高拘束接合）</li>
+<li><strong>Overmatching（超匹配）：</strong> 銲材強度 &gt; 母材強度（對塑性設計有益，但可能增加 HAZ 拘束裂縫風險）</li>
+</ul>
+<p>耐震設計規範（AISC 341）要求：SMF 的梁翼板 CJP 銲道必須使用 <strong>CVN matching</strong> 銲材，確保低溫衝擊韌性。</p>
+<h3>考場答題建議</h3>
+<ul>
+<li>本題 25 分，應分點說明至少 5 種破壞形式</li>
+<li>每種破壞形式說明：位置、機制、規範對應措施（三要素）</li>
+<li>可先畫示意圖（填角銲截面、對接銲截面）再在圖上標注破壞位置，增加答題可讀性</li>
+<li>強調 HAZ 脆化與 Northridge 地震的歷史背景，顯示對耐震設計的深度理解</li>
+</ul></main>
+<footer>來源：raw/solutions/SS-2023-4/SS-2023-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body></html>

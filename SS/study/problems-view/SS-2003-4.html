@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2003-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.88em;line-height:1.5}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;padding:10px 16px;border-radius:0 8px 8px 0}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SS-2003-4 題目解析</h1><a class="quick" href="../study-SS-U1-3.html" title="SS-U1-3 梁柱桿件 命題分析">&#128269; U1-3 命題分析</a><a class="lect" href="../lecture-SS-U1-3.html" title="SS-U1-3 梁柱桿件 觀念講義">&#128218; U1-3 梁柱桿件 講義</a></header>
+<main>
+<h1>考題編號：SS-2003-4</h1>
+<p><strong>主分類：</strong> <code>SS-U1-3</code> 梁柱桿件<br />
+<strong>副分類：</strong>（無）<br />
+<strong>設計法：</strong> ASD<br />
+<strong>標籤：</strong> <code>梁柱桿件</code> <code>ASD</code> <code>雙軸彎矩</code> <code>P-M互制</code> <code>Cm係數</code> <code>放大係數</code> <code>fa/Fa判斷</code> <code>F'e歐拉應力</code> <code>穩定方程式</code> <code>強度方程式</code> <code>W12×170</code> <code>A36</code> <code>雙曲率判定</code> <code>有側撐構架</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<blockquote>
+<p><strong>原卷逐字</strong>：「有一梁柱構材長度為 L，其斷面為 W12×170 型鋼且為<strong>結實斷面</strong>，受一軸向載重 (P) 及端點之強軸、弱軸彎矩如附圖所示，使用 A36 鋼材，假設其 $K_x = K_y = 1.0$，試檢核該構材是否滿足容許應力法 (ASD) 之要求？（25 分）」</p>
+</blockquote>
+<p>⚠️ <strong>原卷為單一問句</strong>（只問「是否滿足 ASD 之要求」），並未分成 (一)(二)(三) 小題。</p>
+<p><img alt="SS-2003-4 結構示意圖：W12×170 柱，P=182t，雙軸彎矩，L=3.7m，Y-Z 面與 X-Z 面載重圖" src="../../raw/solutions/SS-2003-4/SS-2003-4-fig-1.png" /></p>
+<p><em>圖說（依原卷附圖 450 dpi 目視判讀）：柱高 $L = 3.7$ m，軸壓 $P = 182$ t（上下端對向施加）。</em><em>柱頂</em><em>為靠牆之</em><em>水平滾支承</em><em>（斜線牆面＋三角形，束制水平位移、可轉動）；</em><em>柱底</em><em>為</em><em>鉸支承</em><em>（三角形＋斜線地面）。強軸（Y-Z 面）柱頂與柱底各施加 $M_x = 27.68$ t-m；弱軸（X-Z 面）各施加 $M_y = 8.30$ t-m。</em><em>兩端的彎矩箭頭皆為逆時針（同一轉向）</em><em>——柱頂弧線由右經頂至左、箭頭在左下方向下；柱底弧線由左經底至右、箭頭在右方向上。</em></p>
+<p><img alt="SS-2003-4 題目重繪：W12×170 柱，柱頂為靠牆水平滾支承、柱底為鉸支承，強軸與弱軸兩視圖之兩端力偶皆為逆時針同轉向" src="../../raw/solutions/SS-2003-4/figs/SS-2003-4-fig-1-frame.svg" /></p>
+<p><em>圖 1　題目幾何與載重重繪。兩端水平位移都受束制 ⇒ 有側撐（無側移）構架；這張圖攔的是把本柱誤判為可側移而取 $C_m = 0.85$（穩定式會由 0.595 跳到 1.127，控制式判斷整個翻轉）。</em></p>
+<p><strong>⚠️ 兩項關鍵判讀（決定 $C_m$，也是本題最易失分處）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>依據</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>構架型式</td>
+<td><strong>有側撐（含斜撐）構架，無側移</strong></td>
+<td>柱頂有水平滾支承、柱底為鉸支承，兩端水平位移均受束制；且題目給 $K_x = K_y = 1.0$（無側移之鉸-鉸值）</td>
+</tr>
+<tr>
+<td>端彎矩曲率</td>
+<td><strong>雙曲率（反向曲率）</strong>，$M_1/M_2 = +1$</td>
+<td>兩端外加力偶<strong>同轉向</strong>（皆逆時針）→ 內力彎矩圖反對稱、中點變號</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>曲率判定的通用規則（可自行驗證，不必背）</strong>：長度 $L$ 之構材兩端各施加外力偶 $C_A$、$C_B$（逆時針為正），則內力彎矩 $M(x) = (C_A+C_B)x/L - C_A$。<br />
+- 兩端<strong>反轉向</strong>（$C_B = -C_A$）→ $M(x) = -C_A$ 為<strong>定值</strong> → <strong>單曲率</strong>（$M_1/M_2 = -1$，$C_m = 1.0$）<br />
+- 兩端<strong>同轉向</strong>（$C_B = C_A = M$）→ $M(x) = 2Mx/L - M$，於 $x=0$ 為 $-M$、$x=L/2$ 為 $0$、$x=L$ 為 $+M$ → <strong>反對稱、雙曲率</strong>（$M_1/M_2 = +1$，$C_m = 0.2$）</p>
+<p>本題兩端力偶同為逆時針 ⇒ <strong>雙曲率</strong> ⇒ $M_1/M_2 = +1$。</p>
+</blockquote>
+<p><strong>W12×170 斷面性質（A36）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>性質</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>斷面積 $A$</td>
+<td>322.58 cm²</td>
+</tr>
+<tr>
+<td>強軸斷面模數 $S_x$</td>
+<td>3850.96 cm³</td>
+</tr>
+<tr>
+<td>強軸迴轉半徑 $r_x$</td>
+<td>14.58 cm</td>
+</tr>
+<tr>
+<td>弱軸斷面模數 $S_y$</td>
+<td>1348.66 cm³</td>
+</tr>
+<tr>
+<td>弱軸迴轉半徑 $r_y$</td>
+<td>8.18 cm</td>
+</tr>
+<tr>
+<td>緊密撓度極限距 $L_c$</td>
+<td>4.05 m</td>
+</tr>
+<tr>
+<td>非緊密撓度極限距 $L_u$</td>
+<td>19.6 m</td>
+</tr>
+</tbody>
+</table>
+<p><strong>材料性質：</strong></p>
+<p>$$F_y = 2.50\ \text{tf/cm}^2,\quad F_u = 4.10\ \text{tf/cm}^2,\quad E = 2100\ \text{tf/cm}^2$$</p>
+<p><strong>ASD 設計公式（題目提供）：</strong></p>
+<p>$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}}$$</p>
+<p>$$\frac{KL}{r} \leq C_c:\quad F_a = \frac{\left[1-\dfrac{(KL/r)^2}{2C_c^2}\right]F_y}{\dfrac{5}{3}+\dfrac{3(KL/r)}{8C_c}-\dfrac{(KL/r)^3}{8C_c^3}}$$</p>
+<p>$$\frac{KL}{r} &gt; C_c:\quad F_a = \frac{12\pi^2 E}{23(KL/r)^2}$$</p>
+<p>$$F'<em ey="ey">{ex} = \frac{12\pi^2 E}{23(KL_b/r_x)^2},\quad F'</em>$$} = \frac{12\pi^2 E}{23(KL_b/r_y)^2</p>
+<p><strong>互制方程式（$f_a/F_a &gt; 0.15$）：</strong></p>
+<p>$$\frac{f_a}{F_a} + \frac{C_{mx}f_{bx}}{\left(1-\dfrac{f_a}{F'<em bx="bx">{ex}}\right)F</em>{F'}} + \frac{C_{my}f_{by}}{\left(1-\dfrac{f_a<em by="by">{ey}}\right)F</em>$$}} \leq 1.0 \tag{穩定式</p>
+<p>$$\frac{f_a}{0.6F_y} + \frac{f_{bx}}{F_{bx}} + \frac{f_{by}}{F_{by}} \leq 1.0 \tag{強度式}$$</p>
+<p><strong>互制方程式（$f_a/F_a \leq 0.15$）：</strong></p>
+<p>$$\frac{f_a}{F_a} + \frac{f_{bx}}{F_{bx}} + \frac{f_{by}}{F_{by}} \leq 1.0$$</p>
+<p><strong>$C_m$ 之取值規定（原卷逐字列出三款）：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">款</th>
+<th>條件</th>
+<th style="text-align: center;">$C_m$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">(一)</td>
+<td>可側向位移構架之受壓構材</td>
+<td style="text-align: center;">$0.85$</td>
+</tr>
+<tr>
+<td style="text-align: center;">(二)</td>
+<td>含斜撐構架中之受束制壓力構材，<strong>且在構材彎曲平面兩端點間無橫向載重時</strong></td>
+<td style="text-align: center;">$0.6 - 0.4(M_1/M_2)$</td>
+</tr>
+<tr>
+<td style="text-align: center;">(三) 1.</td>
+<td>含斜撐構架之受壓構材，兩端點間受橫向載重、構材端點<strong>受束制</strong></td>
+<td style="text-align: center;">$0.85$</td>
+</tr>
+<tr>
+<td style="text-align: center;">(三) 2.</td>
+<td>含斜撐構架之受壓構材，兩端點間受橫向載重、構材端點<strong>未束制</strong></td>
+<td style="text-align: center;">$1.00$</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>本題適用第 (二) 款</strong>：柱頂水平滾支承＋柱底鉸支承 ⇒ 側移受束制（含斜撐構架）；兩端點間<strong>無橫向載重</strong>（只有端彎矩）。<br />
+⚠️ 原卷所印之 $C_m = 0.6 - 0.4(M_1/M_2)$ <strong>未加任何下限</strong>。經查台灣「鋼構造建築物鋼結構設計技術規範」<strong>容許應力設計法第 8.2 節式 (8.2-5)</strong> 亦無下限，其解說更明言舊式的「$\geq 0.4$」限制「在 1986 年版的 AISC-LRFD 規範及本規範中<strong>均已不再採用</strong>」；AISC ASD 9th Ed.（1989）§H1 同樣無下限。故本題<strong>不設 $C_m \geq 0.4$ 的地板值</strong>。</p>
+</blockquote>
+<p><strong>求：</strong> 檢核該構材是否滿足容許應力法（ASD）之要求。（單一問句，25 分）</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> ASD 梁柱桿件設計的兩個關鍵——$C_m$（彎矩放大係數，描述二階效應的影響）和互制方程式（穩定式 + 強度式同時檢核）。</p>
+<p><strong>出題意圖：</strong><br />
+1. 測驗是否知道 $f_a/F_a$ 是判斷使用簡化式或完整式的門檻<br />
+2. 測驗 $F'_e$（歐拉放大應力）的計算——與 $F_a$ 不同，$F'_e$ 無安全係數<br />
+3. 測驗 $C_m$ 在不同約束條件與載重型式下的三種取值邏輯<br />
+4. 雙軸彎矩（$M_x$ + $M_y$ 同時存在）的互制疊加方式</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>解題順序：</strong></p>
+<p>$$f_a,f_{bx},f_{by} \to F_a \to f_a/F_a比較0.15 \to F_{bx},F_{by} \to F'<em ey="ey">{ex},F'</em>$$} \to C_m \to \text{互制檢核</p>
+<p><strong>關鍵陷阱：</strong></p>
+<ol>
+<li>
+<p><strong>$F_a$ vs $F'_e$ 的差異</strong>：$F_a$ 有安全係數（1.67–1.92），用於 $f_a/F_a$ 的軸壓部分；$F'_e = 12\pi^2E/[23(KL/r)^2]$ <strong>沒有安全係數但乘了 12/23</strong>，用於分母中的放大係數，兩者不可互換。</p>
+</li>
+<li>
+<p><strong>兩個互制方程式都必須滿足</strong>：$f_a/F_a &gt; 0.15$ 時，「穩定式」和「強度式」<strong>兩式都要通過</strong>，取最不利者。</p>
+</li>
+<li>
+<p><strong>$C_m$ 的款別與曲率符號（本題唯一的觀念關卡）</strong>：本題柱頂水平滾支承＋柱底鉸接 ⇒ <strong>有側撐（無側移）</strong>、且兩端點間無橫向載重 ⇒ 適用 $C_m = 0.6 - 0.4(M_1/M_2)$，<strong>不是</strong> 0.85。兩端力偶同轉向 ⇒ <strong>雙曲率</strong> ⇒ $M_1/M_2 = \mathbf{+1}$（正值）⇒ $C_m = 0.6 - 0.4 = \mathbf{0.2}$。<strong>符號記錯（誤取 $-1$）會得 $C_m = 1.0$，穩定式由 0.595 暴增到 1.250，結論翻轉。</strong></p>
+</li>
+<li>
+<p><strong>$L_b &lt; L_c$ → $F_{bx} = 0.66F_y$</strong>：側撐間距 $L_b = 3.7\ \text{m} &lt; L_c = 4.05\ \text{m}$ 在緊密範圍，可取最大值。</p>
+</li>
+</ol>
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 計算 $f_a, f_{bx}, f_{by}$ → 確認 $f_a/F_a &gt; 0.15$ → 判定構架型式與曲率求 $C_m$ → 驗算穩定式與強度式 → $\boxed{\text{穩定式 OK（0.595）、強度式 N.G.（1.140）} \Rightarrow \text{不滿足 ASD}}$</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$f_a = P/A,\quad f_{bx} = M_x/S_x,\quad f_{by} = M_y/S_y$$<br />
+$$\boxed{F_a}\text{（弱軸控制 }KL/r_y=45.23\text{，非彈性拋物線）} = 1.308\ \text{tf/cm}^2$$<br />
+$$\frac{f_a}{F_a} = 0.431 &gt; 0.15 \Rightarrow \text{用完整互制方程式}$$<br />
+$$\boxed{F'<em bx="bx">{ey}} = \frac{12\pi^2 E}{23(KL/r_y)^2} = 5.285\ \text{tf/cm}^2$$<br />
+$$\boxed{C_m} = 0.6 - 0.4!\left(\tfrac{M_1}{M_2}\right) = 0.6 - 0.4(+1) = 0.2 \quad(\textbf{雙曲率，無下限})$$<br />
+$$\text{穩定式：}\frac{f_a}{F_a} + \frac{C_m f</em>{(1-f_a/F'}<em bx="bx">{ex})F</em>{(1-f_a/F'}} + \frac{C_m f_{by}<em by="by">{ey})F</em>$$}} = \boxed{0.595 \leq 1.0\ \text{OK}<br />
+$$\text{強度式：}\frac{f_a}{0.6F_y} + \frac{f_{bx}}{F_{bx}} + \frac{f_{by}}{F_{by}} = \boxed{1.140 &gt; 1.0\ \text{N.G. ← 控制}}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P$</td>
+<td>182 tf</td>
+<td>軸壓力</td>
+</tr>
+<tr>
+<td>$M_x$</td>
+<td>27.68 tf·m</td>
+<td>強軸彎矩</td>
+</tr>
+<tr>
+<td>$M_y$</td>
+<td>8.30 tf·m</td>
+<td>弱軸彎矩</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>3.7 m</td>
+<td>柱高</td>
+</tr>
+<tr>
+<td>$K_x = K_y$</td>
+<td>1.0</td>
+<td>有效長度係數（兩端均為此值）</td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>322.58 cm²</td>
+<td>W12×170 斷面積</td>
+</tr>
+<tr>
+<td>$S_x$</td>
+<td>3850.96 cm³</td>
+<td>強軸斷面模數</td>
+</tr>
+<tr>
+<td>$S_y$</td>
+<td>1348.66 cm³</td>
+<td>弱軸斷面模數</td>
+</tr>
+<tr>
+<td>$r_x$</td>
+<td>14.58 cm</td>
+<td>強軸迴轉半徑</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>8.18 cm</td>
+<td>弱軸迴轉半徑</td>
+</tr>
+<tr>
+<td>$L_c$</td>
+<td>4.05 m</td>
+<td>ASD 強軸全截面彎矩無支撐上限</td>
+</tr>
+<tr>
+<td>$L_u$</td>
+<td>19.6 m</td>
+<td>ASD 彈性 LTB 分界</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>2.50 tf/cm²</td>
+<td>A36 降伏強度</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>2100 tf/cm²</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>端部支承</td>
+<td>柱頂水平滾支承、柱底鉸接</td>
+<td><strong>有側撐（無側移）</strong></td>
+</tr>
+<tr>
+<td>端彎矩轉向</td>
+<td>兩端力偶<strong>同為逆時針</strong></td>
+<td><strong>雙曲率</strong>，$M_1/M_2 = +1$</td>
+</tr>
+<tr>
+<td>斷面等級</td>
+<td>題目明示「<strong>結實斷面</strong>」</td>
+<td>免驗 $b/t$、$h/t_w$</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：實際應力</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_a$</td>
+<td>$182/322.58 = 0.564$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_{bx}$</td>
+<td>$2768/3850.96 = 0.719$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_{by}$</td>
+<td>$830/1348.66 = 0.616$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：容許軸壓應力 $F_a$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$(KL/r)_y$</td>
+<td>$370/8.18 = 45.23$（弱軸控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_c$</td>
+<td>$\sqrt{2\pi^2 E/F_y} = 128.8$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>挫屈類型</td>
+<td>$45.23 &lt; 128.8 \Rightarrow$ 非彈性，用拋物線公式</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_a$</td>
+<td>分子/分母 → $1.308$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：判斷互制方程式類型</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_a/F_a$</td>
+<td>$0.564/1.308 = 0.431 &gt; 0.15$（用完整式）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：容許彎曲應力與 $C_m$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_{bx}$</td>
+<td>$L_b = 3.7 &lt; L_c = 4.05$ m → $0.66F_y = 1.65$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_{by}$</td>
+<td>I 型斷面弱軸彎曲 → $0.75F_y = 1.875$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_1/M_2$</td>
+<td>$+1$（雙曲率；兩端等值同轉向）⚠ 常見卡關</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_m$</td>
+<td>$0.6 - 0.4(+1) = \mathbf{0.2}$（第 (二) 款，無下限）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：歐拉放大應力 $F'_e$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F'_{ex}$</td>
+<td>$12\pi^2E/[23 \times 25.38^2] = 16.79$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F'_{ey}$</td>
+<td>$12\pi^2E/[23 \times 45.23^2] = 5.286$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 6：穩定式與強度式</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>計算</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>穩定式值</td>
+<td>$0.431 + 0.090 + 0.074 = \mathbf{0.595} \leq 1.0$（OK）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>強度式值</td>
+<td>$0.376 + 0.436 + 0.328 = \mathbf{1.140} &gt; 1.0$（<strong>N.G. ← 控制</strong>）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_a$ vs $F'_e$ 的本質差異</td>
+<td>$F_a$ 含安全係數用於軸壓比；$F'<em Euler="Euler">e = (12/23)F</em>$ 用於放大分母，不可互換</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_a/F_a$ 判斷門檻 0.15</td>
+<td>超過 0.15 才需用完整穩定式 + 強度式；0.15 以下用簡化式</td>
+<td style="text-align: center;">[[pm-interaction]] · [[BEAM-COLUMN-INTERACTION]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>穩定式 vs 強度式各別意義</td>
+<td>穩定式：二階 P-δ 放大後的失穩；強度式：截面全截面降伏</td>
+<td style="text-align: center;">[[pm-interaction]] · [[BEAM-COLUMN-INTERACTION]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_m$ 三款的分辨</td>
+<td>①可側移 → 0.85；②有側撐＋無橫載 → $0.6-0.4(M_1/M_2)$；③有側撐＋有橫載 → 端部束制 0.85／未束制 1.00。<strong>先判構架能否側移，再判有無橫向載重</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_1/M_2$ 的符號</td>
+<td>規範原文：「當構材受彎成<strong>雙曲率</strong>彎曲時，$M_1/M_2$ 之比為<strong>正值</strong>；當構材成<strong>單曲率</strong>彎曲時，為<strong>負值</strong>」。判別法：兩端外加力偶<strong>同轉向</strong>→雙曲率；<strong>反轉向</strong>→單曲率（定值彎矩）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_m$ 無下限</td>
+<td>台灣 ASD 規範 (8.2-5) 與 AISC ASD-89 §H1 皆<strong>無</strong> $\geq 0.4$ 之限制；該限制是 1978 年以前 AISC 的舊規定，1986 年後已廢止</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>弱軸容許彎曲應力 $F_{by} = 0.75F_y$</td>
+<td>I 型斷面弱軸無 LTB 問題，直接取 $0.75F_y$</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>步驟 1：計算實際應力</h3>
+<p>$$f_a = \frac{P}{A} = \frac{182}{322.58} = 0.5643\ \text{tf/cm}^2$$</p>
+<p>$$f_{bx} = \frac{M_x}{S_x} = \frac{27.68 \times 100}{3850.96} = \frac{2768}{3850.96} = 0.7188\ \text{tf/cm}^2$$</p>
+<p>$$f_{by} = \frac{M_y}{S_y} = \frac{8.30 \times 100}{1348.66} = \frac{830}{1348.66} = 0.6155\ \text{tf/cm}^2$$</p>
+<hr />
+<h3>步驟 2：計算容許軸壓應力 $F_a$</h3>
+<p><strong>臨界細長比 $C_c$：</strong></p>
+<p>$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}} = \sqrt{\frac{2 \times 9.870 \times 2100}{2.5}} = \sqrt{16{,}581} = 128.8$$</p>
+<p><strong>計算 $KL/r$（控制軸）：</strong></p>
+<p>$$\frac{K_x L}{r_x} = \frac{1.0 \times 370}{14.58} = 25.38 \quad \text{（強軸）}$$</p>
+<p>$$\frac{K_y L}{r_y} = \frac{1.0 \times 370}{8.18} = 45.23 \quad \text{（弱軸，控制）}$$</p>
+<p>$$\frac{KL}{r} = 45.23 &lt; C_c = 128.8 \Rightarrow \text{非彈性挫屈，用拋物線公式}$$</p>
+<p><strong>分子：</strong></p>
+<p>$$\left[1-\frac{(45.23)^2}{2\times(128.8)^2}\right]F_y = \left[1-\frac{2046}{33{,}163}\right]\times 2.5 = 0.9383\times 2.5 = 2.346\ \text{tf/cm}^2$$</p>
+<p><strong>分母（令 $\alpha = KL/r/C_c = 45.23/128.8 = 0.3512$）：</strong></p>
+<p>$$\frac{5}{3} + \frac{3\alpha}{8} - \frac{\alpha^3}{8} = 1.6667 + \frac{3\times0.3512}{8} - \frac{(0.3512)^3}{8}$$</p>
+<p>$$= 1.6667 + 0.1317 - \frac{0.04334}{8} = 1.6667 + 0.1317 - 0.00542 = 1.793$$</p>
+<p>$$\boxed{F_a = \frac{2.346}{1.793} = 1.308\ \text{tf/cm}^2}$$</p>
+<hr />
+<h3>步驟 3：判斷互制方程式類型</h3>
+<p>$$\frac{f_a}{F_a} = \frac{0.5643}{1.308} = 0.431 &gt; 0.15$$</p>
+<p>→ 使用<strong>完整互制方程式</strong>（穩定式 + 強度式均需檢核）</p>
+<hr />
+<h3>步驟 4：容許彎曲應力 $F_{bx}$、$F_{by}$</h3>
+<p><strong>強軸彎曲（確認 $L_b$ vs $L_c$）：</strong></p>
+<p>$$L_b = 3.7\ \text{m} &lt; L_c = 4.05\ \text{m} \Rightarrow F_{bx} = 0.66F_y = 0.66\times2.5 = 1.65\ \text{tf/cm}^2$$</p>
+<p><strong>弱軸彎曲（I 型斷面）：</strong></p>
+<p>$$F_{by} = 0.75F_y = 0.75\times2.5 = 1.875\ \text{tf/cm}^2$$</p>
+<hr />
+<h3>步驟 5：計算歐拉放大應力 $F'<em ey="ey">{ex}$、$F'</em>$</h3>
+<p>$$F'_{ex} = \frac{12\pi^2 E}{23(KL/r_x)^2} = \frac{12\times9.870\times2100}{23\times(25.38)^2}$$</p>
+<p>$$= \frac{248{,}724}{23\times644.1} = \frac{248{,}724}{14{,}814} = \boxed{16.79\ \text{tf/cm}^2}$$</p>
+<p>$$F'_{ey} = \frac{12\pi^2 E}{23(KL/r_y)^2} = \frac{248{,}724}{23\times(45.23)^2}$$</p>
+<p>$$= \frac{248{,}724}{23\times2046} = \frac{248{,}724}{47{,}058} = \boxed{5.286\ \text{tf/cm}^2}$$</p>
+<hr />
+<h3>步驟 6：判定構架型式與曲率，求 $C_m$</h3>
+<h4>6.1 構架型式：有側撐（無側移）</h4>
+<p>由附圖：<strong>柱頂為靠牆之水平滾支承</strong>（束制水平位移、可自由轉動與豎向滑動），<strong>柱底為鉸支承</strong>。兩端水平位移均受束制 ⇒ 本柱<strong>不可側移</strong>，屬「含斜撐構架中之受束制壓力構材」。</p>
+<p><strong>旁證：</strong> 題目給定 $K_x = K_y = 1.0$。$K = 1.0$ 正是「<strong>無側移</strong>、鉸接-鉸接」的值（見 102 年考卷 K 值表）；若為可側移構架，$K$ 至少為 1.2～2.0。若構架真能側移而仍取 $K = 1.0$，$F_a$ 會被嚴重高估，題目不會如此設定。</p>
+<p>⇒ <strong>適用第 (二) 款</strong>：$C_m = 0.6 - 0.4(M_1/M_2)$（<strong>不是</strong> 0.85）</p>
+<h4>6.2 曲率：雙曲率，$M_1/M_2 = +1$</h4>
+<p>兩端外加力偶大小相等（強軸皆 27.68 t-m、弱軸皆 8.30 t-m），且<strong>轉向相同</strong>（皆逆時針，見 §1 圖說之目視判讀）。</p>
+<p>代入通用式 $M(x) = (C_A + C_B)x/L - C_A$，以 $C_A = C_B = M$：</p>
+<p>$$M(0) = -M,\qquad M(L/2) = 0,\qquad M(L) = +M$$</p>
+<p>彎矩圖<strong>反對稱、於中點變號</strong> ⇒ <strong>雙曲率（反向曲率）</strong>。依規範「雙曲率時 $M_1/M_2$ 為正值」：</p>
+<p>$$\frac{M_1}{M_2} = +1 \quad(\text{兩軸皆同})$$</p>
+<p><img alt="SS-2003-4 兩格對照：左為兩端力偶同轉向，彎矩圖反對稱、中點變號、雙曲率、M1/M2 = +1、Cm = 0.2；右為兩端反轉向，彎矩沿全長定值、單曲率、M1/M2 = −1、Cm = 1.0" src="../../raw/solutions/SS-2003-4/figs/SS-2003-4-fig-2-curvature.svg" /></p>
+<p><em>圖 2　端彎矩轉向如何決定 $M_1/M_2$ 的正負。兩格用同一個放大倍率繪製，雙曲率的跨中撓度只有單曲率的 12.8%——這張圖攔的是曲率符號記反（$C_m$ 由 0.2 變成 1.0）。</em></p>
+<h4>6.3 $C_m$</h4>
+<p>$$\boxed{C_{mx} = C_{my} = 0.6 - 0.4(+1) = 0.2}$$</p>
+<p><strong>無下限</strong>（見 §1 之規範查證）。</p>
+<blockquote>
+<p>⚠️ <strong>雙曲率是最有利的端彎矩型態</strong>：最大彎矩在端點、而 P-δ 二階撓曲的最大值在中點附近，兩者不疊加，故放大係數極小。反之單曲率（定值彎矩）最不利，$C_m = 1.0$。</p>
+</blockquote>
+<p><strong>$C_m$ 取值敏感度（同一題四種可能）：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">$C_m$</th>
+<th>來源</th>
+<th style="text-align: center;">穩定式</th>
+<th style="text-align: center;">判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>0.2</strong></td>
+<td><strong>正解</strong>（雙曲率，無下限）</td>
+<td style="text-align: center;"><strong>0.595</strong></td>
+<td style="text-align: center;"><strong>OK</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">0.4</td>
+<td>若誤用已廢止的 $\geq 0.4$ 下限</td>
+<td style="text-align: center;">0.759</td>
+<td style="text-align: center;">OK</td>
+</tr>
+<tr>
+<td style="text-align: center;">0.85</td>
+<td>若誤判為可側移構架</td>
+<td style="text-align: center;">1.127</td>
+<td style="text-align: center;">N.G.</td>
+</tr>
+<tr>
+<td style="text-align: center;">1.0</td>
+<td>若曲率符號記反（誤為單曲率）</td>
+<td style="text-align: center;">1.250</td>
+<td style="text-align: center;">N.G.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>四者的強度式恆為 1.140（不含 $C_m$），故「不滿足 ASD」的結論不因 $C_m$ 而改變；但「哪一式控制」完全取決於 $C_m$。</strong></p>
+<hr />
+<h3>步驟 7：互制方程式驗算</h3>
+<p><strong>放大分母計算：</strong></p>
+<p>$$1 - \frac{f_a}{F'_{ex}} = 1 - \frac{0.5643}{16.79} = 1 - 0.0336 = 0.9664$$</p>
+<p>$$1 - \frac{f_a}{F'_{ey}} = 1 - \frac{0.5643}{5.286} = 1 - 0.1068 = 0.8932$$</p>
+<p><strong>穩定式（$f_a/F_a &gt; 0.15$ → 需滿足）：</strong></p>
+<p>$$\frac{f_a}{F_a} + \frac{C_{mx}f_{bx}}{\left(1-\dfrac{f_a}{F'<em bx="bx">{ex}}\right)F</em>{F'}} + \frac{C_{my}f_{by}}{\left(1-\dfrac{f_a<em by="by">{ey}}\right)F</em> \leq 1.0$$}</p>
+<p>$$= 0.4312 + \frac{0.2\times0.7188}{0.9664\times1.65} + \frac{0.2\times0.6155}{0.8933\times1.875}$$</p>
+<p>$$= 0.4312 + \frac{0.14376}{1.5946} + \frac{0.12310}{1.6749}$$</p>
+<p>$$= 0.4312 + 0.0902 + 0.0735 = \boxed{0.595 \leq 1.0 \quad \textbf{OK}}$$</p>
+<p><strong>強度式（同樣需滿足）：</strong></p>
+<p>$$\frac{f_a}{0.6F_y} + \frac{f_{bx}}{F_{bx}} + \frac{f_{by}}{F_{by}} \leq 1.0$$</p>
+<p>$$= \frac{0.5643}{1.50} + \frac{0.7188}{1.65} + \frac{0.6155}{1.875}$$</p>
+<p>$$= 0.3762 + 0.4356 + 0.3282 = \boxed{1.140 &gt; 1.0 \quad \textbf{N.G. ← 控制}}$$</p>
+<blockquote>
+<p><strong>結論</strong>：<strong>穩定式通過（59.5%）、強度式不通過（114.0%）</strong> ⇒ 該構材<strong>不滿足</strong> ASD 之要求，且<strong>由斷面強度（全斷面降伏）控制</strong>，而非由二階穩定控制。<br />
+這與「$C_m = 0.85$ 兩式皆 N.G.」的舊結論在<strong>判定</strong>上相同、在<strong>成因</strong>上完全不同：本柱的細長比很小（$KL/r_y = 45.2$，僅為 $C_c$ 的 35%），二階放大本就微弱（$1-f_a/F'<em bx="bx">{ey} = 0.893$），再加上雙曲率的 $C_m = 0.2$，穩定式自然不會控制。真正的問題是<strong>斷面應力總和已超出容許值 14%</strong>。<br />
+<strong>改善方向</strong>：強度式三項中 $f</em> = 0.328$ 次之 —— 應加大斷面（尤其弱軸 $S_y$），或減小端彎矩。}/F_{bx} = 0.436$ 最大，$f_{by}/F_{by</p>
+</blockquote>
+<hr />
+<p><img alt="SS-2003-4 兩格長條圖：左為穩定式與強度式的三項堆疊（0.595 vs 1.140，上限 1.0），右為 Cm 取 0.2／0.4／0.85／1.0 時的穩定式敏感度與定值強度式" src="../../raw/solutions/SS-2003-4/figs/SS-2003-4-fig-3-interaction.svg" /></p>
+<p><em>圖 3　兩式必須同時檢核。穩定式只用掉 59.5%、強度式卻超出 14%；這張圖攔的是「只驗穩定式就判安全」，以及把控制極限狀態誤歸給二階穩定而非斷面降伏。</em></p>
+<h3>計算結果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>計算項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_a$</td>
+<td>0.564 tf/cm²</td>
+</tr>
+<tr>
+<td>$f_{bx}$</td>
+<td>0.719 tf/cm²</td>
+</tr>
+<tr>
+<td>$f_{by}$</td>
+<td>0.616 tf/cm²</td>
+</tr>
+<tr>
+<td>$F_a$（弱軸控制）</td>
+<td>1.308 tf/cm²</td>
+</tr>
+<tr>
+<td>$f_a/F_a$</td>
+<td>0.431 → 用完整互制式</td>
+</tr>
+<tr>
+<td>$F_{bx}$（$L_b &lt; L_c$）</td>
+<td>1.65 tf/cm²</td>
+</tr>
+<tr>
+<td>$F_{by}$</td>
+<td>1.875 tf/cm²</td>
+</tr>
+<tr>
+<td>$F'_{ex}$</td>
+<td>16.79 tf/cm²</td>
+</tr>
+<tr>
+<td>$F'_{ey}$</td>
+<td>5.286 tf/cm²</td>
+</tr>
+<tr>
+<td>構架型式</td>
+<td><strong>有側撐（無側移）</strong>，$K = 1.0$</td>
+</tr>
+<tr>
+<td>曲率</td>
+<td><strong>雙曲率</strong>，$M_1/M_2 = +1$</td>
+</tr>
+<tr>
+<td>$C_{mx} = C_{my}$</td>
+<td><strong>0.2</strong>（$= 0.6-0.4(+1)$，無下限）</td>
+</tr>
+<tr>
+<td><strong>穩定式</strong></td>
+<td><strong>0.595 ≤ 1.0 → OK</strong></td>
+</tr>
+<tr>
+<td><strong>強度式</strong></td>
+<td><strong>1.140 &gt; 1.0 → N.G.（控制）</strong></td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{\text{W12×170 不滿足 ASD 要求；由「強度式（斷面降伏）」控制，穩定式通過}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>Q：兩個方程式各自捕捉什麼失效模式？</h3>
+<table>
+<thead>
+<tr>
+<th>方程式</th>
+<th>名稱</th>
+<th>主要考量</th>
+<th>不足時代表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>穩定式</td>
+<td>Stability interaction</td>
+<td>二階 P-δ 放大（$C_m$/$F'_e$）+ 軸壓</td>
+<td>柱可能在彎矩放大後挫屈</td>
+</tr>
+<tr>
+<td>強度式</td>
+<td>Strength interaction</td>
+<td>截面全截面降伏</td>
+<td>柱在無挫屈條件下截面先達到降伏</td>
+</tr>
+</tbody>
+</table>
+<p>本題<strong>穩定式 0.595 通過、強度式 1.140 不通過</strong> —— 代表桿件的二階穩定有充裕餘裕（細長比小＋雙曲率），真正的瓶頸是<strong>斷面應力總和已達降伏</strong>。這正是「兩式必須分別檢核、取最不利者」的價值：只算穩定式會誤判為安全。</p>
+<h3>Q：$F'_e$ 為何與 $F_a$ 的公式相似卻不同？</h3>
+<p>$$F'_e = \frac{12\pi^2 E}{23(KL/r)^2}$$</p>
+<ul>
+<li>分子：$12\pi^2$ 而非 $1\pi^2$</li>
+<li>分母：$23(KL/r)^2$ 而非 $1(KL/r)^2$</li>
+</ul>
+<p><strong>本質</strong>：$F'<em e_Euler="e,Euler">e = (12/23) \times F</em>$，其中 12/23 ≈ 0.522 是 Euler 彈性挫屈的折減係數（安全係數 23/12 ≈ 1.92）。$F'_e$ 用在分母放大係數中，目的是通過「$1-f_a/F'_e$」計入 P-δ 效應，並非用於計算容許應力。</p>
+<h3>Q：若改用 LRFD 法，如何對應？</h3>
+<table>
+<thead>
+<tr>
+<th>ASD 元素</th>
+<th>LRFD 對應</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_a/F_a + C_m f_b/(1-f_a/F'_e)F_b$</td>
+<td>$P_u/\phi_c P_n + \tfrac{8}{9}\big(B_1M_{ntx}/\phi_b M_{nx} + \cdots\big)$（H1-1a）</td>
+</tr>
+<tr>
+<td>$C_m$ 係數</td>
+<td>$B_1$ 放大係數（$B_1 = C_m/(1-P_u/P_{e1})$）</td>
+</tr>
+<tr>
+<td>$F'_e$</td>
+<td>$P_{e1}$（彈性挫屈載重，$F'_e = \tfrac{12}{23}P_e/A$）</td>
+</tr>
+<tr>
+<td>$F_{bx} = 0.66F_y$（對 $S_x$）</td>
+<td>$\phi_bM_p = 0.9F_yZ_x$（對 $Z_x$）→ 新規範可用塑性儲備</td>
+</tr>
+<tr>
+<td>$F_{by} = 0.75F_y$（對 $S_y$）</td>
+<td>$\phi_b\min(F_yZ_y,\,1.6F_yS_y)$</td>
+</tr>
+<tr>
+<td>兩式（穩定式＋強度式）</td>
+<td><strong>單一式</strong> H1-1a／H1-1b</td>
+</tr>
+</tbody>
+</table>
+<p>LRFD 的 $B_1$ 放大係數本質上就是 ASD 穩定式中 $C_m/(1-f_a/F'_e)$ 的變形，兩者邏輯完全相同；但 <strong>LRFD／AISC 360 已把 ASD 的「兩式」合併為一式</strong>（二階彎矩已含放大，故不需另設穩定式）。</p>
+<h3>為何 ASD 的強度式用 $0.6F_y$ 而不是 $F_a$？</h3>
+<p>強度式 $f_a/(0.6F_y) + f_{bx}/F_{bx} + f_{by}/F_{by} \leq 1.0$ 檢核的是<strong>斷面的降伏</strong>，與桿件細長無關，故軸壓項的分母取「短柱」的容許應力 $0.6F_y$（即 $F_y/1.67$），而非含細長比折減的 $F_a$。本題 $F_a = 1.308 &lt; 0.6F_y = 1.50$，所以<strong>穩定式的軸壓項（0.431）反而大於強度式的軸壓項（0.376）</strong>；但強度式的兩個彎矩項未經 $C_m$ 縮減，總和仍較大。</p>
+<hr />
+<h2>6. 依最新規範（AISC 360-16／-22）對照</h2>
+<blockquote>
+<p><strong>主答依據</strong>：內政部「鋼構造建築物鋼結構設計技術規範」<strong>容許應力設計法</strong>（民國 99 年／2010 修正版）第 8.2 節。台灣 ASD 章節迄今未隨 AISC 360 改版，AISC 自 2005 年版起已把 ASD 併入單一規範（以 $\Omega$ 表示），本節僅列對照。</p>
+</blockquote>
+<h3>6.1 斷面辨識與補充性質（交叉驗算）</h3>
+<p>題目只給 $A$、$S_x$、$S_y$、$r_x$、$r_y$、$L_c$、$L_u$，未給 $Z$。以英制反查 AISC 手冊之 <strong>W12×170</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>性質</th>
+<th style="text-align: center;">題目給定（公制）</th>
+<th style="text-align: center;">AISC 手冊（英制）</th>
+<th style="text-align: center;">換算</th>
+<th style="text-align: center;">吻合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A$</td>
+<td style="text-align: center;">322.58 cm²</td>
+<td style="text-align: center;">50.0 in²</td>
+<td style="text-align: center;">322.58</td>
+<td style="text-align: center;">✓</td>
+</tr>
+<tr>
+<td>$S_x$</td>
+<td style="text-align: center;">3850.96 cm³</td>
+<td style="text-align: center;">235 in³</td>
+<td style="text-align: center;">3851.0</td>
+<td style="text-align: center;">✓</td>
+</tr>
+<tr>
+<td>$S_y$</td>
+<td style="text-align: center;">1348.66 cm³</td>
+<td style="text-align: center;">82.3 in³</td>
+<td style="text-align: center;">1348.7</td>
+<td style="text-align: center;">✓</td>
+</tr>
+<tr>
+<td>$r_x$</td>
+<td style="text-align: center;">14.58 cm</td>
+<td style="text-align: center;">5.74 in</td>
+<td style="text-align: center;">14.58</td>
+<td style="text-align: center;">✓</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td style="text-align: center;">8.18 cm</td>
+<td style="text-align: center;">3.22 in</td>
+<td style="text-align: center;">8.18</td>
+<td style="text-align: center;">✓</td>
+</tr>
+<tr>
+<td>$Z_x$</td>
+<td style="text-align: center;">（未給）</td>
+<td style="text-align: center;">275 in³</td>
+<td style="text-align: center;"><strong>4506 cm³</strong></td>
+<td style="text-align: center;">補充</td>
+</tr>
+<tr>
+<td>$Z_y$</td>
+<td style="text-align: center;">（未給）</td>
+<td style="text-align: center;">126 in³</td>
+<td style="text-align: center;"><strong>2065 cm³</strong></td>
+<td style="text-align: center;">補充</td>
+</tr>
+</tbody>
+</table>
+<p>五項給定值<strong>全部精確吻合</strong> ⇒ 確認為 W12×170，故 $Z_x = 4506$、$Z_y = 2065$ cm³ 可信。形狀因數 $Z_x/S_x = 1.170$、$Z_y/S_y = 1.531$（均在 I 型斷面常見範圍內 ✓）。</p>
+<h3>6.2 三處實質差異</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>台灣 ASD（＝AISC ASD 9th）</th>
+<th>AISC 360-16／-22（ASD, $\Omega$）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>軸壓</td>
+<td>$F_a$ 拋物線式／$FS$ 隨 $KL/r$ 變（1.67～1.92）；$F_a = 1.308$</td>
+<td>$F_{cr} = 0.658^{F_y/F_e}F_y$，$\Omega_c = 1.67$（<strong>定值</strong>）</td>
+</tr>
+<tr>
+<td>撓曲</td>
+<td>$F_{bx} = 0.66F_y$（對 $S_x$）、$F_{by} = 0.75F_y$（對 $S_y$）</td>
+<td>$M_n = M_p = F_yZ$（對 $Z$），$\Omega_b = 1.67$；弱軸另受 $1.6F_yS_y$ 上限</td>
+</tr>
+<tr>
+<td>互制</td>
+<td><strong>穩定式＋強度式</strong>兩式；放大靠 $C_m/(1-f_a/F'_e)$</td>
+<td><strong>單一式</strong> H1-1a／H1-1b；放大靠 $B_1$（附錄 8）或直接二階分析</td>
+</tr>
+</tbody>
+</table>
+<h3>6.3 依 AISC 360-16 重算（ASD，$\Omega = 1.67$）</h3>
+<p><strong>軸壓：</strong><br />
+$$F_e = \frac{\pi^2E}{(KL/r_y)^2} = \frac{9.8696 \times 2100}{45.23^2} = 10.130\ \text{tf/cm}^2, \qquad \frac{F_y}{F_e} = 0.2468 \leq 2.25$$<br />
+$$F_{cr} = 0.658^{0.2468}\,F_y = 0.9019 \times 2.50 = 2.255\ \text{tf/cm}^2$$<br />
+$$P_n = 2.255 \times 322.58 = 727.3\ \text{tf}, \qquad P_c = \frac{P_n}{1.67} = 435.5\ \text{tf}$$<br />
+$$\frac{P_r}{P_c} = \frac{182}{435.5} = 0.418 \geq 0.2 \Rightarrow \textbf{H1-1a}$$</p>
+<p>（對照台灣 ASD 之 $f_a/F_a = 0.431$，僅差 3%——兩者的軸壓折減幾乎等價。）</p>
+<p><strong>撓曲：</strong> $L_b = 370$ cm，$L_p = 1.76r_y\sqrt{E/F_y} = 1.76(8.18)(28.98) = 417$ cm $&gt; L_b$ ⇒ 塑性區，$M_{nx} = M_{px}$<br />
+$$M_{cx} = \frac{F_yZ_x}{1.67} = \frac{2.50 \times 4506}{1.67} = 6746\ \text{tf·cm} = 67.46\ \text{tf·m}$$<br />
+$$M_{ny} = \min(F_yZ_y,\ 1.6F_yS_y) = \min(5162,\ 5395) = 5162\ \text{tf·cm} \Rightarrow M_{cy} = \frac{5162}{1.67} = 30.91\ \text{tf·m}$$</p>
+<blockquote>
+<p>註：台灣 ASD 的 $L_c = 4.05$ m $&gt; L_b = 3.7$ m 與 AISC 的 $L_p = 4.17$ m $&gt; L_b$ 判定一致 ✓。</p>
+</blockquote>
+<p><strong>二階放大（附錄 8，ASD 之 $\alpha = 1.6$）：</strong><br />
+$$P_{e1x} = \frac{\pi^2EI_x}{L^2} = \frac{9.8696(2100)(68{,}573)}{370^2} = 10{,}382\ \text{tf}, \qquad \frac{\alpha P_r}{P_{e1x}} = \frac{1.6(182)}{10{,}382} = 0.028$$<br />
+$$P_{e1y} = \frac{9.8696(2100)(21{,}585)}{370^2} = 3{,}268\ \text{tf}, \qquad \frac{\alpha P_r}{P_{e1y}} = 0.089$$<br />
+$$B_{1x} = \frac{0.2}{1-0.028} = 0.206 \to \mathbf{1.0}, \qquad B_{1y} = \frac{0.2}{1-0.089} = 0.220 \to \mathbf{1.0}$$</p>
+<p>（$C_m = 0.2$ 太小，$B_1$ 均受 $\geq 1.0$ 下限控制 ⇒ <strong>無放大</strong>。）</p>
+<p><strong>H1-1a：</strong><br />
+$$\frac{P_r}{P_c} + \frac{8}{9}!\left(\frac{M_{rx}}{M_{cx}} + \frac{M_{ry}}{M_{cy}}\right) = 0.418 + \frac{8}{9}!\left(\frac{27.68}{67.46} + \frac{8.30}{30.91}\right)$$<br />
+$$= 0.418 + \frac{8}{9}(0.410 + 0.269) = 0.418 + 0.365 + 0.239 = \mathbf{1.021 &gt; 1.0} \quad \textbf{N.G.}$$</p>
+<h3>6.4 對照結論</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: center;">台灣 ASD（主答）</th>
+<th style="text-align: center;">AISC 360-16／-22（ASD）</th>
+<th style="text-align: center;">差異</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>軸壓比</td>
+<td style="text-align: center;">0.431（$f_a/F_a$）</td>
+<td style="text-align: center;">0.418（$P_r/P_c$）</td>
+<td style="text-align: center;">−3%</td>
+</tr>
+<tr>
+<td>強軸彎矩比</td>
+<td style="text-align: center;">0.436（對 $S_x$，$0.66F_y$）</td>
+<td style="text-align: center;">0.410（對 $Z_x$，$\Omega=1.67$）</td>
+<td style="text-align: center;">−6%</td>
+</tr>
+<tr>
+<td>弱軸彎矩比</td>
+<td style="text-align: center;">0.328（對 $S_y$，$0.75F_y$）</td>
+<td style="text-align: center;">0.269（$F_yZ_y/1.67$）</td>
+<td style="text-align: center;">−18%</td>
+</tr>
+<tr>
+<td>檢核式數量</td>
+<td style="text-align: center;"><strong>2 式</strong>（穩定＋強度）</td>
+<td style="text-align: center;"><strong>1 式</strong>（H1-1a）</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td>二階放大</td>
+<td style="text-align: center;">$C_m/(1-f_a/F'_e)$，$C_m = 0.2$</td>
+<td style="text-align: center;">$B_1 = 1.0$（受下限控制）</td>
+<td style="text-align: center;">皆無放大</td>
+</tr>
+<tr>
+<td><strong>最終判定</strong></td>
+<td style="text-align: center;"><strong>N.G.（強度式 1.140）</strong></td>
+<td style="text-align: center;"><strong>N.G.（H1-1a 1.021）</strong></td>
+<td style="text-align: center;"><strong>結論一致</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>兩規範同判「不足」，但 AISC 360 的超出量只有 2.1%，遠小於台灣 ASD 的 14.0%。</strong> 主因是新規範以<strong>塑性斷面模數 $Z$</strong> 取代彈性 $S$，弱軸的塑性儲備（$Z_y/S_y = 1.53$）尤其顯著（該項比值由 0.328 降到 0.269）。</p>
+<p><strong>作答建議</strong>：原卷明示「試檢核…是否滿足容許應力法（ASD）之要求」並印出全套 ASD 公式，<strong>主答必須用 ASD 兩式</strong>。可在末尾補述「若依 AISC 360-16 之統一式，互制比為 1.02，同樣不足但僅超出 2%」，屬加分。</p>
+<hr />
+<p><em>修正日期：2026-08-22（</em><em>重大勘誤</em><em>：①原解析把本柱誤判為「側移構架」而取 $C_m = 0.85$；由 450 dpi 目視原卷附圖確認</em><em>柱頂為靠牆水平滾支承、柱底為鉸支承</em><em>，兩端水平位移均受束制 ⇒ </em><em>有側撐（無側移）構架</em><em>（題目給 $K_x=K_y=1.0$ 亦為旁證），適用原卷第 (二) 款 $C_m = 0.6-0.4(M_1/M_2)$；②兩端外加力偶</em><em>同為逆時針</em><em> ⇒ </em><em>雙曲率</em><em>，$M_1/M_2 = +1$ ⇒ $\mathbf{C_m = 0.2}$（查證台灣 ASD 規範 (8.2-5) 與 AISC ASD-89 §H1 皆</em><em>無</em><em> $\geq 0.4$ 下限，該下限 1986 年起已廢止）；③</em><em>穩定式由 1.127（N.G.）改為 0.595（OK）</em><em>，強度式 1.140（N.G.）不變 ⇒ </em><em>控制極限狀態由「穩定＋強度雙重不足」改為「僅斷面強度不足」</em><em>；④刪除原 §1 虛構的三個小題（原卷為單一問句）並改為逐字重述；⑤更正原「$M_1/M_2&gt;0$ 為單曲率、$&lt;0$ 為雙曲率」之符號顛倒敘述；⑥新增曲率判定通用式之推導、$C_m$ 四種取值敏感度表、§6 最新規範對照（含 W12×170 斷面反查與 AISC 360-16 ASD 重算 1.021）。$f_a$／$f_{bx}$／$f_{by}$／$F_a$／$F'_e$／強度式等數值原本即正確）</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2003-4/SS-2003-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body></html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2023-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2023-1 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2023-1</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> 概念題（含計算）<br />
+<strong>標籤：</strong> <code>有效長度</code> <code>K係數</code> <code>對位圖</code> <code>查圖法</code> <code>nomograph</code> <code>側移構架</code> <code>G值</code> <code>不規則框架</code> <code>固接</code> <code>鉸接</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>計算精確的有效長度係數，在鋼結構設計中相當重要。請用<strong>查圖的方法</strong>，試求下圖結構各柱子之有效長度係數（$K$）。鉸接（hinge）時，$G$ 可用 10；固接（fixed）時，$G$ 可用 1。（25 分）</p>
+<p><strong>柱與梁之 I 值表（單位：cm⁴）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>構件</th>
+<th>柱 AD、BE、CF</th>
+<th>柱 DG、EH</th>
+<th>梁 EF</th>
+<th>梁 DE、GH</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I 值</td>
+<td>16000</td>
+<td>3000</td>
+<td>17000</td>
+<td>35000</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="SS-2023-1 題目附圖：不規則框架（左圖）及 K 值對位圖（右圖）。左圖：三柱框架，A固接（左，柱距6m）、B固接（中）、C鉸接（右，柱距10m），第一層4m高（節點D、E、F），第二層4m高（節點G、H）；第二層僅左兩柱DG及EH，右側CF柱在F點止。右圖：AISC側移構架對位圖（G_A-K-G_B 三軸）" src="../../raw/solutions/SS-2023-1/SS-2023-1-fig-1.png" /></p>
+<p><em>圖說：框架幾何：A、B（固接底）及C（鉸接底）為地面節點，間距A-B=6m、B-C=10m。第一層高4m，節點D（柱AD頂）、E（柱BE頂）、F（柱CF頂）。第二層高4m，節點G（柱DG頂）、H（柱EH頂）；第二層無右側柱。梁：DE（跨距6m）、EF（跨距10m）、GH（跨距6m）。對位圖（Jackson-Moreland Alignment Chart）為側移構架（Sway Frame）版本，K&gt;1.0。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：有效長度係數 K 反映柱端束制條件——束制愈強，K 愈小，柱挫屈強度愈大</strong></p>
+<p>對位圖（Alignment Chart / Nomograph）的原理：<br />
+$$G = \frac{\sum (I_c/L_c)}{\sum (I_b/L_b)}$$</p>
+<ul>
+<li>$G$ 大 → 柱剛度相對梁大 → 梁束制弱 → K 大（挫屈模態接近自由）</li>
+<li>$G$ 小 → 梁剛度相對柱大 → 梁束制強 → K 小（挫屈模態接近固接）</li>
+<li>固接（Fixed）：$G = 1$（規範簡化值，代表梁剛度遠大於柱）</li>
+<li>鉸接（Hinge）：$G = 10$（規範簡化值，代表幾乎無束制）</li>
+</ul>
+<p><strong>出題者測驗重點：</strong></p>
+<ol>
+<li>能正確計算各節點 G 值（分清哪些柱、哪些梁連接到此節點）</li>
+<li>能識別本題為<strong>側移構架（Sway Frame）</strong>，需用右側圖（K &gt; 1）</li>
+<li>能處理不規則框架（柱長度相同但 I 值不同、部分柱在中途終止）</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫（每根柱需算兩端 G，共查一次圖）：</strong></p>
+<ol>
+<li>明確各柱長度（均為 4m = 400 cm）與 I 值</li>
+<li>計算各節點 G 值（分清各節點連接哪些柱、哪些梁）</li>
+<li>對每根柱，以兩端 G 值查對位圖讀取 K</li>
+<li>列表彙整</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<blockquote>
+<p>⚠️ <strong>陷阱1：本題為側移構架（Sway Frame），K &gt; 1</strong><br />
+框架底部雖有固接（A、B）和鉸接（C），但整體為<strong>無橫向支撐（Unbraced）</strong>的側移構架。應使用側移框架（右側）對位圖，不可用無側移（左側）圖。</p>
+<p>⚠️ <strong>陷阱2：節點 G 的柱要包含「上下兩段」</strong><br />
+在 D、E 這類中間節點，G 的分子需同時包含下方柱（AD 或 BE）和上方柱（DG 或 EH）的 $I/L$。</p>
+<p>⚠️ <strong>陷阱3：F 節點只有一根梁（EF），沒有梁從 F 往右延伸</strong><br />
+CF 頂端 F 只與梁 EF 相連，且 F 點上方無柱（第二層右側無柱），計算 $G_F$ 時分母只有 $I_{EF}/L_{EF}$。</p>
+<p>⚠️ <strong>陷阱4：GH 的跨距等於 DE，不是 EF</strong><br />
+梁 GH 位於第二層左側（G 到 H），跨距 = A 到 B 的距離 = 6m = 600 cm，與梁 DE 相同，不是 10m。</p>
+</blockquote>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 計算框架各柱端剛度比 G，查側移構架對位圖讀取有效長度係數 K</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\boxed{G} = \frac{\sum (I_c/L_c)}{\sum (I_g/L_g)}, \quad \text{查對位圖} \Rightarrow \boxed{K}$$</p>
+<p>特殊邊界：固接底 → G = 1；鉸接底 → G = 10；自由頂（無梁）→ G → ∞</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>構件</th>
+<th>I 值 (cm⁴)</th>
+<th>長度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>柱 AD, BE, CF</td>
+<td>16000</td>
+<td>4 m = 400 cm</td>
+</tr>
+<tr>
+<td>柱 DG, EH</td>
+<td>3000</td>
+<td>4 m = 400 cm</td>
+</tr>
+<tr>
+<td>梁 EF</td>
+<td>17000</td>
+<td>10 m = 1000 cm</td>
+</tr>
+<tr>
+<td>梁 DE, GH</td>
+<td>35000</td>
+<td>6 m = 600 cm</td>
+</tr>
+<tr>
+<td>底端 A, B</td>
+<td>固接 → G = 1</td>
+<td></td>
+</tr>
+<tr>
+<td>底端 C</td>
+<td>鉸接 → G = 10</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：計算各柱、梁 I/L</strong></p>
+<table>
+<thead>
+<tr>
+<th>構件</th>
+<th>I/L (cm³)</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>柱 AD = BE = CF</td>
+<td>16000/400 = 40</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>柱 DG = EH</td>
+<td>3000/400 = 7.5</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>梁 EF</td>
+<td>17000/1000 = 17</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>梁 DE = GH</td>
+<td>35000/600 = 58.33</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：計算各節點 G 值</strong></p>
+<table>
+<thead>
+<tr>
+<th>節點</th>
+<th>G 計算式</th>
+<th>G 值</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>固接 → G = 1</td>
+<td>1</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>B</td>
+<td>固接 → G = 1</td>
+<td>1</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>C</td>
+<td>鉸接 → G = 10</td>
+<td>10</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>D</td>
+<td>$(40+7.5)/58.33 = 47.5/58.33$</td>
+<td>0.81</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>E</td>
+<td>$(40+7.5)/(17+58.33) = 47.5/75.33$</td>
+<td>0.63 ⚠ 常見卡關（分母含兩梁）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>F</td>
+<td>$40/(17) = 40/17$</td>
+<td>2.35（F 上方無柱、分子只含 CF）⚠</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>G</td>
+<td>$7.5/58.33$</td>
+<td>0.13</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>H</td>
+<td>$7.5/(17+58.33)$</td>
+<td>0.10 ⚠ 常見卡關</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：查對位圖讀取 K</strong></p>
+<table>
+<thead>
+<tr>
+<th>柱</th>
+<th>底端 G</th>
+<th>頂端 G</th>
+<th>K（側移構架）</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AD</td>
+<td>1</td>
+<td>0.81</td>
+<td>≈ 1.3</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>BE</td>
+<td>1</td>
+<td>0.63</td>
+<td>≈ 1.3</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>CF</td>
+<td>10</td>
+<td>2.35</td>
+<td>≈ 2.3</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>DG</td>
+<td>0.81</td>
+<td>0.13</td>
+<td>≈ 1.2</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>EH</td>
+<td>0.63</td>
+<td>0.10</td>
+<td>≈ 1.2</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>側移構架（Sway Frame）用右側圖，K &gt; 1</td>
+<td>無橫向支撐的框架必用側移對位圖（K &gt; 1.0）</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">effective-length-chart</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>中間節點 G 的柱要包含上下兩段</td>
+<td>節點 D/E/G/H 的分子包含該節點上下所有連接柱的 I/L</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">effective-length-chart</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>固接 G = 1（非 0）；鉸接 G = 10（非 ∞）</td>
+<td>規範規定的設計值，非力學理論值（理論值為 0 和 ∞）</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">effective-length-chart</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>F 點上方無柱，計算 G_F 時分子只含 CF</td>
+<td>F 為頂端懸臂節點，無上方柱貢獻</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">EULER-BUCKLING</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>一、構件幾何確認</h3>
+<p><strong>柱（均為 4m = 400 cm 高）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>柱</th>
+<th>I（cm⁴）</th>
+<th>L（cm）</th>
+<th>I/L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AD</td>
+<td>16000</td>
+<td>400</td>
+<td>40.0</td>
+</tr>
+<tr>
+<td>BE</td>
+<td>16000</td>
+<td>400</td>
+<td>40.0</td>
+</tr>
+<tr>
+<td>CF</td>
+<td>16000</td>
+<td>400</td>
+<td>40.0</td>
+</tr>
+<tr>
+<td>DG</td>
+<td>3000</td>
+<td>400</td>
+<td>7.5</td>
+</tr>
+<tr>
+<td>EH</td>
+<td>3000</td>
+<td>400</td>
+<td>7.5</td>
+</tr>
+</tbody>
+</table>
+<p><strong>梁：</strong></p>
+<table>
+<thead>
+<tr>
+<th>梁</th>
+<th>I（cm⁴）</th>
+<th>L（cm）</th>
+<th>I/L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DE</td>
+<td>35000</td>
+<td>600</td>
+<td>58.33</td>
+</tr>
+<tr>
+<td>EF</td>
+<td>17000</td>
+<td>1000</td>
+<td>17.00</td>
+</tr>
+<tr>
+<td>GH</td>
+<td>35000</td>
+<td>600</td>
+<td>58.33</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>二、各節點 G 值計算</h3>
+<h4>節點 A（柱 AD 底端）：固接 → $G_A = 1.0$</h4>
+<h4>節點 B（柱 BE 底端）：固接 → $G_B = 1.0$</h4>
+<h4>節點 C（柱 CF 底端）：鉸接 → $G_C = 10$</h4>
+<hr />
+<h4>節點 D（柱 AD 頂 = 柱 DG 底，連梁 DE 左端）</h4>
+<p>$$G_D = \frac{(I_{AD}/L_{AD}) + (I_{DG}/L_{DG})}{I_{DE}/L_{DE}} = \frac{40.0 + 7.5}{58.33} = \frac{47.5}{58.33} = \boxed{0.81}$$</p>
+<hr />
+<h4>節點 E（柱 BE 頂 = 柱 EH 底，連梁 DE 右端和梁 EF 左端）</h4>
+<p>$$G_E = \frac{(I_{BE}/L_{BE}) + (I_{EH}/L_{EH})}{(I_{DE}/L_{DE}) + (I_{EF}/L_{EF})} = \frac{40.0 + 7.5}{58.33 + 17.00} = \frac{47.5}{75.33} = \boxed{0.63}$$</p>
+<hr />
+<h4>節點 F（柱 CF 頂，連梁 EF 右端；F 上方無柱）</h4>
+<p>$$G_F = \frac{I_{CF}/L_{CF}}{I_{EF}/L_{EF}} = \frac{40.0}{17.00} = \boxed{2.35}$$</p>
+<p>（分子只有 CF 一根柱，因 F 點上方無柱；分母只有梁 EF，F 點右側無梁）</p>
+<hr />
+<h4>節點 G（柱 DG 頂，連梁 GH 左端；G 上方無柱）</h4>
+<p>$$G_G = \frac{I_{DG}/L_{DG}}{I_{GH}/L_{GH}} = \frac{7.5}{58.33} = \boxed{0.13}$$</p>
+<hr />
+<h4>節點 H（柱 EH 頂，連梁 GH 右端；H 上方無柱）</h4>
+<p>$$G_H = \frac{I_{EH}/L_{EH}}{I_{GH}/L_{GH}} = \frac{7.5}{58.33} = \boxed{0.13}$$</p>
+<hr />
+<h3>三、查對位圖（側移構架）讀取 K 值</h3>
+<p>依各柱兩端 G 值，在<strong>側移構架（Sway Frame）對位圖</strong>上，用直線連接 $G_A$（上端）和 $G_B$（下端），讀取直線與 K 軸的交點：</p>
+<table>
+<thead>
+<tr>
+<th>柱</th>
+<th>$G_{\text{下端}}$（底）</th>
+<th>$G_{\text{上端}}$（頂）</th>
+<th>查圖讀得 K</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AD</td>
+<td>1.0（固接）</td>
+<td>0.81（節點D）</td>
+<td>≈ <strong>1.20</strong></td>
+</tr>
+<tr>
+<td>BE</td>
+<td>1.0（固接）</td>
+<td>0.63（節點E）</td>
+<td>≈ <strong>1.17</strong></td>
+</tr>
+<tr>
+<td>CF</td>
+<td>10（鉸接）</td>
+<td>2.35（節點F）</td>
+<td>≈ <strong>2.50</strong></td>
+</tr>
+<tr>
+<td>DG</td>
+<td>0.81（節點D）</td>
+<td>0.13（節點G）</td>
+<td>≈ <strong>1.12</strong></td>
+</tr>
+<tr>
+<td>EH</td>
+<td>0.63（節點E）</td>
+<td>0.13（節點H）</td>
+<td>≈ <strong>1.10</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>查圖說明：</strong><br />
+對位圖中，$G$ 軸從下（0）到上（∞），K 軸在中間。對 AD 柱，連接左軸 $G=1.0$ 與右軸 $G=0.81$ 的直線，與中間 K 軸的交點約在 $K=1.20$。CF 柱兩端 G 值皆較大（10 和 2.35），直線交 K 軸約於 $K=2.50$，反映鉸接底部束制差、K 值明顯偏大。</p>
+</blockquote>
+<hr />
+<h3>四、結果彙整</h3>
+<p>$$\boxed{K_{AD} \approx 1.20, \quad K_{BE} \approx 1.17, \quad K_{CF} \approx 2.50, \quad K_{DG} \approx 1.12, \quad K_{EH} \approx 1.10}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>G 值的物理意義</h3>
+<p>$$G = \frac{\text{節點上所有柱的 } I/L \text{ 之和}}{\text{節點上所有梁的 } I/L \text{ 之和}}$$</p>
+<ul>
+<li>分子（柱剛度和）：代表柱想抵抗轉動的能力</li>
+<li>分母（梁剛度和）：代表梁束制柱端旋轉的能力</li>
+<li>G = 0：梁束制力無限大（完全固接極限）</li>
+<li>G = ∞：梁無束制力（完全鉸接極限）</li>
+</ul>
+<p>規範取固接 $G=1$（而非 0），是因實際固接底板（base plate）仍有微小轉動；鉸接取 $G=10$（而非 ∞）是因實際鉸接仍有些微摩擦束制。</p>
+<h3>CF 柱 K ≈ 2.5 的工程解讀</h3>
+<p>CF 柱底為鉸接（$G=10$），頂端束制也相對弱（$G_F=2.35$，因梁 EF 的 $I/L$ 較小），導致 K 值高達約 2.5。實務上這表示：</p>
+<p>$$KL = 2.5 \times 4\text{ m} = 10\text{ m}$$</p>
+<p>等效挫屈長度高達 10m，但物理長度只有 4m。設計時必須使用較大的截面，或在 F 點增設水平束制（如與右側牆面連接）來降低 K 值。</p>
+<h3>對位圖的適用限制</h3>
+<p>AISC 對位圖基於以下假設：</p>
+<ol>
+<li>所有梁柱連接為剛接</li>
+<li>所有柱同時達到挫屈</li>
+<li>梁的兩端轉角相等（遠端為固接時須修正）</li>
+</ol>
+<p>本題的框架幾何不規則（右側只有一層），理論上對位圖的精確度稍有降低，但考場上查圖結果已是最佳近似解。</p>
+</main>
+<footer>來源：raw/solutions/SS-2023-1/SS-2023-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

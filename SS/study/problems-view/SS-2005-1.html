@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2005-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.88em;line-height:1.5}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;padding:10px 16px;border-radius:0 8px 8px 0}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SS-2005-1 題目解析</h1><a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a></header>
+<main>
+<h1>考題編號：SS-2005-1</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> <code>SS-U1-4</code> 接合之分析與設計<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>拉力桿件</code> <code>剪力遲滯</code> <code>U值</code> <code>淨斷面斷裂</code> <code>塊狀剪力</code> <code>螺栓接合</code> <code>等肢角鋼</code> <code>有效淨面積</code> <code>螺栓剪力</code> <code>螺栓承壓</code></p>
+<hr />
+<h2>1. 原始題目重述</h2>
+<p>如圖所示為一<strong>單角鋼</strong>與鋼板以螺栓之接合。角鋼為 <strong>L200×200×20（mm）</strong>，鋼材 $F_y = 2.5$ tf/cm²、$F_u = 4.1$ tf/cm²。<strong>承壓型螺栓直徑為 22 mm，螺栓標稱剪力強度為 4.2 tf/cm²，螺紋不在剪力平面上</strong>，螺栓孔直徑為 23.5 mm。試依<strong>極限設計法規範</strong>，<strong>假設接合板強度足夠</strong>，計算角鋼能承受之<strong>設計拉力強度 $\phi P_n$</strong>。（25 分）</p>
+<p><strong>參考資料（考卷提供）：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">情況</th>
+<th style="text-align: left;">適用條件</th>
+<th style="text-align: center;">$U$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">翼板寬度與斷面深度之比不小於 2/3 之 W、H、S 或 I 型鋼（及由此類型鋼切割或符合前述尺度需求之銲接 T 型鋼），且接合須在翼板處；若以螺栓接合則接合處沿應力方向每行螺栓數不少於 3 根</td>
+<td style="text-align: center;">0.90</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">不合於上款之 W、H、S、I 或 T 型鋼，及包括組合斷面之其他各種斷面。若以螺栓接合則接合處沿應力方向每行螺栓數不少於 3 根</td>
+<td style="text-align: center;">0.85</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">以螺栓接合之所有各種斷面且在接合處沿應力方向每行僅有 2 根螺栓</td>
+<td style="text-align: center;">0.75</td>
+</tr>
+</tbody>
+</table>
+<p>螺栓孔承壓強度 $\phi R_n$，採用 $R_n = 2.4dtF_u$</p>
+<p><strong>螺栓幾何（由圖判讀）：</strong></p>
+<ul>
+<li><strong>6 顆螺栓 = 2 行（橫向，垂直載重）× 3 列（縱向，沿載重方向）</strong></li>
+<li>橫向（沿肢寬 20 cm 方向，自角鋼<strong>背（heel）</strong>量起）：$7.5$ cm → 第 1 行；$+7.5$ cm → 第 2 行；剩 $5$ cm 至<strong>肢趾（toe）</strong></li>
+<li>縱向（沿載重方向）：端距 $e = 5$ cm，列距 $s = 7.5$ cm × 2，接合長度 $L_{conn} = 2s = 15$ cm</li>
+</ul>
+<p><img alt="SS-2005-1 題目附圖：L200×200×20 等肢角鋼以一肢（水平肢）搭接於接合板，螺栓 2 行×3 列共 6 顆；橫向自角鋼背起 7.5 cm、7.5 cm（餘 5 cm 至肢趾），縱向 5 cm 端距 + 2@7.5 cm = 15 cm；角鋼向右受拉力" src="../../raw/solutions/SS-2005-1/SS-2005-1-fig-1.png" /></p>
+<p><em>圖說：角鋼以</em><em>單一肢</em><em>（圖中水平肢，寬 20 cm、厚 2 cm）搭接於接合板，接合板為左側之梯形板。螺栓配置為 </em><em>2 行 × 3 列共 6 顆</em><em>，行距（橫向、垂直於載重）7.5 cm，列距（縱向、沿載重）7.5 cm，端距 5 cm。角鋼的</em><em>未連接肢（外伸肢）位於圖上緣</em><em>（以細雙線表示），故橫向尺寸自角鋼背（heel，上緣）量起為 7.5 cm 至第 1 行、再 7.5 cm 至第 2 行，第 2 行至</em><em>肢趾（toe，下緣自由邊）剩 5 cm</em><em>。角鋼向右受拉力，螺栓為</em><em>單剪</em><em>（角鋼僅單面搭接一片接合板）。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖</h2>
+<p>本題測驗 <strong>LRFD 螺栓接合拉力構件的「五個極限狀態」全套檢核</strong>，且刻意布置成「非最明顯者控制」：</p>
+<ol>
+<li><strong>剪力遲滯係數 $U$</strong>：單角鋼僅一肢連接，強制 $U &lt; 1$</li>
+<li><strong>五個極限狀態</strong>：全斷面降伏（GSY）／有效淨斷面斷裂（NSF）／<strong>塊狀剪力（BSR）</strong>／<strong>螺栓剪力</strong>／螺栓孔承壓</li>
+</ol>
+<blockquote>
+<p><strong>出題者的兩個伏筆：</strong><br />
+① 題目特地給了「<strong>螺栓標稱剪力強度 4.2 tf/cm²</strong>」與「<strong>螺紋不在剪力平面上</strong>」——這兩項<strong>只有算螺栓剪力才會用到</strong>。<br />
+若解答裡沒出現 $\phi R_n = 0.75 F_{nv} A_b n$，就是漏了一個極限狀態（本題該值 71.8 tf，與控制值只差 5%！）。<br />
+② 肢趾側的邊距只有 5 cm（比肢背側的 7.5 cm 小），塊狀剪力的拉力面因此很小 → BSR 成為控制項（68.5 tf），<br />
+只有全斷面降伏（171 tf）的 40%。</p>
+</blockquote>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1  角鋼斷面性質：Ag、x̄
+Step 2  U 值（依考卷表格；並與最新規範公式對照）
+Step 3  ① GSY：φtPn = 0.9 Fy Ag
+Step 4  ② NSF：An → Ae = U·An → φtPn = 0.75 Fu Ae
+Step 5  ③ BSR：分別檢核肢趾側／肢背側／兩行之間三條破壞路徑
+Step 6  ④ 螺栓剪力：φRn = 0.75 × Fnv × Ab × 6（單剪）  ← 別漏
+Step 7  ⑤ 螺栓孔承壓：φRn = 0.75 × 2.4dtFu × 6
+Step 8  取五者最小值
+</code></pre>
+<p><strong>陷阱分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">陷阱</th>
+<th style="text-align: left;">說明</th>
+<th style="text-align: left;">應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">⚠️ <strong>漏算螺栓剪力</strong></td>
+<td style="text-align: left;">題目給 $F_{nv} = 4.2$ tf/cm² 與「螺紋不在剪力平面」就是要你算；本題 71.8 tf，與控制值 68.5 tf 僅差 4.8%</td>
+<td style="text-align: left;">五個極限狀態逐一列表，缺一不可</td>
+</tr>
+<tr>
+<td style="text-align: left;">⚠️ 單剪 vs 雙剪</td>
+<td style="text-align: left;">角鋼只搭接<strong>一片</strong>接合板 → <strong>單剪</strong>（1 個剪力面）。誤判雙剪會把螺栓剪力翻倍成 143.7 tf，直接漏掉這個近控制項</td>
+<td style="text-align: left;">數接合板片數</td>
+</tr>
+<tr>
+<td style="text-align: left;">⚠️ 混淆 $U$ 值適用款次</td>
+<td style="text-align: left;">$U = 0.90$ 只適用 W／H／S／I／T 型鋼<strong>翼板</strong>連接，<strong>不適用角鋼</strong></td>
+<td style="text-align: left;">角鋼屬「其他各種斷面」，每行 ≥ 3 顆 → 情況 2，$U = 0.85$</td>
+</tr>
+<tr>
+<td style="text-align: left;">⚠️ 淨面積扣孔數</td>
+<td style="text-align: left;">臨界橫斷面上有 <strong>2 個</strong>孔（2 行），非 6 個</td>
+<td style="text-align: left;">$A_n = A_g - 2 d_h t$</td>
+</tr>
+<tr>
+<td style="text-align: left;">⚠️ BSR 路徑選錯邊</td>
+<td style="text-align: left;">肢趾側邊距 5 cm &lt; 肢背側 7.5 cm，<strong>小的那邊控制</strong>；且肢背側破壞須連帶剪斷外伸肢，實務上不會發生</td>
+<td style="text-align: left;">三條路徑都算，並說明肢背側路徑為何不成立</td>
+</tr>
+<tr>
+<td style="text-align: left;">⚠️ $U$ 只影響 NSF</td>
+<td style="text-align: left;">全斷面降伏用 $A_g$（無 $U$），斷裂才用 $A_e = UA_n$</td>
+<td style="text-align: left;">分開記</td>
+</tr>
+</tbody>
+</table>
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> LRFD 螺栓接合單角鋼拉力構件 → 五個極限狀態（GSY／NSF／BSR／螺栓剪力／螺栓承壓）取最小值</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\text{① GSY:}\quad \phi_t P_n = 0.9\,F_y\,A_g$$</p>
+<p>$$\text{② NSF:}\quad \boxed{A_n} = A_g - 2 d_h t,\quad \boxed{A_e} = U\,\boxed{A_n},\quad \phi_t P_n = 0.75\,F_u\,\boxed{A_e}$$</p>
+<p>$$\text{③ BSR:}\quad \boxed{R_n} = 0.6F_uA_{nv} + U_{bs}F_uA_{nt} \le 0.6F_yA_{gv} + U_{bs}F_uA_{nt},\quad \phi = 0.75$$</p>
+<p>$$\text{④ 螺栓剪力:}\quad \boxed{A_b} = \frac{\pi d_b^2}{4},\quad \phi R_n = 0.75\,F_{nv}\,\boxed{A_b}\,n\quad(n = 6,\ \text{單剪})$$</p>
+<p>$$\text{⑤ 承壓:}\quad \phi R_n = 0.75\,(2.4\,d_b\,t\,F_u)\,n$$</p>
+<p>$$\boxed{\phi P_n} = \min\left(①,②,③,④,⑤\right)$$</p>
+<h3>L1：題目直接給定</h3>
+<p><em>看到題目就能讀出的數字，不需要任何公式。</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">數值</th>
+<th style="text-align: left;">說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">斷面</td>
+<td style="text-align: left;">L200×200×20 mm</td>
+<td style="text-align: left;">等肢單角鋼，$t = 2.0$ cm</td>
+</tr>
+<tr>
+<td style="text-align: center;">$F_y$</td>
+<td style="text-align: left;">2.5 tf/cm²</td>
+<td style="text-align: left;">降伏應力</td>
+</tr>
+<tr>
+<td style="text-align: center;">$F_u$</td>
+<td style="text-align: left;">4.1 tf/cm²</td>
+<td style="text-align: left;">抗拉強度</td>
+</tr>
+<tr>
+<td style="text-align: center;">$d_b$</td>
+<td style="text-align: left;">22 mm = 2.2 cm</td>
+<td style="text-align: left;">螺栓直徑（承壓型）</td>
+</tr>
+<tr>
+<td style="text-align: center;">$F_{nv}$</td>
+<td style="text-align: left;">4.2 tf/cm²</td>
+<td style="text-align: left;">螺栓標稱剪力強度（螺紋<strong>不在</strong>剪力平面）</td>
+</tr>
+<tr>
+<td style="text-align: center;">$d_h$</td>
+<td style="text-align: left;">23.5 mm = 2.35 cm</td>
+<td style="text-align: left;">螺栓孔徑</td>
+</tr>
+<tr>
+<td style="text-align: center;">螺栓數</td>
+<td style="text-align: left;">6 顆（2 行 × 3 列）</td>
+<td style="text-align: left;">單剪</td>
+</tr>
+<tr>
+<td style="text-align: center;">行距（橫向）</td>
+<td style="text-align: left;">7.5 cm</td>
+<td style="text-align: left;">兩行間距</td>
+</tr>
+<tr>
+<td style="text-align: center;">邊距（自肢背）</td>
+<td style="text-align: left;">7.5 cm</td>
+<td style="text-align: left;">至第 1 行</td>
+</tr>
+<tr>
+<td style="text-align: center;">邊距（至肢趾）</td>
+<td style="text-align: left;">5 cm</td>
+<td style="text-align: left;">第 2 行至自由邊</td>
+</tr>
+<tr>
+<td style="text-align: center;">列距 $s$</td>
+<td style="text-align: left;">7.5 cm</td>
+<td style="text-align: left;">沿載重方向</td>
+</tr>
+<tr>
+<td style="text-align: center;">端距 $e$</td>
+<td style="text-align: left;">5 cm</td>
+<td style="text-align: left;">至角鋼端</td>
+</tr>
+<tr>
+<td style="text-align: center;">接合方式</td>
+<td style="text-align: left;">僅通過一肢</td>
+<td style="text-align: left;">需考慮剪力遲滯</td>
+</tr>
+<tr>
+<td style="text-align: center;">接合板</td>
+<td style="text-align: left;">強度足夠（題目假設）</td>
+<td style="text-align: left;">不需檢核接合板</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><em>需要知道公式名稱與適用條件，套入 L1 即可算出。</em></p>
+<p><strong>Step 1：角鋼斷面性質</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$A_g$</td>
+<td style="text-align: left;">$(200+200-20)\times20 = 7600$ mm² $= 76.0$ cm²</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$\bar x$</td>
+<td style="text-align: left;">兩矩形分割求形心距肢背 $= 5.74$ cm（型鋼表 5.67 cm）</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$L_{conn}$</td>
+<td style="text-align: left;">$2s = 15$ cm（沿載重方向的接合長度）</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：剪力遲滯係數 $U$</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">考卷表格值</td>
+<td style="text-align: left;">角鋼＝「其他各種斷面」、每行 3 顆 ≥ 3 → 情況 2 → $U = 0.85$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">最新規範公式</td>
+<td style="text-align: left;">$U = 1-\bar x/L_{conn} = 1-5.74/15 = 0.617$（AISC Table D3.1 Case 2）</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">最新規範單角鋼專款</td>
+<td style="text-align: left;">每行 3 顆 → $U = 0.60$（Case 8）；取兩者較大 → 0.617</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：① 全斷面降伏 GSY</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$\phi_t P_n$</td>
+<td style="text-align: left;">$0.9 \times 2.5 \times 76.0 = 171.0$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：② 有效淨斷面斷裂 NSF</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$A_n$</td>
+<td style="text-align: left;">$76.0 - 2(2.35)(2.0) = 66.6$ cm²</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$A_e$（考卷 $U=0.85$）</td>
+<td style="text-align: left;">$0.85 \times 66.6 = 56.61$ cm²</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$\phi_t P_n$</td>
+<td style="text-align: left;">$0.75 \times 4.1 \times 56.61 = 174.1$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：③ 塊狀剪力 BSR（三條路徑）</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">剪切長度</td>
+<td style="text-align: left;">$e + 2s = 5+15 = 20$ cm</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$A_{gv}$（每面）</td>
+<td style="text-align: left;">$20 \times 2.0 = 40$ cm²</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$A_{nv}$（每面）</td>
+<td style="text-align: left;">$[20 - 2.5(2.35)] \times 2.0 = 28.25$ cm²（扣 2.5 孔）</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">路徑 A（肢趾側 5 cm）<strong>控制</strong></td>
+<td style="text-align: left;">$A_{nt} = (5-0.5\times2.35)(2.0) = 7.65$ cm² → $\phi R_n = 68.5$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">路徑 B（肢背側 7.5 cm）</td>
+<td style="text-align: left;">$A_{nt} = 12.65$ cm² → $\phi R_n = 83.9$ tf（且須剪斷外伸肢，實務不發生）</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">路徑 C（兩行之間 7.5 cm，雙剪面）</td>
+<td style="text-align: left;">$A_{nt} = 10.3$ cm² → $\phi R_n = 121.7$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 6：④ 螺栓剪力（單剪）</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$A_b$</td>
+<td style="text-align: left;">$\pi(2.2)^2/4 = 3.801$ cm²</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">每顆 $\phi R_n$</td>
+<td style="text-align: left;">$0.75 \times 4.2 \times 3.801 = 11.97$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">6 顆合計</td>
+<td style="text-align: left;">$6 \times 11.97 = 71.8$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 7：⑤ 螺栓孔承壓</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">每顆 $R_n$</td>
+<td style="text-align: left;">$2.4 d_b t F_u = 2.4(2.2)(2.0)(4.1) = 43.3$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">每顆 $\phi R_n$</td>
+<td style="text-align: left;">$0.75 \times 43.3 = 32.5$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">6 顆合計</td>
+<td style="text-align: left;">$194.8$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">知識點</th>
+<th style="text-align: left;">說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">剪力遲滯係數 $U$ 的款次判定</td>
+<td style="text-align: left;">W／H／S／I／T 翼板連接 $U=0.90$；其他斷面（含角鋼）每行≥3 顆 $U=0.85$；每行僅 2 顆 $U=0.75$</td>
+<td style="text-align: center;">[[shear-lag-u]] · [[SHEAR-LAG]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">$U$ 只影響淨斷面斷裂</td>
+<td style="text-align: left;">全斷面降伏用 $A_g$（無 $U$）；斷裂用 $A_e = UA_n$</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">塊狀剪力的上限式</td>
+<td style="text-align: left;">$0.6F_yA_{gv}$（剪力面降伏）＋$F_uA_{nt}$（拉力面斷裂）為上限，取與 $0.6F_uA_{nv}+F_uA_{nt}$ 之較小值</td>
+<td style="text-align: center;">[[block-shear]] · [[BLOCK-SHEAR-RUPTURE]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">塊狀剪力扣孔的 2.5 顆慣例</td>
+<td style="text-align: left;">剪力面通過 3 個孔，末端孔只切到一半 → 扣 $2.5 d_h$</td>
+<td style="text-align: center;">[[block-shear]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">肢背側 BSR 路徑為何不成立</td>
+<td style="text-align: left;">肢背是折角、外伸肢仍相連，該路徑要同時剪斷外伸肢，容量遠高於算式值 → 實際由肢趾側控制</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">螺栓剪力面數判定</td>
+<td style="text-align: left;">單面搭接一片接合板 → 單剪（$n$ 個剪力面 = 螺栓數）；夾在兩片板中 → 雙剪（$2n$）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">螺紋在／不在剪力平面</td>
+<td style="text-align: left;">不在剪力平面（X 型）用全桿身面積 $A_b$；在剪力平面（N 型）標稱剪力強度約降至 0.8 倍</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程</h2>
+<h3>4.1 角鋼斷面性質</h3>
+<p><strong>L200×200×20 mm（等肢角鋼）：</strong></p>
+<p>$$A_g = (200 + 200 - 20) \times 20 = 380 \times 20 = 7600\ \text{mm}^2 = 76.0\ \text{cm}^2$$</p>
+<p><strong>形心距離 $\bar{x}$</strong>（距角鋼背面）：以肢背為原點，分為兩矩形</p>
+<ul>
+<li>水平肢：$A_1 = 200 \times 20 = 4000$ mm²，$x_1 = 100$ mm</li>
+<li>垂直肢（扣除重疊）：$A_2 = 180 \times 20 = 3600$ mm²，$x_2 = 10$ mm</li>
+</ul>
+<p>$$\bar{x} = \frac{4000(100) + 3600(10)}{7600} = \frac{436{,}000}{7600} = 57.4\ \text{mm} = 5.74\ \text{cm}$$</p>
+<p><em>（型鋼規格表值 $C_x = 5.67$ cm，含圓角；差異 1.2%，不影響結論。）</em></p>
+<hr />
+<h3>4.2 剪力遲滯係數 $U$</h3>
+<p><strong>依考卷提供之表格（＝台灣現行極限設計法規範 §4.3）：</strong></p>
+<p>角鋼不屬 W／H／S／I／T 型鋼，歸入情況 2「包括組合斷面之其他各種斷面」；接合處沿應力方向<strong>每行 3 根</strong>螺栓（$\ge 3$）：</p>
+<p>$$\boxed{U = 0.85}$$</p>
+<p><strong>依最新規範（AISC 360-16／-22 Table D3.1）之對照：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">條款</th>
+<th style="text-align: left;">規定</th>
+<th style="text-align: center;">本題值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Case 2</td>
+<td style="text-align: left;">$U = 1 - \bar x / l$，$l$ = 接合長度</td>
+<td style="text-align: center;">$1 - 5.74/15 = 0.617$</td>
+</tr>
+<tr>
+<td style="text-align: left;">Case 8（單角鋼專款）</td>
+<td style="text-align: left;">每行 4 顆以上 $U = 0.80$；<strong>每行 3 顆 $U = 0.60$</strong></td>
+<td style="text-align: center;">0.60</td>
+</tr>
+<tr>
+<td style="text-align: left;">取用</td>
+<td style="text-align: left;">兩者取較大</td>
+<td style="text-align: center;"><strong>0.617</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ 最新規範的 $U = 0.617$ 比考卷表格的 0.85 <strong>嚴格得多</strong>（$A_e$ 少 27%）。所幸本題 NSF 兩者皆不控制（見 4.7），<br />
+故最終答案不變。<strong>考場請照考卷給的表格取 $U = 0.85$</strong>；本對照僅供理解規範演進方向。</p>
+</blockquote>
+<hr />
+<h3>4.3 極限狀態①：全斷面降伏（Gross Section Yielding, GSY）</h3>
+<p>$$\phi_t P_n = 0.9 \times F_y \times A_g = 0.9 \times 2.5 \times 76.0 = \boxed{171.0\ \text{tf}}$$</p>
+<hr />
+<h3>4.4 極限狀態②：淨斷面斷裂（Net Section Fracture, NSF）</h3>
+<p><strong>淨斷面積</strong>（臨界橫斷面上有 <strong>2 個</strong>螺栓孔，即 2 行螺栓同時被截到）：</p>
+<p>$$A_n = A_g - 2 d_h t = 76.0 - 2(2.35)(2.0) = 76.0 - 9.4 = 66.6\ \text{cm}^2$$</p>
+<p><strong>有效淨斷面積與強度（$U = 0.85$）：</strong></p>
+<p>$$A_e = U A_n = 0.85 \times 66.6 = 56.61\ \text{cm}^2$$</p>
+<p>$$\phi_t P_n = 0.75 \times F_u \times A_e = 0.75 \times 4.1 \times 56.61 = \boxed{174.1\ \text{tf}}$$</p>
+<p><em>（若依最新規範 $U = 0.617$：$A_e = 41.1$ cm²，$\phi_t P_n = 126.4$ tf——仍不控制。）</em></p>
+<hr />
+<h3>4.5 極限狀態③：塊狀剪力破壞（Block Shear Rupture, BSR）</h3>
+<p>$$R_n = 0.6F_u A_{nv} + U_{bs} F_u A_{nt} \le 0.6F_y A_{gv} + U_{bs} F_u A_{nt},\qquad \phi = 0.75,\ U_{bs} = 1.0$$</p>
+<p><strong>幾何（連接肢寬 20 cm、厚 2 cm）：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">位置</th>
+<th style="text-align: center;">距肢背（heel）</th>
+<th style="text-align: center;">距肢趾（toe）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">第 1 行</td>
+<td style="text-align: center;">7.5 cm</td>
+<td style="text-align: center;">12.5 cm</td>
+</tr>
+<tr>
+<td style="text-align: left;">第 2 行</td>
+<td style="text-align: center;">15.0 cm</td>
+<td style="text-align: center;"><strong>5.0 cm</strong></td>
+</tr>
+</tbody>
+</table>
+<p>縱向剪切長度（自角鋼端至最遠螺栓）：$L_{sh} = e + 2s = 5 + 7.5 + 7.5 = 20$ cm</p>
+<p>每一剪力面：$A_{gv} = 20 \times 2.0 = 40$ cm²；$A_{nv} = [20 - 2.5(2.35)] \times 2.0 = 28.25$ cm²</p>
+<p><img alt="SS-2005-1 圖 2：四格圖。第一格為連接肢俯視的接合幾何——L200×200×20 角鋼連接肢寬 20 cm，自肢背起 7.5 cm 至第 1 行、再 7.5 cm 至第 2 行、第 2 行距肢趾僅 5.0 cm；沿載重方向端距 5 cm 加兩個 7.5 cm 列距，剪力面長度 20 cm；6 個孔徑 2.35 cm 的螺栓孔；未連接之外伸肢位於肢背側。後三格為三條塊狀剪力路徑：路徑 A 沿第 2 行剪出並拉裂至肢趾（A_nt = 7.65 平方公分，φR_n = 68.5 tf，控制）、路徑 B 沿第 1 行剪出並拉裂至肢背（A_nt = 12.65，φR_n = 83.9 tf）、路徑 C 兩行同時剪出並拉裂行間（A_nt = 10.30，兩個剪力面，φR_n = 121.7 tf）" src="../../raw/solutions/SS-2005-1/figs/SS-2005-1-fig-2-block-shear.svg" /></p>
+<p><em>圖 2　把三條塊狀剪力路徑畫在同一張幾何上：剪力面（紫）永遠是自角鋼端到最遠螺栓的 20 cm，差別只在拉力面（紅）落在哪一段寬度。肢趾側只剩 5 cm，拉力面積最小，故路徑 A 控制。<strong>攔錯：</strong>只算一條路徑、或把拉力面畫到邊距較大的肢背側，答案會從 68.5 tf 變成 83.9 tf。</em></p>
+<hr />
+<p><strong>路徑 A：沿第 2 行剪出 ＋ 拉裂至肢趾（拉力寬 5.0 cm）</strong> ← <strong>控制</strong></p>
+<p>$$A_{nt} = (5.0 - 0.5 \times 2.35)(2.0) = 3.825 \times 2.0 = 7.65\ \text{cm}^2$$</p>
+<p>$$R_n = 0.6(4.1)(28.25) + 1.0(4.1)(7.65) = 69.5 + 31.4 = 100.9\ \text{tf}$$</p>
+<p>$$\text{上限} = 0.6(2.5)(40) + 4.1(7.65) = 60.0 + 31.4 = 91.4\ \text{tf}\ \leftarrow\ \text{控制}$$</p>
+<p>$$\phi R_n^{A} = 0.75 \times 91.4 = \boxed{68.5\ \text{tf}}\ \leftarrow\ \textbf{五個極限狀態中最小}$$</p>
+<hr />
+<p><strong>路徑 B：沿第 1 行剪出 ＋ 拉裂至肢背（拉力寬 7.5 cm）</strong></p>
+<p>$$A_{nt} = (7.5 - 0.5 \times 2.35)(2.0) = 12.65\ \text{cm}^2$$</p>
+<p>$$R_n = 0.6(4.1)(28.25) + 4.1(12.65) = 69.5 + 51.9 = 121.4\ \text{tf}$$</p>
+<p>$$\text{上限} = 0.6(2.5)(40) + 51.9 = 111.9\ \text{tf} \;\Rightarrow\; \phi R_n^{B} = 83.9\ \text{tf}$$</p>
+<blockquote>
+<p><strong>註：</strong> 此路徑的破壞面須自肢背（折角處）撕出，實際上還要一併剪斷<strong>未連接的外伸肢</strong>，真實容量遠高於算式值，<br />
+因此不會控制。列出僅為說明「為何是肢趾側（5 cm）控制」。</p>
+</blockquote>
+<hr />
+<p><strong>路徑 C：兩行同時剪出 ＋ 拉裂行間（拉力寬 7.5 cm，兩個剪力面）</strong></p>
+<p>$$A_{gv} = 2(40) = 80\ \text{cm}^2,\qquad A_{nv} = 2(28.25) = 56.5\ \text{cm}^2$$</p>
+<p>$$A_{nt} = (7.5 - 2.35)(2.0) = 10.3\ \text{cm}^2$$</p>
+<p>$$R_n = 0.6(4.1)(56.5) + 4.1(10.3) = 139.0 + 42.2 = 181.2\ \text{tf}$$</p>
+<p>$$\text{上限} = 0.6(2.5)(80) + 42.2 = 162.2\ \text{tf} \;\Rightarrow\; \phi R_n^{C} = 121.7\ \text{tf}$$</p>
+<hr />
+<h3>4.6 極限狀態④：螺栓剪力（本題的第二關鍵，勿漏）</h3>
+<p>角鋼僅搭接<strong>一片</strong>接合板 $\Rightarrow$ <strong>單剪</strong>，剪力面數 = 螺栓數 = 6。</p>
+<p>螺紋<strong>不在</strong>剪力平面上 $\Rightarrow$ 剪力面採<strong>全桿身面積</strong>：</p>
+<p>$$A_b = \frac{\pi d_b^2}{4} = \frac{\pi (2.2)^2}{4} = 3.801\ \text{cm}^2$$</p>
+<p>每顆螺栓：</p>
+<p>$$\phi R_n = \phi F_{nv} A_b = 0.75 \times 4.2 \times 3.801 = 11.97\ \text{tf/bolt}$$</p>
+<p>6 顆合計：</p>
+<p>$$\boxed{\phi R_n = 6 \times 11.97 = 71.8\ \text{tf}}$$</p>
+<blockquote>
+<p>⚠️ 這一項與控制值 68.5 tf 只差 <strong>4.8%</strong>。題目給「$F_{nv} = 4.2$ tf/cm²」與「螺紋不在剪力平面上」<br />
+就是為了設這道關卡——不算就等於少檢核一個幾乎控制的極限狀態。</p>
+</blockquote>
+<hr />
+<h3>4.7 極限狀態⑤：螺栓孔承壓</h3>
+<p>依題目給定 $R_n = 2.4 d t F_u$（$t$ 取角鋼厚 2.0 cm）：</p>
+<p>$$R_n = 2.4(2.2)(2.0)(4.1) = 43.3\ \text{tf/bolt} \;\Rightarrow\; \phi R_n = 0.75 \times 43.3 = 32.5\ \text{tf/bolt}$$</p>
+<p>$$\phi R_{n,\text{total}} = 6 \times 32.5 = \boxed{194.8\ \text{tf}}$$</p>
+<p><em>（依最新規範 AISC 360-16 J3.10 尚須檢核撕出：端部螺栓 $L_c = 5 - 2.35/2 = 3.825$ cm，<br />
+$1.2L_ctF_u = 1.2(3.825)(2.0)(4.1) = 37.6$ tf/bolt $&lt; 43.3$ → 該顆改由撕出控制；<br />
+但即使 6 顆全取 37.6 tf，$\phi\sum R_n = 169$ tf 仍遠大於 68.5 tf，不控制。）</em></p>
+<hr />
+<h3>4.8 設計拉力強度彙整</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">極限狀態</th>
+<th style="text-align: center;">$\phi P_n$（tf）</th>
+<th style="text-align: left;">備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">① 全斷面降伏 GSY</td>
+<td style="text-align: center;">171.0</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">② 淨斷面斷裂 NSF（$U=0.85$）</td>
+<td style="text-align: center;">174.1</td>
+<td style="text-align: left;">依最新規範 $U=0.617$ 則為 126.4</td>
+</tr>
+<tr>
+<td style="text-align: left;">③ 塊狀剪力 BSR — 路徑 A（肢趾側）</td>
+<td style="text-align: center;"><strong>68.5</strong></td>
+<td style="text-align: left;">← <strong>控制</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">③ 塊狀剪力 BSR — 路徑 B（肢背側）</td>
+<td style="text-align: center;">83.9</td>
+<td style="text-align: left;">須連帶剪斷外伸肢，實務不發生</td>
+</tr>
+<tr>
+<td style="text-align: left;">③ 塊狀剪力 BSR — 路徑 C（行間）</td>
+<td style="text-align: center;">121.7</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">④ <strong>螺栓剪力（單剪，6 顆）</strong></td>
+<td style="text-align: center;"><strong>71.8</strong></td>
+<td style="text-align: left;">← <strong>僅比控制值高 4.8%</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">⑤ 螺栓孔承壓（6 顆）</td>
+<td style="text-align: center;">194.8</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{\phi P_n = 68.5\ \text{tf}\quad\text{（由塊狀剪力 BSR 路徑 A 控制）}}$$</p>
+<p><img alt="SS-2005-1 圖 3：五個極限狀態的設計強度長條比較。① 全斷面降伏 171.0 tf（88%）、② 淨斷面斷裂 174.1 tf（89%）、③ 塊狀剪力路徑 A 68.5 tf（35%，控制）、④ 螺栓剪力單剪 6 顆 71.8 tf（37%）、⑤ 螺栓孔承壓 194.8 tf（100%）；③ 與 ④ 的長條幾乎同高，兩者僅差 4.8%" src="../../raw/solutions/SS-2005-1/figs/SS-2005-1-fig-3-limit-states.svg" /></p>
+<p><em>圖 3　五個極限狀態並排後才看得出：第 ④ 項螺栓剪力（71.8 tf）只比控制值高 4.8%，兩根長條幾乎同高。<strong>攔錯：</strong>漏算螺栓剪力——題目給的 $F_{nv} = 4.2$ tf/cm² 與「螺紋不在剪力平面上」若沒用到，就是少檢核了一個幾乎控制的極限狀態。</em></p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討</h2>
+<h3>5.1 塊狀剪力主控：只有全斷面降伏的 40%</h3>
+<p>$$\frac{\phi P_n^{BSR}}{\phi P_n^{GSY}} = \frac{68.5}{171.0} = 0.40$$</p>
+<p>原因：</p>
+<ul>
+<li>接合長度（$e + 2s = 20$ cm）相對角鋼 76 cm² 的斷面積偏短</li>
+<li><strong>肢趾側邊距僅 5 cm</strong>，拉力破壞面積只有 7.65 cm²，是整條路徑的瓶頸</li>
+<li>上限式 $0.6F_yA_{gv}$ 控制（剪力面由降伏而非斷裂控制）</li>
+</ul>
+<p><strong>改善順序（效益由大到小）：</strong> ① 把第 2 行往肢趾方向移、拉大 toe 邊距；② 增加列數（拉長 $L_{sh}$）；③ 加大端距 $e$。<br />
+注意單純加大螺栓直徑無效——BSR 與 $d_b$ 幾乎無關（只透過 $d_h$ 略微變差）。</p>
+<h3>5.2 螺栓剪力與 BSR 只差 4.8%：這題的「雙瓶頸」</h3>
+<p>$$\phi R_n^{\text{bolt shear}} = 71.8\ \text{tf} \quad\text{vs}\quad \phi R_n^{BSR} = 68.5\ \text{tf}$$</p>
+<p>實務上這是一個「設計得剛好」的接合：兩個機制幾乎同時到達。若螺栓改為<strong>螺紋在剪力平面上</strong>（N 型），<br />
+$F_{nv}$ 約降至 $0.8 \times 4.2 = 3.36$ tf/cm²，則</p>
+<p>$$\phi R_n = 0.75(3.36)(3.801)(6) = 57.5\ \text{tf} &lt; 68.5\ \text{tf}$$</p>
+<p><strong>控制項就會從塊狀剪力翻轉為螺栓剪力</strong>。這正是題目要交代「螺紋不在剪力平面上」的理由。</p>
+<h3>5.3 $U$ 值：考卷表格 vs 最新規範</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">依據</th>
+<th style="text-align: center;">$U$</th>
+<th style="text-align: center;">$A_e$</th>
+<th style="text-align: center;">$\phi P_n^{NSF}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">考卷表格（台灣現行規範 §4.3 情況 2）</td>
+<td style="text-align: center;">0.85</td>
+<td style="text-align: center;">56.6 cm²</td>
+<td style="text-align: center;">174.1 tf</td>
+</tr>
+<tr>
+<td style="text-align: left;">AISC 360-16／-22 Case 2（$1-\bar x/l$）</td>
+<td style="text-align: center;">0.617</td>
+<td style="text-align: center;">41.1 cm²</td>
+<td style="text-align: center;">126.4 tf</td>
+</tr>
+<tr>
+<td style="text-align: left;">AISC 360-16／-22 Case 8（單角鋼，每行 3 顆）</td>
+<td style="text-align: center;">0.60</td>
+<td style="text-align: center;">40.0 cm²</td>
+<td style="text-align: center;">122.9 tf</td>
+</tr>
+</tbody>
+</table>
+<p><strong>規範演進的方向：</strong> 舊表格用「螺栓根數」一刀切給 0.85，過於寬鬆；新規範改為<strong>顯式的偏心距公式</strong> $1-\bar x/l$<br />
+並對單角鋼另訂下限（3 顆 0.60、4 顆以上 0.80），能反映「接合越短、偏心越大 → 剪力遲滯越嚴重」的物理。</p>
+<p>本題因 BSR 控制，$U$ 的差異不改變答案；但若題目把肢趾邊距加大（BSR 不控制），新舊規範就會給出<br />
+174 tf vs 126 tf 的顯著差別。<strong>考場依考卷給的表格作答</strong>，實務設計則應用現行 AISC 條款。</p>
+<h3>5.4 若雙肢均連接，$U$ 可提升至 1.0</h3>
+<p>若改為背靠背雙角鋼、或以兩片接合板將兩肢均連接，則「所有元件均已連接」，$U = 1.0$：</p>
+<p>$$\phi_t P_n^{NSF} = 0.75(4.1)(66.6) = 204.8\ \text{tf} &gt; 171.0\ \text{tf}\ (\text{GSY})$$</p>
+<p>此時 NSF 不再控制，且螺栓改為<strong>雙剪</strong>（$\phi R_n = 143.7$ tf），BSR 剪力面也加倍 → 整體容量可逼近全斷面降伏容量。</p>
+<h3>5.5 最新規範對本題其他項目的影響彙整</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">項目</th>
+<th style="text-align: left;">考卷／台灣現行規範（99 年版）</th>
+<th style="text-align: left;">AISC 360-16／-22</th>
+<th style="text-align: left;">對本題答案的影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">$\phi_t$（GSY／NSF）</td>
+<td style="text-align: left;">0.90／0.75</td>
+<td style="text-align: left;">0.90／0.75</td>
+<td style="text-align: left;">無變動</td>
+</tr>
+<tr>
+<td style="text-align: left;">$U$（單角鋼）</td>
+<td style="text-align: left;">表格 0.85</td>
+<td style="text-align: left;">$\max(1-\bar x/l,\ 0.60) = 0.617$</td>
+<td style="text-align: left;">NSF 由 174 → 126 tf，仍不控制</td>
+</tr>
+<tr>
+<td style="text-align: left;">塊狀剪力</td>
+<td style="text-align: left;">$0.6F_uA_{nv}+U_{bs}F_uA_{nt} \le 0.6F_yA_{gv}+U_{bs}F_uA_{nt}$</td>
+<td style="text-align: left;">J4.3 條文形式相同</td>
+<td style="text-align: left;">無變動</td>
+</tr>
+<tr>
+<td style="text-align: left;">螺栓剪力 $\phi$</td>
+<td style="text-align: left;">0.75</td>
+<td style="text-align: left;">0.75</td>
+<td style="text-align: left;">無變動</td>
+</tr>
+<tr>
+<td style="text-align: left;">承壓</td>
+<td style="text-align: left;">$R_n = 2.4dtF_u$</td>
+<td style="text-align: left;">$R_n = \min(2.4dtF_u,\ 1.2L_ctF_u)$（-22 版另列撕出）</td>
+<td style="text-align: left;">端栓由 43.3 → 37.6 tf，仍不控制</td>
+</tr>
+</tbody>
+</table>
+<p>$\Rightarrow$ <strong>本題最終答案在新舊規範下皆為 $\phi P_n = 68.5$ tf（塊狀剪力控制）。</strong></p>
+<p><em>解析完成時間：2026-04-xx</em><br />
+<em>修正日期：2026-08-22（補算漏掉的螺栓剪力極限狀態 71.8 tf；修正 BSR 路徑之肢背／肢趾判讀與 $2.4dtF_u = 43.3$ tf 之算術；加入最新規範 $U$ 值對照）</em><br />
+<em>圖解補繪：2026-08-29（向量圖，腳本 <code>gen_SS-2005-1.py</code>，可重跑）</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2005-1/SS-2005-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body></html>

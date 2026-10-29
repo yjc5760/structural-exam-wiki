@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2022-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.88em;line-height:1.5}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;padding:10px 16px;border-radius:0 8px 8px 0}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SS-2022-2 題目解析</h1><a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a></header>
+<main><h1>考題編號：SS-2022-2</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> <code>SS-U1-4</code> 接合之分析與設計<br />
+<strong>設計法：</strong> ASD<br />
+<strong>標籤：</strong> <code>拉力桿件</code> <code>插銷接合</code> <code>鉸接</code> <code>ASD</code> <code>有效淨面積</code> <code>塊狀剪力</code> <code>承壓</code> <code>A572</code> <code>容許強度</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>設計考慮<strong>靜載重 135 kN</strong> 與<strong>活載重 315 kN</strong>，構件採用寬度 300 mm、厚度 $t = 20$ mm 的 <strong>A572 Gr. 50</strong> 鋼板（$F_y = 345$ MPa，$F_u = 450$ MPa）。</p>
+<p>在其中一個角隅距兩邊離 $a = 65$ mm 處開一個直徑 $d = 100$ mm 的圓孔，放入插銷作成鉸接合。</p>
+<p><strong>設計需考慮之極限狀態（題目提供公式）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>極限狀態</th>
+<th>公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>受拉全斷面降伏</td>
+<td>$P_n = F_y A_g$</td>
+</tr>
+<tr>
+<td>受拉有效面積斷裂</td>
+<td>$P_n = F_u(2t b_e)$，$b_e = (b_e)_{\max} = (2t+16)$ mm</td>
+</tr>
+<tr>
+<td>受剪有效面積斷裂</td>
+<td>$P_n = 0.6F_u A_{sf}$，$A_{sf} = 2t(a+d/2)$</td>
+</tr>
+<tr>
+<td>插銷投影面積承壓</td>
+<td>$P_n = 1.8F_y A_{pb}$，$A_{pb} = td$</td>
+</tr>
+</tbody>
+</table>
+<p>試依 <strong>ASD 法</strong>分析各極限狀態之可用強度。（25 分）</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：插銷鉸接拉力構件有四種獨立破壞機制，ASD 各有不同 Ω 係數</strong></p>
+<p>插銷（Pin）接合不同於螺栓孔群或搭接接合，破壞模式包括：</p>
+<ol>
+<li><strong>全斷面降伏</strong>（過度變形）</li>
+<li><strong>銷孔旁拉力斷裂</strong>（淨面積不足）</li>
+<li><strong>銷孔前方剪力斷裂</strong>（剪出破壞，Shear Out）</li>
+<li><strong>插銷承壓破壞</strong>（孔壁變形）</li>
+</ol>
+<p><strong>出題者測驗重點：</strong></p>
+<ul>
+<li>能代入各破壞模式公式（公式已給）並計算各自強度</li>
+<li>知道 ASD 的安全係數 Ω 與破壞模式對應</li>
+<li>能判斷控制性破壞模式並與載重比較</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>計算設計服務載重（ASD 不因數化）</li>
+<li>逐一計算四種破壞模式的標稱強度 $P_n$</li>
+<li>除以 ASD 安全係數 $\Omega$ 得可用強度 $P_a$</li>
+<li>取最小值，判斷是否 $P_a \geq P$（服務載重）</li>
+</ol>
+<p><strong>ASD 安全係數（AISC 360 Chapter D5，插銷接合）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>極限狀態</th>
+<th>$\Omega$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全斷面降伏</td>
+<td>1.67</td>
+</tr>
+<tr>
+<td>有效淨面積斷裂</td>
+<td>2.00</td>
+</tr>
+<tr>
+<td>剪力斷裂</td>
+<td>2.00</td>
+</tr>
+<tr>
+<td>承壓</td>
+<td>2.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>關鍵陷阱：</strong></p>
+<blockquote>
+<p>⚠️ <strong>陷阱1：be 的上限值</strong><br />
+$b_e = \min\left(2t + 16, \text{實際淨寬}\right) = (2t+16)$ mm，此為規範設定上限，用於防止插銷過度變形。計算時直接取 $b_e = 2(20)+16 = 56$ mm，不需另外驗算淨寬是否更小。</p>
+<p>⚠️ <strong>陷阱2：Asf 公式中的 (a + d/2)</strong><br />
+$A_{sf} = 2t(a + d/2)$ 中，$a$ 為角隅至插銷孔中心的距離，$(a + d/2)$ 為從板端面至插銷孔中心的剪力面長度（兩者之和代表剪力破壞路徑）。</p>
+<p>⚠️ <strong>陷阱3：ASD 載重不因數化</strong><br />
+ASD 設計載重 $P = P_D + P_L$（直接相加，無載重放大係數），與 LRFD 的 $P_u = 1.2P_D + 1.6P_L$ 截然不同。</p>
+<p>⚠️ <strong>陷阱4：控制破壞模式</strong><br />
+四種模式各自獨立，取<strong>最小可用強度</strong>作為設計強度，需完整計算所有模式再比較。</p>
+</blockquote>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 鋼板插銷接合（ASD）四種極限狀態各算可用強度，取最小值與設計載重比較</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$P_{allow} = \frac{P_n}{\Omega}, \quad P_{ASD} = P_D + P_L$$</p>
+<p><strong>四種極限狀態：</strong><br />
+$$P_{n,1} = F_y A_g \;(\Omega=1.67), \quad P_{n,2} = F_u(2t b_e) \;(\Omega=2.0)$$<br />
+$$P_{n,3} = 0.6 F_u A_{sf} \;(\Omega=2.0), \quad P_{n,4} = 1.8 F_y A_{pb} \;(\Omega=2.0)$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>板寬</td>
+<td>300 mm = 30 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>板厚 $t$</td>
+<td>20 mm = 2 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>角隅距 $a$</td>
+<td>65 mm = 6.5 cm</td>
+<td>角隅至孔邊（或孔中心？需確認）</td>
+</tr>
+<tr>
+<td>孔徑 $d$</td>
+<td>100 mm = 10 cm</td>
+<td>插銷直徑</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>345 MPa ≈ 3.52 tf/cm²</td>
+<td>A572 Gr.50</td>
+</tr>
+<tr>
+<td>$F_u$</td>
+<td>450 MPa ≈ 4.59 tf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$P_D$</td>
+<td>135 kN ≈ 13.77 tf</td>
+<td></td>
+</tr>
+<tr>
+<td>$P_L$</td>
+<td>315 kN ≈ 32.13 tf</td>
+<td></td>
+</tr>
+<tr>
+<td>設計法</td>
+<td>ASD</td>
+<td>$P = P_D + P_L$</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 0：設計載重（ASD）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_{ASD}$</td>
+<td>$135 + 315 = 450$ kN ⚠ ASD 不因數化</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 1：全斷面降伏</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_g$</td>
+<td>$300 \times 20 = 6000$ mm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_{n,1}$</td>
+<td>$345 \times 6000 = 2070000$ N = 2070 kN</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_{allow,1}$</td>
+<td>$2070/1.67 = 1240$ kN</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：有效面積斷裂</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b_e$</td>
+<td>$\min(2t+16, \text{淨寬}) = 2(20)+16 = 56$ mm ⚠ 常見卡關</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_{n,2}$</td>
+<td>$450 \times 2(20)(56) = 450 \times 2240 = 1008000$ N = 1008 kN</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_{allow,2}$</td>
+<td>$1008/2.0 = 504$ kN</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：剪力斷裂</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_{sf}$</td>
+<td>$2t(a+d/2) = 2(20)(65+50) = 2(20)(115) = 4600$ mm² ⚠ 常見卡關</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_{n,3}$</td>
+<td>$0.6 \times 450 \times 4600 = 1242000$ N = 1242 kN</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_{allow,3}$</td>
+<td>$1242/2.0 = 621$ kN</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：承壓</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_{pb}$</td>
+<td>$t \times d = 20 \times 100 = 2000$ mm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_{n,4}$</td>
+<td>$1.8 \times 345 \times 2000 = 1242000$ N = 1242 kN</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_{allow,4}$</td>
+<td>$1242/2.0 = 621$ kN</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：控制強度</strong></p>
+<table>
+<thead>
+<tr>
+<th>極限狀態</th>
+<th>$P_{allow}$ (kN)</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GY</td>
+<td>1240</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>有效面積斷裂</td>
+<td><strong>504</strong>（控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>剪力斷裂</td>
+<td>621</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>承壓</td>
+<td>621</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b_e = 2t+16$ 是規範上限值</td>
+<td>插銷孔有效淨寬上限，防止插銷變形過大，直接取此值（不是計算幾何淨寬）</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">BOLTED-CONNECTION-DESIGN</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{sf}$ 中 $(a+d/2)$ = 剪力面長度</td>
+<td>$a$ 是角隅到孔邊距，$(a+d/2)$ = 角隅到孔中心，是剪力破壞面的全長</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">TENSION-MEMBER-DESIGN</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>ASD 載重 = $P_D + P_L$（不因數化）</td>
+<td>與 LRFD 的 $1.2P_D + 1.6P_L$ 截然不同</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">lrfd-phi-values</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>四種模式取最小可用強度</td>
+<td>不同破壞路徑各自計算，控制者為最弱路徑</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">TENSION-MEMBER-DESIGN</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>一、設計服務載重（ASD）</h3>
+<p>$$P = P_D + P_L = 135 + 315 = \boxed{450 \text{ kN}}$$</p>
+<hr />
+<h3>二、斷面基本幾何</h3>
+<ul>
+<li>鋼板寬度：$b = 300 \text{ mm}$</li>
+<li>鋼板厚度：$t = 20 \text{ mm}$</li>
+<li>插銷孔直徑：$d = 100 \text{ mm}$（半徑 $d/2 = 50 \text{ mm}$）</li>
+<li>角隅距邊距：$a = 65 \text{ mm}$</li>
+</ul>
+<p><strong>全斷面積：</strong><br />
+$$A_g = b \times t = 300 \times 20 = 6000 \text{ mm}^2$$</p>
+<hr />
+<h3>三、極限狀態 1：受拉全斷面降伏</h3>
+<p>$$P_n = F_y A_g = 345 \times 6000 = 2{,}070{,}000 \text{ N} = 2070 \text{ kN}$$</p>
+<p>$$\Omega = 1.67$$</p>
+<p>$$\boxed{P_{a1} = \frac{P_n}{\Omega} = \frac{2070}{1.67} = 1240 \text{ kN}}$$</p>
+<hr />
+<h3>四、極限狀態 2：受拉有效面積斷裂</h3>
+<p><strong>計算有效寬 $b_e$（每側）：</strong><br />
+$$b_e = (b_e)_{\max} = 2t + 16 = 2(20) + 16 = 56 \text{ mm}$$</p>
+<p><em>說明：插銷孔兩側各有 $(300-100)/2 = 100$ mm 的實際可用寬，但規範上限 $b_e = 56$ mm 控制（確保插銷孔周邊板材不發生過度局部變形）。</em></p>
+<p><strong>有效拉力面積（兩側合計）：</strong><br />
+$$A_{nt} = 2 \times t \times b_e = 2 \times 20 \times 56 = 2240 \text{ mm}^2$$</p>
+<p><strong>標稱強度：</strong><br />
+$$P_n = F_u \times (2t b_e) = 450 \times 2240 = 1{,}008{,}000 \text{ N} = 1008 \text{ kN}$$</p>
+<p>$$\Omega = 2.00$$</p>
+<p>$$\boxed{P_{a2} = \frac{1008}{2.00} = 504 \text{ kN}}$$</p>
+<hr />
+<h3>五、極限狀態 3：受剪有效面積斷裂</h3>
+<p><strong>有效剪力面積（插銷孔前方兩側剪出面積）：</strong><br />
+$$A_{sf} = 2t\left(a + \frac{d}{2}\right) = 2(20)\left(65 + \frac{100}{2}\right) = 40 \times 115 = 4600 \text{ mm}^2$$</p>
+<p><strong>標稱強度：</strong><br />
+$$P_n = 0.6 F_u A_{sf} = 0.6 \times 450 \times 4600 = 1{,}242{,}000 \text{ N} = 1242 \text{ kN}$$</p>
+<p>$$\Omega = 2.00$$</p>
+<p>$$\boxed{P_{a3} = \frac{1242}{2.00} = 621 \text{ kN}}$$</p>
+<hr />
+<h3>六、極限狀態 4：插銷投影面積承壓</h3>
+<p><strong>插銷承壓投影面積：</strong><br />
+$$A_{pb} = t \times d = 20 \times 100 = 2000 \text{ mm}^2$$</p>
+<p><strong>標稱強度：</strong><br />
+$$P_n = 1.8 F_y A_{pb} = 1.8 \times 345 \times 2000 = 1{,}242{,}000 \text{ N} = 1242 \text{ kN}$$</p>
+<p>$$\Omega = 2.00$$</p>
+<p>$$\boxed{P_{a4} = \frac{1242}{2.00} = 621 \text{ kN}}$$</p>
+<hr />
+<h3>七、可用強度彙整與判斷</h3>
+<table>
+<thead>
+<tr>
+<th>極限狀態</th>
+<th>標稱強度 $P_n$</th>
+<th>$\Omega$</th>
+<th>可用強度 $P_a$</th>
+<th>控制？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 全斷面降伏</td>
+<td>2070 kN</td>
+<td>1.67</td>
+<td>1240 kN</td>
+<td></td>
+</tr>
+<tr>
+<td>② 有效淨面積拉力斷裂</td>
+<td>1008 kN</td>
+<td>2.00</td>
+<td><strong>504 kN</strong></td>
+<td>✅ <strong>控制</strong></td>
+</tr>
+<tr>
+<td>③ 有效剪力面積斷裂</td>
+<td>1242 kN</td>
+<td>2.00</td>
+<td>621 kN</td>
+<td></td>
+</tr>
+<tr>
+<td>④ 插銷承壓</td>
+<td>1242 kN</td>
+<td>2.00</td>
+<td>621 kN</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>控制強度（最小值）：</strong><br />
+$$P_a = 504 \text{ kN} \quad \text{（受拉有效面積斷裂控制）}$$</p>
+<p><strong>與服務載重比較：</strong><br />
+$$P_a = 504 \text{ kN} > P = 450 \text{ kN} \quad \Rightarrow \boxed{\text{設計適足，OK} \checkmark}$$</p>
+<p><strong>利用率：</strong> $P / P_a = 450/504 = 89.3\%$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>為何 $b_e = 2t+16$ 而非實際淨寬？</h3>
+<p>AISC D5.2 規定插銷接合的有效寬度上限 $b_e \leq 2t + 16$ mm。這個限值的工程理由：</p>
+<ul>
+<li>插銷（pin）會在孔壁施加集中力，若 $b_e$ 過大，孔周邊板材會因應力集中而先行局部變形</li>
+<li>限制 $b_e$ 等效於要求板厚 $t$ 要夠大（$t \geq (b_e - 16)/2$），確保板不會在銷孔旁失穩</li>
+</ul>
+<h3>Ω = 2.00 vs 1.67：哪個極限狀態更「保守」？</h3>
+<ul>
+<li>$\Omega = 1.67$：全斷面降伏屬<strong>延性破壞</strong>（ductile failure），有明顯警示，安全係數較低</li>
+<li>$\Omega = 2.00$：拉力斷裂、剪力斷裂、承壓屬<strong>脆性或局部破壞</strong>，無明顯警示，安全係數較高</li>
+</ul>
+<p>本題控制模式為<strong>有效淨面積拉力斷裂</strong>（$\Omega = 2.00$），這是因為插銷孔的 $b_e$ 被嚴格限制，拉力有效面積遠小於全斷面積，導致此模式提早控制。</p>
+<h3>提升設計效率的選項</h3>
+<p>若要提升 $P_{a2}$（有效淨面積模式）：</p>
+<ol>
+<li><strong>增加板厚 $t$</strong>：$b_e = 2t+16$ 隨 $t$ 增加，$P_n = F_u(2tb_e)$ 正比 $t^2$，效果顯著</li>
+<li><strong>提高材料 $F_u$</strong>：改用 A36→A572 Gr.65（$F_u = 520$ MPa）</li>
+<li><strong>加大板寬 $b$</strong>：提升全斷面降伏強度（但對 ② 無效，因 $b_e$ 受限）</li>
+</ol>
+<h3>ASD vs LRFD 載重比較</h3>
+<table>
+<thead>
+<tr>
+<th>設計法</th>
+<th>設計載重</th>
+<th>載重係數</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASD</td>
+<td>$P = P_D + P_L = 450$ kN</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>LRFD</td>
+<td>$P_u = 1.2P_D + 1.6P_L = 1.2(135) + 1.6(315) = 666$ kN</td>
+<td>1.2/1.6</td>
+</tr>
+</tbody>
+</table>
+<p>LRFD 的 $\phi = 1/\Omega \times \text{安全邊際校正}$，兩種方法結果應相近，但機率論基礎不同。</p></main>
+<footer>來源：raw/solutions/SS-2022-2/SS-2022-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body></html>

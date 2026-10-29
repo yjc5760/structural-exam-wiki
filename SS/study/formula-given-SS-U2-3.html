@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-U2-3 主要規定｜考卷會給 vs. 必須自己背</title>
+<!-- KaTeX 本機資源（assets/katex/），離線亦可正常顯示數學式 -->
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#00695c; --ac2:#e0f2f1;
+  --must:#c62828; --must2:#ffebee;
+  --half:#ef6c00; --half2:#fff3e0;
+  --give:#2e7d32; --give2:#e8f5e9;
+  --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#78909c; --bd:#e0e6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+header{background:linear-gradient(135deg,#004d40,#00796b);color:#fff;padding:26px 24px}
+header h1{margin:0 0 6px;font-size:1.45em}
+header p{margin:0;opacity:.88;font-size:.9em}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{text-decoration:none;color:var(--ac);font-size:.86em;padding:5px 10px;border-radius:16px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:1120px;margin:0 auto;padding:20px 16px 70px}
+section{margin-bottom:40px}
+h2{font-size:1.22em;border-left:5px solid var(--ac);padding-left:10px;margin:32px 0 12px}
+h3{font-size:1.02em;margin:22px 0 8px;color:#37474f}
+p.lead{font-size:.94em;color:#455a64}
+
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:14px 0}
+.lg{border-radius:10px;padding:12px 14px;border:1px solid var(--bd);border-left:6px solid;background:var(--card)}
+.lg h4{margin:0 0 4px;font-size:.98em}
+.lg p{margin:0;font-size:.83em;color:var(--mut)}
+.lg.must{border-left-color:var(--must)} .lg.must h4{color:var(--must)}
+.lg.half{border-left-color:var(--half)} .lg.half h4{color:var(--half)}
+.lg.give{border-left-color:var(--give)} .lg.give h4{color:var(--give)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:8px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi .n{font-size:1.8em;font-weight:700;color:var(--ac)}
+.kpi .l{font-size:.8em;color:var(--mut)}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 6px;align-items:center}
+.filters .lb{font-size:.83em;color:var(--mut);margin-right:2px}
+button.f{border:1px solid var(--bd);background:#fff;color:var(--ink);border-radius:18px;padding:6px 14px;font-size:.85em;cursor:pointer;font-family:inherit;transition:.15s}
+button.f:hover{border-color:var(--ac)}
+button.f.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+button.f.on.must{background:var(--must);border-color:var(--must)}
+button.f.on.half{background:var(--half);border-color:var(--half)}
+button.f.on.give{background:var(--give);border-color:var(--give)}
+#count{font-size:.83em;color:var(--mut);margin-left:6px}
+
+.cards{display:grid;grid-template-columns:1fr;gap:14px;margin-top:12px}
+.fc{background:var(--card);border:1px solid var(--bd);border-left:7px solid;border-radius:10px;padding:14px 18px}
+.fc.must{border-left-color:var(--must)}
+.fc.half{border-left-color:var(--half)}
+.fc.give{border-left-color:var(--give)}
+.fc .top{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;margin-bottom:6px}
+.fc .nm{font-weight:700;font-size:1.02em}
+.tag{font-size:.72em;padding:2px 9px;border-radius:12px;font-weight:700;white-space:nowrap}
+.tag.must{background:var(--must2);color:var(--must)}
+.tag.half{background:var(--half2);color:var(--half)}
+.tag.give{background:var(--give2);color:var(--give)}
+.tag.grp{background:#eceff1;color:#546e7a;font-weight:400}
+.fc .eq{background:#fafcfd;border:1px dashed var(--bd);border-radius:8px;padding:8px 12px;margin:6px 0;overflow-x:auto}
+.fc .meta{font-size:.85em;color:#455a64;margin:6px 0 0}
+.fc .meta b{color:var(--ink)}
+.fc .ev{font-size:.79em;color:var(--mut);border-top:1px dashed var(--bd);margin-top:9px;padding-top:7px}
+.fc .ev .yr{display:inline-block;background:#eceff1;border-radius:4px;padding:0 5px;margin:1px 2px 1px 0;font-family:ui-monospace,monospace}
+.fc .ev .yr.no{background:var(--must2);color:var(--must)}
+.fc .ev .yr.ok{background:var(--give2);color:var(--give)}
+
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--bd);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.85em;min-width:820px}
+th,td{border-bottom:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;color:#37474f;font-weight:700;position:sticky;top:44px;z-index:5}
+tbody tr:hover{background:#f5f9fd}
+td.c{text-align:center}
+.y{color:var(--give);font-weight:700}
+.n{color:#cfd8dc}
+
+.note{background:var(--half2);border-left:5px solid var(--half);border-radius:8px;padding:12px 16px;font-size:.88em;margin:14px 0}
+.note b{color:var(--half)}
+.warn{background:var(--must2);border-left:5px solid var(--must);border-radius:8px;padding:12px 16px;font-size:.88em;margin:14px 0}
+.warn b{color:var(--must)}
+footer{max-width:1120px;margin:0 auto;padding:0 16px 40px;font-size:.8em;color:var(--mut)}
+
+@media print{
+  nav,.filters{display:none}
+  body{background:#fff}
+  .fc{break-inside:avoid;box-shadow:none}
+  th{position:static}
+  header{background:#004d40 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .fc,.lg,.kpi,.tag{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SS-U2-3 設計規範對施工之要求 — 主要規定「考卷會給 vs. 必須自己背」</h1>
+  <p>證據來源：<code>raw/exams/</code> 2002–2025 全 24 份鋼結構設計考卷之「參考公式／參考資料」區塊逐份比對（含影像頁逐頁目視判讀）｜ 判定標準：保守（任一年考了沒給就算必背）</p>
+</header>
+
+<nav>
+  <a href="#how">判定方法</a>
+  <a href="#cards">規定清單</a>
+  <a href="#matrix">逐年證據表</a>
+  <a href="#strategy">背誦策略</a>
+  <a href="lecture-SS-U2-3.html">▶ U2-3 觀念講義</a>
+  <a href="study-SS-U2-3.html">▶ U2-3 命題分析</a>
+  <a href="formula-given-SS-U1-1.html">▶ U1-1 給／背分界</a>
+  <a href="formula-given-SS-U1-2.html">▶ U1-2 給／背分界</a>
+  <a href="formula-given-SS-U1-3.html">▶ U1-3 給／背分界</a>
+  <a href="formula-given-SS-U1-4.html">▶ U1-4 給／背分界</a>
+  <a href="formula-given-SS-U2-3.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+
+<main>
+
+<section id="how">
+  <h2>一、我怎麼判定的</h2>
+  <p class="lead">
+    本單元 <b>13 題全部是說明題</b>（主分類 7 題 + 副分類 6 題），橫跨 91–113 年共 11 個考年。
+    所謂「公式」在這裡指的是<b>規範裡那些會決定得分的數字與判定規則</b> ——
+    \(t_z\ge(d_z+w_z)/90\)、\(T_0=0.70F_uA_b\)、\(s\ge3d_b\)、鍍層 \(\ge85\,\mu\text{m}\)、
+    板厚 \(\ge40\) mm 要用 SN-C、回銲 \(2w\!\sim\!4w\)、工地銲接兩側各 100 mm 不塗裝 ——
+    這些數字寫得出來就是分數，寫不出來只能寫一堆形容詞。
+  </p>
+  <div class="warn">
+    <b>本單元的判定結論只有一句話：這是 SS 六個子項裡「最沒有東西可抄」的一個。</b>
+    盤點的 38 條規定裡，<b>34 條在 24 年考卷中一次都沒被印出來過</b>。
+    唯一的四個例外全都是「碰巧印在別題旁邊」：螺栓最小間距 \(3d\) 與最小邊距 \(1.5d\)
+    （91、92、93 年印在<b>螺栓承壓強度</b>公式旁，那是 U1-4 的題目）、
+    標準孔孔徑 \(d_b+3\) mm（92 年在題目內文給「螺栓 19 mm、孔徑 22 mm」）、
+    最小銲腳尺寸表（113 年以<b>圖片</b>嵌入，而該年 U2-3 那題問的是梁柱接頭破壞模式，根本用不到它）。<br><br>
+    換句話說：<b>U2-3 這 13 題，考卷從來沒有為它們印過任何一條規定。</b>
+  </div>
+  <div class="warn" style="background:#fff;border-left-color:var(--half)">
+    <b>「零公式年」的證據特別集中在本單元。</b>
+    98 年（<code>SS-2009-2</code> 節點域 \(t_z\)、<code>SS-2009-4</code> 螺栓預拉力與間距）與
+    106 年整張考卷<b>連參考公式區都沒有</b>；
+    105 年只印了 \(\lambda_p/\lambda_r\) 寬厚比表（而那題是問「制定考量」不是叫你查表），
+    <code>SS-2016-2</code> 的回銲題零支援；
+    111 年印了 \(\lambda_c\)、\(F_{cr}\)、\(V_n\)，<code>SS-2022-3</code> 的 NDT 題一樣零支援。
+    <b>出題者的習慣很一致：計算題才印公式，說明題一律不印。</b>
+  </div>
+  <div class="note">
+    <b>三種擺法在本單元幾乎用不上，但仍要知道。</b>
+    考卷印公式有三種方式：（a）集中在最後一題之後、（b）跟在題目正下方、（c）混在題目敘述裡當已知條件。
+    U2-3 的證據幾乎全落在（c），而且都是<b>別題順帶</b>。
+    另外 111、113 年的免責聲明寫得很直接：「<i>題目所列之計算公式僅供參考應自負確認與勘誤責任</i>」——
+    對說明題而言這句話等於沒說，因為根本沒有公式可以「確認與勘誤」。
+  </div>
+
+  <div class="legend">
+    <div class="lg must"><h4>🔴 必背（自己要寫得出來）</h4><p>曾經被考、但當年考卷完全沒給；或根本不曾在任何一年被印出來過。</p></div>
+    <div class="lg half"><h4>🟠 會給但別賭（仍建議背）</h4><p>多數年份有給，但有明確的沒給先例；或給的是舊版／簡化版，需自己判斷修正。</p></div>
+    <div class="lg give"><h4>🟢 通常會給（背概念即可）</h4><p>凡是考該題型，幾乎必定連同公式或數值一起印出。<b>本單元一條都沒有。</b></p></div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="n">24</div><div class="l">份考卷全數比對</div></div>
+    <div class="kpi"><div class="n">13</div><div class="l">題 U2-3 考題</div></div>
+    <div class="kpi"><div class="n">38</div><div class="l">條 U2-3 主要規定</div></div>
+    <div class="kpi"><div class="n" style="color:var(--must)">34</div><div class="l">必背</div></div>
+    <div class="kpi"><div class="n" style="color:var(--half)">4</div><div class="l">會給但別賭</div></div>
+    <div class="kpi"><div class="n" style="color:var(--give)">0</div><div class="l">通常會給</div></div>
+  </div>
+</section>
+
+<section id="cards">
+  <h2>二、U2-3 主要規定逐條分界</h2>
+  <div class="filters">
+    <span class="lb">判定：</span>
+    <button class="f on" data-k="lv" data-v="all">全部</button>
+    <button class="f must" data-k="lv" data-v="must">🔴 必背</button>
+    <button class="f half" data-k="lv" data-v="half">🟠 別賭</button>
+    <button class="f give" data-k="lv" data-v="give">🟢 通常會給</button>
+    <span class="lb" style="margin-left:14px">主題：</span>
+    <button class="f on" data-k="g" data-v="all">全部</button>
+    <button class="f" data-k="g" data-v="螺栓施工">高強度螺栓施工</button>
+    <button class="f" data-k="g" data-v="銲接施工">銲接施工與細節</button>
+    <button class="f" data-k="g" data-v="非破壞檢測">非破壞檢測</button>
+    <button class="f" data-k="g" data-v="防蝕塗裝">防蝕與塗裝</button>
+    <button class="f" data-k="g" data-v="耐震細部">耐震細部與材料</button>
+    <span id="count"></span>
+  </div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section id="matrix">
+  <h2>三、逐年證據表（哪一年給了什麼）</h2>
+  <p class="lead">✔ = 該年考卷印出此規定（含題目內文直接給值、圖片嵌入）；空白 = 沒給。灰底列 = 該年有 U2-3 題目。
+  最後一欄「有參考公式區」是對照組 —— 用來說明「不是那一年什麼都沒印，而是<b>沒有為本單元印</b>」。</p>
+  <div class="tw">
+    <table id="mx">
+      <thead>
+        <tr>
+          <th style="min-width:66px">考卷年</th>
+          <th style="min-width:126px">U2-3 題號</th>
+          <th class="c">螺栓間距 · 邊距</th>
+          <th class="c">孔徑規定</th>
+          <th class="c">銲腳尺寸</th>
+          <th class="c">銲喉 \(0.707w\)</th>
+          <th class="c">NDT 對應</th>
+          <th class="c">防蝕 · 塗裝</th>
+          <th class="c">耐震細部</th>
+          <th class="c">預拉力 · 滑動</th>
+          <th class="c">（對照）有參考公式區</th>
+          <th style="min-width:170px">備註</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="strategy">
+  <h2>四、由此推出的背誦策略</h2>
+
+  <h3>① 一句話診斷：這一單元「沒有給不給的問題，只有背不背的問題」</h3>
+  <div class="warn" style="background:#fff;border-left-color:var(--must)">
+    U1-2 的結論是「長式子會給、短定義不給」，U1-3 的結論是「零件會給、圖紙不給」——
+    <b>U2-3 沒有這種區分，因為什麼都不給。</b><br><br>
+    但這件事有它好的一面：<b>本單元的投資報酬率是六個子項裡最高的。</b>
+    13 題全部是說明題，沒有任何一題需要 15 分鐘的手算，
+    答對與答錯的差別純粹在於「那個數字寫不寫得出來」。
+    下面 15 個數字加起來不到半頁，卻覆蓋了這 13 題的絕大部分配分。
+  </div>
+
+  <h3>② 十五個「寫出來就有分」的數字（本單元的全部重量）</h3>
+  <div class="warn" style="background:#fff;border-left-color:var(--must)">
+    <b>螺栓四個：</b>預拉力 \(T_0=0.70F_uA_b\)（<b>不是 0.60</b>，0.60 是銲道剪力用的）、
+    最小間距 \(s\ge3d_b\)、最小邊距 \(L_e\ge1.5d\)、標準孔 \(=d_b+3\) mm。<br><br>
+    <b>銲接四個：</b>有效銲喉 \(t_e=0.707w\)、回銲 \(2w\le\ell\le4w\)、
+    填角銲有效長度 \(\ge4w\) 且 \(\ge40\) mm、低氫銲條烘烤 \(300\!\sim\!400^\circ\text{C}\) 保溫 1–2 h。<br><br>
+    <b>防蝕三個：</b>熱浸鍍鋅 \(450^\circ\text{C}\)、鍍層 \(\ge85\,\mu\text{m}\)、
+    工地銲接部位相鄰接兩側各 <b>100 mm</b> 不予塗裝（另：埋件距混凝土表面 <b>100 mm</b> 深度內仍須塗裝）。<br><br>
+    <b>耐震四個：</b>節點域 \(t_z\ge(d_z+w_z)/90\)（分母是 <b>90</b>）、
+    箱型柱鋼板 \(\ge\!40\) mm 須用 SN400C／SN490C、
+    Z 向斷面收縮率 \(\ge25\%\)、Charpy \(\ge27\) J。<br><br>
+    這 15 個數字裡，<b>98 年一題（<code>SS-2009-2</code> + <code>SS-2009-4</code>）就直接點名要其中 5 個</b>
+    —— 而那一年整張考卷零公式。
+  </div>
+
+  <h3>③ 四組最容易記反的「數字對」</h3>
+  <div class="note">
+    <b>對 1：0.70 vs. 0.60。</b>
+    螺栓最小預拉力 \(T_0=0.70F_uA_b\)（<b>夾持力</b>機制）；
+    填角銲標稱剪力 \(F_{nw}=0.60F_{EXX}\)（<b>銲填金屬強度折減</b>）。
+    兩者意義完全無關，98 年 <code>SS-2009-4</code>⑤ 就是在測這個。<br><br>
+    <b>對 2：SIS 銹蝕等級的方向。</b>
+    <b>A 級最輕</b>（氧化皮完整覆蓋）→ B（開始剝落）→ C（大量剝落＋麻點）→ <b>D 級最重</b>（全面坑蝕）。
+    很多人直覺以為 A 最嚴重。99 年 <code>SS-2010-2</code>①、108 年 <code>SS-2019-1</code> 都要用。<br><br>
+    <b>對 3：\(2w\) vs. \(4w\)——而且 \(4w\) 有兩個身分。</b>
+    施工規範 §4.1.5(9)：<b>繞角銲（回銲）長度 \(2w\le\ell\le4w\)</b>，下限與上限同一句話，
+    <b>兩個都要寫</b>；§4.1.5(6)：填角銲依強度計算之<b>最小有效長度 \(\ge4w\)</b>，未達者該銲道不予採計；
+    §4.1.5(7)：斷續銲每段 \(\ge4w\) 且 \(\ge40\) mm。
+    另注意 §4.1.5(1)～(3)：<b>有效銲道長度「包括端彎（繞角銲）在內」</b>，國內不作兩端各扣 \(1w\) 的扣除。
+    105 年 <code>SS-2016-2</code> 只問回銲，但這幾條一起記才不會互相打架。<br><br>
+    <b>對 4：\(450^\circ\text{C}\) vs. \(420^\circ\text{C}\)。</b>
+    鋅的<b>熔點</b>是 420°C，熱浸鍍鋅的<b>施工溫度</b>約 450°C（要稍高於熔點才流動）。
+    答 200°C 或 600°C 是常見失分，99 年與 108 年連兩題考鍍鋅。
+  </div>
+
+  <h3>④ 說明題的答題骨架也算「必背」</h3>
+  <div class="note">
+    本單元 13 題全是申論，除了數字之外，<b>「怎麼分類」本身就是配分點</b>。三個最泛用的骨架：<br><br>
+    <b>骨架 A（三道防線）：事前 → 事中 → 事後。</b>
+    材料選用與設計細節（SN 鋼材、Z 向鋼、開槽型式）→ 施工管制（預熱、層間溫度、銲接順序、環境限制）
+    → 檢驗與修補（NDT、修磨、補銲）。111 年 <code>SS-2022-3</code>、113 年 <code>SS-2024-4</code> 都可以直接套。<br><br>
+    <b>骨架 B（NDT 五選一）：先問瑕疵在哪、再問是什麼形狀。</b>
+    表面可見 → VT；表面開口、磁性材料 → MT，非磁性 → PT；
+    內部<b>體積型</b>（氣孔、夾渣）→ RT；內部<b>面積型</b>（裂縫、未熔合）→ UT。
+    110 年 <code>SS-2021-1</code>（四種瑕疵配四種方法）與 111 年 <code>SS-2022-3</code> 都是這個結構。<br><br>
+    <b>骨架 C（不予塗裝五部位，施工規範 §7.4.5 原文）：塗了會壞事的地方就不塗。</b>
+    ① <b>工地銲接部位，及其相鄰接兩側各 100 mm</b>（油漆高溫分解 → 氣孔、擾亂電弧、有害煙氣）
+    ② <b>摩阻式高強度螺栓接合面</b>（降低 \(\mu\)）
+    ③ <b>埋件</b>（混凝土鹼性已保護、塗裝降低握裹；<b>但距混凝土表面 100 mm 深度內仍須塗裝</b>）
+    ④ <b>軸件、滾輪等密著接觸面或迴轉面</b>（機件功能面，塗膜妨礙轉動與密貼）
+    ⑤ <b>密閉空間之內露面</b>（無氧腐蝕極慢，且密閉塗裝有工安風險）。
+    107 年 <code>SS-2018-4</code> 整題 20 分就是這五條。柱腳底板底面、須做 UT 之掃查面屬實務常見另行指定者，
+    列在五項之後可加分。
+  </div>
+
+  <h3>⑤ 一句話總結</h3>
+  <div class="note" style="background:var(--ac2);border-left-color:var(--ac)">
+    <b>U2-3 是全 SS 唯一一個「準備成本可以精確估算」的單元：15 個數字 + 3 個答題骨架，沒有第二層。</b>
+    它 24 年出現 13 次（主分類 7 次），平均每三年至少一題，
+    而且因為是說明題，<b>只要寫得出規定就幾乎不會失分</b> ——
+    這和 U1-3 那種「一步錯全題廢」的計算題完全相反。
+    如果考前只剩一個晚上，這一單元是投報率最高的那一頁。
+  </div>
+</section>
+
+</main>
+
+<footer>
+  生成日期 2026-08-08 ｜ 資料來源：exam-wiki-SS <code>raw/exams/SS-2002~2025_鋼結構設計.pdf</code>（全文抽取 + 102/105/109/111/112/113 年影像頁逐頁目視判讀）、
+  <code>raw/json/question_index.json</code>（13 題）、
+  <code>raw/solutions/{SS-2004-1, SS-2009-2, SS-2009-4, SS-2010-2, SS-2016-2, SS-2018-4, SS-2019-1, SS-2021-1, SS-2022-3, SS-2024-4}</code> 之 §3.5 VHA、
+  <code>wiki/materials/{weldability, fracture-toughness}</code>、<code>wiki/failure-modes/connection-failure</code>
+</footer>
+
+<script>
+/* ---------- 資料 ---------- */
+/* lv: must / half / give ；ok: 考卷印出過的年（西元）；no: 考了卻沒印的年 */
+const F=[
+/* ===== 高強度螺栓施工 ===== */
+{g:"螺栓施工",lv:"must",nm:"最小預拉力 T0 = 0.70 Fu Ab",
+ eq:"$$T_0=0.70\\,F_u\\,A_b$$",
+ meta:"98 年 <code>SS-2009-4</code>⑤直接問「鎖緊螺栓之最小預拉力應達到多少倍的螺栓最小抗拉強度 \\(F_u\\)？」——<b>當年整張考卷零公式</b>。<br><b>最常見的錯是寫成 0.60</b>：\\(0.60F_{EXX}\\) 是<b>填角銲</b>的標稱剪力強度係數，兩者意義完全無關（一個是夾持力機制、一個是銲填金屬強度折減）。施工上四種達成方法（扭力法、旋轉角度法、DTI 直接張力指示器、TC 斷尾螺栓）也一併記，常被追問。",
+ ok:[],no:[2009]},
+
+{g:"螺栓施工",lv:"half",nm:"螺栓最小中心距 s ≥ 3db",
+ eq:"$$s\\ \\ge\\ 3d_b\\qquad(\\text{規範絕對下限 }2\\tfrac{2}{3}d_b\\text{，工程上避免採用})$$",
+ meta:"91、92、93 年有給，<b>但那三次都是印在「螺栓孔承壓強度」的適用條件裡</b>（「當 \\(L_e\\ge1.5d\\) 且 \\(S\\ge3d\\) 且作用力方向該排有二個以上螺栓時…」），屬於 U1-4 接合設計題的順帶。98 年 <code>SS-2009-4</code>④專門問這一條時<b>什麼都沒有</b>。<br>理由要能講：\\(3d\\) 是為了確保孔間鋼板有足夠的承壓與剪出（tear-out）強度，同時留下施工扳手空間。",
+ ok:[2002,2003,2004],no:[2009]},
+
+{g:"螺栓施工",lv:"half",nm:"最小邊距 Le ≥ 1.5d",
+ eq:"$$L_e\\ \\ge\\ 1.5\\,d\\qquad(\\text{未達時承壓強度改用 }R_n=L_e t F_u)$$",
+ meta:"91、92、93 年與 \\(3d\\) 成對出現在承壓強度條件裡。危險在於<b>它同時是承壓強度公式的分岔點</b>：\\(L_e\\ge1.5d\\) 用 \\(R_n=2.4dtF_u\\)，\\(L_e<1.5d\\) 改用 \\(R_n=L_etF_u\\le2.4dtF_u\\) —— 91 年寫成容許應力版 \\(F_p=LF_u/2d\\le1.2F_u\\)。<br>U2-3 的角度只要記住「\\(1.5d\\) 是邊距下限、不足就要改公式」即可；完整承壓計算屬 U1-4。",
+ ok:[2002,2003,2004],no:[2009]},
+
+{g:"螺栓施工",lv:"half",nm:"標準孔孔徑 = db + 3 mm（鉸孔上限）",
+ eq:"$$d_{\\text{hole}}=d_b+3\\ \\text{mm}\\qquad(\\text{鉸孔後最終孔徑不得超過此值})$$",
+ meta:"92 年在題目內文給「標稱直徑 19 mm 之 A325X 螺栓…必須扣除之螺栓孔徑為 22 mm」——正好是 \\(+3\\) mm。<b>但 94 年給的是「螺栓直徑 22 mm、孔徑 23.5 mm」（\\(+1.5\\) mm）</b>，兩年不一致，所以<b>不能靠考卷推</b>，要自己知道規範值。<br>93 年 <code>SS-2004-1</code>②問「螺栓無法以手穿入孔內時如何校正」，答案的三段門檻（偏差 \\(\\le2\\) mm 用撬棒／\\(2\\!\\sim\\!5\\) mm 鉸孔／\\(>5\\) mm 回廠重製）與「鉸孔後孔徑 \\(\\le d_b+3\\) mm」是同一件事的兩面，當年零支援。",
+ ok:[2003],no:[2004,2009]},
+
+{g:"螺栓施工",lv:"must",nm:"板面間隙處理門檻（2 mm / 6 mm）",
+ eq:"$$\\text{板厚差}<1\\,\\text{mm}:\\ \\text{不必處理}\\ ;\\qquad \\text{板厚差}\\ge1\\,\\text{mm}:\\ \\text{加墊片（filler／shim）}$$",
+ meta:"93 年 <code>SS-2004-1</code>①（9 分）整題就是這一個門檻，<b>零支援</b>。<br>依施工規範 §5.2：<b>板厚差 &lt; 1 mm 不必處理；≧ 1 mm 加墊片</b>；同節並要求鎖螺栓前將<b>鐵銹、鱗片、黑皮、污泥、油垢及螺栓孔毛邊徹底清除</b>。要一併記的是墊片規定：材質與母材相同或相容、<b>接觸面須做同等表面處理以達規定滑動係數</b>、墊片本身也要被螺栓貫通、厚墊片時螺栓強度須酌予折減。物理原因：摩阻型接合的強度 \\(=\\) 預張力 \\(\\times\\) 摩擦係數，板面有縫時鎖緊的力被拿去把板壓彎，<b>沒有真正變成接觸面上的夾緊力</b>。",
+ ok:[],no:[2004]},
+
+{g:"螺栓施工",lv:"must",nm:"孔位偏差校正門檻與禁止事項",
+ eq:"$$\\text{偏差}\\le2\\,\\text{mm}:\\ \\text{撬棒（drift pin）}\\ ;\\quad 2\\!\\sim\\!5\\,\\text{mm}:\\ \\text{鉸孔（reaming）}\\ ;\\quad >5\\,\\text{mm}:\\ \\text{回廠重製}$$",
+ meta:"93 年 <code>SS-2004-1</code>②（9 分），<b>零支援</b>。三個絕對禁止事項一定要寫出來，通常各佔分：<b>① 禁止氣割／氣焊擴孔</b>（改變孔壁冶金性質）、<b>② 禁止用螺栓本身當撬棒</b>（損傷螺紋與承壓面）、<b>③ 禁止強行敲打入孔</b>。<br>鉸孔的補充規定：須<b>疊合後一次鉸孔</b>（不可分件鉸再疊）、鐵屑清除、鉸孔後若影響淨面積要重驗構材強度。",
+ ok:[],no:[2004]},
+
+{g:"螺栓施工",lv:"must",nm:"螺栓不可重複使用（扭力係數 T = K·d·Fi）",
+ eq:"$$T=K\\,d\\,F_i\\qquad(\\text{二次鎖緊時 }K\\text{ 已偏移，夾緊力失控；A490 絕對禁止})$$",
+ meta:"93 年 <code>SS-2004-1</code>③（7 分），<b>零支援</b>。結論先寫：施工規範 §5.3.1「<b>已使用過之螺栓或帶有傷痕銹蝕者，不得再使用</b>」——不分等級、不附條件。<br>再寫<b>「為什麼」</b>，順序不可顛倒：<b>主因（規範解說）</b>是初次鎖緊時<b>預拉力已超過降伏拉力</b>，拆卸後螺栓已產生<b>永久（塑性）伸長</b>，再鎖時塑性變形量在既有變形上累加，<b>安全度（延性餘裕）不足</b>；<b>次因</b>才是螺紋潤滑膜與表面狀態改變使扭力係數 \\(K\\) 偏移（扭矩法失準）、以及螺栓已有塑性伸長使轉角法的密貼起算點失真。<b>注意這是單調靜力的塑性耗損，不是疲勞。</b><br>國際差異可放最後一句：AISC/RCSC 對 Group A（A325）非鍍鋅且未曾完全預拉者容許再用，A490 與鍍鋅螺栓一律不得再用；國內規範不作區分，更嚴格。",
+ ok:[],no:[2004]},
+
+{g:"螺栓施工",lv:"must",nm:"摩阻型滑動臨界強度與摩擦係數",
+ eq:"$$\\phi R_n=\\phi\\,\\mu\\,T_b\\,N_s\\,N_f\\qquad(\\text{Class A }\\mu=0.33\\ ;\\ \\text{Class B }\\mu=0.50)$$",
+ meta:"<b>24 年零次印出</b>。93 年 <code>SS-2004-1</code>（摩阻型接合施工）、107 年 <code>SS-2018-4</code>（摩擦面不予塗裝）、110 年 <code>SS-2021-4</code>（混合接合）三題都建立在這條之上。<br>U2-3 的考點不是算數值，而是<b>「什麼會破壞這個式子」</b>：接觸面塗裝 → \\(\\mu\\) 從 0.35 掉到 0.15；螺栓重複使用 → \\(T_b\\) 不受控；板面不密接 → \\(T_b\\) 沒有作用在接觸面上。三個施工情境全部指向同一個式子的三個變數。",
+ ok:[],no:[2004,2018,2021]},
+
+{g:"螺栓施工",lv:"must",nm:"摩阻型螺栓與銲接不得共同分擔載重",
+ eq:"$$\\text{同一接合面}:\\ \\text{銲接}\\ \\textbf{全部承擔}\\ ;\\quad \\text{不得}\\ V=V_{bolt}+V_{weld}$$",
+ meta:"110 年 <code>SS-2021-4</code>（10 分）直接問，<b>零支援</b>。理由必須從<b>荷變曲線</b>講：銲道是剛性傳力、幾乎無位移就達強度；摩阻型螺栓在滑動前近似剛體、滑動後才產生 1–3 mm 位移。<b>兩者達到極限的變位量差太多</b>，銲道會先獨自承受全部載重而脆斷，接著螺栓瞬間全承 → 連鎖破壞。<br>例外要記：規範允許<b>既有結構改修</b>時，以銲接承擔<b>新增</b>載重、既有摩阻型螺栓承擔<b>原有</b>載重。",
+ ok:[],no:[2021]},
+
+/* ===== 銲接施工與細節 ===== */
+{g:"銲接施工",lv:"must",nm:"有效銲喉 te = 0.707w",
+ eq:"$$t_e=0.707\\,w=\\frac{w}{\\sqrt{2}}\\ ;\\qquad R_n=0.60F_{EXX}\\,(0.707w)\\,L$$",
+ meta:"<b>24 年零次印出這一步</b>。104 年印過 \\(\\phi R_n=0.75\\times0.6F_{EXX}\\times t\\times L\\)、108 年印過「\\(\\phi0.6F_{EXX},\\ \\phi=0.75\\)」，<b>兩次都少給 \\(t=0.707w\\)</b> —— 而題目要算的正是銲腳 \\(w\\)。<br>112 年 <code>SS-2023-4</code>（銲接破壞形式）與 105 年 <code>SS-2016-2</code>（回銲）都要用它解釋「為什麼填角銲一律以 45° 有效銲喉的剪切面計算，不論力向平行或垂直銲道」。0.707 來自等腳填角銲的最小斷面在 45° 對角線上。",
+ ok:[],no:[2016,2023]},
+
+{g:"銲接施工",lv:"must",nm:"回銲（end return）長度 2w ～ 4w",
+ eq:"$$2w\\ \\le\\ \\ell_{\\text{end return}}\\ \\le\\ 4w\\qquad(w=\\text{填角銲腳尺寸})$$",
+ meta:"105 年 <code>SS-2016-2</code>①（10 分）整題就是定義回銲，<b>當年零公式</b>（只印了 \\(\\lambda_p/\\lambda_r\\) 表，而且是別題的）。<br>施工規範 §4.1.5(9) 原文：「接合部或構材側面填角銲或端部填角銲……在施工可能範圍下，應繼續圍繞轉角銲接，其長度<b>不得小於銲接尺寸之二倍，不得超過銲接尺寸之四倍</b>。」<b>上下限在同一句話裡，只寫 \\(2w\\) 只拿一半分。</b>目的三項：把起弧／收弧缺陷與應力尖峰搬離受力斷面、提供端部抗剝離力、使強度在轉角處連續（\\(\\S\\)4.1.5(1)～(3)：<b>有效銲道長度包括端彎在內</b>，回銲是<b>計入</b>有效長度的）。<br>子題②「不適用」的主答案是<b>需要保持轉動撓性的接合外伸肢</b>（簡支梁雙角鋼／頂角鋼剪力接合）——回銲會束制端部轉動、誘發未計入的端彎矩而拉裂銲道，這正是規範訂 \\(4w\\) 上限的理由；次要例子是<b>搭接接頭中伸出邊緣且受計算拉應力的自由邊</b>（須距邊緣終止，不得繞過去）。間歇銲端部屬「施工上做不到」（無轉角可繞），與前兩者性質不同，可放在最後補充。",
+ ok:[],no:[2016]},
+
+{g:"銲接施工",lv:"must",nm:"填角銲有效長度 ≥ 4w 且 ≥ 40 mm",
+ eq:"$$L_{\\text{eff}}\\ \\ge\\ \\max(4w,\\ 40\\ \\text{mm})\\ ;\\qquad L_{\\text{eff}}=L_{\\text{total}}-2w\\ (\\text{兩端各扣 }1w)$$",
+ meta:"<b>零次印出</b>。施工規範 §4.1.5(6)：依強度計算所得之填角銲<b>最小有效長度不得小於 \\(4w\\)</b>（長度不足者該銲道不予採計，因為起弧與收弧段品質不穩、應力集中嚴重）；§4.1.5(7)：斷續銲<b>任一段之有效長度 \\(\\ge4w\\) 且 \\(\\ge40\\) mm</b>。<br><b>注意這個 \\(4w\\) 是「下限」，與繞角銲的 \\(4w\\)「上限」方向相反，是本單元最容易寫反的一組。</b>105 年 <code>SS-2016-2</code> 與 108 年 <code>SS-2019-4</code>（斷續銲道長度 \\(L\\)）都要用到。",
+ ok:[],no:[2016]},
+
+{g:"銲接施工",lv:"half",nm:"最小銲腳尺寸（依較厚板厚）",
+ eq:"$$t\\le6:\\ w\\ge3\\ ;\\quad 6<t\\le12:\\ w\\ge5\\ ;\\quad 12<t\\le19:\\ w\\ge6\\ ;\\quad 19<t\\le38:\\ w\\ge8\\quad(\\text{mm})$$",
+ meta:"113 年把「接合部板厚 \\(t\\) — 填角銲最小尺寸」表<b>以圖片嵌入題二</b>（<code>pdftotext</code> 完全抽不到，本輪轉圖目視才確認：\\(t\\le6\\to3\\)、\\(6\!<\!t\\le12\\to5\\)、\\(12\!<\!t\\le19\\to6\\)、\\(19\!<\!t\\le38\\to8\\) mm）——但那一年的 U2-3 題目是 <code>SS-2024-4</code> 梁柱接頭破壞模式，<b>根本用不到這張表</b>。也就是說：本單元<b>從來沒有為自己拿到過這張表</b>。<br>物理理由要能講：薄銲道銲在厚板上時，母材<b>散熱太快</b>造成急速冷卻 → 硬脆組織 + 氫致裂縫。所以最小尺寸由<b>較厚的那一片板</b>決定，不是較薄的。105 年、107 年考銲接細節時都沒給。",
+ ok:[2024],no:[2016,2018]},
+
+{g:"銲接施工",lv:"must",nm:"最大銲腳尺寸（板緣）",
+ eq:"$$t<6\\ \\text{mm}:\\ w\\le t\\ ;\\qquad t\\ge6\\ \\text{mm}:\\ w\\le t-2\\ \\text{mm}$$",
+ meta:"<b>零次印出</b>。與最小尺寸相反，最大尺寸由<b>較薄的那一片</b>控制，目的是<b>保留可辨識的板緣</b>：若銲到與板同厚，檢驗員無法判斷銲道是否真的填滿，也容易熔穿（burn-through）。<br>105 年 <code>SS-2016-2</code> 的答題若能同時帶出「最小由厚板定、最大由薄板定」這組對稱關係，是明顯的加分點。",
+ ok:[],no:[2016]},
+
+{g:"銲接施工",lv:"must",nm:"銲條乾燥與烘烤規定",
+ eq:"$$\\text{低氫系銲條（E7018 等）}:\\ 300\\!\\sim\\!400^\\circ\\text{C}\\ \\text{烘烤，保溫 }1\\!\\sim\\!2\\ \\text{h；取出後 }4\\ \\text{h 內用畢}$$",
+ meta:"91 年 <code>SS-2002-1</code>③（5 分）直接問「銲條和銲藥要保持乾燥，其原因為何？」，<b>零支援</b>。<br>機制鏈要完整寫出來才有分：\\(\\text{H}_2\\text{O}\\xrightarrow{\\text{電弧高溫}}2\\text{H}^++\\text{O}^{2-}\\) → 氫溶入熔池 → 冷卻至 200°C 以下時在 HAZ 應力集中處析出 → <b>氫致冷裂縫（延遲裂縫）</b>，可在銲後數小時甚至數天才出現，難以及時發現。這個「延遲」特性是本題的關鍵詞。",
+ ok:[],no:[2002]},
+
+{g:"銲接施工",lv:"must",nm:"預熱與層間溫度（依板厚與碳當量）",
+ eq:"$$T_{\\text{preheat}}\\uparrow\\ \\text{隨}\\ t\\uparrow\\ ,\\ C_{eq}\\uparrow\\ ;\\qquad \\text{層間溫度上限（過高使 HAZ 晶粒粗化）}$$",
+ meta:"<b>零次印出</b>。91 年（銲條乾燥）與 113 年 <code>SS-2024-4</code>（梁柱接頭潛在破壞模式與預防）都要用。<br>兩個方向都要講，只講一半會失分：<b>預熱下限</b>是為了減緩冷卻速率、讓氫逸出、避免硬脆麻田散鐵 → 防氫致裂縫與層狀撕裂；<b>層間溫度上限</b>是為了避免 HAZ 晶粒粗化與韌性劣化。113 年那題的 ESW 電熱熔渣銲正是<b>熱輸入過大</b>造成 HAZ 脆化的典型。",
+ ok:[],no:[2002,2024]},
+
+{g:"銲接施工",lv:"must",nm:"碳當量 Ceq（銲接性判定）",
+ eq:"$$C_{eq}=C+\\frac{Mn}{6}+\\frac{Cr+Mo+V}{5}+\\frac{Ni+Cu}{15}\\qquad(C_{eq}>0.44\\%\\ \\text{銲接性明顯下降})$$",
+ meta:"<b>零次印出</b>。113 年 <code>SS-2024-4</code> 問梁柱接頭各式銲接的潛在破壞模式與<b>預防方法</b>，材料端的答案就是「選用 \\(C_{eq}\\) 受控的 SN 耐震鋼材」。<br>觀念鏈：\\(C_{eq}\\) 高 → 淬硬性高 → HAZ 易形成麻田散鐵 → 硬脆 + 對氫敏感 → 需要更高的預熱溫度。這是把「材料規格」與「施工參數」串起來的那條線，能寫出來就跟只背名詞的答案拉開差距。",
+ ok:[],no:[2024]},
+
+{g:"銲接施工",lv:"must",nm:"現場銲接的環境限制",
+ eq:"$$\\text{相對溼度}>90\\%\\ \\text{或}\\ \\text{風速}>5\\ \\text{m/s}\\ (\\text{氣體遮護銲}>2\\ \\text{m/s})\\ \\Rightarrow\\ \\text{不得施銲（無適當防護時）}$$",
+ meta:"95 年題二④字面就是「依據我國鋼結構施工規範之要求，除非有適當的防護，<b>在何種相對溼度環境與多大的風速之下，不得進行工地現場銲接</b>？」——<b>當年整張考卷零參考公式</b>。<br>理由分別是：溼度高 → 水氣分解成氫 → 氫致裂縫（同銲條受潮）；風大 → 吹散遮護氣體或熔渣 → 熔池氧化、氣孔。<b>氣體遮護銲（GMAW/FCAW）對風更敏感</b>，門檻比 SMAW 低很多，這個區別是加分點。",
+ ok:[],no:[2006]},
+
+/* ===== 非破壞檢測 ===== */
+{g:"非破壞檢測",lv:"must",nm:"五種 NDT 與瑕疵型態對應",
+ eq:"$$\\text{表面可見}\\Rightarrow\\text{VT}\\ ;\\ \\text{表面開口（磁性／非磁性）}\\Rightarrow\\text{MT／PT}\\ ;\\ \\text{內部體積型}\\Rightarrow\\text{RT}\\ ;\\ \\text{內部面積型}\\Rightarrow\\text{UT}$$",
+ meta:"98 年 <code>SS-2009-4</code>③、110 年 <code>SS-2021-1</code>（25 分，四種瑕疵各配一種方法）、111 年 <code>SS-2022-3</code>（25 分）—— <b>三次考、三次零公式</b>，是本單元出現頻率最高的知識點。<br>分類的鑰匙是<b>「體積型 vs. 面積型」</b>：氣孔、夾渣是有體積的空腔 → X 光衰減差異明顯 → RT；裂縫、未熔合是幾乎沒有厚度的平面 → X 光可能穿過去看不到，但超音波垂直入射會強烈反射 → <b>UT</b>。這也是為什麼耐震規範指定 UT 而非 RT 檢梁柱 CJP 銲道。",
+ ok:[],no:[2009,2021,2022]},
+
+{g:"非破壞檢測",lv:"must",nm:"MT 的適用限制（磁性材料、深度約 3 mm）",
+ eq:"$$\\text{MT}:\\ \\text{僅碳鋼／低合金鋼（磁性）}\\ ,\\ \\text{有效深度}\\approx3\\ \\text{mm}\\ ,\\ \\text{檢後須消磁}$$",
+ meta:"110 年 <code>SS-2021-1</code> 要求「說明四種瑕疵之名稱及其對應<b>適合之一種</b>非破壞檢測方式」——<b>「適合」就是在考限制條件</b>，當年零支援。<br>三個限制都要寫：<b>① 只能用於磁性材料</b>（不鏽鋼、鋁合金要改 PT）、<b>② 只能查表面與近表面（約 3 mm 內）</b>、<b>③ 檢測後須消磁</b>（殘磁會干擾後續銲接的電弧）。PT 則相反：材質不限，但<b>只能查「表面開口」</b>的瑕疵，封閉在內部的完全測不到。",
+ ok:[],no:[2021]},
+
+{g:"非破壞檢測",lv:"must",nm:"韌性抗彎構架 CJP 銲道的 UT 檢驗比例",
+ eq:"$$\\text{梁翼板與柱之 CJP 全滲透銲}:\\ \\text{UT }100\\%\\ ;\\qquad \\text{銲材 CVN}\\ \\ge27\\ \\text{J @}-29^\\circ\\text{C}$$",
+ meta:"111 年 <code>SS-2022-3</code>（「韌性抗彎鋼構架的<b>重要銲接部位</b>與所需實施的<b>非破壞檢驗方法</b>」，25 分）與 113 年 <code>SS-2024-4</code>，<b>兩次零支援</b>。<br>答題要「部位 + 方法 + 比例」三件成套：<b>梁翼板 CJP</b> → UT 100%；<b>梁腹板剪力板</b> → MT 或 VT 抽驗；<b>柱續接處 CJP</b> → UT 100%；<b>連續板／加勁板</b> → VT + 抽驗 MT。只答「用 UT」不指出部位與比例，會被視為答不完整。",
+ ok:[],no:[2022,2024]},
+
+/* ===== 防蝕與塗裝 ===== */
+{g:"防蝕塗裝",lv:"must",nm:"SIS / SSPC 銹蝕四等級 A / B / C / D",
+ eq:"$$\\text{A（氧化皮完整，最輕）}\\to\\text{B（開始剝落）}\\to\\text{C（大量剝落＋麻點）}\\to\\text{D（全面坑蝕，最重）}$$",
+ meta:"99 年 <code>SS-2010-2</code>①（10 分）與 108 年 <code>SS-2019-1</code>，<b>兩次零支援</b>。<br><b>方向搞反是高頻失分</b>：A 是最<b>輕</b>不是最重。配套的表面準備等級也要記：Sa 1（輕度噴砂）／Sa 2（徹底）／<b>Sa 2.5（近白金屬，一般塗裝要求）</b>／Sa 3（白金屬，金屬噴塗要求）。<br>實務意義是這題的加分點：<b>銹蝕等級決定表面準備等級的選擇</b>，塗裝失效多半敗在表面準備不足，而非塗料本身品質。",
+ ok:[],no:[2010,2019]},
+
+{g:"防蝕塗裝",lv:"must",nm:"熱浸鍍鋅：450°C、≥85 μm、雙重保護機制",
+ eq:"$$T\\approx450^\\circ\\text{C}\\ (\\text{Zn 熔點 }420^\\circ\\text{C})\\ ;\\quad \\text{鍍層}\\ge85\\,\\mu\\text{m}\\ ;\\quad E_{\\text{Zn}}=-0.76\\,\\text{V}<E_{\\text{Fe}}=-0.44\\,\\text{V}$$",
+ meta:"99 年 <code>SS-2010-2</code>②與 108 年 <code>SS-2019-1</code> 連兩題，<b>兩次零支援</b>。<br><b>只答「物理屏蔽」會失一半分</b>：熱浸鍍鋅與油漆的核心差異是<b>犧牲陽極（電化學保護）</b> —— 鋅電位低於鐵，鍍層破損時鋅優先腐蝕（\\(\\text{Zn}\\to\\text{Zn}^{2+}+2e^-\\)），保護半徑約 5 mm，<b>油漆完全沒有這個能力</b>。<br>施工流程順序要對：脫脂 → 酸洗 → 清洗 → <b>助熔劑（\\(\\text{ZnCl}_2\\cdot\\text{NH}_4\\text{Cl}\\)，防再氧化）</b> → 乾燥預熱 → 熱浸 → 冷卻。漏掉助熔劑是常見缺漏。耐久 20–50 年；限制：pH \\(<6\\) 或 \\(>12.5\\) 失效、\\(>200^\\circ\\text{C}\\) 劣化。",
+ ok:[],no:[2010,2019]},
+
+{g:"防蝕塗裝",lv:"must",nm:"金屬噴塗：Sa 3、Rz ≥ 60 μm、4 小時內施作",
+ eq:"$$\\text{表面}\\ \\text{Sa }3\\ ,\\ \\text{粗糙度}\\ R_z\\ge60\\,\\mu\\text{m}\\ ;\\qquad \\text{處理後 }4\\ \\text{h 內噴塗，十字交叉噴法}$$",
+ meta:"108 年 <code>SS-2019-1</code>（「試述三種鋼結構常用的防蝕方法，並說明其<b>施工之注意事項</b>」，20 分）—— 三種方法就是塗裝、熱浸鍍鋅、金屬噴塗，<b>零支援</b>。<br>金屬噴塗的關鍵是<b>附著靠機械咬合而非化學鍵結</b>，所以粗糙度要求特別高（\\(R_z\\ge60\\,\\mu\\text{m}\\)、Sa 3 白金屬），而且處理完必須在 4 小時內噴塗以免再氧化。它相對熱浸鍍鋅的優勢：<b>不受鋅槽尺寸限制、可現場施作、無 450°C 熱翹曲問題</b>。",
+ ok:[],no:[2019]},
+
+{g:"防蝕塗裝",lv:"must",nm:"塗裝環境限制與膜厚管制",
+ eq:"$$\\text{RH}\\le85\\%\\ ;\\quad T_{\\text{鋼面}}\\ge T_{\\text{露點}}+3^\\circ\\text{C}\\ ;\\quad \\text{底漆乾膜（DFT）}\\ge50\\,\\mu\\text{m}$$",
+ meta:"108 年 <code>SS-2019-1</code>，<b>零支援</b>。三個數字缺一不可：溼度過高或鋼面低於露點會結露，塗料未乾即受潮 → 附著失效；乾膜厚度須以 DFT gauge 量測而非目視。<br>另外要記「<b>每層充分乾燥再塗下層</b>」與「<b>底漆／中塗／面漆各司其職</b>」（底漆防蝕與附著、中塗增厚、面漆抗紫外線與美觀）—— 說明題把層次講清楚就是配分點。",
+ ok:[],no:[2019]},
+
+{g:"防蝕塗裝",lv:"must",nm:"五類不予塗裝部位",
+ eq:"$$\\text{①摩阻型接觸面}\\ \\text{②現場銲接兩側各 }50\\ \\text{mm}\\ \\text{③埋入混凝土面}\\ \\text{④柱腳底板底面}\\ \\text{⑤密閉箱型斷面內部}$$",
+ meta:"107 年 <code>SS-2018-4</code>（「除施工程序書另有規定，建築鋼結構那些部位不予塗裝？」，<b>20 分整題</b>），<b>零支援</b>。題幹那句「除施工程序書另有規定」正是<b>施工規範 §7.4.5</b> 的引言，答案就是該條的五項。<br>每一條都要附理由（通常名稱 2 分 + 理由 2 分）：① <b>工地銲接部位及其相鄰接兩側各 100 mm</b>——油漆高溫分解產生氣孔、擾亂電弧、生有害煙氣（<b>是帶狀範圍，不是只有銲縫線；100 mm 是國內值，AISC 為 50 mm</b>）；② <b>摩阻式高強度螺栓接合面</b>——塗裝使 \\(\\mu\\) 由 0.33 以上掉到 0.15 級；③ <b>埋件</b>——混凝土鹼性本身即保護且塗裝降低握裹力，<b>但距混凝土表面 100 mm 深度內仍須塗裝</b>（表層會碳化開裂）；④ <b>軸件、滾輪等密著接觸面或迴轉面</b>——機件功能面，塗膜妨礙轉動與密貼、易剝落（<b>最常被漏的一項</b>）；⑤ <b>密閉空間之內露面</b>——無氧腐蝕極慢，且密閉空間塗裝揮發物難排除、有工安風險。<br>陷阱：<b>只有摩阻式（slip-critical）不塗，承壓式可以塗</b>。柱腳底板底面、UT 掃查面屬實務常見另行指定，寫在五項之後加分。",
+ ok:[],no:[2018]},
+
+/* ===== 耐震細部與材料 ===== */
+{g:"耐震細部",lv:"must",nm:"節點域腹板厚度 tz ≥ (dz + wz)/90",
+ eq:"$$t_z\\ \\ge\\ \\frac{d_z+w_z}{90}$$",
+ meta:"98 年 <code>SS-2009-2</code>①（8 分）直接問，<b>當年整張考卷零公式</b>。<br><b>分母是 90</b>（不是 70 或 100），分子是「梁深方向高度 + 柱深方向寬度」兩個幾何量相加。本質是寬厚比限制的變形：確保節點域在設計剪力下<b>不發生剪力挫屈</b>，能穩定進入剪力降伏消能。<br>不足時的補救要一併答：加設<b>加勁板（doubler plate）</b>。",
+ ok:[],no:[2009]},
+
+{g:"耐震細部",lv:"must",nm:"箱型柱鋼板 ≥ 40 mm 須用 SN400C / SN490C",
+ eq:"$$t_{\\text{板}}\\ \\ge\\ 40\\ \\text{mm}\\ \\Rightarrow\\ \\text{SN400C / SN490C}\\qquad(\\text{Z 向斷面收縮率 }\\ge25\\%)$$",
+ meta:"98 年 <code>SS-2009-2</code>②（8 分）與 113 年 <code>SS-2024-4</code>，<b>兩次零支援</b>。<br><b>只答「40 mm」會失分，必須解釋層狀撕裂（lamellar tearing）</b>：厚板銲接接頭在<b>板厚方向</b>承受巨大拘束應力，而軋延鋼板的夾雜物呈層狀平行板面，Z 向延性最差 → 沿軋延方向剝層脆斷。SN-C 的 <b>Z 向斷面收縮率 \\(\\ge25\\%\\)</b> 是唯一有效的防治手段。<br>三等級的差異：A 無特殊要求／B 加 CVN 韌性與降伏比上限／<b>C = B + Z 向延性</b>。",
+ ok:[],no:[2009,2024]},
+
+{g:"耐震細部",lv:"must",nm:"降伏比 YR = Fy / Fu ≤ 0.80",
+ eq:"$$YR=\\frac{F_y}{F_u}\\ \\le\\ 0.80\\qquad(\\text{SN490B / SN490C})$$",
+ meta:"105 年 <code>SS-2016-5</code>①②（何謂降伏比、SN490B 與 SN490C 的規定）與 113 年 <code>SS-2024-4</code>，<b>兩次零支援</b>。<br>兩層意義都要講：<b>① 結構層次</b> —— 降伏比低表示降伏後還有明顯的應變硬化空間，塑鉸能轉動而不立刻斷裂，這是韌性的來源；<b>② 容量設計層次</b> —— 上限 0.80 同時<b>限制材料過強</b>，避免梁的實際 \\(F_y\\) 遠高於設計值而讓「強柱弱梁」失效（這正是 111 年 <code>SS-2022-4</code> 用機率考的那件事）。<br>107 年 <code>SS-2018-1</code> 則從伸長量的角度考同一個量。",
+ ok:[],no:[2016,2024]},
+
+{g:"耐震細部",lv:"must",nm:"Charpy 衝擊值 ≥ 27 J",
+ eq:"$$\\text{SN-B / SN-C 母材}:\\ C_v\\ge27\\ \\text{J @ }0^\\circ\\text{C}\\ ;\\qquad \\text{耐震 CJP 銲材}:\\ C_v\\ge27\\ \\text{J @ }-29^\\circ\\text{C}$$",
+ meta:"105 年 <code>SS-2016-5</code>③（「Charpy 衝擊值高低所代表的意義為何？SN490B 與 SN490C 衝擊值的相關規定為何？」）與 113 年 <code>SS-2024-4</code>，<b>兩次零支援</b>。<br>意義：Charpy 值量的是<b>裂縫萌生與擴展所需的能量</b>，高 = 韌性好 = 脆性轉換溫度低。<b>兩個溫度不要記反</b>：母材規定在 0°C，耐震梁柱接頭的銲材規定在 \\(-29^\\circ\\text{C}\\)（因為銲道與 HAZ 是最脆弱的環節，要求更嚴）。",
+ ok:[],no:[2016,2024]},
+
+{g:"耐震細部",lv:"must",nm:"EBF 連桿梁加勁條間距與塑性轉角",
+ eq:"$$s\\ \\le\\ \\max\\!\\left(30t_w-\\frac{d}{5},\\ \\frac{d}{2}\\right)\\ (\\text{短連桿梁})\\ ;\\qquad \\gamma_p\\le0.08\\ \\text{rad}$$",
+ meta:"98 年 <code>SS-2009-2</code>③（9 分）問「連桿梁腹板配置加勁條之<b>主要目的</b>」，<b>零支援</b>。<br>答題邏輯鏈：加勁條 → <b>防止腹板剪力挫屈</b> → 確保連桿梁能穩定發揮<b>剪力降伏</b>（而非挫屈先發生）→ 提供足夠塑性轉角消能。短連桿梁（剪力型）的 \\(\\gamma_p\\) 需求高達 0.08 rad，是所有耐震構材裡最嚴的，所以加勁條間距要求也最密。<br>與韌性抗彎構架梁塑鉸區的側向支撐（101 年 <code>SS-2012-2</code>②）是同一個思路：<b>硬體保障消能機制</b>。",
+ ok:[],no:[2009]},
+
+{g:"耐震細部",lv:"must",nm:"韌性抗彎構架接頭塑性轉角需求 0.03 rad",
+ eq:"$$\\theta_p\\ \\ge\\ 0.03\\ \\text{rad}\\ (\\text{SMRF})\\ ;\\qquad \\theta_p\\ge0.02\\ \\text{rad}\\ (\\text{IMRF})\\ ;\\qquad M\\ge0.8M_p\\ \\text{於該轉角時}$$",
+ meta:"101 年 <code>SS-2012-2</code>①（7 分）直接問，<b>零支援</b>。<br>常被漏掉的是<b>後半句</b>：規範不只要求轉角達到 0.03 rad，還要求<b>在該轉角時彎矩仍維持在 \\(0.8M_p\\) 以上</b> —— 也就是「轉得動」還要「撐得住」。只答一個數字通常只拿一半。<br>這也是補強式（加蓋板、腋板）與削弱式（RBS 狗骨式）接頭存在的理由：把塑鉸從銲道推離到母材段，才可能達到這個轉角需求。109 年 <code>SS-2020-1</code> 考的正是這兩種接頭的力學原理。",
+ ok:[],no:[2012]},
+
+{g:"耐震細部",lv:"must",nm:"節點域剪力強度（含柱翼板貢獻）",
+ eq:"$$\\phi_vR_n=0.6F_y\\,d_c\\,t_z\\left(1+\\frac{3b_{cf}t_{cf}^{2}}{d_b\\,d_c\\,t_z}\\right)$$",
+ meta:"113 年 <code>SS-2024-4</code>（梁柱接頭潛在破壞模式）要用它說明節點域剪力降伏這個模式，<b>零支援</b>。<br>括號裡那一項是<b>柱翼板的框架作用（frame action）貢獻</b> —— 節點域大變形時柱翼板會像框架一樣抵抗，這部分只有在允許節點域進入非彈性時才計入。與前面 \\(t_z\\ge(d_z+w_z)/90\\) 搭配理解：<b>厚度規定確保它不挫屈，強度公式決定它何時降伏</b>。",
+ ok:[],no:[2024]},
+
+{g:"耐震細部",lv:"must",nm:"強柱弱梁與接頭設計力（1.1 Ry Mp）",
+ eq:"$$\\frac{\\sum M^*_{pc}}{\\sum M^*_{pb}}\\ \\ge\\ 1.0\\ ;\\qquad \\text{接頭設計力}\\ \\ge\\ \\sum(1.1\\,R_y\\,M_p)_{\\text{beam}}$$",
+ meta:"98 年 <code>SS-2009-1</code>①與 113 年 <code>SS-2024-4</code>，<b>兩次零支援</b>。<br>從 U2-3（施工規範）的角度，重點在 <b>\\(R_y\\) 這個超強係數為什麼存在</b>：實際鋼材的 \\(F_y\\) 一定高於標稱值，接頭若只按標稱值設計，梁還沒到設計彎矩接頭就先壞了 —— <b>容量設計的整條邏輯就是「弱的那一環必須是你指定的那一環」</b>。SN 鋼材規定降伏比上限與 \\(F_y\\) 上下限，正是為了讓 \\(R_y\\) 可控。<br>柱端的 \\(M^*_{pc}\\) 記得要扣軸壓：\\(Z_c(F_{yc}-P_{uc}/A_g)\\)。",
+ ok:[],no:[2009,2024]},
+
+{g:"耐震細部",lv:"must",nm:"層狀撕裂的防治（Z 向鋼材與施工手段）",
+ eq:"$$Z_{25}\\ \\text{或}\\ Z_{35}:\\ \\text{板厚方向斷面收縮率}\\ \\ge25\\%\\ \\text{或}\\ 35\\%$$",
+ meta:"98 年 <code>SS-2009-2</code>②、113 年 <code>SS-2024-4</code>，<b>兩次零支援</b>。<br>四項防治手段最好都寫：<b>① 選用 Z 向鋼材（Z25/Z35）</b>、<b>② 漸進式銲接順序降低殘留拉應力</b>、<b>③ 奶油塗層（buttering）技術</b>（先在母材面堆一層低強度延性銲材，把拘束應力隔開）、<b>④ 改變接頭細節</b>使拉力不直接作用在板厚方向。<br>與「箱型柱 \\(\\ge40\\) mm 用 SN-C」是同一條規定的兩種問法。",
+ ok:[],no:[2009,2024]},
+
+{g:"耐震細部",lv:"must",nm:"ESW / 背銲條造成的破壞模式與預防",
+ eq:"$$\\text{ESW（電熱熔渣銲）熱輸入大}\\Rightarrow\\text{HAZ 晶粒粗化}\\ ;\\qquad \\text{背銲條（backing bar）殘留}\\Rightarrow\\text{人工缺口}$$",
+ meta:"113 年 <code>SS-2024-4</code>（25 分整題）與 112 年 <code>SS-2023-4</code>，<b>兩次零支援</b>。<br>兩個機制要分清楚：<b>ESW</b> 一次成型效率高但熱輸入極大 → HAZ 晶粒粗化脆化。它在國內箱型柱是用來銲<b>內橫隔板與柱壁</b>（隔板置入後最後一片柱壁合攏，內部無法施銲，只能自柱外一道成形）—— <b>不是</b>用來銲剪力板；正因它落在梁翼板力流的主幹上、又封在柱內無法目視，所以必須以 <b>UT 全長</b>檢測，或改採貫通式／外隔板型式把銲道移到看得到的地方。<b>背銲條</b>與母材之間的未熔合縫等於一道<b>人工缺口</b>，正是 Northridge 地震梁翼板脆斷的主因之一 → 預防方法是<b>移除背銲條並修磨、必要時補銲</b>。這兩項是 113 年那題最核心的得分點。",
+ ok:[],no:[2023,2024]},
+
+{g:"耐震細部",lv:"must",nm:"開槽銲型式選用（Single V vs. Single Bevel）",
+ eq:"$$\\text{Single V}:\\ \\text{兩板皆開斜角}\\to\\text{對接接頭}\\ ;\\qquad \\text{Single Bevel}:\\ \\text{僅一板開斜角}\\to\\text{T 形接頭}$$",
+ meta:"98 年 <code>SS-2009-4</code>①（繪圖說明兩者差異），<b>零支援</b>。<br>選用的鑰匙是<b>接頭幾何</b>：對接（butt）兩板端對端，兩側都磨得到 → V 形；T 形接頭一板垂直插入另一板，<b>只有一側可磨切</b> → Bevel。答題務必畫圖，只寫文字很難拿滿分。<br>同題還考 SAW 的全名（Submerged Arc Welding，潛弧銲接）與其限制：電弧「潛」在熔劑下，無煙塵飛濺、品質穩定，<b>但只能平銲／橫銲，不適合現場仰銲</b>。",
+ ok:[],no:[2009]},
+
+{g:"耐震細部",lv:"must",nm:"填角銲的兩種破壞位置（根部 vs. 趾部）",
+ eq:"$$\\text{根部破壞}:\\ \\text{沿 }0.707w\\ \\text{有效銲喉剪切}\\ ;\\qquad \\text{趾部破壞}:\\ \\text{沿母材熔合線／HAZ}$$",
+ meta:"112 年 <code>SS-2023-4</code>（「請說明焊接接合的破壞形式？」25 分整題），<b>當年 U2-3 零支援</b>（該年只印了 \\(C_c\\)、\\(F_a\\) 兩式，且是影像）。<br>答題要覆蓋<b>五種</b>才完整：① 銲道有效銲喉剪切（\\(F_{nw}=0.6F_{EXX}\\)）② 母材熔合面破壞 ③ HAZ 脆性破壞 ④ 塊狀剪力 ⑤ 根部未熔合造成的缺口效應。<br>另可加分的觀察：<b>垂直（橫向）填角銲的強度約為平行填角銲的 1.5 倍</b>，因為受力狀態不同（複合應力 vs. 純剪）。",
+ ok:[],no:[2023]}
+];
+
+const MX=[
+ [2002,"91","SS-2002-1（副）",1,0,0,0,0,0,0,0,1,"承壓強度條件裡印出 \\(L_e\\ge1.5d\\)、\\(S\\ge3d\\)（U1-4 題順帶）；<b><code>SS-2002-1</code>③ 銲條乾燥零支援</b>"],
+ [2003,"92","—",1,1,0,0,0,0,0,0,1,"承壓強度全表 + \\(U\\) 值 + 題內給「19 mm 螺栓、孔徑 22 mm」（\\(+3\\) mm 的唯一佐證）"],
+ [2004,"93","SS-2004-1",1,0,0,0,0,0,0,0,1,"聯結物容許應力表 + 銲接設計強度表 10.2.5；<b>但 <code>SS-2004-1</code> 三個施工情境（板面間隙／孔位偏差／重複使用）零支援</b>"],
+ [2005,"94","—",0,0,0,0,0,0,0,0,1,"參考資料為 \\(U\\) 值與 \\(R_n=2.4dtF_u\\)；孔徑給「22 mm 螺栓、孔 23.5 mm」（<b>與 92 年的 \\(+3\\) mm 不一致</b>）"],
+ [2006,"95","—",0,0,0,0,0,0,0,0,0,"<b>整張零參考公式</b>；題二④問現場銲接的溼度與風速門檻（該題索引歸 U1-4）"],
+ [2007,"96","—",0,0,0,0,0,0,0,0,1,"公式集最完整的一年，但全為柱／梁／梁柱，無任何施工規定"],
+ [2008,"97","—",0,0,0,0,0,0,0,0,1,"ASD 互制、\\(F_b\\)、萊梅厥；無施工規定"],
+ [2009,"98","SS-2009-2, -4（皆副）",0,0,0,0,0,0,0,0,0,"<b>整張零參考公式</b>，而這一年一口氣考了 \\(t_z\\ge(d_z+w_z)/90\\)、40 mm 門檻、EBF 加勁條、開槽銲型式、SAW／UT 全名、\\(3d_b\\)、\\(0.70F_uA_b\\) —— <b>七個規定全靠自己</b>"],
+ [2010,"99","SS-2010-2",0,0,0,0,0,0,0,0,1,"參考公式集完整（柱 + 梁），<b>但 <code>SS-2010-2</code> 的 SIS 四等級與熱浸鍍鋅零支援</b>"],
+ [2011,"100","—",0,0,0,0,0,0,0,0,1,"史上最齊的公式年（ASD 互制、\\(F_b\\)、萊梅厥、\\(\\tau_a\\)）；無施工規定"],
+ [2012,"101","—",0,0,0,0,0,0,0,0,1,"題四給承壓公式 \\(R_n=1.2L_ctF_u\\le2.4dtF_u\\)；<b>題二①的塑性轉角 0.03 rad 零支援</b>"],
+ [2013,"102","—",0,0,0,0,0,0,0,0,1,"對位圖、萊梅厥、\\(B_1B_2\\)（皆影像）；無施工規定"],
+ [2014,"103","—",0,0,0,0,0,0,0,0,1,"P-M、\\(B_1B_2\\)；<b>題二問 SN490B 與 A572 的材料差異，零支援</b>"],
+ [2015,"104","—",0,0,0,0,0,0,0,0,1,"拉力構材與梁公式；銲接給 \\(\\phi R_n=0.75\\times0.6F_{EXX}tL\\) <b>卻不給 \\(t=0.707w\\)</b>"],
+ [2016,"105","SS-2016-2",0,0,0,0,0,0,0,0,1,"僅印 \\(\\lambda_p/\\lambda_r\\) 寬厚比表（別題用）；<b><code>SS-2016-2</code> 回銲 \\(\\ge2w\\)、第五題降伏比與 Charpy 全部零支援</b>"],
+ [2017,"106","—",0,0,0,0,0,0,0,0,0,"<b>整張零參考公式</b>"],
+ [2018,"107","SS-2018-4",0,0,0,0,0,0,0,0,1,"題二印 \\(\\lambda_c\\)、\\(F_{cr}\\)；題三印銲喉斷面模數 \\(S_w\\) 與 \\(f_a=90.5\\) MPa；<b><code>SS-2018-4</code> 不予塗裝五部位（20 分整題）零支援</b>"],
+ [2019,"108","SS-2019-1",0,0,0,0,0,0,0,0,1,"ASD 公式最完整年之一；題四給 \\(\\phi0.6F_{EXX},\\ \\phi=0.75\\)；<b><code>SS-2019-1</code> 三種防蝕方法零支援</b>"],
+ [2020,"109","—",0,0,0,0,0,0,0,0,1,"第 3 頁參考資料全為影像（柱與 P-M）；<b>題一補強式／削弱式接頭零支援</b>"],
+ [2021,"110","SS-2021-1, -4（-4 副）",0,0,0,0,0,0,0,0,1,"參考公式為 LTB 與塊狀剪力；<b><code>SS-2021-1</code> 五種 NDT（25 分）與 <code>SS-2021-4</code> 混合接合零支援</b>"],
+ [2022,"111","SS-2022-3",0,0,0,0,0,0,0,0,1,"題一印 \\(\\lambda_c,F_{cr},\\lambda_p,h/t_w,V_n\\)；題二印鉸接拉力三式；<b><code>SS-2022-3</code> 韌性抗彎構架銲接部位與 NDT（25 分）零支援</b>"],
+ [2023,"112","SS-2023-4（副）",0,0,0,0,0,0,0,0,1,"題二印 \\(C_c\\)、\\(F_a\\)（<b>影像</b>）；題一印對位圖（影像）；<b><code>SS-2023-4</code> 銲接破壞形式（25 分）零支援</b>"],
+ [2024,"113","SS-2024-4（副）",0,0,1,0,0,0,0,0,1,"題三整組 LTB、題一 \\(F_{cr}\\) 曲線、<b>最小銲腳尺寸表皆以影像嵌入</b>；<b>但 <code>SS-2024-4</code> 梁柱接頭破壞模式（25 分）完全用不到，等於零支援</b>"],
+ [2025,"114","—",0,0,0,0,0,0,0,0,0,"<b>整張考卷零參考公式</b>"]
+];
+
+/* ---------- 渲染 ---------- */
+const LVN={must:["🔴 必背","must"],half:["🟠 別賭","half"],give:["🟢 通常會給","give"]};
+const box=document.getElementById('cards');
+function yrs(a,cls){return a.map(y=>`<span class="yr ${cls}">${y-1911}年</span>`).join('')}
+function render(){
+  const lv=document.querySelector('[data-k="lv"].on').dataset.v;
+  const g=document.querySelector('[data-k="g"].on').dataset.v;
+  const sel=F.filter(f=>(lv==='all'||f.lv===lv)&&(g==='all'||f.g===g));
+  box.innerHTML=sel.map(f=>`
+    <div class="fc ${f.lv}">
+      <div class="top">
+        <span class="nm">${f.nm}</span>
+        <span class="tag ${f.lv}">${LVN[f.lv][0]}</span>
+        <span class="tag grp">${f.g}</span>
+      </div>
+      <div class="eq">${f.eq}</div>
+      <p class="meta">${f.meta}</p>
+      <div class="ev">
+        ${f.ok.length?`<b>考卷給過：</b>${yrs(f.ok,'ok')}`:'<b>考卷給過：</b><span style="color:var(--must)">從未</span>'}
+        ${f.no.length?`　｜　<b>考了卻沒給：</b>${yrs(f.no,'no')}`:''}
+      </div>
+    </div>`).join('');
+  document.getElementById('count').textContent=`顯示 ${sel.length} / ${F.length} 條`;
+  if(window.renderMathInElement)renderMathInElement(box,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+}
+document.querySelectorAll('button.f').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll(`button.f[data-k="${b.dataset.k}"]`).forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');render();
+}));
+
+const tb=document.querySelector('#mx tbody');
+tb.innerHTML=MX.map(r=>{
+  const has=r[2]!=='—';
+  const cells=r.slice(3,12).map(v=>`<td class="c">${v?'<span class="y">✔</span>':'<span class="n">·</span>'}</td>`).join('');
+  return `<tr style="${has?'background:#fafcfd':''}">
+    <td><b>${r[0]}</b><br><span style="font-size:.85em;color:var(--mut)">${r[1]}年</span></td>
+    <td style="font-size:.9em">${r[2]}</td>${cells}
+    <td style="font-size:.9em">${r[12]}</td></tr>`;
+}).join('');
+
+render();
+window.addEventListener('load',()=>{if(window.renderMathInElement)renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});});
+</script>
+</body>
+</html>

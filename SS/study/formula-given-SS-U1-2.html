@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-U1-2 主要公式｜考卷會給 vs. 必須自己背</title>
+<!-- KaTeX 本機資源（assets/katex/），離線亦可正常顯示數學式 -->
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd;
+  --must:#c62828; --must2:#ffebee;     /* 必背 */
+  --half:#ef6c00; --half2:#fff3e0;     /* 半數機率 */
+  --give:#2e7d32; --give2:#e8f5e9;     /* 通常會給 */
+  --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#78909c; --bd:#e0e6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:26px 24px}
+header h1{margin:0 0 6px;font-size:1.45em}
+header p{margin:0;opacity:.88;font-size:.9em}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{text-decoration:none;color:var(--ac);font-size:.86em;padding:5px 10px;border-radius:16px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:1120px;margin:0 auto;padding:20px 16px 70px}
+section{margin-bottom:40px}
+h2{font-size:1.22em;border-left:5px solid var(--ac);padding-left:10px;margin:32px 0 12px}
+h3{font-size:1.02em;margin:22px 0 8px;color:#37474f}
+p.lead{font-size:.94em;color:#455a64}
+
+/* 判定說明 */
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:14px 0}
+.lg{border-radius:10px;padding:12px 14px;border:1px solid var(--bd);border-left:6px solid;background:var(--card)}
+.lg h4{margin:0 0 4px;font-size:.98em}
+.lg p{margin:0;font-size:.83em;color:var(--mut)}
+.lg.must{border-left-color:var(--must)} .lg.must h4{color:var(--must)}
+.lg.half{border-left-color:var(--half)} .lg.half h4{color:var(--half)}
+.lg.give{border-left-color:var(--give)} .lg.give h4{color:var(--give)}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:8px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi .n{font-size:1.8em;font-weight:700;color:var(--ac)}
+.kpi .l{font-size:.8em;color:var(--mut)}
+
+/* 篩選 */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 6px;align-items:center}
+.filters .lb{font-size:.83em;color:var(--mut);margin-right:2px}
+button.f{border:1px solid var(--bd);background:#fff;color:var(--ink);border-radius:18px;padding:6px 14px;font-size:.85em;cursor:pointer;font-family:inherit;transition:.15s}
+button.f:hover{border-color:var(--ac)}
+button.f.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+button.f.on.must{background:var(--must);border-color:var(--must)}
+button.f.on.half{background:var(--half);border-color:var(--half)}
+button.f.on.give{background:var(--give);border-color:var(--give)}
+#count{font-size:.83em;color:var(--mut);margin-left:6px}
+
+/* 公式卡 */
+.cards{display:grid;grid-template-columns:1fr;gap:14px;margin-top:12px}
+.fc{background:var(--card);border:1px solid var(--bd);border-left:7px solid;border-radius:10px;padding:14px 18px}
+.fc.must{border-left-color:var(--must)}
+.fc.half{border-left-color:var(--half)}
+.fc.give{border-left-color:var(--give)}
+.fc .top{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;margin-bottom:6px}
+.fc .nm{font-weight:700;font-size:1.02em}
+.tag{font-size:.72em;padding:2px 9px;border-radius:12px;font-weight:700;white-space:nowrap}
+.tag.must{background:var(--must2);color:var(--must)}
+.tag.half{background:var(--half2);color:var(--half)}
+.tag.give{background:var(--give2);color:var(--give)}
+.tag.grp{background:#eceff1;color:#546e7a;font-weight:400}
+.fc .eq{background:#fafcfd;border:1px dashed var(--bd);border-radius:8px;padding:8px 12px;margin:6px 0;overflow-x:auto}
+.fc .meta{font-size:.85em;color:#455a64;margin:6px 0 0}
+.fc .meta b{color:var(--ink)}
+.fc .ev{font-size:.79em;color:var(--mut);border-top:1px dashed var(--bd);margin-top:9px;padding-top:7px}
+.fc .ev .yr{display:inline-block;background:#eceff1;border-radius:4px;padding:0 5px;margin:1px 2px 1px 0;font-family:ui-monospace,monospace}
+.fc .ev .yr.no{background:var(--must2);color:var(--must)}
+.fc .ev .yr.ok{background:var(--give2);color:var(--give)}
+
+/* 表格 */
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--bd);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.85em;min-width:720px}
+th,td{border-bottom:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;color:#37474f;font-weight:700;position:sticky;top:44px;z-index:5}
+tbody tr:hover{background:#f5f9fd}
+td.c{text-align:center}
+.y{color:var(--give);font-weight:700}
+.n{color:#cfd8dc}
+
+.note{background:var(--half2);border-left:5px solid var(--half);border-radius:8px;padding:12px 16px;font-size:.88em;margin:14px 0}
+.note b{color:var(--half)}
+.warn{background:var(--must2);border-left:5px solid var(--must);border-radius:8px;padding:12px 16px;font-size:.88em;margin:14px 0}
+.warn b{color:var(--must)}
+footer{max-width:1120px;margin:0 auto;padding:0 16px 40px;font-size:.8em;color:var(--mut)}
+
+@media print{
+  nav,.filters{display:none}
+  body{background:#fff}
+  .fc{break-inside:avoid;box-shadow:none}
+  th{position:static}
+  header{background:#0d47a1 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .fc,.lg,.kpi,.tag{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SS-U1-2 梁桿件 — 主要公式「考卷會給 vs. 必須自己背」</h1>
+  <p>證據來源：<code>raw/exams/</code> 2002–2025 全 24 份鋼結構設計考卷之「參考公式／參考資料」區塊逐份比對（含影像頁逐頁目視判讀）｜ 判定標準：保守（任一年考了沒給就算必背）</p>
+</header>
+
+<nav>
+  <a href="#how">判定方法</a>
+  <a href="#cards">公式清單</a>
+  <a href="#matrix">逐年證據表</a>
+  <a href="#strategy">背誦策略</a>
+  <a href="lecture-SS-U1-2.html">▶ U1-2 觀念講義</a>
+  <a href="study-SS-U1-2.html">▶ U1-2 命題分析</a>
+  <a href="formula-given-SS-U1-1.html">▶ U1-1 給／背分界</a>
+  <a href="formula-given-SS-U1-3.html">▶ U1-3 給／背分界</a>
+  <a href="formula-given-SS-U1-4.html">▶ U1-4 給／背分界</a>
+  <a href="formula-given-SS-U2-3.html">▶ U2-3 給／背分界</a>
+  <a href="formula-given-SS-U1-2.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+
+<main>
+
+<section id="how">
+  <h2>一、我怎麼判定的</h2>
+  <p class="lead">
+    鋼結構設計考卷把公式印出來有三種擺法：<b>（a）</b>集中放在最後一題之後（如 96、97、99、100、104、108、110 年）、
+    <b>（b）</b>跟在該題題目正下方（如 101、103、113 年）、
+    <b>（c）</b>混在題目敘述裡當已知條件（如 91 年直接給 <span>\(L_c=3.87\)</span> m、<span>\(L_u=8.44\)</span> m，
+    114 年直接給 <span>\(L_p=3.4\)</span> m、<span>\(L_r=10.5\)</span> m、<span>\(C_b=1\)</span>）。三種都算「有給」。
+    本頁涵蓋 <b>25 題</b>（主分類 21 題 + 副分類 4 題），橫跨 91–114 年共 18 個考年 —— <b>是 SS 七個子項裡題數最多、也最常出現整套參考公式的單元</b>。
+  </p>
+  <div class="note">
+    <b>關鍵前提：考卷本身寫得很明白。</b>
+    104、110、112 年的用語是「<i>請自行選擇適合的公式，並檢查其正確性，若有問題應自行修正</i>」；
+    111、113 年更直接：「<i>題目所列之計算公式僅供參考應自負確認與勘誤責任</i>」。
+    也就是說 —— <b>就算有給，你也必須認得出哪一條該用、哪一條被改錯了</b>。給公式不等於免背。
+  </div>
+  <div class="warn">
+    <b>本單元的判定結論和 U1-1 / U1-4 都不一樣：LTB 那一整套「長式子」幾乎必給，但撐起它們的「短定義」幾乎不給。</b>
+    \(L_p\)、\(L_r\) 十一年有給、\(C_b\) 十年有給、\(M_n\) 內插與 \(M_{cr}\) 七年有給 ——
+    可是 <b>\(M_p=F_yZ_x\) 與 \(M_y=F_yS_x\) 這兩條最基本的定義，24 年一次都沒印過</b>，
+    而 98、112、114 年各有一題整題就在算它們。
+    最極端的證據是 <b>114 年（2025）整張考卷零參考公式，卻連考兩題梁</b>
+    （<code>SS-2025-1</code> 銲接組合斷面 \(\phi_bM_{nx}\)、<code>SS-2025-3</code> 完整 LTB 三段），
+    只在題目裡丟了 \(L_p\)、\(L_r\)、\(C_b\)、\(F_r\) 四個數字就要你把 \(M_p\)、\(M_r\)、\(M_n\) 全部生出來。
+  </div>
+  <div class="warn" style="background:#fff;border-left-color:var(--half)">
+    <b>影像頁警告（本輪實際踩到）：</b>113 年（2024）第三題「參考公式：」下方是一整組
+    \(L_p\)、\(L_r\)、\(X_1\)、\(X_2\)、\(J\)、\(F_L\)、\(M_r\)、\(M_n\) 非彈性、\(M_n\) 彈性的<b>圖片</b>，
+    <code>pdftotext</code> 只抽到「參考公式：」四個字。只靠文字抽取會把 113 年誤判成「零公式年」，
+    整份結論會反過來。本頁 105、110、112、113、114 五個年份已逐頁轉圖目視確認。
+  </div>
+
+  <div class="legend">
+    <div class="lg must"><h4>🔴 必背（自己要寫得出來）</h4><p>曾經被考、但當年考卷完全沒給；或根本不曾在任何一年被印出來過。</p></div>
+    <div class="lg half"><h4>🟠 會給但別賭（仍建議背）</h4><p>多數年份有給，但有明確的沒給先例；或給的是舊版／簡化版，需自己判斷修正。</p></div>
+    <div class="lg give"><h4>🟢 通常會給（背概念即可）</h4><p>凡是考該題型，幾乎必定連同公式或數值一起印出；重點放在「會不會用」而非「記不記得」。</p></div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="n">24</div><div class="l">份考卷全數比對</div></div>
+    <div class="kpi"><div class="n">25</div><div class="l">題 U1-2 考題</div></div>
+    <div class="kpi"><div class="n">33</div><div class="l">條 U1-2 主要公式</div></div>
+    <div class="kpi"><div class="n" style="color:var(--must)">21</div><div class="l">必背</div></div>
+    <div class="kpi"><div class="n" style="color:var(--half)">6</div><div class="l">會給但別賭</div></div>
+    <div class="kpi"><div class="n" style="color:var(--give)">6</div><div class="l">通常會給</div></div>
+  </div>
+</section>
+
+<section id="cards">
+  <h2>二、U1-2 主要公式逐條分界</h2>
+  <div class="filters">
+    <span class="lb">判定：</span>
+    <button class="f on" data-k="lv" data-v="all">全部</button>
+    <button class="f must" data-k="lv" data-v="must">🔴 必背</button>
+    <button class="f half" data-k="lv" data-v="half">🟠 別賭</button>
+    <button class="f give" data-k="lv" data-v="give">🟢 通常會給</button>
+    <span class="lb" style="margin-left:14px">主題：</span>
+    <button class="f on" data-k="g" data-v="all">全部</button>
+    <button class="f" data-k="g" data-v="斷面性質">斷面性質</button>
+    <button class="f" data-k="g" data-v="局部挫屈">局部挫屈</button>
+    <button class="f" data-k="g" data-v="LTB-ASD">LTB · ASD</button>
+    <button class="f" data-k="g" data-v="LTB-LRFD">LTB · LRFD</button>
+    <button class="f" data-k="g" data-v="剪力板梁">剪力 · 板梁</button>
+    <button class="f" data-k="g" data-v="使用性其他">使用性 · 合成梁 · 塑性</button>
+    <span id="count"></span>
+  </div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section id="matrix">
+  <h2>三、逐年證據表（哪一年給了什麼）</h2>
+  <p class="lead">✔ = 該年考卷印出此公式（含題目內文直接給值、圖片嵌入之公式組）；空白 = 沒給。灰底列 = 該年有 U1-2 題目。</p>
+  <div class="tw">
+    <table id="mx">
+      <thead>
+        <tr>
+          <th style="min-width:66px">考卷年</th>
+          <th style="min-width:104px">U1-2 題號</th>
+          <th class="c">寬厚比</th>
+          <th class="c">\(M_p\) 定義</th>
+          <th class="c">\(M_r\,F_L\)</th>
+          <th class="c">ASD \(F_b\)</th>
+          <th class="c">\(L_c\,L_u\)</th>
+          <th class="c">\(C_b\)</th>
+          <th class="c">\(L_p\,L_r\)</th>
+          <th class="c">\(X_1X_2J\)</th>
+          <th class="c">\(M_n\,M_{cr}\)</th>
+          <th class="c">\(V_n\)</th>
+          <th style="min-width:158px">備註</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="strategy">
+  <h2>四、由此推出的背誦策略</h2>
+
+  <h3>① 一句話診斷：U1-2 給的是「長式子」，不給的是「短定義」</h3>
+  <div class="warn" style="background:#fff;border-left-color:var(--must)">
+    這是 SS 三個已盤點單元裡<b>最反直覺</b>的一個。\(M_{cr}\) 那條有兩層根號的長式子七年有給、
+    \(L_r\) 有給、\(X_1\) 與 \(X_2\) 有給、\(C_b\) 十年有給 ——
+    可是 <b>\(M_p=F_yZ_x\) 與 \(M_y=F_yS_x\) 這兩行字，24 年一次都沒印過</b>，
+    \(\phi_b=0.9\) 也只印過兩次。<br><br>
+    邏輯其實很一致：<b>出題者印的是「抄起來很痛苦、不印會有爭議」的式子</b>，
+    不印的是「他認為你當然會」的定義。所以 U1-2 的準備方式是 ——
+    長式子只練「認得出來、代得進去、單位對」，短定義則必須默寫得出來。
+    把時間花在背 \(M_{cr}\) 上，幾乎必然是浪費。
+  </div>
+
+  <h3>② 五條「怎樣都得自己寫」的骨幹（零容忍）</h3>
+  <div class="warn" style="background:#fff;border-left-color:var(--must)">
+    <b>1. \(M_p=F_yZ_x\)、\(M_y=F_yS_x\)、\(f=Z_x/S_x\)，以及 \(Z_x\) 的半面積算法。</b>
+    98 年 <code>SS-2009-3</code>、112 年 <code>SS-2023-3</code>、114 年 <code>SS-2025-1</code> 三題整題就在算這個，
+    112 年還是非對稱斷面（PNA ≠ 形心，要用等面積法另找一條軸）。<br><br>
+    <b>2. 三段的分岔判斷。</b>LRFD：\(L_b\le L_p\)／\(L_p<L_b\le L_r\)／\(L_b>L_r\)；
+    ASD：\(L_b\le L_c\)／\(\le L_u\)／\(>L_u\)。
+    <b>兩套 24 年都沒印過任何一次。</b>而閱卷第一步就是看你有沒有先定位 \(L_b\)。
+    114 年 <code>SS-2025-3</code> 給 \(L_b=3.0\)、\(L_p=3.4\) —— 整題就在測這一個比較。<br><br>
+    <b>3. \(\phi_b=0.9\)。</b>只有 94、110 兩年印過。104 年印的 \(\phi_v=0.9\) 是剪力用的，別當成同一件事。<br><br>
+    <b>4. 弱軸沒有 LTB，但有 \(1.5F_yS_y\) 的上限。</b>
+    105 年 <code>SS-2016-4</code> 直接問、103 與 113 年要用。零次印出，而且要能講出<b>為什麼</b>。<br><br>
+    <b>5. 撓度與塑性分析的整套。</b>\(5wL^4/384EI\)、\(23PL^3/648EI\)、虛功法 \(\sum P\delta=\sum M_p\theta\)、
+    propped cantilever 的 \(w_u=11.66M_p/L^2\)。99、104、94、109、114 年五次考到，五次零公式。
+  </div>
+
+  <h3>③ 四個「有給也要會判斷」的陷阱</h3>
+  <div class="note">
+    <b>陷阱 A：\(C_b\) 有新舊兩版，數值不一樣。</b><br>
+    舊版 \(C_b=1.75+1.05(M_1/M_2)+0.3(M_1/M_2)^2\le2.3\)（96、97、99、100、104、108、110 年）；
+    新版 \(C_b=12.5M_{\max}/(2.5M_{\max}+3M_A+4M_B+3M_C)\le3.0\)（101、103、113 年）。
+    <b>同一年只給一種</b>，而兩者算出來不同（均佈載重簡支梁：舊版 1.00、新版 1.14）。
+    舊版還有「兩端點間不得有橫向載重」的限制，新版沒有 —— 用錯版本等於用錯適用範圍。<br><br>
+    <b>陷阱 B：99、104 年印了 \(M_n\) 內插式，卻不定義裡面的 \(M_r\)、\(X_1\)、\(X_2\)。</b><br>
+    這是最陰的一種給法：看起來公式齊全，實際上代不進去。
+    104 年 <code>SS-2015-1</code> 印了 \(L_r=r_yX_1/F_L\sqrt{\cdots}\) 和 \(M_{cr}=C_bS_xX_1\sqrt2/\cdots\)，
+    但 \(X_1\)、\(X_2\)、\(F_L\) 三個符號<b>一個都沒定義</b>。
+    所以 \(X_1=\dfrac{\pi}{S_x}\sqrt{\dfrac{EGJA}{2}}\)、\(M_r=F_LS_x\)、\(F_L=\min(F_{yf}-F_r,\ F_{yw})\) 仍要背。<br><br>
+    <b>陷阱 C：105 年印出 \(\lambda_p/\lambda_r\) 全表，但那題不是叫你查表。</b><br>
+    <code>SS-2016-1</code> 問的是「梁翼板與柱翼板的 \(\lambda_r\) 為何相同、梁腹板與柱腹板的 \(\lambda_r\) 為何不同」
+    以及「制定 \(\lambda_p\) 與 \(\lambda_r\) 所考慮的因素」——
+    表印在那裡是<b>題目的一部分</b>，不是給你算的。真正要答的是應力分布（純壓 vs. 彎曲）與
+    韌性需求（\(\lambda_p\) 要能維持 \(M_p\) 轉動、\(\lambda_r\) 只要能到 \(M_r\)）。<br><br>
+    <b>陷阱 D：101、103 年給了一堆數值，卻沒給把它們串起來的式子。</b><br>
+    兩年都給 \(\lambda_p,\lambda_r,L_p,L_r\) 的現成數值，看起來很慷慨 ——
+    但 101 年 <code>SS-2012-1</code> 是<b>非結實斷面</b>，要同時跑 FLB 內插與 LTB 內插再取小，
+    兩條內插式都沒給。給數值不等於給方法。
+  </div>
+
+  <h3>④ 可以放心「只背用法」的少數幾條</h3>
+  <p class="lead">
+    <b>\(L_p\) 與 \(L_r\)</b> 十一年有給（96、97、99、100、101、103、104、109、110、113、114），
+    是全 SS 給得最慷慨的一條，連 109 年那份「參考資料只有柱公式」的清單裡都夾了 \(L_p=80r_y/\sqrt{F_{yf}}\)。<br>
+    <b>\(M_n\) 內插式與 \(M_{cr}\)</b> 七年成對出現，\(L_c/L_u\) 六年全給，
+    <b>\(F_r\) 的數值</b>（熱軋 1.16、銲接 0.7）七年全給 —— 因為兩種取值不同，不給會有爭議。
+    這四項背概念與適用時機即可，不必花力氣默寫。<br>
+    真正要練的是：拿到 \(L_b\) 與這些現成數字後，<b>三分鐘內定位在哪一段、選對那一條、乘上 \(\phi_b\)</b>。
+  </p>
+
+  <h3>⑤ 一句話總結</h3>
+  <div class="note" style="background:var(--ac2);border-left-color:var(--ac)">
+    <b>U1-2 的考卷像一份「填空題」：長式子印給你，空格留在最基本的定義（\(M_p\)、\(M_y\)、\(Z_x\)、\(\phi_b\)）與最關鍵的判斷（\(L_b\) 落在哪一段、要不要考慮 LTB）。</b>
+    這 25 題有 21 題是計算題，流程錯了長式子代得再準也沒用。
+    背誦資源請押在斷面性質那五條與兩套三段分岔規則上 —— 加起來不到一頁，卻決定整題架構。
+  </div>
+</section>
+
+</main>
+
+<footer>
+  生成日期 2026-08-07 ｜ 資料來源：exam-wiki-SS <code>raw/exams/SS-2002~2025_鋼結構設計.pdf</code>（全文抽取 + 影像頁逐頁目視判讀）、
+  <code>raw/json/question_index.json</code>（25 題）、
+  <code>raw/solutions/methods/{ltb-3zone, cb-factor, plastic-zx, conjugate-beam}</code>、
+  <code>study/lecture-SS-U1-2.html</code>
+</footer>
+
+<script>
+/* ---------- 資料 ---------- */
+/* lv: must / half / give ；ok: 考卷印出過的年（西元）；no: 考了卻沒印的年 */
+const F=[
+/* ===== 斷面性質 ===== */
+{g:"斷面性質",lv:"must",nm:"Mp = Fy·Zx 與 My = Fy·Sx",
+ eq:"$$M_p=F_y\\,Z_x\\;;\\qquad M_y=F_y\\,S_x$$",
+ meta:"<b>24 年一次都沒印過</b> —— 連 96、97、100、104、110、113 年那幾套最完整的 LTB 參考公式，都只印含 \\(M_p\\) 的內插式，從不定義 \\(M_p\\) 本身。而 98 年 <code>SS-2009-3</code>①（求 \\(M_p/M_y\\) 比值）、112 年 <code>SS-2023-3</code>（非對稱斷面求兩者）、114 年 <code>SS-2025-3</code>（求強軸塑性彎矩）三題整題就在算它。兩行字，卻是 U1-2 最該背的一條。",
+ ok:[],no:[2005,2009,2010,2020,2021,2023,2025]},
+
+{g:"斷面性質",lv:"must",nm:"塑性中性軸（等面積法）",
+ eq:"$$A_{\\text{壓}}=A_{\\text{拉}}=\\frac{A}{2}\\qquad(\\text{PNA}\\ne\\text{ENA}\\ \\text{當斷面非對稱})$$",
+ meta:"112 年 <code>SS-2023-3</code> 的斷面上翼板 50×5、下翼板 30×5，<b>塑性中性軸與彈性形心根本不在同一個位置</b> —— 題目要你分別求降伏彎矩與塑性彎矩，就是在測你知不知道要換一條軸。94 年 <code>SS-2005-2</code>（SRC 合成梁 PNA）、109 年 <code>SS-2020-2</code>（非對稱 H 型鋼塑性分析）同理。零次印出。",
+ ok:[],no:[2005,2009,2020,2023]},
+
+{g:"斷面性質",lv:"must",nm:"Zx 的半面積法算式",
+ eq:"$$Z_x=\\sum A_i\\,\\bar{y}_i=\\frac{A}{2}\\left(\\bar{y}_{\\text{壓}}+\\bar{y}_{\\text{拉}}\\right)$$",
+ meta:"\\(\\bar{y}\\) 是<b>各半面積形心到 PNA 的距離</b>，不是到彈性形心。112 年 <code>SS-2023-3</code>、109 年 <code>SS-2020-2</code>、98 年 <code>SS-2009-3</code> 都要手算 \\(Z_x\\)。考卷從來只在斷面性質表裡給 \\(Z_x\\) 的<b>數值</b>（99、101、103、109 年），一旦是自訂銲接組合斷面（114 年 <code>SS-2025-1</code>）就沒得抄。",
+ ok:[],no:[2005,2009,2020,2023]},
+
+{g:"斷面性質",lv:"must",nm:"形狀因子 f = Zx / Sx",
+ eq:"$$f=\\frac{Z_x}{S_x}=\\frac{M_p}{M_y}\\qquad(\\text{H 型強軸}\\approx1.10\\!\\sim\\!1.15,\\ \\text{矩形}=1.5)$$",
+ meta:"98 年 <code>SS-2009-3</code>①、110 年 <code>SS-2021-3</code>（「請計算所選擇斷面塑性彎矩強度及形狀因子」）、112 年 <code>SS-2023-3</code> 三次點名要算。<b>零次印出。</b>順便記住幾個典型值當檢查用：矩形 1.5、圓形 1.7、H 型強軸 1.12、H 型弱軸 1.5 —— 算出來離譜就是哪裡錯了。",
+ ok:[],no:[2009,2021,2023]},
+
+{g:"斷面性質",lv:"must",nm:"平行軸定理與 Sx",
+ eq:"$$I_x=\\sum\\left(I_i+A_id_i^2\\right)\\;;\\qquad S_x=\\frac{I_x}{c}\\quad(c=\\text{形心到最外緣})$$",
+ meta:"114 年 <code>SS-2025-1</code> 給的是「30 cm × 42 cm × 1.5 cm」的銲接組合斷面尺寸，<b>什麼斷面性質都沒有</b>，\\(I_x\\)、\\(S_x\\)、\\(Z_x\\) 全部自己算。112 年 <code>SS-2023-3</code>、98 年 <code>SS-2009-3</code> 同樣。非對稱斷面時 \\(c_{\\text{上}}\\ne c_{\\text{下}}\\)，\\(S_x\\) 要<b>取小的那個</b>（先降伏的那一側控制 \\(M_y\\)）。",
+ ok:[],no:[2009,2023,2025]},
+
+/* ===== 局部挫屈 ===== */
+{g:"局部挫屈",lv:"half",nm:"梁的寬厚比界限 λp / λr",
+ eq:"$$\\text{翼板}\\ \\frac{b_f}{2t_f}:\\ \\lambda_p=\\frac{17}{\\sqrt{F_y}},\\ \\lambda_r=\\frac{25}{\\sqrt{F_y}}\\;;\\qquad \\text{腹板}\\ \\frac{h}{t_w}:\\ \\lambda_p=\\frac{170}{\\sqrt{F_y}},\\ \\lambda_r=\\frac{260}{\\sqrt{F_y}}$$",
+ meta:"96、97、100、110 年印在參考公式區；105 年 <code>SS-2016-1</code> 把整張表印出來 —— <b>但那題是叫你「說明制定 </b>\\(\\lambda_p\\)<b> 與 </b>\\(\\lambda_r\\)<b> 所考慮的因素」，不是叫你查表</b>，屬於誘餌型給法。101、103 年則是在斷面性質裡直接給數值（\\(\\lambda_p=9.19,\\ \\lambda_r=22.3\\)，注意那是<b>已代入</b> \\(F_y\\) 的無因次值）。95、104、114 年考了卻沒給。",
+ ok:[2007,2008,2011,2012,2014,2016,2021],no:[2006,2015,2025]},
+
+{g:"局部挫屈",lv:"give",nm:"耐震緊實界限 λpd",
+ eq:"$$\\text{翼板}\\ \\lambda_{pd}=\\frac{14}{\\sqrt{F_y}}\\;;\\qquad \\text{腹板}\\ \\lambda_{pd}=\\frac{138}{\\sqrt{F_y}}\\left(1-3.17\\frac{f_a}{F_y}\\right)$$",
+ meta:"96、97、100、110 年四次全給。110 年 <code>SS-2021-3</code> 正是耐震緊實斷面選斷面題，而該年參考公式區把 \\(\\lambda_{pd}\\) 兩組（翼板 14、腹板 138）都印了。要背的是<b>為什麼耐震要更嚴</b>：\\(\\lambda_p\\) 只保證能到 \\(M_p\\)，\\(\\lambda_{pd}\\) 要保證能維持 \\(M_p\\) 轉到 0.03 rad 而不局部挫屈。",
+ ok:[2007,2008,2011,2021],no:[]},
+
+{g:"局部挫屈",lv:"must",nm:"非結實斷面的 FLB 內插式",
+ eq:"$$M_n=M_p-\\left(M_p-M_r\\right)\\frac{\\lambda-\\lambda_p}{\\lambda_r-\\lambda_p}$$",
+ meta:"101 年 <code>SS-2012-1</code> 是 24 年唯一的非結實斷面題（\\(b_f/2t_f\\) 落在 \\(\\lambda_p\\) 與 \\(\\lambda_r\\) 之間），考卷給了 \\(\\lambda_p=9.19\\)、\\(\\lambda_r=22.3\\)、\\(L_p\\)、\\(L_r\\) 一堆數值，<b>就是沒給這條 FLB 內插式</b>。它的長相和 LTB 內插一模一樣，但分母換成寬厚比 —— 而且<b>要和 LTB 的結果取小</b>。",
+ ok:[],no:[2012]},
+
+{g:"局部挫屈",lv:"give",nm:"殘留應力 Fr 的取值",
+ eq:"$$F_r=1.16\\ \\mathrm{tf/cm^2}\\ (\\text{熱軋})\\;;\\qquad F_r=0.7\\ \\mathrm{tf/cm^2}\\ (\\text{銲接組合})$$",
+ meta:"96（1.16）、100（1.05）、101（69 MPa）、103（78 MPa）、110（1.16）、113（\\(F_L=F_{yf}-0.7\\)）、114（0.7 與 1.16 各一題）—— <b>需要時幾乎必給數值</b>，因為熱軋與銲接兩種取值不同，不給會有爭議。97 年 <code>SS-2008-3</code> 是唯一例外（要算 \\(M_r\\) 卻沒給 \\(F_r\\)）。要背的是<b>哪一種斷面配哪一個值</b>，以及殘留應力為何讓 \\(M_r<M_y\\)。",
+ ok:[2007,2011,2012,2014,2021,2024,2025],no:[2008]},
+
+/* ===== LTB · ASD ===== */
+{g:"LTB-ASD",lv:"give",nm:"Lc 與 Lu 的定義",
+ eq:"$$L_c=\\min\\left(\\frac{20b_f}{\\sqrt{F_y}},\\ \\frac{1400}{(d/A_f)F_y}\\right)\\;;\\qquad L_u:\\ F_b=0.6F_y\\ \\text{的界限}$$",
+ meta:"96、97、100、108 年印在參考公式區（108 年還明寫「\\(L_c\\) 為以下兩者之較小值」）；91、92 年直接在斷面性質裡給數值（91 年 <code>SS-2002-2</code> 給 \\(L_c=3.87\\) m、\\(L_u=8.44\\) m）。<b>六次全給，沒有例外。</b>要背的是它們的角色：\\(L_c\\) 是 \\(0.66F_y\\) 的門檻、\\(L_u\\) 是 \\(0.6F_y\\) 的門檻。",
+ ok:[2002,2003,2007,2008,2011,2019],no:[]},
+
+{g:"LTB-ASD",lv:"half",nm:"ASD 容許撓曲應力 Fb 三式",
+ eq:"$$F_b=\\left[\\frac{2}{3}-\\frac{F_y(L/r_T)^2}{107600C_b}\\right]F_y\\;;\\quad F_b=\\frac{12000C_b}{(L/r_T)^2}\\;;\\quad F_b=\\frac{840C_b}{Ld/A_f}$$",
+ meta:"96、97、100、108 年四次完整給出（97 年 <code>SS-2008-1</code> 更是把 7.2-6／7.2-7／7.2-8 三條印在題幹上，<b>問你為什麼此處要「取大值」而不是取小值</b>）。93 年只在題目內文給 \\(F_{bx}=0.66F_y,\\ F_{by}=0.75F_y\\)。但 91 年 <code>SS-2002-2</code> 是一整題 25 分的 ASD LTB，<b>零條 </b>\\(F_b\\)<b> 公式</b>。",
+ ok:[2004,2007,2008,2011,2019],no:[2002,2016]},
+
+{g:"LTB-ASD",lv:"give",nm:"Cb 舊版（三項式）",
+ eq:"$$C_b=1.75+1.05\\frac{M_1}{M_2}+0.3\\left(\\frac{M_1}{M_2}\\right)^2\\le 2.3$$",
+ meta:"96、97、99、100、104、108、110 年<b>七次全給</b>。適用於「兩端點間無橫向載重」的情形。要背的不是式子，是<b>符號規則</b>：單曲率 \\(M_1/M_2\\) 取負、雙曲率取正 —— 這一點考卷從不說明，而它決定 \\(C_b\\) 是 1.0 還是 2.3。",
+ ok:[2007,2008,2010,2011,2015,2019,2021],no:[]},
+
+{g:"LTB-ASD",lv:"must",nm:"ASD 的三段分岔判斷（流程骨架）",
+ eq:"$$L_b\\le L_c\\Rightarrow F_b=0.66F_y\\;;\\quad L_c<L_b\\le L_u\\Rightarrow F_b=0.6F_y\\;;\\quad L_b>L_u\\Rightarrow \\text{三式取大再與}\\ 0.6F_y\\ \\text{比}$$",
+ meta:"沒有數學符號，卻是 ASD 梁題的第一步。<b>24 年一次都沒印過</b>。91 年 <code>SS-2002-2</code> 給了 \\(L_c\\)、\\(L_u\\) 數值和 1/4 跨距側撐，就是要你自己判斷 \\(L_b=3.5\\) m 落在哪一段。105 年 <code>SS-2016-1</code> 要你解釋 \\(\\lambda_p\\) 與 \\(\\lambda_r\\) 的制定考量，答案同樣要繞回這條分界的物理意義。",
+ ok:[],no:[2002,2016]},
+
+/* ===== LTB · LRFD ===== */
+{g:"LTB-LRFD",lv:"give",nm:"Lp 與 Lr",
+ eq:"$$L_p=\\frac{80\\,r_y}{\\sqrt{F_{yf}}}\\;;\\qquad L_r=\\frac{r_yX_1}{F_L}\\sqrt{1+\\sqrt{1+X_2F_L^2}}$$",
+ meta:"<b>本單元給得最慷慨的一條 —— 十一年有給。</b>96、97、99、100、104、109、110、113 年印公式；101、103、114 年直接在題目裡給數值（114 年 <code>SS-2025-3</code> 給 \\(L_p=3.4\\) m、\\(L_r=10.5\\) m）。連 109 年那份「參考資料只有柱公式」的清單裡都夾了一條 \\(L_p=80r_y/\\sqrt{F_y}\\)。這條可以只背概念（\\(L_p\\) 短、只和 \\(r_y\\) 有關；\\(L_r\\) 長、要動用扭轉勁度）。",
+ ok:[2007,2008,2010,2011,2012,2014,2015,2020,2021,2024,2025],no:[]},
+
+{g:"LTB-LRFD",lv:"half",nm:"X1 · X2 · J 的定義",
+ eq:"$$X_1=\\frac{\\pi}{S_x}\\sqrt{\\frac{EGJA}{2}}\\;;\\quad X_2=4\\frac{C_w}{I_y}\\left[\\frac{S_x}{GJ}\\right]^2\\;;\\quad J=\\frac{1}{3}\\left[2b_ft_f^3+(d-t_f)t_w^3\\right]$$",
+ meta:"96、97、100、113 年給完整定義；99、110 年改成在斷面性質表裡直接給 \\(X_1\\)、\\(X_2\\) 的<b>數值</b>。<b>但 104 年 <code>SS-2015-1</code> 印了含 \\(X_1\\)、\\(X_2\\) 的 \\(L_r\\) 與 \\(M_{cr}\\)，卻不定義這兩個符號</b> —— 典型的「用了不給」。\\(J\\) 的定義更窄，只有 100、113 兩年印過，而銲接組合斷面（114 年 <code>SS-2025-1</code>）非自己算不可。",
+ ok:[2007,2008,2010,2011,2021,2024],no:[2015]},
+
+{g:"LTB-LRFD",lv:"half",nm:"Mr = (Fy − Fr)Sx 與 FL 的取法",
+ eq:"$$M_r=F_L\\,S_x\\;;\\qquad F_L=\\min\\left(F_{yf}-F_r,\\ F_{yw}\\right)$$",
+ meta:"96、97、100、110、113 年有給（110 年寫得最完整：「\\(F_L=(F_{yf}-F_r)\\) 或 \\(F_{yw}\\) 取小值」）。<b>但 99、104 年印了含 \\(M_r\\) 的 \\(M_n\\) 內插式卻不定義 \\(M_r\\)</b>；101 年 <code>SS-2012-1</code>、114 年 <code>SS-2025-3</code>（明白要求「彈性彎矩強度」）則是考了完全沒給。這條是 \\(M_p=F_yZ_x\\) 之外最該補的一行。",
+ ok:[2007,2008,2011,2021,2024],no:[2012,2025]},
+
+{g:"LTB-LRFD",lv:"half",nm:"Mn 非彈性內插式與 Mcr 彈性式",
+ eq:"$$M_n=C_b\\left[M_p-(M_p-M_r)\\frac{L_b-L_p}{L_r-L_p}\\right]\\le M_p\\;;\\qquad M_{cr}=\\frac{C_bS_xX_1\\sqrt{2}}{L_b/r_y}\\sqrt{1+\\frac{X_1^2X_2}{2(L_b/r_y)^2}}$$",
+ meta:"96、97、99、100、104、110、113 年<b>七次成對出現</b>，是本單元最常被印出來的長式子。破口在 101 年 <code>SS-2012-1</code> 與 103 年 <code>SS-2014-3</code>：兩年都給了 \\(L_p\\)、\\(L_r\\) 的數值（\\(L_b\\) 明確落在中段）卻<b>沒給內插式</b>。注意 \\(M_n\\) 內插外面那個 \\(C_b\\) 是<b>乘在整個中括號外</b>，而且結果還要 \\(\\le M_p\\) 封頂。",
+ ok:[2007,2008,2010,2011,2015,2021,2024],no:[2012,2014]},
+
+{g:"LTB-LRFD",lv:"half",nm:"Cb 新版（四分點公式）",
+ eq:"$$C_b=\\frac{12.5M_{\\max}}{2.5M_{\\max}+3M_A+4M_B+3M_C}\\le 3.0$$",
+ meta:"101、103、113 年給新版；96–110 年多半給舊版三項式。<b>兩版是不同的公式、算出來的值也不同</b>（均佈載重簡支梁：舊版 1.00、新版 1.14；懸臂端點載重：舊版不適用、新版 1.28）。同一年只會給其中一種 —— 若題目沒給、你又只會其中一版，就得知道另一版的存在。新版的優勢是<b>不管中間有沒有橫向載重都適用</b>。",
+ ok:[2012,2014,2024],no:[]},
+
+{g:"LTB-LRFD",lv:"must",nm:"撓曲強度折減係數 φb = 0.90",
+ eq:"$$\\phi_b M_n=0.90\\,M_n$$",
+ meta:"<b>24 年只有 94、110 兩年印出 \\(\\phi_b=0.9\\)。</b>其餘所有 LRFD 梁題都預設你知道。104 年印的是 \\(\\phi_v=0.9\\)（那是<b>剪力</b>的），別搞混。最常見的扣分：算完 \\(M_n\\) 忘了乘 0.9，或誤用 0.85（那是壓力的 \\(\\phi_c\\)）。114 年 <code>SS-2025-1</code> 題目直接寫「求設計彎矩強度 \\(M_{nx}\\)」—— 名稱是設計強度，就一定要乘 \\(\\phi_b\\)。",
+ ok:[2005,2021],no:[2007,2010,2012,2014,2015,2019,2024,2025]},
+
+{g:"LTB-LRFD",lv:"must",nm:"LTB 三段的分界判斷（流程骨架）",
+ eq:"$$L_b\\le L_p\\Rightarrow M_n=M_p\\;;\\quad L_p<L_b\\le L_r\\Rightarrow \\text{內插}\\;;\\quad L_b>L_r\\Rightarrow M_n=M_{cr}\\le M_p$$",
+ meta:"所有年份都只印<b>三條式子</b>，從不印「哪一段用哪一條」。而閱卷第一步就是看你有沒有先算 \\(L_b\\) 落在哪一段。114 年 <code>SS-2025-3</code> 給 \\(L_b=3.0\\)、\\(L_p=3.4\\) —— \\(L_b<L_p\\)，答案直接是 \\(M_p\\)，整題就在測這個判斷。113 年 <code>SS-2024-3</code> 更狠：同一根梁強軸要跑三段判斷，弱軸則<b>整條規則都不適用</b>。",
+ ok:[],no:[2007,2008,2011,2012,2014,2021,2024,2025]},
+
+{g:"LTB-LRFD",lv:"must",nm:"弱軸彎曲：無 LTB，但有 1.5FySy 上限",
+ eq:"$$M_{ny}=M_{p,y}=F_yZ_y\\le 1.5F_yS_y\\qquad(\\text{弱軸不發生側向扭轉挫屈})$$",
+ meta:"105 年 <code>SS-2016-4</code> <b>直接問「H 梁的強軸與弱軸在設計時是否需要考慮側向扭轉挫屈？試說明原因」</b>；103 年 <code>SS-2014-3</code> 雙向彎曲、113 年 <code>SS-2024-3</code> 強弱軸比較都要用到。零次印出。理由要能講：弱軸彎曲時受壓翼板側向撓曲勁度<b>就是</b>強軸勁度，沒有更弱的方向可以挫過去。那個 1.5 的上限是防止在使用載重下就進入非彈性。",
+ ok:[],no:[2014,2016,2024]},
+
+{g:"LTB-LRFD",lv:"must",nm:"雙向彎曲互制式",
+ eq:"$$\\frac{M_{ux}}{\\phi_bM_{nx}}+\\frac{M_{uy}}{\\phi_bM_{ny}}\\le 1.0$$",
+ meta:"103 年 <code>SS-2014-3</code> 是純雙向彎曲（無軸力），考卷給的是<b>含 \\(P_u\\) 的梁柱 P-M 互制式</b>（103 年第四題用的），不能直接套 —— 要自己退化成這條。96 年 <code>SS-2007-2</code>（ASD 版）雖是梁柱題，也是同一個結構。別把 8/9 那個係數帶進來。",
+ ok:[],no:[2014]},
+
+/* ===== 剪力 · 板梁 ===== */
+{g:"剪力板梁",lv:"must",nm:"標稱剪力強度 Vn 三段",
+ eq:"$$\\frac{h}{t_w}\\le 50\\sqrt{\\frac{k_v}{F_{yw}}}\\Rightarrow V_n=0.6F_{yw}A_w\\;;\\qquad \\text{再往上依}\\ \\frac{50\\sqrt{k_v/F_{yw}}}{h/t_w}\\ \\text{折減}\\;;\\qquad V_n=\\frac{1860k_v}{(h/t_w)^2}A_w$$",
+ meta:"104 年三段全給、111 年給第一段（並註明「腹板未加勁 \\(k_v=5\\)」）。但 95 年 <code>SS-2006-4</code>（板梁剪力挫屈四小問）、98 年 <code>SS-2009-3</code>②（<b>直接要求「試求該鋼梁之標稱剪力強度 \\(V_n\\)」</b>）兩年零公式。注意 \\(A_w=d\\,t_w\\) 用<b>全深度</b>，不是 \\(h\\,t_w\\) —— 這是最常見的錯。",
+ ok:[2015,2022],no:[2006,2009]},
+
+{g:"剪力板梁",lv:"must",nm:"剪力挫屈係數 kv 與加勁板間距",
+ eq:"$$k_v=5+\\frac{5}{(a/h)^2}\\qquad(\\text{未加勁或}\\ a/h>3:\\ k_v=5)$$",
+ meta:"104、111 年只給 \\(k_v=5\\) 這個<b>未加勁的特例值</b>，含加勁板間距 \\(a\\) 的通式從未印過。95 年 <code>SS-2006-4</code>③「如何避免板梁發生剪力挫屈」的標準答案就是「加設橫向加勁板以縮小 \\(a/h\\)、提高 \\(k_v\\)」—— 講不出 \\(k_v\\) 隨 \\(a/h\\) 變化就答不到位。",
+ ok:[],no:[2006]},
+
+{g:"剪力板梁",lv:"must",nm:"張力場效應與後挫屈強度",
+ eq:"$$V_n=0.6F_{yw}A_w\\left[C_v+\\frac{1-C_v}{1.15\\sqrt{1+(a/h)^2}}\\right]$$",
+ meta:"95 年 <code>SS-2006-4</code> 四小問（板梁特色與使用時機、為何發生剪力挫屈、如何避免、何謂張力場效應）<b>整題 20 分零公式</b>。要能畫圖說明：腹板斜向皺曲後，受壓斜向失效但受拉斜向仍能傳力，形成「斜拉桿 + 加勁板受壓」的類桁架機制。適用限制（端panel不可用、\\(a/h\\le3\\)）也要記。",
+ ok:[],no:[2006]},
+
+{g:"剪力板梁",lv:"must",nm:"剪力流 q = VQ / (I t)",
+ eq:"$$q=\\frac{VQ}{I}\\ (\\text{每單位長度的力})\\;;\\qquad \\tau=\\frac{VQ}{I\\,t}$$",
+ meta:"91 年 <code>SS-2002-1</code>① 要你<b>繪出 H 型鋼受弱軸剪力時的剪力流分佈並標示方向</b>；108 年 <code>SS-2019-4</code> 要用它算蓋板斷續銲道的長度與間距。兩年零公式。弱軸剪力流的關鍵觀念：翼板承擔幾乎全部剪力、腹板幾乎不出力，方向在翼板中央分流。",
+ ok:[],no:[2002,2019]},
+
+/* ===== 使用性 · 合成梁 · 塑性 ===== */
+{g:"使用性其他",lv:"must",nm:"撓度公式與 L/360 限制",
+ eq:"$$\\Delta_{\\max}=\\frac{5wL^4}{384EI}\\;;\\quad \\frac{PL^3}{48EI}\\;;\\quad \\frac{23PL^3}{648EI}\\ (\\text{三分點雙集中力})\\;;\\qquad \\Delta\\le\\frac{L}{360}$$",
+ meta:"99 年 <code>SS-2010-4</code>②（檢核撓度是否合乎 \\(L/360\\)）與 104 年 <code>SS-2015-1</code>③（檢核活載重造成的撓度）<b>兩年都零公式</b>。104 年更是三分點兩集中載重的 \\(23PL^3/648EI\\) —— 這個係數不可能有人印給你，考場上要能用重疊法或共軛梁現推。另外撓度檢核只用<b>活載重</b>、不乘載重係數。",
+ ok:[],no:[2010,2015]},
+
+{g:"使用性其他",lv:"must",nm:"合成梁塑性應力法（PNA 與 Mn）",
+ eq:"$$C=0.85f'_c\\,b_e\\,a\\;;\\quad T=A_sF_y\\;;\\quad C=T\\ \\text{定 PNA}\\;;\\quad M_n=T\\left(d_1\\right)\\ \\text{或}\\ \\sum F_i\\,y_i$$",
+ meta:"94 年 <code>SS-2005-2</code> 只給「\\(\\phi_bM_n\\)，\\(\\phi_b=0.9\\)，\\(M_n\\) 依塑性應力分析而得」<b>就沒了</b> —— 那個 0.85 沒給；108 年 <code>SS-2019-2</code>（合成梁正彎矩強度）完全零公式。要記的是流程：先比 \\(C_{\\max}\\) 與 \\(T_{\\max}\\) 判斷 PNA 在版內還是在鋼梁內，再對<b>任一軸</b>取力矩（力偶法最快）。",
+ ok:[],no:[2005,2019]},
+
+{g:"使用性其他",lv:"give",nm:"合成梁有效寬度 be",
+ eq:"$$b_e\\le\\min\\left(\\frac{L}{4},\\ s,\\ 16t_s+b_f\\right)$$",
+ meta:"108 年 <code>SS-2019-2</code> 直接在題目裡寫「混凝土樓版的有效寬度為 2.5 m」—— 給了值就不必算。24 年只考過這一次合成梁樓版，而且有給。優先順序可以放低，但要知道 \\(b_e\\) 是三者取小，且對<b>邊梁</b>只算一側。",
+ ok:[2019],no:[]},
+
+{g:"使用性其他",lv:"must",nm:"塑性分析：虛功法與崩塌機構",
+ eq:"$$W_{\\text{外}}=W_{\\text{內}}\\;:\\qquad \\sum P_i\\delta_i=\\sum M_p\\,\\theta_j\\;;\\qquad \\text{塑鉸數}=n+1\\ (n=\\text{靜不定度})$$",
+ meta:"94 年 <code>SS-2005-4</code>（固定-簡支梁求 \\(w_u\\)）、109 年 <code>SS-2020-2</code>（同構型、非對稱斷面）都是完整 25 分計算題，114 年 <code>SS-2025-4</code> 問「何謂塑性鉸？常見出現位置？何謂崩塌機構？」<b>三次全部零公式</b>。均佈載重下塑鉸不在中點，位置要靠 \\(dM/dx=0\\) 或對稱條件解出來。",
+ ok:[],no:[2005,2020,2025]},
+
+{g:"使用性其他",lv:"must",nm:"一端固定一端簡支梁的極限均佈載重",
+ eq:"$$w_u=\\frac{11.66\\,M_p}{L^2}\\;,\\qquad x=L\\left(\\sqrt{2}-1\\right)\\ \\text{（塑鉸距簡支端）}$$",
+ meta:"94 年 <code>SS-2005-4</code> 與 109 年 <code>SS-2020-2</code> <b>兩題是同一個構型</b>（propped cantilever + 均佈載重），答案都是這個 11.66（\\(=2(1+\\sqrt2)^2\\)）。考場上現推要花 10 分鐘，先背結果再回推驗證最省時。若斷面非對稱（109 年），\\(M_p\\) 正負向不同還要分開處理。",
+ ok:[],no:[2005,2020]},
+
+{g:"使用性其他",lv:"must",nm:"斷面選擇：需求 Zx 反算",
+ eq:"$$Z_{x,\\text{req}}\\ge\\frac{M_u}{\\phi_bF_y}\\qquad(\\text{再以}\\ L_b\\ \\text{與}\\ L_p\\ \\text{檢核是否真能達}\\ M_p)$$",
+ meta:"99 年 <code>SS-2010-4</code>①「設計一最經濟之 RH 梁斷面」與 104 年 <code>SS-2015-1</code>①「由圖 1(b) 設計最佳之抗彎矩斷面」都是設計題而非檢核題 —— <b>方向要反過來走</b>，考卷不會提示。104 年還多一層：給的是「設計彎矩強度 vs. 無側撐長度」的曲線圖，要先算 \\(L_b=2.8\\) m 再從圖上找符合且最輕的斷面。",
+ ok:[],no:[2010,2015]},
+
+{g:"使用性其他",lv:"must",nm:"SN 耐震鋼材與降伏比規定",
+ eq:"$$YR=\\frac{F_y}{F_u}\\le 80\\%\\ (\\text{SN490B/C})\\;;\\qquad \\text{SN}\\cdots\\text{C 級另要求板厚方向斷面縮率}\\ge25\\%$$",
+ meta:"110 年 <code>SS-2021-3</code> 要你「自表一選擇一符合耐震設計需求且可有效發揮斷面性質之最適當斷面，並詳細說明原因，<b>未說明原因者不予計分</b>」—— 分數全在說理上，而說理要用到耐震緊實 \\(\\lambda_{pd}\\) 與 SN 鋼材的降伏比限制。105 年也考過 SN490B 與 SN490C 的降伏比與 Charpy 規定。零次印出。",
+ ok:[],no:[2021]}
+];
+
+/* 逐年證據表：欄位依序 寬厚比 / Mp / Mr·FL / ASD Fb / Lc·Lu / Cb / Lp·Lr / X1X2J / Mn·Mcr / Vn */
+const MX=[
+ [2002,"91","SS-2002-1, -2",0,0,0,0,1,0,0,0,0,0,"斷面性質裡給 \\(L_c=3.87\\)、\\(L_u=8.44\\) 並註明「結實斷面」；<b>\\(F_b\\) 三式全無</b>"],
+ [2003,"92","（—）",0,0,0,0,1,0,0,0,0,0,"斷面性質給 \\(L_c=4.05\\)、\\(L_u=19.6\\)；參考公式全為柱與梁柱互制"],
+ [2004,"93","（—）",0,0,0,1,0,0,0,0,0,0,"題目內文給 \\(F_{bx}=0.66F_y\\)、\\(F_{by}=0.75F_y\\)"],
+ [2005,"94","SS-2005-2（副 -4）",0,0,0,0,0,0,0,0,0,0,"只給「\\(\\phi_b=0.9\\)，\\(M_n\\) 依塑性應力分析而得」；<b>0.85\\(f'_c\\) 與虛功法皆無</b>"],
+ [2006,"95","SS-2006-4",0,0,0,0,0,0,0,0,0,0,"<b>板梁四小問整題零公式</b>（剪力挫屈、加勁板、張力場）"],
+ [2007,"96","SS-2007-3",1,0,1,1,1,1,1,1,1,0,"公式集最完整的年份之一：\\(\\lambda\\)、\\(F_b\\)、\\(L_p/L_r\\)、\\(X_1/X_2\\)、\\(M_n/M_{cr}\\) 全給"],
+ [2008,"97","SS-2008-1, -3",1,0,1,1,1,1,1,1,1,0,"<b>把 \\(F_b\\) 三式印在題幹上問你「為何取大值」</b>；ASD 與 LRFD 兩套齊全"],
+ [2009,"98","SS-2009-3",0,0,0,0,0,0,0,0,0,0,"<b>零公式</b>，卻要求 \\(M_p/M_y\\) 比值與 \\(V_n\\)"],
+ [2010,"99","SS-2010-4",0,0,0,0,0,1,1,1,1,0,"含 \\(L_p/L_r/M_n/M_{cr}/C_b\\)；<b>\\(M_r,X_1,X_2\\) 用了不定義</b>（改在斷面表給值）"],
+ [2011,"100","SS-2011-3",1,0,1,1,1,1,1,1,1,0,"公式最齊的一年：連 \\(J=\\sum b_it_i^3/3\\) 與 \\(C_w=I_fh^2/2\\) 都印"],
+ [2012,"101","SS-2012-1",1,0,0,0,0,1,1,0,0,0,"給 \\(\\lambda_p,\\lambda_r,L_p,L_r\\) 全部數值與新版 \\(C_b\\)；<b>但 FLB 與 LTB 兩條內插式都沒給</b>"],
+ [2013,"102","（—）",0,0,0,0,0,0,0,0,0,0,"對位圖與萊梅厥公式（皆為影像頁）"],
+ [2014,"103","SS-2014-3",1,0,0,0,0,1,1,0,0,0,"給 \\(\\lambda_p,\\lambda_r,L_p,L_r\\) 數值與新版 \\(C_b\\)；<b>內插式與雙向彎曲互制式皆無</b>"],
+ [2015,"104","SS-2015-1",0,0,0,0,0,1,1,0,1,1,"\\(V_n\\) 三段全給、\\(M_n/M_{cr}\\) 給；<b>但 \\(M_r\\)、\\(X_1\\)、\\(X_2\\) 用了不定義</b>，撓度公式也無"],
+ [2016,"105","SS-2016-1, -4",1,0,0,0,0,0,0,0,0,0,"印出 \\(\\lambda_p/\\lambda_r\\) 全表，<b>但那題是要你解釋制定考量</b>（誘餌型）"],
+ [2017,"106","（—）",0,0,0,0,0,0,0,0,0,0,"全為鋼材選用、摩阻型螺栓與柱題"],
+ [2018,"107","（—）",0,0,0,0,0,0,0,0,0,0,"僅柱的 \\(\\lambda_c\\) 與 \\(F_{cr}\\)"],
+ [2019,"108","SS-2019-2（副 -4）",0,0,0,1,1,1,0,0,0,0,"ASD 梁柱公式最完整的一年（\\(L_c\\) 明寫定義）；<b>合成梁題本身零公式</b>"],
+ [2020,"109","（副 -2, -4）",0,0,0,0,0,0,1,0,0,0,"第 3 頁參考資料以柱為主，僅夾一條 \\(L_p=80r_y/\\sqrt{F_y}\\)"],
+ [2021,"110","SS-2021-3",1,0,1,0,0,1,1,1,1,0,"\\(\\lambda_{pd}/\\lambda_p/\\lambda_r\\) 兩組、\\(M_n\\) 含 \\(\\phi=0.9\\)、\\(M_r\\)、\\(F_L\\)、\\(M_{cr}\\) 全給；\\(X_1,X_2,J,C_w\\) 在斷面表"],
+ [2022,"111","（—）",0,0,0,0,0,0,0,0,0,1,"給 \\(V_n=0.6F_yA_w\\) 與 \\(h/t_w\\) 界限（用於箱型柱題）"],
+ [2023,"112","SS-2023-3",0,0,0,0,0,0,0,0,0,0,"<b>U1-2 零公式</b>：非對稱斷面求 \\(M_y\\) 與 \\(M_p\\)，參考公式區全是柱"],
+ [2024,"113","SS-2024-3",0,0,1,0,0,1,1,1,1,0,"<b>整組 LTB 公式以圖片嵌入</b>（\\(L_p,L_r,X_1,X_2,J,F_L,M_r,M_n,M_{cr}\\)）；文字抽取全漏"],
+ [2025,"114","SS-2025-1, -3",0,0,0,0,0,0,1,0,0,0,"<b>整張考卷零參考公式</b>，只在題內給 \\(L_p=3.4,L_r=10.5,C_b=1,F_r=0.7\\) 四個數字"]
+];
+
+/* ---------- 渲染 ---------- */
+const LVN={must:["🔴 必背","must"],half:["🟠 別賭","half"],give:["🟢 通常會給","give"]};
+const box=document.getElementById('cards');
+function yrs(a,cls){return a.map(y=>`<span class="yr ${cls}">${y-1911}年</span>`).join('')}
+function render(){
+  const lv=document.querySelector('[data-k="lv"].on').dataset.v;
+  const g=document.querySelector('[data-k="g"].on').dataset.v;
+  const sel=F.filter(f=>(lv==='all'||f.lv===lv)&&(g==='all'||f.g===g));
+  box.innerHTML=sel.map(f=>`
+    <div class="fc ${f.lv}">
+      <div class="top">
+        <span class="nm">${f.nm}</span>
+        <span class="tag ${f.lv}">${LVN[f.lv][0]}</span>
+        <span class="tag grp">${f.g}</span>
+      </div>
+      <div class="eq">${f.eq}</div>
+      <p class="meta">${f.meta}</p>
+      <div class="ev">
+        ${f.ok.length?`<b>考卷給過：</b>${yrs(f.ok,'ok')}`:'<b>考卷給過：</b><span style="color:var(--must)">從未</span>'}
+        ${f.no.length?`　｜　<b>考了卻沒給：</b>${yrs(f.no,'no')}`:''}
+      </div>
+    </div>`).join('');
+  document.getElementById('count').textContent=`顯示 ${sel.length} / ${F.length} 條`;
+  if(window.renderMathInElement)renderMathInElement(box,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+}
+document.querySelectorAll('button.f').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll(`button.f[data-k="${b.dataset.k}"]`).forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');render();
+}));
+
+const tb=document.querySelector('#mx tbody');
+tb.innerHTML=MX.map(r=>{
+  const has=r[2]!=='(—)';
+  const cells=r.slice(3,13).map(v=>`<td class="c">${v?'<span class="y">✔</span>':'<span class="n">·</span>'}</td>`).join('');
+  return `<tr style="${has?'background:#fafcfd':''}">
+    <td><b>${r[0]}</b><br><span style="font-size:.85em;color:var(--mut)">${r[1]}年</span></td>
+    <td style="font-size:.9em">${r[2]}</td>${cells}
+    <td style="font-size:.9em">${r[13]}</td></tr>`;
+}).join('');
+
+render();
+window.addEventListener('load',()=>{if(window.renderMathInElement)renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});});
+</script>
+</body>
+</html>

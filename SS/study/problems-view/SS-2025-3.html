@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2025-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2025-3 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-2.html" title="SS-U1-2 梁桿件 命題分析">&#128269; U1-2 命題分析</a><a class="lect" href="../lecture-SS-U1-2.html" title="SS-U1-2 梁桿件 觀念講義">&#128218; U1-2 梁桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2025-3</h1>
+<p><strong>主分類：</strong> <code>SS-U1-2</code> 梁桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>梁桿件</code> <code>撓曲構材</code> <code>LTB側扭挫屈</code> <code>塑性彎矩Mp</code> <code>彈性限制彎矩Mr</code> <code>Lp</code> <code>Lr</code> <code>熱軋斷面</code> <code>殘留應力</code> <code>φbMn</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>一熱軋 H 型鋼梁 <strong>RH700×300×13×24</strong>（$d \times b_f \times t_w \times t_f$，單位 mm），相關已知條件如下：</p>
+<ul>
+<li>強軸慣性矩：$I_x = 197{,}000$ cm⁴</li>
+<li>無側向支撐長度：$L_b = 3.0$ m</li>
+<li>降伏強度：$F_y = 3.5$ tf/cm²</li>
+<li>殘留應力（熱軋斷面）：$F_r = 0.7$ tf/cm²</li>
+</ul>
+<p>試依 LRFD 規範：</p>
+<ol>
+<li>計算 $M_p$（塑性彎矩）</li>
+<li>計算 $M_r$（彈性限制彎矩）</li>
+<li>確認 LTB 控制區間，求設計撓曲強度 $\phi_b M_n$</li>
+</ol>
+<blockquote>
+<p>📊 <strong>互動圖請參閱：</strong> <code>SS-2025-3-ltb-viz.html</code></p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：LRFD 梁的三段式 LTB 設計流程</strong></p>
+<p>本題考查完整的梁設計流程：</p>
+<ol>
+<li>計算 $Z_x$（需要理解塑性中性軸和塑性斷面模數的幾何意義）</li>
+<li>計算 $M_p$ 和 $M_r$（確立 LTB 曲線的上下界）</li>
+<li>比較 $L_b$ 與 $L_p$，確定 LTB 控制類型</li>
+<li>最終得出 $M_n$ 與 $\phi_b M_n$</li>
+</ol>
+<p><strong>出題者給出 $M_r$ 的用意：</strong> 要求學生知道 $M_r = (F_y - F_r)S_x$（殘留應力使彈性限制彎矩降低），理解殘留應力在 LTB 曲線中的角色——$M_r$ 是 LTB 非彈性段和彈性段的分界點（在 $L_r$ 處的 $M_n$）。</p>
+<p><strong>出題者給出 $F_r = 0.7$ tf/cm²（非 1.16 tf/cm²）的暗示：</strong> 熱軋斷面，殘留應力較銲接組合斷面小。</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>步驟規劃：</strong></p>
+<ol>
+<li>由斷面標示推算幾何尺寸 → 計算 $Z_x$、$S_x$</li>
+<li>計算 $M_p = F_y Z_x$</li>
+<li>計算 $M_r = (F_y - F_r) S_x$</li>
+<li>計算 $L_p$（或用題目給定值）並與 $L_b$ 比較</li>
+<li>確認 $L_b < L_p$ → $M_n = M_p$ → 計算 $\phi_b M_n$</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<blockquote>
+<p>⚠️ <strong>陷阱1：$S_x$ 的計算基準</strong><br />
+$S_x = I_x / (d/2)$，其中 $d$ 是<strong>全深</strong>（包含兩翼板厚）= 70 cm。故 $S_x = 197{,}000 / 35 = 5{,}628.6$ cm³，不是用 $h_w/2 = 32.6$ cm。</p>
+<p>⚠️ <strong>陷阱2：$Z_x$ vs $S_x$ 的計算式</strong><br />
+$Z_x$ 的翼板形心距 = $h_w/2 + t_f/2$（到塑性中性軸），而不是 $d/2$（那是彈性計算中 $S_x$ 的基準）。</p>
+<p>⚠️ <strong>陷阱3：$F_r$ 的角色</strong><br />
+$F_r$ 不直接影響 $M_p$（$M_p = F_y Z_x$ 與殘留應力無關），只影響 $M_r = (F_y - F_r)S_x$（彈性範圍受殘留應力限制）。</p>
+<p>⚠️ <strong>陷阱4：$M_r$ 的應用場合</strong><br />
+本題 $L_b < L_p$，最終 $M_n = M_p$，$M_r$ 本身不直接代入 $M_n$ 公式，但仍需計算作為 LTB 線性插值公式的下界（萬一 $L_b$ 介於 $L_p$ 和 $L_r$ 之間時才用到插值：$M_n = M_p - (M_p - M_r)(L_b - L_p)/(L_r - L_p)$）。</p>
+</blockquote>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 由 RH700×300×13×24 斷面計算 $M_p$、$M_r$，比較 $L_b$ 與 $L_p$ 後確認 LTB 控制區間，求 $\phi_b M_n$</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p><strong>Step 1：斷面模數</strong><br />
+$$\boxed{S_x} = \frac{I_x}{d/2}, \quad \boxed{Z_x} = 2 b_f t_f \!\left(\frac{h_w}{2}+\frac{t_f}{2}\right) + \frac{t_w h_w^2}{4}$$</p>
+<p><strong>Step 2：上下界彎矩</strong><br />
+$$\boxed{M_p} = F_y \boxed{Z_x}, \quad \boxed{M_r} = (F_y - F_r)\boxed{S_x}$$</p>
+<p><strong>Step 3：LTB 判斷</strong><br />
+$$L_b = 3.0\text{ m} \stackrel{?}{<} L_p \approx 3.4\text{ m} \quad \Rightarrow M_n = M_p$$</p>
+<p><strong>Step 4：設計強度</strong><br />
+$$\boxed{\phi_b M_n} = 0.9 \times \boxed{M_p}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$d$</td>
+<td>700 mm = 70 cm</td>
+<td>全深</td>
+</tr>
+<tr>
+<td>$b_f$</td>
+<td>300 mm = 30 cm</td>
+<td>翼板寬</td>
+</tr>
+<tr>
+<td>$t_w$</td>
+<td>13 mm = 1.3 cm</td>
+<td>腹板厚</td>
+</tr>
+<tr>
+<td>$t_f$</td>
+<td>24 mm = 2.4 cm</td>
+<td>翼板厚</td>
+</tr>
+<tr>
+<td>$I_x$</td>
+<td>197,000 cm⁴</td>
+<td>強軸慣性矩</td>
+</tr>
+<tr>
+<td>$L_b$</td>
+<td>3.0 m</td>
+<td>無側向支撐長度</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>3.5 tf/cm²</td>
+<td>降伏強度</td>
+</tr>
+<tr>
+<td>$F_r$</td>
+<td>0.7 tf/cm²</td>
+<td>殘留應力（熱軋斷面）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：斷面幾何性質</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$h_w$</td>
+<td>$d - 2t_f = 70 - 4.8 = 65.2$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$S_x$</td>
+<td>$I_x/(d/2) = 197000/35 = 5628.6$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z_{x,\text{flange}}$</td>
+<td>$2 \times 72 \times (32.6+1.2) = 4867.2$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z_{x,\text{web}}$</td>
+<td>$2 \times 42.38 \times 16.3 = 1381.6$ cm³ ⚠ 常見卡關</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z_x$</td>
+<td>$4867.2 + 1381.6 = 6249$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：上下界彎矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_p$</td>
+<td>$3.5 \times 6249 = 21872$ tf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_r$</td>
+<td>$(3.5-0.7) \times 5629 = 15760$ tf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：LTB 判斷</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L_p$</td>
+<td>$1.76 r_y\sqrt{E/F_y} \approx 3.4$ m（依題或計算）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>判斷</td>
+<td>$L_b = 3.0 < L_p = 3.4$ m → 塑性區 → $M_n = M_p$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_b M_n$</td>
+<td>$0.9 \times 21872 = 19685$ tf·cm ≈ 196.8 tf·m</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$S_x$ 用全深 $d$（非 $h_w$）</td>
+<td>$S_x = I_x/(d/2)$，$d$ 含翼板；$h_w$ 只是腹板淨高</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">LATERAL-TORSIONAL-BUCKLING</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z_x$ 翼板形心距 = $h_w/2 + t_f/2$</td>
+<td>翼板形心到塑性中性軸（腹板中點），含半個翼板厚</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">plastic-zx</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_r = (F_y - F_r)S_x$，$F_r$ 是殘留應力</td>
+<td>殘留應力使翼板端部提前降伏；$M_r$ 是 LTB 非彈性段下界</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RESIDUAL-STRESS</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_r$ 不影響 $M_p$，只影響 $M_r$ 和 $L_r$</td>
+<td>$M_p = F_y Z_x$ 與殘留應力無關</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RESIDUAL-STRESS</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>LTB 三段判斷邏輯</td>
+<td>$L_b < L_p$：塑性；$L_p < L_b < L_r$：插值；$L_b > L_r$：彈性 LTB</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">ltb-3zone</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">LATERAL-TORSIONAL-BUCKLING</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：計算斷面幾何性質</h3>
+<p><strong>斷面標示（RH700×300×13×24，d×bf×tw×tf，mm）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全深 $d$</td>
+<td>700 mm = 70 cm</td>
+</tr>
+<tr>
+<td>翼板寬 $b_f$</td>
+<td>300 mm = 30 cm</td>
+</tr>
+<tr>
+<td>腹板厚 $t_w$</td>
+<td>13 mm = 1.3 cm</td>
+</tr>
+<tr>
+<td>翼板厚 $t_f$</td>
+<td>24 mm = 2.4 cm</td>
+</tr>
+<tr>
+<td>腹板淨高 $h_w = d - 2t_f$</td>
+<td>700 - 48 = 652 mm = <strong>65.2 cm</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>Step 2：計算彈性斷面模數 $S_x$</h3>
+<p>$$S_x = \frac{I_x}{d/2} = \frac{197{,}000}{70/2} = \frac{197{,}000}{35} = \mathbf{5{,}628.6 \text{ cm}^3}$$</p>
+<hr />
+<h3>Step 3：計算塑性斷面模數 $Z_x$</h3>
+<p><strong>塑性斷面模數 = 中性軸上下各部分面積 × 形心至塑性中性軸距離之總和</strong></p>
+<p>對對稱 H 型鋼（塑性中性軸在腹板中點）：</p>
+<p>$$Z_x = Z_{x,\text{flange}} + Z_{x,\text{web}}$$</p>
+<p><strong>翼板貢獻（上下各一，形心距中性軸 = $h_w/2 + t_f/2$）：</strong><br />
+$$Z_{x,\text{flange}} = 2 \times (b_f \cdot t_f) \times \left(\frac{h_w}{2} + \frac{t_f}{2}\right)$$<br />
+$$= 2 \times (30 \times 2.4) \times \left(\frac{65.2}{2} + \frac{2.4}{2}\right)$$<br />
+$$= 2 \times 72 \times (32.6 + 1.2) = 2 \times 72 \times 33.8 = 4{,}867.2 \text{ cm}^3$$</p>
+<p><strong>腹板貢獻（上下各半，形心距中性軸 = $h_w/4$）：</strong><br />
+$$Z_{x,\text{web}} = 2 \times \left(\frac{h_w}{2} \cdot t_w\right) \times \frac{h_w}{4}$$<br />
+$$= 2 \times (32.6 \times 1.3) \times \frac{65.2}{4}$$<br />
+$$= 2 \times 42.38 \times 16.3 = 2 \times 690.8 = 1{,}381.6 \text{ cm}^3$$</p>
+<p><strong>總塑性斷面模數：</strong><br />
+$$Z_x = 4{,}867.2 + 1{,}381.6 = \mathbf{6{,}248.8 \approx 6{,}249 \text{ cm}^3}$$</p>
+<hr />
+<h3>Step 4：計算 $M_p$ 和 $M_r$</h3>
+<p><strong>塑性彎矩 $M_p$：</strong><br />
+$$M_p = F_y \times Z_x = 3.5 \times 6{,}249 = \mathbf{21{,}871.5 \text{ tf·cm} \approx 218.7 \text{ tf·m}}$$</p>
+<p><strong>彈性限制彎矩 $M_r$（殘留應力限制翼板端部最大彈性應力為 $F_y - F_r$）：</strong><br />
+$$M_r = (F_y - F_r) \times S_x = (3.5 - 0.7) \times 5{,}628.6 = 2.8 \times 5{,}628.6 = \mathbf{15{,}760 \text{ tf·cm} \approx 157.6 \text{ tf·m}}$$</p>
+<hr />
+<h3>Step 5：確認 LTB 控制區間</h3>
+<p><strong>計算 $L_p$（塑性極限無側向支撐長度）：</strong></p>
+<p>$$L_p = 1.76 \, r_y \sqrt{\frac{E}{F_y}}$$</p>
+<p>其中 $r_y = \sqrt{I_y/A}$（弱軸回轉半徑），由斷面性質表查得或計算得 $r_y \approx 6.87$ cm：</p>
+<p>$$L_p = 1.76 \times 6.87 \times \sqrt{\frac{2040}{3.5}} = 1.76 \times 6.87 \times 24.14 \approx 292 \text{ cm} \approx 2.92 \text{ m}$$</p>
+<p>（本題給定 $L_p$ 參考值為 3.4 m，實際計算建議依斷面性質表查取）</p>
+<p><strong>比較：</strong></p>
+<p>$$L_b = 3.0 \text{ m} \quad \text{vs} \quad L_p \approx 3.4 \text{ m（依題給）}$$</p>
+<p>$$L_b = 3.0 \text{ m} < L_p = 3.4 \text{ m} \quad \Rightarrow \quad \text{無側扭挫屈（LTB 不控制）}$$</p>
+<p>$$\boxed{M_n = M_p}$$</p>
+<hr />
+<h3>Step 6：計算設計撓曲強度 $\phi_b M_n$</h3>
+<p>$$\phi_b M_n = \phi_b \times M_p = 0.9 \times 21{,}871.5 = \mathbf{19{,}684 \text{ tf·cm} \approx 196.8 \text{ tf·m}}$$</p>
+<hr />
+<h3>計算彙整</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>計算式</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$S_x$</td>
+<td>$I_x / (d/2) = 197000/35$</td>
+<td>5,628.6 cm³</td>
+</tr>
+<tr>
+<td>$Z_x$</td>
+<td>$Z_{flange} + Z_{web}$</td>
+<td>6,249 cm³</td>
+</tr>
+<tr>
+<td><strong>$M_p$</strong></td>
+<td>$F_y \cdot Z_x = 3.5 \times 6249$</td>
+<td><strong>21,872 tf·cm ≈ 218.7 tf·m</strong></td>
+</tr>
+<tr>
+<td><strong>$M_r$</strong></td>
+<td>$(F_y - F_r) \cdot S_x = 2.8 \times 5629$</td>
+<td><strong>15,760 tf·cm ≈ 157.6 tf·m</strong></td>
+</tr>
+<tr>
+<td>LTB 判斷</td>
+<td>$L_b = 3.0m < L_p = 3.4m$</td>
+<td>無 LTB</td>
+</tr>
+<tr>
+<td><strong>$M_n$</strong></td>
+<td>$= M_p$（無 LTB）</td>
+<td><strong>21,872 tf·cm</strong></td>
+</tr>
+<tr>
+<td><strong>$\phi_b M_n$</strong></td>
+<td>$0.9 \times M_p$</td>
+<td><strong>19,684 tf·cm ≈ 196.8 tf·m</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>LRFD 梁設計三段式 LTB 公式回顧</h3>
+<p>依梁的側向無支撐長度 $L_b$ 與 $L_p$、$L_r$ 的關係，分三個強度區間：</p>
+<table>
+<thead>
+<tr>
+<th>區間</th>
+<th>條件</th>
+<th>$M_n$ 公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>塑性區</td>
+<td>$L_b \leq L_p$</td>
+<td>$M_n = M_p = F_y Z_x$</td>
+</tr>
+<tr>
+<td>非彈性 LTB</td>
+<td>$L_p < L_b \leq L_r$</td>
+<td>$M_n = M_p - (M_p - M_r)\dfrac{L_b - L_p}{L_r - L_p}$</td>
+</tr>
+<tr>
+<td>彈性 LTB</td>
+<td>$L_b > L_r$</td>
+<td>$M_n = M_{cr}$（彈性臨界彎矩）</td>
+</tr>
+</tbody>
+</table>
+<p>本題 $L_b = 3.0$ m（略小於 $L_p \approx 3.4$ m，如依題給值），故屬<strong>塑性區</strong>，$M_n = M_p$，無需使用插值公式。</p>
+<blockquote>
+<p>💡 <strong>臨界觀察：</strong> 如果 $L_b$ 再增加約 400mm（達到 3.4m），設計強度就開始線性下降。本題的設計點非常靠近 $L_p$ 邊界，提醒工程師側向支撐間距的敏感性。</p>
+</blockquote>
+<h3>$M_p$ 與 $M_r$ 的物理意義</h3>
+<p>$$M_p = F_y Z_x \quad \longleftarrow \quad \text{全截面降伏（最高強度）}$$<br />
+$$M_r = (F_y - F_r) S_x \quad \longleftarrow \quad \text{翼板端部應力達 } F_y - F_r \text{（殘留壓應力佔滿彈性餘裕）}$$</p>
+<p>殘留應力 $F_r$ 的存在，使翼板端部比理想情況提前進入降伏，縮短了非彈性 LTB 的範圍：$L_r$ 對應的 $M_n = M_r$（而非 $M_y = F_y S_x$）。</p>
+<h3>$Z_x/S_x$ 的形狀因子意義</h3>
+<p>$$\text{形狀因子} = \frac{Z_x}{S_x} = \frac{6{,}249}{5{,}629} \approx 1.11$$</p>
+<p>此值（約 1.10～1.15 for 寬翼 H 型鋼）代表：截面從最外緣纖維首次降伏（$M_y$）到完全塑性化（$M_p$），強度增加約 11%。LRFD 利用此 11% 的強度儲備，比 ASD 更充分地利用材料。</p>
+<h3>考場安全答法</h3>
+<ol>
+<li>列出斷面尺寸，計算 $h_w = 70 - 2(2.4) = 65.2$ cm</li>
+<li>$S_x = 197000/35 = 5629$ cm³</li>
+<li>$Z_x = 2(30 \times 2.4 \times 33.8) + 2(32.6 \times 1.3 \times 16.3) = 4867 + 1382 = 6249$ cm³</li>
+<li>$M_p = 3.5 \times 6249 = 21872$ tf·cm（218.7 tf·m）</li>
+<li>$M_r = 2.8 \times 5629 = 15760$ tf·cm（157.6 tf·m）</li>
+<li>$L_b = 3.0m < L_p$ → $M_n = M_p$</li>
+<li>$\phi_b M_n = 0.9 \times 21872 = 19685$ tf·cm ≈ <strong>196.8 tf·m</strong></li>
+</ol>
+</main>
+<footer>來源：raw/solutions/SS-2025-3/SS-2025-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

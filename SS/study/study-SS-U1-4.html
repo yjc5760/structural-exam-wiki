@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-U1-4 接合之分析與設計｜命題分析</title>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--b:#f57c00;--e:#8e24aa;--w:#c62828;--j:#1565c0;--q:#2e7d32;
+--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#78909c;--bd:#e0e6ea;--warn:#c62828}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:28px 24px}
+header h1{margin:0 0 6px;font-size:1.5em}header p{margin:0;opacity:.85;font-size:.92em}
+nav{position:sticky;top:0;z-index:9;background:#fff;border-bottom:2px solid var(--bd);padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{text-decoration:none;color:var(--ac);font-size:.88em;padding:5px 10px;border-radius:16px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+section{margin-bottom:34px}
+h2{font-size:1.25em;border-left:5px solid var(--ac);padding-left:10px;margin:26px 0 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+h3{font-size:1.05em;margin:30px 0 10px;padding-bottom:5px;border-bottom:2px solid var(--ac2)}
+.role{background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:8px;padding:12px 16px;font-size:.88em;margin-bottom:6px}
+.role b{color:#e65100}
+.btnbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.btnbar a{padding:5px 14px;border-radius:6px;font-size:.9em;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi .n{font-size:1.9em;font-weight:700;color:var(--ac)}.kpi .l{font-size:.82em;color:var(--mut)}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:14px}
+.cat{background:var(--card);border:1px solid var(--bd);border-left:6px solid;border-radius:10px;padding:12px 14px;cursor:pointer;transition:.15s}
+.cat:hover{transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.cat h3{margin:0 0 4px;font-size:1em;border:none;padding:0}.cat p{margin:0;font-size:.82em;color:var(--mut)}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:760px){.charts{grid-template-columns:1fr}}
+.chartbox{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px}
+.chartbox h4{margin:0 0 8px;font-size:.95em;color:var(--mut)}
+canvas{width:100%;height:auto}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:middle}
+th{background:var(--ac2)}
+td.num{text-align:center;font-variant-numeric:tabular-nums}
+.bar{display:inline-block;height:12px;width:12px;border-radius:3px;vertical-align:middle}
+.up{color:#2e7d32;font-weight:700}.down{color:var(--warn);font-weight:700}.flat{color:var(--mut);font-weight:700}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.fbtn{border:1px solid var(--bd);background:#fff;border-radius:18px;padding:6px 14px;cursor:pointer;font-size:.88em;font-family:inherit}
+.fbtn.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.qrow{background:var(--card);border:1px solid var(--bd);border-left:6px solid;border-radius:8px;padding:10px 14px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.qrow.sec{background:#fafafa;border-style:dashed}
+.qrow a{font-weight:700;text-decoration:none;color:var(--ac);min-width:92px}
+.qrow a:hover{text-decoration:underline}
+.qrow .sum{flex:1;min-width:200px;font-size:.92em}
+.qrow .tags{font-size:.75em;color:var(--mut)}
+.qrow .meta{font-size:.72em;white-space:nowrap;color:#fff;border-radius:10px;padding:1px 8px}
+.note{font-size:.85em;color:var(--mut);background:#fff;border:1px dashed var(--bd);border-radius:8px;padding:10px 14px;margin-top:12px}
+.risk-hi{background:#ffebee}.risk-md{background:#fff8e1}.risk-lo{background:#f1f8e9}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:20px}
+</style>
+</head>
+<body>
+<header>
+<h1>SS-U1-4 接合之分析與設計 — 命題分析</h1>
+<p>結構技師「鋼結構設計」子項命題情報頁｜資料來源：raw/json/question_index.json（2002–2025，24 個考年、98 題）｜更新日期 2026-08-08</p>
+</header>
+<nav>
+<a href="#b1">出題概況</a><a href="#b2">考點結構</a><a href="#b3">考點漂移</a>
+<a href="#b4">ASD／LRFD</a><a href="#b5">考題清單</a><a href="#b6">命題風險</a>
+</nav>
+<main>
+
+<section id="s1">
+<h2><span>命題分析</span></h2>
+
+<div class="role">
+📚 <b>本頁只回答一件事：這個子項「考什麼」。</b>
+原理與圖解看 <b>觀念講義</b>、公式要不要背看 <b>給／背分界</b>、本頁提供的是可從 <code>question_index.json</code> 重生的命題事實：頻率、結構、漂移、方法別、清單、風險。<br>
+建議順序：<b style="color:#6a1b9a;">觀念講義</b>（練題前建立直覺）→ <b style="color:var(--warn);">給／背分界</b>（決定記憶投資）→ <b>本頁</b>（決定練題順序與押題）。
+</div>
+<div class="btnbar">
+  <a href="lecture-SS-U1-4.html" title="接合的極限狀態鏈、0.707 與 0.6 的來源、偏心接合彈性向量法、精選 6 題" style="background:#6a1b9a;color:#fff;">觀念講義 📘</a>
+  <a href="lecture-SS-U1-4.pdf" target="_blank" style="background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8;">講義 PDF 🖨️</a>
+  <a href="formula-given-SS-U1-4.html" title="37 條公式 × 24 年考卷證據：本單元是六子項裡公式最不給的一個" style="background:#c62828;color:#fff;">給／背分界 🎯</a>
+  <a href="formula-given-SS-U1-4.pdf" target="_blank" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;">分界 PDF 🖨️</a>
+</div>
+
+<h3 id="b1">出題概況</h3>
+<div class="kpis">
+<div class="kpi"><div class="n">19</div><div class="l">主考點題數（另有 7 題副考點）</div></div>
+<div class="kpi"><div class="n">19.4%</div><div class="l">佔全科比例（19／98）</div></div>
+<div class="kpi"><div class="n">#3</div><div class="l">全科出題排名（前為 U1-1 24 題、U1-2 21 題）</div></div>
+<div class="kpi"><div class="n">4/6</div><div class="l">近 6 考年出題年數（2020–25 共 5 題）</div></div>
+</div>
+<div class="charts">
+<div class="chartbox"><h4>年度分布（依題型堆疊，主考點 19 題）</h4><canvas id="cvBar" width="520" height="260"></canvas></div>
+<div class="chartbox"><h4>題型比例（主考點 19 題）</h4><canvas id="cvPie" width="520" height="260"></canvas></div>
+</div>
+<div class="note">
+📌 <b>三個要記住的數字</b>：① 全科第三大單元，約每五題就有一題出自這裡（19.4%），僅次於 U1-1（24 題）與 U1-2（21 題）；
+② 24 個考年裡 15 年出現過，但空窗集中成兩段——<b>2010–2011</b> 與 <b>2013–2016</b>，2016 年之後又連年回歸（2017 一年兩題），<b>空窗不代表退場</b>；
+③ 近 6 考年（2020–2025）只有 4 年出題、合計 5 題，是本單元二十四年來密度最低的一段，但 2025 年整年缺席後，長空窗後回歸的歷史模式值得留意。
+</div>
+
+<h3 id="b2">考點結構（點卡片可篩選下方考題清單）</h3>
+<div class="cats">
+<div class="cat" style="border-left-color:var(--b)" onclick="filterQ('B')"><h3>🔩 螺栓與接合端極限狀態（10 題）</h3><p>螺栓剪力／承壓、摩阻型、淨斷面斷裂、剪力遲滯 U、塊狀剪力、續接鈑設計</p></div>
+<div class="cat" style="border-left-color:var(--e)" onclick="filterQ('E')"><h3>🌀 偏心接合（彈性向量法）（5 題）</h3><p>銲道／螺栓群形心、極慣性矩 J、扭矩分量向量疊加、托架與牛腿</p></div>
+<div class="cat" style="border-left-color:var(--w)" onclick="filterQ('W')"><h3>🔥 銲接強度與剪力流（2 題）</h3><p>填角銲喉厚 0.707、銲道容許應力、斷續銲、水平剪力流 VQ/I</p></div>
+<div class="cat" style="border-left-color:var(--j)" onclick="filterQ('J')"><h3>🏗️ 梁柱接頭與耐震細部（4 題）</h3><p>連續板、節點域、CJP 銲、RBS 削弱式／蓋板補強式、塑鉸區側撐</p></div>
+<div class="cat" style="border-left-color:var(--q)" onclick="filterQ('Q')"><h3>📘 機制／破壞模式／施工概念（5 題）</h3><p>預拉力與夾緊力、摩阻 vs 承壓、銲接破壞形式、HAZ、NDT、工地銲接限制</p></div>
+</div>
+
+<h3 id="b3">考點漂移：前 9 題 vs. 後 10 題</h3>
+<p style="font-size:.9em;margin:0 0 10px;color:var(--mut)">把主考點 19 題依題號對切：前段 2002–2009（9 題）與後段 2012–2024（10 題），題數接近，可直接比較結構變化。</p>
+<table>
+<thead><tr><th>題型</th><th class="num">2002–2009</th><th class="num">2012–2024</th><th class="num">變化</th><th>解讀</th></tr></thead>
+<tbody>
+<tr><td><span class="bar" style="background:var(--e)"></span> 偏心接合（彈性向量法）</td><td class="num">4</td><td class="num">1</td><td class="num down">▼ −3</td><td>2002-4、2004-3、2005-3、2007-1 <b>四題全擠在前八年</b>；後段只有 2017-4 一題，<b>已空窗 8 年</b>。這是本單元最大的結構變化</td></tr>
+<tr><td><span class="bar" style="background:var(--q)"></span> 機制／破壞模式／施工概念</td><td class="num">2</td><td class="num">3</td><td class="num up">▲ +1</td><td>從「名詞解釋型」（2006-2 FCAW、2009-4 SAW／UT）轉成「機制申論型」（2017-2 摩阻傳遞機制、2021-4 混合接合、2023-4 銲接破壞形式），答題要寫因果鏈而非背縮寫</td></tr>
+<tr><td><span class="bar" style="background:var(--w)"></span> 銲接強度與剪力流</td><td class="num">0</td><td class="num">2</td><td class="num up">▲ +2</td><td>前段從未單獨考過「非偏心」的銲道強度計算；2018-3（接頭銲道 ASD 檢核）與 2019-4（斷續銲剪力流）<b>連續兩年出現</b>，是新開的題型</td></tr>
+<tr><td><span class="bar" style="background:var(--b)"></span> 螺栓與接合端極限狀態</td><td class="num">2</td><td class="num">3</td><td class="num flat">▲ +1</td><td>最穩定的一群：2003-3、2004-2 →2012-4、2020-4、2021-2，平均約每六年一題，題型從「拉力桿件端部」擴到「梁腹續接／剪力板」</td></tr>
+<tr><td><span class="bar" style="background:var(--j)"></span> 梁柱接頭與耐震細部</td><td class="num">1</td><td class="num">1</td><td class="num flat">＝ 0</td><td>主考點只有 2006-5 與 2024-4（相隔 18 年），但同期以副考點形式在 SD-U3-1 出現兩次（2012-2、2020-1）——<b>這個考點沒有消失，只是換了門牌</b></td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>一句話</b>：這個單元的重心從「<b>把偏心接合算出來（形心、J、向量疊加）</b>」漂到「<b>把接合為什麼會壞說清楚（機制、破壞模式、施工瑕疵）</b>」。
+若你的複習時間依「歷史總題數」分配，會高估偏心接合的計算演練、低估概念申論的答題骨架——近 6 考年 5 題裡有 <b>3 題是純概念題</b>，而偏心接合在同期一題都沒有。
+</div>
+
+<h3 id="b4">設計法走向：概念題近年過半，但 ASD 沒退場</h3>
+<table>
+<thead><tr><th>期間</th><th class="num">LRFD</th><th class="num">ASD</th><th class="num">概念題</th><th class="num">小計</th><th>觀察</th></tr></thead>
+<tbody>
+<tr><td>2002–2009（前段）</td><td class="num">3</td><td class="num">3</td><td class="num">3</td><td class="num">9</td><td>三分天下。ASD 三題（2002-4、2004-2、2007-1）全是偏心或續接的<b>手算硬題</b>，不是象徵性的舊制度題</td></tr>
+<tr><td>2012–2024（後段）</td><td class="num">5</td><td class="num">2</td><td class="num">3</td><td class="num">10</td><td>計算題全面倒向 LRFD（7 題計算裡 5 題）；ASD 只剩 2018-3、2020-4 兩題，但兩題都是<b>完整的容許應力檢核</b></td></tr>
+<tr style="background:#fff8e1"><td><b>近 6 考年 2020–2025</b></td><td class="num">1</td><td class="num">1</td><td class="num"><b>3</b></td><td class="num">5</td><td>五題裡<b>三題是純概念題</b>（2021-4、2023-4、2024-4）；計算題只剩 2020-4（ASD）與 2021-2（LRFD）各一，且兩種設計法各佔一題</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>對複習的直接影響</b>：① <b>ASD 不能當舊制度跳過</b>——2018-3（銲道容許應力）與 2020-4（<code>F<sub>va</sub></code>＝2.8 tf/cm² 的 A490 螺栓）都是純 ASD 檢核，與 LRFD 的 <code>φR<sub>n</sub></code> 是<b>兩套完全不同的數字</b>，混用即全題報銷；
+② 概念題占比從前段 3/9 拉到近 6 考年 <b>3/5</b>，準備重心要往「答題骨架」移，這類題一題就是 20–25 分；
+③ 本單元是六個子項裡<b>公式最不給的一個</b>——偏心接合考過四次（2002-4、2004-3、2005-3、2017-4）四次全零公式，1995 與 1998 兩年整張考卷零公式而兩年都有本單元題目。細節見
+<a href="formula-given-SS-U1-4.html">給／背分界</a>。
+</div>
+
+<h3 id="b5">考題清單（主 19 ＋ 副 7 ＝ 26 題，點題號開啟解析）</h3>
+<div class="filters">
+<button class="fbtn on" onclick="filterQ('ALL',this)">全部（26）</button>
+<button class="fbtn" onclick="filterQ('B',this)">螺栓／接合端（10）</button>
+<button class="fbtn" onclick="filterQ('E',this)">偏心接合（5）</button>
+<button class="fbtn" onclick="filterQ('W',this)">銲接強度（2）</button>
+<button class="fbtn" onclick="filterQ('J',this)">梁柱接頭（4）</button>
+<button class="fbtn" onclick="filterQ('Q',this)">機制／概念（5）</button>
+<button class="fbtn" onclick="filterQ('PRI',this)">僅主考點（19）</button>
+<button class="fbtn" onclick="filterQ('SEC',this)">僅副考點（7）</button>
+</div>
+<div id="qlist"></div>
+<div class="note">虛線灰底＝副考點（主考點在別的子項，但解題會用到 U1-4 的接合知識）。色籤為設計法：<b>LRFD／ASD／概念題</b>。📄 有解析、📊 有互動圖、⚠️ 待驗證（全庫已於 2026-08-22 重置）。</div>
+
+<h3 id="b6">命題風險排序（下一次最可能考什麼）</h3>
+<p style="font-size:.9em;margin:0 0 10px;color:var(--mut)">依「歷史頻率 × 空窗年數 × 近年趨勢」排序。<b>這是推測而非預言</b>，用途是決定<b>練題順序</b>，不是拿來 all-in 單一考點。</p>
+<table>
+<thead><tr><th>風險</th><th>考點</th><th class="num">歷史題數</th><th>最後出現</th><th class="num">空窗</th><th>理由</th></tr></thead>
+<tbody>
+<tr class="risk-hi"><td><b>高</b></td><td>偏心接合彈性向量法（托架／牛腿）</td><td class="num">5</td><td>2017-4</td><td class="num">8 年</td><td>本單元第二高頻群，2002-4／2004-3／2005-3／2007-1 密集出現後長期空窗；題型固定（求形心 → 算 <code>J</code> → 向量疊加 → 檢核或反求 <code>P<sub>u</sub></code>），是最容易「重出」的計算題型，且四次考試全部零公式，不練會直接卡在 <code>J</code> 的組成</td></tr>
+<tr class="risk-hi"><td><b>高</b></td><td>銲接破壞形式與 HAZ／施工瑕疵</td><td class="num">4</td><td>2024-4</td><td class="num">1 年</td><td>2023-4、2024-4 <b>連兩年</b>，加上 2006-2、2009-4 同型；每次換切入點（破壞形式 → 特定銲法的破壞模式），代表這是命題者近年偏好的申論骨架，配分又高（25 分）</td></tr>
+<tr class="risk-md"><td><b>中高</b></td><td>梁柱接頭細部：連續板、節點域、CJP</td><td class="num">4</td><td>2024-4（局部）</td><td class="num">18 年（主考點）</td><td>作為<b>主考點</b>的完整接頭細部題最後一次是 2006-5，已空窗 18 年；期間以 SD-U3-1 副考點形式出現兩次（2012-2、2020-1），代表命題者仍在意這題材，只是掛在耐震單元下</td></tr>
+<tr class="risk-md"><td><b>中高</b></td><td>塊狀剪力多路徑取小（接合端）</td><td class="num">6</td><td>2021-2</td><td class="num">4 年</td><td>全單元出現最廣的極限狀態（2003-1、2003-3、2005-1、2006-2、2015-2、2021-2），一半以副考點身分現身；即使不是主考點，也常是接合計算題裡<b>最容易漏檢</b>的那一項</td></tr>
+<tr class="risk-lo"><td><b>中</b></td><td>摩阻型 vs 承壓型（機制與可否與銲接併用）</td><td class="num">3</td><td>2021-4</td><td class="num">4 年</td><td>2004-2（計算）、2017-2（機制）、2021-4（混合接合）各以不同形式考過同一因果鏈：預拉力 → 夾緊力 → 摩擦力 → 滑動極限；答得出因果鏈就三種題型通吃</td></tr>
+<tr class="risk-lo"><td><b>低</b></td><td>斷續銲與剪力流 <code>VQ/I</code></td><td class="num">1</td><td>2019-4</td><td class="num">6 年</td><td>二十四年只出過一次，且解題套路與 U1-2 的組合斷面剪力流大幅重疊；投報率不如上面五項，但因為算法短，臨考前掃一次即可</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>若只剩三天</b>：第一天把<b>偏心接合</b>練到能默寫流程（2004-3 → 2017-4 兩題，一題正算一題反求，涵蓋整個套路）；
+第二天寫<b>銲接破壞形式</b>與<b>摩阻 vs 承壓</b>的申論骨架（2023-4、2017-2、2021-4，近 6 考年概念題占比 3/5）；
+第三天回頭補<b>塊狀剪力四條路徑</b>與 ASD 那套容許值（2020-4、2018-3）。
+逐題練習順序見 <a href="lecture-SS-U1-4.html#s14">觀念講義 §14「時間有限就練這 6 題」</a>。
+</div>
+
+</section>
+
+<footer>study SS-U1-4 命題分析｜exam-wiki-SS 知識庫｜統計基準 raw/json/question_index.json（98 題 / 24 考年）｜題號連結指向 study/problems-view/</footer>
+</main>
+
+<script>
+const CATC={B:'#f57c00',E:'#8e24aa',W:'#c62828',J:'#1565c0',Q:'#2e7d32'};
+const CATN={B:'螺栓／接合端',E:'偏心接合',W:'銲接強度',J:'梁柱接頭',Q:'機制／概念'};
+const MC={'LRFD':'#1565c0','ASD':'#f57c00','混合':'#6a1b9a','概念題':'#546e7a'};
+// [題號, 分群, 摘要, 標籤, 有viz, 設計法, 主(1)/副(0), 副考點的所屬單元]
+const Q=[
+["SS-2002-4","E","偏心螺栓群彈性向量法檢核（承壓型 A325X）",["偏心螺栓群","扭矩極慣性矩","向量疊加","容許剪應力"],0,"ASD",1,""],
+["SS-2003-3","B","WT 拉力構材螺栓接合：U 值、淨斷面、塊狀剪力",["剪力遲滯","U值","淨斷面斷裂","塊狀剪力"],0,"LRFD",1,""],
+["SS-2004-2","B","拉力構材續接：摩阻型螺栓數與連接板設計",["拉力構材續接","摩阻型接合","A325","最短接合長度"],0,"ASD",1,""],
+["SS-2004-3","E","雙角鋼托架填角銲偏心（45° 斜向 Pu）",["填角銲","偏心接合","彈性向量法","極慣性矩"],0,"LRFD",1,""],
+["SS-2005-3","E","箱形牛腿填角銲群：彎矩＋剪力＋扭矩合成",["填角銲","牛腿接合","銲接群分析","扭矩"],0,"LRFD",1,""],
+["SS-2006-2","Q","預拉力意義、塊狀剪力、FCAW 與工地銲接限制",["高拉力螺栓","預拉力","塊狀剪力","FCAW","施工規範"],0,"概念題",1,""],
+["SS-2006-5","J","箱型柱—H 梁抗彎接頭細部與連續板功能",["箱型柱","梁柱接頭","連續板","節點域","CJP銲"],1,"概念題",1,""],
+["SS-2007-1","E","不等肢角鋼填角銲偏心接合（含 U 值折減）",["填角銲","偏心接合","不等肢角鋼","銲道容許應力"],0,"ASD",1,""],
+["SS-2009-4","Q","開槽銲型式、SAW／UT 名詞、螺栓間距與預拉力",["開槽銲","Single V","SAW潛弧銲","UT超音波","NDT","8/3倍直徑","預拉力0.7Fu"],0,"概念題",1,""],
+["SS-2012-4","B","梁柱接頭剪力板：板厚、螺栓數與配置設計",["剪力板","A325螺栓","承壓型螺栓","淨斷面剪力"],0,"LRFD",1,""],
+["SS-2017-2","Q","摩阻型螺栓剪力傳遞機制與極限狀態定義",["摩阻型接合","Slip-critical","夾緊力","摩擦係數","規範版本差異"],0,"LRFD",1,""],
+["SS-2017-4","E","偏心填角銲托架反求可承受最大 Pu",["填角銲","偏心銲縫","彈性向量法","扭矩分析","瞬心法"],1,"LRFD",1,""],
+["SS-2018-3","W","箱型柱—H 梁接頭銲道尺寸 ASD 檢核（翼／腹分擔）",["填角銲","梁柱接頭","銲道容許應力","組合應力","SN400B","翼板填角銲"],0,"ASD",1,""],
+["SS-2019-4","W","蓋板斷續銲：由剪力流求所需銲道長度",["填角銲","斷續銲接","蓋板","剪力流","水平剪力"],0,"LRFD",1,""],
+["SS-2020-4","B","梁腹板四鈑續接：螺栓尺寸與續接鈑厚設計",["腹板續接","四鈑接合","A490螺栓","容許剪應力","偏心螺栓群","腹板彎矩分擔"],0,"ASD",1,""],
+["SS-2021-2","B","填角銲疊接拉力斷裂／塊狀剪力與 0.6Fy 意義",["塊狀剪力","搭接接合","剪力破壞","0.6Fy"],0,"LRFD",1,""],
+["SS-2021-4","Q","摩阻型螺栓可否與銲接共同分擔載重",["摩阻型螺栓","混合接合","滑動臨界","施工規範"],0,"概念題",1,""],
+["SS-2023-4","Q","銲接接合的破壞形式（銲道／母材／HAZ）",["填角銲","對接銲","銲喉面積","HAZ","根部破壞"],0,"概念題",1,""],
+["SS-2024-4","J","梁柱接頭三種銲接的破壞模式與檢測要求",["梁柱接頭","電熱熔渣銲","層狀撕裂","HAZ脆化","NDT檢測"],0,"概念題",1,""],
+["SS-2003-1","B","塊狀剪力、腹板承壓降伏與複合柱概念五小題",["塊狀剪力","腹板承壓降伏","複合柱","殘留應力"],0,"概念題",0,"U1-1 拉壓桿件"],
+["SS-2005-1","B","等肢角鋼螺栓接合：U 值、淨斷面、塊狀剪力",["剪力遲滯","U值","淨斷面斷裂","塊狀剪力"],0,"LRFD",0,"U1-1 拉壓桿件"],
+["SS-2012-2","J","韌性構架接頭塑性轉角需求與塑鉸區側撐",["韌性抗彎矩構架","塑性轉角需求","SMRF","塑鉸區"],0,"概念題",0,"SD-U3-1 耐震設計"],
+["SS-2015-2","B","雙槽鋼填角銲接合的剪力遲滯與塊狀剪力",["剪力遲滯","塊狀剪力","填角銲","雙槽鋼","上限式"],0,"LRFD",0,"U1-1 拉壓桿件"],
+["SS-2020-1","J","補強式與削弱式（RBS）接頭的力學原理",["補強式接頭","削弱式接頭","RBS犬骨接頭","強柱弱梁"],0,"概念題",0,"SD-U3-1 耐震設計"],
+["SS-2022-2","B","插銷鉸接板的有效淨面積、剪力斷裂與承壓",["插銷接合","鉸接","有效淨面積","剪力斷裂"],0,"ASD",0,"U1-1 拉壓桿件"],
+["SS-2024-2","B","圓管 HSS 縱向填角銲的剪力遲滯 U 與銲道設計",["圓管HSS","縱向填角銲","剪力遲滯","U值"],0,"LRFD",0,"U1-1 拉壓桿件"]
+];
+function renderQ(cat){
+  const box=document.getElementById('qlist');box.innerHTML='';
+  const sel=Q.filter(q=>{
+    if(cat==='ALL')return true;
+    if(cat==='PRI')return q[6]===1;
+    if(cat==='SEC')return q[6]===0;
+    return q[1]===cat;});
+  sel.sort((a,b)=>a[0].localeCompare(b[0])).forEach(q=>{
+    const d=document.createElement('div');
+    d.className='qrow'+(q[6]?'':' sec');d.style.borderLeftColor=CATC[q[1]];
+    d.innerHTML=`<a href="problems-view/${q[0]}.html" target="_blank">${q[0]}</a>
+    <span class="meta" style="background:${MC[q[5]]}">${q[5]}</span>
+    ${q[6]?'':`<span class="meta" style="background:#90a4ae">副・${q[7]}</span>`}
+    <span class="sum">${q[2]}</span><span class="tags">${q[3].join('・')}</span>
+    <span class="ico" title="解析／互動圖／待驗證">📄${q[4]?' 📊':''} ⚠️</span>`;
+    box.appendChild(d);});
+}
+function filterQ(cat,btn){renderQ(cat);
+  const order=['ALL','B','E','W','J','Q','PRI','SEC'];
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  const idx=order.indexOf(cat);if(idx>=0)document.querySelectorAll('.fbtn')[idx].classList.add('on');
+  if(!btn)document.getElementById('b5').scrollIntoView({behavior:'smooth'});
+}
+renderQ('ALL');
+// ---- charts: 主考點 19 題 ----
+const CK=['B','E','W','J','Q'];
+const PQ=Q.filter(q=>q[6]===1);
+const byYear={};PQ.forEach(q=>{const y=q[0].split('-')[1];
+  if(!byYear[y]){byYear[y]={};CK.forEach(c=>byYear[y][c]=0);}
+  byYear[y][q[1]]++;});
+function drawBar(){
+  const cv=document.getElementById('cvBar'),ctx=cv.getContext('2d');
+  const years=Object.keys(byYear).sort(),W=cv.width,H=cv.height,bw=(W-60)/years.length;
+  const max=Math.max(...years.map(y=>Object.values(byYear[y]).reduce((a,b)=>a+b,0)));
+  ctx.font='10px sans-serif';ctx.fillStyle='#78909c';
+  for(let i=0;i<=max;i++){const yy=H-30-(H-60)*i/max;ctx.fillStyle='#78909c';ctx.fillText(i,8,yy+3);ctx.strokeStyle='#eceff1';ctx.beginPath();ctx.moveTo(24,yy);ctx.lineTo(W-10,yy);ctx.stroke();}
+  years.forEach((y,i)=>{let acc=0;
+    CK.forEach(c=>{const v=byYear[y][c];if(!v)return;
+      const h=(H-60)*v/max;ctx.fillStyle=CATC[c];
+      ctx.fillRect(30+i*bw,H-30-acc-h,bw*0.7,h);acc+=h;});
+    ctx.fillStyle='#78909c';ctx.save();ctx.translate(30+i*bw+bw*0.35,H-18);ctx.rotate(-0.7);ctx.fillText(y.slice(2),0,0);ctx.restore();});
+}
+function drawPie(){
+  const cv=document.getElementById('cvPie'),ctx=cv.getContext('2d');
+  const cnt={};CK.forEach(c=>cnt[c]=0);PQ.forEach(q=>cnt[q[1]]++);
+  const tot=PQ.length,cx=cv.width*0.28,cy=cv.height/2,r=Math.min(cx,cy)-16;let a=-Math.PI/2;
+  CK.forEach(c=>{const frac=cnt[c]/tot,a2=a+frac*2*Math.PI;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,a,a2);ctx.closePath();ctx.fillStyle=CATC[c];ctx.fill();a=a2;});
+  ctx.font='12px sans-serif';let ly=40;
+  CK.forEach(c=>{ctx.fillStyle=CATC[c];ctx.fillRect(cv.width*0.58,ly-9,12,12);
+    ctx.fillStyle='#263238';ctx.fillText(`${CATN[c]}：${cnt[c]} 題（${Math.round(cnt[c]/tot*100)}%）`,cv.width*0.58+18,ly);ly+=26;});
+}
+drawBar();drawPie();
+</script>
+</body>
+</html>

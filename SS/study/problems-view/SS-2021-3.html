@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2021-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2021-3 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-2.html" title="SS-U1-2 梁桿件 命題分析">&#128269; U1-2 命題分析</a><a class="lect" href="../lecture-SS-U1-2.html" title="SS-U1-2 梁桿件 觀念講義">&#128218; U1-2 梁桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2021-3</h1>
+<p><strong>主分類：</strong> <code>SS-U1-2</code> 梁桿件<br />
+<strong>副分類：</strong> <code>SD-U3-1</code> 結構耐震設計<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>梁桿件</code> <code>耐震設計</code> <code>耐震緊實斷面</code> <code>LTB側扭挫屈</code> <code>斷面選擇</code> <code>塑性彎矩</code> <code>形狀因子</code> <code>SM490</code> <code>寬厚比</code> <code>Lp</code> <code>Lr</code> <code>側向支撐</code> <code>改善策略</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>耐震結構系統中，承受均布載重 $w$ 的鋼梁如圖三所示：</p>
+<ul>
+<li><strong>材料：</strong> SM490，$F_y = 3.5$ tf/cm²，$F_u = 4.9$ tf/cm²，$F_r = 1.16$ tf/cm²，$E = 2040$ tf/cm²</li>
+<li><strong>跨度：</strong> 全跨 $L = 600 + 600 = 1200$ cm（A 點至 B 點）</li>
+<li><strong>側向支撐：</strong> A 點（與鋼柱彎矩接合處）及 B 點<strong>均有充分側向支撐</strong>，無中間側向支撐</li>
+<li><strong>無支撐長度：</strong> $L_b = 1200$ cm</li>
+</ul>
+<p><strong>試求（自表一選擇斷面，45分）：</strong></p>
+<ol>
+<li>選擇符合耐震設計需求且最能有效發揮斷面性質之斷面，並說明原因</li>
+<li>計算所選斷面之塑性彎矩強度 $M_p$ 及形狀因子 $f$</li>
+<li>依 LRFD 規範檢核是否能發揮塑性極限強度</li>
+<li>若不能，說明改善方式；若能，說明理由並計算塑性極限強度</li>
+</ol>
+<p><img alt="SS-2021-3 題目附圖（圖三+表一）：梁兩端分別以彎矩接合（A點，左端靠柱）和滾支（B點，右端），承受均布載重 w，跨度 600cm+600cm=1200cm；表一列四個斷面：BH700×300×9×19、BH700×300×12×25、BH500×500×16×36、BH500×500×25×50，含 A、J、Cw、X1、X2、Ix、Iy、rx、ry、rT、Sx、Sy 等性質" src="../../raw/solutions/SS-2021-3/SS-2021-3-fig-1.png" /></p>
+<p><em>圖說：圖三為梁結構示意（側視圖）。左端 A 點固接於柱（斜線陰影表示柱或牆），右端 B 點為三角形支承（pin/roller）；均布載重 $w$（tf/cm）向下作用於梁頂面；A–B 跨度分為兩個 600 cm，總長 1200 cm；A 端與 B 端均標示有充分側向支撐。表一提供四個備選斷面的完整斷面性質（含耐震設計所需之 J、Cw、X1、X2、rT 等參數）。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：耐震緊實斷面篩選 → LTB 三段式判斷 → 改善策略</strong></p>
+<p>本題三層考核（共 45 分，為最高分題目）：</p>
+<ol>
+<li><strong>耐震緊實斷面（Seismic Compact Section）</strong>：用 $\lambda_{pd}$（比標準 $\lambda_p$ 更嚴格）篩選合格斷面</li>
+<li><strong>LTB 判斷</strong>：計算 $L_p$、$L_r$，判斷 $L_b = 1200$ cm 落在哪個區段</li>
+<li><strong>改善策略</strong>：若無法達到 $M_p$，需說明如何透過增加側向支撐改善</li>
+</ol>
+<p><strong>出題者考查重點：</strong></p>
+<ul>
+<li>區分耐震設計的 $\lambda_{pd}$ 與一般設計的 $\lambda_p$（兩者公式不同）</li>
+<li>正確使用 $L_p = 80r_y/\sqrt{F_{yf}}$ 判斷塑性區間</li>
+<li>計算 $Z_x$（塑性斷面模數）和形狀因子 $f = Z_x/S_x$</li>
+<li>提出具體的改善方式（增加中間側向支撐點，使 $L_b \leq L_p$）</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>步驟規劃：</strong></p>
+<ol>
+<li>對四個斷面逐一檢核耐震寬厚比（$\lambda_{pd}$）→ 淘汰不合格者</li>
+<li>計算剩餘斷面的 $L_p$，判斷 $L_b = 1200$ cm 的區段</li>
+<li>選出「最適當」斷面（能有效發揮性質，且最符合耐震要求）</li>
+<li>計算 $Z_x$、$M_p$、$f$</li>
+<li>確認 $L_b > L_p$ → 無法達到 $M_p$ → 說明如何改善</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<blockquote>
+<p>⚠️ <strong>陷阱1：用一般 $\lambda_p$ 而非耐震 $\lambda_{pd}$</strong><br />
+耐震設計要求更嚴格的緊實斷面，翼板：$\lambda_{pd} = 14/\sqrt{F_y}$（非 $17/\sqrt{F_y}$）；腹板：$\lambda_{pd} = 138/\sqrt{F_y}$（非 $170/\sqrt{F_y}$）。</p>
+<p>⚠️ <strong>陷阱2：混淆 $r_y$ 與 $r_T$</strong><br />
+$L_p$ 用 $r_y$（整個斷面的弱軸迴轉半徑）；$L_r$ 用 $r_T$（受壓翼板 + 腹板受壓部分的迴轉半徑），兩者不同。</p>
+<p>⚠️ <strong>陷阱3：選最重斷面而非最合適斷面</strong><br />
+「可有效發揮斷面性質」並非選最重的斷面，而是選在 $L_b = 1200$ cm 下 LTB 折減最小（即 $r_y$ 最大），且重量最輕的合規斷面。</p>
+</blockquote>
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 以耐震寬厚比 $\lambda_{pd}$ 篩選合格斷面 → 比較 $L_b$ 與 $L_p$/$L_r$ → 選出最適斷面並計算 $Z_x$、$M_p$、$f$ → 說明無法達到 $M_p$ 及改善方式（增設中間側向支撐）</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p><strong>Step 1：耐震緊實斷面篩選</strong><br />
+$$\lambda_{pdf} = \frac{14}{\sqrt{F_y}}, \quad \lambda_{pdw} = \frac{138}{\sqrt{F_y}}$$</p>
+<p><strong>Step 2：$L_p$ 判斷</strong><br />
+$$\boxed{L_p} = \frac{80 r_y}{\sqrt{F_y}}$$</p>
+<p><strong>Step 3：塑性斷面模數與塑性彎矩</strong><br />
+$$\boxed{Z_x} = 2\left[b_f t_f\left(\frac{h_w}{2}+\frac{t_f}{2}\right) + t_w \frac{h_w}{2} \cdot \frac{h_w}{4}\right]$$<br />
+$$\boxed{M_p} = F_y \cdot \boxed{Z_x}, \quad \boxed{f} = Z_x / S_x$$</p>
+<p><strong>Step 4：非彈性 LTB 折減強度（$L_p < L_b < L_r$）</strong><br />
+$$\boxed{M_n} = C_b\left[M_p - (M_p - M_r)\frac{L_b - L_p}{L_r - L_p}\right] < M_p$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_y$</td>
+<td>3.5 tf/cm²（SM490）</td>
+<td>降伏應力</td>
+</tr>
+<tr>
+<td>$F_r$</td>
+<td>1.16 tf/cm²</td>
+<td>殘留應力</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>2040 tf/cm²</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>$L_b$</td>
+<td>1200 cm</td>
+<td>無支撐長度（全跨，無中間支撐）</td>
+</tr>
+<tr>
+<td>候選斷面</td>
+<td>4 個（見表一）</td>
+<td>BH700×300×9×19 等</td>
+</tr>
+<tr>
+<td>耐震需求</td>
+<td>耐震緊實斷面（$\lambda_{pd}$）</td>
+<td>比一般 $\lambda_p$ 更嚴格</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：耐震寬厚比篩選</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\lambda_{pdf}$</td>
+<td>$14/\sqrt{3.5} = 7.48$（翼板限值）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\lambda_{pdw}$</td>
+<td>$138/\sqrt{3.5} = 73.8$（腹板限值）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>BH700×300×9×19</td>
+<td>翼板 $\lambda_f = 300/(2 	imes 19) = 7.89 > 7.48$ → <strong>淘汰</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>其餘三斷面</td>
+<td>翼板與腹板均符合 $\lambda_{pd}$ → 合格</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：計算 $L_p$，選最適斷面</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L_p$ (BH700×300×12×25)</td>
+<td>$80 	imes 7.03/1.871 = 300.5$ cm（$L_b$ 遠大於此）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_p$ (BH500×500×16×36)</td>
+<td>$80 	imes 13.2/1.871 = 564.6$ cm（$r_y$ 大，折減較小）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_p$ (BH500×500×25×50)</td>
+<td>$564.6$ cm（$r_y$ 同上，但更重）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>選定</strong></td>
+<td><strong>BH500×500×16×36</strong>（$r_y$ 最大，LTB 區間最佳，最輕）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：選定斷面 $Z_x$、$M_p$、$f$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$h_w$</td>
+<td>$500 - 2 	imes 36 = 428$ mm = 42.8 cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z_x$</td>
+<td>$2[50 	imes 3.6 	imes 23.2 + 1.6 	imes 21.4 	imes 10.7] = 9{,}085$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f$</td>
+<td>$Z_x/S_x = 9085/8180 = 1.111$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_p$</td>
+<td>$3.5 	imes 9085 = 31{,}797$ tf·cm（317.97 tf·m）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_b M_p$</td>
+<td>$0.9 	imes 31797 = 28{,}618$ tf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：LTB 強度與改善方式</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_L$</td>
+<td>$\min(F_y - F_r, F_{yw}) = \min(2.34, 3.5) = 2.34$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_r$</td>
+<td>$r_T X_1 / F_L \sqrt{1+\sqrt{1+X_2 F_L^2}} = 2615$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>LTB 區間</td>
+<td>$L_p = 564.6 < L_b = 1200 < L_r = 2615$ → 非彈性 LTB</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_n$</td>
+<td>$C_b[M_p - (M_p-M_r)(L_b-L_p)/(L_r-L_p)] = 27{,}875$ tf·cm &lt; $M_p$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>改善</td>
+<td>加設 2 個中間側向支撐（每隔 400 cm），使各段 $L_b = 400 < L_p = 565$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>耐震 $\lambda_{pd}$ vs 一般 $\lambda_p$</td>
+<td>耐震翼板 $14/\sqrt{F_y}$（非 $17/\sqrt{F_y}$），腹板 $138/\sqrt{F_y}$（非 $170/\sqrt{F_y}$）；更嚴格確保塑性轉角能力</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$r_y$ 大表示 LTB 折減小</td>
+<td>$L_p \propto r_y$；$r_y$ 大，$L_p$ 大，$L_b < L_p$ 的機會更大；BH500×500 比 BH700×300 的 $r_y$ 大得多</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">ltb-3zone</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">LATERAL-TORSIONAL-BUCKLING</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>LTB 三段判斷 $L_b$ vs $L_p$/$L_r$</td>
+<td>$L_b \leq L_p$：$M_n = M_p$；$L_p < L_b \leq L_r$：非彈性線性折減；$L_b > L_r$：彈性折減</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">ltb-3zone</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$r_T$ vs $r_y$ 的用途</td>
+<td>$L_p$ 用 $r_y$（整個斷面弱軸）；$L_r$ 用 $r_T$（受壓翼板 + 受壓腹板部分的迴轉半徑）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>選最適斷面不選最重</td>
+<td>「有效發揮斷面性質」= 在 $L_b$ 條件下 LTB 折減最小且重量最輕；非最重也非最強</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：耐震緊實斷面檢核（$\lambda_{pd}$）</h3>
+<p>$F_y = 3.5$ tf/cm²（SM490）</p>
+<p><strong>耐震寬厚比限值：</strong><br />
+$$\lambda_{pdf} = \frac{14}{\sqrt{F_y}} = \frac{14}{\sqrt{3.5}} = \frac{14}{1.871} = 7.48 \quad \text{（翼板，不加勁元素）}$$</p>
+<p>$$\lambda_{pdw} = \frac{138}{\sqrt{F_y}} = \frac{138}{1.871} = 73.8 \quad \text{（腹板，加勁元素）}$$</p>
+<table>
+<thead>
+<tr>
+<th>斷面</th>
+<th>翼板 $\lambda_f = b_f/(2t_f)$</th>
+<th>vs $\lambda_{pdf}=7.48$</th>
+<th>腹板 $\lambda_w = h_w/t_w$</th>
+<th>vs $\lambda_{pdw}=73.8$</th>
+<th>耐震緊實？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BH700×300×9×19</td>
+<td>$300/(2\times19)=7.89$</td>
+<td><strong>7.89 &gt; 7.48 ✗</strong></td>
+<td>$(700-38)/9=73.6$</td>
+<td>73.6 &lt; 73.8 ✓</td>
+<td>❌ 翼板不合格</td>
+</tr>
+<tr>
+<td>BH700×300×12×25</td>
+<td>$300/(2\times25)=6.0$</td>
+<td>6.0 &lt; 7.48 ✓</td>
+<td>$(700-50)/12=54.2$</td>
+<td>54.2 &lt; 73.8 ✓</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>BH500×500×16×36</td>
+<td>$500/(2\times36)=6.94$</td>
+<td>6.94 &lt; 7.48 ✓</td>
+<td>$(500-72)/16=26.75$</td>
+<td>26.75 &lt; 73.8 ✓</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>BH500×500×25×50</td>
+<td>$500/(2\times50)=5.0$</td>
+<td>5.0 &lt; 7.48 ✓</td>
+<td>$(500-100)/25=16.0$</td>
+<td>16.0 &lt; 73.8 ✓</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>淘汰：BH700×300×9×19</strong>（翼板寬厚比超過耐震限值）</p>
+<hr />
+<h3>Step 2：計算 $L_p$，比較 $L_b = 1200$ cm</h3>
+<p><strong>公式（題目提供）：</strong><br />
+$$L_p = \frac{80 r_y}{\sqrt{F_{yf}}}$$</p>
+<p>其中 $F_{yf} = F_y = 3.5$ tf/cm²，$\sqrt{F_y} = 1.871$</p>
+<table>
+<thead>
+<tr>
+<th>斷面</th>
+<th>$r_y$ (cm)</th>
+<th>$L_p = 80 r_y / 1.871$ (cm)</th>
+<th>$L_b = 1200$ cm vs $L_p$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BH700×300×12×25</td>
+<td>7.03</td>
+<td>$80\times7.03/1.871 = \mathbf{300.5}$</td>
+<td>1200 &gt;&gt; 300.5</td>
+</tr>
+<tr>
+<td>BH500×500×16×36</td>
+<td>13.2</td>
+<td>$80\times13.2/1.871 = \mathbf{564.6}$</td>
+<td>1200 &gt; 564.6</td>
+</tr>
+<tr>
+<td>BH500×500×25×50</td>
+<td>13.2</td>
+<td>$80\times13.2/1.871 = \mathbf{564.6}$</td>
+<td>1200 &gt; 564.6</td>
+</tr>
+</tbody>
+</table>
+<p><strong>所有合格斷面均有 $L_b > L_p$，無法不經改善就達到 $M_p$。</strong></p>
+<hr />
+<h3>Step 3：計算 $L_r$（確認是彈性或非彈性 LTB 區間）</h3>
+<p><strong>公式（題目提供）：</strong><br />
+$$L_r = \frac{r_T X_1}{F_L}\sqrt{1 + \sqrt{1 + X_2 F_L^2}}$$</p>
+<p>其中：<br />
+$$F_L = \min(F_{yf} - F_r,\; F_{yw}) = \min(3.5 - 1.16,\; 3.5) = \min(2.34, 3.5) = 2.34 \text{ tf/cm}^2$$</p>
+<p><strong>BH700×300×12×25</strong>（$r_T = 8.0$ cm，$X_1 = 144$ tf/cm²，$X_2 = 1.82$ cm²/tf²）：</p>
+<p>$$L_r = 8.0 \times \frac{144}{2.34}\sqrt{1+\sqrt{1+1.82\times2.34^2}}$$<br />
+$$= 8.0 \times 61.54 \times \sqrt{1+\sqrt{1+9.966}} = 8.0 \times 61.54 \times \sqrt{1+\sqrt{10.966}}$$<br />
+$$= 8.0 \times 61.54 \times \sqrt{1+3.311} = 8.0 \times 61.54 \times 2.077 = \mathbf{1023 \text{ cm}}$$</p>
+<p>$$L_b = 1200 \text{ cm} > L_r = 1023 \text{ cm} \quad \Rightarrow \quad \text{彈性 LTB（Elastic LTB）}$$</p>
+<p><strong>BH500×500×16×36</strong>（$r_T = 14.0$ cm，$X_1 = 294$ tf/cm²，$X_2 = 0.0844$ cm²/tf²）：</p>
+<p>$$L_r = 14.0 \times \frac{294}{2.34}\sqrt{1+\sqrt{1+0.0844\times2.34^2}}$$<br />
+$$= 14.0 \times 125.6 \times \sqrt{1+\sqrt{1+0.462}} = 14.0 \times 125.6 \times \sqrt{1+\sqrt{1.462}}$$<br />
+$$= 14.0 \times 125.6 \times \sqrt{1+1.209} = 14.0 \times 125.6 \times 1.486 = \mathbf{2615 \text{ cm}}$$</p>
+<p>$$L_p = 564.6 < L_b = 1200 < L_r = 2615 \quad \Rightarrow \quad \text{非彈性 LTB（Inelastic LTB）}$$</p>
+<p><strong>BH500×500×25×50</strong>（$r_T = 14.0$ cm，$X_1 = 439$ tf/cm²，$X_2 = 0.0185$ cm²/tf²）：</p>
+<p>$$L_r = 14.0 \times \frac{439}{2.34}\sqrt{1+\sqrt{1+0.0185\times5.476}}$$<br />
+$$= 14.0 \times 187.6 \times \sqrt{1+\sqrt{1.101}} = 14.0 \times 187.6 \times 1.432 = \mathbf{3763 \text{ cm}}$$</p>
+<p>$$L_p = 564.6 < L_b = 1200 < L_r = 3763 \quad \Rightarrow \quad \text{非彈性 LTB}$$</p>
+<hr />
+<h3>Step 4：選定最適當斷面</h3>
+<p><strong>淘汰分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th>斷面</th>
+<th>耐震緊實</th>
+<th>LTB 區間</th>
+<th>評估</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BH700×300×9×19</td>
+<td>❌</td>
+<td>—</td>
+<td>翼板不合格，直接淘汰</td>
+</tr>
+<tr>
+<td>BH700×300×12×25</td>
+<td>✅</td>
+<td>彈性 LTB（$L_b > L_r$）</td>
+<td>LTB 折減最嚴重，斷面性質發揮差</td>
+</tr>
+<tr>
+<td><strong>BH500×500×16×36</strong></td>
+<td>✅</td>
+<td>非彈性 LTB（$L_b < L_r$）</td>
+<td><strong>較輕，LTB 折減較小</strong></td>
+</tr>
+<tr>
+<td>BH500×500×25×50</td>
+<td>✅</td>
+<td>非彈性 LTB（$L_b < L_r$）</td>
+<td>$L_r$ 更長、折減更小，但重量多 40%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>選定：BH500×500×16×36</strong></p>
+<p>理由：</p>
+<ol>
+<li><strong>滿足耐震緊實斷面要求</strong>（$\lambda_f = 6.94 < \lambda_{pdf} = 7.48$，$\lambda_w = 26.75 < \lambda_{pdw} = 73.8$）</li>
+<li><strong>$L_b$ 在非彈性 LTB 區間</strong>（$L_p < L_b < L_r$），優於 BH700×300×12×25 的彈性 LTB</li>
+<li><strong>比 BH500×500×25×50 更輕</strong>（$A = 428$ cm² vs $600$ cm²），重量減 29%，同樣 $r_y = 13.2$ cm</li>
+<li><strong>有效發揮大 $r_y$（= 13.2 cm）的優勢</strong>，LTB 折減相對小</li>
+</ol>
+<hr />
+<h3>Step 5：計算 $M_p$ 與形狀因子 $f$</h3>
+<p><strong>BH500×500×16×36 斷面性質（由表一）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A$</td>
+<td>428 cm²</td>
+</tr>
+<tr>
+<td>$I_x$</td>
+<td>205,000 cm⁴</td>
+</tr>
+<tr>
+<td>$S_x$</td>
+<td>8,180 cm³</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>13.2 cm</td>
+</tr>
+</tbody>
+</table>
+<p><strong>幾何尺寸：</strong><br />
+$d = 500$ mm = 50 cm，$b_f = 500$ mm = 50 cm，$t_w = 16$ mm = 1.6 cm，$t_f = 36$ mm = 3.6 cm，$h_w = 500 - 72 = 428$ mm = 42.8 cm</p>
+<p><strong>計算塑性斷面模數 $Z_x$：</strong></p>
+<p>$$Z_x = 2\left[b_f t_f \left(\frac{h_w}{2} + \frac{t_f}{2}\right) + t_w \cdot \frac{h_w}{2} \cdot \frac{h_w}{4}\right]$$</p>
+<p>$$= 2\left[50\times3.6\times\left(21.4+1.8\right) + 1.6\times21.4\times\frac{21.4}{2}\right]$$</p>
+<p>$$= 2\left[180\times23.2 + 1.6\times21.4\times10.7\right]$$</p>
+<p>$$= 2\left[4{,}176 + 366.4\right] = 2\times4{,}542.4 = \mathbf{9{,}085 \text{ cm}^3}$$</p>
+<p><strong>形狀因子：</strong><br />
+$$f = \frac{Z_x}{S_x} = \frac{9{,}085}{8{,}180} = \boxed{1.111}$$</p>
+<p><strong>塑性彎矩：</strong><br />
+$$M_p = F_y \times Z_x = 3.5 \times 9{,}085 = 31{,}797 \text{ tf·cm} = \boxed{317.97 \text{ tf·m}}$$</p>
+<p>$$\phi_b M_p = 0.9 \times 31{,}797 = \mathbf{28{,}618 \text{ tf·cm} = 286.2 \text{ tf·m}}$$</p>
+<hr />
+<h3>Step 6：LTB 強度檢核（$L_b = 1200$ cm）</h3>
+<p>$L_b = 1200$ cm，$L_p = 564.6$ cm，$L_r = 2615$ cm → <strong>非彈性 LTB 區間</strong></p>
+<p><strong>計算 $M_r$：</strong><br />
+$$M_r = F_L \times S_x = 2.34 \times 8{,}180 = 19{,}141 \text{ tf·cm}$$</p>
+<p><strong>計算標稱彎矩強度（取 $C_b = 1.0$，保守）：</strong></p>
+<p>$$M_n = C_b\left[M_p - (M_p - M_r)\frac{L_b - L_p}{L_r - L_p}\right] \leq M_p$$</p>
+<p>$$= 1.0\times\left[31{,}797 - (31{,}797-19{,}141)\times\frac{1200-564.6}{2615-564.6}\right]$$</p>
+<p>$$= 31{,}797 - 12{,}656\times\frac{635.4}{2050.4}$$</p>
+<p>$$= 31{,}797 - 12{,}656\times0.3099$$</p>
+<p>$$= 31{,}797 - 3{,}922 = \mathbf{27{,}875 \text{ tf·cm}}$$</p>
+<p>$$\phi_b M_n = 0.9 \times 27{,}875 = \mathbf{25{,}088 \text{ tf·cm} = 250.9 \text{ tf·m}}$$</p>
+<p>$$M_n = 27{,}875 \text{ tf·cm} < M_p = 31{,}797 \text{ tf·cm}$$</p>
+<p>$$\boxed{\text{結論：}L_b = 1200 \text{ cm} > L_p = 564.6 \text{ cm，無法發揮塑性極限強度}}$$</p>
+<hr />
+<h3>Step 7：改善方式</h3>
+<p>由於 $L_b = 1200$ cm $>$ $L_p = 564.6$ cm，必須<strong>增加中間側向支撐</strong>，以縮短有效無支撐長度至 $L_b \leq L_p$。</p>
+<p><strong>所需中間支撐數計算：</strong></p>
+<p>$$\text{每段} L_b \leq L_p = 564.6 \text{ cm}$$</p>
+<p>$$\text{需要段數：} \left\lceil\frac{1200}{564.6}\right\rceil = \lceil 2.12\rceil = 3 \text{ 段}$$</p>
+<p>$$\Rightarrow \text{需加設} 3 - 1 = \mathbf{2} \text{ 個中間側向支撐}$$</p>
+<p><strong>支撐位置（均等分）：</strong></p>
+<ul>
+<li>第 1 個支撐：距 A 端 400 cm</li>
+<li>第 2 個支撐：距 A 端 800 cm</li>
+<li>各段 $L_b = 400$ cm $< L_p = 564.6$ cm ✓</li>
+</ul>
+<p><strong>加設後效果：</strong><br />
+$$L_b = 400 \text{ cm} < L_p = 564.6 \text{ cm} \Rightarrow M_n = M_p = 31{,}797 \text{ tf·cm}$$<br />
+$$\phi_b M_p = 0.9 \times 31{,}797 = 28{,}618 \text{ tf·cm} = 286.2 \text{ tf·m}$$</p>
+<hr />
+<h3>計算彙整</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>選定斷面</td>
+<td>BH500×500×16×36</td>
+</tr>
+<tr>
+<td>耐震翼板 $\lambda_f / \lambda_{pdf}$</td>
+<td>6.94 / 7.48 ✓</td>
+</tr>
+<tr>
+<td>耐震腹板 $\lambda_w / \lambda_{pdw}$</td>
+<td>26.75 / 73.8 ✓</td>
+</tr>
+<tr>
+<td>塑性斷面模數 $Z_x$</td>
+<td>9,085 cm³</td>
+</tr>
+<tr>
+<td>形狀因子 $f = Z_x / S_x$</td>
+<td>1.111</td>
+</tr>
+<tr>
+<td>塑性彎矩 $M_p$</td>
+<td>31,797 tf·cm（317.97 tf·m）</td>
+</tr>
+<tr>
+<td>$\phi_b M_p$</td>
+<td>28,618 tf·cm（286.2 tf·m）</td>
+</tr>
+<tr>
+<td>$L_p$</td>
+<td>564.6 cm</td>
+</tr>
+<tr>
+<td>$L_r$</td>
+<td>2,615 cm</td>
+</tr>
+<tr>
+<td>LTB 區間（$L_b = 1200$ cm）</td>
+<td>非彈性 LTB（$L_p < L_b < L_r$）</td>
+</tr>
+<tr>
+<td>$M_n$（$L_b = 1200$ cm，$C_b = 1.0$）</td>
+<td>27,875 tf·cm（250.9 tf·m）</td>
+</tr>
+<tr>
+<td><strong>結論</strong></td>
+<td><strong>無法達到 $M_p$，需加設 2 個中間側向支撐（每段 400 cm）</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>耐震設計的 $\lambda_{pd}$ 為何比 $\lambda_p$ 更嚴格？</h3>
+<p>一般設計的 $\lambda_p$ 保證在塑性彎矩 $M_p$ 達到之前不發生局部挫屈。但在耐震設計中，梁需要反覆承受大塑性轉角（累積塑性轉角可達 $0.03$ rad 以上），因此翼板必須具有更大的應變能力（rotation capacity）。更嚴格的 $\lambda_{pd} = 14/\sqrt{F_y}$ 確保在多次往復塑性變形中翼板不會局部挫屈，保持塑性鉸的穩定性。</p>
+<h3>$C_b$ 的影響</h3>
+<p>本題假設 $C_b = 1.0$（保守）。A 點為柱彎矩接頭，B 點為簡單支承，在均布載重下：</p>
+<p>若 A 為固端（$M_A \neq 0$）、B 為鉸接：彎矩圖為拋物線加上端彎矩，$C_b > 1.0$，實際 $M_n$ 會比 $C_b = 1.0$ 的結果大。若 A、B 均為鉸接：$C_b = 1.75$（用簡化公式 $M_1 = M_2 = 0$）。</p>
+<p>採 $C_b = 1.0$ 為最保守設計，實際 $M_n$ 會更大，但不超過 $M_p$。</p>
+<h3>加設側向支撐的實務方式</h3>
+<p>在耐震設計中，側向支撐通常由：</p>
+<ul>
+<li>樓板鋼承板（steel deck）提供連續側向支撐</li>
+<li>斜撐構件（bracing member）提供點狀支撐</li>
+<li>相鄰梁的橫向接合（lateral tie）</li>
+</ul>
+<p>本題建議在跨度 1/3 和 2/3 處（各 400 cm 處）加設側向支撐，使 $L_b = 400$ cm $< L_p = 565$ cm。</p>
+<h3>考場安全答法</h3>
+<ol>
+<li><strong>耐震寬厚比</strong>：$\lambda_{pdf} = 14/\sqrt{3.5} = 7.48$，$\lambda_{pdw} = 138/\sqrt{3.5} = 73.8$</li>
+<li><strong>淘汰 BH700×300×9×19</strong>（翼板 7.89 &gt; 7.48）</li>
+<li><strong>選 BH500×500×16×36</strong>：$r_y = 13.2$ cm 最大（BH700 只有 7.03 cm），非彈性 LTB，較輕</li>
+<li>$Z_x = 9085$ cm³，$f = 9085/8180 = 1.111$，$M_p = 3.5 \times 9085 = 31797$ tf·cm</li>
+<li>$L_p = 80 \times 13.2/\sqrt{3.5} = 565$ cm $< L_b = 1200$ cm → <strong>不能達到 $M_p$</strong></li>
+<li>改善：<strong>加 2 個中間側向支撐</strong>（每隔 400 cm），使各段 $L_b = 400 < 565 = L_p$ → 可達 $\phi_b M_p = 28618$ tf·cm</li>
+</ol>
+</main>
+<footer>來源：raw/solutions/SS-2021-3/SS-2021-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

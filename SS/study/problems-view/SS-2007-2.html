@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2007-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.88em;line-height:1.5}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;padding:10px 16px;border-radius:0 8px 8px 0}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SS-2007-2 題目解析</h1><a class="quick" href="../study-SS-U1-3.html" title="SS-U1-3 梁柱桿件 命題分析">&#128269; U1-3 命題分析</a><a class="lect" href="../lecture-SS-U1-3.html" title="SS-U1-3 梁柱桿件 觀念講義">&#128218; U1-3 梁柱桿件 講義</a></header>
+<main><h1>考題編號：SS-2007-2</h1>
+<p><strong>主分類：</strong> <code>SS-U1-3</code> 梁柱桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> ASD<br />
+<strong>標籤：</strong> <code>梁柱桿件</code> <code>ASD</code> <code>雙軸彎矩</code> <code>LTB側扭挫屈</code> <code>Cm放大係數</code> <code>F'e歐拉應力</code> <code>彈性挫屈</code> <code>互制方程式</code></p>
+<hr />
+<h2>1. 原始題目重述</h2>
+<p>H 500×300×15×20（$d \times b_f \times t_w \times t_f$，單位 mm）鋼柱，兩端鉸接（K=1），承受下列組合載重，以 ASD 驗算是否滿足規範要求：</p>
+<p><strong>設計載重：</strong></p>
+<ul>
+<li>軸壓力：$P = 40$ tf</li>
+<li>強軸彎矩：$M_x = 20$ m-tf（= 2000 tf·cm）</li>
+<li>弱軸彎矩：$M_y = 10$ m-tf（= 1000 tf·cm）</li>
+<li>柱長：$L = 10$ m = 1000 cm</li>
+</ul>
+<p><strong>材料：</strong> $F_y = 3.5 \text{ tf/cm}^2$，$F_u = 5 \text{ tf/cm}^2$，$E = 2040 \text{ tf/cm}^2$</p>
+<p><strong>斷面性質（題目提供）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>性質</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A$</td>
+<td>189 cm²</td>
+</tr>
+<tr>
+<td>$r_x$</td>
+<td>20.74 cm</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>6.91 cm</td>
+</tr>
+<tr>
+<td>$r_T$</td>
+<td>7.94 cm</td>
+</tr>
+<tr>
+<td>$S_x$</td>
+<td>3253 cm³</td>
+</tr>
+<tr>
+<td>$S_y$</td>
+<td>600 cm³</td>
+</tr>
+<tr>
+<td>$I_x$</td>
+<td>81327 cm⁴</td>
+</tr>
+<tr>
+<td>$I_y$</td>
+<td>9012 cm⁴</td>
+</tr>
+</tbody>
+</table>
+<p><strong>附圖：</strong><br />
+<img alt="SS-2007-2 H型斷面與雙軸偏心載重示意圖：P 軸力 + Mx 強軸彎矩（線性由 Mx 至 0）+ My 弱軸彎矩（線性由 My 至 0），L = 10 m" src="../../raw/solutions/SS-2007-2/SS-2007-2-fig-1.png" /></p>
+<p><em>圖說：梁柱兩端受軸壓力 P = 40 tf；彎矩 Mx 與 My 均為線性分布，一端為最大值，另一端為零（M1 = 0，M2 = Mx 或 My）。L = 10 m（公尺）。</em></p>
+<p><strong>設計參數：</strong><br />
+$$C_m = 0.6 - 0.4(M_1/M_2) \quad;\quad C_b = 1.75 + 1.05(M_1/M_2) + 0.3(M_1/M_2)^2 \leq 2.3$$</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖</h2>
+<p>本題核心：<strong>ASD 雙軸彎矩梁柱桿件完整驗算流程</strong>。</p>
+<p>關鍵難點：</p>
+<ol>
+<li>弱軸細長比 $KL/r_y = 144.7 > C_c = 107.3$，進入<strong>彈性挫屈</strong>區段 → $F_a$ 很小，且 $F'_{ey} = F_a$，使放大係數 $1/(1-f_a/F'_{ey})$ 顯著放大弱軸彎矩效應</li>
+<li>強軸 LTB（L/rT 落在非彈性 LTB 範圍）→ Fbx 需以公式計算，不能直接用 0.66Fy</li>
+<li>判斷 fa/Fa ≥ 0.15 → 必須用 Equation (2) 含放大係數</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析</h2>
+<p><strong>解題步驟：</strong></p>
+<ol>
+<li>計算實際應力 fa、fbx、fby</li>
+<li>計算 Cc 並比對 KL/r，確認 Fa（弱軸彈性挫屈控制）</li>
+<li>計算 Fbx（需考慮 LTB，兩公式取大）</li>
+<li>確認 Fby（弱軸彎曲，結實斷面 = 0.75Fy）</li>
+<li>判斷 fa/Fa 是否 ≥ 0.15，選用 Equation (2)</li>
+<li>代入兩個互制方程式驗算</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<ol>
+<li><strong>F'ey ≠ Euler 公式</strong>：當弱軸為彈性挫屈時，$F'_{ey} = F_a$（與 Fa 計算式相同），而非另外算一個 Euler 值</li>
+<li><strong>兩個互制方程式都要查</strong>：Equation (2) 和 Equation (3) 均不得超過 1.0</li>
+<li><strong>M1/M2 = 0 的影響</strong>：矩一端為零 → Cm = 0.6，Cb = 1.75（不是 1.0）</li>
+</ol>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 以 ASD 雙軸互制方程式驗算 H500×300×15×20 梁柱（P+Mx+My），判斷是否符合規範</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\frac{f_a}{\boxed{F_a}} + \frac{C_{mx}f_{bx}}{\left(1-f_a/\boxed{F'_{ex}}\right)\boxed{F_{bx}}} + \frac{C_{my}f_{by}}{\left(1-f_a/\boxed{F'_{ey}}\right)\boxed{F_{by}}} \leq 1.0 \quad \text{（Eq.2，穩定性）}$$</p>
+<p>$$\frac{f_a}{0.6F_y} + \frac{f_{bx}}{\boxed{F_{bx}}} + \frac{f_{by}}{\boxed{F_{by}}} \leq 1.0 \quad \text{（Eq.3，斷面強度）}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>斷面</td>
+<td>H 500×300×15×20 mm</td>
+<td>$d \times b_f \times t_w \times t_f$</td>
+</tr>
+<tr>
+<td>$P$</td>
+<td>40 tf</td>
+<td>軸壓力</td>
+</tr>
+<tr>
+<td>$M_x$</td>
+<td>2000 tf·cm</td>
+<td>強軸彎矩（一端最大，另端為零）</td>
+</tr>
+<tr>
+<td>$M_y$</td>
+<td>1000 tf·cm</td>
+<td>弱軸彎矩（一端最大，另端為零）</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>1000 cm</td>
+<td>柱長（兩端鉸接 $K=1$）</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>3.5 tf/cm²</td>
+<td>降伏應力</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>2040 tf/cm²</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>189 cm²</td>
+<td>斷面積</td>
+</tr>
+<tr>
+<td>$r_x$</td>
+<td>20.74 cm</td>
+<td>強軸迴轉半徑</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>6.91 cm</td>
+<td>弱軸迴轉半徑</td>
+</tr>
+<tr>
+<td>$r_T$</td>
+<td>7.94 cm</td>
+<td>扭轉對應迴轉半徑</td>
+</tr>
+<tr>
+<td>$S_x$</td>
+<td>3253 cm³</td>
+<td>強軸彈性模數</td>
+</tr>
+<tr>
+<td>$S_y$</td>
+<td>600 cm³</td>
+<td>弱軸彈性模數</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：力矩分布與 Cm、Cb</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_1/M_2$</td>
+<td>$= 0$（一端最大，另端為零）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_m$</td>
+<td>$0.6 - 0.4(M_1/M_2) = 0.6$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_b$</td>
+<td>$1.75 + 1.05 \times 0 + 0.3 \times 0 = 1.75$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：實際應力</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_a$</td>
+<td>$P/A = 40/189 = 0.2116$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_{bx}$</td>
+<td>$M_x/S_x = 2000/3253 = 0.615$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_{by}$</td>
+<td>$M_y/S_y = 1000/600 = 1.667$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：容許軸壓應力 Fa（弱軸彈性挫屈控制）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_c$</td>
+<td>$\sqrt{2\pi^2 E/F_y} = 107.3$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$KL/r_y$</td>
+<td>$1000/6.91 = 144.7 > C_c$ → <strong>彈性挫屈</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_a$</td>
+<td>$\frac{12\pi^2 E}{23(KL/r_y)^2} = 0.502$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_a/F_a$</td>
+<td>$0.2116/0.502 = 0.422 > 0.15$ → 用 Eq.(2)</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：容許強軸彎矩應力 Fbx（LTB 判斷）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L/r_T$</td>
+<td>$1000/7.94 = 125.9$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>LTB 區段</td>
+<td>$\sqrt{7160C_b/F_y} = 59.8 < 125.9 < \sqrt{35800C_b/F_y} = 133.8$ → 非彈性</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_{b1}$（LTB公式一）</td>
+<td>$[2/3 - F_y(L/r_T)^2/(107600C_b)]F_y = 1.302$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_{b2}$（Ld/Af公式）</td>
+<td>$840C_b/(Ld/A_f) = 1.764$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_{bx}$</td>
+<td>$\max(1.302, 1.764) = 1.764$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：容許弱軸彎矩應力 Fby</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>翼板結實判斷</td>
+<td>$b_f/(2t_f) = 7.5 \leq 65/\sqrt{F_y(\text{ksi})}$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_{by}$</td>
+<td>$0.75 F_y = 2.625$ tf/cm²（結實斷面）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 6：歐拉應力 F'e 與互制方程式</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F'_{ex}$</td>
+<td>$12\pi^2E / [23(KL/r_x)^2] = 4.522$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F'_{ey}$</td>
+<td>$= F_a = 0.502$ tf/cm²（弱軸彈性挫屈，公式相同）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>Eq.(2) 合計</td>
+<td>$0.422 + 0.220 + 0.658 = 1.300 > 1.0$ ❌</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>Eq.(3) 合計</td>
+<td>$0.101 + 0.349 + 0.635 = 1.085 > 1.0$ ❌</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASD 互制方程式兩式都要驗</td>
+<td>Eq.(2) 穩定性 + Eq.(3) 斷面強度，兩者均不得超過 1.0</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">pm-interaction</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">BEAM-COLUMN-INTERACTION</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F'_{ey} = F_a$（彈性挫屈時）</td>
+<td>弱軸彈性挫屈時，$F'_{ey}$ 與 $F_a$ 使用完全相同公式，兩者數值相等</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">b1b2-amplification</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>弱軸細長比大的放大效應</td>
+<td>$KL/r_y = 144.7 > C_c$，$F'_{ey}$ 極小，放大係數 $1/(1-f_a/F'_{ey}) = 1.73$，弱軸項被大幅放大</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_b$ 與 $C_m$ 的差異</td>
+<td>$C_b$ 用於 LTB 強度（梁彎矩梯度）；$C_m$ 用於二階放大係數（梁柱撓曲形狀）</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">cb-factor</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>ASD LTB 兩公式取較大值</td>
+<td>$F_{b1}$（L/rT 公式）與 $F_{b2}$（Ld/Af 公式）各自適用不同 LTB 範圍，取較大值</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">asd-column</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程</h2>
+<h3>Step 1：力矩分布參數</h3>
+<p>由圖二，彎矩一端為最大值，另一端為零：</p>
+<p>$$M_1/M_2 = 0$$</p>
+<p>$$C_m = 0.6 - 0.4 \times 0 = \mathbf{0.6}$$</p>
+<p>$$C_b = 1.75 + 1.05 \times 0 + 0.3 \times 0^2 = \mathbf{1.75}$$</p>
+<h3>Step 2：實際應力</h3>
+<p>$$f_a = \frac{P}{A} = \frac{40}{189} = 0.2116 \text{ tf/cm}^2$$</p>
+<p>$$f_{bx} = \frac{M_x}{S_x} = \frac{2000}{3253} = 0.6148 \text{ tf/cm}^2$$</p>
+<p>$$f_{by} = \frac{M_y}{S_y} = \frac{1000}{600} = 1.667 \text{ tf/cm}^2$$</p>
+<h3>Step 3：容許軸壓應力 Fa（ASD）</h3>
+<p><strong>計算 Cc：</strong></p>
+<p>$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}} = \sqrt{\frac{2\pi^2 \times 2040}{3.5}} = \sqrt{11{,}505} = 107.3$$</p>
+<p><strong>計算兩軸細長比：</strong></p>
+<p>$$\frac{KL}{r_x} = \frac{1 \times 1000}{20.74} = 48.2$$</p>
+<p>$$\frac{KL}{r_y} = \frac{1 \times 1000}{6.91} = 144.7 \quad \leftarrow \text{ 控制}$$</p>
+<p>由於 $KL/r_y = 144.7 > C_c = 107.3$ → <strong>彈性挫屈</strong>：</p>
+<p>$$F_a = \frac{12\pi^2 E}{23(KL/r)^2} = \frac{12\pi^2 \times 2040}{23 \times (144.7)^2} = \frac{241{,}607}{481{,}574} = \boxed{0.502 \text{ tf/cm}^2}$$</p>
+<p><strong>判斷互制方程式類型：</strong></p>
+<p>$$\frac{f_a}{F_a} = \frac{0.2116}{0.502} = 0.422 > 0.15 \implies \text{使用 Equation (2)}$$</p>
+<h3>Step 4：容許強軸彎矩應力 Fbx（含 LTB）</h3>
+<p>$$\frac{L}{r_T} = \frac{1000}{7.94} = 125.9$$</p>
+<p>$$\sqrt{\frac{7160 C_b}{F_y}} = \sqrt{\frac{7160 \times 1.75}{3.5}} = 59.8 \quad ; \quad \sqrt{\frac{35800 C_b}{F_y}} = 133.8$$</p>
+<p>$\because 59.8 < 125.9 < 133.8$ → 非彈性 LTB：</p>
+<p>$$F_{b1} = \left[\frac{2}{3} - \frac{F_y(L/r_T)^2}{107600 C_b}\right]F_y = \left[0.6667 - 0.2947\right] \times 3.5 = 1.302 \text{ tf/cm}^2$$</p>
+<p>$$A_f = b_f \times t_f = 30 \times 2.0 = 60 \text{ cm}^2 \quad ; \quad \frac{Ld}{A_f} = \frac{1000 \times 50}{60} = 833.3$$</p>
+<p>$$F_{b2} = \frac{840 C_b}{Ld/A_f} = \frac{840 \times 1.75}{833.3} = 1.764 \text{ tf/cm}^2$$</p>
+<p>$$F_{bx} = \max(1.302,\ 1.764) = \boxed{1.764 \text{ tf/cm}^2}$$</p>
+<h3>Step 5：容許弱軸彎矩應力 Fby</h3>
+<p>$$F_{by} = 0.75 F_y = 0.75 \times 3.5 = \boxed{2.625 \text{ tf/cm}^2}$$</p>
+<h3>Step 6：歐拉應力 F'e</h3>
+<p>$$F'_{ex} = \frac{12\pi^2 E}{23(KL/r_x)^2} = 4.522 \text{ tf/cm}^2$$</p>
+<p>$$F'_{ey} = \frac{12\pi^2 E}{23(KL/r_y)^2} = 0.502 \text{ tf/cm}^2 = F_a$$</p>
+<h3>Step 7：ASD 互制方程式驗算</h3>
+<p><strong>Equation (2)：</strong></p>
+<p>$$\frac{f_a}{F_a} + \frac{C_{mx} f_{bx}}{\left(1-\dfrac{f_a}{F'_{ex}}\right)F_{bx}} + \frac{C_{my} f_{by}}{\left(1-\dfrac{f_a}{F'_{ey}}\right)F_{by}} = 0.422 + 0.220 + 0.658 = \mathbf{1.300 > 1.0\ ❌}$$</p>
+<p><strong>Equation (3)：</strong></p>
+<p>$$\frac{f_a}{0.6 F_y} + \frac{f_{bx}}{F_{bx}} + \frac{f_{by}}{F_{by}} = 0.101 + 0.349 + 0.635 = \mathbf{1.085 > 1.0\ ❌}$$</p>
+<p>$$\boxed{\text{H500×300×15×20 不滿足 ASD 雙軸梁柱互制方程式}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討</h2>
+<p><strong>關鍵觀察：弱軸彈性挫屈的特殊性</strong></p>
+<p>當 $KL/r_y > C_c$ 時，$F'_{ey} = F_a$，導致放大係數 $1/(1-f_a/F'_{ey})$ 的分母極小（= 0.578），使弱軸彎矩項被放大 1.73 倍。這是本題超過限制的主要原因，提示考試重點：<strong>細長柱的 Fa 很小時，弱軸彎矩的二階放大效應會非常顯著</strong>。</p>
+<p><strong>改善方向（實務）：</strong></p>
+<ul>
+<li>縮短柱長（加設中間側向支撐點 → 降低 $KL/r_y$）</li>
+<li>改用更大的 H 型或箱型斷面（提高 $r_y$ 和 $S_y$）</li>
+<li>採用鋼管或箱型柱（兩軸 $r$ 接近，避免弱軸主導）</li>
+</ul>
+<p><strong>與 LRFD 的比較：</strong><br />
+ASD 在此情境的放大係數 $C_m/(1-f_a/F'_e)$ 對應 LRFD 的 $B_1$ 放大係數，兩者物理意義相同（P-δ 效應）。</p></main>
+<footer>來源：raw/solutions/SS-2007-2/SS-2007-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body></html>

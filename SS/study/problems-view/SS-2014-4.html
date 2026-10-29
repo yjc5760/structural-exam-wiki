@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2014-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.88em;line-height:1.5}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;padding:10px 16px;border-radius:0 8px 8px 0}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SS-2014-4 題目解析</h1><a class="quick" href="../study-SS-U1-3.html" title="SS-U1-3 梁柱桿件 命題分析">&#128269; U1-3 命題分析</a><a class="lect" href="../lecture-SS-U1-3.html" title="SS-U1-3 梁柱桿件 觀念講義">&#128218; U1-3 梁柱桿件 講義</a></header>
+<main><h1>考題編號：SS-2014-4</h1>
+<p><strong>主分類：</strong> <code>SS-U1-3</code> 梁柱桿件<br />
+<strong>副分類：</strong> <code>SD-U3-1</code> 結構耐震設計<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>梁柱桿件</code> <code>P-M互制</code> <code>B1放大法</code> <code>B2放大法</code> <code>二階效應</code> <code>斜撐構架</code> <code>地震力組合</code> <code>非側移框架</code> <code>容量設計</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>有一鋼造斜撐構架系統，W14×90（結實斷面，ASTM A572 Grade 50）之鋼柱，請以 AISC-LRFD 檢核是否滿足設計要求。（25分）</p>
+<p><strong>柱 W14×90 性質：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_y$</td>
+<td>350 MPa</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>200 GPa</td>
+</tr>
+<tr>
+<td>$Z_x$</td>
+<td>$2{,}572{,}769 \text{ mm}^3$</td>
+</tr>
+<tr>
+<td>$I_x$</td>
+<td>$415{,}815{,}194 \text{ mm}^4$</td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>$17{,}097 \text{ mm}^2$</td>
+</tr>
+<tr>
+<td>$r_x$</td>
+<td>156 mm</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>94 mm</td>
+</tr>
+<tr>
+<td>柱長 $L$</td>
+<td>3.75 m（&lt; $L_p$，無 LTB）</td>
+</tr>
+<tr>
+<td>$K_x$</td>
+<td>1.79（強軸）</td>
+</tr>
+<tr>
+<td>$K_y$</td>
+<td>1.0（弱軸）</td>
+</tr>
+<tr>
+<td>上下端</td>
+<td>均有側向支撐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>載重分析結果（含載重係數效應）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>分析工況</th>
+<th>$P_u$ (kN)</th>
+<th>$M_a$ (kN-m)</th>
+<th>$M_b$ (kN-m)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>垂直力分析（1.2D+0.5L）</td>
+<td>1600</td>
+<td>110</td>
+<td>70</td>
+</tr>
+<tr>
+<td>側力（地震力）分析（1.0E）</td>
+<td>450</td>
+<td>200</td>
+<td>200</td>
+</tr>
+</tbody>
+</table>
+<p><strong>樓層參數（供 B2 計算）：</strong></p>
+<ul>
+<li>$\sum P_u = 9000$ kN（所在樓層最大垂直載重，含載重係數）</li>
+<li>$H = 600$ kN（側力）</li>
+<li>$\Delta/L = 5/1000$（側位移角）</li>
+</ul>
+<p><strong>互制公式：</strong></p>
+<p>$$\frac{P_u}{\phi_c P_n} + \frac{8}{9}\left(\frac{M_{ux}}{\phi_b M_{nx}} + \frac{M_{uy}}{\phi_b M_{ny}}\right) \leq 1.0 \quad , \quad P_u \geq 0.2\phi_c P_n$$</p>
+<p>$$\frac{P_u}{2\phi_c P_n} + \left(\frac{M_{ux}}{\phi_b M_{nx}} + \frac{M_{uy}}{\phi_b M_{ny}}\right) \leq 1.0 \quad , \quad P_u < 0.2\phi_c P_n$$</p>
+<p>$$B_1 = \frac{C_m}{1 - P_u/P_e} \quad , \quad B_2 = \frac{1}{1 - \sum P_u \Delta / \sum HL}$$</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong></p>
+<ul>
+<li><strong>B1/B2 放大法（二階效應）</strong>：B1 處理 P-δ 效應（構件本身的撓曲），B2 處理 P-Δ 效應（樓層的側向位移）</li>
+<li><strong>載重組合的力流</strong>：垂直力產生 Mnt（非側移彎矩），地震力產生 Mlt（側移彎矩），兩者疊加後再放大</li>
+<li><strong>P-M 互制</strong>：軸壓 + 彎矩的複合受力，需判斷哪個互制方程式</li>
+</ul>
+<p><strong>出題意圖：</strong></p>
+<ol>
+<li>測試 B1 × Mnt + B2 × Mlt 的分離計算邏輯</li>
+<li>測試 Pe、Cm 的推導，以及 B1、B2 對結果的影響</li>
+<li>測試 P-M 互制的正確流程（先算 φcPn，再判斷公式）</li>
+</ol>
+<p><strong>陷阱：</strong></p>
+<ul>
+<li>⚠️ B2 用<strong>樓層</strong>總垂直載重（ΣPu=9000），不是本柱的 Pu</li>
+<li>⚠️ Pe 的 K 值：B1 計算中的 Pe 用非側移條件（K=1.0），不是 Kx=1.79</li>
+<li>⚠️ 載重組合：垂直+地震的組合為 1.2D+0.5L+1.0E</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1：組合設計載重（垂直 + 地震）
+Step 2：計算 B2（P-Δ 效應，用樓層參數）
+Step 3：計算 B1（P-δ 效應）
+  ├─ Cm 計算（非側移端彎矩比）
+  └─ Pe 計算（K=1 用於 B1）
+Step 4：放大後設計彎矩 Mux = B1×Mnt + B2×Mlt
+Step 5：計算 φcPn（軸壓強度）
+  ├─ 計算控制細長比（強/弱軸取較大）
+  └─ 計算 λc → Fcr → Pn
+Step 6：計算 φbMnx（無 LTB，直接取 Mp）
+Step 7：P-M 互制公式檢核
+</code></pre>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 組合設計載重 → B2（P-Δ）與 B1（P-δ）→ 放大後設計彎矩 Mux → φcPn、φbMnx → P-M 互制檢核</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\boxed{B_2} = \frac{1}{1 - \dfrac{\sum P_u \cdot \Delta}{\sum H \cdot L}}$$</p>
+<p>$$\boxed{B_1} = \frac{C_m}{1 - P_u / \boxed{P_e}} \geq 1.0$$</p>
+<p>$$\boxed{M_{ux}} = B_1 \times M_{nt} + \boxed{B_2} \times M_{lt}$$</p>
+<p>$$\boxed{\phi_c P_n} = 0.85 \times \boxed{F_{cr}} \times A, \quad \boxed{F_{cr}} = 0.658^{\lambda_c^2} F_y$$</p>
+<p>$$\frac{P_u}{\boxed{\phi_c P_n}} + \frac{8}{9} \cdot \frac{\boxed{M_{ux}}}{\boxed{\phi_b M_{nx}}} \leq 1.0$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_y$</td>
+<td>350 MPa</td>
+<td>降伏應力（A572 Gr.50）</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>200,000 MPa</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>17,097 mm²</td>
+<td>W14×90 斷面積</td>
+</tr>
+<tr>
+<td>$r_x$</td>
+<td>156 mm</td>
+<td>強軸迴旋半徑</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>94 mm</td>
+<td>弱軸迴旋半徑</td>
+</tr>
+<tr>
+<td>$I_x$</td>
+<td>415,815,194 mm⁴</td>
+<td>強軸慣性矩</td>
+</tr>
+<tr>
+<td>$Z_x$</td>
+<td>2,572,769 mm³</td>
+<td>強軸塑性模量</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>3,750 mm</td>
+<td>柱長</td>
+</tr>
+<tr>
+<td>$K_x$</td>
+<td>1.79</td>
+<td>強軸有效長度係數</td>
+</tr>
+<tr>
+<td>$K_y$</td>
+<td>1.0</td>
+<td>弱軸有效長度係數</td>
+</tr>
+<tr>
+<td>$P_u$（垂直）</td>
+<td>1,600 kN</td>
+<td>1.2D+0.5L 工況</td>
+</tr>
+<tr>
+<td>$P_u$（地震）</td>
+<td>450 kN</td>
+<td>1.0E 工況</td>
+</tr>
+<tr>
+<td>$M_{nt,a}$</td>
+<td>110 kN-m</td>
+<td>非側移彎矩（頂端）</td>
+</tr>
+<tr>
+<td>$M_{nt,b}$</td>
+<td>70 kN-m</td>
+<td>非側移彎矩（底端）</td>
+</tr>
+<tr>
+<td>$M_{lt}$</td>
+<td>200 kN-m</td>
+<td>側移彎矩（地震，頂底相等）</td>
+</tr>
+<tr>
+<td>$\sum P_u$</td>
+<td>9,000 kN</td>
+<td>樓層總垂直載重</td>
+</tr>
+<tr>
+<td>$\sum H$</td>
+<td>600 kN</td>
+<td>樓層側力</td>
+</tr>
+<tr>
+<td>$\Delta/L$</td>
+<td>5/1000</td>
+<td>側位移角</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：組合設計載重</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_u$</td>
+<td>$1600 + 450 = 2050$ kN</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\Delta$</td>
+<td>$5/1000 \times 3750 = 18.75$ mm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：B2（P-Δ 效應）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\sum P_u \Delta / \sum HL$</td>
+<td>$9000 \times 18.75 / (600 \times 3750) = 0.075$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$B_2$</td>
+<td>$1/(1-0.075) = 1.081$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：B1（P-δ 效應）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_e$</td>
+<td>$\pi^2 E I_x / L^2$（K=1 for B1）= 58,366 kN</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_m$</td>
+<td>$0.6 - 0.4(M_1/M_2)$；單曲率保守取 = 0.855</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$B_1$</td>
+<td>$C_m / (1 - P_u/P_e) = 0.886 < 1.0$ → 取 1.0</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：放大後設計彎矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_{ux,a}$</td>
+<td>$1.0 \times 110 + 1.081 \times 200 = 326.2$ kN-m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{ux,b}$</td>
+<td>$1.0 \times 70 + 1.081 \times 200 = 286.2$ kN-m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{ux}$</td>
+<td>取較大值 = 326.2 kN-m（頂端控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：柱軸壓強度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$(KL/r)_x$</td>
+<td>$1.79 \times 3750/156 = 43.03$（強軸控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$(KL/r)_y$</td>
+<td>$1.0 \times 3750/94 = 39.89$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\lambda_c$</td>
+<td>$(KL/r)/\pi \cdot \sqrt{F_y/E} = 0.573$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_{cr}$</td>
+<td>$0.658^{0.573^2} \times 350 = 305.0$ MPa</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_c P_n$</td>
+<td>$0.85 \times 305.0 \times 17097 = 4433$ kN</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 6：彎矩強度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_p$</td>
+<td>$F_y Z_x = 350 \times 2{,}572{,}769 = 900.5$ kN-m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_b M_{nx}$</td>
+<td>$0.9 \times 900.5 = 810.4$ kN-m（$L_b < L_p$，無 LTB）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 7：P-M 互制</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_u / \phi_c P_n$</td>
+<td>$2050/4433 = 0.463 \geq 0.2$ → 用公式 H1-1a</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>互制比</td>
+<td>$0.463 + 8/9 \times (326.2/810.4) = 0.821 \leq 1.0$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1 的 Pe 用 K=1（非側移）</td>
+<td>B1 矯正構件 P-δ，Pe 用 K=1；B2 矯正樓層 P-Δ，用樓層參數</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">b1b2-amplification</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">MOMENT-AMPLIFICATION-B1-B2</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>B2 用樓層總 ΣPu</td>
+<td>B2 分母是整層柱的 ΣPu（9000 kN），不是本柱的 Pu</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">b1b2-amplification</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>Cm 的正負號與曲率方向</td>
+<td>雙曲率 M1/M2 &gt; 0 → Cm 較小；單曲率取負 → 保守</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">b1b2-amplification</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>LRFD 柱強度 λc 公式</td>
+<td>$\lambda_c < 1.5$：$F_{cr} = 0.658^{\lambda_c^2}F_y$；$\geq 1.5$：$0.877/\lambda_c^2 \cdot F_y$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">lrfd-column</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">COLUMN-STRENGTH-CURVE</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>P-M 互制判斷門檻</td>
+<td>$P_u/\phi_cP_n \geq 0.2$ 用 H1-1a；$< 0.2$ 用 H1-1b</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">pm-interaction</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">BEAM-COLUMN-INTERACTION</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>B1 下限取 1.0</td>
+<td>計算 $B_1 < 1.0$ 時，規範規定取 1.0，不可折減</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">b1b2-amplification</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<blockquote>
+<p>📊 <strong>P-M 互制圖請參閱：</strong> <code>SS-2014-4-pm-viz.html</code></p>
+</blockquote>
+<h3>Step 1：組合設計載重</h3>
+<p><strong>LRFD 載重組合：1.2D + 0.5L + 1.0E</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>1.2D+0.5L</th>
+<th>1.0E</th>
+<th>組合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_u$</td>
+<td>1600 kN</td>
+<td>450 kN</td>
+<td><strong>2050 kN</strong></td>
+</tr>
+<tr>
+<td>$M_a$（頂端）</td>
+<td>110 kN-m</td>
+<td>200 kN-m</td>
+<td>（見Step 4）</td>
+</tr>
+<tr>
+<td>$M_b$（底端）</td>
+<td>70 kN-m</td>
+<td>200 kN-m</td>
+<td>（見Step 4）</td>
+</tr>
+</tbody>
+</table>
+<p><em>策略註解：Mnt（非側移彎矩）= 110/70（垂直力），Mlt（側移彎矩）= 200/200（地震力），分開處理再疊加。</em></p>
+<hr />
+<h3>Step 2：計算 B2（考慮 P-Δ 效應）</h3>
+<p>$$B_2 = \frac{1}{1 - \dfrac{\sum P_u \cdot \Delta}{\sum H \cdot L}}$$</p>
+<p><strong>各參數：</strong></p>
+<ul>
+<li>$\sum P_u = 9000$ kN（樓層總垂直載重）</li>
+<li>$\Delta = \frac{5}{1000} \times L = \frac{5}{1000} \times 3750 = 18.75$ mm</li>
+<li>$\sum H = 600$ kN（樓層側力）</li>
+<li>$L = 3750$ mm（層高）</li>
+</ul>
+<p>$$\frac{\sum P_u \cdot \Delta}{\sum H \cdot L} = \frac{9000 \times 18.75}{600 \times 3750} = \frac{168{,}750}{2{,}250{,}000} = 0.075$$</p>
+<p>$$\boxed{B_2 = \frac{1}{1 - 0.075} = \frac{1}{0.925} = 1.081}$$</p>
+<p><em>策略註解：穩定係數 θ = 0.075 &lt; 0.1（AISC 建議），屬合理範圍。B2 = 1.081 表示地震彎矩放大 8.1%。</em></p>
+<hr />
+<h3>Step 3：計算 B1（考慮 P-δ 效應）</h3>
+<h4>3a. 計算 Pe（非側移條件，K=1.0 for B1）</h4>
+<p>$$P_e = \frac{\pi^2 E I_x}{L^2} = \frac{\pi^2 \times 200{,}000 \text{ N/mm}^2 \times 415{,}815{,}194 \text{ mm}^4}{(3750 \text{ mm})^2}$$</p>
+<p>$$= \frac{9.8696 \times 200{,}000 \times 415{,}815{,}194}{14{,}062{,}500} = \frac{8.208 \times 10^{14}}{14{,}062{,}500} = 58{,}366 \text{ kN}$$</p>
+<p><em>策略註解：B1 中的 Pe 使用 K=1（非側移條件），因為 P-δ 效應是針對構件自身撓曲，不涉及整體側移。</em></p>
+<h4>3b. 計算 Cm（非側移端彎矩）</h4>
+<p>垂直力（非側移）下：$M_{nt,a} = 110$ kN-m（頂），$M_{nt,b} = 70$ kN-m（底）</p>
+<p>對於雙曲率彎曲（正值）或單曲率（負值），本題假設為<strong>單曲率</strong>（保守）：</p>
+<p>$$C_m = 0.6 - 0.4 \left(\frac{M_1}{M_2}\right) = 0.6 - 0.4 \times \left(-\frac{70}{110}\right) = 0.6 + 0.255 = 0.855$$</p>
+<p><em>策略註解：單曲率時 M1/M2 為負值（較保守）。若為雙曲率，$C_m = 0.6 - 0.4 \times 70/110 = 0.345$，更小但同樣得 B1 &lt; 1.0。</em></p>
+<h4>3c. 計算 B1</h4>
+<p>$$B_1 = \frac{C_m}{1 - P_u / P_e} = \frac{0.855}{1 - 2050/58{,}366} = \frac{0.855}{1 - 0.0351} = \frac{0.855}{0.965} = 0.886$$</p>
+<p>由於 $B_1 = 0.886 < 1.0$，取 <strong>$B_1 = 1.0$</strong>（規範規定最小值為 1.0）</p>
+<p><em>策略註解：因為 Pe &gt;&gt; Pu（$P_u/P_e = 3.5\%$），B1 效應很小，非側移彎矩幾乎不放大。</em></p>
+<hr />
+<h3>Step 4：計算放大後設計彎矩 Mux</h3>
+<p>$$M_{ux} = B_1 \times M_{nt} + B_2 \times M_{lt}$$</p>
+<p><strong>頂端（Ma 側）：</strong></p>
+<p>$$M_{ux,a} = 1.0 \times 110 + 1.081 \times 200 = 110 + 216.2 = 326.2 \text{ kN-m}$$</p>
+<p><strong>底端（Mb 側）：</strong></p>
+<p>$$M_{ux,b} = 1.0 \times 70 + 1.081 \times 200 = 70 + 216.2 = 286.2 \text{ kN-m}$$</p>
+<p><strong>設計用彎矩取較大值：</strong></p>
+<p>$$\boxed{M_{ux} = 326.2 \text{ kN-m（頂端控制）}}$$</p>
+<p><em>策略註解：地震力使上下端彎矩相等（各200），疊加垂直力彎矩後，頂端（110+216.2）比底端（70+216.2）大。</em></p>
+<hr />
+<h3>Step 5：計算柱軸壓強度 $\phi_c P_n$</h3>
+<h4>5a. 計算控制細長比</h4>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>$K$</th>
+<th>$KL/r$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>強軸（x）</td>
+<td>1.79</td>
+<td>$1.79 \times 3750 / 156 = \mathbf{43.03}$</td>
+</tr>
+<tr>
+<td>弱軸（y）</td>
+<td>1.0</td>
+<td>$1.0 \times 3750 / 94 = 39.89$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>強軸控制：$(KL/r)_{gov} = 43.03$</strong></p>
+<h4>5b. 計算 $\lambda_c$</h4>
+<p>$$\lambda_c = \frac{KL/r}{\pi} \sqrt{\frac{F_y}{E}} = \frac{43.03}{\pi} \times \sqrt{\frac{350}{200{,}000}}$$</p>
+<p>$$= \frac{43.03}{3.1416} \times \sqrt{0.00175} = 13.694 \times 0.04183 = 0.573$$</p>
+<h4>5c. 計算 Fcr</h4>
+<p>$\lambda_c = 0.573 < 1.5$ → <strong>非彈性挫屈</strong>：</p>
+<p>$$F_{cr} = 0.658^{\lambda_c^2} \times F_y = 0.658^{0.573^2} \times 350 = 0.658^{0.328} \times 350$$</p>
+<p>$$0.658^{0.328} = e^{0.328 \times \ln 0.658} = e^{0.328 \times (-0.4193)} = e^{-0.1375} = 0.8715$$</p>
+<p>$$F_{cr} = 0.8715 \times 350 = \mathbf{305.0 \text{ MPa}}$$</p>
+<h4>5d. 計算 Pn 與 φcPn</h4>
+<p>$$P_n = F_{cr} \times A = 305.0 \times 17{,}097 = 5{,}214{,}585 \text{ N} = 5215 \text{ kN}$$</p>
+<p>$$\boxed{\phi_c P_n = 0.85 \times 5215 = \mathbf{4433 \text{ kN}}}$$</p>
+<hr />
+<h3>Step 6：計算彎矩強度 $\phi_b M_{nx}$</h3>
+<p><strong>斷面結實性：</strong> 題目已確認（結實斷面）</p>
+<p><strong>LTB 檢核：</strong> 題目給定 $L = 3.75$ m &lt; $L_p$，無 LTB，可達全塑性：</p>
+<p>$$M_{nx} = M_p = F_y Z_x = 350 \times 2{,}572{,}769 = 900{,}469{,}150 \text{ N-mm} = 900.5 \text{ kN-m}$$</p>
+<p>$$\boxed{\phi_b M_{nx} = 0.9 \times 900.5 = \mathbf{810.4 \text{ kN-m}}}$$</p>
+<hr />
+<h3>Step 7：P-M 互制公式檢核</h3>
+<p><strong>判斷互制公式：</strong></p>
+<p>$$\frac{P_u}{\phi_c P_n} = \frac{2050}{4433} = 0.463 \geq 0.2 \quad \Rightarrow \quad \text{用公式 (1)}$$</p>
+<p><strong>公式 (1)：</strong></p>
+<p>$$\frac{P_u}{\phi_c P_n} + \frac{8}{9}\left(\frac{M_{ux}}{\phi_b M_{nx}} + \frac{M_{uy}}{\phi_b M_{ny}}\right) \leq 1.0$$</p>
+<p>本題弱軸彎矩 $M_{uy} = 0$（未給出弱軸彎矩）：</p>
+<p>$$0.463 + \frac{8}{9} \times \left(\frac{326.2}{810.4} + 0\right) = 0.463 + \frac{8}{9} \times 0.4025$$</p>
+<p>$$= 0.463 + 0.889 \times 0.4025 = 0.463 + 0.358 = \boxed{0.821}$$</p>
+<p>$$0.821 \leq 1.0 \quad \Rightarrow \quad \textbf{✅ W14×90 柱滿足 AISC-LRFD 設計要求}$$</p>
+<hr />
+<h3>計算成果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>計算項目</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$B_2$</td>
+<td>1.081</td>
+<td>P-Δ 效應放大係數（8.1%放大）</td>
+</tr>
+<tr>
+<td>$B_1$</td>
+<td>1.0（取下限）</td>
+<td>P-δ 效應可忽略（Pe &gt;&gt; Pu）</td>
+</tr>
+<tr>
+<td>$M_{ux}$（放大後）</td>
+<td><strong>326.2 kN-m</strong></td>
+<td>B1×Mnt + B2×Mlt（頂端控制）</td>
+</tr>
+<tr>
+<td>$P_u$</td>
+<td><strong>2050 kN</strong></td>
+<td>1.2D+0.5L+1.0E 組合</td>
+</tr>
+<tr>
+<td>$(KL/r)_{gov}$</td>
+<td>43.03（強軸）</td>
+<td></td>
+</tr>
+<tr>
+<td>$\lambda_c$</td>
+<td>0.573</td>
+<td>非彈性挫屈範圍</td>
+</tr>
+<tr>
+<td>$F_{cr}$</td>
+<td>305.0 MPa</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi_c P_n$</td>
+<td><strong>4433 kN</strong></td>
+<td>設計軸壓強度</td>
+</tr>
+<tr>
+<td>$\phi_b M_{nx}$</td>
+<td><strong>810.4 kN-m</strong></td>
+<td>無LTB，取全塑性</td>
+</tr>
+<tr>
+<td><strong>P-M 互制比</strong></td>
+<td><strong>0.821</strong></td>
+<td>≤ 1.0，<strong>通過</strong></td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{\text{W14×90 柱：P-M 互制比 = 0.821 ≤ 1.0，滿足 AISC-LRFD 設計要求}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>①B1 中 Pe 的 K 值選取：</strong><br />
+計算 B1 用的 Pe 應使用 K=1.0（非側移狀態），因為 B1 矯正的是「無側移時因軸力產生的彎矩放大（P-δ效應）」，而非整體側移（P-Δ效應，由 B2 處理）。若誤用 Kx=1.79，會低估 Pe，高估 B1 放大，偏保守但不正確。</p>
+<p><strong>②地震力彎矩的方向問題：</strong><br />
+本題地震力使頂底端各有 200 kN-m。若組合後頂端和底端彎矩相加（同向），則為單曲率，較嚴重；若為反向（雙曲率），則 Cm 較小，B1 更小。本解以單曲率（保守）計算。實務上應依分析軟體輸出的力矩方向判斷。</p>
+<p><strong>③B2 &gt; 1.20 時的警示：</strong><br />
+若穩定係數 θ = ΣPuΔ/(ΣHL) &gt; 0.3，表示結構側向穩定性不足，AISC 規範建議以剛性設計（增加剛度）改善，B2 方法不再適用。本題 θ = 0.075，遠在安全範圍內。</p>
+<p><strong>④斜撐構架 vs 抗彎框架的設計差異：</strong><br />
+斜撐構架（Braced Frame）的側向剛度主要由斜撐提供，柱承受的 Mlt 相對較小；抗彎框架（Moment Frame）的柱 Mlt 大，B2 效應更顯著。本題為斜撐構架，柱的彎矩需求主要來自垂直力，地震彎矩是次要。</p>
+<p><strong>⑤Kx = 1.79 的來源（AISC 對齊圖法）：</strong><br />
+$K_x = 1.79$ 通常對應於柱上端受梁約束（部分固接）、下端固接於基礎的情況，從 AISC 對齊圖（alignment chart）讀取。有效長度 $K_x L = 1.79 \times 3.75 = 6.71$ m 相當大，暗示柱腳接近固接但柱頂梁的束制相對較弱。</p></main>
+<footer>來源：raw/solutions/SS-2014-4/SS-2014-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body></html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2011-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2011-2 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2011-2</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>壓力桿件</code> <code>有效長度</code> <code>LeMessurier公式</code> <code>靠柱效應</code> <code>側移構架</code> <code>整體挫屈</code> <code>K值修正</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>AISC 規範針對受壓之鋼架結構系統，在其內部受靠柱效應（Leaning column effect）影響時，建議參考 LeMessurier 公式作有效長度係數 K 值的修正。修正公式如下：</p>
+<p>$$K' = \sqrt{\frac{P_e}{P_i} \times \frac{\sum P}{\sum P_{eK}}}$$</p>
+<ul>
+<li>$P_i$：欲求 K 值之柱所受的垂直載重</li>
+<li>$P_e$：柱之尤拉挫屈載重（Euler buckling load）</li>
+<li>$\sum P$：整體結構承受的總垂直外載重</li>
+<li>$\sum P_{eK}$：整體結構所有非靠柱且考慮相應有效長度係數後之挫屈載重（Buckling load）</li>
+</ul>
+<p>下圖中有兩個鋼架結構，已知<strong>鋼架（I）中柱 CD，鋼架（II）中柱 CD、柱 EF 及柱 GH 為靠柱</strong>。試以 LeMessurier 公式，分別求解鋼架（I）及鋼架（II）中柱 AB 之有效長度係數 $K_{(I)AB}$ 及 $K_{(II)AB}$，並試求二鋼架結構系統總挫屈載重 $\sum P_{(I)cr}$ 及 $\sum P_{(II)cr}$ 之比值，即 $\sum P_{(I)cr}/\sum P_{(II)cr} = ?$（25 分）</p>
+<p><img alt="SS-2011-2 題目附圖：兩個鋼架結構，鋼架(I)含柱AB（EI,K=?）與靠柱CD（EI=∞），各承受集中力P；鋼架(II)含柱AB（EI,K=?）與三根靠柱CD、EF、GH（EI=∞），各承受集中力P；頂部由無限剛性梁連接，柱底均為固接" src="../../raw/solutions/SS-2011-2/SS-2011-2-fig-1.png" /></p>
+<p><em>圖說：鋼架（I）：柱 AB（EI 有限，固接底部 B，頂部 A 由無限剛性梁連接至靠柱 CD 頂部 C，跨度 L_b，柱高 L），靠柱 CD（EI=∞）各承受集中力 P。鋼架（II）：柱 AB（EI 有限）連接三根靠柱 CD、EF、GH（均 EI=∞），各跨度 L_b，各承受集中力 P，柱底均固接。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 靠柱效應（Leaning Column Effect）對側移構架穩定性的影響。靠柱自身不提供抗側力，卻要求「非靠柱」（sway-resisting columns）承擔整個系統的側向穩定性，導致有效 K 值遠大於對位圖所給值。</p>
+<p><strong>出題者意圖：</strong></p>
+<ul>
+<li>測試考生能否正確識別靠柱（EI=∞ 者，自身挫屈載重無窮大，但不提供側向剛度時需特別處理）</li>
+<li>測試 LeMessurier 公式的正確應用（ΣP vs. ΣP_eK 的分母只含非靠柱）</li>
+<li>揭示重要觀念：增加靠柱不會改變系統總挫屈載重，比值恆為 1</li>
+</ul>
+<p><strong>關鍵陷阱：</strong></p>
+<ol>
+<li>對位圖的 K₀ 值計算錯誤——柱頂為無限剛性梁 → G_top = 0；固接基礎 → G_bottom = 0 → K₀ = 1.0</li>
+<li>ΣP_eK 的分母誤將靠柱也加入（靠柱的挫屈載重 → ∞，但其貢獻是在 ΣP 的分子中，不在 ΣP_eK 中）</li>
+<li>比值計算未認識到系統總挫屈載重與靠柱數量無關</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<pre><code>Step 1：確認柱 AB 之邊界條件 → 對位圖求 K₀
+         G_top = (EI/L) / (EI_beam/L_b) = (EI/L)/∞ = 0
+         G_bottom = 0（固接）
+         → 對位圖（無側撐構架）G_A=G_B=0 → K₀ = 1.0
+         → P_e = π²EI / (K₀·L)² = π²EI/L²
+
+Step 2：鋼架（I）套用 LeMessurier 公式
+         P_i = P（柱 AB 之載重）
+         ΣP = 2P（AB + CD 各 P）
+         ΣP_eK = π²EI/L²（只含非靠柱 AB）
+         → K'_(I)AB = √2 ≈ 1.414
+
+Step 3：鋼架（II）套用 LeMessurier 公式
+         P_i = P
+         ΣP = 4P（AB + CD + EF + GH 各 P）
+         ΣP_eK = π²EI/L²（仍只含非靠柱 AB）
+         → K'_(II)AB = 2.0
+
+Step 4：計算系統總挫屈載重比值
+         ΣP_(I)cr = 2 × [π²EI/(√2·L)²] = π²EI/L²
+         ΣP_(II)cr = 4 × [π²EI/(2L)²] = π²EI/L²
+         → 比值 = 1
+</code></pre>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 套用 LeMessurier 公式求側移構架中柱 AB 的修正有效長度係數 K，並證明系統總挫屈載重比值 $\sum P_{(I)cr}/\sum P_{(II)cr} = 1$</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\boxed{K_0} = 1.0 \quad (G_A = G_B = 0 \text{ 查對位圖})$$<br />
+$$P_e = \frac{\pi^2 EI}{(K_0 L)^2}$$<br />
+$$\boxed{K'_{AB}} = \sqrt{\frac{P_e}{P_i} \times \frac{\sum P}{\sum P_{eK}}}$$<br />
+$$\boxed{\sum P_{cr}} = n_{col} \times \frac{\pi^2 EI}{(K'_{AB} \cdot L)^2}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$EI$</td>
+<td>有限值（柱 AB）</td>
+<td>柱 AB 的抗彎剛度</td>
+</tr>
+<tr>
+<td>$EI_{CD}$</td>
+<td>$\infty$（靠柱）</td>
+<td>靠柱之剛度無限大</td>
+</tr>
+<tr>
+<td>$EI_{beam}$</td>
+<td>$\infty$（頂梁）</td>
+<td>頂部梁剛度無限大</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>柱高</td>
+<td>柱 AB 之高度</td>
+</tr>
+<tr>
+<td>邊界條件</td>
+<td>底端固接，頂端無限剛性梁</td>
+<td>兩端 $G = 0$</td>
+</tr>
+<tr>
+<td>鋼架(I) 靠柱數</td>
+<td>1（柱 CD）</td>
+<td>含 AB 共 2 根柱，各承受 P</td>
+</tr>
+<tr>
+<td>鋼架(II) 靠柱數</td>
+<td>3（CD、EF、GH）</td>
+<td>含 AB 共 4 根柱，各承受 P</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：邊界條件分析，求 $K_0$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$G_A$</td>
+<td>$\sum(EI_c/L_c)/\sum(EI_b/L_b) = (EI/L)/\infty = 0$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$G_B$</td>
+<td>固接基礎 → $G = 0$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$K_0$</td>
+<td>查對位圖（無側撐框架，$G_A=G_B=0$）→ $K_0 = 1.0$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_e$</td>
+<td>$\pi^2 EI / (K_0 L)^2 = \pi^2 EI / L^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：LeMessurier 公式 — 鋼架(I)</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_i$</td>
+<td>$P$（柱 AB 之載重）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\sum P_{(I)}$</td>
+<td>$2P$（AB + CD 各 P）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\sum P_{eK,(I)}$</td>
+<td>$\pi^2 EI/L^2$（只含非靠柱 AB）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$K'_{(I)AB}$</td>
+<td>$\sqrt{(P_e/P) \times (2P/P_e)} = \sqrt{2}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：LeMessurier 公式 — 鋼架(II)</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\sum P_{(II)}$</td>
+<td>$4P$（AB + CD + EF + GH 各 P）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\sum P_{eK,(II)}$</td>
+<td>$\pi^2 EI/L^2$（仍只含非靠柱 AB）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$K'_{(II)AB}$</td>
+<td>$\sqrt{(P_e/P) \times (4P/P_e)} = 2.0$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：系統總挫屈載重比值</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\sum P_{(I)cr}$</td>
+<td>$2 \times \pi^2 EI/(K'_{(I)}\cdot L)^2 = \pi^2 EI/L^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\sum P_{(II)cr}$</td>
+<td>$4 \times \pi^2 EI/(K'_{(II)}\cdot L)^2 = \pi^2 EI/L^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>比值</td>
+<td>$\sum P_{(I)cr}/\sum P_{(II)cr} = 1$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>靠柱效應定義</td>
+<td>靠柱（EI=∞）自身不提供側向剛度，不列入 $\sum P_{eK}$ 分母</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>LeMessurier 公式物理意義</td>
+<td>$\sum P_{eK}$ 只含「非靠柱」之挫屈載重；靠柱載重出現在 $\sum P$ 分子</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>有效長度係數 K</td>
+<td>對位圖查法：$G_A = G_B = 0$ 對應固定-固定（允許側移）→ $K_0 = 1.0$</td>
+<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">effective-length-chart</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>系統總挫屈載重與靠柱數無關</td>
+<td>$K' = \sqrt{n_{col}}$，代入後 $\sum P_{cr} = \pi^2 EI/L^2$ 恆定，靠柱僅稀釋個別 K 值</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>固接底部 G 值取法</td>
+<td>固接底部理論值為 0，實務取 G = 1（或依題意 G = 0）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：確認柱 AB 之邊界條件，求基礎 K₀</h3>
+<p><strong>柱 AB 的連結條件：</strong></p>
+<ul>
+<li>下端 B：固接（固定端，Theoretically fixed）→ $G_B = 0$</li>
+<li>上端 A：由無限剛性梁（$EI_{beam} = \infty$）連接</li>
+</ul>
+<p>對位圖 G 值計算（上端 A）：</p>
+<p>$$G_A = \frac{\sum(EI_{col}/L_{col})}{\sum(EI_{beam}/L_{beam})} = \frac{EI/L}{\infty/L_b} = 0$$</p>
+<p><strong>【對位圖查值（無側撐構架 / Unbraced frame）：$G_A = 0$，$G_B = 0$】</strong></p>
+<p>$$\boxed{K_0 = 1.0}$$</p>
+<p><em>策略註解：</em> 固接基礎 + 頂部無限剛性梁 = 兩端均有完全轉動拘束，側移構架中 K₀ = 1.0（對應「固定-固定，允許側移」的理論值）。</p>
+<p><strong>柱 AB 的尤拉挫屈載重：</strong></p>
+<p>$$P_e = \frac{\pi^2 EI}{(K_0 L)^2} = \frac{\pi^2 EI}{L^2}$$</p>
+<hr />
+<h3>Step 2：鋼架（I）— $K_{(I)AB}$</h3>
+<p><strong>各量確認：</strong></p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>說明</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_i$</td>
+<td>柱 AB 所受垂直載重</td>
+<td>$P$</td>
+</tr>
+<tr>
+<td>$P_e$</td>
+<td>柱 AB 尤拉挫屈載重（$K_0=1$）</td>
+<td>$\pi^2 EI / L^2$</td>
+</tr>
+<tr>
+<td>$\sum P$</td>
+<td>系統總垂直載重 = P（AB）+ P（CD）</td>
+<td>$2P$</td>
+</tr>
+<tr>
+<td>$\sum P_{eK}$</td>
+<td>非靠柱挫屈載重（只含 AB）</td>
+<td>$\pi^2 EI / L^2$</td>
+</tr>
+</tbody>
+</table>
+<p><em>注意：</em> 靠柱 CD（$EI=\infty$）自身挫屈載重趨近無窮大，不參與抗側力，故<strong>不列入 $\sum P_{eK}$</strong>。</p>
+<p><strong>套用 LeMessurier 公式：</strong></p>
+<p>$$K'_{(I)AB} = \sqrt{\frac{P_e}{P_i} \times \frac{\sum P}{\sum P_{eK}}}
+= \sqrt{\frac{\dfrac{\pi^2 EI}{L^2}}{P} \times \frac{2P}{\dfrac{\pi^2 EI}{L^2}}}
+= \sqrt{2}$$</p>
+<p>$$\boxed{K_{(I)AB} = \sqrt{2} \approx 1.414}$$</p>
+<hr />
+<h3>Step 3：鋼架（II）— $K_{(II)AB}$</h3>
+<p>鋼架（II）含柱 AB 及三根靠柱 CD、EF、GH，各承受集中力 P。</p>
+<p><strong>各量確認：</strong></p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>說明</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_i$</td>
+<td>柱 AB 所受垂直載重</td>
+<td>$P$</td>
+</tr>
+<tr>
+<td>$P_e$</td>
+<td>柱 AB 尤拉挫屈載重（$K_0=1$）</td>
+<td>$\pi^2 EI / L^2$</td>
+</tr>
+<tr>
+<td>$\sum P$</td>
+<td>系統總垂直載重 = P×4（AB+CD+EF+GH）</td>
+<td>$4P$</td>
+</tr>
+<tr>
+<td>$\sum P_{eK}$</td>
+<td>非靠柱挫屈載重（只含 AB）</td>
+<td>$\pi^2 EI / L^2$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>套用 LeMessurier 公式：</strong></p>
+<p>$$K'_{(II)AB} = \sqrt{\frac{P_e}{P_i} \times \frac{\sum P}{\sum P_{eK}}}
+= \sqrt{\frac{\dfrac{\pi^2 EI}{L^2}}{P} \times \frac{4P}{\dfrac{\pi^2 EI}{L^2}}}
+= \sqrt{4}$$</p>
+<p>$$\boxed{K_{(II)AB} = 2.0}$$</p>
+<hr />
+<h3>Step 4：系統總挫屈載重比值</h3>
+<p><strong>鋼架（I）系統挫屈載重：</strong></p>
+<p>柱 AB 的挫屈載重：</p>
+<p>$$P_{cr,AB}^{(I)} = \frac{\pi^2 EI}{(K'_{(I)AB} \cdot L)^2} = \frac{\pi^2 EI}{(\sqrt{2} \cdot L)^2} = \frac{\pi^2 EI}{2L^2}$$</p>
+<p>系統挫屈時，所有柱（AB 和 CD）均承受 $P = P_{cr,AB}^{(I)}$，故：</p>
+<p>$$\sum P_{(I)cr} = 2 \times P_{cr,AB}^{(I)} = 2 \times \frac{\pi^2 EI}{2L^2} = \frac{\pi^2 EI}{L^2}$$</p>
+<p><strong>鋼架（II）系統挫屈載重：</strong></p>
+<p>柱 AB 的挫屈載重：</p>
+<p>$$P_{cr,AB}^{(II)} = \frac{\pi^2 EI}{(K'_{(II)AB} \cdot L)^2} = \frac{\pi^2 EI}{(2L)^2} = \frac{\pi^2 EI}{4L^2}$$</p>
+<p>系統挫屈時，四根柱均承受 $P = P_{cr,AB}^{(II)}$：</p>
+<p>$$\sum P_{(II)cr} = 4 \times P_{cr,AB}^{(II)} = 4 \times \frac{\pi^2 EI}{4L^2} = \frac{\pi^2 EI}{L^2}$$</p>
+<p><strong>比值：</strong></p>
+<p>$$\boxed{\frac{\sum P_{(I)cr}}{\sum P_{(II)cr}} = \frac{\dfrac{\pi^2 EI}{L^2}}{\dfrac{\pi^2 EI}{L^2}} = 1}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>核心洞察：靠柱效應不改變系統總挫屈載重</h3>
+<p>$$\sum P_{cr} = n_{col} \times \frac{\pi^2 EI}{(K' L)^2}$$</p>
+<p>使用 LeMessurier 公式，$K' = \sqrt{n_{col}}$（$n_{col}$ = 含靠柱的總柱數），代入得：</p>
+<p>$$\sum P_{cr} = n_{col} \times \frac{\pi^2 EI}{n_{col} L^2} = \frac{\pi^2 EI}{L^2}$$</p>
+<p>此值<strong>與靠柱數量 $n_{col}$ 無關</strong>！</p>
+<p><strong>物理意義：</strong> 系統的側向穩定性<strong>完全由非靠柱提供</strong>。增加靠柱只是「稀釋」每根柱的個別挫屈載重（K 值增大），但系統的總承載能力始終等於非靠柱自身的挫屈載重，不會隨靠柱數量增加而提高。</p>
+<h3>K 值的直覺規律（LeMessurier）</h3>
+<p>$$K'_{AB} = K_0 \times \sqrt{\frac{\sum P}{\sum P_{eK}}} \times \frac{1}{K_0} = \sqrt{\frac{\sum P}{P_e / K_0^2} \times \frac{K_0^2 P_e}{P_i \cdot \sum P_{eK}}}$$</p>
+<p>當 $K_0 = 1$、只有一根非靠柱 AB、每根柱各承 P：</p>
+<p>$$K'_{AB} = \sqrt{n_{col}}$$</p>
+<p>其中 $n_{col}$ 為含靠柱在內的總柱數。</p>
+<h3>考場應用建議</h3>
+<ul>
+<li>鋼架（I）：$K = \sqrt{2} \approx 1.414$</li>
+<li>鋼架（II）：$K = 2.0$</li>
+<li>比值：$\sum P_{(I)cr}/\sum P_{(II)cr} = 1$（最重要的結論）</li>
+<li>答題需說明「靠柱不列入 $\sum P_{eK}$」的理由，否則會扣分</li>
+</ul>
+</main>
+<footer>來源：raw/solutions/SS-2011-2/SS-2011-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

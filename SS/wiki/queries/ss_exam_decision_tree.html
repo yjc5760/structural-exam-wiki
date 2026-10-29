@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: transparent; color: var(--text-primary, #1a1a1a); padding: 16px; }
+
+  h2.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+  .tree-header { text-align: center; margin-bottom: 20px; }
+  .tree-header h3 { font-size: 15px; font-weight: 700; color: var(--text-primary, #111); }
+  .tree-header p { font-size: 12px; color: var(--text-secondary, #666); margin-top: 4px; }
+
+  /* ── Level 0: 題型判斷 ── */
+  .level0 { display: flex; justify-content: center; gap: 12px; margin-bottom: 12px; }
+  .btn-type { padding: 10px 28px; border-radius: 8px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-calc { background: #2563eb; color: #fff; }
+  .btn-explain { background: #7c3aed; color: #fff; }
+  .btn-type:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-type.active { box-shadow: 0 0 0 3px rgba(0,0,0,0.15); transform: translateY(-1px); }
+
+  /* ── Arrow ── */
+  .arrow { text-align: center; color: #aaa; font-size: 18px; margin: 4px 0; }
+
+  /* ── Topic row ── */
+  .topics { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; }
+  .topic-btn { padding: 8px 14px; border-radius: 6px; border: 2px solid transparent; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .topic-btn:hover { transform: translateY(-1px); }
+  .topic-btn.active { border-color: currentColor; }
+  .t-compression { background: #dbeafe; color: #1d4ed8; }
+  .t-beam        { background: #dcfce7; color: #15803d; }
+  .t-beamcol     { background: #fef9c3; color: #854d0e; }
+  .t-connection  { background: #fee2e2; color: #b91c1c; }
+  .t-plastic     { background: #f3e8ff; color: #6d28d9; }
+
+  /* ── Detail panel ── */
+  .detail-panel { background: var(--bg-secondary, #f8f8f8); border-radius: 10px; padding: 16px; max-width: 680px; margin: 0 auto; display: none; }
+  .detail-panel.show { display: block; }
+  .detail-panel h4 { font-size: 14px; font-weight: 700; margin-bottom: 12px; border-bottom: 2px solid currentColor; padding-bottom: 6px; }
+  .steps { list-style: none; }
+  .steps li { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size: 12.5px; line-height: 1.6; }
+  .step-num { background: currentColor; color: #fff; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .step-content { flex: 1; }
+  .step-content code { background: rgba(0,0,0,0.07); border-radius: 3px; padding: 1px 5px; font-size: 11.5px; font-family: 'Menlo', monospace; }
+  .branch { margin-top: 4px; padding-left: 10px; border-left: 2px solid #ddd; }
+  .branch-item { display: flex; gap: 6px; margin-top: 3px; }
+  .branch-label { font-weight: 600; white-space: nowrap; }
+  .trap-tag { display: inline-block; background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; border-radius: 3px; padding: 0 5px; font-size: 10.5px; font-weight: 600; margin-left: 4px; }
+  .ok-tag { display: inline-block; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; border-radius: 3px; padding: 0 5px; font-size: 10.5px; font-weight: 600; margin-left: 4px; }
+
+  /* ── Explain panel ── */
+  .explain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 680px; margin: 0 auto; }
+  .explain-card { background: var(--bg-secondary, #f8f8f8); border-radius: 8px; padding: 12px; border-left: 3px solid #7c3aed; display: none; }
+  .explain-card.show { display: block; }
+  .explain-card h5 { font-size: 12px; font-weight: 700; color: #7c3aed; margin-bottom: 6px; }
+  .explain-card ul { padding-left: 14px; font-size: 12px; line-height: 1.7; color: var(--text-secondary, #444); }
+
+  .inactive-msg { text-align: center; color: #aaa; font-size: 13px; padding: 24px; display: none; }
+  .inactive-msg.show { display: block; }
+</style>
+</head>
+<body>
+<h2 class="sr-only">鋼結構設計考試決策樹：依題型分流至對應解題步驟</h2>
+
+<div class="tree-header">
+  <h3>鋼結構設計 · 考場決策樹</h3>
+  <p>看到題目 → 點選題型 → 點選主題 → 看步驟</p>
+</div>
+
+<!-- Level 0 -->
+<div class="level0">
+  <button class="btn-type btn-calc" onclick="selectType('calc')">計算題</button>
+  <button class="btn-type btn-explain" onclick="selectType('explain')">說明題</button>
+</div>
+
+<div class="arrow" id="arrow1" style="display:none">↓</div>
+
+<!-- Level 1: Topics (calc) -->
+<div class="topics" id="topics" style="display:none">
+  <button class="topic-btn t-compression" onclick="selectTopic('compression')">壓力桿件</button>
+  <button class="topic-btn t-beam"        onclick="selectTopic('beam')">梁桿件</button>
+  <button class="topic-btn t-beamcol"     onclick="selectTopic('beamcol')">梁柱桿件</button>
+  <button class="topic-btn t-connection"  onclick="selectTopic('connection')">接合設計</button>
+  <button class="topic-btn t-plastic"     onclick="selectTopic('plastic')">塑性分析</button>
+</div>
+
+<div class="arrow" id="arrow2" style="display:none">↓</div>
+
+<!-- Detail panels -->
+<div id="panel-compression" class="detail-panel" style="--c:#1d4ed8">
+  <h4 style="color:#1d4ed8">壓力桿件流程</h4>
+  <ul class="steps" style="--c:#1d4ed8; color:#1d4ed8">
+    <li>
+      <div class="step-num" style="background:#1d4ed8">1</div>
+      <div class="step-content">
+        <strong>確認兩軸有效細長比，取較大值</strong><br>
+        <code>(KL/r)_x</code> vs <code>(KL/r)_y</code>→ 取 max<br>
+        <span class="trap-tag">⚠ 陷阱</span> 兩軸必須都查，K 值依支撐條件選對位圖版本
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#1d4ed8">2</div>
+      <div class="step-content">
+        <strong>算 λ<sub>c</sub> 判斷彈性/非彈性</strong><br>
+        <code>λc = (KL/rπ)√(Fy/E)</code>
+        <div class="branch">
+          <div class="branch-item"><span class="branch-label">λc ≤ 1.5：</span>Fcr = 0.658^(λc²) × Fy（非彈性）</div>
+          <div class="branch-item"><span class="branch-label">λc > 1.5：</span>Fcr = (0.877/λc²) × Fy（彈性）</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#1d4ed8">3</div>
+      <div class="step-content">
+        <strong>算設計強度</strong><br>
+        LRFD：<code>φcPn = 0.85 × Fcr × Ag</code><br>
+        ASD：<code>Fa = Fcr/FS</code>，FS = 5/3 + 3(KL/r)/8Cc − (KL/r)³/8Cc³<br>
+        <span class="trap-tag">⚠ 陷阱</span> ASD 的 FS 不是固定 12/5，要代公式
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div id="panel-beam" class="detail-panel" style="--c:#15803d">
+  <h4 style="color:#15803d">梁桿件流程（LTB）</h4>
+  <ul class="steps" style="color:#15803d">
+    <li>
+      <div class="step-num" style="background:#15803d">1</div>
+      <div class="step-content">
+        <strong>判斷強軸 or 弱軸彎曲</strong><br>
+        弱軸 → <span class="ok-tag">✓ 無 LTB</span> 直接 Mn = min(Mp, 1.5FySy)，結束<br>
+        強軸 → 繼續往下
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#15803d">2</div>
+      <div class="step-content">
+        <strong>算 Cb（彎矩梯度係數）</strong><br>
+        <code>Cb = 12.5Mmax / (2.5Mmax+3MA+4MB+3MC)</code><br>
+        均布載重下，Cb ≈ 1.14；集中載重下，Cb ≈ 1.32<br>
+        <span class="trap-tag">⚠ 陷阱</span> 懸臂梁 Cb = 1.0（不得用公式）
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#15803d">3</div>
+      <div class="step-content">
+        <strong>算 Lp、Lr，對照 Lb 判斷區段</strong>
+        <div class="branch">
+          <div class="branch-item"><span class="branch-label">Lb ≤ Lp：</span>Mn = Mp = FyZx <span class="ok-tag">✓ 塑性</span></div>
+          <div class="branch-item"><span class="branch-label">Lp&lt;Lb≤Lr：</span>Mn = Cb[Mp−(Mp−0.7FySx)(Lb−Lp)/(Lr−Lp)] ≤ Mp</div>
+          <div class="branch-item"><span class="branch-label">Lb > Lr：</span>Mn = FcrSx ≤ Mp（彈性 LTB）</div>
+        </div>
+        <span class="trap-tag">⚠ 陷阱</span> 乘 Cb 後不可超過 Mp，要截頂
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#15803d">4</div>
+      <div class="step-content">
+        <strong>剪力強度（若題目有問）</strong><br>
+        <code>φvVn = 1.0 × 0.6Fy × Aw</code>（腹板 h/tw ≤ 2.24√(E/Fy) 時）<br>
+        <span class="trap-tag">⚠ 陷阱</span> Zx ≠ Ix/c，兩者公式完全不同
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div id="panel-beamcol" class="detail-panel" style="--c:#854d0e">
+  <h4 style="color:#854d0e">梁柱桿件流程（P-M 互制）</h4>
+  <ul class="steps" style="color:#854d0e">
+    <li>
+      <div class="step-num" style="background:#854d0e">1</div>
+      <div class="step-content">
+        <strong>分別算 φcPn 和 φbMnx</strong><br>
+        壓力：走「壓力桿件流程」<br>
+        彎矩：走「梁桿件流程」
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#854d0e">2</div>
+      <div class="step-content">
+        <strong>需要二階放大？算 Mr = B1Mnt + B2Mlt</strong><br>
+        B1 = Cm/(1−Pu/Pe1)，Pe1 用<strong>不側移</strong> K<br>
+        B2 = 1/(1−ΣPu/ΣPeK)，PeK 用<strong>側移</strong> K，對<strong>整層所有柱</strong>加總<br>
+        <span class="trap-tag">⚠ 陷阱</span> B2 漏算重力柱；Pe1 和 PeK 的 K 值不同
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#854d0e">3</div>
+      <div class="step-content">
+        <strong>判斷互制公式版本（先算 Pr/Pc）</strong>
+        <div class="branch">
+          <div class="branch-item"><span class="branch-label">Pr/Pc ≥ 0.2：</span>Pr/Pc + 8/9(Mrx/Mcx + Mry/Mcy) ≤ 1.0</div>
+          <div class="branch-item"><span class="branch-label">Pr/Pc &lt; 0.2：</span>Pr/(2Pc) + (Mrx/Mcx + Mry/Mcy) ≤ 1.0</div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div id="panel-connection" class="detail-panel" style="--c:#b91c1c">
+  <h4 style="color:#b91c1c">接合設計流程</h4>
+  <ul class="steps" style="color:#b91c1c">
+    <li>
+      <div class="step-num" style="background:#b91c1c">1</div>
+      <div class="step-content">
+        <strong>識別接合類型</strong>
+        <div class="branch">
+          <div class="branch-item"><span class="branch-label">螺栓群：</span>承壓型 or 摩阻型？單剪 or 雙剪？</div>
+          <div class="branch-item"><span class="branch-label">銲縫群：</span>填角銲 or 開槽銲？同心 or 偏心？</div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#b91c1c">2</div>
+      <div class="step-content">
+        <strong>螺栓：計算各破壞模式，取最小</strong><br>
+        剪力：<code>φRn = φFnvAb</code><br>
+        承壓：<code>φRn = φ2.4Fudt</code><br>
+        摩阻型另加：<code>φRn = φμDuhfTbns</code><br>
+        淨截面：<code>φ0.75FuAe</code>（Ae = UAn）<br>
+        塊狀剪力：<code>φ[0.6FuAnv + UbsFuAnt]</code><br>
+        <span class="trap-tag">⚠ 陷阱</span> 摩阻型螺栓不與銲縫共用（新設接合）
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#b91c1c">3</div>
+      <div class="step-content">
+        <strong>偏心銲縫：Ip 法</strong><br>
+        1. 找形心位置<br>
+        2. 算 Ip（單位 <strong>cm³</strong>，非 cm⁴）<br>
+        3. 找最遠受力點，向量合成<br>
+        <span class="trap-tag">⚠ 陷阱</span> Ip 單位是 cm³，面積矩（長度×長度²）
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#b91c1c">4</div>
+      <div class="step-content">
+        <strong>塊狀剪力的拉力面判斷</strong><br>
+        均勻拉力（多行螺栓）：Ubs = 1.0<br>
+        非均勻（如 L 型角材）：Ubs = 0.5<br>
+        <span class="trap-tag">⚠ 陷阱</span> 拉力面永遠用 Fu，不是 Fy
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div id="panel-plastic" class="detail-panel" style="--c:#6d28d9">
+  <h4 style="color:#6d28d9">塑性分析流程</h4>
+  <ul class="steps" style="color:#6d28d9">
+    <li>
+      <div class="step-num" style="background:#6d28d9">1</div>
+      <div class="step-content">
+        <strong>確認結構條件</strong><br>
+        靜不定度 n → 崩塌所需塑性鉸數 = <strong>n + 1</strong><br>
+        斷面必須為結實斷面（λ ≤ λp）<br>
+        <span class="trap-tag">⚠ 陷阱</span> 塑性鉸仍承受 Mp，不是 M = 0
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#6d28d9">2</div>
+      <div class="step-content">
+        <strong>列出所有可能崩塌機構</strong><br>
+        每種機構畫出塑性鉸位置，確認能形成幾何可動機構
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#6d28d9">3</div>
+      <div class="step-content">
+        <strong>對每個機構用虛功法</strong><br>
+        <code>Σ(外力 × 位移) = Σ(Mp × θ)</code><br>
+        不等跨：θ₁ = δ/x，θ₂ = δ/(L−x)，中間鉸轉角 = θ₁ + θ₂<br>
+        <span class="trap-tag">⚠ 陷阱</span> 中間鉸的轉角是兩段轉角之和
+      </div>
+    </li>
+    <li>
+      <div class="step-num" style="background:#6d28d9">4</div>
+      <div class="step-content">
+        <strong>取各機構的最小崩塌載重</strong><br>
+        Wc = min(各機構解) → 這就是極限載重
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Explain panel -->
+<div id="panel-explain" style="display:none; max-width:680px; margin:0 auto;">
+  <p style="font-size:12px; color:#888; margin-bottom:10px; text-align:center">點選主題查看考官版答題架構</p>
+  <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:12px">
+    <button class="topic-btn" style="background:#ede9fe;color:#6d28d9" onclick="selectExplain('bh-rh')">BH vs RH</button>
+    <button class="topic-btn" style="background:#ede9fe;color:#6d28d9" onclick="selectExplain('ndt')">NDT 選擇</button>
+    <button class="topic-btn" style="background:#ede9fe;color:#6d28d9" onclick="selectExplain('rbs')">RBS 犬骨接頭</button>
+    <button class="topic-btn" style="background:#ede9fe;color:#6d28d9" onclick="selectExplain('sn')">SN 鋼材</button>
+    <button class="topic-btn" style="background:#ede9fe;color:#6d28d9" onclick="selectExplain('scwb')">強柱弱梁</button>
+    <button class="topic-btn" style="background:#ede9fe;color:#6d28d9" onclick="selectExplain('corrosion')">防蝕三類</button>
+    <button class="topic-btn" style="background:#ede9fe;color:#6d28d9" onclick="selectExplain('capacity')">容量設計</button>
+  </div>
+
+  <div id="exp-bh-rh" class="explain-card" style="grid-column:1/-1">
+    <h5>BH vs RH 差異（答題三段）</h5>
+    <ul>
+      <li>製造方式：BH = 三塊板填角銲焊接，RH = 熱軋一體成形</li>
+      <li>殘留應力：BH 翼腹交接處拉應力；RH 翼板端部壓應力 ≈ 0.3Fy</li>
+      <li>斷面彈性：BH 可客製大尺寸；RH 受限標準規格</li>
+    </ul>
+  </div>
+  <div id="exp-ndt" class="explain-card" style="grid-column:1/-1">
+    <h5>NDT 方法選擇邏輯</h5>
+    <ul>
+      <li>表面缺陷：MT（磁性材料）或 PT（所有非多孔材料）</li>
+      <li>內部面積型（裂縫）：UT 超音波（裂縫面是良好反射面）</li>
+      <li>內部體積型（氣孔、夾渣）：RT 射線</li>
+      <li>CJP 完全滲透銲縫：VT + UT（或 RT）必須同時做</li>
+    </ul>
+  </div>
+  <div id="exp-rbs" class="explain-card" style="grid-column:1/-1">
+    <h5>RBS 犬骨接頭（容量設計邏輯）</h5>
+    <ul>
+      <li>削弱的是翼板，不是腹板（距柱面 a 到 a+b 區間）</li>
+      <li>目的：控制塑性鉸位置遠離脆弱銲接區</li>
+      <li>邏輯：削弱梁的 Mp → 接頭所受力也降低 → 保護接頭</li>
+      <li>記憶：「弱化可控位置，保護脆弱位置」</li>
+    </ul>
+  </div>
+  <div id="exp-sn" class="explain-card" style="grid-column:1/-1">
+    <h5>SN 鋼材（背景→特色→數值三段）</h5>
+    <ul>
+      <li>背景：1995 阪神地震，傳統鋼材只有 Fy 下限 → 實際超強 → 容量設計失效</li>
+      <li>特色：Fy 上下限雙重控制、降伏比 ≤ 0.80、CVN ≥ 27J @ 0°C</li>
+      <li>C 級額外：Z 向韌性 RA ≥ 25%（防層狀撕裂，用於厚板柱）</li>
+    </ul>
+  </div>
+  <div id="exp-scwb" class="explain-card" style="grid-column:1/-1">
+    <h5>強柱弱梁驗核流程</h5>
+    <ul>
+      <li>目的：讓梁先降伏，柱維持彈性，保持側向穩定</li>
+      <li>驗核式：ΣMpc ≥ ΣMpb（用期望強度 RyFyZ）</li>
+      <li>Ry：A992 = 1.1，A36 = 1.5，SN490B = 1.1</li>
+      <li>記憶：強柱 = 柱的塑性矩加總 ≥ 梁的塑性矩加總</li>
+    </ul>
+  </div>
+  <div id="exp-corrosion" class="explain-card" style="grid-column:1/-1">
+    <h5>防蝕三大類（需說明機制）</h5>
+    <ul>
+      <li>塗裝：物理隔絕（阻擋氧氣和水分）</li>
+      <li>金屬鍍層（熱浸鍍鋅）：物理隔絕＋犧牲陽極（鋅先腐蝕保護鋼）</li>
+      <li>電化學保護（陰極保護）：外加電流或犧牲陽極，使鋼材成為陰極</li>
+    </ul>
+  </div>
+  <div id="exp-capacity" class="explain-card" style="grid-column:1/-1">
+    <h5>容量設計哲學</h5>
+    <ul>
+      <li>核心：讓可塑性構件先降伏，保護脆弱接合部</li>
+      <li>工具：Ry 超強係數（期望強度 = RyFyZ）</li>
+      <li>應用：強柱弱梁、RBS 接頭、Panel Zone 設計</li>
+      <li>邏輯順序：識別脆弱點 → 強化脆弱點 → 弱化控制點</li>
+    </ul>
+  </div>
+</div>
+
+<div class="inactive-msg" id="inactive-msg">↑ 點選題型開始</div>
+
+<script>
+  let currentType = null;
+  let currentTopic = null;
+
+  function selectType(type) {
+    currentType = type;
+    currentTopic = null;
+
+    document.querySelectorAll('.btn-type').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+
+    document.getElementById('arrow1').style.display = 'block';
+    document.getElementById('inactive-msg').classList.remove('show');
+
+    if (type === 'calc') {
+      document.getElementById('topics').style.display = 'flex';
+      document.getElementById('panel-explain').style.display = 'none';
+      document.getElementById('arrow2').style.display = 'none';
+      hideAllPanels();
+    } else {
+      document.getElementById('topics').style.display = 'none';
+      document.getElementById('panel-explain').style.display = 'block';
+      document.getElementById('arrow2').style.display = 'none';
+      hideAllPanels();
+      hideAllExplain();
+    }
+  }
+
+  function selectTopic(topic) {
+    currentTopic = topic;
+    document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+
+    hideAllPanels();
+    document.getElementById('arrow2').style.display = 'block';
+    const panel = document.getElementById('panel-' + topic);
+    if (panel) { panel.classList.add('show'); }
+  }
+
+  function selectExplain(key) {
+    hideAllExplain();
+    document.querySelectorAll('#panel-explain .topic-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    const el = document.getElementById('exp-' + key);
+    if (el) el.classList.add('show');
+  }
+
+  function hideAllPanels() {
+    document.querySelectorAll('.detail-panel').forEach(p => p.classList.remove('show'));
+  }
+
+  function hideAllExplain() {
+    document.querySelectorAll('.explain-card').forEach(c => c.classList.remove('show'));
+  }
+
+  // Init
+  document.getElementById('inactive-msg').classList.add('show');
+</script>
+</body>
+</html>

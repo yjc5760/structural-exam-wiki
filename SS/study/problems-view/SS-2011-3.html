@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2011-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2011-3 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-2.html" title="SS-U1-2 梁桿件 命題分析">&#128269; U1-2 命題分析</a><a class="lect" href="../lecture-SS-U1-2.html" title="SS-U1-2 梁桿件 觀念講義">&#128218; U1-2 梁桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2011-3</h1>
+<p><strong>主分類：</strong> <code>SS-U1-2</code> 梁桿件<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> LRFD<br />
+<strong>標籤：</strong> <code>梁桿件</code> <code>LTB側扭挫屈</code> <code>非彈性LTB</code> <code>Cb係數</code> <code>端彎矩</code> <code>X1X2參數</code> <code>結實斷面</code> <code>標稱彎矩</code> <code>翹曲常數Cw</code> <code>規範版本差異</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>圖示一鋼梁，已知鋼梁在 A 端有一彎矩 M 作用，鋼梁長度 L 為 812.8 cm，梁鋼材特性及斷面尺寸如下所示。試用 LRFD 規範求解此鋼梁所能承受之標稱彎矩 $M_n$，並確認此梁挫屈時是否在彈性範圍內。（25 分）</p>
+<p><strong>材料特性：</strong><br />
+- $E = 2100 \text{ tf/cm}^2$，$G = 840 \text{ tf/cm}^2$<br />
+- $F_y = 2.52 \text{ tf/cm}^2$，$F_r = 1.05 \text{ tf/cm}^2$</p>
+<p><strong>斷面尺寸（H 型鋼）：</strong><br />
+- 全深：$d = 40.62 \text{ cm}$<br />
+- 翼板寬：$b_f = 20.32 \text{ cm}$<br />
+- 翼板厚：$t_f = 1.27 \text{ cm}$<br />
+- 腹板厚：$t_w = 1.27 \text{ cm}$</p>
+<p><strong>支撐條件：</strong><br />
+- A 端：施加彎矩 M，銷支承（可防止側移及扭轉）<br />
+- B 端：滾支承（可防止側移及扭轉）<br />
+- 無側向中間支撐，無側撐長度 $L_b = L = 812.8 \text{ cm}$</p>
+<p><img alt="SS-2011-3 題目附圖：鋼梁 A 端施加彎矩 M（銷支承），B 端為滾支承，跨度 L=812.8cm；斷面為 H 型鋼，bf=20.32cm，d=40.62cm，tf=1.27cm，tw=1.27cm" src="../../raw/solutions/SS-2011-3/SS-2011-3-fig-1.png" /></p>
+<p><em>圖說：簡支梁，A 端（左，銷支承）施加彎矩 M，B 端（右，滾支承），跨度 L=812.8 cm。斷面 H 型鋼（單位 cm）：全深 d=40.62，翼板寬 bf=20.32，翼板厚 tf=1.27（上下各），腹板厚 tw=1.27。側向扭轉挫屈邊界條件：A、B 兩端均為銷接（防止側移及扭轉），無側撐長度等於全跨。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 非對稱彎矩分布（端彎矩型）下，利用 $C_b = 1.75$、$X_1$–$X_2$ 參數法計算 LRFD 側扭挫屈標稱彎矩，並判斷 LTB 類型（彈性 vs. 非彈性）。</p>
+<p><strong>出題者意圖：</strong><br />
+- 測試完整的 LTB 三段判斷流程（Lp / Lr 計算）<br />
+- 端彎矩型 $C_b = 1.75$ 的正確識別（而非預設 1.0）<br />
+- $X_1$、$X_2$ 複雜公式的計算能力（含 J、$C_W$ 之推導）<br />
+- LTB 類型判斷（此題 $L_b &lt; L_r$ → 非彈性，與彈性差之毫釐）</p>
+<p><strong>關鍵陷阱：</strong><br />
+1. $C_b$ 易誤設為 1.0（未考慮端彎矩加成效果 $C_b = 1.75$）<br />
+2. $d$ 與 $h$ 混淆：$d = 40.62$ cm 為全深，$h = d - 2t_f = 38.08$ cm 為腹板凈高<br />
+3. $M_n$ 上限需與 $M_p$ 比較（$C_b$ 放大後仍不能超過 $M_p$）<br />
+4. 題目問「是否在彈性範圍內」——需比較 $L_b$ 與 $L_r$</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<pre><code>Step 1：斷面幾何計算 → A、Ix、Iy、Sx、Zx、J、Cw、ry
+Step 2：結實斷面確認（翼板、腹板寬厚比）
+Step 3：Cb 計算（端彎矩型：Cb = 1.75）
+Step 4：計算 X₁、X₂ → 計算 Lp、Lr
+Step 5：比較 Lb 與 Lp、Lr → 判斷 LTB 類型
+Step 6：套用非彈性 LTB 公式 → 得 Mn（≤ Mp）
+</code></pre>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 計算 H 型鋼梁在端彎矩型載重下的標稱彎矩 $M_n$（非彈性 LTB），並確認挫屈是否在彈性範圍內</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\boxed{L_p} = \frac{80 r_y}{\sqrt{F_y}}, \quad \boxed{L_r} = \frac{r_y X_1}{F_y - F_r}\sqrt{1 + \sqrt{1 + X_2(F_y-F_r)^2}}$$<br />
+$$C_b = 1.75 \quad (\text{端彎矩型，} M_1/M_2 = 0)$$<br />
+$$\boxed{M_n} = C_b\left[M_p - (M_p - M_r)\frac{L_b - L_p}{L_r - L_p}\right] \leq M_p$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$E$</td>
+<td>2100 tf/cm²</td>
+<td>彈性模數</td>
+</tr>
+<tr>
+<td>$G$</td>
+<td>840 tf/cm²</td>
+<td>剪切模數</td>
+</tr>
+<tr>
+<td>$F_y$</td>
+<td>2.52 tf/cm²</td>
+<td>降伏應力</td>
+</tr>
+<tr>
+<td>$F_r$</td>
+<td>1.05 tf/cm²</td>
+<td>殘留應力</td>
+</tr>
+<tr>
+<td>$L_b$</td>
+<td>812.8 cm</td>
+<td>側向無支撐長度（全跨）</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>40.62 cm</td>
+<td>斷面全深</td>
+</tr>
+<tr>
+<td>$b_f$</td>
+<td>20.32 cm</td>
+<td>翼板寬</td>
+</tr>
+<tr>
+<td>$t_f$</td>
+<td>1.27 cm</td>
+<td>翼板厚</td>
+</tr>
+<tr>
+<td>$t_w$</td>
+<td>1.27 cm</td>
+<td>腹板厚</td>
+</tr>
+<tr>
+<td>載重型式</td>
+<td>A 端彎矩 M，B 端 0</td>
+<td>端彎矩型（單向曲率）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：斷面幾何計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$h$</td>
+<td>$d - 2t_f = 38.08$ cm（腹板淨高）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>$2b_ft_f + ht_w = 99.97$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_x$</td>
+<td>$\frac{1}{12}[b_f d^3 - (b_f-t_w)h^3] = 25{,}831$ cm⁴</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$S_x$</td>
+<td>$I_x/(d/2) = 1271.8$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z_x$</td>
+<td>$b_ft_f(d-t_f) + t_wh^2/4 = 1475.9$ cm³</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_y$</td>
+<td>$2t_fb_f^3/12 + ht_w^3/12 = 1782.4$ cm⁴</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>$\sqrt{I_y/A} = 4.222$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$J$</td>
+<td>$(t_f^3/3)(2b_f + h) = 53.74$ cm⁴（St. Venant 扭矩）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_W$</td>
+<td><strong>題目公式表</strong>：$I_f h^2/2 = 687{,}469$ cm⁶（$I_f = t_fb_f^3/12$，$h = d-t_f$）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：$C_b$ 與 $L_p$、$L_r$ 計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_b$</td>
+<td>$1.75 + 1.05(M_1/M_2) + 0.3(M_1/M_2)^2 = 1.75$（$M_1=0$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_p$</td>
+<td>$F_y Z_x = 3719.2$ tf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_r$</td>
+<td>$(F_y - F_r)S_x = 1869.6$ tf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$X_1$</td>
+<td>$(\pi/S_x)\sqrt{EGJA/2} = 170.1$ tf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$X_2$</td>
+<td>$4(C_W/I_y)(S_x/GJ)^2 = 1.224$ cm⁴/tf²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_p$</td>
+<td>$80r_y/\sqrt{F_y} = 212.8$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_r$</td>
+<td>$(r_y X_1/(F_y-F_r))\sqrt{1+\sqrt{1+X_2(F_y-F_r)^2}} = 833.2$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：LTB 類型判斷與 $M_n$ 計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式 / 來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>比較</td>
+<td>$L_p = 212.8 &lt; L_b = 812.8 &lt; L_r = 833.2$ cm → 非彈性 LTB（餘裕僅 20.4 cm）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_n$</td>
+<td>$C_b[M_p - (M_p-M_r)(L_b-L_p)/(L_r-L_p)] = 3378$ tf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>上限檢核</td>
+<td>$M_n \leq M_p = 3719.2$ tf·cm ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LTB 三段判斷</td>
+<td>$L_b \leq L_p$ 塑性 / $L_p &lt; L_b \leq L_r$ 非彈性 / $L_b &gt; L_r$ 彈性，判斷錯會用錯公式</td>
+<td style="text-align: center;">[[ltb-3zone]] · [[LATERAL-TORSIONAL-BUCKLING]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_b$ 端彎矩型</td>
+<td>$M_1/M_2 = 0$ 時 $C_b = 1.75$，誤設 1.0 導致結果低 75%</td>
+<td style="text-align: center;">[[cb-factor]] · [[BENDING-MODIFICATION-FACTOR-CB]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$X_1$、$X_2$ 參數</td>
+<td>含 J（扭矩）、$C_W$（翹曲）的斷面挫屈參數，J 與 $C_W$ 定義容易混淆</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>翹曲常數 $C_W$</td>
+<td>本卷公式表明列 $C_W = I_f h^2/2$（$I_f$＝<strong>單一翼板</strong>對弱軸慣性矩，$h = d-t_f$）；近似式 $I_y(d-t_f)^2/4$ 會高估 0.37%（差在腹板項，$I_y/2 \neq I_f$）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_n$ 上限不可超過 $M_p$</td>
+<td>$C_b$ 放大後仍需截斷在 $M_p$，否則預測強度超過塑性極限</td>
+<td style="text-align: center;">[[ltb-3zone]]</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>殘留應力 $F_r$</td>
+<td>熱軋型鋼取 $F_r = 0.5F_y$ 或題目給定值，影響 $M_r$ 與 $L_r$ 計算</td>
+<td style="text-align: center;">[[RESIDUAL-STRESS]]</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：斷面幾何計算</h3>
+<p><strong>基本幾何量：</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>計算</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$h$（腹板凈高）</td>
+<td>$d - 2t_f = 40.62 - 2(1.27)$</td>
+<td>$38.08 \text{ cm}$</td>
+</tr>
+<tr>
+<td>$A$（斷面積）</td>
+<td>$2 b_f t_f + h t_w$</td>
+<td>$2(20.32)(1.27) + (38.08)(1.27) = 51.61 + 48.36 = 99.97 \text{ cm}^2$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>強軸慣性矩 $I_x$：</strong></p>
+<p>$$I_x = \frac{1}{12}\left[b_f d^3 - (b_f - t_w)h^3\right]$$</p>
+<p>$$= \frac{1}{12}\left[20.32 \times 40.62^3 - 19.05 \times 38.08^3\right]$$</p>
+<p>$$= \frac{1}{12}\left[20.32 \times 67,023 - 19.05 \times 55,218\right]$$</p>
+<p>$$= \frac{1}{12}\left[1,361,911 - 1,051,944\right] = \frac{309,967}{12}$$</p>
+<p>$$\boxed{I_x = 25,831 \text{ cm}^4}$$</p>
+<p><strong>強軸斷面模數 $S_x$：</strong></p>
+<p>$$S_x = \frac{I_x}{d/2} = \frac{25,831}{20.31} = 1271.8 \text{ cm}^3$$</p>
+<p><strong>強軸塑性斷面模數 $Z_x$（PNA 在形心）：</strong></p>
+<p>$$Z_x = 2\left[b_f t_f \cdot \frac{d-t_f}{2}\right] + 2\left[t_w \cdot \frac{h}{2} \cdot \frac{h}{4}\right]$$</p>
+<p>$$= b_f t_f (d - t_f) + \frac{t_w h^2}{4} = 25.806 \times 39.35 + \frac{1.27 \times 38.08^2}{4}$$</p>
+<p>$$= 1015.5 + 460.4$$</p>
+<p>$$\boxed{Z_x = 1475.9 \text{ cm}^3}$$</p>
+<p><strong>弱軸慣性矩 $I_y$：</strong></p>
+<p>$$I_y = \frac{2t_f b_f^3}{12} + \frac{h t_w^3}{12}$$</p>
+<p>$$= \frac{2(1.27)(20.32)^3}{12} + \frac{(38.08)(1.27)^3}{12}$$</p>
+<p>$$= \frac{2(1.27)(8390)}{12} + \frac{(38.08)(2.048)}{12} = 1775.9 + 6.5$$</p>
+<p>$$\boxed{I_y = 1782.4 \text{ cm}^4}$$</p>
+<p><strong>弱軸迴轉半徑 $r_y$：</strong></p>
+<p>$$r_y = \sqrt{\frac{I_y}{A}} = \sqrt{\frac{1782.4}{99.97}} = 4.222 \text{ cm}$$</p>
+<p><strong>扭轉常數 $J$（St. Venant 扭矩）：</strong></p>
+<p>$$J = \frac{1}{3}\left[2b_f t_f^3 + h t_w^3\right] = \frac{t_f^3}{3}(2b_f + h)$$</p>
+<p>$$= \frac{(1.27)^3}{3}(2 \times 20.32 + 38.08) = \frac{2.048}{3}(78.72)$$</p>
+<p>$$\boxed{J = 53.74 \text{ cm}^4}$$</p>
+<p><strong>翹曲常數 $C_W$（依本卷第三頁公式表：$C_W = I_f h^2 / 2$）：</strong></p>
+<p>其中 $I_f$ 為<strong>單一翼板</strong>對弱軸之慣性矩，$h = d - t_f$ 為兩翼板形心距：</p>
+<p>$$I_f = \frac{t_f b_f^3}{12} = \frac{1.27 \times 20.32^3}{12} = \frac{1.27 \times 8390.2}{12} = 887.96 \text{ cm}^4$$</p>
+<p>$$h = d - t_f = 40.62 - 1.27 = 39.35 \text{ cm}$$</p>
+<p>$$C_W = \frac{I_f h^2}{2} = \frac{887.96 \times 39.35^2}{2} = \frac{887.96 \times 1548.42}{2}$$</p>
+<p>$$\boxed{C_W = 687,469 \text{ cm}^6}$$</p>
+<blockquote>
+<p>⚠️ <strong>易錯點</strong>：常見近似式 $C_W \approx I_y(d-t_f)^2/4$ 得 689,985 cm⁶，比正解<strong>高 0.37%</strong>。<br />
+原因：$C_W$ 只計<strong>翼板</strong>的翹曲貢獻（$I_f$），而 $I_y = 2I_f + t_w^3h/12$ 還含腹板項，<br />
+故 $I_y/2 = 891.21 \neq I_f = 887.96$。本卷公式表既已明列 $I_f h^2/2$，即應照用。</p>
+</blockquote>
+<hr />
+<h3>Step 2：結實斷面確認</h3>
+<p><strong>翼板寬厚比：</strong><br />
+$$\lambda_f = \frac{b_f}{2t_f} = \frac{20.32}{2(1.27)} = 8.0 &lt; \frac{17}{\sqrt{F_y}} = \frac{17}{\sqrt{2.52}} = 10.71 \quad \checkmark \text{（結實翼板）}$$</p>
+<p><strong>腹板寬厚比（純彎曲，$f_a = 0$）：</strong><br />
+$$\lambda_w = \frac{h}{t_w} = \frac{38.08}{1.27} = 29.98 &lt; \frac{170}{\sqrt{F_y}} = \frac{170}{\sqrt{2.52}} = 107.1 \quad \checkmark \text{（結實腹板）}$$</p>
+<p>→ 斷面為<strong>結實斷面（Compact Section）</strong>，$\phi_b M_p$ 為上限，可使用完整 LTB 公式。</p>
+<hr />
+<h3>Step 3：Cb 計算（端彎矩型）</h3>
+<p>加載型式：A 端彎矩 M，B 端彎矩 0，彎矩圖為線性遞減（單向曲率）。</p>
+<p>$$C_b = 1.75 + 1.05\left(\frac{M_1}{M_2}\right) + 0.3\left(\frac{M_1}{M_2}\right)^2 \leq 2.3$$</p>
+<p>其中 $M_1 = 0$（較小端），$M_2 = M$（較大端）：</p>
+<p>$$\boxed{C_b = 1.75 + 1.05(0) + 0.3(0)^2 = 1.75}$$</p>
+<hr />
+<h3>Step 4：計算 $X_1$、$X_2$，求 $L_p$、$L_r$</h3>
+<p><strong>$X_1$（截面固有挫屈參數）：</strong></p>
+<p>$$X_1 = \frac{\pi}{S_x}\sqrt{\frac{EGJA}{2}}$$</p>
+<p>$$EGJA = 2100 \times 840 \times 53.75 \times 99.97 = 9.4805 \times 10^9$$</p>
+<p>$$\sqrt{\frac{EGJA}{2}} = \sqrt{4.7403 \times 10^9} = 68,850$$</p>
+<p>$$X_1 = \frac{\pi}{1271.8} \times 68,850 = \boxed{170.1 \text{ tf/cm}^2}$$</p>
+<p><strong>$X_2$（截面固有挫屈參數）：</strong></p>
+<p>$$X_2 = 4\frac{C_W}{I_y}\left[\frac{S_x}{GJ}\right]^2$$</p>
+<p>$$\frac{C_W}{I_y} = \frac{687,469}{1782.4} = 385.68 \text{ cm}^2$$</p>
+<p>$$\frac{S_x}{GJ} = \frac{1271.8}{840 \times 53.75} = \frac{1271.8}{45{,}150} = 0.028168 \text{ cm/tf}$$</p>
+<p>$$X_2 = 4 \times 385.68 \times (0.028168)^2 = 4 \times 385.68 \times 7.934 \times 10^{-4} = \boxed{1.224 \text{ cm}^4/\text{tf}^2}$$</p>
+<blockquote>
+<p>量綱檢查：$X_2(F_y-F_r)^2$ 須無因次 —— $(\text{cm}^4/\text{tf}^2)(\text{tf}/\text{cm}^2)^2 = 1$ ✓</p>
+</blockquote>
+<p><strong>$L_p$（塑性彎矩對應之側撐長度上限）：</strong></p>
+<p>$$L_p = \frac{80 r_y}{\sqrt{F_y}} = \frac{80 \times 4.222}{\sqrt{2.52}} = \frac{337.8}{1.5875}$$</p>
+<p>$$\boxed{L_p = 212.8 \text{ cm}}$$</p>
+<p><strong>$L_r$（彈性 LTB 對應之側撐長度下限）：</strong></p>
+<p>$$L_r = \frac{r_y X_1}{F_y - F_r}\sqrt{1 + \sqrt{1 + X_2(F_y - F_r)^2}}$$</p>
+<p>$$F_y - F_r = 2.52 - 1.05 = 1.47 \text{ tf/cm}^2$$</p>
+<p>$$X_2(F_y - F_r)^2 = 1.224 \times 1.47^2 = 1.224 \times 2.1609 = 2.6455$$</p>
+<p>$$\sqrt{1 + 2.6455} = \sqrt{3.6455} = 1.9093$$</p>
+<p>$$\sqrt{1 + 1.9093} = \sqrt{2.9093} = 1.7057$$</p>
+<p>$$L_r = \frac{4.222 \times 170.1}{1.47} \times 1.7057 = 488.5 \times 1.7057$$</p>
+<p>$$\boxed{L_r = 833.2 \text{ cm}}$$</p>
+<hr />
+<h3>Step 5：LTB 類型判斷</h3>
+<p>$$L_p = 212.8 \text{ cm} &lt; L_b = 812.8 \text{ cm} &lt; L_r = 833.2 \text{ cm}$$</p>
+<p>$$\boxed{\text{非彈性側扭挫屈（Inelastic LTB）範圍}}$$</p>
+<p><strong>結論：此梁挫屈時「不在彈性範圍內」</strong>（$L_b &lt; L_r$ 故為非彈性 LTB）</p>
+<p><img alt="SS-2011-3 圖 2：標稱彎矩 M_n 對側向無支撐長度 L_b 的三分區曲線。塑性區 L_b ≤ L_p = 212.8 cm、非彈性 LTB 區 212.8 至 L_r = 833.2 cm、彈性 LTB 區 L_b > 833.2 cm，三區以底色區分。本題曲線（C_b = 1.75）因 C_b 放大而在 L_b ≤ 747 cm 之前都被 M_p = 3,719.2 tf·cm 截斷，之後下降；設計點 L_b = 812.8 cm 落在非彈性區最尾端，M_n = 3,378 tf·cm，距 L_r 僅 20.4 cm（2.4%）。另繪 C_b 誤設 1.0 之對照曲線（同一 L_b 只剩 1,930 tf·cm），以及彈性式向左延伸之連續性驗算線（與主曲線幾乎重合）" src="../../raw/solutions/SS-2011-3/figs/SS-2011-3-fig-2-ltb-zones.svg" /></p>
+<p><em>圖 2　三分區曲線與設計點的位置：$C_b = 1.75$ 的放大效果讓 $M_n$ 在 $L_b \le 747$ cm 之前都被 $M_p$ 截斷，而本題的 $L_b = 812.8$ cm 恰好落在非彈性區的最尾端，距 $L_r$ 只有 20.4 cm。<strong>攔錯：</strong>分區判斷錯（誤答「彈性」），或直接把 $C_b$ 取 1.0 —— 圖上灰虛線顯示同一根梁的 $M_n$ 會只剩 1,930 tf·cm。</em></p>
+<hr />
+<h3>Step 6：計算標稱彎矩 $M_n$</h3>
+<p><strong>基準彎矩：</strong></p>
+<p>$$M_p = F_y Z_x = 2.52 \times 1475.9 = 3719.2 \text{ tf·cm}$$</p>
+<p>$$M_r = (F_y - F_r)S_x = 1.47 \times 1271.8 = 1869.6 \text{ tf·cm}$$</p>
+<p><strong>非彈性 LTB 公式：</strong></p>
+<p>$$M_n = C_b\left[M_p - (M_p - M_r)\frac{L_b - L_p}{L_r - L_p}\right] \leq M_p$$</p>
+<p>$$= 1.75 \times \left[3719.2 - (3719.2 - 1869.6) \times \frac{812.8 - 212.8}{833.2 - 212.8}\right]$$</p>
+<p>$$= 1.75 \times \left[3719.2 - 1849.6 \times \frac{600.0}{620.4}\right]$$</p>
+<p>$$= 1.75 \times \left[3719.2 - 1849.6 \times 0.96712\right]$$</p>
+<p>$$= 1.75 \times \left[3719.2 - 1788.8\right]$$</p>
+<p>$$= 1.75 \times 1930.4 = 3378.2 \text{ tf·cm}$$</p>
+<p><strong>上限檢核：</strong> $3378.2 \leq M_p = 3719.2$ tf·cm ✓</p>
+<p>$$\boxed{M_n = 3378 \text{ tf·cm} \approx 33.78 \text{ tf·m}}$$</p>
+<p><strong>設計強度：</strong> $\phi_b M_n = 0.9 \times 3378 = 3040$ tf·cm</p>
+<blockquote>
+<p>✅ <strong>連續性交叉驗算</strong>：因 $L_b$ 幾乎等於 $L_r$，改用<strong>彈性</strong> LTB 公式應得到幾乎相同的值：<br />
+$$M_n^{elastic} = \frac{C_b S_x X_1\sqrt{2}}{L_b/r_y}\sqrt{1 + \frac{X_1^2X_2}{2(L_b/r_y)^2}} = 3380 \text{ tf·cm}$$<br />
+與非彈性式的 3378 tf·cm 僅差 <strong>0.07%</strong> —— 兩支曲線在 $L_b = L_r$ 處確實相接，證明<br />
+$X_1$、$X_2$、$L_r$ 的計算彼此一致（若 $L_r$ 算錯，兩式必大幅分歧）。</p>
+</blockquote>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>$L_b$ 與 $L_r$ 非常接近的意義（本題最關鍵之處）</h3>
+<p>本題 $L_b = 812.8$ cm 與 $L_r = 833.2$ cm 相差僅 <strong>20.4 cm（2.4%）</strong>，此梁處於非彈性 LTB 的<strong>最尾端</strong>，幾乎貼著彈性 LTB 的邊界。</p>
+<p>這使得題目那句「並確認此梁挫屈時是否在彈性範圍內」變成一個<strong>高風險判斷</strong>：</p>
+<ul>
+<li>$C_W$ 若用近似式 $I_y(d-t_f)^2/4$（高估 0.37%）→ $L_r = 833.5$ cm，答案仍是非彈性 ✓</li>
+<li>但若 $C_W$、$X_2$ 或 $J$ 有 5% 以上誤差，$L_r$ 就可能跌破 812.8 cm，<strong>答案會翻轉成「彈性」</strong></li>
+<li>因此本題必須把 $J$、$C_W$、$X_1$、$X_2$ 逐項算準，並用「$L_b \approx L_r$ 時兩式應相接」做連續性驗算（見 Step 6）</li>
+</ul>
+<p>若 $L_b$ 再增加 21 cm → 進入彈性 LTB，需改用：</p>
+<p>$$M_n = \frac{C_b S_x X_1 \sqrt{2}}{L_b/r_y}\sqrt{1 + \frac{X_1^2 X_2}{2(L_b/r_y)^2}} \leq M_p$$</p>
+<blockquote>
+<p>⚠️ <strong>重要</strong>：改用 AISC 360-16 的 $L_r$ 公式時，本題的<strong>分區會直接翻轉為彈性 LTB</strong>（$L_r = 721$ cm &lt; 812.8 cm）。詳見 §6。</p>
+</blockquote>
+<h3>$C_b = 1.75$ 的加成效果</h3>
+<p>若誤設 $C_b = 1.0$：</p>
+<p>$$M_n^{(C_b=1)} = 1.0 \times 1930.4 = 1930 \text{ tf·cm}$$</p>
+<p>正確 $C_b = 1.75$：</p>
+<p>$$M_n = 3378 \text{ tf·cm}$$</p>
+<p>兩者相差 <strong>75%</strong>！端彎矩型 $C_b$ 的影響極為顯著，考場上務必計算而非直接使用 1.0。</p>
+<h3>為什麼「端彎矩＋另一端為零」是最有利的 $C_b$？</h3>
+<p>舊式 $C_b = 1.75 + 1.05(M_1/M_2) + 0.3(M_1/M_2)^2$ 中，$M_1/M_2$ 取<strong>負值代表單曲率</strong>（同向彎曲）。本題 $M_1 = 0$ 為單曲率與雙曲率的分界，$C_b = 1.75$。若兩端等值反向（$M_1/M_2 = +1$，雙曲率）則 $C_b = 1.75+1.05+0.3 = 3.10 &gt; 2.3$ 取 2.3；若兩端等值同向（純均勻彎矩，$M_1/M_2 = -1$）則 $C_b = 1.75-1.05+0.3 = 1.0$。<strong>均勻彎矩是最不利情形（$C_b = 1.0$）</strong>，因為整段側撐長度內壓力翼板都承受最大壓應力。</p>
+<h3>斷面性質計算總表（供驗算）</h3>
+<table>
+<thead>
+<tr>
+<th>性質</th>
+<th>值</th>
+<th>單位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A$</td>
+<td>99.97</td>
+<td>cm²</td>
+</tr>
+<tr>
+<td>$I_x$</td>
+<td>25,831</td>
+<td>cm⁴</td>
+</tr>
+<tr>
+<td>$S_x$</td>
+<td>1271.8</td>
+<td>cm³</td>
+</tr>
+<tr>
+<td>$Z_x$</td>
+<td>1475.9</td>
+<td>cm³</td>
+</tr>
+<tr>
+<td>$I_y$</td>
+<td>1782.4</td>
+<td>cm⁴</td>
+</tr>
+<tr>
+<td>$r_y$</td>
+<td>4.222</td>
+<td>cm</td>
+</tr>
+<tr>
+<td>$J$</td>
+<td>53.75</td>
+<td>cm⁴</td>
+</tr>
+<tr>
+<td>$I_f$（單翼板）</td>
+<td>887.96</td>
+<td>cm⁴</td>
+</tr>
+<tr>
+<td>$C_W = I_fh^2/2$</td>
+<td>687,469</td>
+<td>cm⁶</td>
+</tr>
+<tr>
+<td>$M_p$</td>
+<td>3719.2</td>
+<td>tf·cm</td>
+</tr>
+<tr>
+<td>$M_r$</td>
+<td>1869.6</td>
+<td>tf·cm</td>
+</tr>
+<tr>
+<td>$X_1$</td>
+<td>170.1</td>
+<td>tf/cm²</td>
+</tr>
+<tr>
+<td>$X_2$</td>
+<td>1.224</td>
+<td>cm⁴/tf²</td>
+</tr>
+<tr>
+<td>$L_p$</td>
+<td>212.8</td>
+<td>cm</td>
+</tr>
+<tr>
+<td>$L_r$</td>
+<td>833.2</td>
+<td>cm</td>
+</tr>
+<tr>
+<td>$C_b$</td>
+<td>1.75</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>$M_n$</strong></td>
+<td><strong>3378</strong></td>
+<td><strong>tf·cm</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>6. 依最新規範（AISC 360-16／-22）對照</h2>
+<blockquote>
+<p><strong>主答依據</strong>：內政部「鋼構造建築物鋼結構設計技術規範」<strong>民國 99 年（2010）修正版</strong>（＝AISC LRFD 1993 體系，本卷第三頁公式表即為該體系）。以 AISC 360-16 為基礎之修訂版<strong>尚未發布</strong>，故僅列為對照。</p>
+</blockquote>
+<h3>6.1 本題是「規範改版會改變答案」的典型案例</h3>
+<p>AISC 360-05 起把 LTB 條文（§F2）全面改寫：廢除 $X_1$／$X_2$ 參數，改以 $r_{ts}$ 與 $J c/(S_x h_o)$ 表示；$M_r$ 由 $(F_y - F_r)S_x$ 改為固定的 $0.7F_yS_x$；$C_b$ 由三項式改為四點求積式。逐項對照：</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>台灣 2010／AISC LRFD 1993</th>
+<th>AISC 360-16 §F2</th>
+<th style="text-align: center;">本題數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_b$</td>
+<td>$1.75 + 1.05\frac{M_1}{M_2} + 0.3(\frac{M_1}{M_2})^2 \leq 2.3$</td>
+<td>$\dfrac{12.5M_{max}}{2.5M_{max}+3M_A+4M_B+3M_C} \leq 3.0$</td>
+<td style="text-align: center;"><strong>1.75 → 1.667</strong>（−4.8%）</td>
+</tr>
+<tr>
+<td>$L_p$</td>
+<td>$80r_y/\sqrt{F_y}$</td>
+<td>$1.76r_y\sqrt{E/F_y}$</td>
+<td style="text-align: center;">212.8 → <strong>214.5</strong> cm</td>
+</tr>
+<tr>
+<td>中間量</td>
+<td>$X_1 = \frac{\pi}{S_x}\sqrt{\frac{EGJA}{2}}$、$X_2 = \frac{4C_W}{I_y}(\frac{S_x}{GJ})^2$</td>
+<td>$r_{ts} = \sqrt{\frac{\sqrt{I_yC_W}}{S_x}}$、$\frac{Jc}{S_xh_o}$</td>
+<td style="text-align: center;">$X_1=170.1$、$X_2=1.224$ → $r_{ts}=5.246$ cm、$\frac{Jc}{S_xh_o}=0.001074$</td>
+</tr>
+<tr>
+<td>$M_r$（轉折彎矩）</td>
+<td>$(F_y-F_r)S_x = 1.47S_x$</td>
+<td>$0.7F_yS_x = 1.764S_x$</td>
+<td style="text-align: center;">1,869.6 → <strong>2,243.5</strong> tf·cm</td>
+</tr>
+<tr>
+<td>$L_r$</td>
+<td>見 Step 4</td>
+<td>$1.95r_{ts}\frac{E}{0.7F_y}\sqrt{\frac{Jc}{S_xh_o}+\sqrt{(\frac{Jc}{S_xh_o})^2+6.76(\frac{0.7F_y}{E})^2}}$</td>
+<td style="text-align: center;">833.2 → <strong>721.3</strong> cm</td>
+</tr>
+</tbody>
+</table>
+<p>$C_b$ 的四點求積式：本題彎矩由 A 端的 $M$ 線性遞減至 B 端的 0，四分點彎矩為 $M_A = 0.75M$、$M_B = 0.5M$、$M_C = 0.25M$：</p>
+<p>$$C_b = \frac{12.5M}{2.5M + 3(0.75M) + 4(0.5M) + 3(0.25M)} = \frac{12.5}{7.5} = 1.667$$</p>
+<h3>6.2 ⚠️ 分區翻轉：AISC 360-16 下本題變成「彈性」LTB</h3>
+<p>$$L_r^{AISC} = 721.3 \text{ cm} \ &lt; \ L_b = 812.8 \text{ cm} \quad \Rightarrow \quad \textbf{彈性 LTB}$$</p>
+<p>$$L_r^{TW} = 833.2 \text{ cm} \ &gt; \ L_b = 812.8 \text{ cm} \quad \Rightarrow \quad \textbf{非彈性 LTB}$$</p>
+<p><strong>同一根梁，兩個規範給出相反的答案。</strong> 這正是題目那句「確認此梁挫屈時是否在彈性範圍內」最值得注意的地方。</p>
+<p><img alt="SS-2011-3 圖 3：兩套規範的挫屈分區帶對照。上排為台灣 2010 規範（本卷公式表）：L_p = 212.8、L_r = 833.2 cm，L_b = 812.8 cm 落在非彈性區，C_b = 1.75、M_n = 3,378 tf·cm；下排為 AISC 360-16／-22 §F2：L_p = 214.5、L_r = 721.3 cm，同一個 L_b 落在彈性區，C_b = 1.667、M_n = 3,176 tf·cm。一條紅色虛線代表 L_b = 812.8 cm 貫穿兩排，顯示同一根梁在兩套規範下的分區相反" src="../../raw/solutions/SS-2011-3/figs/SS-2011-3-fig-3-code-flip.svg" /></p>
+<p><em>圖 3　把兩套規範的 $L_p$、$L_r$ 畫成同一條刻度上的分區帶，$L_b = 812.8$ cm 的紅線一貫到底：上排落在非彈性、下排落在彈性。$L_r$ 縮短 13.4% 的根源是轉折彎矩由 $(F_y-F_r)S_x$ 改為 $0.7F_yS_x$。<strong>攔錯：</strong>拿 AISC 360-16 的 $L_r$ 去配本卷的舊式 $X_1$／$X_2$ 公式（或反之），分區與答案都會錯。</em></p>
+<p>$L_r$ 縮短 13.4% 的主因是 $M_r$ 的定義改變：舊版 $M_r = (F_y - F_r)S_x$ 用題目給的 $F_r = 1.05$（＝$0.417F_y$），得 $M_r = 1.47S_x$；新版固定用 $0.7F_yS_x = 1.764S_x$，轉折彎矩<strong>提高 20%</strong>，於是曲線更早（更短的 $L_b$）就降到 $M_r$，$L_r$ 自然變小。</p>
+<h3>6.3 AISC 360-16 的 $M_n$</h3>
+<p>$$\frac{L_b}{r_{ts}} = \frac{812.8}{5.246} = 154.9$$</p>
+<p>$$F_{cr} = \frac{C_b\pi^2E}{(L_b/r_{ts})^2}\sqrt{1 + 0.078\frac{Jc}{S_xh_o}\left(\frac{L_b}{r_{ts}}\right)^2} = \frac{1.667\pi^2(2100)}{154.9^2}\sqrt{1+0.078(0.001074)(154.9^2)}$$</p>
+<p>$$= 1.4394 \times \sqrt{1+2.0100} = 1.4394 \times 1.7349 = 2.4972 \text{ tf/cm}^2 &lt; F_y = 2.52 \ \checkmark$$</p>
+<p>$$M_n = F_{cr}S_x = 2.4972 \times 1271.8 = \mathbf{3176 \text{ tf·cm}} \ (\leq M_p = 3719.2 \ \checkmark)$$</p>
+<p>$$\phi_b M_n = 0.9 \times 3176 = 2858 \text{ tf·cm}$$</p>
+<h3>6.4 對照結論</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>台灣 2010（主答）</th>
+<th>AISC 360-16／-22</th>
+<th style="text-align: center;">差異</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_b$</td>
+<td>1.75</td>
+<td>1.667</td>
+<td style="text-align: center;">−4.8%</td>
+</tr>
+<tr>
+<td>$L_p$</td>
+<td>212.8 cm</td>
+<td>214.5 cm</td>
+<td style="text-align: center;">+0.8%</td>
+</tr>
+<tr>
+<td>$L_r$</td>
+<td>833.2 cm</td>
+<td>721.3 cm</td>
+<td style="text-align: center;"><strong>−13.4%</strong></td>
+</tr>
+<tr>
+<td><strong>挫屈分區</strong></td>
+<td><strong>非彈性 LTB</strong></td>
+<td><strong>彈性 LTB</strong></td>
+<td style="text-align: center;"><strong>⚠️ 翻轉</strong></td>
+</tr>
+<tr>
+<td>$M_n$</td>
+<td><strong>3378 tf·cm</strong></td>
+<td><strong>3176 tf·cm</strong></td>
+<td style="text-align: center;"><strong>−6.0%</strong></td>
+</tr>
+<tr>
+<td>$\phi_bM_n$</td>
+<td>3040 tf·cm</td>
+<td>2858 tf·cm</td>
+<td style="text-align: center;">−6.0%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>作答建議</strong>：本卷第三頁已把 $X_1$、$X_2$、$L_p$、$L_r$、$C_b$、$C_W$ 的舊式公式全部印出，且卷首要求依 2010 規範作答，故<strong>主答必須用舊式，答「非彈性」</strong>。若要展現對新規範的掌握，可在答案末尾以三、五行補述「若依 AISC 360-16，$L_r$ 縮為 721 cm，本梁改屬彈性 LTB，$M_n$ 降至 3176 tf·cm」，屬加分而非替代。</p>
+<hr />
+<p><em>修正日期：2026-08-22（勘誤：$C_W$ 依本卷公式表改用 $I_fh^2/2 = 687{,}469$ cm⁶（原用近似式 689,693，高估 0.37%）；連帶 $X_2$ 1.230→</em><em>1.224</em><em>、$L_r$ 833.5→</em><em>833.2</em><em>、$M_n$ 3382→</em><em>3378</em><em> tf·cm；$A$／$I_x$／$S_x$／$Z_x$／$M_p$／$M_r$ 精度修正；新增彈性－非彈性連續性交叉驗算、$C_b$ 端彎矩討論、§6 最新規範對照（含 AISC 360-16 下</em><em>挫屈分區翻轉為彈性</em><em>之重要發現））</em><br />
+<em>圖解補繪：2026-08-29（向量圖，腳本 <code>gen_SS-2011-3.py</code>，可重跑）</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2011-3/SS-2011-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>

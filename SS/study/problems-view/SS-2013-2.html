@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-2013-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --bg:#f7f9fb; --card:#fff; --ink:#263238; --mut:#607d8b; --bd:#dfe6ea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .back:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1}
+h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+h3{font-size:1.05em;margin:22px 0 8px}
+p{margin:9px 0}
+hr{border:none;border-top:1px solid var(--bd);margin:22px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+em{color:var(--mut)}
+strong{color:#1b2a33}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS-2013-2 題目解析</h1>
+  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+</header>
+<main>
+<h1>考題編號：SS-2013-2</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件（壓力桿件·框架穩定）<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> LRFD（本題實際為<strong>彈性穩定分析</strong>，不含 $\phi$ 折減；索引沿用 LRFD）<br />
+<strong>標籤：</strong> <code>有效長度係數</code> <code>對位圖</code> <code>LeMessurier公式</code> <code>側移框架</code> <code>層間穩定</code> <code>彈性挫屈</code> <code>剛架</code> <code>靠桿</code> <code>leaning column</code> <code>挫屈載重</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>如圖 2 所示之剛架承受均佈載重 $w$，<strong>柱 CD 為「靠桿」（leaning column）</strong>。已知：</p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>彈性模數 $E$</td>
+<td>2,040 tf/cm²</td>
+</tr>
+<tr>
+<td>梁、柱長度 $L$</td>
+<td>6 m = 600 cm</td>
+</tr>
+<tr>
+<td>柱慣性矩 $I_c$</td>
+<td>30,094 cm⁴</td>
+</tr>
+<tr>
+<td>梁慣性矩 $I_b$</td>
+<td>136,108 cm⁴</td>
+</tr>
+<tr>
+<td>邊界條件 G 值</td>
+<td>柱邊界為固接時 $G = 1$；為鉸接時 $G = 10$</td>
+</tr>
+<tr>
+<td>堆置材料單位重 $\rho$</td>
+<td>240 tf/m²</td>
+</tr>
+</tbody>
+</table>
+<p>試使用 <strong>AISC Alignment Chart</strong> 及<strong>萊梅厥公式（LeMessurier formula）</strong>求：</p>
+<ol>
+<li>剛架中柱 AB 之有效長度係數 $K'_{AB}$</li>
+<li>挫屈載重 $w_{cr}$（tf/m）</li>
+<li>今若僅於梁 BC 上配置單位重 $\rho = 240$ tf/m² 之均佈載重，求該載重容許配置的厚度 $d$（m）</li>
+</ol>
+<p>（25 分）</p>
+<p><strong>考卷給定之萊梅厥公式：</strong></p>
+<p>$$K' = \sqrt{\frac{P_e}{P_I} \times \frac{\sum P}{\sum P_{eK}}}$$</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">考卷原文定義</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$P_I$</td>
+<td style="text-align: left;">欲求 $K$ 值之柱所受的垂直載重</td>
+</tr>
+<tr>
+<td style="text-align: center;">$P_e$</td>
+<td style="text-align: left;">柱之尤拉載重（Euler buckling load），即 $\pi^2EI/L^2$（<strong>用實際長度，$K=1$</strong>）</td>
+</tr>
+<tr>
+<td style="text-align: center;">$\sum P$</td>
+<td style="text-align: left;">整體結構承受的總垂直外載重</td>
+</tr>
+<tr>
+<td style="text-align: center;">$\sum P_{eK}$</td>
+<td style="text-align: left;">整體結構所有<strong>非靠桿</strong>且考慮相應有效長度係數後之柱挫屈載重</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="SS-2013-2 題目附圖：單層門型剛架，柱 AB 底端 A 為鉸支承、頂端 B 與梁 BC 剛接；柱 CD 底端 D 為鉸支承、頂端 C 與梁 BC 以鉸接（圖上畫小圓圈）連接，故 CD 兩端皆鉸為靠桿；梁 BC 承受向下均佈載重 w；右側附 AISC 對位圖兩張（左為「側位移束制」K=0.5~1.0，右為「側位移不束制」K=1.0~20.0）" src="../../raw/solutions/SS-2013-2/SS-2013-2-fig-1.png" /></p>
+<p><em>圖說：跨度 $L$ ×柱高 $L$ 之單層門型剛架。</em><em>A 與 D 皆為鉸支承（三角形符號）</em><em>；</em><em>B 為剛接節點</em><em>（梁柱剛性連接）；</em><em>C 為鉸接</em><em>（圖上以小圓圈標示梁 BC 與柱 CD 之間為鉸），因此柱 CD 上下兩端皆為鉸接、無法提供任何側向抵抗，即題目所稱之「靠桿（leaning column）」。梁 BC 頂部承受向下均佈載重 $w$。圖右為 AISC Alignment Chart 兩張：左圖標題「側位移束制」（$G_A$ 0～50、$K$ 0.5～1.0、$G_B$ 0～50），右圖標題「側位移不束制」（$G_A$ 0～100、$K$ 1.0～20.0、$G_B$ 0～100）。本題整層可側移，且僅 AB 具側向抵抗能力，故</em><em>查右圖（側位移不束制）</em><em>。</em></p><p><img alt="SS-2013-2 圖 2：左格為題目圖 2 的向量重繪——單層門型剛架，柱 AB 底端 A 與柱 CD 底端 D 皆為鉸支承，節點 B 為剛接（實心點）、節點 C 為鉸接（空心圓圈），梁 BC 承受向下均佈載重 w，L = 600 cm，G_A = 10、G_B = I_c/I_b = 0.221；右格為側移挫屈模態——柱 AB 以單曲率彎曲（A 端 M = 0）並提供整層唯一的側向勁度，柱 CD 全程保持直線（M = 0）、只隨側移剛體傾斜，故 ΣP 含兩根柱（= wL）而 ΣP_eK 只含 AB（= 575.6 tf）" src="../../raw/solutions/SS-2013-2/figs/SS-2013-2-fig-2-leaning-column.svg" /></p>
+<p><em>圖 2　把「靠桿」畫出來：CD 兩端皆鉸 ⇒ 二力構件 ⇒ 挫屈時保持直線、零側向勁度。圖上 AB 的彎曲程度由 §1 給定的 $I_c$、$I_b$ 以傾角變位法算出（$\theta_B = \psi\,I_c/(I_c+I_b)$），改變 $I_c/I_b$ 圖形會跟著變。<strong>攔錯：</strong>把 CD 讀成「底端鉸接的一般柱」而去查它的 $K_{CD}$，使 $\sum P_{eK}$ 多算一根。</em></p>
+
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：靠桿（leaning column）把自己的重力載重「寄生」到有側向抵抗能力的柱上，必須用 LeMessurier 修正 $K$ 值。</strong></p>
+<p>一般對位圖（Alignment Chart）內含一個隱藏假設：<strong>同層所有柱同時達到挫屈、且每根柱都按比例分攤側移抵抗</strong>。當層內有靠桿（兩端鉸接、不提供側移勁度）時，這個假設破裂——靠桿的重力照樣會放大整層的 $P\text{-}\Delta$ 效應，但抵抗全靠 AB 一根。LeMessurier 公式就是把「別人的重量」折算成 AB 的額外有效長度：</p>
+<p>$$K'<em AB="AB">{AB} = \underbrace{K</em>}<em _text_靠桿懲罰="\text{靠桿懲罰">{\text{對位圖}} \times \sqrt{\underbrace{\frac{\sum P}{P_I}}</em>$$}}</p>
+<table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>計算項目</th>
+<th>關鍵要領</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>判讀 A、D 支承與 C 鉸接</td>
+<td>A、D 皆鉸 → $G_A = 10$；C 為鉸 → CD 為靠桿</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$G_B = \sum(I_c/L_c)/\sum(I_b/L_b)$</td>
+<td>同長度時即 $I_c/I_b$</td>
+</tr>
+<tr>
+<td>3</td>
+<td>查<strong>側位移不束制</strong>對位圖</td>
+<td>得 $K_{AB}$</td>
+</tr>
+<tr>
+<td>4</td>
+<td>靜力求各柱軸力</td>
+<td>CD 為二力構件 → $P_{CD} = wL/2$，故 $P_{AB} = wL/2$</td>
+</tr>
+<tr>
+<td>5</td>
+<td>LeMessurier</td>
+<td>$\sum P_{eK}$ <strong>只計 AB</strong>（CD 是靠桿要剔除）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>$w_{cr} \to d$</td>
+<td>$d = w_{cr}/\rho$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>出題者測驗重點：</strong></p>
+<ol>
+<li>認得「靠桿」三個字 → 知道 $\sum P_{eK}$ 要把 CD 剔除，而 $\sum P$ 要把 CD 的載重算進去</li>
+<li>會用考卷給的 LeMessurier 公式（不是自己編一條 $\sum P = \sum P_e$）</li>
+<li>由靜力（不是「各分一半」的直覺）確認 $P_{AB} = P_{CD} = wL/2$</li>
+<li>單位換算：$w_{cr}$ 為 tf/m，最後 $d = w_{cr}/\rho$</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1  判讀邊界：A 鉸、D 鉸、B 剛接、C 鉸 → CD 為靠桿
+Step 2  G_A = 10（A 鉸接）、G_B = Ic/Ib = 0.221
+Step 3  查「側位移不束制」對位圖 → K_AB ≈ 1.71
+Step 4  Pe = π²EIc/L²（K=1）；PeK,AB = Pe/K_AB²
+Step 5  靜力：CD 為二力構件 → P_CD = wL/2 → P_AB = wL/2，ΣP = wL
+Step 6  LeMessurier：K' = √[(Pe/P_I)(ΣP/ΣPeK)]，ΣPeK 只含 AB
+Step 7  P_I = π²EIc/(K'L)² → 解 w_cr → d = w_cr/ρ
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<blockquote>
+<p>⚠️ <strong>陷阱 1（本題最致命）：「靠桿」不是「鉸接柱」</strong><br />
+「靠桿（leaning column）」＝<strong>上下兩端皆鉸</strong>、只能承重不能抗側移的柱。<br />
+若把 CD 誤讀成「底端鉸接的一般柱」而去查它自己的 $K_{CD}$，並寫成<br />
+$w_{cr}L = P_{eK,AB} + P_{eK,CD}$，會把 $w_{cr}$ 高估 2～3 倍（詳見 §5.1）。<br />
+判別要訣：看圖上 C 點有沒有畫<strong>小圓圈</strong>（鉸）。有圓圈 → 梁無法拘束 CD 頂端轉動 → 靠桿。</p>
+<p>⚠️ <strong>陷阱 2：$\sum P$ 與 $\sum P_{eK}$ 的「不對稱」</strong><br />
+$\sum P$（要抵抗的力）＝<strong>全部</strong>柱的垂直載重（含靠桿）；<br />
+$\sum P_{eK}$（可用的容量）＝<strong>只有非靠桿</strong>柱的挫屈載重。<br />
+這個「載重算你的、容量不算你的」正是靠桿的懲罰機制，也是本公式的靈魂。</p>
+<p>⚠️ <strong>陷阱 3：對位圖用哪一張</strong><br />
+本題整層可自由側移（A、D 皆鉸、無斜撐）→ 查<strong>側位移不束制</strong>（右圖，$K \ge 1.0$）。<br />
+誤查左圖（側位移束制，$K \le 1.0$）會嚴重低估 $K$、高估承載力。</p>
+<p>⚠️ <strong>陷阱 4：$P_e$ 用 $K=1$，不是用 $K_{AB}$</strong><br />
+考卷定義 $P_e$ 為「柱之尤拉載重」＝ $\pi^2EI/L^2$。分子用 $P_e$、分母用 $\sum P_{eK}$（含 $K$），<br />
+兩者相除才會生出 $K_{AB}^2$。若分子也代 $K_{AB}$，$K'$ 會退化成 $\sqrt{2}$，喪失對位圖資訊。</p>
+<p>⚠️ <strong>陷阱 5：$d$ 的量綱</strong><br />
+$\rho = 240$ tf/m² 為「每 m² 每 m 厚」的面載重密度，$w = \rho \cdot d$ 得 tf/m，<br />
+故 $d[\text{m}] = w_{cr}[\text{tf/m}] / \rho[\text{tf/m}^2]$，不需再乘梁寬。</p>
+</blockquote>
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 含靠桿之側移剛架 → 對位圖 $K_{AB}$ → LeMessurier 修正 $K'<em cr="cr">{AB}$ → 挫屈載重 $w</em>$ → 容許堆置厚度 $d$</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\text{Step 1:}\quad G_A = 10\ (\text{A 鉸接}),\qquad \boxed{G_B} = \frac{\sum (I_c/L_c)}{\sum (I_b/L_b)} = \frac{I_c}{I_b}$$</p>
+<p>$$\text{Step 2:}\quad \boxed{K_{AB}} \;\Leftarrow\; \text{側位移不束制對位圖}\left(G_A,\ \boxed{G_B}\right)$$</p>
+<p>$$\text{Step 3:}\quad P_e = \frac{\pi^2 E I_c}{L^2},\qquad \boxed{P_{eK,AB}} = \frac{P_e}{\boxed{K_{AB}}^{\,2}}$$</p>
+<p>$$\text{Step 4:}\quad \sum M_A = 0 \;\Rightarrow\; \boxed{P_{CD}} = \frac{wL}{2},\qquad P_I = P_{AB} = \frac{wL}{2},\qquad \sum P = wL$$</p>
+<p>$$\text{Step 5:}\quad \boxed{K'<em eK="eK">{AB}} = \sqrt{\frac{P_e}{P_I} \times \frac{\sum P}{\sum P</em>\right)$$}}} = \boxed{K_{AB}}\sqrt{\frac{\sum P}{P_I}}\quad\left(\sum P_{eK} = \boxed{P_{eK,AB}}\ \text{only</p>
+<p>$$\text{Step 6:}\quad P_I = \frac{\pi^2 E I_c}{\left(\boxed{K'<em cr="cr">{AB}}L\right)^2} = \frac{w</em>$$}L}{2} \;\Rightarrow\; \boxed{w_{cr}</p>
+<p>$$\text{Step 7:}\quad \boxed{d} = \frac{\boxed{w_{cr}}}{\rho}$$</p>
+<h3>L1：題目直接給定</h3>
+<p><em>看到題目就能讀出的數字，不需要任何公式。</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">數值</th>
+<th style="text-align: left;">說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$E$</td>
+<td style="text-align: left;">2,040 tf/cm²</td>
+<td style="text-align: left;">梁、柱共用彈性模數</td>
+</tr>
+<tr>
+<td style="text-align: center;">$L$</td>
+<td style="text-align: left;">600 cm（= 6 m）</td>
+<td style="text-align: left;">梁跨度＝柱高</td>
+</tr>
+<tr>
+<td style="text-align: center;">$I_c$</td>
+<td style="text-align: left;">30,094 cm⁴</td>
+<td style="text-align: left;">柱慣性矩（AB、CD 相同）</td>
+</tr>
+<tr>
+<td style="text-align: center;">$I_b$</td>
+<td style="text-align: left;">136,108 cm⁴</td>
+<td style="text-align: left;">梁慣性矩</td>
+</tr>
+<tr>
+<td style="text-align: center;">$G$（固接端）</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">題目指定（非理論值 0）</td>
+</tr>
+<tr>
+<td style="text-align: center;">$G$（鉸接端）</td>
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">題目指定（非理論值 $\infty$）</td>
+</tr>
+<tr>
+<td style="text-align: center;">$\rho$</td>
+<td style="text-align: left;">240 tf/m²</td>
+<td style="text-align: left;">堆置材料單位重</td>
+</tr>
+<tr>
+<td style="text-align: center;">A、D</td>
+<td style="text-align: left;">鉸支承</td>
+<td style="text-align: left;">由圖判讀（三角形符號）</td>
+</tr>
+<tr>
+<td style="text-align: center;">B</td>
+<td style="text-align: left;">剛接節點</td>
+<td style="text-align: left;">梁柱剛性連接</td>
+</tr>
+<tr>
+<td style="text-align: center;">C</td>
+<td style="text-align: left;">鉸接</td>
+<td style="text-align: left;">圖上小圓圈 → CD 為靠桿</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><em>需要知道公式名稱與適用條件，套入 L1 即可算出。</em></p>
+<p><strong>第一階段：對位圖求 $K_{AB}$</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$G_A$</td>
+<td style="text-align: left;">A 為鉸接 → 題目規定用 10</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$G_B$</td>
+<td style="text-align: left;">$\dfrac{I_c/L}{I_b/L} = \dfrac{30{,}094}{136{,}108} = 0.221$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$K_{AB}$</td>
+<td style="text-align: left;">側位移不束制圖（$G_A=10$、$G_B=0.221$）$\approx 1.71$</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>第二階段：柱之挫屈載重</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$\pi^2 E I_c$</td>
+<td style="text-align: left;">$9.8696 \times 2040 \times 30{,}094 = 6.059 \times 10^8$ tf·cm²</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$P_e$</td>
+<td style="text-align: left;">$\pi^2EI_c/L^2 = 1{,}683$ tf（$K=1$ 之尤拉載重）</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$P_{eK,AB}$</td>
+<td style="text-align: left;">$P_e/K_{AB}^2 = 1683/1.71^2 = 575.6$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$\sum P_{eK}$</td>
+<td style="text-align: left;">$= P_{eK,AB} = 575.6$ tf（CD 為靠桿，<strong>不計入</strong>）</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>第三階段：靜力求軸力</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$P_{CD}$</td>
+<td style="text-align: left;">CD 兩端鉸＋無橫載 → 二力構件；$\sum M_A = 0$：$wL\cdot\frac{L}{2} - P_{CD}L = 0 \Rightarrow \frac{wL}{2}$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$P_I = P_{AB}$</td>
+<td style="text-align: left;">$wL - P_{CD} = \dfrac{wL}{2}$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$\sum P$</td>
+<td style="text-align: left;">$wL$（含靠桿載重）</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$\sum P / P_I$</td>
+<td style="text-align: left;">$= 2$（與 $w$ 無關，純幾何比）</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>第四階段：LeMessurier 與挫屈載重</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">符號</th>
+<th style="text-align: left;">公式／來源</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$K'_{AB}$</td>
+<td style="text-align: left;">$\sqrt{(P_e/P_I)(\sum P/\sum P_{eK})} = K_{AB}\sqrt{2} = 2.42$</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$P_{cr,AB}$</td>
+<td style="text-align: left;">$\pi^2EI_c/(K'_{AB}L)^2 = 1683/2.42^2 = 287.9$ tf</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$w_{cr}$</td>
+<td style="text-align: left;">$2P_{cr,AB}/L_{beam} = 2(287.9)/6 = 96.0$ tf/m</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">$d$</td>
+<td style="text-align: left;">$w_{cr}/\rho = 96.0/240 = 0.40$ m</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">知識點</th>
+<th style="text-align: left;">說明</th>
+<th style="text-align: center;">補強頁</th>
+<th style="text-align: left;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">靠桿（leaning column）的定義</td>
+<td style="text-align: left;">上下兩端皆鉸接之柱：可承重、零側向勁度；其重力仍放大整層 $P\text{-}\Delta$，抵抗全由非靠桿柱承擔</td>
+<td style="text-align: center;">[[effective-length-chart]] · [[FRAME-STABILITY-ADVANCED]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">LeMessurier 公式的物理意義</td>
+<td style="text-align: left;">$K' = K\sqrt{\sum P / P_I}$：把「別人（含靠桿）的重量」折算成本柱的額外有效長度</td>
+<td style="text-align: center;">[[effective-length-chart]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">$\sum P$ 含靠桿、$\sum P_{eK}$ 不含靠桿</td>
+<td style="text-align: left;">載重算全部、容量只算能抗側移者——這個不對稱就是靠桿的懲罰</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">對位圖的隱藏假設</td>
+<td style="text-align: left;">對位圖假設同層各柱同時挫屈且按比例分攤側移抵抗；有靠桿時假設破裂，必須修正</td>
+<td style="text-align: center;">[[effective-length-chart]] · [[P-DELTA-EFFECT]]</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">二力構件判定</td>
+<td style="text-align: left;">CD 兩端鉸接且無橫向載重 → 只能沿軸線傳力（$D_x = 0$），因此「柱 AB＋梁 BC」自由體靜定可解</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">靠桿本身的檢核用 $K = 1.0$</td>
+<td style="text-align: left;">靠桿不承擔側移抵抗，其自身強度以 $K=1.0$ 檢核即可（本題 $P_{e,CD}=1683 \gg 288$ tf，OK）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>一、邊界條件判讀（本題的分數所在）</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">位置</th>
+<th style="text-align: left;">圖上符號</th>
+<th style="text-align: left;">判定</th>
+<th style="text-align: left;">對後續的影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">A（柱 AB 底端）</td>
+<td style="text-align: left;">三角形鉸支承</td>
+<td style="text-align: left;"><strong>鉸接</strong></td>
+<td style="text-align: left;">$G_A = 10$</td>
+</tr>
+<tr>
+<td style="text-align: center;">B（柱 AB 頂端）</td>
+<td style="text-align: left;">梁柱交會、無圓圈</td>
+<td style="text-align: left;"><strong>剛接</strong></td>
+<td style="text-align: left;">$G_B$ 由勁度比計算</td>
+</tr>
+<tr>
+<td style="text-align: center;">C（柱 CD 頂端）</td>
+<td style="text-align: left;"><strong>小圓圈</strong></td>
+<td style="text-align: left;"><strong>鉸接</strong></td>
+<td style="text-align: left;">梁不拘束 CD 轉動</td>
+</tr>
+<tr>
+<td style="text-align: center;">D（柱 CD 底端）</td>
+<td style="text-align: left;">三角形鉸支承</td>
+<td style="text-align: left;"><strong>鉸接</strong></td>
+<td style="text-align: left;">CD 兩端皆鉸</td>
+</tr>
+</tbody>
+</table>
+<p>$\Rightarrow$ 柱 CD 上下皆鉸 $\Rightarrow$ <strong>靠桿（leaning column）</strong>，與題目文字「柱 CD 為靠桿」一致。<br />
+$\Rightarrow$ 整層側向抵抗<strong>只有柱 AB</strong>（透過 B 點剛接與梁 BC 的彎曲勁度）。</p>
+<hr />
+<h3>二、計算 G 值</h3>
+<p><strong>節點 B：</strong></p>
+<p>$$G_B = \frac{\sum (I_c / L_c)}{\sum (I_b / L_b)} = \frac{30{,}094/600}{136{,}108/600} = \frac{30{,}094}{136{,}108} = \boxed{0.221}$$</p>
+<p><strong>支承 A（鉸接，依題目規定取 10）：</strong></p>
+<p>$$G_A = 10$$</p>
+<hr />
+<h3>三、由 AISC Alignment Chart 查有效長度係數</h3>
+<p>整層可側移 $\Rightarrow$ 使用<strong>側位移不束制（sidesway uninhibited）</strong>對位圖：</p>
+<p>$$G_A = 10,\quad G_B = 0.221 \quad \Longrightarrow \quad \boxed{K_{AB} \approx 1.71}$$</p>
+<p><em>（Jackson–Moreland 近似式驗算）</em></p>
+<p>$$K_{AB} = \sqrt{\frac{1.6G_AG_B + 4(G_A+G_B) + 7.5}{G_A+G_B+7.5}} = \sqrt{\frac{1.6(10)(0.221)+4(10.221)+7.5}{10.221+7.5}}$$</p>
+<p>$$= \sqrt{\frac{3.54+40.88+7.50}{17.72}} = \sqrt{2.930} = 1.712 \approx 1.71 \ \checkmark$$</p>
+<p><em>（精解超越方程式 $\dfrac{G_AG_B(\pi/K)^2-36}{6(G_A+G_B)} = \dfrac{\pi/K}{\tan(\pi/K)}$ 得 $K = 1.724$，與查圖值相符。）</em></p>
+<blockquote>
+<p><strong>策略註解：</strong> 此處 $K_{AB} = 1.71$ 只是「AB 自己一根、按比例分攤」的答案。它還<strong>沒有</strong>包含靠桿 CD 把重量壓過來的效應——那是下一步 LeMessurier 的工作。</p>
+</blockquote>
+<hr />
+<h3>四、各柱之尤拉載重與挫屈載重</h3>
+<p>共用量：</p>
+<p>$$\pi^2 E I_c = 9.8696 \times 2040 \times 30{,}094 = 6.059 \times 10^8 \ \text{tf·cm}^2$$</p>
+<p><strong>尤拉載重（$K = 1$，考卷定義之 $P_e$）：</strong></p>
+<p>$$P_e = \frac{\pi^2 E I_c}{L^2} = \frac{6.059 \times 10^8}{600^2} = \frac{6.059 \times 10^8}{360{,}000} = \boxed{1{,}683 \ \text{tf}}$$</p>
+<p><strong>柱 AB（非靠桿）考慮 $K_{AB}$ 後之挫屈載重：</strong></p>
+<p>$$P_{eK,AB} = \frac{\pi^2 E I_c}{(K_{AB}L)^2} = \frac{P_e}{K_{AB}^2} = \frac{1{,}683}{1.71^2} = \frac{1{,}683}{2.924} = \boxed{575.6 \ \text{tf}}$$</p>
+<p><strong>$\sum P_{eK}$（僅計非靠桿柱）：</strong></p>
+<p>$$\sum P_{eK} = P_{eK,AB} = 575.6 \ \text{tf}$$</p>
+<blockquote>
+<p>⚠️ 柱 CD 是靠桿，依考卷對 $\sum P_{eK}$ 的定義（「所有<strong>非靠桿</strong>且考慮相應有效長度係數後之柱挫屈載重」），<strong>不得</strong>加入 $P_{eK,CD}$。</p>
+</blockquote>
+<hr />
+<h3>五、靜力求各柱垂直載重</h3>
+<p>柱 CD 兩端鉸接、桿上無橫向載重 $\Rightarrow$ <strong>二力構件</strong>，只能沿桿軸（垂直）傳力，故 $D_x = 0$。</p>
+<p>取「柱 AB＋梁 BC」為自由體（A 為鉸，未知 $A_x$、$A_y$、$P_{CD}$，共 3 個未知量，靜定）：</p>
+<p>$$\sum M_A = 0:\quad (wL)\cdot\frac{L}{2} - P_{CD}\cdot L = 0 \quad \Longrightarrow \quad P_{CD} = \frac{wL}{2}$$</p>
+<p>$$\sum F_y = 0:\quad P_{AB} = wL - P_{CD} = \frac{wL}{2}$$</p>
+<p>因此：</p>
+<p>$$P_I = P_{AB} = \frac{wL}{2},\qquad \sum P = P_{AB} + P_{CD} = wL,\qquad \boxed{\frac{\sum P}{P_I} = 2}$$</p>
+<blockquote>
+<p><strong>策略註解：</strong> $\sum P / P_I = 2$ 與 $w$ 無關（純幾何比），所以 $K'$ 可以在還不知道 $w$ 的情況下先算出來——這是本題能「先求 $K'$ 再求 $w_{cr}$」的關鍵。</p>
+</blockquote>
+<hr />
+<h3>六、（一）萊梅厥公式求 $K'_{AB}$</h3>
+<p>$$K'<em eK="eK">{AB} = \sqrt{\frac{P_e}{P_I} \times \frac{\sum P}{\sum P</em>$$}}} = \sqrt{\frac{P_e}{\sum P_{eK}} \times \frac{\sum P}{P_I}} = \sqrt{K_{AB}^2 \times 2}= K_{AB}\sqrt{2</p>
+<p>$$= \sqrt{\frac{1{,}683}{575.6} \times 2} = \sqrt{2.924 \times 2} = \sqrt{5.848}$$</p>
+<p>$$\boxed{K'_{AB} = 2.42}$$</p>
+<blockquote>
+<p><strong>物理解讀：</strong> 對位圖給 1.71，LeMessurier 把它放大 $\sqrt{2} = 1.414$ 倍到 2.42。<br />
+根號裡那個「2」就是「AB 自己 1 份重量 ＋ 靠桿 CD 塞給它 1 份重量」。</p>
+</blockquote>
+<hr />
+<h3>七、（二）挫屈載重 $w_{cr}$</h3>
+<p>以 $K'_{AB}$ 檢核柱 AB：</p>
+<p>$$P_{cr,AB} = \frac{\pi^2 E I_c}{(K'_{AB}L)^2} = \frac{1{,}683}{2.42^2} = \frac{1{,}683}{5.856} = 287.4 \ \text{tf}$$</p>
+<p>（不四捨五入 $K'$ 而直接用 $P_{eK,AB}/(\sum P/P_I) = 575.6/2$ 得 $287.8$ tf；以下取 $287.9$ tf。）</p>
+<p>令 $P_{AB} = P_{cr,AB}$：</p>
+<p>$$\frac{w_{cr}L_{beam}}{2} = 287.9 \ \text{tf}, \qquad L_{beam} = 6 \ \text{m}$$</p>
+<p>$$\boxed{w_{cr} = \frac{2 \times 287.9}{6} = 95.96 \approx 96.0 \ \text{tf/m}}$$</p>
+<p><strong>獨立驗算（層穩定觀點）：</strong> $K'$ 的定義本身就等價於「整層總垂直載重不得超過非靠桿柱之挫屈容量總和」：</p>
+<p>$$\sum P \le \sum P_{eK} \;\Rightarrow\; w_{cr}L_{beam} \le 575.6 \ \text{tf} \;\Rightarrow\; w_{cr} = \frac{575.6}{6} = 95.9 \ \text{tf/m} \ \checkmark$$</p>
+<p>兩條路徑吻合（差異僅來自 $K'$ 的四捨五入），確認 $K'$ 用法正確。</p>
+<hr />
+<h3>八、（三）容許配置厚度 $d$</h3>
+<p>堆置材料單位重 $\rho = 240$ tf/m²，堆厚 $d$（m）在梁上產生之線載重：</p>
+<p>$$w = \rho \cdot d \quad [\text{tf/m}]$$</p>
+<p>令 $w = w_{cr}$：</p>
+<p>$$240\,d = 95.96 \quad \Longrightarrow \quad \boxed{d = \frac{95.96}{240} = 0.400 \ \text{m} \approx 40 \ \text{cm}}$$</p>
+<hr />
+<h3>九、結果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>求解項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$G_A$（A 鉸接）</td>
+<td>10</td>
+</tr>
+<tr>
+<td>$G_B$</td>
+<td>0.221</td>
+</tr>
+<tr>
+<td>$K_{AB}$（側位移不束制對位圖）</td>
+<td>1.71</td>
+</tr>
+<tr>
+<td>$P_e$（$K=1$ 尤拉載重）</td>
+<td>1,683 tf</td>
+</tr>
+<tr>
+<td>$P_{eK,AB}$</td>
+<td>575.6 tf</td>
+</tr>
+<tr>
+<td>$\sum P_{eK}$（僅 AB，剔除靠桿 CD）</td>
+<td>575.6 tf</td>
+</tr>
+<tr>
+<td>$\sum P / P_I$</td>
+<td>2</td>
+</tr>
+<tr>
+<td><strong>$K'_{AB}$（LeMessurier）</strong></td>
+<td><strong>2.42</strong></td>
+</tr>
+<tr>
+<td>$P_{cr,AB}$</td>
+<td>287.9 tf</td>
+</tr>
+<tr>
+<td><strong>$w_{cr}$</strong></td>
+<td><strong>96.0 tf/m</strong></td>
+</tr>
+<tr>
+<td><strong>$d$</strong></td>
+<td><strong>0.40 m</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>靠桿 CD 自身檢核：</strong> $P_{CD} = 287.9$ tf $&lt; P_{e,CD}(K=1.0) = 1{,}683$ tf ✓（靠桿不負擔側移抵抗，以 $K = 1.0$ 檢核）</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>5.1 若把 CD 誤當成一般柱：高估 2 倍以上</h3>
+<p>這是本題最常見的錯法，值得完整寫下來當反例：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">步驟</th>
+<th style="text-align: left;">誤解法（CD 視為「底端鉸接的一般柱」）</th>
+<th style="text-align: left;">正解（CD 為靠桿）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">$K_{CD}$</td>
+<td style="text-align: left;">查圖 $G_C = 0.221$、$G_D = 10$ → 1.71</td>
+<td style="text-align: left;">不查（靠桿無 $K$ 可查）</td>
+</tr>
+<tr>
+<td style="text-align: left;">$\sum P_{eK}$</td>
+<td style="text-align: left;">$575.6 + 575.6 = 1{,}151$ tf</td>
+<td style="text-align: left;">$575.6$ tf（只有 AB）</td>
+</tr>
+<tr>
+<td style="text-align: left;">穩定條件</td>
+<td style="text-align: left;">$w_{cr}L = \sum P_{eK}$</td>
+<td style="text-align: left;">$K' = K\sqrt{\sum P/P_I}$，$P_I = \pi^2EI_c/(K'L)^2$</td>
+</tr>
+<tr>
+<td style="text-align: left;">$w_{cr}$</td>
+<td style="text-align: left;">$1{,}151/6 = 192$ tf/m</td>
+<td style="text-align: left;"><strong>96.0 tf/m</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">$d$</td>
+<td style="text-align: left;">0.80 m</td>
+<td style="text-align: left;"><strong>0.40 m</strong></td>
+</tr>
+</tbody>
+</table>
+<p>若更進一步把 $G_A$ 也誤取 1（誤判 A 為固接），$K_{AB}$ 掉到 1.21、$P_{eK,AB}$ 升到 1,150 tf，$w_{cr}$ 會衝到約 287 tf/m，<strong>高估約 3 倍</strong>。</p><p><img alt="SS-2013-2 圖 3：四種讀法之挫屈載重 w_cr 長條比較。誤判②（CD 當一般柱且 A 誤判為固接）287 tf/m（100%）、誤判①（CD 當一般柱）192 tf/m（67%，d = 0.80 m）、正解（CD 為靠桿）96.0 tf/m（33%，d = 0.40 m）、§5.5 梁遠端鉸接勁度折減 89.3 tf/m（31%，d = 0.37 m）；每列左側附該讀法對應的側移模態迷你示意圖，差別只在柱 CD 彎或不彎" src="../../raw/solutions/SS-2013-2/figs/SS-2013-2-fig-3-magnitude.svg" /></p>
+<p><em>圖 3　同一個結構、四種讀法的挫屈載重量級。<strong>攔錯：</strong>算出 $w_{cr}$ 落在 190～290 tf/m 卻沒察覺——那正是把靠桿的容量也算進 $\sum P_{eK}$ 的徵兆；正解只有 96.0 tf/m。</em></p>
+
+<p><strong>錯在哪：</strong> C 點是鉸，梁 BC 對柱 CD 頂端的轉動<strong>沒有任何拘束</strong>，$G_C$ 根本無意義；CD 挫屈時只會隨 AB 一起平移（剛體傾斜），不會自己彎曲。它對整層穩定的貢獻是<strong>負的</strong>（送重量、不送勁度）。</p>
+<h3>5.2 LeMessurier 公式的兩種等價寫法</h3>
+<p>考卷給的形式：</p>
+<p>$$K' = \sqrt{\frac{P_e}{P_I}\cdot\frac{\sum P}{\sum P_{eK}}}$$</p>
+<p>代入 $P_e / P_{eK} = K^2$ 後可整理為：</p>
+<p>$$K' = K\sqrt{\frac{\sum P}{P_I}} \qquad\text{或等價的層穩定判準}\qquad \frac{\sum P}{\sum P_{eK}} \le 1$$</p>
+<p>後者計算最快，但<strong>考場請照抄考卷給的形式</strong>逐步代入，才拿得到過程分。第七節的兩路驗算就是在示範這件事。</p>
+<h3>5.3 依最新規範的作法：對位圖已非首選</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">項目</th>
+<th style="text-align: left;">本題所用（台灣現行規範／AISC 舊法）</th>
+<th style="text-align: left;">最新規範（AISC 360-16／-22）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">穩定分析主流程</td>
+<td style="text-align: left;">有效長度法（$K$ 值＋對位圖）</td>
+<td style="text-align: left;"><strong>直接分析法 Direct Analysis Method（Ch. C）</strong>：取 $K = 1.0$，改以「勁度折減 $0.8\tau_b$ ＋ 名義側向載重 $N_i = 0.002Y_i$ ＋ 二階分析」處理</td>
+</tr>
+<tr>
+<td style="text-align: left;">靠桿處理</td>
+<td style="text-align: left;">需 LeMessurier 手動修正 $K'$</td>
+<td style="text-align: left;">二階分析<strong>自動</strong>含入靠桿的 $P\text{-}\Delta$，不需修正 $K$</td>
+</tr>
+<tr>
+<td style="text-align: left;">有效長度法定位</td>
+<td style="text-align: left;">唯一路徑</td>
+<td style="text-align: left;">降為 <strong>Appendix 7</strong>（限 $\Delta_{2nd}/\Delta_{1st} \le 1.5$ 才可用）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>台灣現行有效版本為<strong>內政部「鋼構造建築物鋼結構設計技術規範」民國 99 年（2010）修正版</strong>，仍採有效長度法；參照 AISC 360-16 的修正草案（建研所研究案）已完成但<strong>尚未發布施行</strong>。</li>
+<li>因此本題<strong>考場答案仍應照對位圖＋LeMessurier 作答</strong>；上表僅供理解「為什麼新規範要淘汰 $K$ 值法」——正是因為像本題這種含靠桿的框架，$K$ 值法需要額外的手工修正，最容易漏。</li>
+</ul>
+<h3>5.4 對位圖端部條件的 G 值修正</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">端部</th>
+<th style="text-align: center;">理論 $G$</th>
+<th style="text-align: center;">規範建議 $G$</th>
+<th style="text-align: left;">原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">固接（完全固端）</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">基礎必有彈性轉動，$G = 0$ 過於樂觀</td>
+</tr>
+<tr>
+<td style="text-align: left;">鉸接（完全鉸端）</td>
+<td style="text-align: center;">$\infty$</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: left;">數值穩定性；實際鉸接仍有少量轉動拘束</td>
+</tr>
+</tbody>
+</table>
+<p>本題 A 為鉸支承，依題目規定取 $G_A = 10$。若誤取理論值 $G_A = \infty$：</p>
+<p>$$K_{AB} \to \sqrt{1.6G_B + 4} = \sqrt{4.354} = 2.09 \;\Rightarrow\; K' = 2.95 \;\Rightarrow\; P_{eK,AB} = 386.6\ \text{tf} \;\Rightarrow\; w_{cr} \approx 64.4\ \text{tf/m}$$</p>
+<p>比正解低 33%（過度保守）。這說明題目為什麼要特地交代「鉸接時 $G$ 使用 10」——不是細節，而是會改變答案三成的關鍵指示。</p>
+<h3>5.5 梁遠端為鉸接的勁度修正（進階，非考場必要）</h3>
+<p>AISC 解說（Appendix 7）指出：對位圖假設梁遠端與柱剛接。本題梁 BC 遠端（C 點）為<strong>鉸接</strong>，嚴格上應將梁勁度乘以 0.5（側位移不束制情形）：</p>
+<p>$$G_B' = \frac{I_c/L}{0.5\,I_b/L} = 0.442 \;\Rightarrow\; K_{AB} = 1.77 \;\Rightarrow\; K' = 2.51 \;\Rightarrow\; w_{cr} \approx 89.3\ \text{tf/m},\ d \approx 0.37\ \text{m}$$</p>
+<p>差異約 7%，方向偏保守。考卷未提示此修正、且明確要求「使用 AISC Alignment Chart」，<strong>考場以未修正的 $G_B = 0.221$ 作答為準</strong>，此節僅供理解答案的保守方向。</p>
+<p><em>解析完成時間：2026-04-23</em><br />
+<em>修正日期：2026-08-22（依考卷原文改正「柱 CD 為靠桿」之判讀與 LeMessurier 公式用法）</em><br />
+<em>圖解補繪：2026-08-29（向量圖，腳本 <code>gen_SS-2013-2.py</code>，可重跑）</em><br />
+<em>驗證狀態：unverified</em></p>
+</main>
+<footer>來源：raw/solutions/SS-2013-2/SS-2013-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+   兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
+(function(){
+  var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
+          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+  if(!m||!UN[m[1]])return;
+  var u=m[1],code=u.replace('SS-','');
+  var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
+  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
+        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
+        l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
+})();
+</script>
+</body>
+</html>
