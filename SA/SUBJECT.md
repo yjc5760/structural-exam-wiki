@@ -59,14 +59,20 @@
 
 ---
 
-## 4. 互動圖內容碼（`*-viz.html`）
+## 4. 圖解（struct-diagram）
 
-| 內容碼 | 圖形 | 檔名範例 |
-|--------|------|---------|
-| `sfd-bmd` | 剪力圖＋彎矩圖 | `SA-YYYY-N-sfd-bmd-viz.html` |
-| `il` | 影響線 | `SA-YYYY-N-il-viz.html` |
-| `deflected` | 變形形狀 | `SA-YYYY-N-deflected-viz.html` |
-| `frame` | 構架內力圖（N/V/M） | `SA-YYYY-N-frame-viz.html` |
+解題或勘誤後需要圖解時，用 `struct-diagram` skill 以程式產生向量圖（SVG＋2× PNG），
+腳本 `gen_SA-YYYY-N.py` 與 `figs/` 放在該題資料夾，`.md` 引用 SVG 相對路徑。
+（互動圖 `*-viz.html` 功能已於 2026-10-29 停用。）
+
+本科常見圖解：
+
+- 題目重繪（向量版）
+- 自由度辨識圖
+- 單位位移狀態圖
+- 變形形狀＋彎矩圖
+- 影響線
+- 桁架力流圖
 
 ---
 
@@ -157,3 +163,4 @@ Müller-Breslau 原理：解除欲求量對應的束制、施加單位變位，�
 | 日期 | 變更 | 原因 |
 |------|------|------|
 | 2026-10-29 | 依 SS 架構建立科目骨架（`scripts/scaffold_subject.py`） | 五科合併為單一知識庫，架構統一 |
+| 2026-10-29 | 停用互動圖（`*-viz.html`）；§4 改為 struct-diagram 圖解 | 靜態向量圖可重跑、可審核，與互動圖功能重疊 |

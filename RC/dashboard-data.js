@@ -13,13 +13,7 @@ window.KB_SUBJECT = {
     "概念題",
     "混合"
   ],
-  "viz": {
-    "pm": "柱 P-M 互制圖",
-    "strain": "斷面應變／應力分佈",
-    "sfd-bmd": "剪力圖＋彎矩圖",
-    "magnel": "預力 Magnel 圖（P–e 容許區）",
-    "tendon": "鋼腱線形與偏心量"
-  },
+  "viz": {},
   "layers": {
     "failure-modes": "失敗模式",
     "materials": "材料行為",

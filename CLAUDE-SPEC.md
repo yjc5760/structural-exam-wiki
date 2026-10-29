@@ -3,7 +3,7 @@
 
 > 本文件為知識庫的所有「資料格式、命名規則、JSON 欄位、完成標準」唯一依據。
 > **Cowork 進行任何新增或修改時，必須遵守本文件的規定。**
-> 五科共用；科目專屬的允許值（designMethod、互動圖內容碼、七層類別）見 `XX/SUBJECT.md`。
+> 五科共用；科目專屬的允許值（designMethod、常見圖解、七層類別）見 `XX/SUBJECT.md`。
 > 範例多取自 SS，其他科照同一格式代換科目代碼即可。
 
 ---
@@ -49,18 +49,15 @@
 > **⚠️ 禁止：** 觀念講義不可命名為 `study-XX-UN-n.html`（會覆蓋該子項的命題分析頁）。
 > 三份教材的檔名固定為 `lecture-`（觀念講義）／`formula-given-`（給／背分界）／`study-`（命題分析），不可互換。
 
-### 1.4 互動圖（HTML）
+### 1.4 圖解（struct-diagram）
 
-- 由 Cowork 在解析時生成，格式為 `XX-YYYY-N-[內容碼]-viz.html`
-- 內容碼依科目而定，**允許值見 `XX/SUBJECT.md` §4**（新內容碼要同步加到 `scripts/subject_profiles.json`）。SS 的內容碼：
-  - 梁設計/剪力力學：`sfd-bmd`
-  - 梁柱桿件（軸力與雙向彎矩）：`pm`
-  - 側扭挫屈判斷：`ltb`
-  - 柱強度曲線：`column-curve`
-  - 接合詳圖：`connection`
-- 例：`SS-2018-2-pm-viz.html`
-
-> **⚠️ 禁止：** 不可使用 `SS-2018-2-viz.html` 或 `SS-2018-2-pm.html`。必須有特定的內容碼及 `-viz` 後綴。
+- **互動圖（`*-viz.html`）已於 2026-10-29 停用**，不再新增。SS 既有 19 份保留為舊檔，不再修改。
+- 圖解一律由 `struct-diagram` skill 以程式產生，放在題目資料夾：
+  - 產圖腳本：`XX-YYYY-N/gen_XX-YYYY-N.py`（可重跑，隨解析版控）
+  - 圖檔：`XX-YYYY-N/figs/XX-YYYY-N-fig-<序號>-<英文短語意>.svg` ＋ 同名 2× `.png`
+  - 例：`SA-2025-1-fig-2-dof.svg`
+- ⚠️ 與使用者截圖的命名區分：截圖是 `XX-YYYY-N-fig-n.png`（資料夾根層），程式圖在 `figs/` 底下且有英文短語意。
+- `.md` 只引用 SVG 相對路徑，不可 base64 內嵌。
 
 ### 1.5 Wiki 概念與方法論（由 Cowork 建立）
 
@@ -99,7 +96,6 @@
   "hasSolution": true,             // 只要有 .md 就是 true
   "verificationStatus": "verified",// unverified / needs-review / verified
   "hasHandwritten": false,         // 有無 -hand-*.png
-  "hasViz": true,                  // 有無 *-viz.html
   "tags": [                        // 至少 3 個具體考點標籤
     "結實斷面",
     "Cb係數",
@@ -142,11 +138,13 @@
     - 命名無強制規範（例：`老師解答.pdf` 或 `筆記.pdf`）。
     - 放入資料夾後，不需在 .md 內引用；但需對 Cowork 說 `更新儀表板資料`，儀表板的題卡會自動產生「📎 補充筆記 PDF」按鈕。
 
-3.  **Cowork 生成的互動 HTML 圖 (`*-viz.html`)**：
-    - 在 `.md` 中以特定標記顯示連結。
+3.  **struct-diagram 產生的圖解 (`figs/*.svg`)**：
+    - 插在對應章節正下方，附 alt text 與「*圖 n　…*」圖說；圖說要說出這張圖攔下什麼錯。
     - 範例：
       ```markdown
-      > 📊 互動圖：[梁柱 P-M 互制圖 (SS-2018-2-pm-viz.html)](SS-2018-2-pm-viz.html)
+      ![SA-2025-1 自由度辨識圖](figs/SA-2025-1-fig-2-dof.svg)
+
+      *圖 2　自由度辨識。「忽略軸向變形」直接決定勁度矩陣是 3×3 還是 6×6。*
       ```
 
 ---

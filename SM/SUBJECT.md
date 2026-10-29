@@ -59,16 +59,20 @@
 
 ---
 
-## 4. 互動圖內容碼（`*-viz.html`）
+## 4. 圖解（struct-diagram）
 
-| 內容碼 | 圖形 | 檔名範例 |
-|--------|------|---------|
-| `flownet` | 流線網 | `SM-YYYY-N-flownet-viz.html` |
-| `mohr` | 莫爾圓 | `SM-YYYY-N-mohr-viz.html` |
-| `consolidation` | 壓密曲線／e-log σ' | `SM-YYYY-N-consolidation-viz.html` |
-| `stress-dist` | 土中應力分布 | `SM-YYYY-N-stress-dist-viz.html` |
-| `earth-pressure` | 側向土壓力分布 | `SM-YYYY-N-earth-pressure-viz.html` |
-| `slope` | 邊坡滑動面 | `SM-YYYY-N-slope-viz.html` |
+解題或勘誤後需要圖解時，用 `struct-diagram` skill 以程式產生向量圖（SVG＋2× PNG），
+腳本 `gen_SM-YYYY-N.py` 與 `figs/` 放在該題資料夾，`.md` 引用 SVG 相對路徑。
+（互動圖 `*-viz.html` 功能已於 2026-10-29 停用。）
+
+本科常見圖解：
+
+- 土層剖面與土中應力分布
+- 流線網
+- 莫爾圓
+- 壓密曲線（e–log σ'）
+- 側向土壓力分布
+- 邊坡滑動面
 
 ---
 
@@ -168,3 +172,4 @@ Rankine：Ka = tan²(45° − φ/2)、Kp = tan²(45° + φ/2)；Coulomb 考慮�
 | 日期 | 變更 | 原因 |
 |------|------|------|
 | 2026-10-29 | 依 SS 架構建立科目骨架（`scripts/scaffold_subject.py`） | 五科合併為單一知識庫，架構統一 |
+| 2026-10-29 | 停用互動圖（`*-viz.html`）；§4 改為 struct-diagram 圖解 | 靜態向量圖可重跑、可審核，與互動圖功能重疊 |

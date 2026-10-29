@@ -19,7 +19,8 @@
 | 解析勘誤／重新驗算 | `勘誤 XX-YYYY-N`、`重新驗算`、`批次勘誤 XX-Un-m`、`跑 xcheck` | `exam-errata` |
 | 子項命題分析（study XX-Un-m） | `做 XX-Un-m 的命題分析` | `unit-exam-intel` |
 | 全科出題頻率熱圖 | `整科出題頻率` | `subject-frequency-map` |
-| 觀念講義／給背分界／記憶片／向量圖解 | 見 `skills/README.md` | `unit-lecture` 等 |
+| 題目向量圖解（取代已停用的互動圖） | `幫 XX-YYYY-N 畫圖解`、`補圖` | `struct-diagram` |
+| 觀念講義／給背分界／記憶片 | 見 `skills/README.md` | `unit-lecture` 等 |
 
 ---
 
@@ -76,11 +77,11 @@
 ```
 1. 讀取 raw/solutions/XX-XXXX-N/XX-XXXX-N.md
 2. 讀取 raw/json/question_index.json 中該題的完整條目
-   → 取得 primaryTopicId、secondaryTopicIds、designMethod、tags、hasViz
+   → 取得 primaryTopicId、secondaryTopicIds、designMethod、tags
 3. 掃描 raw/solutions/XX-XXXX-N/ 下的所有附屬檔案：
    → *-fig-*.png、*-chart-*.png、*-eqn-*.png（靜態截圖）
    → *-hand-*.png（手寫補充）
-   → *-sfd-bmd-viz.html、*-pm-viz.html 等（互動圖）
+   → figs/*.svg（struct-diagram 圖解）；SS 舊檔 *-viz.html 若存在照樣列出連結
 4. 建立或更新 wiki/problems/XX-XXXX-N.md
 5. 從 .md 萃取涉及的概念 → 更新 wiki/concepts/ 相關頁面的「出現題目」表格
 6. 從 .md 萃取涉及的陷阱 → 更新 wiki/traps/ 相關頁面的「出現題目」表格
@@ -132,9 +133,8 @@
 2.  斷開連結（[[id]] 但對應頁面不存在）
 3.  概念缺口（concepts.json 有 related_concept_ids 但頁面未建立）
 4.  手寫補充未登錄（raw/solutions/ 有 hand-*.png 但 problems/ 頁面未標注）
-5.  圖形未登錄（raw/solutions/ 有 *-viz.html 但 problems/ 頁面無圖形區塊）
-6.  圖形警示（依 XX/SUBJECT.md §4 的互動圖內容碼；SS 規則：SS-U1-3 梁柱桿件題目且年份 ≥ 2016 但無 pm-viz.html）
-    — [warn] 等級：提示建議建立，不屬錯誤。
+5.  圖解未登錄（raw/solutions/XX-YYYY-N/figs/ 有 .svg 但 .md 或 problems/ 頁面未引用；或有 figs/ 卻無 gen_XX-YYYY-N.py）
+6.  圖解建議（[info]）：題目屬 XX/SUBJECT.md §4 常見圖解類型但無 figs/ → 列為可補圖清單（交給 struct-diagram）
 7.  方法論缺口（raw/solutions/methods/ 有資料夾但 wiki/methods/ 無對應頁面）
 8.  圖片圖說缺漏（.md 中有 ![...](*.png) 但下方無 *圖說：* 的題目）
 9.  eqn.png 圖說未文字化（有 *-eqn.png 但圖說未包含公式 LaTeX）
@@ -305,7 +305,7 @@ solutions/ 已有解析但未驗證：[列出題號]
 1. 讀取 XX/raw/json/question_index.json 全部條目
 2. 轉換為精簡陣列格式寫入 XX/dashboard-data.js 的 window.KB_QUESTIONS：
    [moduleId, primaryTopicId縮寫(去本科前綴), secondaryTopicIds縮寫, designMethod, viz內容碼陣列, tags, pdf補充筆記檔名陣列]
-   - viz 內容碼：掃描 raw/solutions/XX-YYYY-N/ 下 *-viz.html，取 moduleId 與 -viz.html 之間的字段
+   - viz 內容碼：掃描 raw/solutions/XX-YYYY-N/ 下 *-viz.html（互動圖已停用，只為顯示 SS 舊檔）
    - pdf 補充筆記：掃描同資料夾所有 *.pdf（原始檔名）；無 PDF 寫入 []
 3. 由根目錄 syllabus_taxonomy.json 產生 window.KB_UNITS／KB_TOPICS
    （本科＋題目實際掛到的他科＋subject_profiles.json 的 relatedTopics）
@@ -432,7 +432,7 @@ SS-U2（塑性/材料/施工）：XX%
 
 ③ 考題清單（互動篩選）
   - 篩選按鈕（全部 + 各子項）
-  - 每題顯示：題號/年度、題型摘要、關鍵 tags（前5個）、解析/互動圖/驗證狀態 icon
+  - 每題顯示：題號/年度、題型摘要、關鍵 tags（前5個）、解析/圖解/驗證狀態 icon
   - 【重要】點擊題號時，一律以 `<a href="problems-view/XX-XXXX-N.html" target="_blank">` 連結至渲染層。
     **禁止使用 `../index.html#md=raw/solutions/...` 這種舊式連結**（那是把 .md 丟給瀏覽器，
     公式與附圖不會渲染，只會看到純文字）。`study/problems-view/` 是所有題目的 HTML 渲染層，

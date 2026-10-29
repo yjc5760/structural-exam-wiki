@@ -59,15 +59,19 @@
 
 ---
 
-## 4. 互動圖內容碼（`*-viz.html`）
+## 4. 圖解（struct-diagram）
 
-| 內容碼 | 圖形 | 檔名範例 |
-|--------|------|---------|
-| `pm` | 柱 P-M 互制圖 | `RC-YYYY-N-pm-viz.html` |
-| `strain` | 斷面應變／應力分佈 | `RC-YYYY-N-strain-viz.html` |
-| `sfd-bmd` | 剪力圖＋彎矩圖 | `RC-YYYY-N-sfd-bmd-viz.html` |
-| `magnel` | 預力 Magnel 圖（P–e 容許區） | `RC-YYYY-N-magnel-viz.html` |
-| `tendon` | 鋼腱線形與偏心量 | `RC-YYYY-N-tendon-viz.html` |
+解題或勘誤後需要圖解時，用 `struct-diagram` skill 以程式產生向量圖（SVG＋2× PNG），
+腳本 `gen_RC-YYYY-N.py` 與 `figs/` 放在該題資料夾，`.md` 引用 SVG 相對路徑。
+（互動圖 `*-viz.html` 功能已於 2026-10-29 停用。）
+
+本科常見圖解：
+
+- RC 斷面／應變／應力三聯圖
+- P-M 交互曲線
+- 梁三聯圖（載重／SFD／BMD）
+- 預力斷面應力分佈與 Magnel 圖
+- 鋼腱線形與偏心量
 
 ---
 
@@ -163,3 +167,4 @@ Magnel 圖：把 4 個不等式寫成 1/P 對 e 的直線，可行區即容許�
 | 日期 | 變更 | 原因 |
 |------|------|------|
 | 2026-10-29 | 依 SS 架構建立科目骨架（`scripts/scaffold_subject.py`） | 五科合併為單一知識庫，架構統一 |
+| 2026-10-29 | 停用互動圖（`*-viz.html`）；§4 改為 struct-diagram 圖解 | 靜態向量圖可重跑、可審核，與互動圖功能重疊 |

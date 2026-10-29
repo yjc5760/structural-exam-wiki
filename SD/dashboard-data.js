@@ -13,12 +13,7 @@ window.KB_SUBJECT = {
     "概念題",
     "混合"
   ],
-  "viz": {
-    "response": "時間歷程反應",
-    "spectrum": "反應譜／設計譜",
-    "mode": "振態形狀",
-    "frf": "動力放大係數／頻率反應"
-  },
+  "viz": {},
   "layers": {
     "failure-modes": "失敗模式",
     "materials": "材料與構件行為",

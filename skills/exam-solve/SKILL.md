@@ -14,7 +14,7 @@ description: 結構技師考試知識庫（SS/RC/SA/SD/SM）的解題流程：�
 |--------|--------|
 | 不可違反的規則（`raw/` 唯讀、verified 不可質疑） | 根目錄 `CLAUDE.md`「重要規則」 |
 | 命名、LaTeX 規範、VHA 表格模板、JSON 欄位 | 根目錄 `CLAUDE-SPEC.md` §1.2、§1.4、§2.1、§3.3、§3.4 |
-| 子項表、designMethod 允許值、互動圖內容碼、**設計哲學框架** | `XX/SUBJECT.md` §2、§3、§4、§8 |
+| 子項表、designMethod 允許值、常見圖解、**設計哲學框架** | `XX/SUBJECT.md` §2、§3、§4、§8 |
 | 考卷檔名 | `XX/SUBJECT.md` §1 |
 
 ---
@@ -53,7 +53,9 @@ description: 結構技師考試知識庫（SS/RC/SA/SD/SM）的解題流程：�
 3. 做**三層掃描**（下節），再依 `XX/SUBJECT.md` §8 的設計哲學框架決定路徑。
 4. 依「解析輸出格式」寫 `.md`，存到 `XX/raw/solutions/XX-YYYY-N/XX-YYYY-N.md`。
 5. 計算型題目：**每個數值都用程式算一次**，不要心算或手打；最終答案與程式結果一致才存檔。
-6. 符合 `XX/SUBJECT.md` §4 的題型時，產生互動圖 `XX-YYYY-N-<內容碼>-viz.html`，並在 §4 開頭加連結。
+6. **圖解（交給 struct-diagram）**：題目內容屬 `XX/SUBJECT.md` §4 的常見圖解類型時（勁度矩陣、反曲點、P-M 曲線、莫爾圓、應變分佈…），
+   列出建議畫哪幾張、每張攔下什麼錯，問使用者要不要畫；使用者同意才載入 `struct-diagram` skill 產圖
+   （`gen_XX-YYYY-N.py`＋`figs/*.svg/.png`），並把圖插回 `.md` 對應章節。概念說明題通常不需要圖，不要硬畫。
 7. 更新 `question_index.json`（見「索引更新」）。
 8. 跑「完成檢核」，回報結果後停止。
 
@@ -127,7 +129,7 @@ description: 結構技師考試知識庫（SS/RC/SA/SD/SM）的解題流程：�
 - [ ] §3.5 VHA 存在；`\boxed{}` 標出中間變數；卡關欄全部留空
 - [ ] 正文沒有純文字公式符號（`Mu`、`Fcr` 要寫成 `$M_u$`、`$F_{cr}$`）
 - [ ] 所有數值有程式重算紀錄；單位一致
-- [ ] 圖片都有 alt text＋圖說；互動圖檔名有內容碼與 `-viz` 後綴
+- [ ] 圖片都有 alt text＋圖說；程式圖解在 `figs/` 且同資料夾有 `gen_XX-YYYY-N.py`
 - [ ] `question_index.json` 已更新，`designMethod` 在允許值內，`tags` ≥ 3
 
 ---
@@ -145,6 +147,7 @@ description: 結構技師考試知識庫（SS/RC/SA/SD/SM）的解題流程：�
 ## 不要做的事
 
 - 不要一次解多題、不要覆蓋已有解析（要改既有解析請用 exam-errata）
+- 不要產生互動圖 `*-viz.html`（2026-10-29 已停用，圖解一律用 struct-diagram）
 - 不要修改 `raw/exams/` 與使用者截圖
 - 不要自行把題目標成 `verified`
 - 設計哲學框架與考卷公式衝突時，以考卷為準，並在 §5 說明

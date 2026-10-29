@@ -50,7 +50,7 @@ Cowork 讀取 CLAUDE.md + XX/SUBJECT.md + 考卷 PDF + XX/raw/json/question_inde
 | 環境 | 負責什麼 |
 |------|---------|
 | **你（使用者）** | PDF 題目附圖截圖（fig-N.png）、chart/eqn/hand 補充截圖、人工驗算後通知 Cowork 更新 verificationStatus |
-| **Cowork** | 解題（SOLVE，**一次一題**）、存檔（.md + viz.html）、更新 question_index.json、**所有 wiki 操作指令**（ingest / compile-all / lint / status / reindex / add-concept / add-method / refresh-dashboard / frequency / analyze / predict / study / find / related / unverified / query，共 16 個，詳見 CLAUDE-CODE.md）、直接維護 wiki/diagnosis/ · wiki/failure-modes/ · wiki/materials/ · wiki/code-ref/ · wiki/queries/ · study/、**修正 raw/solutions/methods/ 的公式錯誤**（須驗算＋同步 wiki＋記 log） |
+| **Cowork** | 解題（SOLVE，**一次一題**）、存檔（.md；需要圖解時以 struct-diagram 產生 figs/）、更新 question_index.json、**所有 wiki 操作指令**（ingest / compile-all / lint / status / reindex / add-concept / add-method / refresh-dashboard / frequency / analyze / predict / study / find / related / unverified / query，共 16 個，詳見 CLAUDE-CODE.md）、直接維護 wiki/diagnosis/ · wiki/failure-modes/ · wiki/materials/ · wiki/code-ref/ · wiki/queries/ · study/、**修正 raw/solutions/methods/ 的公式錯誤**（須驗算＋同步 wiki＋記 log） |
 
 ---
 
@@ -92,7 +92,7 @@ Cowork 跨層知識工具                     ──→ XX/wiki/diagnosis/ · fa
 ├── syllabus_taxonomy.json   ← ⭐ 命題大綱分類正本（XX-Un-m）
 ├── 命題大綱.pdf              ← 考選部命題大綱原件
 ├── scripts/
-│   ├── subject_profiles.json   ← 科目專屬設定（考卷檔名、designMethod、viz 碼、七層類別）
+│   ├── subject_profiles.json   ← 科目專屬設定（考卷檔名、designMethod、常見圖解、七層類別）
 │   ├── scaffold_subject.py     ← 建立新科目骨架（不覆蓋既有檔）
 │   ├── refresh_dashboard.py    ← 「更新儀表板資料」的實作
 │   ├── sync_taxonomy.py        ← 正本 → 各科副本
@@ -173,13 +173,13 @@ Cowork 跨層知識工具                     ──→ XX/wiki/diagnosis/ · fa
    >    ⚠️ 考卷常為 Adobe-CNS1 CID 字型，`pdftotext` **抽不到中文**，公式與附表也常以影像嵌入；
    >    支承符號、鉸接圓圈、尺寸線只能目視 —— 必須轉圖（300–450 dpi）**逐頁目視判讀**；
    > ② **數值獨立重算**：每個數字以程式重算，並做量綱檢查與雙路徑交叉驗算，不可憑印象改；
-   > ③ **同步全部下游**：`wiki/problems/`、`study/problems-view/`、該題 `*-viz.html`、
+   > ③ **同步全部下游**：`wiki/problems/`、`study/problems-view/`、該題 `figs/`（重跑 `gen_XX-YYYY-N.py`）、
    >    `raw/json/question_index.json`（tags）、必要時 `dashboard-data.js` 與 `study/study-*.html`；
    > ④ 在該科 `wiki/log.md` 記錄**改了什麼、為什麼錯、怎麼驗證的**，並在 .md 頁尾加「修正日期」。
    >
    > **不在例外內（仍完整受保護）**：`raw/exams/`（考卷原件）、同資料夾的
    > `-fig-*.png`／`-chart-*.png`／`-eqn-*.png`／`-hand-*.png`（使用者截圖證據）、
-   > 使用者放入的補充筆記 `*.pdf`。勘誤只准動 `.md` 正本與 Cowork 自己生成的 `*-viz.html`。
+   > 使用者放入的補充筆記 `*.pdf`。勘誤只准動 `.md` 正本與 Cowork 自己生成的 `gen_XX-YYYY-N.py`、`figs/`（SS 的舊 `*-viz.html` 為停用舊檔，不再修改）。
    >
    > **驗證狀態連動**：解析一經勘誤，該題 `verificationStatus` 必須退回 `unverified`，
    > 由使用者人工複核後才可改回 `verified`（規則 5）。
@@ -194,7 +194,7 @@ Cowork 跨層知識工具                     ──→ XX/wiki/diagnosis/ · fa
 7. 每次 ingest 同時更新該科 `wiki/index.md` 和 `wiki/by-year.md`
 8. **格式與命名規範見 CLAUDE-SPEC.md；操作指令（16 項）見 CLAUDE-CODE.md，全部由 Cowork 執行**
 9. **一個指令只動一科**：除非使用者明說跨科（例：「五科一起更新儀表板」），不要順手修改他科資料夾
-10. **科目專屬設定改兩處**：改 designMethod 允許值、viz 內容碼、七層類別時，`scripts/subject_profiles.json` 與 `XX/SUBJECT.md` 必須同步
+10. **科目專屬設定改兩處**：改 designMethod 允許值、常見圖解、七層類別時，`scripts/subject_profiles.json` 與 `XX/SUBJECT.md` 必須同步
 
 ---
 
@@ -206,3 +206,4 @@ Cowork 跨層知識工具                     ──→ XX/wiki/diagnosis/ · fa
 |------|------|------|
 | 2026-10-29 | **五科合併為單一知識庫**：根目錄 CLAUDE／CODE／SOLVE／SPEC／README 改寫為五科通用（`XX` 代號）；SS 專屬內容（CHANGELOG、設計哲學框架、互動圖內容碼）移入 `SS/SUBJECT.md`；依 SS 架構以 `scripts/scaffold_subject.py` 建立 RC／SA／SD／SM 骨架；`syllabus_taxonomy.json` 以根目錄為正本、各科 `raw/json/` 放同步副本；儀表板改為五科共用樣板（`KB_SUBJECT` 驅動）並新增根目錄五科入口頁；`skills/` 與 `xcheck.py` 移至根目錄共用；改為單一 git repo | 五科架構相同、只有考古題不同，分開維護使同一條規則要改五次 |
 | 2026-10-29 | **解題與勘誤流程改為 skill**：新增 `skills/exam-solve/`（原 CLAUDE-SOLVE.md 的 SOLVE 流程＋CLAUDE-SPEC.md §4.1 完成檢核）與 `skills/exam-errata/`（規則 1 解析勘誤四條件的執行流程＋xcheck 分診）；CLAUDE-SOLVE.md 改為索引頁，ADD-METHOD 移入 CLAUDE-CODE.md；CLAUDE-CODE.md 新增「由 skill 負責的流程」對照表 | 只在解題／勘誤時才需要的長流程不必每次常駐；規則仍留在 CLAUDE.md，格式仍以 CLAUDE-SPEC.md 為唯一依據 |
+| 2026-10-29 | **停用互動圖（`*-viz.html`）**：圖解一律由 `struct-diagram` skill 產生靜態 SVG＋PNG（`figs/`＋`gen_XX-YYYY-N.py`），exam-solve 解完一題後提議、exam-errata 勘誤後重跑；規則 1 的勘誤例外由 `*-viz.html` 改為 `gen_*.py`／`figs/`；SS 既有 19 份 viz 保留為舊檔 | 互動圖與 struct-diagram 功能重疊；靜態圖可重跑、可審核、可進 PDF 與影片管線 |

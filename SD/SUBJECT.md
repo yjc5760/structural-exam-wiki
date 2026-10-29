@@ -53,14 +53,19 @@
 
 ---
 
-## 4. 互動圖內容碼（`*-viz.html`）
+## 4. 圖解（struct-diagram）
 
-| 內容碼 | 圖形 | 檔名範例 |
-|--------|------|---------|
-| `response` | 時間歷程反應 | `SD-YYYY-N-response-viz.html` |
-| `spectrum` | 反應譜／設計譜 | `SD-YYYY-N-spectrum-viz.html` |
-| `mode` | 振態形狀 | `SD-YYYY-N-mode-viz.html` |
-| `frf` | 動力放大係數／頻率反應 | `SD-YYYY-N-frf-viz.html` |
+解題或勘誤後需要圖解時，用 `struct-diagram` skill 以程式產生向量圖（SVG＋2× PNG），
+腳本 `gen_SD-YYYY-N.py` 與 `figs/` 放在該題資料夾，`.md` 引用 SVG 相對路徑。
+（互動圖 `*-viz.html` 功能已於 2026-10-29 停用。）
+
+本科常見圖解：
+
+- 結構模型與自由度
+- 振態形狀
+- 反應譜／設計譜
+- 時間歷程反應
+- 動力放大係數曲線
 
 ---
 
@@ -150,3 +155,4 @@ V = (SaD·I / (1.4 αy Fu))m · W（依考卷年份規範版本的修正與下�
 | 日期 | 變更 | 原因 |
 |------|------|------|
 | 2026-10-29 | 依 SS 架構建立科目骨架（`scripts/scaffold_subject.py`） | 五科合併為單一知識庫，架構統一 |
+| 2026-10-29 | 停用互動圖（`*-viz.html`）；§4 改為 struct-diagram 圖解 | 靜態向量圖可重跑、可審核，與互動圖功能重疊 |

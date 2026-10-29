@@ -22,7 +22,7 @@ SS 在 2026-08-22 抽查 7 題，就有 3 題錯誤足以改變答案（43%）�
 | 可以改 | 不能改（證據） |
 |--------|---------------|
 | `XX-YYYY-N.md` 正本 | `raw/exams/` 考卷原件 |
-| 本題 Cowork 生成的 `*-viz.html` | `-fig-*` `-chart-*` `-eqn-*` `-hand-*` 使用者截圖 |
+| 本題 Cowork 生成的 `gen_XX-YYYY-N.py` 與 `figs/` | `-fig-*` `-chart-*` `-eqn-*` `-hand-*` 使用者截圖 |
 | `question_index.json` 該題條目 | 使用者放入的補充 `*.pdf` |
 | 下游：`wiki/problems/`、`study/problems-view/`、`study/*.html`、`dashboard-data.js` | 他科資料夾（除非使用者指定） |
 
@@ -59,7 +59,9 @@ SS 在 2026-08-22 抽查 7 題，就有 3 題錯誤足以改變答案（43%）�
 ### 6. 同步全部下游（條件 ③）
 依序檢查並更新，**有引用到被改數值的地方都要改**：
 
-1. 本題 `*-viz.html`
+1. 本題圖解：有 `gen_XX-YYYY-N.py` 就更新腳本頂端的常數、用 struct-diagram 的 `render.py` 重跑並目視檢查；
+   本次錯誤屬**判讀錯**（支承、幾何、尺寸線）且該題沒有圖時，建議補一張能攔下這個錯的圖（交給 `struct-diagram`）。
+   SS 舊的 `*-viz.html` 已停用、不再修改；若其數值已過時，在 `wiki/problems/` 該連結旁標註「舊互動圖，數值以解析為準」
 2. `wiki/problems/XX-YYYY-N.md`（含 H1 摘要）
 3. `study/problems-view/XX-YYYY-N.html`
 4. `question_index.json`：`verificationStatus` → `unverified`；`tags` 只增不刪（append-only）

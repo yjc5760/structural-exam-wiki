@@ -17,12 +17,7 @@ window.KB_SUBJECT = {
     "概念題",
     "混合"
   ],
-  "viz": {
-    "sfd-bmd": "剪力圖＋彎矩圖",
-    "il": "影響線",
-    "deflected": "變形形狀",
-    "frame": "構架內力圖（N/V/M）"
-  },
+  "viz": {},
   "layers": {
     "failure-modes": "行為模式與判斷",
     "materials": "勁度與基本假設",

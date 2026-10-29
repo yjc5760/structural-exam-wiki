@@ -53,15 +53,21 @@
 
 ---
 
-## 4. 互動圖內容碼（`*-viz.html`）
+## 4. 圖解（struct-diagram）
 
-| 內容碼 | 圖形 | 檔名範例 |
-|--------|------|---------|
-| `sfd-bmd` | 剪力圖＋彎矩圖 | `SS-YYYY-N-sfd-bmd-viz.html` |
-| `pm` | 梁柱 P-M 互制圖 | `SS-YYYY-N-pm-viz.html` |
-| `ltb` | LTB 側扭挫屈設計曲線 | `SS-YYYY-N-ltb-viz.html` |
-| `column-curve` | 柱強度曲線 | `SS-YYYY-N-column-curve-viz.html` |
-| `connection` | 接合詳圖 | `SS-YYYY-N-connection-viz.html` |
+解題或勘誤後需要圖解時，用 `struct-diagram` skill 以程式產生向量圖（SVG＋2× PNG），
+腳本 `gen_SS-YYYY-N.py` 與 `figs/` 放在該題資料夾，`.md` 引用 SVG 相對路徑。
+（互動圖 `*-viz.html` 功能已於 2026-10-29 停用。）
+
+> SS 既有的 19 份互動圖（`*-viz.html`，內容碼 `sfd-bmd`／`pm`／`ltb`／`column-curve`／`connection`）保留為舊檔，儀表板仍可開啟，但不再新增或維護；勘誤時改以 struct-diagram 圖解取代。
+
+本科常見圖解：
+
+- 梁三聯圖（載重／SFD／BMD）
+- P-M 交互曲線
+- 柱強度曲線（Fcr–λc）
+- 接合幾何與螺栓／銲道群力向量
+- 斷面應力分佈（彈性／塑性）
 
 ---
 
@@ -214,6 +220,7 @@ P-M 互制：
 | 日期 | 變更 | 原因 |
 |------|------|------|
 | 2026-10-29 | 併入五科合一知識庫：以 `scripts/scaffold_subject.py` 補建本檔與 `.gitkeep`；設計哲學框架由 CLAUDE-SOLVE.md 移入 §8；`index.html` 改用五科共用樣板、`dashboard-data.js` 改由 `scripts/refresh_dashboard.py` 產生（變數由 `SS_*` 改為 `KB_*`，順帶修正 2006 年四題 designMethod 舊快照仍為 LRFD 的問題）；`skills/`、`xcheck.py` 移至根目錄；原 repo `.git` 曾封存於根目錄 `_archive/`，確認無未推送 commit 後已刪除（舊歷史保留在 GitHub `exam-wiki-SS`） | 五科合併為單一知識庫，架構統一 |
+| 2026-10-29 | 停用互動圖（`*-viz.html`）；§4 改為 struct-diagram 圖解 | 靜態向量圖可重跑、可審核，與互動圖功能重疊 |
 
 ### 併入前的變更紀錄（原 exam-wiki-SS/CLAUDE.md CHANGELOG，原樣保留）
 

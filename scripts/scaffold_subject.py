@@ -4,7 +4,7 @@
 scaffold_subject.py — 依 SS 的架構建立新科目資料夾骨架
 
 科目名稱／單元／子項取自根目錄 syllabus_taxonomy.json；科目專屬設定（考卷檔名、
-designMethod 允許值、互動圖內容碼、wiki 第 5–7 層類別、題型診斷頁）取自
+designMethod 允許值、常見圖解、wiki 第 5–7 層類別、題型診斷頁）取自
 scripts/subject_profiles.json。
 
 只建立不存在的檔案，**絕不覆蓋既有檔案**（可安全重跑，用來補齊缺漏）。
@@ -230,7 +230,7 @@ def scaffold(code, dry=False):
     # ---------------------------------------------------------- SUBJECT.md
     unit_rows = "\n".join(f"| `{i}` | {n} | {u['name']} |" for i, n, u in items)
     meth_rows = "\n".join(f"| `{m}` |" for m in prof["methods"])
-    viz_rows = "\n".join(f"| `{k}` | {v} | `{code}-YYYY-N-{k}-viz.html` |" for k, v in prof["viz"].items())
+    fig_rows = "\n".join(f"- {f}" for f in prof.get("figures", []))
     lrows = []
     for n, key in [(5, "failure-modes"), (6, "materials"), (7, "code-ref")]:
         L = lay[key]
@@ -285,11 +285,15 @@ def scaffold(code, dry=False):
 
 ---
 
-## 4. 互動圖內容碼（`*-viz.html`）
+## 4. 圖解（struct-diagram）
 
-| 內容碼 | 圖形 | 檔名範例 |
-|--------|------|---------|
-{viz_rows}
+解題或勘誤後需要圖解時，用 `struct-diagram` skill 以程式產生向量圖（SVG＋2× PNG），
+腳本 `gen_{code}-YYYY-N.py` 與 `figs/` 放在該題資料夾，`.md` 引用 SVG 相對路徑。
+（互動圖 `*-viz.html` 功能已於 2026-10-29 停用。）
+
+本科常見圖解：
+
+{fig_rows}
 
 ---
 

@@ -285,6 +285,8 @@
   Object.keys(UNITS).forEach(u=>{if(!UCOLOR[u])UCOLOR[u]='var(--u5)'});
   const unitOf=t=>{const p=t.split('-');return p.slice(0,p.length-1).join('-')};
   const PKEY=S.code.toLowerCase()+'wiki-progress';
+  const HASVIZ=Q.some(q=>q.viz&&q.viz.length);  // 互動圖已於 2026-10-29 停用，只為顯示 SS 舊檔
+  if(!HASVIZ)document.getElementById('fViz').style.display='none';
   let prog={}; try{prog=JSON.parse(localStorage.getItem(PKEY)||'{}')}catch(e){}
   const saveProg=()=>localStorage.setItem(PKEY,JSON.stringify(prog));
 
@@ -298,7 +300,7 @@
     document.getElementById('stats').innerHTML=`
       <div class="stat"><div class="n">${Q.length}</div><div class="l">已收錄題目</div></div>
       <div class="stat"><div class="n">${Math.min(...years)}–${Math.max(...years)}</div><div class="l">收錄年份（共 ${years.length} 年）</div></div>
-      <div class="stat"><div class="n">${Q.filter(q=>q.viz.length).length}</div><div class="l">附互動圖題數</div></div>
+      ${HASVIZ?`<div class="stat"><div class="n">${Q.filter(q=>q.viz.length).length}</div><div class="l">附互動圖題數（舊檔，已停用）</div></div>`:''}
       <div class="stat"><div class="n">${done} / ${Q.length}</div><div class="l">已練習${rev?`（另有 ${rev} 題需複習）`:''}
         <div class="progressbar"><div class="done" style="width:${done/Q.length*100}%"></div><div class="review" style="width:${rev/Q.length*100}%"></div></div></div></div>`;
   }

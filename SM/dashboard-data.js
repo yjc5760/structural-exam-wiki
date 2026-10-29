@@ -13,14 +13,7 @@ window.KB_SUBJECT = {
     "概念題",
     "混合"
   ],
-  "viz": {
-    "flownet": "流線網",
-    "mohr": "莫爾圓",
-    "consolidation": "壓密曲線／e-log σ'",
-    "stress-dist": "土中應力分布",
-    "earth-pressure": "側向土壓力分布",
-    "slope": "邊坡滑動面"
-  },
+  "viz": {},
   "layers": {
     "failure-modes": "失敗模式",
     "materials": "土壤行為",

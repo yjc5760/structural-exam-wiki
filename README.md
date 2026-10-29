@@ -66,7 +66,7 @@
 
 - 年份用**西元**（SS-2015-1，不是 SS-104-1）
 - PNG 截圖必須加序號（`fig-1.png`，不可寫 `fig.png`）
-- 互動圖後綴必須是 `-viz.html`，內容碼依 `XX/SUBJECT.md` §4
+- 圖解用 `struct-diagram` 產生（`figs/*.svg`＋`gen_XX-YYYY-N.py`）；互動圖 `-viz.html` 已停用
 - 公式必須用 LaTeX（`$F_y$`，不可寫純文字）
 - ingest 前確認 `verificationStatus = "verified"`
 - 改命題大綱分類只改根目錄 `syllabus_taxonomy.json`，再執行 `python scripts/sync_taxonomy.py`

@@ -14,13 +14,7 @@ window.KB_SUBJECT = {
     "混合",
     "塑性分析"
   ],
-  "viz": {
-    "sfd-bmd": "剪力圖＋彎矩圖",
-    "pm": "梁柱 P-M 互制圖",
-    "ltb": "LTB 側扭挫屈設計曲線",
-    "column-curve": "柱強度曲線",
-    "connection": "接合詳圖"
-  },
+  "viz": {},
   "layers": {
     "failure-modes": "失敗模式",
     "materials": "材料行為",
