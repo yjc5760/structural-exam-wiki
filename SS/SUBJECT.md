@@ -213,7 +213,7 @@ P-M 互制：
 
 | 日期 | 變更 | 原因 |
 |------|------|------|
-| 2026-10-29 | 併入五科合一知識庫：以 `scripts/scaffold_subject.py` 補建本檔與 `.gitkeep`；設計哲學框架由 CLAUDE-SOLVE.md 移入 §8；`index.html` 改用五科共用樣板、`dashboard-data.js` 改由 `scripts/refresh_dashboard.py` 產生（變數由 `SS_*` 改為 `KB_*`，順帶修正 2006 年四題 designMethod 舊快照仍為 LRFD 的問題）；`skills/`、`xcheck.py` 移至根目錄；原 repo `.git` 封存於根目錄 `_archive/` | 五科合併為單一知識庫，架構統一 |
+| 2026-10-29 | 併入五科合一知識庫：以 `scripts/scaffold_subject.py` 補建本檔與 `.gitkeep`；設計哲學框架由 CLAUDE-SOLVE.md 移入 §8；`index.html` 改用五科共用樣板、`dashboard-data.js` 改由 `scripts/refresh_dashboard.py` 產生（變數由 `SS_*` 改為 `KB_*`，順帶修正 2006 年四題 designMethod 舊快照仍為 LRFD 的問題）；`skills/`、`xcheck.py` 移至根目錄；原 repo `.git` 曾封存於根目錄 `_archive/`，確認無未推送 commit 後已刪除（舊歷史保留在 GitHub `exam-wiki-SS`） | 五科合併為單一知識庫，架構統一 |
 
 ### 併入前的變更紀錄（原 exam-wiki-SS/CLAUDE.md CHANGELOG，原樣保留）
 
