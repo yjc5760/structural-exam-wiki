@@ -1,0 +1,186 @@
+<section id="ch2">
+<h2 class="c">第 2 章　局部挫屈與斷面分類：板太薄，斷面連 \(M_p\) 的資格都沒有</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$\lambda_{\text{限}}=C\sqrt{\frac{E}{F_y}}\ \Rightarrow\ \frac{17}{\sqrt{F_y}},\ \frac{25}{\sqrt{F_y}},\ \frac{170}{\sqrt{F_y}},\ \frac{260}{\sqrt{F_y}};\qquad
+M_n=M_p-(M_p-M_r)\frac{\lambda-\lambda_p}{\lambda_r-\lambda_p}$$
+要記的只有 <span class="kw">種子 S2：板也會推歪</span>、<span class="kw">種子 S4：平台＋直線＋曲線</span>，以及四個係數的「十倍關係」。<br>
+第 1 章算的是本錢；這一章問的是：<b>翼板或腹板會不會在到達本錢之前，自己先皺掉？</b>
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>寬厚比界限 \(\lambda_p\)、\(\lambda_r\)（翼板 \(b_f/2t_f\)：17、25；腹板 \(h/t_w\)：170、260，÷\(\sqrt{F_y}\)）</td><td><span class="tg half">別賭</span></td><td>2.3、2.4</td></tr>
+<tr><td>非結實斷面 FLB 內插 \(M_n=M_p-(M_p-M_r)\dfrac{\lambda-\lambda_p}{\lambda_r-\lambda_p}\)</td><td><span class="tg must">必背</span></td><td>2.5</td></tr>
+<tr><td>\(M_r=(F_y-F_r)S_x\)（端點）</td><td><span class="tg half">別賭</span></td><td>2.5</td></tr>
+<tr><td>殘留應力 \(F_r\)：熱軋約 0.7、銲接約 1.16 tf/cm²</td><td><span class="tg give">會給</span></td><td>2.5</td></tr>
+<tr><td>耐震緊實 \(\lambda_{pd}\)（翼板 \(14/\sqrt{F_y}\)）</td><td><span class="tg give">會給</span></td><td>2.4</td></tr>
+<tr><td>ASD 非結實翼板 \(F_b\)：\(0.66F_y\to0.60F_y\) 的直線</td><td><span class="tg half">別賭</span></td><td>2.6</td></tr>
+</table>
+<p class="note">證據：\(\lambda_p/\lambda_r\) 印過 7 年（2007、2008、2011、2012、2014、2016、2021），但 2016 年那張表是<b>題目的一部分、要你解釋</b>；2012、2014 年給了 \(\lambda\) 的數值，<b>FLB 內插式卻沒給</b>。
+相關題目：<a href="problems-view/SS-2016-1.html">SS-2016-1</a>、<a href="problems-view/SS-2012-1.html">SS-2012-1</a>、<a href="problems-view/SS-2025-1.html">SS-2025-1</a>、<a href="problems-view/SS-2007-3.html">SS-2007-3</a>。</p>
+</div>
+
+<h3 class="c">2.1　三種斷面分類，其實是三種「先後順序」</h3>
+<p>彎矩一路加上去，斷面裡有兩件事在賽跑：<b>應力塊長成長方形</b>（第 1 章），和<b>受壓的薄板皺起來</b>（本章）。誰先發生，就決定這個斷面屬於哪一類：</p>
+
+{{FIG:fig2_3|圖 2-1｜三種斷面的彎矩–轉角行為（示意）。<b>結實</b>：先到 \(M_p\)，而且還能在 \(M_p\) 上再轉好幾倍才皺；<b>非結實</b>：過了 \(M_r\)、還沒到 \(M_p\) 就皺；<b>細長</b>：連 \(M_r\) 都還沒到就皺。分類的界線就是兩個寬厚比 \(\lambda_p\) 與 \(\lambda_r\)。}}
+
+<table>
+<tr><th style="width:20%">分類</th><th style="width:22%">寬厚比</th><th>先後順序</th><th style="width:22%">標稱強度</th></tr>
+<tr><td style="color:var(--tension);font-weight:700">結實（compact）</td><td>\(\lambda\le\lambda_p\)</td><td>先全斷面降伏，再轉很多才皺</td><td>\(M_p\)（局部挫屈不扣）</td></tr>
+<tr><td style="color:var(--warn);font-weight:700">非結實（noncompact）</td><td>\(\lambda_p\lt\lambda\le\lambda_r\)</td><td>外緣已降伏、還沒全斷面降伏就皺</td><td>\(M_r\)～\(M_p\) 之間（直線）</td></tr>
+<tr><td style="color:var(--comp);font-weight:700">細長（slender）</td><td>\(\lambda\gt\lambda_r\)</td><td>還在彈性就皺</td><td>小於 \(M_r\)（本單元不考）</td></tr>
+</table>
+
+<h3 class="c">2.2　板也會被「推歪」：寬厚比為什麼跟 \(\sqrt{E/F_y}\) 有關</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S2｜板也會「推歪＝拉回」（SS-U1-1 第 11 章的老朋友）</div>
+$$F_{cr}=\frac{k\,\pi^2E}{12(1-\nu^2)\,(b/t)^2}\qquad\text{（板的 Euler：把柱的 }KL/r\text{ 換成 }b/t\text{）}$$
+</div>
+<p>受壓的薄板跟柱子一樣：壓力想把它推歪，板的彎曲勁度想把它拉回。柱子是 \((KL/r)^2\) 在分母，板就是 \((b/t)^2\) 在分母；
+\(k\) 是「四周怎麼撐、應力怎麼分布」的係數（2.3 節）。</p>
+
+{{FIG:fig2_2|圖 2-2｜藍線是板的彈性挫屈應力，寬厚比越大掉得越快；水平線是材料降伏 \(F_y\)。<b>兩線取小</b>：交點左邊材料先撐不住、右邊板先皺。交點的位置就是寬厚比界限。\(F_y\) 從 2.5 提高到 3.5，交點從 17.7 左移到 15.0——正好是 \(\sqrt{2.5/3.5}\) 倍。}}
+
+<div class="derive">
+<p><span class="st">①</span> 「板先皺」和「材料先降伏」的分界：令 \(F_{cr}=F_y\)。</p>
+<p><span class="st">②</span> 移項：\(\left(\dfrac bt\right)^2=\dfrac{k\pi^2}{12(1-\nu^2)}\cdot\dfrac{E}{F_y}\)。</p>
+<p><span class="st">③</span> 開根號：\(\boxed{\left(\dfrac bt\right)_{\text{限}}=C\sqrt{\dfrac{E}{F_y}}}\)，\(C=\sqrt{\dfrac{k\pi^2}{12(1-\nu^2)}}=0.95\sqrt k\)　✔ 規範所有的寬厚比界限都長這個樣子。</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・\(F_y\) 越高 → 界限越小：高強度鋼更早到降伏應力，板必須更厚才不會搶先皺 ✔（A572 Gr.50 的 \(\lambda_p\) 比 A36 小，SS-2012-1 的陷阱就在這）<br>
+・\(E\to\infty\)（板無限硬）→ 界限 → ∞，永遠不會皺 ✔<br>
+・把 \(E=2040\) tf/cm² 吃進係數：\(C\sqrt{E}\) 就變成規範寫的「17」「170」這類數字，所以規範式寫成 \(\dfrac{17}{\sqrt{F_y}}\)，\(F_y\) <b>必須用 tf/cm²</b> 代入 ✔</div>
+
+<h3 class="c">2.3　翼板和腹板差十倍：\(k\) 在說什麼</h3>
+
+{{FIG:fig2_1|圖 2-3｜三種板，上排是邊界與端部應力（紅＝壓、綠＝拉），下排是沿板寬方向的挫屈形狀。(a) 翼板外伸肢只有一邊接在腹板上，另一邊自由，最容易皺，\(k=0.425\)。(b) 柱的腹板兩邊都接翼板、全寬均勻受壓，\(k=4.0\)。(c) 梁的腹板兩邊都接翼板，而且<b>只有上半受壓、下半受拉</b>，受拉區把受壓區拉住，\(k=23.9\)。}}
+
+<div class="derive">
+<p><span class="st">①</span> \(C\propto\sqrt k\)。梁腹板 vs 翼板：彈性理論 \(\sqrt{23.9/0.425}=7.5\) 倍。規範再依試驗修正（翼板受腹板的轉動束制、腹板受翼板的束制程度不同），最後取成整數好記的<b>十倍</b>。</p>
+<p><span class="st">②</span> 所以規範的翼板與腹板係數剛好是<b>十倍關係</b>：\(\lambda_p\) 17 對 170、\(\lambda_r\) 25 對 260。</p>
+<p><span class="st">③</span> 梁腹板 vs 柱腹板：彈性理論 \(\sqrt{23.9/4.0}=2.44\) 倍；規範是 \(260/68=3.82\) 倍。<b>方向一致、大小有差</b>——柱腹板全寬受壓，殘留應力與初始變形的折減更多，規範再往下修。</p>
+</div>
+
+<div class="why"><b>白話（這正是 SS-2016-1 第一小題的答案）</b><br>
+・梁翼板與柱翼板的 \(\lambda_r\) 相同：兩者都是「一邊自由的外伸肢、整片差不多均勻受壓」，邊界與應力狀態一樣，\(k\) 一樣。<br>
+・梁腹板與柱腹板的 \(\lambda_r\) 差很多：梁腹板<b>一半受拉</b>，受拉區會拉住受壓區；柱腹板全寬受壓，沒有人幫忙。</div>
+
+<h3 class="c">2.4　四個係數怎麼記：無因次式＋十倍＋三分之二</h3>
+<p>把規範係數寫回 \(C\sqrt{E/F_y}\) 的形式（\(E=2040\) tf/cm²），就看出規律：</p>
+<table>
+<tr><th>肢材</th><th>\(\lambda\) 的量法</th><th>\(\lambda_p\)</th><th>\(\lambda_r\)</th><th>\(\lambda_p/\lambda_r\)</th></tr>
+<tr><td>翼板（一邊自由）</td><td>\(b_f/2t_f\)</td><td>\(0.38\sqrt{E/F_y}=\dfrac{17}{\sqrt{F_y}}\)</td><td>\(0.55\sqrt{E/F_y}=\dfrac{25}{\sqrt{F_y}}\)</td><td>0.68</td></tr>
+<tr><td>腹板（純彎）</td><td>\(h/t_w\)</td><td>\(3.76\sqrt{E/F_y}=\dfrac{170}{\sqrt{F_y}}\)</td><td>\(5.76\sqrt{E/F_y}=\dfrac{260}{\sqrt{F_y}}\)</td><td>0.65</td></tr>
+</table>
+
+<div class="why"><b>記法（三條，都不是嚴格推導）</b><br>
+① <b>形式</b>：全部是 \(\dfrac{\text{數字}}{\sqrt{F_y}}\)，2.2 節推得出來。<br>
+② <b>十倍</b>：翼板 17、25；腹板 170、260（腹板的 \(\lambda_r\) 不是 250，是 260——「腹板比較撐，多給 10」）。<br>
+③ <b>三分之二</b>：\(\lambda_p\approx\tfrac23\lambda_r\)。\(\lambda_r\) 只要求「到外緣降伏才皺」；\(\lambda_p\) 要求「到 \(M_p\) 之後還能再轉 3 倍以上」，所以要更厚。這個比例來自試驗（轉動能力），不能從彈性理論推。</div>
+
+<div class="trap"><b>版本差異：考卷有附就照考卷</b><br>
+・LRFD 有些版本的翼板 \(\lambda_r\) 不是 \(25/\sqrt{F_y}\)，而是用 \(F_L=F_y-F_r\) 取代 \(F_y\)（例：SS-2012-1 題給 \(\lambda_r=22.3\)）。<br>
+・耐震緊實 \(\lambda_{pd}\) 更嚴（翼板 \(14/\sqrt{F_y}\)；腹板 \(138/\sqrt{F_y}\) 起算）。96 年 SS-2007-3 的公式集印的就是這組，所以那份題解的腹板界限是 73.8 而不是 90.9——兩者都判定結實，結論不變。</div>
+
+<h3 class="c">2.5　非結實斷面：在 \(M_p\) 和 \(M_r\) 之間拉一條直線</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S4｜三段＝平台＋直線＋曲線，取小</div>
+$$\text{夠結實拿滿分}\ (M_p)\;\to\;\text{中間拉直線}\;\to\;\text{太細長看彈性挫屈}$$
+</div>
+<p>這顆種子第 4 章 LTB 會再用一次，形狀一模一樣，只是橫軸從 \(\lambda\) 換成 \(L_b\)。先在這裡把它長熟。</p>
+
+<div class="derive">
+<p><span class="st">①</span> <b>左端點</b>：\(\lambda=\lambda_p\) 時剛好結實，拿得到 \(M_p\)。</p>
+<p><span class="st">②</span> <b>右端點</b>：\(\lambda=\lambda_r\) 時，板在「外緣剛降伏」那一刻皺。外緣本來就有殘留壓應力 \(F_r\)，所以載重只要再加 \(F_y-F_r\) 就到降伏：
+\(\boxed{M_r=(F_y-F_r)S_x=F_LS_x}\)。</p>
+<p><span class="st">③</span> 兩點之間拉直線（兩點式）：\(\boxed{M_n=M_p-(M_p-M_r)\dfrac{\lambda-\lambda_p}{\lambda_r-\lambda_p}}\)　✔ 這就是規範的 FLB 內插式。</p>
+</div>
+
+<div class="check"><b>極限檢查（也是抓「考卷印錯」的方法）</b><br>
+・代 \(\lambda=\lambda_p\)：分子 0 ⇒ \(M_n=M_p\) ✔<br>
+・代 \(\lambda=\lambda_r\)：分式 \(=1\) ⇒ \(M_n=M_r\) ✔<br>
+・分母一定是 \(\lambda_r-\lambda_p\)（固定的兩個端點）。若看到分母寫成 \(\lambda_r-\lambda\)，代端點就會爆掉——那是印錯（第 4 章 SS-2007-3 的公式集就印錯過 LTB 版）。</div>
+
+<div class="why"><b>殘留應力為什麼在這裡出現、在 \(M_p\) 不出現</b>：\(M_r\) 是「第一次降伏」的時刻，殘留應力讓翼板尖端提早降伏；
+\(M_p\) 是「全部降伏」的時刻，殘留應力已經被洗平（第 1 章 Q4）。熱軋 \(F_r\approx0.7\)、銲接 \(F_r\approx1.16\) tf/cm²：銲接冷卻更不均勻，殘留應力較大。這兩個數字考卷幾乎都會給。</div>
+
+{{FIG:fig2_4|圖 2-4｜翼板局部挫屈（FLB）的 \(M_n\)–\(\lambda\) 圖，數值取 SS-2012-1（W14×90，A572 Gr.50，SI 單位）。紫色平台＋直線是本單元考的範圍；\(\lambda_r\) 以右的虛線是細長翼板（只畫形狀，本單元不考）。紅點：\(\lambda=10.22\)，只比 \(\lambda_p=9.19\) 大一點，強度只扣 2.1%。}}
+
+<h3 class="c">2.6　ASD 的對應：\(0.66F_y\) 到 \(0.60F_y\) 也是一條直線</h3>
+<p>ASD 用容許應力表示：結實（\(\lambda\le17/\sqrt{F_y}\)）\(F_b=0.66F_y\)；非結實上限（\(\lambda=25/\sqrt{F_y}\)）\(F_b=0.60F_y\)。中間呢？同一顆種子 S4：拉直線。</p>
+<div class="derive">
+<p><span class="st">①</span> 兩點式：\(\dfrac{F_b}{F_y}=0.66-0.06\cdot\dfrac{\lambda-17/\sqrt{F_y}}{8/\sqrt{F_y}}=0.66-0.0075\,\lambda\sqrt{F_y}+0.0075\times17\)。</p>
+<p><span class="st">②</span> 常數項：\(0.66+0.1275=0.7875\approx0.79\)。</p>
+<p><span class="st">③</span> \(\boxed{F_b=F_y\left(0.79-0.0076\,\lambda\sqrt{F_y}\right)}\)（tf/cm²）　✔ 這就是 ASD 規範那條「看起來很奇怪」的式子。</p>
+</div>
+
+{{FIG:fig2_5|圖 2-5｜\(F_y=3.5\) tf/cm² 時，ASD 非結實翼板的容許應力。橘色實線＝兩端點拉直線，紫色虛線＝規範式 \(F_y(0.79-0.0076\lambda\sqrt{F_y})\)，兩者重疊（最大差 0.001\(F_y\)）。<b>規範式就是一條直線換了寫法。</b>}}
+
+<div class="check"><b>LRFD 與 ASD 一起看</b>：LRFD 端點是 \(M_p\to M_r\)（彎矩），ASD 是 \(0.66F_y\to0.60F_y\)（應力）。
+兩者都是「平台＋直線」，分界的 \(\lambda_p\)、\(\lambda_r\) 數字相同。ASD 的 0.79、0.0076 不用背，考場上用兩個端點三十秒就重建。</div>
+
+<h3 class="c">2.7　範例</h3>
+
+<h4>範例 ①：結實判定（SS-2025-1）</h4>
+<div class="derive">
+<p><span class="st">翼</span> \(\lambda_f=\dfrac{30}{2\times1.5}=10.0\)；\(\lambda_p=\dfrac{17}{\sqrt{2.5}}=10.75\)；\(10.0\lt10.75\) ⇒ 結實（只差 7%，正是出題者要你算的地方）。</p>
+<p><span class="st">腹</span> \(\lambda_w=\dfrac{42}{1.5}=28.0\)；\(\lambda_p=\dfrac{170}{\sqrt{2.5}}=107.5\) ⇒ 遠低於界限（題目也宣告腹板不會局部挫屈）。</p>
+<p><span class="st">結</span> 結實＋完全側撐 ⇒ \(M_n=M_p\)，接回第 1 章：\(\phi_bM_n=58.9\) tf·m。</p>
+</div>
+<div class="trap"><b>分母是 \(2t_f\)</b>：翼板從腹板兩側各外伸 \(b_f/2\)，每一片外伸肢的「寬」是 \(b_f/2\)，所以 \(\lambda=\dfrac{b_f/2}{t_f}=\dfrac{b_f}{2t_f}\)。寫成 \(b_f/t_f\) 會得到 20 → 誤判為細長。</div>
+
+<h4>範例 ②：非結實翼板（SS-2012-1，SI 單位）</h4>
+<div class="box"><b>題目（節錄）</b>　W14×90，A572 Gr.50：\(F_y=350\) MPa、\(F_r=69\) MPa，\(b_f=368\)、\(t_f=18\) mm，\(S_x=2{,}343{,}350\)、\(Z_x=2{,}572{,}769\) mm³；題給 \(\lambda_p=9.19\)、\(\lambda_r=22.3\)。求翼板局部挫屈的 \(\phi_bM_n\)。
+（<a href="problems-view/SS-2012-1.html">SS-2012-1</a>）</div>
+<div class="derive">
+<p><span class="st">①</span> \(\lambda_f=\dfrac{368}{2\times18}=10.22\gt\lambda_p=9.19\) ⇒ <b>非結實</b>（直覺上 W14×90 很肥，但 Gr.50 的界限變小了）。</p>
+<p><span class="st">②</span> 端點：\(M_p=350\times2{,}572{,}769=900.5\) kN·m；\(M_r=(350-69)\times2{,}343{,}350=658.5\) kN·m。</p>
+<p><span class="st">③</span> 內插：\(\dfrac{10.22-9.19}{22.3-9.19}=0.0787\)；\(M_n=900.5-(900.5-658.5)\times0.0787=881.4\) kN·m；\(\phi_bM_n=793.3\) kN·m。</p>
+<p><span class="st">檢</span> 只比 \(\lambda_p\) 多 11%，強度只扣 2.1% ✔ 合理。這題還要再算 LTB（第 4 章），兩者<b>取小</b>。</p>
+</div>
+
+<h4>貫穿範例：H700×200 結實嗎？（SS-2007-3）</h4>
+<div class="derive">
+<p><span class="st">翼</span> \(\lambda_f=\dfrac{20}{2\times2.5}=4.0\)；\(\lambda_p=\dfrac{17}{\sqrt{3.5}}=9.09\) ⇒ 結實，餘裕很大（窄翼板、厚翼板）。</p>
+<p><span class="st">腹</span> \(h=70-2\times2.5=65\)，\(\lambda_w=65/1.2=54.2\)；\(\lambda_p=170/\sqrt{3.5}=90.9\) ⇒ 結實。（照當年公式集的 \(\lambda_{pd}=138/\sqrt{3.5}=73.8\)，也結實。）</p>
+<p><span class="st">結</span> 局部挫屈<b>不扣</b>——圖 0-1 第二根柱子和第一根一樣高。真正的考驗在第 4 章：無側撐 5 m 時整根梁會不會側翻。</p>
+</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜寬厚比與 FLB</div>
+<ol>
+<li><b>畫</b>：一條板的 Euler 曲線（\(\propto1/\lambda^2\)）和一條 \(F_y\) 水平線；再畫 \(M_n\)–\(\lambda\) 的平台＋直線</li>
+<li><b>種子</b>：S2（令 \(F_{cr}=F_y\)）、S4（兩點拉直線）</li>
+<li><b>推</b>：\(\lambda_{\text{限}}=C\sqrt{E/F_y}\) ⇒ 翼 17／25、腹 170／260（十倍、\(\lambda_p\approx\frac23\lambda_r\)）；端點 \((\lambda_p,M_p)\)、\((\lambda_r,M_r=(F_y-F_r)S_x)\)；ASD 端點 \(0.66F_y\)、\(0.60F_y\)</li>
+<li><b>檢查</b>：代 \(\lambda_p\) 得 \(M_p\)、代 \(\lambda_r\) 得 \(M_r\)；翼板 \(\lambda\) 分母是 \(2t_f\)</li>
+</ol>
+</div>
+
+<h3>2.8　🙈 蓋住重推</h3>
+<details><summary>Q1　（SS-2016-1）梁翼板與柱翼板的 \(\lambda_r\) 相同，梁腹板與柱腹板卻差很多，為什麼？</summary>
+<p>答：寬厚比界限 \(\propto\sqrt k\)，\(k\) 由邊界條件與應力分布決定。翼板不論在梁或柱，都是一邊自由的外伸肢、差不多均勻受壓 ⇒ \(k\) 相同 ⇒ \(\lambda_r\) 相同。
+腹板在柱裡全寬均勻受壓（\(k=4.0\)）；在梁裡上半受壓、下半受拉（\(k=23.9\)），受拉區拉住受壓區，所以梁腹板可以薄很多（\(260\) vs \(68\)）。</p></details>
+<details><summary>Q2　（SS-2016-1）制定 \(\lambda_p\) 與 \(\lambda_r\) 各考慮了什麼？</summary>
+<p>答：兩者都含「板的彈性挫屈（\(E\)、\(k\)、\(\nu\)）」與「材料降伏 \(F_y\)」。\(\lambda_r\)：要撐到外緣降伏（\(F_y-F_r\)）才皺，所以還考慮殘留應力與初始變形。
+\(\lambda_p\)：不只要到 \(M_p\)，還要在 \(M_p\) 下有足夠轉動能力（約 3 倍以上）讓塑性鉸能重分配彎矩，所以考慮應變硬化與試驗的轉動能力，界限約為 \(\lambda_r\) 的三分之二。</p></details>
+<details><summary>Q3　不看書寫出 FLB 內插式，並說明 \(M_r\) 為什麼要扣 \(F_r\)。</summary>
+<p>答：兩點 \((\lambda_p,M_p)\)、\((\lambda_r,M_r)\) 拉直線即得。\(M_r\) 對應「外緣第一次降伏」，外緣原本就有殘留壓應力 \(F_r\)，載重應力只要 \(F_y-F_r\) 就到降伏，所以 \(M_r=(F_y-F_r)S_x\)。</p></details>
+<details><summary>Q4　ASD 的 \(F_b=F_y(0.79-0.0076\lambda\sqrt{F_y})\) 怎麼來？</summary>
+<p>答：在 \((17/\sqrt{F_y},\,0.66F_y)\) 與 \((25/\sqrt{F_y},\,0.60F_y)\) 之間拉直線：斜率 \(0.06/(8/\sqrt{F_y})=0.0075\sqrt{F_y}\)，截距 \(0.66+0.0075\times17\approx0.79\)。</p></details>
+
+<h3>2.9　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>翼板 \(\lambda=b_f/t_f\)</td><td>外伸肢寬是 \(b_f/2\) ⇒ \(\lambda=b_f/2t_f\)</td></tr>
+<tr><td>2</td><td>\(F_y\) 用 MPa 代 \(17/\sqrt{F_y}\)</td><td>係數已把 \(E=2040\) tf/cm² 吃進去，\(F_y\) 必須 tf/cm²；SI 題用 \(0.38\sqrt{E/F_y}\)</td></tr>
+<tr><td>3</td><td>「看起來很肥」就當結實（SS-2012-1）</td><td>高強度鋼界限較小；一定要算</td></tr>
+<tr><td>4</td><td>非結實只算 LTB</td><td>FLB 與 LTB 是兩個極限狀態，各算各的再取小</td></tr>
+<tr><td>5</td><td>內插分母寫 \(\lambda_r-\lambda\)</td><td>分母是兩個固定端點的差 \(\lambda_r-\lambda_p\)；代端點自我檢查</td></tr>
+<tr><td>6</td><td>\(M_r\) 用 \(F_yS_x\) 或 \(0.7F_yS_x\)（新版 AISC）</td><td>題目給 \(F_r\) 就用 \((F_y-F_r)S_x\)；考卷有附就照考卷</td></tr>
+<tr><td>7</td><td>以為 2016-1 的表是給你查的</td><td>那題要你<b>解釋</b>表裡的差異：\(k\)（邊界＋應力分布）與韌性需求</td></tr>
+</table>
+</section>

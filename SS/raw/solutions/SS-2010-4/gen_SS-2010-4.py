@@ -10,6 +10,11 @@ SS-2010-4 樓版支撐鋼梁之斷面選擇與撓度檢核 — 解題圖解產�
   2. 五組候選斷面的兩個使用率全部由載重與斷面性質現算（含自重迭代），
      改一個載重或跨距，五個點會一起移動
   3. 每張圖在 FIGURES 表寫明攔什麼錯
+
+圖 1（fig1_problem，2026-11-03 追加）：題目附圖（圖三）重繪。
+  重繪依據：題目正本 SS-2010-4-problem.md §4 判讀清單（待確認）；只畫考卷給的東西，不含解題結果。
+  示意部分：鋼梁斷面尺寸（RH 梁為所求，未定）、支座塊大小；斷面圖的版厚與鋼梁斷面放大 Q_VEX 倍。
+  不重繪：題內 RH 斷面表（已照錄於 problem.md §2）。
 """
 import sys, os, math
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -285,7 +290,80 @@ def fig4_298_debate():
 
 
 # ══════════════════════════════════════════════════════════
+# 圖 1：題目附圖重繪（依題目正本 SS-2010-4-problem.md §4 判讀清單，待確認）
+# 只畫考卷給的東西，與上方解題常數分開；不含任何解題結果（不標所選斷面、載重值）
+# ══════════════════════════════════════════════════════════
+Q_SPAN = 600.0          # #1 簡支，跨距 6.0 m（cm）
+Q_S = 300.0             # #2 梁距 3.0 m（cm），斷面圖三根梁
+Q_T = 15.0              # 題文 15 cm 厚 RC 版
+#                         #4 上翼板埋入 RC 版（題文「上翼版埋入混凝土版內」）
+Q_DB, Q_BB = 30.0, 18.0     # 鋼梁深、翼寬：RH 梁為所求，尺寸僅示意
+Q_TFB = 2.0                 # 翼板厚（示意）
+Q_EMB = Q_TFB               # 上翼板埋入深度（示意：翼板厚）
+Q_OVH = 60.0                # 版外伸（示意）
+Q_VEX = 3.0                 # 斷面圖厚度方向放大倍數（示意）
+Q_PW, Q_PH = 560, 330
+
+
+def _q_box(cv, x0, x1, y0, y1, fill, stroke, w=1.6, op=1.0):
+    cv.polygon([(x0, y0), (x1, y0), (x1, y1), (x0, y1)], fill, stroke, w, op)
+
+
+def _q_side():
+    sx = (Q_PW - 120) / Q_SPAN
+    cv = Canvas(Q_PW, Q_PH, sx=sx, ox=60, oy=150)
+    cv.panel("鋼梁側視圖", "簡支；梁深與支座大小為示意")
+    blk_w, blk_h = 50.0, 36.0
+    for x in (0.0, Q_SPAN):
+        _q_box(cv, x - blk_w / 2, x + blk_w / 2, -blk_h, 0, C["ghost"], C["member"], 1.6, 0.9)
+        _q_box(cv, x - blk_w / 2, x + blk_w / 2, -blk_h, 0, "none", C["member"], 1.6)
+    _q_box(cv, -blk_w / 2 + 6, Q_SPAN + blk_w / 2 - 6, 0, Q_DB, C["fill_c"], C["member"], 1.6)
+    cv.line((-blk_w / 2 + 6, Q_DB - Q_TFB), (Q_SPAN + blk_w / 2 - 6, Q_DB - Q_TFB), C["member"], 1.0)
+    cv.line((-blk_w / 2 + 6, Q_TFB), (Q_SPAN + blk_w / 2 - 6, Q_TFB), C["member"], 1.0)
+    cv.dim((0, -blk_h), (Q_SPAN, -blk_h), f"{Q_SPAN / 100:.1f} m", off=30, label_off=16)
+    return cv
+
+
+def _q_slab():
+    xs = [0.0, Q_S, 2 * Q_S]
+    span = xs[-1] - xs[0] + 2 * Q_OVH
+    sx = (Q_PW - 140) / span
+    cv = Canvas(Q_PW, Q_PH, sx=sx, ox=40 + Q_OVH * sx, oy=160)
+    cv.panel("梁、版斷面圖", f"版厚與鋼梁斷面放大 {Q_VEX:.0f} 倍示意；上翼板埋入版內")
+    v = Q_VEX
+    y_bot = 0.0                       # 版底
+    y_top = Q_T * v                   # 版頂
+    _q_box(cv, -Q_OVH, xs[-1] + Q_OVH, y_bot, y_top, C["ghost"], "none", 0, 0.45)
+    _q_box(cv, -Q_OVH, xs[-1] + Q_OVH, y_bot, y_top, "none", C["member"], 1.8)
+    for x in xs:
+        top = y_bot + Q_EMB * v      # 上翼板頂（埋入版內）
+        bot = top - Q_DB * v
+        for ya, yb, hw in ((top - Q_TFB * v, top, Q_BB / 2 * v), (bot, bot + Q_TFB * v, Q_BB / 2 * v),
+                           (bot + Q_TFB * v, top - Q_TFB * v, 1.2 * v)):
+            _q_box(cv, x - hw, x + hw, ya, yb, C["fill_c"], C["member"], 1.4)
+    yb = -Q_DB * v + Q_EMB * v
+    for k in range(2):
+        cv.dim((xs[k], yb), (xs[k + 1], yb), f"{Q_S / 100:.1f} m", off=28, label_off=16)
+    cv.dim((xs[-1] + Q_OVH, y_bot), (xs[-1] + Q_OVH, y_top), f"{Q_T:.0f} cm", off=24, label_off=32)
+    cv.line((Q_S * 0.55, y_top), (Q_S * 0.95, y_top + 34), C["muted"], 1.2)
+    cv.text((Q_S * 0.95, y_top + 34), "15 cm 厚 RC 版", 13, C["text"], "start", dx=4)
+    return cv
+
+
+def fig1_problem():
+    path = os.path.join(OUT, f"{TAG}-fig-1-problem.svg")
+    compose([_q_side(), _q_slab()], cols=2,
+            title="SS-2010-4 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1、#2、#4；只畫考卷所給條件（鋼梁斷面為所求，僅示意）",
+            note="梁距 3.0 m 即中間梁的受載寬；上翼板埋入 RC 版，受壓翼板連續側撐",
+            path=path)
+    return path
+
+
+# ══════════════════════════════════════════════════════════
 FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "把梁距 3.0 m 錯當半寬（受載寬取 1.5 m）；上翼板埋入版內卻仍以全跨檢核側扭挫屈"),
     (fig2_load_path, "§4 一 Step 1·§4 二·§3 陷阱❶❸❹",
      "集水寬取錯，或撓度誤用因數化載重（1.6w_L）"),
     (fig3_screen, "§4 一 Step 4 附表",

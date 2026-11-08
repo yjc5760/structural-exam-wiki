@@ -129,7 +129,7 @@ def fig6_2():
     ideal = lambda l: min(1.0, 1 / l ** 2) if l > 0 else 1.0
     o.append(p.curve(ideal, 0.01, 2.2, c=STEEL, w=2, dash='6 4'))
     o.append(p.curve(lrfd, 0, 2.2, c=COMP, w=1.4, op=0.8))
-    l1, l2, l3 = math.sqrt(0.485), math.sqrt(0.485 / 0.5), math.sqrt(2)
+    l1, l2, l3 = math.sqrt(0.4854), math.sqrt(0.4854 / 0.5), math.sqrt(2)  # Ie/Ix = 32,328/66,600 = 0.4854（顯示取 0.485）
     def ss(l):
         if l <= l1: return 1.0
         if l <= l2: return 0.485 / l ** 2
@@ -154,8 +154,8 @@ def fig6_2():
              ('→ 比例限 *F*_{p} = 0.5*F*_{y}', INK),
              ('→ 扣掉 4 塊後 *I*_{e}/*I*_{x} = 0.485', INK),
              ('', INK),
-             ('λ ≤ 0.696：壓潰 *F*_{cr} = *F*_{y}', AC),
-             ('0.696–0.985：0.485/λ²（*I*_{e} 有效）', AC),
+             ('λ ≤ 0.697：壓潰 *F*_{cr} = *F*_{y}', AC),
+             ('0.697–0.985：0.485/λ²（*I*_{e} 有效）', AC),
              ('0.985–1.414：平台 0.5（加到 *F*_{p} 即失穩）', AC),
              ('λ ≥ 1.414：1/λ²（全斷面彈性）', AC),
              ('', INK),
@@ -311,9 +311,9 @@ def fig7_3():
     for (lx, rv), dy in ((mx, -10), (mn, 18)):
         o.append(C(q.X(lx), q.Y(rv), 4, KEY, '#fff', 1.2))
         o.append(T(q.X(lx), q.Y(rv) + dy, f'{rv:.2f}', 12, KEY, 'middle', 'bold'))
-    for lx, nm in ((0.512, '§7.7'), (1.205, 'SS-2013-3')):
+    for lx, nm in ((0.512, '§7.7'), (1.377, 'SS-2013-3')):
         rv = 0.85 * lrfd(lx) / asd_fa(lx)
         o.append(C(q.X(lx), q.Y(rv), 4.5, '#fff', COMP, 2))
-    o.append(T(q.X(0.05), q.Y(1.335), '○ §7.7 範例 1.46　○ SS-2013-3 1.39', 11, COMP))
+    o.append(T(q.X(0.05), q.Y(1.335), '○ §7.7 範例 1.46　○ SS-2013-3 1.40', 11, COMP))
     o.append(T(q.X(0.05), q.Y(1.315), 'λ_{c} > 1.5：0.85 × 0.877 × 23/12 = 1.43', 11, MUT))
     return svg(W, H, '\n'.join(o), 'LRFD 與 ASD 柱強度曲線對照')

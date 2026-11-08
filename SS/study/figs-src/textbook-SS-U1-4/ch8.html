@@ -1,0 +1,113 @@
+<section id="ch8">
+<h2 class="t">第 8 章　梁的接合：翼板力偶、腹板分擔、組合應力、剪力流</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能在空白紙上寫出：</b>
+$$\frac{M_f}{M_w}=\frac{I_f}{I_w}\qquad F_f=\frac{M_f}{d-t_f}\qquad f_r=\sqrt{f_x^2+f_y^2}\le F_w\qquad q=\frac{VQ}{I},\ \ L=\frac{q\,s}{\text{每 cm 銲道強度}}$$
+要記的只有種子 <span class="kw">S6 切一刀看平衡</span>；外加 U1-2 學過的「平面保持平面」。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>翼板力偶與腹板分擔彎矩 \(M=M_f+M_w\)、\(F_f=M_f/(d-t_f)\)、\(M_f/M_w=I_f/I_w\)</td><td><span class="tg must">必背</span></td><td>8.2</td></tr>
+<tr><td>銲道組合應力 \(f_r=\sqrt{f_x^2+f_y^2}\le F_w\)</td><td><span class="tg must">必背</span></td><td>8.3</td></tr>
+<tr><td>剪力流 \(q=VQ/I\)、斷續銲 \(s=2\phi R_{n,\text{每段}}/q\)</td><td><span class="tg must">必背</span></td><td>8.5</td></tr>
+<tr><td>續接之最小接合強度（≥ 構材一半）</td><td><span class="tg half">別賭</span></td><td>8.4</td></tr>
+</table>
+<p class="note">證據：107 年 <a href="problems-view/SS-2018-3.html">SS-2018-3</a> 把 \(M_f=124.5\)、\(M_w=25.5\) kNm 直接分好給你，但「怎麼分」與 \(F_f\) 都沒給；94、106、107 年三次要合成應力，<b>三次都沒給合成方式</b>；108 年 <a href="problems-view/SS-2019-4.html">SS-2019-4</a> 整題就是 \(VQ/I\)，參考公式只有一行 \(\phi0.6F_{EXX}\)。</p>
+</div>
+
+<!-- ======================================================== 8.1 -->
+<h3>8.1　種子 S6：切一刀，不平衡的力要靠接合補</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S6</div>
+$$\text{把構件切開，畫自由體圖：兩邊的力差多少，接合就要傳多少}$$
+</div>
+<p>這顆種子在本章有兩種長相：<b>沿著梁切一刀</b>（橫斷面：彎矩被拆成翼板的一拉一壓，加上腹板）；<b>沿著銲道切一刀</b>（縱斷面：蓋板兩端的壓力不一樣大，差額靠銲道補）。</p>
+
+<!-- ======================================================== 8.2 -->
+<h3 class="t">8.2　彎矩怎麼分：翼板管力偶、腹板管彎曲　<span class="tg must">必背</span></h3>
+{{FIG:fig8_1|圖 8-1｜SS-2018-3 的 H500×200×9×16（依比例）。平面保持平面 → 斷面上應變（應力）呈直線分布；翼板離中性軸最遠，彎矩大部分由上下翼板的一拉一壓（力偶 \(F_f\)，力臂 \(d-t_f=484\) mm）承擔，腹板只分到 17%。按 \(I\) 的比例分配，得到的數字恰好就是考卷給的 124.5／25.5 kNm。}}
+<div class="derive">
+<p><span class="st">①</span> 平面保持平面：整個斷面<b>同一個曲率</b> \(\kappa\)；各部分承擔的彎矩 \(M_i=EI_i\kappa\)。</p>
+<p><span class="st">②</span> 所以 \(\boxed{\dfrac{M_f}{M_w}=\dfrac{I_f}{I_w}}\)，\(M_f=M\dfrac{I_f}{I}\)。本題 \(I_f=374.9\times10^6\)、\(I_w=76.9\times10^6\) mm⁴ → \(M_f=124.5\)、\(M_w=25.5\) kNm ✔</p>
+<p><span class="st">③</span> 種子 S6：把翼板那份彎矩換成一對力，力臂是兩翼板中心距：\(\boxed{F_f=\dfrac{M_f}{d-t_f}}=\dfrac{124.5\times10^6}{484}=\mathbf{257.2}\) kN。</p>
+</div>
+<div class="check"><b>極限檢查</b>：腹板很薄（\(I_w\to0\)）→ 全部彎矩由翼板力偶承擔 ✔（這是很多簡化設計的假設：翼板傳彎矩、腹板傳剪力）。翼板很小 → 腹板承擔全部 ✔</div>
+<div class="why"><b>兩種分法都要認得</b>：「依勁度（\(I\)）分配」是本節的做法；另一種常見的簡化是「<b>翼板承擔全部彎矩、腹板只承擔剪力</b>」。SS-2020-4 的題解主答採後者（見 8.4）。題目有給分配就照題目；沒給時寫明你採哪一個、為什麼。</div>
+
+<!-- ======================================================== 8.3 -->
+<h3 class="t">8.3　組合應力：兩個方向的剪應力向量相加　<span class="tg must">必背</span></h3>
+<div class="box"><b>題目（<a href="problems-view/SS-2018-3.html">SS-2018-3</a>，107 年，ASD）</b>　箱型柱–H 梁接頭，\(M=150\) kNm、\(Q=100\) kN；梁腹板雙面 6 mm 填角銲，有效長 388 mm。考卷給 \(S_w=212.9\) cm³、\(\tau_{w1}=M_w/S_w=119.8\) N/mm²、\(f_a=90.5\) N/mm²。檢核銲接尺寸。</div>
+{{FIG:fig8_2|圖 8-2｜(a) 腹板銲道最外點同時有兩個方向的剪應力：彎矩造成的 \(\tau_{w1}\)（水平，119.8）與剪力造成的 \(\tau_{w2}\)（垂直，30.4），頭尾相接得 123.6 N/mm²，超出容許 90.5（綠色弧線）。(b) 應力和 \(w\) 成反比，反算 \(w=8.19\) → 9 mm。}}
+<div class="derive">
+<p><span class="st">①</span> 彎矩（考卷已給）：\(\tau_{w1}=M_w/S_w=119.8\) N/mm²（水平）。</p>
+<p><span class="st">②</span> 剪力（考卷沒給）：喉面積 \(A_w=2\times(6/\sqrt2)\times388=3{,}292\) mm² → \(\tau_{w2}=100{,}000/3{,}292=\mathbf{30.4}\) N/mm²（垂直）。</p>
+<p><span class="st">③</span> 兩者垂直 → 向量和：\(\boxed{\tau=\sqrt{\tau_{w1}^2+\tau_{w2}^2}}=\mathbf{123.6}\gt90.5\) → N.G.；\(w_{req}=6\times123.6/90.5=\mathbf{8.19}\) → <b>9 mm</b>。</p>
+</div>
+<div class="why"><b>為什麼是向量和，不是 \(\sqrt{\sigma^2+3\tau^2}\)？</b>銲道的強度是用「喉面上的剪應力」定義的（第 5 章：喉面一律以剪力 \(0.6F_{EXX}\) 計），不管力的方向，所以把喉面上各方向的應力當作向量相加。von Mises 的 \(\sqrt{\sigma^2+3\tau^2}\) 是給母材用的；寫在銲道上會混淆。</div>
+<div class="trap"><b>題目正本待確認（請留意）</b><br>
+SS-2018-3 的<b>翼板</b>銲道：\(F_f=257.2\) kN，若有效長取 \(2b_f=400\) mm 需 11 mm（題解主答）；若照判讀發現的「全周銲」符號取 \(2b_f+2t_f=432\) mm 只需 10 mm。兩者結論相同（6 mm 不足），但所需尺寸差 1 mm，<b>題目正本確認後以確認結果為準</b>。本節只用腹板的部分。</div>
+
+<!-- ======================================================== 8.4 -->
+<h3>8.4　梁腹續接：一行螺栓的偏心（SS-2020-4，ASD）</h3>
+{{FIG:fig8_4|圖 8-4｜SS-2020-4 腹板續接鈑。每一列 6 顆只負責一端的梁，螺栓列距續接縫 \(e=5\) cm，所以除了 \(V\) 還有 \(V\cdot e=350\) tf·cm。螺栓排成一行（\(x=0\)），扭矩剪力全部是水平的，與直接剪力正交合成：最上、最下兩顆 13.24 tf 最大。}}
+<div class="derive">
+<p><span class="st">①</span> 最小接合強度（第 1 章）：\(0.5M_a=47.8\lt60\) tf·m、\(0.5V_a=49.0\lt70\) tf → 用實際作用力設計。</p>
+<p><span class="st">②</span> 分工（題解主答，假設 B）：翼板鈑承擔 \(M\)；腹板鈑承擔全部 \(V=70\) tf 加偏心 \(V\cdot e=350\) tf·cm。</p>
+<p><span class="st">③</span> 種子 S5（一行版）：\(\sum y^2=1{,}120\) cm²；直接 \(70/6=11.67\)、扭矩 \(350\times20/1{,}120=6.25\) → \(R=\mathbf{13.24}\) tf。</p>
+<p><span class="st">④</span> 雙剪 A490（\(F_{va}=2.8\)）：\(A_b\ge13.24/(2\times2.8)=2.363\) cm² → <b>M20</b>（3.14 cm²）；梁腹板承壓 \(1.2\times4.1\times2.0\times1.4=13.78\ge13.24\) ✔（\(F_u\) 題目未給，假設 4.1）。</p>
+<p><span class="st">⑤</span> 鈑厚（剪力控制）：\(70/(2\times48\times0.4\times2.5)=0.729\) cm → <b>8 mm</b>。</p>
+</div>
+<p class="note">另一種做法（依 \(I_w/I\) 讓腹板分擔 947 tf·cm 彎矩）在題目給定的螺栓配置下腹板承壓不足，題解列為替代解；「命題原意」屬推論。考場上<b>寫清楚你的分工假設</b>就能拿到流程分。</p>
+
+<!-- ======================================================== 8.5 -->
+<h3 class="t">8.5　剪力流：沿銲道切一刀　<span class="tg must">必背</span></h3>
+<div class="derive">
+<p><span class="st">①</span> 種子 S6：取一段長 \(\Delta x\) 的蓋板當自由體。兩端彎矩不同（\(\Delta M=V\Delta x\)），所以蓋板兩端的總壓力也不同：\(C=\dfrac{M}{I}\int y\,dA=\dfrac{MQ}{I}\)，\(Q\)＝蓋板對中性軸的一次矩。</p>
+<p><span class="st">②</span> 差額 \(\Delta C=\dfrac{\Delta M\,Q}{I}=\dfrac{V\Delta x\,Q}{I}\)，只能靠蓋板與翼板之間的銲道傳。</p>
+<p><span class="st">③</span> 每單位長度：\(\boxed{q=\dfrac{\Delta C}{\Delta x}=\dfrac{VQ}{I}}\)；斷續銲每段負責一個中心距 \(s\)：每段要傳 \(q\,s\)。</p>
+</div>
+{{FIG:fig8_3|圖 8-3｜SS-2019-4。左：加了蓋板，中性軸上移到離 H 底 35.87 cm；\(Q\) 只取蓋板那一塊（離中性軸 15.38 cm）。右：切出一段蓋板，兩端壓力差 \(\Delta C\) 由斷續銲補回。每 15 cm 一段，每段要傳 11.46 tf，雙面 8 mm 銲每 cm 可傳 2.494 tf → 4.59 cm → 取 5 cm。}}
+<div class="derive">
+<p><span class="st">SS-2019-4</span> \(I=75{,}501\) cm⁴、\(Q=75\times15.38=1{,}154\) cm³、\(V_u=50\) tf → \(q=0.764\) tf/cm；每段 \(0.764\times15=11.46\) tf；
+每 cm 雙面：\(2\times0.75\times0.6\times4.9\times0.707\times0.8=2.494\) tf/cm → \(L=4.59\) cm → <b>5 cm</b>（\(\ge\) 4w＝3.2 cm、\(\ge\) 4 cm ✔）。</p>
+</div>
+<div class="trap"><b>陷阱：\(Q\) 用 H 型鋼的形心算</b><br>
+加了蓋板中性軸就上移了；用原 H 型鋼形心（25 cm）算力臂，\(Q\) 會高估 71%（1,969 vs 1,154）。\(I\) 也要用組合斷面的。</div>
+
+<!-- ======================================================== 8.6 -->
+<h3>8.6　預告：節點域也是 S6</h3>
+<p>梁柱接頭處，把柱腹板（節點域）切出來：上下兩側各被梁翼板以 \(\sum M_{pb}/(d_b-t_f)\) 拉、推，再減去柱剪力 \(V_c\)，就是節點域要承受的剪力 \(V_u=\sum M_{pb}/(d_b-t_f)-V_c\)。這和 8.2 的 \(F_f=M_f/(d-t_f)\) 是同一張自由體圖。下冊第 10 章詳談。</p>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜梁的接合</div>
+<ol>
+<li><b>畫</b>：梁斷面＋直線應力分布；翼板畫成一對力。另畫一段切開的蓋板，兩端壓力不等。</li>
+<li><b>種子 S6＋平面保持平面</b>：\(M_f/M_w=I_f/I_w\)；\(F_f=M_f/(d-t_f)\)；\(q=VQ/I\)。</li>
+<li><b>推</b>：腹板銲 \(\tau_{w1}=M_w/S_w\)、\(\tau_{w2}=Q/A_w\)，\(\tau=\sqrt{\tau_{w1}^2+\tau_{w2}^2}\)；斷續銲 \(L=q\,s/(\text{每 cm 強度})\)。</li>
+<li><b>檢查</b>：\(M_f+M_w=M\)；\(Q\) 用組合斷面的中性軸；\(L\ge4w\) 且 ≥ 40 mm。</li>
+</ol>
+</div>
+
+<h3>8.7　🙈 蓋住重推</h3>
+<details><summary>Q1　為什麼彎矩按 \(I\) 的比例分給翼板與腹板？</summary>
+<p>平面保持平面 → 全斷面同一個曲率 \(\kappa\)；各部分 \(M_i=EI_i\kappa\)，所以 \(M_i\propto I_i\)。</p></details>
+<details><summary>Q2　從自由體圖推出 \(q=VQ/I\)。</summary>
+<p>蓋板段兩端壓力 \(MQ/I\) 與 \((M+\Delta M)Q/I\)，差 \(\Delta MQ/I=V\Delta xQ/I\)，由銲道補；除以 \(\Delta x\) 得 \(q=VQ/I\)。</p></details>
+<details><summary>Q3　SS-2018-3 若只拿 \(\tau_{w1}=119.8\) 和 90.5 比，會錯在哪？</summary>
+<p>漏掉剪力 \(Q\) 造成的垂直剪應力 30.4；兩者向量和 123.6 才是真實應力。只看 \(\tau_{w1}\) 會得到所需銲腳 7.94 mm（\(6\times119.8/90.5\)），比正確的 8.19 mm 小；本題剛好都取 9 mm，但流程分會被扣，換一組數字就會選錯尺寸。</p></details>
+
+<h3>8.8　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>翼板力偶力臂用 \(d\)</td><td>用兩翼板中心距 \(d-t_f\)</td></tr>
+<tr><td>2</td><td>只算 \(\tau_{w1}\)</td><td>加上 \(\tau_{w2}=Q/A_w\)，向量相加</td></tr>
+<tr><td>3</td><td>銲道用 \(\sqrt{\sigma^2+3\tau^2}\)</td><td>喉面應力向量和 \(\sqrt{f_x^2+f_y^2}\)</td></tr>
+<tr><td>4</td><td>\(Q\)、\(I\) 用原 H 型鋼</td><td>用組合斷面的中性軸與 \(I\)</td></tr>
+<tr><td>5</td><td>斷續銲只算一道</td><td>看斷面：兩側各一道（雙面）</td></tr>
+<tr><td>6</td><td>把 \(q\) 當每段的力</td><td>每段的力是 \(q\times s\)</td></tr>
+<tr><td>7</td><td>續接沒說明翼板／腹板如何分工</td><td>寫出假設（翼板傳 \(M\)、腹板傳 \(V\)＋\(Ve\)，或依 \(I\) 分配）</td></tr>
+</table>
+</section>

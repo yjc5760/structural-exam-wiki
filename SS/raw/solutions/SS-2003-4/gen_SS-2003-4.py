@@ -15,7 +15,7 @@ SKILL = os.environ.get("SD_SKILL",
 sys.path.insert(0, os.path.join(SKILL, "scripts"))
 from structdraw import Canvas, C, compose, member_shape
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figs")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "figs")
 
 # ══════════════════════════════════════════════════════════════
 # 由 SS-2003-4 §1（題給）與 §4（計算）取得
@@ -238,8 +238,81 @@ def fig3_interaction():
             path=os.path.join(OUT, "SS-2003-4-fig-3-interaction.svg"))
 
 
+# ══════════════════════════════════════════════════════════
+# 圖 1（題目）：題目附圖重繪（依題目正本 SS-2003-4-problem.md §4 判讀清單，待確認）
+# 只畫考卷給的東西，與上方解題常數分開；不含任何解題結果（Cm、應力比不畫）
+# 柱長為符號比例；斷面為示意（題未給 W12×170 板件尺寸）
+# ══════════════════════════════════════════════════════════
+Q_L    = 3.7          # #6 柱長 L = 3.7 m（兩面皆同）
+Q_P    = "182 t"      # 題文 P = 182 ton（圖上上下端皆標 182 t）
+Q_MX   = "27.68 t-m"  # #2 Y-Z 面端彎矩 = Mx（強軸）
+Q_MY   = "8.3 t-m"    # #2、#8 X-Z 面端彎矩 = My（弱軸），圖上寫 8.3
+Q_CCW_TOP, Q_CCW_BOT = True, True   # #1 上、下端彎矩皆逆時針（兩面相同）
+#   #3 上端：三角形抵右側牆（側向支承）；下端：鉸支承
+#   #4 兩端點間無橫向載重
+
+
+def _q_col(title, sub, mlabel):
+    W1, H1 = 360, 600
+    sx = 290 / Q_L
+    cv = Canvas(W1, H1, sx=sx, ox=W1 / 2 + 10, oy=160)
+    cv.panel(title, sub)
+    top, bot = (0, Q_L), (0, 0)
+    cv.line(bot, top, C["member"], 3.6, cap="butt")
+    # 上端：側向支承（三角形尖端抵節點、牆在右）
+    cv.support(top, "pin", 90, size=14)
+    cv.arrow((0, Q_L + 62 / sx), (0, Q_L + 4 / sx), C["load"], 2.8, 10)
+    cv.text((0, Q_L + 62 / sx), Q_P, 14, C["load"], dy=-12, weight="700")
+    cv.moment_arrow(top, r=26, ccw=Q_CCW_TOP, span=230, start=-25)
+    cv.text(top, mlabel, 14, C["load"], "end", dx=-36, dy=30, weight="700")
+    # 下端：鉸支承，下方標反力 P 與端彎矩
+    cv.support(bot, "pin", 0, size=14)
+    yb = -58 / sx
+    cv.arrow((0, yb - 58 / sx), (0, yb + 0 / sx), C["load"], 2.8, 10)
+    cv.text((0, yb - 58 / sx), Q_P, 14, C["load"], "start", dx=8, dy=-4, weight="700")
+    cv.moment_arrow((0, yb), r=24, ccw=Q_CCW_BOT, span=230, start=155)
+    cv.text((0, yb), mlabel, 14, C["load"], "end", dx=-32, dy=-2, weight="700")
+    cv.dim((0, 0), (0, Q_L), f"{Q_L} m", off=-92, label_off=-30)
+    return cv
+
+
+def _q_section():
+    W1, H1 = 360, 600
+    cv = Canvas(W1, H1, sx=6.0, ox=W1 / 2 - 24, oy=H1 / 2 - 20)
+    cv.panel("斷面軸向", "W12×170（示意）")
+    bf, d, tf, tw = 30.0, 34.0, 3.6, 2.2
+    for x0, x1, y0, y1 in ((-bf / 2, bf / 2, d / 2 - tf, d / 2), (-bf / 2, bf / 2, -d / 2, -d / 2 + tf),
+                           (-tw / 2, tw / 2, -d / 2 + tf, d / 2 - tf)):
+        cv.polygon([(x0, y0), (x1, y0), (x1, y1), (x0, y1)], C["fill_c"], C["member"], 1.6)
+    cv.arrow((0, 0), (0, d / 2 + 11), C["text"], 1.6, 8)
+    cv.arrow((0, 0), (bf / 2 + 11, 0), C["text"], 1.6, 8)
+    cv.text((0, d / 2 + 11), "Y軸", 15, C["text"], dy=-14, weight="700")
+    cv.text((bf / 2 + 11, 0), "X軸", 15, C["text"], "start", dx=6, weight="700")
+    return cv
+
+
+def fig1_problem():
+    path = os.path.join(OUT, "SS-2003-4-fig-1-problem.svg")
+    compose([_q_col("Y-Z 面", "端彎矩 Mx（強軸）", Q_MX),
+             _q_col("X-Z 面", "端彎矩 My（弱軸）", Q_MY),
+             _q_section()], cols=3,
+            title="SS-2003-4 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1–#4、#6、#8；柱長為示意比例，斷面為示意",
+            note="上、下端彎矩皆為逆時針（反向曲率）；上端為抵牆側向支承、下端鉸支",
+            path=path)
+    return path
+
+
+FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "把上下端同為逆時針的端彎矩讀成單曲率（M1/M2 正負號弄反）；27.68／8.3 對應的強弱軸對調"),
+]
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
+    for _fn, _sec, _catch in FIGURES:
+        print(f"{os.path.basename(_fn()):<34} {_sec:<20} 攔：{_catch}")
     fig1_frame(); fig2_curvature(); fig3_interaction()
     print(f"fa={fa:.4f} fbx={fbx:.4f} fby={fby:.4f}")
     print(f"Cm={CM}  穩定式={stab(CM):.4f}  強度式={sum(strength_terms()):.4f}")

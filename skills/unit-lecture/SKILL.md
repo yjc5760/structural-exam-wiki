@@ -26,12 +26,12 @@ description: "為六科考試知識庫（exam-wiki-SS/RC/SA/SD/SM/MM）的某個
 
 | 代號 | 科目 | 資料夾 |
 |------|------|--------|
-| SS | 鋼結構設計 | `exam-wiki-SS` |
-| RC | 鋼筋混凝土設計與預力混凝土設計 | `exam-wiki-RC` |
-| SA | 結構學 | `exam-wiki-SA` |
-| SD | 結構動力分析與耐震設計 | `exam-wiki-SD` |
-| SM | 土壤力學與基礎設計 | `exam-wiki-SM` |
-| MM | 材料力學 | `exam-wiki-MM` |
+| SS | 鋼結構設計 | `SS/` |
+| RC | 鋼筋混凝土設計與預力混凝土設計 | `RC/` |
+| SA | 結構學 | `SA/` |
+| SD | 結構動力分析與耐震設計 | `SD/` |
+| SM | 土壤力學與基礎設計 | `SM/` |
+| MM | 材料力學 | `MM/` |
 
 > 科目全名一律以 `raw/json/syllabus_taxonomy.json` 為準，**不要憑記憶填**。
 > 這張表曾把 SM 誤寫成「材料力學」、MM 誤寫成「工程數學／力學」——
@@ -44,9 +44,9 @@ description: "為六科考試知識庫（exam-wiki-SS/RC/SA/SD/SM/MM）的某個
 
 ## Step 0：定位
 
-1. 從工作資料夾判斷科目（資料夾名 `exam-wiki-XX`）。使用者若指定其他科目而該資料夾未掛載，直接說明並請對方開啟該資料夾。
-2. 讀 `CLAUDE.md` 確認單元代號與名稱。
-3. 確認 `wiki/topics/XX-Un-m.md` 存在（該單元的題目清單）。
+1. 判斷科目：知識庫為 structural-exam-wiki，科目資料夾是 `XX/`（下文 `<REPO>` 指該科目資料夾，如 `SS/`）。題號或單元代號的前兩碼即科目；無法判斷時先問。
+2. 讀根目錄 `CLAUDE.md` 與 `XX/SUBJECT.md` §2 確認單元代號與名稱。
+3. 確認該單元在 `raw/json/question_index.json` 有題目（題目清單以索引為準。wiki 已封存：只留 `wiki/queries/`，舊七層在 `archive/wiki/` 僅供參考、未經全面核對）。
 
 **立刻用 TaskCreate 建立任務清單**（採集 → 撰寫 → 數值重算＋程式繪圖 → HTML → 題號連結渲染 → PDF → 精選題 → 驗證 → log）。
 
@@ -75,15 +75,18 @@ for q in sorted(sel, key=lambda x: x['moduleId']):
 print('\n# 標籤頻次（決定章節配重與複習優先順序）')
 print(mass.most_common(50))
 print('\n# 知識庫可用素材')
+print('-- methods (raw):', ', '.join(sorted(os.listdir(f'{repo}/raw/solutions/methods'))) if os.path.isdir(f'{repo}/raw/solutions/methods') else '-')
 for d in ['concepts', 'methods', 'code-ref', 'diagnosis', 'failure-modes', 'materials', 'traps']:
-    p = f'{repo}/wiki/{d}'
-    if os.path.isdir(p):
-        print(f'-- {d}:', ', '.join(sorted(os.listdir(p))[:80]))
+    for base in ('wiki', 'archive/wiki'):   # 2026-11-08 起各科 wiki 封存至 archive/wiki（僅供線索）
+        p = f'{repo}/{base}/{d}'
+        if os.path.isdir(p):
+            print(f'-- {base}/{d}:', ', '.join(sorted(os.listdir(p))[:80]))
 ```
 
-接著**讀取**與本單元標籤對應的 `wiki/concepts/`、`wiki/code-ref/`、`wiki/methods/`、
-`wiki/diagnosis/`、`wiki/traps/` 頁面（一次用 `for f in ...; do cat $f; done` 批次讀，省來回）。
-`code-ref/` 特別重要 —— 它記錄規範常數的推導來源，是「不死記公式」的主要彈藥。
+接著**讀取**與本單元標籤對應的方法論正本 `raw/solutions/methods/`，以及 `archive/wiki/` 的 concepts、code-ref、methods、
+diagnosis、traps 頁面當線索（一次用 `for f in ...; do cat $f; done` 批次讀，省來回）。
+`code-ref/` 記錄規範常數的推導來源，是「不死記公式」的彈藥。
+**注意**：`archive/wiki/` 是封存的舊 wiki（SS 2026-11-01 掃描發現 45 項錯誤，見 `SS/wiki/queries/觀念方法頁掃描-SS-2026-11-01.md`），只能當線索，每條引用都要回題解正本或規範核對。
 
 **再查勘誤紀錄（必做）**：題解正本會被勘誤，講義若沿用舊解就會把已修正的錯誤繼續教下去
 （2026-10 改版時 SS-U1-1、SS-U1-3、SA-U1-3、SD-U2-2 都查出講義落後於題解勘誤，
@@ -92,7 +95,8 @@ for d in ['concepts', 'methods', 'code-ref', 'diagnosis', 'failure-modes', 'mate
 ```bash
 cd <REPO>
 # 本單元題號清單（gather.py 的輸出）存成 /tmp/ids.txt 後：
-grep -n -F -f /tmp/ids.txt wiki/log.md | grep -i -E '勘誤|FIX|修正|更正' | tail -40
+LOG=wiki/queries/log.md; [ -f $LOG ] || LOG=wiki/log.md   # 舊 repo 搬入前可能還在 wiki/log.md
+grep -n -F -f /tmp/ids.txt $LOG | grep -i -E '勘誤|FIX|修正|更正' | tail -40
 for id in $(cat /tmp/ids.txt); do grep -l -E '修正日期|勘誤|依最新規範' raw/solutions/$id/$id.md 2>/dev/null; done
 ```
 
@@ -669,7 +673,7 @@ asyncio.run(main()); os.remove(tmp); print("PDF ->", PDF)
 
 **PDF 一定要跟著 HTML 重出。** 改版時最常漏的就是這一步（SS-U1-4、SD-U1-1、SD-U2-2 都曾留下舊圖版 PDF），
 而講義 nav 的「🖨️ 本頁 PDF」與命題分析頁都連到它——舊 PDF 等於把已修正的錯誤繼續發出去。
-真的無法重出時，在 `wiki/log.md` 與交付訊息都寫明「PDF 未更新」。
+真的無法重出時，在 `wiki/queries/log.md` 與交付訊息都寫明「PDF 未更新」。
 
 ### 8.2 備援：MathJax → WeasyPrint（環境沒有 Chromium 時）
 
@@ -807,7 +811,7 @@ print('PDF ->', PDF)
    全檔沒有「速查頁」字樣，且 PDF 版沒有殘留 nav。
 7. **題號連結渲染**：依 Step 7「題號連結」小節的驗證清單逐項核對
    （無 `@@MATH` 殘留、圖片路徑存在、無 `.md` 連結殘留）。
-8. **寫 log**：在 `<REPO>/wiki/log.md` 追加一筆（只可 append），寫明**改了什麼、為什麼錯、怎麼驗證的**、
+8. **寫 log**：在 `<REPO>/wiki/queries/log.md` 追加一筆（只可 append），寫明**改了什麼、為什麼錯、怎麼驗證的**、
    腳本位置、PDF 是否已重出、有哪些「觀察到但未改動、待使用者決定」的事項（例如題解正本與規範不符）。
    講義 footer 加一行改版日期與摘要。
 9. **交付**：把講義直接寫進該科資料夾；回覆中列出**所有動到的檔案路徑**，git commit 由使用者自己做。
@@ -856,7 +860,7 @@ print('PDF ->', PDF)
 | 16 | 數學式變紅字（`\text{tf·m}`）、`%` 後內容消失、`<` 吃掉整段 | 見 Step 7「KaTeX 寫法地雷」表 |
 | 17 | 不同圖的箭頭顏色互相污染 | marker id 重複。每張圖的 id 加圖號前綴 |
 | 18 | `⅔`、`✔`、`✘` 顯示成方框；`x̄` 的橫線偏到旁邊 | 缺字或斜體組合字元。避開這些字元；`x̄` 用直立襯線字型 |
-| 19 | 講義仍教題解已勘誤前的錯解 | 寫作前查 `wiki/log.md` 勘誤紀錄與 `raw/solutions/` 修正日期（Step 1） |
+| 19 | 講義仍教題解已勘誤前的錯解 | 寫作前查 `wiki/queries/log.md` 勘誤紀錄與 `raw/solutions/` 修正日期（Step 1） |
 | 20 | 講義出現規範查不到的條文、或混用不同版本的係數 | Step 4 第 12、13 條：寫版本、查無出處就刪 |
 | 21 | HTML 已改版，PDF 還是舊圖 | PDF 一定跟著重出（Step 8.1）；做不到就在 log 與交付訊息寫明 |
 | 22 | 流程圖有死路、分支沒標籤、兩支箭頭打進同一個菱形頂點 | 先排節點座標格線再連線；每條分支標「是／否」並匯流到收尾框 |

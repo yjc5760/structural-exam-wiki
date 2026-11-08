@@ -29,20 +29,20 @@ XB      = 0.60          # B 點側撐位置（距 A，以 L 為單位）
 # §4-一 斷面迴旋半徑
 RX      = 15.17         # cm
 RY      = 6.215         # cm
-# §4-二～四 三個有效長細比（採考卷表列之理論 K 值）
-K_X,  L_X  = 0.7, L_TOT                 # 強軸全柱：A 鉸 - C 固（無側位移）
-K_YL, L_YL = 0.7, XB * L_TOT            # 弱軸下段 A-B：A 固 - B 鉸
+# §4-二～四 三個有效長細比（採考卷表列之設計 K 值；2026-11-01 使用者決定，理論值 0.7 見 §5.2）
+K_X,  L_X  = 0.8, L_TOT                 # 強軸全柱：A 鉸 - C 固（無側位移）
+K_YL, L_YL = 0.8, XB * L_TOT            # 弱軸下段 A-B：A 固 - B 鉸
 K_YU, L_YU = 1.0, (1 - XB) * L_TOT      # 弱軸上段 B-C：B 鉸 - C 鉸
-SR_X   = K_X  * L_X  / RX               # 73.8
-SR_YL  = K_YL * L_YL / RY               # 108.1 ← 控制
+SR_X   = K_X  * L_X  / RX               # 84.4
+SR_YL  = K_YL * L_YL / RY               # 123.6 ← 控制
 SR_YU  = K_YU * L_YU / RY               # 103.0
 SR_MAX = max(SR_X, SR_YL, SR_YU)
 # §5.1 設計啟示：把 B 點下移至兩段 KL 相等之位置
-A_OPT  = K_YU * L_TOT / (K_YL + K_YU)   # 0.7a = 1.0(L-a) → a = 941 cm
-SR_OPT = K_YL * A_OPT / RY              # 106.0
+A_OPT  = K_YU * L_TOT / (K_YL + K_YU)   # 0.8a = 1.0(L-a) → a = 889 cm
+SR_OPT = K_YL * A_OPT / RY              # 114.4
 # §4-五、六 最終答案
-PA      = 96.8          # tf（ASD）
-PHI_PN  = 134.3         # tf（LRFD, phi_c = 0.85）
+PA      = 79.6          # tf（ASD）
+PHI_PN  = 111.4         # tf（LRFD, phi_c = 0.85）
 
 # ── 挫屈模態：由特徵方程解出，不是憑印象畫 ──
 # 固接-鉸接（propped cantilever）之特徵值為 tan(u) = u 的最小正根
@@ -165,12 +165,12 @@ def fig2_boundaries():
     a.dot((mode_x(mode_pf, yi), yi), 5.6, fill="#FFFFFF", stroke=C["accent"], w=2.9)
     a.text_px(a.X(0) - 14, a.Y(yi), "反曲點", 12.5, C["accent"], "end", weight="700")
     a.dim((0, 0), (0, 1), f"L = {L_TOT:.0f} cm", off=-108, label_off=-14)
-    _kl_bracket(a, XBR, 0, yi, C["accent"], f"K_{{x}}L = 0.7(1600) = {K_X * L_X:.0f} cm")
+    _kl_bracket(a, XBR, 0, K_X, C["accent"], f"K_{{x}}L = {K_X}(1600) = {K_X * L_X:.0f} cm")
     a.text_px(PW / 2, PH - 84, "強軸全柱（B 點側撐不在本平面，故不分段）", 12.5, C["muted"])
     a.math_px(PW / 2, PH - 59, f"(KL/r)_{{x}} = {K_X * L_X:.0f} / {RX} = {SR_X:.1f}",
               15.5, C["deform"], weight="700")
     a.text_px(PW / 2, PH - 34,
-              f"不控制　｜　挫屈方程理論解 {K_PF:.3f}L = {K_PF * L_TOT:.0f} cm，考卷表列取 0.7",
+              f"不控制　｜　取考卷表設計值 {K_X}（理論 0.7；挫屈方程解 {K_PF:.3f}L）",
               11.5, C["muted"])
 
     # ── 右：x-z 面（弱軸）──
@@ -193,7 +193,7 @@ def fig2_boundaries():
     b.dim((0, 0), (0, XB), f"0.6L = {L_YL:.0f} cm", off=-108, label_off=-14)
     b.dim((0, XB), (0, 1), f"0.4L = {L_YU:.0f} cm", off=-108, label_off=-14)
     _kl_bracket(b, XBR, 0, XB, C["accent"],
-                f"KL = 0.7({L_YL:.0f}) = {K_YL * L_YL:.0f} cm", "← 控制")
+                f"KL = {K_YL}({L_YL:.0f}) = {K_YL * L_YL:.0f} cm", "← 控制")
     _kl_bracket(b, XBR, XB, 1, C["deform"],
                 f"KL = 1.0({L_YU:.0f}) = {K_YU * L_YU:.0f} cm")
     b.text_px(PW / 2, PH - 84, "弱軸分兩段，兩段各自檢核", 12.5, C["muted"])
@@ -230,9 +230,9 @@ def fig3_slenderness():
                 mini.line((-0.13, yy), (0.13, yy), col, 2.0)
 
     bar_compare(
-        [("強軸　y-z 面（全柱）", "A 鉸-C 固，K = 0.7",
+        [("強軸　y-z 面（全柱）", "A 鉸-C 固，設計 K = 0.8",
           SR_X, f"L = {L_X:.0f}, KL = {K_X * L_X:.0f} cm, KL/r = {SR_X:.1f}", C["deform"]),
-         ("弱軸　下段 A–B　控制", "A 固-B 鉸，K = 0.7",
+         ("弱軸　下段 A–B　控制", "A 固-B 鉸，設計 K = 0.8",
           SR_YL, f"L = {L_YL:.0f}, KL = {K_YL * L_YL:.0f} cm, KL/r = {SR_YL:.1f}", C["accent"]),
          ("弱軸　上段 B–C", "B 鉸-C 鉸，K = 1.0",
           SR_YU, f"L = {L_YU:.0f}, KL = {K_YU * L_YU:.0f} cm, KL/r = {SR_YU:.1f}", C["deform"]),
@@ -250,7 +250,85 @@ def fig3_slenderness():
 
 
 # ══════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════
+# 圖 1：題目附圖重繪（依題目正本 SS-2013-3-problem.md §4 判讀清單，2026-11-02 已確認）
+# 只畫考卷給的東西，與上方解題常數分開；不含任何解題結果（K、反曲點不畫）
+# ══════════════════════════════════════════════════════════
+Q_BR = 0.6                    # #8 B 距 A 0.6L、距 C 0.4L（x-z 面）
+#   y-z 面：#5 A 鉸支、#6 C 不可側移不可轉動（方塊夾在兩側滾輪牆間）、#11 全長無中間支撐
+#   x-z 面：#7 A 固接、#8 B 鉸接側撐、#9 C 鉸接側撐；#3 翼板水平，x 水平、y 垂直
+
+
+def _q_guided_top(cv, p):
+    x, y = cv.P(p)
+    m = C["member"]
+    cv.parts.append(f'<rect x="{x-8:.1f}" y="{y-26:.1f}" width="16" height="26" fill="{m}"/>')
+    for sgn in (-1, 1):
+        for dy in (-20, -7):
+            cv.parts.append(f'<circle cx="{x+sgn*13:.1f}" cy="{y+dy:.1f}" r="4.6" fill="#FFFFFF" '
+                            f'stroke="{m}" stroke-width="1.8"/>')
+        xx = x + sgn * 19
+        cv.parts.append(f'<line x1="{xx:.1f}" y1="{y-34:.1f}" x2="{xx:.1f}" y2="{y+6:.1f}" '
+                        f'stroke="{m}" stroke-width="2.4"/>')
+        for k in range(5):
+            by = y - 32 + k * 8
+            cv.parts.append(f'<line x1="{xx:.1f}" y1="{by:.1f}" x2="{xx+sgn*7:.1f}" y2="{by-6:.1f}" '
+                            f'stroke="{m}" stroke-width="1.6"/>')
+
+
+def _q_col(title, sub, plane):
+    W1, H1, sx = 330, 540, 300
+    cv = Canvas(W1, H1, sx=sx, ox=W1 / 2 + 10, oy=80)
+    cv.panel(title, sub)
+    cv.line((0, 0), (0, 1), C["member"], 3.6, cap="butt")
+    cv.arrow((0, 1.20), (0, 1.03 if plane == "xz" else 1.10), C["load"], 2.8, 10)
+    cv.math((0, 1.20), "P", 15, C["load"], "end", dx=-8, weight="700")
+    cv.text((0, 1), "C", 15, C["text"], "start", dx=34, dy=4, weight="700")
+    cv.text((0, 0), "A", 15, C["text"], "start", dx=34, dy=-6, weight="700")
+    if plane == "yz":
+        cv.support((0, 0), "pin", 0, size=14)
+        _q_guided_top(cv, (0, 1))
+        cv.dim((0, 0), (0, 1), "L", off=-70, label_off=-16)
+    else:
+        cv.support((0, 0), "fixed", 0, size=20)
+        cv.support((0, 1), "roller", 90, size=13)
+        cv.support((0, Q_BR), "roller", 90, size=13)
+        cv.text((0, Q_BR), "B", 15, C["text"], "start", dx=44, dy=4, weight="700")
+        cv.dim((0, Q_BR), (0, 1), f"{1 - Q_BR:.1f} L", off=-64, label_off=-26)
+        cv.dim((0, 0), (0, Q_BR), f"{Q_BR:.1f} L", off=-64, label_off=-26)
+    return cv
+
+
+def _q_section():
+    W1, H1 = 330, 540
+    cv = Canvas(W1, H1, sx=4.2, ox=W1 / 2, oy=H1 / 2 - 10)
+    cv.panel("斷面方位", "W14×61（示意）")
+    bf, d, tf, tw = 25.4, 35.3, 1.64, 0.952
+    for x0, x1, y0, y1 in ((-bf / 2, bf / 2, d / 2 - tf, d / 2), (-bf / 2, bf / 2, -d / 2, -d / 2 + tf),
+                           (-tw / 2, tw / 2, -d / 2 + tf, d / 2 - tf)):
+        cv.polygon([(x0, y0), (x1, y0), (x1, y1), (x0, y1)], C["fill_c"], C["member"], 1.6)
+    cv.arrow((0, 0), (0, d / 2 + 9), C["text"], 1.6, 8)
+    cv.arrow((0, 0), (bf / 2 + 9, 0), C["text"], 1.6, 8)
+    cv.math((0, d / 2 + 9), "y", 16, C["text"], dy=-12, weight="700")
+    cv.math((bf / 2 + 9, 0), "x", 16, C["text"], "start", dx=6, weight="700")
+    return cv
+
+
+def fig1_problem():
+    path = os.path.join(OUT, f"{TAG}-fig-1-problem.svg")
+    compose([_q_col("y-z 面", "A 鉸支；C 不可側移、不可轉", "yz"),
+             _q_col("x-z 面", "A 固接；B、C 鉸接側撐", "xz"),
+             _q_section()], cols=3,
+            title="SS-2013-3 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #3、#5–#9、#11；只畫考卷所給條件",
+            note="B 點側撐只在 x-z 面；y-z 面全長無中間支撐；柱長 L = 16 m",
+            path=path)
+    return path
+
+
 FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "B 側撐放錯平面；兩平面柱底條件對調；0.4L／0.6L 顛倒"),
     (fig2_boundaries,  "§1·§4二·§4三",
      "兩平面柱底條件相反被誤讀成同一組；B 點側撐被誤用來切割強軸"),
     (fig3_slenderness, "§4四·§5.1",

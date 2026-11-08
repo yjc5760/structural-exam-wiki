@@ -4,6 +4,8 @@
 
 三張圖的每個數字都來自規範原文或 AISC 表 J3.1（以 3/4 in A325 之 28 kips 驗核）。
 執行：python3 gen_SS-2009-4.py   →   figs/*.svg
+附加 fig1_problem：題目附圖重繪（重繪依據：題目正本 -problem.md §4 判讀清單，待確認）；
+輸出目錄可由參數指定：python3 gen_<id>.py [輸出目錄]（預設 figs/）。
 """
 import sys, os, math
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -13,7 +15,7 @@ SKILL = os.environ.get("SD_SKILL",
 sys.path.insert(0, os.path.join(SKILL, "scripts"))
 from structdraw import Canvas, C, compose
 
-OUT = os.path.join(_HERE, "figs")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(_HERE, "figs")
 
 # ══════════════════════════════════════════════════════════════
 # 由 SS-2009-4 §4 之規範原文取得
@@ -190,8 +192,117 @@ def fig3_preload():
     cv.save(os.path.join(OUT, "SS-2009-4-fig-3-preload.svg"))
 
 
+# ══════════════════════════════════════════════════════════════
+# 圖 1：題目附圖重繪（依題目正本 SS-2009-4-problem.md §4 判讀清單，待確認）
+# 只畫考卷給的東西：情境示意（箱型柱貫通、四向 H 梁、翼板與腹板續接板＋螺栓）；
+# 考卷無任何尺寸（#1 附圖只作情境示意），下列尺寸全部為示意，與上方解題常數無關。
+# ══════════════════════════════════════════════════════════════
+Q_BC   = 56.0     # 箱型柱寬（示意）
+Q_HC   = 105.0    # 柱自梁中心上下各畫出長度（示意）
+Q_D, Q_BF, Q_TF, Q_TW = 46.0, 22.0, 2.2, 1.4   # 梁深、翼寬、翼厚、腹厚（示意）
+Q_LB   = 86.0     # 梁自柱面伸出長度（示意）
+Q_SPL  = 46.0     # 續接位置距柱面（示意）
+Q_LPF, Q_LPW, Q_HPW, Q_TP = 34.0, 20.0, 30.0, 1.2   # 翼續接板長、腹續接板長、高、板厚（示意）
+Q_C30, Q_S30 = math.cos(math.radians(30)), 0.5
+
+
+def _q_iso(p):
+    x, y, z = p
+    return ((x - y) * Q_C30, z - (x + y) * Q_S30)
+
+
+def _q_poly(cv, pts3, fill="#FFFFFF", w=1.5):
+    cv.polygon([_q_iso(p) for p in pts3], fill, C["member"], w)
+
+
+def _q_beam(cv, e, n):
+    """e：梁軸向單位向量（±x 或 ±y）；n：朝觀者的水平側向（+x 或 +y）。"""
+    a = Q_BC / 2
+    h = Q_D / 2
+
+    def P(u, v, z):
+        return (e[0] * u + n[0] * v, e[1] * u + n[1] * v, z)
+
+    def quad_uv(u0, u1, v0, v1, z):
+        return [P(u0, v0, z), P(u1, v0, z), P(u1, v1, z), P(u0, v1, z)]
+
+    def quad_uz(u0, u1, v, z0, z1):
+        return [P(u0, v, z0), P(u1, v, z0), P(u1, v, z1), P(u0, v, z1)]
+
+    u0, u1, s = a, a + Q_LB, a + Q_SPL
+    pf0, pf1 = s - Q_LPF / 2, s + Q_LPF / 2
+    pw0, pw1 = s - Q_LPW / 2, s + Q_LPW / 2
+    fill_pl = "rgba(29,78,216,0.16)"
+    # 下翼板（上表面可見半邊、前緣）＋下翼續接板前緣
+    _q_poly(cv, quad_uz(pf0, pf1, Q_BF / 2, -h - Q_TP, -h), fill_pl, 1.2)
+    _q_poly(cv, quad_uz(u0, u1, Q_BF / 2, -h, -h + Q_TF))
+    _q_poly(cv, quad_uv(u0, u1, Q_TW / 2, Q_BF / 2, -h + Q_TF))
+    _q_poly(cv, quad_uv(pf0, pf1, Q_TW / 2 + 1.5, Q_BF / 2, -h + Q_TF + 0.01), fill_pl, 1.2)
+    for uu in (pf0 + 4, pf0 + 9, pf0 + 14, pf1 - 14, pf1 - 9, pf1 - 4):
+        cv.circle(_q_iso(P(uu, Q_BF * 0.33, -h + Q_TF)), 1.5, "#FFFFFF", C["member"], 1.0)
+    # 腹板可見面＋續接縫＋腹續接板與螺栓
+    _q_poly(cv, quad_uz(u0, u1, Q_TW / 2, -h + Q_TF, h - Q_TF))
+    cv.line(_q_iso(P(s, Q_TW / 2, -h + Q_TF)), _q_iso(P(s, Q_TW / 2, h - Q_TF)), C["member"], 1.2)
+    _q_poly(cv, quad_uz(pw0, pw1, Q_TW / 2 + Q_TP, -Q_HPW / 2, Q_HPW / 2), fill_pl, 1.4)
+    for uu in (pw0 + 3.5, pw0 + 7, pw1 - 7, pw1 - 3.5):
+        for k in range(6):
+            zz = -Q_HPW / 2 + 3.5 + k * (Q_HPW - 7) / 5
+            cv.circle(_q_iso(P(uu, Q_TW / 2 + Q_TP, zz)), 1.5, "#FFFFFF", C["member"], 1.0)
+    # 上翼板（前緣、上表面）＋上翼續接板與螺栓
+    _q_poly(cv, quad_uz(u0, u1, Q_BF / 2, h - Q_TF, h))
+    _q_poly(cv, quad_uv(u0, u1, -Q_BF / 2, Q_BF / 2, h))
+    cv.line(_q_iso(P(s, -Q_BF / 2, h)), _q_iso(P(s, Q_BF / 2, h)), C["member"], 1.0)
+    _q_poly(cv, quad_uz(pf0, pf1, Q_BF / 2, h, h + Q_TP), fill_pl, 1.2)
+    _q_poly(cv, quad_uv(pf0, pf1, -Q_BF / 2, Q_BF / 2, h + Q_TP), fill_pl, 1.4)
+    for uu in (pf0 + 4, pf0 + 9, pf0 + 14, pf1 - 14, pf1 - 9, pf1 - 4):
+        for vv in (-Q_BF * 0.27, Q_BF * 0.27):
+            cv.circle(_q_iso(P(uu, vv, h + Q_TP)), 1.5, "#FFFFFF", C["member"], 1.0)
+    # 梁端斷面（僅朝觀者的 +x、+y 梁可見）
+    if e[0] + e[1] > 0:
+        f, w = Q_BF / 2, Q_TW / 2
+        prof = [(-f, -h), (f, -h), (f, -h + Q_TF), (w, -h + Q_TF), (w, h - Q_TF), (f, h - Q_TF), (f, h),
+                (-f, h), (-f, h - Q_TF), (-w, h - Q_TF), (-w, -h + Q_TF), (-f, -h + Q_TF)]
+        _q_poly(cv, [P(u1, v, z) for v, z in prof], "#FFFFFF", 1.5)
+
+
+def _q_column(cv):
+    a = Q_BC / 2
+    t = 1.6
+    _q_poly(cv, [(a, -a, -Q_HC), (a, a, -Q_HC), (a, a, Q_HC), (a, -a, Q_HC)])     # +x 面
+    _q_poly(cv, [(-a, a, -Q_HC), (a, a, -Q_HC), (a, a, Q_HC), (-a, a, Q_HC)])     # +y 面
+    _q_poly(cv, [(-a, -a, Q_HC), (a, -a, Q_HC), (a, a, Q_HC), (-a, a, Q_HC)], "#FFFFFF", 2.2)
+    b = a - t
+    _q_poly(cv, [(-b, -b, Q_HC), (b, -b, Q_HC), (b, b, Q_HC), (-b, b, Q_HC)], "#FFFFFF", 1.4)
+    cv.line(_q_iso((a, a, -Q_HC)), _q_iso((a, a, Q_HC)), C["member"], 2.2)
+
+
+def fig1_problem():
+    path = os.path.join(OUT, "SS-2009-4-fig-1-problem.svg")
+    cv = Canvas(760, 720, sx=2.0, ox=380, oy=335)
+    cv.panel("梁柱接頭示意（等角圖）", "箱型柱貫通，四向 H 型梁；翼板、腹板皆以續接板＋螺栓接合")
+    _q_beam(cv, (-1, 0), (0, 1))     # 左後
+    _q_beam(cv, (0, -1), (1, 0))     # 右後
+    _q_column(cv)
+    _q_beam(cv, (0, 1), (1, 0))      # 左前
+    _q_beam(cv, (1, 0), (0, 1))      # 右前
+    compose([cv], cols=1,
+            title="SS-2009-4 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1；考卷無尺寸，全圖為情境示意",
+            note="附圖只是情境示意，五個小題都不必從圖上讀數值",
+            path=path)
+    return path
+
+
+FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "誤以為要從附圖讀尺寸或螺栓間距作答"),
+]
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
+    for fn, section, catches in FIGURES:
+        print(f"{os.path.basename(fn()):<34} {section:<20} 攔：{catches}")
     fig1_groove(); fig2_bolt_spacing(); fig3_preload()
     print(f"中心距：一般 {S_MIN_K:.4f}d（d={DB_EX:g}mm → {S_MIN_K*DB_EX:.1f}mm）；"
           f"沿力方向 {S_PREF_K:g}d → {S_PREF_K*DB_EX:g}mm")

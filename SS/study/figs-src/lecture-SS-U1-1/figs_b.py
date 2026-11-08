@@ -306,16 +306,17 @@ def fig5_3():
     x, y = 400, 40
     o.append(T(x, y, 'SS-2013-2（102 年）', 14.5, INK, weight='bold'))
     rows = [('① 對位圖（有側移）', INK, True),
-            ('*G*_{A} = 10（鉸）、*G*_{B} = *I*_{c}/*I*_{b} = 0.221 → *K* = 1.71', INK, False),
+            ('*G*_{A} = 10（鉸）、*G*_{B} = *I*_{c}/(0.5*I*_{b}) = 0.442 → *K* = 1.78', INK, False),
+            ('（C 端梁柱鉸接：梁勁度 ×0.5，梁遠端修正）', MUT, False),
             ('② 靠桿把重量丟給 AB', INK, True),
-            ('Σ*P* = *wL*，但只有 AB 提供 Σ*P*_{eK} = 575.6 tf', INK, False),
+            ('Σ*P* = *wL*，但只有 AB 提供 Σ*P*_{eK} = 533.3 tf', INK, False),
             ('Σ*P* / *P*_{AB} = 2（純幾何比，與 *w* 無關）', INK, False),
             ('③ LeMessurier 放大', INK, True),
-            ('*K*′ = *K*·√(Σ*P*/*P*_{I}) = 1.71 × √2 = 2.42', COMP, False),
-            ('*w*_{cr} = Σ*P*_{eK} / *L* = 575.6 / 6 = 96.0 tf/m', COMP, False)]
+            ('*K*′ = *K*·√(Σ*P*/*P*_{I}) = 1.78 × √2 = 2.51', COMP, False),
+            ('*w*_{cr} = Σ*P*_{eK} / *L* = 533.3 / 6 = 88.9 tf/m', COMP, False)]
     y += 30
     for t, c, b in rows:
         o.append(T(x, y, t, 13 if b else 12.5, c, weight='bold' if b else None))
         y += 26 if b else 22
-    o.append(T(x, y + 8, '若把 CD 當一般柱：*w*_{cr} 變 192（高估 2 倍）', 12.5, WARN, weight='bold'))
+    o.append(T(x, y + 8, '若把 CD 當一般柱：*w*_{cr} 變 192（高估 2 倍以上）', 12.5, WARN, weight='bold'))
     return svg(W, H, '\n'.join(o), '靠桿效應：重量在、勁度不在')

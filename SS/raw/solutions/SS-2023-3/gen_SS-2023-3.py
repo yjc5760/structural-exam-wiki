@@ -237,7 +237,47 @@ def fig3_equal_area():
 
 
 # ══════════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════════
+# 圖 1：題目附圖重繪（依題目正本 SS-2023-3-problem.md §4 判讀清單，2026-11-02 已確認）
+# 只用考卷給的尺寸，與上方解題常數分開；不含任何解題結果
+# ══════════════════════════════════════════════════════════
+Q_BT, Q_TT = 50.0, 5.0       # #1 上翼板寬 50、厚 5 cm
+Q_BB, Q_TB = 30.0, 5.0       # #2 下翼板寬 30、厚 5 cm
+Q_TW = 2.0                   # #3 腹板厚 2 cm
+Q_HW = 100.0                 # #4 100 cm 為腹板淨高（上翼板底至下翼板頂）
+#                              #5 寬 50 在上、窄 30 在下
+Q_D = Q_TB + Q_HW + Q_TT     # 全深（推得值 110 cm）
+
+
+def fig1_problem():
+    W1, H1, sx = 560, 560, 3.3
+    cv = Canvas(W1, H1, sx=sx, ox=W1 / 2, oy=72)
+    cv.panel("梁斷面", "依比例；100 cm 為腹板淨高")
+    _rect(cv, -Q_BT / 2, Q_BT / 2, Q_TB + Q_HW, Q_D, C["fill_c"], C["member"], 1.8)
+    _rect(cv, -Q_TW / 2, Q_TW / 2, Q_TB, Q_TB + Q_HW, C["fill_c"], C["member"], 1.8)
+    _rect(cv, -Q_BB / 2, Q_BB / 2, 0, Q_TB, C["fill_c"], C["member"], 1.8)
+    cv.dim((-Q_BT / 2, Q_D), (Q_BT / 2, Q_D), f"{Q_BT:.0f} cm", off=-22, label_off=-14)
+    cv.dim((-Q_BB / 2, 0), (Q_BB / 2, 0), f"{Q_BB:.0f} cm", off=22, label_off=16)
+    cv.dim((Q_BT / 2, Q_TB + Q_HW), (Q_BT / 2, Q_D), f"{Q_TT:.0f} cm", off=22, label_off=30)
+    cv.dim((Q_BB / 2, 0), (Q_BB / 2, Q_TB), f"{Q_TB:.0f} cm", off=(Q_BT - Q_BB) / 2 * sx + 22,
+           label_off=30)
+    cv.dim((-Q_TW / 2, Q_TB), (-Q_TW / 2, Q_TB + Q_HW), f"{Q_HW:.0f} cm",
+           off=-(Q_BT / 2 - Q_TW / 2) * sx - 30, label_off=-32, color=C["accent"])
+    ym = Q_TB + 0.25 * Q_HW                       # 腹板厚：兩側箭頭夾腹板
+    cv.arrow((-Q_TW / 2 - 16, ym), (-Q_TW / 2, ym), C["dim"], 1.2, 7)
+    cv.arrow((Q_TW / 2 + 16, ym), (Q_TW / 2, ym), C["dim"], 1.2, 7)
+    cv.math_px(cv.X(Q_TW / 2 + 16) + 6, cv.Y(ym), f"{Q_TW:.0f} cm", 14, C["dim"], "start")
+    path = os.path.join(OUT, f"{TAG}-fig-1-problem.svg")
+    compose([cv], title="SS-2023-3 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1–#5；只畫考卷所給條件",
+            note="100 cm 為腹板淨高（兩翼板內緣之間），全深 110 cm 為推得值",
+            path=path)
+    return path
+
 FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "把 100 cm 當成全深；上下翼板對調"),
     (fig2_stress, "§4 二～六·§5",
      "把 ENA 當成 PNA（或反過來）；以及誤以為頂緣先降伏"),
     (fig3_equal_area, "§4 五～六·§3 陷阱3",
@@ -246,6 +286,7 @@ FIGURES = [
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
+    assert Q_D == H_TOT                       # 題目重繪全深與解題總高一致（110 cm）
     ref = [("A", A_TOT, 600), ("ENA", ENA, 63.75), ("I_x", IX, 1224062),
            ("S_top", S_TOP, 26466), ("S_bot", S_BOT, 19201), ("M_y", MY, 48003),
            ("PNA", PNA, 80), ("腹板下段", H_WEB_LO, 75), ("腹板上段", H_WEB_HI, 25),

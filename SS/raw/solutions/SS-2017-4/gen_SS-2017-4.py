@@ -4,6 +4,8 @@
 
 形心、J_w、各角點向量與 P_u 全部由下方幾何常數算出；改 b 或 d 重跑，圖形與臨界點跟著變。
 執行：python3 gen_SS-2017-4.py   →   figs/*.svg
+附加 fig1_problem：題目附圖重繪（重繪依據：題目正本 -problem.md §4 判讀清單，待確認）；
+輸出目錄可由參數指定：python3 gen_<id>.py [輸出目錄]（預設 figs/）。
 """
 import sys, os, math
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -13,7 +15,7 @@ SKILL = os.environ.get("SD_SKILL",
 sys.path.insert(0, os.path.join(SKILL, "scripts"))
 from structdraw import Canvas, C, compose
 
-OUT = os.path.join(_HERE, "figs")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(_HERE, "figs")
 
 # ══════════════════════════════════════════════════════════════
 # L1：題目給定（§1）
@@ -242,8 +244,64 @@ def fig3_method_compare():
     cv.save(os.path.join(OUT, "SS-2017-4-fig-3-method-compare.svg"))
 
 
+# ══════════════════════════════════════════════════════════════
+# 圖 1：題目附圖重繪（依題目正本 SS-2017-4-problem.md §4 判讀清單，待確認）
+# 只畫考卷給的東西，與上方解題常數分開；不含形心、J_w、向量等任何解題結果。
+# ══════════════════════════════════════════════════════════════
+Q_D   = 80.0      # #1 左垂直銲道 80 cm
+Q_B   = 40.0      # #2 水平銲道末端距垂直銲道 40 cm（上下等長）
+Q_E   = 50.0      # #4 水平銲道末端至 P 作用線 50 cm
+#                   #1 ⊐ 形：右側不銲；#3 尺寸線上圓點＝分段記號；#6 單面（待確認）
+# 示意（考卷未標）：柱翼板外框、托架板右端與斜切
+Q_CX0, Q_CX1, Q_CY0, Q_CY1 = -25.0, 65.0, -27.0, 99.0
+Q_XR, Q_YK = 122.0, 31.0
+
+
+def fig1_problem():
+    path = os.path.join(OUT, "SS-2017-4-fig-1-problem.svg")
+    cv = Canvas(860, 680, sx=4.0, ox=230, oy=170)
+    cv.panel("托架銲接立面", "柱翼板（外框）上搭托架板；粗線為銲道")
+    # 柱翼板外框（托架板後方部分以虛線表示）
+    cv.poly([(Q_CX1, Q_D), (Q_CX1, Q_CY1), (Q_CX0, Q_CY1), (Q_CX0, Q_CY0), (Q_CX1, Q_CY0), (Q_CX1, 0)],
+            C["member"], 2.2)
+    cv.line((Q_CX1, 0), (Q_CX1, Q_D), C["member"], 1.6, dash="7 5")
+    # 托架板
+    cv.polygon([(0, 0), (Q_CX1, 0), (Q_XR, Q_YK), (Q_XR, Q_D), (0, Q_D)], C["fill_c"], C["member"], 2.0)
+    # 銲道（⊐ 形，右側開口）
+    cv.poly([(Q_B, Q_D), (0, Q_D), (0, 0), (Q_B, 0)], C["load"], 6.5)
+    # P
+    xp = Q_B + Q_E
+    cv.arrow((xp, Q_D + 20), (xp, Q_D + 0.5), C["load"], 3.4, 13)
+    cv.math((xp, Q_D + 20), "P", 18, C["load"], "start", dx=10, weight="700")
+    # 尺寸
+    cv.dim((-8, Q_D), (-8, 0), f"{Q_D:.0f} cm", off=0, label_off=30, size=15)
+    for yy in (0, Q_D):
+        cv.line((-10, yy), (0, yy), C["dim"], 1, dash="3 3")
+    yd = Q_CY0 - 7
+    cv.line((0, 0), (0, yd - 1), C["dim"], 1, dash="3 3")
+    cv.line((xp, Q_D), (xp, yd - 1), C["dim"], 1, dash="3 3")
+    cv.dim((0, yd), (Q_B, yd), f"{Q_B:.0f} cm", label_off=16, size=15)
+    cv.dim((Q_B, yd), (xp, yd), f"{Q_E:.0f} cm", label_off=16, size=15)
+    cv.dot((Q_B, yd), 4.5, C["text"], C["text"], 0)
+    cv.text_px(836, 650, "粗線＝填角銲（有效喉厚 10 mm）", 12.5, C["load"], "end")
+    compose([cv], cols=1,
+            title="SS-2017-4 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1–#4；銲道與 40、50、80 cm 依比例，柱翼板外框與托架外形為示意",
+            note="40 cm 量到水平銲道末端（圓點只是尺寸分段記號），P 距垂直銲道 40 + 50 = 90 cm",
+            path=path)
+    return path
+
+
+FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "把圓點當成銲道群形心；P 偏心只取 50 cm（漏加 40 cm）"),
+]
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
+    for fn, section, catches in FIGURES:
+        print(f"{os.path.basename(fn()):<34} {section:<20} 攔：{catches}")
     fig1_weld_group(); fig2_vector(); fig3_method_compare()
     print(f"L={LTOT:g} xbar={XBAR:g} ybar={YBAR:g} e={ECC:g}")
     print(f"Iw1={IW1:,.0f} Iw2={IW2:,.0f} Iw3={IW3:,.0f} Jw={JW:,.0f}"

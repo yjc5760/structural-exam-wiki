@@ -16,7 +16,7 @@
 body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
   background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
 header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
-header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header h1{color:#fff;margin:0;font-size:1.15em;letter-spacing:.3px}
 header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
   padding:4px 12px;border-radius:14px;text-decoration:none}
 header .back:hover{background:rgba(255,255,255,.32)}
@@ -41,60 +41,205 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <body>
 <header>
   <h1>SS-2010-3 題目解析</h1>
-  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+  <a class="quick" href="../unit-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 單元總覽">&#128269; U1-1 單元總覽</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
 </header>
 <main>
+<details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>SS-2010-3 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>SS-2010-3.md</code>。<br />
+判讀清單經使用者確認前，狀態為「待確認」；確認後本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>考卷</td>
+<td><code>raw/exams/SS-2010_鋼結構設計.pdf</code> 第 2 頁（全一張之背面），第三題</td>
+</tr>
+<tr>
+<td>考年</td>
+<td>民國 99 年（2010）</td>
+</tr>
+<tr>
+<td>配分</td>
+<td>30 分（㈠ 15、㈡ 15）</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td>1 張（圖二：柱側視、組合斷面、單角鋼斷面尺寸及性質），<code>SS-2010-3-fig-1.png</code></td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-02 使用者確認，含「不確定」項之解讀；轉錄同日，PyMuPDF 110 dpi 全頁＋圖二 400 dpi 局部目視，盲讀後才比對既有解析）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>三、有一受壓桿件，斷面由四個不等肢角鋼（L150×100×15）以繫板和繫條穩固組合而成（如圖二），柱的有效長度為 25 $m$，若繫板和繫條之斷面積不計，鋼料降伏強度 $F_y = 2.52\ tf/cm^2$，$E = 2{,}040\ tf/cm^2$。<br />
+㈠以容許應力設計法（ASD），求組合斷面之挫屈載重（$tf$）。（15 分）<br />
+㈡以極限設計法（LSD），求組合斷面之設計強度（$tf$）。（15 分）</p>
+</blockquote>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>卷首「◎參考公式集（請自行使用適合之公式，並檢查其正確性，若有問題應自行修正）」，與本題相關者照錄：</li>
+</ul>
+<p>$$C_c = \sqrt{\frac{2\pi^2E}{F_y}},\qquad F_a = \frac{12}{23}\times\frac{\pi^2E}{(k\ell/r)^2},\qquad F_a = \frac{\left[1 - \dfrac{(k\ell/r)^2}{2C_c^2}\right]\cdot F_y}{\dfrac53 + \dfrac{3(k\ell/r)}{8C_c} - \dfrac{(k\ell/r)^3}{8C_c^3}}$$</p>
+<p>$$\lambda_c = \left(\frac{k\ell}{r\pi}\right)\sqrt{\frac{F_y}{E}},\qquad F_{cr} = \left[\exp(-0.419\cdot\lambda_c^2)\right]\cdot F_y,\qquad F_{cr} = \left(\frac{0.877}{\lambda_c^2}\right)\cdot F_y$$</p>
+<p>（公式集另有 $L_p$、$L_r$、$C_b$、$M_n$、$M_{cr}$，屬梁題。）公式未標適用範圍（$k\ell/r$ 與 $C_c$、$\lambda_c$ 與 1.5 的分界考卷沒寫）。<br />
+- 卷首注意事項㈢：「下列計算各題所需設計參數或公式不足時，請自行合理假設或推知。」<br />
+- 單角鋼性質（圖二）：L 15 cm × 10 cm × 1.5 cm；$c_x = 5.0$ cm，$c_y = 2.53$ cm；$I_x = 782$ cm⁴，$I_y = 276$ cm⁴；$A = 35.3$ cm²。<br />
+- 考卷<strong>沒給</strong>：$\phi_c$、繫板間距、角鋼 $r_z$。</p>
+<h2>3. 附圖</h2>
+<p><img alt="SS-2010-3 圖二：左為兩端鉸接受壓柱側視；中為組合斷面，四支角鋼置於 40 cm × 40 cm 四角（虛線為繫板／繫條），形心 C.G. 在中央；右為單角鋼，長肢垂直、短肢水平，c_x 為垂直尺寸、c_y 為水平尺寸" src="../../raw/solutions/SS-2010-3/SS-2010-3-fig-1.png" /></p>
+<p><em>圖面文字照錄：C.G.；40 cm；40 cm；組合斷面；X；X；Y；Y；c_x；c_y；L 15 cm × 10 cm × 1.5 cm；c_x = 5.0 cm，c_y = 2.53 cm；I_x = 782 cm⁴，I_y = 276 cm⁴；A = 35.3 cm²；單角鋼斷面尺寸及性質；圖二。</em></p>
+<h2>4. 判讀清單</h2>
+<p>「把握」標<strong>不確定</strong>者請優先確認；解讀類項目（題目用字的意思）另標「解讀」。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>㈠「挫屈載重」</td>
+<td>ASD 的容許載重 $P_a = F_aA$（不是尤拉挫屈載重）</td>
+<td>題文用字＋「以容許應力設計法」（解讀）</td>
+<td>不確定 → 使用者確認</td>
+</tr>
+<tr>
+<td>2</td>
+<td>組合效應</td>
+<td>繫板繫條視為使四支角鋼整體作用；題未給繫板間距，不檢核單肢挫屈與修正長細比</td>
+<td>題文「穩固組合」、未給間距（解讀）</td>
+<td>不確定 → 使用者確認</td>
+</tr>
+<tr>
+<td>3</td>
+<td>單角鋼方向</td>
+<td><strong>長肢 15 cm 垂直、短肢 10 cm 水平</strong></td>
+<td>單角鋼圖（400 dpi）</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>$c_x$</td>
+<td><strong>垂直</strong>尺寸：水平肢外緣（底）至形心；對應繞水平 $X$ 軸之 $I_x = 782$</td>
+<td>尺寸線為垂直向（400 dpi）</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>$c_y$</td>
+<td><strong>水平</strong>尺寸：垂直肢外緣（背）至形心；對應繞垂直 $Y$ 軸之 $I_y = 276$</td>
+<td>尺寸線為水平向（400 dpi）</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>6</td>
+<td>組合斷面配置</td>
+<td>四支角鋼方向同單角鋼圖（長肢沿左右兩側垂直、短肢沿上下兩邊水平），對稱置於四角</td>
+<td>組合斷面圖（400 dpi）</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>7</td>
+<td>40 cm 尺寸</td>
+<td>量到角鋼外緣（外廓 40 × 40 cm）</td>
+<td>尺寸線端點對齊角鋼外緣（400 dpi）</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>8</td>
+<td>有效長度</td>
+<td>題給 25 m，兩軸相同（側視圖兩端鉸接）</td>
+<td>題文＋側視圖</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>9</td>
+<td>㈡「LSD」</td>
+<td>極限設計法，求設計強度 $\phi_cP_n$；$\phi_c$ 考卷未給，依規範取 0.85</td>
+<td>題文（解讀）</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-02（SS-U1-1 題目正本推廣・批 2）｜確認：2026-11-02 使用者確認</em></p></details>
 <h1>考題編號：SS-2010-3</h1>
 <p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
 <strong>副分類：</strong> 無<br />
 <strong>設計法：</strong> 混合（ASD + LRFD）<br />
-<strong>標籤：</strong> <code>組合柱</code> <code>壓力桿件</code> <code>挫屈</code> <code>不等肢角鋼</code> <code>ASD</code> <code>LRFD</code> <code>Euler公式</code> <code>長柱</code> <code>有效長度</code> <code>回轉半徑</code></p>
+<strong>標籤：</strong> <code>組合柱</code> <code>壓力桿件</code> <code>不等肢角鋼</code> <code>ASD</code> <code>LRFD</code> <code>Euler公式</code> <code>長柱</code> <code>有效長度</code> <code>迴轉半徑</code> <code>Cc判斷</code> <code>平行軸定理</code></p>
 <hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>有一受壓桿件，斷面由四個不等肢角鋼（L150×100×15）以繫板和繫條穩固組合而成（如圖二），柱的有效長度為 25 m，若繫板和繫條之斷面積不計，鋼料降伏強度 $F_y = 2.52\ \text{tf/cm}^2$，$E = 2{,}040\ \text{tf/cm}^2$。</p>
-<ol>
-<li>以容許應力設計法（ASD），求組合斷面之挫屈載重（tf）</li>
-<li>以極限設計法（LSD），求組合斷面之設計強度（tf）</li>
-</ol>
-<p><img alt="組合斷面（40cm×40cm 方形配置，4 個 L150×100×15 不等肢角鋼置於四角，以繫板繫條連結）及單角鋼斷面性質" src="../../raw/solutions/SS-2010-3/SS-2010-3-fig-1.png" /></p>
-<p><em>圖說：單角鋼 L 15cm×10cm×1.5cm，A=35.3 cm²，Ix=782 cm⁴，Iy=276 cm⁴，cx=5.0 cm，cy=2.53 cm。組合斷面整體外部尺寸 40cm×40cm（背靠背），C.G. 在幾何中心。</em></p>
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="SS-2010-3-problem.md"><code>SS-2010-3-problem.md</code></a>。本節只列<strong>解題時最容易讀錯的地方</strong>與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<p><img alt="SS-2010-3 圖 1：題目附圖重繪。左為兩端鉸接受壓柱；中為依比例的組合斷面，四支 L150×100×15 角鋼置於外廓 40 × 40 cm 四角，長肢垂直、短肢水平，虛線為繫板／繫條，形心 C.G. 在中央；右為單角鋼，c_x = 5.0 cm 為水平肢外緣至形心的垂直距離、c_y = 2.53 cm 為垂直肢背至形心的水平距離，並列 I_x = 782、I_y = 276 cm⁴、A = 35.3 cm²" src="../../raw/solutions/SS-2010-3/figs/SS-2010-3-fig-1-problem.svg" /></p>
+<p><em>圖 1　題目附圖重繪（依題目正本判讀清單 #3–#8）。單角鋼的 $c_x$ 畫成垂直尺寸、$c_y$ 畫成水平尺寸，組合斷面的 40 cm 量到角鋼外緣，攔下 $c_x$／$c_y$ 對應軸對調、或把 40 cm 當成角鋼形心間距的誤讀。</em></p>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>角鋼方向</td>
+<td>長肢 15 cm 垂直、短肢 10 cm 水平，四支相同</td>
+<td>把長肢當成水平</td>
+</tr>
+<tr>
+<td>$c_x$、$c_y$</td>
+<td>$c_x = 5.0$ cm 為垂直距離、配 $I_x = 782$；$c_y = 2.53$ cm 為水平距離、配 $I_y = 276$ cm⁴</td>
+<td>把 $I_y = 276$ 配上 15 cm 力臂（舊版解析即如此，$P_a$ 55.3 t）</td>
+</tr>
+<tr>
+<td>40 cm</td>
+<td>量到角鋼外緣</td>
+<td>量到角鋼形心</td>
+</tr>
+<tr>
+<td>㈠「挫屈載重」</td>
+<td>ASD 容許載重 $P_a = F_aA$</td>
+<td>答尤拉挫屈載重</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> 單角鋼 $A = 35.3$ cm²、$I_x = 782$、$I_y = 276$ cm⁴、$c_x = 5.0$、$c_y = 2.53$ cm；$KL = 2500$ cm；$F_y = 2.52$、$E = 2040$ tf/cm²。</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
-<p><strong>核心觀念：組合柱斷面性質計算 + ASD vs LRFD 兩種設計法的挫屈載重</strong></p>
-<p>本題要求考生先計算「四角鋼組合柱」的組合慣性矩，再分別用 ASD（容許應力法）和 LRFD（極限設計法）求出設計載重，測驗兩種設計法的基本公式與應用流程。</p>
-<p><strong>出題者測驗重點：</strong></p>
-<ul>
-<li><strong>組合斷面弱軸的判斷</strong>：$d_x = 20 - c_x = 15$ cm 對比 $d_y = 20 - c_y = 17.47$ cm，因 $d_y > d_x$，弱軸為 Y 軸（$I_y < I_x$）</li>
-<li><strong>平行軸定理的正確應用</strong>：需用角鋼自身 $I_x$（或 $I_y$）加上 $Ad^2$，其中 $d$ 是各角鋼形心到<strong>組合斷面形心軸</strong>的距離</li>
-<li><strong>ASD 長短柱判斷</strong>：$C_c = \sqrt{2\pi^2 E/F_y} = 126.4$，$k\ell/r = 163.8 > C_c$ → Euler 長柱，用 $\frac{12}{23}\frac{\pi^2 E}{(k\ell/r)^2}$</li>
-<li><strong>LRFD 彈性挫屈判斷</strong>：$\lambda_c = 1.832 > 1.5$ → 彈性挫屈，用 $F_{cr} = \frac{0.877}{\lambda_c^2}F_y$</li>
-</ul>
+<p><strong>核心觀念：組合柱斷面性質（平行軸定理）＋ ASD 與 LRFD 兩法柱強度</strong></p>
+<p><strong>出題者測驗重點：</strong><br />
+- <strong>平行軸距離要配對正確的軸</strong>：角鋼繞水平軸的 $I_x$ 要配「形心到組合斷面水平軸的垂直距離」$20 - c_x$；繞垂直軸的 $I_y$ 要配水平距離 $20 - c_y$。<br />
+- 兩個方向都算，取較小的 $I$ 控制。<br />
+- ASD：$KL/r &gt; C_c$ 用彈性 $F_a = 12\pi^2E/[23(KL/r)^2]$；LRFD：$\lambda_c &gt; 1.5$ 用 $F_{cr} = 0.877F_y/\lambda_c^2$。</p>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
 <p><strong>作戰計畫：</strong></p>
-<pre><code>前置：確認四個角鋼對稱配置，形心在幾何中心
-
-Step 1  計算每個角鋼形心到組合形心的距離：
-        dx = 20 - cx = 15 cm（距 Y 軸）
-        dy = 20 - cy = 17.47 cm（距 X 軸）
-
+<pre><code>Step 1  讀單角鋼圖：c_x 是垂直距離（對應水平軸 X），c_y 是水平距離（對應垂直軸 Y）
 Step 2  組合慣性矩（平行軸定理）：
-        Ix,comb = 4(Ix,own + A·dy²)
-        Iy,comb = 4(Iy,own + A·dx²)
-
-Step 3  迴轉半徑 rx、ry，確認弱軸（ry 小，控制）
-
-Step 4  kℓ/r 弱軸細長比 = 2500/15.26 = 163.8
-
-(一) ASD：
-  → 計算 Cc，判斷長柱
-  → Fa = (12π²E)/(23(kℓ/r)²)
-  → Pa = Fa × A
-
-(二) LRFD：
-  → λc = (kℓ/rπ)√(Fy/E)，判斷彈性/非彈性
-  → Fcr（λc &gt; 1.5 用 0.877/λc²·Fy）
-  → φcPn = 0.85 × Fcr × A
+        I_X = 4[I_x + A(20 − c_x)²] = 4[782 + 35.3×15.0²]  = 34,898 cm⁴（控制）
+        I_Y = 4[I_y + A(20 − c_y)²] = 4[276 + 35.3×17.47²] = 44,198 cm⁴
+Step 3  r = √(34,898/141.2) = 15.72 cm，KL/r = 2500/15.72 = 159.0
+(一) ASD：C_c = 126.4 &lt; 159.0 → 彈性 → F_a = 0.415 → P_a = 58.7 t
+(二) LRFD：λ_c = 1.779 &gt; 1.5 → F_cr = 0.698 → φcPn = 83.8 t
 </code></pre>
 <p><strong>陷阱分析：</strong></p>
 <table>
@@ -107,29 +252,29 @@ Step 4  kℓ/r 弱軸細長比 = 2500/15.26 = 163.8
 </thead>
 <tbody>
 <tr>
-<td>❶ 弱軸搞反</td>
-<td>$I_y < I_x$，弱軸是 Y 軸；$d_y = 17.47 > d_x = 15$，故 $I_y$ 更小</td>
-<td>計算兩個方向的 $I$ 後比較，取較小者（$I_y$）為控制</td>
+<td>❶ 平行軸距離配錯軸</td>
+<td>$I_x$（繞水平軸）必須配<strong>垂直</strong>距離 $20 - c_x$；把 $I_y = 276$ 配上 15 cm 就是把兩個方向混在一起</td>
+<td>每一項都問「繞哪一軸？距離是不是垂直於這軸量的？」</td>
 </tr>
 <tr>
-<td>❷ 平行軸距離用全深</td>
-<td>$d_x = 20 - c_x$，不是 20 cm；角鋼形心不在角鋼背（短腿背），要減去 $c_x$</td>
-<td>從圖讀取 $c_x, c_y$，減去背至配置中心的 20 cm</td>
+<td>❷ 看錯 $c_x$、$c_y$ 方向</td>
+<td>圖上 $c_x$ 箭頭是上下向、$c_y$ 是左右向；下標指的是「對應哪一軸」，不是「沿哪個方向量」</td>
+<td>回圖看箭頭</td>
 </tr>
 <tr>
-<td>❸ ASD 公式選錯</td>
-<td>長柱（$k\ell/r > C_c$）用 $\frac{12}{23}\frac{\pi^2 E}{(kl/r)^2}$，短柱才用 Johnson 公式</td>
-<td>先求 $C_c$，再判斷長短柱</td>
+<td>❸ 平行軸距離用 20 cm</td>
+<td>要扣掉形心偏距</td>
+<td>$20 - c$</td>
 </tr>
 <tr>
-<td>❹ $\lambda_c$ 分母漏 $\pi$</td>
-<td>$\lambda_c = (k\ell/r)/(\pi\sqrt{E/F_y})$，分母有 $\pi$</td>
-<td>記憶：$\lambda_c = 1$ 對應 $k\ell/r = \pi\sqrt{E/F_y}$（Euler 臨界細長比）</td>
+<td>❹ ASD 公式選錯</td>
+<td>$KL/r &gt; C_c$ 用彈性式</td>
+<td>先求 $C_c$</td>
 </tr>
 <tr>
-<td>❺ LRFD 彈性挫屈公式</td>
-<td>$\lambda_c > 1.5$ 用 $0.877/\lambda_c^2 \cdot F_y$（非 $0.658^{\lambda_c^2}$）</td>
-<td>兩段公式：$\lambda_c \leq 1.5$ 用指數式；$> 1.5$ 用 $0.877/\lambda_c^2$</td>
+<td>❺ LRFD 公式選錯</td>
+<td>$\lambda_c &gt; 1.5$ 用 $0.877/\lambda_c^2$</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -138,14 +283,13 @@ Step 4  kℓ/r 弱軸細長比 = 2500/15.26 = 163.8
 <blockquote>
 <p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
 </blockquote>
-<p><strong>最終目標：</strong> 四角鋼組合柱弱軸挫屈 → ASD 挫屈載重 $P_a$ 與 LRFD 設計強度 $\phi_c P_n$</p>
+<p><strong>最終目標：</strong> 四角鋼組合柱 → ASD 挫屈（容許）載重 $P_a$ 與 LRFD 設計強度 $\phi_c P_n$</p>
 <h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
-<p>$$\boxed{I_{y,comb}} = 4\left(I_{y,own} + A \cdot d_x^2\right), \quad \boxed{r_y} = \sqrt{\frac{\boxed{I_{y,comb}}}{A_{total}}}$$</p>
-<p><strong>ASD（長柱 Euler）：</strong><br />
-$$\boxed{F_a} = \frac{12}{23} \cdot \frac{\pi^2 E}{(k\ell/r)^2}, \quad \boxed{P_a} = \boxed{F_a} \times A_{total}$$</p>
-<p><strong>LRFD（彈性挫屈）：</strong><br />
-$$\boxed{\lambda_c} = \frac{k\ell}{r_y \pi}\sqrt{\frac{F_y}{E}}, \quad \boxed{F_{cr}} = \frac{0.877}{\boxed{\lambda_c}^2} F_y \quad (\lambda_c > 1.5)$$<br />
-$$\boxed{\phi_c P_n} = 0.85 \times \boxed{F_{cr}} \times A_{total}$$</p>
+<p>$$\boxed{I_X} = 4\left[I_x + A(20 - c_x)^2\right],\quad \boxed{I_Y} = 4\left[I_y + A(20 - c_y)^2\right],\quad \boxed{r} = \sqrt{\frac{\min(I_X, I_Y)}{4A}}$$</p>
+<p><strong>ASD（彈性段）：</strong><br />
+$$\boxed{F_a} = \frac{12\pi^2 E}{23(KL/r)^2},\quad \boxed{P_a} = F_a \times 4A$$</p>
+<p><strong>LRFD（彈性段）：</strong><br />
+$$\boxed{\lambda_c} = \frac{KL}{r\pi}\sqrt{\frac{F_y}{E}},\quad \boxed{F_{cr}} = \frac{0.877}{\lambda_c^2}F_y,\quad \boxed{\phi_cP_n} = 0.85F_{cr}(4A)$$</p>
 <h3>L1：題目直接給定</h3>
 <table>
 <thead>
@@ -159,52 +303,51 @@ $$\boxed{\phi_c P_n} = 0.85 \times \boxed{F_{cr}} \times A_{total}$$</p>
 <tr>
 <td>單角鋼</td>
 <td>L150×100×15</td>
-<td>四個組合，外部 40cm×40cm</td>
+<td>長肢垂直、短肢水平</td>
 </tr>
 <tr>
 <td>$A$</td>
 <td>35.3 cm²</td>
-<td>單角鋼斷面積</td>
+<td>單角鋼面積</td>
 </tr>
 <tr>
-<td>$I_x$（自身）</td>
+<td>$I_x$</td>
 <td>782 cm⁴</td>
-<td>單角鋼繞自身強軸</td>
+<td>繞水平軸</td>
 </tr>
 <tr>
-<td>$I_y$（自身）</td>
+<td>$I_y$</td>
 <td>276 cm⁴</td>
-<td>單角鋼繞自身弱軸</td>
+<td>繞垂直軸</td>
 </tr>
 <tr>
 <td>$c_x$</td>
 <td>5.0 cm</td>
-<td>形心至長腿背距</td>
+<td>形心到水平肢外緣（垂直距離）</td>
 </tr>
 <tr>
 <td>$c_y$</td>
 <td>2.53 cm</td>
-<td>形心至短腿背距</td>
+<td>形心到垂直肢外緣（水平距離）</td>
 </tr>
 <tr>
-<td>$k\ell$</td>
+<td>外廓</td>
+<td>40 × 40 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$KL$</td>
 <td>2500 cm</td>
-<td>有效長度</td>
+<td></td>
 </tr>
 <tr>
-<td>$F_y$</td>
-<td>2.52 tf/cm²</td>
-<td>降伏強度</td>
-</tr>
-<tr>
-<td>$E$</td>
-<td>2040 tf/cm²</td>
-<td>彈性模數</td>
+<td>$F_y$、$E$</td>
+<td>2.52、2040 tf/cm²</td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <h3>L2：需知識點推導</h3>
-<p><strong>Step 1：組合斷面性質</strong></p>
 <table>
 <thead>
 <tr>
@@ -220,92 +363,63 @@ $$\boxed{\phi_c P_n} = 0.85 \times \boxed{F_{cr}} \times A_{total}$$</p>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$d_x$</td>
-<td>$20 - c_x = 20 - 5.0 = 15$ cm（各角鋼形心距 Y 軸）</td>
+<td>$d_X$</td>
+<td>$20 - 5.0 = 15.0$ cm（到水平軸的垂直距離）</td>
+<td style="text-align: center;">⚠</td>
+</tr>
+<tr>
+<td>$d_Y$</td>
+<td>$20 - 2.53 = 17.47$ cm（到垂直軸的水平距離）</td>
+<td style="text-align: center;">⚠</td>
+</tr>
+<tr>
+<td>$I_X$</td>
+<td>$4(782 + 35.3 \times 15.0^2) = 34{,}898$ cm⁴（控制）</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$d_y$</td>
-<td>$20 - c_y = 20 - 2.53 = 17.47$ cm（各角鋼形心距 X 軸）</td>
+<td>$I_Y$</td>
+<td>$4(276 + 35.3 \times 17.47^2) = 44{,}198$ cm⁴</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$I_{x,comb}$</td>
-<td>$4(782 + 35.3 \times 17.47^2) = 46{,}224$ cm⁴</td>
+<td>$r$</td>
+<td>$\sqrt{34{,}898/141.2} = 15.72$ cm</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$I_{y,comb}$</td>
-<td>$4(276 + 35.3 \times 15^2) = 32{,}876$ cm⁴（弱軸，控制）</td>
+<td>$KL/r$</td>
+<td>$2500/15.72 = 159.0$</td>
 <td style="text-align: center;"></td>
 </tr>
-<tr>
-<td>$r_y$</td>
-<td>$\sqrt{32{,}876/141.2} = 15.26$ cm</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$k\ell/r_y$</td>
-<td>$2500/15.26 = 163.8$</td>
-<td style="text-align: center;"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Step 2：ASD 法</strong></p>
-<table>
-<thead>
-<tr>
-<th>符號</th>
-<th>公式 / 來源</th>
-<th style="text-align: center;">卡關?</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>$C_c$</td>
-<td>$\sqrt{2\pi^2 E/F_y} = 126.4$（長短柱界）</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>判斷</td>
-<td>$163.8 > 126.4$ → 長柱，用 Euler 公式</td>
+<td>$\sqrt{2\pi^2 \times 2040/2.52} = 126.4$</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$F_a$</td>
-<td>$(12/23) \times \pi^2 E/(k\ell/r)^2 = 0.3914$ tf/cm²</td>
+<td>$12\pi^2 \times 2040/(23 \times 159.0^2) = 0.415$ tf/cm²</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$P_a$</td>
-<td>$F_a \times A_{total} = 55.3$ tf</td>
+<td>$0.415 \times 141.2 = 58.7$ tf</td>
 <td style="text-align: center;"></td>
 </tr>
-</tbody>
-</table>
-<p><strong>Step 3：LRFD 法</strong></p>
-<table>
-<thead>
-<tr>
-<th>符號</th>
-<th>公式 / 來源</th>
-<th style="text-align: center;">卡關?</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>$\lambda_c$</td>
-<td>$(163.8/\pi)\sqrt{2.52/2040} = 1.832 > 1.5$ → 彈性挫屈</td>
+<td>$(159.0/\pi)\sqrt{2.52/2040} = 1.779$</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$F_{cr}$</td>
-<td>$0.877/\lambda_c^2 \times F_y = 0.658$ tf/cm²</td>
+<td>$0.877 \times 2.52/1.779^2 = 0.698$ tf/cm²</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$\phi_c P_n$</td>
-<td>$0.85 \times 0.658 \times 141.2 = 79.0$ tf</td>
+<td>$\phi_cP_n$</td>
+<td>$0.85 \times 0.698 \times 141.2 = 83.8$ tf</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -316,114 +430,85 @@ $$\boxed{\phi_c P_n} = 0.85 \times \boxed{F_{cr}} \times A_{total}$$</p>
 <tr>
 <th>知識點</th>
 <th>說明</th>
-<th style="text-align: center;">補強頁</th>
 <th style="text-align: center;">卡關?</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>弱軸判斷方法</td>
-<td>$d_y = 17.47 > d_x = 15$，故 $I_{y,comb} < I_{x,comb}$；Y 軸為弱軸</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>平行軸距離非 20 cm</td>
-<td>$d_x = 20 - c_x$（減去角鋼形心偏距 $c_x$），不能直接用 20 cm</td>
-<td style="text-align: center;"></td>
+<td>平行軸定理配對</td>
+<td>$I_{組} = \sum(I_{自身} + Ad^2)$，$d$ 必須垂直於同一根軸量</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>ASD 長短柱公式選擇</td>
-<td>$k\ell/r > C_c$ → Euler 長柱；$< C_c$ → Johnson 拋物線；先求 $C_c$ 再判斷</td>
-<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">asd-column</span></td>
+<td>角鋼形心符號</td>
+<td>$c_x$ 定位 $X$ 軸（所以是垂直距離），$c_y$ 定位 $Y$ 軸（水平距離）</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$\lambda_c$ 分母含 $\pi$</td>
-<td>$\lambda_c = (k\ell/r)/(\pi\sqrt{E/F_y})$；漏 $\pi$ 會高估 3.14 倍</td>
-<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">lrfd-column</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">COLUMN-STRENGTH-CURVE</span></td>
+<td>ASD 長柱公式</td>
+<td>$KL/r &gt; C_c$：$F_a = 12\pi^2E/[23(KL/r)^2]$，安全係數 23/12</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>LRFD 彈性挫屈公式</td>
-<td>$\lambda_c > 1.5$ 用 $0.877/\lambda_c^2 \cdot F_y$；$\leq 1.5$ 用 $0.658^{\lambda_c^2} F_y$</td>
-<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">lrfd-column</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">COLUMN-STRENGTH-CURVE</span></td>
+<td>LRFD 彈性段</td>
+<td>$\lambda_c &gt; 1.5$：$F_{cr} = 0.877F_y/\lambda_c^2$</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>殘留應力 / 切線模數</td>
-<td>$\lambda_c = 1.832 > 1.5$ → 彈性挫屈，殘留應力不影響此段公式</td>
-<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RESIDUAL-STRESS</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">TANGENT-MODULUS-THEORY</span></td>
+<td>組合構材修正細長比</td>
+<td>題目未給繫板間距、且言明「穩固組合」，不作 $(KL/r)_m$ 修正</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2>4. 步驟化詳細計算過程 (Step-by-Step Calculation)</h2>
-<h3>單角鋼性質（題目給定）</h3>
+<h3>一、組合斷面性質</h3>
+<p>$$A_{total} = 4 \times 35.3 = 141.2\ \text{cm}^2$$</p>
+<p>各角鋼形心到組合形心的距離：</p>
 <table>
 <thead>
 <tr>
-<th>參數</th>
-<th>數值</th>
+<th>方向</th>
+<th>計算</th>
+<th>用於</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>斷面積 $A$</td>
-<td>$35.3\ \text{cm}^2$</td>
+<td>垂直距離</td>
+<td>$d_X = 20 - c_x = 20 - 5.0 = 15.0$ cm</td>
+<td>繞水平軸 $X$</td>
 </tr>
 <tr>
-<td>$I_x$（繞自身強軸）</td>
-<td>$782\ \text{cm}^4$</td>
-</tr>
-<tr>
-<td>$I_y$（繞自身弱軸）</td>
-<td>$276\ \text{cm}^4$</td>
-</tr>
-<tr>
-<td>$c_x$（形心至長腿背距）</td>
-<td>$5.0\ \text{cm}$</td>
-</tr>
-<tr>
-<td>$c_y$（形心至短腿背距）</td>
-<td>$2.53\ \text{cm}$</td>
+<td>水平距離</td>
+<td>$d_Y = 20 - c_y = 20 - 2.53 = 17.47$ cm</td>
+<td>繞垂直軸 $Y$</td>
 </tr>
 </tbody>
 </table>
+<p><strong>繞水平軸 $X$：</strong></p>
+<p>$$I_X = 4\left(782 + 35.3 \times 15.0^2\right) = 4(782 + 7{,}942.5) = 34{,}898\ \text{cm}^4$$</p>
+<p><strong>繞垂直軸 $Y$：</strong></p>
+<p>$$I_Y = 4\left(276 + 35.3 \times 17.47^2\right) = 4(276 + 10{,}773.6) = 44{,}198\ \text{cm}^4$$</p>
+<p>$I_X &lt; I_Y$，繞水平軸控制：</p>
+<p>$$r = \sqrt{\frac{34{,}898}{141.2}} = 15.72\ \text{cm},\qquad \frac{KL}{r} = \frac{2500}{15.72} = 159.0$$</p>
+<p><img alt="SS-2010-3 圖解：四支 L150×100×15 角鋼置於 40 cm 外廓四角，標出各角鋼形心到組合形心的垂直距離 dX = 15.0、水平距離 dY = 17.47 cm；右列 I_X = 4(782 + 35.3×15.0²) = 34,898（控制）、I_Y = 4(276 + 35.3×17.47²) = 44,198，r = 15.72、KL/r = 159.0，以及 276 配 15 cm 的錯誤 32,874" src="../../raw/solutions/SS-2010-3/figs/SS-2010-3-fig-1-section.svg" /></p>
+<p><em>圖 1　平行軸定理要同軸配對：$I_x = 782$ 配垂直距離 $d_X = 15.0$、$I_y = 276$ 配水平距離 $d_Y = 17.47$，$I_X = 34{,}898$ 控制。這張圖攔的是 276 配上 15 cm（得 32,874、$KL/r$ 163.8）、把 40 cm 當形心間距，或選錯控制軸。</em></p>
 <hr />
-<h3>一、組合斷面性質計算</h3>
-<h4>Step 1：全斷面積</h4>
-<p>$$A_{total} = 4 \times 35.3 = 141.2\ \text{cm}^2$$</p>
-<h4>Step 2：各角鋼形心至組合形心之距離</h4>
-<p>外部尺寸 40cm×40cm，各角鋼背靠背，組合形心在幾何中心（20 cm × 20 cm 處）：</p>
-<p>$$d_x = 20 - c_x = 20 - 5.0 = 15\ \text{cm} \quad \text{（各角鋼形心距 Y 軸）}$$</p>
-<p>$$d_y = 20 - c_y = 20 - 2.53 = 17.47\ \text{cm} \quad \text{（各角鋼形心距 X 軸）}$$</p>
-<h4>Step 3：組合慣性矩（平行軸定理）</h4>
-<p>$$I_{x,comb} = 4\left(I_{x,own} + A \cdot d_y^2\right) = 4\left(782 + 35.3 \times 17.47^2\right) = 4\left(782 + 10{,}774\right) = 46{,}224\ \text{cm}^4$$</p>
-<p>$$I_{y,comb} = 4\left(I_{y,own} + A \cdot d_x^2\right) = 4\left(276 + 35.3 \times 15^2\right) = 4\left(276 + 7{,}943\right) = 32{,}876\ \text{cm}^4$$</p>
-<p>$I_{y,comb} < I_{x,comb}$，故 <strong>Y 軸為弱軸</strong>（控制挫屈）。</p>
-<h4>Step 4：弱軸迴轉半徑與細長比</h4>
-<p>$$r_y = \sqrt{\frac{I_{y,comb}}{A_{total}}} = \sqrt{\frac{32{,}876}{141.2}} = \sqrt{232.8} = 15.26\ \text{cm}$$</p>
-<p>$$\frac{k\ell}{r_y} = \frac{2{,}500}{15.26} = 163.8 \quad \text{（控制）}$$</p>
+<h3>二、ASD</h3>
+<p>$$C_c = \sqrt{\frac{2\pi^2 \times 2040}{2.52}} = 126.4 &lt; 159.0\ \Rightarrow\ \text{彈性挫屈}$$</p>
+<p>$$F_a = \frac{12\pi^2E}{23(KL/r)^2} = \frac{12\pi^2 \times 2040}{23 \times 159.0^2} = 0.415\ \text{tf/cm}^2$$</p>
+<p>$$\boxed{P_a = 0.415 \times 141.2 = 58.7\ \text{tf}}$$</p>
+<p>若題目「挫屈載重」指的是理論（尤拉）挫屈載重：$P_{cr} = \pi^2EI_X/(KL)^2 = 112.4$ tf；$P_a = P_{cr}/(23/12)$ ✔（112.4 ÷ 1.917 = 58.7）。</p>
 <hr />
-<h3>二、ASD 設計法</h3>
-<h4>Step 5：判斷長短柱</h4>
-<p>$$C_c = \sqrt{\frac{2\pi^2 E}{F_y}} = \sqrt{\frac{2 \times 9.8696 \times 2{,}040}{2.52}} = \sqrt{15{,}980} = 126.4$$</p>
-<p>$$\frac{k\ell}{r} = 163.8 > C_c = 126.4 \quad \Rightarrow \text{長柱（Euler 範疇）}$$</p>
-<h4>Step 6：容許應力 $F_a$（Euler 長柱）</h4>
-<p>$$F_a = \frac{12}{23} \cdot \frac{\pi^2 E}{\left(\dfrac{k\ell}{r}\right)^2} = \frac{12 \times 9.8696 \times 2{,}040}{23 \times 163.8^2} = \frac{241{,}609}{617{,}090} = 0.3914\ \text{tf/cm}^2$$</p>
-<p>$$\boxed{P_a = F_a \times A_{total} = 0.3914 \times 141.2 \approx 55.3\ \text{tf}}$$</p>
-<hr />
-<h3>三、LRFD 設計法</h3>
-<h4>Step 7：計算 $\lambda_c$</h4>
-<p>$$\lambda_c = \frac{k\ell}{r_y \pi}\sqrt{\frac{F_y}{E}} = \frac{2{,}500}{15.26 \times \pi}\sqrt{\frac{2.52}{2{,}040}} = 52.13 \times 0.03514 = 1.832$$</p>
-<h4>Step 8：判斷挫屈模式</h4>
-<p>$$\lambda_c = 1.832 > 1.5 \quad \Rightarrow \text{彈性挫屈，使用} \quad F_{cr} = \frac{0.877}{\lambda_c^2} F_y$$</p>
-<h4>Step 9：設計強度</h4>
-<p>$$F_{cr} = \frac{0.877}{1.832^2} \times 2.52 = \frac{0.877}{3.356} \times 2.52 = 0.658\ \text{tf/cm}^2$$</p>
-<p>$$\boxed{\phi_c P_n = 0.85 \times F_{cr} \times A_{total} = 0.85 \times 0.658 \times 141.2 \approx 79.0\ \text{tf}}$$</p>
+<h3>三、LRFD</h3>
+<p>$$\lambda_c = \frac{KL}{r\pi}\sqrt{\frac{F_y}{E}} = \frac{159.0}{\pi}\sqrt{\frac{2.52}{2040}} = 1.779 &gt; 1.5\ \Rightarrow\ \text{彈性挫屈}$$</p>
+<p>$$F_{cr} = \frac{0.877}{\lambda_c^2}F_y = \frac{0.877}{1.779^2} \times 2.52 = 0.698\ \text{tf/cm}^2$$</p>
+<p>$$P_n = 0.698 \times 141.2 = 98.6\ \text{tf}$$</p>
+<p>$$\boxed{\phi_cP_n = 0.85 \times 98.6 = 83.8\ \text{tf}}$$</p>
+<p><img alt="SS-2010-3 圖解：ASD Fa 與 LRFD φcFcr 對 KL/r 的曲線，KL/r = 159.0 在 Cc = 126.4 右側的彈性段，Pa = 58.7 tf、φcPn = 83.8 tf，Euler 112.4 tf；並標出配錯的 163.8" src="../../raw/solutions/SS-2010-3/figs/SS-2010-3-fig-2-curve.svg" /></p>
+<p><em>圖 2　$KL/r = 159.0 &gt; C_c = 126.4$，兩種方法都在彈性段：$P_a = 58.7$ tf、$\phi_cP_n = 83.8$ tf（Euler $P_{cr} = 112.4$ tf）。這張圖攔的是超過 $C_c$ 仍套非彈性式，或把 Euler 載重當容許載重。</em></p>
 <hr />
 <h2>5. 結果彙整與驗算 (Summary &amp; Verification)</h2>
 <table>
@@ -435,61 +520,87 @@ $$\boxed{\phi_c P_n} = 0.85 \times \boxed{F_{cr}} \times A_{total}$$</p>
 </thead>
 <tbody>
 <tr>
-<td>全斷面積 $A_{total}$</td>
-<td>$141.2\ \text{cm}^2$</td>
+<td>$A_{total}$</td>
+<td>141.2 cm²</td>
 </tr>
 <tr>
-<td>$I_{x,comb}$</td>
-<td>$46{,}224\ \text{cm}^4$</td>
+<td>$I_X$（控制）／$I_Y$</td>
+<td>34,898／44,198 cm⁴</td>
 </tr>
 <tr>
-<td>$I_{y,comb}$（控制）</td>
-<td>$32{,}876\ \text{cm}^4$</td>
+<td>$r$</td>
+<td>15.72 cm</td>
 </tr>
 <tr>
-<td>$r_y$（控制）</td>
-<td>$15.26\ \text{cm}$</td>
+<td>$KL/r$</td>
+<td>159.0</td>
 </tr>
 <tr>
-<td>$k\ell/r$（弱軸）</td>
-<td>$163.8$</td>
+<td>ASD $P_a$</td>
+<td><strong>58.7 tf</strong></td>
 </tr>
 <tr>
-<td>$C_c$（ASD 長短柱界）</td>
-<td>$126.4$</td>
-</tr>
-<tr>
-<td>$\lambda_c$（LRFD）</td>
-<td>$1.832$（&gt; 1.5，彈性挫屈）</td>
-</tr>
-<tr>
-<td><strong>ASD 挫屈載重 $P_a$</strong></td>
-<td><strong>$55.3\ \text{tf}$</strong></td>
-</tr>
-<tr>
-<td><strong>LRFD 設計強度 $\phi_c P_n$</strong></td>
-<td><strong>$79.0\ \text{tf}$</strong></td>
+<td>LRFD $\phi_cP_n$</td>
+<td><strong>83.8 tf</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>觀念精析：</strong></p>
-<p>弱軸為 Y 軸的原因：$d_y = 17.47\ \text{cm} > d_x = 15\ \text{cm}$，各角鋼形心距 Y 軸（$d_x$）較近，使 $I_y$ 較小，Y 軸為弱軸，控制挫屈。</p>
-<p>ASD vs LRFD 結果對照：兩種設計法均用 Euler 公式，但係數不同（ASD 用 $\frac{12}{23}$，LRFD 用 $0.85 \times 0.877$），LRFD 結果 $79.0/55.3 = 1.43$ 倍，反映安全係數差異（$\approx 1/0.70$）。</p>
-<p>繫板的設計意義：本題繫板面積不計，但實際設計中，依 AISC E6，組合柱需以修正後細長比 $(k\ell/r)_m$ 考量繫條剪力變形效應；本題因未給繫板間距，採整體斷面計算。</p>
+<p><strong>雙路徑驗算：</strong> 彈性段兩式都等於尤拉載重乘係數：ASD $P_a = P_{cr} \times 12/23 = 112.4 \times 0.522 = 58.7$ ✔；LRFD $\phi_cP_n = 0.85 \times 0.877 \times P_{cr} = 0.745 \times 112.4 = 83.8$ ✔。</p>
+<p><strong>與舊版解析的差異：</strong> 舊解把角鋼繞垂直軸的 $I_y = 276$ 配上垂直距離 15 cm，得 $I = 32{,}876$、$r = 15.26$、$KL/r = 163.8$，$P_a = 55.3$、$\phi_cP_n = 79.0$ tf，約低估 6%。正確配對後兩個方向都比它大，控制方向是繞水平軸。</p>
+<hr />
+<h2>6. 依最新規範（AISC 360-16／-22）對照</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">項目</th>
+<th style="text-align: left;">考卷</th>
+<th style="text-align: left;">AISC 360-16／-22</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">柱強度</td>
+<td style="text-align: left;">ASD $F_a$、LRFD $\lambda_c$ 兩段式，$\phi_c = 0.85$</td>
+<td style="text-align: left;">$F_e = \pi^2E/(KL/r)^2$；$F_y/F_e &gt; 2.25$ 時 $F_{cr} = 0.877F_e$；$\phi_c = 0.90$、$\Omega_c = 1.67$</td>
+</tr>
+<tr>
+<td style="text-align: left;">本題</td>
+<td style="text-align: left;">$P_a = 58.7$、$\phi_cP_n = 83.8$ tf</td>
+<td style="text-align: left;">$\phi_cP_n = 0.90 \times 98.6 = 88.7$ tf；$P_n/\Omega_c = 59.0$ tf</td>
+</tr>
+<tr>
+<td style="text-align: left;">組合構材</td>
+<td style="text-align: left;">本題不計</td>
+<td style="text-align: left;">§E6：以繫板連接時須用修正細長比 $(KL/r)_m$，並限制繫材間單肢細長比 ≤ 0.75 倍整體控制細長比</td>
+</tr>
+<tr>
+<td style="text-align: left;">單角鋼局部挫屈</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">表 B4.1a：$b/t = 15/1.5 = 10 &lt; 0.45\sqrt{E/F_y} = 12.8$，非細長肢</td>
+</tr>
+</tbody>
+</table>
+<p><strong>觀察：</strong> 新版只把 $\phi_c$ 提高，彈性段 $0.877F_e$ 與舊式相同。實務上 25 m 長的組合柱必須檢討繫板間距與 §E6 修正細長比，否則整體強度會被高估。</p>
+<hr />
+<p><em>修正日期：2026-11-01（依考卷原圖：單角鋼 $c_x = 5.0$ cm 為垂直距離、對應繞水平軸之 $I_x = 782$ cm⁴，原解把 $I_y = 276$ 配上 15 cm 致平行軸配對錯誤；更正 $I_X = 34{,}898$（控制）、$I_Y = 44{,}198$ cm⁴，$r$ 15.26 → <strong>15.72</strong> cm、$KL/r$ 163.8 → <strong>159.0</strong>，$P_a$ 55.3 → <strong>58.7 tf</strong>、$\phi_cP_n$ 79.0 → <strong>83.8 tf</strong>；新增雙路徑驗算與 §6 對照）</em><br />
+<em>圖解補繪：2026-11-03（向量圖 2 張，腳本 <code>gen_SS-2010-3.py</code>，改輸入可原地重跑；SVG 供 wiki／PDF，2× PNG 供 pptx／影片）</em><br />
+<em>驗證狀態：unverified</em></p>
+<p><em>修正日期：2026-11-02（§1 全文重述改為指向題目正本 <code>SS-2010-3-problem.md</code>（已確認）＋常見誤讀＋本解記號；解題內容與答案不變）</em></p>
+<p><em>修正日期：2026-11-03（§1 補入題目附圖重繪 <code>figs/SS-2010-3-fig-1-problem.svg</code>（依已確認的題目正本判讀清單，腳本 <code>gen_SS-2010-3.py</code>，可重跑）；解題內容與答案不變）</em></p>
 </main>
 <footer>來源：raw/solutions/SS-2010-3/SS-2010-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>
-/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+/* 跟隨來源單元：若由 unit-/study-/lecture-/formula-given-SS-Un-m.html 點入，
    兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
 (function(){
   var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
-          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
-  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+          'SS-U1-4':'接合之分析與設計','SS-U2-1':'塑性分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:unit|study|lecture|formula-given)-(SS-U\d-\d)\.html/);
   if(!m||!UN[m[1]])return;
   var u=m[1],code=u.replace('SS-','');
   var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
-  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
-        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(q){q.href='../unit-'+u+'.html';q.title=u+' '+UN[u]+' 單元總覽';
+        q.innerHTML='\uD83D\uDD0D '+code+' 單元總覽';}
   if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
         l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
 })();

@@ -1,0 +1,81 @@
+<section id="ch12">
+<h2>第 12 章　合成梁：混凝土版一起出力，還是同一張「應力塊」</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$C=0.85f'_c\,b_e\,a,\quad T=A_sF_y,\quad C=T\ \Rightarrow\ a=\frac{A_sF_y}{0.85f'_cb_e};\qquad M_n=T\left(\frac d2+t_s-\frac a2\right)$$
+要記的只有 <span class="kw">種子 S1：應力塊（長方形）＋水平力平衡</span>——和第 1 章找 PNA 完全同一招，只是上面多了一塊混凝土。0.85 是 RC 的等值應力塊係數。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>塑性應力分布法：\(C=T\) 定 PNA、\(M_n=\sum F_iy_i\)</td><td><span class="tg must">必背</span></td><td>12.1、12.2</td></tr>
+<tr><td>有效寬度 \(b_e\le\min(L/4,\ s,\ 16t_s+b_f)\)</td><td><span class="tg give">會給</span></td><td>12.1</td></tr>
+</table>
+<p class="note">證據：塑性應力法 24 年零公式——94 年 <a href="problems-view/SS-2005-2.html">SS-2005-2</a> 只給「\(M_n\) 依塑性應力分析而得」，108 年 <a href="problems-view/SS-2019-2.html">SS-2019-2</a> 只在題目給 \(b_e=2.5\) m。兩題相隔 14 年、套路相同，每次都是完整 25 分。</p>
+</div>
+
+<h3>12.1　三個假設，一張應力圖</h3>
+<div class="derive">
+<p><span class="st">①</span> <b>完全合成</b>：剪力釘夠多，版與鋼梁之間不滑動（剪力流 \(VQ/I\) 由剪力釘承擔，第 9 章）。</p>
+<p><span class="st">②</span> <b>混凝土</b>只受壓、不受拉；壓力區用 RC 的等值矩形應力塊 \(0.85f'_c\)（試驗等值，不是推導的）。</p>
+<p><span class="st">③</span> <b>鋼</b>全斷面到 \(\pm F_y\)（種子 S1 的長方形）。有效寬度 \(b_e\) 取 \(L/4\)、梁間距 \(s\)、\(16t_s+b_f\) 的最小值（考卷幾乎都會給）。</p>
+</div>
+
+<h3>12.2　先判斷 PNA 在哪裡：比兩個「最大力」</h3>
+<div class="derive">
+<p><span class="st">①</span> 鋼梁全部受拉時的力 \(T_{\max}=A_sF_y\)；混凝土版全部受壓時的力 \(C_{\max}=0.85f'_cb_et_s\)。</p>
+<p><span class="st">②</span> <b>\(A_sF_y\le C_{\max}\)</b>：版不必全壓就能平衡鋼梁 ⇒ PNA 在版內。\(0.85f'_cb_ea=A_sF_y\) ⇒ \(\boxed{a=\dfrac{A_sF_y}{0.85f'_cb_e}}\)；力臂＝鋼梁形心到壓力塊中心 \(=\dfrac d2+t_s-\dfrac a2\)。</p>
+<p><span class="st">③</span> <b>\(A_sF_y\gt C_{\max}\)</b>：版全壓仍不夠 ⇒ 鋼梁上方一部分也要受壓。設鋼的受壓部分力 \(C_s\)：\(C_{\max}+C_s=A_sF_y-C_s\) ⇒ \(\boxed{C_s=\dfrac{A_sF_y-C_{\max}}{2}}\)，再由 \(C_s\) 找出 PNA 在翼板或腹板（第 1 章的等面積法）。</p>
+</div>
+
+{{FIG:fig12_2|圖 12-1｜PNA 的三種位置。判斷只要比兩個數：鋼梁全拉 \(A_sF_y\) 與混凝土版全壓 \(0.85f'_cb_et_s\)。鋼較小 ⇒ ①；鋼較大 ⇒ 鋼梁也要分一部分受壓（② 或 ③）。}}
+
+<div class="check"><b>極限檢查</b><br>
+・\(b_e\to\infty\)：\(a\to0\)，壓力塊貼在版頂，力臂最大 ⇒ \(M_n\to A_sF_y(d/2+t_s)\) ✔<br>
+・\(t_s\to0\)（沒有版）：情況 ③ 一路退化成第 1 章的純鋼梁，\(M_n\to M_p\) ✔<br>
+・第 ③ 步的 \(C_s\) 除以 2：鋼的那一部分「從拉變壓」，一出一進，所以差額只要一半 ✔</div>
+
+<h3>12.3　範例：合成梁正彎矩強度（SS-2019-2）</h3>
+<div class="box"><b>題目（節錄）</b>　版厚 15 cm、\(b_e=2.5\) m、\(f'_c=210\) kgf/cm²＝0.21 tf/cm²；鋼梁 H500×200×10×16、\(F_y=2.5\) tf/cm²；完全合成。求正彎矩標稱強度 \(M_n\)。</div>
+
+{{FIG:fig12_1|圖 12-2｜SS-2019-2 依比例的斷面（版寬縮小顯示）。PNA 在版內 \(a=6.21\) cm；上方 \(0.85f'_c\) 的壓力塊 \(C\)，下方整支鋼梁 \(F_y\) 的拉力 \(T\)，兩者都是 277 tf；力臂 36.90 cm。}}
+
+<div class="derive">
+<p><span class="st">①</span> \(A_s=2\times20\times1.6+46.8\times1.0=110.8\) cm²；\(T_{\max}=110.8\times2.5=277\) tf。</p>
+<p><span class="st">②</span> \(C_{\max}=0.85\times0.21\times250\times15=669.4\) tf \(\gt277\) ⇒ PNA 在版內。</p>
+<p><span class="st">③</span> \(a=\dfrac{277}{0.85\times0.21\times250}=6.21\) cm；力臂 \(=25+15-3.10=36.90\) cm。</p>
+<p><span class="st">④</span> \(M_n=277\times36.90=10{,}220\) tf·cm \(=\) <b>102.2 tf·m</b>（題目問標稱強度；若問設計強度 \(\phi_bM_n=92.0\) tf·m）。</p>
+<p><span class="st">檢</span> 同一支鋼梁單獨的 \(M_p=F_yZ_x=52.4\) tf·m；合成後將近加倍（1.95 倍）——混凝土版把壓力區推到最上面，力臂變長。</p>
+</div>
+<div class="trap"><b>單位</b>：\(f'_c=210\) kgf/cm² ＝ <b>0.21 tf/cm²</b>。用 210 直接代會差 1000 倍。</div>
+<p class="note">鋼梁單獨 \(M_p\) 的估算：H500×200×10×16 的 \(Z_x=20\times1.6\times48.4+1.0\times46.8^2/4=1549+548=2097\) cm³，\(M_p=2.5\times2097=52.4\) tf·m。</p>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜合成梁</div>
+<ol>
+<li><b>畫</b>：版＋鋼梁斷面，右邊畫上方 \(0.85f'_c\) 壓力塊、下方 \(F_y\) 拉力塊</li>
+<li><b>種子</b>：S1（長方形應力塊）＋水平力平衡 \(C=T\)</li>
+<li><b>推</b>：比 \(A_sF_y\) 與 \(0.85f'_cb_et_s\)；版內：\(a=A_sF_y/(0.85f'_cb_e)\)、\(M_n=T(d/2+t_s-a/2)\)；鋼內：\(C_s=(A_sF_y-C_{\max})/2\)</li>
+<li><b>檢查</b>：\(f'_c\) 換成 tf/cm²；合成 \(M_n\) 大約是鋼梁 \(M_p\) 的 1.5～2 倍</li>
+</ol>
+</div>
+
+<h3>12.4　🙈 蓋住重推</h3>
+<details><summary>Q1　怎麼判斷 PNA 在混凝土版內還是鋼梁內？</summary>
+<p>答：比較鋼梁全斷面拉力 \(A_sF_y\) 與混凝土版全斷面壓力 \(0.85f'_cb_et_s\)；前者較小 ⇒ 版內，否則在鋼梁內。</p></details>
+<details><summary>Q2　PNA 在鋼梁內時，鋼的受壓部分為什麼是 \((A_sF_y-C_{\max})/2\)？</summary>
+<p>答：設鋼受壓部分力 \(C_s\)，則鋼受拉部分 \(=A_sF_y-C_s\)；平衡 \(C_{\max}+C_s=A_sF_y-C_s\) ⇒ \(C_s=(A_sF_y-C_{\max})/2\)。</p></details>
+
+<h3>12.5　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>沒先比較兩個最大力就假設 PNA 位置</td><td>先比 \(A_sF_y\) 與 \(0.85f'_cb_et_s\)</td></tr>
+<tr><td>2</td><td>\(f'_c\) 用 kgf/cm² 代</td><td>換成 tf/cm²</td></tr>
+<tr><td>3</td><td>混凝土受拉也算</td><td>混凝土只算受壓</td></tr>
+<tr><td>4</td><td>力臂用版厚中心</td><td>壓力塊中心在 \(a/2\)，不是 \(t_s/2\)</td></tr>
+<tr><td>5</td><td>問標稱卻乘 \(\phi\)</td><td>SS-2019-2 問 \(M_n\)，不乘</td></tr>
+</table>
+</section>

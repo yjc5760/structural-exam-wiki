@@ -13,7 +13,7 @@
 body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
   background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
 header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
-header h1{margin:0;font-size:1.15em}
+header h1{color:#fff;margin:0;font-size:1.15em}
 header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
   padding:4px 12px;border-radius:14px;text-decoration:none}
 main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
@@ -28,8 +28,133 @@ blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;paddin
 .katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
 footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
 </style></head><body>
-<header><h1>SS-2020-3 題目解析</h1><a class="quick" href="../study-SS-U1-3.html" title="SS-U1-3 梁柱桿件 命題分析">&#128269; U1-3 命題分析</a><a class="lect" href="../lecture-SS-U1-3.html" title="SS-U1-3 梁柱桿件 觀念講義">&#128218; U1-3 梁柱桿件 講義</a></header>
+<header><h1>SS-2020-3 題目解析</h1><a class="quick" href="../unit-SS-U1-3.html" title="SS-U1-3 梁柱桿件 單元總覽">&#128269; U1-3 單元總覽</a><a class="lect" href="../lecture-SS-U1-3.html" title="SS-U1-3 梁柱桿件 觀念講義">&#128218; U1-3 梁柱桿件 講義</a></header>
 <main>
+<details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（待確認）</summary><h1>SS-2020-3 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>SS-2020-3.md</code>。<br />
+判讀清單經使用者確認前，狀態為「待確認」；確認後本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>考卷</td>
+<td><code>raw/exams/SS-2020_鋼結構設計.pdf</code> 第 2 頁（頁次 3－2），第三題；參考資料在第 3 頁（頁次 3－3）</td>
+</tr>
+<tr>
+<td>考年</td>
+<td>民國 109 年（2020）</td>
+</tr>
+<tr>
+<td>配分</td>
+<td>25 分</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td>1 張（強軸、弱軸受力圖＋斷面），<code>SS-2020-3-fig-1.png</code>；第 3 頁參考資料截圖 <code>SS-2020-3-eqn-1.png</code></td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>待確認</strong>（轉錄 2026-11-02，PyMuPDF 110 dpi 全頁＋附圖 450 dpi 局部目視（附圖為 523×317 點陣圖），盲讀後才比對既有解析）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>三、有一梁柱桿件承受端點載重如下圖所示，$P_w$=150 tf，$M_{wx}$=6 tf-m，桿件長為 500 cm，斷面為 H 400x400x12x22，在桿件兩端皆有側向支撐，$K_x$=1.8，$K_y$=1.2，採用之材料強度 $F_y$=2.5 tf/cm²，$E$=2100 tf/cm²。試依極限設計規範，假設載重係數 r=1.6，求其弱軸尚可承受之最大彎矩 $M_{wy}$。（25 分）</p>
+</blockquote>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>題文：$P_w$ = 150 tf；$M_{wx}$ = 6 tf-m；長 500 cm；$K_x$ = 1.8、$K_y$ = 1.2；$F_y$ = 2.5、$E$ = 2100 tf/cm²；載重係數 r = 1.6。</li>
+<li>第 3 頁「＊參考資料」照錄：</li>
+<li>H400x400x12x22 斷面性質：$A$ = 218.7 cm²，$r_x$ = 17.56 cm，$r_y$ = 10.36 cm，$Z_x$ = 3707 cm³，$Z_y$ = 1773 cm³</li>
+<li>公式：下列公式僅供參考，如有問題，請自行修正。</li>
+</ul>
+<p>$$\lambda_c = \frac{kl}{\pi r}\sqrt{\frac{F_y}{E}},\quad F_{cr} = \left[\exp(-0.419\lambda_c^2)\right]\cdot F_y,\quad F_{cr} = \left(\frac{0.877}{\lambda_c^2}\right)\cdot F_y$$<br />
+$$\text{當}\ \frac{P_u}{\phi_cP_n} \ge 0.2,\ \frac{P_u}{\phi_cP_n} + \frac89\left(\frac{M_{ux}}{\phi_bM_{nx}} + \frac{M_{uy}}{\phi_bM_{ny}}\right) \le 1.0$$<br />
+$$\text{當}\ \frac{P_u}{\phi_cP_n} &lt; 0.2,\ \frac{P_u}{2\phi_cP_n} + \left(\frac{M_{ux}}{\phi_bM_{nx}} + \frac{M_{uy}}{\phi_bM_{ny}}\right) \le 1.0$$<br />
+$$B_1 = \frac{0.64}{1 - (P_u/P_{e1})}\left[1 - \frac{M_1}{M_2}\right] + 0.32\frac{M_1}{M_2} \ge 1.0,\quad P_{e1} = \frac{A_gF_y}{\lambda_c^2},\quad L_p = \frac{80r_y}{\sqrt{F_y}}$$</p>
+<p><img alt="SS-2020-3 第 3 頁參考資料截圖" src="../../raw/solutions/SS-2020-3/SS-2020-3-eqn-1.png" /></p>
+<ul>
+<li>兩條 $F_{cr}$ 式<strong>沒有標適用範圍</strong>（$\lambda_c$ ≤ 1.5／&gt; 1.5）；$B_1$ 式照考卷原樣（形式特殊，$M_1/M_2$ 正負號未定義）。</li>
+<li><strong>沒有給 $\phi_c$、$\phi_b$、$S_x$、$S_y$、$B_2$ 式</strong>。</li>
+<li>卷首注意事項：㈠可以使用電子計算器；㈡不必抄題；㈢本科目除專門名詞或數理公式外，應使用本國文字作答；註：參考資料在第 3 頁。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p><img alt="SS-2020-3 附圖：上圖「對強軸彎曲」：水平桿件長 500 cm，兩端各有向內的軸壓 Pw；左端彎矩 Mwx 的弧形箭頭自下繞左側到上方、箭頭在右上朝下（順時針），右端 Mwx 的弧形箭頭自下繞右側到上方、箭頭在左上朝下（逆時針）；右側斷面為 I 字形（翼板水平）。下圖「對弱軸彎曲」：同樣 500 cm、兩端 Pw，左端 Mwy（順時針）、右端 0.5Mwy（逆時針）；右側斷面為 H 字形（翼板垂直），標「桿件斷面」" src="../../raw/solutions/SS-2020-3/SS-2020-3-fig-1.png" /></p>
+<p><em>圖面文字照錄：Mwx；Mwx；Pw；Pw；500 cm；對強軸彎曲；Mwy；0.5Mwy；Pw；Pw；500 cm；對弱軸彎曲；桿件斷面。</em></p>
+<h2>4. 判讀清單</h2>
+<p>「把握」標<strong>不確定</strong>者請優先確認；解讀類項目（題目用字的意思）另標「解讀」。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>強軸端彎矩</td>
+<td>左端順時針、右端逆時針，兩端皆 $M_{wx}$ → <strong>單曲率、均勻彎矩</strong></td>
+<td>450 dpi：左弧箭頭在右上朝下、右弧箭頭在左上朝下</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>2</td>
+<td>弱軸端彎矩</td>
+<td>左 $M_{wy}$ 順時針、右 0.5$M_{wy}$ 逆時針 → <strong>單曲率</strong>，端彎矩比 0.5</td>
+<td>同上</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>載重係數</td>
+<td>r = 1.6 同時乘 $P_w$、$M_{wx}$、$M_{wy}$</td>
+<td>題文「假設載重係數 r=1.6」</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>有效長度</td>
+<td>$K_xL$ = 900 cm、$K_yL$ = 600 cm</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>側向支撐</td>
+<td>兩端有側撐 → $L_b$ = 500 cm（參考資料給 $L_p$ 式供比較）</td>
+<td>題文</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>側移放大</td>
+<td>題只給 $B_1$、未給 $B_2$ 與側移資料 → 只考慮 $B_1$</td>
+<td>參考資料</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>所求</td>
+<td>弱軸工作彎矩 $M_{wy}$ 的最大值（工作載重值，非因數化值）</td>
+<td>題文「$M_{wy}$」與 $P_w$、$M_{wx}$ 同為 w 下標</td>
+<td>確定（解讀）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-02（SS-U1-3 題目正本推廣・批 2）</em></p></details>
 <h1>考題編號：SS-2020-3</h1>
 <p><strong>主分類：</strong> <code>SS-U1-3</code> 梁柱桿件<br />
 <strong>副分類：</strong> 無<br />
@@ -65,12 +190,12 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <p>⚠️ <strong>原卷第三題並未提供任何參考公式</strong>（該頁只有題目文字與兩張載重圖），斷面性質（$A$、$I$、$S$、$Z$、$r$）也<strong>必須自行由 H 400×400×12×22 的尺寸算出</strong>。以下公式一律出自<strong>台灣「鋼構造建築物鋼結構設計技術規範」極限設計法（民國 99 年／2010）</strong>。</p>
 </blockquote>
 <p><strong>所依據之規範公式：</strong></p>
-<p>$$\lambda_c = \frac{KL}{\pi r}\sqrt{\frac{F_y}{E}} \quad(6.2\text{-}4) \quad \Rightarrow \quad \lambda_c \leq 1.5:\ F_{cr} = \exp!\left(-0.419\lambda_c^2\right) F_y \ \left(\equiv 0.658^{\lambda_c^2}F_y\right)$$</p>
+<p>$$\lambda_c = \frac{KL}{\pi r}\sqrt{\frac{F_y}{E}} \quad(6.2\text{-}4) \quad \Rightarrow \quad \lambda_c \leq 1.5:\ F_{cr} = \exp\!\left(-0.419\lambda_c^2\right) F_y \ \left(\equiv 0.658^{\lambda_c^2}F_y\right)$$</p>
 <p>$$\phi_c P_n = 0.85\, F_{cr}\, A \qquad (\phi_c = 0.85)$$</p>
 <p>$$M_u = B_1 M_{nt} + B_2 M_{lt} \quad(8.2\text{-}2)$$</p>
 <p>$$B_1 = \frac{0.64}{1 - P_u/P_{e1}}\left(1 - \frac{M_1}{M_2}\right) + 0.32\,\frac{M_1}{M_2} \ \geq 1.0 \quad(8.2\text{-}3)$$</p>
 <p>$$P_{e1} = \frac{A_gF_y}{\lambda_c^2} \equiv \frac{\pi^2EI}{(KL)^2}, \quad \textbf{其中彎曲平面上之 } K \leq 1.0$$</p>
-<p>$$\frac{P_u}{\phi P_n} \geq 0.2:\quad \frac{P_u}{\phi P_n} + \frac{8}{9}!\left(\frac{M_{ux}}{\phi_b M_{nx}} + \frac{M_{uy}}{\phi_b M_{ny}}\right) \leq 1.0 \quad(8.2\text{-}1a)$$</p>
+<p>$$\frac{P_u}{\phi P_n} \geq 0.2:\quad \frac{P_u}{\phi P_n} + \frac{8}{9}\!\left(\frac{M_{ux}}{\phi_b M_{nx}} + \frac{M_{uy}}{\phi_b M_{ny}}\right) \leq 1.0 \quad(8.2\text{-}1a)$$</p>
 <p>$$M_{ny} \leq 1.5\,F_y S_y \quad(\text{弱軸撓曲上限，規範 6.6 節})$$</p>
 <blockquote>
 <p><strong>關於 (8.2-3)</strong>：此式<strong>非</strong> AISC 之 $C_m/(1-P_u/P_{e1})$，而是台灣規範自訂的較精確形式；規範解說明言 AISC-LRFD 是「將上式<strong>更簡化</strong>為 $C_m = 0.6-0.4(M_1/M_2)$」。<br />
@@ -117,14 +242,14 @@ $$\boxed{P_u} = r \cdot P_w, \qquad \boxed{M_{ux,0}} = r \cdot M_{wx}, \qquad \b
 <p><strong>Step 3：控制軸細長比（強弱軸分別算，取大）</strong><br />
 $$\boxed{\lambda_{cx}} = \frac{K_x L}{\pi r_x}\sqrt{\frac{F_y}{E}}, \qquad \boxed{\lambda_{cy}} = \frac{K_y L}{\pi r_y}\sqrt{\frac{F_y}{E}} \quad \Rightarrow \quad \boxed{\lambda_c} = \max(\boxed{\lambda_{cx}}, \boxed{\lambda_{cy}})$$</p>
 <p><strong>Step 4：柱設計強度</strong><br />
-$$\boxed{F_{cr}} = \exp!\left(-0.419\,\boxed{\lambda_c}^2\right) F_y, \qquad \boxed{\phi_c P_n} = 0.85 \times \boxed{F_{cr}} \times A$$</p>
+$$\boxed{F_{cr}} = \exp\!\left(-0.419\,\boxed{\lambda_c}^2\right) F_y, \qquad \boxed{\phi_c P_n} = 0.85 \times \boxed{F_{cr}} \times A$$</p>
 <p><strong>Step 5：撓曲設計強度（確認無 LTB）</strong><br />
 $$\boxed{L_p} = 1.76\,r_y\sqrt{\frac{E}{F_y}}, \qquad L_b &lt; \boxed{L_p} \;\Rightarrow\; \boxed{\phi_b M_{nx}} = 0.9\,F_y\,Z_x,\quad \boxed{\phi_b M_{ny}} = 0.9\,F_y\,Z_y$$</p>
 <p><strong>Step 6：$B_1$ 彎矩放大係數（各軸）</strong><br />
-$$\boxed{P_{e1}} = \frac{\pi^2 E I}{(KL)^2}, \qquad \boxed{B_1} = \frac{0.64}{1 - \boxed{P_u}/\boxed{P_{e1}}}!\left(1-\frac{M_1}{M_2}\right) + 0.32\frac{M_1}{M_2} \;\geq 1.0$$<br />
+$$\boxed{P_{e1}} = \frac{\pi^2 E I}{(KL)^2}, \qquad \boxed{B_1} = \frac{0.64}{1 - \boxed{P_u}/\boxed{P_{e1}}}\!\left(1-\frac{M_1}{M_2}\right) + 0.32\frac{M_1}{M_2} \;\geq 1.0$$<br />
 $$\boxed{M_{ux}} = \boxed{B_{1x}} \cdot \boxed{M_{ux,0}}, \qquad \boxed{M_{uy}} = \boxed{B_{1y}} \cdot \boxed{M_{uy,0}}$$</p>
 <p><strong>Step 7：互制方程式（H1-1a），解 $M_{wy}$</strong><br />
-$$\frac{\boxed{P_u}}{\boxed{\phi_c P_n}} + \frac{8}{9}!\left(\frac{\boxed{M_{ux}}}{\boxed{\phi_b M_{nx}}} + \frac{\boxed{M_{uy}}}{\boxed{\phi_b M_{ny}}}\right) \leq 1.0 \quad \Rightarrow \quad \boxed{M_{wy}} = \frac{\boxed{M_{uy}}}{r}$$</p>
+$$\frac{\boxed{P_u}}{\boxed{\phi_c P_n}} + \frac{8}{9}\!\left(\frac{\boxed{M_{ux}}}{\boxed{\phi_b M_{nx}}} + \frac{\boxed{M_{uy}}}{\boxed{\phi_b M_{ny}}}\right) \leq 1.0 \quad \Rightarrow \quad \boxed{M_{wy}} = \frac{\boxed{M_{uy}}}{r}$$</p>
 <h3>L1：題目直接給定</h3>
 <table>
 <thead>
@@ -223,7 +348,7 @@ $$\frac{\boxed{P_u}}{\boxed{\phi_c P_n}} + \frac{8}{9}!\left(\frac{\boxed{M_{ux}
 </tr>
 <tr>
 <td>$I_x$</td>
-<td>$2!\left[\frac{b_ft_f^3}{12} + b_ft_f!\left(\frac{h_w+t_f}{2}\right)^{!2}\right] + \frac{t_wh_w^3}{12} = 67{,}452$ cm⁴</td>
+<td>$2\!\left[\frac{b_ft_f^3}{12} + b_ft_f\!\left(\frac{h_w+t_f}{2}\right)^{\!2}\right] + \frac{t_wh_w^3}{12} = 67{,}452$ cm⁴</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
@@ -445,7 +570,7 @@ $$\frac{\boxed{P_u}}{\boxed{\phi_c P_n}} + \frac{8}{9}!\left(\frac{\boxed{M_{ux}
 <tbody>
 <tr>
 <td>H1-1a 代入</td>
-<td>$0.6118 + \frac{8}{9}!\left(\frac{976.7}{8339.9} + \frac{160M_{wy}}{3960.9}\right) \leq 1.0$</td>
+<td>$0.6118 + \frac{8}{9}\!\left(\frac{976.7}{8339.9} + \frac{160M_{wy}}{3960.9}\right) \leq 1.0$</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
@@ -466,7 +591,6 @@ $$\frac{\boxed{P_u}}{\boxed{\phi_c P_n}} + \frac{8}{9}!\left(\frac{\boxed{M_{ux}
 <tr>
 <th>知識點</th>
 <th>說明</th>
-<th style="text-align: center;">補強頁</th>
 <th style="text-align: center;">卡關?</th>
 </tr>
 </thead>
@@ -475,60 +599,50 @@ $$\frac{\boxed{P_u}}{\boxed{\phi_c P_n}} + \frac{8}{9}!\left(\frac{\boxed{M_{ux}
 <td>載重係數 $r$ 作用對象</td>
 <td><strong>所有</strong>工作載重均需乘 $r$（包含兩軸彎矩），不只軸力</td>
 <td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>強弱軸 $\lambda_c$ 分別計算</td>
 <td>$K_x \neq K_y$、$r_x \neq r_y$，需各自算出後取較大者控制柱強度</td>
-<td style="text-align: center;">[[lrfd-column]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$\exp(-0.419\lambda^2)$ 的等效形式</td>
 <td>等效於 $0.658^{\lambda^2}$（因 $\ln 0.658 \approx -0.419$）；本題公式直接給，直接代計算機</td>
-<td style="text-align: center;">[[lrfd-column]] · [[column-buckling-lambda-boundary]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$B_1$ 公式中 $M_1/M_2$ 符號</td>
-<td><strong>單曲率為「$-$」（負值）；雙曲率（S 形）為「$+$」（正值）</strong>；$|M_1/M_2| \leq 1$（大者放分母）；$B_1 &lt; 1$ 時取 $B_1 = 1.0$</td>
-<td style="text-align: center;">[[b1b2-amplification]] · [[b1-m1m2-sign-convention]]</td>
+<td><strong>單曲率為「$-$」（負值）；雙曲率（S 形）為「$+$」（正值）</strong>；$\|M_1/M_2\| \leq 1$（大者放分母）；$B_1 &lt; 1$ 時取 $B_1 = 1.0$</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>台灣 (8.2-3) 與 AISC 的差別</td>
 <td>台灣用 $\frac{0.64}{1-P_u/P_{e1}}(1-\frac{M_1}{M_2}) + 0.32\frac{M_1}{M_2}$；AISC 用 $\frac{0.6-0.4(M_1/M_2)}{1-P_u/P_{e1}}$。<strong>兩者不等價</strong>，規範解說稱 AISC 是「更簡化」的版本</td>
-<td style="text-align: center;">[[b1b2-amplification]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$P_{e1}$ 的 $K \leq 1.0$</td>
 <td>$B_1$ 屬構材內 P-δ，故用無側移長度；側移效應歸 $B_2$（$P_{e2}$ 之 $K \geq 1.0$）。混用即重複計入</td>
-<td style="text-align: center;">[[b1b2-amplification]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>弱軸上限 $1.5F_yS_y$</td>
 <td>I 型斷面 $Z_y/S_y$ 常略大於 1.5；$M_{ny}$ 須取 $\min(F_yZ_y, 1.5F_yS_y)$。AISC 360-10 起放寬為 $1.6F_yS_y$</td>
 <td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>斷面性質須自算</td>
 <td>本題不給 $A$、$Z$、$r$，H 型組合斷面的 $Z_x = b_ft_f(d-t_f)+t_wh_w^2/4$、$Z_y = t_fb_f^2/2 + h_wt_w^2/4$ 必須背得出來</td>
-<td style="text-align: center;">[[plastic-zx]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>H1-1a vs H1-1b 選擇門檻</td>
 <td>$P_u/\phi_cP_n \geq 0.2$ 用 H1-1a（含 8/9 係數）；$&lt; 0.2$ 用 H1-1b</td>
-<td style="text-align: center;">[[pm-interaction]] · [[BEAM-COLUMN-INTERACTION]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>最終答案的單位還原</td>
 <td>題目問工作彎矩 $M_{wy}$；互制式解出的是設計彎矩 $M_{uy}$，須除以 $r$ 才是答案</td>
-<td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -599,8 +713,8 @@ $$\frac{b_f}{2t_f} = \frac{40}{4.4} = 9.09 &lt; \frac{17}{\sqrt{F_y}} = 10.75 \ 
 <hr />
 <h3>Step 2：計算設計載重</h3>
 <p>$$P_u = r \cdot P_w = 1.6 \times 150 = 240 \text{ tf}$$<br />
-$$M_{ux,0} = r \cdot M_{wx} = 1.6 \times 6 \times 100 = 960 \text{ tf·cm}$$（工作彎矩）<br />
-$$M_{uy,0} = r \cdot M_{wy} = 1.6 \times M_{wy} \times 100 \text{ tf·cm}$$</p>
+$$M_{ux,0} = r \cdot M_{wx} = 1.6 \times 6 \times 100 = 960 \text{ tf}\cdot\text{cm}$$（工作彎矩）<br />
+$$M_{uy,0} = r \cdot M_{wy} = 1.6 \times M_{wy} \times 100 \text{ tf}\cdot\text{cm}$$</p>
 <hr />
 <h3>Step 3：計算細長比 $\lambda_c$，確認控制軸</h3>
 <p>$$\lambda_{cx} = \frac{K_x L}{\pi r_x}\sqrt{\frac{F_y}{E}} = \frac{1.8 \times 500}{\pi \times 17.56}\sqrt{\frac{2.5}{2100}} = \frac{900}{55.18} \times 0.03450 = 16.31 \times 0.03450 = 0.5627$$</p>
@@ -619,14 +733,14 @@ $$= \exp(-0.419 \times 0.4042) \times 2.5 = \exp(-0.1694) \times 2.5 = 0.8445 \t
 <p>$$L_p = \frac{80\,r_y}{\sqrt{F_y}} = \frac{80 \times 10.36}{\sqrt{2.5}} = \frac{828.8}{1.5811} = 524.1 \text{ cm}$$</p>
 <p>$$L_b = 500 \text{ cm} &lt; L_p = 524.1 \text{ cm} \quad \Rightarrow \quad \text{無 LTB（餘裕僅 4.6\%）}$$</p>
 <p><strong>強軸：</strong><br />
-$$M_{nx} = M_{px} = F_y Z_x = 2.5 \times 3706.6 = 9{,}266.5 \text{ tf·cm}$$<br />
-$$\boxed{\phi_b M_{nx} = 0.9 \times 9{,}266.5 = 8{,}339.9 \text{ tf·cm}}$$</p>
+$$M_{nx} = M_{px} = F_y Z_x = 2.5 \times 3706.6 = 9{,}266.5 \text{ tf}\cdot\text{cm}$$<br />
+$$\boxed{\phi_b M_{nx} = 0.9 \times 9{,}266.5 = 8{,}339.9 \text{ tf}\cdot\text{cm}}$$</p>
 <p><strong>弱軸（⚠ 必須檢查 $1.5F_yS_y$ 上限）：</strong><br />
-$$F_yZ_y = 2.5 \times 1772.8 = 4{,}432.0 \text{ tf·cm}$$<br />
-$$1.5F_yS_y = 1.5 \times 2.5 \times 1173.6 = 4{,}401.0 \text{ tf·cm}$$<br />
+$$F_yZ_y = 2.5 \times 1772.8 = 4{,}432.0 \text{ tf}\cdot\text{cm}$$<br />
+$$1.5F_yS_y = 1.5 \times 2.5 \times 1173.6 = 4{,}401.0 \text{ tf}\cdot\text{cm}$$<br />
 $$\frac{Z_y}{S_y} = \frac{1772.8}{1173.6} = 1.511 &gt; 1.5 \quad \Rightarrow \quad \textbf{上限控制}$$<br />
-$$M_{ny} = \min(4432.0,\ 4401.0) = 4{,}401.0 \text{ tf·cm}$$<br />
-$$\boxed{\phi_b M_{ny} = 0.9 \times 4{,}401.0 = 3{,}960.9 \text{ tf·cm}}$$</p>
+$$M_{ny} = \min(4432.0,\ 4401.0) = 4{,}401.0 \text{ tf}\cdot\text{cm}$$<br />
+$$\boxed{\phi_b M_{ny} = 0.9 \times 4{,}401.0 = 3{,}960.9 \text{ tf}\cdot\text{cm}}$$</p>
 <blockquote>
 <p>⚠️ 上限只把 $M_{ny}$ 壓低 0.7%，但這是規範 6.6 節的明文；漏檢即扣分。物理上，I 型斷面繞弱軸彎曲時兩片翼板近似「兩塊獨立矩形板」（形狀因數恰為 1.5），若放行到 $F_yZ_y$ 會在工作載重下產生大範圍永久變形。</p>
 </blockquote>
@@ -648,8 +762,8 @@ $$= 0.66869 \times 2 - 0.32 = 1.33738 - 0.32 = \boxed{1.017} &gt; 1.0 \ \checkma
 <p>$$B_{1y} = \frac{0.64}{1 - 0.12333}\left(1-(-0.5)\right) + 0.32(-0.5) = \frac{0.64}{0.87667}(1.5) - 0.16$$<br />
 $$= 0.73003 \times 1.5 - 0.16 = 1.09505 - 0.16 = 0.935 &lt; 1.0 \quad \Rightarrow \quad \boxed{B_{1y} = 1.0}$$</p>
 <p><strong>放大後設計彎矩：</strong><br />
-$$M_{ux} = B_{1x} \times M_{ux,0} = 1.017 \times 960 = \boxed{976.7 \text{ tf·cm}}$$<br />
-$$M_{uy} = B_{1y} \times 1.6\,M_{wy} \times 100 = 1.0 \times 160\,M_{wy} = \boxed{160\,M_{wy} \text{ tf·cm}}\quad(M_{wy}\text{ 單位 tf·m})$$</p>
+$$M_{ux} = B_{1x} \times M_{ux,0} = 1.017 \times 960 = \boxed{976.7 \text{ tf}\cdot\text{cm}}$$<br />
+$$M_{uy} = B_{1y} \times 1.6\,M_{wy} \times 100 = 1.0 \times 160\,M_{wy} = \boxed{160\,M_{wy} \text{ tf}\cdot\text{cm}}\quad(M_{wy}\text{ 單位 tf}\cdot\text{m})$$</p>
 <hr />
 <p><img alt="SS-2020-3 曲線圖：B1 隨 Pu/Pe1 變化，台灣 (8.2-3) 與 AISC Cm/(1−p) 各繪 M1/M2 = −1 與 −0.5 兩條，並標出下限 1.0、本題兩點，以及改用題給 K 時 Pu/Pe1 右移的位置" src="../../raw/solutions/SS-2020-3/figs/SS-2020-3-fig-3-b1-curve.svg" /></p>
 <p><em>圖 3　$B_1$ 兩式對照與下限。弱軸原始值 0.935 低於 1，必須取下限；虛線標出改用題給 $K$ 會把 $P_u/P_{e1}$ 右推到哪裡——這張圖攔的是 $P_{e1}$ 誤用側移 $K$ 而把側移柔度重複計入 P-δ。</em></p>
@@ -660,9 +774,9 @@ $$M_{uy} = B_{1y} \times 1.6\,M_{wy} \times 100 = 1.0 \times 160\,M_{wy} = \boxe
 <p>$$0.6118 + 0.10410 + 0.035907\,M_{wy} \leq 1.0$$</p>
 <p>$$0.7159 + 0.035907\,M_{wy} \leq 1.0$$</p>
 <p>$$0.035907\,M_{wy} \leq 0.2841$$</p>
-<p>$$\boxed{M_{wy} \leq \frac{0.2841}{0.035907} = 7.91 \text{ tf·m}}$$</p>
+<p>$$\boxed{M_{wy} \leq \frac{0.2841}{0.035907} = 7.91 \text{ tf}\cdot\text{m}}$$</p>
 <p><strong>驗算（回代）：</strong><br />
-$$M_{uy} = 1.6 \times 7.91 \times 100 = 1{,}266\ \text{tf·cm}, \quad \frac{1266}{3960.9} = 0.3196$$<br />
+$$M_{uy} = 1.6 \times 7.91 \times 100 = 1{,}266\ \text{tf}\cdot\text{cm}, \quad \frac{1266}{3960.9} = 0.3196$$<br />
 $$0.6118 + \frac{8}{9}(0.11711 + 0.3196) = 0.6118 + 0.3882 = 1.000 \ \checkmark$$</p>
 <hr />
 <p><img alt="SS-2020-3 兩格圖：左為 H1-1a 三項堆疊（軸壓 0.612＋強軸 0.104＋弱軸 0.284 = 1.000），右為四種算法的 Mwy 答案區間 7.43～7.91 tf·m" src="../../raw/solutions/SS-2020-3/figs/SS-2020-3-fig-4-interaction.svg" /></p>
@@ -853,7 +967,7 @@ $$0.6118 + \frac{8}{9}(0.11711 + 0.3196) = 0.6118 + 0.3882 = 1.000 \ \checkmark$
 <p>⚠️ 餘裕只有 4.6%，故 $L_p$ 用哪一個規範形式都必須算準；若把 $r_y$ 算錯 5%（例如 $I_y$ 漏掉腹板項或用錯 $b_f$），$L_p$ 就會掉到 500 cm 以下，整題要改走非彈性 LTB。</p>
 </blockquote>
 <h3>考場安全答法</h3>
-<ol start="0">
+<ol>
 <li><strong>先算斷面性質</strong>（題目不給）：$A = 218.72$、$I_x = 67{,}452$、$S_x = 3372.6$、$Z_x = 3706.6$、$I_y = 23{,}472$、$S_y = 1173.6$、$Z_y = 1772.8$、$r_x = 17.56$、$r_y = 10.36$</li>
 <li>$P_u = 1.6×150 = 240$ tf；$M_{ux,0} = 1.6×6×100 = 960$ tf·cm</li>
 <li>$\lambda_{cy} = (1.2×500)/(π×10.36)×\sqrt{2.5/2100} = 0.636$（弱軸控制；$\lambda_{cx} = 0.563$）</li>
@@ -866,7 +980,7 @@ $$0.6118 + \frac{8}{9}(0.11711 + 0.3196) = 0.6118 + 0.3882 = 1.000 \ \checkmark$
    $P_{e1}$ 用 <strong>$K = 1.0$</strong>（規範明文）：$P_{e1x} = 5592$、$P_{e1y} = 1946$ tf<br />
    → $B_{1x} = (0.64/0.9571)×2 - 0.32 = \mathbf{1.017}$；$B_{1y} = (0.64/0.8767)×1.5 - 0.16 = 0.935 \to \mathbf{1.0}$<br />
    → $M_{ux} = 1.017×960 = 977$ tf·cm；$M_{uy} = 160\,M_{wy}$ tf·cm</li>
-<li>$0.612 + (8/9)(977/8340 + 160\,M_{wy}/3961) = 1.0$ → $\boxed{M_{wy} \approx 7.9\ \text{tf·m}}$</li>
+<li>$0.612 + (8/9)(977/8340 + 160\,M_{wy}/3961) = 1.0$ → $\boxed{M_{wy} \approx 7.9\ \text{tf}\cdot\text{m}}$</li>
 <li>一句話交代取捨：「$P_{e1}$ 依規範取 $K \leq 1.0$；若改用題給 $K$ 則 $M_{wy} = 7.4$ tf·m」</li>
 </ol>
 <hr />
@@ -930,14 +1044,14 @@ $$F_e = \frac{\pi^2E}{(KL/r)^2} = \frac{9.8696(2100)}{57.9^2} = 6.181\ \text{tf/
 $$F_{cr} = 0.658^{0.4044}(2.5) = 2.110\ \text{tf/cm}^2 \ (\text{與台灣式同值 } \checkmark)$$<br />
 $$\phi_cP_n = 0.90 \times 2.110 \times 218.72 = \mathbf{415.4\ \text{tf}}, \qquad \frac{P_u}{\phi_cP_n} = \frac{240}{415.4} = 0.5778$$</p>
 <p><strong>撓曲：</strong><br />
-$$\phi_bM_{nx} = 0.9F_yZ_x = 8{,}339.9\ \text{tf·cm （同）}$$<br />
-$$M_{ny} = \min(F_yZ_y,\ 1.6F_yS_y) = \min(4{,}432.0,\ 4{,}694.4) = \mathbf{4{,}432.0}\ \text{tf·cm} \Rightarrow \phi_bM_{ny} = 3{,}988.8\ \text{tf·cm}$$</p>
+$$\phi_bM_{nx} = 0.9F_yZ_x = 8{,}339.9\ \text{tf}\cdot\text{cm （同）}$$<br />
+$$M_{ny} = \min(F_yZ_y,\ 1.6F_yS_y) = \min(4{,}432.0,\ 4{,}694.4) = \mathbf{4{,}432.0}\ \text{tf}\cdot\text{cm} \Rightarrow \phi_bM_{ny} = 3{,}988.8\ \text{tf}\cdot\text{cm}$$</p>
 <p><strong>$B_1$（App. 8，LRFD $\alpha = 1.0$，$L_{c1} = L$）：</strong><br />
 $$B_{1x} = \frac{0.6-0.4(-1)}{1-240/5592} = \frac{1.0}{0.9571} = 1.045, \qquad B_{1y} = \frac{0.6-0.4(-0.5)}{1-240/1946} = \frac{0.8}{0.8767} = 0.913 \to 1.0$$</p>
 <p><strong>H1-1a：</strong><br />
-$$0.5778 + \frac{8}{9}!\left(\frac{1.045 \times 960}{8339.9} + \frac{160M_{wy}}{3988.8}\right) = 1.0 \qquad (1.045 \times 960 = 1003.0\ \text{tf·cm})$$<br />
+$$0.5778 + \frac{8}{9}\!\left(\frac{1.045 \times 960}{8339.9} + \frac{160M_{wy}}{3988.8}\right) = 1.0 \qquad (1.045 \times 960 = 1003.0\ \text{tf}\cdot\text{cm})$$<br />
 $$0.5778 + \frac{8}{9}(0.12026 + 0.040113\,M_{wy}) = 1.0$$<br />
-$$0.12026 + 0.040113\,M_{wy} = 0.47498 \ \Rightarrow \ M_{wy} = \frac{0.35472}{0.040113} = \mathbf{8.84\ \text{tf·m}}$$</p>
+$$0.12026 + 0.040113\,M_{wy} = 0.47498 \ \Rightarrow \ M_{wy} = \frac{0.35472}{0.040113} = \mathbf{8.84\ \text{tf}\cdot\text{m}}$$</p>
 <h3>6.3 對照結論</h3>
 <table>
 <thead>
@@ -996,22 +1110,23 @@ $$0.12026 + 0.040113\,M_{wy} = 0.47498 \ \Rightarrow \ M_{wy} = \frac{0.35472}{0
 <p><strong>AISC 360-16 允許的弱軸彎矩比台灣 2010 高約 12%</strong>，主因有二：① $\phi_c$ 由 0.85 放寬到 0.90，軸壓項由 0.612 降到 0.578，直接把 0.034 的餘裕讓給彎矩項；② 弱軸上限由 $1.5F_yS_y$ 放寬到 $1.6F_yS_y$ 後改由 $F_yZ_y$ 控制，$\phi_bM_{ny}$ 由 3,961 升到 3,989 tf·cm。$F_{cr}$ 本身完全相同——兩規範的柱曲線是同一條，差別只在折減係數與上限。</p>
 <p><strong>作答建議：</strong> 本題明示「依極限設計規範」且屬 109 年考題，<strong>主答須用 $\phi_c = 0.85$、$1.5F_yS_y$ 上限，得 $M_{wy} \approx 7.9$ tf·m</strong>。可補述「若依 AISC 360-16（$\phi_c = 0.90$、$1.6F_yS_y$），可放寬至約 8.8 tf·m」。</p>
 <hr />
-<p><em>修正日期：2026-08-22（勘誤：①$\phi_bM_{ny}$ 漏掉規範 6.6 節之 </em><em>$1.5F_yS_y$ 上限</em><em>（$Z_y/S_y = 1.511 &gt; 1.5$ ⇒ 上限控制），3,989.3 → </em><em>3,960.9</em><em> tf·cm；②$P_{e1}$ 之有效長度依規範明文改用 </em><em>$K = 1.0$</em><em>（原用題給 1.8／1.2，屬把側移柔度重複計入 P-δ），$B_{1x}$ 1.167 → </em><em>1.017</em><em>、$B_{1y}$ 1.007 → </em><em>1.0</em><em>；③</em><em>答案 7.48 → 7.91 tf·m</em><em>（四種算法區間 7.4～7.9，已列敏感度表）；④L1 表把 $A$／$r$／$Z$／$F_{cr}$ 公式／$B_1$ 公式誤標為「題目提供」——原卷第三題</em><em>未給任何公式與斷面性質</em><em>，改列入 L2 並補上完整斷面性質推導（含 $I_x$、$S_x$、$I_y$、$S_y$、結實性檢核）；⑤$L_p$ 由 AISC 形式改為台灣 $80r_y/\sqrt{F_y} = 524.1$ cm；⑥</em><em>刪除 §5「(8.2-3) 其實等效於 $0.6-0.4(M_1/M_2)$」之錯誤敘述</em><em>——規範解說明言 AISC 式是「更簡化」的版本，兩式不等價；並補上 (8.2-3) 的來源註記與逐點比對表；⑦補單曲率判定的目視依據；⑧新增 §6 最新規範對照）</em><br />
+<p><em>修正日期：2026-08-22（勘誤：①$\phi_bM_{ny}$ 漏掉規範 6.6 節之 <strong>$1.5F_yS_y$ 上限</strong>（$Z_y/S_y = 1.511 &gt; 1.5$ ⇒ 上限控制），3,989.3 → <strong>3,960.9</strong> tf·cm；②$P_{e1}$ 之有效長度依規範明文改用 <strong>$K = 1.0$</strong>（原用題給 1.8／1.2，屬把側移柔度重複計入 P-δ），$B_{1x}$ 1.167 → <strong>1.017</strong>、$B_{1y}$ 1.007 → <strong>1.0</strong>；③<strong>答案 7.48 → 7.91 tf·m</strong>（四種算法區間 7.4～7.9，已列敏感度表）；④L1 表把 $A$／$r$／$Z$／$F_{cr}$ 公式／$B_1$ 公式誤標為「題目提供」——原卷第三題<strong>未給任何公式與斷面性質</strong>，改列入 L2 並補上完整斷面性質推導（含 $I_x$、$S_x$、$I_y$、$S_y$、結實性檢核）；⑤$L_p$ 由 AISC 形式改為台灣 $80r_y/\sqrt{F_y} = 524.1$ cm；⑥<strong>刪除 §5「(8.2-3) 其實等效於 $0.6-0.4(M_1/M_2)$」之錯誤敘述</strong>——規範解說明言 AISC 式是「更簡化」的版本，兩式不等價；並補上 (8.2-3) 的來源註記與逐點比對表；⑦補單曲率判定的目視依據；⑧新增 §6 最新規範對照）</em><br />
+<em>圖解補繪：2026-08-29（向量圖 4 張，腳本 <code>gen_SS-2020-3.py</code>，改輸入可原地重跑；SVG 供 wiki／PDF，2× PNG 供 pptx／影片）</em><br />
 <em>驗證狀態：unverified</em></p>
 </main>
 <footer>來源：raw/solutions/SS-2020-3/SS-2020-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>
-/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+/* 跟隨來源單元：若由 unit-/study-/lecture-/formula-given-SS-Un-m.html 點入，
    兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
 (function(){
   var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
-          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
-  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+          'SS-U1-4':'接合之分析與設計','SS-U2-1':'塑性分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:unit|study|lecture|formula-given)-(SS-U\d-\d)\.html/);
   if(!m||!UN[m[1]])return;
   var u=m[1],code=u.replace('SS-','');
   var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
-  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
-        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(q){q.href='../unit-'+u+'.html';q.title=u+' '+UN[u]+' 單元總覽';
+        q.innerHTML='\uD83D\uDD0D '+code+' 單元總覽';}
   if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
         l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
 })();

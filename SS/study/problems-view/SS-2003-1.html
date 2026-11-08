@@ -13,7 +13,7 @@
 body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
   background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
 header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
-header h1{margin:0;font-size:1.15em}
+header h1{color:#fff;margin:0;font-size:1.15em}
 header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
   padding:4px 12px;border-radius:14px;text-decoration:none}
 main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
@@ -28,176 +28,287 @@ blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;paddin
 .katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
 footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
 </style></head><body>
-<header><h1>SS-2003-1 題目解析</h1><a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a></header>
-<main><h1>考題編號：SS-2003-1</h1>
-<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
-<strong>副分類：</strong> <code>SS-U1-4</code> 接合之分析與設計<br />
-<strong>設計法：</strong> 概念題<br />
-<strong>標籤：</strong> <code>塊狀剪力</code> <code>block shear</code> <code>腹板承壓降伏</code> <code>web yielding</code> <code>複合柱</code> <code>有效降伏應力</code> <code>Fmy</code> <code>Em</code> <code>殘留應力</code> <code>Cc臨界細長比</code> <code>ASD</code></p>
-<hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>本題為概念說明題，共五小題，每題 5 分，合計 25 分。依考卷殘存文字判讀，五小題題意如下（原卷掃描品質不佳，部分文字依題意補全）：</p>
-<p><strong>(一)（5 分）</strong> 說明拉力桿件接合處發生塊狀剪力裂斷 (block shear failure) 的破壞機制，並寫出 LRFD 設計公式。</p>
-<p><strong>(二)（5 分）</strong> 梁若無支承加勁板，說明腹板承壓降伏 (web yielding) 的發生條件與設計檢核方式。</p>
-<p><strong>(三)（5 分）</strong> 說明複合壓力桿件（SRC 柱）的修正降伏強度 $F_{my}$ 與修正彈性模數 $E_m$ 的計算公式及各係數的物理意義。</p>
-<p><strong>(四)（5 分）</strong> 說明殘留應力 (residual stress) 的成因及其對壓力桿件強度的影響。（原卷此小題文字掃描不清，依題型脈絡補全為殘留應力相關說明）</p>
-<p><strong>(五)（5 分）</strong> 說明 ASD 設計法中臨界細長比 $C_c$ 的意義，及其在柱設計中如何劃分彈性與非彈性挫屈區間。</p>
-<hr />
-<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
-<p>本題涵蓋拉力桿件與壓力桿件設計的五個基礎概念，測驗考生對以下能力：</p>
-<ol>
-<li><strong>接合破壞模式的辨識</strong>：block shear 是接合設計與拉力桿件設計的重要交集，考生須理解「一面剪切＋一面拉斷」的複合破壞。</li>
-<li><strong>梁腹板局部強度</strong>：web yielding 屬梁桿件設計中常被忽視的局部極限狀態。</li>
-<li><strong>複合構材設計概念</strong>：SRC 柱的 $F_{my}$, $E_m$ 公式是直接計算 $\phi_c P_n$ 的基礎，第二題（SS-2003-2）的計算題即以此為前提。</li>
-<li><strong>殘留應力的影響</strong>：熱軋型鋼中殘留應力的存在是 AISC 柱曲線呈非線性的根本原因，理解此概念才能讀懂 $F_{cr}$ 公式的物理背景。</li>
-<li><strong>ASD 柱設計分界</strong>：$C_c$ 是 ASD 法的核心分界點，須能說明其數學定義與物理意義。</li>
-</ol>
-<p><strong>出題者意圖：</strong> 在計算題（Q2-Q4）之前，先以概念題確認考生對設計理論基礎的掌握，而非僅靠公式代入。</p>
-<hr />
-<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
-<p><strong>五小題各自獨立，依序說明即可。</strong></p>
-<p><strong>關鍵陷阱：</strong></p>
-<ol>
-<li>
-<p><strong>(一) Block Shear 公式選擇陷阱</strong>：容易混淆「剪切控制」vs.「拉斷控制」兩種情況下的不同組合方式，必須先比較 $F_u A_{nt}$ 與 $0.6 F_u A_{nv}$ 的大小再選公式。</p>
-</li>
-<li>
-<p><strong>(二) Web Yielding 兩種情況</strong>：支承端（端部）與跨中（內部）的有效支承長度 $N$ 對應的 $k$ 係數不同（$5k$ 或 $2.5k$），容易搞混。</p>
-</li>
-<li>
-<p><strong>(三) C 係數組合陷阱</strong>：$C_1, C_2, C_3$ 因包覆型（SRC）與充填型（CFT）不同而異，必須記清哪組對應哪種斷面型式。</p>
-</li>
-<li>
-<p><strong>(五) $C_c$ 物理意義</strong>：$C_c$ 並非「最大容許細長比」（那是 200），而是「Euler 臨界應力等於 $F_y/2$ 時的細長比」，兩者常被混淆。</p>
-</li>
-</ol>
-<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<header><h1>SS-2003-1 題目解析</h1><a class="quick" href="../unit-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 單元總覽">&#128269; U1-1 單元總覽</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a></header>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>SS-2003-1 題目正本</h1>
 <blockquote>
-<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>SS-2003-1.md</code>。<br />
+判讀清單經使用者確認前，狀態為「待確認」；確認後本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
 </blockquote>
-<p><strong>最終目標：</strong> 五小題各自說明概念：block shear 機制與公式 → web yielding 條件 → SRC 複合柱 $F_{my}/E_m$ → 殘留應力影響 → ASD 的 $C_c$ 意義</p>
-<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
-<p><strong>小題(一)：塊狀剪力</strong><br />
-$$\text{若 }0.6F_uA_{nv} > F_uA_{nt}:\quad \boxed{R_n} = 0.6F_uA_{nv} + F_yA_{gt}$$</p>
-<p><strong>小題(三)：SRC 複合柱</strong><br />
-$$\boxed{F_{my}} = F_y + C_1 F_{yr}\frac{A_r}{A_s} + C_2 f'_c\frac{A_c}{A_s}, \quad \boxed{E_m} = E + C_3 E_c\frac{A_c}{A_s}$$</p>
-<p><strong>小題(五)：ASD 臨界細長比</strong><br />
-$$\boxed{C_c} = \sqrt{\frac{2\pi^2 E}{F_y}} \quad (\text{Euler 臨界應力} = F_y/2 \text{ 時的細長比})$$</p>
-<h3>L1：題目直接給定</h3>
 <table>
 <thead>
 <tr>
-<th>符號</th>
-<th>數值</th>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>考卷</td>
+<td><code>raw/exams/SS-2003_鋼結構設計.pdf</code> 第 1（正面） 頁，第一題</td>
+</tr>
+<tr>
+<td>考年</td>
+<td>民國 92 年（2003）</td>
+</tr>
+<tr>
+<td>配分</td>
+<td>25 分（每小題 5 分）</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td>無</td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-02 使用者確認，含「不確定」項之解讀；轉錄同日，PyMuPDF 110 dpi 全頁＋關鍵處 400–500 dpi 局部目視，盲讀後才比對既有解析）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>一、簡答題：（每小題 5 分，共 25 分）<br />
+㈠試說明何謂塊狀剪力（block shear）撕裂。<br />
+㈡梁支承處若設計不當可能發生腹板局部降伏（web yielding），試說明其改善措施。<br />
+㈢受拉構材設計中，降伏應力（yielding stress）之安全係數較抗拉強度之安全係數為低，試簡述其理由。<br />
+㈣鋼結構構材斷面依其抵抗局部挫屈之特性，可分為那四種？試簡述之。<br />
+㈤何謂臨界長細比 Cc？其推導之理論背景為何？試簡述之。</p>
+</blockquote>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<p>無（本題無公式或附表；同卷背面附表屬第三、四題）。</p>
+<h2>3. 附圖</h2>
+<p>本題無附圖。</p>
+<h2>4. 判讀清單</h2>
+<p>「把握」標<strong>不確定</strong>者請優先確認；解讀類項目（題目用字的意思）另標「解讀」。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>題型</td>
+<td>五個簡答小題，皆不需計算</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>2</td>
+<td>㈡ 問什麼</td>
+<td><strong>改善措施</strong>（不只是說明現象）</td>
+<td>題文「試說明其改善措施」</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>㈢ 比較對象</td>
+<td>降伏（全斷面）安全係數 &lt; 斷裂（淨斷面）安全係數的理由</td>
+<td>題文（解讀）</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>㈣「四種」</td>
+<td>依局部挫屈分類的四種斷面（如塑性設計斷面、結實、半結實、細長；名稱依當年規範）</td>
+<td>題文「可分為那四種」（解讀）</td>
+<td>不確定 → 使用者確認</td>
+</tr>
+<tr>
+<td>5</td>
+<td>㈤ $C_c$</td>
+<td>ASD 柱公式中彈性／非彈性挫屈分界的長細比</td>
+<td>題文（解讀）</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-02（SS-U1-1 題目正本推廣・批 1）｜確認：2026-11-02 使用者確認</em></p></details>
+<h1>考題編號：SS-2003-1</h1>
+<p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
+<strong>副分類：</strong> <code>SS-U1-4</code> 接合之分析與設計、<code>SS-U1-2</code> 梁桿件<br />
+<strong>設計法：</strong> 概念題<br />
+<strong>標籤：</strong> <code>塊狀剪力</code> <code>block shear</code> <code>腹板承壓降伏</code> <code>web yielding</code> <code>Cc臨界細長比</code> <code>ASD</code> <code>受拉構材安全係數</code> <code>局部挫屈</code> <code>斷面分類</code> <code>結實斷面</code> <code>承壓加勁板</code></p>
+<hr />
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="SS-2003-1-problem.md"><code>SS-2003-1-problem.md</code></a>。本節只列<strong>解題時最容易讀錯的地方</strong>與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>㈡ 問什麼</td>
+<td>腹板局部降伏的<strong>改善措施</strong></td>
+<td>只說明現象</td>
+</tr>
+<tr>
+<td>㈢、㈣ 題文</td>
+<td>㈢ 受拉構材降伏的安全係數較低之理由；㈣ 依抵抗局部挫屈特性分成的四種斷面</td>
+<td>照舊版解析自行「補全」的別題作答</td>
+</tr>
+<tr>
+<td>㈤ $C_c$</td>
+<td>ASD 柱公式彈性／非彈性挫屈分界長細比與其理論背景</td>
+<td>只寫公式不寫背景</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> （說明題，無數值）</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>五個小題各對應一個「規範背後的道理」，測驗的是<strong>為什麼</strong>，而不是公式：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">小題</th>
+<th style="text-align: left;">主題</th>
+<th style="text-align: left;">所屬單元</th>
+<th style="text-align: left;">核心觀念</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">（一）</td>
+<td style="text-align: left;">塊狀剪力撕裂</td>
+<td style="text-align: left;">U1-1／U1-4</td>
+<td style="text-align: left;">接合端的破壞是「剪力面＋拉力面」一起撕出一塊</td>
+</tr>
+<tr>
+<td style="text-align: center;">（二）</td>
+<td style="text-align: left;">腹板局部降伏的改善</td>
+<td style="text-align: left;">U1-2</td>
+<td style="text-align: left;">集中力在腹板趾部擴散長度不足 → 加長支承、加勁、加厚</td>
+</tr>
+<tr>
+<td style="text-align: center;">（三）</td>
+<td style="text-align: left;">受拉構材兩種安全係數</td>
+<td style="text-align: left;">U1-1</td>
+<td style="text-align: left;">降伏是延性、有預警；斷裂是脆性、會倒</td>
+</tr>
+<tr>
+<td style="text-align: center;">（四）</td>
+<td style="text-align: left;">局部挫屈斷面分類</td>
+<td style="text-align: left;">U1-1／U1-2</td>
+<td style="text-align: left;">寬厚比決定斷面能發揮到哪一級強度</td>
+</tr>
+<tr>
+<td style="text-align: center;">（五）</td>
+<td style="text-align: left;">臨界長細比 $C_c$</td>
+<td style="text-align: left;">U1-1</td>
+<td style="text-align: left;">彈性／非彈性挫屈的分界，源自殘留應力約 $0.5F_y$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>答題骨架（每小題 5 分）：</strong> 定義一句 → 機制或理由 2～3 點 → 一條關鍵公式或數字 → 一張示意圖（（一）（二）（五）最好畫）。</p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
 <th>說明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>❶ （二）答成「如何檢核」</td>
+<td>題目問的是<strong>改善措施</strong>，檢核式只是佐證，重點要列出具體做法</td>
+</tr>
+<tr>
+<td>❷ （三）只寫係數不寫理由</td>
+<td>要說出「延性 vs 脆性」「全斷面 vs 局部淨斷面」「破壞後果」的差別</td>
+</tr>
+<tr>
+<td>❸ （四）只寫三種</td>
+<td>國內規範有<strong>塑性設計斷面</strong>一級（$\lambda_{pd}$），連同結實、半結實、細長肢共四種</td>
+</tr>
+<tr>
+<td>❹ （五）把 $C_c$ 當成細長比上限</td>
+<td>細長比上限是 200（受壓構材），$C_c$ 是彈性與非彈性挫屈的分界</td>
+</tr>
+<tr>
+<td>❺ （一）塊狀剪力兩式取大值</td>
+<td>兩式是同一破壞的兩種路徑，依「斷裂應力較大的那一面」選式，並受上限式限制</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：解題後，在每個卡住的知識點「卡關?」欄標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<p><strong>最終目標：</strong> 五小題各寫出「定義 ＋ 機制／理由 ＋ 關鍵式」</p>
+<h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
+<p>$$\text{（一）}\ \phi R_n = 0.75\left[0.6F_uA_{nv} + F_yA_{gt}\right]\ \text{或}\ 0.75\left[0.6F_yA_{gv} + F_uA_{nt}\right] \le 0.75\left[0.6F_uA_{nv} + F_uA_{nt}\right]$$<br />
+$$\text{（二）}\ \phi R_n = 1.0\,(5k + N)F_{yw}t_w\ \text{（中間）},\quad (2.5k + N)F_{yw}t_w\ \text{（端部）}$$<br />
+$$\text{（三）}\ \text{ASD：}F_t = 0.60F_y\ (FS = 1.67)\ \text{vs}\ 0.50F_u\ (FS = 2.0);\quad \text{LRFD：}\phi_t = 0.90\ \text{vs}\ 0.75$$<br />
+$$\text{（四）}\ \lambda \le \lambda_{pd} &lt; \lambda_p &lt; \lambda_r$$<br />
+$$\text{（五）}\ \boxed{C_c} = \sqrt{\frac{2\pi^2E}{F_y}}\ \Leftarrow\ F_e = \frac{\pi^2E}{(KL/r)^2} = \frac{F_y}{2}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
 <td>題型</td>
-<td>概念說明題（5 小題 × 5 分）</td>
-<td>無需數值計算</td>
+<td>五小題簡答，各 5 分</td>
 </tr>
 <tr>
-<td>$\phi$（接合）</td>
-<td>0.75</td>
-<td>Block shear、淨斷面斷裂的折減係數</td>
-</tr>
-<tr>
-<td>$C_1, C_2, C_3$（包覆型 SRC）</td>
-<td>0.7, 0.6, 0.2</td>
-<td>各材料貢獻係數</td>
-</tr>
-<tr>
-<td>$C_1, C_2, C_3$（充填型 CFT）</td>
-<td>1.0, 0.85, 0.4</td>
-<td>圍束效果更好，係數較高</td>
+<td>數值</td>
+<td>無</td>
 </tr>
 </tbody>
 </table>
 <h3>L2：需知識點推導</h3>
-<p><strong>小題(一)：塊狀剪力 Block Shear</strong></p>
 <table>
 <thead>
 <tr>
-<th>符號</th>
-<th>公式 / 來源</th>
+<th>小題</th>
+<th>要點</th>
 <th style="text-align: center;">卡關?</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>破壞組合判斷</td>
-<td>比較 $F_uA_{nt}$ vs $0.6F_uA_{nv}$，取較小者為控制面</td>
+<td>（一）</td>
+<td>剪力面＋拉力面組合撕裂；一面斷裂、另一面降伏</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>剪斷控制公式</td>
-<td>$R_n = 0.6F_uA_{nv} + F_yA_{gt}$（剪切斷裂 + 拉力降伏）</td>
+<td>（二）</td>
+<td>加長支承長度 $N$、設承壓加勁板、加厚腹板或貼補強板、改用腹板較厚斷面</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>拉斷控制公式</td>
-<td>$R_n = 0.6F_yA_{gv} + F_uA_{nt}$（剪切降伏 + 拉力斷裂）</td>
+<td>（三）</td>
+<td>延性 vs 脆性；全斷面 vs 淨斷面局部；變異性；破壞後果</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>上限值</td>
-<td>$0.6F_uA_{nv} + F_uA_{nt}$（兩面皆斷裂）</td>
-<td style="text-align: center;"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>小題(二)：腹板承壓降伏 Web Yielding</strong></p>
-<table>
-<thead>
-<tr>
-<th>符號</th>
-<th>公式 / 來源</th>
-<th style="text-align: center;">卡關?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>支承端公式</td>
-<td>$f_w = R/[(N+5k)t_w] \leq 0.66F_y$</td>
+<td>（四）</td>
+<td>塑性設計、結實、半結實、細長肢</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>跨中公式</td>
-<td>$f_w = P/[(N+2.5k)t_w] \leq 0.66F_y$（雙側擴散）</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$k$ 定義</td>
-<td>翼板外緣至腹板圓角末端距離</td>
-<td style="text-align: center;"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>小題(五)：$C_c$ 的使用</strong></p>
-<table>
-<thead>
-<tr>
-<th>符號</th>
-<th>公式 / 來源</th>
-<th style="text-align: center;">卡關?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$C_c$</td>
-<td>$\sqrt{2\pi^2E/F_y}$（A36 鋼 $\approx 128.8$）</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$KL/r < C_c$</td>
-<td>非彈性挫屈，用拋物線公式計算 $F_a$</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$KL/r > C_c$</td>
-<td>彈性挫屈，用 $12\pi^2E/[23(KL/r)^2]$</td>
+<td>（五）</td>
+<td>$F_e = F_y/2$ 的細長比；殘留應力約 $0.5F_y$</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -208,246 +319,220 @@ $$\boxed{C_c} = \sqrt{\frac{2\pi^2 E}{F_y}} \quad (\text{Euler 臨界應力} = F
 <tr>
 <th>知識點</th>
 <th>說明</th>
-<th style="text-align: center;">補強頁</th>
 <th style="text-align: center;">卡關?</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Block Shear 兩種公式選擇邏輯</td>
-<td>先比較哪個面先達極限（拉斷 vs 剪斷），不能亂選公式</td>
-<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">block-shear</span> · <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">BLOCK-SHEAR-RUPTURE</span></td>
+<td>塊狀剪力擇式原則</td>
+<td>$F_uA_{nt} \ge 0.6F_uA_{nv}$ 時拉力面先斷 → 用 $0.6F_yA_{gv} + F_uA_{nt}$；反之用 $0.6F_uA_{nv} + F_yA_{gt}$</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>Web Yielding 支承端 vs 跨中擴散角度差異</td>
-<td>支承端單側（5k），跨中雙側（2.5k×2）</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>SRC C 係數包覆型 vs 充填型差異</td>
-<td>CFT 因鋼管圍束效果更好，係數較高</td>
-<td style="text-align: center;"></td>
+<td>$2.5k$ 與 $5k$</td>
+<td>集中力由翼板外緣以 1:2.5 斜率擴散到腹板趾；端部只有一側能擴散</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$C_c$ vs 最大容許細長比 200</td>
-<td>$C_c$ 是設計公式分界，200 是使用性上限，兩者意義完全不同</td>
-<td style="text-align: center;"><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">asd-column</span></td>
+<td>延性 vs 脆性破壞</td>
+<td>降伏有大變形預警、不立即倒塌；淨斷面斷裂突然發生</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$A_s/A_g \geq 4\%$ 才能用複合柱公式</td>
-<td>低於此比值應按 RC 柱設計</td>
+<td>寬厚比分級</td>
+<td>$\lambda_p$：可達 $M_p$；$\lambda_{pd}$：還要有足夠轉動能力形成塑性鉸</td>
 <td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>CRC 柱曲線</td>
+<td>熱軋型鋼殘留應力最大約 $0.3$～$0.5F_y$，取 $0.5F_y$ 為比例限</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
-<h3>(一) 塊狀剪力裂斷 (Block Shear Failure) 機制說明</h3>
-<p><strong>破壞機制：</strong></p>
-<p>塊狀剪力裂斷是拉力桿件接合端的複合破壞模式。一個完整的「塊狀體」（Block）同時沿兩個面產生破壞：</p>
-<ul>
-<li><strong>剪力面</strong>（平行於載重方向）：沿螺栓孔列剪出</li>
-<li><strong>拉力面</strong>（垂直於載重方向）：淨截面拉斷</li>
-</ul>
-<p>$$\boxed{\text{破壞 = 一面剪切（或降伏）+ 一面拉斷（或降伏）}}$$</p>
-<p><strong>LRFD 設計公式（$\phi = 0.75$）：</strong></p>
-<p>先比較拉力面與剪力面強度，決定哪面先達到極限：</p>
-<p>$$\text{若 } F_u A_{nt} \geq 0.6 F_u A_{nv}\ \text{（拉斷控制）：}$$<br />
-$$R_n = 0.6 F_y A_{gv} + F_u A_{nt}$$</p>
-<p>$$\text{若 } 0.6 F_u A_{nv} > F_u A_{nt}\ \text{（剪斷控制）：}$$<br />
-$$R_n = 0.6 F_u A_{nv} + F_y A_{gt}$$</p>
-<p>$$\text{上限值：} R_n \leq \phi\bigl[0.6 F_u A_{nv} + F_u A_{nt}\bigr]$$</p>
-<p><strong>符號說明：</strong></p>
-<ul>
-<li>$A_{gv}$：剪力面全斷面積；$A_{nv}$：剪力面淨斷面積</li>
-<li>$A_{gt}$：拉力面全斷面積；$A_{nt}$：拉力面淨斷面積</li>
-<li>$\phi = 0.75$（接合破壞採用）</li>
-</ul>
-<hr />
-<h3>(二) 腹板承壓降伏 (Web Yielding) 說明</h3>
-<p><strong>發生條件：</strong></p>
-<p>梁受集中載重（反力或點載重）時，集中力必須透過翼板傳入腹板，腹板在集中力下產生局部應力。若無支承加勁板，當腹板局部應力超過降伏強度，即發生 <strong>web yielding</strong>。</p>
-<p><strong>ASD 檢核公式：</strong></p>
-<p>設定有效傳力長度（以 $1:2.5$ 擴散比計算）：</p>
-<p>$$\text{支承端（End）：} f_w = \frac{R}{(N + 5k)\,t_w} \leq 0.66F_y$$</p>
-<p>$$\text{跨中（Interior）：} f_w = \frac{P}{(N + 2.5k)\,t_w} \leq 0.66F_y$$</p>
-<p><strong>符號說明：</strong></p>
-<ul>
-<li>$N$：支承板長度（載重施載長度）</li>
-<li>$k$：從翼板外緣到腹板圓角結束的距離</li>
-<li>$t_w$：腹板厚度</li>
-<li>支承端為 $5k$（單側擴散）；跨中為 $2.5k \times 2 = 5k$（雙側擴散）</li>
-</ul>
-<p><strong>設計對策：</strong></p>
-<p>若 $f_w > 0.66F_y$，需設置支承加勁板（bearing stiffener）以傳遞集中力。</p>
-<hr />
-<h3>(三) 複合柱有效降伏強度 $F_{my}$ 與修正彈性模數 $E_m$</h3>
-<p><strong>物理意義：</strong></p>
-<p>SRC 複合柱的鋼料、鋼筋、混凝土三者共同承載，利用等效鋼料性質（$F_{my}$、$E_m$）將複合斷面等效為純鋼斷面，再套用鋼結構柱公式。</p>
-<p><strong>計算公式（AISC LRFD）：</strong></p>
-<p>$$\boxed{F_{my} = F_y + C_1 F_{yr}\frac{A_r}{A_s} + C_2 f'_c\frac{A_c}{A_s}}$$</p>
-<p>$$\boxed{E_m = E + C_3 E_c\frac{A_c}{A_s}}$$</p>
-<p><strong>C 係數（依斷面型式）：</strong></p>
+<h3>（一）塊狀剪力撕裂（block shear rupture）</h3>
+<p><strong>定義：</strong> 拉力構材或接合板在螺栓（或銲道）群的端部，沿「平行力方向的剪力面」與「垂直力方向的拉力面」同時破壞，<strong>整塊被撕出來</strong>的破壞模式。常發生於接合長度短、板較薄、或梁端切口（cope）處。</p>
+<p><strong>機制：</strong> 兩個面不會同時達到斷裂。斷裂應力較大的那一面先斷，另一面此時已降伏：</p>
+<p>$$\phi R_n = 0.75\left[0.6F_yA_{gv} + F_uA_{nt}\right]\quad (F_uA_{nt} \ge 0.6F_uA_{nv}：拉力面斷裂＋剪力面降伏)$$<br />
+$$\phi R_n = 0.75\left[0.6F_uA_{nv} + F_yA_{gt}\right]\quad (F_uA_{nt} &lt; 0.6F_uA_{nv}：剪力面斷裂＋拉力面降伏)$$</p>
+<p>兩式均不得大於 $0.75\left[0.6F_uA_{nv} + F_uA_{nt}\right]$（兩面都斷裂的理論上限）。</p>
+<p><em>（作答時畫一張螺栓群端部的示意圖，標出剪力面 $A_{gv}/A_{nv}$ 與拉力面 $A_{gt}/A_{nt}$。）</em></p>
+<h3>（二）腹板局部降伏的改善措施</h3>
+<p><strong>成因：</strong> 梁支承處（或集中載重處）的反力經翼板傳入腹板，在<strong>腹板與翼板交界的趾部</strong>（距翼板外緣 $k$）形成高應力；若支承長度 $N$ 太短、腹板太薄，該處會先降伏。</p>
+<p><strong>檢核（佐證用）：</strong> 擴散斜率 1:2.5<br />
+$$\text{端部反力：}R_n = (2.5k + N)F_{yw}t_w,\qquad \text{中間集中力：}R_n = (5k + N)F_{yw}t_w,\qquad \phi = 1.0$$<br />
+（ASD：$\dfrac{R}{t_w(N + 2.5k)} \le 0.66F_y$）</p>
+<p><strong>改善措施（依效果與施工性）：</strong></p>
 <table>
 <thead>
 <tr>
-<th>斷面類型</th>
-<th>$C_1$</th>
-<th>$C_2$</th>
-<th>$C_3$</th>
+<th>措施</th>
+<th>作用</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>包覆型（SRC，H 型鋼包覆於混凝土內）</td>
-<td>0.7</td>
-<td>0.6</td>
-<td>0.2</td>
+<td>① 加長支承長度 $N$（加大支承板或承座）</td>
+<td>直接增加分母，應力擴散範圍變大</td>
 </tr>
 <tr>
-<td>充填型（CFT，混凝土填入鋼管內）</td>
-<td>1.0</td>
-<td>0.85</td>
-<td>0.4</td>
+<td>② 設置<strong>承壓加勁板</strong>（bearing stiffener），兩側成對、緊貼受力翼板</td>
+<td>反力改由加勁板直接傳遞，腹板不再單獨受壓（同時解決腹板皺曲 web crippling）</td>
+</tr>
+<tr>
+<td>③ 加厚腹板，或在腹板加銲補強板（doubler plate）</td>
+<td>增加 $t_w$</td>
+</tr>
+<tr>
+<td>④ 改用腹板較厚、或 $k$ 較大的斷面</td>
+<td>從斷面選擇上避免</td>
+</tr>
+<tr>
+<td>⑤ 調整支承位置，使反力不落在梁端最邊緣</td>
+<td>端部改為中間條件，擴散長度由 $2.5k$ 增為 $5k$</td>
 </tr>
 </tbody>
 </table>
-<p><strong>符號說明：</strong></p>
-<ul>
-<li>$F_y$：鋼料降伏強度；$F_{yr}$：鋼筋降伏強度；$f'_c$：混凝土抗壓強度</li>
-<li>$A_s$：鋼料面積；$A_r$：鋼筋面積；$A_c$：混凝土面積</li>
-<li>$E$：鋼料彈性模數；$E_c$：混凝土彈性模數 $= 0.043 w^{1.5}\sqrt{f'_c}$</li>
-</ul>
-<p><strong>適用條件（AISC 規定）：</strong><br />
-$$\frac{A_s}{A_g} \geq 4\%\ \text{（最小鋼料比，否則按 RC 柱設計）}$$</p>
-<hr />
-<h3>(四) 殘留應力對壓力桿件強度的影響</h3>
-<p><strong>殘留應力的成因：</strong></p>
-<p>熱軋型鋼在冷卻過程中，翼板端部（尖端）散熱快、先冷卻，翼板與腹板交叉處散熱慢、後冷卻。後冷卻部位收縮時受先冷卻部位拘束，形成：</p>
-<ul>
-<li><strong>翼板端部</strong>：殘留<strong>壓應力</strong>（約 $0.3F_y$）</li>
-<li><strong>翼板與腹板接合處</strong>：殘留<strong>拉應力</strong></li>
-</ul>
-<p><strong>對壓力桿件強度的影響：</strong></p>
-<ol>
-<li>受軸壓時，翼板端部已有殘留壓應力，有效降伏強度提前被達到。</li>
-<li>在中間細長比（非彈性挫屈區間）影響最顯著，使實際柱強度低於 Euler 公式預測值。</li>
-<li>這正是 AISC 柱曲線在非彈性區採用半經驗公式（非純 Euler 式）的根本原因。</li>
-</ol>
-<p>$$\text{殘留應力使：}\ F_{cr,actual} < F_{cr,Euler}\ \text{（非彈性挫屈區）}$$</p>
-<p><strong>示意：</strong></p>
-<pre><code>Fcr
- |  ← 降伏線 Fy
- |**
- |   **        ← 實驗數據（受殘留應力影響下移）
- |      **
- |        * * * * * ← Euler 曲線（僅彈性區吻合）
- +-----|-----|---------→ KL/r
-      Cc   200
-</code></pre>
-<hr />
-<h3>(五) ASD 臨界細長比 $C_c$ 說明</h3>
-<p><strong>數學定義：</strong></p>
-<p>$$\boxed{C_c = \sqrt{\frac{2\pi^2 E}{F_y}}}$$</p>
-<p><strong>物理意義：</strong></p>
-<p>$C_c$ 是「Euler 彈性臨界應力恰好等於 $F_y/2$ 時的細長比」：</p>
-<p>$$F_{cr,Euler} = \frac{\pi^2 E}{(KL/r)^2} = \frac{F_y}{2}\ \Rightarrow\ \frac{KL}{r} = C_c$$</p>
-<p>換言之：</p>
-<ul>
-<li>$KL/r < C_c$：挫屈前已有部分截面降伏（非彈性挫屈），Euler 公式高估強度，採用半經驗拋物線公式</li>
-<li>$KL/r > C_c$：挫屈時截面完全彈性（彈性挫屈），採 Euler 公式加安全係數</li>
-</ul>
-<p><strong>ASD 設計公式：</strong></p>
-<p>$$KL/r \leq C_c\ \text{（非彈性區）：}\ F_a = \frac{\left[1-\dfrac{(KL/r)^2}{2C_c^2}\right]F_y}{\dfrac{5}{3}+\dfrac{3(KL/r)}{8C_c}-\dfrac{(KL/r)^3}{8C_c^3}}$$</p>
-<p>$$KL/r > C_c\ \text{（彈性區）：}\ F_a = \frac{12\pi^2 E}{23(KL/r)^2}$$</p>
-<p><strong>常用鋼材 $C_c$ 值：</strong></p>
+<h3>（三）降伏的安全係數為何較低</h3>
+<p>受拉構材有兩個極限狀態：全斷面降伏（GSY）與淨斷面斷裂（NSF）。規範對前者給較小的安全係數：</p>
+<p>$$\text{ASD：}F_t = 0.60F_y\ (FS = 1.67)\quad \text{vs}\quad F_t = 0.50F_u\ (FS = 2.00)$$<br />
+$$\text{LRFD：}\phi_t = 0.90\quad \text{vs}\quad \phi_t = 0.75$$</p>
+<p><strong>理由：</strong><br />
+1. <strong>破壞性質不同</strong>：全斷面降伏屬<strong>延性</strong>行為，構材會大量伸長、有明顯預警，降伏後仍能承載（應變硬化），不會立即倒塌；淨斷面斷裂屬<strong>脆性</strong>行為，一斷即失去承載力，後果嚴重。<br />
+2. <strong>發生範圍不同</strong>：降伏發生在全長的毛斷面，應力分布均勻、預測準確；斷裂發生在螺栓孔所在的局部淨斷面，有應力集中、剪力遲滯、孔緣損傷等不確定因素。<br />
+3. <strong>材料變異</strong>：$F_u$ 的變異與 $F_u/F_y$ 比值隨鋼種而異，對斷裂需保留較大餘裕。<br />
+4. <strong>設計理念</strong>：希望構材「先降伏、後斷裂」，以延性破壞控制，因此斷裂側要更保守。</p>
+<h3>（四）依局部挫屈特性的四種斷面</h3>
+<p>以受壓肢材的寬厚比 $\lambda = b/t$（或 $h/t_w$）與規範限值比較：</p>
 <table>
 <thead>
 <tr>
-<th>鋼材</th>
-<th>$F_y$（t/cm²）</th>
-<th>$C_c$（約）</th>
+<th style="text-align: left;">分類</th>
+<th style="text-align: left;">寬厚比</th>
+<th style="text-align: left;">行為</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>A36</td>
-<td>2.52</td>
-<td>128</td>
+<td style="text-align: left;">① <strong>塑性設計斷面</strong></td>
+<td style="text-align: left;">$\lambda \le \lambda_{pd}$</td>
+<td style="text-align: left;">可達塑性彎矩 $M_p$，並有足夠轉動能力形成塑性鉸、產生彎矩重分配；用於塑性設計與耐震韌性構材</td>
 </tr>
 <tr>
-<td>A572 Gr.50</td>
-<td>3.52</td>
-<td>108</td>
+<td style="text-align: left;">② <strong>結實斷面</strong>（compact）</td>
+<td style="text-align: left;">$\lambda_{pd} &lt; \lambda \le \lambda_p$</td>
+<td style="text-align: left;">局部挫屈前可達 $M_p$，但轉動能力有限</td>
 </tr>
 <tr>
-<td>SN490B</td>
-<td>3.25</td>
-<td>113</td>
+<td style="text-align: left;">③ <strong>半結實斷面</strong>（noncompact）</td>
+<td style="text-align: left;">$\lambda_p &lt; \lambda \le \lambda_r$</td>
+<td style="text-align: left;">局部挫屈前可達初始降伏 $M_y$（含殘留應力影響），但達不到 $M_p$</td>
+</tr>
+<tr>
+<td style="text-align: left;">④ <strong>細長肢斷面</strong>（slender element）</td>
+<td style="text-align: left;">$\lambda &gt; \lambda_r$</td>
+<td style="text-align: left;">在<strong>彈性範圍</strong>即發生局部挫屈，強度須折減（$Q$ 係數或有效寬度）</td>
 </tr>
 </tbody>
 </table>
+<p>（例：國內規範熱軋 I 型梁翼板 $\lambda_{pd} = 14/\sqrt{F_y}$、$\lambda_p = 17/\sqrt{F_y}$、$\lambda_r = 25/\sqrt{F_y}$，$F_y$ 以 t/cm² 計。）</p>
+<h3>（五）臨界長細比 $C_c$</h3>
+<p><strong>定義：</strong> ASD 柱公式中，<strong>彈性挫屈與非彈性挫屈的分界細長比</strong>，為尤拉臨界應力等於 $F_y/2$ 時的 $KL/r$：</p>
+<p>$$F_e = \frac{\pi^2E}{(KL/r)^2} = \frac{F_y}{2}\quad\Rightarrow\quad C_c = \sqrt{\frac{2\pi^2E}{F_y}}$$</p>
+<p><strong>理論背景：</strong><br />
+1. <strong>殘留應力</strong>：熱軋型鋼冷卻不均，翼板尖端殘留壓應力最大約 $0.3$～$0.5F_y$。柱受壓時，外加應力加上殘留壓應力達 $F_y$ 的部位先降伏，勁度下降。CRC（Column Research Council）取殘留應力 $0.5F_y$ 作為代表值 → 平均應力超過 $F_y/2$ 後柱即進入非彈性。<br />
+2. <strong>兩段公式</strong>：<br />
+   - $KL/r \ge C_c$：全斷面仍彈性 → 尤拉公式，$F_a = \dfrac{12\pi^2E}{23(KL/r)^2}$（$FS = 23/12$）<br />
+   - $KL/r &lt; C_c$：部分降伏 → 以切線模數理論為基礎的 CRC 拋物線，$F_a = \dfrac{\left[1 - \dfrac{(KL/r)^2}{2C_c^2}\right]F_y}{FS}$，$FS = \dfrac{5}{3} + \dfrac{3(KL/r)}{8C_c} - \dfrac{(KL/r)^3}{8C_c^3}$<br />
+3. 兩段在 $KL/r = C_c$ 處連續（拋物線在該點應力為 $F_y/2$）。</p>
+<p><strong>數值例：</strong> $F_y = 2.5$ t/cm²、$E = 2040$ t/cm² → $C_c = 126.9$；$F_y = 3.5$ t/cm² → $C_c = 107.3$（高強度鋼的 $C_c$ 較小）。</p>
+<p><strong>易混淆：</strong> $C_c$ 不是細長比上限；受壓構材的細長比限制是 $KL/r \le 200$。</p>
 <hr />
 <h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
-<h3>Q：$C_c$ 與最大容許細長比 200 有何不同？</h3>
-<ul>
-<li><strong>$C_c ≈ 108∼128$</strong>：彈性/非彈性挫屈的設計分界，決定用哪條公式</li>
-<li><strong>KL/r ≤ 200</strong>：AISC 對壓力桿件的最大細長比限制（使用性要求，不是強度要求）</li>
-</ul>
-<p>兩者意義完全不同，考場上極易混淆。</p>
-<h3>Q：Block Shear 只在拉力桿件接合中出現嗎？</h3>
-<p>不。Block Shear 同樣出現於：</p>
-<ul>
-<li>梁腹板連接板（Connection plate）</li>
-<li>梁翼板切割端（Coped beam）</li>
-<li>任何有拉力傳遞的接合區域</li>
-</ul>
-<h3>Q：Web Yielding 與 Web Crippling 的區別？</h3>
+<h3>5.1 舊解錯在哪裡</h3>
+<p>舊解以「原卷掃描品質不佳，部分文字依題意補全」為由，自行補出兩個與原卷不同的小題：</p>
 <table>
 <thead>
 <tr>
-<th>項目</th>
-<th>Web Yielding（承壓降伏）</th>
-<th>Web Crippling（腹板挫屈）</th>
+<th style="text-align: center;">小題</th>
+<th style="text-align: left;">原卷實際題目</th>
+<th style="text-align: left;">舊解補全的題目</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>破壞機制</td>
-<td>腹板局部應力超過 $0.66F_y$</td>
-<td>腹板因壓應力屈曲失穩</td>
+<td style="text-align: center;">（三）</td>
+<td style="text-align: left;">受拉構材降伏的安全係數較抗拉強度低的理由</td>
+<td style="text-align: left;">合成柱 $F_{my}$、$E_m$ 係數意義</td>
 </tr>
 <tr>
-<td>控制因子</td>
-<td>$N + k$ 有效長度</td>
-<td>腹板高厚比 $h/t_w$</td>
-</tr>
-<tr>
-<td>設計公式</td>
-<td>應力檢核</td>
-<td>臨界載重公式</td>
+<td style="text-align: center;">（四）</td>
+<td style="text-align: left;">依局部挫屈特性的四種斷面分類</td>
+<td style="text-align: left;">殘留應力的成因與影響</td>
 </tr>
 </tbody>
 </table>
-<p>兩者皆需在無加勁板時分別檢核，取其控制者設計加勁板。</p></main>
+<p>另 （二） 原卷問「改善措施」，舊解答成「發生條件與檢核方式」。25 分中至少 10 分答錯題目。本題考卷以 PyMuPDF 轉圖後五小題文字完全清楚，是 CID 字型抽文字失敗所致，並非原卷模糊。</p>
+<h3>5.2 （四）國內規範與 AISC 的差異</h3>
+<p>AISC 360 只有結實、非結實、細長肢三級（另在 AISC 341 規定高韌性 $\lambda_{hd}$／中韌性 $\lambda_{md}$ 限值）；國內鋼結構極限設計法規範把「可形成塑性鉸」的 $\lambda_{pd}$ 獨立為「塑性設計斷面」，所以是<strong>四種</strong>。</p>
+<hr />
+<h2>6. 依最新規範（AISC 360-16／-22）對照</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">小題</th>
+<th style="text-align: left;">考卷年代（舊 ASD／LRFD）</th>
+<th style="text-align: left;">AISC 360-16／-22</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">（一）塊狀剪力</td>
+<td style="text-align: left;">依斷裂面大小擇一</td>
+<td style="text-align: left;">J4.3 單一式：$R_n = 0.6F_uA_{nv} + U_{bs}F_uA_{nt} \le 0.6F_yA_{gv} + U_{bs}F_uA_{nt}$（不再擇式）</td>
+</tr>
+<tr>
+<td style="text-align: center;">（二）腹板局部降伏</td>
+<td style="text-align: left;">$(2.5k+N)$／$(5k+N)$，$\phi = 1.0$</td>
+<td style="text-align: left;">J10.2 相同形式；端部定義為「距梁端 ≤ $d$」</td>
+</tr>
+<tr>
+<td style="text-align: center;">（三）受拉</td>
+<td style="text-align: left;">$\phi_t$ 0.90／0.75；ASD 0.6$F_y$／0.5$F_u$</td>
+<td style="text-align: left;">D2 相同（ASD $\Omega$ = 1.67／2.00）</td>
+</tr>
+<tr>
+<td style="text-align: center;">（四）斷面分類</td>
+<td style="text-align: left;">塑性設計／結實／半結實／細長肢</td>
+<td style="text-align: left;">B4.1 結實／非結實／細長肢；韌性分級移至 AISC 341</td>
+</tr>
+<tr>
+<td style="text-align: center;">（五）$C_c$</td>
+<td style="text-align: left;">$F_e = F_y/2$ 分界、FS 可變</td>
+<td style="text-align: left;">E3 改以 $F_e = 0.44F_y$（$KL/r = 4.71\sqrt{E/F_y}$）為分界，$F_{cr} = 0.658^{F_y/F_e}F_y$ 或 $0.877F_e$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>解析完成時間：2026-04-xx</em><br />
+<em>修正日期：2026-11-01（依考卷轉圖逐字重判題目：（三）原題為「受拉構材降伏安全係數較低之理由」、（四）原題為「依局部挫屈特性之四種斷面分類」，舊解自行補全為合成柱係數與殘留應力，全數改寫；（二）改答「改善措施」；（一）補擇式原則與上限；新增 §6 AISC 360-16／-22 對照）</em><br />
+<em>驗證狀態：unverified</em></p>
+<p><em>修正日期：2026-11-02（§1 全文重述改為指向題目正本 <code>SS-2003-1-problem.md</code>（已確認）＋常見誤讀＋本解記號，避免題意兩份不同步；解題內容與答案不變）</em></p></main>
 <footer>來源：raw/solutions/SS-2003-1/SS-2003-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>
-/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+/* 跟隨來源單元：若由 unit-/study-/lecture-/formula-given-SS-Un-m.html 點入，
    兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
 (function(){
   var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
-          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
-  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+          'SS-U1-4':'接合之分析與設計','SS-U2-1':'塑性分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:unit|study|lecture|formula-given)-(SS-U\d-\d)\.html/);
   if(!m||!UN[m[1]])return;
   var u=m[1],code=u.replace('SS-','');
   var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
-  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
-        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(q){q.href='../unit-'+u+'.html';q.title=u+' '+UN[u]+' 單元總覽';
+        q.innerHTML='\uD83D\uDD0D '+code+' 單元總覽';}
   if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
         l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
 })();

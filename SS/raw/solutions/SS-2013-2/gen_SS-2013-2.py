@@ -32,27 +32,27 @@ I_B  = 136108.0         # cm^4（梁 BC）
 RHO  = 240.0            # tf/m^2
 # §4二 G 值
 G_A  = 10.0             # A 為鉸接，題目規定取 10
-G_B  = I_C / I_B        # 0.221
+G_B  = I_C / (0.5 * I_B)  # 0.442（C 端梁柱鉸接，有側移梁遠端修正 ×0.5；2026-11-01 改為主答）
 # §4三 對位圖（側位移不束制）
-K_AB = 1.71
+K_AB = 1.78           # 方程式精解 1.777
 # §4四 尤拉載重與挫屈載重
 P_E    = 1683.0         # tf（K = 1）
-P_EK_AB = 575.6         # tf（= P_e / K_AB^2）
+P_EK_AB = 533.3         # tf（= P_e / K_AB^2，K = 1.777）
 SUM_PEK = P_EK_AB       # 靠桿 CD 不計入
 # §4五 靜力
 SUMP_OVER_PI = 2.0      # ΣP / P_I = wL / (wL/2)
 # §4六～八 答案
-K_PRIME = 2.42
-P_CR    = 287.9         # tf
-W_CR    = 96.0          # tf/m
-D_ALLOW = 0.40          # m
+K_PRIME = 2.51
+P_CR    = 266.6         # tf
+W_CR    = 88.9          # tf/m
+D_ALLOW = 0.37          # m
 # §5.1 兩種誤解法的量級
 W_ERR1  = 192.0         # tf/m　CD 誤當一般柱（A 仍為鉸）
 D_ERR1  = 0.80          # m
 W_ERR2  = 287.0         # tf/m　再加上 A 誤判為固接
-# §5.5 梁遠端鉸接之勁度折減（進階，非考場必要）
-W_ADV   = 89.3          # tf/m
-D_ADV   = 0.37          # m
+# §5.5 直接套圖、未作梁遠端修正（K 1.71 → 高估，偏不保守）
+W_ADV   = 96.0          # tf/m
+D_ADV   = 0.40          # m
 
 # ── 側移模態的轉角：由傾角變位法解出，不是描摹 ──
 # 側移 Δ 時令弦線轉角 ψ = Δ/L（順時針為正）：
@@ -111,7 +111,7 @@ def fig2_leaning_column():
                            ((1, 1), "C", 22, -16), ((1, 0), "D", 24, -10)):
         a.text(p, lab, 16, C["text"], weight="700", dx=dx, dy=dy)
     a.math_px(a.X(0) + 16, a.Y(0.11), f"G_A = {G_A:.0f}", 13, C["bmd"], "start", weight="700")
-    a.math_px(a.X(0) - 30, a.Y(1) + 26, f"G_B = I_c/I_b = {G_B:.3f}", 13, C["bmd"],
+    a.math_px(a.X(0) - 30, a.Y(1) + 26, f"G_B = {G_B:.3f}", 13, C["bmd"],
               "end", weight="700")
     a.math_px(a.X(0.5), a.Y(1) + 24, f"I_b = 136,108 cm^{{4}}", 13, C["muted"])
     a.math_px(a.X(0) - 30, a.Y(0.52), f"I_c = 30,094 cm^{{4}}", 13, C["muted"], "end")
@@ -149,7 +149,7 @@ def fig2_leaning_column():
     compose([a, b],
             title="靠桿（leaning column）：送重量、不送勁度",
             sub="CD 兩端皆鉸 ⇒ 二力構件 ⇒ 挫屈時全程保持直線，整層側向抵抗只剩柱 AB",
-            note=f"這個不對稱正是萊梅厥公式的靈魂：對位圖的 {K_AB} 要再乘 √2 "
+            note=f"這個不對稱正是萊梅厥公式的靈魂：對位圖的 {K_AB}（已作梁遠端修正 ×0.5）要再乘 √2 "
                  f"（AB 自己一份重量 ＋ 靠桿塞來的一份），得 K′ = {K_PRIME}",
             path=f"{OUT}/{TAG}-fig-2-leaning-column.svg")
     return f"{OUT}/{TAG}-fig-2-leaning-column.svg"
@@ -163,7 +163,7 @@ def fig3_magnitude():
         mini.line((0, 0), (0, 1), C["ghost"], 1.8, dash="4 4", cap="butt")
         mini.line((0, 1), (1, 1), C["ghost"], 1.8, dash="4 4", cap="butt")
         mini.line((1, 1), (1, 0), C["ghost"], 1.8, dash="4 4", cap="butt")
-        col = (C["load"], C["load"], C["accent"], C["muted"])[i]
+        col = (C["load"], C["load"], C["muted"], C["accent"])[i]
         sway_shapes(mini, D=0.26, col_ab=col, col_cd=col, beam=col, w=3.0,
                     cd_straight=straight)
 
@@ -172,26 +172,60 @@ def fig3_magnitude():
           W_ERR2, f"w_{{cr}} = {W_ERR2:.0f} tf/m", C["load"]),
          ("誤判 ①：CD 視為一般柱", "ΣP_{eK} 誤含 CD",
           W_ERR1, f"w_{{cr}} = {W_ERR1:.0f} tf/m, d = {D_ERR1:.2f} m", C["load"]),
-         ("正解：CD 為靠桿", "ΣP_{eK} 只計 AB",
-          W_CR, f"w_{{cr}} = {W_CR:.1f} tf/m, d = {D_ALLOW:.2f} m", C["accent"]),
-         ("§5.5 梁遠端鉸接折減", "梁勁度乘 0.5（進階）",
-          W_ADV, f"w_{{cr}} = {W_ADV:.1f} tf/m, d = {D_ADV:.2f} m", C["muted"])],
+         ("直接套圖（未修正 G_B）", "C 端鉸接未折減",
+          W_ADV, f"w_{{cr}} = {W_ADV:.1f} tf/m, d = {D_ADV:.2f} m", C["muted"]),
+         ("正解：靠桿＋遠端修正", "G_B 梁勁度 ×0.5",
+          W_CR, f"w_{{cr}} = {W_CR:.1f} tf/m, d = {D_ALLOW:.2f} m", C["accent"])],
         title="靠桿判錯的代價：挫屈載重高估 2～3 倍",
         sub=f"左側示意圖的差別只有一處——柱 CD 到底彎不彎；"
-            f"誤解法讓 ΣP_{{eK}} 由 {SUM_PEK} tf 變成 {2 * SUM_PEK:.1f} tf",
+            f"誤解法讓 ΣP_{{eK}} 由 {SUM_PEK} tf 變成 1151.2 tf（兩柱各 575.6）",
         note=f"正解 w_{{cr}} = {W_CR} tf/m ⇒ d = {D_ALLOW} m；"
-             f"§5.5 之梁遠端鉸接折減再降約 7%，方向偏保守",
+             f"直接套圖未修正 G_B 得 {W_ADV}，高估約 8%，偏不保守",
         sketch=sketch, W=1180,
         path=f"{OUT}/{TAG}-fig-3-magnitude.svg")
     return f"{OUT}/{TAG}-fig-3-magnitude.svg"
 
 
 # ══════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════
+# 圖 1：題目附圖重繪（依題目正本 SS-2013-2-problem.md §4 判讀清單，2026-11-02 已確認）
+# 只畫考卷給的東西，與上方解題常數分開；不含任何解題結果（G、K 值不畫）
+# ══════════════════════════════════════════════════════════
+#   #5 A 鉸支；#6 D 鉸支；#7 B 剛接；#8 C 鉸圓（CD 兩端鉸＝靠桿）
+#   #9 w 布滿梁 BC 全跨；#10 柱高 L、跨度 L（皆 6 m）；對位圖為設計圖表，不重繪
+Q_L = 1.0
+
+
+def fig1_problem():
+    W1, H1, sx = 560, 490, 230
+    cv = Canvas(W1, H1, sx=sx, ox=(W1 - sx) / 2 + 20, oy=100)
+    cv.panel("圖 2　剛架", "柱高 L、跨度 L（L = 6 m）")
+    A, B, Cn, D = (0, 0), (0, Q_L), (Q_L, Q_L), (Q_L, 0)
+    for p0, p1 in ((A, B), (B, Cn), (D, Cn)):
+        cv.line(p0, p1, C["member"], 4.2, cap="butt")
+    cv.support(A, "pin", 0, size=14)
+    cv.support(D, "pin", 0, size=14)
+    cv.udl(B, Cn, 0.13, n=9, label="w")
+    cv.dot(Cn, 6.5, fill="#FFFFFF", stroke=C["member"], w=2.4)
+    for p, n, dx, dy in ((A, "A", -18, -10), (B, "B", -18, 14), (Cn, "C", 20, 14), (D, "D", 20, -10)):
+        cv.text(p, n, 15, C["text"], "middle", dx=dx, dy=dy, weight="700")
+    cv.dim(A, B, "L", off=-60, label_off=-16)
+    cv.dim(A, D, "L", off=60, label_off=16)
+    path = os.path.join(OUT, f"{TAG}-fig-1-problem.svg")
+    compose([cv], title="SS-2013-2 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #5–#10；對位圖為設計圖表，不重繪",
+            note="A、D 鉸支；B 剛接、C 鉸接（CD 為靠桿）；w 布滿梁 BC 全跨",
+            path=path)
+    return path
+
+
 FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "A 讀成固接、C 讀成剛接（G 值與靠桿判錯）"),
     (fig2_leaning_column, "§1·§4一·§4五",
      "把 CD 讀成「底端鉸接的一般柱」→ ΣP_eK 多算一根"),
     (fig3_magnitude,      "§5.1",
-     "答案量級錯（w_cr 落在 190～290 而非 96）卻沒察覺"),
+     "答案量級錯（w_cr 落在 190～290 而非 89）卻沒察覺"),
 ]
 
 if __name__ == "__main__":

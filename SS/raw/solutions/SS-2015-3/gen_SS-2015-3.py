@@ -252,7 +252,91 @@ def fig3_boundary():
 
 
 # ══════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════
+# 圖 1：題目附圖重繪（依題目正本 SS-2015-3-problem.md §4 判讀清單，2026-11-02 已確認）
+# 只畫考卷給的東西，與上方解題常數分開；不含任何解題結果。槽鋼翼板寬、板厚為示意。
+# ══════════════════════════════════════════════════════════
+Q_W, Q_H = 30.0, 20.0         # #4 30 cm 為兩腹板外緣總寬；#5 20 cm 為斷面高
+Q_CY = 2.49                   # §2 C_y = 2.49 cm（#6 自腹板外緣量到 Y 軸）
+Q_PROPS = ["單一槽鋼 C200×75", "I_{x} = 1970 cm^{4}", "I_{y} = 170 cm^{4}",
+           "A = 29.9 cm^{2}", "C_{y} = 2.49 cm"]
+_QB, _QTF, _QTW = 7.5, 1.0, 0.8   # 示意用（翼板寬、翼板厚、腹板厚）
+#   #3 腹板朝外、翼板朝內；#8 虛線為繫條；#9 底鉸支、頂可平移不可轉（k = 2.0 題給）
+
+
+def _q_channel(cv, x_web, sgn):
+    """sgn = +1：腹板在左、翼板向右；-1：腹板在右、翼板向左"""
+    h = Q_H / 2
+    pts = [(x_web, -h), (x_web + sgn * _QB, -h), (x_web + sgn * _QB, -h + _QTF),
+           (x_web + sgn * _QTW, -h + _QTF), (x_web + sgn * _QTW, h - _QTF),
+           (x_web + sgn * _QB, h - _QTF), (x_web + sgn * _QB, h), (x_web, h)]
+    cv.polygon(pts, C["fill_c"], C["member"], 1.6)
+
+
+def _q_composite():
+    W1, H1 = 360, 460
+    cv = Canvas(W1, H1, sx=8.0, ox=W1 / 2 - 30, oy=H1 / 2 - 10)
+    cv.panel("圖 3 組合柱", "腹板朝外、翼板朝內；虛線為繫條")
+    _q_channel(cv, -Q_W / 2, +1)
+    _q_channel(cv, Q_W / 2, -1)
+    for y in (Q_H / 2 + 0.8, -Q_H / 2 - 0.8):
+        cv.line((-Q_W / 2 + 2, y), (Q_W / 2 - 2, y), C["muted"], 1.4, dash="6 4")
+    cv.circle((0, 0), 0.8, stroke=C["text"], w=1.5)
+    cv.line((-0.8, 0), (0.8, 0), C["text"], 1.3)
+    cv.line((0, -0.8), (0, 0.8), C["text"], 1.3)
+    cv.dim((Q_W / 2, -Q_H / 2), (Q_W / 2, Q_H / 2), f"{Q_H:g} cm", off=26, label_off=30)
+    cv.dim((-Q_W / 2, -Q_H / 2), (Q_W / 2, -Q_H / 2), f"{Q_W:g} cm", off=30, label_off=16)
+    return cv
+
+
+def _q_column():
+    W1, H1 = 360, 460
+    cv = Canvas(W1, H1, sx=240, ox=W1 / 2, oy=85)
+    cv.panel("柱立面", "底鉸支；頂可平移不可轉（k = 2.0）")
+    cv.line((0, 0), (0, 1), C["member"], 4, cap="butt")
+    cv.support((0, 0), "pin", 0, size=14)
+    cv.dot((0, 0), 5.5, fill="#FFFFFF", stroke=C["member"], w=2)
+    x, y = cv.P((0, 1))
+    cv.parts.append(f'<rect x="{x-14:.1f}" y="{y-14:.1f}" width="28" height="14" fill="#FFFFFF" '
+                    f'stroke="{C["member"]}" stroke-width="2"/>')
+    cv.arrow((0, 1.22), (0, 1.06), C["load"], 2.8, 10)
+    cv.math((0, 1.22), "P_{a}", 15, C["load"], "start", dx=8, weight="700")
+    cv.dim((0, 0), (0, 1), "L", off=60, label_off=16)
+    return cv
+
+
+def _q_single():
+    W1, H1 = 360, 460
+    cv = Canvas(W1, H1, sx=9.0, ox=60, oy=H1 / 2 - 20)
+    cv.panel("單一槽鋼", "C_y 自腹板外緣量到 Y 軸")
+    _q_channel(cv, 0, +1)
+    cv.line((-3, 0), (_QB + 3, 0), C["muted"], 1.3, dash="8 3 2 3")
+    cv.line((Q_CY, -Q_H / 2 - 3), (Q_CY, Q_H / 2 + 3), C["muted"], 1.3, dash="8 3 2 3")
+    cv.math((-3, 0), "X", 15, C["text"], "end", dx=-4, weight="700")
+    cv.math((_QB + 3, 0), "X", 15, C["text"], "start", dx=4, weight="700")
+    cv.math((Q_CY, -Q_H / 2 - 3), "Y", 15, C["text"], dy=12, weight="700")
+    cv.dim((0, Q_H / 2), (Q_CY, Q_H / 2), "C_{y}", off=-26, label_off=-16, color=C["accent"])
+    for k, t in enumerate(Q_PROPS):
+        if k == 0:
+            cv.text_px(200, 110 + 24 * k, t, 13.5, C["text"], "start", weight="700")
+        else:
+            cv.math_px(200, 110 + 24 * k, t, 14, C["text"], "start")
+    return cv
+
+
+def fig1_problem():
+    path = os.path.join(OUT, f"{TAG}-fig-1-problem.svg")
+    compose([_q_composite(), _q_column(), _q_single()], cols=3,
+            title="SS-2015-3 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #3–#9；只畫考卷所給條件（槽鋼板厚示意）",
+            note="30 cm 量到兩腹板外緣；Cy 自腹板外緣量到單槽鋼形心軸",
+            path=path)
+    return path
+
+
 FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "槽鋼排列讀成背對背；30 cm 當成形心間距；C_y 量錯基準"),
     (fig2_section,  "§4 Part(一)",
      "把圖上的 20 cm 當成形心間距、或對 I_X 誤加平行軸 Ad²"),
     (fig3_boundary, "§5 進階·§4 Part(二)",

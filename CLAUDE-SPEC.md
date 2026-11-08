@@ -3,7 +3,7 @@
 
 > 本文件為知識庫的所有「資料格式、命名規則、JSON 欄位、完成標準」唯一依據。
 > **Cowork 進行任何新增或修改時，必須遵守本文件的規定。**
-> 五科共用；科目專屬的允許值（designMethod、常見圖解、七層類別）見 `XX/SUBJECT.md`。
+> 五科共用；科目專屬的允許值（designMethod、常見圖解）見 `XX/SUBJECT.md`。
 > 範例多取自 SS，其他科照同一格式代換科目代碼即可。
 
 ---
@@ -35,25 +35,28 @@
 
 ### 1.3 `study/` 產出命名
 
-`study/` 底下有兩種用途不同的教材，**以前綴區分，不可混用**：
+`study/` 底下的教材**以前綴區分，不可混用**：
 
 | 前綴 | 檔名 | 產生方式 | 定位 |
 |------|------|---------|------|
-| `study-` | `study/study-XX-UN.html`（單元層級）<br>`study/study-XX-UN-n.html`（子項層級） | 單元層級：`study` 指令<br>子項層級：`unit-exam-intel` skill | **命題分析**（子項層級）：出題頻率、考點結構、考點漂移、設計法走向、考題清單、命題風險。決定練題順序、考前押題用 |
-| `lecture-` | `study/lecture-XX-UN-n.html`<br>`study/lecture-XX-UN-n.pdf` | `unit-lecture` skill | **觀念講義**：物理原理、公式來源、圖解推導。第一次接觸該單元、練題**之前**用 |
-| `formula-given-` | `study/formula-given-XX-UN-n.html`<br>`study/formula-given-XX-UN-n.pdf` | `unit-formula-map` skill | **給／背分界**：逐條公式 × 逐年考卷證據，判斷哪些會印給你、哪些必須自己背。排讀書計畫時用 |
+| `unit-` | `study/unit-XX-UN-n.html`／`.pdf`，資料 `study/data/unit-XX-UN-n.json` | `unit-overview` skill（`scripts/build_unit_page.py`） | **單元總覽**：命題分析＋公式給／背＋逐題公式表合一頁。決定練題順序、背誦優先序用 |
+| `lecture-` | `study/lecture-XX-UN-n.html`／`.pdf` | `unit-lecture` skill | **觀念講義**：物理原理、公式來源、圖解。第一次接觸該單元、練題**之前**用 |
+| `textbook-` | `study/textbook-XX-UN-n[-<冊名>].html`／`.pdf` | `unit-textbook` skill | **教科書**：以第一性原理推導每條公式，可分上下冊 |
+| `frequency-` | `study/frequency-XX.html` | `subject-frequency-map` skill（`scripts/build_frequency.py`） | **全科出題頻率熱圖**：整科從哪裡開始讀 |
+| `study-`／`formula-given-` | `study/study-XX-UN-n.html`、`study/formula-given-XX-UN-n.html` | 舊版 `unit-exam-intel`／`unit-formula-map` | 已導入單元總覽的科目改為**轉址頁**（轉到 `unit-` 的 `#s1`／`#s2`）；尚未導入的科目照舊使用 |
+| （起點頁） | `XX/start.html`，資料 `study/data/start-links.json` | `exam-start-page` skill（`scripts/build_start.py`） | 給考生的入口：學習路徑、各單元教材、進度表 |
 
-- 兩者針對同一子項時**並存**，後者不可覆蓋前者。
-- 講義的 PDF 與 HTML **同名**，僅副檔名不同。
-- 共用資源放 `study/assets/`（目前有 `assets/katex/`，供 `lecture-*.html` 離線渲染數學式）。
+- 同一子項的各種教材**並存**，不可互相覆蓋。
+- 講義、教科書、單元總覽的 PDF 與 HTML **同名**，僅副檔名不同。
+- 共用資源放 `study/assets/`（目前有 `assets/katex/`，供教材頁離線渲染數學式）。
   此目錄**必須進版控**，刪除會導致所有講義的數學式無法顯示。
+- 由資料檔產生的頁面（`unit-`、`frequency-`、`start.html`）不手改 HTML，改資料檔後重跑腳本。
 
-> **⚠️ 禁止：** 觀念講義不可命名為 `study-XX-UN-n.html`（會覆蓋該子項的命題分析頁）。
-> 三份教材的檔名固定為 `lecture-`（觀念講義）／`formula-given-`（給／背分界）／`study-`（命題分析），不可互換。
+> **⚠️ 禁止：** 觀念講義不可命名為 `study-XX-UN-n.html` 或 `unit-XX-UN-n.html`（會覆蓋其他教材）。
 
 ### 1.4 圖解（struct-diagram）
 
-- **互動圖（`*-viz.html`）已於 2026-10-29 停用**，不再新增。SS 既有 19 份保留為舊檔，不再修改。
+- **互動圖（`*-viz.html`）已於 2026-10-29 停用**，不再新增（SS 既有 19 份已於 2026-11-01 刪除）。
 - 圖解一律由 `struct-diagram` skill 以程式產生，放在題目資料夾：
   - 產圖腳本：`XX-YYYY-N/gen_XX-YYYY-N.py`（可重跑，隨解析版控）
   - 圖檔：`XX-YYYY-N/figs/XX-YYYY-N-fig-<序號>-<英文短語意>.svg` ＋ 同名 2× `.png`
@@ -108,7 +111,7 @@
 
 > ⚠️ 注意：所有 YYYY 均為西元。
 
-**`raw/json/concepts.json`**（由 Cowork 生成與維護，供 compile 使用）
+**`raw/json/concepts.json`**（compile-all 已停用，保留備查，不再維護）
 ```json
 {
   "LATERAL-TORSIONAL-BUCKLING": {
@@ -151,31 +154,20 @@
 
 ---
 
-## 3. Wiki 輸出層（`wiki/`）規範
+## 3. 題解呈現與連結規範
 
-此層檔案除了 `wiki/diagnosis/`、`wiki/failure-modes/`、`wiki/materials/`、`wiki/code-ref/` 與 `wiki/queries/` 之外，其餘均由 `ingest` 或 `compile all` 指令生成。
+> 2026-11-08 起 wiki 封存，題目頁不再由 ingest 寫入 `wiki/problems/`；本節編號保留（§3.3、§3.4 被 skills 引用）。
 
-### 3.1 題解 Markdown 模板（由 ingest 寫入）
+### 3.1 題目瀏覽頁（`study/problems-view/`）
 
-> 從 `raw/` 讀入時，Cowork 會在文檔最開頭（H1 之後，正文之前）注入 Meta 區塊。
+- 由 `python scripts/render_problem_view.py XX-YYYY-N` 從 `raw/solutions/XX-YYYY-N/XX-YYYY-N.md` 產生；有題目正本時渲染在解析之前。
+- 只換 `<main>` 內容，頁首按鈕、樣式、腳本保留；**不手改**，改正本後重跑。
 
-```markdown
-# 考題編號：[XX-XXXX-N]
+### 3.2 內部連結格式
 
-**主分類：** `SS-U1-2` 梁桿件
-**副分類：** 無
-**設計法：** LRFD
-**標籤：** `LTB` `Cb係數` `非結實斷面`
-
----
-（接續 raw/solutions/XX-XXXX-N/XX-XXXX-N.md 內容）
-```
-
-### 3.2 內部連結格式（Wiki 化）
-
-- 概念連結：`[[LATERAL-TORSIONAL-BUCKLING]]`（不帶 .md，大寫大寫-大寫）
-- 題目連結：`[[SS-2015-1]]`（大寫）
-- 方法論連結：`[[b1b2-amplification]]`（小寫小寫-小寫）
+- 題目連結：`[[SS-2015-1]]`（大寫；儀表板與 problems-view 會轉為藍色徽章）
+- 方法論連結：`[[b1b2-amplification]]`（小寫小寫-小寫，對應 `raw/solutions/methods/`）
+- 概念連結 `[[CONCEPT-ID]]` 只出現在舊檔與 `archive/wiki/`，新內容不再使用
 - GitHub 內文跳轉錨點規則：`#小寫英數與短橫線`。
   - 例：跳轉至 `## 2. 考點分析` → `[前往考點](#2-考點分析)`
 
@@ -246,9 +238,10 @@ _需要知道公式名稱與適用條件，套入 L1 即可算出。_
 
 見 `skills/exam-solve/SKILL.md`「完成檢核」（2026-10-29 移入，避免兩份清單不同步）。
 
-### 4.2 ingest 到 Wiki
-- [ ] 前置檢查：`verificationStatus === "verified"`
-- [ ] `wiki/problems/[id].md` 被建立
-- [ ] 對應的 `concepts.json` 條目的相關題目表格已更新
-- [ ] `wiki/index.md` 與 `wiki/by-year.md` 已追加此題連結
-- [ ] 在 `wiki/log.md` 紀錄此操作
+### 4.2 題目正本確認後
+
+- [ ] `XX-YYYY-N-problem.md` 頭表「判讀狀態」改為**已確認**
+- [ ] `question_index.json` 該題 `problemStatus` 改為 `confirmed`
+- [ ] 解析 §1 與題目正本一致（衝突時以題目正本為準，走 exam-errata 勘誤解析）
+- [ ] 重跑 `scripts/render_problem_view.py XX-YYYY-N`
+- [ ] 在 `wiki/queries/log.md` 紀錄此操作

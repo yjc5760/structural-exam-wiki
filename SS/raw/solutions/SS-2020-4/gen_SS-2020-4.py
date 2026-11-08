@@ -4,6 +4,8 @@
 
 斷面性質、三項作用力、螺栓群向量與鈑厚全部由下方常數區重算；改螺栓排數重跑，圖跟著變。
 執行：python3 gen_SS-2020-4.py   →   figs/*.svg
+附加 fig1_problem：題目附圖重繪（重繪依據：題目正本 -problem.md §4 判讀清單，待確認）；
+輸出目錄可由參數指定：python3 gen_<id>.py [輸出目錄]（預設 figs/）。
 """
 import sys, os, math
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -13,7 +15,7 @@ SKILL = os.environ.get("SD_SKILL",
 sys.path.insert(0, os.path.join(SKILL, "scripts"))
 from structdraw import Canvas, C, compose
 
-OUT = os.path.join(_HERE, "figs")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(_HERE, "figs")
 
 # ══════════════════════════════════════════════════════════════
 # L1：題目給定（§1）
@@ -50,32 +52,36 @@ YS   = [(-(NB-1)/2 + i)*SP for i in range(NB)]      # ±4, ±12, ±20
 SUM_Y2 = sum(y*y for y in YS)                       # 1,120
 M_WEB = M_DES*RATIO_W                               # 947
 M_ECC = V_DES*ECC                                   # 350
-M_BOLT = M_WEB + M_ECC                              # 1,297
+M_BOLT_C = M_WEB + M_ECC                            # 1,297（假設 C：腹板依剛度分擔彎矩，§5 替代）
+M_BOLT = M_ECC                                      # 350（主答假設 B：翼板鈑承擔全部 M，腹板鈑承擔 V＋V·e；2026-11-01）
 
 # ── Step 5：最不利螺栓 ──
 FV_B = V_DES/NB                                     # 11.67（鉛垂，均勻）
 YMAX = max(YS)                                      # 20
-FH_B = M_BOLT*YMAX/SUM_Y2                           # 23.16（水平，線性）
-RMAX = math.hypot(FV_B, FH_B)                       # 25.93
-AB_REQ = RMAX/(NS*FVA)                              # 4.631 cm^2
-DB_REQ = math.sqrt(4*AB_REQ/math.pi)                # 2.428 cm
-DB_USE = 2.5                                        # D25
-AB_USE = math.pi*DB_USE**2/4                        # 4.909
-CAP_USE = NS*AB_USE*FVA                             # 27.49
+FH_B = M_BOLT*YMAX/SUM_Y2                           # 6.25（水平，線性）
+RMAX = math.hypot(FV_B, FH_B)                       # 13.24
+AB_REQ = RMAX/(NS*FVA)                              # 2.364 cm^2
+DB_REQ = math.sqrt(4*AB_REQ/math.pi)                # 1.735 cm
+DB_USE = 2.0                                        # M20（主答假設 B）
+AB_USE = math.pi*DB_USE**2/4                        # 3.142
+CAP_USE = NS*AB_USE*FVA                             # 17.59
+FU   = 4.1                                          # tf/cm^2 假設（題目未給）
+FP   = 1.2*FU                                       # 4.92 容許承壓
+BR_WEB = FP*DB_USE*TW                               # 13.78 腹板承壓（全部 R 作用於腹板）
 
 # 三種假設（§5 爭議一）
 def rmax_of(m_bolt):
     return math.hypot(FV_B, m_bolt*YMAX/SUM_Y2)
 CASE_A = rmax_of(0.0)                               # 11.67 舊版
-CASE_B = rmax_of(M_ECC)                             # 13.24
-CASE_C = RMAX                                       # 25.93
+CASE_B = RMAX                                       # 13.24（主答）
+CASE_C = rmax_of(M_BOLT_C)                          # 25.93（替代；腹板承壓 M27 18.6／1 in 17.5 tf 不足）
 
 # ── Step 6：鈑厚（兩片）──
 T_SHEAR = V_DES/(2*H_PL*0.4*FY)                     # 0.729
 S_PL    = 2*H_PL**2/6                               # 768 t
-T_BEND  = M_BOLT/(S_PL*0.6*FY)                      # 1.126
+T_BEND  = M_BOLT/(S_PL*0.6*FY)                      # 0.304
 T_REQ   = max(T_SHEAR, T_BEND)
-T_USE   = 1.2                                       # 12 mm
+T_USE   = 0.8                                       # 8 mm（毛斷面剪力控制；淨斷面剪力斷裂另需 9 mm，見 §5）
 FB_USE  = M_BOLT/(S_PL*T_USE)
 FVV_USE = V_DES/(2*H_PL*T_USE)
 
@@ -153,11 +159,11 @@ def fig2_moment_share():
     W, H = 940, 470
     cv = Canvas(W, H, sx=1.0, bg="#FFFFFF")
     x0, bw = 336, 400
-    rows = ((f"腹板依剛度分擔之彎矩", f"M × I_w/I_x = {M_DES:,.0f} × {RATIO_W:.4f}",
-             M_WEB, C["load"]),
-            (f"螺栓列偏心彎矩", f"V × e = {V_DES:g} × {ECC:g}", M_ECC, C["accent"]),
-            (f"螺栓群總彎矩", "兩者相加", M_BOLT, C["bmd"]))
-    peak = M_BOLT * 1.12
+    rows = ((f"主答 B：螺栓列偏心彎矩", f"V × e = {V_DES:g} × {ECC:g}", M_ECC, C["load"]),
+            (f"替代 C：腹板依剛度分擔", f"M × I_w/I_x = {M_DES:,.0f} × {RATIO_W:.4f}",
+             M_WEB, C["muted"]),
+            (f"替代 C：螺栓群總彎矩", "兩者相加", M_BOLT_C, C["muted"]))
+    peak = M_BOLT_C * 1.12
     for i, (nm, note, v, col) in enumerate(rows):
         y = 142 + i*72
         cv.text_px(x0 - 14, y - 9, nm, 13.5, C["text"], "end", weight="700")
@@ -166,15 +172,15 @@ def fig2_moment_share():
         cv.rect_px(x0, y-17, bw*v/peak, 34, col, 7)
         cv.text_px(x0 + bw*v/peak + 12, y, f"{v:,.0f} tf·cm", 13.5, col, "start", weight="700")
 
-    cv.text_px(W/2, 34, "圖 2　腹板續接鈑到底承受哪些作用力", 17.5, C["text"], weight="700")
+    cv.text_px(W/2, 34, "圖 2　腹板續接鈑承受哪些作用力：主答 B 與替代 C", 17.5, C["text"], weight="700")
     cv.text_px(W/2, 58,
-               f"四鈑續接：翼板鈑承擔 M(1 − I_w/I_x)，腹板鈑承擔 M·I_w/I_x ＋ 全部 V ＋ V·e",
+               f"主答（假設 B）：翼板鈑承擔全部 M，腹板鈑承擔全部 V ＋ 偏心 V·e",
                13, C["muted"])
     cv.text_px(W/2, 84,
-               f"腹板分擔彎矩是偏心彎矩的 {M_WEB/M_ECC:.1f} 倍——舊版兩項全漏，只用 V/n",
+               f"若改依剛度讓腹板分擔 M·I_w/I_x（假設 C），螺栓合力 {CASE_C:.2f} tf，但圖示配置下腹板承壓不足 → 不採",
                12.5, C["accent"])
     cv.text_px(W/2, H - 48,
-               f"深梁的 I_w/I_x 佔比小（本題僅 {RATIO_W*100:.1f}%），但乘上 M 之後仍是螺栓群最大的彎矩來源",
+               f"假設 C 腹板承壓：M27 為 {FP*2.7*TW:.1f}、1 in 為 {FP*2.54*TW:.1f} tf ＜ {CASE_C:.2f} tf（F_u 假設 {FU:g}）；I_w/I_x = {RATIO_W*100:.1f}%",
                13, C["muted"])
     cv.text_px(W/2, H - 24,
                f"另有全部剪力 V = {V_DES:g} tf 由腹板鈑承擔（不分給翼板鈑）",
@@ -225,28 +231,31 @@ def fig3_bolt_force():
     cv.math_px(W - Rm + 12, 306, f"R_{{max}} = {RMAX:.2f} tf", 14, C["load"], "start",
                weight="700")
     cv.text_px(W - Rm + 12, 344, "三種假設的差距：", 12.5, C["text"], "start", weight="700")
-    for i, (nm, v) in enumerate((("A 只有 V（舊版）", CASE_A),
-                                 ("B ＋偏心 V·e", CASE_B),
-                                 ("C ＋腹板分擔彎矩", CASE_C))):
+    for i, (nm, v) in enumerate((("A 只有 V（忽略偏心）", CASE_A),
+                                 ("B ＋偏心 V·e（主答）", CASE_B),
+                                 ("C ＋腹板分擔彎矩（承壓不足）", CASE_C))):
         cv.text_px(W - Rm + 12, 368 + i*21, f"{nm}：{v:.2f} tf", 11.5,
-                   C["load"] if v == CASE_C else C["muted"], "start",
-                   weight="700" if v == CASE_C else "400")
+                   C["load"] if v == CASE_B else C["muted"], "start",
+                   weight="700" if v == CASE_B else "400")
     cv.math_px(W - Rm + 12, 448,
                f"A_{{b}} ≥ {RMAX:.2f}/(2×{FVA:g}) = {AB_REQ:.3f} cm^{{2}}", 12.5,
                C["text"], "start", weight="700")
     cv.math_px(W - Rm + 12, 472, f"d_{{b}} ≥ {DB_REQ:.3f} cm", 12.5,
                C["text"], "start", weight="700")
-    cv.text_px(W - Rm + 108, 472, "⇒ 選 D25", 12.5, C["text"], "start", weight="700")
+    cv.text_px(W - Rm + 108, 472, "⇒ 選 M20", 12.5, C["text"], "start", weight="700")
     cv.text_px(W - Rm + 12, 498,
                f"容量 2×{AB_USE:.3f}×{FVA:g} = {CAP_USE:.2f} tf（使用率 {RMAX/CAP_USE*100:.1f}%）",
                11.5, C["muted"], "start")
+    cv.text_px(W - Rm + 12, 522,
+               f"腹板承壓 {FP:.2f}×{DB_USE:g}×{TW:g} = {BR_WEB:.2f} ≥ {RMAX:.2f} tf",
+               11, C["muted"], "start")
 
     cv.text_px(W/2, 34, "圖 3　偏心螺栓群：直接剪力均勻、彎矩剪力線性", 17.5,
                C["text"], weight="700")
     cv.text_px(W/2, 58, "ASD 是「逐支」檢核最不利螺栓，不是把總力除以螺栓數",
                13, C["muted"])
     cv.text_px(W/2, 84,
-               f"只用 V/n 會得 {CASE_A:.2f} tf（低估 {100*(1-CASE_A/CASE_C):.0f}%），螺栓由 D25 誤選為 M20",
+               f"只用 V/n 會得 {CASE_A:.2f} tf（低估 {100*(1-CASE_A/CASE_B):.0f}%）：螺栓列距續接中心線 {ECC:g} cm 的偏心不可略",
                12.5, C["accent"])
     cv.text_px(W/2, H - 26,
                "彎矩剪力隨 y 線性變化 ⇒ 最外排最大；與均勻的直接剪力正交疊加",
@@ -261,10 +270,10 @@ def fig4_plate():
     cv = Canvas(W, H, sx=1.0, bg="#FFFFFF")
     x0, bw = 300, 400
     rows = (("剪力控制", f"V/(2·h·0.4F_y) = {V_DES:g}/(2×{H_PL:g}×{0.4*FY:g})",
-             T_SHEAR, C["compr"]),
-            ("彎矩控制", f"M/(2h²/6 · 0.6F_y) = {M_BOLT:,.0f}/({S_PL:.0f}×{0.6*FY:g})",
-             T_BEND, C["load"]),
-            ("選用鈑厚", f"12 mm；f_b = {FB_USE:.3f}、f_v = {FVV_USE:.3f} tf/cm²",
+             T_SHEAR, C["load"]),
+            ("彎矩控制", f"V·e/(2h²/6 · 0.6F_y) = {M_BOLT:,.0f}/({S_PL:.0f}×{0.6*FY:g})",
+             T_BEND, C["compr"]),
+            ("選用鈑厚", f"8 mm；f_b = {FB_USE:.3f}、f_v = {FVV_USE:.3f} tf/cm²",
              T_USE, C["accent"]))
     peak = max(v for *_, v, _ in rows) * 1.12
     for i, (nm, note, v, col) in enumerate(rows):
@@ -274,7 +283,7 @@ def fig4_plate():
         cv.rect_px(x0, y-17, bw, 34, "#EDF1F6", 7)
         cv.rect_px(x0, y-17, bw*v/peak, 34, col, 7)
         cv.text_px(x0 + bw*v/peak + 12, y, f"{v:.3f} cm", 13.5, col, "start", weight="700")
-    cv.parts.append(f'<line x1="{x0 + bw*T_BEND/peak}" y1="110" x2="{x0 + bw*T_BEND/peak}" '
+    cv.parts.append(f'<line x1="{x0 + bw*T_REQ/peak}" y1="110" x2="{x0 + bw*T_REQ/peak}" '
                     f'y2="{136+2*66+24}" stroke="{C["load"]}" stroke-width="1.6" '
                     f'stroke-dasharray="6 4"/>')
 
@@ -283,8 +292,8 @@ def fig4_plate():
                f"兩片鈑，高 {H_PL:g} cm；剪力用 0.4F_y = {0.4*FY:g}，彎矩用 0.6F_y = {0.6*FY:g} tf/cm²",
                13, C["muted"])
     cv.text_px(W/2, 84,
-               f"彎矩控制（{T_BEND:.3f} cm）比剪力控制（{T_SHEAR:.3f} cm）大 "
-               f"{100*(T_BEND/T_SHEAR-1):.0f}%——只算剪力會選成 8 mm",
+               f"主答 B 由剪力控制（{T_SHEAR:.3f} cm > 彎矩 {T_BEND:.3f} cm）→ 8 mm；"
+               f"淨斷面剪力斷裂（F_u 假設）需 0.832 cm，保守取 9 mm",
                12.5, C["accent"])
     cv.text_px(W/2, H - 26,
                "鈑件不符「結實斷面」之肢材定義，故彎曲用 0.6F_y 而非 0.66F_y",
@@ -292,16 +301,142 @@ def fig4_plate():
     cv.save(os.path.join(OUT, "SS-2020-4-fig-4-plate.svg"))
 
 
+# ══════════════════════════════════════════════════════════════
+# 圖 1：題目附圖重繪（依題目正本 SS-2020-4-problem.md §4 判讀清單，待確認）
+# 只畫考卷給的東西，與上方解題常數分開；不含螺栓直徑、鈑厚、彎矩分配等任何解題結果。
+# ══════════════════════════════════════════════════════════════
+Q_D, Q_BF, Q_TF, Q_TW = 70.0, 30.0, 2.5, 1.4   # 題文 H700×300×14×25；圖面 70 cm、30 cm
+Q_HP = 48.0       # 圖面 腹板續接鈑高 48 cm
+Q_E4, Q_G10 = 4.0, 10.0                       # #3 鈑邊至螺栓列 4 cm、兩縱列相距 10 cm（寬 18 cm）
+Q_NR, Q_SR = 6, 8.0                           # #2 每縱列 6 支、列距 5@8 cm（上下邊距 4 cm）
+#                                               #1 四鈑：上下翼板外側各 1 片＋腹板兩側各 1 片
+# 示意（考卷未標）：翼續接鈑長與厚、腹續接鈑厚、翼板螺栓位置、梁畫出長度
+Q_LPF, Q_TPF, Q_TPW = 64.0, 2.0, 2.2
+Q_XFB = (5.0, 12.5, 20.0, 27.5)
+Q_LB = 64.0
+Q_XS = 110.0      # 斷面圖中心 x（排版用）
+
+
+def _q_rect(cv, x0, x1, y0, y1, fill="#FFFFFF", w=1.6):
+    cv.polygon([(x0, y0), (x1, y0), (x1, y1), (x0, y1)], fill, C["member"], w)
+
+
+def _q_hatch(cv, x0, x1, y0, y1, step=1.6):
+    _q_rect(cv, x0, x1, y0, y1, "#FFFFFF", 1.6)
+    h = y1 - y0
+    k = x0 - h
+    while k < x1:
+        p0 = (max(k, x0), y0 + max(0, x0 - k))
+        p1 = (min(k + h, x1), y0 + min(h, x1 - k))
+        if p1[0] > p0[0]:
+            cv.line(p0, p1, C["member"], 0.9)
+        k += step
+
+
+def _q_leader(cv, tip, at, txt):
+    cv.line(at, tip, C["muted"], 1.1)
+    cv.text(at, txt, 15, C["text"], "end", dx=-4)
+
+
+def fig1_problem():
+    path = os.path.join(OUT, "SS-2020-4-fig-1-problem.svg")
+    cv = Canvas(1200, 700, sx=5.2, ox=410, oy=330)
+    cv.panel("梁續接立面與斷面", "四鈑接合：翼板外側各 1 片、腹板兩側各 1 片")
+    h = Q_D / 2
+    # ── 立面：梁（兩段於 x = 0 對接）──
+    for y0 in (h - Q_TF, -h):
+        _q_rect(cv, -Q_LB, Q_LB, y0, y0 + Q_TF)
+    for sg in (-1, 1):
+        xe = sg * Q_LB
+        cv.poly([(xe, -h), (xe, -6), (xe - sg * 4.5, -1.5), (xe, 3), (xe, h)], C["member"], 1.6)
+        cv.line((sg * 0.6, h - Q_TF), (sg * 0.6, Q_HP / 2), C["member"], 1.3)
+        cv.line((sg * 0.6, -Q_HP / 2), (sg * 0.6, -h + Q_TF), C["member"], 1.3)
+        cv.line((sg * 0.6, Q_HP / 2), (sg * 0.6, -Q_HP / 2), C["member"], 1.1, dash="4 3")
+    # 翼續接鈑（外側，斜線）＋翼板螺栓（示意）
+    _q_hatch(cv, -Q_LPF / 2, Q_LPF / 2, h, h + Q_TPF)
+    _q_hatch(cv, -Q_LPF / 2, Q_LPF / 2, -h - Q_TPF, -h)
+    for x in Q_XFB:
+        for sg in (-1, 1):
+            cv.line((sg * x, h + Q_TPF + 1.2), (sg * x, h - Q_TF - 1.2), C["member"], 1.1)
+            cv.line((sg * x, -h - Q_TPF - 1.2), (sg * x, -h + Q_TF + 1.2), C["member"], 1.1)
+    # 腹續接鈑與螺栓
+    wpl = Q_E4 * 2 + Q_G10
+    _q_rect(cv, -wpl / 2, wpl / 2, -Q_HP / 2, Q_HP / 2, "rgba(29,78,216,0.10)", 1.8)
+    ys = [-Q_HP / 2 + Q_E4 + i * Q_SR for i in range(Q_NR)]
+    for x in (-Q_G10 / 2, Q_G10 / 2):
+        for y in ys:
+            cv.circle((x, y), 0.65, "#FFFFFF", C["member"], 1.4)
+    # 立面尺寸
+    xl = -wpl / 2 - 6
+    cv.dim((xl, Q_HP / 2), (xl, -Q_HP / 2), f"{Q_HP:.0f} cm", label_off=22, size=14)
+    xr = Q_D / 2 - 19
+    for y in (Q_HP / 2, ys[-1], ys[0], -Q_HP / 2):
+        cv.line((Q_G10 / 2, y), (xr + 1.5, y), C["dim"], 1, dash="3 3")
+    cv.dim((xr, Q_HP / 2), (xr, ys[-1]), f"{Q_E4:.0f} cm", label_off=-26, size=13)
+    cv.dim((xr, ys[-1]), (xr, ys[0]), f"{Q_NR - 1} @ {Q_SR:.0f} cm", label_off=-42, size=14)
+    cv.dim((xr, ys[0]), (xr, -Q_HP / 2), f"{Q_E4:.0f} cm", label_off=-26, size=13)
+    yb = -h - Q_TPF - 5
+    for x in (-wpl / 2, wpl / 2):
+        cv.line((x, -Q_HP / 2), (x, yb - 6.5), C["dim"], 1, dash="3 3")
+    for x in (-Q_G10 / 2, Q_G10 / 2):
+        cv.line((x, ys[0]), (x, yb - 0.8), C["dim"], 1, dash="3 3")
+    cv.dim((-wpl / 2, yb), (-Q_G10 / 2, yb), f"{Q_E4:.0f}", label_off=12, size=13)
+    cv.dim((-Q_G10 / 2, yb), (Q_G10 / 2, yb), f"{Q_G10:.0f}", label_off=12, size=13)
+    cv.dim((Q_G10 / 2, yb), (wpl / 2, yb), f"{Q_E4:.0f}", label_off=12, size=13)
+    cv.math((wpl / 2, yb), "cm", 13, C["dim"], "start", dx=5, dy=12)
+    cv.dim((-wpl / 2, yb - 6), (wpl / 2, yb - 6), f"{wpl:.0f} cm", label_off=13, size=14)
+    _q_leader(cv, (-Q_LPF / 2 + 18, h + Q_TPF), (-Q_LPF / 2 + 6, h + 11), "梁翼續接鋼鈑")
+    _q_leader(cv, (-wpl / 2, Q_HP / 2 - 6), (-wpl / 2 - 14, Q_HP / 2 + 2), "梁腹續接鋼鈑")
+    # ── 斷面 ──
+    xs = Q_XS
+    _q_rect(cv, xs - Q_BF / 2, xs + Q_BF / 2, h - Q_TF, h, C["fill_c"])
+    _q_rect(cv, xs - Q_BF / 2, xs + Q_BF / 2, -h, -h + Q_TF, C["fill_c"])
+    _q_rect(cv, xs - Q_TW / 2, xs + Q_TW / 2, -h + Q_TF, h - Q_TF, C["fill_c"])
+    bpf = Q_BF * 0.72
+    _q_hatch(cv, xs - bpf / 2, xs + bpf / 2, h, h + Q_TPF, 1.2)
+    _q_hatch(cv, xs - bpf / 2, xs + bpf / 2, -h - Q_TPF, -h, 1.2)
+    for sg in (-1, 1):
+        x0 = xs + sg * Q_TW / 2
+        _q_hatch(cv, min(x0, x0 + sg * Q_TPW), max(x0, x0 + sg * Q_TPW), -Q_HP / 2, Q_HP / 2, 1.2)
+    for y in ys:
+        cv.line((xs - Q_TW / 2 - Q_TPW - 2, y), (xs + Q_TW / 2 + Q_TPW + 2, y), C["member"], 1.1)
+    for x in (-Q_BF * 0.25, Q_BF * 0.25):
+        cv.line((xs + x, h + Q_TPF + 1.2), (xs + x, h - Q_TF - 1.2), C["member"], 1.1)
+        cv.line((xs + x, -h - Q_TPF - 1.2), (xs + x, -h + Q_TF + 1.2), C["member"], 1.1)
+    x48, x70 = xs + Q_BF / 2 - 3, xs + Q_BF / 2 + 13
+    for y in (Q_HP / 2, -Q_HP / 2):
+        cv.line((xs + Q_TW / 2 + Q_TPW, y), (x48 + 1.5, y), C["dim"], 1, dash="3 3")
+    cv.dim((x48, Q_HP / 2), (x48, -Q_HP / 2), f"{Q_HP:.0f} cm", label_off=-22, size=14)
+    cv.dim((x70, h), (x70, -h), f"{Q_D:.0f} cm", label_off=-22, size=14)
+    cv.dim((xs - Q_BF / 2, -h), (xs + Q_BF / 2, -h), f"{Q_BF:.0f} cm", off=36, label_off=14, size=14)
+    _q_leader(cv, (xs - bpf / 2 + 3, h + Q_TPF), (xs - 4, h + 11), "梁翼續接鋼鈑")
+    _q_leader(cv, (xs - Q_TW / 2 - Q_TPW, Q_HP / 2 - 4), (xs - Q_BF / 2 - 2, Q_HP / 2 + 4), "梁腹續接鋼鈑")
+    compose([cv], cols=1,
+            title="SS-2020-4 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1–#3；梁斷面與腹鈑尺寸依比例，翼鈑長與厚、腹鈑厚、翼板螺栓為示意",
+            note="腹鈑兩縱列分居續接縫兩側（4＋10＋4 cm），每側梁只有一列 6 支螺栓；腹板兩側各一片鈑 → 雙剪",
+            path=path)
+    return path
+
+
+FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "把 12 支螺栓全算成同一側（每側其實只有 6 支）；漏看腹板兩側各一片鈑而按單剪；偏心取 10 cm 而非 5 cm"),
+]
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
+    for fn, section, catches in FIGURES:
+        print(f"{os.path.basename(fn()):<34} {section:<20} 攔：{catches}")
     fig1_splice(); fig2_moment_share(); fig3_bolt_force(); fig4_plate()
     print(f"Ix={IX:,.0f} Sx={SX:,.0f} Iw={IW:,.0f} Iw/Ix={RATIO_W:.4f}")
     print(f"Ma={MA:,.0f} tf·cm (0.5Ma={0.5*MA/100:.1f} tf·m)  Va={VA:g} (0.5Va={0.5*VA:g})")
     print(f"M_des={M_DES:,.0f} tf·cm  V_des={V_DES:g} tf")
     print(f"h_pl={H_PL:g} w_pl={W_PL:g} Σy²={SUM_Y2:,.0f}")
-    print(f"M_web={M_WEB:,.0f} M_ecc={M_ECC:,.0f} M_bolt={M_BOLT:,.0f}（比 {M_WEB/M_ECC:.1f} 倍）")
+    print(f"M_web={M_WEB:,.0f} M_ecc={M_ECC:,.0f} 主答 M_bolt={M_BOLT:,.0f}（替代 C {M_BOLT_C:,.0f}）")
     print(f"fv={FV_B:.2f} fh={FH_B:.2f} Rmax={RMAX:.2f} Ab≥{AB_REQ:.3f} db≥{DB_REQ:.3f}"
-          f" 選 D25 容量 {CAP_USE:.2f}")
+          f" 選 M20 容量 {CAP_USE:.2f} 腹板承壓 {BR_WEB:.2f}")
     print(f"A={CASE_A:.2f} B={CASE_B:.2f} C={CASE_C:.2f}")
     print(f"t_shear={T_SHEAR:.3f} t_bend={T_BEND:.3f} -> 選 {T_USE:g} cm"
           f"（fb={FB_USE:.3f} fv={FVV_USE:.3f}）")

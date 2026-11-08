@@ -15,7 +15,7 @@ SKILL = os.environ.get("SD_SKILL",
 sys.path.insert(0, os.path.join(SKILL, "scripts"))
 from structdraw import Canvas, C, compose, member_shape
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figs")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "figs")
 
 # ══════════════════════════════════════════════════════════════
 # L1：題目給定（§1）
@@ -365,8 +365,78 @@ def fig4_interaction():
             path=os.path.join(OUT, "SS-2020-3-fig-4-interaction.svg"))
 
 
+# ══════════════════════════════════════════════════════════════
+# 圖 1（題目）：題目附圖重繪（依題目正本 SS-2020-3-problem.md §4 判讀清單，待確認）
+# 只畫考卷給的東西，與上方解題常數分開；不含任何解題結果（B1、Mu、所求 Mwy 值都不畫）
+# 桿件長度為示意比例（500 cm）；斷面 H 400x400x12x22 依比例
+# ══════════════════════════════════════════════════════════════
+Q_LEN = 500.0                          # 圖 桿長 500 cm
+Q_SEC = (40.0, 40.0, 1.2, 2.2)         # 題文 H 400x400x12x22：d, bf, tw, tf（cm）
+#   #1 強軸：左 Mwx 順時針、右 Mwx 逆時針
+#   #2 弱軸：左 Mwy 順時針、右 0.5Mwy 逆時針
+#   兩端 Pw 向內（軸壓）
+Q_ROWS = [
+    ("對強軸彎曲", "M_{wx}", "M_{wx}", "strong"),
+    ("對弱軸彎曲", "M_{wy}", "0.5M_{wy}", "weak"),
+]
+
+
+def _q_section(cv, cx, cy, kind, s=2.6):
+    """斷面（cx, cy 為像素、cy 自底起算；cv.sx 須為 1）"""
+    d, bf, tw, tf = Q_SEC
+    if kind == "strong":    # I 字：翼板水平
+        rects = ((-bf / 2, bf / 2, d / 2 - tf, d / 2), (-bf / 2, bf / 2, -d / 2, -d / 2 + tf),
+                 (-tw / 2, tw / 2, -d / 2 + tf, d / 2 - tf))
+    else:                   # H 字：翼板垂直
+        rects = ((-d / 2, -d / 2 + tf, -bf / 2, bf / 2), (d / 2 - tf, d / 2, -bf / 2, bf / 2),
+                 (-d / 2 + tf, d / 2 - tf, -tw / 2, tw / 2))
+    for x0, x1, y0, y1 in rects:
+        pts = [(cx + x0 * s, cy + y0 * s), (cx + x1 * s, cy + y0 * s),
+               (cx + x1 * s, cy + y1 * s), (cx + x0 * s, cy + y1 * s)]
+        cv.polygon(pts, C["fill_c"], C["member"], 1.6)
+
+
+def _q_row(title, mL, mR, kind):
+    W1, H1 = 940, 270
+    cv = Canvas(W1, H1, sx=1.0, ox=0, oy=0)
+    cv.panel(title, None)
+    x0, x1, y = 170.0, 610.0, 150.0          # 桿件像素位置（長度示意）
+    cv.line((x0, y), (x1, y), C["member"], 3.6, cap="butt")
+    cv.arrow((x0 - 90, y), (x0 - 34, y), C["load"], 2.6, 10)
+    cv.math((x0 - 90, y), "P_{w}", 17, C["load"], "end", dx=-6, weight="700")
+    cv.arrow((x1 + 90, y), (x1 + 34, y), C["load"], 2.6, 10)
+    cv.math((x1 + 90, y), "P_{w}", 17, C["load"], "start", dx=6, weight="700")
+    cv.moment_arrow((x0, y), r=28, ccw=False, span=230, start=-70)    # 左端順時針
+    cv.moment_arrow((x1, y), r=28, ccw=True, span=230, start=250)     # 右端逆時針
+    cv.math((x0, y + 28), mL, 17, C["load"], dy=-16, weight="700")
+    cv.math((x1, y + 28), mR, 17, C["load"], dy=-16, weight="700")
+    cv.dim((x0, y - 50), (x1, y - 50), f"{Q_LEN:.0f} cm", off=0, label_off=16, size=15)
+    _q_section(cv, 800, y - 8, kind)
+    if kind == "weak":
+        cv.text_px(800, H1 - 34, "桿件斷面", 13, C["muted"])
+    return cv
+
+
+def fig1_problem():
+    path = os.path.join(OUT, "SS-2020-3-fig-1-problem.svg")
+    compose([_q_row(*r) for r in Q_ROWS], cols=1,
+            title="SS-2020-3 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1、#2；Pw = 150 tf、Mwx = 6 tf-m；桿長示意比例，斷面 H 400x400x12x22 依比例",
+            note="兩面都是左端順時針、右端逆時針（單曲率）；弱軸右端為 0.5Mwy，Mwy 為所求",
+            path=path)
+    return path
+
+
+FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "把左順右逆的端彎矩讀成雙曲率（M1/M2 正負號弄反）；弱軸端彎矩比 0.5 漏看；強弱軸斷面方位對調"),
+]
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
+    for _fn, _sec, _catch in FIGURES:
+        print(f"{os.path.basename(_fn()):<34} {_sec:<20} 攔：{_catch}")
     fig1_loading(); fig2_mny(); fig3_b1(); fig4_interaction()
     print(f"A={A:.2f} Ix={IX:,.0f} Sx={SX:,.1f} Zx={ZX:,.1f} Iy={IY:,.0f} Sy={SY:,.1f} Zy={ZY:,.1f}")
     print(f"rx={RX:.2f} ry={RY:.2f} Lp={LP:.1f}")

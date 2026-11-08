@@ -1,7 +1,7 @@
 # SS — 鋼結構設計考古題知識庫
 
-> 本資料夾是「結構技師考試知識庫」五科之一（原獨立 repo `exam-wiki-SS`，2026-10-29 併入）。
-> 流程與規則見根目錄 `CLAUDE.md`；SS 專屬設定、設計哲學框架與歷次變更見 **`SUBJECT.md`**。
+> 本資料夾是「結構技師考試知識庫」五科之一（原獨立 repo `exam-wiki-SS`，2026-11-08 搬入）。
+> 流程、規則、指令、格式見根目錄 `CLAUDE.md`／`CLAUDE-CODE.md`／`CLAUDE-SPEC.md`；SS 專屬設定、設計哲學框架與歷次變更見 **`SUBJECT.md`**。
 
 **科目：** 專門職業及技術人員高等考試結構工程技師 — 第四科：鋼結構設計
 **收錄範圍：** 2002–2025 年（民國 91–114 年），共 98 題
@@ -11,18 +11,17 @@
 
 ## 這個資料庫是什麼
 
-每道考古題都有一份 **深度解析**（LaTeX 公式、逐步計算、陷阱說明），解析由 AI 完成，人工驗算確認後才進 wiki。
+每道考古題都有一份 **深度解析**（LaTeX 公式、逐步計算、陷阱說明），解析由 AI 完成，經盲解比對與人工驗算確認。讀書以 `study/`（題目瀏覽頁、單元總覽、觀念講義、教科書）與 `start.html` 起點頁為準。
 
-**兩個工作角色：**
+> wiki/ 只保留 `wiki/queries/`（稽核報告、盲解紀錄、變更紀錄 log.md）；舊 wiki 各層已封存於 `archive/wiki/`，不再維護、內容未經全面核對。
 
 | 你要做什麼 | 怎麼做 |
 |-----------|--------|
-| 解一道新題 | 對 **Cowork** 說「解析 XXXX 年 SS 考卷」 |
-| 把解析寫進 wiki | 對 **Cowork** 說「ingest SS-XXXX-N」 |
+| 解一份新考卷 | 對 **Cowork** 說「解析 YYYY 年 SS 考卷」（exam-solve skill） |
+| 勘誤／盲解比對 | 「勘誤 SS-YYYY-N」（exam-errata）、「跑 SS-U1-2 第 n 批」（exam-wiki-pipeline） |
+| 單元總覽／講義／教科書 | 「做 SS-U1-1 單元總覽」「生成 SS-U1-1 講義」「把 SS-U1-1 寫成教科書」 |
+| 更新起點頁 | 「依清單更新 SS 的 start.html」（exam-start-page） |
 | 查詢知識 / 跨題分析 | 對 **Cowork** 直接提問 |
-| 維護橫向知識工具 | 對 **Cowork** 說（diagnosis / failure-modes / materials / code-ref） |
-
-> 所有操作都在 Cowork 對話中完成。完整指令清單見根目錄 **CLAUDE-CODE.md**（指令後加 `SS`，如 `status SS`）。
 
 ---
 
@@ -30,63 +29,64 @@
 
 | 我想找... | 去哪找 |
 |----------|-------|
-| **視覺化瀏覽整個知識庫** | **雙擊 `index.html`**（題庫搜尋篩選、考點統計、進度追蹤、指令速查） |
-| 特定題目的解析 | `raw/solutions/SS-YYYY-N/SS-YYYY-N.md` |
-| 子項深度複習講義（速查型） | `study/study-SS-UN-n.html`（說 `study SS-UN-n` 生成） |
-| **單元觀念講義（練題前建立原理直覺）** | `study/lecture-SS-UN-n.html` + `.pdf`（說「生成 SS-UN-n 講義」生成） |
-| wiki 題目頁（含標籤/圖形） | `wiki/problems/SS-YYYY-N.md` |
-| 依年份瀏覽所有題目 | `wiki/by-year.md` |
-| 概念說明（LTB、柱強度等） | `wiki/concepts/` |
-| 解題策略（拿到考題怎麼判斷） | `wiki/diagnosis/` |
-| 規範條文對應 | `wiki/code-ref/` |
-| 操作紀錄 | `wiki/log.md` |
+| **給考生的入口** | **`start.html`**（學習路徑、各單元教材、進度表） |
+| **視覺化瀏覽題庫** | **雙擊 `index.html`**（題庫搜尋篩選、考點統計、進度追蹤） |
+| 特定題目的解析 | `raw/solutions/SS-YYYY-N/SS-YYYY-N.md`（題目正本 `SS-YYYY-N-problem.md`） |
+| 題目渲染頁（公式／附圖可讀） | `study/problems-view/SS-YYYY-N.html` |
+| 子項單元總覽（考什麼＋公式給／背＋逐題公式表） | `study/unit-SS-UN-n.html`（資料 `study/data/unit-SS-UN-n.json`；舊 `study-`／`formula-given-` 為轉址頁） |
+| 單元觀念講義、教科書 | `study/lecture-SS-UN-n.html`、`study/textbook-SS-UN-n*.html`（+ 同名 `.pdf`） |
+| 全科出題頻率熱圖 | `study/frequency-SS.html` |
+| 影片講義 | `影片講義/` |
+| 稽核、盲解比對報告 | `wiki/queries/`（總帳 `audit-ledger-SS.json`） |
+| 操作紀錄 | `wiki/queries/log.md` |
+| 舊 wiki 各層（概念、方法、陷阱、規範對應…） | `archive/wiki/`（封存，僅供參考） |
+| 搬入前的原 repo 規則檔 | `archive/exam-wiki-SS-root/` |
 
 ---
 
 ## 檔案地圖
 
 ```
-SS/                    （CLAUDE*.md、skills/、syllabus_taxonomy.json 在上一層根目錄，五科共用）
-├── README.md          ← 你在這裡（冷啟動導覽）
-├── SUBJECT.md         ← SS 科目層設定＋設計哲學框架＋CHANGELOG
-├── index.html         ← 離線儀表板（五科共用樣板）
-├── dashboard-data.js  ← 儀表板快照（更新儀表板資料 指令重新生成）
-├── scripts/build_frequency.py ← 全科出題頻率熱圖產生器
+SS/
+├── README.md          ← 你在這裡
+├── SUBJECT.md         ← SS 科目設定（子項表、designMethod、設計哲學、CHANGELOG、與根目錄規則的差異）
+├── 檔案架構索引表.md · 知識庫使用說明書.md
+├── start.html         ← 起點頁（python scripts/build_start.py --repo SS）
+├── index.html         ← 離線儀表板 · dashboard-data.js（題庫快照）
+├── scripts/           ← 只放 SS 一次性腳本（add_backlink.py、fixes/）；共用腳本在根目錄 scripts/
+├── 影片講義/           ← 影片轉成的圖文講義
 │
-├── study/             ← 讀書講義
-│   ├── study-*.html   ← 速查／複習頁（study 指令輸出）
-│   ├── lecture-*.html ← 單元觀念講義 + 同名 .pdf（unit-lecture skill 輸出）
-│   └── assets/katex/  ← 本機 KaTeX，供 lecture-*.html 離線渲染數學式（勿刪）
+├── study/
+│   ├── unit-*.html    ← 單元總覽 + .pdf（unit-overview）
+│   ├── lecture-*.html ← 觀念講義 + .pdf（unit-lecture）
+│   ├── textbook-*.html← 教科書 + .pdf（unit-textbook）
+│   ├── frequency-SS.html ← 全科出題頻率熱圖
+│   ├── data/          ← unit-*.json、start-links.json／.txt（產生頁面的資料）
+│   ├── problems-view/ ← 題目渲染頁
+│   └── assets/katex/  ← 本機 KaTeX（勿刪）
 │
-├── raw/               ← 原始資料（預設唯讀；例外見 CLAUDE.md 規則 1）
+├── raw/               ← 原始資料（預設唯讀；例外見根目錄 CLAUDE.md 規則 1）
 │   ├── exams/         ← 考卷 PDF（SS-YYYY_鋼結構設計.pdf）
-│   ├── json/          ← question_index.json ✏️可改、concepts.json
-│   └── solutions/     ← 每題一個資料夾，含 .md + 截圖 + 補充筆記 PDF
-│       ├── SS-YYYY-N/ ← 🔒 證據，不可修改
-│       └── methods/   ← ✏️ 方法論，可修正公式（須驗算＋同步 wiki＋記 log）
+│   ├── json/          ← question_index.json ✏️、concepts.json（備查）
+│   └── solutions/
+│       ├── SS-YYYY-N/ ← 🔒 證據（.md、-problem.md 僅限規則 1 條件）
+│       └── methods/   ← ✏️ 方法論，可修正公式（須驗算＋記 log）
 │
-└── wiki/              ← 知識庫（七層架構）
-    ├── problems/      ← 所有題目頁
-    ├── concepts/      ← 概念頁
-    ├── methods/       ← 解題方法論
-    ├── diagnosis/     ← 題型診斷決策樹
-    ├── failure-modes/ ← 失敗模式分類
-    ├── materials/     ← 材料行為
-    └── code-ref/      ← 規範條文對應
+├── wiki/queries/      ← 稽核／盲解報告、audit-ledger、log.md
+└── archive/           ← 🗄️ wiki/（舊七層）、exam-wiki-SS-root/（原 repo 規則檔）
 ```
 
 ---
 
-## 如何開始解一道新題
+## 常用腳本（在知識庫根目錄執行）
 
 ```
-1. 在 Cowork 開啟知識庫根目錄（Project）
-2. 說：「解析 2025 年 SS 考卷」
-3. Cowork 從考卷擷取附圖並列出判讀清單
-4. 檢查清單後告知 Cowork「判讀確認，請開始解題」
-5. Cowork 輸出 SS-2025-1.md（一次一題）
-6. 人工驗算無誤後，說：「將 SS-2025-1 的 verificationStatus 改為 verified」
-7. 說：「ingest SS-2025-1」→ Cowork 直接寫入 wiki
+python scripts/render_problem_view.py SS-2025-1     # 題目瀏覽頁
+python scripts/build_unit_page.py SS-U1-1           # 單元總覽（--all --subject SS 全部；--check 只檢查）
+cd SS && python ../scripts/build_frequency.py       # 全科出題頻率熱圖
+python scripts/build_start.py --repo SS             # 起點頁
+python scripts/xcheck.py SS                         # 跨檔一致性掃描
+python scripts/audit_classification.py SS SS        # 主副分類稽核
 ```
 
 ---
@@ -95,8 +95,9 @@ SS/                    （CLAUDE*.md、skills/、syllabus_taxonomy.json 在上�
 
 - 年份用**西元**（SS-2015-1，不是 SS-104-1）
 - PNG 截圖必須加序號（`fig-1.png`，不可寫 `fig.png`）
-- 互動圖後綴必須是 `-viz.html`（`pm-viz.html`，不是 `pm.html`）
+- 不產生互動圖 `*-viz.html`；圖解一律用 struct-diagram 產生 `figs/*.svg`
 - 公式必須用 LaTeX（`$F_y$`，不可寫純文字）
-- ingest 前確認 `verificationStatus = "verified"`
+- `verificationStatus` 只有人工複核後才改 `verified`
+- 主副分類只填 SS 子項（見 `SUBJECT.md` §2）
 
-> 完整規則見根目錄 **CLAUDE-SPEC.md**
+> 完整規則見根目錄 **CLAUDE.md**、**CLAUDE-SPEC.md**

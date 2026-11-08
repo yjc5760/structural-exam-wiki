@@ -4,8 +4,11 @@
 scaffold_subject.py — 依 SS 的架構建立新科目資料夾骨架
 
 科目名稱／單元／子項取自根目錄 syllabus_taxonomy.json；科目專屬設定（考卷檔名、
-designMethod 允許值、常見圖解、wiki 第 5–7 層類別、題型診斷頁）取自
+designMethod 允許值、常見圖解、題型辨識表）取自
 scripts/subject_profiles.json。
+
+2026-11-08 起 wiki 封存：骨架只建 wiki/queries/（含 log.md），不再建七層 wiki；
+共用腳本在根目錄 scripts/，不再複製到科目資料夾。
 
 只建立不存在的檔案，**絕不覆蓋既有檔案**（可安全重跑，用來補齊缺漏）。
 
@@ -22,12 +25,9 @@ REF = "SS"  # 架構範本科目（katex 等共用資源從這裡複製）
 
 DIRS = [
     "raw/exams", "raw/json", "raw/solutions/methods",
-    "wiki/problems", "wiki/concepts", "wiki/methods", "wiki/philosophy", "wiki/traps",
-    "wiki/topics", "wiki/diagnosis", "wiki/failure-modes", "wiki/materials", "wiki/code-ref",
-    "wiki/queries", "study/problems-view", "study/figs-src", "scripts",
+    "wiki/queries", "study/problems-view", "study/figs-src", "study/data",
 ]
-KEEP = ["raw/exams", "raw/solutions/methods", "wiki/problems", "wiki/methods",
-        "study/problems-view", "study/figs-src"]
+KEEP = ["raw/exams", "raw/solutions/methods", "study/problems-view", "study/figs-src", "study/data"]
 
 # ---------------------------------------------------------------- 設計哲學框架（起始版）
 PHILO = {
@@ -231,12 +231,7 @@ def scaffold(code, dry=False):
     unit_rows = "\n".join(f"| `{i}` | {n} | {u['name']} |" for i, n, u in items)
     meth_rows = "\n".join(f"| `{m}` |" for m in prof["methods"])
     fig_rows = "\n".join(f"- {f}" for f in prof.get("figures", []))
-    lrows = []
-    for n, key in [(5, "failure-modes"), (6, "materials"), (7, "code-ref")]:
-        L = lay[key]
-        pages = "<br>".join(f"`{p}` {t}" for p, t in L["pages"].items()) or "（index.md 單頁）"
-        lrows.append(f"| Layer {n} | `wiki/{key}/` | **{L['title']}** | {pages} |")
-    diag_rows = "\n".join(f"| {v[0]} | {v[1]} | `wiki/diagnosis/{k}.md` |" for k, v in prof["diagnosis"].items())
+    diag_rows = "\n".join(f"| {v[0]} | {v[1]} |" for k, v in prof["diagnosis"].items())
     codes = "\n".join(f"- {c}" for c in prof["codes"])
     rel = "、".join(f"`{t}`" for t in prof.get("relatedTopics", [])) or "（無）"
     wr(P("SUBJECT.md"), f"""
@@ -269,7 +264,7 @@ def scaffold(code, dry=False):
 |---------|------|------|
 {unit_rows}
 
-他科常見副考點：{rel}
+**分類原則（五科一律）：** `primaryTopicId`、`secondaryTopicIds` **只能填本科子項**，不引用他科的單元。題目涉及他科觀念時，歸到本科最接近的子項（例：SS 的耐震接頭 → SS-U1-4、強柱弱梁 P-M → SS-U1-3、My／Mp 形狀因子 → SS-U2-1）。
 
 ---
 
@@ -297,28 +292,22 @@ def scaffold(code, dry=False):
 
 ---
 
-## 5. wiki 七層的本科解讀
+## 5.（保留編號）wiki 已封存
 
-Layer 1–4（concepts＋problems／philosophy／methods／diagnosis）五科相同；Layer 5–7 依科目性質調整，
-**資料夾名稱維持不變**（skills 與 LINT 依資料夾名稱運作），只改顯示名稱與類別頁：
-
-| 層 | 目錄 | 本科名稱 | 類別頁 |
-|----|------|---------|--------|
-{chr(10).join(lrows)}
-
-> LINT 第 14、15 項（類別頁齊全）以本表為準。
+2026-11-08 起五科一律只保留 `wiki/queries/`（見根目錄 `CLAUDE.md`「wiki 封存」）；
+從原 repo 搬入的舊七層 wiki 放在 `archive/wiki/`，唯讀參考。
 
 ---
 
-## 6. 題型診斷入口（`wiki/diagnosis/`）
+## 6. 題型辨識
 
-| 題型 | 辨識關鍵字 | 診斷頁 |
-|------|-----------|--------|
+| 題型 | 辨識關鍵字 |
+|------|-----------|
 {diag_rows}
 
 ---
 
-## 7. 主要規範／依據（Layer 7 的來源）
+## 7. 主要規範／依據
 
 {codes}
 
@@ -359,10 +348,9 @@ Layer 1–4（concepts＋problems／philosophy／methods／diagnosis）五科相
 1. 把考卷 PDF 放進 raw/exams/，命名 {code}-YYYY_{prof['examFile']}.pdf
 2. 對 Cowork 說：「解析 YYYY 年 {code} 考卷」
 3. Cowork 從考卷擷取附圖並列出判讀清單（支承、尺寸、載重…）
-4. 檢查清單後告知 Cowork「判讀確認，請開始解題」（一次解一題）
+4. 檢查清單後告知 Cowork「判讀確認，請開始解題」（題目正本凍結；一次解一題）
 5. 人工驗算後：「將 {code}-YYYY-N 的 verificationStatus 改為 verified」
-6. 「ingest {code}-YYYY-N」→ wiki 自動更新
-7. 「更新儀表板資料」→ index.html 題庫同步
+6. 「更新 {code} 儀表板資料」→ index.html 題庫同步
 ```
 
 ## 快速導航
@@ -370,12 +358,11 @@ Layer 1–4（concepts＋problems／philosophy／methods／diagnosis）五科相
 | 我想找... | 去哪找 |
 |----------|-------|
 | 視覺化瀏覽 | 雙擊 `index.html` |
-| 科目設定（單元、設計法欄位、七層解讀） | `SUBJECT.md` |
-| 題目解析 | `raw/solutions/{code}-YYYY-N/{code}-YYYY-N.md` |
-| wiki 主導航 | `wiki/index.md` |
-| 命題大綱分類 | `wiki/topics/index.md` |
-| 題型診斷 | `wiki/diagnosis/index.md` |
-| 操作紀錄 | `wiki/log.md` |
+| 科目設定（單元、設計法欄位、題型辨識） | `SUBJECT.md` |
+| 題目解析 | `raw/solutions/{code}-YYYY-N/{code}-YYYY-N.md`（瀏覽：`study/problems-view/`） |
+| 單元總覽、講義、教科書 | `study/` |
+| 查詢、稽核報告 | `wiki/queries/` |
+| 操作紀錄 | `wiki/queries/log.md` |
 """, made, dry)
 
     # ---------------------------------------------------------- 檔案架構索引表.md
@@ -386,18 +373,18 @@ Layer 1–4（concepts＋problems／philosophy／methods／diagnosis）五科相
 
 ```
 {code}/
-├── SUBJECT.md          ← 科目層設定（單元表、designMethod、七層解讀、設計哲學、CHANGELOG）
+├── SUBJECT.md          ← 科目層設定（單元表、designMethod、題型辨識、設計哲學、CHANGELOG）
 ├── README.md
 ├── index.html          ← 儀表板（五科共用樣板 scripts/templates/dashboard-index.html）
 ├── dashboard-data.js   ← python scripts/refresh_dashboard.py {code}
-├── scripts/build_frequency.py
+├── scripts/            ← 只放本科一次性腳本；共用腳本在根目錄 scripts/
 ├── raw/
 │   ├── exams/          ← {code}-YYYY_{prof['examFile']}.pdf
-│   ├── json/           ← question_index.json ✏️、concepts.json、syllabus_taxonomy.json（副本，勿改）
+│   ├── json/           ← question_index.json ✏️、concepts.json（備查）、syllabus_taxonomy.json（副本，勿改）
 │   └── solutions/      ← {code}-YYYY-N/（🔒 證據）、methods/（✏️ 方法論）
-├── study/              ← lecture-／formula-given-／study-／frequency- 教材；assets/katex/（勿刪）
-└── wiki/               ← problems / concepts / methods / philosophy / traps / topics /
-                           diagnosis / failure-modes / materials / code-ref / queries
+├── study/              ← unit-／lecture-／textbook-／frequency- 教材、data/、problems-view/；assets/katex/（勿刪）
+├── wiki/queries/       ← 查詢／稽核報告、log.md（append only）
+└── archive/wiki/       ← 從原 repo 搬入的舊七層 wiki（唯讀，有才會出現）
 ```
 """, made, dry)
 
@@ -414,227 +401,30 @@ Layer 1–4（concepts＋problems／philosophy／methods／diagnosis）五科相
     }, ensure_ascii=False, indent=2) + "\n", made, dry)
     wr(P("raw/json/concepts.json"), json.dumps({"concepts": []}, ensure_ascii=False, indent=2) + "\n", made, dry)
 
-    # ---------------------------------------------------------- wiki/index.md
-    sec = []
-    for u in units:
-        sec.append(f"### {u['id']}：{u['name']}\n")
-        for it in u["items"]:
-            sec.append(f"- [[{it['id']}]] [{it['name']}](topics/{it['id']}.md) — 尚無題目")
-        sec.append("")
-    wr(P("wiki/index.md"), f"""
-# {name}考古題知識庫
-
-**科目代碼：** {code}（{subj.get('nameEn', '')}）
-**考試名稱：** 專門職業及技術人員高等考試結構工程技師 — {name}
-**題目總數：** 0 題
-**已驗證：** 0 題
-
-> ⚠️ = 尚未驗證（unverified）；驗證後執行 `ingest {code}-XXXX-N` 即可生成題目頁。
-
----
-
-## 快速導航
-
-- [依年份瀏覽 →](by-year.md)
-- [命題大綱分類 →](topics/index.md)
-- [設計哲學 →](philosophy/index.md)
-- [陷阱總表 →](traps/index.md)
-- [題型診斷 →](diagnosis/index.md)
-- [{lay['failure-modes']['title']} →](failure-modes/index.md)
-- [{lay['materials']['title']} →](materials/index.md)
-- [{lay['code-ref']['title']} →](code-ref/index.md)
-- [術語速查 GLOSSARY →](concepts/GLOSSARY.md)
-- [科目設定 SUBJECT.md →](../SUBJECT.md)
-
----
-
-## Part 1：命題大綱分類
-
-{chr(10).join(sec)}
----
-
-## Part 2：設計哲學（philosophy/）
-
-（compile-all 後生成）
-
-## Part 3：解題方法論（methods/）
-
-（compile-all 後生成）
-
-## 概念索引
-
-（compile-all 後生成）
-""", made, dry)
-    wr(P("wiki/by-year.md"), f"""
-# 依考年分類
-
-> 總題數：0 題
-> ✅ = verified｜⚠️ = unverified
-
----
-
-（尚未收錄題目；每次 ingest 時依考年由新到舊追加）
-""", made, dry)
-    wr(P("wiki/log.md"), f"""
-# Wiki 操作紀錄
+    # ---------------------------------------------------------- wiki/queries/log.md
+    wr(P("wiki/queries/log.md"), f"""
+# {code} 操作紀錄
 
 > append-only，請勿刪除已有紀錄
 
 ---
 
-## {TODAY} — 依 SS 架構建立 {code} 科目骨架
+## {TODAY} — 建立 {code} 科目骨架
 
 **操作類型：** 初始化
 
 ### 完成事項
 - 以 `scripts/scaffold_subject.py {code}` 建立目錄結構、`SUBJECT.md`、空的 `question_index.json`／`concepts.json`。
-- 建立 wiki 導航頁：`index.md`、`by-year.md`、`topics/`（{len(items)} 個子項）、`diagnosis/`、`failure-modes/`、`materials/`、`code-ref/` 的索引與類別頁。
-- 複製共用資源：`study/assets/katex/`、`scripts/build_frequency.py`；`index.html` 使用五科共用樣板。
+- 複製共用資源 `study/assets/katex/`；`index.html` 使用五科共用樣板。
 
 ### 下一步
 - 將歷年考卷放入 `raw/exams/`（命名 `{exam}`），開始「解析 YYYY 年 {code} 考卷」。
 """, made, dry)
 
-    # ---------------------------------------------------------- topics
-    tlines = [f"# 命題大綱分類索引 — {code} {name}\n",
-              "依考選部公告命題大綱建立的題目分類導航。\n",
-              "**格式：** `XX-Un-m`（XX 科目代號 · Un 單元 · m 子項）｜完整分類見根目錄 `syllabus_taxonomy.json`\n",
-              "---\n"]
-    for u in units:
-        tlines.append(f"## {u['id']}：{u['name']}\n")
-        tlines += [f"- [[{it['id']}]] {it['name']}" for it in u["items"]]
-        tlines.append("")
-    wr(P("wiki/topics/index.md"), "\n".join(tlines) + "\n", made, dry)
-    for i, n, u in items:
-        wr(P("wiki/topics", f"{i}.md"), f"""
-# {i} — {n}
-
-**所屬科目：** {name}（{code}）
-**命題大綱：** {u['name']}／{n}
-
----
-
-## 主分類題目（0 題）
-
-（尚無）
-
-## 副分類題目（0 題）
-
-（尚無）
-
----
-
-*出處：[命題大綱](../../../命題大綱.pdf)*
-""", made, dry)
-
-    # ---------------------------------------------------------- Layer 2–4
-    wr(P("wiki/philosophy/index.md"), f"""
-# 設計哲學總覽 — {code}
-
-**來源：** `SUBJECT.md` §8「設計哲學框架」（compile-all 時展開為各哲學頁）
-
-| 哲學 ID | {prof['methodAxis']} | 命題大綱 | 核心原則 |
-|--------|------|---------|---------|
-| （待 compile-all） | | | |
-""", made, dry)
-    wr(P("wiki/traps/index.md"), f"""
-# 陷阱總覽（Traps Index）— {code}
-
-> 從各題解析的「解題戰略地圖與陷阱分析」區段萃取，按命題大綱子項分組。
-> 每個陷阱頁包含：觸發信號、錯誤思維、正確認知、出現題目。
-
----
-
-（尚無題目，compile-all 後生成）
-""", made, dry)
-    wr(P("wiki/concepts/GLOSSARY.md"), f"""
-# {name}術語速查表（GLOSSARY）
-
-> 考試常見符號與術語的快速定義，附公式與規範來源。
-> 詳細概念說明見各 `wiki/concepts/[CONCEPT-ID].md`。
-
----
-
-## 符號索引
-
-| 符號 | 名稱 | 定義 / 說明 |
-|------|------|------------|
-| （待補） | | |
-""", made, dry)
-    drows = "\n".join(f"| {v[0]} | {v[1]} | [[{k}]] |" for k, v in prof["diagnosis"].items())
-    wr(P("wiki/diagnosis/index.md"), f"""
-# 題型診斷層 — 考題進入點地圖（{code}）
-
-> **用法：** 拿到考題後，先對照下表找到題型，再按診斷頁的決策樹決定「用哪個 Method、需要哪些 Concept、注意哪些 Trap」。
-
----
-
-## 快速分類表
-
-| 題型 | 關鍵辨識特徵 | 診斷頁 |
-|------|------------|--------|
-{drows}
-""", made, dry)
-    for k, v in prof["diagnosis"].items():
-        wr(P("wiki/diagnosis", f"{k}.md"), f"""
-# 題型診斷：{v[0]}
-
-**辨識特徵：** {v[1]}
-
----
-
-## 決策樹
-
-（待題目累積後補：題目給了什麼 → 走哪條路徑）
-
-## 使用的方法論（Method）
-
-## 需要的概念（Concept）
-
-## 常見陷阱（Trap）
-
-## 出現題目
-
-| 題號 | 子題 | 判斷依據 |
-|------|------|---------|
-""", made, dry)
-
-    # ---------------------------------------------------------- Layer 5–7
-    for key in ["failure-modes", "materials", "code-ref"]:
-        L = lay[key]
-        rows = "\n".join(f"| {t} | [[{p}]] |" for p, t in L["pages"].items())
-        extra = "" if key != "code-ref" else "\n## 規範體系\n\n" + "\n".join(f"- {c}" for c in prof["codes"]) + "\n\n## 條文 ↔ 知識點對照\n\n| 條文／定理 | 內容 | 相關 Concept／Method | 出現題目 |\n|-----------|------|---------------------|---------|\n"
-        wr(P("wiki", key, "index.md"), f"""
-# {L['title']}（{code}）
-
-> 本層由 Cowork 直接維護，不走 ingest／compile 流程。類別定義見 `SUBJECT.md` §5。
-
----
-{("" if not rows else chr(10) + "## 類別" + chr(10) + chr(10) + "| 類別 | 詳細頁面 |" + chr(10) + "|------|---------|" + chr(10) + rows + chr(10))}{extra}""", made, dry)
-        for p, t in L["pages"].items():
-            wr(P("wiki", key, f"{p}.md"), f"""
-# {t}
-
-> 所屬層：{L['title']}（`wiki/{key}/`）｜科目：{code}
-
----
-
-## 核心觀念
-
-（待補）
-
-## 判斷條件／公式
-
-## 出現題目
-
-| 題號 | 說明 |
-|------|------|
-""", made, dry)
-
     wr(P("wiki/queries/index.md"), f"""
 # 查詢結果目錄（{code}）
 
-> 本目錄由 **Cowork** 直接存入，不走 ingest 流程。
+> 本目錄由 **Cowork** 直接存入（稽核、盲解、查詢報告、卡關紀錄）。
 > 命名規則：`[主題]-[YYYY-MM-DD].md`
 
 ---
@@ -652,12 +442,6 @@ Layer 1–4（concepts＋problems／philosophy／methods／diagnosis）五科相
             made.append(dst)
             if not dry:
                 shutil.copytree(src, dst)
-    for rel_src in ["scripts/build_frequency.py"]:
-        src, dst = os.path.join(ROOT, REF, rel_src), P(rel_src)
-        if os.path.isfile(src) and not os.path.exists(dst):
-            made.append(dst)
-            if not dry:
-                shutil.copy2(src, dst)
     tpl, dst = os.path.join(ROOT, "scripts", "templates", "dashboard-index.html"), P("index.html")
     if not os.path.exists(dst):
         made.append(dst)

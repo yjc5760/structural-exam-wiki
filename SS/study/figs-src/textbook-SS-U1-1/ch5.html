@@ -1,0 +1,120 @@
+<section id="ch5">
+<h2 class="t">第 5 章　塊狀剪力：一整塊被撕下來</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$\phi R_n=0.75\,\min\Big(\underbrace{0.6F_uA_{nv}+U_{bs}F_uA_{nt}}_{\text{式①：兩面都斷}},\ \ \underbrace{0.6F_yA_{gv}+U_{bs}F_uA_{nt}}_{\text{式②：剪力面只到降伏}}\Big)$$
+要記的只有種子 S2 的 <span class="kw">0.6</span>（來自 \(1/\sqrt3\)）和一個動作：<b>先畫出被撕下的那一塊，再數每個面穿過幾個孔。</b>其餘都是種子 S1「力＝應力×面積」。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>\(\tau_y=F_y/\sqrt3\approx0.6F_y\)（所有 0.6 的來源）</td><td>種子</td><td>5.1</td></tr>
+<tr><td>塊狀剪力雙式取小（含上限）</td><td><span class="tg half">別賭</span></td><td>5.3</td></tr>
+<tr><td>舊版「兩式擇一、不大於 \(0.6F_uA_{nv}+F_uA_{nt}\)」</td><td><span class="tg half">別賭</span></td><td>5.4</td></tr>
+<tr><td>ASD：\(0.30F_uA_{nv}+0.50F_uA_{nt}\)（＝LRFD÷1.5）</td><td><span class="tg half">別賭</span></td><td>5.5</td></tr>
+</table>
+<p class="note">相關考題：<a href="problems-view/SS-2021-2.html">SS-2021-2</a>（說明 0.6\(F_y\) 的意義與上限的理由）、<a href="problems-view/SS-2005-1.html">SS-2005-1</a>（撕出塊要對應承擔的螺栓數；最後由螺栓剪力控制）、<a href="problems-view/SS-2015-2.html">SS-2015-2</a>（由上限式控制）。</p>
+</div>
+
+<h3 class="t">5.1　種子 S2：剪力為什麼只值 0.6</h3>
+<p>規範裡到處是 0.6：塊狀剪力、腹板剪力、螺栓剪力、銲道……它們全部來自同一件事：<b>材料受純剪時，剪應力到 \(F_y/\sqrt3\) 就降伏</b>。</p>
+{{FIG:fig5_1|圖 5-1｜(a) 純剪狀態的莫爾圓以原點為圓心，主應力是 \(+\tau\) 與 \(-\tau\)：等於一個方向拉、另一個方向壓。(b) von Mises 降伏條件 \(\sigma_1^2-\sigma_1\sigma_2+\sigma_2^2=F_y^2\) 是一個斜放的橢圓。單軸拉在 \((F_y,0)\) 碰到它；純剪沿 \(\sigma_2=-\sigma_1\) 的斜線走，在 \(\tau=F_y/\sqrt3\) 就碰到。}}
+<div class="derive">
+<p><span class="st">①</span> 純剪的主應力：\(\sigma_1=\tau\)、\(\sigma_2=-\tau\)（莫爾圓以原點為圓心）。</p>
+<p><span class="st">②</span> 代入 von Mises：\(\tau^2-(\tau)(-\tau)+\tau^2=3\tau^2=F_y^2\)。</p>
+<p><span class="st">③</span> \(\boxed{\tau_y=\dfrac{F_y}{\sqrt3}=0.577F_y\approx0.6F_y}\)。規範把同一個 0.6 也用在斷裂：剪力斷裂 \(\approx0.6F_u\)。</p>
+</div>
+<div class="seed"><div class="seed-h">🌱 種子 S2</div>
+$$\text{剪力的強度}\approx0.6\times\text{拉力的強度}\qquad(0.6F_y\ \text{降伏}、0.6F_u\ \text{斷裂})$$
+<p style="margin:4px 0">白話：<b>剪比拉「便宜」四成</b>。記一個，鋼結構規範裡所有的 0.6 一次通吃。</p>
+</div>
+
+<h3 class="t">5.2　先畫塊體，再數孔</h3>
+<p>塊狀剪力不是單純拉斷、也不是單純剪斷，而是<b>沿螺栓線被剪開、在末端被拉開</b>，中間一整塊材料脫離。公式只是把每個面「應力 × 面積」加起來；真正會錯的是<b>面積</b>。</p>
+{{FIG:fig5_2|圖 5-2｜2.5 節的角鋼（連接肢展開，依比例）。剪力面沿螺栓線，從構材端部到最內側那顆螺栓，長 17.5 cm，穿過 3 個孔；但最內側那顆孔被剪力面與拉力面各分一半，所以剪力面算 2.5 個孔。拉力面從最內側螺栓往肢趾，長 4.5 cm，算半個孔。}}
+
+<table>
+<tr><th style="width:14%">面積</th><th>白話</th><th style="width:34%">本例（\(t=1.0\)、\(d=2.3\)）</th></tr>
+<tr><td>\(A_{gv}\)</td><td>剪力面的<b>毛</b>面積（不扣孔）</td><td>\(17.5\times1.0=17.5\)</td></tr>
+<tr><td>\(A_{nv}\)</td><td>剪力面的<b>淨</b>面積，通常扣 \(n-0.5\) 個孔</td><td>\((17.5-2.5\times2.3)\times1.0=11.75\)</td></tr>
+<tr><td>\(A_{nt}\)</td><td>拉力面的<b>淨</b>面積，通常扣 0.5 個孔</td><td>\((4.5-0.5\times2.3)\times1.0=3.35\)</td></tr>
+<tr><td>\(U_{bs}\)</td><td>拉力面應力是否均勻</td><td>拉力面應力均勻（一般拉桿）＝1.0；不均勻（如梁端切角、兩排螺栓的剪力連接）＝0.5</td></tr>
+</table>
+<div class="why"><b>為什麼是 \(n-0.5\) 和 0.5 個孔？</b>剪力面和拉力面在最內側那顆螺栓的孔中心相交：那個孔被兩個面各分一半。剪力面拿到前面 \(n-1\) 個整孔加半個，拉力面拿到另一半。<b>畫出來數，永遠不會錯。</b></div>
+
+<h3 class="t">5.3　兩條式子為什麼要取小：剪力面「先降伏」就夠了　<span class="tg half">別賭</span></h3>
+<div class="derive">
+<p><span class="st">①</span> <b>式①（兩面都斷）</b>：剪力面斷裂 \(0.6F_uA_{nv}\)＋拉力面斷裂 \(U_{bs}F_uA_{nt}\)。</p>
+<p><span class="st">②</span> 但兩個面的變形能力不同步：拉力面很短、先斷；剪力面比較長、比較韌，拉力面斷的時候，剪力面往往才剛降伏。</p>
+<p><span class="st">③</span> 所以剪力面能貢獻的，最多只是降伏：<b>式②</b> \(=0.6F_yA_{gv}+U_{bs}F_uA_{nt}\)（降伏用毛面積，理由同第 2 章「長區段用降伏」）。<b>兩式取小</b>，乘 \(\phi=0.75\)（斷裂型、無預警）。</p>
+</div>
+{{FIG:fig5_3|圖 5-3｜本例兩式比較。拉力面兩式相同（藍），差別只在剪力面：斷裂 \(0.6F_uA_{nv}=28.9\) 對上降伏 \(0.6F_yA_{gv}=26.5\)。剪力面降伏較小，所以式②（上限式）控制，\(\phi R_n=30.1\) tf。}}
+
+<div class="check"><b>極限檢查</b><br>
+・沒有孔（銲接）：\(A_{nv}=A_{gv}\)，而 \(0.6F_u&gt;0.6F_y\) → 式② 一定較小 ✔　沒有孔削弱時，剪力面當然是先降伏。<br>
+・孔很多、很大：\(A_{nv}\) 變小，式① 才可能較小 ✔</div>
+
+<h3 class="t">5.4　舊版寫法：兩式「擇一」（SS-2021-2 考的）　<span class="tg half">別賭</span></h3>
+<p>104 年以前的考卷（例如 <a href="problems-view/SS-2015-2.html">SS-2015-2</a> 所附）印的是舊版：</p>
+$$\begin{cases}F_uA_{nt}\ge0.6F_uA_{nv}:&R_n=0.6F_yA_{gv}+F_uA_{nt}\\[2pt]0.6F_uA_{nv}&gt;F_uA_{nt}:&R_n=0.6F_uA_{nv}+F_yA_{gt}\end{cases}\qquad\text{皆}\le0.6F_uA_{nv}+F_uA_{nt}$$
+<div class="why"><b>用一句話理解舊版：「斷裂強度大的那個面，決定破壞；另一個面只到降伏。」</b><br>
+・拉力面斷裂強度較大 → 拉力面斷、剪力面只降伏 → 第一式。<br>
+・剪力面斷裂強度較大 → 剪力面斷、拉力面只降伏 → 第二式。<br>
+・上限 \(0.6F_uA_{nv}+F_uA_{nt}\)：兩面都斷，是物理上的最大值，任何組合都不可能超過它。<br>
+新版（AISC 2005 起）簡化成：拉力面一律用斷裂、剪力面在「斷裂」與「降伏」間取小，就是 5.3 節的式①、式②。</div>
+
+<h3 class="t">5.5　ASD：同樣 ÷1.5</h3>
+<div class="derive">
+<p><span class="st">①</span> LRFD：\(0.75\,(0.6F_uA_{nv}+F_uA_{nt})\)。</p>
+<p><span class="st">②</span> 除以 1.5：\(0.5\,(0.6F_uA_{nv}+F_uA_{nt})=\boxed{0.30F_uA_{nv}+0.50F_uA_{nt}}\)</p>
+<p><span class="st">③</span> 這正是早期 AISC ASD（1989）與國內容許應力法的塊狀剪力式，沒有上限式。考卷有印時照考卷。</p>
+</div>
+<div class="check"><b>本例</b>：\(0.30\times4.10\times11.75+0.50\times4.10\times3.35=14.45+6.87=\mathbf{21.3}\) tf。<br>
+LRFD／ASD \(=30.1/21.3=1.41\)，<b>小於 1.5</b>：因為 LRFD 由上限式（剪力面降伏）控制，ASD 沒有這條上限。這是唯一一個比值不等於 1.5 的拉力極限狀態，看到 1.41 不要以為算錯。</div>
+
+<h3>5.6　範例收尾：2.5 節的角鋼到底由誰控制</h3>
+{{FIG:fig5_4|圖 5-4｜同一支 L100×100×10 拉桿的三種極限狀態（實心＝LRFD φR<sub>n</sub>，空心＝ASD 容許值）。GSY、NSF 兩兩相差不大，<b>塊狀剪力明顯最低</b>：這支角鋼端距短、只有一排螺栓，撕下一塊比整根拉斷容易得多。}}
+<div class="derive">
+<p><span class="st">LRFD</span>　GSY 43.1、NSF 41.0、BS 30.1 → \(\phi_tP_n=\mathbf{30.1}\) tf（塊狀剪力控制）</p>
+<p><span class="st">ASD</span>　GSY 28.7、NSF 27.3、BS 21.3 → \(P_a=\mathbf{21.3}\) tf（塊狀剪力控制）</p>
+</div>
+<div class="trap"><b>這就是為什麼「只算 GSY、NSF」會失分</b><br>
+如果只算前兩條，答案是 41.0 tf，<b>高估 36%</b>。螺栓接合的拉桿一定要畫塊體；必要時再算螺栓剪力與孔承壓（屬 U1-4 接合單元）。
+<a href="problems-view/SS-2005-1.html">SS-2005-1</a> 有多條塊體路徑：只含一排 3 栓的窄條塊只承擔一半拉力，要乘 2 才能跟總拉力比；真正的塊狀剪力是含全部 6 栓的撕出塊（100.2 tf），最後控制的是螺栓剪力 71.8 tf。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜塊狀剪力</div>
+<ol>
+<li><b>畫</b>：沿螺栓線的剪力面（紅）＋往自由邊的拉力面（藍），圍出被撕下的塊體；數孔：剪力面 \(n-0.5\)、拉力面 0.5。</li>
+<li><b>種子 S2</b>：純剪 \(3\tau^2=F_y^2\) → 0.6。剪力面：斷裂 \(0.6F_uA_{nv}\) 與降伏 \(0.6F_yA_{gv}\) 取小。</li>
+<li><b>加</b>：拉力面一律 \(U_{bs}F_uA_{nt}\)，乘 \(\phi=0.75\)；ASD 為 \(0.30F_uA_{nv}+0.50F_uA_{nt}\)。</li>
+<li><b>檢查</b>：銲接時式② 必較小 ✔；LRFD／ASD 小於 1.5 代表上限式控制。</li>
+</ol>
+</div>
+
+<h3>5.7　🙈 蓋住重推</h3>
+<details><summary>Q1　從 von Mises 推出 0.6 的來源。</summary>
+<p>純剪主應力 \(\pm\tau\)，代入 \(\sigma_1^2-\sigma_1\sigma_2+\sigma_2^2=F_y^2\) 得 \(3\tau^2=F_y^2\)，\(\tau_y=F_y/\sqrt3=0.577F_y\approx0.6F_y\)。</p></details>
+<details><summary>Q2　塊狀剪力為什麼要有「上限式」（剪力面用 \(0.6F_yA_{gv}\)）？</summary>
+<p>兩個面變形能力不同步：拉力面短、先斷；此時剪力面通常只到降伏，不會同時斷裂。所以剪力面能貢獻的只到降伏強度。兩式取小。</p></details>
+<details><summary>Q3　舊版「兩式擇一」怎麼判斷用哪一式？一句話說明。</summary>
+<p>斷裂強度較大的那個面決定破壞（斷裂），另一面只到降伏：\(F_uA_{nt}\ge0.6F_uA_{nv}\) 用 \(0.6F_yA_{gv}+F_uA_{nt}\)；反之用 \(0.6F_uA_{nv}+F_yA_{gt}\)。兩者都不得超過兩面皆斷的 \(0.6F_uA_{nv}+F_uA_{nt}\)。</p></details>
+<details><summary>Q4　剪力面經過 4 顆螺栓，要扣幾個孔？拉力面呢？</summary>
+<p>剪力面 \(4-0.5=3.5\) 個孔；拉力面（單排、到自由邊）0.5 個孔。兩排螺栓、拉力面在兩排之間時，拉力面扣 1 個孔（兩個半孔）。</p></details>
+<details><summary>Q5　某拉桿 LRFD 塊剪 50 tf、ASD 塊剪 33.3 tf，比值 1.5；另一題比值 1.41。哪一題是上限式控制？</summary>
+<p>比值 1.41 的那題。ASD 式等於「式①÷1.5」；LRFD 若由式②（上限式）控制，會比式① 小，比值就小於 1.5。</p></details>
+
+<h3>5.8　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>沒畫塊體就套公式</td><td>先畫剪力面、拉力面，再數孔</td></tr>
+<tr><td>2</td><td>剪力面扣 \(n\) 個孔</td><td>扣 \(n-0.5\) 個；拉力面扣 0.5 個</td></tr>
+<tr><td>3</td><td>只算式①</td><td>式①、式② 都算取小（銲接時式② 必控制）</td></tr>
+<tr><td>4</td><td>上限式用 \(A_{nv}\) 配 \(F_y\)</td><td>降伏配毛面積 \(A_{gv}\)</td></tr>
+<tr><td>5</td><td>\(\phi\) 用 0.9</td><td>塊剪是撕裂型斷裂，\(\phi=0.75\)</td></tr>
+<tr><td>6</td><td>拉力面寬度取錯邊（自由邊判錯）</td><td>拉力面往<b>邊距較小</b>的自由邊；各條路徑都試（SS-2005-1、SS-2015-2）</td></tr>
+</table>
+</section>

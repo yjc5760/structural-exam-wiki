@@ -3,6 +3,7 @@
 """SS-2013-4 圖解產生腳本（無側撐剛架之二階設計彎矩）
 
 所有幾何與數值皆由下方常數區與其推導式決定，改一個輸入重跑即改變圖形。
+2026-11-03 勘誤：主答 G_B 採梁遠端鉸接修正（×0.5）→ 1.50、K 2.01、ΣP_eK 2.45 EI/L²。
 執行：python3 gen_SS-2013-4.py   →   figs/*.svg
 """
 import sys, os, math
@@ -15,17 +16,51 @@ SKILL = os.environ.get("SD_SKILL",
 sys.path.insert(0, os.path.join(SKILL, "scripts"))
 from structdraw import Canvas, C, compose, column_shape, beam_shape
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figs")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "figs")
 
 # ══════════════════════════════════════════════════════════════
 # 由 SS-2013-4 §1 / §4 解得（每個數字都標明出處章節）
 # ══════════════════════════════════════════════════════════════
 LC       = 1.0            # 柱 BC 長度 L（繪圖單位）            §1 幾何
 LB       = 1.5 * LC       # AB = BD = 1.5L                      §1 幾何
-G_B      = (1/LC) / (2/LB)          # = 0.75  柱頂 G（分母含兩段梁）§4 二
+BEAM_FAR = 0.5            # 梁遠端 A、D 為滾支承（轉動自由），有側移時 I_g/L_g × 0.5  §4 二（2026-11-03 勘誤）
 G_C      = 10.0                     # 鉸接，原卷約定               §4 二
-K_APPROX = math.sqrt((1.6*G_B*G_C + 4*(G_B+G_C) + 7.5) / (G_B+G_C+7.5))  # 1.851  §4 三
-SUM_PEK  = math.pi**2 / K_APPROX**2     # = 2.88（單位 EI/L^2）    §4 四
+
+
+def _bisect(f, lo, hi, n=200):
+    flo = f(lo)
+    for _ in range(n):
+        mid = (lo + hi) / 2
+        fm = f(mid)
+        if (fm > 0) == (flo > 0):
+            lo, flo = mid, fm
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
+def k_sway_exact(ga, gb):
+    """有側移對位圖之精確超越方程式"""
+    f = lambda K: (ga*gb*(math.pi/K)**2 - 36) / (6*(ga+gb)) - (math.pi/K) / math.tan(math.pi/K)
+    return _bisect(f, 1.0001, 50.0)
+
+
+def k_sway_jm(ga, gb):
+    """Jackson–Moreland 近似式"""
+    return math.sqrt((1.6*ga*gb + 4*(ga+gb) + 7.5) / (ga+gb+7.5))
+
+
+G_B      = (1/LC) / (BEAM_FAR * 2/LB)  # = 1.50  柱頂 G（主答，梁端修正）  §4 二
+K_EXACT  = k_sway_exact(G_B, G_C)      # 2.008  §4 三（精解）
+K_APPROX = k_sway_jm(G_B, G_C)         # 2.020  §4 三（近似）
+SUM_PEK  = math.pi**2 / K_EXACT**2     # = 2.447 ≈ 2.45（單位 EI/L^2）  §4 四
+B2_COEF  = 1 / SUM_PEK                 # = 0.409：B_2 = 1/(1 − 0.409 PL²/EI)  §4 六
+# §5 爭議一：替代解與參考解
+G_B_UNC  = (1/LC) / (2/LB)             # = 0.75（未修正，偏不保守）
+K_UNC    = k_sway_exact(G_B_UNC, G_C)  # 1.847
+SUM_PEK_UNC = math.pi**2 / K_UNC**2    # = 2.89（近似式 K=1.851 則 2.88）
+K_HINGE  = math.pi / _bisect(lambda u: u*math.tan(u) - 4.0, 0.1, math.pi/2 - 1e-9)  # 2.48（真鉸，u tan u = 4）
+SUM_PEK_HINGE = math.pi**2 / K_HINGE**2   # = 1.60
 PE1      = math.pi**2                   # = 9.87（無側移 K=1）      §4 七
 SUM_PEK_AISC = 0.85 * 12/7              # = 1.457（R_M × 12EI/7L^2） §6.2
 
@@ -205,26 +240,41 @@ def fig3_b2():
     cv.line((0, 1), (XMAX, 1), C["muted"], 1.6, dash="5 4")
 
     # 兩條曲線 + 漸近線
-    for pek, color in ((SUM_PEK, C["bmd"]), (SUM_PEK_AISC, C["accent"])):
+    cv.poly(curve(SUM_PEK_UNC, C["member2"]), C["member2"], 2.4, dash="7 5")
+    cv.line((SUM_PEK_UNC, 0), (SUM_PEK_UNC, YMAX), C["member2"], 1.4, dash="3 4")
+    cv.math_px(cv.X(SUM_PEK_UNC) + 6, cv.Y(YMAX) + 12, f"{SUM_PEK_UNC:.2f}", 13, C["member2"],
+               "start", weight="700")
+    # 漸近線數值：AISC 標於頂端；主答 2.45 與 2.89 太近，改標於下方空白處
+    for pek, color, yv in ((SUM_PEK, C["bmd"], 0.30), (SUM_PEK_AISC, C["accent"], None)):
         cv.poly(curve(pek, color), color, 3.2)
         cv.line((pek, 0), (pek, YMAX), color, 1.6, dash="6 4")
-        cv.math_px(cv.X(pek) + 6, cv.Y(YMAX) + 12, f"{pek:.2f}", 13, color, "start", weight="700")
+        ylab = cv.Y(YMAX) + 12 if yv is None else cv.Y(yv)
+        cv.math_px(cv.X(pek) + 6, ylab, f"{pek:.2f}", 13, color, "start", weight="700")
 
     # 實務放大上限 B2 ≤ 1.5
     p_at = SUM_PEK * (1 - 1/1.5)
     cv.dot((p_at, 1.5), 5.4, fill=C["deform"])
-    cv.math_px(cv.X(p_at) - 12, cv.Y(1.5) - 16, "B_{2} = 1.5", 13, C["deform"], "end", weight="700")
+    cv.line((p_at, 1.5), (p_at, 0.62), C["deform"], 1.2)
+    cv.math_px(cv.X(p_at) - 8, cv.Y(0.5), "B_{2} = 1.5", 13, C["deform"], "end", weight="700")
 
-    cv.legend(W - Rm + 6, 152,
-              [(C["bmd"], "台灣 2010（K = 1.85）"), (C["accent"], "AISC 360-16 側移法"),
+    cv.legend(W - Rm + 6, 140,
+              [(C["bmd"], f"台灣 2010 主答（梁端修正，K = {K_EXACT:.2f}）"),
+               (C["member2"], f"未修正（K = {K_UNC:.2f}，偏不保守）"),
+               (C["accent"], "AISC 360-16 側移法"),
                (C["muted"], "一階值（無放大）")], size=12)
-    cv.math_px(W - Rm + 6, 220, f"ΣP_{{eK}} = {SUM_PEK:.2f} EI/L^{{2}}", 12.5, C["bmd"], "start", weight="700")
-    cv.math_px(W - Rm + 6, 244, f"ΣP_{{e,story}} = {SUM_PEK_AISC:.2f} EI/L^{{2}}", 12.5, C["accent"], "start", weight="700")
+    cv.math_px(W - Rm + 6, 236, f"ΣP_{{eK}} = {SUM_PEK:.2f} EI/L^{{2}}", 12.5, C["bmd"], "start", weight="700")
+    cv.math_px(W - Rm + 6, 260, f"ΣP_{{eK}} = {SUM_PEK_UNC:.2f} EI/L^{{2}}", 12.5, C["member2"], "start", weight="700")
+    cv.math_px(W - Rm + 6, 284, f"ΣP_{{e,story}} = {SUM_PEK_AISC:.2f} EI/L^{{2}}", 12.5, C["accent"], "start", weight="700")
+    cv.text_px(W - Rm + 6, 316, f"未修正把 ΣP_eK 高估 {100*(SUM_PEK_UNC/SUM_PEK-1):.0f}%，", 12,
+               C["muted"], "start")
+    cv.text_px(W - Rm + 6, 336, "同一 P 下 B_2 偏小", 12, C["muted"], "start")
 
     cv.text_px(W/2, 34, "圖 3　側移放大係數 B_2 的漸近行為", 17.5, C["text"], weight="700")
-    cv.text_px(W/2, 58, "B_2 = 1/(1 − ΣP_u/ΣP_eK)；橫軸為無因次軸壓 PL²/EI", 13, C["muted"])
+    cv.text_px(W/2, 58, f"B_2 = 1/(1 − {B2_COEF:.3f} PL²/EI)（G_B = {G_B:.2f}、G_C = {G_C:.0f}、K = {K_EXACT:.2f}）；"
+               "橫軸為無因次軸壓 PL²/EI", 13, C["muted"])
     cv.text_px(W/2, 82,
-               "曲線的垂直漸近線就是該層的側移挫屈載重；ΣP_eK 若誤加三根柱（7.72）會把漸近線右推 2.7 倍",
+               "垂直漸近線＝側移挫屈載重；梁遠端為滾支承卻不做 ×0.5 修正，漸近線右移到 "
+               f"{SUM_PEK_UNC:.2f}（偏不保守）",
                12.5, C["accent"])
     cv.text_px(W/2, H - 26,
                f"P 趨近 {SUM_PEK:.2f} EI/L² 時 B_2 發散（層間側移挫屈）；適用範圍要求 ΣP_u 小於 ΣP_eK",
@@ -232,9 +282,83 @@ def fig3_b2():
     cv.save(os.path.join(OUT, "SS-2013-4-fig-3-b2-curve.svg"))
 
 
+# ══════════════════════════════════════════════════════════════
+# 圖 1（題目）：題目附圖重繪（依題目正本 SS-2013-4-problem.md §4 判讀清單，待確認）
+# 只畫考卷給的東西，與上方解題常數分開；不含任何解題結果（G、K、B1、B2、彎矩不畫）
+# 幾何依 L 比例（梁 1.5L、柱 L）
+# ══════════════════════════════════════════════════════════════
+Q_LC = 1.0            # #5 柱 BC = L
+Q_LB = 1.5            # #5 梁 AB = BD = 1.5 L
+#   #1 A、D 滾支承，梁端以鉸（小圓圈）接於支承
+#   #2 C 鉸支承（三角形＋圓圈）
+#   #3 B 梁柱剛接（無圓圈）
+#   #5 三者 EI 相同；#6 H 水平作用於 A（梁高程）、P 向下作用於 B
+
+
+def _q_hinge(cv, p):
+    cv.dot(p, 6, fill="#FFFFFF", stroke=C["member"], w=2.4)
+
+
+def _q_frame():
+    W1, H1 = 900, 500
+    sx = 210
+    cv = Canvas(W1, H1, sx=sx, ox=(W1 - 2 * Q_LB * sx) / 2, oy=130)
+    cv.panel(None, None)
+    A, B, D, Cc = (0, Q_LC), (Q_LB, Q_LC), (2 * Q_LB, Q_LC), (Q_LB, 0)
+    cv.line(A, D, C["member"], 4, cap="butt")
+    cv.line(B, Cc, C["member"], 4, cap="butt")
+    cv.support(A, "roller", 0, size=13)
+    cv.support(D, "roller", 0, size=13)
+    cv.support(Cc, "pin", 0, size=13)
+    for p in (A, D, Cc):
+        _q_hinge(cv, p)
+    cv.arrow((-70 / sx, Q_LC), (-8 / sx, Q_LC), C["load"], 3.0, 11)
+    cv.math((-70 / sx, Q_LC), "H", 18, C["load"], "end", dx=-8, weight="700")
+    cv.arrow((Q_LB, Q_LC + 66 / sx), (Q_LB, Q_LC + 3 / sx), C["load"], 3.0, 11)
+    cv.math((Q_LB, Q_LC + 66 / sx), "P", 18, C["load"], "start", dx=10, dy=6, weight="700")
+    for p, lab, dx, dy in ((A, "A", 4, -22), (B, "B", -16, -18), (D, "D", 0, -24), (Cc, "C", -20, -4)):
+        cv.text(p, lab, 16, C["text"], "middle", dx=dx, dy=dy, weight="700")
+    for p, dx, dy in (((Q_LB / 2, Q_LC), 0, -16), ((1.5 * Q_LB, Q_LC), 0, -16), ((Q_LB, Q_LC / 2), 26, 0)):
+        cv.math(p, "EI", 16, C["text"], dx=dx, dy=dy)
+    cv.dim((-0.22, 0), (-0.22, Q_LC), "L", off=0, label_off=-16, size=16)
+    cv.line((-0.30, 0), (Q_LB - 0.12, 0), C["dim"], 1, dash="3 3")
+    cv.dim((0, 0), (Q_LB, 0), "1.5 L", off=62, label_off=16, size=16)
+    cv.dim((Q_LB, 0), (2 * Q_LB, 0), "1.5 L", off=62, label_off=16, size=16)
+    return cv
+
+
+def fig1_problem():
+    path = os.path.join(OUT, "SS-2013-4-fig-1-problem.svg")
+    compose([_q_frame()], cols=1,
+            title="SS-2013-4 題目附圖（重繪，考卷圖 4）",
+            sub="依題目正本判讀清單 #1–#3、#5、#6；幾何依 L 比例，全題無數值",
+            note="A、D 是梁端滾支承（不是柱）；C 為鉸支、B 為剛接；唯一水平束制在 C",
+            path=path)
+    return path
+
+
+FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "把 A、D 梁端滾支承讀成柱或固定端；C 讀成固接（G 取 1）；H 作用點讀成 B"),
+    (fig1_frame, "§1", "把 A、D 梁端滾支承誤讀為柱頂（三根柱），並提示梁遠端轉動自由"),
+    (fig2_nt_lt, "§4 五", "把層剪力分給三根柱而得 M_lt = HL/3"),
+    (fig3_b2, "§4 六·§5 爭議一·§6",
+     "梁遠端為滾支承卻未做 ×0.5 修正（G_B 0.75、K 1.85、ΣP_eK 2.89）而偏不保守；忽略 ΣP_u < ΣP_eK"),
+]
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    fig1_frame(); fig2_nt_lt(); fig3_b2()
-    print(f"G_B={G_B:.3f}  K={K_APPROX:.3f}  SumPeK={SUM_PEK:.3f}  Pe1={PE1:.2f}")
+    for fn, sec, catches in FIGURES:
+        fn()
+        print(f"{fn.__name__:<12} {sec:<22} 攔：{catches}")
+    ref = [("G_B", G_B, 1.50), ("K(精解)", K_EXACT, 2.008), ("K(近似)", K_APPROX, 2.020),
+           ("ΣPeK", SUM_PEK, 2.447), ("B2 係數", B2_COEF, 0.409), ("K(未修正)", K_UNC, 1.847),
+           ("ΣPeK(未修正)", SUM_PEK_UNC, 2.89), ("K(真鉸)", K_HINGE, 2.48),
+           ("ΣPeK(真鉸)", SUM_PEK_HINGE, 1.60), ("ΣPe,story", SUM_PEK_AISC, 1.457)]
+    for nm, got, want in ref:
+        ok = "OK " if abs(got - want) <= max(abs(want) * 0.003, 0.002) else "!! "
+        print(f"  {ok}{nm:<12} {got:.4f}   （.md: {want}）")
+    print(f"雙路徑：(π/K)² = {(math.pi/K_EXACT)**2:.4f}；u tan u 極限 6/G_B = {6/G_B:.3f}")
+    print(f"G_B={G_B:.3f}  K={K_EXACT:.3f}  SumPeK={SUM_PEK:.3f}  Pe1={PE1:.2f}")
     print(f"theta_B(cw)={TH_B_CW:.4f}  theta_C(cw)={TH_C_CW:.4f}  theta_A(cw)={TH_A_CW:.4f}")
     print("done ->", OUT)

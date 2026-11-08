@@ -8,6 +8,21 @@
 
 ---
 
+## 正本與安裝（2026-11-08 起）
+
+- **本目錄是正本**：每個 skill 一個資料夾（原始碼）＋一個 `.skill`（打包檔）。
+- **帳號安裝的 skill 是全域副本**：安裝後所有對話、所有科目都會用到；Cowork 實際執行的是帳號裡的版本，不是這個資料夾。
+- **改 skill 的流程**：改 `skills/<name>/` → 重新打包 `<name>.skill` → 使用者重新安裝。在帳號端直接改過的，要同步寫回這裡（根目錄 CLAUDE.md 規則 12）。
+
+| 類別 | skills |
+|------|--------|
+| 解題與題目正本 | `exam-solve`、`exam-problem-split` |
+| 品質：盲解、勘誤、稽核 | `exam-wiki-pipeline`、`exam-errata`、`exam-wiki-audit` |
+| 分析與教材 | `subject-frequency-map`、`unit-overview`、`unit-lecture`、`unit-textbook`、`unit-exam-intel`／`unit-formula-map`（尚未導入單元總覽的科目） |
+| 練習與入口 | `exam-practice-sheet`、`add-to-wiki`（改卷、卡關紀錄）、`exam-start-page` |
+| 圖與影片 | `struct-diagram`、`blackboard-solution-video`、`video-handout` |
+| 知識庫維護 | `exam-subject-migrate`（科目從原 repo 搬入） |
+
 ## 安裝方式
 
 1. 在 Claude Cowork 中開啟知識庫根目錄作為工作資料夾
@@ -39,25 +54,30 @@
 
 ---
 
-### `vha-treasure-map.skill`
+### `exam-start-page.skill`
 
-**功能：** 將考題 VHA（變數層次分析）轉化為互動式「藏寶圖」HTML 儀表板
+**功能：** 產生／更新五科（SS、SA、RC、SM、SD）的「從這裡開始」起點頁 `start.html`
 
 **觸發語句：**
-- 「幫 SS-2020-3 做藏寶圖儀表板」
-- 「VHA 轉化為儀表板」
-- 「VHA dashboard」
-- 「把 SS-XXXX-N 的 VHA 做成互動頁面」
+- 「根據上傳清單更新 start.html」
+- 「幫 RC 做從這裡開始頁」
 
-**輸出：** `wiki/queries/SS-YYYY-N-treasure-map.html`（自包含 HTML，可直接開啟）
+**做法：** 連結清單（純文字）→ `scripts/parse_links.py` 合併進 `study/data/start-links.json`（清單沒提到的欄位保留）→ `scripts/build_start.py` 讀 JSON＋`syllabus_taxonomy.json`＋`question_index.json` 產生頁面，並檢查相對連結是否存在
 
-**儀表板功能：**
-- KaTeX 數學式渲染（公式不顯示 raw LaTeX）
-- 變數以顏色區分：L1 給定（綠）、L2 推導（藍）、本步求解（琥珀框）、最終未知（紅框）
-- 知識線索卡片可相互連結，標示陷阱難關
-- 自評進度追蹤（掌握 / 卡關 / 待複習）
+**輸出：** `start.html`、`study/data/start-links.json`、`study/data/start-links.txt`（清單底稿）
 
-**前置條件：** 目標題目需有完整的 `raw/solutions/SS-YYYY-N/SS-YYYY-N.md`，且包含 §3.5 VHA 區塊
+---
+
+
+### `unit-overview.skill`
+
+**功能：** 產生某子項的**單元總覽** `study/unit-XX-Un-m.html`／`.pdf`——命題分析＋公式給／背＋逐題公式表合一頁，取代舊的 `study-`（命題分析）與 `formula-given-`（給／背分界）兩頁
+
+**觸發語句：** 「做 SS-U1-1 單元總覽」「這單元考什麼」「哪些公式要背」「索引改分類後同步單元頁」
+
+**做法：** 維護資料檔 `study/data/unit-XX-Un-m.json`，執行根目錄 `python scripts/build_unit_page.py XX-Un-m`（`--check` 只檢查）；給／背判定須照 skill 內「公式卡證據流程」轉圖目視考卷
+
+**已導入：** SS、SA。尚未導入的科目照舊用 `unit-exam-intel`＋`unit-formula-map`
 
 ---
 
@@ -99,9 +119,27 @@
 科目全名以 `raw/json/syllabus_taxonomy.json` 為準
 （**SM = 土壤力學與基礎設計、MM = 材料力學**，2026-08-07 前的版本把這兩科寫反了）。
 
-**前置條件：** 該科需有 `raw/json/question_index.json` 與 `wiki/topics/XX-Un-m.md`
+**前置條件：** 該科需有 `raw/json/question_index.json`（且該單元有題目）
 
 ---
+
+### `unit-textbook.skill`
+
+**功能：** 為某個命題大綱單元產生「教科書等級」講義：全書只記 4～8 顆種子，每條公式附看圖 → 第一性原理 → 推導 → 極限檢查 → 30 秒重建卡；可分上下冊，輸出 HTML ＋ A4 PDF
+
+**觸發語句：**
+- 「把 SS-U1-1 寫成教科書」
+- 「第一性原理講義」「向量圖解講義」
+- 「不死背公式」「記不住公式但又要準備公式」
+
+**輸出：** `study/textbook-XX-Un-m[-冊].html` ＋ `.pdf`；原始碼留在 `study/figs-src/textbook-XX-Un-m/`
+
+**附帶檔案：** `unit-textbook/`（scripts、references、assets、examples/SS-U1-1）；`new_unit.py` 從這裡複製工作檔
+
+**與 `unit-lecture` 的分工：** lecture 講物理直覺（較短）；textbook 講每條公式怎麼從種子推出來
+
+---
+
 
 ### `unit-formula-map.skill`
 
@@ -248,14 +286,14 @@ instructions: |
 ### 加入本清單的步驟
 
 1. 將 `.skill` 檔放入本目錄（`skills/`）
-2. 在本 README 的「Skills 清單」補充說明（格式參考 `vha-treasure-map.skill` 的說明方式）
+2. 在本 README 的「Skills 清單」補充說明（格式參考 `unit-lecture.skill` 的說明方式）
 3. 在 `CLAUDE.md` 的 CHANGELOG 追加一行說明此次新增
 
 ### 命名規則
 
 | 規則 | 說明 |
 |------|------|
-| 全小寫連字號 | `vha-treasure-map.skill`，不用底線或大寫 |
+| 全小寫連字號 | `unit-formula-map.skill`，不用底線或大寫 |
 | 動詞開頭或名詞主題開頭 | 清楚表達功能，如 `generate-xxx`、`analyze-xxx` |
 | 副檔名固定 `.skill` | 不可用 `.md`、`.txt` |
 

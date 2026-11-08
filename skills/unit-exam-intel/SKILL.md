@@ -34,7 +34,7 @@ description: >
 |---|---|---|---|
 | 回答 | **為什麼**成立 | 這條公式**要不要背** | 這個單元**考什麼** |
 | 內容 | 物理直覺、原理圖解、公式來源 | 30–40 條公式 × 逐年考卷證據 | 頻率、結構、漂移、清單、風險 |
-| 資料來源 | wiki + 解析 + 規範 | `raw/exams/` 考卷原文 | `raw/json/question_index.json` |
+| 資料來源 | 解析＋規範（wiki 已封存，不再使用） | `raw/exams/` 考卷原文 | `raw/json/question_index.json` |
 | 可否自動重生 | 否（需人寫） | 半自動（需目視考卷） | **是（純資料驅動）** |
 | 使用時機 | 第一次接觸該單元 | 排讀書計畫、決定背誦優先序 | 決定練題順序、考前押題 |
 | skill | `unit-lecture` | `unit-formula-map` | **`unit-exam-intel`** |
@@ -50,12 +50,12 @@ description: >
 
 | 代號 | 科目全名 | 資料夾 |
 |------|---------|--------|
-| SS | 鋼結構設計 | `exam-wiki-SS` |
-| RC | 鋼筋混凝土設計與預力混凝土設計 | `exam-wiki-RC` |
-| SA | 結構學 | `exam-wiki-SA` |
-| SD | 結構動力分析與耐震設計 | `exam-wiki-SD` |
-| SM | 土壤力學與基礎設計 | `exam-wiki-SM` |
-| MM | 材料力學 | `exam-wiki-MM` |
+| SS | 鋼結構設計 | `SS/` |
+| RC | 鋼筋混凝土設計與預力混凝土設計 | `RC/` |
+| SA | 結構學 | `SA/` |
+| SD | 結構動力分析與耐震設計 | `SD/` |
+| SM | 土壤力學與基礎設計 | `SM/` |
+| MM | 材料力學 | `MM/` |
 
 > 科目全名與子項清單一律以 `raw/json/syllabus_taxonomy.json` 為準，**不要憑記憶填**
 > （曾有其他文件把 SM 誤寫成「材料力學」、MM 誤寫成「工程數學」）。
@@ -349,7 +349,7 @@ python3 skills/unit-exam-intel/scripts/verify.py XX-Un-m
 
 1. **成果檔**：`study/study-XX-Un-m.html`（單一自包含 HTML，無外部相依）
 2. **互連**：到 `lecture-XX-Un-m.html`、`formula-given-XX-Un-m.html` 補上回連本頁的按鈕
-3. **`wiki/log.md`**（append only）記三筆：
+3. **`wiki/queries/log.md`**（append only）記三筆：
    - 產頁／重構了什麼、刪了哪些重複區段、為什麼
    - 過程中修正的資料錯誤（逐項寫清楚錯在哪、正確值是多少）
    - 由統計得出的命題觀察（漂移、方法別、風險），註明可由 `stats.py` 複算

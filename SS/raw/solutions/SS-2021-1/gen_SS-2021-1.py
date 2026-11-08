@@ -13,7 +13,7 @@ SKILL = os.environ.get("SD_SKILL",
 sys.path.insert(0, os.path.join(SKILL, "scripts"))
 from structdraw import Canvas, C, compose
 
-OUT = os.path.join(_HERE, "figs")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(_HERE, "figs")
 
 # ══════════════════════════════════════════════════════════════
 # 由 SS-2021-1 §4 之判讀結果取得（幾何為繪圖單位，比例依斷面示意）
@@ -281,9 +281,52 @@ def fig3_rt_fillet():
             path=os.path.join(OUT, "SS-2021-1-fig-3-rt-fillet.svg"))
 
 
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（依題目正本 SS-2021-1-problem.md §4 判讀清單，待確認）
+# 只畫四處瑕疵的「位置與形狀」，不寫瑕疵名稱與 NDT（屬作答內容，判讀清單 #6）。
+# 板厚、銲腳為示意比例；與上方解題常數分開。
+# ══════════════════════════════════════════════════════════
+Q_TB, Q_TV, Q_LEG = 10.0, 8.0, 16.0     # 示意：底板厚、豎板厚、銲腳
+#   #2 a：左銲道豎板側銲趾，母材表面凹入；#3 b：左銲道表面，細線伸入銲道金屬
+#   #4 c：左銲道底板側銲趾，銲道端部小突起／凹痕；#5 d：右銲道底板側銲趾，細線伸入底板母材
+
+
+def fig1_problem():
+    W1, H1, sx = 620, 470, 7.0
+    cv = Canvas(W1, H1, sx=sx, ox=W1 / 2, oy=150)
+    cv.panel("圖一　填角銲 T 形接頭", "瑕疵位置與形狀依判讀清單；名稱為作答內容，不標")
+    tv = Q_TV / 2
+    cv.polygon([(-36, -Q_TB), (36, -Q_TB), (36, 0), (-36, 0)], C["border"], C["member"], 1.8)
+    cv.polygon([(-tv, 0), (tv, 0), (tv, 36), (-tv, 36)], C["border"], C["member"], 1.8)
+    for s in (-1, 1):
+        cv.polygon([(s * tv, 0), (s * (tv + Q_LEG), 0), (s * tv, Q_LEG)], C["fill_c"], C["member"], 1.8)
+    acc = C["accent"]
+    # a：豎板側銲趾上方母材凹入
+    cv.poly([(-tv, Q_LEG + 2.2), (-tv + 1.0, Q_LEG + 1.0), (-tv, Q_LEG)], acc, 2.6)
+    # b：銲道表面裂紋伸入銲道
+    pb = (-tv - Q_LEG / 2, Q_LEG / 2)
+    cv.poly([pb, (pb[0] + 1.6, pb[1] - 1.2), (pb[0] + 2.4, pb[1] - 3.2), (pb[0] + 3.6, pb[1] - 4.0)], acc, 2.4)
+    # c：底板側銲趾外翻小突起
+    pc = (-tv - Q_LEG, 0)
+    cv.poly([pc, (pc[0] - 2.0, 0.9), (pc[0] - 3.2, 0.2)], acc, 2.6)
+    # d：右銲道底板側銲趾，裂紋伸入底板
+    pd = (tv + Q_LEG, 0)
+    cv.poly([pd, (pd[0] + 0.6, -2.4), (pd[0] - 0.4, -4.6), (pd[0] + 0.8, -6.8)], acc, 2.4)
+    for lab, p, q in (("a.", (-tv, Q_LEG + 1.2), (-16, 30)), ("b.", pb, (-24, 24)),
+                      ("c.", (pc[0] - 1.6, 0.6), (-32, 14)), ("d.", pd, (28, 18))):
+        cv.line(q, p, C["text"], 1.3)
+        cv.text(q, lab, 15, C["text"], "end" if q[0] < 0 else "start", dx=-4 if q[0] < 0 else 4, weight="700")
+    path = os.path.join(OUT, "SS-2021-1-fig-1-problem.svg")
+    compose([cv], title="SS-2021-1 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #2–#5（待確認）；板厚與銲腳為示意",
+            note="a 在豎板側銲趾、b 在銲道表面、c 在底板側銲趾、d 自右銲道銲趾伸入底板母材",
+            path=path)
+    return path
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    fig1_defects(); fig2_ndt_map(); fig3_rt_fillet()
+    fig1_problem(); fig1_defects(); fig2_ndt_map(); fig3_rt_fillet()
     for tag, name, where, kind, main, alt in DEFECTS:
         print(f"  {tag}: {name:<22} 位置={where:<14} {kind:<4} 主選={main} 次選={alt}")
     print(f"用到的 NDT：{NDT_USED}　RT 次數 = {NDT_USED.count('RT')}")

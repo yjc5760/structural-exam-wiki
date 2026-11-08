@@ -33,7 +33,9 @@
 | `SS-U2-2` | 鋼結構材料特性 | 第二單元 |
 | `SS-U2-3` | 設計規範對施工之要求 | 第二單元 |
 
-他科常見副考點：`MM-U1-1`、`SD-U3-1`
+**分類原則（2026-11-08 起已升為五科通用，見根目錄 CLAUDE.md）：** `primaryTopicId`、`secondaryTopicIds` **只能填 SS 子項**，不引用其他科（MM、SD 等）的單元。
+題目涉及耐震設計或材力斷面性質時，歸到對應的 SS 子項（例：耐震接頭 → SS-U1-4、強柱弱梁 P-M → SS-U1-3、SN 鋼材／降伏比 → SS-U2-2、My／Mp 形狀因子 → SS-U2-1）。
+（2026-10-30 起；原掛 `SD-U3-1` × 5、`MM-U1-1` × 3 已改列 SS 子項，見 `wiki/queries/log.md` TAXONOMY-FIX。`subject_profiles.json` 的 SS `relatedTopics` 同步清空。）
 
 ---
 
@@ -71,37 +73,29 @@
 
 ---
 
-## 5. wiki 七層的本科解讀
+## 5.（保留編號）wiki 已封存
 
-Layer 1–4（concepts＋problems／philosophy／methods／diagnosis）五科相同；Layer 5–7 依科目性質調整，
-**資料夾名稱維持不變**（skills 與 LINT 依資料夾名稱運作），只改顯示名稱與類別頁：
-
-| 層 | 目錄 | 本科名稱 | 類別頁 |
-|----|------|---------|--------|
-| Layer 5 | `wiki/failure-modes/` | **失敗模式** | `strength-failure` 強度失敗<br>`stability-failure` 穩定失敗<br>`serviceability-failure` 使用性失敗<br>`connection-failure` 接合失敗 |
-| Layer 6 | `wiki/materials/` | **材料行為** | `stress-strain` 應力應變<br>`residual-stress` 殘留應力<br>`fracture-toughness` 斷裂韌性<br>`weldability` 銲接性 |
-| Layer 7 | `wiki/code-ref/` | **規範條文對應** | （index.md 單頁） |
-
-> LINT 第 14、15 項（類別頁齊全）以本表為準。
+SS 自 2026-11-01、五科自 2026-11-08 起只保留 `wiki/queries/`（見根目錄 `CLAUDE.md`「wiki 封存」）。
+舊七層（含本科 Layer 5–7：失敗模式／材料行為／規範條文對應）在 `archive/wiki/`，唯讀參考、未經全面核對。
 
 ---
 
-## 6. 題型診斷入口（`wiki/diagnosis/`）
+## 6. 題型辨識
 
-| 題型 | 辨識關鍵字 | 診斷頁 |
-|------|-----------|--------|
-| 拉力桿件 | 「拉力」「拉桿」「承拉」「接合長度」「U 值」 | `wiki/diagnosis/tension-member.md` |
-| 壓力桿件 | 「受壓柱」「有效長度」「KL/r」「λc」「Cc」 | `wiki/diagnosis/compression-member.md` |
-| 梁桿件 | 「受彎」「彎矩強度」「無束制長度 Lb」「撓度」 | `wiki/diagnosis/beam.md` |
-| 梁柱桿件 | 「軸力 + 彎矩」「互制」「B1B2」「梁柱」 | `wiki/diagnosis/beam-column.md` |
-| 接合設計 | 「螺栓」「銲縫」「填角銲」「開槽銲」「偏心接合」 | `wiki/diagnosis/connection.md` |
-| 斷面性質 | 「慣性矩」「斷面模數」「Zx」「形狀因子」「塑性中性軸」 | `wiki/diagnosis/section-property.md` |
-| 耐震設計 | 「耐震」「強柱弱梁」「Panel Zone」「SMRF」「EBF」 | `wiki/diagnosis/seismic.md` |
-| 概念／規範題 | 「說明」「比較」「依規範」「定義」「差異」 | `wiki/diagnosis/conceptual.md` |
+| 題型 | 辨識關鍵字 |
+|------|-----------|
+| 拉力桿件 | 「拉力」「拉桿」「承拉」「接合長度」「U 值」 |
+| 壓力桿件 | 「受壓柱」「有效長度」「KL/r」「λc」「Cc」 |
+| 梁桿件 | 「受彎」「彎矩強度」「無束制長度 Lb」「撓度」 |
+| 梁柱桿件 | 「軸力 + 彎矩」「互制」「B1B2」「梁柱」 |
+| 接合設計 | 「螺栓」「銲縫」「填角銲」「開槽銲」「偏心接合」 |
+| 斷面性質 | 「慣性矩」「斷面模數」「Zx」「形狀因子」「塑性中性軸」 |
+| 耐震設計 | 「耐震」「強柱弱梁」「Panel Zone」「SMRF」「EBF」 |
+| 概念／規範題 | 「說明」「比較」「依規範」「定義」「差異」 |
 
 ---
 
-## 7. 主要規範／依據（Layer 7 的來源）
+## 7. 主要規範／依據
 
 - 鋼構造建築物鋼結構設計技術規範（極限設計法／容許應力設計法，內政部）
 - AISC 360／341（對照用）
@@ -221,6 +215,44 @@ P-M 互制：
 |------|------|------|
 | 2026-10-29 | 併入五科合一知識庫：以 `scripts/scaffold_subject.py` 補建本檔與 `.gitkeep`；設計哲學框架由 CLAUDE-SOLVE.md 移入 §8；`index.html` 改用五科共用樣板、`dashboard-data.js` 改由 `scripts/refresh_dashboard.py` 產生（變數由 `SS_*` 改為 `KB_*`，順帶修正 2006 年四題 designMethod 舊快照仍為 LRFD 的問題）；`skills/`、`xcheck.py` 移至根目錄；原 repo `.git` 曾封存於根目錄 `_archive/`，確認無未推送 commit 後已刪除（舊歷史保留在 GitHub `exam-wiki-SS`） | 五科合併為單一知識庫，架構統一 |
 | 2026-10-29 | 停用互動圖（`*-viz.html`）；§4 改為 struct-diagram 圖解 | 靜態向量圖可重跑、可審核，與互動圖功能重疊 |
+| 2026-11-08 | **由獨立 repo `exam-wiki-SS` 搬入本資料夾**（只搬檔案，不含 git 歷史）：`raw/`、`study/`、`wiki/queries/`、`archive/`、`scripts/`、`影片講義/`、`start.html`、儀表板等全部更新為 11-08 現況；原 repo 根目錄的 CLAUDE*.md 與 xcheck.py 存參考副本於 `archive/exam-wiki-SS-root/`；SS 較新的 skills（exam-start-page、unit-textbook 與 unit-* 的 SKILL.md）、`xcheck.py`、勘誤回報表單併入根目錄 | 10-29 合併後 SS 仍在原 repo 持續更新（wiki 封存、題目正本、單元總覽、起點頁等），兩邊分岔；五科共用 skill 集中維護。原 repo 與 GitHub Pages 舊網址維持上線不動，git 歷史保留在原 repo |
+| 2026-11-08 | 根目錄規則整併後同步本檔：§2 寫入 SS 分類原則（只填 SS 子項，`subject_profiles.json` SS `relatedTopics` 清空）；§5 改為 wiki 封存說明、§6 改為「題型辨識」（拿掉已封存的診斷頁欄）；§10 縮減為仍屬 SS 專屬或待辦的 4 項；共用腳本移至根目錄，`scripts/` 只留 `add_backlink.py`、`fixes/`；README、檔案架構索引表、知識庫使用說明書改為合併後路徑 | SS 的新規則已升為五科通用，見根目錄 CLAUDE.md CHANGELOG |
+
+### 獨立 repo 時期的變更紀錄（2026-10-30～11-08，原 exam-wiki-SS/CLAUDE.md CHANGELOG，原樣保留）
+
+| 日期 | 變更 | 原因 |
+|------|------|------|
+| 2026-11-01 | **廢止題解互動圖**：刪除 `raw/solutions/` 下 19 份 `*-viz.html`，清除 .md／`wiki/problems/`／`study/problems-view/` 引用，`question_index.json` 移除 `hasViz`，`dashboard-data.js` 移除 viz 欄；`index.html` 移除互動圖按鈕／篩選／統計並優化 | 圖解改以 `figs/*.svg` 向量圖為準（可重跑、可審核），互動圖維護成本高且易與 .md 不同步 |
+| 2026-11-01 | **移除補充筆記 PDF**：刪除 `raw/solutions/` 下 8 份題目補充 PDF；`index.html` 移除「📎 補充筆記 PDF」按鈕與篩選；`dashboard-data.js` 改為 5 欄（去 pdf）；同步 CLAUDE-SPEC／CLAUDE-CODE／README／檔案架構索引表／知識庫使用說明書 | 依使用者指示；PDF 多為舊互動圖列印稿或外部筆記，與正本易不同步 |
+| 2026-10-30 | 新增五個單元總覽 `study/unit-SS-U1-1〜U2-3.html`／`.pdf`（命題分析＋公式給／背＋逐題公式表合一頁），資料檔 `study/data/unit-SS-*.json`；由 SA 導入 `scripts/build_unit_page.py`／`unit_page_template.html`（SS 版加 `giveCol:false`、`showDesignMethod`）；舊 `study-`／`formula-given-` 改為轉址頁，lecture 按鈕、problems-view 88 頁、`build_frequency.py` v1.2 與 `frequency-SS.html` 同步 | 兩頁內容分屬「考什麼」與「要不要背」卻要來回切；合併後「考了卻沒給」改由逐題公式標籤推出，逐題核對題解時更正了多處舊年份證據（見 log 2026-10-30） |
+| 2026-11-01 | **SS-2003-1／2／3 解析勘誤**（盲解比對發現）；新增 `start.html` 起點頁、學習頁返回列、`scripts/render_problem_view.py`、`scripts/audit_classification.py`、GitHub 勘誤回報表單 | SS-2003-2 漏用考卷明文的 $r_m \ge 0.3$ 全厚（$\phi_cP_n$ 147 → **513 t**）；SS-2003-3 題意整題讀錯（構材為雙角鋼、（一）設計螺栓數 **5 顆**、（二）WT—柱 8 栓拉剪互制**足夠**）；SS-2003-1 的（三）（四）被自行補全成別題。三題皆因 CID 字型抽文字失敗、未轉圖目視所致；詳見 wiki/log.md FIX-SS-2003 |
+| 2026-11-01 | 勘誤第二批 SS-2011-2／SS-2011-4／SS-2024-2（U1-1 盲解分歧），並重出 lecture-SS-U1-1／2／4、unit-SS-U1-1／2／4、textbook tension 的 PDF | 三題都是看錯圖：SS-2011-2 漏看 A 點鉸接圓圈（K 1.414／2.0 → **2.83／4.0**）；SS-2011-4 把 F 點鉸支當固接且漏乘梁 AD 遠端修正（K_EF 1.27 → **1.84**、非彈性 1.11 → **1.79**）；SS-2024-2 漏扣圓管開槽、銲道數 4 → 8（φtTn 130.8 → **117.0 t**）。詳見 wiki/log.md FIX-SS-U1-1-B2 |
+| 2026-11-01 | 勘誤第三批 SS-2002-3／SS-2010-3／SS-2007-4／SS-2023-1 | SS-2002-3 側撐位置看錯（距底 6 m 非中點，φcPn 125.8 → **131.2 t**）；SS-2010-3 平行軸距離配錯軸（φcPn 79.0 → **83.8 t**）；SS-2007-4、SS-2023-1 對位圖讀值偏差（K_AD 2.5 → **1.97**、K_CF 2.50 → **2.17**），改以對位圖方程式精確解核對。另更正單元總覽「91 年未給 K 值表」之證據錯誤。詳見 wiki/log.md FIX-SS-U1-1-B3 |
+| 2026-11-01 | 勘誤第四批 SS-2021-2／SS-2016-3（觀念作圖題）；U1-1 盲解 12 題分歧全數勘誤完畢 | SS-2021-2 圖二寬度 100 與銲長 150 對調、塊狀剪力應在節點板；SS-2016-3 塊狀殘留應力應得**強度平台** $F_{cr} = 1.875$（$19.9 \le L/r \le 103.6$），原解用平滑式並虛構腹板平衡，另指出題目殘留應力不自相平衡（與 08-22 SS-2024-1 同型）。詳見 wiki/log.md FIX-SS-U1-1-B4 |
+| 2026-11-01 | 盲解比對 SS-U1-2 未查 15 題（一致 11、分歧 4），勘誤 SS-2008-3／SS-2005-2／SS-2024-3／SS-2021-3 | 仍以讀圖錯為主：SS-2008-3 載重只在兩側卻當全跨、均勻彎矩 Cb 正負號代反（w 2.50 → **3.73 t/m**）；SS-2024-3 外伸梁看成簡支梁（Mu 21 → **42 t·m**）；SS-2005-2 0.85f'c 單位錯 10 倍（Mn 170.3 → **135.5 tf·m**）；SS-2021-3 選斷面理由「最輕」不實、Lr 代錯迴轉半徑（改選 BH700×300×12×25）。全部維持 unverified。詳見 wiki/log.md AUDIT-BLIND-U1-2、FIX-SS-U1-2-B1 |
+| 2026-11-01 | **wiki 封存**：wiki/ 只保留 `queries/`；code-ref／concepts／diagnosis／failure-modes／materials／methods／philosophy／problems／topics／traps 與 index.md、by-year.md 搬到 `archive/wiki/`；`wiki/log.md` 移為 `wiki/queries/log.md`；ingest／compile-all／add-concept 等寫 wiki 指令停用；規則 1、3、4、5、7 與資料流同步改寫 | 舊 wiki 為 AI 一次生成、與正本重複且未持續核對（觀念／方法頁掃描 45 項錯誤），每次勘誤又多一份同步負擔；讀書以 study/ 為準 |
+| 2026-11-01 | 新增單元總覽 `study/unit-SS-U2-1.html`／`.pdf`（塑性分析與設計，主 6＋副 2＝8 題、16 條公式，15 必背／1 別賭／0 會給）與資料檔 `study/data/unit-SS-U2-1.json`；`scripts/build_unit_page.py` 加「無觀念講義時移除講義連結」；problems-view 6 頁（U2-1 主考點）單元按鈕改指本頁；重跑 `build_frequency.py` | U2-1 原本三種教材都沒有。8 個考年考卷頁轉圖目視＋其餘 16 年全文搜尋，確認 15 條必背公式 24 年零次印出（唯一 ✔ 是 2005-4、2020-2 題目內文寫明結實斷面＋側撐，列「別賭」）；主考點兩組原題換斷面重考（2005-4 → 2020-2、2010-1 → 2023-3），6 題有 4 題要算非對稱斷面 PNA。詳見 wiki/queries/log.md UNIT-SS-U2-1 與 UNIT-SS-U2-1-R（同日兩個工作階段平行建置，資料檔以後者為準）|
+| 2026-11-01 | `start.html` 加入 SS-U2-1（`scripts/build_start.py`：空連結不輸出、無影片單元改列解析頁練題、12 週版 U1-3／U2-1 各 1 週）；新增轉址頁 `study/study-SS-U2-1.html`、`formula-given-SS-U2-1.html`；problems-view 90 頁 UN 表補 U2-1 | U2-1 已有單元總覽與講義，起點頁與轉址頁補齊。另記錄同日兩工作階段互相覆蓋 U2-1 講義／資料檔之事故與撤回（見 wiki/queries/log.md OVERWRITE-SS-U2-1） |
+| 2026-11-01 | `question_index.json` 為 SS-2021-3、SS-2025-3 加副分類 `SS-U2-1`（同步 dashboard-data.js、正本標頭、problems-view、frequency-SS.html）；SS-2025-4 題解補「n＋1 僅適用完全機構」 | 兩題明文要求 \(M_p\)／形狀因子（2021-3 並用塑性機構），與已列副分類的 SS-2006-3、2009-3 同型；SS-2010-4、2008-3、2020-1、2012-2 依判準不加。詳見 wiki/queries/log.md INDEX-SS-U2-1 |
+| 2026-11-02 | **題目／解答拆分試做（SS-U2-1 十題）**：新增 `raw/solutions/<id>/<id>-problem.md` 題目正本（考卷原文逐字、公式／附表照錄、判讀清單），規則 1 列為第四處例外；`render_problem_view.py` 在解析前渲染題目正本；`question_index.json` 加 `problemStatus`；報告 `wiki/queries/題目正本試做-SS-U2-1-2026-11-02.md` | 歷次改變答案的勘誤多為讀錯題，題意從未單獨驗證過。試做 10 題即查出 SS-2025-3 漏抄題給 $L_p$、$L_r$、$C_b$ 且答錯所求的量（$\phi_bM_n$ → **標稱 $M_n$ = 218.7 tf·m**），以及 SS-2021-3 的表一不在知識庫任何檔案 |
+| 2026-11-03 | **盲解比對剩餘 22 題（SS 98 題全數盲解一次）並勘誤 SS-2011-3／SS-2005-1／SS-2013-4、清 SS-2009-1 殘留**；同步 problems-view、三支 gen 腳本與 5 張圖、tags、lecture-SS-U1-1／U1-2／U1-3、textbook tension、unit-SS-U1-3 與 5 份 PDF | 一致 17／答案改變 2／觀念作圖 2／不確定 1。SS-2011-3 把腹板淨高 40.62 讀成全深（d **43.16**，改判**彈性** LTB，Mn 3378 → **3489** tf·cm）；SS-2005-1 單排撕出塊只承 P/2 卻比總力（φPn 68.5 → **71.8 tf** 螺栓剪力控制，6 栓塊 100.2）；SS-2013-4 依使用者決定採梁遠端修正（K 1.85 → **2.01**、ΣPeK **2.45EI/L²**）。詳見 wiki/queries/log.md AUDIT-BLIND-REMAIN22、FIX-SS-REMAIN22 |
+| 2026-11-03 | 第六批六題向量圖解補繪（`SS-U1-3` 剩餘六題：SS-2004-4／2007-2／2008-4／2012-3／2014-4／2019-3，共 12 張 SVG ＋ 2× PNG；SS-2012-3、2014-4 新建 gen 腳本，其餘於題目重繪腳本追加）；圖插回解析 §4、重出 problems-view ×6 | U1-3 十二題至此全數有解題圖解。每張圖對準一種錯：45° 懸臂誤用 $P\cdot L$、三角形彎矩誤取 $C_m=1.0$ 與弱軸二階放大、最大彎矩位置與二次式取根、$B_1<1$ 拿去折減、$B_1M_{nt}+B_2M_{lt}$ 先加後放大、漏看 B 點支承的彎矩分配。比對時另發現 SS-2004-4 §4(二) $M_1/M_2$ 正負號寫反與數處末位四捨五入差（見 log FIG-SS-U1-3-B2），未動解析本文 |
+| 2026-11-03 | **SS-2004-4 解析勘誤**：㈡ 改答「$C_m \geq 0.4$ 為何不再採用」、$M_1/M_2$ 正負號更正；同步 problems-view、索引、儀表板、unit-SS-U1-3 資料／HTML／PDF、圖 2 | 舊解把考卷問句「為何我國規範**不再採用**」讀成「下限的工程意義」而論證下限必要，答案方向相反，且把雙曲率記為負值。依容許應力設計法解說 C8.2：0.4 原為梁的側向扭轉挫屈而訂（$C_b \le 2.3$ 之倒數），不適用於彎矩放大，Zandonini (1985) 證實可取消。㈢ 結論不變，尾數簡化式 1.783 → 1.782。詳見 log FIX-SS-2004-4 |
+| 2026-11-03 | 第七批九題向量圖解補繪（`SS-U1-4` 計算題 7 題：SS-2002-4／2004-2／2004-3／2005-3／2007-1／2012-4／2019-4；`SS-U2-1` 2 題：SS-2005-4／2020-2，共 18 張 SVG ＋ 2× PNG，腳本追加於各題 `gen_SS-*.py`）；圖插回解析 §4、重出 problems-view ×9 | U1-4 計算題至此全數有解題圖解，U2-1 主考點塑性機構題亦補齊。每張圖對準一種錯：斜向載重偏心距取錯、內連接板放不下、只取一個分量的扭矩、銲道群中性軸取梁中線、平衡銲兩側等長、淨剪斷面控制、組合斷面 Q 取錯、PNA 與彈性形心混淆、跨內塑性鉸取跨中。另記 SS-2005-3 箱內銲道長度判讀（30 vs 26.4 cm，P 14.0 vs 13.87 tf）待題目正本確認時決定（見 log FIG-SS-B7） |
+| 2026-11-03 | 第八批六題向量圖解補繪（`SS-U1-1` 前 6 題：SS-2002-3／2003-2／2003-3／2007-4／2008-2／2010-3，共 12 張 SVG ＋ 2× PNG，腳本追加於各題 `gen_SS-*.py`）；圖插回解析 §4、重出 problems-view ×6 | U1-1 剩 11 題、U1-2 13 題待補。每張圖各攔一種錯：側撐當中點或算給強軸、直接用型鋼 r 而漏 0.3 全厚規定、3:4 分量對調與拉剪分開檢核、G 值補上不存在的柱梁、靠桿比值寫反、平行軸 I 與距離配錯軸。末位差兩處（SS-2007-4 FH K、SS-2010-3 Fa）見 log FIG-SS-B8 |
+| 2026-11-03 | 第九批六題向量圖解補繪（`SS-U1-1`：SS-2011-2／2011-4／2014-1／2016-3／2017-3／2018-2，共 13 張 SVG ＋ 2× PNG；SS-2014-1、2017-3、2018-2 新建 `gen_SS-*.py` 與 `figs/`，其餘追加於既有腳本）；圖插回解析 §4、重出 problems-view ×6 | U1-1 剩 5 題（SS-2021-2／2022-2／2023-2／2024-2／2025-2）、U1-2 13 題待補。每張圖各攔一種錯：靠桿計入 ΣPeK、梁遠端不修正、τa 乘錯位置、λc 分界取 1.0、以為提高 Fy 細長柱也變強、懸臂柱 K 取 0.5、殘留應力比例限不扣、Ky 配 rx、箱型 b 取外寬。SS-2014-1 表值 0.878 應為 0.901（建議勘誤），見 log FIG-SS-B9 |
+| 2026-11-03 | **SS-2014-1 解析勘誤**：§4 (二) 曲線表 λc = 0.5 非彈性值 0.878 → 0.901、λc = 1.5 兩式值 0.389 → 0.390；§4 (一) 驗算 e^(−0.9434) = 0.3894 → e^(−0.9417) = 0.3899；§5 ① 0.877 = 1/1.14²→ 1/1.14 | 考卷第 1 頁核對題意無誤；獨立重算 19 值 MISMATCHES 0；problems-view 重出、ledger fixed 回寫；題目退回 unverified 待人工複核（見 log FIX-SS-2014-1） |
+| 2026-11-03 | 第十批五題向量圖解補繪（`SS-U1-1`：SS-2021-2／2022-2／2023-2／2024-2／2025-2，共 10 張 SVG ＋ 2× PNG；SS-2022-2、2023-2 新建 `gen_SS-*.py` 與 `figs/`）；圖插回解析 §4、重出 problems-view ×5 | **U1-1 全 17 題完成**；剩 U1-2 13 題。每張圖各攔一種錯：斷裂與塊狀剪力畫錯板、塊狀剪力兩式取大小、a 量到孔心、只算全斷面降伏、用 rx 求交界柱長、U 取 1.0、只算強度需求的銲腳、對階梯 U 微分。SS-2024-2 係數 1.566 應為 1.565 見 log FIG-SS-B10 |
+| 2026-11-03 | 第十一批四題向量圖解補繪（`SS-U1-2` 第一批：SS-2002-2／2007-3／2008-3／2012-1，共 8 張 SVG ＋ 2× PNG；SS-2007-3、2012-1 新建 `gen_SS-*.py` 與 `figs/`）；圖插回解析 §4、重出 problems-view ×4 | U1-2 剩 9 題（第十二批 SS-2015-1／2021-3／2024-3／2025-3；第十三批 SS-2005-2／2006-3／2009-3／2016-1／2019-2）。每張圖各攔一種錯：Lb 取全跨、忘扣自重彎矩、照抄考卷印錯的非彈性 LTB 分母、BC 均勻彎矩段被忽略、Lb 剛過 Lr 卻用直線內插、漏算 FLB。SS-2008-3 同檔 Mcr 7,469／7,465 不一見 log FIG-SS-B11 |
+| 2026-11-03 | 第十二批四題向量圖解補繪（`SS-U1-2` 第二批：SS-2015-1／2021-3／2024-3／2025-3，共 8 張 SVG ＋ 2× PNG；SS-2025-3 新建 `gen_SS-*.py` 與 `figs/`）；圖插回解析 §4、重出 problems-view ×4 | U1-2 剩第十三批 5 題（SS-2005-2／2006-3／2009-3／2016-1／2019-2）。每張圖各攔一種錯：依圖面高低挑斷面而漏 247、撓度用 PL³/48EI、不加側撐就用 Mp、跨內塑性鉸放跨中、外伸梁 C 當側撐點、弱軸漏 1.5FySy 上限、Zx 翼板力臂取 d/2、答成 φbMn。SS-2024-3 G 值 790／810 兩正本不一見 log FIG-SS-B12 |
+| 2026-11-03 | 第十三批五題向量圖解補繪（`SS-U1-2` 第三批：SS-2005-2／2006-3／2009-3／2016-1／2019-2，共 10 張 SVG ＋ 2× PNG；SS-2006-3、SS-2016-1 新建 `gen_SS-*.py` 與 `figs/`）；圖插回解析 §4、重出 problems-view ×5 | U1-2 全部完成。每張圖各攔一種錯：包覆梁 PNA 停在上翼板、力臂沒量到 PNA；Ix 翼板距離取 H/2、Zx 力偶臂用 H；Zx 誤用 Ix/(d/2)、Aw 用淨高；以為梁翼板有應力梯度、λp／λr 意義對調；合成梁未先比 As·Fy 與 0.85f'c·be·ts、力臂用錯。log FIG-SS-B13 |
+| 2026-11-03 | 新增梁柱桿件教科書 `study/textbook-SS-U1-3-amplification.html`／`.pdf`（上冊：放大篇，第 0～6 章、25 張圖、63 頁）與 `study/textbook-SS-U1-3-interaction.html`／`.pdf`（下冊：互制篇，第 7～11 章、13 張圖、34 頁），原始碼 `study/figs-src/textbook-SS-U1-3/` | 以 6 顆種子推出 B1、B2、Cm、K 全部公式；貫穿範例 SS-2014-4（勘誤後雙曲率，Mu = 326.2 kN·m）。重算發現：SS-2014-4 互制比未捨入為 0.820（題解 0.821）；SS-2020-3 反求 Mwy 未捨入為 7.92（題解 7.91）；`unit-SS-U1-3.json` 稱台灣 (8.2-3) 與 AISC B1「同一條的變形」不正確（兩式不等價，可寫成 [0.64 − 0.32r(1+α)]/(1−α)），未改動該檔 |
+| 2026-11-03 | 新增 `study/textbook-SS-U2-3.html`／`.pdf`（設計規範對施工之要求教科書講義，9 章、29 張向量圖、75 頁），原始碼 `study/figs-src/textbook-SS-U2-3/` | 全為說明題的單元改以 7 顆物理機制種子推出規定方向與答題骨架；三處教材數字不一致（風速、T0 用 At/Ab、最小銲腳表末列）待使用者決定，見 log TEXTBOOK-SS-U2-3 |
+| 2026-11-08 | 單元總覽 `study/unit-SS-U2-1.html`／`.pdf` 改版同步：SS-2025-3 題目摘要與設計法敘述改為「標稱 Mn＝Mp」 | 11-02 題目正本確認後該題勘誤（φbMn 196.8 → 標稱 Mn ≈ 218.7 tf·m），單元總覽未同步；公式標籤不變。見 log UNIT-SS-U2-1-SYNC |
+| 2026-11-08 | `start.html` 依新清單更新並改為資料驅動：連結移到 `study/data/start-links.json`（清單底稿 `start-links.txt`），新增 `scripts/parse_links.py`、`scripts/start.css`，`scripts/build_start.py` 改為五科通用版；新增 `skills/exam-start-page.skill` | 新增各單元教科書與教科書講解影片、DAM 主題影片、SS-U2-1 講義影片／影片講義／公式影片／5 支解題影片；頁首加「這個知識庫能做什麼」與 AI 改卷提示。依使用者指示移除清單沒列的前 5 單元非動畫版講義影片、講義簡報 PDF、NotebookLM 筆記本（起點頁只留清單上的 66 支影片） |
+| 2026-11-08 | 停用並移除 `skills/formula-recall-deck/` 與 `skills/formula-recall-deck.skill`；`exam-review-deck-builder` 同時停用（未收錄於本 repo） | 使用者決定停用；已產出的公式記憶片與影片不受影響。`wiki/queries/log.md` 歷史紀錄中的引用保留不改（append only） |
+| 2026-11-08 | 停用並移除 `skills/vha-treasure-map.skill`，`skills/README.md` 刪除其說明並改用他例、`檔案架構索引表.md` 的 skills 清單更新為現況 | 使用者決定停用；既有產出 `wiki/queries/SS-2020-3-treasure-map.html` 與其索引列保留 |
+| 2026-11-08 | **SS-2025-4 解析勘誤**：§4（三）局部機構舉例改為三跨連續梁邊跨（舊解兩跨梁鉸數恰＝n+1，無法說明局部機構） | 考卷核對一致；束制矩陣驗證 n=2、邊跨 2 鉸 DOF=1、wu=11.66 吻合；同步 downstream 至 problems-view、methods、textbook-SS-U2-1（見 log FIX-SS-2025-4-LOCAL） |
 
 ### 併入前的變更紀錄（原 exam-wiki-SS/CLAUDE.md CHANGELOG，原樣保留）
 
@@ -272,3 +304,17 @@ P-M 互制：
 | 2026-10-23 | `study/lecture-SS-U1-2.html`／`.pdf` 圖解重繪（7 張依數值產生，新增圖 1-2），原始碼 `study/figs-src/gen_lecture-SS-U1-2_figs.py` | 修正舊圖 3-2 理論彈性曲線畫在直線下方、圖 3-1 翹曲項反比次數誤寫、§3.4 重複乘 Cb、圖 10-1 決策樹死路等問題；更新 PDF（40 頁） |
 | 2026-10-23 | `study/lecture-SS-U1-3.html`／`.pdf` 圖解重繪＋內文同步 08-22 勘誤（10 張重繪＋新增圖 3-2、8-1），原始碼 `study/figs-src/lecture-SS-U1-3/` | 修正 Dm 貝茲線失真、H1-1a/b 兩段斜率顛倒、範例 C 算術錯誤（B₂ 1.799→1.420、Mu 54.49→48.82 tf·m）、刪除不存在的 B₂≤2.5 規定，更新 PDF（35 頁） |
 | 2026-10-23 | `study/lecture-SS-U1-4.html` 圖解改版（12 張依數值重繪＋新增圖 4-2、5-2、8-1），原始碼 `study/figs-src/lecture-SS-U1-4/` | 修正圖 3-2 標記點偏離曲線、圖 7-2 右梁翼板力方向相反、圖 7-3 RBS 誤畫於立面、圖 3-3 剪力面未穿孔；補註版本規範差異；PDF 待產 |
+
+---
+
+## 10. 本科與根目錄規則的差異
+
+> 2026-11-08 根目錄規則整併：SS 11-01 以後的規則（wiki 封存、指令停用、`wiki/queries/log.md`、題目正本例外、
+> methods 與勘誤下游、規則 5／7、單元總覽、起點頁）已全部升為五科通用，寫在根目錄 `CLAUDE*.md`。
+> 原 repo 的規則原文見 `archive/exam-wiki-SS-root/`。主副分類只填本科子項也已升為通用。以下只列仍屬 SS 專屬或待辦的項目：
+
+| 項目 | 根目錄 | SS |
+|------|--------|----|
+| 儀表板 | 五科共用樣板＋`scripts/refresh_dashboard.py`（`KB_*`） | **待辦**：暫用原 repo 的 `index.html`／`dashboard-data.js`（`SS_*`，已移除互動圖、補充 PDF 欄）；改回共用樣板前不要對 SS 執行 `refresh_dashboard.py` |
+| 網站網址 | — | **待辦**：`study/data/start-links.json` 的 `site`、勘誤回報連結仍指向舊站 `yjc5760.github.io/exam-wiki-SS`（舊站維持上線）；新站上線後再改並在舊站加轉址 |
+| 一次性腳本 | 共用腳本在根目錄 `scripts/` | `scripts/add_backlink.py`（文字寫死 SS）、`scripts/fixes/`（歷次一次性修正）留在 SS |

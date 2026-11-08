@@ -13,7 +13,7 @@ SKILL = os.environ.get("SD_SKILL",
 sys.path.insert(0, os.path.join(SKILL, "scripts"))
 from structdraw import Canvas, C, compose
 
-OUT = os.path.join(_HERE, "figs")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(_HERE, "figs")
 
 # ══════════════════════════════════════════════════════════════
 # L1：題目給定（§1）
@@ -309,9 +309,131 @@ def fig4_weld():
     cv.save(os.path.join(OUT, "SS-2015-2-fig-4-weld.svg"))
 
 
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（依題目正本 SS-2015-2-problem.md §4 判讀清單，2026-11-02 已確認）
+# 只畫考卷給的東西，與上方解題常數分開；不含任何解題結果（銲腳 w 為待求）。
+# 柱、連接板外形與槽鋼板厚為示意；螺栓配置與縱向尺寸依考卷。單位 cm。
+# ══════════════════════════════════════════════════════════
+Q_E1, Q_S, Q_E2 = 5.0, 10.0, 7.0   # #10 槽鋼自由端 5 → 10 → 7 至虛線（連接板邊緣）
+Q_G = 10.0                          # #9 每支槽鋼 2 × 2 顆，列距 10
+Q_LW = 35.0                         # #12 填角銲有效長 35，銲腳 w 待求；#1 連接板兩側各一道（使用者確認）
+Q_RISE, Q_RUN = 3.0, 4.0            # #11 力的斜率 垂直 3：水平 4
+Q_HC, Q_BC = 20.0, 7.5              # §1 題文 C200×75：H = 20、B = 7.5
+#   #8 兩槽鋼腹板貼連接板兩側、翼板朝外
+_QL = (Q_RISE ** 2 + Q_RUN ** 2) ** 0.5
+_QU = (Q_RUN / _QL, Q_RISE / _QL)
+_QN = (-_QU[1], _QU[0])
+
+
+def _q_at(s, t=0.0, o=(0.0, 0.0)):
+    return (o[0] + s * _QU[0] + t * _QN[0], o[1] + s * _QU[1] + t * _QN[1])
+
+
+def _q_elev():
+    W1, H1 = 520, 440
+    cv = Canvas(W1, H1, sx=3.4, ox=110, oy=H1 / 2 - 40)
+    cv.panel("立面", "柱與連接板外形示意")
+    cv.polygon([(-10, -40), (0, -40), (0, 40), (-10, 40)], C["border"], C["member"], 1.6)
+    cv.line((-5, -40), (-5, 40), C["member"], 1.2)
+    o = (0, 0)
+    pl = [(0, -Q_LW / 2), (0, Q_LW / 2), _q_at(40, 14), _q_at(46, -12)]
+    cv.polygon(pl, C["fill_c"], C["member"], 1.6)
+    cv.line((0.6, -Q_LW / 2), (0.6, Q_LW / 2), C["load"], 4, cap="butt")
+    ch = [_q_at(22, 10), _q_at(70, 10), _q_at(70, -10), _q_at(22, -10)]
+    cv.polygon(ch, C["border"], C["member"], 1.8)
+    for s in (22 + Q_E1, 22 + Q_E1 + Q_S):
+        for t in (-Q_G / 2, Q_G / 2):
+            cv.circle(_q_at(s, t), 1.0, fill="#FFFFFF", stroke=C["member"], w=1.6)
+    cv.line(o, _q_at(70), C["load"], 1.3, dash="10 4 2 4")
+    cv.arrow(_q_at(70), _q_at(84), C["load"], 3.0, 11)
+    cv.math(_q_at(84), "T", 16, C["load"], "start", dx=6, weight="700")
+    p0 = _q_at(66, -26)
+    cv.poly([p0, (p0[0] + 8, p0[1]), (p0[0] + 8, p0[1] + 6)], C["text"], 1.4)
+    cv.text((p0[0] + 4, p0[1]), "4", 13, C["text"], dy=12)
+    cv.text((p0[0] + 8, p0[1] + 3), "3", 13, C["text"], "start", dx=6)
+    cv.dim((0, -Q_LW / 2), (0, Q_LW / 2), f"{Q_LW:g}", off=-52, label_off=-18)
+    cv.text((0, -Q_LW / 2), "填角銲 w（待求）", 12.5, C["load"], "start", dx=10, dy=22, weight="700")
+    cv.text((0, -Q_LW / 2), "連接板兩側各一道", 12, C["muted"], "start", dx=10, dy=40)
+    return cv
+
+
+def _q_channel_end(cv, x_web, sgn, h=Q_HC, b=Q_BC, tf=1.25, tw=0.6):
+    pts = [(x_web, -h / 2), (x_web + sgn * b, -h / 2), (x_web + sgn * b, -h / 2 + tf),
+           (x_web + sgn * tw, -h / 2 + tf), (x_web + sgn * tw, h / 2 - tf),
+           (x_web + sgn * b, h / 2 - tf), (x_web + sgn * b, h / 2), (x_web, h / 2)]
+    cv.polygon(pts, C["fill_c"], C["member"], 1.5)
+
+
+def _q_end():
+    W1, H1 = 520, 440
+    cv = Canvas(W1, H1, sx=9.5, ox=W1 / 2 - 20, oy=H1 / 2 - 20)
+    cv.panel("端視", "腹板貼連接板兩側、翼板朝外")
+    tp = 1.6
+    cv.polygon([(-tp / 2, -14), (tp / 2, -14), (tp / 2, 14), (-tp / 2, 14)], C["border"], C["member"], 1.5)
+    _q_channel_end(cv, -tp / 2, -1)
+    _q_channel_end(cv, tp / 2, +1)
+    for y in (-Q_G / 2, Q_G / 2):
+        cv.line((-tp / 2 - 1.6, y), (tp / 2 + 1.6, y), C["member"], 5, cap="butt")
+    cv.dim((Q_BC + 1, -Q_G / 2), (Q_BC + 1, Q_G / 2), f"{Q_G:g}", off=20, label_off=18)
+    cv.text((0, 14), "連接板", 13, C["text"], dy=-14, weight="700")
+    return cv
+
+
+def _q_plan():
+    W1, H1 = 520, 440
+    cv = Canvas(W1, H1, sx=9.0, ox=70, oy=H1 / 2 - 20)
+    cv.panel("槽鋼平面", "單位：cm")
+    L = Q_E1 + Q_S + Q_E2 + 9
+    cv.polygon([(0, -Q_HC / 2), (L, -Q_HC / 2), (L, Q_HC / 2), (0, Q_HC / 2)], C["fill_c"], C["member"], 1.6)
+    for y in (-Q_HC / 2 + 1.25, Q_HC / 2 - 1.25):
+        cv.line((0, y), (L, y), C["member"], 1.0)
+    xe = Q_E1 + Q_S + Q_E2
+    cv.line((xe, -Q_HC / 2), (xe, Q_HC / 2), C["muted"], 1.4, dash="4 3")
+    for x in (Q_E1, Q_E1 + Q_S):
+        for y in (-Q_G / 2, Q_G / 2):
+            cv.circle((x, y), 1.0, fill="#FFFFFF", stroke=C["member"], w=1.6)
+    cv.arrow((L, 0), (L + 6, 0), C["load"], 3.0, 10)
+    cv.math((L + 6, 0), "T", 16, C["load"], "start", dx=6, weight="700")
+    cv.dim((0, -Q_HC / 2), (Q_E1, -Q_HC / 2), f"{Q_E1:g}", off=30, label_off=16)
+    cv.dim((Q_E1, -Q_HC / 2), (Q_E1 + Q_S, -Q_HC / 2), f"{Q_S:g}", off=30, label_off=16)
+    cv.dim((Q_E1 + Q_S, -Q_HC / 2), (xe, -Q_HC / 2), f"{Q_E2:g}", off=30, label_off=16)
+    cv.text((xe, Q_HC / 2), "連接板邊緣（虛線）", 12, C["accent"], dy=-14, weight="700")
+    cv.text((0, Q_HC / 2), "自由端", 12, C["accent"], "start", dy=-14, weight="700")
+    return cv
+
+
+def _q_single():
+    W1, H1 = 520, 440
+    cv = Canvas(W1, H1, sx=10.0, ox=W1 / 2 - 40, oy=H1 / 2 - 20)
+    cv.panel("單槽鋼斷面", "符號照錄（數值見題文）")
+    _q_channel_end(cv, 0, +1, tf=1.25, tw=0.8)
+    cy = 2.0                                    # 示意位置（C_y 數值本題未給）
+    cv.line((-3, 0), (Q_BC + 3, 0), C["muted"], 1.3, dash="8 3 2 3")
+    cv.line((cy, -Q_HC / 2 - 3), (cy, Q_HC / 2), C["muted"], 1.3, dash="8 3 2 3")
+    cv.math((-3, 0), "X", 14, C["text"], "end", dx=-4, weight="700")
+    cv.math((Q_BC + 3, 0), "X", 14, C["text"], "start", dx=4, weight="700")
+    cv.math((cy, -Q_HC / 2 - 3), "Y", 14, C["text"], "start", dx=8, weight="700")
+    cv.dim((0, -Q_HC / 2), (0, Q_HC / 2), "H", off=-56, label_off=-16)
+    cv.dim((0, -Q_HC / 2), (Q_BC, -Q_HC / 2), "B", off=40, label_off=16)
+    cv.dim((0, Q_HC / 2), (cy, Q_HC / 2), "C_{y}", off=-20, label_off=-14, color=C["accent"])
+    cv.math((0.4, -4), "t_{w}", 14, C["text"], "start", dx=14)
+    cv.math((Q_BC, -Q_HC / 2 + 0.6), "t_{f}", 14, C["text"], "start", dx=10)
+    return cv
+
+
+def fig1_problem():
+    path = os.path.join(OUT, "SS-2015-2-fig-1-problem.svg")
+    compose([_q_elev(), _q_end(), _q_plan(), _q_single()], cols=2,
+            title="SS-2015-2 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1、#8–#12；只畫考卷所給條件",
+            note="7 cm 量到連接板邊緣虛線，槽鋼自由端在 5 cm 那側；拉力斜率 3:4",
+            path=path)
+    return path
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    fig1_connection(); fig2_block_shear(); fig3_limit_states(); fig4_weld()
+    fig1_problem(); fig1_connection(); fig2_block_shear(); fig3_limit_states(); fig4_weld()
     print(f"dh={DH:.1f} An={AN:.2f} U={U_TB} (公式 {U_FM:.3f}) Ae={AE:.3f}")
     print(f"GSY={GSY:.1f} NSF={NSF:.1f}")
     print(f"Agv={AGV:.1f} Anv={ANV:.2f} Agt={AGT:.1f} Ant={ANT:.2f}")

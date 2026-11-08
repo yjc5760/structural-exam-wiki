@@ -10,6 +10,10 @@ SS-2025-1 銲接 H 型鋼梁 φbMnx — 解題圖解產生腳本
      攔：翼板寬厚比分母算成 t_f 而非 2t_f；結實/非結實斷面判斷錯
   2. 彈性（Sx）vs 塑性（Zx）應力分布對照
      攔：結實斷面＋完全支撐時誤用 Sx 而非 Zx；Zx 漏算腹板貢獻
+
+圖 1-problem（fig1_problem，2026-11-03 追加）：題目附圖重繪（只畫考卷給的東西，不含寬厚比判定等解題結果）。
+  重繪依據：題目正本 SS-2025-1-problem.md §4 判讀清單（待確認）。斷面依比例；填角銲大小為示意。
+  不重繪：無。
 """
 import sys, os, math
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "..", ".claude", "skills",
@@ -18,6 +22,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "..", ".c
 SKILL_SCRIPTS = "/sessions/brave-elegant-hypatia/mnt/.claude/skills/struct-diagram/scripts"
 if SKILL_SCRIPTS not in sys.path:
     sys.path.insert(0, SKILL_SCRIPTS)
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                "..", "..", "..", "skills", "struct-diagram", "scripts"))
 
 from structdraw import Canvas, C, compose
 
@@ -224,7 +231,57 @@ def fig2_elastic_vs_plastic():
 
 
 # ══════════════════════════════════════════════════════════
+# 圖 1-problem：題目附圖重繪（依題目正本 SS-2025-1-problem.md §4 判讀清單，待確認）
+# 只畫考卷給的東西，與上方解題常數分開；不含任何解題結果（不畫寬厚比、Zx、應力分布）
+# ══════════════════════════════════════════════════════════
+Q_BF, Q_TF = 30.0, 1.5      # #2 翼板 30 × 1.5 cm（上下相同）
+Q_TW = 1.5                  # #2 腹板厚 1.5 cm
+Q_HW = 42.0                 # #1 42 cm 為上下翼板之間（腹板淨高），三段尺寸 1.5／42／1.5 首尾相接
+Q_D = Q_HW + 2 * Q_TF       # 全深（推得值 45 cm，圖上不標）
+Q_LEG = 2.2                 # 填角銲腳長（示意；題文「銲接面積不計入斷面性質」）
+Q_PW, Q_PH = 640, 650
+
+
+def _q_rect(cv, x0, x1, y0, y1):
+    cv.polygon([(x0, y0), (x1, y0), (x1, y1), (x0, y1)], C["fill_c"], C["member"], 1.8)
+
+
+def _q_section():
+    sx = 9.0
+    cv = Canvas(Q_PW, Q_PH, sx=sx, ox=Q_PW / 2 - 70, oy=110)
+    cv.panel("銲接 H 型鋼斷面", "依比例；填角銲大小為示意")
+    _q_rect(cv, -Q_BF / 2, Q_BF / 2, Q_D - Q_TF, Q_D)
+    _q_rect(cv, -Q_BF / 2, Q_BF / 2, 0, Q_TF)
+    _q_rect(cv, -Q_TW / 2, Q_TW / 2, Q_TF, Q_D - Q_TF)
+    for x, sgx in ((Q_TW / 2, 1), (-Q_TW / 2, -1)):
+        for y, sgy in ((Q_D - Q_TF, -1), (Q_TF, 1)):
+            cv.polygon([(x, y), (x + sgx * Q_LEG, y), (x, y + sgy * Q_LEG)], C["member"], C["member"], 1.0)
+    xr = Q_BF / 2
+    cv.dim((xr, Q_D - Q_TF), (xr, Q_D), f"{Q_TF} cm", off=50, label_off=38)
+    cv.dim((xr, Q_TF), (xr, Q_D - Q_TF), f"{Q_HW:.0f} cm", off=50, label_off=34, color=C["accent"])
+    cv.dim((xr, 0), (xr, Q_TF), f"{Q_TF} cm", off=50, label_off=38)
+    cv.dim((-Q_BF / 2, 0), (Q_BF / 2, 0), f"{Q_BF:.0f} cm", off=36, label_off=16)
+    ym = Q_D / 2 + 6
+    cv.arrow((-Q_TW / 2 - 5, ym), (-Q_TW / 2 - 0.2, ym), C["dim"], 1.2, 8)
+    cv.arrow((Q_TW / 2 + 5, ym), (Q_TW / 2 + 0.2, ym), C["dim"], 1.2, 8)
+    cv.math((Q_TW / 2 + 5, ym), f"{Q_TW} cm", 14, C["dim"], "start", dx=6)
+    return cv
+
+
+def fig1_problem():
+    path = os.path.join(OUT, f"{TAG}-fig-1-problem.svg")
+    compose([_q_section()], cols=1,
+            title="SS-2025-1 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1、#2；只畫考卷所給條件",
+            note="右側三段 1.5／42／1.5 首尾相接：42 cm 是上下翼板之間的淨高",
+            path=path)
+    return path
+
+
+# ══════════════════════════════════════════════════════════
 FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "把 42 cm 讀成全深（腹板淨高變 39 cm）；把填角銲面積算進斷面性質"),
     (fig1_section_compact,      "§4 Step2", "翼板寬厚比分母誤用 t_f 而非 2t_f → 結實斷面誤判"),
     (fig2_elastic_vs_plastic,   "§4 Step4-5", "結實斷面＋完全支撐仍誤用 S_x；Z_x 漏算腹板貢獻"),
 ]

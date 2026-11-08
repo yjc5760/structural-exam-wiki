@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SS-U2-1 影片講義</title>
+<link rel="stylesheet" href="../study/assets/katex/katex.min.css">
+<script defer src="../study/assets/katex/katex.min.js"></script>
+<script defer src="../study/assets/katex/auto-render.min.js"></script>
+<style>
+:root{--paper:#f7f4ec;--ink:#22302a;--board:#24382f;--board2:#2f4a3e;--chalk:#f3efe2;--muted:#6b7a72;
+--red:#c0453a;--redbg:#fbeceA;--green:#2f7d4f;--greenbg:#e9f5ec;--yellow:#a7790a;--yellowbg:#fdf5dc;--blue:#2c6b9a;--orange:#c46a1c;--line:#d9d3c3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.8;font-size:16px}
+main{max-width:860px;margin:0 auto;padding:24px 16px 48px}
+.cover{background:var(--board);color:var(--chalk);border-radius:10px;padding:28px 28px 24px;margin-bottom:24px}
+.cover .tag{font-size:13px;letter-spacing:.08em;color:#e7d27c}
+.cover h1{margin:8px 0 6px;font-size:30px;line-height:1.35}
+.cover .meta{color:#b9c8bf;font-size:14px}
+.cover .core{margin-top:18px;padding:12px 16px;border:2px solid #e7d27c;border-radius:6px;font-size:18px;color:#f5e7a6}
+h2{font-size:22px;border-bottom:3px solid var(--board2);padding-bottom:4px;margin:44px 0 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+h2 .no{color:var(--muted);font-weight:400;font-size:16px}
+h3{font-size:18px;margin:24px 0 8px;color:var(--board2)}
+.toc{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 18px}
+.toc ol{columns:2;margin:0;padding-left:22px}
+.toc li{break-inside:avoid}
+.toc a{color:var(--ink);text-decoration:none}
+.toc .t{color:var(--muted);font-size:13px;margin-left:6px;font-variant-numeric:tabular-nums}
+.player{position:sticky;top:0;z-index:5;background:var(--paper);padding:10px 0}
+video{width:100%;border-radius:8px;background:#000;display:block}
+.seek{font:inherit;font-size:13px;border:1px solid var(--board2);background:var(--board);color:var(--chalk);border-radius:20px;padding:2px 12px;cursor:pointer}
+.seek:hover{background:var(--board2)}
+figure{margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px;break-inside:avoid}
+figure img{width:100%;display:block;border-radius:4px}
+figcaption{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted);padding:6px 4px 0}
+figcaption .ts{white-space:nowrap}
+.warn,.ok,.key{border-left:5px solid;border-radius:6px;padding:10px 14px;margin:14px 0;break-inside:avoid}
+.warn{border-color:var(--red);background:var(--redbg)}
+.ok{border-color:var(--green);background:var(--greenbg)}
+.key{border-color:var(--yellow);background:var(--yellowbg)}
+.warn b:first-child,.ok b:first-child,.key b:first-child{display:block;margin-bottom:2px}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff;font-size:15px;break-inside:avoid}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:#eceadf}
+td:first-child,th:first-child{white-space:nowrap}
+.katex-display{overflow-x:auto;overflow-y:hidden;padding:4px 0}
+footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+@media (max-width:600px){.toc ol{columns:1}.cover h1{font-size:24px}}
+@media print{
+ @page{size:A4}
+ body{font-size:13.5px;background:#fff}
+ .player,.seek{display:none!important}
+ main{max-width:none;padding:0}
+ h2{break-after:avoid;margin-top:28px}
+ figure{break-inside:avoid}
+ .cover,.warn,.ok,.key,figure,table{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<style>@media print{#start-backlink{display:none}}</style><div id="start-backlink" style="font:14px/1.6 'Noto Sans TC',system-ui,sans-serif;padding:8px 16px;background:#2f4a5e;color:#fff"><a href="../start.html" style="color:#fff;text-decoration:none">← 從這裡開始（SS 學習路徑）</a></div>
+<main>
+
+<section class="cover">
+  <div class="tag">鋼結構設計 ｜ SS-U2-1 ｜ 影片講義</div>
+  <h1>塑性分析與設計</h1>
+  <div class="meta">影片 10:02 ・ 14 章 ・ 25 段 ・ 黑板圖 25 張</div>
+  <div class="core">從第一根纖維降伏到整個結構崩塌，隔著兩段儲備：斷面儲備（形狀因子）× 結構儲備（彎矩重分配）。</div>
+</section>
+
+<nav class="toc">
+  <b>目錄</b>
+  <ol>
+    <li><a href="#c0">全景：降伏 vs 崩塌</a><span class="t">0:00</span></li>
+    <li><a href="#c1">中性軸會搬家</a><span class="t">0:47</span></li>
+    <li><a href="#c2">範例 SS-2010-1</a><span class="t">1:36</span></li>
+    <li><a href="#c3">Z：一個力偶，兩塊面積</a><span class="t">2:25</span></li>
+    <li><a href="#c4">誰先降伏？取 Smin</a><span class="t">3:12</span></li>
+    <li><a href="#c5">圓管與 H 型鋼</a><span class="t">3:33</span></li>
+    <li><a href="#c6">形狀因子</a><span class="t">4:18</span></li>
+    <li><a href="#c7">塑性鉸：有強度的鉸</a><span class="t">4:40</span></li>
+    <li><a href="#c8">機構與虛功：SS-2005-4</a><span class="t">5:30</span></li>
+    <li><a href="#c9">同一點，兩種量法</a><span class="t">6:45</span></li>
+    <li><a href="#c10">上下限與重分配</a><span class="t">7:13</span></li>
+    <li><a href="#c11">規範前提</a><span class="t">8:01</span></li>
+    <li><a href="#c12">陷阱總表</a><span class="t">8:30</span></li>
+    <li><a href="#c13">總結：解題流程</a><span class="t">9:15</span></li>
+  </ol>
+</nav>
+
+<div class="player"><video id="vid" controls preload="metadata" src="video/SS-U2-1.mp4"></video></div>
+
+<!-- c0 -->
+<section id="c0">
+<h2><span class="no">第 1 章</span>全景：降伏 vs 崩塌 <button class="seek" data-t="0">▶ 0:00</button></h2>
+<p>彈性設計在最外一根纖維碰到 \(F_y\) 時就喊停。塑性設計問的是另一件事：載重還能再加多少，結構才真的變成一組會動的連桿，也就是<b>崩塌機構</b>。</p>
+<table>
+<tr><th>門檻</th><th>判定</th></tr>
+<tr><td>彈性設計</td><td>最外纖維到 \(F_y\) 就喊停</td></tr>
+<tr><td>塑性設計</td><td>結構變成機構才算崩塌</td></tr>
+</table>
+<p>這兩個門檻之間，隔著兩段儲備：<b>斷面儲備</b>和<b>結構儲備</b>。這個單元的十道考題，全部落在這兩段裡。</p>
+<figure><img src="img/SS-U2-1/s01.jpg" alt="彈性設計與塑性設計"><figcaption><span>左藍框：彈性設計；右紅框：塑性設計；下方兩級階梯＝① 斷面儲備、② 結構儲備</span><span class="ts">影片 0:24</span></figcaption></figure>
+<p>拿 SS-2005-4 這根梁（一端固定、一端簡支、均佈載重）來看：</p>
+<table>
+<tr><th>階段</th><th>事件</th><th>載重 \(w\)（tf/m）</th></tr>
+<tr><td>①</td><td>最外纖維降伏</td><td>2.07</td></tr>
+<tr><td>②</td><td>固定端成為第一個塑性鉸</td><td>3.71</td></tr>
+<tr><td>③</td><td>跨間再出第二個鉸，結構崩塌</td><td>5.40</td></tr>
+</table>
+<div class="key"><b>第一個鉸 ≠ 崩塌</b>第一個鉸出現不是崩塌，靜不定結構還要再撐 46%。</div>
+<figure><img src="img/SS-U2-1/s02.jpg" alt="SS-2005-4 載重撓度折線"><figcaption><span>SS-2005-4 載重–撓度折線：① 2.07 → ② 3.71 → ③ 5.40，② 到 ③ 為 +46%</span><span class="ts">影片 0:47</span></figcaption></figure>
+</section>
+
+<!-- c1 -->
+<section id="c1">
+<h2><span class="no">第 2 章</span>中性軸會搬家 <button class="seek" data-t="47.97">▶ 0:47</button></h2>
+<p>斷面層級只要兩個假設：</p>
+<table>
+<tr><th>假設</th><th>內容</th></tr>
+<tr><td>① 平面保持平面</td><td>應變沿高度永遠是直線：\(\varepsilon = \varphi y\)</td></tr>
+<tr><td>② 理想彈塑性</td><td>應力到 \(F_y\) 就走平台：\(\sigma \le F_y\)</td></tr>
+</table>
+<p>塑性化就是應變那條線一直變陡，應力被 \(F_y\) 從上下兩端開始截頂，最後只剩兩塊矩形。</p>
+<figure><img src="img/SS-U2-1/s03.jpg" alt="彈性、部分塑性、全塑應力分布"><figcaption><span>應力分布：彈性（三角形）→ 部分塑性（截頂）→ 全塑（兩塊矩形）</span><span class="ts">影片 1:09</span></figcaption></figure>
+<p>中性軸在哪？純彎曲沒有軸力，壓的合力等於拉的合力：</p>
+$$\int \sigma\, dA = 0$$
+<table>
+<tr><th>狀態</th><th>應力</th><th>條件</th><th>中性軸</th></tr>
+<tr><td>彈性</td><td>\(\sigma \propto y\)</td><td>\(\int y\, dA = 0\)（一次矩為零）</td><td>過形心，叫 <b>ENA</b></td></tr>
+<tr><td>全塑</td><td>\(\sigma = \pm F_y\)</td><td>\(A_c = A_t = A/2\)（上下面積相等）</td><td><b>PNA</b></td></tr>
+</table>
+<div class="key"><b>不對稱斷面：ENA ≠ PNA</b>不對稱斷面兩者一定分開，這正是考點。</div>
+<figure><img src="img/SS-U2-1/s04.jpg" alt="ENA 與 PNA"><figcaption><span>\(\int\sigma dA=0\) 分兩支：藍＝彈性 → ENA；紫＝全塑 → PNA</span><span class="ts">影片 1:36</span></figcaption></figure>
+</section>
+
+<!-- c2 -->
+<section id="c2">
+<h2><span class="no">第 3 章</span>範例 SS-2010-1 <button class="seek" data-t="96.6">▶ 1:36</button></h2>
+<p>SS-2010-1：四塊板由下往上堆，6×2、2×2、6×2、頂上再一塊 2×2 凸塊，\(F_y = 4\)。</p>
+<h3>彈性：誰先降伏</h3>
+<p>形心距底 3.5 cm，頂緣離它 4.5 cm，比底緣遠，所以頂側先降伏。</p>
+$$S_{min} = \frac{162.67}{4.5} = 36.15\ \text{cm}^3,\qquad M_y = 4.0\times 36.15 = 144.6\ \text{tf}\cdot\text{cm}$$
+<figure><img src="img/SS-U2-1/s05.jpg" alt="SS-2010-1 彈性"><figcaption><span>藍虛線 ENA 3.5；頂緣 4.5（紅）＞ 底緣 3.5（綠）→ 頂側先降伏</span><span class="ts">影片 2:00</span></figcaption></figure>
+<h3>全塑：等面積軸</h3>
+<p>全塑時，面積一半是 16 cm²，由底往上累加，剛好停在第二、第三塊交界，PNA 距底 4.0 cm。</p>
+$$Z = 64\ \text{cm}^3,\qquad M_p = 4.0\times 64 = 256\ \text{tf}\cdot\text{cm},\qquad f = \frac{64}{36.15} = 1.77$$
+<div class="warn"><b>陷阱：讀圖</b>舊解把底部讀成和頂部一樣的小凸塊，斷面變成對稱，整題就只剩算術了（黑板上被劃掉的 \(M_y=106.7\)、\(M_p=192\)）。</div>
+<figure><img src="img/SS-U2-1/s06.jpg" alt="SS-2010-1 全塑"><figcaption><span>紫線 PNA 4.0，上下各 16 cm²；右下紅字為讀成對稱的錯解</span><span class="ts">影片 2:25</span></figcaption></figure>
+</section>
+
+<!-- c3 -->
+<section id="c3">
+<h2><span class="no">第 4 章</span>Z：一個力偶，兩塊面積 <button class="seek" data-t="145.83">▶ 2:25</button></h2>
+<p>\(Z\) 不是新的幾何量。全塑時上半一個壓力、下半一個拉力，各等於 \(F_y\cdot A/2\)，\(Z\) 就是半面積乘上兩半形心的距離，也就是每塊面積乘它到 PNA 的距離再加總：</p>
+$$Z = \frac{A}{2}\left(\bar y_c + \bar y_t\right) = \sum A_i\,|d_i|$$
+<div class="key"><b>一次矩 vs 二次矩</b>\(Z\) 是一次矩（塑性），和彈性 \(S = I/c\) 用的二次矩完全無關。</div>
+<figure><img src="img/SS-U2-1/s07.jpg" alt="Z 半面積法"><figcaption><span>\(C = T = F_y A/2\)，力臂 \(\bar y_c + \bar y_t\)</span><span class="ts">影片 2:46</span></figcaption></figure>
+<p>關鍵是先問 <b>PNA 落在哪一塊</b>。SS-2020-2 的上翼板只有 75 cm²，不到半面積 103.75 cm²，PNA 掉進腹板，距頂 21.67 cm。</p>
+<div class="warn"><b>跨過 PNA 的板</b>一定要切成兩段分開算。</div>
+<p>這樣得：</p>
+$$Z = 4{,}624\ \text{cm}^3,\qquad M_p = 2.5\times 4{,}624 = 11{,}560\ \text{tf}\cdot\text{cm}$$
+<figure><img src="img/SS-U2-1/s08.jpg" alt="SS-2020-2 PNA 進腹板"><figcaption><span>SS-2020-2：PNA 距頂 21.67，腹板上段（紅）與下段（綠）分開算</span><span class="ts">影片 3:12</span></figcaption></figure>
+</section>
+
+<!-- c4 -->
+<section id="c4">
+<h2><span class="no">第 5 章</span>誰先降伏？取 Smin <button class="seek" data-t="192.5">▶ 3:12</button></h2>
+<p>非對稱斷面求 \(M_y\)，要問哪一側離 ENA 比較遠。SS-2023-3 頂翼板寬、底翼板窄，寬翼板把形心拉上去，結果窄的底緣反而離得遠，底緣先降伏，\(S_{min}\) 取在底側：</p>
+$$M_y = F_y\,S_{min},\qquad S_{min} = S_{bot}$$
+<div class="warn"><b>直覺陷阱</b>直覺寬的那側扛得多，就會選錯 \(S\)。</div>
+<figure><img src="img/SS-U2-1/s09.jpg" alt="SS-2023-3 Smin"><figcaption><span>SS-2023-3：頂寬底窄，ENA 偏上，底緣「較遠」（紅）先降伏</span><span class="ts">影片 3:33</span></figcaption></figure>
+</section>
+
+<!-- c5 -->
+<section id="c5">
+<h2><span class="no">第 6 章</span>圓管與 H 型鋼 <button class="seek" data-t="213.73">▶ 3:33</button></h2>
+<h3>空心圓管（SS-2013-1，內徑 \(0.6D\)）</h3>
+<p>\(Z\) 可以外圓減內圓，因為兩者對同一條軸取一次矩：</p>
+$$Z = \frac{D^3 - d^3}{6} = 0.1307\,D^3$$
+<p>\(S\) 卻不行，\(S\) 的分母是外緣距離，只能先把慣性矩相減，再除以 \(D\) 的一半：</p>
+$$S \ne S_{out} - S_{in},\qquad S = \frac{I_{out} - I_{in}}{D/2} = 0.0855\,D^3$$
+<div class="ok"><b>自我檢查</b>形狀因子 1.529，夾在實心圓 1.70 和薄管 1.27 之間。</div>
+<figure><img src="img/SS-U2-1/s10.jpg" alt="空心圓管 Z 與 S"><figcaption><span>綠：\(Z\) 可外減內；紅叉：\(S\) 不可外減內；下方 \(f\) 數線</span><span class="ts">影片 3:59</span></figcaption></figure>
+<h3>雙對稱 H 型鋼</h3>
+<p>一條式子：翼板面積乘力臂，加上腹板那一項。</p>
+$$Z_x = b_f t_f\,(d - t_f) + \frac{t_w (d - 2t_f)^2}{4}$$
+<div class="warn"><b>翼板力臂</b>是上下翼板形心距 \(d - t_f\)，不是 \(d\)。</div>
+<p>SS-2006-3 的 H600×300×12×20：\(Z = 4{,}420.8\ \text{cm}^3\)。</p>
+<figure><img src="img/SS-U2-1/s11.jpg" alt="H 型鋼 Zx"><figcaption><span>SS-2006-3 H600×300×12×20，黃色箭頭為翼板力臂 \(d - t_f\)</span><span class="ts">影片 4:17</span></figcaption></figure>
+</section>
+
+<!-- c6 -->
+<section id="c6">
+<h2><span class="no">第 7 章</span>形狀因子 <button class="seek" data-t="258.1">▶ 4:18</button></h2>
+<p>形狀因子 \(f = Z/S\)：</p>
+<table>
+<tr><th>斷面</th><th>\(f\)</th></tr>
+<tr><td>H 型鋼</td><td>約 1.12</td></tr>
+<tr><td>矩形</td><td>1.50</td></tr>
+<tr><td>圓管（SS-2013-1）</td><td>1.53</td></tr>
+<tr><td>實心圓</td><td>1.70</td></tr>
+<tr><td>T 型（SS-2005-4）</td><td>1.79（最大）</td></tr>
+</table>
+<div class="warn"><b>f 大 ≠ 斷面效率高</b>剛好相反：\(f\) 大代表彈性時有很多材料閒置，塑性化只是把它們叫醒。H 型鋼 \(f\) 小，是因為它的 \(S\) 本來就很大。</div>
+<figure><img src="img/SS-U2-1/s12.jpg" alt="形狀因子橫條圖"><figcaption><span>形狀因子橫條圖，H 型鋼最小（藍）、T 型最大（橙）</span><span class="ts">影片 4:40</span></figcaption></figure>
+</section>
+
+<!-- c7 -->
+<section id="c7">
+<h2><span class="no">第 8 章</span>塑性鉸：有強度的鉸 <button class="seek" data-t="280.97">▶ 4:40</button></h2>
+<p>斷面要曲率無限大才真正到 \(M_p\)。實際上大曲率只集中在彎矩最大處很短的一段，把它縮成零長度，就是<b>塑性鉸</b>：轉角可以一直增加，但轉的時候一直傳遞 \(M_p\)。</p>
+<table>
+<tr><th></th><th>彎矩</th><th>內功</th></tr>
+<tr><td>一般鉸</td><td>\(M = 0\)</td><td>0（不耗能）</td></tr>
+<tr><td>塑性鉸</td><td>\(M = \pm M_p\)</td><td>轉一個 \(\theta\) 消耗 \(M_p\theta\)</td></tr>
+</table>
+<figure><img src="img/SS-U2-1/s13.jpg" alt="一般鉸與塑性鉸"><figcaption><span>左：一般鉸 \(M=0\)；右：塑性鉸的剛塑性 \(M\)–\(\theta\)，到 \(M_p\) 才轉</span><span class="ts">影片 5:04</span></figcaption></figure>
+<p>鉸會出在彎矩最先到 \(M_p\) 的地方：固定端和連續支承、集中載重點、均佈載重的最大正彎矩處。</p>
+<div class="key"><b>前提：鉸要轉得動</b>不能中途局部挫屈或側扭挫屈，否則重分配就不存在。所以國內規範另訂<b>塑性設計斷面</b>，翼板寬厚比限 \(b_f/2t_f \le 14/\sqrt{F_y}\)，比結實斷面更嚴。</div>
+<figure><img src="img/SS-U2-1/s14.jpg" alt="鉸位與前提"><figcaption><span>鉸位四項；紅框前提：\(\lambda \le \lambda_{pd}\)，翼板 \(14/\sqrt{F_y}\)（結實 \(17/\sqrt{F_y}\) 較鬆）</span><span class="ts">影片 5:30</span></figcaption></figure>
+</section>
+
+<!-- c8 -->
+<section id="c8">
+<h2><span class="no">第 9 章</span>機構與虛功：SS-2005-4 <button class="seek" data-t="330.77">▶ 5:30</button></h2>
+<p>靜不定度 \(n\) 的結構，\(n\) 個鉸讓它變成靜定，第 \(n+1\) 個鉸讓它變成機構。</p>
+<table>
+<tr><th>結構</th><th>\(n\)</th><th>完整機構鉸數</th></tr>
+<tr><td>簡支梁</td><td>0</td><td>1</td></tr>
+<tr><td>一端固定一端簡支</td><td>1</td><td>2</td></tr>
+<tr><td>兩端固定</td><td>2</td><td>3</td></tr>
+</table>
+<p>機構能動一下，就能用虛功：外力做的功，等於所有塑性鉸消耗的功。</p>
+$$W_{ext} = W_{int}$$
+<table>
+<tr><th>項目</th><th>算法</th></tr>
+<tr><td>外功</td><td>載重 \(w\) × 位移圖面積</td></tr>
+<tr><td>內功</td><td>\(\sum M_p\) × 每個鉸的相對轉角（簡支端不算）</td></tr>
+</table>
+<figure><img src="img/SS-U2-1/s15.jpg" alt="機構與虛功"><figcaption><span>靜不定度與鉸數表；虛功 \(W_{ext}=W_{int}\)</span><span class="ts">影片 5:56</span></figcaption></figure>
+<p>SS-2005-4，固定端 A 轉 \(\theta\)，跨間鉸 C 距 A 為 \(x\)。C 的相對轉角是左右兩段轉角之和，別漏了右邊：</p>
+$$\theta_C = \theta + \theta\,\frac{x}{L-x}$$
+<p>寫出 \(w\) 隨 \(x\) 變化，取最小值：</p>
+$$w(x) = \frac{2M_p\,(2L - x)}{L\,x\,(L-x)},\qquad x = (2-\sqrt2)\,L = 0.586L\ \text{（距固定端）}$$
+<div class="warn"><b>直覺放跨中</b>會高估 2.9%，偏不安全（跨中 \(wL^2/M_p = 12.0\)，最小值 11.657）。</div>
+<figure><img src="img/SS-U2-1/s16.jpg" alt="SS-2005-4 機構"><figcaption><span>左：機構位移圖與 C 的相對轉角；右：\(wL^2/M_p\) 對 \(x/L\) 曲線，最低點 \(0.586L\)、11.657</span><span class="ts">影片 6:21</span></figcaption></figure>
+<p>代入 T 型梁的 \(M_p = 1{,}668.6\ \text{tf}\cdot\text{cm}\)，崩塌係數 \(6+4\sqrt2 = 11.657\)：</p>
+$$w_u = (6+4\sqrt2)\frac{M_p}{L^2} = 11.657\times\frac{1{,}668.6}{600^2} = 5.40\ \text{tf/m}$$
+<div class="warn"><b>陷阱：24 cm 當成腹板高</b>這題舊解把 24 cm 當成腹板高，得到 6.58，高估 22%。看尺寸線兩端對齊哪條邊，再動筆。</div>
+<figure><img src="img/SS-U2-1/s17.jpg" alt="SS-2005-4 wu"><figcaption><span>\(w_u = 5.40\) tf/m（黃框）；紅字為 24 cm 讀錯的舊解 6.58</span><span class="ts">影片 6:45</span></figcaption></figure>
+</section>
+
+<!-- c9 -->
+<section id="c9">
+<h2><span class="no">第 10 章</span>同一點，兩種量法 <button class="seek" data-t="405.6">▶ 6:45</button></h2>
+<p>SS-2020-2 把 \(x\) 從滾支端量起，得到 \((\sqrt2-1)L = 0.414L\)。它和 \(0.586L\) 是<b>同一個點</b>，常數也一樣是 11.657：</p>
+$$w_u = 11.657\times\frac{11{,}560}{800^2} = 21.06\ \text{tf/m}$$
+<p>固定端有 \(M_p\) 幫忙扛，鉸被推向簡支端。集中載重更簡單，鉸位已知，跨中集中力得：</p>
+$$P_u = \frac{6M_p}{L}$$
+<figure><img src="img/SS-U2-1/s18.jpg" alt="同一點兩種量法"><figcaption><span>自固定端 \(0.586L\)（橙）＝自滾支端 \(0.414L\)（藍）；右下跨中集中力 \(P_u = 6M_p/L\)</span><span class="ts">影片 7:12</span></figcaption></figure>
+</section>
+
+<!-- c10 -->
+<section id="c10">
+<h2><span class="no">第 11 章</span>上下限與重分配 <button class="seek" data-t="433.03">▶ 7:13</button></h2>
+<table>
+<tr><th>方法</th><th>性質</th><th>說明</th></tr>
+<tr><td>機構法</td><td>上限 \(w_{mech} \ge w_u\)</td><td>猜錯機構，算出來一定偏高</td></tr>
+<tr><td>平衡法</td><td>下限 \(w_{eq} \le w_u\)</td><td>任何平衡、而且處處 \(|M| \le M_p\) 的彎矩圖，對應的載重一定不超過真值</td></tr>
+</table>
+<p>兩邊夾到同一個數，才是精確解。</p>
+<div class="ok"><b>驗證</b>虛功算完，一定要畫一次彎矩圖；若有任何地方超過 \(M_p\)，就是機構選錯了。</div>
+<figure><img src="img/SS-U2-1/s19.jpg" alt="上下限"><figcaption><span>紅：機構法＝上限；綠：平衡法＝下限；夾到同一點＝精確解</span><span class="ts">影片 7:39</span></figcaption></figure>
+<p>第一個鉸出現時，固定端已到 \(-M_p\)，跨間只用了 0.56 倍，還閒著。之後固定端被鎖住，多的載重全轉給跨間，這就是<b>彎矩重分配</b>。</p>
+<table>
+<tr><th>狀態</th><th>載重</th><th>固定端</th><th>跨間</th></tr>
+<tr><td>第一個鉸</td><td>\(w_1 = 8M_p/L^2\)</td><td>\(-M_p\)</td><td>\(0.56M_p\)</td></tr>
+<tr><td>崩塌</td><td>\(w_u = 11.657M_p/L^2\)</td><td>\(-M_p\)</td><td>\(+M_p\)</td></tr>
+</table>
+<p>從降伏到崩塌是 2.61 倍：</p>
+$$2.61 = \underbrace{1.79}_{\text{斷面儲備}}\times\underbrace{1.46}_{\text{結構儲備}}$$
+<figure><img src="img/SS-U2-1/s20.jpg" alt="彎矩重分配"><figcaption><span>橙：第一個鉸時的彎矩圖（跨間 0.56）；紫：崩塌時（跨間到 \(+M_p\)）</span><span class="ts">影片 8:01</span></figcaption></figure>
+</section>
+
+<!-- c11 -->
+<section id="c11">
+<h2><span class="no">第 12 章</span>規範前提 <button class="seek" data-t="481.53">▶ 8:01</button></h2>
+<p>考題寫「以塑性設計法」，就用 \(M_p = F_y Z\) 和機構法作答。但現行 AISC 360 的 F9 對 T 型梁有上限：</p>
+<table>
+<tr><th>T 型梁肢</th><th>上限</th></tr>
+<tr><td>肢受壓</td><td>\(M_n \le M_y\)</td></tr>
+<tr><td>肢受拉</td><td>\(M_n \le 1.6M_y\)</td></tr>
+</table>
+<p>SS-2005-4 依此重做，兩個鉸都被砍，\(w_u\) 降到 4.28 tf/m，少了 21%。</p>
+<div class="key"><b>拉開分數</b>答完補一段「依現行規範」，常是拉開分數的地方。</div>
+<figure><img src="img/SS-U2-1/s21.jpg" alt="AISC 360 F9"><figcaption><span>考卷「塑性設計」vs AISC 360 F9；SS-2005-4：5.40 → 4.28 tf/m（−21%）</span><span class="ts">影片 8:29</span></figcaption></figure>
+</section>
+
+<!-- c12 -->
+<section id="c12">
+<h2><span class="no">第 13 章</span>陷阱總表 <button class="seek" data-t="510.33">▶ 8:30</button></h2>
+<p>考前掃一眼陷阱。</p>
+<table>
+<tr><th>#</th><th>錯</th><th>對</th></tr>
+<tr><td>1</td><td>PNA 就是形心</td><td>PNA 是等面積軸，形心是 ENA</td></tr>
+<tr><td>2</td><td>寬翼板那側先降伏</td><td>\(M_y\) 取離 ENA 較遠那側的 \(S_{min}\)</td></tr>
+<tr><td>3</td><td>跨 PNA 的板整塊算</td><td>切成兩段分別算</td></tr>
+<tr><td>4</td><td>T 型 PNA 一定在肢</td><td>先比翼板面積和半面積，PNA 可能在翼板裡</td></tr>
+<tr><td>5</td><td>H 型翼板力臂 \(d\)</td><td>力臂是 \(d - t_f\)</td></tr>
+</table>
+<figure><img src="img/SS-U2-1/s22.jpg" alt="陷阱 1–5"><figcaption><span>陷阱 1–5（劃掉的紅字＝錯，綠字＝對）</span><span class="ts">影片 8:53</span></figcaption></figure>
+<table>
+<tr><th>#</th><th>錯</th><th>對</th></tr>
+<tr><td>6</td><td>塑性鉸 \(M = 0\)</td><td>塑性鉸傳 \(M_p\)，耗能 \(M_p\theta\)</td></tr>
+<tr><td>7</td><td>第一個鉸就崩塌</td><td>\(n+1\) 個鉸才成完整機構</td></tr>
+<tr><td>8</td><td>跨間鉸只算一側轉角</td><td>相對轉角＝左右兩段之和</td></tr>
+<tr><td>9</td><td>均佈載重鉸放跨中</td><td>求最小：距固定端 \(0.586L\)</td></tr>
+<tr><td>10</td><td>算一個機構就交卷</td><td>取最小，並畫彎矩圖驗證</td></tr>
+</table>
+<figure><img src="img/SS-U2-1/s23.jpg" alt="陷阱 6–10"><figcaption><span>陷阱 6–10</span><span class="ts">影片 9:15</span></figcaption></figure>
+</section>
+
+<!-- c13 -->
+<section id="c13">
+<h2><span class="no">第 14 章</span>總結：解題流程 <button class="seek" data-t="555.53">▶ 9:15</button></h2>
+<p>整理成一張流程。先分題型：</p>
+<table>
+<tr><th>題型</th><th>步驟</th></tr>
+<tr><td>只問斷面</td><td>找 ENA 和 \(S_{min}\) 算 \(M_y\) → 找 PNA 算 \(Z\) 和 \(M_p\)</td></tr>
+<tr><td>問崩塌載重</td><td>借斷面那一支的 \(M_p\) → 數 \(n+1\) 個鉸 → 虛功求最小 → 畫彎矩圖做下限檢核（超過 \(M_p\) 就換機構）</td></tr>
+<tr><td>兩支都要</td><td>檢查前提：結實斷面和側撐</td></tr>
+</table>
+<figure><img src="img/SS-U2-1/s24.jpg" alt="解題流程圖"><figcaption><span>決策流程：左＝斷面支、右＝崩塌支，紫虛線把 \(M_p\) 借給崩塌支，底部前提檢核</span><span class="ts">影片 9:39</span></figcaption></figure>
+<p>這個單元的公式幾乎從來不印在考卷上，但都能從兩個假設和一條虛功方程式推出來。</p>
+<div class="key"><b>記住兩段儲備</b>斷面儲備是形狀因子，結構儲備是重分配，兩者相乘，就是從第一根纖維降伏，走到整個結構崩塌的距離。<br>SS-2005-4：\(1.79 \times 1.46 = 2.61\)</div>
+<figure><img src="img/SS-U2-1/s25.jpg" alt="兩段儲備"><figcaption><span>斷面儲備 1.79 × 結構儲備 1.46 ＝ 降伏 → 崩塌 2.61</span><span class="ts">影片 10:00</span></figcaption></figure>
+</section>
+
+<footer>
+來源：<code>lecture-SS-U2-1/SS-U2-1.mp4</code>（10:02）、<code>lecture-SS-U2-1/segments.py</code>（逐字旁白 25 段）、<code>lecture-SS-U2-1/SS-U2-1.srt</code>、<code>lecture-SS-U2-1/timeline.json</code>。文字取自旁白，圖片為各段結束時黑板畫面；例題數值已依 HANDOFF.md 並以程式複算。
+</footer>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+  var v=document.getElementById('vid');
+  document.querySelectorAll('.seek').forEach(function(b){b.addEventListener('click',function(){
+    v.currentTime=parseFloat(b.dataset.t);v.play();v.scrollIntoView({behavior:'smooth',block:'nearest'});});});
+});
+</script>
+</body>
+</html>

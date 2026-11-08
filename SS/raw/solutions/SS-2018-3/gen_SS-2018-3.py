@@ -4,6 +4,8 @@
 
 銲道幾何、應力與所需銲腳尺寸全部由下方常數區重算；改銲腳尺寸重跑，判定跟著變。
 執行：python3 gen_SS-2018-3.py   →   figs/*.svg
+附加 fig1_problem：題目附圖重繪（重繪依據：題目正本 -problem.md §4 判讀清單，待確認）；
+輸出目錄可由參數指定：python3 gen_<id>.py [輸出目錄]（預設 figs/）。
 """
 import sys, os, math
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -13,7 +15,7 @@ SKILL = os.environ.get("SD_SKILL",
 sys.path.insert(0, os.path.join(SKILL, "scripts"))
 from structdraw import Canvas, C, compose
 
-OUT = os.path.join(_HERE, "figs")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(_HERE, "figs")
 
 # ══════════════════════════════════════════════════════════════
 # L1：題目給定（§1，單位 mm、N）
@@ -53,7 +55,7 @@ AWF  = lambda w, L=LF: THR(w)*L
 TAUF = FF/AWF(W0)                             # 151.6
 TAUF_ALT = FF/AWF(W0, LF_ALT)                 # 140.3
 W_FL_REQ = W0*TAUF/FA                          # 10.05
-W_FL_USE = 10     # §4 翼板 Step 4：10.05 → 10 mm
+W_FL_USE = 11     # §4 翼板 Step 4：10.05 → 進位 11 mm（2026-11-01；10 mm 時 τ=91.0>90.5）
 SIG_BASE = FF/(BF*TFL)                        # 80.4 母材
 SIG_ALLOW_BASE = 0.6*FY                       # 141
 W_FL_MAX = TFL - 2                            # 沿板緣上限 14 mm
@@ -246,8 +248,148 @@ def fig3_code_compare():
     cv.save(os.path.join(OUT, "SS-2018-3-fig-3-code-compare.svg"))
 
 
+# ══════════════════════════════════════════════════════════════
+# 圖 1：題目附圖重繪（依題目正本 SS-2018-3-problem.md §4 判讀清單，待確認）
+# 只畫考卷給的東西，與上方解題常數分開；不含銲長、應力、所需銲腳等任何解題結果。
+# ══════════════════════════════════════════════════════════════
+Q_D, Q_BF, Q_TF, Q_TW = 500.0, 200.0, 16.0, 9.0   # 圖面 梁斷面 500／200／16／9（mm）
+Q_SC  = 40.0      # 圖面 扇形開孔至翼板內側 40 mm（#3）
+Q_W   = "6"       # #1 三處皆 6 mm 填角銲；#2 箭頭與基線交點有圓圈（全周銲，待確認）
+Q_M, Q_Q = "M=150kN-m", "Q=100kN"   # 圖面 梁端作用力（#4、#5）
+# 示意（考卷未標）：箱型柱寬、柱壁厚、柱與梁畫出長度、斷面圖位置
+Q_BC, Q_TC = 380.0, 16.0
+Q_HC = 180.0
+Q_LB = 640.0
+Q_XS = 1000.0     # 斷面圖中心 x（排版用）
+
+
+def _q_rect(cv, x0, x1, y0, y1, fill="#FFFFFF", w=1.6):
+    cv.polygon([(x0, y0), (x1, y0), (x1, y1), (x0, y1)], fill, C["member"], w)
+
+
+def _q_zig(cv, x0, x1, y):
+    xm = (x0 + x1) / 2
+    cv.poly([(x0, y), (xm - 10, y), (xm - 3, y + 18), (xm + 3, y - 18), (xm + 10, y), (x1, y)], C["member"], 1.6)
+
+
+def _q_pinch(cv, p0, p1, label, orient, label_end=1, L=30):
+    """小尺寸：兩支箭頭由外側指向兩端（同考卷 16、9 的標法），標字放在 label_end 那一側外面。"""
+    (x0, y0), (x1, y1) = cv.P(p0), cv.P(p1)
+    d = C["dim"]
+    if orient == "v":
+        lo, hi = (p0, p1) if y0 > y1 else (p1, p0)        # lo：畫面下方端
+        (xl, yl), (xh, yh) = cv.P(lo), cv.P(hi)
+        cv.parts.append(f'<line x1="{xl - 8:.1f}" y1="{yl:.1f}" x2="{xl + 22:.1f}" y2="{yl:.1f}" stroke="{d}" stroke-width="1" stroke-dasharray="3 3"/>')
+        cv.parts.append(f'<line x1="{xh - 8:.1f}" y1="{yh:.1f}" x2="{xh + 22:.1f}" y2="{yh:.1f}" stroke="{d}" stroke-width="1" stroke-dasharray="3 3"/>')
+        cv.arrow(_q_inv(cv, xl, yl + L), lo, d, 1.3, 8)
+        cv.arrow(_q_inv(cv, xh, yh - L), hi, d, 1.3, 8)
+        ty = (yl + L + 12) if label_end == 0 else (yh - L - 12)
+        cv.math_px(xl + 2, ty, label, 15, C["text"])
+    else:
+        lo, hi = (p0, p1) if x0 < x1 else (p1, p0)
+        (xl, yl), (xh, yh) = cv.P(lo), cv.P(hi)
+        cv.arrow(_q_inv(cv, xl - L, yl), lo, d, 1.3, 8)
+        cv.arrow(_q_inv(cv, xh + L, yh), hi, d, 1.3, 8)
+        cv.math_px(xh + L + 4, yh + 16, label, 15, C["text"], "start")
+
+
+def _q_inv(cv, x, y):
+    return ((x - cv.ox) / cv.sx, (cv.h - y - cv.oy) / cv.sx)
+
+
+def _q_weld_sym(cv, tip, dx=48, dy=-80):
+    m = C["text"]
+    tx, ty = cv.P(tip)
+    cx, cy = tx + dx, ty + dy
+    ang = math.atan2(ty - cy, tx - cx)
+    cv.parts.append(f'<line x1="{cx:.1f}" y1="{cy:.1f}" x2="{tx:.1f}" y2="{ty:.1f}" stroke="{m}" stroke-width="1.5"/>')
+    hl, hw = 11, 4
+    pts = [(tx, ty), (tx - hl * math.cos(ang) + hw * math.sin(ang), ty - hl * math.sin(ang) - hw * math.cos(ang)),
+           (tx - hl * math.cos(ang) - hw * math.sin(ang), ty - hl * math.sin(ang) + hw * math.cos(ang))]
+    cv.parts.append(f'<polygon points="{" ".join(f"{a:.1f},{b:.1f}" for a, b in pts)}" fill="{m}"/>')
+    cv.parts.append(f'<line x1="{cx:.1f}" y1="{cy:.1f}" x2="{cx + 95:.1f}" y2="{cy:.1f}" stroke="{m}" stroke-width="1.5"/>')
+    cv.parts.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="8" fill="#FFFFFF" stroke="{m}" stroke-width="1.6"/>')
+    x0 = cx + 40
+    cv.parts.append(f'<polygon points="{x0:.1f},{cy - 12:.1f} {x0:.1f},{cy + 12:.1f} {x0 + 16:.1f},{cy:.1f}" '
+                    f'fill="#FFFFFF" stroke="{m}" stroke-width="1.5"/>')
+    cv.text_px(x0 - 6, cy - 14, Q_W, 17, m, "end", weight="700")
+
+
+def fig1_problem():
+    path = os.path.join(OUT, "SS-2018-3-fig-1-problem.svg")
+    cv = Canvas(1200, 740, sx=0.64, ox=330, oy=210)
+    cv.panel("箱型柱–H 梁接頭立面與梁斷面", "單位：mm")
+    top, bot = Q_D + Q_HC, -Q_HC
+    # 箱型柱：兩側柱壁（雙線）＋梁翼高度之橫隔板
+    for x0 in (-Q_BC, -Q_TC):
+        _q_rect(cv, x0, x0 + Q_TC, bot, top)
+    for y0 in (0.0, Q_D - Q_TF):
+        _q_rect(cv, -Q_BC + Q_TC, -Q_TC, y0, y0 + Q_TF)
+    _q_zig(cv, -Q_BC - 10, 10, top)
+    _q_zig(cv, -Q_BC - 10, 10, bot)
+    cv.text((-Q_BC / 2, top + 50), "柱 SN 400 B", 16, C["text"], weight="700")
+    # H 梁立面
+    for y0 in (0.0, Q_D - Q_TF):
+        _q_rect(cv, 0, Q_LB, y0, y0 + Q_TF)
+    ym = Q_D / 2
+    cv.poly([(Q_LB, Q_TF), (Q_LB, ym - 12), (Q_LB + 8, ym - 4), (Q_LB - 8, ym + 4), (Q_LB, ym + 12),
+             (Q_LB, Q_D - Q_TF)], C["member"], 1.6)
+    cv.text((Q_LB * 0.62, Q_D + 60), "梁 SN 400 B", 16, C["text"], weight="700")
+    # 扇形開孔（腹板上下端、靠柱面）與 40
+    for yc, sg in ((Q_D - Q_TF, -1), (Q_TF, 1)):
+        pts = [(Q_SC * math.sin(t * math.pi / 40), yc + sg * Q_SC * math.cos(t * math.pi / 40)) for t in range(21)]
+        cv.poly(pts, C["member"], 1.4)
+    xs = Q_SC + 70
+    cv.line((Q_SC, Q_D - Q_TF), (xs + 10, Q_D - Q_TF), C["dim"], 1, dash="3 3")
+    cv.line((0, Q_D - Q_TF - Q_SC), (xs + 10, Q_D - Q_TF - Q_SC), C["dim"], 1, dash="3 3")
+    cv.dim((xs, Q_D - Q_TF), (xs, Q_D - Q_TF - Q_SC), f"{Q_SC:.0f}", label_off=-20, size=15)
+    # 銲接符號三處（上翼板、腹板、下翼板）
+    _q_weld_sym(cv, (0, Q_D - Q_TF / 2))
+    _q_weld_sym(cv, (0, Q_D * 0.42), dx=48, dy=70)
+    _q_weld_sym(cv, (0, Q_TF / 2), dx=48, dy=70)
+    # 梁端作用力
+    xq = 230.0
+    cv.arrow((xq, Q_D * 0.70), (xq, Q_D * 0.44), C["load"], 4.0, 14)
+    cv.moment_arrow((xq + 110, Q_D * 0.60), r=28, ccw=False, color=C["load"], w=3.4, span=250, start=150)
+    cv.text((xq + 165, Q_D * 0.70), Q_M, 16, C["load"], "start", weight="700")
+    cv.text((xq + 20, Q_D * 0.28), Q_Q, 16, C["load"], "start", weight="700")
+    # 投影線（立面翼板延伸至斷面）
+    for yy in (0.0, Q_D):
+        cv.line((Q_LB + 40, yy), (Q_XS - Q_BF / 2 - 40, yy), C["member"], 1.2)
+    # 梁斷面
+    xa, xb = Q_XS - Q_BF / 2, Q_XS + Q_BF / 2
+    _q_rect(cv, xa, xb, 0, Q_TF, C["fill_c"])
+    _q_rect(cv, xa, xb, Q_D - Q_TF, Q_D, C["fill_c"])
+    _q_rect(cv, Q_XS - Q_TW / 2, Q_XS + Q_TW / 2, Q_TF, Q_D - Q_TF, C["fill_c"])
+    cv.dim((xa, Q_D), (xb, Q_D), f"{Q_BF:.0f}", off=-28, label_off=-15, size=15)
+    xr = xb + 115
+    for yy in (0.0, Q_D):
+        cv.line((xb + 20, yy), (xr + 12, yy), C["dim"], 1, dash="3 3")
+    cv.dim((xr, Q_D), (xr, 0), f"{Q_D:.0f}", label_off=-22, size=15)
+    xt = xb + 55
+    for yy in (Q_TF, Q_D - Q_TF):
+        cv.line((xb, yy), (xt + 10, yy), C["dim"], 1, dash="3 3")
+    _q_pinch(cv, (xt, Q_D - Q_TF), (xt, Q_D), f"{Q_TF:.0f}", "v", label_end=1)
+    _q_pinch(cv, (xt, 0), (xt, Q_TF), f"{Q_TF:.0f}", "v", label_end=0)
+    _q_pinch(cv, (Q_XS - Q_TW / 2, Q_D * 0.55), (Q_XS + Q_TW / 2, Q_D * 0.55), f"{Q_TW:.0f}", "h", label_end=1)
+    compose([cv], cols=1,
+            title="SS-2018-3 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1–#5；梁斷面與 40 依比例，柱寬、柱壁厚與構材長度為示意",
+            note="三個銲接符號都是 6 mm 填角銲（不是全滲透），箭頭與基線交點的圓圈為全周銲記號",
+            path=path)
+    return path
+
+
+FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "把 6 mm 填角銲讀成全滲透開槽銲；漏看全周銲圓圈；腹板銲長忘扣扇形開孔 40"),
+]
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
+    for fn, section, catches in FIGURES:
+        print(f"{os.path.basename(fn()):<34} {section:<20} 攔：{catches}")
     fig1_joint(); fig2_web_stress(); fig3_code_compare()
     print(f"l_w={LW:g}  S_w(6)={SW(W0):,.0f} mm³  A_w(6)={AW(W0):,.0f} mm²")
     print(f"τw1={TAU1:.1f} τw2={TAU2:.1f} τ={TAU:.1f} > fa={FA} -> w≥{W_WEB_REQ:.2f}"

@@ -15,7 +15,7 @@ SKILL = os.environ.get("SD_SKILL",
 sys.path.insert(0, os.path.join(SKILL, "scripts"))
 from structdraw import Canvas, C, compose
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figs")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "figs")
 
 # ══════════════════════════════════════════════════════════════
 # 由 SS-2009-1 §4 之規範條文取得
@@ -243,8 +243,93 @@ def fig2_mechanism():
             path=os.path.join(OUT, "SS-2009-1-fig-2-mechanism.svg"))
 
 
+# ══════════════════════════════════════════════════════════════
+# 圖 1（題目）：題目附圖重繪（依題目正本 SS-2009-1-problem.md §4 判讀清單，待確認）
+# 只畫考卷給的東西（無數值示意圖），與上方解題常數分開；不含任何解題結果
+# 全圖為示意比例：考卷附圖本身不帶任何尺寸或數值（清單 #1）
+# ══════════════════════════════════════════════════════════════
+Q_NBOLT  = 6          # #1 每側剪力板一縱列 6 個螺栓孔
+Q_CW     = 120.0      # 柱深（兩翼板外緣距，像素，示意）
+Q_BH     = 150.0      # 梁深（像素，示意）
+Q_TF     = 5.0        # 翼板厚（像素，示意）
+Q_COLH   = 200.0      # 柱自節點中心上下延伸（像素，示意）
+Q_BEAML  = 175.0      # 梁自柱面外伸長（像素，示意）
+#   #1 剛接梁柱接頭：梁翼板銲接（銲道）、腹板剪力板螺栓、柱內連續板（梁上下翼板高程）
+
+
+def _q_rect(cv, x0, x1, y0, y1, fill="#FFFFFF", w=1.4):
+    cv.polygon([(x0, y0), (x1, y0), (x1, y1), (x0, y1)], fill, C["member"], w)
+
+
+def _q_break_h(cv, x0, x1, y, amp=10):
+    """水平折斷線（柱端）"""
+    xm = (x0 + x1) / 2
+    cv.poly([(x0 - 12, y), (xm - 8, y), (xm - 2, y + amp), (xm + 4, y - amp), (xm + 10, y),
+             (x1 + 12, y)], C["member"], 1.4)
+
+
+def _q_break_v(cv, x, y0, y1, amp=10):
+    """鉛直折斷線（梁端）"""
+    ym = (y0 + y1) / 2
+    cv.poly([(x, y0 - 12), (x, ym - 8), (x - amp, ym - 2), (x + amp, ym + 4), (x, ym + 10),
+             (x, y1 + 12)], C["member"], 1.4)
+
+
+def fig1_problem():
+    W, H = 760, 560
+    cv = Canvas(W, H, sx=1.0, ox=W / 2, oy=H / 2 - 20)
+    cv.panel("梁柱接頭立面（示意）", "考卷附圖無任何文字與數值")
+    m = C["member"]
+    xf = Q_CW / 2
+    yb = Q_BH / 2
+    # 柱：兩翼板（鉛直）、上下折斷
+    for sgn in (-1, 1):
+        x_out, x_in = sgn * xf, sgn * (xf - Q_TF)
+        _q_rect(cv, min(x_out, x_in), max(x_out, x_in), -Q_COLH, Q_COLH)
+    _q_break_h(cv, -xf, xf, Q_COLH)
+    _q_break_h(cv, -xf, xf, -Q_COLH)
+    # 柱內連續板（梁上下翼板高程）
+    for yc in (yb - Q_TF / 2, -yb + Q_TF / 2):          # 與梁翼板同高程
+        _q_rect(cv, -xf + Q_TF, xf - Q_TF, yc - Q_TF / 2, yc + Q_TF / 2, C["fill_c"], 1.0)
+    # 梁：左右各一，上下翼板（水平）、端部折斷
+    for sgn in (-1, 1):
+        x0, x1 = sgn * xf, sgn * (xf + Q_BEAML)
+        lo, hi = min(x0, x1), max(x0, x1)
+        _q_rect(cv, lo, hi, yb - Q_TF, yb)
+        _q_rect(cv, lo, hi, -yb, -yb + Q_TF)
+        _q_break_v(cv, x1, -yb, yb)
+        # 翼板全滲透銲道（實心三角）與扇形孔
+        for yy, dy in ((yb - Q_TF, -1), (-yb + Q_TF, 1)):
+            cv.polygon([(x0, yy), (x0 + sgn * 9, yy), (x0, yy + dy * 9)], m, m, 1)
+            cv.poly([(x0 + sgn * 2, yy + dy * 0), (x0 + sgn * 2, yy + dy * 9),
+                     (x0 + sgn * 9, yy + dy * 13), (x0 + sgn * 14, yy + dy * 6),
+                     (x0 + sgn * 14, yy)], m, 1.2)
+        # 剪力板＋一縱列螺栓孔
+        px0, px1 = x0 + sgn * 6, x0 + sgn * 46
+        _q_rect(cv, min(px0, px1), max(px0, px1), -yb + 30, yb - 30, "#FFFFFF", 1.3)
+        cv.line((x0 + sgn * 3, -yb + 30), (x0 + sgn * 3, yb - 30), m, 1.6, dash="5 3")
+        hgt = (Q_BH - 60 - 20)
+        for k in range(Q_NBOLT):
+            yk = -hgt / 2 + hgt * k / (Q_NBOLT - 1)
+            cv.dot((x0 + sgn * 26, yk), 3.2, fill="#FFFFFF", stroke=m, w=1.3)
+    path = os.path.join(OUT, "SS-2009-1-fig-1-problem.svg")
+    compose([cv], title="SS-2009-1 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1；全圖示意比例（考卷附圖不帶數值）",
+            note="翼板銲接＋腹板剪力板螺栓＋柱內連續板：剛接梁柱接頭（本題兩小題皆為說明／繪圖題）",
+            path=path)
+    return path
+
+
+FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "把附圖當成要計算的接頭（題目沒有任何數值）；把剪力板螺栓接合誤認為只有腹板接合的簡支接頭"),
+]
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
+    for _fn, _sec, _catch in FIGURES:
+        print(f"{os.path.basename(_fn()):<34} {_sec:<20} 攔：{_catch}")
     fig1_scwb(); fig2_mechanism(); fig3_pm()
     print(f"折點 B = ({B_PT[0]:.4f}, {B_PT[1]:.4f})  兩式驗算：{M_B:.6f} vs {M_B2:.6f}")
     print(f"k_AB = {K_AB:.6f} (= -8/9)   k_BC = {K_BC:.6f} (= -2)")

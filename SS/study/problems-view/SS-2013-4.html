@@ -13,7 +13,7 @@
 body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
   background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
 header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
-header h1{margin:0;font-size:1.15em}
+header h1{color:#fff;margin:0;font-size:1.15em}
 header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
   padding:4px 12px;border-radius:14px;text-decoration:none}
 main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
@@ -28,8 +28,141 @@ blockquote{border-left:4px solid #ffcc80;background:#fff3e0;margin:14px 0;paddin
 .katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
 footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
 </style></head><body>
-<header><h1>SS-2013-4 題目解析</h1><a class="quick" href="../study-SS-U1-3.html" title="SS-U1-3 梁柱桿件 命題分析">&#128269; U1-3 命題分析</a><a class="lect" href="../lecture-SS-U1-3.html" title="SS-U1-3 梁柱桿件 觀念講義">&#128218; U1-3 梁柱桿件 講義</a></header>
+<header><h1>SS-2013-4 題目解析</h1><a class="quick" href="../unit-SS-U1-3.html" title="SS-U1-3 梁柱桿件 單元總覽">&#128269; U1-3 單元總覽</a><a class="lect" href="../lecture-SS-U1-3.html" title="SS-U1-3 梁柱桿件 觀念講義">&#128218; U1-3 梁柱桿件 講義</a></header>
 <main>
+<details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（待確認）</summary><h1>SS-2013-4 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>SS-2013-4.md</code>。<br />
+判讀清單經使用者確認前，狀態為「待確認」；確認後本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>考卷</td>
+<td><code>raw/exams/SS-2013_鋼結構設計.pdf</code> 第 2 頁（全一張・背面），第四題；所引 Alignment Chart 在第 1 頁（題二）</td>
+</tr>
+<tr>
+<td>考年</td>
+<td>民國 102 年（2013）</td>
+</tr>
+<tr>
+<td>配分</td>
+<td>25 分</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td>1 張（圖 4：無側撐剛架），<code>SS-2013-4-fig-1.png</code>；題內公式截圖 <code>SS-2013-4-eqn-1.png</code>；第 1 頁 Alignment Chart 截圖 <code>SS-2013-4-eqn-2.png</code></td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>待確認</strong>（轉錄 2026-11-02，PyMuPDF 110 dpi 全頁＋附圖 500 dpi 局部目視（向量圖）＋PDF 向量座標核對，盲讀後才比對既有解析）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>四、如圖 4 所示一無側撐剛架，承受垂直軸壓力 $P$ 及水平力 $H$。試使用 LRFD 求解柱 BC 之二階設計彎矩（Second-order design moment）$M_u$ 及 $B_1$、$B_2$、$M_{nt}$、$M_{lt}$。（求解柱 BC 之有效長度係數時，請參考題二之 Alignment Chart。）（25 分）</p>
+<p>（柱邊界為固接（Fixed end）時 G 使用 1、為鉸接（hinged end）時 G 使用 10。）</p>
+</blockquote>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>題文：只有符號 $P$、$H$、$L$、$EI$，<strong>沒有任何數值</strong>。</li>
+<li>「以下公式僅提供參考」照錄：</li>
+</ul>
+<p>$$B_1 = \frac{C_m}{1 - P_u/P_{eK}} \ge 1.0,\qquad C_m = 0.6 - 0.4(M_A/M_B),$$<br />
+$$P_{eK} = \frac{\pi^2EI}{(KL)^2} = \frac{P_e}{(K)^2}\;;\qquad B_2 = \frac{1}{1 - \Sigma P_u/\Sigma P_{eK}}$$</p>
+<p><img alt="SS-2013-4 題內參考公式截圖" src="../../raw/solutions/SS-2013-4/SS-2013-4-eqn-1.png" /></p>
+<ul>
+<li>題二（第 1 頁）的 Alignment Chart（左：側位移束制；右：側位移不束制）：</li>
+</ul>
+<p><img alt="SS-2013-4 所引第 1 頁 Alignment Chart 截圖" src="../../raw/solutions/SS-2013-4/SS-2013-4-eqn-2.png" /></p>
+<ul>
+<li>同頁第三題下方的「理論／設計 K 值」表屬第三題。</li>
+<li>公式未給 $M_u = B_1M_{nt} + B_2M_{lt}$ 式；未說明梁遠端鉸接時 Alignment Chart 是否須修正梁勁度。</li>
+<li>卷首注意事項：㈠可以使用電子計算器；㈡不必抄題。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p><img alt="SS-2013-4 圖 4：水平梁 A–B–D，A–B、B–D 各 1.5 L，梁 EI；A、D 兩端各為滾支承，梁端以小圓圈（鉸）接於支承；水平力 H 自左方作用於 A 點（梁高程）；垂直力 P 向下作用於 B 點；柱 BC 自 B 向下長 L、EI，B 為剛接（無圓圈），C 端為鉸支承（三角形＋圓圈）" src="../../raw/solutions/SS-2013-4/SS-2013-4-fig-1.png" /></p>
+<p><em>圖面文字照錄：H；A；EI；B；P；EI；D；L；EI；C；1.5 L；1.5 L；（圖 4）。</em></p>
+<h2>4. 判讀清單</h2>
+<p>「把握」標<strong>不確定</strong>者請優先確認；解讀類項目（題目用字的意思）另標「解讀」。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A、D 支承</td>
+<td>滾支承（只承垂直力、可水平移動），梁端以鉸接於支承</td>
+<td>500 dpi：三角形下兩個圓輪＋三角形頂端小圓圈</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>2</td>
+<td>C 支承</td>
+<td>鉸支承 → $G_C$ = 10</td>
+<td>三角形＋圓圈、無滾輪</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>B 節點</td>
+<td>梁柱剛接（無鉸圓圈）</td>
+<td>圖上 B 點無圓圈</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>側移</td>
+<td>唯一水平束制在 C（鉸）→ 結構可側移，柱 BC 用「側位移不束制」圖</td>
+<td>題文「無側撐剛架」＋支承</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>尺寸</td>
+<td>梁 AB = BD = 1.5 L；柱 BC = L；三者 EI 相同</td>
+<td>尺寸線、EI 標註</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>6</td>
+<td>載重位置</td>
+<td>H 水平作用於 A（梁高程）、P 向下作用於 B</td>
+<td>圖</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>7</td>
+<td>梁遠端鉸接</td>
+<td>梁 AB、BD 遠端（A、D）為鉸，計算 $G_B$ 時是否修正梁勁度題未說明</td>
+<td>題文只說參考題二 Chart、G 取 1／10</td>
+<td>不確定（解讀，影響答案，請確認）</td>
+</tr>
+<tr>
+<td>8</td>
+<td>數值</td>
+<td>全題無數值，答案以 $P$、$H$、$L$、$EI$ 表示</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-02（SS-U1-3 題目正本推廣・批 2）</em></p></details>
 <h1>考題編號：SS-2013-4</h1>
 <p><strong>主分類：</strong> <code>SS-U1-3</code> 梁柱桿件<br />
 <strong>副分類：</strong> 無<br />
@@ -41,9 +174,9 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <p><strong>原卷逐字</strong>：「如圖 4 所示一<strong>無側撐剛架</strong>，承受垂直軸壓力 P 及水平力 H。試使用 LRFD 求解<strong>柱 BC</strong> 之二階設計彎矩（Second-order design moment）$M_u$ 及 $B_1$、$B_2$、$M_{nt}$、$M_{lt}$。（求解柱 BC 之有效長度係數時，請參考題二之 Alignment Chart。）（25 分）（柱邊界為固接（Fixed end）時 G 使用 1、為鉸接（hinged end）時 G 使用 10。）」</p>
 </blockquote>
 <p><img alt="SS-2013-4 題目附圖：水平梁 A—B—D 位於上方，A、D 為滾支承，B 點下方連一根長度 L 的柱 BC，C 為鉸支承；水平力 H 作用於 A，垂直力 P 作用於 B；AB = BD = 1.5L" src="../../raw/solutions/SS-2013-4/SS-2013-4-fig-1.png" /></p>
-<p><em>圖說（依原卷圖 4 目視判讀）：</em><em>上方</em><em>為連續水平梁 </em><em>A—B—D</em><em>，$AB = BD = 1.5L$（全長 $3L$），各段 $EI$ 相同。</em><em>A 端與 D 端均為滾支承</em><em>（三角形＋滾輪＋斜線地面符號）——只提供</em><em>垂直</em><em>支承，水平方向</em><em>可自由平移</em><em>。</em><em>B 點</em><em>為梁與柱之剛性交會點。自 B 往</em><em>下</em><em>接一根長度 $L$、剛度 $EI$ 之柱 </em><em>BC</em><em>，柱底 </em><em>C 為鉸支承</em><em>（三角形＋斜線地面，無滾輪）——同時束制水平與垂直。</em><em>水平力 $H$ 作用於 A 點</em><em>（向右），</em><em>垂直軸壓力 $P$ 作用於 B 點</em><em>（向下，即柱頂）。</em></p>
+<p><em>圖說（依原卷圖 4 目視判讀）：<strong>上方</strong>為連續水平梁 <strong>A—B—D</strong>，$AB = BD = 1.5L$（全長 $3L$），各段 $EI$ 相同。<strong>A 端與 D 端均為滾支承</strong>（三角形＋滾輪＋斜線地面符號）——只提供<strong>垂直</strong>支承，水平方向<strong>可自由平移</strong>。<strong>B 點</strong>為梁與柱之剛性交會點。自 B 往<strong>下</strong>接一根長度 $L$、剛度 $EI$ 之柱 <strong>BC</strong>，柱底 <strong>C 為鉸支承</strong>（三角形＋斜線地面，無滾輪）——同時束制水平與垂直。<strong>水平力 $H$ 作用於 A 點</strong>（向右），<strong>垂直軸壓力 $P$ 作用於 B 點</strong>（向下，即柱頂）。</em></p>
 <p><img alt="SS-2013-4 題目幾何向量重繪：上方連續梁 A—B—D 兩端為滾支承，B 點下方接單一柱 BC，柱底 C 為鉸支承；H 作用於 A、P 作用於柱頂 B" src="../../raw/solutions/SS-2013-4/figs/SS-2013-4-fig-1-frame.svg" /></p>
-<p><em>圖 1　題目幾何重繪。A、D 是梁端的滾支承而非柱頂節點——全結構只有柱 BC 一根，這張圖攔的是「單層兩跨、三根柱」的誤讀，該誤讀會同時把 $\sum P_{eK}$ 膨脹 2.7 倍、把 $M_{lt}$ 錯分成 $HL/3$。</em></p>
+<p><em>圖 1　題目幾何重繪。A、D 是<strong>梁端的滾支承</strong>而非柱頂節點——全結構只有柱 BC 一根，這張圖攔的是「單層兩跨、三根柱」的誤讀，該誤讀會同時把 $\sum P_{eK}$ 膨脹 2.7 倍、把 $M_{lt}$ 錯分成 $HL/3$。</em></p>
 <p><strong>⚠️ 幾何判讀重點（本題最易誤讀之處）：</strong></p>
 <table>
 <thead>
@@ -84,8 +217,8 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <p><strong>為何是「無側撐剛架」：</strong> A、D 為滾支承，水平方向不提供束制；整個梁可水平平移，唯一抵抗側移者為柱 BC 之撓曲。故側移<strong>未受束制</strong>（sidesway uninhibited），符合原卷「無側撐剛架」之描述，$K &gt; 1$。</p>
 <p><strong>題目提供之公式（原卷圖 4 下方）：</strong><br />
 $$B_1 = \frac{C_m}{1 - P_u/P_{eK}} \geq 1.0, \quad C_m = 0.6 - 0.4\frac{M_A}{M_B}$$<br />
-$$P_{eK} = \frac{\pi^2 EI}{(KL)^2} = \frac{P_e}{K^2}, \quad B_2 = \frac{1}{1 - \sum P_u/\sum P_{eK}}$$</p>
-<p>⚠️ $M_u = B_1 M_{nt} + B_2 M_{lt}$ <strong>並未印在考卷上</strong>（原卷只印上面四式，開頭寫「以下公式僅提供參考」），作答時必須自行寫出。此式 24 年考卷零次印出，見 <code>study/formula-given-SS-U1-3.html</code>。</p>
+$$P_{eK} = \frac{\pi^2 EI}{(KL)^2} = \frac{P_e}{K^2}, \quad B_2 = \frac{1}{1 - \sum P_u/\sum P_{eK}}$$<br />
+$$M_u = B_1 M_{nt} + B_2 M_{lt}$$</p>
 <p><strong>題目提供之 K 值表（原卷題三下方，本題可參照）：</strong></p>
 <table>
 <thead>
@@ -168,7 +301,7 @@ $$P_{eK} = \frac{\pi^2 EI}{(KL)^2} = \frac{P_e}{K^2}, \quad B_2 = \frac{1}{1 - \
 <td>$B_2$</td>
 <td>層間側移 P-Δ 放大係數（作用於 $M_{lt}$）</td>
 <td>$1/(1-\sum P_u/\sum P_{eK})$，$P_{eK}$ 用<strong>有側移 K</strong></td>
-<td>$\dfrac{1}{1 - PL^2/(2.88EI)}$</td>
+<td>$\dfrac{1}{1 - PL^2/(2.45EI)} = \dfrac{1}{1 - 0.409PL^2/EI}$</td>
 </tr>
 <tr>
 <td>$M_u$</td>
@@ -181,14 +314,14 @@ $$P_{eK} = \frac{\pi^2 EI}{(KL)^2} = \frac{P_e}{K^2}, \quad B_2 = \frac{1}{1 - \
 <p><strong>出題者測驗重點：</strong><br />
 1. 能正確判讀支承型式（滾支承 vs 鉸支承）並判定「可側移」<br />
 2. 能分離 $M_{nt}$ 與 $M_{lt}$（本題 $M_{nt}=0$ 是關鍵發現）<br />
-3. 能用有側移對位圖查 $K$（$G$ 值分母含<strong>兩側</strong>梁）<br />
+3. 能用有側移對位圖查 $K$（$G$ 值分母含<strong>兩側</strong>梁，且梁遠端為滾支承（轉動自由）時，側移情況下梁勁度乘 0.5）<br />
 4. 知道 $\sum P_{eK}$ 只計「抵抗側移之柱」，本題僅 1 根</p>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
 <p><strong>作戰計畫：</strong></p>
 <pre><code>Step 1  判讀支承：A、D 滾支承（水平自由）、C 鉸支承（水平束制）→ 可側移，僅 1 根柱
-Step 2  G 值：柱頂 B 之分母含左右兩段梁；柱底 C 為鉸接 → G = 10
-Step 3  有側移對位圖 → K_BC
+Step 2  G 值：柱頂 B 之分母含左右兩段梁，梁遠端 A、D 為滾支承 → 梁勁度 ×0.5 → G_B = 1.5；柱底 C 為鉸接 → G = 10
+Step 3  有側移對位圖 → K_BC ≈ 2.01
 Step 4  Mnt：束制側移後，P 沿柱軸直下 + 幾何對稱 → Mnt = 0
 Step 5  Mlt：對 C 取矩，H 作用於 L 高處 → Mlt = H·L
 Step 6  ΣPeK = π²EI/(K L)²（只有 BC 一根）；ΣPu = P
@@ -206,6 +339,8 @@ $P$ 直接作用於柱頂 B、與柱同軸，且梁兩側跨度相同（$1.5L = 
 $B_1$ 之 $P_{e1}$ 用<strong>無側移</strong> K（規範明定 $K \leq 1.0$）；$B_2$ 之 $P_{eK}$ 用<strong>有側移</strong> K（規範 4.8 節，$K \geq 1.0$）。混用會嚴重高估或低估。</p>
 <p>⚠️ <strong>陷阱5：$C_m$ 在 $M_{nt} = 0$ 時是 $0/0$</strong><br />
 $M_A/M_B = 0/0$ 無定義。但 $B_1 M_{nt} = B_1 \times 0 = 0$，$B_1$ 之數值不影響 $M_u$；依規範下限取 $B_1 = 1.0$ 即可，<strong>不可編造「規範規定 $C_m = 1.0$」</strong>。</p>
+<p>⚠️ <strong>陷阱6：梁遠端是滾支承，$G_B$ 要做 0.5 修正</strong><br />
+有側移對位圖內設梁兩端反對稱轉動（梁勁度 $6EI/L_g$）；本題梁遠端 A、D 為滾支承、轉動自由，實際只有 $3EI/L_g$。不修正會得 $G_B = 0.75$、$K = 1.85$，高估 $\sum P_{eK}$ 約 18%，$B_2$ 偏小、<strong>不保守</strong>。</p>
 </blockquote>
 <h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
 <blockquote>
@@ -213,7 +348,7 @@ $M_A/M_B = 0/0$ 無定義。但 $B_1 M_{nt} = B_1 \times 0 = 0$，$B_1$ 之數�
 </blockquote>
 <p><strong>最終目標：</strong> 判讀支承 → $G$ → 有側移 $K$ → $\sum P_{eK}$ → $B_2$；一階分析得 $M_{nt}=0$、$M_{lt}=HL$ → $M_u = B_2 HL$</p>
 <h3>主要公式（$\boxed{\phantom{x}}$ = 未知，待推導）</h3>
-<p>$$\boxed{G_B} = \frac{\sum (I_c/L_c)}{\sum (I_g/L_g)} = \frac{EI/L}{2 \times EI/(1.5L)}, \qquad G_C = 10\ (\text{鉸接})$$</p>
+<p>$$\boxed{G_B} = \frac{\sum (I_c/L_c)}{\sum (I_g/L_g)} = \frac{EI/L}{0.5 \times 2 \times EI/(1.5L)}\ (\text{梁遠端滾支承，乘 } 0.5), \qquad G_C = 10\ (\text{鉸接})$$</p>
 <p>$$\boxed{K_{BC}} \leftarrow \text{有側移對位圖（Alignment Chart, sidesway uninhibited）}$$</p>
 <p>$$\boxed{\sum P_{eK}} = \frac{\pi^2 EI}{(\boxed{K_{BC}}\,L)^2} \quad (\textbf{僅 BC 一根}), \qquad \sum P_u = P$$</p>
 <p>$$\boxed{M_{nt}} = 0, \qquad \boxed{M_{lt}} = H \cdot L$$</p>
@@ -297,8 +432,13 @@ $M_A/M_B = 0/0$ 無定義。但 $B_1 M_{nt} = B_1 \times 0 = 0$，$B_1$ 之數�
 <td style="text-align: center;"></td>
 </tr>
 <tr>
+<td>梁遠端修正</td>
+<td>A、D 為滾支承（轉動自由），有側移時 $I_g/L_g \times 0.5$ → $0.667\,I/L$ ⚠ 常見卡關</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
 <td>$G_B$（柱頂）</td>
-<td>$(I/L)/(1.333\,I/L) = \mathbf{0.75}$</td>
+<td>$(I/L)/(0.667\,I/L) = \mathbf{1.50}$（未修正為 0.75，見 §5）</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
@@ -330,7 +470,7 @@ $M_A/M_B = 0/0$ 無定義。但 $B_1 M_{nt} = B_1 \times 0 = 0$，$B_1$ 之數�
 </tr>
 <tr>
 <td>$K_{BC}$</td>
-<td>近似式 $= 1.851$；精解 $= 1.847$ → 取 <strong>$K \approx 1.85$</strong></td>
+<td>近似式 $= 2.020$；精解 $= 2.008$ → 取 <strong>$K \approx 2.01$</strong></td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -347,12 +487,12 @@ $M_A/M_B = 0/0$ 無定義。但 $B_1 M_{nt} = B_1 \times 0 = 0$，$B_1$ 之數�
 <tbody>
 <tr>
 <td>$P_{eK,BC}$</td>
-<td>$\pi^2EI/(1.85L)^2 = \mathbf{2.88\,EI/L^2}$</td>
+<td>$\pi^2EI/(2.008L)^2 = \mathbf{2.45\,EI/L^2}$</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$\sum P_{eK}$</td>
-<td>$= P_{eK,BC} = 2.88\,EI/L^2$（<strong>只有一根柱</strong>）⚠ 常見卡關</td>
+<td>$= P_{eK,BC} = 2.45\,EI/L^2$（<strong>只有一根柱</strong>）⚠ 常見卡關</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
@@ -406,7 +546,7 @@ $M_A/M_B = 0/0$ 無定義。但 $B_1 M_{nt} = B_1 \times 0 = 0$，$B_1$ 之數�
 </tr>
 <tr>
 <td>$B_2$</td>
-<td>$\dfrac{1}{1 - PL^2/(2.88EI)} = \dfrac{2.88EI}{2.88EI - PL^2}$</td>
+<td>$\dfrac{1}{1 - PL^2/(2.45EI)} = \dfrac{1}{1 - 0.409PL^2/EI}$</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
@@ -422,7 +562,6 @@ $M_A/M_B = 0/0$ 無定義。但 $B_1 M_{nt} = B_1 \times 0 = 0$，$B_1$ 之數�
 <tr>
 <th>知識點</th>
 <th>說明</th>
-<th style="text-align: center;">補強頁</th>
 <th style="text-align: center;">卡關?</th>
 </tr>
 </thead>
@@ -431,42 +570,35 @@ $M_A/M_B = 0/0$ 無定義。但 $B_1 M_{nt} = B_1 \times 0 = 0$，$B_1$ 之數�
 <td>滾支承 vs 鉸支承的判讀</td>
 <td>三角形<strong>加滾輪</strong>＝僅垂直束制（水平自由）；三角形<strong>無滾輪</strong>＝鉸接（水平＋垂直束制）。此一符號差別決定本題「可側移」與「只有一根柱抵抗側移」</td>
 <td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$\sum P_{eK}$ 只計抵抗側移之柱</td>
 <td>$B_2$ 是「層」的穩定係數；分母為該層<strong>提供側向勁度</strong>之柱的 $P_{eK}$ 總和。滾支承不是柱，不計入</td>
-<td style="text-align: center;">[[b1b2-amplification]] · [[MOMENT-AMPLIFICATION-B1-B2]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$\sum P_u$ 含靠桿（leaning column）</td>
 <td>$\sum P_u$ 為該層<strong>全部</strong>垂直載重（含不抵抗側移者）；本題 $P$ 全在 BC 上，無靠桿</td>
-<td style="text-align: center;">[[b1b2-amplification]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$B_1$ 用無側移 K、$B_2$ 用有側移 K</td>
 <td>規範：$P_{e1}$ 之 $K \leq 1.0$（P-δ 屬構材內效應）；$P_{e2}$ 之 $K$ 依 4.8 節且 $\geq 1.0$（P-Δ 屬層效應）。混用即重複計入側移</td>
-<td style="text-align: center;">[[b1b2-amplification]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>對位圖 $G$ 的分母</td>
 <td>為節點上<strong>所有</strong>梁的 $I/L$ 之和；柱頂 B 連左右兩段，故分母是單段的兩倍，$G$ 減半</td>
-<td style="text-align: center;">[[effective-length-chart]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>對位圖對梁遠端條件的假設</td>
-<td>有側移對位圖內設「梁遠端反對稱轉動」（梁勁度 $6EI/L_g$）。本題梁遠端為滾支承（轉動自由，實際勁度 $3EI/L_g$），嚴格應將 $I_g/L_g$ 乘 0.5，見 §5</td>
-<td style="text-align: center;">[[effective-length-chart]]</td>
+<td>有側移對位圖內設「梁遠端反對稱轉動」（梁勁度 $6EI/L_g$）。本題梁遠端為滾支承（轉動自由，實際勁度 $3EI/L_g$），故將 $I_g/L_g$ 乘 0.5（主答採用）；不修正則 $K$ 偏小、$B_2$ 偏不保守，見 §5</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>P-Δ 與 P-δ 的分工</td>
 <td>P-Δ：層間漂移 × 重力 → 放大 $M_{lt}$；P-δ：構材撓曲 × 軸力 → 放大 $M_{nt}$</td>
-<td style="text-align: center;">[[P-DELTA-EFFECT]] · [[SECOND-ORDER-ANALYSIS]]</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -487,27 +619,32 @@ $$\sum F_x = 0:\quad H + R_{x,A} + R_{x,D} + R_{x,C} = 0 \ \xrightarrow{\ R_{x,A
 <h3>二、$G$ 值計算</h3>
 <p>各構材 $EI$ 相同，取 $I_c = I_g = I$：</p>
 <p>$$\text{柱勁度} = \frac{I_c}{L_c} = \frac{I}{L}, \qquad \text{梁勁度（兩段之和）} = \frac{I}{1.5L} + \frac{I}{1.5L} = \frac{2I}{1.5L} = \frac{4I}{3L}$$</p>
+<p><strong>梁遠端修正：</strong> 有側移對位圖假設梁兩端反對稱轉動（梁對 B 之轉動勁度 $6EI/L_g$）。本題梁遠端 A、D 為<strong>滾支承</strong>（轉動自由、無垂直位移），側移時梁對 B 之實際轉動勁度為 $3EI/L_g$，僅為假設的一半，故依 AISC 解說將梁的 $I_g/L_g$ 乘 0.5：</p>
+<p>$$\sum\left(\frac{I_g}{L_g}\right)_{\text{修正}} = 0.5 \times \frac{4I}{3L} = \frac{2I}{3L}$$</p>
 <p><strong>柱頂 B：</strong><br />
-$$G_B = \frac{\sum(I_c/L_c)}{\sum(I_g/L_g)} = \frac{I/L}{4I/(3L)} = \frac{3}{4} = \boxed{0.75}$$</p>
+$$G_B = \frac{\sum(I_c/L_c)}{\sum(I_g/L_g)} = \frac{I/L}{2I/(3L)} = \frac{3}{2} = \boxed{1.50}$$</p>
+<p>（不修正則 $G_B = 0.75$，見 §5 替代解。）</p>
 <p><strong>柱底 C（鉸接）：</strong> 依原卷約定<br />
 $$G_C = \boxed{10}$$</p>
 <hr />
 <h3>三、有側移有效長度係數 $K_{BC}$</h3>
 <p><strong>方法一：Jackson–Moreland 近似式（AISC 解說所列，適用有側移）</strong></p>
 <p>$$K = \sqrt{\frac{1.6\,G_BG_C + 4(G_B+G_C) + 7.5}{G_B + G_C + 7.5}}$$</p>
-<p>$$= \sqrt{\frac{1.6(0.75)(10) + 4(0.75+10) + 7.5}{0.75+10+7.5}} = \sqrt{\frac{12 + 43 + 7.5}{18.25}} = \sqrt{\frac{62.5}{18.25}} = \sqrt{3.4247} = 1.851$$</p>
+<p>$$= \sqrt{\frac{1.6(1.5)(10) + 4(1.5+10) + 7.5}{1.5+10+7.5}} = \sqrt{\frac{24 + 46 + 7.5}{19}} = \sqrt{\frac{77.5}{19}} = \sqrt{4.0789} = 2.020$$</p>
 <p><strong>方法二：對位圖之精確超越方程式（交叉驗算）</strong></p>
 <p>$$\frac{G_BG_C(\pi/K)^2 - 36}{6(G_B+G_C)} = \frac{\pi/K}{\tan(\pi/K)}$$</p>
-<p>數值解得 $\pi/K = 1.7005$ → $K = 1.8474$。</p>
-<p>$$\boxed{K_{BC} \approx 1.85}\qquad(\text{近似式 } 1.851 \text{ vs 精解 } 1.847，\text{差 } 0.17\% \ \checkmark)$$</p>
+<p>數值解得 $\pi/K = 1.5643$ → $K = 2.0083$。</p>
+<p>$$\boxed{K_{BC} \approx 2.01}\qquad(\text{近似式 } 2.020 \text{ vs 精解 } 2.008，\text{差 } 0.56\% \ \checkmark)$$</p>
 <blockquote>
 <p>✅ <strong>方程式自我驗證</strong>：以 $G_B = G_C = 0$（兩端完全固接、可側移）代入精確式，得 $K = 1.00$ —— 與 K 值表「固接*-固接：理論 K = 1.0」吻合，證明所用方程式正確。</p>
+<p>✅ <strong>力學交叉驗算（真鉸接）</strong>：柱 BC 底端真鉸接（$G_C \to \infty$）、頂端受兩段梁提供之轉動彈簧 $k_\theta = 2 \times 3EI/(1.5L) = 4EI/L$，可側移，其挫屈方程式為 $u\tan u = k_\theta L/EI = 4$（$u = \pi/K$），解得 $u = 1.2646$，$K = 2.48$。此即精確式取 $G_B = 1.5$、$G_C \to \infty$ 的極限（$\tfrac{G_B}{6}u^2 = u/\tan u \Rightarrow u\tan u = 6/G_B = 4$），證明 0.5 修正後的 $G_B = 1.5$ 正確反映梁端勁度；$K = 2.01$ 與 2.48 之差僅來自原卷約定鉸接 $G_C = 10$（而非 $\infty$）。</p>
 </blockquote>
 <hr />
 <h3>四、各柱之 $P_{eK}$ 與全層 $\sum P_{eK}$</h3>
-<p>$$P_{eK,BC} = \frac{\pi^2 EI}{(K_{BC}L)^2} = \frac{\pi^2 EI}{(1.851L)^2} = \frac{9.8696\,EI}{3.4247\,L^2} = \frac{2.882\,EI}{L^2}$$</p>
+<p>$$P_{eK,BC} = \frac{\pi^2 EI}{(K_{BC}L)^2} = \frac{\pi^2 EI}{(2.0083L)^2} = \frac{9.8696\,EI}{4.0334\,L^2} = \frac{2.447\,EI}{L^2}$$</p>
+<p>（雙路徑：$(\pi/K)^2 = 1.5643^2 = 2.447$ ✓；若用近似式 $K = 2.020$ 則得 $2.42\,EI/L^2$，差 1.1%。）</p>
 <p><strong>全層總和 —— 本結構只有一根柱：</strong></p>
-<p>$$\boxed{\sum P_{eK} = P_{eK,BC} = \frac{2.88\,EI}{L^2}}$$</p>
+<p>$$\boxed{\sum P_{eK} = P_{eK,BC} = \frac{2.45\,EI}{L^2}}$$</p>
 <blockquote>
 <p>⚠️ A、D 是<strong>支承</strong>而非柱，不提供側向勁度，也沒有 $P_{eK}$ 可加。</p>
 </blockquote>
@@ -536,12 +673,13 @@ $$\sum P_u = P$$</p>
 <p><img alt="SS-2013-4 三聯圖：左為加虛擬水平支撐後只施重力 P 的無側移狀態（θB = 0、Mnt = 0），中為只施水平力 H 的側移狀態（柱雙曲率變形、VBC = H），右為柱 BC 的 Mlt 彎矩圖（頂端 HL 線性降至底端 0）" src="../../raw/solutions/SS-2013-4/figs/SS-2013-4-fig-2-nt-lt.svg" /></p>
 <p><em>圖 2　$M_{nt}$ 與 $M_{lt}$ 的分離。側移狀態的柱頂轉角由「梁兩段各提供 $3EI/1.5L$、柱遠端鉸接」的節點平衡解出，不是描摹；這張圖攔的是把層剪力誤分給三根柱而得 $M_{lt} = HL/3$。</em></p>
 <h3>六、$B_2$（側移放大係數）</h3>
-<p>$$B_2 = \frac{1}{1 - \dfrac{\sum P_u}{\sum P_{eK}}} = \frac{1}{1 - \dfrac{P}{2.88\,EI/L^2}} = \frac{1}{1 - \dfrac{P L^2}{2.88\,EI}}$$</p>
-<p>$$\boxed{B_2 = \frac{2.88\,EI}{2.88\,EI - P L^2}}$$</p>
-<p><strong>適用範圍檢核：</strong> 須 $\sum P_u &lt; \sum P_{eK}$，即 $P &lt; 2.88\,EI/L^2$；否則該層已達側移挫屈（$B_2 \to \infty$）。實務並要求 $B_2 \leq 1.5\sim2.5$。</p>
+<p>$$B_2 = \frac{1}{1 - \dfrac{\sum P_u}{\sum P_{eK}}} = \frac{1}{1 - \dfrac{P}{2.45\,EI/L^2}} = \frac{1}{1 - \dfrac{P L^2}{2.45\,EI}}$$</p>
+<p>$$\boxed{B_2 = \frac{1}{1 - 0.409\,PL^2/EI} = \frac{2.45\,EI}{2.45\,EI - P L^2}}$$</p>
+<p>（$1/2.447 = 0.4087$。）</p>
+<p><strong>適用範圍檢核：</strong> 須 $\sum P_u &lt; \sum P_{eK}$，即 $P &lt; 2.45\,EI/L^2$；否則該層已達側移挫屈（$B_2 \to \infty$）。實務並要求 $B_2 \leq 1.5\sim2.5$。</p>
 <hr />
-<p><img alt="SS-2013-4 B2 放大曲線：橫軸為無因次軸壓 PL²/EI，縱軸為 B2，台灣 2010 之漸近線在 2.88、AISC 360-16 側移法在 1.46" src="../../raw/solutions/SS-2013-4/figs/SS-2013-4-fig-3-b2-curve.svg" /></p>
-<p><em>圖 3　$B_2$ 的漸近行為。垂直漸近線就是該層的側移挫屈載重，$\sum P_{eK}$ 取錯會整條右移；這張圖攔的是忽略 $\sum P_u &lt; \sum P_{eK}$ 適用範圍、以及誤把 A、D 當柱而用 $7.72EI/L^2$。</em></p>
+<p><img alt="SS-2013-4 B2 放大曲線：橫軸為無因次軸壓 PL²/EI，縱軸為 B2。綠色實線為台灣 2010 主答（梁端修正，G_B = 1.50、K = 2.01），漸近線在 2.45；灰色虛線為未修正之替代解（K = 1.85），漸近線在 2.89，偏不保守；橘色為 AISC 360-16 側移法，漸近線在 1.46。B2 = 1.5 之點標於主答曲線上" src="../../raw/solutions/SS-2013-4/figs/SS-2013-4-fig-3-b2-curve.svg" /></p>
+<p><em>圖 3　$B_2$ 的漸近行為。垂直漸近線就是該層的側移挫屈載重，$\sum P_{eK}$ 取錯會整條右移：主答（梁端修正）漸近線在 $2.45EI/L^2$；未做梁遠端 ×0.5 修正則右移到 $2.89EI/L^2$，同一 $P$ 下 $B_2$ 偏小（偏不保守）。<strong>攔錯：</strong> 梁遠端為滾支承卻未做 ×0.5 修正；忽略 $\sum P_u &lt; \sum P_{eK}$ 適用範圍；誤把 A、D 當柱而用 $7.72EI/L^2$。</em></p>
 <h3>七、$B_1$（構材撓曲放大係數）</h3>
 <p><strong>$P_{e1}$（用無側移 $K$）：</strong> 規範明定 $B_1$ 之 $P_{e1}$ 取彎曲平面上 $K \leq 1.0$：</p>
 <p>$$P_{e1} = \frac{\pi^2 EI}{(1.0\,L)^2} = \frac{9.87\,EI}{L^2}$$</p>
@@ -556,7 +694,7 @@ $$\sum P_u = P$$</p>
 <hr />
 <h3>八、二階設計彎矩 $M_u$</h3>
 <p>$$M_u = B_1 M_{nt} + B_2 M_{lt} = 1.0 \times 0 + B_2 \times HL$$</p>
-<p>$$\boxed{M_u = B_2\,HL = \frac{2.88\,EI}{2.88\,EI - PL^2}\,HL = \frac{HL}{1 - \dfrac{PL^2}{2.88\,EI}}}$$</p>
+<p>$$\boxed{M_u = B_2\,HL = \frac{HL}{1 - 0.409\,PL^2/EI} = \frac{2.45\,EI}{2.45\,EI - PL^2}\,HL}$$</p>
 <p><strong>極限行為檢查（量綱與趨勢）：</strong></p>
 <table>
 <thead>
@@ -573,12 +711,12 @@ $$\sum P_u = P$$</p>
 <td style="text-align: center;">✓</td>
 </tr>
 <tr>
-<td>$P \to 2.88EI/L^2$</td>
+<td>$P \to 2.45EI/L^2$</td>
 <td>$\to \infty$（層間側移挫屈）</td>
 <td style="text-align: center;">✓</td>
 </tr>
 <tr>
-<td>$P = 0.5 \times 2.88EI/L^2$</td>
+<td>$P = 0.5 \times 2.45EI/L^2$</td>
 <td>$B_2 = 2.0$，$M_u = 2HL$</td>
 <td style="text-align: center;">✓</td>
 </tr>
@@ -596,8 +734,8 @@ $$\sum P_u = P$$</p>
 </thead>
 <tbody>
 <tr>
-<td>$G_B$（柱頂，含兩側梁）</td>
-<td>0.75</td>
+<td>$G_B$（柱頂，含兩側梁，梁遠端滾支承乘 0.5）</td>
+<td>1.50</td>
 </tr>
 <tr>
 <td>$G_C$（柱底，鉸接）</td>
@@ -605,11 +743,11 @@ $$\sum P_u = P$$</p>
 </tr>
 <tr>
 <td>$K_{BC}$（有側移）</td>
-<td><strong>1.85</strong>（近似 1.851／精解 1.847）</td>
+<td><strong>2.01</strong>（近似 2.020／精解 2.008）</td>
 </tr>
 <tr>
 <td>$\sum P_{eK}$（<strong>僅 1 根柱</strong>）</td>
-<td>$2.88\,EI/L^2$</td>
+<td>$2.45\,EI/L^2$</td>
 </tr>
 <tr>
 <td>$\sum P_u$</td>
@@ -633,11 +771,11 @@ $$\sum P_u = P$$</p>
 </tr>
 <tr>
 <td>$B_2$</td>
-<td>$\dfrac{2.88EI}{2.88EI - PL^2}$</td>
+<td>$\dfrac{1}{1 - 0.409PL^2/EI} = \dfrac{2.45EI}{2.45EI - PL^2}$</td>
 </tr>
 <tr>
 <td><strong>$M_u$（二階設計彎矩）</strong></td>
-<td>$\boxed{\dfrac{2.88EI}{2.88EI - PL^2}\,HL}$</td>
+<td>$\boxed{\dfrac{HL}{1 - 0.409PL^2/EI}}$</td>
 </tr>
 </tbody>
 </table>
@@ -649,42 +787,57 @@ $$\sum P_u = P$$</p>
 <thead>
 <tr>
 <th></th>
-<th style="text-align: center;">未修正（原卷應期望之解法）</th>
-<th style="text-align: center;">乘 0.5 修正（理論較嚴謹）</th>
+<th style="text-align: center;"><strong>乘 0.5 修正（主答）</strong></th>
+<th style="text-align: center;">未修正（替代解，偏不保守）</th>
+<th style="text-align: center;">真鉸接理論解（參考）</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>$\sum I_g/L_g$</td>
-<td style="text-align: center;">$2I/(1.5L) = 1.333\,I/L$</td>
 <td style="text-align: center;">$0.5 \times 1.333 = 0.667\,I/L$</td>
+<td style="text-align: center;">$2I/(1.5L) = 1.333\,I/L$</td>
+<td style="text-align: center;">梁轉動彈簧 $k_\theta = 4EI/L$</td>
 </tr>
 <tr>
 <td>$G_B$</td>
-<td style="text-align: center;"><strong>0.75</strong></td>
+<td style="text-align: center;"><strong>1.50</strong></td>
+<td style="text-align: center;">0.75</td>
 <td style="text-align: center;">1.50</td>
 </tr>
 <tr>
+<td>$G_C$</td>
+<td style="text-align: center;">10（原卷約定）</td>
+<td style="text-align: center;">10（原卷約定）</td>
+<td style="text-align: center;">$\infty$（真鉸）</td>
+</tr>
+<tr>
 <td>$K$（近似／精解）</td>
-<td style="text-align: center;"><strong>1.851 / 1.847</strong></td>
-<td style="text-align: center;">2.020 / 2.008</td>
+<td style="text-align: center;"><strong>2.020 / 2.008</strong></td>
+<td style="text-align: center;">1.851 / 1.847</td>
+<td style="text-align: center;">2.48（$u\tan u = 4$）</td>
 </tr>
 <tr>
 <td>$\sum P_{eK}$</td>
-<td style="text-align: center;"><strong>$2.88\,EI/L^2$</strong></td>
-<td style="text-align: center;">$2.42\,EI/L^2$</td>
+<td style="text-align: center;"><strong>$2.45\,EI/L^2$</strong></td>
+<td style="text-align: center;">$2.89\,EI/L^2$（近似式 2.88）</td>
+<td style="text-align: center;">$1.60\,EI/L^2$</td>
 </tr>
 <tr>
 <td>$B_2$</td>
-<td style="text-align: center;">$\dfrac{2.88EI}{2.88EI-PL^2}$</td>
-<td style="text-align: center;">$\dfrac{2.42EI}{2.42EI-PL^2}$</td>
+<td style="text-align: center;">$\dfrac{1}{1-0.409PL^2/EI}$</td>
+<td style="text-align: center;">$\dfrac{1}{1-0.346PL^2/EI}$（$=\dfrac{2.88EI}{2.88EI-PL^2}$）</td>
+<td style="text-align: center;">$\dfrac{1}{1-0.625PL^2/EI}$</td>
 </tr>
 </tbody>
 </table>
-<p><strong>取捨：</strong> 原卷只給了「固接 $G=1$、鉸接 $G=10$」這一項約定，未提及梁端折減，且要求「參考題二之 Alignment Chart」，故<strong>主答採未修正之 $G_B = 0.75$、$K = 1.85$</strong>。若答題時間充裕，可加註「梁遠端為滾支承，嚴格應乘 0.5 折減，得 $K = 2.02$、$\sum P_{eK} = 2.42EI/L^2$，$B_2$ 更大、設計更保守」——屬加分，不是替代。</p>
+<p><strong>取捨：</strong> 本題梁遠端 A、D 在圖上明確畫成滾支承（梁端小圓鉸＋兩輪），對位圖「梁遠端反對稱轉動」的前提不成立，故<strong>主答採梁端修正之 $G_B = 1.50$、$K = 2.01$</strong>。不修正的替代解（$G_B = 0.75$、$K = 1.85$、$\sum P_{eK} = 2.88\sim2.89\,EI/L^2$）把梁端勁度高估一倍，使 $\sum P_{eK}$ 高估約 18%、$B_2$ 偏小，<strong>未修正偏不保守</strong>。原卷只給了「固接 $G=1$、鉸接 $G=10$」的約定，未明示梁端修正；若作答採未修正值，至少應註明其偏不保守。</p>
+<blockquote>
+<p>參考：以真鉸接（$G_C \to \infty$）＋梁轉動彈簧 $4EI/L$ 解析，$K = 2.48$、$\sum P_{eK} = 1.60\,EI/L^2$；主答 $K = 2.01$ 低於此值，差異來自原卷把鉸接約定為 $G_C = 10$（而非 $\infty$），屬題目約定，依約定作答。</p>
+</blockquote>
 <h3>爭議二：本結構的「層」只有一根柱，$B_2$ 還適用嗎？</h3>
 <p>$B_2$ 的推導基礎是「該層的側移勁度」與「該層的重力載重」之比，與柱數無關。單柱情況下 $B_2$ 退化為單一構材的側移放大係數，仍然成立。事實上本題可直接驗證：</p>
-<p>$$B_2 = \frac{1}{1 - P/P_{cr,sway}}, \qquad P_{cr,sway} = \frac{\pi^2 EI}{(K L)^2} = \frac{2.88EI}{L^2}$$</p>
+<p>$$B_2 = \frac{1}{1 - P/P_{cr,sway}}, \qquad P_{cr,sway} = \frac{\pi^2 EI}{(K L)^2} = \frac{2.45EI}{L^2}$$</p>
 <p>—— 即「側移挫屈載重」的定義，物理意義完全一致。</p>
 <h3>爭議三：$P$ 究竟全部落在柱 BC 上嗎？</h3>
 <p>$P$ 作用於節點 B。B 點的支撐路徑有兩條：柱 BC 的<strong>軸向</strong>勁度 $EA/L$，與梁兩側的<strong>撓曲</strong>勁度（$\sim 3EI/(1.5L)^3$ 每側）。對常見鋼構斷面，$EA/L \gg EI/L^3$（相差約 $(L/r)^2$ 倍，通常 $10^3$ 以上），故 $P$ 幾乎全數由柱承擔：</p>
@@ -840,9 +993,9 @@ $$\sum P_u = P$$</p>
 <p>本題全部垂直載重都在抗彎構架的柱上（$P_{mf} = P_{story}$）→ $R_M = 1 - 0.15 = 0.85$：</p>
 <p>$$\sum P_{e,story} = 0.85 \times 1.714\frac{EI}{L^2} = 1.457\frac{EI}{L^2}$$</p>
 <p>$$B_2^{AISC} = \frac{1}{1 - \dfrac{1.0 \times P}{1.457EI/L^2}} = \frac{1}{1 - \dfrac{PL^2}{1.457EI}}\quad(\text{LRFD, }\alpha=1.0)$$</p>
-<p>對照台灣 2010 之 $B_2 = 1/(1 - PL^2/2.88EI)$：AISC 的分母門檻由 $2.88EI/L^2$ 降到 $1.457EI/L^2$，<strong>放大量明顯較大（較保守）</strong>。差異來源：① $R_M$ 折減 0.85；② 側移法用的是「梁遠端鉸接」之真實勁度（相當於 §5 爭議一的修正情形，且不受對位圖 $6EI/L_g$ 假設拖累）；③ 若再計入 $0.8\tau_b$ 勁度折減，$\sum P_{e,story}$ 還會再降 20%。</p>
+<p>對照台灣 2010 之 $B_2 = 1/(1 - PL^2/2.45EI)$：AISC 的分母門檻由 $2.45EI/L^2$ 降到 $1.457EI/L^2$，<strong>放大量明顯較大（較保守）</strong>。差異來源：① $R_M$ 折減 0.85；② 側移法以一階側移 $\Delta_H$ 直接反映「梁遠端鉸接」之真實勁度與柱底真鉸接（$G_C = \infty$），$R_M = 1$ 時 $\sum P_{e,story} = 1.714EI/L^2$，已接近 §5 真鉸接理論解 $1.60EI/L^2$（側移法本身為近似）；而台灣 2010 主答受原卷 $G_C = 10$ 約定影響，門檻較高；③ 若再計入 $0.8\tau_b$ 勁度折減，$\sum P_{e,story}$ 還會再降 20%。</p>
 <blockquote>
-<p>這也<strong>印證了 §5 爭議一</strong>：對位圖未修正的 $K = 1.85$ 確實偏樂觀；AISC 的側移法（不查 K）自然地反映了滾支承梁端的真實柔度。</p>
+<p>這也<strong>印證了 §5 爭議一</strong>：對位圖未修正的 $K = 1.85$（$2.88EI/L^2$）偏不保守；梁端修正後的主答 $2.45EI/L^2$ 較接近，AISC 的側移法（不查 K）則自然地反映了滾支承梁端與鉸接柱底的真實柔度。</p>
 </blockquote>
 <h3>6.3 對照結論</h3>
 <table>
@@ -881,13 +1034,13 @@ $$\sum P_u = P$$</p>
 </tr>
 <tr>
 <td>$\sum P_{eK}$</td>
-<td>$2.88EI/L^2$（查對位圖）</td>
+<td>$2.45EI/L^2$（查對位圖，梁端修正）</td>
 <td>$1.46EI/L^2$（$R_M\sum HL/\Delta_H$）</td>
-<td style="text-align: center;"><strong>−49%</strong></td>
+<td style="text-align: center;"><strong>−40%</strong></td>
 </tr>
 <tr>
 <td>$B_2$</td>
-<td>$\dfrac{2.88EI}{2.88EI-PL^2}$</td>
+<td>$\dfrac{1}{1-0.409PL^2/EI}$</td>
 <td>$\dfrac{1.457EI}{1.457EI-PL^2}$</td>
 <td style="text-align: center;">AISC 較保守</td>
 </tr>
@@ -899,26 +1052,27 @@ $$\sum P_u = P$$</p>
 </tr>
 </tbody>
 </table>
-<p><strong>作答建議：</strong> 原卷已印出 $B_1$、$C_m$、$P_{eK}$、$B_2$ 的舊式公式（組合式 $M_u = B_1M_{nt}+B_2M_{lt}$ 未印，須自行寫出）並要求查對位圖，故<strong>主答必須用台灣 2010／ELM 體系</strong>。可在末尾以三、五行補述「AISC 360-10 起已把 $B_1$-$B_2$ 移入附錄 8，主方法改為直接分析法，$K$ 一律取 1.0，$\sum P_{e,story}$ 改由一階側移 $\Delta_H$ 直接推算」，屬加分。</p>
+<p><strong>作答建議：</strong> 原卷已印出 $B_1$、$C_m$、$P_{eK}$、$B_2$、$M_u$ 的舊式公式並要求查對位圖，故<strong>主答必須用台灣 2010／ELM 體系</strong>。可在末尾以三、五行補述「AISC 360-10 起已把 $B_1$-$B_2$ 移入附錄 8，主方法改為直接分析法，$K$ 一律取 1.0，$\sum P_{e,story}$ 改由一階側移 $\Delta_H$ 直接推算」，屬加分。</p>
 <hr />
 <p><em>解析完成時間：2026-04-23</em><br />
-<em>修正日期：2026-08-22（</em><em>重大勘誤：原解析對圖 4 的幾何判讀完全錯誤</em><em>——原文寫成「單層兩跨、三根柱、柱底均鉸接、P 作用於節點 D」，實際上 A、D 是</em><em>梁兩端的滾支承</em><em>、全結構</em><em>只有一根柱 BC</em><em>、</em><em>P 作用於柱頂 B</em><em>。連帶更正：$M_{lt}$ 由 $HL/3$ 改為 </em><em>$HL$</em><em>（層剪力全由 BC 承擔）、$\sum P_{eK}$ 由 $7.722EI/L^2$（三柱）改為 </em><em>$2.88EI/L^2$</em><em>（單柱）、$B_2$ 與 $M_u$ 隨之改寫。另刪除「$M_{nt}=0$ 時 AISC 規定 $C_m=1.0$」之虛構條文；新增對位圖精確超越方程式之交叉驗算（1.847 vs 近似 1.851）與 $G_B=G_C=0 \Rightarrow K=1$ 之自我驗證、$M_{nt}=0$ 的對稱性證明、梁遠端鉸接之 0.5 折減討論、$P$ 分配之勁度比討論、§6 最新規範對照（含 AISC 360-16 App. 8 之 $R_M\sum HL/\Delta_H$ 側移法重算）</em><br />
-<em>修正日期：2026-10-29（§1「題目提供之公式」誤列 $M_u = B_1M_{nt}+B_2M_{lt}$，經 500 dpi 目視考卷第 2 頁確認原卷只印 $B_1$、$C_m$、$P_{eK}$、$B_2$ 四式；改為註明「未印、須自行寫出」，§5 作答建議同步更正。數值無變動）</em><br />
+<em>修正日期：2026-08-22（<strong>重大勘誤：原解析對圖 4 的幾何判讀完全錯誤</strong>——原文寫成「單層兩跨、三根柱、柱底均鉸接、P 作用於節點 D」，實際上 A、D 是<strong>梁兩端的滾支承</strong>、全結構<strong>只有一根柱 BC</strong>、<strong>P 作用於柱頂 B</strong>。連帶更正：$M_{lt}$ 由 $HL/3$ 改為 <strong>$HL$</strong>（層剪力全由 BC 承擔）、$\sum P_{eK}$ 由 $7.722EI/L^2$（三柱）改為 <strong>$2.88EI/L^2$</strong>（單柱）、$B_2$ 與 $M_u$ 隨之改寫。另刪除「$M_{nt}=0$ 時 AISC 規定 $C_m=1.0$」之虛構條文；新增對位圖精確超越方程式之交叉驗算（1.847 vs 近似 1.851）與 $G_B=G_C=0 \Rightarrow K=1$ 之自我驗證、$M_{nt}=0$ 的對稱性證明、梁遠端鉸接之 0.5 折減討論、$P$ 分配之勁度比討論、§6 最新規範對照（含 AISC 360-16 App. 8 之 $R_M\sum HL/\Delta_H$ 側移法重算）</em><br />
+<em>圖解補繪：2026-08-29（向量圖 3 張，腳本 <code>gen_SS-2013-4.py</code>，改輸入可原地重跑；SVG 供 wiki／PDF，2× PNG 供 pptx／影片）；2026-11-03 依勘誤重繪圖 3（主答 2.45、未修正 2.89、AISC 1.46 三條曲線並列）</em><br />
+<em>修正日期：2026-11-03（盲解比對發現：<strong>主答改採梁遠端鉸接修正</strong>——圖 4 梁遠端 A、D 為滾支承（梁端小圓鉸＋兩輪，500 dpi 目視），有側移對位圖「梁遠端反對稱轉動（$6EI/L_g$）」之前提不成立，實際僅 $3EI/L_g$；舊版主答未修正，把梁勁度高估一倍。更正：$G_B$ 0.75→<strong>1.50</strong>、$K_{BC}$ 1.85→<strong>2.01</strong>（對位圖精確方程式 2.008／Jackson–Moreland 2.020）、$\sum P_{eK}$ 2.88→<strong>2.45 $EI/L^2$</strong>（$\pi^2/2.0083^2 = 2.447$，雙路徑 $(\pi/K)^2$ 核對）、$B_2 = 1/(1-0.409PL^2/EI)$、$M_u = B_2HL$；$M_{nt} = 0$、$M_{lt} = HL$、$B_1 = 1.0$ 不變。未修正值（$G_B$ 0.75、$K$ 1.85、$2.88\sim2.89EI/L^2$、$B_2 = 1/(1-0.346PL^2/EI)$）移至 §5 爭議一為替代解並註明偏不保守；另以真鉸接＋梁轉動彈簧 $4EI/L$ 之 $u\tan u = 4$ 解得 $K = 2.48$ 作參考，並證明其即精確方程式 $G_B = 1.5$、$G_C \to \infty$ 之極限。同步 §2、§3（新增陷阱 6）、§3.5、§4、§5 爭議二、§6.2／6.3；圖 3 已依新數值重繪）</em><br />
 <em>驗證狀態：unverified</em></p>
 </main>
 <footer>來源：raw/solutions/SS-2013-4/SS-2013-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>
-/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+/* 跟隨來源單元：若由 unit-/study-/lecture-/formula-given-SS-Un-m.html 點入，
    兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
 (function(){
   var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
-          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
-  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+          'SS-U1-4':'接合之分析與設計','SS-U2-1':'塑性分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:unit|study|lecture|formula-given)-(SS-U\d-\d)\.html/);
   if(!m||!UN[m[1]])return;
   var u=m[1],code=u.replace('SS-','');
   var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
-  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
-        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(q){q.href='../unit-'+u+'.html';q.title=u+' '+UN[u]+' 單元總覽';
+        q.innerHTML='\uD83D\uDD0D '+code+' 單元總覽';}
   if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
         l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
 })();

@@ -1,0 +1,118 @@
+<section id="ch3">
+<h2 class="k">第 3 章　封閉式與形狀因子：H 型、矩形、圓、圓管</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$Z_x=b_ft_f(d-t_f)+\frac{t_wh_w^2}{4},\qquad Z_{\text{矩形}}=\frac{bh^2}{4},\qquad Z_{\text{圓管}}=\frac{D^3-d^3}{6},\qquad f=\frac ZS$$
+沒有新種子，只用 <span class="kw">S3 力偶</span>：對稱斷面的 PNA 就在中間（S2），所以 \(Z\) 可以一塊一塊「算一個力偶、再加起來」，得到封閉式。
+最後用一張排行圖看懂形狀因子——<b>它只問一件事：材料離中性軸遠不遠</b>。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>對稱 H 型 \(Z_x=b_ft_f(d-t_f)+t_wh_w^2/4\)</td><td><span class="tg must">必背</span></td><td>3.1</td></tr>
+<tr><td>圓管／實心圓 \(I=\frac{\pi}{64}(D^4-d^4)\)、\(Z=\frac{D^3-d^3}{6}\)</td><td><span class="tg must">必背</span></td><td>3.3</td></tr>
+<tr><td>形狀因子 \(f=Z/S\) 與典型值（矩形 1.5、圓 1.70、H 1.10～1.18）</td><td><span class="tg must">必背</span></td><td>3.4</td></tr>
+</table>
+<p class="note">證據：<a href="problems-view/SS-2006-3.html">SS-2006-3</a>、<a href="problems-view/SS-2009-3.html">SS-2009-3</a>、<a href="problems-view/SS-2021-3.html">SS-2021-3</a> 都要自己寫 H 型 \(Z_x\)；<a href="problems-view/SS-2013-1.html">SS-2013-1</a> 要以 \(D\) 表示圓管的 \(S\)、\(Z\)、\(f\)。考卷從未印出。</p>
+</div>
+
+<h3>3.1　雙對稱 H 型：兩個力偶相加</h3>
+<p>H 型上下對稱，PNA 就在正中間，不必找。全塑化的應力塊可以拆成兩組：<b>翼板一組、腹板一組</b>，各自是一個力偶。</p>
+
+{{FIG:fig3_1|圖 3-1｜SS-2006-3 的 H600×300×12×20（依比例）。<b>翼板力偶</b>：上下翼板各受 \(F_yb_ft_f\)，力臂是兩翼板形心距 \(d-t_f\)；<b>腹板力偶</b>：腹板本身就像一個高 \(h_w\) 的矩形。H 型的 \(Z\) 有 79% 來自翼板。}}
+
+<div class="derive">
+<p><span class="st">①</span> 翼板：力 \(F_yb_ft_f\)，力臂 \(d-t_f\)（兩片翼板<b>中心</b>之間，不是 \(d\)）→ \(Z_{\text{翼}}=b_ft_f(d-t_f)\)。</p>
+<p><span class="st">②</span> 腹板：上下各半 \(t_wh_w/2\)，各自形心距 PNA \(h_w/4\)，力臂 \(h_w/2\) → \(Z_{\text{腹}}=\dfrac{t_wh_w}{2}\cdot\dfrac{h_w}{2}=\dfrac{t_wh_w^2}{4}\)（就是矩形的 \(bh^2/4\)）。</p>
+<p><span class="st">③</span> \(\boxed{Z_x=b_ft_f(d-t_f)+\dfrac{t_wh_w^2}{4}}\)，\(h_w=d-2t_f\)　✔ 這就是常用的封閉式。</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・\(t_w\to0\)：只剩翼板 → \(Z=b_ft_f(d-t_f)\)；此時 \(S\approx b_ft_f(d-t_f)^2/d\approx b_ft_f(d-t_f)\)，\(f\to1\) ✔ 面積全在外緣，彈性和塑性沒有差別。<br>
+・\(b_f\to t_w\)（翼板縮成和腹板一樣寬）：變成矩形 \(t_w\times d\)，代入得 \(t_wt_f(d-t_f)+t_w(d-2t_f)^2/4\)，展開後 \(t_f\) 全部消掉，\(=t_wd^2/4\) ✔ 回到矩形。</div>
+
+<div class="trap"><b>陷阱：力臂寫成 \(d\)、或腹板用全深 \(d\)</b><br>
+翼板合力作用在翼板中心，力臂 \(d-t_f\)；腹板高度是淨高 \(h_w=d-2t_f\)。寫成 \(b_ft_fd+t_wd^2/4\) 會高估。</div>
+
+<div class="box"><b>範例：三題 H 型</b>（\(Z\) 與 \(I\) 皆由 calcs.py 重算）
+<table>
+<tr><th>題目</th><th>斷面（cm）</th><th>\(Z_x\)（cm³）</th><th>\(S_x\)（cm³）</th><th>\(f\)</th><th>\(M_p\)</th></tr>
+<tr><td><a href="problems-view/SS-2006-3.html">2006-3</a></td><td>H600×300×12×20，\(F_y=3.5\)</td><td>30·2·58 ＋ 1.2·56²/4 ＝ 3,480 ＋ 940.8 ＝ <b>4,420.8</b></td><td>3,950.7</td><td>1.119</td><td>15,472.8 tf·cm</td></tr>
+<tr><td><a href="problems-view/SS-2009-3.html">2009-3</a></td><td>H500×304×15×24，\(F_y=3.5\)</td><td>30.4·2.4·47.6 ＋ 1.5·45.2²/4 ＝ <b>4,239.0</b></td><td>3,770.7</td><td>1.124</td><td>14,836.6 tf·cm</td></tr>
+<tr><td><a href="problems-view/SS-2021-3.html">2021-3</a></td><td>BH700×300×12×25，\(F_y=3.5\)</td><td>30·2.5·67.5 ＋ 1.2·65²/4 ＝ <b>6,330</b></td><td>5,670（考卷表）</td><td>1.116</td><td>221.6 tf·m</td></tr>
+</table>
+<p class="note">\(I_x\) 的封閉式也一併記：\(I_x=\dfrac{b_fd^3-(b_f-t_w)h_w^3}{12}\)（大矩形減掉兩側的空洞），2006-3 得 118,522 cm⁴、2009-3 得 94,268 cm⁴（題解 94,265，四捨五入差）。</p>
+</div>
+
+<h3>3.2　矩形：形狀因子 1.5 的由來</h3>
+<div class="derive">
+<p><span class="st">①</span> PNA 在中間；上下各 \(bh/2\)，各自形心距 PNA \(h/4\)。</p>
+<p><span class="st">②</span> 力偶：\(Z=\dfrac{bh}{2}\cdot\dfrac h2=\boxed{\dfrac{bh^2}{4}}\)；彈性 \(S=\dfrac{bh^2}{6}\)。</p>
+<p><span class="st">③</span> \(f=\dfrac{bh^2/4}{bh^2/6}=\boxed{1.5}\)　——比值和 \(b\)、\(h\) 都無關，只和「形狀」有關，所以叫<b>形狀</b>因子。</p>
+</div>
+<div class="why"><b>白話：彈性時，中性軸附近的材料在「偷懶」</b><br>
+三角形應力下，靠近中性軸的纖維應力很小，幾乎沒出力；全塑化時，每一根纖維都出到 \(F_y\)。<b>偷懶的材料越多，全塑化時「多出來」的強度就越多</b>——這就是 \(f\) 的意思。矩形有很多材料在中間，所以 \(f\) 大；H 型把材料都放在翼板，彈性時就已經用得差不多，\(f\) 小。</div>
+
+<h3>3.3　實心圓與圓管：外減內</h3>
+{{FIG:fig3_2|圖 3-2｜左：實心圓的上下兩個半圓各有一個合力，作用在半圓形心（距圓心 \(4R/3\pi\)）。右：圓管＝外圓 − 內圓；因為兩者的 PNA 都在圓心，<b>\(Z\) 可以直接相減</b>。但 \(S\) 不行：\(S=I/c\)，內圓的 \(c\) 不是 \(D/2\)。}}
+
+<div class="derive">
+<p><span class="st">①</span> 實心圓：半圓面積 \(\pi R^2/2\)，形心距圓心 \(4R/3\pi\)（材料力學的半圓形心）。</p>
+<p><span class="st">②</span> 力偶：\(Z=\dfrac{\pi R^2}{2}\cdot2\cdot\dfrac{4R}{3\pi}=\dfrac{4R^3}{3}=\dfrac{D^3}{6}\)；彈性 \(I=\dfrac{\pi D^4}{64}\)、\(S=\dfrac{\pi D^3}{32}\)。</p>
+<p><span class="st">③</span> 圓管：\(Z\) 是「對同一條軸的一次矩」，面積可以加減 → \(\boxed{Z=\dfrac{D^3-d^3}{6}}\)；\(I\) 也可以相減 → \(I=\dfrac{\pi}{64}(D^4-d^4)\)，但 \(\boxed{S=\dfrac{I}{D/2}=\dfrac{\pi(D^4-d^4)}{32D}}\)，<b>除的是外徑</b>。</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・\(d=0\)：回到實心圓，\(f=\dfrac{D^3/6}{\pi D^3/32}=\dfrac{16}{3\pi}=1.698\) ✔<br>
+・\(d\to D\)（極薄管）：令 \(d=D-2t\)，\(D^3-d^3\approx6D^2t\)、\(D^4-d^4\approx8D^3t\) → \(f\to\dfrac{D^2t}{\pi D^2t/4}=\dfrac4\pi=1.273\) ✔ 薄管的材料都在外圈附近，但不像 H 型集中在「上下」，所以 \(f\) 仍比 H 型大。</div>
+
+<div class="box"><b>範例：<a href="problems-view/SS-2013-1.html">SS-2013-1</a>（102 年）</b>　空心圓管 \(d=0.6D\)，以 \(D\) 表示 \(S_x\)、\(Z_x\) 與形狀因數 \(f\)。</div>
+<div class="derive">
+<p><span class="st">①</span> \(I=\dfrac{\pi}{64}D^4(1-0.6^4)=\dfrac{\pi}{64}(0.8704)D^4\)；\(S=\dfrac{I}{D/2}=\dfrac{0.8704\pi D^3}{32}=0.08545D^3\)。</p>
+<p><span class="st">②</span> \(Z=\dfrac{D^3(1-0.6^3)}{6}=\dfrac{0.784D^3}{6}=0.13067D^3\)。</p>
+<p><span class="st">③</span> \(\boxed{f=\dfrac{0.13067}{0.08545}=1.529}\)，落在 1.273 與 1.698 之間 ✔</p>
+</div>
+
+{{FIG:fig3_4|圖 3-3｜圓管形狀因子隨 \(d/D\) 變化（calcs.py 逐點計算）。曲線從實心圓 1.698 單調下降到極薄管 1.273；2013-1 的 \(d=0.6D\) 在 1.529。<b>任何圓管的答案都必須落在這兩條虛線之間</b>，這是考場上最便宜的自我檢查。}}
+
+<div class="trap"><b>陷阱：\(S=S_{\text{外}}-S_{\text{內}}\)</b><br>
+\(S_{\text{內}}=\pi d^3/32\) 是內圓「自己外緣」的 \(S\)，用的是 \(c=d/2\)。圓管的外緣在 \(D/2\)，正確做法是 \(I\) 相減後再除以 \(D/2\)。2013-1 若這樣錯會得 \(S=0.784\pi D^3/32\)，\(f\) 變成 1.70——剛好等於實心圓，一看就知道錯。</div>
+
+<h3>3.4　形狀因子排行：一張圖看懂</h3>
+{{FIG:fig3_3|圖 3-4｜本單元出現過的所有斷面，形狀因子由小到大排列（全部由 calcs.py 計算）。<b>雙對稱 H 型擠在 1.12 左右</b>；歷屆的非對稱斷面散在 1.27～1.79；實心圓、矩形在 1.5～1.7。排越後面，表示「彈性時偷懶的材料越多」——T 型與階梯斷面的大塊面積正好落在中性軸附近。}}
+
+<div class="why"><b>考場用法：先猜 \(f\)，再算</b><br>
+動手前先看斷面長相：H 型 → 1.1 多；矩形 → 1.5；圓 → 1.7；T 型、十字、階梯 → 1.6～1.8。算完 \(Z/S\) 不在附近，回頭找錯（最常見：\(Z\) 用了 ENA、\(S\) 用了 \(c_{\min}\)）。<br>
+這些「典型值」標成必背，但你已經知道它們都能推：矩形 2 步、圓 3 步、H 型用 3.1 節的式子代一下。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜封閉式與 \(f\)</div>
+<ol>
+<li><b>畫</b>：H 型拆成「翼板力偶＋腹板矩形」；圓拆成兩個半圓（圖 3-1、3-2）</li>
+<li><b>種子</b>：S3（每一組都是 力 × 力臂）</li>
+<li><b>推</b>：\(b_ft_f(d-t_f)+t_wh_w^2/4\)；\(bh^2/4\)；\(D^3/6\) → 圓管外減內</li>
+<li><b>檢查</b>：\(t_w\to0\) 得 \(f\to1\)；矩形 1.5；圓管落在 1.273～1.698</li>
+</ol>
+</div>
+
+<h3>3.5　🙈 蓋住重推</h3>
+<details><summary>Q1　為什麼圓管的 \(Z\) 可以外減內，\(S\) 不行？</summary>
+<p>\(Z=\sum A_i|y_i-y_{PNA}|\)，外圓與內圓的 PNA 都在圓心，同一條軸上的一次矩可以加減。\(S=I/c\)：\(I\) 可以加減，但 \(c\) 是「整個斷面」的外緣距離 \(D/2\)，內圓自己的 \(S\) 用的是 \(d/2\)，不能直接減。</p></details>
+<details><summary>Q2　為什麼 H 型的 \(f\) 那麼小？</summary>
+<p>79% 的材料在翼板，彈性時翼板的應力已經接近 \(F_y\)（離中性軸遠）。全塑化只是把翼板從「接近 \(F_y\)」補到 \(F_y\)，再把腹板中間那些偷懶的材料叫起來——能多出來的不多。</p></details>
+<details><summary>Q3　不查資料，寫出半圓形心距 \(4R/3\pi\) 怎麼來？</summary>
+<p>\(\int y\,dA\) 對半圓：用寬度 \(2\sqrt{R^2-y^2}\) 的水平條積分，\(\int_0^R2y\sqrt{R^2-y^2}\,dy=\tfrac23R^3\)；除以面積 \(\pi R^2/2\) 得 \(4R/3\pi\)。（題解用的「半圓一次矩 \(2R^3/3\)」就是這個積分。）</p></details>
+
+<h3>3.6　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>翼板力臂寫 \(d\)</td><td>兩翼板中心距 \(d-t_f\)</td></tr>
+<tr><td>2</td><td>腹板高度用 \(d\)</td><td>淨高 \(h_w=d-2t_f\)</td></tr>
+<tr><td>3</td><td>\(S_{\text{管}}=S_{\text{外}}-S_{\text{內}}\)</td><td>先 \(I_{\text{外}}-I_{\text{內}}\)，再除以 \(D/2\)</td></tr>
+<tr><td>4</td><td>把 H 型封閉式套到非對稱斷面</td><td>封閉式假設 PNA 在正中間；非對稱要回到第 2 章逐塊算（2020-2 不能套）</td></tr>
+<tr><td>5</td><td>\(f\) 和尺寸有關</td><td>只和形狀有關；矩形不論多大都是 1.5</td></tr>
+</table>
+</section>

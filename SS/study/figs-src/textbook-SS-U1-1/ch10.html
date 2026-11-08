@@ -1,0 +1,325 @@
+<section id="ch10">
+<h2 class="c">第 10 章　柱強度曲線：規範兩條「天書」是怎麼畫出來的</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能在空白紙上，不看任何資料，把 LRFD 的 \(F_{cr}\) 兩段式和 ASD 的 \(F_a\) 兩段式重新推出來。</b><br>
+要記的只有：<span class="kw">0.877</span>、<span class="kw">1.5</span>、<span class="kw">½</span>、<span class="kw">5/3 → 23/12</span>，再加一個規範數字 <span class="kw">\(\phi_c = 0.85\)</span>。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:16%">標籤</th><th style="width:14%">本章節</th></tr>
+<tr><td>\(F_e=\dfrac{\pi^2E}{(KL/r)^2}\)（Euler 應力）</td><td><span class="tg must">必背</span></td><td>10.1</td></tr>
+<tr><td>\(\lambda_c=\dfrac{KL}{r\pi}\sqrt{\dfrac{F_y}{E}}\)</td><td><span class="tg half">別賭</span></td><td>10.2</td></tr>
+<tr><td>\(\lambda_c=1.5\) 的物理意義與對應的 \(KL/r\)</td><td><span class="tg must">必背</span></td><td>10.4</td></tr>
+<tr><td>\(F_{cr}=0.658^{\lambda_c^2}F_y\)／\(\dfrac{0.877}{\lambda_c^2}F_y\)</td><td><span class="tg half">別賭</span></td><td>10.4</td></tr>
+<tr><td>\(\phi_cP_n=0.85F_{cr}A_g\)</td><td><span class="tg must">必背</span></td><td>10.4</td></tr>
+<tr><td>\(C_c=\sqrt{2\pi^2E/F_y}\)</td><td><span class="tg half">別賭</span></td><td>10.5</td></tr>
+<tr><td>\(F_a\) 兩段式（含 FS）</td><td><span class="tg half">別賭</span></td><td>10.5</td></tr>
+<tr><td>ASD 的分段判斷 \(KL/r \lessgtr C_c\)、\(P_a=F_aA_g\)</td><td><span class="tg must">必背</span></td><td>10.5</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ 10.1 -->
+<h3 class="c">10.1　起點：一根柱子有兩個「上限」</h3>
+
+<p>一根受壓的柱子，能承受的應力有兩個天花板：</p>
+<ol class="big">
+<li><b class="g">材料上限</b>：鋼材本身被壓到降伏，\(F_y\)。這跟柱子多長無關，畫出來是一條<b>水平線</b>。</li>
+<li><b class="b">幾何上限</b>：柱子還沒被壓壞，就先「彎出去」了。這個上限就是 Euler 應力（第 7 章由種子 S4 推出）：
+$$F_e=\frac{\pi^2E}{(KL/r)^2}$$
+柱子越細長（\(KL/r\) 越大），\(F_e\) 掉得越快，畫出來是一條<b>往右下掉的曲線</b>。</li>
+</ol>
+
+{{FIG:fig10_1|圖 10-1｜兩個上限畫在同一張圖上（A36）。柱子會被比較低的那條限制住，所以理想的柱強度就是「兩線取小」的紫色粗線。兩線交於 \(KL/r = 89.4\)，左邊材料先輸，右邊幾何先輸。}}
+
+<div class="why"><b>白話</b>：短柱是「被壓扁」，長柱是「被壓彎」。柱強度曲線要回答的，就是「這根柱子是哪一種，以及介於中間時怎麼辦」。</div>
+
+<p>交點在哪裡？令兩者相等：</p>
+$$\frac{\pi^2E}{(KL/r)^2}=F_y\;\Longrightarrow\;\frac{KL}{r}=\pi\sqrt{\frac{E}{F_y}}$$
+<p>A36 鋼：\(\sqrt{E/F_y}=\sqrt{2040/2.52}=28.45\)，所以交點 \(KL/r=\pi\times28.45=89.4\)。</p>
+
+<div class="trap"><b>記一個數就好</b>：A36 的 \(\sqrt{E/F_y}\approx 28.4\)（A572 Gr.50 約 24.1）。本章所有 A36 的分界點，都是這個數乘上 \(\pi\) 的某個倍數。</div>
+
+<!-- ============================================================ 10.2 -->
+<h3 class="c">10.2　種子 S6：\(\lambda_c\) 只是「把圖換個刻度」　<span class="tg half">別賭</span></h3>
+
+<p>圖 10-1 有一個缺點：每換一種鋼材，水平線高度就變了，交點也跟著跑。能不能畫一張<b>所有鋼種通用</b>的圖？</p>
+<p>做法很簡單——<b>把縱軸除以 \(F_y\)</b>：</p>
+<ul class="big">
+<li>材料上限 \(F_y/F_y=1\)，永遠是高度 1 的水平線。</li>
+<li>幾何上限變成 \(F_e/F_y\)。</li>
+</ul>
+<p>再定義一個新的橫軸，讓「交點永遠落在 1」。交點的條件是 \(F_e = F_y\)，所以最自然的定義就是：</p>
+
+<div class="seed">
+<div class="seed-h">🌱 種子 S6</div>
+$$\lambda_c^2=\frac{F_y}{F_e}=\frac{\text{材料撐得住的}}{\text{幾何撐得住的}}$$
+</div>
+
+<p>這樣一來，幾何上限 \(F_e/F_y = 1/\lambda_c^2\)，碰到水平線 1 的地方剛好是 \(\lambda_c = 1\)。</p>
+
+{{FIG:fig10_2|圖 10-2｜把圖 10-1 的縱軸除以 \(F_y\)、橫軸換成 \(\lambda_c\)。形狀完全一樣，但交點永遠在 \(\lambda_c=1\)，所有鋼種共用這一張圖。上方小刻度是對應的 A36 \(KL/r\)。}}
+
+<h4>三步推出規範的 \(\lambda_c\) 定義</h4>
+<div class="derive">
+<p><span class="st">①</span> 從種子出發：\(\lambda_c^2=\dfrac{F_y}{F_e}\)</p>
+<p><span class="st">②</span> 把 \(F_e\) 代進去：\(\lambda_c^2=F_y\cdot\dfrac{(KL/r)^2}{\pi^2E}\)</p>
+<p><span class="st">③</span> 兩邊開根號：\(\boxed{\lambda_c=\dfrac{KL}{r\,\pi}\sqrt{\dfrac{F_y}{E}}}\)　✔ 這就是規範寫的那條。</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・\(KL/r\to 0\)（極短柱）：\(\lambda_c\to0\)，幾何超強，一定是材料先輸 ✔<br>
+・\(F_y\) 變大（高強度鋼）：\(\lambda_c\) 變大 → 往右移 → 更容易變成「幾何先輸」。所以<b>高強度鋼做細長柱是浪費</b>，這正是常考的觀念題 ✔</div>
+
+<div class="trap"><b>陷阱：\(\pi\) 在分母</b><br>
+很多人寫成 \(\dfrac{KL}{r}\sqrt{F_y/E}\)，漏了 \(\pi\)，\(\lambda_c\) 就大了 3 倍多。<b>不用硬記 \(\pi\) 在哪</b>：從 \(\lambda_c^2 = F_y/F_e\) 推一次，\(\pi\) 自然跑到分母。</div>
+
+<!-- ============================================================ 10.3 -->
+<h3 class="c">10.3　為什麼真實柱一定比紫線弱：兩個兇手</h3>
+<p>如果柱子完美筆直、鋼材內部沒有任何應力，圖 10-2 的紫線就是答案。但試驗做出來，中等長度的柱子明顯低於紫線，在 \(\lambda_c\approx1\) 附近甚至低了三成以上。兇手有兩個。</p>
+
+<h4>兇手一：初始彎曲（影響整條曲線，彈性段只剩它）</h4>
+<p>工廠出來的柱子不可能完全筆直，中央總有一點點彎曲 \(\delta_0\)（規範假設約 \(L/1000\)）。看圖 10-3 的自由體圖：</p>
+
+{{FIG:fig10_3|圖 10-3｜左：微彎的柱。中：切開中點，上半段的軸力 \(P\) 與下面的 \(P\) 錯開一段 \(\delta_0+\delta\)，形成「推歪力矩」\(M=P(\delta_0+\delta)\)。右：於是變形從一開始就被放大，\(\delta=\delta_0/(1-P/P_e)\)；到 \(0.877P_e\) 時已放大約 8 倍。}}
+
+<div class="derive">
+<p><span class="st">①</span> 一有 \(P\)，就有力臂 \(\delta_0\) → 立刻產生彎矩 \(P\delta_0\)。</p>
+<p><span class="st">②</span> 彎矩讓柱子更彎 → 力臂變大 → 彎矩更大（這就是種子 S4 的「推歪力矩」）。</p>
+<p><span class="st">③</span> 所以真實柱<b>沒有</b>「到 \(P_e\) 才突然彎」這回事：還沒到 \(P_e\)，彎曲加上軸力就已讓最外緣降伏。</p>
+</div>
+<p>規範統計大量試驗後，對彈性段的處理是：<b>理想 Euler 打個 0.877 折</b>（約打 12% 折）。這個 0.877 是統計出來的，<b>是要記的數字錨點</b>。</p>
+
+<h4>兇手二：殘留應力（只傷中等長度的柱）</h4>
+<p>熱軋型鋼冷卻時，翼板端部先冷，最後被拉住而帶著<b>殘留壓應力</b>（第 9 章詳細推導）。保守的假設是端部約 \(0.5F_y\)。看圖 10-4：</p>
+
+{{FIG:fig10_4|圖 10-4｜翼板上的應力。① 還沒加載，端部已有 \(0.5F_y\) 壓應力。② 外加平均應力 \(f=0.5F_y\)，端部就到 \(F_y\)：這是「比例限」。③ 再加，端部先降伏（黑色），只剩中間還有勁度，柱子變軟、提早挫屈。}}
+
+<div class="derive">
+<p><span class="st">①</span> 殘留應力本身合力為零，不影響平衡。</p>
+<p><span class="st">②</span> 但它決定<b>誰先降伏</b>：端部只要再加 \(0.5F_y\) 就到頂。</p>
+<p><span class="st">③</span> 所以平均應力一超過 <b>½\(F_y\)</b>，柱子就不再是純彈性 → <b>½</b> 是第二個錨點。</p>
+</div>
+
+<div class="why"><b>為什麼殘留應力只傷「中等」柱？</b><br>
+・極短柱：最後整個斷面都會降伏，誰先誰後無所謂，終點都是 \(F_y\)。<br>
+・極長柱：平均應力還不到 ½\(F_y\) 就挫屈了，根本輪不到殘留應力出手。<br>
+・只有中間那段（平均應力超過 ½\(F_y\) 才挫屈的柱）會被削弱——這就是 \(\lambda_c\approx1\) 附近掉最多的原因。</div>
+
+<!-- ============================================================ 10.4 -->
+<h3 class="c">10.4　LRFD 兩段式：一條曲線，兩段各有故事</h3>
+
+<h4>(1) 彈性段（細長柱）：只剩初始彎曲</h4>
+<p>長柱挫屈時平均應力很低，殘留應力不作用，只剩兇手一：</p>
+$$F_{cr}=0.877\,F_e=0.877\cdot\frac{F_y}{\lambda_c^2}\qquad\Longrightarrow\qquad \boxed{F_{cr}=\frac{0.877}{\lambda_c^2}F_y}$$
+<p>第二個等號用的就是種子 S6：\(F_e=F_y/\lambda_c^2\)。</p>
+
+<h4>(2) 非彈性段（中短柱）：一條會自己回到 \(F_y\) 的指數曲線</h4>
+<p>規範用一條指數曲線把殘留應力和初始彎曲的效應包在一起：</p>
+$$\boxed{F_{cr}=\left(0.658^{\lambda_c^2}\right)F_y}$$
+<p>它有一個漂亮的性質：\(\lambda_c\to0\) 時 \(0.658^0=1\)，<b>自動回到 \(F_y\)</b>，符合短柱被壓扁的物理。</p>
+
+{{FIG:fig10_5|圖 10-5｜LRFD 柱強度曲線（紅線，逐點計算）與理想的取小線（藍虛線）。兩段在 \(\lambda_c=1.5\) 接上；紫色區是兩個兇手吃掉的強度，在 \(\lambda_c=1\) 處最多（1 → 0.658）。}}
+
+<h4>(3) 0.658 不用背：由「兩段必須接上」反推</h4>
+<p>規範把兩段的分界定在 \(\lambda_c=1.5\)，而且兩段在這裡是<b>連續</b>的。所以只要記得 0.877 和 1.5，就能算出 0.658：</p>
+
+{{FIG:fig10_6|圖 10-6｜放大接點附近。右邊的 \(0.877/\lambda_c^2\) 在 1.5 處等於 0.390；左邊 \(a^{\lambda_c^2}\) 必須也等於 0.390，解出 \(a=0.658\)。}}
+
+<div class="trap"><b>兩種寫法要都認得（考卷混用）</b><br>
+舊版考卷寫 \(F_{cr}=\exp(-0.419\lambda_c^2)F_y\)，新版寫 \(0.658^{\lambda_c^2}F_y\)。<b>它們是同一條</b>：\(\ln0.658=-0.419\)，所以 \(0.658^{\lambda^2}=e^{-0.419\lambda^2}\)。驗算：\(e^{-0.419}=0.658\) ✔</div>
+
+<h4>(4) 為什麼分界是 1.5？　<span class="tg must">必背</span></h4>
+<div class="derive">
+<p><span class="st">①</span> 由種子 S6：\(F_e=F_y/\lambda_c^2=F_y/2.25=0.444F_y\)。</p>
+<p><span class="st">②</span> 也就是說，\(\lambda_c>1.5\) 的柱子，挫屈時平均應力不到 \(0.44F_y\)，<b>低於比例限 ½\(F_y\)</b>。</p>
+<p><span class="st">③</span> 殘留應力還沒機會讓任何地方降伏 → 全斷面仍彈性 → 用 Euler（打 0.877 折）。</p>
+</div>
+<p>換成 \(KL/r\)：\(\lambda_c=1.5\Longleftrightarrow \dfrac{KL}{r}=1.5\pi\sqrt{\dfrac{E}{F_y}}\)。A36：\(1.5\times\pi\times28.45=\mathbf{134}\)；A572 Gr.50：\(\mathbf{113}\)。</p>
+
+<h4>(5) 最後一步：乘面積、乘 \(\phi_c\)　<span class="tg must">必背</span></h4>
+$$\phi_cP_n=\phi_c\,F_{cr}\,A_g,\qquad \phi_c=0.85$$
+<div class="why"><b>0.85 怎麼記？</b>
+拉力桿件的降伏用 0.90（延性、有預警），斷裂用 0.75（脆性、無預警）。<b>挫屈介於兩者之間</b>：不是脆斷，但對初始彎曲、殘留應力很敏感，結果比較分散，所以比 0.90 再嚴一點，取 <b>0.85</b>。考卷 24 年裡只有兩年印過這個數字。</div>
+
+<div class="trap"><b>LRFD 三個常見失分</b><br>
+① \(\phi_c\) 寫成 0.9。<br>
+② 指數寫成 \(0.658^{\lambda_c}\)：是 \(\lambda_c\) 的<b>平方</b>。先算 \(\lambda_c^2\)，再取次方。<br>
+③ 壓力桿件扣了螺栓孔：用的是 \(A_g\)（毛斷面）。孔裡還塞著螺栓，照樣能傳壓力。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜LRFD \(F_{cr}\)</div>
+<ol>
+<li><b>畫</b>：橫線 1（材料）＋ 曲線 \(1/\lambda^2\)（幾何），交於 \(\lambda=1\)。</li>
+<li><b>種子</b>：\(\lambda_c^2=F_y/F_e\) → \(\lambda_c=\dfrac{KL}{r\pi}\sqrt{F_y/E}\)。</li>
+<li><b>彈性段</b>：\(0.877\times\) 幾何 ＝ \(0.877F_y/\lambda_c^2\)。<b>非彈性段</b>：\(a^{\lambda_c^2}F_y\)，由 1.5 處連續解出 \(a=0.390^{1/2.25}=0.658\)。</li>
+<li><b>檢查</b>：\(\lambda_c=0\) 得 \(F_y\) ✔；兩段在 1.5 都等於 \(0.390F_y\) ✔；最後 \(\times0.85\times A_g\)。</li>
+</ol>
+</div>
+
+<!-- ============================================================ 10.5 -->
+<h3 class="c">10.5　ASD 兩段式：同一套物理，換一個包裝</h3>
+<p>容許應力法（ASD）比 LRFD 早，用的是另一組試驗曲線（CRC 曲線），但物理和 10.3 節完全一樣：<b>比例限 ½\(F_y\)、上面非彈性、下面彈性</b>。</p>
+
+<h4>(1) \(C_c\)：Euler 碰到 ½\(F_y\) 的細長比　<span class="tg half">別賭</span></h4>
+{{FIG:fig10_7|圖 10-7｜比例限 ½\(F_y\)（橘虛線）與 Euler 曲線的交點，就是 \(C_c\)。A36 為 126.4。左邊挫屈前已部分降伏（非彈性），右邊全斷面彈性。}}
+<div class="derive">
+<p><span class="st">①</span> 分界條件：Euler 應力 ＝ 比例限，\(F_e=\tfrac12F_y\)。</p>
+<p><span class="st">②</span> 代入 Euler：\(\dfrac{\pi^2E}{(KL/r)^2}=\dfrac{F_y}{2}\)。</p>
+<p><span class="st">③</span> 解出 \(KL/r\)：\(\boxed{C_c=\sqrt{\dfrac{2\pi^2E}{F_y}}}\)。A36：\(\pi\sqrt2\times28.45=126.4\) ✔</p>
+</div>
+<div class="check"><b>和 LRFD 對照</b>：用 S6 換算，\(F_e=\tfrac12F_y\) 對應 \(\lambda_c^2=2\)，即 \(\lambda_c=\sqrt2\approx1.41\)。
+LRFD 的分界 1.5 稍大一點（\(F_e=0.444F_y\)），兩套規範的分界<b>很接近但不相同</b>：A36 一個是 126，一個是 134。</div>
+<div class="trap"><b>陷阱：\(C_c\) 不是細長比上限</b><br>
+\(C_c\) 是「彈性 vs 非彈性」的分界；\(KL/r\le200\) 才是壓桿的構造上限。兩者毫無關係，考卷常故意放在一起問。</div>
+
+<h4>(2) 非彈性段：拋物線，由兩個條件畫出來</h4>
+<p>CRC 曲線假設非彈性段是一條拋物線 \(F_{cr}=F_y-c\,(KL/r)^2\)。只要兩個條件就能決定它：</p>
+
+{{FIG:fig10_8|圖 10-8｜CRC 拋物線（橘線）：① 從 \((0,F_y)\) 出發、頂端是平的；② 在 \(C_c\) 處接上 Euler。算出來會發現兩條線在接點<b>自動相切</b>（紫虛線），曲線平順、不會折一下。}}
+
+<div class="derive">
+<p><span class="st">①</span> 頂端在 \((0,F_y)\)、而且是平的 → 寫成 \(F_{cr}=F_y-c\,(KL/r)^2\)（沒有一次項，所以頂端是平的）。</p>
+<p><span class="st">②</span> 在 \(KL/r=C_c\) 時要等於 \(\tfrac12F_y\)：\(F_y-c\,C_c^2=\tfrac12F_y\Rightarrow c=\dfrac{F_y}{2C_c^2}\)。</p>
+<p><span class="st">③</span> 代回去：\(\boxed{F_{cr}=\left[1-\dfrac{(KL/r)^2}{2C_c^2}\right]F_y}\)　✔ 這就是 \(F_a\) 分子那一串。</p>
+</div>
+<div class="check"><b>換成 \(\lambda_c\) 看更簡單</b>：因為 \(\dfrac{(KL/r)^2}{2C_c^2}=\dfrac{\lambda_c^2}{4}\)，所以 CRC 拋物線就是 \(F_{cr}/F_y=1-\lambda_c^2/4\)。
+在 \(\lambda_c=\sqrt2\) 時 \(1-2/4=\tfrac12\) ✔，正好接上比例限。</div>
+
+<h4>(3) 安全係數 FS：從 5/3 平順地爬到 23/12</h4>
+<p>ASD 不放大載重，而是把強度除以安全係數 FS。FS 要記的只有兩個端點：</p>
+<ul class="big">
+<li><b>短柱端 5/3 ≈ 1.67</b>：和拉力桿件的降伏同級（行為單純、可預測）。</li>
+<li><b>長柱端 23/12 ≈ 1.92</b>：挫屈對缺陷敏感，多留約 15%。記法：<b>23/12 ＝ 5/3 ＋ 1/4</b>。</li>
+</ul>
+
+{{FIG:fig10_9|圖 10-9｜FS 隨 \(x=(KL/r)/C_c\) 變化：從 5/3 出發，到 \(x=1\) 時剛好爬到 23/12，而且「落地是平的」，之後彈性段固定 23/12。}}
+
+<details><summary>想知道 FS 那條三次式怎麼來的？（可略過，考卷都會印）</summary>
+<p>規範選用 \(FS=a+bx+cx^3\) 的形式，並要求三個條件：起點 \(FS(0)=\tfrac53\)；終點 \(FS(1)=\tfrac{23}{12}\)；在終點平順接上彈性段的常數，所以斜率 \(FS'(1)=0\)。</p>
+<p>由起點得 \(a=\tfrac53\)；由終點得 \(b+c=\tfrac14\)；由斜率為零得 \(b+3c=0\)。解得 \(c=-\tfrac18\)、\(b=\tfrac38\)：</p>
+<p>$$FS=\frac53+\frac{3x}{8}-\frac{x^3}{8}=\frac53+\frac{3x-x^3}{8},\qquad x=\frac{KL/r}{C_c}$$</p>
+<p>自我檢查：\(x=1\) 時 \(3x-x^3=2\)，\(2/8=1/4\)，\(\tfrac53+\tfrac14=\tfrac{23}{12}\) ✔</p>
+</details>
+
+<h4>(4) 組裝 \(F_a\)</h4>
+<div class="derive">
+<p><span class="st">非彈性</span>（\(KL/r\le C_c\)）：拋物線 ÷ FS
+$$F_a=\frac{\left[1-\dfrac{(KL/r)^2}{2C_c^2}\right]F_y}{\dfrac53+\dfrac{3(KL/r)}{8C_c}-\dfrac{(KL/r)^3}{8C_c^3}}$$</p>
+<p><span class="st">彈性</span>（\(KL/r>C_c\)）：Euler ÷ 23/12
+$$F_a=\frac{F_e}{23/12}=\frac{12\pi^2E}{23\,(KL/r)^2}$$</p>
+<p><span class="st">最後</span>：\(P_a=F_a\,A_g\)　<span class="tg must">必背</span>（考卷常常只印兩條 \(F_a\)，<b>不標</b>哪條用在哪一段）</p>
+</div>
+<div class="check"><b>連續性檢查</b>：在 \(KL/r=C_c\)，非彈性段 \(=\dfrac{\tfrac12F_y}{23/12}\)；彈性段 \(=\dfrac{F_e(C_c)}{23/12}=\dfrac{\tfrac12F_y}{23/12}\)。兩段相等 ✔</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜ASD \(F_a\)</div>
+<ol>
+<li><b>畫</b>：Euler 曲線＋比例限 ½\(F_y\) 橫線，交點 = \(C_c\)。</li>
+<li><b>\(C_c\)</b>：\(\pi^2E/C_c^2=F_y/2\Rightarrow C_c=\sqrt{2\pi^2E/F_y}\)。</li>
+<li><b>拋物線</b>：頂端平、在 \(C_c\) 等於 ½\(F_y\) → \(F_y[1-(KL/r)^2/2C_c^2]\)。<b>FS</b>：5/3 → 23/12（＝5/3＋1/4），中間 \(\tfrac53+\tfrac{3x-x^3}{8}\)。</li>
+<li><b>彈性段</b>：Euler ÷ 23/12 ＝ \(12\pi^2E/23(KL/r)^2\)。<b>檢查</b>：兩段在 \(C_c\) 相等 ✔</li>
+</ol>
+</div>
+
+<!-- ============================================================ 10.6 -->
+<h3 class="c">10.6　LRFD 與 ASD 放在一起看</h3>
+{{FIG:fig10_10|圖 10-10｜(a) LRFD 的指數曲線與 ASD 的拋物線形狀很像，只是分界不同（1.5 與 \(\sqrt2\)）。(b) 同一根柱子用兩套算，\(\phi_cP_n/P_a\) 永遠落在 1.39～1.47，跟載重無關，可以拿來驗算。}}
+
+<table>
+<tr><th style="width:16%"></th><th>LRFD（極限設計法）</th><th>ASD（容許應力法）</th></tr>
+<tr><td>橫軸</td><td>\(\lambda_c\)（無單位）</td><td>\(KL/r\)</td></tr>
+<tr><td>分界</td><td>\(\lambda_c=1.5\)（\(F_e=0.444F_y\)）</td><td>\(KL/r=C_c\)（\(F_e=0.5F_y\)，即 \(\lambda_c=\sqrt2\)）</td></tr>
+<tr><td>非彈性段</td><td>\(0.658^{\lambda_c^2}F_y\)</td><td>\([1-\lambda_c^2/4]F_y\) ÷ FS</td></tr>
+<tr><td>彈性段</td><td>\(0.877F_e\)</td><td>\(F_e\) ÷ 23/12</td></tr>
+<tr><td>安全機制</td><td>\(\phi_c=0.85\)；載重放大（如 \(1.2D+1.6L\)）</td><td>FS ＝ 1.67～1.92；載重<b>不</b>放大（\(D+L\)）</td></tr>
+<tr><td>輸出</td><td>\(\phi_cP_n=0.85F_{cr}A_g\)</td><td>\(P_a=F_aA_g\)</td></tr>
+</table>
+
+<div class="trap"><b>最致命的混用</b><br>
+LRFD 的答案要跟<b>放大後</b>的載重比，ASD 的答案要跟<b>未放大</b>的服務載重比。
+題目給 \(D=50\)、\(L=30\) tf：LRFD 用 \(1.2(50)+1.6(30)=108\) tf，ASD 用 \(80\) tf。
+<b>動筆前先在草稿紙最上面寫：「本題用 LRFD／ASD」。</b></div>
+
+<!-- ============================================================ 10.7 -->
+<h3 class="c">10.7　範例：一根柱子，兩套都算一次</h3>
+<div class="box">
+<b>題目</b>　H400×400×13×21（A36：\(F_y=2.52\)、\(E=2040\) tf/cm²），\(A_g=218.7\) cm²、\(r_x=17.45\) cm、\(r_y=10.12\) cm。
+柱高 8 m，兩端鉸接（\(K=1.0\)），<b>弱軸在柱中央有一道側撐</b>。求 LRFD 設計強度 \(\phi_cP_n\) 與 ASD 容許載重 \(P_a\)。（寬厚比已檢核通過，見第 11 章。）
+</div>
+
+<h4>Step 1　先畫圖，決定哪一軸控制</h4>
+{{FIG:fig10_11|圖 10-11｜同一根柱在兩個平面的挫屈形狀。強軸方向沒有側撐，整根彎成一個半波（800 cm）；弱軸方向被側撐切成兩個半波（各 400 cm）。算完 \(KL/r\)，強軸較大，所以強軸控制。}}
+<div class="derive">
+<p>強軸：\(KL/r_x=800/17.45=45.8\)</p>
+<p>弱軸：\(KL/r_y=400/10.12=39.5\)</p>
+<p>取大者 → \(KL/r=45.8\)（<b>強軸控制</b>；有側撐時弱軸不一定控制，兩軸都要算）</p>
+</div>
+
+<h4>Step 2　LRFD</h4>
+<div class="derive">
+<p><span class="st">①</span> 用種子 S6 算 \(\lambda_c^2\)（兩種算法，答案要一樣）：<br>
+　\(F_e=\dfrac{\pi^2(2040)}{45.8^2}=9.58\) tf/cm²　→　\(\lambda_c^2=\dfrac{2.52}{9.58}=0.263\)<br>
+　或 \(\lambda_c=\dfrac{45.8}{\pi\times28.45}=0.513\)　→　\(\lambda_c^2=0.263\) ✔</p>
+<p><span class="st">②</span> \(\lambda_c=0.513\le1.5\) → 非彈性段：\(F_{cr}=0.658^{0.263}\times2.52=0.896\times2.52=2.26\) tf/cm²</p>
+<p><span class="st">③</span> \(\phi_cP_n=0.85\times2.26\times218.7=\mathbf{420}\) tf</p>
+</div>
+
+<h4>Step 3　ASD</h4>
+<div class="derive">
+<p><span class="st">①</span> \(C_c=\pi\sqrt2\times28.45=126.4>45.8\) → 非彈性段；\(x=45.8/126.4=0.363\)</p>
+<p><span class="st">②</span> 拋物線：\(1-\dfrac{45.8^2}{2\times126.4^2}=1-0.066=0.934\)</p>
+<p><span class="st">③</span> FS ＝ \(\tfrac53+\dfrac{3(0.363)-0.363^3}{8}=1.667+0.130=1.797\)</p>
+<p><span class="st">④</span> \(F_a=\dfrac{0.934\times2.52}{1.797}=1.31\) tf/cm²　→　\(P_a=1.31\times218.7=\mathbf{287}\) tf</p>
+</div>
+
+<div class="check"><b>自我檢查</b>：\(420/287=1.46\)，落在圖 10-10(b) 的 1.39～1.47 之間 ✔。如果你算出來的比值跑到 1.2 或 1.7，一定有一邊算錯（最常見的是 \(\phi_c\) 用了 0.9，或指數忘了平方）。</div>
+
+<!-- ============================================================ 10.8 -->
+<h3 class="c">10.8　整章濃縮成一張圖：考場上 30 秒重畫</h3>
+<p>考試時如果腦袋一片空白，就在草稿紙角落照下面的順序畫。畫完，LRFD 和 ASD 的所有公式都在圖上了。</p>
+{{FIG:fig10_12|圖 10-12｜考場重建圖。照 ①～⑥ 的順序畫：① 材料橫線 → ② Euler → ③ 1.5 處的 0.39 → ④ 反推 0.658 → ⑤ 比例限 ½ 與 \(\sqrt2\)（\(C_c\)）→ ⑥ ASD 拋物線。要記的只有 0.877、1.5、½。}}
+
+<!-- ============================================================ 10.9 -->
+<h3 class="c">10.9　🙈 蓋住重推</h3>
+<p>先在紙上自己寫，寫完再點開對答案。每一題都<b>不能</b>用「因為規範這樣寫」來回答。</p>
+
+<details><summary>Q1　不看講義，寫出 \(\lambda_c\) 的定義，並說明 \(\pi\) 為什麼在分母。</summary>
+<p>從種子 \(\lambda_c^2=F_y/F_e\) 出發，代入 \(F_e=\pi^2E/(KL/r)^2\)，得 \(\lambda_c^2=\dfrac{F_y(KL/r)^2}{\pi^2E}\)，開根號得 \(\lambda_c=\dfrac{KL}{r\pi}\sqrt{F_y/E}\)。\(\pi\) 原本在 Euler 的分子，翻到倒數就跑到分母。</p></details>
+
+<details><summary>Q2　只記得 0.877 和 1.5，怎麼得到 0.658？</summary>
+<p>兩段在 \(\lambda_c=1.5\) 必須相等。右段 \(0.877/1.5^2=0.390\)；左段 \(a^{1.5^2}=a^{2.25}\)。令兩者相等：\(a=0.390^{1/2.25}=0.658\)。</p></details>
+
+<details><summary>Q3　\(\lambda_c=1.5\) 的物理意義是什麼？對應 A36 的 \(KL/r\) 是多少？</summary>
+<p>\(\lambda_c=1.5\Rightarrow F_e=F_y/2.25=0.444F_y\)，低於殘留應力造成的比例限（約 ½\(F_y\)），所以比 1.5 更細長的柱在全斷面彈性時就挫屈，用 Euler（打 0.877 折）。A36：\(KL/r=1.5\pi\sqrt{E/F_y}=1.5\times\pi\times28.45\approx134\)。</p></details>
+
+<details><summary>Q4　推導 \(C_c\)，並說明它和「\(KL/r\le200\)」的差別。</summary>
+<p>CRC 假設殘留壓應力 0.5\(F_y\)，比例限降為 ½\(F_y\)。令 \(\pi^2E/(KL/r)^2=F_y/2\)，得 \(C_c=\sqrt{2\pi^2E/F_y}\)，是彈性與非彈性的分界。\(KL/r\le200\) 是構造規定（避免太細長），兩者無關。</p></details>
+
+<details><summary>Q5　ASD 非彈性段的分子為什麼是 \(1-\dfrac{(KL/r)^2}{2C_c^2}\)？</summary>
+<p>設拋物線 \(F_{cr}=F_y-c(KL/r)^2\)（頂端在 \(F_y\)、是平的）。要求在 \(C_c\) 處等於 ½\(F_y\)：\(c=F_y/(2C_c^2)\)。代回得 \(F_y[1-(KL/r)^2/(2C_c^2)]\)。結果在接點自動與 Euler 相切。</p></details>
+
+<details><summary>Q6　為什麼殘留應力的合力是零，卻會降低柱的強度？為什麼只影響中等長度的柱？</summary>
+<p>它不改變平衡，但改變<b>誰先降伏</b>：翼板端部原本就有約 ½\(F_y\) 壓應力，外加 ½\(F_y\) 就降伏；降伏的部分不再提供勁度，柱子變軟、提早挫屈。極短柱最後整個斷面都會降伏，誰先誰後不影響終點 \(F_y\)；極長柱平均應力不到 ½\(F_y\) 就挫屈了，輪不到殘留應力出手。只有中間那段受害。</p></details>
+
+<details><summary>Q7　同一根柱，LRFD 算出 \(\phi_cP_n=300\) tf、ASD 算出 \(P_a=250\) tf，可信嗎？</summary>
+<p>比值 \(300/250=1.20\)，不在 1.39～1.47 之間，一定有一邊算錯。先檢查 \(\phi_c\) 是不是 0.85、\(0.658\) 的指數有沒有平方、ASD 的 FS 有沒有算對。</p></details>
+
+<!-- ============================================================ 10.10 -->
+<h3 class="c">10.10　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:27%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>\(\lambda_c=\dfrac{KL}{r}\sqrt{F_y/E}\)（漏 \(\pi\)）</td><td>由 \(\lambda_c^2=F_y/F_e\) 推，\(\pi\) 在分母</td></tr>
+<tr><td>2</td><td>\(0.658^{\lambda_c}\)</td><td>指數是 \(\lambda_c^2\)（接點用 2.25 驗算）</td></tr>
+<tr><td>3</td><td>\(\phi_c=0.9\)</td><td>\(0.85\)：介於降伏 0.90 與斷裂 0.75 之間</td></tr>
+<tr><td>4</td><td>壓力桿件扣螺栓孔</td><td>用 \(A_g\)，孔內螺栓照樣傳壓</td></tr>
+<tr><td>5</td><td>只算弱軸</td><td>兩軸都算，取 \(KL/r\) 大者（範例中強軸控制）</td></tr>
+<tr><td>6</td><td>兩條 \(F_{cr}\) 不知道哪條用在哪</td><td>先算 \(\lambda_c\)：\(\le1.5\) 用 0.658，\(>1.5\) 用 0.877</td></tr>
+<tr><td>7</td><td>兩條 \(F_a\) 不知道哪條用在哪</td><td>先算 \(C_c\)：\(KL/r\le C_c\) 用拋物線式，\(>C_c\) 用 \(12\pi^2E/23(KL/r)^2\)</td></tr>
+<tr><td>8</td><td>\(C_c\) 當成細長比上限</td><td>\(C_c\) 是彈性分界；上限是 200</td></tr>
+<tr><td>9</td><td>認不得 \(\exp(-0.419\lambda_c^2)\)</td><td>與 \(0.658^{\lambda_c^2}\) 相同（\(\ln0.658=-0.419\)）</td></tr>
+<tr><td>10</td><td>ASD 用放大載重比</td><td>ASD 比 \(D+L\)；LRFD 比 \(1.2D+1.6L\)</td></tr>
+</table>
+</section>

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS-U1-2 梁桿件｜教科書講義 下冊：剪力・使用性・延伸篇</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});document.body.dataset.katex='done';"></script>
+<style>
+:root{
+  --ac:#1565c0; --ac2:#e3f2fd; --tension:#2e7d32; --tension2:#e8f5e9;
+  --comp:#c62828; --comp2:#ffebee; --warn:#ef6c00; --warn2:#fff3e0;
+  --key:#6a1b9a; --key2:#f3e5f5;
+  --bg:#f6f7f4; --card:#fff; --ink:#1f2a30; --mut:#5b6e78; --bd:#d9e0e4;
+}
+*{box-sizing:border-box}
+html{font-size:18px}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans CJK TC","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.9}
+header{background:linear-gradient(135deg,#1b5e20,#2e7d32 55%,#558b2f);color:#fff;padding:38px 28px 30px}
+header.c{background:linear-gradient(135deg,#7f0000,#b71c1c 55%,#c62828)}
+header.a{background:linear-gradient(135deg,#0d47a1,#1565c0 55%,#1e88e5)}
+header.k{background:linear-gradient(135deg,#4a148c,#6a1b9a 55%,#8e24aa)}
+header h1{margin:0 0 10px;font-size:1.7rem;letter-spacing:.5px;line-height:1.4}
+header .sub{opacity:.95;font-size:1.02rem;margin:0;max-width:880px}
+header .meta{margin-top:14px;font-size:.85rem;opacity:.85}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);
+  padding:9px 14px;display:flex;flex-wrap:wrap;gap:7px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+nav a{text-decoration:none;color:var(--ac);font-size:.86rem;padding:4px 12px;border-radius:15px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+nav a.vol{background:#fff3e0;color:#e65100}
+main{max-width:940px;margin:0 auto;padding:26px 20px 90px}
+section{margin-bottom:60px}
+h2{font-size:1.45rem;border-left:8px solid var(--ac);padding:4px 0 4px 14px;margin:56px 0 20px;line-height:1.45;background:#fff;border-radius:0 8px 8px 0}
+h2.t{border-color:var(--tension)} h2.c{border-color:var(--comp)} h2.k{border-color:var(--key)}
+h3{font-size:1.18rem;margin:38px 0 12px;color:#0d47a1;border-bottom:2px solid #e3e8eb;padding-bottom:4px}
+h3.t{color:#1b5e20} h3.c{color:#b71c1c}
+h4{font-size:1.05rem;margin:26px 0 8px;color:#37474f}
+p{margin:12px 0}
+b.g{color:var(--tension)} b.b{color:var(--ac)} b.r{color:var(--comp)}
+.kw{display:inline-block;background:var(--key2);color:var(--key);font-weight:700;padding:0 8px;border-radius:6px;margin:0 2px}
+.lead{font-size:1.04rem;background:#fff;border:1px solid var(--bd);border-left:6px solid var(--ac);
+  border-radius:0 12px 12px 0;padding:16px 20px;margin:18px 0}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px 20px;margin:18px 0}
+.why,.trap,.check,.seed{border-radius:0 12px 12px 0;padding:14px 19px;margin:18px 0}
+.why{background:var(--key2);border:1px solid #ce93d8;border-left:6px solid var(--key)}
+.why>b:first-child{color:var(--key)}
+.trap{background:var(--warn2);border:1px solid #ffcc80;border-left:6px solid var(--warn)}
+.trap>b:first-child{color:#e65100}
+.check{background:#e8f5e9;border:1px solid #a5d6a7;border-left:6px solid var(--tension)}
+.check>b:first-child{color:#1b5e20}
+.seed{background:#fffde7;border:2px solid #fbc02d;border-radius:14px;text-align:center}
+.seed-h{font-weight:700;color:#f57f17;font-size:1.05rem}
+.derive{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:12px 20px;margin:18px 0}
+.derive p{margin:10px 0}
+.st{display:inline-block;min-width:1.8em;text-align:center;background:var(--ac);color:#fff;border-radius:7px;
+  font-weight:700;font-size:.9rem;padding:0 6px;margin-right:8px}
+.rebuild{background:#fff;border:3px dashed var(--key);border-radius:16px;padding:14px 22px;margin:24px 0}
+.rb-h{font-weight:700;color:var(--key);font-size:1.08rem;margin-bottom:4px}
+.rebuild ol{margin:6px 0}
+.tg{display:inline-block;font-size:.78rem;font-weight:700;padding:1px 9px;border-radius:10px;vertical-align:2px;color:#fff}
+.tg.must{background:#c62828} .tg.half{background:#ef6c00} .tg.give{background:#2e7d32}
+.sd{display:inline-block;font-weight:700;color:#fff;border-radius:8px;padding:0 9px}
+.sd.t{background:var(--tension)} .sd.w{background:var(--warn)} .sd.c{background:var(--comp)} .sd.k{background:var(--key)} .sd.b{background:var(--ac)}
+.fig{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:18px 14px 12px;margin:24px 0;overflow-x:auto}
+.fig>svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig svg text{font-family:"Microsoft JhengHei","Noto Sans CJK TC","Noto Sans TC",sans-serif}
+.fig .cap{font-size:.9rem;color:var(--mut);text-align:left;margin:12px 6px 0;line-height:1.7}
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:.95rem;background:#fff}
+th,td{border:1px solid var(--bd);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:700}
+ul,ol{margin:10px 0 10px 4px;padding-left:26px}
+li{margin:6px 0}
+ol.big>li,ul.big>li{margin:10px 0}
+.note{font-size:.88rem;color:var(--mut)}
+details{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:14px 0}
+summary{cursor:pointer;font-weight:700;color:var(--ac)}
+details[open] summary{margin-bottom:8px}
+details>p{border-left:4px solid #c5e1a5;padding-left:14px;margin:8px 0}
+.katex{font-size:1.08em}
+.katex-display{margin:16px 0!important;overflow-x:auto;overflow-y:hidden;padding:4px 0}
+.chmap td:first-child{text-align:center;font-weight:700}
+footer{text-align:center;color:var(--mut);font-size:.85rem;padding:28px;border-top:1px solid var(--bd)}
+@media print{
+  html{font-size:12pt}
+  body{background:#fff}
+  nav{display:none}
+  header{-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:24px 22px}
+  main{max-width:none;padding:0 4mm}
+  h2{break-before:page;break-after:avoid;margin-top:0}
+  main>section:first-child>h2{break-before:auto}
+  h3,h4{break-after:avoid}
+  .fig,table,.why,.trap,.check,.derive,.rebuild,.seed,details{break-inside:avoid}
+  details{border:1px dashed #bbb}
+  details>*{display:block}
+  .fig,.why,.trap,.check,.tg,.sd,.kw,.st,.seed{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{size:A4;margin:14mm 13mm 16mm}
+}
+</style>
+</head>
+<body>
+<header class="k">
+<h1>SS-U1-2 梁桿件　下冊：剪力・使用性・延伸篇</h1>
+<p class="sub">強度過關不代表梁能用：腹板剪力、剪力流、撓度、弱軸與雙軸彎曲、合成梁與塑性分析，各自從一顆種子推出來。</p>
+<div class="meta">科目四 鋼結構設計｜命題大綱 第一單元（二）｜教科書講義（第一性原理＋向量圖解）｜LRFD 與 ASD 並列｜單位 tf、cm｜2026-11-03</div>
+</header>
+<nav><a href="#ch8">8 腹板剪力</a><a href="#ch9">9 剪力流</a><a href="#ch10">10 撓度與整梁設計</a><a href="#ch11">11 弱軸與雙軸彎曲</a><a href="#ch12">12 合成梁</a><a href="#ch13">13 塑性分析（精簡）</a><a href="#ch14">14 下冊總整理</a><a href="unit-SS-U1-2.html">📊 單元總覽</a><a href="lecture-SS-U1-2.html">📘 觀念講義</a><a class="vol" href="textbook-SS-U1-2-flexure.html">◀ 上冊：撓曲強度篇</a></nav>
+<main>
+<section id="ch8">
+<h2>第 8 章　腹板剪力：\(0.6F_y\) 又出現了，再加上剪力挫屈</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$V_n=0.6F_{yw}A_w\ \Big(\tfrac{h}{t_w}\le50\sqrt{\tfrac{k_v}{F_y}}\Big);\quad V_n=0.6F_{yw}A_w\frac{50\sqrt{k_v/F_y}}{h/t_w}\ \Big(\le62\sqrt{\tfrac{k_v}{F_y}}\Big);\quad V_n=\frac{1860\,k_v}{(h/t_w)^2}A_w$$
+要記的只有 <span class="kw">種子 S6：\(\tau_y=F_y/\sqrt3\approx0.6F_y\)</span>（SS-U1-1 學過）與 <span class="kw">種子 S2：板會推歪</span>；50、62、1860 都推得出來。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>標稱剪力強度 \(V_n\) 三段（\(A_w=d\,t_w\)）</td><td><span class="tg must">必背</span></td><td>8.1～8.3</td></tr>
+<tr><td>剪力挫屈係數 \(k_v=5+\dfrac{5}{(a/h)^2}\)（無加勁或 \(a/h\gt3\)：\(k_v=5\)）</td><td><span class="tg must">必背</span></td><td>8.3</td></tr>
+<tr><td>張力場效應 \(V_n=0.6F_yA_w\left[C_v+\dfrac{1-C_v}{1.15\sqrt{1+(a/h)^2}}\right]\)</td><td><span class="tg must">必背</span></td><td>8.4（精簡）</td></tr>
+<tr><td>\(\phi_v=0.90\)</td><td><span class="tg must">必背</span></td><td>8.1</td></tr>
+</table>
+<p class="note">證據：\(V_n\) 三段只在 2015、2022 年印過；98 年 <a href="problems-view/SS-2009-3.html">SS-2009-3</a> 零公式卻要求 \(V_n\)。板梁張力場作為主考點只有 <a href="problems-view/SS-2006-4.html">SS-2006-4</a>（空窗 19 年），本章依計畫精簡處理。
+相關題目：<a href="problems-view/SS-2015-1.html">SS-2015-1</a>。</p>
+</div>
+
+<h3>8.1　腹板夠厚：剪力降伏 \(0.6F_yA_w\)</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S6｜純剪降伏 \(\tau_y=F_y/\sqrt3\approx0.6F_y\)（SS-U1-1 第 5 章）</div>
+$$\text{純剪的莫爾圓：主應力 }\pm\tau\text{；von Mises 準則 }\sqrt3\,\tau=F_y$$
+</div>
+<div class="derive">
+<p><span class="st">①</span> 梁的剪力幾乎全由腹板承擔，腹板處於近似純剪狀態。</p>
+<p><span class="st">②</span> 降伏：\(\tau=F_y/\sqrt3=0.577F_y\)，規範取 \(0.6F_y\)。</p>
+<p><span class="st">③</span> 面積用 \(A_w=d\,t_w\)（全深乘腹板厚）：\(\boxed{V_n=0.6F_{yw}A_w}\)，\(\phi_v=0.90\)。</p>
+</div>
+<div class="check"><b>為什麼可以用「平均」剪應力</b>：材料力學 \(\tau=VQ/(It)\) 在腹板中央最大。H700 中性軸處 \(Q=Z_x/2=2321\) cm³，\(\tau_{\max}=V\times2321/(141421\times1.2)\)，
+比平均 \(V/(70\times1.2)\) 只大 <b>15%</b>（下一章再看 \(VQ/I\)）。腹板是延性的，到降伏時應力會重分配，所以用 \(d\,t_w\) 平均即可 ✔</div>
+<div class="trap"><b>不要和 \(\phi_b\) 混</b>：104 年印的 \(\phi_v=0.9\) 是剪力用的；撓曲的 \(\phi_b\) 也是 0.9，但兩者是不同的係數（新版 AISC 對熱軋 H 型鋼剪力甚至取 1.0）。考卷給哪個就用哪個。</div>
+
+<h3>8.2　腹板太薄：剪力也會讓板「推歪」</h3>
+<div class="derive">
+<p><span class="st">①</span> 種子 S2（板的 Euler）換成剪應力：\(\tau_{cr}=\dfrac{k_v\pi^2E}{12(1-\nu^2)(h/t_w)^2}=\dfrac{1844\,k_v}{(h/t_w)^2}\)（\(E=2040\)）。規範取 <b>1860</b>。</p>
+<p><span class="st">②</span> 彈性段：\(\boxed{V_n=\dfrac{1860\,k_v}{(h/t_w)^2}A_w}\)。</p>
+<p><span class="st">③</span> 非彈性段：取「80% 降伏」與「彈性挫屈」的<b>幾何平均</b>：\(\tau=\sqrt{0.8\times0.6F_y\times\dfrac{1860k_v}{(h/t_w)^2}}=\dfrac{29.9\sqrt{k_vF_y}}{h/t_w}\)；除以 \(0.6F_y\)：\(C_v=\dfrac{49.8\sqrt{k_v/F_y}}{h/t_w}\approx\boxed{\dfrac{50\sqrt{k_v/F_y}}{h/t_w}}\)。</p>
+<p><span class="st">④</span> 兩個分界都是「兩條線的交點」：非彈性 \(=1\) ⇒ \(h/t_w=50\sqrt{k_v/F_y}\)；非彈性 \(=\) 彈性 ⇒ \(h/t_w=\dfrac{1860k_v}{30\sqrt{k_vF_y}}=62\sqrt{k_v/F_y}\)。</p>
+</div>
+<div class="why"><b>誠實說明</b>：第 ③ 步「80% 降伏」是規範假設的比例限度（殘留應力與初始變形讓剪力挫屈提早進入非彈性），「幾何平均」是對應的過渡曲線形式。
+有了這一步，50 與 62 兩個數字就都能推出來；考卷有附公式時直接照用。</div>
+
+<div class="fig" id="fig8_1">
+<svg viewBox="0 0 900 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="腹板剪力三段" style="max-width:900px">
+<line x1="100" y1="50" x2="100" y2="340" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="240" y1="50" x2="240" y2="340" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="267.33" y1="50" x2="267.33" y2="340" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="307.49" y1="50" x2="307.49" y2="340" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="380" y1="50" x2="380" y2="340" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="520" y1="50" x2="520" y2="340" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="660" y1="50" x2="660" y2="340" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="100" y1="340" x2="660" y2="340" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="100" y1="291.67" x2="660" y2="291.67" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="100" y1="243.33" x2="660" y2="243.33" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="100" y1="195" x2="660" y2="195" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="100" y1="146.67" x2="660" y2="146.67" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="100" y1="98.33" x2="660" y2="98.33" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="100" y1="50" x2="660" y2="50" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="100" y1="340" x2="669.5" y2="340" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M674,340 L665.84,343.8 L669.05,340 L665.84,336.2 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="100" y1="340" x2="100" y2="40.5" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M100,36 L103.8,44.16 L100,40.95 L96.2,44.16 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="100" y1="340" x2="100" y2="345" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="100" y="360" font-size="14" fill="#607d8b" text-anchor="middle">0</text><line x1="240" y1="340" x2="240" y2="345" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="240" y="360" font-size="14" fill="#607d8b" text-anchor="middle">50</text><line x1="267.33" y1="340" x2="267.33" y2="345" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="267.33" y="360" font-size="14" fill="#607d8b" text-anchor="middle">59.8</text><line x1="307.49" y1="340" x2="307.49" y2="345" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="307.49" y="360" font-size="14" fill="#607d8b" text-anchor="middle">74.1</text><line x1="380" y1="340" x2="380" y2="345" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="380" y="360" font-size="14" fill="#607d8b" text-anchor="middle">100</text><line x1="520" y1="340" x2="520" y2="345" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="520" y="360" font-size="14" fill="#607d8b" text-anchor="middle">150</text><line x1="660" y1="340" x2="660" y2="345" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="660" y="360" font-size="14" fill="#607d8b" text-anchor="middle">200</text><line x1="95" y1="340" x2="100" y2="340" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="91" y="344.5" font-size="14" fill="#607d8b" text-anchor="end">0</text><line x1="95" y1="291.67" x2="100" y2="291.67" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="91" y="296.17" font-size="14" fill="#607d8b" text-anchor="end">0.2</text><line x1="95" y1="243.33" x2="100" y2="243.33" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="91" y="247.83" font-size="14" fill="#607d8b" text-anchor="end">0.4</text><line x1="95" y1="195" x2="100" y2="195" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="91" y="199.5" font-size="14" fill="#607d8b" text-anchor="end">0.6</text><line x1="95" y1="146.67" x2="100" y2="146.67" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="91" y="151.17" font-size="14" fill="#607d8b" text-anchor="end">0.8</text><line x1="95" y1="98.33" x2="100" y2="98.33" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="91" y="102.83" font-size="14" fill="#607d8b" text-anchor="end">1</text><line x1="95" y1="50" x2="100" y2="50" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="91" y="54.5" font-size="14" fill="#607d8b" text-anchor="end">1.2</text><text x="678" y="345" font-size="16" fill="#263238" text-anchor="start"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">h</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">t</tspan><tspan dy="4.5" font-size="11.52">w</tspan><tspan dy="-4.5">​</tspan></text><text x="100" y="28" font-size="16" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">V</tspan><tspan dy="4.5" font-size="11.52">n</tspan><tspan dy="-4.5">​</tspan>/(0.6<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="4.5" font-size="11.52">y</tspan><tspan dy="-4.5">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">A</tspan><tspan dy="4.5" font-size="11.52">w</tspan><tspan dy="-4.5">​</tspan>)</text><path d="M270.1,50 L271.72,55.46 L273.35,60.77 L274.97,65.93 L276.6,70.95 L278.22,75.83 L279.85,80.58 L281.47,85.21 L283.09,89.71 L284.72,94.09 L286.34,98.36 L287.97,102.52 L289.59,106.57 L291.22,110.52 L292.84,114.37 L294.47,118.13 L296.09,121.79 L297.72,125.36 L299.34,128.84 L300.97,132.24 L302.59,135.56 L304.21,138.8 L305.84,141.97 L307.46,145.05 L309.09,148.07 L310.71,151.02 L312.34,153.9 L313.96,156.72 L315.59,159.47 L317.21,162.16 L318.84,164.79 L320.46,167.36 L322.08,169.88 L323.71,172.34 L325.33,174.75 L326.96,177.11 L328.58,179.41 L330.21,181.67 L331.83,183.88 L333.46,186.05 L335.08,188.17 L336.71,190.25 L338.33,192.28 L339.96,194.27 L341.58,196.23 L343.2,198.14 L344.83,200.02 L346.45,201.86 L348.08,203.66 L349.7,205.43 L351.33,207.16 L352.95,208.86 L354.58,210.53 L356.2,212.17 L357.83,213.78 L359.45,215.35 L361.08,216.9 L362.7,218.42 L364.32,219.91 L365.95,221.37 L367.57,222.8 L369.2,224.21 L370.82,225.6 L372.45,226.96 L374.07,228.3 L375.7,229.61 L377.32,230.9 L378.95,232.17 L380.57,233.41 L382.19,234.63 L383.82,235.84 L385.44,237.02 L387.07,238.18 L388.69,239.32 L390.32,240.45 L391.94,241.55 L393.57,242.64 L395.19,243.71 L396.82,244.76 L398.44,245.79 L400.07,246.81 L401.69,247.81 L403.31,248.8 L404.94,249.77 L406.56,250.72 L408.19,251.66 L409.81,252.58 L411.44,253.49 L413.06,254.39 L414.69,255.27 L416.31,256.14 L417.94,256.99 L419.56,257.83 L421.19,258.66 L422.81,259.48 L424.43,260.28 L426.06,261.08 L427.68,261.86 L429.31,262.63 L430.93,263.38 L432.56,264.13 L434.18,264.87 L435.81,265.59 L437.43,266.31 L439.06,267.01 L440.68,267.71 L442.3,268.39 L443.93,269.07 L445.55,269.73 L447.18,270.39 L448.8,271.03 L450.43,271.67 L452.05,272.3 L453.68,272.92 L455.3,273.53 L456.93,274.14 L458.55,274.73 L460.18,275.32 L461.8,275.9 L463.42,276.47 L465.05,277.04 L466.67,277.59 L468.3,278.14 L469.92,278.68 L471.55,279.22 L473.17,279.75 L474.8,280.27 L476.42,280.78 L478.05,281.29 L479.67,281.79 L481.29,282.29 L482.92,282.78 L484.54,283.26 L486.17,283.73 L487.79,284.2 L489.42,284.67 L491.04,285.13 L492.67,285.58 L494.29,286.03 L495.92,286.47 L497.54,286.91 L499.17,287.34 L500.79,287.76 L502.41,288.19 L504.04,288.6 L505.66,289.01 L507.29,289.42 L508.91,289.82 L510.54,290.22 L512.16,290.61 L513.79,290.99 L515.41,291.38 L517.04,291.76 L518.66,292.13 L520.29,292.5 L521.91,292.86 L523.53,293.22 L525.16,293.58 L526.78,293.93 L528.41,294.28 L530.03,294.63 L531.66,294.97 L533.28,295.31 L534.91,295.64 L536.53,295.97 L538.16,296.29 L539.78,296.62 L541.4,296.94 L543.03,297.25 L544.65,297.56 L546.28,297.87 L547.9,298.18 L549.53,298.48 L551.15,298.78 L552.78,299.07 L554.4,299.36 L556.03,299.65 L557.65,299.94 L559.28,300.22 L560.9,300.5 L562.52,300.78 L564.15,301.05 L565.77,301.32 L567.4,301.59 L569.02,301.86 L570.65,302.12 L572.27,302.38 L573.9,302.64 L575.52,302.89 L577.15,303.15 L578.77,303.39 L580.4,303.64 L582.02,303.89 L583.64,304.13 L585.27,304.37 L586.89,304.61 L588.52,304.84 L590.14,305.07 L591.77,305.3 L593.39,305.53 L595.02,305.76 L596.64,305.98 L598.27,306.2 L599.89,306.42 L601.51,306.64 L603.14,306.85 L604.76,307.07 L606.39,307.28 L608.01,307.49 L609.64,307.69 L611.26,307.9 L612.89,308.1 L614.51,308.3 L616.14,308.5 L617.76,308.7 L619.39,308.9 L621.01,309.09 L622.63,309.28 L624.26,309.47 L625.88,309.66 L627.51,309.85 L629.13,310.03 L630.76,310.21 L632.38,310.4 L634.01,310.58 L635.63,310.75 L637.26,310.93 L638.88,311.11 L640.5,311.28 L642.13,311.45 L643.75,311.62 L645.38,311.79 L647,311.96 L648.63,312.12 L650.25,312.29 L651.88,312.45 L653.5,312.61 L655.13,312.77 L656.75,312.93 L658.38,313.09 L660,313.24" fill="none" stroke="#1565c0" stroke-width="1.8" stroke-dasharray="6 4" stroke-linejoin="round" stroke-linecap="round"/><path d="M102.8,98.33 L105.12,98.33 L107.44,98.33 L109.77,98.33 L112.09,98.33 L114.41,98.33 L116.73,98.33 L119.05,98.33 L121.37,98.33 L123.69,98.33 L126.02,98.33 L128.34,98.33 L130.66,98.33 L132.98,98.33 L135.3,98.33 L137.62,98.33 L139.95,98.33 L142.27,98.33 L144.59,98.33 L146.91,98.33 L149.23,98.33 L151.56,98.33 L153.88,98.33 L156.2,98.33 L158.52,98.33 L160.84,98.33 L163.16,98.33 L165.49,98.33 L167.81,98.33 L170.13,98.33 L172.45,98.33 L174.77,98.33 L177.09,98.33 L179.42,98.33 L181.74,98.33 L184.06,98.33 L186.38,98.33 L188.7,98.33 L191.02,98.33 L193.34,98.33 L195.67,98.33 L197.99,98.33 L200.31,98.33 L202.63,98.33 L204.95,98.33 L207.27,98.33 L209.6,98.33 L211.92,98.33 L214.24,98.33 L216.56,98.33 L218.88,98.33 L221.2,98.33 L223.53,98.33 L225.85,98.33 L228.17,98.33 L230.49,98.33 L232.81,98.33 L235.14,98.33 L237.46,98.33 L239.78,98.33 L242.1,98.33 L244.42,98.33 L246.74,98.33 L249.06,98.33 L251.39,98.33 L253.71,98.33 L256.03,98.33 L258.35,98.33 L260.67,98.33 L263,98.33 L265.32,98.33 L267.64,98.77 L269.96,102.07 L272.28,105.28 L274.6,108.4 L276.92,111.44 L279.25,114.4 L281.57,117.28 L283.89,120.09 L286.21,122.84 L288.53,125.51 L290.86,128.12 L293.18,130.67 L295.5,133.15 L297.82,135.58 L300.14,137.95 L302.46,140.27 L304.78,142.53 L307.11,144.75 L309.43,148.7 L311.75,152.87 L314.07,156.9 L316.39,160.81 L318.71,164.6 L321.04,168.26 L323.36,171.81 L325.68,175.26 L328,178.59 L330.32,181.83 L332.64,184.97 L334.97,188.02 L337.29,190.98 L339.61,193.85 L341.93,196.65 L344.25,199.36 L346.57,201.99 L348.9,204.56 L351.22,207.05 L353.54,209.47 L355.86,211.83 L358.18,214.12 L360.5,216.36 L362.83,218.53 L365.15,220.65 L367.47,222.71 L369.79,224.72 L372.11,226.68 L374.44,228.59 L376.76,230.45 L379.08,232.27 L381.4,234.04 L383.72,235.77 L386.04,237.45 L388.36,239.1 L390.69,240.7 L393.01,242.27 L395.33,243.8 L397.65,245.29 L399.97,246.75 L402.3,248.18 L404.62,249.57 L406.94,250.94 L409.26,252.27 L411.58,253.57 L413.9,254.85 L416.23,256.09 L418.55,257.31 L420.87,258.5 L423.19,259.67 L425.51,260.81 L427.83,261.93 L430.15,263.02 L432.48,264.09 L434.8,265.14 L437.12,266.17 L439.44,267.18 L441.76,268.16 L444.08,269.13 L446.41,270.08 L448.73,271 L451.05,271.91 L453.37,272.81 L455.69,273.68 L458.01,274.54 L460.34,275.38 L462.66,276.2 L464.98,277.01 L467.3,277.81 L469.62,278.58 L471.95,279.35 L474.27,280.1 L476.59,280.84 L478.91,281.56 L481.23,282.27 L483.55,282.96 L485.88,283.65 L488.2,284.32 L490.52,284.98 L492.84,285.63 L495.16,286.27 L497.48,286.89 L499.81,287.51 L502.13,288.11 L504.45,288.71 L506.77,289.29 L509.09,289.86 L511.41,290.43 L513.74,290.98 L516.06,291.53 L518.38,292.06 L520.7,292.59 L523.02,293.11 L525.34,293.62 L527.66,294.12 L529.99,294.62 L532.31,295.1 L534.63,295.58 L536.95,296.05 L539.27,296.52 L541.6,296.97 L543.92,297.42 L546.24,297.86 L548.56,298.3 L550.88,298.73 L553.2,299.15 L555.53,299.56 L557.85,299.97 L560.17,300.38 L562.49,300.77 L564.81,301.16 L567.13,301.55 L569.45,301.93 L571.78,302.3 L574.1,302.67 L576.42,303.03 L578.74,303.39 L581.06,303.74 L583.38,304.09 L585.71,304.43 L588.03,304.77 L590.35,305.1 L592.67,305.43 L594.99,305.75 L597.32,306.07 L599.64,306.39 L601.96,306.7 L604.28,307 L606.6,307.31 L608.92,307.6 L611.25,307.9 L613.57,308.19 L615.89,308.47 L618.21,308.75 L620.53,309.03 L622.85,309.31 L625.18,309.58 L627.5,309.85 L629.82,310.11 L632.14,310.37 L634.46,310.63 L636.78,310.88 L639.1,311.13 L641.43,311.38 L643.75,311.62 L646.07,311.86 L648.39,312.1 L650.71,312.33 L653.03,312.57 L655.36,312.79 L657.68,313.02 L660,313.24" fill="none" stroke="#ef6c00" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/><line x1="100" y1="146.67" x2="660" y2="146.67" stroke="#607d8b" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="5 4"/><text x="618" y="138.67" font-size="14" fill="#607d8b" text-anchor="middle">0.8</text><text x="156" y="86.33" font-size="15" fill="#2e7d32" text-anchor="start" font-weight="bold">降伏：0.6<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="4.2" font-size="10.8">y</tspan><tspan dy="-4.2">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">A</tspan><tspan dy="4.2" font-size="10.8">w</tspan><tspan dy="-4.2">​</tspan></text><text x="430.4" y="166" font-size="15" fill="#ef6c00" text-anchor="start" font-weight="bold">幾何平均</text><text x="430.4" y="185.33" font-size="14" fill="#ef6c00" text-anchor="start">√(0.8 × 彈性)</text><text x="520" y="267.5" font-size="15" fill="#1565c0" text-anchor="start" font-weight="bold">彈性剪力挫屈</text><text x="520" y="286.83" font-size="14" fill="#1565c0" text-anchor="start">1860<tspan font-style="italic" font-family="'Times New Roman',Times,serif">k</tspan><tspan dy="3.9" font-size="10.08">v</tspan><tspan dy="-3.9">​</tspan>/(<tspan font-style="italic" font-family="'Times New Roman',Times,serif">h</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">t</tspan><tspan dy="3.9" font-size="10.08">w</tspan><tspan dy="-3.9">​</tspan>)<tspan dy="-5.3" font-size="10.08">2</tspan><tspan dy="5.3">​</tspan></text><circle cx="251.67" cy="98.33" r="6" fill="#6a1b9a" stroke="#fff" stroke-width="1.6"/><text x="245.67" y="122.33" font-size="14" fill="#6a1b9a" text-anchor="end" font-weight="bold">H700：54.2</text><rect x="680" y="70" width="210" height="160" rx="9" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.6"/><text x="785" y="92" font-size="15" fill="#6a1b9a" text-anchor="middle" font-weight="bold"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">k</tspan><tspan dy="4.2" font-size="10.8">v</tspan><tspan dy="-4.2">​</tspan> = 5、<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="4.2" font-size="10.8">y</tspan><tspan dy="-4.2">​</tspan> = 3.5</text><text x="785" y="113" font-size="14" fill="#263238" text-anchor="middle">50√(<tspan font-style="italic" font-family="'Times New Roman',Times,serif">k</tspan><tspan dy="3.9" font-size="10.08">v</tspan><tspan dy="-3.9">​</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="3.9" font-size="10.08">y</tspan><tspan dy="-3.9">​</tspan>) = 59.8</text><text x="785" y="134" font-size="14" fill="#263238" text-anchor="middle">62√(<tspan font-style="italic" font-family="'Times New Roman',Times,serif">k</tspan><tspan dy="3.9" font-size="10.08">v</tspan><tspan dy="-3.9">​</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="3.9" font-size="10.08">y</tspan><tspan dy="-3.9">​</tspan>) = 74.1</text><text x="785" y="155" font-size="14" fill="#263238" text-anchor="middle"></text><text x="785" y="176" font-size="14" fill="#263238" text-anchor="middle">兩個分界都是</text><text x="785" y="197" font-size="14" fill="#263238" text-anchor="middle">「兩條線交點」</text>
+</svg>
+<div class="cap">圖 8-1｜\(k_v=5\)、\(F_y=3.5\) tf/cm² 時的 \(V_n/(0.6F_yA_w)\)：平台（降伏）→ 雙曲線（幾何平均）→ 彈性剪力挫屈（\(\propto1/(h/t_w)^2\)）。分界 59.8 與 74.1 都是兩條線的交點。H700 的 \(h/t_w=54.2\)，在平台上。</div>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・\(h/t_w\to0\)：\(\tau_{cr}\to\infty\)，只會降伏 ✔<br>
+・\(F_y\) 越高 → 兩個分界越小 ✔（和寬厚比一樣 \(\propto1/\sqrt{F_y}\)）<br>
+・在 62 處：非彈性 \(=50/62=0.806\)，彈性 \(=1860\times5/(74.1^2\times2.1)=0.806\) ✔ 接得上</div>
+
+<h3>8.3　\(k_v\)：加勁板讓板格變「方」</h3>
+<div class="derive">
+<p><span class="st">①</span> 板受剪的挫屈係數只看板格長寬比 \(a/h\)：越接近正方形越難挫屈。</p>
+<p><span class="st">②</span> 規範簡化式：\(\boxed{k_v=5+\dfrac{5}{(a/h)^2}}\)；無加勁板或 \(a/h\gt3\)（太長、加勁板沒作用）取 \(k_v=5\)。</p>
+<p><span class="st">③</span> 正方形 \(a/h=1\)：\(k_v=10\)，比無加勁的 5 加倍 ⇒ \(\tau_{cr}\) 加倍。</p>
+</div>
+<div class="why"><b>記法</b>：「5 加 5 除以長寬比平方」。精確板理論是 \(5.34+4/(a/h)^2\)，規範取好記的 5 與 5（無限長時 5.34 → 5，偏保守）。</div>
+
+<h3>8.4　張力場效應（精簡）：挫屈之後還有強度</h3>
+<div class="fig" id="fig8_2">
+<svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="張力場效應" style="max-width:900px">
+<rect x="60" y="60" width="300" height="220" rx="0" fill="#eceff1" stroke="#263238" stroke-width="1.4"/><rect x="50" y="46" width="320" height="14" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.4"/><rect x="50" y="280" width="320" height="14" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.4"/><rect x="52" y="60" width="8" height="220" rx="0" fill="#90caf9" stroke="#1565c0" stroke-width="1.4"/><rect x="360" y="60" width="8" height="220" rx="0" fill="#90caf9" stroke="#1565c0" stroke-width="1.4"/><path d="M80,280 L170,280 L340,60 L250,60 Z" fill="#a5d6a7" stroke="none" opacity="0.7" stroke-linejoin="round" stroke-linecap="round"/><line x1="114" y1="252" x2="154.77" y2="222.35" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/><path d="M158,220 L154.12,227 L154.44,222.59 L150.15,221.53 Z" fill="#2e7d32" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="141" y1="219" x2="181.77" y2="189.35" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/><path d="M185,187 L181.12,194 L181.44,189.59 L177.15,188.53 Z" fill="#2e7d32" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="168" y1="186" x2="208.77" y2="156.35" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/><path d="M212,154 L208.12,161 L208.44,156.59 L204.15,155.53 Z" fill="#2e7d32" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="195" y1="153" x2="235.77" y2="123.35" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/><path d="M239,121 L235.12,128 L235.44,123.59 L231.15,122.53 Z" fill="#2e7d32" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="222" y1="120" x2="262.77" y2="90.35" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/><path d="M266,88 L262.12,95 L262.44,90.59 L258.15,89.53 Z" fill="#2e7d32" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="100" y1="100" x2="160" y2="240" stroke="#c62828" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="5 4"/><line x1="180" y1="100" x2="240" y2="240" stroke="#c62828" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="5 4"/><line x1="260" y1="100" x2="320" y2="240" stroke="#c62828" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="5 4"/><text x="210" y="34" font-size="15" fill="#263238" text-anchor="middle" font-weight="bold">板格（兩加勁板之間，間距 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">a</tspan>，高 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">h</tspan>）</text><text x="376" y="80" font-size="14" fill="#1565c0" text-anchor="start" font-weight="bold">加勁板＝壓桿</text><text x="210" y="320" font-size="14" fill="#607d8b" text-anchor="middle">綠：對角拉力帶　紅虛線：挫屈皺摺</text><line x1="560" y1="270" x2="820" y2="270" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="230" x2="820" y2="230" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="190" x2="820" y2="190" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="150" x2="820" y2="150" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="110" x2="820" y2="110" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="70" x2="820" y2="70" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="270" x2="829.5" y2="270" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M834,270 L825.84,273.8 L829.05,270 L825.84,266.2 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="560" y1="270" x2="560" y2="60.5" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M560,56 L563.8,64.16 L560,60.95 L556.2,64.16 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="555" y1="270" x2="560" y2="270" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="274.5" font-size="14" fill="#607d8b" text-anchor="end">0</text><line x1="555" y1="230" x2="560" y2="230" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="234.5" font-size="14" fill="#607d8b" text-anchor="end">0.2</text><line x1="555" y1="190" x2="560" y2="190" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="194.5" font-size="14" fill="#607d8b" text-anchor="end">0.4</text><line x1="555" y1="150" x2="560" y2="150" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="154.5" font-size="14" fill="#607d8b" text-anchor="end">0.6</text><line x1="555" y1="110" x2="560" y2="110" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="114.5" font-size="14" fill="#607d8b" text-anchor="end">0.8</text><line x1="555" y1="70" x2="560" y2="70" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="74.5" font-size="14" fill="#607d8b" text-anchor="end">1</text><text x="560" y="48" font-size="16" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">V</tspan><tspan dy="4.5" font-size="11.52">n</tspan><tspan dy="-4.5">​</tspan>/(0.6<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="4.5" font-size="11.52">y</tspan><tspan dy="-4.5">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">A</tspan><tspan dy="4.5" font-size="11.52">w</tspan><tspan dy="-4.5">​</tspan>)</text><rect x="592.5" y="191.27" width="65" height="78.73" rx="4" fill="#1565c0" opacity="0.85"/><text x="625" y="183.27" font-size="15" fill="#1565c0" text-anchor="middle" font-weight="bold">0.394</text><text x="625" y="292" font-size="14" fill="#263238" text-anchor="middle" font-weight="bold">只算挫屈</text><rect x="722.5" y="116.7" width="65" height="153.3" rx="4" fill="#2e7d32" opacity="0.85"/><text x="755" y="108.7" font-size="15" fill="#2e7d32" text-anchor="middle" font-weight="bold">0.766</text><text x="755" y="292" font-size="14" fill="#263238" text-anchor="middle" font-weight="bold">加張力場</text><text x="690" y="340" font-size="14" fill="#607d8b" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">h</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">t</tspan><tspan dy="3.9" font-size="10.08">w</tspan><tspan dy="-3.9">​</tspan> = 150、<tspan font-style="italic" font-family="'Times New Roman',Times,serif">a</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">h</tspan> = 1、<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="3.9" font-size="10.08">y</tspan><tspan dy="-3.9">​</tspan> = 3.5（<tspan font-style="italic" font-family="'Times New Roman',Times,serif">k</tspan><tspan dy="3.9" font-size="10.08">v</tspan><tspan dy="-3.9">​</tspan> = 10）</text>
+</svg>
+<div class="cap">圖 8-2｜左：腹板挫屈後沿一個對角方向起皺（紅虛線），另一個對角方向形成拉力帶（綠），翼板與加勁板像桁架的弦桿與壓桿，把拉力帶錨住。右：\(h/t_w=150\)、\(a/h=1\) 時，只算挫屈 \(C_v=0.394\)；加上張力場達 0.766，幾乎加倍。</div>
+</div>
+<div class="derive">
+<p><span class="st">①</span> 薄腹板挫屈後不會馬上壞：拉力方向還能繼續受力，整個板格變成「普拉特桁架」（Pratt truss）。</p>
+<p><span class="st">②</span> 強度＝挫屈前的 \(C_v\) ＋ 拉力帶後挫屈的 \((1-C_v)\) 再乘一個幾何折減：\(V_n=0.6F_yA_w\left[C_v+\dfrac{1-C_v}{1.15\sqrt{1+(a/h)^2}}\right]\)（半經驗式）。</p>
+<p><span class="st">③</span> 條件：要有中間加勁板當壓桿；<b>端板格不能用</b>（翼板端部錨不住拉力帶），只能用 \(0.6F_yA_wC_v\)。</p>
+</div>
+<div class="check"><b>極限檢查</b>：\(C_v=1\)（腹板夠厚）⇒ 第二項為 0，張力場沒有額外好處 ✔；\(a/h\to\infty\) ⇒ 第二項 → 0（加勁板太遠，桁架不成立）✔</div>
+
+<h3>8.5　範例</h3>
+<div class="derive">
+<p><span class="st">H700</span> \(A_w=70\times1.2=84\) cm²；\(h/t_w=54.2\le50\sqrt{5/3.5}=59.8\) ⇒ \(V_n=0.6\times3.5\times84=176.4\) tf，\(\phi_vV_n=158.8\) tf。</p>
+<p><span class="st">2009-3</span> \(d=50\)、\(t_w=1.5\)、\(F_y=3.5\)：\(A_w=75\) cm²；\(h/t_w=45.2/1.5=30.1\)，遠在平台 ⇒ \(V_n=0.6\times3.5\times75=157.5\) tf（題目零公式，靠種子 S6 寫出）。</p>
+<p><span class="st">2015-1</span> BH920×300×19×25，\(F_y=2.52\)、\(k_v=5\)：\(h/t_w=87/1.9=45.8\le50\sqrt{5/2.52}=70.4\) ⇒ 題解取 \(A_w=h\,t_w=165.3\) cm²：\(V_n=249.9\) tf，\(\phi_vV_n=224.9\gg V_u=82.4\) tf ✔。若依規範 \(A_w=d\,t_w=174.8\) cm²，\(V_n=264.3\) tf——兩種取法結論相同，\(h\,t_w\) 偏保守。</p>
+</div>
+<div class="why"><b>現實感</b>：一般熱軋 H 型鋼的腹板都落在平台（\(h/t_w\) 約 30～60），剪力很少控制——除非是短跨重載，或銲接組合的薄腹板梁（板梁）。所以考題常把剪力當「順便檢核」的一條線（第 10 章）。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜腹板剪力</div>
+<ol>
+<li><b>畫</b>：\(V_n\)–\(h/t_w\) 圖：平台、雙曲線、\(1/\lambda^2\) 彈性</li>
+<li><b>種子</b>：S6（\(0.6F_y\)）、S2（板的 Euler：\(\tau_{cr}=k_v\pi^2E/12(1-\nu^2)\lambda^2\approx1860k_v/\lambda^2\)）</li>
+<li><b>推</b>：中段＝\(\sqrt{0.8\times\text{降伏}\times\text{彈性}}\) ⇒ 50；中段＝彈性 ⇒ 62；\(k_v=5+5/(a/h)^2\)</li>
+<li><b>檢查</b>：62 處兩式都 ≈ 0.806；\(A_w=d\,t_w\)</li>
+</ol>
+</div>
+
+<h3>8.6　🙈 蓋住重推</h3>
+<details><summary>Q1　（SS-2006-4）板梁腹板為什麼會剪力挫屈？加勁板有什麼用？</summary>
+<p>答：腹板受剪時主壓應力沿 45° 方向，薄腹板會沿該方向起皺（板的推歪＝拉回，\(\tau_{cr}\propto k_v/(h/t_w)^2\)）。加勁板把腹板分成較短的板格，\(a/h\) 變小使 \(k_v\) 增大；並當作壓桿錨住挫屈後的對角拉力帶，讓張力場效應成立。</p></details>
+<details><summary>Q2　不看書推出 1860。</summary>
+<p>答：\(\pi^2E/(12(1-\nu^2))=\pi^2\times2040/(12\times0.91)=1844\approx1860\)。</p></details>
+<details><summary>Q3　為什麼端板格不能用張力場？</summary>
+<p>答：拉力帶的水平分力需要相鄰板格或剛性端部來平衡；端板格外側沒有東西拉住，翼板會被拉彎，桁架作用不成立。</p></details>
+
+<h3>8.7　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>\(A_w\) 不確定用哪個</td><td>規範（台灣、AISC）用 \(d\,t_w\)；用 \(h\,t_w\) 偏保守（SS-2015-1 題解即如此）。考卷有定義就照考卷</td></tr>
+<tr><td>2</td><td>用 \(\tau=VQ/It\) 的峰值除以 \(0.6F_y\)</td><td>規範用平均剪應力，峰值只大約 15%</td></tr>
+<tr><td>3</td><td>有加勁板但 \(a/h\gt3\) 仍用加勁的 \(k_v\)</td><td>\(a/h\gt3\) 取 \(k_v=5\)</td></tr>
+<tr><td>4</td><td>端板格也算張力場</td><td>只用 \(0.6F_yA_wC_v\)</td></tr>
+<tr><td>5</td><td>把 2015-1 的 \(V_n\) 當成會控制</td><td>熱軋梁剪力通常餘裕很大，但仍要寫出檢核</td></tr>
+</table>
+</section>
+<section id="ch9">
+<h2>第 9 章　剪力流 \(VQ/I\)：上下彎曲力差多少，就要剪力補多少</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$q=\frac{VQ}{I}\ \ (\text{每單位長度的水平剪力}),\qquad \tau=\frac{VQ}{I\,t}$$
+要記的只有 <span class="kw">種子 S7：剪力流＝切一刀的水平平衡</span>。蓋板銲道、翼板與腹板的銲道、組合梁的螺栓間距，全部是同一張自由體圖。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>剪力流 \(q=VQ/I\)、剪應力 \(\tau=VQ/(It)\)</td><td><span class="tg must">必背</span></td><td>9.1</td></tr>
+<tr><td>斷續銲／螺栓間距：\(q\cdot s\le\) 每段的接合強度</td><td><span class="tg must">必背</span></td><td>9.2</td></tr>
+</table>
+<p class="note">證據：剪力流 24 年從沒印過；它在本單元的主考點只有 <a href="problems-view/SS-2002-1.html">SS-2002-1</a>（概念），但以副考點形式出現在 <a href="problems-view/SS-2019-4.html">SS-2019-4</a>（蓋板斷續銲）與 <a href="problems-view/SS-2020-4.html">SS-2020-4</a>（梁腹續接），題材轉掛到接合單元（SS-U1-4）繼續出現。</p>
+</div>
+
+<h3>9.1　切一刀：水平力不平衡，就要剪力來補</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S7｜剪力流＝切一刀的水平平衡</div>
+$$\text{兩端彎曲應力的合力差 }dF\text{，必須由切面上的剪力 }q\,dx\text{ 平衡}$$
+</div>
+
+<div class="fig" id="fig9_1">
+<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="剪力流的自由體" style="max-width:900px">
+<text x="205" y="40" font-size="16" fill="#263238" text-anchor="middle" font-weight="bold">(a) 一小段梁 d<tspan font-style="italic" font-family="'Times New Roman',Times,serif">x</tspan></text><rect x="80" y="90" width="250" height="200" rx="0" fill="#eceff1" stroke="#263238" stroke-width="1.4"/><rect x="80" y="90" width="250" height="34" rx="0" fill="#ffebee" stroke="#c62828" stroke-width="1.6"/><line x1="60" y1="190" x2="350" y2="190" stroke="#1565c0" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="6 4"/><path d="M70,130 L46,190 L68.33,245.82" fill="none" stroke="#263238" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M70,250 L63.44,243.84 L68.16,245.4 L70.5,241.01 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><path d="M340,250 L364,190 L341.86,134.64" fill="none" stroke="#263238" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M340,130 L347.29,136.85 L342.04,135.11 L339.44,139.98 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><text x="40" y="195" font-size="16" fill="#263238" text-anchor="end" font-weight="bold"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan></text><text x="372" y="195" font-size="16" fill="#263238" text-anchor="start" font-weight="bold"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan>+d<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan></text><line x1="80" y1="124" x2="330" y2="124" stroke="#c62828" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="4 3"/><text x="205" y="112" font-size="14" fill="#c62828" text-anchor="middle" font-weight="bold">切下這一塊（面積 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">A</tspan>′）</text><text x="205" y="320" font-size="15" fill="#263238" text-anchor="middle">d<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan> = <tspan font-style="italic" font-family="'Times New Roman',Times,serif">V</tspan>·d<tspan font-style="italic" font-family="'Times New Roman',Times,serif">x</tspan></text><text x="630" y="40" font-size="16" fill="#263238" text-anchor="middle" font-weight="bold">(b) 切下那一塊的水平平衡</text><rect x="520" y="120" width="220" height="70" rx="0" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/><line x1="470" y1="135" x2="512" y2="135" stroke="#c62828" stroke-width="2" stroke-linecap="round"/><path d="M516,135 L508.75,138.38 L511.6,135 L508.75,131.62 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="800" y1="135" x2="748.5" y2="135" stroke="#c62828" stroke-width="2.6" stroke-linecap="round"/><path d="M744,135 L752.16,131.2 L748.95,135 L752.16,138.8 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="470" y1="155" x2="512" y2="155" stroke="#c62828" stroke-width="2" stroke-linecap="round"/><path d="M516,155 L508.75,158.38 L511.6,155 L508.75,151.62 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="800" y1="155" x2="748.5" y2="155" stroke="#c62828" stroke-width="2.6" stroke-linecap="round"/><path d="M744,155 L752.16,151.2 L748.95,155 L752.16,158.8 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="470" y1="175" x2="512" y2="175" stroke="#c62828" stroke-width="2" stroke-linecap="round"/><path d="M516,175 L508.75,178.38 L511.6,175 L508.75,171.62 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="800" y1="175" x2="748.5" y2="175" stroke="#c62828" stroke-width="2.6" stroke-linecap="round"/><path d="M744,175 L752.16,171.2 L748.95,175 L752.16,178.8 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><text x="464" y="158" font-size="16" fill="#c62828" text-anchor="end" font-weight="bold"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan></text><text x="804" y="158" font-size="16" fill="#c62828" text-anchor="start" font-weight="bold"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan>+d<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan></text><line x1="564" y1="198" x2="538" y2="198" stroke="#ef6c00" stroke-width="2.2" stroke-linecap="round"/><path d="M534,198 L541.25,194.62 L538.4,198 L541.25,201.38 Z" fill="#ef6c00" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="600" y1="198" x2="574" y2="198" stroke="#ef6c00" stroke-width="2.2" stroke-linecap="round"/><path d="M570,198 L577.25,194.62 L574.4,198 L577.25,201.38 Z" fill="#ef6c00" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="636" y1="198" x2="610" y2="198" stroke="#ef6c00" stroke-width="2.2" stroke-linecap="round"/><path d="M606,198 L613.25,194.62 L610.4,198 L613.25,201.38 Z" fill="#ef6c00" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="672" y1="198" x2="646" y2="198" stroke="#ef6c00" stroke-width="2.2" stroke-linecap="round"/><path d="M642,198 L649.25,194.62 L646.4,198 L649.25,201.38 Z" fill="#ef6c00" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="708" y1="198" x2="682" y2="198" stroke="#ef6c00" stroke-width="2.2" stroke-linecap="round"/><path d="M678,198 L685.25,194.62 L682.4,198 L685.25,201.38 Z" fill="#ef6c00" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="744" y1="198" x2="718" y2="198" stroke="#ef6c00" stroke-width="2.2" stroke-linecap="round"/><path d="M714,198 L721.25,194.62 L718.4,198 L721.25,201.38 Z" fill="#ef6c00" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><text x="630" y="224" font-size="15" fill="#ef6c00" text-anchor="middle" font-weight="bold">切面上的剪力 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">q</tspan>·d<tspan font-style="italic" font-family="'Times New Roman',Times,serif">x</tspan>（往回拉）</text><rect x="470" y="260" width="400" height="120" rx="9" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.6"/><text x="670" y="282" font-size="16" fill="#6a1b9a" text-anchor="middle" font-weight="bold">三步</text><text x="670" y="304" font-size="15" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan> = ∫σd<tspan font-style="italic" font-family="'Times New Roman',Times,serif">A</tspan> = (<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">I</tspan>)·<tspan font-style="italic" font-family="'Times New Roman',Times,serif">Q</tspan>　（<tspan font-style="italic" font-family="'Times New Roman',Times,serif">Q</tspan>＝<tspan font-style="italic" font-family="'Times New Roman',Times,serif">A</tspan>′ 對中性軸的一次矩）</text><text x="670" y="326" font-size="15" fill="#263238" text-anchor="middle">d<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan> = (d<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">I</tspan>)·<tspan font-style="italic" font-family="'Times New Roman',Times,serif">Q</tspan> = <tspan font-style="italic" font-family="'Times New Roman',Times,serif">q</tspan>·d<tspan font-style="italic" font-family="'Times New Roman',Times,serif">x</tspan></text><text x="670" y="348" font-size="15" fill="#263238" text-anchor="middle">⇒ <tspan font-style="italic" font-family="'Times New Roman',Times,serif">q</tspan> = <tspan font-style="italic" font-family="'Times New Roman',Times,serif">VQ</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">I</tspan>　、　τ = <tspan font-style="italic" font-family="'Times New Roman',Times,serif">q</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">t</tspan></text>
+</svg>
+<div class="cap">圖 9-1｜(a) 取一小段梁 \(dx\)，左邊彎矩 \(M\)、右邊 \(M+dM\)，沿水平面切下上面一塊（面積 \(A'\)）。(b) 那一塊的兩端各受彎曲壓力的合力 \(F\) 與 \(F+dF\)，<b>不相等</b>；差額只能由切面上的水平剪力 \(q\,dx\) 補足。</div>
+</div>
+
+<div class="derive">
+<p><span class="st">①</span> 彎曲應力 \(\sigma=My/I\)，切下那一塊的合力 \(F=\int\sigma\,dA=\dfrac MI\int y\,dA=\dfrac{M\,Q}{I}\)，\(Q\)＝那一塊對中性軸的一次矩。</p>
+<p><span class="st">②</span> 右端多了 \(dM\)：\(dF=\dfrac{dM\cdot Q}{I}\)。水平平衡：\(q\,dx=dF\)。</p>
+<p><span class="st">③</span> \(dM/dx=V\)：\(\boxed{q=\dfrac{VQ}{I}}\)；分攤到切面寬度 \(t\)：\(\boxed{\tau=\dfrac{VQ}{It}}\)　✔</p>
+</div>
+<div class="check"><b>極限檢查</b><br>
+・切在最外緣（\(A'=0\)）：\(Q=0\) ⇒ \(q=0\) ✔ 自由表面沒有剪力<br>
+・切在中性軸：\(Q\) 最大 ⇒ 剪應力最大 ✔（H700：\(Q=Z_x/2=2321\) cm³，峰值只比平均大 15%，第 8 章）<br>
+・\(V=0\)（純彎段）：\(q=0\) ✔ 均勻彎矩時兩端合力相等，接合不必傳力</div>
+
+<div class="why"><b>白話</b>：梁之所以是「一根」梁，靠的是上下各層互相不滑動。剪力流就是阻止它們滑動所需要的力——把兩塊木板疊著彎曲會互相滑開，銲起來、釘起來才變成一根。<b>要接合的地方切一刀，算切下那一塊的 \(Q\)</b>。</div>
+
+<h3>9.2　應用：斷續銲與螺栓間距</h3>
+<div class="derive">
+<p><span class="st">①</span> 每隔 \(s\) 一段接合，每段要傳的力 \(=q\times s\)。</p>
+<p><span class="st">②</span> 每段接合的強度：銲道 \(\phi R_n\times L\)（\(L\)＝每段銲道長）、螺栓 \(\phi R_n\times\)顆數。</p>
+<p><span class="st">③</span> \(\boxed{q\,s\le\text{每段接合強度}}\) ⇒ 反求 \(L\) 或 \(s\)。</p>
+</div>
+
+<h3>9.3　範例：蓋板斷續銲（SS-2019-4）</h3>
+<div class="box"><b>題目（節錄）</b>　H500×200×9×16 上翼板銲一塊 PL25×300 蓋板，\(V_u=50\) tf；雙面 8 mm 填角銲、E70（\(F_{EXX}=4.9\) tf/cm²），斷續銲間距 15 cm。求每段所需銲道長 \(L\)。
+（<a href="problems-view/SS-2019-4.html">SS-2019-4</a>）</div>
+
+<div class="fig" id="fig9_2">
+<svg viewBox="0 0 900 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SS-2019-4 蓋板斷續銲" style="max-width:900px">
+<rect x="170" y="372" width="100" height="8" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><rect x="217.75" y="138" width="4.5" height="234" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><rect x="170" y="130" width="100" height="8" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><rect x="145" y="117.5" width="150" height="12.5" rx="0" fill="#ef9a9a" stroke="#c62828" stroke-width="1.8"/><line x1="100" y1="200.65" x2="380" y2="200.65" stroke="#1565c0" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="7 4"/><text x="98" y="192.65" font-size="14" fill="#1565c0" text-anchor="start" font-weight="bold">ENA 35.87</text><text x="304" y="119.5" font-size="14" fill="#c62828" text-anchor="start" font-weight="bold">蓋板 PL25×300</text><text x="304" y="139.5" font-size="14" fill="#c62828" text-anchor="start"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">Q</tspan> = 75 × 15.38 = 1153.5 cm³</text><line x1="130" y1="200.65" x2="130" y2="123.75" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><line x1="125" y1="200.65" x2="135" y2="200.65" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><line x1="125" y1="123.75" x2="135" y2="123.75" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><text x="122" y="167.2" font-size="14" fill="#263238" text-anchor="end">15.38</text><circle cx="170" cy="128" r="4" fill="#ef6c00"/><circle cx="270" cy="128" r="4" fill="#ef6c00"/><text x="220" y="410" font-size="14" fill="#607d8b" text-anchor="middle">H500×200×9×16 ＋ 上蓋板（單位 cm，依比例；y 自 H 底）</text><text x="705" y="60" font-size="16" fill="#263238" text-anchor="middle" font-weight="bold">俯視：雙面斷續銲</text><rect x="520" y="90" width="360" height="60" rx="0" fill="#ffebee" stroke="#c62828" stroke-width="1.4"/><rect x="540" y="86" width="26" height="8" rx="2" fill="#ef6c00"/><rect x="540" y="146" width="26" height="8" rx="2" fill="#ef6c00"/><rect x="630" y="86" width="26" height="8" rx="2" fill="#ef6c00"/><rect x="630" y="146" width="26" height="8" rx="2" fill="#ef6c00"/><rect x="720" y="86" width="26" height="8" rx="2" fill="#ef6c00"/><rect x="720" y="146" width="26" height="8" rx="2" fill="#ef6c00"/><rect x="810" y="86" width="26" height="8" rx="2" fill="#ef6c00"/><rect x="810" y="146" width="26" height="8" rx="2" fill="#ef6c00"/><line x1="540" y1="176" x2="630" y2="176" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><line x1="540" y1="171" x2="540" y2="181" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><line x1="630" y1="171" x2="630" y2="181" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><text x="585" y="192.9" font-size="14" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">s</tspan> = 15 cm</text><text x="553" y="76" font-size="15" fill="#ef6c00" text-anchor="middle" font-weight="bold"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan></text><rect x="520" y="220" width="360" height="150" rx="9" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.6"/><text x="700" y="242" font-size="15" fill="#6a1b9a" text-anchor="middle" font-weight="bold">一段 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">s</tspan> 要傳的力 ≤ 銲道能傳的力</text><text x="700" y="263" font-size="14" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">q</tspan> = 50×1153.5/75510 = 0.7638 tf/cm</text><text x="700" y="284" font-size="14" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">q</tspan>·<tspan font-style="italic" font-family="'Times New Roman',Times,serif">s</tspan> = 11.46 tf</text><text x="700" y="305" font-size="14" fill="#263238" text-anchor="middle">2×0.75×0.6×4.9×0.566 = 2.494 tf/cm</text><text x="700" y="326" font-size="14" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan> ≥ 11.46/2.494 = 4.59 cm → 5 cm</text>
+</svg>
+<div class="cap">圖 9-2｜左：依比例的組合斷面，ENA 距 H 底 35.87 cm；要接合的是蓋板，所以切在蓋板與翼板之間，\(Q\)＝蓋板面積 × 蓋板形心到 ENA 的距離。右：俯視的雙面斷續銲，每 15 cm 一段。</div>
+</div>
+
+<div class="derive">
+<p><span class="st">①</span> 組合斷面：\(A=106.12+75=181.12\) cm²，ENA 距 H 底 35.87 cm；\(I=75{,}510\) cm⁴（平行軸，第 1 章）。</p>
+<p><span class="st">②</span> 切在蓋板下緣：\(Q=75\times(51.25-35.87)=1153.5\) cm³；\(q=\dfrac{50\times1153.5}{75510}=0.764\) tf/cm。</p>
+<p><span class="st">③</span> 每段要傳：\(q\,s=0.764\times15=11.46\) tf。</p>
+<p><span class="st">④</span> 雙面銲每 cm：\(2\times0.75\times0.6\times4.9\times(0.707\times0.8)=2.494\) tf/cm。⇒ \(L\ge11.46/2.494=4.59\) cm，取 <b>5 cm</b>。</p>
+</div>
+<div class="trap"><b>銲道強度的 0.6 也是種子 S6</b>：填角銲沿喉部受剪，強度 \(0.6F_{EXX}\)——又是純剪的 0.6。接合的細節（喉厚 0.707、\(\phi=0.75\)）屬於 SS-U1-4。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜剪力流</div>
+<ol>
+<li><b>畫</b>：一小段梁 \(dx\)，在要接合的地方水平切一刀，畫切下那塊兩端的 \(F\)、\(F+dF\)</li>
+<li><b>種子</b>：S7（水平平衡）＋ \(\sigma=My/I\)</li>
+<li><b>推</b>：\(F=MQ/I\) ⇒ \(dF=dM\,Q/I\) ⇒ \(q=VQ/I\)；斷續接合 \(q\,s\le\) 每段強度</li>
+<li><b>檢查</b>：外緣 \(Q=0\)；純彎段 \(V=0\) 不必傳力</li>
+</ol>
+</div>
+
+<h3>9.4　🙈 蓋住重推</h3>
+<details><summary>Q1　組合梁的螺栓間距 \(s\) 怎麼決定？</summary>
+<p>答：在接合面切一刀求 \(Q\)，\(q=VQ/I\)；每個間距要傳 \(q\,s\)，必須 ≤ 一排螺栓的強度，\(s\le\phi R_n/q\)。\(V\) 大的地方（支承附近）間距要小。</p></details>
+<details><summary>Q2　為什麼 \(Q\) 要用「切下那一塊」，不是整個斷面？</summary>
+<p>答：剪力流是切下那一塊兩端合力的差；整個斷面的 \(Q\) 對中性軸為零（一次矩為零），沒有意義。</p></details>
+<details><summary>Q3　（SS-2002-1）弱軸受剪時翼板的剪力流長什麼樣子？</summary>
+<p>答：剪力平行翼板時，翼板是主要受剪構件；每片翼板從兩端自由邊（\(q=0\)）向中間呈拋物線增加，在翼板中點最大，形狀與強軸時的腹板類似。</p></details>
+
+<h3>9.5　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>\(Q\) 用 H 型鋼的翼板，而不是蓋板</td><td>切在要接合的那個面：蓋板與翼板之間 ⇒ 只算蓋板</td></tr>
+<tr><td>2</td><td>\(I\) 用 H 型鋼本身</td><td>用組合後的 \(I\)（蓋板讓 ENA 上移）</td></tr>
+<tr><td>3</td><td>斷續銲用 \(q\times L\)</td><td>每段要傳的是 \(q\times s\)（間距），由長 \(L\) 的銲道承擔</td></tr>
+<tr><td>4</td><td>雙面銲只算一面</td><td>兩側各一道，強度 ×2</td></tr>
+</table>
+</section>
+<section id="ch10">
+<h2>第 10 章　撓度與整梁設計：強度過關，不代表這根梁能用</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$\Delta=\frac{5wL^4}{384EI},\quad\frac{PL^3}{48EI},\quad\frac{23PL^3}{648EI};\qquad \Delta_L\le\frac{L}{360};\qquad Z_{x,\text{req}}\ge\frac{M_u}{\phi_bF_y}$$
+要記的只有 <span class="kw">種子 S8：撓度＝曲率的積分</span>（彎矩面積法）。5/384、1/48、23/648 都是「半跨 \(M/EI\) 面積 × 形心距離」。<br>
+整梁設計題已空窗 10 年，但它是唯一同時考<b>強度、剪力、撓度三條線</b>的題型，一旦回歸就是完整 30 分。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>撓度公式 \(5wL^4/384EI\)、\(PL^3/48EI\)、\(23PL^3/648EI\)；\(\Delta\le L/360\)</td><td><span class="tg must">必背</span></td><td>10.1、10.2</td></tr>
+<tr><td>斷面選擇：\(Z_{x,\text{req}}\ge M_u/(\phi_bF_y)\)，再以 \(L_b\) 檢核</td><td><span class="tg must">必背</span></td><td>10.3</td></tr>
+</table>
+<p class="note">證據：撓度公式 24 年零次印出；2015 年題目給了 \(V_n\) 三段與 \(M_n/M_{cr}\)，<b>撓度公式卻沒給</b>。
+相關題目：<a href="problems-view/SS-2015-1.html">SS-2015-1</a>、<a href="problems-view/SS-2010-4.html">SS-2010-4</a>。</p>
+</div>
+
+<h3>10.1　曲率是 \(M/EI\)，撓度是把曲率加起來</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S8｜撓度＝曲率的積分</div>
+$$\kappa=\frac{M}{EI}\quad\Rightarrow\quad\text{轉角}=\int\kappa\,dx,\qquad\text{撓度}=\int\!\!\int\kappa\,dx\,dx$$
+</div>
+<div class="derive">
+<p><span class="st">①</span> 曲率：第 1 章的應變斜線，斜率 \(\varepsilon/y=\sigma/(Ey)=M/(EI)\)。<b>\(M/EI\) 圖就是曲率圖</b>。</p>
+<p><span class="st">②</span> 彎矩面積法：兩點切線的夾角＝兩點間 \(M/EI\) 圖的面積；一點對另一點切線的偏距＝該段 \(M/EI\) 面積對該點的一次矩。</p>
+<p><span class="st">③</span> 對稱簡支梁：跨中切線水平，所以<b>跨中撓度＝支承對跨中切線的偏距＝半跨 \(M/EI\) 面積 × 其形心到支承的距離</b>。</p>
+</div>
+
+<div class="fig" id="fig10_1">
+<svg viewBox="0 0 900 390" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="撓度係數" style="max-width:900px">
+<rect x="20" y="20" width="280" height="330" rx="10" fill="#fff" stroke="#90a4ae" stroke-width="1.2"/><text x="160" y="46" font-size="16" fill="#1565c0" text-anchor="middle" font-weight="bold">均佈 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">w</tspan></text><line x1="40" y1="170" x2="280" y2="170" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M40,170 L40,170 L42,167.03 L44,164.1 L46,161.22 L48,158.4 L50,155.62 L52,152.9 L54,150.22 L56,147.6 L58,145.03 L60,142.5 L62,140.03 L64,137.6 L66,135.22 L68,132.9 L70,130.62 L72,128.4 L74,126.22 L76,124.1 L78,122.03 L80,120 L82,118.03 L84,116.1 L86,114.22 L88,112.4 L90,110.62 L92,108.9 L94,107.22 L96,105.6 L98,104.03 L100,102.5 L102,101.02 L104,99.6 L106,98.22 L108,96.9 L110,95.62 L112,94.4 L114,93.22 L116,92.1 L118,91.02 L120,90 L122,89.03 L124,88.1 L126,87.23 L128,86.4 L130,85.62 L132,84.9 L134,84.22 L136,83.6 L138,83.03 L140,82.5 L142,82.03 L144,81.6 L146,81.23 L148,80.9 L150,80.62 L152,80.4 L154,80.23 L156,80.1 L158,80.03 L160,80 L162,80.03 L164,80.1 L166,80.23 L168,80.4 L170,80.62 L172,80.9 L174,81.23 L176,81.6 L178,82.02 L180,82.5 L182,83.03 L184,83.6 L186,84.22 L188,84.9 L190,85.62 L192,86.4 L194,87.22 L196,88.1 L198,89.03 L200,90 L202,91.03 L204,92.1 L206,93.22 L208,94.4 L210,95.62 L212,96.9 L214,98.22 L216,99.6 L218,101.03 L220,102.5 L222,104.03 L224,105.6 L226,107.23 L228,108.9 L230,110.62 L232,112.4 L234,114.22 L236,116.1 L238,118.02 L240,120 L242,122.03 L244,124.1 L246,126.22 L248,128.4 L250,130.62 L252,132.9 L254,135.23 L256,137.6 L258,140.03 L260,142.5 L262,145.03 L264,147.6 L266,150.22 L268,152.9 L270,155.62 L272,158.4 L274,161.22 L276,164.1 L278,167.03 L280,170 L280,170 Z" fill="#ffebee" stroke="none" opacity="0.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M40,170 L40,170 L42,167.03 L44,164.1 L46,161.22 L48,158.4 L50,155.62 L52,152.9 L54,150.22 L56,147.6 L58,145.03 L60,142.5 L62,140.03 L64,137.6 L66,135.22 L68,132.9 L70,130.62 L72,128.4 L74,126.22 L76,124.1 L78,122.03 L80,120 L82,118.03 L84,116.1 L86,114.22 L88,112.4 L90,110.62 L92,108.9 L94,107.22 L96,105.6 L98,104.03 L100,102.5 L102,101.02 L104,99.6 L106,98.22 L108,96.9 L110,95.62 L112,94.4 L114,93.22 L116,92.1 L118,91.02 L120,90 L122,89.03 L124,88.1 L126,87.23 L128,86.4 L130,85.62 L132,84.9 L134,84.22 L136,83.6 L138,83.03 L140,82.5 L142,82.03 L144,81.6 L146,81.23 L148,80.9 L150,80.62 L152,80.4 L154,80.23 L156,80.1 L158,80.03 L160,80 L160,170 Z" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M40,170 L42,167.03 L44,164.1 L46,161.22 L48,158.4 L50,155.62 L52,152.9 L54,150.22 L56,147.6 L58,145.03 L60,142.5 L62,140.03 L64,137.6 L66,135.22 L68,132.9 L70,130.62 L72,128.4 L74,126.22 L76,124.1 L78,122.03 L80,120 L82,118.03 L84,116.1 L86,114.22 L88,112.4 L90,110.62 L92,108.9 L94,107.22 L96,105.6 L98,104.03 L100,102.5 L102,101.02 L104,99.6 L106,98.22 L108,96.9 L110,95.62 L112,94.4 L114,93.22 L116,92.1 L118,91.02 L120,90 L122,89.03 L124,88.1 L126,87.23 L128,86.4 L130,85.62 L132,84.9 L134,84.22 L136,83.6 L138,83.03 L140,82.5 L142,82.03 L144,81.6 L146,81.23 L148,80.9 L150,80.62 L152,80.4 L154,80.23 L156,80.1 L158,80.03 L160,80 L162,80.03 L164,80.1 L166,80.23 L168,80.4 L170,80.62 L172,80.9 L174,81.23 L176,81.6 L178,82.02 L180,82.5 L182,83.03 L184,83.6 L186,84.22 L188,84.9 L190,85.62 L192,86.4 L194,87.22 L196,88.1 L198,89.03 L200,90 L202,91.03 L204,92.1 L206,93.22 L208,94.4 L210,95.62 L212,96.9 L214,98.22 L216,99.6 L218,101.03 L220,102.5 L222,104.03 L224,105.6 L226,107.23 L228,108.9 L230,110.62 L232,112.4 L234,114.22 L236,116.1 L238,118.02 L240,120 L242,122.03 L244,124.1 L246,126.22 L248,128.4 L250,130.62 L252,132.9 L254,135.23 L256,137.6 L258,140.03 L260,142.5 L262,145.03 L264,147.6 L266,150.22 L268,152.9 L270,155.62 L272,158.4 L274,161.22 L276,164.1 L278,167.03 L280,170" fill="none" stroke="#263238" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="160" y1="70" x2="160" y2="180" stroke="#607d8b" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="4 3"/><text x="160" y="200" font-size="14" fill="#607d8b" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">EI</tspan> 圖；著色＝半跨</text><text x="160" y="234" font-size="14" fill="#263238" text-anchor="middle">面積 = (2/3)(<tspan font-style="italic" font-family="'Times New Roman',Times,serif">wL</tspan><tspan dy="-5.3" font-size="10.08">2</tspan><tspan dy="5.3">​</tspan>/8)(<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan>/2)</text><text x="160" y="258" font-size="14" fill="#263238" text-anchor="middle">形心 5<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan>/16</text><text x="160" y="298" font-size="17" fill="#1565c0" text-anchor="middle" font-weight="bold">δ 係數 = 5/384</text><rect x="312" y="20" width="280" height="330" rx="10" fill="#fff" stroke="#90a4ae" stroke-width="1.2"/><text x="452" y="46" font-size="16" fill="#ef6c00" text-anchor="middle" font-weight="bold">跨中 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">P</tspan></text><line x1="332" y1="170" x2="572" y2="170" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M332,170 L332,170 L334,168.5 L336,167 L338,165.5 L340,164 L342,162.5 L344,161 L346,159.5 L348,158 L350,156.5 L352,155 L354,153.5 L356,152 L358,150.5 L360,149 L362,147.5 L364,146 L366,144.5 L368,143 L370,141.5 L372,140 L374,138.5 L376,137 L378,135.5 L380,134 L382,132.5 L384,131 L386,129.5 L388,128 L390,126.5 L392,125 L394,123.5 L396,122 L398,120.5 L400,119 L402,117.5 L404,116 L406,114.5 L408,113 L410,111.5 L412,110 L414,108.5 L416,107 L418,105.5 L420,104 L422,102.5 L424,101 L426,99.5 L428,98 L430,96.5 L432,95 L434,93.5 L436,92 L438,90.5 L440,89 L442,87.5 L444,86 L446,84.5 L448,83 L450,81.5 L452,80 L454,81.5 L456,83 L458,84.5 L460,86 L462,87.5 L464,89 L466,90.5 L468,92 L470,93.5 L472,95 L474,96.5 L476,98 L478,99.5 L480,101 L482,102.5 L484,104 L486,105.5 L488,107 L490,108.5 L492,110 L494,111.5 L496,113 L498,114.5 L500,116 L502,117.5 L504,119 L506,120.5 L508,122 L510,123.5 L512,125 L514,126.5 L516,128 L518,129.5 L520,131 L522,132.5 L524,134 L526,135.5 L528,137 L530,138.5 L532,140 L534,141.5 L536,143 L538,144.5 L540,146 L542,147.5 L544,149 L546,150.5 L548,152 L550,153.5 L552,155 L554,156.5 L556,158 L558,159.5 L560,161 L562,162.5 L564,164 L566,165.5 L568,167 L570,168.5 L572,170 L572,170 Z" fill="#ffebee" stroke="none" opacity="0.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M332,170 L332,170 L334,168.5 L336,167 L338,165.5 L340,164 L342,162.5 L344,161 L346,159.5 L348,158 L350,156.5 L352,155 L354,153.5 L356,152 L358,150.5 L360,149 L362,147.5 L364,146 L366,144.5 L368,143 L370,141.5 L372,140 L374,138.5 L376,137 L378,135.5 L380,134 L382,132.5 L384,131 L386,129.5 L388,128 L390,126.5 L392,125 L394,123.5 L396,122 L398,120.5 L400,119 L402,117.5 L404,116 L406,114.5 L408,113 L410,111.5 L412,110 L414,108.5 L416,107 L418,105.5 L420,104 L422,102.5 L424,101 L426,99.5 L428,98 L430,96.5 L432,95 L434,93.5 L436,92 L438,90.5 L440,89 L442,87.5 L444,86 L446,84.5 L448,83 L450,81.5 L452,80 L452,170 Z" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M332,170 L334,168.5 L336,167 L338,165.5 L340,164 L342,162.5 L344,161 L346,159.5 L348,158 L350,156.5 L352,155 L354,153.5 L356,152 L358,150.5 L360,149 L362,147.5 L364,146 L366,144.5 L368,143 L370,141.5 L372,140 L374,138.5 L376,137 L378,135.5 L380,134 L382,132.5 L384,131 L386,129.5 L388,128 L390,126.5 L392,125 L394,123.5 L396,122 L398,120.5 L400,119 L402,117.5 L404,116 L406,114.5 L408,113 L410,111.5 L412,110 L414,108.5 L416,107 L418,105.5 L420,104 L422,102.5 L424,101 L426,99.5 L428,98 L430,96.5 L432,95 L434,93.5 L436,92 L438,90.5 L440,89 L442,87.5 L444,86 L446,84.5 L448,83 L450,81.5 L452,80 L454,81.5 L456,83 L458,84.5 L460,86 L462,87.5 L464,89 L466,90.5 L468,92 L470,93.5 L472,95 L474,96.5 L476,98 L478,99.5 L480,101 L482,102.5 L484,104 L486,105.5 L488,107 L490,108.5 L492,110 L494,111.5 L496,113 L498,114.5 L500,116 L502,117.5 L504,119 L506,120.5 L508,122 L510,123.5 L512,125 L514,126.5 L516,128 L518,129.5 L520,131 L522,132.5 L524,134 L526,135.5 L528,137 L530,138.5 L532,140 L534,141.5 L536,143 L538,144.5 L540,146 L542,147.5 L544,149 L546,150.5 L548,152 L550,153.5 L552,155 L554,156.5 L556,158 L558,159.5 L560,161 L562,162.5 L564,164 L566,165.5 L568,167 L570,168.5 L572,170" fill="none" stroke="#263238" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="452" y1="70" x2="452" y2="180" stroke="#607d8b" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="4 3"/><text x="452" y="200" font-size="14" fill="#607d8b" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">EI</tspan> 圖；著色＝半跨</text><text x="452" y="234" font-size="14" fill="#263238" text-anchor="middle">面積 = (1/2)(<tspan font-style="italic" font-family="'Times New Roman',Times,serif">PL</tspan>/4)(<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan>/2)</text><text x="452" y="258" font-size="14" fill="#263238" text-anchor="middle">形心 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan>/3</text><text x="452" y="298" font-size="17" fill="#ef6c00" text-anchor="middle" font-weight="bold">δ 係數 = 1/48</text><rect x="604" y="20" width="280" height="330" rx="10" fill="#fff" stroke="#90a4ae" stroke-width="1.2"/><text x="744" y="46" font-size="16" fill="#c62828" text-anchor="middle" font-weight="bold">三分點雙 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">P</tspan></text><line x1="624" y1="170" x2="864" y2="170" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M624,170 L624,170 L626,167.75 L628,165.5 L630,163.25 L632,161 L634,158.75 L636,156.5 L638,154.25 L640,152 L642,149.75 L644,147.5 L646,145.25 L648,143 L650,140.75 L652,138.5 L654,136.25 L656,134 L658,131.75 L660,129.5 L662,127.25 L664,125 L666,122.75 L668,120.5 L670,118.25 L672,116 L674,113.75 L676,111.5 L678,109.25 L680,107 L682,104.75 L684,102.5 L686,100.25 L688,98 L690,95.75 L692,93.5 L694,91.25 L696,89 L698,86.75 L700,84.5 L702,82.25 L704,80 L706,80 L708,80 L710,80 L712,80 L714,80 L716,80 L718,80 L720,80 L722,80 L724,80 L726,80 L728,80 L730,80 L732,80 L734,80 L736,80 L738,80 L740,80 L742,80 L744,80 L746,80 L748,80 L750,80 L752,80 L754,80 L756,80 L758,80 L760,80 L762,80 L764,80 L766,80 L768,80 L770,80 L772,80 L774,80 L776,80 L778,80 L780,80 L782,80 L784,80 L786,82.25 L788,84.5 L790,86.75 L792,89 L794,91.25 L796,93.5 L798,95.75 L800,98 L802,100.25 L804,102.5 L806,104.75 L808,107 L810,109.25 L812,111.5 L814,113.75 L816,116 L818,118.25 L820,120.5 L822,122.75 L824,125 L826,127.25 L828,129.5 L830,131.75 L832,134 L834,136.25 L836,138.5 L838,140.75 L840,143 L842,145.25 L844,147.5 L846,149.75 L848,152 L850,154.25 L852,156.5 L854,158.75 L856,161 L858,163.25 L860,165.5 L862,167.75 L864,170 L864,170 Z" fill="#ffebee" stroke="none" opacity="0.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M624,170 L624,170 L626,167.75 L628,165.5 L630,163.25 L632,161 L634,158.75 L636,156.5 L638,154.25 L640,152 L642,149.75 L644,147.5 L646,145.25 L648,143 L650,140.75 L652,138.5 L654,136.25 L656,134 L658,131.75 L660,129.5 L662,127.25 L664,125 L666,122.75 L668,120.5 L670,118.25 L672,116 L674,113.75 L676,111.5 L678,109.25 L680,107 L682,104.75 L684,102.5 L686,100.25 L688,98 L690,95.75 L692,93.5 L694,91.25 L696,89 L698,86.75 L700,84.5 L702,82.25 L704,80 L706,80 L708,80 L710,80 L712,80 L714,80 L716,80 L718,80 L720,80 L722,80 L724,80 L726,80 L728,80 L730,80 L732,80 L734,80 L736,80 L738,80 L740,80 L742,80 L744,80 L744,170 Z" fill="#ffebee" stroke="#c62828" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M624,170 L626,167.75 L628,165.5 L630,163.25 L632,161 L634,158.75 L636,156.5 L638,154.25 L640,152 L642,149.75 L644,147.5 L646,145.25 L648,143 L650,140.75 L652,138.5 L654,136.25 L656,134 L658,131.75 L660,129.5 L662,127.25 L664,125 L666,122.75 L668,120.5 L670,118.25 L672,116 L674,113.75 L676,111.5 L678,109.25 L680,107 L682,104.75 L684,102.5 L686,100.25 L688,98 L690,95.75 L692,93.5 L694,91.25 L696,89 L698,86.75 L700,84.5 L702,82.25 L704,80 L706,80 L708,80 L710,80 L712,80 L714,80 L716,80 L718,80 L720,80 L722,80 L724,80 L726,80 L728,80 L730,80 L732,80 L734,80 L736,80 L738,80 L740,80 L742,80 L744,80 L746,80 L748,80 L750,80 L752,80 L754,80 L756,80 L758,80 L760,80 L762,80 L764,80 L766,80 L768,80 L770,80 L772,80 L774,80 L776,80 L778,80 L780,80 L782,80 L784,80 L786,82.25 L788,84.5 L790,86.75 L792,89 L794,91.25 L796,93.5 L798,95.75 L800,98 L802,100.25 L804,102.5 L806,104.75 L808,107 L810,109.25 L812,111.5 L814,113.75 L816,116 L818,118.25 L820,120.5 L822,122.75 L824,125 L826,127.25 L828,129.5 L830,131.75 L832,134 L834,136.25 L836,138.5 L838,140.75 L840,143 L842,145.25 L844,147.5 L846,149.75 L848,152 L850,154.25 L852,156.5 L854,158.75 L856,161 L858,163.25 L860,165.5 L862,167.75 L864,170" fill="none" stroke="#263238" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="744" y1="70" x2="744" y2="180" stroke="#607d8b" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="4 3"/><text x="744" y="200" font-size="14" fill="#607d8b" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">EI</tspan> 圖；著色＝半跨</text><text x="744" y="234" font-size="14" fill="#263238" text-anchor="middle">三角＋矩形</text><text x="744" y="258" font-size="14" fill="#263238" text-anchor="middle">23<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan>/72 加權</text><text x="744" y="298" font-size="17" fill="#c62828" text-anchor="middle" font-weight="bold">δ 係數 = 23/648</text><text x="450" y="372" font-size="15" fill="#6a1b9a" text-anchor="middle" font-weight="bold">跨中撓度 ＝ 半跨 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">EI</tspan> 面積 × 該面積形心到支承的距離（對稱簡支梁的彎矩面積法）</text>
+</svg>
+<div class="cap">圖 10-1｜三種載重的 \(M/EI\) 圖，著色是半跨。均佈：拋物線，面積 \(\tfrac23\cdot\tfrac{wL^2}{8}\cdot\tfrac L2\)、形心距支承 \(\tfrac58\cdot\tfrac L2\)；跨中集中：三角形，形心 \(\tfrac23\cdot\tfrac L2\)；三分點：三角形加矩形，分開算再相加。</div>
+</div>
+
+<div class="derive">
+<p><span class="st">均佈</span> \(\dfrac{1}{EI}\cdot\dfrac23\cdot\dfrac{wL^2}{8}\cdot\dfrac L2\times\dfrac{5L}{16}=\dfrac{wL^3}{24EI}\times\dfrac{5L}{16}=\boxed{\dfrac{5wL^4}{384EI}}\)</p>
+<p><span class="st">集中</span> \(\dfrac{1}{EI}\cdot\dfrac12\cdot\dfrac{PL}{4}\cdot\dfrac L2\times\dfrac L3=\boxed{\dfrac{PL^3}{48EI}}\)</p>
+<p><span class="st">三分點</span> \(M_{\max}=PL/3\)。三角形（0～\(L/3\)）面積 \(\tfrac{PL^2}{18}\)、形心 \(\tfrac{2L}{9}\)；矩形（\(L/3\)～\(L/2\)）面積 \(\tfrac{PL^2}{18}\)、形心 \(\tfrac{5L}{12}\)。
+\(\dfrac{PL^2}{18EI}\left(\dfrac{2L}{9}+\dfrac{5L}{12}\right)=\dfrac{PL^3}{18EI}\cdot\dfrac{23}{36}=\boxed{\dfrac{23PL^3}{648EI}}\)</p>
+</div>
+<div class="check"><b>極限檢查</b><br>
+・三分點兩個 \(P\)（總載重 \(2P\)）的 \(23/648=0.0355\)，介於「\(2P\) 集中在跨中」（\(2/48=0.0417\)）與「\(2P\) 平均分布」（\(5\times2/384=0.026\)）之間 ✔<br>
+・撓度 \(\propto L^3\)（集中）或 \(L^4\)（均佈）：跨度加倍，均佈撓度變 16 倍 ✔ 所以長跨梁常由撓度控制<br>
+・\(E\) 只出現在撓度，不出現在強度（第 1 章 Q1）✔</div>
+
+<h3>10.2　\(L/360\)：用活載重檢核</h3>
+<div class="derive">
+<p><span class="st">①</span> 使用性檢核用<b>工作載重</b>（未乘載重係數），而且通常只用<b>活載重</b>（靜載重撓度可用預拱抵銷）。</p>
+<p><span class="st">②</span> \(L/360\)：樓版下方有天花板、隔間時，防止裂縫的經驗值（規範數字，不推導）。</p>
+<p><span class="st">③</span> 不夠時要加大 \(I\)（梁深），而不是加大 \(F_y\)——<b>高強度鋼救不了撓度</b>。</p>
+</div>
+<div class="trap"><b>常見錯誤</b>：用因數化載重 \(1.2D+1.6L\) 算撓度。SS-2015-1 的撓度只用 \(P_L=35\) tf。</div>
+
+<h3>10.3　整梁設計：三條線並行</h3>
+<div class="derive">
+<p><span class="st">①</span> <b>強度</b>：先求 \(M_u\)。完全側撐時 \(M_n=M_p\)，所以 \(Z_{x,\text{req}}\ge\dfrac{M_u}{\phi_bF_y}\)，從表中挑最輕的；<b>再回頭檢查 \(L_b\le L_p\)</b> 是否真的成立（第 4 章）。</p>
+<p><span class="st">②</span> <b>剪力</b>：\(V_u\le\phi_vV_n\)（第 8 章）。熱軋梁通常餘裕很大。</p>
+<p><span class="st">③</span> <b>撓度</b>：活載重 \(\Delta_L\le L/360\)。不夠就換 \(I\) 較大的斷面——結果常常比強度挑的重一級。</p>
+<p><span class="st">④</span> 自重：選定斷面後加回自重再檢核一次（SS-2010-4「含自重迭代」）。</p>
+</div>
+
+<div class="fig" id="fig10_2">
+<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="三線檢核" style="max-width:900px">
+<line x1="713.33" y1="30" x2="713.33" y2="350" stroke="#6a1b9a" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 4"/><text x="713.33" y="26" font-size="14" fill="#6a1b9a" text-anchor="middle" font-weight="bold">1.0（用滿）</text><text x="330" y="372" font-size="14" fill="#607d8b" text-anchor="middle">0</text><line x1="330" y1="347" x2="330" y2="352" stroke="#263238" stroke-width="1" stroke-linecap="round"/><text x="406.67" y="372" font-size="14" fill="#607d8b" text-anchor="middle">0.2</text><line x1="406.67" y1="347" x2="406.67" y2="352" stroke="#263238" stroke-width="1" stroke-linecap="round"/><text x="483.33" y="372" font-size="14" fill="#607d8b" text-anchor="middle">0.4</text><line x1="483.33" y1="347" x2="483.33" y2="352" stroke="#263238" stroke-width="1" stroke-linecap="round"/><text x="560" y="372" font-size="14" fill="#607d8b" text-anchor="middle">0.6</text><line x1="560" y1="347" x2="560" y2="352" stroke="#263238" stroke-width="1" stroke-linecap="round"/><text x="636.67" y="372" font-size="14" fill="#607d8b" text-anchor="middle">0.8</text><line x1="636.67" y1="347" x2="636.67" y2="352" stroke="#263238" stroke-width="1" stroke-linecap="round"/><text x="713.33" y="372" font-size="14" fill="#607d8b" text-anchor="middle">1</text><line x1="713.33" y1="347" x2="713.33" y2="352" stroke="#263238" stroke-width="1" stroke-linecap="round"/><text x="790" y="372" font-size="14" fill="#607d8b" text-anchor="middle">1.2</text><line x1="790" y1="347" x2="790" y2="352" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="330" y1="347" x2="790" y2="347" stroke="#263238" stroke-width="1.4" stroke-linecap="round"/><text x="20" y="54" font-size="15" fill="#263238" text-anchor="start" font-weight="bold">SS-2015-1（BH920，<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan>=8.4 m）</text><text x="320" y="84" font-size="14" fill="#c62828" text-anchor="end">強度 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="3.9" font-size="10.08">u</tspan><tspan dy="-3.9">​</tspan>/φ<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="3.9" font-size="10.08">n</tspan><tspan dy="-3.9">​</tspan></text><rect x="330" y="70" width="378.32" height="22" rx="4" fill="#c62828" opacity="0.85"/><text x="714.32" y="87" font-size="14" fill="#c62828" text-anchor="start" font-weight="bold">98.7%</text><text x="320" y="120" font-size="14" fill="#ef6c00" text-anchor="end">剪力 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">V</tspan><tspan dy="3.9" font-size="10.08">u</tspan><tspan dy="-3.9">​</tspan>/φ<tspan font-style="italic" font-family="'Times New Roman',Times,serif">V</tspan><tspan dy="3.9" font-size="10.08">n</tspan><tspan dy="-3.9">​</tspan></text><rect x="330" y="106" width="140.45" height="22" rx="4" fill="#ef6c00" opacity="0.85"/><text x="476.45" y="123" font-size="14" fill="#ef6c00" text-anchor="start" font-weight="bold">36.6%</text><text x="320" y="156" font-size="14" fill="#1565c0" text-anchor="end">撓度 δ<tspan dy="3.9" font-size="10.08">L</tspan><tspan dy="-3.9">​</tspan>/(<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan>/360)</text><rect x="330" y="142" width="146.51" height="22" rx="4" fill="#1565c0" opacity="0.85"/><text x="482.51" y="159" font-size="14" fill="#1565c0" text-anchor="start" font-weight="bold">38.2%</text><text x="20" y="198" font-size="15" fill="#263238" text-anchor="start" font-weight="bold">綜合練習（H700，<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan>=10 m）</text><text x="320" y="228" font-size="14" fill="#c62828" text-anchor="end">強度 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="3.9" font-size="10.08">u</tspan><tspan dy="-3.9">​</tspan>/φ<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="3.9" font-size="10.08">n</tspan><tspan dy="-3.9">​</tspan></text><rect x="330" y="214" width="235.92" height="22" rx="4" fill="#c62828" opacity="0.85"/><text x="571.92" y="231" font-size="14" fill="#c62828" text-anchor="start" font-weight="bold">61.5%</text><text x="320" y="264" font-size="14" fill="#ef6c00" text-anchor="end">剪力 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">V</tspan><tspan dy="3.9" font-size="10.08">u</tspan><tspan dy="-3.9">​</tspan>/φ<tspan font-style="italic" font-family="'Times New Roman',Times,serif">V</tspan><tspan dy="3.9" font-size="10.08">n</tspan><tspan dy="-3.9">​</tspan></text><rect x="330" y="250" width="86.92" height="22" rx="4" fill="#ef6c00" opacity="0.85"/><text x="422.92" y="267" font-size="14" fill="#ef6c00" text-anchor="start" font-weight="bold">22.7%</text><text x="320" y="300" font-size="14" fill="#1565c0" text-anchor="end">撓度 δ<tspan dy="3.9" font-size="10.08">L</tspan><tspan dy="-3.9">​</tspan>/(<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan>/360)</text><rect x="330" y="286" width="186.85" height="22" rx="4" fill="#1565c0" opacity="0.85"/><text x="522.85" y="303" font-size="14" fill="#1565c0" text-anchor="start" font-weight="bold">48.7%</text>
+</svg>
+<div class="cap">圖 10-2｜兩個例子的三條檢核線使用率。SS-2015-1 由強度控制（98.7%），剪力與撓度都只用了三成多；綜合練習的 H700 三條都有餘裕。三條線<b>各自獨立</b>，任何一條超過 1.0 都不行。</div>
+</div>
+
+<h3>10.4　範例：三分點集中力梁（SS-2015-1）</h3>
+<div class="box"><b>題目（節錄）</b>　簡支 8.4 m，三分點各 \(P_D=22\)、\(P_L=35\) tf，三分點與支承側撐（\(L_b=2.8\) m），\(F_y=2.52\)、\(E=2040\) tf/cm²。由設計圖選最輕斷面，檢核剪力（\(k_v=5\)）與活載重撓度。</div>
+<div class="derive">
+<p><span class="st">①</span> \(P_u=1.2\times22+1.6\times35=82.4\) tf；\(M_u=82.4\times2.8=230.7\) tf·m（中段均勻彎矩）。</p>
+<p><span class="st">②</span> 最輕的 BH870 \(\phi_bM_p=228.7\lt230.7\)（差 0.9%）✗；BH920×300×19×25：\(Z_x=10{,}308\) cm³，\(\phi_bM_p=233.8\ge230.7\)（98.7%）✔，且 \(L_b=2.8\lt L_p\)。</p>
+<p><span class="st">③</span> 剪力：\(\phi_vV_n=224.9\gg82.4\) tf（36.6%）✔（第 8 章）。</p>
+<p><span class="st">④</span> 撓度：\(I=404{,}726\) cm⁴，\(\Delta_L=\dfrac{23\times35\times840^3}{648\times2040\times404726}=0.892\) cm \(\le840/360=2.33\) cm（38.2%）✔。</p>
+</div>
+<div class="why"><b>這題的教訓</b>：設計圖上最輕的斷面只差 0.9% 就不夠——「差一點點」也是不夠，要換下一個。三條線裡強度控制，但撓度公式（23/648）是要自己寫的。</div>
+<p class="note">SS-2010-4（6 m 簡支、上翼板埋入樓版全程側撐）選出 RH244×175 後，活載重撓度使用率達 98.6%——撓度幾乎和強度同時控制，正是 10.3 節第 ③ 步的情況。</p>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜撓度係數</div>
+<ol>
+<li><b>畫</b>：半跨 \(M/EI\) 圖（拋物線／三角形／三角＋矩形），標形心</li>
+<li><b>種子</b>：S8（\(\kappa=M/EI\)，彎矩面積法）</li>
+<li><b>推</b>：面積 × 形心到支承距離：\(\tfrac{wL^3}{24}\cdot\tfrac{5L}{16}\)；\(\tfrac{PL^2}{16}\cdot\tfrac L3\)；\(\tfrac{PL^2}{18}(\tfrac{2L}{9}+\tfrac{5L}{12})\)</li>
+<li><b>檢查</b>：三分點係數介於「全集中」與「全均佈」之間；只用活載重；\(\le L/360\)</li>
+</ol>
+</div>
+
+<h3>10.5　🙈 蓋住重推</h3>
+<details><summary>Q1　不看書推 \(5wL^4/384EI\)。</summary>
+<p>答：半跨 \(M/EI\) 是拋物線，面積 \(\tfrac23\times\tfrac{wL^2}{8EI}\times\tfrac L2=\tfrac{wL^3}{24EI}\)，形心距支承 \(\tfrac58\times\tfrac L2=\tfrac{5L}{16}\)，相乘得 \(5wL^4/384EI\)。</p></details>
+<details><summary>Q2　撓度不夠，改用高強度鋼有沒有用？</summary>
+<p>答：沒有。撓度 \(\propto1/(EI)\)，所有鋼材 \(E\) 幾乎相同；要加大 \(I\)（梁深）。</p></details>
+<details><summary>Q3　為什麼用 \(Z_{x,\text{req}}\) 選斷面後還要檢查 \(L_b\)？</summary>
+<p>答：\(M_n=M_p\) 的前提是 \(L_b\le L_p\)（以及結實）。若 \(L_b\gt L_p\)，實際 \(M_n\) 較小，要走第 4 章的三區段重算。</p></details>
+
+<h3>10.6　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>撓度用因數化載重</td><td>工作載重、通常只用活載重</td></tr>
+<tr><td>2</td><td>三分點載重套 \(5wL^4/384\) 或 \(PL^3/48\)</td><td>三分點是 \(23PL^3/648EI\)（每點 \(P\)）</td></tr>
+<tr><td>3</td><td>單位：\(w\) 用 tf/m、\(L\) 用 cm</td><td>統一成 tf、cm：\(w\)＝tf/cm（3 tf/m＝0.03 tf/cm）</td></tr>
+<tr><td>4</td><td>只檢核強度就交卷</td><td>三條線：強度、剪力、撓度，各寫一行</td></tr>
+<tr><td>5</td><td>差 1% 不到也當作 OK</td><td>超過就是不夠，換下一個斷面</td></tr>
+</table>
+</section>
+<section id="ch11">
+<h2>第 11 章　弱軸與雙軸彎曲：沒有 LTB，但有 \(1.5F_yS_y\) 的上限</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$M_{ny}=\min\left(F_yZ_y,\ 1.5F_yS_y\right)\ \ (\text{弱軸無 LTB});\qquad \frac{M_{ux}}{\phi_bM_{nx}}+\frac{M_{uy}}{\phi_bM_{ny}}\le1.0$$
+要記的只有 <span class="kw">種子 S1</span>（矩形的形狀因子 1.5）與 <span class="kw">種子 S3</span>（挫屈往軟的方向逃，第 3 章）。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>弱軸：無 LTB，\(M_{ny}=F_yZ_y\le1.5F_yS_y\)</td><td><span class="tg must">必背</span></td><td>11.1</td></tr>
+<tr><td>雙向彎曲互制式（線性和 ≤ 1）</td><td><span class="tg must">必背</span></td><td>11.2</td></tr>
+</table>
+<p class="note">證據：兩條都從未印過。103 年 <a href="problems-view/SS-2014-3.html">SS-2014-3</a>（雙向彎曲）、105 年 <a href="problems-view/SS-2016-4.html">SS-2016-4</a>（為什麼只有強軸 LTB）、113 年 <a href="problems-view/SS-2024-3.html">SS-2024-3</a>（同一斷面強弱軸對照）都要用。</p>
+</div>
+
+<h3>11.1　弱軸彎曲：翼板就是兩塊直立的矩形</h3>
+
+<div class="fig" id="fig11_1">
+<svg viewBox="0 0 900 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="弱軸彎曲" style="max-width:900px">
+<text x="170" y="36" font-size="16" fill="#263238" text-anchor="middle" font-weight="bold">H700 弱軸彎曲（中性軸＝腹板）</text><rect x="100" y="123" width="140" height="17.5" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.4"/><rect x="100" y="259.5" width="140" height="17.5" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.4"/><rect x="165.8" y="140.5" width="8.4" height="119" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><line x1="170" y1="103" x2="170" y2="297" stroke="#1565c0" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="6 4"/><text x="178" y="311" font-size="14" fill="#1565c0" text-anchor="start">中性軸</text><text x="170" y="333" font-size="15" fill="#6a1b9a" text-anchor="middle" font-weight="bold">翼板＝兩塊「直立的矩形」</text><text x="490" y="36" font-size="16" fill="#1565c0" text-anchor="middle" font-weight="bold">彈性：三角形</text><line x1="490" y1="100" x2="490" y2="300" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><line x1="420" y1="200" x2="560" y2="200" stroke="#607d8b" stroke-width="1.2" stroke-linecap="round"/><path d="M490,200 L420,200 L420,130 Z" fill="#ef9a9a" stroke="#c62828" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M490,200 L560,200 L560,270 Z" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><text x="566" y="205" font-size="15" fill="#607d8b" text-anchor="start"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">x</tspan></text><text x="730" y="36" font-size="16" fill="#2e7d32" text-anchor="middle" font-weight="bold">塑性：矩形</text><line x1="730" y1="100" x2="730" y2="300" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><line x1="660" y1="200" x2="800" y2="200" stroke="#607d8b" stroke-width="1.2" stroke-linecap="round"/><rect x="660" y="130" width="70" height="70" rx="0" fill="#ef9a9a" stroke="#c62828" stroke-width="1.6"/><rect x="730" y="200" width="70" height="70" rx="0" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1.6"/><text x="806" y="205" font-size="15" fill="#607d8b" text-anchor="start"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">x</tspan></text><rect x="430" y="320" width="450" height="90" rx="9" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.6"/><text x="655" y="342" font-size="16" fill="#6a1b9a" text-anchor="middle" font-weight="bold"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">Z</tspan><tspan dy="4.5" font-size="11.52">y</tspan><tspan dy="-4.5">​</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">S</tspan><tspan dy="4.5" font-size="11.52">y</tspan><tspan dy="-4.5">​</tspan> = 523.4/334.3 = 1.566　＞ 1.5</text><text x="655" y="364" font-size="15" fill="#263238" text-anchor="middle">取 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="4.2" font-size="10.8">ny</tspan><tspan dy="-4.2">​</tspan> = min(<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="4.2" font-size="10.8">y</tspan><tspan dy="-4.2">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">Z</tspan><tspan dy="4.2" font-size="10.8">y</tspan><tspan dy="-4.2">​</tspan>, 1.5<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="4.2" font-size="10.8">y</tspan><tspan dy="-4.2">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">S</tspan><tspan dy="4.2" font-size="10.8">y</tspan><tspan dy="-4.2">​</tspan>) = 1755 tf·cm</text>
+</svg>
+<div class="cap">圖 11-1｜H700 繞弱軸彎曲時，中性軸是腹板；兩片翼板各自像一塊「直立的矩形」受彎，腹板幾乎不出力。應力塊從三角形長成矩形，形狀因子接近矩形的 1.5——H700 算出 1.566，超過 1.5，所以被上限截平。</div>
+</div>
+
+<div class="derive">
+<p><span class="st">①</span> 不會 LTB：彎曲方向已經是最軟的方向，沒有更軟的方向可以逃（第 3 章 3.4 節）。所以弱軸只看材料：\(M_{p,y}=F_yZ_y\)。</p>
+<p><span class="st">②</span> 形狀因子：翼板是矩形，\(Z/S=1.5\)（第 1 章）；腹板貼著中性軸，\(S\) 幾乎沒有貢獻，\(Z\) 還多一點點 ⇒ H 型鋼弱軸 \(Z_y/S_y\) 常略大於 1.5（H700：\(523.4/334.3=1.566\)；SS-2014-3：1.570）。</p>
+<p><span class="st">③</span> 規範上限：\(\boxed{M_{ny}=\min(F_yZ_y,\ 1.5F_yS_y)}\)。</p>
+</div>
+<div class="why"><b>為什麼要 1.5 的上限</b>：形狀因子越大，代表到 \(M_p\) 之前外緣早就降伏了很多。若容許 \(Z/S\gt1.5\)，使用載重下外緣可能已經降伏、殘留變形過大。
+上限 1.5 讓「工作載重 ≈ 強度 ÷ 1.5」時外緣應力不超過 \(F_y\)（記法：<b>矩形的 1.5 就是天花板</b>）。ASD 對應的是 \(F_{by}=0.75F_y\)（91 年考卷給過）。</div>
+
+<div class="check"><b>強弱軸差多少</b>：H700 強軸 \(\phi_bM_p=146.2\) tf·m，弱軸 \(\phi_bM_{ny}=0.9\times1755=15.8\) tf·m，<b>只有 1/9</b>。所以 H 型鋼一定要「腹板立著」用。</div>
+
+<h3>11.2　雙軸彎曲：兩個方向各用掉一部分本錢</h3>
+<div class="derive">
+<p><span class="st">①</span> 強軸用掉 \(\dfrac{M_{ux}}{\phi_bM_{nx}}\) 的本錢，弱軸用掉 \(\dfrac{M_{uy}}{\phi_bM_{ny}}\)。</p>
+<p><span class="st">②</span> 規範用最簡單的<b>直線</b>把兩者加起來：\(\boxed{\dfrac{M_{ux}}{\phi_bM_{nx}}+\dfrac{M_{uy}}{\phi_bM_{ny}}\le1.0}\)。</p>
+<p><span class="st">③</span> 每個 \(\phi_bM_n\) 照各自的規則算：強軸走第 4 章三區段（含 \(C_b\)）；弱軸走 11.1 節（無 LTB）。</p>
+</div>
+<div class="why"><b>誠實說明</b>：真正的全塑性互制曲線是往外凸的（兩個方向的應力塊可以互相分擔），直線在它的內側，所以直線是<b>偏安全的近似</b>。考場上直接用直線。</div>
+
+<div class="fig" id="fig11_2">
+<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="雙軸彎曲互制" style="max-width:900px">
+<line x1="100" y1="40" x2="100" y2="340" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="225" y1="40" x2="225" y2="340" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="350" y1="40" x2="350" y2="340" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="100" y1="340" x2="400" y2="340" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="100" y1="215" x2="400" y2="215" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="100" y1="90" x2="400" y2="90" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="100" y1="340" x2="409.5" y2="340" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M414,340 L405.84,343.8 L409.05,340 L405.84,336.2 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="100" y1="340" x2="100" y2="30.5" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M100,26 L103.8,34.16 L100,30.95 L96.2,34.16 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="100" y1="340" x2="100" y2="345" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="100" y="360" font-size="14" fill="#607d8b" text-anchor="middle">0</text><line x1="225" y1="340" x2="225" y2="345" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="225" y="360" font-size="14" fill="#607d8b" text-anchor="middle">0.5</text><line x1="350" y1="340" x2="350" y2="345" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="350" y="360" font-size="14" fill="#607d8b" text-anchor="middle">1</text><line x1="95" y1="340" x2="100" y2="340" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="91" y="344.5" font-size="14" fill="#607d8b" text-anchor="end">0</text><line x1="95" y1="215" x2="100" y2="215" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="91" y="219.5" font-size="14" fill="#607d8b" text-anchor="end">0.5</text><line x1="95" y1="90" x2="100" y2="90" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="91" y="94.5" font-size="14" fill="#607d8b" text-anchor="end">1</text><text x="418" y="345" font-size="16" fill="#263238" text-anchor="start"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="4.5" font-size="11.52">ux</tspan><tspan dy="-4.5">​</tspan>/φ<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="4.5" font-size="11.52">nx</tspan><tspan dy="-4.5">​</tspan></text><text x="100" y="18" font-size="15" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="4.2" font-size="10.8">uy</tspan><tspan dy="-4.2">​</tspan>/φ<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="4.2" font-size="10.8">ny</tspan><tspan dy="-4.2">​</tspan></text><path d="M100,90 L350,340 L100,340 Z" fill="#e8f5e9" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="100" y1="90" x2="350" y2="340" stroke="#2e7d32" stroke-width="2.8" stroke-linecap="round"/><circle cx="205.73" cy="266.94" r="7" fill="#6a1b9a" stroke="#fff" stroke-width="1.6"/><text x="215.73" y="258.94" font-size="14" fill="#6a1b9a" text-anchor="start" font-weight="bold">SS-2014-3：0.423+0.292=0.715</text><text x="137.5" y="302.5" font-size="15" fill="#2e7d32" text-anchor="start" font-weight="bold">安全區</text><line x1="560" y1="320" x2="840" y2="320" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="255" x2="840" y2="255" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="190" x2="840" y2="190" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="125" x2="840" y2="125" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="60" x2="840" y2="60" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="320" x2="849.5" y2="320" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M854,320 L845.84,323.8 L849.05,320 L845.84,316.2 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="560" y1="320" x2="560" y2="50.5" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M560,46 L563.8,54.16 L560,50.95 L556.2,54.16 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="555" y1="320" x2="560" y2="320" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="324.5" font-size="14" fill="#607d8b" text-anchor="end">0</text><line x1="555" y1="255" x2="560" y2="255" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="259.5" font-size="14" fill="#607d8b" text-anchor="end">40</text><line x1="555" y1="190" x2="560" y2="190" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="194.5" font-size="14" fill="#607d8b" text-anchor="end">80</text><line x1="555" y1="125" x2="560" y2="125" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="129.5" font-size="14" fill="#607d8b" text-anchor="end">120</text><line x1="555" y1="60" x2="560" y2="60" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="64.5" font-size="14" fill="#607d8b" text-anchor="end">160</text><text x="560" y="38" font-size="16" fill="#263238" text-anchor="middle">φ<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="4.5" font-size="11.52">n</tspan><tspan dy="-4.5">​</tspan>（tf·m）</text><rect x="595" y="82.36" width="70" height="237.64" rx="4" fill="#c62828" opacity="0.85"/><text x="630" y="74.36" font-size="15" fill="#c62828" text-anchor="middle" font-weight="bold">146.2</text><text x="630" y="342" font-size="14" fill="#263238" text-anchor="middle" font-weight="bold">強軸 φ<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="3.9" font-size="10.08">p</tspan><tspan dy="-3.9">​</tspan></text><rect x="735" y="294.33" width="70" height="25.67" rx="4" fill="#2e7d32" opacity="0.85"/><text x="770" y="286.33" font-size="15" fill="#2e7d32" text-anchor="middle" font-weight="bold">15.8</text><text x="770" y="342" font-size="14" fill="#263238" text-anchor="middle" font-weight="bold">弱軸 φ<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="3.9" font-size="10.08">ny</tspan><tspan dy="-3.9">​</tspan></text><text x="700" y="380" font-size="15" fill="#6a1b9a" text-anchor="middle" font-weight="bold">H700×200：弱軸只有強軸的 1/9.3</text>
+</svg>
+<div class="cap">圖 11-2｜左：雙軸彎曲互制，綠色直線以內安全；紫點是 SS-2014-3 的 0.423＋0.292＝0.715。右：H700 強軸與弱軸的設計彎矩強度，弱軸只有強軸的 1/9.3。</div>
+</div>
+
+<h3>11.3　範例</h3>
+<h4>範例 ①：雙向彎曲互制（SS-2014-3，SI 單位）</h4>
+<div class="box"><b>題目（節錄）</b>　W21×93，A572 Gr.50（\(F_y=350\)、\(F_r=78\) MPa），4 m 簡支，兩端側撐，沿全長承受均勻的雙向彎矩 \(M_{ux}=400\)、\(M_{uy}=50\) kN·m。題給 \(L_p=2\) m、\(L_r=5.8\) m。</div>
+<div class="derive">
+<p><span class="st">①</span> 強軸：彎矩沿全長均勻 ⇒ \(C_b=1.0\)；\(L_b=4\) m 在非彈性區。\(M_p=1267.5\)、\(M_r=(350-78)S_x=855.8\) kN·m；
+\(M_n=1267.5-411.7\times\dfrac{4-2}{5.8-2}=1050.8\)；\(\phi_bM_{nx}=945.8\) kN·m。</p>
+<p><span class="st">②</span> 弱軸：\(Z_y/S_y=1.570\gt1.5\) ⇒ \(M_{ny}=1.5\times350\times362{,}154=190.1\) kN·m；\(\phi_bM_{ny}=171.1\) kN·m。</p>
+<p><span class="st">③</span> 互制：\(\dfrac{400}{945.8}+\dfrac{50}{171.1}=0.423+0.292=\) <b>0.715</b> \(\le1.0\) ✔</p>
+</div>
+<div class="trap"><b>題意判讀</b>：「均佈的雙向彎矩」是彎矩沿全長均勻，所以 \(C_b=1.0\)（若誤讀成均佈載重，\(C_b=1.136\)，互制比 0.664）。題解兩種都列，但以 \(C_b=1.0\) 為主。</div>
+
+<h4>範例 ②：同一斷面強軸 vs 弱軸（SS-2024-3）</h4>
+<div class="derive">
+<p><span class="st">強軸</span> 第 5 章：\(\phi_bM_n=65.6\) t·m \(\ge M_u=42\) ✔。</p>
+<p><span class="st">弱軸</span> 不檢核 LTB：\(F_yZ_y=2.35\times823.7=1936\)、\(1.5F_yS_y=1.5\times2.35\times540.3=1905\) tf·cm ⇒ 取 1905；\(\phi_bM_{ny}=17.1\) t·m \(\lt42\) ✗ <b>不足</b>。</p>
+<p><span class="st">結論</span> 同一根梁轉 90°，強度從 65.6 掉到 17.1（約 1/4）。弱軸雖然沒有 LTB，本錢卻小得多。</p>
+</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜弱軸與雙軸</div>
+<ol>
+<li><b>畫</b>：弱軸受彎的 H（翼板＝兩塊直立矩形），旁邊畫互制直線</li>
+<li><b>種子</b>：S3（無處可逃 ⇒ 無 LTB）、S1（矩形 \(f=1.5\)）</li>
+<li><b>推</b>：\(M_{ny}=\min(F_yZ_y,1.5F_yS_y)\)；互制 \(\frac{M_{ux}}{\phi M_{nx}}+\frac{M_{uy}}{\phi M_{ny}}\le1\)</li>
+<li><b>檢查</b>：H 型鋼 \(Z_y/S_y\) 約 1.5～1.6；弱軸強度約強軸的 1/4～1/9</li>
+</ol>
+</div>
+
+<h3>11.4　🙈 蓋住重推</h3>
+<details><summary>Q1　為什麼 H 型鋼弱軸的 \(Z_y/S_y\) 會略大於 1.5？</summary>
+<p>答：兩片翼板是矩形，\(Z/S=1.5\)；腹板貼著弱軸中性軸，對 \(S_y\)（彈性，看離軸距離）幾乎沒貢獻，對 \(Z_y\) 卻還有一點點，所以比值略大於 1.5。</p></details>
+<details><summary>Q2　雙軸彎曲時，強軸那一項的 \(\phi_bM_{nx}\) 要不要考慮 LTB？</summary>
+<p>答：要。強軸照第 4 章三區段（含 \(C_b\)）；只有弱軸那一項不考慮 LTB。</p></details>
+
+<h3>11.5　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>弱軸也算 LTB 三區段</td><td>弱軸無 LTB</td></tr>
+<tr><td>2</td><td>弱軸直接用 \(F_yZ_y\)</td><td>要和 \(1.5F_yS_y\) 取小</td></tr>
+<tr><td>3</td><td>互制式兩項都用 \(M_p\)</td><td>強軸用含 LTB 的 \(\phi M_{nx}\)，弱軸用有上限的 \(\phi M_{ny}\)</td></tr>
+<tr><td>4</td><td>「均佈雙向彎矩」讀成均佈載重</td><td>彎矩均勻 ⇒ \(C_b=1.0\)（SS-2014-3）</td></tr>
+</table>
+</section>
+<section id="ch12">
+<h2>第 12 章　合成梁：混凝土版一起出力，還是同一張「應力塊」</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$C=0.85f'_c\,b_e\,a,\quad T=A_sF_y,\quad C=T\ \Rightarrow\ a=\frac{A_sF_y}{0.85f'_cb_e};\qquad M_n=T\left(\frac d2+t_s-\frac a2\right)$$
+要記的只有 <span class="kw">種子 S1：應力塊（長方形）＋水平力平衡</span>——和第 1 章找 PNA 完全同一招，只是上面多了一塊混凝土。0.85 是 RC 的等值應力塊係數。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>塑性應力分布法：\(C=T\) 定 PNA、\(M_n=\sum F_iy_i\)</td><td><span class="tg must">必背</span></td><td>12.1、12.2</td></tr>
+<tr><td>有效寬度 \(b_e\le\min(L/4,\ s,\ 16t_s+b_f)\)</td><td><span class="tg give">會給</span></td><td>12.1</td></tr>
+</table>
+<p class="note">證據：塑性應力法 24 年零公式——94 年 <a href="problems-view/SS-2005-2.html">SS-2005-2</a> 只給「\(M_n\) 依塑性應力分析而得」，108 年 <a href="problems-view/SS-2019-2.html">SS-2019-2</a> 只在題目給 \(b_e=2.5\) m。兩題相隔 14 年、套路相同，每次都是完整 25 分。</p>
+</div>
+
+<h3>12.1　三個假設，一張應力圖</h3>
+<div class="derive">
+<p><span class="st">①</span> <b>完全合成</b>：剪力釘夠多，版與鋼梁之間不滑動（剪力流 \(VQ/I\) 由剪力釘承擔，第 9 章）。</p>
+<p><span class="st">②</span> <b>混凝土</b>只受壓、不受拉；壓力區用 RC 的等值矩形應力塊 \(0.85f'_c\)（試驗等值，不是推導的）。</p>
+<p><span class="st">③</span> <b>鋼</b>全斷面到 \(\pm F_y\)（種子 S1 的長方形）。有效寬度 \(b_e\) 取 \(L/4\)、梁間距 \(s\)、\(16t_s+b_f\) 的最小值（考卷幾乎都會給）。</p>
+</div>
+
+<h3>12.2　先判斷 PNA 在哪裡：比兩個「最大力」</h3>
+<div class="derive">
+<p><span class="st">①</span> 鋼梁全部受拉時的力 \(T_{\max}=A_sF_y\)；混凝土版全部受壓時的力 \(C_{\max}=0.85f'_cb_et_s\)。</p>
+<p><span class="st">②</span> <b>\(A_sF_y\le C_{\max}\)</b>：版不必全壓就能平衡鋼梁 ⇒ PNA 在版內。\(0.85f'_cb_ea=A_sF_y\) ⇒ \(\boxed{a=\dfrac{A_sF_y}{0.85f'_cb_e}}\)；力臂＝鋼梁形心到壓力塊中心 \(=\dfrac d2+t_s-\dfrac a2\)。</p>
+<p><span class="st">③</span> <b>\(A_sF_y\gt C_{\max}\)</b>：版全壓仍不夠 ⇒ 鋼梁上方一部分也要受壓。設鋼的受壓部分力 \(C_s\)：\(C_{\max}+C_s=A_sF_y-C_s\) ⇒ \(\boxed{C_s=\dfrac{A_sF_y-C_{\max}}{2}}\)，再由 \(C_s\) 找出 PNA 在翼板或腹板（第 1 章的等面積法）。</p>
+</div>
+
+<div class="fig" id="fig12_2">
+<svg viewBox="0 0 900 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PNA 三種位置" style="max-width:900px">
+<text x="150" y="30" font-size="16" fill="#2e7d32" text-anchor="middle" font-weight="bold">① PNA 在版內</text><text x="150" y="54" font-size="14" fill="#607d8b" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">A</tspan><tspan dy="3.9" font-size="10.08">s</tspan><tspan dy="-3.9">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="3.9" font-size="10.08">y</tspan><tspan dy="-3.9">​</tspan> ≤ 0.85<tspan font-style="italic" font-family="'Times New Roman',Times,serif">f</tspan>′<tspan dy="3.9" font-size="10.08">c</tspan><tspan dy="-3.9">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">b</tspan><tspan dy="3.9" font-size="10.08">e</tspan><tspan dy="-3.9">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">t</tspan><tspan dy="3.9" font-size="10.08">s</tspan><tspan dy="-3.9">​</tspan></text><rect x="60" y="80" width="180" height="30" rx="0" fill="#eceff1" stroke="#263238" stroke-width="1.2"/><rect x="120" y="110" width="60" height="8" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><rect x="146" y="118" width="8" height="110" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1"/><rect x="120" y="228" width="60" height="8" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><line x1="50" y1="92" x2="250" y2="92" stroke="#6a1b9a" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 4"/><text x="254" y="97" font-size="14" fill="#6a1b9a" text-anchor="start" font-weight="bold">PNA</text><text x="150" y="266" font-size="14" fill="#263238" text-anchor="middle">混凝土部分受壓</text><text x="440" y="30" font-size="16" fill="#ef6c00" text-anchor="middle" font-weight="bold">② PNA 在上翼板</text><text x="440" y="54" font-size="14" fill="#607d8b" text-anchor="middle">鋼的一部分也受壓</text><rect x="350" y="80" width="180" height="30" rx="0" fill="#eceff1" stroke="#263238" stroke-width="1.2"/><rect x="410" y="110" width="60" height="8" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><rect x="436" y="118" width="8" height="110" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1"/><rect x="410" y="228" width="60" height="8" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><line x1="340" y1="113.6" x2="540" y2="113.6" stroke="#6a1b9a" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 4"/><text x="544" y="118.6" font-size="14" fill="#6a1b9a" text-anchor="start" font-weight="bold">PNA</text><text x="440" y="266" font-size="14" fill="#263238" text-anchor="middle">混凝土全壓＋鋼翼板部分壓</text><text x="730" y="30" font-size="16" fill="#c62828" text-anchor="middle" font-weight="bold">③ PNA 在腹板</text><text x="730" y="54" font-size="14" fill="#607d8b" text-anchor="middle">版很薄、鋼梁很大</text><rect x="640" y="80" width="180" height="30" rx="0" fill="#eceff1" stroke="#263238" stroke-width="1.2"/><rect x="700" y="110" width="60" height="8" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><rect x="726" y="118" width="8" height="110" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1"/><rect x="700" y="228" width="60" height="8" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><line x1="630" y1="128" x2="830" y2="128" stroke="#6a1b9a" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 4"/><text x="834" y="133" font-size="14" fill="#6a1b9a" text-anchor="start" font-weight="bold">PNA</text><text x="730" y="266" font-size="14" fill="#263238" text-anchor="middle">混凝土全壓＋鋼上半壓</text><text x="450" y="290" font-size="15" fill="#6a1b9a" text-anchor="middle" font-weight="bold">判斷方法：比較 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">A</tspan><tspan dy="4.2" font-size="10.8">s</tspan><tspan dy="-4.2">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="4.2" font-size="10.8">y</tspan><tspan dy="-4.2">​</tspan>（鋼全拉）與 0.85<tspan font-style="italic" font-family="'Times New Roman',Times,serif">f</tspan>′<tspan dy="4.2" font-size="10.8">c</tspan><tspan dy="-4.2">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">b</tspan><tspan dy="4.2" font-size="10.8">e</tspan><tspan dy="-4.2">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">t</tspan><tspan dy="4.2" font-size="10.8">s</tspan><tspan dy="-4.2">​</tspan>（版全壓）誰大——SS-2019-2 屬於 ①</text>
+</svg>
+<div class="cap">圖 12-1｜PNA 的三種位置。判斷只要比兩個數：鋼梁全拉 \(A_sF_y\) 與混凝土版全壓 \(0.85f'_cb_et_s\)。鋼較小 ⇒ ①；鋼較大 ⇒ 鋼梁也要分一部分受壓（② 或 ③）。</div>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・\(b_e\to\infty\)：\(a\to0\)，壓力塊貼在版頂，力臂最大 ⇒ \(M_n\to A_sF_y(d/2+t_s)\) ✔<br>
+・\(t_s\to0\)（沒有版）：情況 ③ 一路退化成第 1 章的純鋼梁，\(M_n\to M_p\) ✔<br>
+・第 ③ 步的 \(C_s\) 除以 2：鋼的那一部分「從拉變壓」，一出一進，所以差額只要一半 ✔</div>
+
+<h3>12.3　範例：合成梁正彎矩強度（SS-2019-2）</h3>
+<div class="box"><b>題目（節錄）</b>　版厚 15 cm、\(b_e=2.5\) m、\(f'_c=210\) kgf/cm²＝0.21 tf/cm²；鋼梁 H500×200×10×16、\(F_y=2.5\) tf/cm²；完全合成。求正彎矩標稱強度 \(M_n\)。</div>
+
+<div class="fig" id="fig12_1">
+<svg viewBox="0 0 900 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="合成梁塑性應力分布" style="max-width:900px">
+<rect x="80" y="60" width="300" height="81" rx="0" fill="#eceff1" stroke="#263238" stroke-width="1.4"/><text x="230" y="50" font-size="14" fill="#263238" text-anchor="middle">混凝土版 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">b</tspan><tspan dy="3.9" font-size="10.08">e</tspan><tspan dy="-3.9">​</tspan> = 250 cm（寬度縮小顯示）、<tspan font-style="italic" font-family="'Times New Roman',Times,serif">t</tspan><tspan dy="3.9" font-size="10.08">s</tspan><tspan dy="-3.9">​</tspan> = 15 cm</text><rect x="206" y="141" width="48" height="8.64" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><rect x="227.6" y="149.64" width="4.8" height="252.72" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><rect x="206" y="402.36" width="48" height="8.64" rx="0" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/><text x="270" y="276" font-size="14" fill="#263238" text-anchor="start">H500×200×10×16</text><line x1="60" y1="93.52" x2="750" y2="93.52" stroke="#6a1b9a" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="7 4"/><text x="58" y="111.52" font-size="14" fill="#6a1b9a" text-anchor="start" font-weight="bold">PNA（版內 <tspan font-style="italic" font-family="'Times New Roman',Times,serif">a</tspan> = 6.21 cm）</text><line x1="540" y1="38.4" x2="540" y2="432.6" stroke="#263238" stroke-width="1.3" stroke-linecap="round"/><rect x="470" y="60" width="70" height="33.52" rx="0" fill="#ef9a9a" stroke="#c62828" stroke-width="1.6"/><text x="464" y="81.76" font-size="14" fill="#c62828" text-anchor="end" font-weight="bold">0.85<tspan font-style="italic" font-family="'Times New Roman',Times,serif">f</tspan>′<tspan dy="3.9" font-size="10.08">c</tspan><tspan dy="-3.9">​</tspan></text><rect x="540" y="141" width="70" height="270" rx="0" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1.6"/><text x="575" y="389" font-size="15" fill="#2e7d32" text-anchor="middle" font-weight="bold"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="4.2" font-size="10.8">y</tspan><tspan dy="-4.2">​</tspan></text><line x1="690" y1="76.76" x2="575.5" y2="76.76" stroke="#c62828" stroke-width="2.6" stroke-linecap="round"/><path d="M570,76.76 L579.97,72.11 L576.05,76.76 L579.97,81.41 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><text x="696" y="81.76" font-size="15" fill="#c62828" text-anchor="start" font-weight="bold"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">C</tspan> = 277 tf</text><line x1="570" y1="276" x2="684.5" y2="276" stroke="#2e7d32" stroke-width="2.6" stroke-linecap="round"/><path d="M690,276 L680.03,280.65 L683.95,276 L680.03,271.35 Z" fill="#2e7d32" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><text x="696" y="281" font-size="15" fill="#2e7d32" text-anchor="start" font-weight="bold"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">T</tspan> = <tspan font-style="italic" font-family="'Times New Roman',Times,serif">A</tspan><tspan dy="4.2" font-size="10.8">s</tspan><tspan dy="-4.2">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="4.2" font-size="10.8">y</tspan><tspan dy="-4.2">​</tspan> = 277 tf</text><line x1="660" y1="76.76" x2="660" y2="276" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><line x1="665" y1="76.76" x2="655" y2="76.76" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><line x1="665" y1="276" x2="655" y2="276" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><text x="668" y="181.38" font-size="15" fill="#263238" text-anchor="start" font-weight="bold">36.90 cm</text><rect x="630" y="313.8" width="260" height="72" rx="9" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.6"/><text x="760" y="335.8" font-size="16" fill="#6a1b9a" text-anchor="middle" font-weight="bold"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="4.5" font-size="11.52">n</tspan><tspan dy="-4.5">​</tspan> = 277 × 36.90 = 10220 tf·cm</text><text x="760" y="357.8" font-size="15" fill="#263238" text-anchor="middle">≈ 102.2 tf·m（φ<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="4.2" font-size="10.8">n</tspan><tspan dy="-4.2">​</tspan> = 92.0）</text>
+</svg>
+<div class="cap">圖 12-2｜SS-2019-2 依比例的斷面（版寬縮小顯示）。PNA 在版內 \(a=6.21\) cm；上方 \(0.85f'_c\) 的壓力塊 \(C\)，下方整支鋼梁 \(F_y\) 的拉力 \(T\)，兩者都是 277 tf；力臂 36.90 cm。</div>
+</div>
+
+<div class="derive">
+<p><span class="st">①</span> \(A_s=2\times20\times1.6+46.8\times1.0=110.8\) cm²；\(T_{\max}=110.8\times2.5=277\) tf。</p>
+<p><span class="st">②</span> \(C_{\max}=0.85\times0.21\times250\times15=669.4\) tf \(\gt277\) ⇒ PNA 在版內。</p>
+<p><span class="st">③</span> \(a=\dfrac{277}{0.85\times0.21\times250}=6.21\) cm；力臂 \(=25+15-3.10=36.90\) cm。</p>
+<p><span class="st">④</span> \(M_n=277\times36.90=10{,}220\) tf·cm \(=\) <b>102.2 tf·m</b>（題目問標稱強度；若問設計強度 \(\phi_bM_n=92.0\) tf·m）。</p>
+<p><span class="st">檢</span> 同一支鋼梁單獨的 \(M_p=F_yZ_x=52.4\) tf·m；合成後將近加倍（1.95 倍）——混凝土版把壓力區推到最上面，力臂變長。</p>
+</div>
+<div class="trap"><b>單位</b>：\(f'_c=210\) kgf/cm² ＝ <b>0.21 tf/cm²</b>。用 210 直接代會差 1000 倍。</div>
+<p class="note">鋼梁單獨 \(M_p\) 的估算：H500×200×10×16 的 \(Z_x=20\times1.6\times48.4+1.0\times46.8^2/4=1549+548=2097\) cm³，\(M_p=2.5\times2097=52.4\) tf·m。</p>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜合成梁</div>
+<ol>
+<li><b>畫</b>：版＋鋼梁斷面，右邊畫上方 \(0.85f'_c\) 壓力塊、下方 \(F_y\) 拉力塊</li>
+<li><b>種子</b>：S1（長方形應力塊）＋水平力平衡 \(C=T\)</li>
+<li><b>推</b>：比 \(A_sF_y\) 與 \(0.85f'_cb_et_s\)；版內：\(a=A_sF_y/(0.85f'_cb_e)\)、\(M_n=T(d/2+t_s-a/2)\)；鋼內：\(C_s=(A_sF_y-C_{\max})/2\)</li>
+<li><b>檢查</b>：\(f'_c\) 換成 tf/cm²；合成 \(M_n\) 大約是鋼梁 \(M_p\) 的 1.5～2 倍</li>
+</ol>
+</div>
+
+<h3>12.4　🙈 蓋住重推</h3>
+<details><summary>Q1　怎麼判斷 PNA 在混凝土版內還是鋼梁內？</summary>
+<p>答：比較鋼梁全斷面拉力 \(A_sF_y\) 與混凝土版全斷面壓力 \(0.85f'_cb_et_s\)；前者較小 ⇒ 版內，否則在鋼梁內。</p></details>
+<details><summary>Q2　PNA 在鋼梁內時，鋼的受壓部分為什麼是 \((A_sF_y-C_{\max})/2\)？</summary>
+<p>答：設鋼受壓部分力 \(C_s\)，則鋼受拉部分 \(=A_sF_y-C_s\)；平衡 \(C_{\max}+C_s=A_sF_y-C_s\) ⇒ \(C_s=(A_sF_y-C_{\max})/2\)。</p></details>
+
+<h3>12.5　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>沒先比較兩個最大力就假設 PNA 位置</td><td>先比 \(A_sF_y\) 與 \(0.85f'_cb_et_s\)</td></tr>
+<tr><td>2</td><td>\(f'_c\) 用 kgf/cm² 代</td><td>換成 tf/cm²</td></tr>
+<tr><td>3</td><td>混凝土受拉也算</td><td>混凝土只算受壓</td></tr>
+<tr><td>4</td><td>力臂用版厚中心</td><td>壓力塊中心在 \(a/2\)，不是 \(t_s/2\)</td></tr>
+<tr><td>5</td><td>問標稱卻乘 \(\phi\)</td><td>SS-2019-2 問 \(M_n\)，不乘</td></tr>
+</table>
+</section>
+<section id="ch13">
+<h2>第 13 章　塑性分析（精簡）：虛功法與崩塌機構</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$W_{\text{外}}=W_{\text{內}}:\ \sum P_i\delta_i=\sum M_p\theta_j;\qquad \text{一端固定一端簡支均佈：}\ w_u=\frac{(6+4\sqrt2)M_p}{L^2}=\frac{11.66\,M_p}{L^2}$$
+要記的只有 <span class="kw">種子 S1</span>（\(M_p\) 就是塑鉸能撐的彎矩）與<b>能量守恆</b>。本章依計畫精簡；完整的塑性分析在 SS-U2-1。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>虛功法 \(\sum P\delta=\sum M_p\theta\)；塑鉸數 \(=n+1\)</td><td><span class="tg must">必背</span></td><td>13.1</td></tr>
+<tr><td>一端固定一端簡支 \(w_u=11.66M_p/L^2\)，塑鉸距簡支端 \((\sqrt2-1)L\)</td><td><span class="tg must">必背</span></td><td>13.2</td></tr>
+</table>
+<p class="note">證據：兩條都從未印過。<a href="problems-view/SS-2005-4.html">SS-2005-4</a>（T 型梁）與 <a href="problems-view/SS-2020-2.html">SS-2020-2</a>（非對稱 H）都是「U2-1 主考點、本單元副考點」，兩題都要先用第 1 章算非對稱斷面的 \(M_p\)，再做崩塌分析。</p>
+</div>
+
+<h3>13.1　虛功法：外力做的功＝塑鉸吸收的功</h3>
+<div class="derive">
+<p><span class="st">①</span> 斷面到 \(M_p\) 就變成「塑鉸」：彎矩不再增加，但可以繼續轉。</p>
+<p><span class="st">②</span> 靜不定度 \(n\) 的結構，要 \(n+1\) 個塑鉸才會變成可以動的機構（崩塌）。</p>
+<p><span class="st">③</span> 給機構一個小小的虛位移：外力做功 \(\sum P_i\delta_i\)＝每個塑鉸 \(M_p\times\)轉角 \(\theta_j\) 的總和。由此解出崩塌載重。</p>
+<p><span class="st">④</span> 塑鉸位置未知時設為 \(x\)，<b>對 \(x\) 取最小</b>：真正的崩塌發生在最小的那個載重（上限定理）。</p>
+</div>
+
+<h3>13.2　一端固定一端簡支：11.66 從哪來</h3>
+<div class="fig" id="fig13_1">
+<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="崩塌機構" style="max-width:900px">
+<text x="270" y="30" font-size="16" fill="#263238" text-anchor="middle" font-weight="bold">崩塌機構（虛位移）</text><line x1="70" y1="80" x2="70" y2="160" stroke="#263238" stroke-width="3" stroke-linecap="round"/><line x1="70" y1="84" x2="62" y2="92" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="70" y1="96" x2="62" y2="104" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="70" y1="108" x2="62" y2="116" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="70" y1="120" x2="62" y2="128" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="70" y1="132" x2="62" y2="140" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="70" y1="144" x2="62" y2="152" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="70" y1="156" x2="62" y2="164" stroke="#263238" stroke-width="1" stroke-linecap="round"/><path d="M470,124 L459,140.5 L481,140.5 Z" fill="#fff" stroke="#263238" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><line x1="452.4" y1="140.5" x2="487.6" y2="140.5" stroke="#263238" stroke-width="1.5" stroke-linecap="round"/><line x1="452.4" y1="140.5" x2="446.4" y2="147.5" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="459.44" y1="140.5" x2="453.44" y2="147.5" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="466.48" y1="140.5" x2="460.48" y2="147.5" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="473.52" y1="140.5" x2="467.52" y2="147.5" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="480.56" y1="140.5" x2="474.56" y2="147.5" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="487.6" y1="140.5" x2="481.6" y2="147.5" stroke="#263238" stroke-width="1" stroke-linecap="round"/><line x1="86" y1="74" x2="86" y2="108.5" stroke="#c62828" stroke-width="1.4" stroke-linecap="round"/><path d="M86,112 L83.04,105.66 L86,108.15 L88.96,105.66 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="119.45" y1="74" x2="119.45" y2="108.5" stroke="#c62828" stroke-width="1.4" stroke-linecap="round"/><path d="M119.45,112 L116.5,105.66 L119.45,108.15 L122.41,105.66 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="152.91" y1="74" x2="152.91" y2="108.5" stroke="#c62828" stroke-width="1.4" stroke-linecap="round"/><path d="M152.91,112 L149.95,105.66 L152.91,108.15 L155.87,105.66 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="186.36" y1="74" x2="186.36" y2="108.5" stroke="#c62828" stroke-width="1.4" stroke-linecap="round"/><path d="M186.36,112 L183.41,105.66 L186.36,108.15 L189.32,105.66 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="219.82" y1="74" x2="219.82" y2="108.5" stroke="#c62828" stroke-width="1.4" stroke-linecap="round"/><path d="M219.82,112 L216.86,105.66 L219.82,108.15 L222.78,105.66 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="253.27" y1="74" x2="253.27" y2="108.5" stroke="#c62828" stroke-width="1.4" stroke-linecap="round"/><path d="M253.27,112 L250.31,105.66 L253.27,108.15 L256.23,105.66 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="286.73" y1="74" x2="286.73" y2="108.5" stroke="#c62828" stroke-width="1.4" stroke-linecap="round"/><path d="M286.73,112 L283.77,105.66 L286.73,108.15 L289.69,105.66 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="320.18" y1="74" x2="320.18" y2="108.5" stroke="#c62828" stroke-width="1.4" stroke-linecap="round"/><path d="M320.18,112 L317.22,105.66 L320.18,108.15 L323.14,105.66 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="353.64" y1="74" x2="353.64" y2="108.5" stroke="#c62828" stroke-width="1.4" stroke-linecap="round"/><path d="M353.64,112 L350.68,105.66 L353.64,108.15 L356.59,105.66 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="387.09" y1="74" x2="387.09" y2="108.5" stroke="#c62828" stroke-width="1.4" stroke-linecap="round"/><path d="M387.09,112 L384.13,105.66 L387.09,108.15 L390.05,105.66 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="420.55" y1="74" x2="420.55" y2="108.5" stroke="#c62828" stroke-width="1.4" stroke-linecap="round"/><path d="M420.55,112 L417.59,105.66 L420.55,108.15 L423.5,105.66 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="454" y1="74" x2="454" y2="108.5" stroke="#c62828" stroke-width="1.4" stroke-linecap="round"/><path d="M454,112 L451.04,105.66 L454,108.15 L456.96,105.66 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><text x="270" y="66" font-size="16" fill="#c62828" text-anchor="middle" font-weight="bold"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">w</tspan><tspan dy="4.5" font-size="11.52">u</tspan><tspan dy="-4.5">​</tspan></text><line x1="70" y1="120" x2="470" y2="120" stroke="#607d8b" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="5 4"/><path d="M70,120 L304.31,190 L470,120" fill="none" stroke="#6a1b9a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="70" cy="120" r="7" fill="#fff" stroke="#6a1b9a" stroke-width="2.4"/><circle cx="304.31" cy="190" r="7" fill="#fff" stroke="#6a1b9a" stroke-width="2.4"/><text x="82" y="146" font-size="14" fill="#6a1b9a" text-anchor="start" font-weight="bold">塑鉸 1</text><text x="304.31" y="218" font-size="14" fill="#6a1b9a" text-anchor="middle" font-weight="bold">塑鉸 2</text><line x1="70" y1="240" x2="304.31" y2="240" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><line x1="70" y1="235" x2="70" y2="245" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><line x1="304.31" y1="235" x2="304.31" y2="245" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><text x="187.16" y="256.9" font-size="14" fill="#263238" text-anchor="middle">ξ<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan> = 0.586<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan></text><line x1="304.31" y1="240" x2="470" y2="240" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><line x1="304.31" y1="235" x2="304.31" y2="245" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><line x1="470" y1="235" x2="470" y2="245" stroke="#263238" stroke-width="1.1" stroke-linecap="round"/><text x="387.16" y="256.9" font-size="14" fill="#263238" text-anchor="middle">0.414<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan></text><text x="270" y="290" font-size="14" fill="#263238" text-anchor="middle">外功 = <tspan font-style="italic" font-family="'Times New Roman',Times,serif">w</tspan><tspan dy="3.9" font-size="10.08">u</tspan><tspan dy="-3.9">​</tspan>×(三角形面積)；內功 = <tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="3.9" font-size="10.08">p</tspan><tspan dy="-3.9">​</tspan>×(各塑鉸轉角)</text><line x1="601.43" y1="50" x2="601.43" y2="310" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="684.29" y1="50" x2="684.29" y2="310" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="719.83" y1="50" x2="719.83" y2="310" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="808.57" y1="50" x2="808.57" y2="310" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="310" x2="850" y2="310" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="258" x2="850" y2="258" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="206" x2="850" y2="206" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="154" x2="850" y2="154" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="102" x2="850" y2="102" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="50" x2="850" y2="50" stroke="#e3e8eb" stroke-width="1" stroke-linecap="round"/><line x1="560" y1="310" x2="859.5" y2="310" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M864,310 L855.84,313.8 L859.05,310 L855.84,306.2 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="560" y1="310" x2="560" y2="40.5" stroke="#263238" stroke-width="1.6" stroke-linecap="round"/><path d="M560,36 L563.8,44.16 L560,40.95 L556.2,44.16 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="601.43" y1="310" x2="601.43" y2="315" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="601.43" y="330" font-size="14" fill="#607d8b" text-anchor="middle">0.3</text><line x1="684.29" y1="310" x2="684.29" y2="315" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="684.29" y="330" font-size="14" fill="#607d8b" text-anchor="middle">0.5</text><line x1="719.83" y1="310" x2="719.83" y2="315" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="719.83" y="330" font-size="14" fill="#607d8b" text-anchor="middle">0.586</text><line x1="808.57" y1="310" x2="808.57" y2="315" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="808.57" y="330" font-size="14" fill="#607d8b" text-anchor="middle">0.8</text><line x1="555" y1="310" x2="560" y2="310" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="314.5" font-size="14" fill="#607d8b" text-anchor="end">10</text><line x1="555" y1="258" x2="560" y2="258" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="262.5" font-size="14" fill="#607d8b" text-anchor="end">12</text><line x1="555" y1="206" x2="560" y2="206" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="210.5" font-size="14" fill="#607d8b" text-anchor="end">14</text><line x1="555" y1="154" x2="560" y2="154" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="158.5" font-size="14" fill="#607d8b" text-anchor="end">16</text><line x1="555" y1="102" x2="560" y2="102" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="106.5" font-size="14" fill="#607d8b" text-anchor="end">18</text><line x1="555" y1="50" x2="560" y2="50" stroke="#263238" stroke-width="1.2" stroke-linecap="round"/><text x="551" y="54.5" font-size="14" fill="#607d8b" text-anchor="end">20</text><text x="868" y="315" font-size="16" fill="#263238" text-anchor="start">ξ</text><text x="560" y="28" font-size="16" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">w</tspan><tspan dy="4.5" font-size="11.52">u</tspan><tspan dy="-4.5">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan><tspan dy="-6.1" font-size="11.52">2</tspan><tspan dy="6.1">​</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="4.5" font-size="11.52">p</tspan><tspan dy="-4.5">​</tspan></text><path d="M572.47,50.48 L573.57,55.42 L574.68,60.25 L575.78,64.95 L576.89,69.55 L577.99,74.04 L579.1,78.42 L580.2,82.71 L581.31,86.9 L582.41,90.99 L583.51,94.99 L584.62,98.9 L585.72,102.72 L586.83,106.46 L587.93,110.12 L589.04,113.7 L590.14,117.2 L591.25,120.63 L592.35,123.98 L593.45,127.27 L594.56,130.48 L595.66,133.63 L596.77,136.71 L597.87,139.73 L598.98,142.69 L600.08,145.59 L601.18,148.43 L602.29,151.21 L603.39,153.94 L604.5,156.61 L605.6,159.23 L606.71,161.79 L607.81,164.31 L608.92,166.78 L610.02,169.19 L611.12,171.57 L612.23,173.89 L613.33,176.17 L614.44,178.41 L615.54,180.6 L616.65,182.75 L617.75,184.86 L618.86,186.93 L619.96,188.96 L621.06,190.95 L622.17,192.9 L623.27,194.82 L624.38,196.7 L625.48,198.54 L626.59,200.35 L627.69,202.12 L628.8,203.87 L629.9,205.57 L631,207.25 L632.11,208.89 L633.21,210.5 L634.32,212.09 L635.42,213.64 L636.53,215.16 L637.63,216.65 L638.74,218.11 L639.84,219.55 L640.94,220.96 L642.05,222.34 L643.15,223.69 L644.26,225.02 L645.36,226.32 L646.47,227.6 L647.57,228.85 L648.67,230.07 L649.78,231.28 L650.88,232.45 L651.99,233.61 L653.09,234.74 L654.2,235.84 L655.3,236.93 L656.41,237.99 L657.51,239.03 L658.61,240.04 L659.72,241.04 L660.82,242.01 L661.93,242.96 L663.03,243.9 L664.14,244.81 L665.24,245.7 L666.35,246.57 L667.45,247.42 L668.55,248.25 L669.66,249.06 L670.76,249.85 L671.87,250.62 L672.97,251.37 L674.08,252.1 L675.18,252.82 L676.29,253.51 L677.39,254.19 L678.49,254.85 L679.6,255.49 L680.7,256.11 L681.81,256.71 L682.91,257.3 L684.02,257.86 L685.12,258.41 L686.22,258.95 L687.33,259.46 L688.43,259.96 L689.54,260.44 L690.64,260.9 L691.75,261.35 L692.85,261.77 L693.96,262.18 L695.06,262.58 L696.16,262.95 L697.27,263.31 L698.37,263.66 L699.48,263.98 L700.58,264.29 L701.69,264.58 L702.79,264.86 L703.9,265.11 L705,265.35 L706.1,265.58 L707.21,265.78 L708.31,265.97 L709.42,266.15 L710.52,266.3 L711.63,266.44 L712.73,266.56 L713.84,266.66 L714.94,266.75 L716.04,266.82 L717.15,266.87 L718.25,266.9 L719.36,266.92 L720.46,266.92 L721.57,266.9 L722.67,266.86 L723.78,266.81 L724.88,266.73 L725.98,266.64 L727.09,266.53 L728.19,266.4 L729.3,266.26 L730.4,266.09 L731.51,265.91 L732.61,265.7 L733.71,265.48 L734.82,265.23 L735.92,264.97 L737.03,264.69 L738.13,264.38 L739.24,264.06 L740.34,263.71 L741.45,263.35 L742.55,262.96 L743.65,262.55 L744.76,262.12 L745.86,261.67 L746.97,261.19 L748.07,260.7 L749.18,260.17 L750.28,259.63 L751.39,259.06 L752.49,258.47 L753.59,257.85 L754.7,257.21 L755.8,256.54 L756.91,255.85 L758.01,255.13 L759.12,254.38 L760.22,253.61 L761.33,252.8 L762.43,251.97 L763.53,251.11 L764.64,250.22 L765.74,249.31 L766.85,248.35 L767.95,247.37 L769.06,246.36 L770.16,245.31 L771.26,244.23 L772.37,243.12 L773.47,241.97 L774.58,240.78 L775.68,239.56 L776.79,238.3 L777.89,237 L779,235.66 L780.1,234.28 L781.2,232.85 L782.31,231.39 L783.41,229.88 L784.52,228.32 L785.62,226.72 L786.73,225.07 L787.83,223.37 L788.94,221.62 L790.04,219.82 L791.14,217.97 L792.25,216.06 L793.35,214.09 L794.46,212.06 L795.56,209.97 L796.67,207.82 L797.77,205.6 L798.88,203.32 L799.98,200.97 L801.08,198.54 L802.19,196.04 L803.29,193.47 L804.4,190.81 L805.5,188.07 L806.61,185.25 L807.71,182.33 L808.82,179.33 L809.92,176.23 L811.02,173.02 L812.13,169.72 L813.23,166.3 L814.34,162.78 L815.44,159.13 L816.55,155.37 L817.65,151.47 L818.75,147.44 L819.86,143.27 L820.96,138.96 L822.07,134.49 L823.17,129.87 L824.28,125.07 L825.38,120.1 L826.49,114.95 L827.59,109.6 L828.69,104.04 L829.8,98.27 L830.9,92.27 L832.01,86.04 L833.11,79.55 L834.22,72.79 L835.32,65.75 L836.43,58.41 L837.53,50.75" fill="none" stroke="#1565c0" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="719.83" cy="266.92" r="7" fill="#6a1b9a" stroke="#fff" stroke-width="1.6"/><text x="729.83" y="292.92" font-size="15" fill="#6a1b9a" text-anchor="start" font-weight="bold">最小 11.66</text><text x="705" y="70.8" font-size="14" fill="#1565c0" text-anchor="middle" font-weight="bold">真正的崩塌：取最小</text>
+</svg>
+<div class="cap">圖 13-1｜左：均佈載重下，固定端一個塑鉸、跨內一個塑鉸（距固定端 \(\xi L\)），簡支端不需要塑鉸（那裡彎矩本來就是 0）。右：崩塌載重 \(w_uL^2/M_p\) 隨 \(\xi\) 變化，最小值 11.66 出現在 \(\xi=2-\sqrt2=0.586\)，即距簡支端 \((\sqrt2-1)L=0.414L\)。</div>
+</div>
+<div class="derive">
+<p><span class="st">①</span> 跨內塑鉸下沉 \(\delta\)：固定端轉角 \(\theta_A=\delta/x\)；跨內塑鉸轉角 \(\delta/x+\delta/(L-x)\)。</p>
+<p><span class="st">②</span> 外功：\(w_u\times\)（變形三角形面積）\(=w_u\dfrac{L\delta}{2}\)。內功：\(M_p\left[\dfrac{\delta}{x}+\dfrac{\delta}{x}+\dfrac{\delta}{L-x}\right]\)。</p>
+<p><span class="st">③</span> 相等：\(w_u=\dfrac{2M_p}{L}\left(\dfrac2x+\dfrac1{L-x}\right)=\dfrac{2M_p(2L-x)}{Lx(L-x)}\)。</p>
+<p><span class="st">④</span> \(dw_u/dx=0\)：\(x^2-4Lx+2L^2=0\) ⇒ \(x=(2-\sqrt2)L\)；代回 \(\boxed{w_u=\dfrac{(6+4\sqrt2)M_p}{L^2}=\dfrac{11.66M_p}{L^2}}\)。</p>
+</div>
+<div class="check"><b>極限檢查（兩個好記的錨點）</b><br>
+・簡支（靜定，1 個塑鉸在跨中）：\(w_u=8M_p/L^2\)（就是 \(wL^2/8=M_p\)）<br>
+・兩端固定（兩端＋跨中 3 個塑鉸）：\(w_u=16M_p/L^2\)<br>
+・一端固定一端簡支介於兩者之間：<b>11.66</b> ✔（記法：「8 和 16 中間偏下」）</div>
+
+<h3>13.3　範例</h3>
+<div class="derive">
+<p><span class="st">2005-4</span> T 型梁（翼板 40×2.6、全深 24、腹板厚 2.4 cm，\(F_y=2.5\)），\(L=6\) m，一端固定一端簡支。第 1 章等面積法：PNA 距翼板頂 1.942 cm，\(Z=667.4\) cm³，\(M_p=1668.6\) tf·cm；\(w_u=11.657\times1668.6/600^2=0.0540\) tf/cm \(=\) <b>5.40 tf/m</b>。</p>
+<p><span class="st">2020-2</span> 非對稱 H（上翼 30×2.5、腹板 55×1.5、下翼 20×2.5 cm，全深 60），\(L=8\) m：PNA 距下緣 21.67 cm，\(Z_x=4624\) cm³，\(M_p=11{,}560\) tf·cm；\(w_u=11.657\times11560/800^2=\) <b>21.06 tf/m</b>，塑鉸距滾支端 \(0.414\times8=3.31\) m。</p>
+</div>
+<div class="trap"><b>兩題共同的陷阱都在第 1 章</b>：全深與腹板淨高的判讀（2005-4 的 24 cm 是全深；2020-2 的 600 mm 是全深）。讀錯就差 20%——崩塌分析本身反而簡單。<br>
+另外「因數化載重 \(w_u\)」是由 \(M_p\) 直接求得的崩塌載重，<b>不再乘 \(\phi\)</b>（除非題目要求）。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜虛功法</div>
+<ol>
+<li><b>畫</b>：崩塌機構——\(n+1\) 個塑鉸（小圓），給一個下沉 \(\delta\)</li>
+<li><b>種子</b>：S1（塑鉸撐 \(M_p\)）＋能量守恆</li>
+<li><b>推</b>：外功＝載重×變形面積；內功＝\(\sum M_p\theta\)；位置未知設 \(x\) 取最小</li>
+<li><b>檢查</b>：簡支 8、兩端固定 16、一固一簡 11.66</li>
+</ol>
+</div>
+
+<h3>13.4　🙈 蓋住重推</h3>
+<details><summary>Q1　一端固定一端簡支、均佈載重，為什麼跨內塑鉸不在跨中？</summary>
+<p>答：固定端也有一個塑鉸吸收能量，使最不利的機構偏向簡支端；對 \(x\) 取最小得距簡支端 \((\sqrt2-1)L=0.414L\)。</p></details>
+<details><summary>Q2　為什麼塑性分析要「取最小」？</summary>
+<p>答：任何假設的機構都給出崩塌載重的上限；真正的崩塌載重是所有可能機構中的最小值。</p></details>
+
+<h3>13.5　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>簡支端也放塑鉸</td><td>簡支端彎矩為 0，不形成塑鉸、不吸能</td></tr>
+<tr><td>2</td><td>跨內塑鉸直接放跨中</td><td>設 \(x\)、取最小（0.414\(L\) 距簡支端）</td></tr>
+<tr><td>3</td><td>非對稱斷面用 \(S\) 或 ENA 算 \(M_p\)</td><td>第 1 章：PNA 等面積、\(M_p=F_yZ\)</td></tr>
+<tr><td>4</td><td>\(w_u\) 再乘 0.9</td><td>題目問崩塌（因數化）載重就不乘</td></tr>
+</table>
+</section>
+<section id="ch14">
+<h2 class="k">第 14 章　下冊總整理：三條檢核線、一頁公式卡、五道題</h2>
+
+<div class="lead">
+<b>這一章把下冊收成考場上用得到的三樣：</b>① 整根梁「強度、剪力、撓度」三條線的<b>檢核流程</b>；② 下冊<b>公式卡</b>；③ <b>精選 5 題</b>與一題<b>綜合重建練習</b>。最後附全單元的三天讀書順序。
+</div>
+
+<h3 class="k">14.1　下冊的種子</h3>
+<div class="fig" id="fig14_2">
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="下冊種子樹" style="max-width:900px">
+<rect x="14" y="30" width="166" height="52" rx="12" fill="#fff" stroke="#ef6c00" stroke-width="2.4"/><rect x="14" y="30" width="166" height="30" rx="12" fill="#ef6c00"/><rect x="14" y="48" width="166" height="12" rx="0" fill="#ef6c00"/><text x="97" y="52" font-size="15" fill="#fff" text-anchor="middle" font-weight="bold">S6　0.6<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="4.2" font-size="10.8">y</tspan><tspan dy="-4.2">​</tspan></text><line x1="97" y1="86" x2="97" y2="111.5" stroke="#ef6c00" stroke-width="2" stroke-linecap="round"/><path d="M97,116 L93.2,107.84 L97,111.05 L100.8,107.84 Z" fill="#ef6c00" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><rect x="14" y="120" width="166" height="90" rx="8" fill="#fafafa" stroke="#90a4ae" stroke-width="1.2"/><text x="97" y="152" font-size="14" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">V</tspan><tspan dy="3.9" font-size="10.08">n</tspan><tspan dy="-3.9">​</tspan> = 0.6<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="3.9" font-size="10.08">y</tspan><tspan dy="-3.9">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">A</tspan><tspan dy="3.9" font-size="10.08">w</tspan><tspan dy="-3.9">​</tspan></text><text x="97" y="182" font-size="14" fill="#263238" text-anchor="middle">銲道 0.6<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="3.9" font-size="10.08">EXX</tspan><tspan dy="-3.9">​</tspan></text><rect x="190" y="30" width="166" height="52" rx="12" fill="#fff" stroke="#c62828" stroke-width="2.4"/><rect x="190" y="30" width="166" height="30" rx="12" fill="#c62828"/><rect x="190" y="48" width="166" height="12" rx="0" fill="#c62828"/><text x="273" y="52" font-size="15" fill="#fff" text-anchor="middle" font-weight="bold">S2　板會推歪</text><line x1="273" y1="86" x2="273" y2="111.5" stroke="#c62828" stroke-width="2" stroke-linecap="round"/><path d="M273,116 L269.2,107.84 L273,111.05 L276.8,107.84 Z" fill="#c62828" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><rect x="190" y="120" width="166" height="90" rx="8" fill="#fafafa" stroke="#90a4ae" stroke-width="1.2"/><text x="273" y="152" font-size="14" fill="#263238" text-anchor="middle">τ<tspan dy="3.9" font-size="10.08">cr</tspan><tspan dy="-3.9">​</tspan> ≈ 1860<tspan font-style="italic" font-family="'Times New Roman',Times,serif">k</tspan><tspan dy="3.9" font-size="10.08">v</tspan><tspan dy="-3.9">​</tspan>/λ<tspan dy="-5.3" font-size="10.08">2</tspan><tspan dy="5.3">​</tspan></text><text x="273" y="182" font-size="14" fill="#263238" text-anchor="middle">50、62、<tspan font-style="italic" font-family="'Times New Roman',Times,serif">k</tspan><tspan dy="3.9" font-size="10.08">v</tspan><tspan dy="-3.9">​</tspan></text><rect x="366" y="30" width="166" height="52" rx="12" fill="#fff" stroke="#ef6c00" stroke-width="2.4"/><rect x="366" y="30" width="166" height="30" rx="12" fill="#ef6c00"/><rect x="366" y="48" width="166" height="12" rx="0" fill="#ef6c00"/><text x="449" y="52" font-size="15" fill="#fff" text-anchor="middle" font-weight="bold">S7　切一刀平衡</text><line x1="449" y1="86" x2="449" y2="111.5" stroke="#ef6c00" stroke-width="2" stroke-linecap="round"/><path d="M449,116 L445.2,107.84 L449,111.05 L452.8,107.84 Z" fill="#ef6c00" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><rect x="366" y="120" width="166" height="90" rx="8" fill="#fafafa" stroke="#90a4ae" stroke-width="1.2"/><text x="449" y="152" font-size="14" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">q</tspan> = <tspan font-style="italic" font-family="'Times New Roman',Times,serif">VQ</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">I</tspan></text><text x="449" y="182" font-size="14" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">q</tspan>·<tspan font-style="italic" font-family="'Times New Roman',Times,serif">s</tspan> ≤ 接合強度</text><rect x="542" y="30" width="166" height="52" rx="12" fill="#fff" stroke="#1565c0" stroke-width="2.4"/><rect x="542" y="30" width="166" height="30" rx="12" fill="#1565c0"/><rect x="542" y="48" width="166" height="12" rx="0" fill="#1565c0"/><text x="625" y="52" font-size="15" fill="#fff" text-anchor="middle" font-weight="bold">S8　曲率積分</text><line x1="625" y1="86" x2="625" y2="111.5" stroke="#1565c0" stroke-width="2" stroke-linecap="round"/><path d="M625,116 L621.2,107.84 L625,111.05 L628.8,107.84 Z" fill="#1565c0" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><rect x="542" y="120" width="166" height="90" rx="8" fill="#fafafa" stroke="#90a4ae" stroke-width="1.2"/><text x="625" y="152" font-size="14" fill="#263238" text-anchor="middle">5/384、1/48、23/648</text><text x="625" y="182" font-size="14" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan>/360</text><rect x="718" y="30" width="166" height="52" rx="12" fill="#fff" stroke="#2e7d32" stroke-width="2.4"/><rect x="718" y="30" width="166" height="30" rx="12" fill="#2e7d32"/><rect x="718" y="48" width="166" height="12" rx="0" fill="#2e7d32"/><text x="801" y="52" font-size="15" fill="#fff" text-anchor="middle" font-weight="bold">S1　應力塊</text><line x1="801" y1="86" x2="801" y2="111.5" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/><path d="M801,116 L797.2,107.84 L801,111.05 L804.8,107.84 Z" fill="#2e7d32" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><rect x="718" y="120" width="166" height="90" rx="8" fill="#fafafa" stroke="#90a4ae" stroke-width="1.2"/><text x="801" y="152" font-size="14" fill="#263238" text-anchor="middle">1.5<tspan font-style="italic" font-family="'Times New Roman',Times,serif">F</tspan><tspan dy="3.9" font-size="10.08">y</tspan><tspan dy="-3.9">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">S</tspan><tspan dy="3.9" font-size="10.08">y</tspan><tspan dy="-3.9">​</tspan>、合成梁</text><text x="801" y="182" font-size="14" fill="#263238" text-anchor="middle">虛功 11.66</text><text x="450" y="252" font-size="15" fill="#6a1b9a" text-anchor="middle" font-weight="bold">數字小卡（下冊）：φ<tspan dy="4.2" font-size="10.8">v</tspan><tspan dy="-4.2">​</tspan> = 0.90、<tspan font-style="italic" font-family="'Times New Roman',Times,serif">k</tspan><tspan dy="4.2" font-size="10.8">v</tspan><tspan dy="-4.2">​</tspan> = 5 + 5/(<tspan font-style="italic" font-family="'Times New Roman',Times,serif">a</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">h</tspan>)<tspan dy="-5.7" font-size="10.8">2</tspan><tspan dy="5.7">​</tspan>、<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan>/360、0.85<tspan font-style="italic" font-family="'Times New Roman',Times,serif">f</tspan>′<tspan dy="4.2" font-size="10.8">c</tspan><tspan dy="-4.2">​</tspan>、8／11.66／16</text><text x="450" y="282" font-size="15" fill="#263238" text-anchor="middle">下冊新增 3 顆種子（S6、S7、S8），其餘沿用上冊</text>
+</svg>
+<div class="cap">圖 14-1｜下冊新增三顆種子：S6（純剪 0.6）、S7（剪力流＝切一刀的平衡）、S8（撓度＝曲率積分）；S1、S2 從上冊沿用到弱軸、合成梁、塑性分析與剪力挫屈。</div>
+</div>
+
+<h3 class="k">14.2　整梁設計：三條線並行</h3>
+<div class="fig" id="fig14_1">
+<svg viewBox="0 0 900 530" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="整梁三線檢核" style="max-width:900px">
+<rect x="240" y="15" width="420" height="50" rx="10" fill="#fafafa" stroke="#263238" stroke-width="2"/><text x="450" y="45" font-size="15" fill="#263238" text-anchor="middle" font-weight="bold">載重組合：<tspan font-style="italic" font-family="'Times New Roman',Times,serif">w</tspan><tspan dy="4.2" font-size="10.8">u</tspan><tspan dy="-4.2">​</tspan> = 1.2<tspan font-style="italic" font-family="'Times New Roman',Times,serif">D</tspan> + 1.6<tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan> → <tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="4.2" font-size="10.8">u</tspan><tspan dy="-4.2">​</tspan>、<tspan font-style="italic" font-family="'Times New Roman',Times,serif">V</tspan><tspan dy="4.2" font-size="10.8">u</tspan><tspan dy="-4.2">​</tspan></text><path d="M450,65 L450,90 L150,90 L150,118" fill="none" stroke="#263238" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M150,122 L145.77,112.94 L150,116.5 L154.23,112.94 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><rect x="15" y="126" width="270" height="190" rx="12" fill="#ffebee" stroke="#c62828" stroke-width="2"/><text x="150" y="156" font-size="17" fill="#c62828" text-anchor="middle" font-weight="bold">① 強度</text><text x="150" y="190" font-size="14" fill="#263238" text-anchor="middle">上冊流程圖（第 7 章）</text><text x="150" y="218" font-size="14" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="3.9" font-size="10.08">u</tspan><tspan dy="-3.9">​</tspan> ≤ φ<tspan dy="3.9" font-size="10.08">b</tspan><tspan dy="-3.9">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">M</tspan><tspan dy="3.9" font-size="10.08">n</tspan><tspan dy="-3.9">​</tspan></text><text x="150" y="246" font-size="14" fill="#263238" text-anchor="middle">弱軸／雙軸：第 11 章</text><text x="150" y="274" font-size="14" fill="#263238" text-anchor="middle">合成梁：第 12 章</text><path d="M150,316 L150,346 L450,346 L450,360" fill="none" stroke="#263238" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M450,65 L450,90 L450,90 L450,118" fill="none" stroke="#263238" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M450,122 L445.77,112.94 L450,116.5 L454.23,112.94 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><rect x="315" y="126" width="270" height="190" rx="12" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/><text x="450" y="156" font-size="17" fill="#ef6c00" text-anchor="middle" font-weight="bold">② 剪力</text><text x="450" y="190" font-size="14" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">V</tspan><tspan dy="3.9" font-size="10.08">u</tspan><tspan dy="-3.9">​</tspan> ≤ φ<tspan dy="3.9" font-size="10.08">v</tspan><tspan dy="-3.9">​</tspan><tspan font-style="italic" font-family="'Times New Roman',Times,serif">V</tspan><tspan dy="3.9" font-size="10.08">n</tspan><tspan dy="-3.9">​</tspan></text><text x="450" y="218" font-size="14" fill="#263238" text-anchor="middle"><tspan font-style="italic" font-family="'Times New Roman',Times,serif">h</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">t</tspan><tspan dy="3.9" font-size="10.08">w</tspan><tspan dy="-3.9">​</tspan> 判三段（第 8 章）</text><text x="450" y="246" font-size="14" fill="#263238" text-anchor="middle">接合：<tspan font-style="italic" font-family="'Times New Roman',Times,serif">q</tspan> = <tspan font-style="italic" font-family="'Times New Roman',Times,serif">VQ</tspan>/<tspan font-style="italic" font-family="'Times New Roman',Times,serif">I</tspan>（第 9 章）</text><text x="450" y="274" font-size="14" fill="#263238" text-anchor="middle"></text><path d="M450,316 L450,346 L450,346 L450,360" fill="none" stroke="#263238" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M450,65 L450,90 L750,90 L750,118" fill="none" stroke="#263238" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M750,122 L745.77,112.94 L750,116.5 L754.23,112.94 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><rect x="615" y="126" width="270" height="190" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/><text x="750" y="156" font-size="17" fill="#1565c0" text-anchor="middle" font-weight="bold">③ 撓度</text><text x="750" y="190" font-size="14" fill="#263238" text-anchor="middle">工作載重、只用活載</text><text x="750" y="218" font-size="14" fill="#263238" text-anchor="middle">δ<tspan dy="3.9" font-size="10.08">L</tspan><tspan dy="-3.9">​</tspan> ≤ <tspan font-style="italic" font-family="'Times New Roman',Times,serif">L</tspan>/360</text><text x="750" y="246" font-size="14" fill="#263238" text-anchor="middle">5/384、1/48、23/648</text><text x="750" y="274" font-size="14" fill="#263238" text-anchor="middle">（第 10 章）</text><path d="M750,316 L750,346 L450,346 L450,360" fill="none" stroke="#263238" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M450,364 L445.77,354.94 L450,358.5 L454.23,354.94 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><path d="M450,368 L620,410 L450,452 L280,410 Z" fill="#fff3e0" stroke="#ef6c00" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><text x="450" y="415" font-size="15" fill="#263238" text-anchor="middle" font-weight="bold">三條都 ≤ 1.0？</text><line x1="620" y1="410" x2="695" y2="410" stroke="#263238" stroke-width="2" stroke-linecap="round"/><path d="M700,410 L690.94,414.23 L694.5,410 L690.94,405.77 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><text x="646" y="400" font-size="15" fill="#c62828" text-anchor="middle" font-weight="bold">否</text><rect x="705" y="382" width="170" height="56" rx="10" fill="#ffebee" stroke="#c62828" stroke-width="2"/><text x="790" y="415" font-size="14" fill="#263238" text-anchor="middle" font-weight="bold">換斷面、加自重重算</text><line x1="450" y1="452" x2="450" y2="473" stroke="#263238" stroke-width="2" stroke-linecap="round"/><path d="M450,478 L445.77,468.94 L450,472.5 L454.23,468.94 Z" fill="#263238" stroke="none" stroke-linejoin="round" stroke-linecap="round"/><text x="464" y="470" font-size="15" fill="#2e7d32" text-anchor="start" font-weight="bold">是</text><rect x="320" y="482" width="260" height="36" rx="10" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/><text x="450" y="505" font-size="15" fill="#263238" text-anchor="middle" font-weight="bold">完成：寫出三行使用率</text>
+</svg>
+<div class="cap">圖 14-2｜一題完整的梁設計要交出三行使用率。強度那一格就是上冊第 7 章的流程圖；三條線各自獨立，任何一條超過 1.0 都要換斷面。</div>
+</div>
+
+<div class="trap"><b>交卷前三行（照抄格式）</b><br>
+「強度 \(M_u/\phi_bM_n=\_\_\%\)；剪力 \(V_u/\phi_vV_n=\_\_\%\)；撓度 \(\Delta_L/(L/360)=\_\_\%\)。三者皆 ≤ 100%，OK。」</div>
+
+<h3 class="k">14.3　下冊公式卡</h3>
+<table>
+<tr><th style="width:18%">項目</th><th>公式</th><th style="width:12%">種子</th><th style="width:10%">標籤</th></tr>
+<tr><td>剪力降伏</td><td>\(V_n=0.6F_{yw}A_w\)（\(A_w=dt_w\)），\(\phi_v=0.90\)</td><td>S6</td><td><span class="tg must">必背</span></td></tr>
+<tr><td>剪力三段</td><td>\(\le50\sqrt{k_v/F_y}\)：1；\(\le62\sqrt{k_v/F_y}\)：\(\dfrac{50\sqrt{k_v/F_y}}{h/t_w}\)；之後 \(\dfrac{1860k_v}{(h/t_w)^2}A_w\)</td><td>S2、S6</td><td><span class="tg must">必背</span></td></tr>
+<tr><td>\(k_v\)</td><td>\(5+5/(a/h)^2\)；無加勁或 \(a/h\gt3\)：5</td><td>S2</td><td><span class="tg must">必背</span></td></tr>
+<tr><td>張力場</td><td>\(0.6F_yA_w\left[C_v+\dfrac{1-C_v}{1.15\sqrt{1+(a/h)^2}}\right]\)（端板格不可用）</td><td>—</td><td><span class="tg must">必背</span></td></tr>
+<tr><td>剪力流</td><td>\(q=VQ/I\)、\(\tau=VQ/It\)；斷續接合 \(q\,s\le\) 每段強度</td><td>S7</td><td><span class="tg must">必背</span></td></tr>
+<tr><td>撓度</td><td>\(5wL^4/384EI\)、\(PL^3/48EI\)、\(23PL^3/648EI\)；\(\Delta_L\le L/360\)</td><td>S8</td><td><span class="tg must">必背</span></td></tr>
+<tr><td>斷面選擇</td><td>\(Z_{x,\text{req}}\ge M_u/(\phi_bF_y)\)，再檢核 \(L_b\le L_p\)</td><td>S1</td><td><span class="tg must">必背</span></td></tr>
+<tr><td>弱軸</td><td>無 LTB；\(M_{ny}=\min(F_yZ_y,1.5F_yS_y)\)</td><td>S1、S3</td><td><span class="tg must">必背</span></td></tr>
+<tr><td>雙軸</td><td>\(\dfrac{M_{ux}}{\phi M_{nx}}+\dfrac{M_{uy}}{\phi M_{ny}}\le1\)</td><td>—</td><td><span class="tg must">必背</span></td></tr>
+<tr><td>合成梁</td><td>比 \(A_sF_y\) 與 \(0.85f'_cb_et_s\)；版內 \(a=\dfrac{A_sF_y}{0.85f'_cb_e}\)，\(M_n=T(\tfrac d2+t_s-\tfrac a2)\)；\(b_e\) 會給</td><td>S1</td><td><span class="tg must">必背</span></td></tr>
+<tr><td>塑性分析</td><td>\(\sum P\delta=\sum M_p\theta\)；一固一簡 \(11.66M_p/L^2\)（簡支 8、兩端固定 16）</td><td>S1</td><td><span class="tg must">必背</span></td></tr>
+</table>
+
+<h3 class="k">14.4　精選 5 題（下冊）</h3>
+<table>
+<tr><th style="width:15%">題號</th><th>練什麼</th><th style="width:22%">本書對應</th></tr>
+<tr><td><a href="problems-view/SS-2015-1.html">SS-2015-1</a></td><td>整梁設計三條線：選斷面（差 0.9% 換下一個）、剪力三段、23/648 撓度</td><td>第 8、10 章</td></tr>
+<tr><td><a href="problems-view/SS-2019-2.html">SS-2019-2</a></td><td>合成梁：判斷 PNA 位置、塑性應力分布求 \(M_n\)</td><td>第 12 章</td></tr>
+<tr><td><a href="problems-view/SS-2014-3.html">SS-2014-3</a></td><td>雙向彎曲互制、弱軸 \(1.5F_yS_y\) 上限、題意判讀 \(C_b=1\)</td><td>第 5、11 章</td></tr>
+<tr><td><a href="problems-view/SS-2020-2.html">SS-2020-2</a></td><td>非對稱斷面 \(M_p\)＋一固一簡崩塌分析</td><td>第 1、13 章</td></tr>
+<tr><td><a href="problems-view/SS-2019-4.html">SS-2019-4</a></td><td>組合斷面 ENA、\(Q\)、剪力流與斷續銲長度</td><td>第 9 章</td></tr>
+</table>
+<p class="note">候補：<a href="problems-view/SS-2009-3.html">SS-2009-3</a>（零公式寫出 \(M_p/M_y\) 與 \(V_n\)）、<a href="problems-view/SS-2010-4.html">SS-2010-4</a>（含自重迭代、撓度使用率 98.6%）。</p>
+
+<div class="why"><b>全單元三天讀書順序</b>（依單元總覽的命題分析）：<br>
+第一天全押 <b>LTB 三區段</b>：SS-2007-3 → SS-2012-1 → SS-2024-3（上冊第 3～5 章）。<br>
+第二天 <b>斷面分類與 \(M_p\)</b>：SS-2023-3 → SS-2025-1，順帶 SS-2020-2（上冊第 1～2 章、下冊第 13 章）。<br>
+第三天補 <b>合成梁</b> SS-2019-2 與 <b>整梁設計</b> SS-2015-1（下冊第 10、12 章）。</div>
+
+<h3 class="k">14.5　綜合重建練習：整根梁三條線</h3>
+<div class="box"><b>題目</b>　貫穿範例 H700×200×12×25（\(F_y=3.5\)，\(I_x=141{,}421\) cm⁴，\(\phi_bM_p=146.2\) tf·m，\(h/t_w=54.2\)），簡支 10 m、上翼板全程側撐，\(w_D=2\)、\(w_L=3\) tf/m（\(w_D\) 已含自重）。
+不看書寫出三條線的使用率。</div>
+<details><summary>答案（先自己寫完再打開）</summary>
+<p><span class="st">強度</span> \(w_u=1.2\times2+1.6\times3=7.2\) tf/m；\(M_u=7.2\times10^2/8=90.0\) tf·m；全側撐且結實 ⇒ \(\phi_bM_n=\phi_bM_p=146.2\)；使用率 <b>61.5%</b>。</p>
+<p><span class="st">剪力</span> \(V_u=7.2\times10/2=36.0\) tf；\(h/t_w=54.2\le59.8\) ⇒ \(\phi_vV_n=0.9\times0.6\times3.5\times84=158.8\) tf；使用率 <b>22.7%</b>。</p>
+<p><span class="st">撓度</span> \(w_L=0.03\) tf/cm：\(\Delta_L=\dfrac{5\times0.03\times1000^4}{384\times2040\times141421}=1.354\) cm \(\le1000/360=2.78\) cm；使用率 <b>48.7%</b>。</p>
+<p><span class="st">結論</span> 三條都 OK，強度控制。若跨度加到 14 m：撓度 \(\times(1.4)^4=3.84\) 倍 ⇒ 5.20 cm \(\gt3.89\) cm（134%）✗；強度 \(M_u=176.4\gt146.2\)（121%）也不夠，但<b>撓度超得更多</b>——跨度加長，撓度（\(\propto L^4\)）比彎矩（\(\propto L^2\)）長得快，長跨梁要先看撓度。</p>
+</details>
+
+<h3 class="k">14.6　考前十分鐘：下冊陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:36%">錯誤</th><th>一句話回正</th></tr>
+<tr><td>1</td><td>撓度用因數化載重</td><td>工作載重、只用活載</td></tr>
+<tr><td>2</td><td>三分點載重套 1/48</td><td>23/648（每點 \(P\)）</td></tr>
+<tr><td>3</td><td>\(w\) 用 tf/m 配 \(L\) 用 cm</td><td>統一 tf、cm</td></tr>
+<tr><td>4</td><td>剪力用 \(VQ/It\) 峰值</td><td>規範用平均，\(A_w=dt_w\)</td></tr>
+<tr><td>5</td><td>端板格算張力場</td><td>端板格只用 \(C_v\)</td></tr>
+<tr><td>6</td><td>剪力流的 \(Q\) 切錯面</td><td>切在要接合的那個面</td></tr>
+<tr><td>7</td><td>弱軸用 \(F_yZ_y\) 不設上限</td><td>\(\le1.5F_yS_y\)</td></tr>
+<tr><td>8</td><td>合成梁 \(f'_c\) 用 kgf/cm²</td><td>0.21 tf/cm²</td></tr>
+<tr><td>9</td><td>簡支端放塑鉸、塑鉸放跨中</td><td>簡支端不吸能；設 \(x\) 取最小</td></tr>
+<tr><td>10</td><td>只檢核強度</td><td>三行使用率</td></tr>
+</table>
+<p>上下兩冊合起來，全單元只要記 8 顆種子和兩張數字小卡。考前最後一晚：翻每一章的 🧩 重建卡，在白紙上各畫一次。</p>
+</section>
+
+</main>
+<footer>SS-U1-2 教科書講義（SS-U1-2 梁桿件　下冊：剪力・使用性・延伸篇）｜由 study/figs-src/textbook-SS-U1-2/build.py 組裝；圖全部由 figs_ch*.py 依 calcs.py 數值以程式繪製｜2026-11-03</footer>
+</body>
+</html>

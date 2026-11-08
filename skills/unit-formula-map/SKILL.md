@@ -1,17 +1,11 @@
 ---
-name: unit-formula-map
-description: >
-  為六科考試知識庫（exam-wiki-SS/RC/SA/SD/SM/MM）的某個命題大綱單元，
-  逐條盤點主要公式，並以歷屆考卷原文為證據，分辨出「哪些公式考卷通常會印給你」、
-  「哪些必須自己背得出來」，輸出可篩選 HTML + 可列印 PDF。
-  當使用者說「整理 XX-Un-m 主要公式」、「哪些公式題目會給」、「哪些要自己背」、
-  「給背分界」、「公式給不給表」、「考卷會不會附公式」、「unit-formula-map」，
-  或問某單元的公式該不該花時間背時，必須使用此 skill。
-  判定一律以 raw/exams/ 的考卷原文為準，不得憑印象；
-  掃描影像頁必須逐頁目視判讀，不可只靠文字抽取。
+name: "unit-formula-map"
+description: "為六科考試知識庫（exam-wiki-SS/RC/SA/SD/SM/MM）的某個命題大綱單元，逐條盤點主要公式，以歷屆考卷原文為證據分辨「考卷會給」與「必須自己背」，輸出可篩選 HTML（含三態逐年表、回想模式）＋可列印 PDF。當使用者說「整理 XX-Un-m 主要公式」「哪些公式題目會給」「哪些要自己背」「給背分界」「公式給不給表」「考卷會不會附公式」「unit-formula-map」，或問某單元公式該不該背時使用。"
 ---
 
 # unit-formula-map — 單元公式「給／背分界」盤點器
+
+> **已導入單元總覽（unit-overview）的科目（SS、SA）不要用本 skill 產 `formula-given-` 頁**：給／背判定改在 `study/data/unit-XX-Un-m.json` 的公式卡做（證據流程已併入 unit-overview）。本 skill 留給尚未導入的科目。
 
 回答一個很實際的問題：**這個單元的公式，我到底要背哪些？**
 
@@ -31,12 +25,12 @@ description: >
 
 | 代號 | 科目全名 | 資料夾 | 子項數 |
 |------|---------|--------|-------|
-| SS | 鋼結構設計 | `exam-wiki-SS` | 7 |
-| RC | 鋼筋混凝土設計與預力混凝土設計 | `exam-wiki-RC` | 14 |
-| SA | 結構學 | `exam-wiki-SA` | 10 |
-| SD | 結構動力分析與耐震設計 | `exam-wiki-SD` | 8 |
-| SM | 土壤力學與基礎設計 | `exam-wiki-SM` | 14 |
-| MM | 材料力學 | `exam-wiki-MM` | 13 |
+| SS | 鋼結構設計 | `SS/`（structural-exam-wiki） | 7 |
+| RC | 鋼筋混凝土設計與預力混凝土設計 | `RC/`（structural-exam-wiki） | 14 |
+| SA | 結構學 | `SA/`（structural-exam-wiki） | 10 |
+| SD | 結構動力分析與耐震設計 | `SD/`（structural-exam-wiki） | 8 |
+| SM | 土壤力學與基礎設計 | `SM/`（structural-exam-wiki） | 14 |
+| MM | 材料力學 | `MM/`（structural-exam-wiki） | 13 |
 
 > 科目全名與子項清單一律以 `raw/json/syllabus_taxonomy.json` 為準，**不要憑記憶填**
 > （曾有其他文件把 SM 誤寫成「材料力學」、MM 誤寫成「工程數學」）。
@@ -142,11 +136,11 @@ pdftoppm -r 110 -png "raw/exams/XX-YYYY_科目名.pdf" /tmp/img/YYYY
 
 | 來源 | 取什麼 |
 |------|--------|
-| `wiki/methods/*.md` | 「適用題型」欄含本單元代號者，取其核心原理與解題步驟裡的每條式子 |
+| `raw/solutions/methods/*/*.md` | 「適用題型」欄含本單元代號者，取其核心原理與解題步驟裡的每條式子 |
 | `study/lecture-XX-Un-m.html`（若已存在） | 各章的主公式與其來源推導 |
-| `wiki/concepts/`、`wiki/failure-modes/`、`wiki/materials/` | 本單元相關頁的判定式與門檻值 |
+| `study/textbook-XX-Un-m*.html`（若已存在）；舊 wiki 在 `archive/wiki/`，僅供線索、需與正本核對 | 本單元相關頁的判定式與門檻值 |
 | `raw/solutions/XX-YYYY-N/*.md` | §3.5 VHA 的「主要公式」與 L2/L3 條目（最貼近實戰） |
-| `wiki/code-ref/` | 規範條文的係數與適用範圍 |
+| `archive/wiki/code-ref/`（僅供線索，需回查規範原文） | 規範條文的係數與適用範圍 |
 
 **清單要涵蓋四類，不要只列「長得像公式」的東西** —— 最常被漏掉的正是後三類，
 而它們恰好是最不會被印在考卷上的：
@@ -213,8 +207,8 @@ pdftoppm -r 110 -png "raw/exams/XX-YYYY_科目名.pdf" /tmp/img/YYYY
 | 節 | 內容 |
 |----|------|
 | 一、我怎麼判定的 | 三種擺法說明、考卷免責聲明原文引用、三級圖例、KPI 統計 |
-| 二、公式逐條分界 | 可依「級別 × 主題」雙軸篩選的卡片清單 |
-| 三、逐年證據表 | 24（或該科年份數）× 主要公式欄的 ✔ 矩陣，含每年備註 |
+| 二、公式逐條分界 | 可依「級別 × 主題」雙軸篩選的卡片清單＋**回想模式**（蓋住式子默寫、點擊翻開） |
+| 三、逐年證據表 | 24（或該科年份數）× 主要公式欄的**三態矩陣**（✔ 印出／✗ 考了沒給／· 未考），表底合計列，題號連到解析頁 |
 | 四、背誦策略 | 從證據推出的具體建議，不是泛泛而談 |
 
 ### 資料與呈現分離（重要）
@@ -225,13 +219,42 @@ pdftoppm -r 110 -png "raw/exams/XX-YYYY_科目名.pdf" /tmp/img/YYYY
 ```js
 const F = [
  {g:"主題分群", lv:"must|half|give", nm:"公式名稱",
+  c:0,                      // ← v2：這張卡歸逐年表第幾個旗標欄（0 起算）
   eq:"$$LaTeX$$",
   meta:"具體到年份題號的說明，可含 \\(行內math\\)",
   ok:[2015,2024], no:[2016,2025]},
  // ...
 ];
-// MX 每列：[西元年, 民國年, "本單元題號", ...10 個 0/1 欄, "備註"]
+// MX 每列：[西元年, 民國年, "本單元題號", ...N 個 0/1 欄, "備註"]
+// 本單元題號寫法固定：「一、二」「一（副）」「(—)」——verify.py 與題號連結都靠它解析
 ```
+
+### 逐年表三態（v2，2026-10 起）
+
+舊版逐年表只有 ✔／·。像 SA 這種「24 年零參考公式」的科目，整張表幾乎全是「·」，
+**看不出「考了卻沒給」這件最重要的事**。v2 改成三態：
+
+| 符號 | 意義 | 來源 |
+|------|------|------|
+| ✔ | 該年考卷印出 | `MX` 該格為 1 |
+| ✗ | 該年有本單元題目、用得到這欄的式子，考卷卻沒印 | 該欄有卡片（`c` 相同）的 `no` 含此年 |
+| · | 該年沒考到這欄 | 其餘 |
+
+- **`MX` 仍然只存 0/1，✗ 一律由 `F` 的 `c` ＋ `no` 推出**，不另存——避免兩處資料打架，
+  也讓舊頁面（沒有 `c`）照樣能用新腳本重跑（自動退回兩態）。
+- 表底加一列「N 年合計」：每欄 ✔ 幾格、✗ 幾格。表後的總結句要引用這組數字
+  （例：「7 個力學公式欄 ✔ 0 格，✗ 47 格——給數不給式」）。
+- `<table id="mx">` 裡在 `<tbody></tbody>` 後放空的 `<tfoot></tfoot>`，螢幕版由 JS 填；
+  列印版由 prerender 把合計列改放 tbody 最後一列（放 tfoot 會被 WeasyPrint 每頁重複）。
+- 單元題號連到解析頁：`study/problems-view/XX-YYYY-N.html` 存在時才加連結（先 `ls` 確認）。
+
+### 回想模式（v2）
+
+這頁的用途是**背誦**，所以卡片區上方放一條回想工具列：開啟後式子被蓋住，
+看卡片名稱先在紙上默寫，再點式子翻開對答案，顯示「已翻開 n / 總數」，可「全部蓋回」。
+說明文字裡的行內數學也要模糊（不然答案就寫在旁邊）。不用任何瀏覽器儲存；列印與 PDF 不受影響。
+
+螢幕版的完整 CSS／JS 範本見**附錄 C**，照抄後只改 `SUBJ`。
 
 ### ⚠️ 數學式分隔符（踩過的坑）
 
@@ -288,35 +311,51 @@ KaTeX auto-render 只設定了 `$$…$$`（顯示）與 `\(…\)`（行內）。
 
 新增一個單元的 `formula-given-` 頁時，**其他單元的既有頁面也要補上指向新頁的按鈕**（雙向互連）。
 
+> 導覽列按鈕一多就會換成兩行。逐年表的 sticky 表頭不要寫死 `top:44px`（會被導覽列蓋住），
+> 用 `top:var(--navh,44px)`，並由 JS 依 `nav.offsetHeight` 設定 `--navh`（附錄 C 已含）。
+
 ---
 
 ## Step 5：產出 PDF
 
-**沙盒沒有 Chromium，且 `playwright install` 會下載失敗（網路受限）。**
-唯一可行路徑是 **MathJax→SVG + WeasyPrint**，不要浪費時間嘗試 headless 瀏覽器。
+**PDF 一律走 MathJax→SVG + WeasyPrint。** 有些環境沒有 Chromium、`playwright install` 也會因網路受限失敗；
+即使環境有 Chromium，列印版面也是照 WeasyPrint 調的，不要改走 headless 瀏覽器出 PDF。
 
 ```bash
 pip install weasyprint --break-system-packages -q
 npm install mathjax-full --prefix /tmp/mj --silent
 ```
 
-本 skill 附三支已驗證的腳本（見 `scripts/`），照順序跑：
+本 skill 附四支腳本（`scripts/`）。**v2 的 `prerender.py`、`verify.py` 與 `build_pdf.py` 列印 CSS
+以本文件附錄為準**——`scripts/` 裡可能還是舊版（舊版 prerender 不認得 ✗、build_pdf 會讓背誦策略獨佔一頁）。
+所以先建工具目錄：
+
+```bash
+T=/tmp/ufm-tools; mkdir -p $T
+cp <skill>/scripts/tex2svg.js <skill>/scripts/build_pdf.py $T/
+# 把附錄 A 寫成 $T/prerender.py、附錄 B 寫成 $T/verify.py，再跑附錄 D 的 build_pdf 修補
+```
+
+照順序跑：
 
 ```bash
 WORK=/tmp/pdfw
-# ① JS 動態內容 → 靜態 HTML
-python3 scripts/prerender.py study/formula-given-XX-Un-m.html $WORK
-# ② MathJax→SVG + WeasyPrint
-python3 scripts/build_pdf.py study/formula-given-XX-Un-m.pdf $WORK "exam-wiki-XX｜XX-Un-m 給／背分界　"
-# ③ 資料交叉驗證（HTML 一改就跑，別等出 PDF 才發現）
-python3 scripts/verify.py study/formula-given-XX-Un-m.html map.json
+# ① 資料交叉驗證（HTML 一改就跑，別等出 PDF 才發現）
+python3 $T/verify.py study/formula-given-XX-Un-m.html            # 卡片都有 c 時不需對照表
+# ② JS 動態內容 → 靜態 HTML（三態逐年表＋合計列）
+python3 $T/prerender.py study/formula-given-XX-Un-m.html $WORK
+# ③ MathJax→SVG + WeasyPrint
+MJ_PREFIX=/tmp/mj python3 $T/build_pdf.py study/formula-given-XX-Un-m.pdf $WORK "exam-wiki-XX｜XX-Un-m 給／背分界　"
 ```
 
-`map.json` 把逐年表的欄位索引（從 3 起算）對應到卡片名稱：
+舊頁面（卡片沒有 `c`）仍可用對照表 `map.json`（欄位索引從 3 起算）：
 
 ```json
 {"3": ["λc 定義"], "4": ["Fcr 舊版", "Fcr 新版", "Fcr 彈性"], "5": ["φc = 0.85"]}
 ```
+
+升級舊頁面到 v2：每張卡補 `c`、換上附錄 C 的 CSS／JS、`<tbody></tbody>` 後補 `<tfoot></tfoot>`、
+卡片容器前補回想工具列，再跑 ①②③。
 
 ### 為什麼需要 prerender
 
@@ -331,6 +370,7 @@ python3 scripts/verify.py study/formula-given-XX-Un-m.html map.json
 4. 移除 `<nav>`、篩選按鈕、`<script>`、KaTeX 連結
 5. **剝除 emoji** —— WeasyPrint 沒有彩色 emoji 字型，🔴🟠🟢 會變成豆腐方框。
    列印版改用純文字標籤配色框（螢幕版保留 emoji）
+6. **（v2）** 逐年表依 `c`＋`no` 畫三態、加合計列；移除回想工具列
 
 ### 列印 CSS 要點
 
@@ -340,7 +380,8 @@ table { table-layout:fixed; width:100%; min-width:0 !important; }
 thead { display:table-header-group }   /* 跨頁重複表頭 */
 .fc, tr, .note, .warn { break-inside:avoid }
 h2, h3 { break-after:avoid }
-#matrix, #strategy { break-before:page }
+#matrix { break-before:page }          /* #strategy 不強制換頁（v2）：否則表後總結句會獨佔一頁 */
+#mx tr.tot td { 合計列底色＋粗上框 }
 .mjd svg { max-width:100%; max-height:56px }
 ```
 
@@ -350,13 +391,37 @@ h2, h3 { break-after:avoid }
 
 ### 6-1　資料自我一致性（自動）
 
-卡片的 `ok` 年份清單與逐年矩陣 `MX` 的 ✔ 必須完全對得起來。用 `scripts/verify.py` 跑，
+卡片的 `ok` 年份清單與逐年矩陣 `MX` 的 ✔ 必須完全對得起來。用 `verify.py` 跑，
 不要用眼睛看 —— 這一關在 SS 這輪抓到 2 筆矛盾（2008 整區參考公式漏標、
 2009 把「給了 Pn 卻叫你自己算 λc」誤標成有給）。
 
-`verify.py` 同時會檢查：公式是否以 `$$` 包住、說明是否誤用單一 `$`、有無「零證據」的卡片。
+`verify.py`（v2）同時會檢查：
 
-### 6-2　抽樣回查考卷原文
+- ✗ 公式是否以 `$$` 包住、說明是否誤用單一 `$`
+- ✗ `c` 是否超出旗標欄範圍
+- ✗ `no` 是否含「該年根本沒有本單元題目」的年份（考了卻沒給的前提是該年有考）
+- ⚠ 零證據的卡片
+- ⚠ 頁面任何地方引用「YYYY 一」這類題號，但逐年表顯示該年本單元沒有這一題
+  ——前後文已寫明別單元代號（例「U2-1 的 2006 一」）就不提醒
+
+### 6-2a　說明文字的內容主張要回查題目原文（v2 新增，verify.py 抓不到）
+
+卡片說明常會寫「X 年 Y 題要你繪彎矩圖」「這題用到軸力項」——這些是**對題目內容的主張**，
+寫錯了自動檢查抓不到，只能逐條回查 `raw/solutions/XX-YYYY-N/*.md` 的「原始題目重述」。
+SA-U1-2 第一版就錯了三處，全是這一類：
+
+| 錯誤 | 實情 | 教訓 |
+|------|------|------|
+| 「2002 一、2004 一、2016 一、2024 一 都要繪彎矩圖」 | 2024 一只求最小 EI；明文要繪的是 2002 一、2004 一、2008 三、2012 一、2016 一 | 「要你做什麼」一律對題目原文，不要從 tags 推 |
+| 單位力法**彎曲項**的 no 列了 2017 | 2017 一是純桁架，只用軸力項 | 同一方法的不同分項（彎曲／軸力、主體式／係數），要確認該題用的是哪一項 |
+| 背誦策略寫「2003 二、2006 一型」 | 2006 一屬 U2-1 | 引用別單元的題目必須註明單元代號 |
+
+另外，說明裡列的年份要和 `no` 清單對得上（說明少列幾年不算錯，但會讓人以為證據比較少）。
+
+做法：把每張卡說明裡出現的「YYYY 題號」全部列出，對每一筆 `grep` 該題 .md 的題目原文段落，
+確認主張成立。這一步做完再跑 verify.py。
+
+### 6-2b　抽樣回查考卷原文
 
 隨機抽 3–5 條標記，回頭對照 `/tmp/txt/` 的抽取結果或頁面圖，確認年份沒標錯。
 **特別要回查標成「通常會給」的那幾條** —— 誤判成會給，代價最大。
@@ -373,12 +438,19 @@ pdftoppm -png -r 68 study/formula-given-XX-Un-m.pdf chk/p
 - [ ] 沒有豆腐方框（emoji 殘留）
 - [ ] 逐年表在單頁內、佔滿頁寬、沒有欄位擠爆
 - [ ] 卡片沒有被切成兩頁
+- [ ] 逐年表含合計列在單頁內；表後總結句沒有獨佔一頁
 
 > 低解析度（68 dpi）截圖會讓 `102年` 看起來像 `182年`。
 > 覺得數字怪的時候，用 `pdftotext -f N -l N` 抽該頁文字確認，
 > **不要**直接改資料。
 
-### 6-4　文字層檢查（自動）
+### 6-4　螢幕版互動檢查（v2）
+
+環境有 Playwright／Chromium 時開頁面檢查（沒有就略過）：
+沒有 `pageerror`；逐年表 ✗ 與表底合計正確；回想模式切換後式子被蓋住、點擊會翻開、計數會動。
+KaTeX 資源在 `study/assets/katex/`，離線測試時要一併放到頁面旁邊。
+
+### 6-5　文字層檢查（自動）
 
 ```bash
 pdftotext out.pdf - | grep -c '\\\\[a-zA-Z]'   # 應為 0（無原始 LaTeX 外露）
@@ -391,10 +463,10 @@ pdftotext out.pdf - | grep -c '\\\\[a-zA-Z]'   # 應為 0（無原始 LaTeX 外�
 
 | 檔案 | 說明 |
 |------|------|
-| `study/formula-given-XX-Un-m.html` | 互動版，可依級別×主題篩選 |
+| `study/formula-given-XX-Un-m.html` | 互動版，可依級別×主題篩選、回想模式、三態逐年表 |
 | `study/formula-given-XX-Un-m.pdf` | 列印版，A4，依主題分群排序 |
 
-完成後用 `present_files` 呈現兩個檔案，並用**三到五句話**講重點發現
+完成後在該科 `wiki/queries/log.md` 追加一筆（改了什麼、為什麼、怎麼驗證），用 `present_files` 呈現兩個檔案，並用**三到五句話**講重點發現
 （哪幾條最該背、有沒有「零公式年」這種極端證據、有沒有誘餌型給法），
 不要複述流程。
 
@@ -407,10 +479,433 @@ pdftotext out.pdf - | grep -c '\\\\[a-zA-Z]'   # 應為 0（無原始 LaTeX 外�
 | 1 | 只用 `pdftotext`，跳過影像頁目視 | 整份判定歪掉（SS 有 4 年公式全是影像） | Step 1-3 強制執行 |
 | 2 | 行內數學用單一 `$…$` | 頁面直接露出原始 LaTeX | 一律 `\(…\)` |
 | 3 | 直接把 HTML 丟 WeasyPrint | PDF 是空殼（JS 沒執行） | 先跑 `prerender.py` |
-| 4 | 試著裝 Chromium / playwright | 浪費 5–10 分鐘後失敗 | 只走 MathJax+WeasyPrint |
+| 4 | 改用 headless 瀏覽器出 PDF | 環境常裝不起來；版面也沒照它調 | 只走 MathJax+WeasyPrint |
 | 5 | `question_index.json` 當成 list 讀 | `TypeError` | 題目在 `d['questions']` |
 | 6 | 只算 primary 題目 | 漏掉副考點年份的證據 | secondary 也要納入 |
 | 7 | 只列「長得像公式」的式子 | 漏掉 φ 值、判斷式、流程骨架 —— 而那正是最不會給的 | Step 2 的四類都要列 |
 | 8 | 說明寫「常常會給」 | 使用者無法判斷風險 | 一律寫出年份與題號 |
 | 9 | 卡片與逐年表各寫各的 | 兩處數字打架 | Step 6-1 自動交叉驗證 |
 | 10 | 低解析度截圖看到怪數字就改資料 | 把對的改成錯的 | 先用 `pdftotext` 抽該頁確認 |
+| 11 | 說明寫「某題要你做 X」卻沒對題目原文 | 年份清單錯（SA-U1-2 v1 錯 3 處） | Step 6-2a |
+| 12 | 把 ✗ 存進 MX（用 2 之類的值） | 舊版 prerender 會把 2 當成 ✔ 印出 | MX 只存 0/1，✗ 由 `c`＋`no` 推出 |
+| 13 | 用 `scripts/` 舊版 prerender 出 v2 頁的 PDF | ✗ 全變成 ·、無合計列 | 用附錄 A 的版本 |
+| 14 | 合計列放 `<tfoot>` 給 WeasyPrint | 每頁重複一次合計列 | 列印版放 tbody 最後一列（附錄 A 已處理） |
+
+---
+
+## 附錄 A：`prerender.py`（v2，三態逐年表）
+
+```python
+#!/usr/bin/env python3
+"""把 formula-given-XX-Un-m.html 中由 JS 動態產生的內容靜態化，供 WeasyPrint 列印。
+
+用法:  python3 prerender.py <src.html> [work_dir]
+輸出:  <work_dir>/static.html   （預設 work_dir = /tmp/pdfw）
+
+逐年表三態（v2，2026-10）：卡片若帶 c 欄位（對應逐年表第幾個旗標欄，0 起算），
+每格依「MX 為 1 → ✔；否則該欄有卡片的 no 含此年 → ✗；否則 ·」著色，並在表尾加合計列。
+卡片都沒有 c 時退回舊版兩態（✔／·），舊頁面可直接重跑。
+
+為什麼需要這一步：WeasyPrint 不執行 JavaScript。頁面的公式卡與逐年表都是
+JS 渲染的，直接丟給 WeasyPrint 只會得到一份空殼。
+
+列印版與螢幕版的差異（刻意的，不是 bug）：
+  * 卡片依主題分群，組內按「必背 → 別賭 → 通常會給」排序（螢幕版是可篩選的平鋪清單）
+  * 逐年表表頭換成純文字 + colgroup 固定欄寬（表頭含 MathJax SVG 會把欄寬撐歪）
+  * 剝除 emoji（WeasyPrint 無彩色 emoji 字型，會變成豆腐方框）
+"""
+import re, json, subprocess, sys, os
+
+SRC = sys.argv[1]
+WORK = sys.argv[2] if len(sys.argv) > 2 else '/tmp/pdfw'
+os.makedirs(WORK, exist_ok=True)
+OUT = os.path.join(WORK, 'static.html')
+src = open(SRC, encoding='utf-8').read()
+
+# --- 1. 用 node 把 F / MX 撈成 JSON（不要用正則手抄，會抄錯）---
+js = src.split('<script>')[-1].split('</script>')[0].split('/* ---------- 渲染')[0]
+open(os.path.join(WORK, 'data.js'), 'w', encoding='utf-8').write(js)
+data = json.loads(subprocess.run(
+    ['node', '-e',
+     "const s=require('fs').readFileSync(%r,'utf8');"
+     "const {F,MX}=new Function(s+'; return {F,MX};')();"
+     "console.log(JSON.stringify({F,MX}))" % os.path.join(WORK, 'data.js')],
+    capture_output=True, text=True, check=True).stdout)
+F, MX = data['F'], data['MX']
+
+# 列印版不用 emoji
+LVN = {'must': '必背', 'half': '別賭', 'give': '通常會給'}
+RANK = {'must': 0, 'half': 1, 'give': 2}
+
+# 主題分群標題：依 F 裡出現的順序自動編號，不需寫死
+groups, gt = [], {}
+for f in F:
+    if f['g'] not in groups:
+        groups.append(f['g'])
+for i, g in enumerate(groups, 1):
+    gt[g] = '2-%d　%s' % (i, g)
+
+
+def yrs(a, cls):
+    """西元年 -> 民國年徽章"""
+    return ''.join('<span class="yr %s">%d年</span>' % (cls, y - 1911) for y in a)
+
+
+# --- 2. 公式卡（分群 + 組內排序）---
+cards = []
+for g in groups:
+    cards.append('<h3 class="grph">%s</h3>' % gt[g])
+    for f in sorted([x for x in F if x['g'] == g], key=lambda x: RANK[x['lv']]):
+        ev = ('<b>考卷給過：</b>' + yrs(f['ok'], 'ok')) if f['ok'] \
+             else '<b>考卷給過：</b><span class="never">從未</span>'
+        if f['no']:
+            ev += '　｜　<b>考了卻沒給：</b>' + yrs(f['no'], 'no')
+        cards.append(
+            '<div class="fc %s"><div class="top"><span class="nm">%s</span>'
+            '<span class="tag %s">%s</span></div>'
+            '<div class="eq">%s</div><p class="meta">%s</p>'
+            '<div class="ev">%s</div></div>'
+            % (f['lv'], f['nm'], f['lv'], LVN[f['lv']], f['eq'], f['meta'], ev))
+src = src.replace('<div class="cards" id="cards"></div>',
+                  '<div class="cards">' + ''.join(cards) + '</div>')
+
+# --- 3. 逐年證據表列 ---
+NCOL = len(MX[0]) - 4          # 中間的 0/1 欄數
+TRI = any('c' in f for f in F)   # 有 c 欄位才做三態
+TOT = [[0, 0, 0] for _ in range(NCOL)]
+rows = []
+for r in MX:
+    has = r[2] != '(—)'
+    def st(i):   # 三態：1 印出 ✔／2 考了沒給 ✗／0 未考 ·（✗ 由卡片的 c 欄位＋no 年份推出）
+        if r[3 + i]: return 1
+        return 2 if TRI and any(f.get('c') == i and r[0] in f['no'] for f in F) else 0
+    sts = [st(i) for i in range(NCOL)]
+    for i, v in enumerate(sts):
+        TOT[i][v] += 1
+    cells = ''.join('<td class="c">%s</td>'
+                    % ('<span class="y">✔</span>' if v == 1 else
+                       '<span class="x">✗</span>' if v == 2 else '<span class="n">·</span>')
+                    for v in sts)
+    rows.append('<tr class="%s"><td><b>%s</b><br><span class="ynote">%s年</span></td>'
+                '<td class="qq">%s</td>%s<td class="rm">%s</td></tr>'
+                % ('hl' if has else '', r[0], r[1], r[2], cells, r[-1]))
+src = re.sub(r'(<table id="mx">.*?<tbody>)(</tbody>)',
+             lambda m: m.group(1) + ''.join(rows) + m.group(2), src, flags=re.S)
+if TRI:
+    foot = ('<tr class="tot"><td colspan="2">%d 年合計</td>' % len(MX)
+            + ''.join('<td class="c">✔ %d<br><span class="x">✗ %d</span></td>' % (t[1], t[2]) for t in TOT)
+            + '<td>✗ 合計 %d 格</td></tr>' % sum(t[2] for t in TOT))
+    # 合計列放進 tbody 最後一列（放 tfoot 會被 WeasyPrint 在每頁重複）
+    src = re.sub(r'(<table id="mx">.*?)(</tbody>)', lambda m: m.group(1) + foot + m.group(2),
+                 src, count=1, flags=re.S)
+src = src.replace('<tfoot></tfoot>', '')
+src = re.sub(r'<div class="recallbar">.*?</div>', '', src, flags=re.S)
+
+# --- 4. 列印版表頭：純文字 + colgroup 固定欄寬 ---
+#     （表頭若含 MathJax SVG 會把欄寬撐歪，表格只佔 60% 頁寬還爆頁）
+GREEK = {'alpha': 'α', 'beta': 'β', 'gamma': 'γ', 'delta': 'δ', 'epsilon': 'ε',
+         'zeta': 'ζ', 'eta': 'η', 'theta': 'θ', 'lambda': 'λ', 'mu': 'μ',
+         'nu': 'ν', 'xi': 'ξ', 'pi': 'π', 'rho': 'ρ', 'sigma': 'σ', 'tau': 'τ',
+         'phi': 'φ', 'chi': 'χ', 'psi': 'ψ', 'omega': 'ω', 'Delta': 'Δ',
+         'Sigma': 'Σ', 'Omega': 'Ω', 'Phi': 'Φ', 'le': '≤', 'ge': '≥',
+         'times': '×', 'cdot': '·', 'sqrt': '√', 'frac': '/', 'pm': '±'}
+
+
+def tex2plain(t):
+    """把表頭裡的簡單數學式轉成純文字（表頭若含 MathJax SVG 會把欄寬撐歪）"""
+    t = re.sub(r'\\\((.*?)\\\)', r'\1', t, flags=re.S)   # 去 \( \)
+    t = t.replace('$', '')
+    t = re.sub(r'\\bar\{(.)\}', lambda m: m.group(1) + '\u0304', t)  # \bar{x} -> x̄
+    t = re.sub(r'\\([a-zA-Z]+)', lambda m: GREEK.get(m.group(1), m.group(1)), t)
+    t = re.sub(r'[_^]\{(.*?)\}', r'\1', t)
+    t = re.sub(r'[_^]', '', t)
+    return re.sub(r'[{}\\]', '', t).strip()
+
+
+heads = re.findall(r'<th[^>]*class="c"[^>]*>(.*?)</th>',
+                   re.search(r'<thead>.*?</thead>', src, re.S).group(0), re.S)
+plain = [tex2plain(re.sub(r'<br\s*/?>', ' ', re.sub(r'<[^>]+>', '', h))) for h in heads]
+mid = (100 - 6.5 - 11.5 - 32) / NCOL
+PRINT_HEAD = ('<colgroup><col style="width:6.5%"><col style="width:11.5%">'
+              + ('<col style="width:%.2f%%">' % mid) * NCOL
+              + '<col style="width:32%"></colgroup><thead><tr>'
+              '<th>考卷年</th><th>單元題號</th>'
+              + ''.join('<th class="c">%s</th>' % h for h in plain)
+              + '<th>備註</th></tr></thead>')
+src = re.sub(r'<thead>.*?</thead>', lambda m: PRINT_HEAD, src, count=1, flags=re.S)
+
+# --- 5. 移除互動元件與 KaTeX / JS ---
+src = re.sub(r'<nav>.*?</nav>', '', src, flags=re.S)
+src = re.sub(r'<div class="filters">.*?</div>\s*(?=<div class="cards")', '', src, flags=re.S)
+src = re.sub(r'<link[^>]*katex[^>]*>', '', src)
+src = re.sub(r'<script\b.*?</script>', '', src, flags=re.S)
+src = re.sub(r'<a href="[^"]*\.(html|pdf)"[^>]*>.*?</a>', '', src, flags=re.S)
+
+# --- 6. 剝除 emoji（WeasyPrint 無彩色 emoji 字型）---
+for e in ('🔴 ', '🟠 ', '🟢 ', '🔴', '🟠', '🟢', '▶ ', '📄 ', '🖨️ ', '⚠️ ', '⚠️'):
+    src = src.replace(e, '')
+
+open(OUT, 'w', encoding='utf-8').write(src)
+print('static -> %s | cards %d | rows %d | flag-cols %d' % (OUT, len(F), len(MX), NCOL))
+```
+
+## 附錄 B：`verify.py`（v2）
+
+```python
+#!/usr/bin/env python3
+"""交叉驗證 formula-given-XX-Un-m.html 的資料自我一致性。
+
+用法:  python3 verify.py <html路徑> [對照表.json]
+
+對照表（選用）：把矩陣欄位對應到卡片名稱，欄位索引從 3 起算：
+    {"3": ["λc 定義"], "4": ["Fcr 舊版", "Fcr 新版", "Fcr 彈性"], ...}
+卡片若都帶 c 欄位（v2 起的格式），對照表可省略，直接由 c 推出（MX 欄位 = c + 3）。
+
+檢查項目（✗ 會讓結束碼 = 1；⚠ 只提醒）：
+  ✗ 卡片 ok 年份 與 逐年表 ✔ 不一致            ← SS-U1-1 那輪靠它抓到 2 筆矛盾
+  ✗ c 超出旗標欄範圍
+  ✗ no 年份裡有「該年沒有本單元題目」的年份   ← 「考了卻沒給」的前提是該年有考
+  ✗ 公式非 $$ 包住／說明含單一 $
+  ⚠ 卡片沒有任何年份證據
+  ⚠ 頁面文字引用「YYYY 一」之類題號，但逐年表顯示該年本單元沒有這一題
+      ← SA-U1-2 第一版把 U2-1 的 2006 一 寫成本單元例題，就是這類錯
+"""
+import json, re, subprocess, sys, tempfile, os
+
+HTML = sys.argv[1]
+MAPFILE = sys.argv[2] if len(sys.argv) > 2 else None
+src = open(HTML, encoding='utf-8').read()
+js = src.split('<script>')[-1].split('</script>')[0].split('/* ---------- 渲染')[0]
+
+tmp = os.path.join(tempfile.gettempdir(), 'ufm_data.js')
+open(tmp, 'w', encoding='utf-8').write(js)
+data = json.loads(subprocess.run(
+    ['node', '-e',
+     "const s=require('fs').readFileSync(%r,'utf8');"
+     "const {F,MX}=new Function(s+'; return {F,MX};')();"
+     "console.log(JSON.stringify({F,MX}))" % tmp],
+    capture_output=True, text=True, check=True).stdout)
+F, MX = data['F'], data['MX']
+NCOL = len(MX[0]) - 4
+bad = 0
+
+# ---------- 對照表：檔案優先，否則由 c 推出 ----------
+if MAPFILE:
+    mapping = json.load(open(MAPFILE, encoding='utf-8'))
+elif all('c' in f for f in F):
+    mapping = {}
+    for f in F:
+        mapping.setdefault(str(f['c'] + 3), []).append(f['nm'])
+else:
+    sys.exit('卡片沒有 c 欄位，請提供對照表 map.json')
+
+by = {f['nm']: f for f in F}
+for col, names in mapping.items():
+    col = int(col)
+    ok = set()
+    for n in names:
+        if n not in by:
+            print('✗ 對照表指到不存在的卡片：%s' % n); bad += 1; continue
+        ok |= set(by[n]['ok'])
+    for r in MX:
+        flag, has = r[col] == 1, r[0] in ok
+        if flag != has:
+            print('✗ 欄 %d 年 %d：矩陣=%d 卡片=%d（%s）' % (col, r[0], flag, has, names[0]))
+            bad += 1
+
+# ---------- 本單元各年題號（由 MX 第 3 欄解析：「一、二」「一（副）」「(—)」）----------
+CN = {'一': 1, '二': 2, '三': 3, '四': 4, '五': 5, '六': 6}
+unit_q = {r[0]: {CN[c] for c in r[2] if c in CN} for r in MX}
+years_with_unit = {y for y, qs in unit_q.items() if qs}
+
+lv = {}
+for f in F:
+    lv[f['lv']] = lv.get(f['lv'], 0) + 1
+    if 'c' in f and not (0 <= f['c'] < NCOL):
+        print('✗ c=%s 超出旗標欄範圍 0–%d：%s' % (f['c'], NCOL - 1, f['nm'])); bad += 1
+    stray = sorted(set(f['no']) - years_with_unit)
+    if stray:
+        print('✗ no 含該年沒有本單元題目的年份 %s：%s' % (stray, f['nm'])); bad += 1
+    if not f['eq'].strip().startswith('$$'):
+        print('✗ 公式非顯示模式（應以 $$ 包住）：%s' % f['nm']); bad += 1
+    if '$' in f['meta'].replace('$$', ''):
+        print('✗ 說明含單一 $（KaTeX 不會渲染，請改 \\\\( \\\\)）：%s' % f['nm']); bad += 1
+    if not f['ok'] and not f['no']:
+        print('⚠ 無任何年份證據：%s' % f['nm'])
+
+# ---------- 題號引用檢查（卡片說明＋頁面靜態文字）----------
+text = ' '.join(f['meta'] for f in F) + ' ' + re.sub(
+    r'<script\b.*?</script>|<style\b.*?</style>|<[^>]+>', ' ', src, flags=re.S)
+seen = set()
+for m in re.finditer(r'((?:19|20)\d\d)\s*([一二三四五六](?:、[一二三四五六])*)(?![年分])', text):
+    if re.search(r'U\d+-\d+', text[max(0, m.start() - 12):m.end() + 12]):
+        continue          # 前後文已註明是別單元（例：「U2-1 的 2006 一」）
+    y, qs = m.groups()
+    for ch in qs.split('、'):
+        key = (int(y), CN[ch])
+        if key in seen or key[0] not in unit_q:
+            continue
+        seen.add(key)
+        if key[1] not in unit_q[key[0]]:
+            print('⚠ 引用 %d %s，但逐年表顯示該年本單元沒有這一題——若是別單元的題目請在文中註明'
+                  % (key[0], ch))
+
+print('公式 %d 條 %s ｜ 逐年 %d 列 ｜ 旗標欄 %d' % (len(F), lv, len(MX), NCOL))
+print('✗ %d 處不一致' % bad if bad else '✓ 全部一致')
+sys.exit(1 if bad else 0)
+```
+
+## 附錄 C：螢幕版範本（v2 新增的 HTML／CSS／JS）
+
+**HTML 錨點**（其餘照 Step 4）：
+
+```html
+<!-- 卡片區 -->
+<div class="filters" id="flt"></div>
+<div class="recallbar"><button id="rcToggle" type="button">🙈 回想模式：關</button><span id="rcInfo"></span><button id="rcReset" type="button" hidden>全部蓋回</button></div>
+<div class="cards" id="cards"></div>
+
+<!-- 逐年表 -->
+<p class="lead">每格三種狀態：<span class="lgd y">✔</span> 該年考卷印出（含三種擺法）<span class="lgd x">✗</span> 該年有本單元題目、用得到這欄的式子，<b>考卷卻沒印</b><span class="lgd n">·</span> 該年沒考到這欄。底色列＝該年有本單元的題目，題號可點開看解析。</p>
+<div class="tw"><table id="mx"><thead>…</thead>
+<tbody></tbody>
+<tfoot></tfoot>
+</table></div>
+<p class="lead" id="mxsum">（引用表底合計的總結句）</p>
+```
+
+**CSS**：表頭改 `th{…position:sticky;top:var(--navh,44px);…}`，並加入：
+
+```css
+td .x{color:#c62828;font-weight:800}
+tfoot td{background:#f7f9fb;font-size:.74rem;color:#455a64;text-align:center;border-top:2px solid #cfd8dc}
+tfoot td:first-child{text-align:left;font-weight:700}
+.lgd{display:inline-block;min-width:1.6em;text-align:center;font-weight:800;margin:0 3px 0 10px;border-radius:4px;background:#fff;border:1px solid #e0e6ea}
+.lgd.y{color:#2e7d32}.lgd.x{color:#c62828}.lgd.n{color:#b0bec5}
+td.qq a{color:#0d47a1;text-decoration:none;border-bottom:1px dotted #90a4ae}
+td.qq a:hover{background:#e8f0fe}
+.recallbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 14px;padding:9px 13px;
+ background:#fff;border:1px dashed #b0bec5;border-radius:10px;font-size:.84rem;color:#546e7a}
+.recallbar button{font-size:.8rem;border:1px solid #1565c0;background:#fff;color:#1565c0;border-radius:16px;
+ padding:4px 13px;cursor:pointer}
+.recallbar button.on{background:#1565c0;color:#fff}
+body.recall .fc .eq{position:relative;cursor:pointer;min-height:2.6em}
+body.recall .fc .eq>*{visibility:hidden}
+body.recall .fc .eq::after{content:"✍ 先默寫，再點這裡翻開";position:absolute;inset:0;display:flex;
+ align-items:center;justify-content:center;color:#90a4ae;font-size:.84rem;
+ background:repeating-linear-gradient(45deg,#eef2f5 0 8px,#f7f9fb 8px 16px);border-radius:8px}
+body.recall .fc.rev .eq>*{visibility:visible}
+body.recall .fc.rev .eq::after{display:none}
+body.recall .fc .meta .katex{filter:blur(4px)}
+body.recall .fc.rev .meta .katex{filter:none}
+@media print{.recallbar{display:none}body.recall .fc .eq>*{visibility:visible}body.recall .fc .eq::after{display:none}}
+```
+
+**JS**：取代 `/* ---------- 渲染` 之後的整段（`F`、`MX` 兩個陣列不動；prerender／verify 以這行註解為界切出資料）：
+
+```js
+/* ---------- 渲染 ---------- */
+const LVN={must:'必背',half:'別賭',give:'通常會給'};
+const G=[...new Set(F.map(f=>f.g))];
+let fl={lv:'all',g:'all'};
+let recall=false;const rev=new Set();
+const SUBJ='SA';   // ← 科目代碼（題號連結 problems-view/SUBJ-YYYY-N.html 用）
+const CN={'一':1,'二':2,'三':3,'四':4,'五':5,'六':6};
+function yrs(a,c){return a.map(y=>'<span class="yr '+c+'">'+(y-1911)+'年</span>').join('');}
+function mathIn(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[
+    {left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});}
+function rcInfo(){
+  const shown=F.filter(f=>(fl.lv==='all'||f.lv===fl.lv)&&(fl.g==='all'||f.g===fl.g));
+  const n=shown.filter(f=>rev.has(f.nm)).length;
+  document.getElementById('rcInfo').textContent=recall
+    ?'已翻開 '+n+' / '+shown.length+' 條——看名稱先默寫，再點式子對答案。'
+    :'開啟後式子會被蓋住：看卡片名稱先在紙上默寫，再點式子翻開對答案。';
+}
+function draw(){
+  const box=document.getElementById('cards');
+  box.innerHTML=F.filter(f=>(fl.lv==='all'||f.lv===fl.lv)&&(fl.g==='all'||f.g===fl.g)).map(f=>{
+    let ev=f.ok.length?'<b>考卷給過：</b>'+yrs(f.ok,'ok')
+                      :'<b>考卷給過：</b><span class="never">從未</span>';
+    if(f.no.length) ev+='　｜　<b>考了卻沒給：</b>'+yrs(f.no,'no');
+    return '<div class="fc '+f.lv+(rev.has(f.nm)?' rev':'')+'" data-nm="'+f.nm+'"><div class="top"><span class="nm">'+f.nm+'</span>'+
+      '<span class="tag '+f.lv+'">'+LVN[f.lv]+'</span></div>'+
+      '<div class="eq">'+f.eq+'</div><p class="meta">'+f.meta+'</p>'+
+      '<div class="ev">'+ev+'</div></div>';}).join('')
+    ||'<p class="lead">（此組合下沒有公式）</p>';
+  mathIn(box);
+  box.querySelectorAll('.fc .eq').forEach(e=>e.onclick=()=>{
+    if(!recall)return;const c=e.closest('.fc');c.classList.toggle('rev');
+    c.classList.contains('rev')?rev.add(c.dataset.nm):rev.delete(c.dataset.nm);rcInfo();});
+  rcInfo();
+}
+/* 逐年表一格的狀態：1＝印出 ✔；2＝該欄有公式在這一年「考了卻沒給」✗；0＝未考 · */
+function cell(r,i){
+  if(r[3+i])return 1;
+  return F.some(f=>f.c===i&&f.no.includes(r[0]))?2:0;
+}
+function qlinks(r){
+  if(r[2]==='(—)')return r[2];
+  return r[2].replace(/[一二三四五六]/g,ch=>'<a href="problems-view/'+SUBJ+'-'+r[0]+'-'+CN[ch]+'.html" title="'+SUBJ+'-'+r[0]+'-'+CN[ch]+' 解析">'+ch+'</a>');
+}
+function drawMx(){
+  const tb=document.querySelector('#mx tbody');const N=MX[0].length-4;
+  const ok=Array(N).fill(0),no=Array(N).fill(0);
+  tb.innerHTML=MX.map(r=>{
+    const has=r[2]!=='(—)';
+    let c='';for(let i=0;i<N;i++){const s=cell(r,i);if(s===1)ok[i]++;if(s===2)no[i]++;
+      c+='<td class="c">'+(s===1?'<span class="y">✔</span>':s===2?'<span class="x">✗</span>':'<span class="n">·</span>')+'</td>';}
+    return '<tr class="'+(has?'hl':'')+'"><td><b>'+r[0]+'</b><br><span class="ynote">'+r[1]+'年</span></td>'+
+      '<td class="qq">'+qlinks(r)+'</td>'+c+'<td class="rm">'+r[r.length-1]+'</td></tr>';}).join('');
+  document.querySelector('#mx tfoot').innerHTML='<tr><td colspan="2">'+MX.length+' 年合計</td>'+
+    ok.map((v,i)=>'<td>✔ '+v+'<br><span style="color:#c62828">✗ '+no[i]+'</span></td>').join('')+
+    '<td>✗ 合計 '+no.reduce((a,b)=>a+b,0)+' 格</td></tr>';
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const fb=document.getElementById('flt');
+  fb.innerHTML='<div class="fg"><b>級別</b>'+
+    [['all','全部'],['must','必背'],['half','別賭'],['give','通常會給']]
+      .map(([k,v],i)=>'<button data-t="lv" data-v="'+k+'"'+(i===0?' class="on"':'')+'>'+v+'</button>').join('')+
+    '</div><div class="fg"><b>主題</b>'+
+    ['all',...G].map((g,i)=>'<button data-t="g" data-v="'+g+'"'+(i===0?' class="on"':'')+'>'+(g==='all'?'全部':g)+'</button>').join('')+
+    '</div>';
+  fb.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    const t=b.dataset.t;fl[t]=b.dataset.v;
+    fb.querySelectorAll('button[data-t="'+t+'"]').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');draw();});
+  const tg=document.getElementById('rcToggle'),rs=document.getElementById('rcReset');
+  tg.onclick=()=>{recall=!recall;document.body.classList.toggle('recall',recall);
+    tg.classList.toggle('on',recall);tg.textContent=recall?'🙈 回想模式：開':'🙈 回想模式：關';
+    rs.hidden=!recall;rcInfo();};
+  rs.onclick=()=>{rev.clear();document.querySelectorAll('.fc.rev').forEach(c=>c.classList.remove('rev'));rcInfo();};
+  const navh=()=>document.documentElement.style.setProperty('--navh',document.querySelector('nav').offsetHeight+'px');
+  navh();window.addEventListener('resize',navh);
+  drawMx();draw();
+});
+```
+
+## 附錄 D：`build_pdf.py` 列印 CSS 修補（v2）
+
+`scripts/build_pdf.py` 若仍含 `#strategy{break-before:page}`，複製到 `$T` 後跑：
+
+```python
+p = '/tmp/ufm-tools/build_pdf.py'
+s = open(p, encoding='utf-8').read()
+old = '#matrix{break-before:page}\n#strategy{break-before:page}\n'
+if old in s:
+    s = s.replace(old, '''td .x{color:#c62828;font-weight:800;font-size:8.5pt}td .n{color:#cfd8dc}
+#mx th,#mx td{padding:1.2px 3px}#mx td.rm{font-size:6.3pt;line-height:1.35}
+#mx tr.tot td{background:#f7f9fb;border-top:1.5px solid #90a4ae;font-weight:700;font-size:6.8pt}
+#mx tr.tot .x{font-size:6.8pt}
+.recallbar{display:none}
+#matrix{break-before:page}
+#strategy{margin-top:22px}
+''')
+    open(p, 'w', encoding='utf-8').write(s)
+```
+
+## 版本紀錄
+
+| 日期 | 版本 | 變更 |
+|------|------|------|
+| 2026-08 | v1 | 初版：四節結構、兩態逐年表、MathJax＋WeasyPrint PDF |
+| 2026-10-28 | v2 | 逐年表三態（✗ 由 `c`＋`no` 推出）＋合計列＋題號連結；回想模式；sticky 表頭依導覽列高度；verify.py 可由 `c` 自動推對照表、檢查 no 年份與題號引用；Step 6-2a 內容主張回查；PDF 不再讓背誦策略獨佔一頁。實例：SA-U1-2 |

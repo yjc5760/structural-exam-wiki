@@ -1,0 +1,169 @@
+<section id="ch1">
+<h2 class="t">第 1 章　從 \(M_y\) 開始：最外緣的那一根纖維先降伏</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$\bar y=\frac{\sum A_iy_i}{\sum A_i},\qquad I_x=\sum\Big(\frac{b_ih_i^3}{12}+A_id_i^2\Big),\qquad M_y=F_y\,S_{\min}=F_y\,\frac{I_x}{c_{\max}}$$
+要記的只有 <span class="kw">S1 兩段線＋平面保持平面</span>、<span class="kw">S2 中性軸由 ΣF＝0 決定</span>、<span class="kw">S3 彎矩＝力偶</span>。
+這一章是「彈性世界」（藍色）：應力還是三角形。下一章把三角形推到底，變成兩塊矩形，就進入「塑性世界」。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>ENA（一次矩）\(\bar y=\sum A_iy_i/\sum A_i\)</td><td><span class="tg must">必背</span></td><td>1.3</td></tr>
+<tr><td>降伏彎矩 \(M_y=F_yS_{\min}=F_yI_x/c_{\max}\)</td><td><span class="tg must">必背</span></td><td>1.4</td></tr>
+<tr><td>平行軸定理 \(I_x=\sum(b_ih_i^3/12+A_id_i^2)\)</td><td><span class="tg must">必背</span></td><td>1.5</td></tr>
+</table>
+<p class="note">證據：單元總覽 F 表三條皆為 must——2006、2009、2010、2013、2023 的斷面題都要求自己算 \(I_x\)、\(S\)，考卷從未印出。見 <a href="problems-view/SS-2010-1.html">SS-2010-1</a>、<a href="problems-view/SS-2023-3.html">SS-2023-3</a>。</p>
+</div>
+
+<h3 class="t">1.1　鋼是兩段線</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S1（前半）　鋼是兩段線</div>
+$$\sigma=E\varepsilon\ \ (\varepsilon\le\varepsilon_y),\qquad \sigma=F_y\ \ (\varepsilon>\varepsilon_y)\quad\text{拉、壓都一樣}$$
+</div>
+<p>拿一支鋼棒做拉伸試驗，前面一段應力和應變成正比（斜線），到了 \(F_y\) 之後出現很長一段<b>降伏平台</b>：應變一直長，應力卻不再增加。
+塑性分析整個建立在這段平台上——它代表鋼材<b>「到了 \(F_y\) 還能繼續變形，而且不會斷」</b>。</p>
+
+{{FIG:fig1_1|圖 1-1｜綠色是本單元唯一使用的材料模型（彈—完全塑性）。實際軟鋼在約 10ε<sub>y</sub> 之後會應變硬化（灰色虛線，示意），應力還會再爬高；<b>塑性分析刻意不算這一段</b>，所以答案偏保守。}}
+
+<div class="why"><b>為什麼可以「不算硬化」？</b>
+硬化要等到應變很大才出現，那時候梁已經彎得很明顯；設計上我們不想用到那裡。把平台當成「到頂了」，得到的 \(M_p\) 比真實強度略低，是安全側的簡化。
+<br>這是一個<b>模型假設</b>，不是推導出來的——但它就是本單元每一條公式的地基。</div>
+
+<div class="seed"><div class="seed-h">🌱 種子 S1（後半）　平面保持平面</div>
+$$\varepsilon(y)=\phi\,(y-y_n)\qquad\text{應變沿斷面高度呈直線}$$
+</div>
+<p>梁彎曲時，原本平的斷面轉了一個角度，但仍然是平的。所以應變一定是<b>一條直線</b>：中性軸處為零，離得越遠越大。斜率 \(\phi\) 就是曲率。
+這句話對彈性、對塑性<b>都成立</b>；改變的只是「應變換成應力」的那一步。</p>
+
+<h3 class="t">1.2　把彎矩慢慢加大：應力從三角形長成矩形</h3>
+<p>把兩顆種子疊在一起：應變是直線（後半），應力是應變經過「兩段線」的換算（前半）。
+彎矩小的時候，外緣應變還沒到 \(\varepsilon_y\)，應力是三角形；彎矩加大，外緣先「頂到」\(F_y\) 被壓平，平掉的區域一路往中性軸擴散——</p>
+
+{{FIG:fig1_2|圖 1-2｜矩形斷面在四個階段的應力分布（紅＝壓、綠＝拉）。應變永遠是直線，只是外緣應變越來越大；<b>應力超過 \(F_y\) 的部分被兩段線「削平」</b>。② 是第一根纖維剛好降伏，此時 \(M=M_y\)；④ 是整個斷面都降伏，\(M\) 不能再增加，就是 \(M_p\)。圖下的彎矩值由 calcs.py 逐點積分求得。}}
+
+<div class="why"><b>整個單元就是這四格圖</b><br>
+第 1 章算 ②（\(M_y\)），第 2 章算 ④（\(M_p\)），第 3 章比較 ② 和 ④ 差多少（形狀因子 \(f\)），第 4 章說明 ④ 之後斷面「還能轉」（塑性鉸）。
+注意 ③：外緣應變已經是降伏應變的 3 倍，彎矩卻只比 \(M_y\) 多 44%，離 \(M_p\)（多 50%）只差一點點——這件事在第 2 章的 \(M\)–\(\phi\) 曲線會再看到。</div>
+
+<h3 class="t">1.3　彈性時中性軸在哪裡？——ENA＝形心</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S2　中性軸由 ΣF＝0 決定</div>
+$$\int\sigma\,dA=0\qquad\text{純彎曲時，壓的總力＝拉的總力}$$
+</div>
+<p>梁只受彎矩、沒有軸力，所以斷面上所有應力加起來必須等於零。中性軸不是我們「選」的，是這個條件<b>逼出來</b>的。</p>
+
+<div class="derive">
+<p><span class="st">①</span> 彈性時 \(\sigma=E\varepsilon=E\phi\,(y-y_n)\)（S1：直線應變 × 斜線材料）。</p>
+<p><span class="st">②</span> 代入 S2：\(\displaystyle\int E\phi\,(y-y_n)\,dA=0\;\Rightarrow\;\int y\,dA=y_n\int dA\)（\(E\phi\) 是常數，可以提出來）。</p>
+<p><span class="st">③</span> \(\displaystyle y_n=\frac{\int y\,dA}{A}\;\Rightarrow\;\boxed{\bar y=\frac{\sum A_iy_i}{\sum A_i}}\)　✔ 這就是「一次矩法求形心」。<b>彈性中性軸（ENA）就是形心。</b></p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・上下對稱的斷面：\(\bar y=H/2\) ✔ 對稱軸當然是形心。<br>
+・上翼板加寬：上半部面積變多 → \(\bar y\) 往上移 ✔ 形心往「肉多」的那邊跑。</div>
+
+<h3 class="t">1.4　降伏彎矩 \(M_y\)：最外緣的纖維先到 \(F_y\)</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S3　彎矩＝力偶＝力×力臂</div>
+$$M=\int\sigma\,(y-y_n)\,dA\qquad\text{每一小塊面積的力 × 它到中性軸的距離，加起來}$$
+</div>
+
+<div class="derive">
+<p><span class="st">①</span> 代入彈性應力：\(\displaystyle M=\int E\phi\,(y-\bar y)^2\,dA=E\phi\,I\)，其中 \(I=\int(y-\bar y)^2dA\)。</p>
+<p><span class="st">②</span> 外緣應力 \(\sigma_{\max}=E\phi\,c\)（\(c\)＝外緣到 ENA 的距離），所以 \(E\phi=\sigma_{\max}/c\)，\(M=\sigma_{\max}\,I/c\)。</p>
+<p><span class="st">③</span> 第一根纖維降伏時 \(\sigma_{\max}=F_y\)，而它一定在<b>離 ENA 最遠</b>的那一側（\(c\) 最大，應力最大）：
+\(\boxed{M_y=F_y\,\dfrac{I_x}{c_{\max}}=F_y\,S_{\min}}\)　✔ 這就是規範寫的那條。</p>
+</div>
+
+{{FIG:fig1_3|圖 1-3｜貫穿範例 SS-2020-2（依比例）。上翼板較寬，ENA 被拉往上方，距頂 26.54 cm、距底 33.46 cm。彎矩到 \(M_y\) 時，<b>離 ENA 較遠的下緣先達 \(F_y\)</b>，上緣只有 0.793\(F_y\)。所以要除的是較大的 \(c\)，得到的是較小的 \(S\)。}}
+
+<div class="check"><b>極限檢查</b><br>
+・矩形 \(b\times h\)：\(I=bh^3/12\)、\(c=h/2\) → \(S=bh^2/6\) ✔ 材料力學背過的那個。<br>
+・對稱斷面：\(c_{\text{top}}=c_{\text{bot}}\)，上下同時降伏，\(S_{\text{top}}=S_{\text{bot}}\) ✔ 不必挑。<br>
+・非對稱斷面：若誤用較小的 \(c\)，會得到較大的 \(S\)，\(M_y\) 被高估——<b>不安全</b>，所以一定取 \(S_{\min}\)。</div>
+
+<div class="why"><b>白話</b>：\(M_y\) 是「第一根纖維投降」的彎矩。哪一側離中性軸遠、應變大，哪一側就先投降。
+它和哪一側受壓、受拉無關——只看遠近。</div>
+
+<h3 class="t">1.5　平行軸定理：\(I_x\) 怎麼一塊一塊加</h3>
+<p>斷面由幾塊矩形組成，每一塊對「自己的形心」的 \(I\) 我們會算（\(bh^3/12\)），但要的是對<b>整個斷面 ENA</b> 的 \(I\)。差一個「搬家費」：</p>
+
+<div class="derive">
+<p><span class="st">①</span> 某一塊的形心離 ENA 為 \(d\)，塊內任一點離 ENA 的距離寫成 \(y'+d\)（\(y'\) 是離自己形心的距離）。</p>
+<p><span class="st">②</span> \(\displaystyle\int(y'+d)^2dA=\int y'^2dA+2d\!\int y'dA+d^2\!\int dA\)。中間那項是「對自己形心的一次矩」＝ 0（S2 同一個道理）。</p>
+<p><span class="st">③</span> \(\boxed{I_x=\sum\Big(\dfrac{b_ih_i^3}{12}+A_id_i^2\Big)}\)　✔ 自身的 \(I\) ＋ 面積 × 距離²。</p>
+</div>
+
+{{FIG:fig1_4|圖 1-4｜SS-2020-2 的 \(I_x\) 由哪裡來。<b>翼板幾乎全靠 \(Ad^2\)</b>（自身的 \(bh^3/12\) 只有幾十），<b>腹板幾乎全靠自身的 \(bh^3/12\)</b>（它的形心離 ENA 只有 3.46 cm）。兩種都不能漏：腹板自身占了 17%。}}
+
+<div class="trap"><b>陷阱：漏掉腹板自身的 \(t_wh_w^3/12\)</b><br>
+翼板「自身」很小可以約略，但腹板高、自身大。SS-2023-3 的腹板自身 166,667 cm⁴ 占 \(I_x\) 的 13.6%；SS-2020-2 占 17%。漏掉它，\(I\) 低估、\(M_y\) 跟著低估。</div>
+
+<h3 class="t">1.6　範例 A（貫穿範例）：SS-2020-2 的 \(M_y\)</h3>
+<div class="box"><b>斷面</b>　上翼板 30×2.5、腹板 1.5×55、下翼板 20×2.5（cm），全深 60 cm，\(F_y=2.5\) tf/cm²。（原題只問 \(M_p\) 與 \(w_u\)；這裡先算 \(M_y\)，第 2 章要用來比較。）</div>
+
+<table>
+<tr><th>塊</th><th>\(A_i\)（cm²）</th><th>\(y_i\)（距底，cm）</th><th>\(A_iy_i\)</th><th>\(d_i=y_i-\bar y\)</th><th>自身 \(bh^3/12\)</th><th>\(A_id_i^2\)</th></tr>
+<tr><td>上翼板</td><td>75</td><td>58.75</td><td>4,406.3</td><td>+25.29</td><td>39</td><td>47,954</td></tr>
+<tr><td>腹板</td><td>82.5</td><td>30.00</td><td>2,475.0</td><td>−3.46</td><td>20,797</td><td>990</td></tr>
+<tr><td>下翼板</td><td>50</td><td>1.25</td><td>62.5</td><td>−32.21</td><td>26</td><td>51,887</td></tr>
+<tr><th>合計</th><th>207.5</th><th></th><th>6,943.8</th><th></th><th colspan="2">\(I_x=121{,}693\)</th></tr>
+</table>
+
+<div class="derive">
+<p><span class="st">①</span> ENA：\(\bar y=6{,}943.8/207.5=33.46\) cm（距底）＝ 26.54 cm（距頂）。</p>
+<p><span class="st">②</span> \(I_x=121{,}693\) cm⁴（上表兩欄相加）。</p>
+<p><span class="st">③</span> \(c_{\max}=c_{\text{bot}}=33.46\) cm → \(S_{\min}=121{,}693/33.46=3{,}636.5\) cm³（另一側 \(S_{\text{top}}=4{,}585.9\)）。</p>
+<p><span class="st">④</span> \(\boxed{M_y=2.5\times3{,}636.5=9{,}091\ \text{tf}\cdot\text{cm}=90.9\ \text{tf}\cdot\text{m}}\)，下翼板先降伏。</p>
+</div>
+
+<h3 class="t">1.7　範例 B：哪一側先降伏？兩題對照</h3>
+<div class="box"><b><a href="problems-view/SS-2023-3.html">SS-2023-3</a>（112 年）</b>　頂翼板 50×5、腹板 2×100、底翼板 30×5（cm），\(F_y=2.5\)。求 \(M_y\)。</div>
+<div class="derive">
+<p><span class="st">①</span> \(A=250+200+150=600\) cm²；\(\bar y=\dfrac{150(2.5)+200(55)+250(107.5)}{600}=63.75\) cm（距底）。</p>
+<p><span class="st">②</span> \(I_x=(312.5+562{,}734)+(166{,}667+15{,}313)+(520.8+478{,}516)=1{,}224{,}062.5\) cm⁴。</p>
+<p><span class="st">③</span> \(c_{\text{bot}}=63.75>c_{\text{top}}=46.25\) → \(S_{\min}=S_{\text{bot}}=19{,}201\) cm³ → \(\boxed{M_y=48{,}003\ \text{tf}\cdot\text{cm}\approx480\ \text{tf}\cdot\text{m}}\)。</p>
+</div>
+
+<div class="box"><b><a href="problems-view/SS-2010-1.html">SS-2010-1</a>（99 年）</b>　由下而上 6×2、2×2、6×2、2×2（cm）的階梯斷面，SS540 取 \(F_y=4.0\)。求 \(M_y\)。</div>
+<div class="derive">
+<p><span class="st">①</span> \(A=12+4+12+4=32\)；\(\bar y=\dfrac{12(1)+4(3)+12(5)+4(7)}{32}=3.5\) cm（距底）——<b>不在幾何中心 4.0</b>。</p>
+<p><span class="st">②</span> \(I_x=162.7\) cm⁴；\(c_{\text{top}}=4.5>c_{\text{bot}}=3.5\)。</p>
+<p><span class="st">③</span> 這次是<b>頂部的凸塊先降伏</b>：\(S_{\min}=162.7/4.5=36.15\) → \(\boxed{M_y=4.0\times36.15=144.6\ \text{tf}\cdot\text{cm}}\)。</p>
+</div>
+
+<div class="why"><b>兩題的對照</b>：2023-3 是寬翼板在上，形心偏上，<b>底緣</b>先降伏；2010-1 是寬塊在下，形心偏下，<b>頂緣</b>先降伏。
+規則只有一條：<b>先算形心，再看誰離得遠</b>。不要憑「上面比較寬」之類的直覺判斷。</div>
+
+<div class="trap"><b>陷阱：看錯斷面上下順序（SS-2010-1）</b><br>
+舊版解析把斷面讀成上下對稱十字形，得 \(M_y=106.7\)、\(M_p=192\)。依原圖由下而上逐格確認後是非對稱斷面，正解 \(M_y=144.6\)、\(M_p=256\)。題目正本的判讀清單就是為了攔這種錯。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜\(M_y\)</div>
+<ol>
+<li><b>畫</b>：斷面＋一條直線應變＋三角形應力（圖 1-3）</li>
+<li><b>種子</b>：S2（ΣF＝0 → 形心）、S3（力偶 → \(\int\sigma y\,dA=E\phi I\)）</li>
+<li><b>推</b>：\(\bar y=\sum Ay/\sum A\) → \(I=\sum(bh^3/12+Ad^2)\) → \(M_y=F_yI/c_{\max}\)</li>
+<li><b>檢查</b>：矩形應得 \(bh^2/6\)；非對稱時兩個 \(S\) 取小的</li>
+</ol>
+</div>
+
+<h3>1.8　🙈 蓋住重推</h3>
+<details><summary>Q1　為什麼彈性中性軸一定是形心？（不能回答「定義如此」）</summary>
+<p>純彎沒有軸力，\(\int\sigma\,dA=0\)。彈性時 \(\sigma=E\phi(y-y_n)\)，所以 \(\int(y-y_n)dA=0\)，也就是 \(y_n=\int y\,dA/A\)——這正是形心的定義。若材料不是線性（下一章），這個結論就不成立。</p></details>
+<details><summary>Q2　非對稱斷面為什麼 \(M_y\) 要用較小的 \(S\)？</summary>
+<p>應變是直線，離中性軸遠的那一側應變大，先到 \(\varepsilon_y\)。\(S=I/c\)，\(c\) 大 → \(S\) 小。若用較大的 \(S\)，等於假設近的那側先降伏，會高估 \(M_y\)。</p></details>
+<details><summary>Q3　平行軸定理中間那一項 \(2d\int y'dA\) 為什麼消失？</summary>
+<p>\(y'\) 是從該塊自己的形心量起，對自己形心的一次矩恆為零（和 S2 推形心是同一件事）。</p></details>
+
+<h3>1.9　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>非對稱斷面直接取 \(H/2\) 當中性軸</td><td>先用一次矩求形心（S2）；2010-1 的形心在 3.5 而非 4.0</td></tr>
+<tr><td>2</td><td>\(S\) 用較小的 \(c\)</td><td>離 ENA 遠的先降伏，取 \(c_{\max}\)、\(S_{\min}\)</td></tr>
+<tr><td>3</td><td>漏掉腹板自身 \(t_wh_w^3/12\)</td><td>腹板占 \(I\) 的 13～17%，不能省</td></tr>
+<tr><td>4</td><td>平行軸距離 \(d\) 量到斷面底緣</td><td>\(d\) 是「塊形心」到「整體 ENA」的距離</td></tr>
+<tr><td>5</td><td>看錯斷面上下順序</td><td>依題目原圖由下而上逐格確認（2010-1 舊解錯在這裡）</td></tr>
+</table>
+</section>

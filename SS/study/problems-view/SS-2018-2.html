@@ -16,7 +16,7 @@
 body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
   background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
 header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
-header h1{margin:0;font-size:1.15em;letter-spacing:.3px}
+header h1{color:#fff;margin:0;font-size:1.15em;letter-spacing:.3px}
 header .lect{display:inline-block;margin-top:10px;margin-left:8px;font-size:.82em;color:#4a148c;background:#f3e5f5;border:1px solid #ce93d8;padding:5px 14px;border-radius:16px;text-decoration:none}header .lect:hover{background:#fff;color:#4a148c}header .quick{display:inline-block;margin-top:10px;font-size:.82em;color:#0d47a1;background:#e3f2fd;border:1px solid #90caf9;padding:5px 14px;border-radius:16px;text-decoration:none}header .quick:hover{background:#fff;color:#0d47a1}header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
   padding:4px 12px;border-radius:14px;text-decoration:none}
 header .back:hover{background:rgba(255,255,255,.32)}
@@ -41,69 +41,161 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <body>
 <header>
   <h1>SS-2018-2 題目解析</h1>
-  <a class="quick" href="../study-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 命題分析">&#128269; U1-1 命題分析</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
+  <a class="quick" href="../unit-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 單元總覽">&#128269; U1-1 單元總覽</a><a class="lect" href="../lecture-SS-U1-1.html" title="SS-U1-1 拉力及壓力桿件 觀念講義">&#128218; U1-1 拉力及壓力桿件 講義</a>
 </header>
 <main>
+<details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>SS-2018-2 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>SS-2018-2.md</code>。<br />
+判讀清單經使用者確認前，狀態為「待確認」；確認後本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>考卷</td>
+<td><code>raw/exams/SS-2018_鋼結構設計.pdf</code> 第 1 頁（頁次 2－1），第二題</td>
+</tr>
+<tr>
+<td>考年</td>
+<td>民國 107 年（2018）</td>
+</tr>
+<tr>
+<td>配分</td>
+<td>25 分</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td>無（題末參考公式照錄於 §2）</td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-02 使用者確認，含「不確定」項之解讀；轉錄同日，PyMuPDF 110 dpi 全頁目視＋抽出文字核對，盲讀後才比對既有解析）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>二、鋼構架中有一柱長 400 cm，採用板厚 3.2 cm、寬度 80 cm 之箱型斷面。分析後得知柱需承受壓力 1,119 tf，且 2 方向有效長度係數分別為 2.284 與 2.397。鋼材降伏強度 3.3 tf/cm²，而揚氏係數 2,040 tf/cm²。試依極限設計法（LRFD）檢核上述柱構件之強度設計。（25 分）</p>
+</blockquote>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>題文：$L = 400$ cm，板厚 3.2 cm，寬度 80 cm，壓力 1,119 tf，有效長度係數 2.284 與 2.397，$F_y = 3.3$ tf/cm²，$E = 2040$ tf/cm²。</li>
+<li>題末「參考公式」照錄：</li>
+</ul>
+<p>$$\lambda_c = \frac{kL}{\pi r}\sqrt{\frac{F_y}{E}}\;;\quad \lambda_c &gt; 1.5,\ F_{cr} = \frac{0.877}{\lambda_c^2}F_y\;;\quad \lambda_c \le 1.5,\ F_{cr} = e^{-0.419\lambda_c^2}F_y$$</p>
+<p>（$e^{-0.419\lambda_c^2}$ 與規範的 $0.658^{\lambda_c^2}$ 數值相同。）<br />
+- <strong>沒有給 $\phi_c$</strong>，也沒有給寬厚比限制式。<br />
+- 卷首注意事項：㈠可用計算器、㈡不必抄題、㈢除專門名詞或數理公式外應使用本國文字作答。</p>
+<h2>3. 附圖</h2>
+<p>本題無附圖。</p>
+<h2>4. 判讀清單</h2>
+<p>「把握」標<strong>不確定</strong>者請優先確認；解讀類項目（題目用字的意思）另標「解讀」。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>斷面形狀</td>
+<td>正方形箱型（只給一個寬度 80 cm，四片板同厚 3.2 cm）</td>
+<td>題文</td>
+<td>不確定 → 使用者確認</td>
+</tr>
+<tr>
+<td>2</td>
+<td>80 cm 量法</td>
+<td>外緣寬度（內淨寬 80 − 2×3.2 = 73.6 cm）</td>
+<td>題文未說明</td>
+<td>不確定 → 使用者確認</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1,119 tf</td>
+<td>視為係數化設計壓力 $P_u$，與 $\phi_cP_n$ 比較</td>
+<td>題文「需承受壓力」＋指定 LRFD</td>
+<td>不確定 → 使用者確認</td>
+</tr>
+<tr>
+<td>4</td>
+<td>「2 方向」</td>
+<td>兩個主軸方向；正方形斷面兩軸 $r$ 相同，取較大 $K = 2.397$ 控制</td>
+<td>題文</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>$\phi_c$</td>
+<td>題未給，依規範自取（國內 0.85／AISC 360-16 為 0.90），作答時註明</td>
+<td>題文未給</td>
+<td>不確定 → 使用者確認</td>
+</tr>
+<tr>
+<td>6</td>
+<td>局部挫屈</td>
+<td>「檢核強度設計」是否包含翼板／腹板寬厚比檢核（題未給 $\lambda_r$ 式）</td>
+<td>題文</td>
+<td>不確定 → 使用者確認：要（本解有寬厚比檢核）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-02（SS-U1-1 題目正本推廣・批 3）｜確認：2026-11-02 使用者確認</em></p></details>
 <h1>考題編號：SS-2018-2</h1>
 <p><strong>主分類：</strong> <code>SS-U1-1</code> 拉力及壓力桿件<br />
 <strong>副分類：</strong> 無<br />
 <strong>設計法：</strong> LRFD<br />
 <strong>標籤：</strong> <code>壓力桿件</code> <code>箱型斷面</code> <code>整體彎曲挫屈</code> <code>有效長度係數</code> <code>λc</code> <code>Fcr</code> <code>φcPn</code> <code>非彈性挫屈</code> <code>局部挫屈</code> <code>φc新舊規範</code></p>
 <hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p><strong>題目：</strong> 鋼構架中有一柱長 400 cm，採用板厚 3.2 cm、寬度 80 cm 之箱型斷面。分析後得知柱需承受壓力 1,119 tf，且 2 方向有效長度係數分別為 2.284 與 2.397。鋼材降伏強度 3.3 tf/cm²，而揚氏係數 2,040 tf/cm²。試依極限設計法（LRFD）檢核上述柱構件之強度設計。（25 分）</p>
-<p><strong>已知條件整理：</strong></p>
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="SS-2018-2-problem.md"><code>SS-2018-2-problem.md</code></a>。本節只列<strong>解題時最容易讀錯的地方</strong>與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<h3>常見誤讀</h3>
 <table>
 <thead>
 <tr>
-<th>參數</th>
-<th>數值</th>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>柱長 $L$</td>
-<td>400 cm</td>
+<td>斷面形狀與 80 cm</td>
+<td>題只寫「寬度 80 cm 之箱型斷面」；本解假設正方形、80 cm 為外緣寬（使用者確認）</td>
+<td>當成題目明示</td>
 </tr>
 <tr>
-<td>斷面型式</td>
-<td>正方形箱型（hollow square）</td>
-</tr>
-<tr>
-<td>外側寬度 $b_o$</td>
-<td>80 cm</td>
-</tr>
-<tr>
-<td>板厚 $t$</td>
-<td>3.2 cm</td>
-</tr>
-<tr>
-<td>設計壓力 $P_u$</td>
 <td>1,119 tf</td>
+<td>本解視為係數化壓力 $P_u$（使用者確認）</td>
+<td>當成使用載重再乘載重係數</td>
 </tr>
 <tr>
-<td>有效長度係數 $K_1$</td>
-<td>2.284（第一方向）</td>
+<td>2 方向 $K$</td>
+<td>正方形兩軸 $r$ 相同，取較大 $K = 2.397$</td>
+<td>取 2.284 或平均值</td>
 </tr>
 <tr>
-<td>有效長度係數 $K_2$</td>
-<td>2.397（第二方向，控制）</td>
-</tr>
-<tr>
-<td>降伏強度 $F_y$</td>
-<td>3.3 tf/cm²</td>
-</tr>
-<tr>
-<td>揚氏係數 $E$</td>
-<td>2,040 tf/cm²</td>
+<td>$\phi_c$</td>
+<td>題未給；國內 0.85、AISC 360-16 為 0.90，兩者並列</td>
+<td>當成題目給定</td>
 </tr>
 </tbody>
 </table>
-<p><strong>考卷給定參考公式：</strong></p>
-<p>$$\lambda_c = \frac{KL}{\pi r}\sqrt{\frac{F_y}{E}}$$</p>
-<p>$$\lambda_c &gt; 1.5 \Rightarrow F_{cr} = \frac{0.877}{\lambda_c^2}F_y \quad (\text{彈性挫屈})$$</p>
-<p>$$\lambda_c \leq 1.5 \Rightarrow F_{cr} = e^{-0.419\lambda_c^2}F_y \quad (\text{非彈性挫屈})$$</p>
-<p><em>（說明：$e^{-0.419\lambda_c^2} = 0.658^{\lambda_c^2}$，兩式等價）</em></p>
+<p><strong>本解記號：</strong> $b_o = 80$、$b_i = 73.6$、$t = 3.2$ cm；$L = 400$ cm；$K = 2.397$；$P_u = 1119$ tf；$F_y = 3.3$、$E = 2040$ tf/cm²。</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
 <p><strong>核心觀念：</strong> 箱型斷面屬高效率斷面，對稱軸兩方向慣性矩相同，計算迴轉半徑時可利用代數化簡公式 $r^2 = (b_o^2 + b_i^2)/12$（僅適用正方形箱）。有效長度係數不同時，需分別計算兩方向之 $\lambda_c$ 取最大者控制。</p>
@@ -352,7 +444,6 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <tr>
 <th>知識點</th>
 <th>說明</th>
-<th style="text-align: center;">補強頁</th>
 <th style="text-align: center;">卡關?</th>
 </tr>
 </thead>
@@ -360,37 +451,31 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <tr>
 <td>LRFD 柱設計 $\lambda_c$ 判斷準則</td>
 <td>$\lambda_c \leq 1.5$ 用非彈性公式（$0.658^{\lambda_c^2}$），$&gt; 1.5$ 用彈性（$0.877/\lambda_c^2$）</td>
-<td style="text-align: center;">[[lrfd-column]] · [[COLUMN-STRENGTH-CURVE]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$0.658^{\lambda_c^2}$ 與 $e^{-0.419\lambda_c^2}$ 等價推導</td>
 <td>$\ln 0.658 = -0.419$，故兩式完全相同，擇一代入計算機即可</td>
-<td style="text-align: center;">[[lrfd-column]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>正方形箱型 $r$ 化簡公式</td>
 <td>$r^2 = (b_o^2 + b_i^2)/12$ 僅適用<strong>正方形</strong>；矩形箱需分 $x$、$y$ 方向個別計算</td>
 <td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$\phi_c$ 的規範版本差異</td>
 <td>台灣現行規範（99 年版）與 AISC 舊 LRFD：$\phi_c = 0.85$；AISC 360-05 起改為 $\phi_c = 0.90$（$\phi_b$ 一直是 0.90）。考場依台灣規範</td>
-<td style="text-align: center;">[[lrfd-column]] · [[phi-resistance-factors]]</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>箱型斷面的局部挫屈界限</td>
 <td>箱型壁板四邊皆有支撐 → 屬「有側支撐板元」，$\lambda_r = 1.40\sqrt{E/F_y}$；細長時 $F_{cr}$ 須依有效寬度折減</td>
 <td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>兩方向 $K$ 不同時的控制方向</td>
 <td>需分別計算 $(KL/r)_1$ 與 $(KL/r)_2$，取較大者進行後續計算</td>
-<td style="text-align: center;">[[effective-length-chart]]</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -421,6 +506,8 @@ $$r^2 = \frac{I}{A} = \frac{(b_o^4 - b_i^4)/12}{(b_o^2 - b_i^2)} = \frac{(b_o^2 
 台灣現行規範的等價寫法為 $b/t \le 50/\sqrt{F_y}$（$F_y$ 以 tf/cm² 計）$= 50/\sqrt{3.3} = 27.5$，<br />
 23.0 &lt; 27.5 同樣通過（該式較 AISC 的 34.8 保守）。</p>
 </blockquote>
+<p><img alt="SS-2018-2 圖解：80 × 80 × 3.2 箱型斷面依比例，內淨寬 b = 73.6；右側列 A = 983.04 cm²、r = 31.38 cm，並以長條比較 b/t = 23.0 與國內 50/√Fy = 27.5、AISC 1.40√(E/Fy) = 34.8" src="../../raw/solutions/SS-2018-2/figs/SS-2018-2-fig-1-section.svg" /></p>
+<p><em>圖 1　$A = 983.04$ cm²、$r = 31.38$ cm；壁板 $b/t = 73.6/3.2 = 23.0$ 小於 27.5（國內）與 34.8（AISC），非細長斷面。這張圖攔的是把 80 當內寬、$b$ 取外寬算 $b/t$，或漏做局部挫屈檢核。</em></p>
 <hr />
 <h3>Step 3：計算兩方向之 $KL/r$</h3>
 <p>$$\frac{K_1 L}{r} = \frac{2.284 \times 400}{31.38} = \frac{913.6}{31.38} = 29.11$$</p>
@@ -452,6 +539,8 @@ $$r^2 = \frac{I}{A} = \frac{(b_o^4 - b_i^4)/12}{(b_o^2 - b_i^2)} = \frac{(b_o^2 
 <p>$$\boxed{P_u = 1119 \text{ tf} \ll \phi_c P_n = 2{,}586 \text{ tf}\ (\phi_c=0.85) \ \Rightarrow\ \text{強度設計 OK}}$$</p>
 <p><strong>結論：</strong> 三項檢核（局部挫屈 $b/t$、細長比上限、整體彎曲挫屈強度）全部通過。<br />
 利用率僅 43.3%（新規範 40.9%），斷面對此柱非常充裕。</p>
+<p><img alt="SS-2018-2 圖解：Fcr/Fy 對 λc 曲線，λc = 0.391 時 Fcr/Fy = 0.9379；右側 Fcr = 3.095、Pn = 3,043 tf，φc = 0.85 時 φcPn = 2,586 tf、利用率 0.433，φc = 0.90 時 2,738 tf、0.409" src="../../raw/solutions/SS-2018-2/figs/SS-2018-2-fig-2-strength.svg" /></p>
+<p><em>圖 2　控制 $K = 2.397$：$\lambda_c = 0.391$（非彈性），$\phi_cP_n = 2{,}586$ tf，$P_u/\phi_cP_n = 0.433$，OK。這張圖攔的是控制 K 取較小的 2.284、$\lambda_c$ 漏了 $\pi$，或 $\phi_c$ 沒有註明版本。</em></p>
 <hr />
 <h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
 <h3>5.1 依最新規範計算：$\phi_c$ 由 0.85 提高為 0.90</h3>
@@ -525,21 +614,23 @@ $$0.658^{\lambda_c^2} = e^{\lambda_c^2 \ln(0.658)} = e^{-0.419\lambda_c^2} \quad
 <p>三項全寫才是完整答案。本題 $b/t = 23.0$ 距界限 34.8 還有餘裕，但這正是「板厚 3.2 cm」這個<br />
 看似多餘的條件之所以會出現在題目裡的原因——不寫 $b/t$，等於沒看見這個提示。</p>
 <p><em>修正日期：2026-08-22（H1 標題改依 CLAUDE-SPEC；補漏做的局部挫屈 $b/t$ 檢核與細長比上限；$\phi_c$ 改為「台灣現行 0.85 / AISC 360-16 起 0.90」雙軌呈現，並改正原陷阱表把 0.90 標為「誤」的敘述）</em><br />
+<em>圖解補繪：2026-11-03（向量圖 2 張，腳本 <code>gen_SS-2018-2.py</code>，改輸入可原地重跑；SVG 供 wiki／PDF，2× PNG 供 pptx／影片）</em><br />
 <em>驗證狀態：unverified</em></p>
+<p><em>修正日期：2026-11-02（§1 全文重述改為指向題目正本 <code>SS-2018-2-problem.md</code>（已確認）＋常見誤讀＋本解記號；正方形、80 cm 外緣、1,119 tf 為 $P_u$ 改標為本解假設（使用者確認）；解題內容與答案不變）</em></p>
 </main>
 <footer>來源：raw/solutions/SS-2018-2/SS-2018-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>
-/* 跟隨來源單元：若由 study-/lecture-/formula-given-SS-Un-m.html 點入，
+/* 跟隨來源單元：若由 unit-/study-/lecture-/formula-given-SS-Un-m.html 點入，
    兩顆按鈕改指向「來源那個單元」；直接開檔或來源不明時，維持本題主分類單元。 */
 (function(){
   var UN={'SS-U1-1':'拉力及壓力桿件','SS-U1-2':'梁桿件','SS-U1-3':'梁柱桿件',
-          'SS-U1-4':'接合之分析與設計','SS-U2-3':'設計規範對施工之要求'};
-  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SS-U\d-\d)\.html/);
+          'SS-U1-4':'接合之分析與設計','SS-U2-1':'塑性分析與設計','SS-U2-3':'設計規範對施工之要求'};
+  var m=(document.referrer||'').match(/(?:unit|study|lecture|formula-given)-(SS-U\d-\d)\.html/);
   if(!m||!UN[m[1]])return;
   var u=m[1],code=u.replace('SS-','');
   var q=document.querySelector('header .quick'),l=document.querySelector('header .lect');
-  if(q){q.href='../study-'+u+'.html';q.title=u+' '+UN[u]+' 命題分析';
-        q.innerHTML='\uD83D\uDD0D '+code+' 命題分析';}
+  if(q){q.href='../unit-'+u+'.html';q.title=u+' '+UN[u]+' 單元總覽';
+        q.innerHTML='\uD83D\uDD0D '+code+' 單元總覽';}
   if(l){l.href='../lecture-'+u+'.html';l.title=u+' '+UN[u]+' 觀念講義';
         l.innerHTML='\uD83D\uDCDA '+code+' '+UN[u]+' 講義';}
 })();

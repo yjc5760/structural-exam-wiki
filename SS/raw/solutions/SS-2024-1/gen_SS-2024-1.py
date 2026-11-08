@@ -254,7 +254,64 @@ def fig3_curve():
 
 
 # ══════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════
+# 圖 1：題目附圖重繪（依題目正本 SS-2024-1-problem.md §4 判讀清單，2026-11-02 已確認）
+# 只重繪圖(b)（斷面與殘餘應力分布），與上方解題常數分開；不含任何解題結果。
+# 圖(a) 挫屈曲線、圖(c) 應力–應變曲線屬曲線圖，不重繪。單位 mm。
+# ══════════════════════════════════════════════════════════
+Q_D, Q_BF, Q_TW, Q_TF = 400.0, 400.0, 13.0, 21.0    # RH400×400×13×21（題文）
+Q_SEG = [113.5, 173.0, 113.5]                       # #1 翼板分段 113.5＋173＋113.5，上下相同
+Q_SIG = [-0.5, 0.4, -0.5]                           # #2 負為壓（兩端 −0.5Fy）、正為拉（中央 +0.4Fy）
+Q_WEB = 0.4                                         # #3 腹板全高 +0.4Fy（拉）
+Q_K = 120.0                                         # 每 1.0Fy 的繪圖長度（mm 尺度）
+
+
+def fig1_problem():
+    W1, H1, sx = 620, 700, 0.85
+    cv = Canvas(W1, H1, sx=sx, ox=W1 / 2 - 60, oy=H1 / 2 - 20)
+    cv.panel("圖(b)　斷面與殘餘應力", "負＝壓（藍）、正＝拉（紅）；應力塊高度依數值比例")
+    h, b = Q_D / 2, Q_BF / 2
+    for y0, y1 in ((h - Q_TF, h), (-h, -h + Q_TF)):
+        cv.polygon([(-b, y0), (b, y0), (b, y1), (-b, y1)], C["fill_c"], C["member"], 1.6)
+    cv.polygon([(-Q_TW / 2, -h + Q_TF), (Q_TW / 2, -h + Q_TF), (Q_TW / 2, h - Q_TF), (-Q_TW / 2, h - Q_TF)],
+               C["fill_c"], C["member"], 1.6)
+    cv.arrow((0, 0), (0, 90), C["text"], 1.6, 8)
+    cv.arrow((0, 0), (110, 0), C["text"], 1.6, 8)
+    cv.math((0, 90), "y", 15, C["text"], "end", dx=-6, weight="700")
+    cv.math((110, 0), "x", 15, C["text"], dy=-12, weight="700")
+    for sgn in (1, -1):                       # 上、下翼板的應力圖，基線在翼板外側
+        base = sgn * (h + 70)
+        cv.line((-b - 10, base), (b + 10, base), C["muted"], 1.2)
+        x = -b
+        for w, s in zip(Q_SEG, Q_SIG):
+            y1 = base + sgn * (-s) * Q_K * 0.5            # 壓畫在外側、拉畫在內側
+            col, fill = (C["compr"], C["fill_c"]) if s < 0 else (C["tension"], C["fill_t"])
+            cv.polygon([(x, base), (x + w, base), (x + w, y1), (x, y1)], fill, col, 1.5)
+            x += w
+        cv.math((b + 14, base + sgn * Q_K * 0.25), "−0.5F_{y}", 14, C["compr"], "start")
+        cv.math((b + 14, base - sgn * Q_K * 0.2), "+0.4F_{y}", 14, C["tension"], "start")
+    xb = b + 50                               # 腹板應力圖
+    cv.line((xb, -h + Q_TF), (xb, h - Q_TF), C["muted"], 1.2)
+    cv.polygon([(xb, -h + Q_TF), (xb + Q_WEB * Q_K * 0.5, -h + Q_TF), (xb + Q_WEB * Q_K * 0.5, h - Q_TF),
+                (xb, h - Q_TF)], C["fill_t"], C["tension"], 1.5)
+    cv.math((xb + Q_WEB * Q_K * 0.5, 0), "+0.4F_{y}", 14, C["tension"], "start", dx=6)
+    top = h + 70 + 0.5 * Q_K * 0.5
+    x = -b
+    for w in Q_SEG:
+        cv.dim((x, top), (x + w, top), f"{w:g}", off=-16, label_off=-14)
+        x += w
+    cv.text_px(W1 / 2, H1 - 30, "RH400×400×13×21　單位：mm", 13, C["muted"])
+    path = os.path.join(OUT, f"{TAG}-fig-1-problem.svg")
+    compose([cv], title="SS-2024-1 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1–#3、#5；圖(a)(c) 為曲線圖，不重繪",
+            note="翼板兩端各 113.5 mm 受壓 0.5Fy、中央 173 mm 受拉 0.4Fy；腹板全高受拉 0.4Fy",
+            path=path)
+    return path
+
+
 FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "壓、拉段位置對調；翼板分段尺寸讀錯；漏看腹板受拉"),
     (fig2_section, "§1·§4 步驟二",
      "沒看出被挖掉的是力臂最長的 4 塊 → I_e/I_x 算錯、或誤以為中央段也降伏"),
     (fig3_curve,   "§4 步驟三～五·§5.1",
