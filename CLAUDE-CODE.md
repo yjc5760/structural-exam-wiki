@@ -32,6 +32,8 @@
 | 解題影片／影片講義 | `把這題做成解題影片`、`影片轉講義` | `blackboard-solution-video`／`video-handout` |
 
 > 以上 skill 的正本都在根目錄 `skills/`（規則 12），使用者帳號裡安裝的是全域副本。
+> 各科設計哲學框架在 `XX/SUBJECT.md` §8（解題時由 exam-solve 讀取）；命名、LaTeX、VHA 模板、JSON 欄位見 `CLAUDE-SPEC.md`。
+> 原 `CLAUDE-SOLVE.md` 已於 2026-11-09 刪除（2026-10-29 起只剩轉址表），內容都在上表的 skill。
 
 ---
 
@@ -223,26 +225,13 @@ solutions/ 已有解析但未驗證：[列出題號]
 
 ## FREQUENCY
 
-**觸發語句：** `frequency`（Cowork 直接執行）
+**觸發語句：** `frequency XX`
 
-**用途：** 統計各 topicId（命題考點）在歷年考題中的出現次數，協助識別高頻考點、準備備考重點。
+**用途：** 在對話中快速列出某科高頻考點與單元比例（文字摘要，不產檔）。
+要可反覆查看的熱圖頁 `study/frequency-XX.html`，改用 `subject-frequency-map` skill（`scripts/build_frequency.py`）。
 
-**輸出格式：**
-```
-讀取 question_index.json 所有條目，統計 primaryTopicId 與 secondaryTopicIds：
-
-【高頻考點 Top 10】
-SS-U1-2 梁桿件：X 題（主：X 題，副：X 題）
-SS-U1-3 梁柱桿件：X 題
-...
-
-【各單元命題比例】
-SS-U1（桿件與接合）：XX%
-SS-U2（塑性/材料/施工）：XX%
-...
-
-【近5年趨勢】：[逐年考點列表]
-```
+**做法：** 數字一律以程式從 `raw/json/question_index.json` 計算（統計 `primaryTopicId` 與 `secondaryTopicIds`），不可手打。
+輸出：高頻考點 Top 10（主／副題數）、各單元命題比例、近 5 年逐年考點。
 
 ---
 
@@ -290,7 +279,7 @@ SS-U2（塑性/材料/施工）：XX%
 
 **觸發語句：**
 - `study SS-U2`（單元層級，Cowork 直接執行）
-- `study SS-U1-2`（子項層級**命題分析**，改用 `unit-exam-intel` skill）
+- `study SS-U1-2`（子項層級，改用 `unit-overview` skill；尚未導入的科目用 `unit-exam-intel`＋`unit-formula-map`）
 
 **用途：** 彙整某單元／子項所有考題、重點公式、常見陷阱，產生帶圖表的互動 HTML 複習導覽頁面，存入 `study/` 目錄。
 
@@ -299,7 +288,7 @@ SS-U2（塑性/材料/施工）：XX%
 > 子項層級一律做成**單元總覽** `study/unit-XX-Un-m.html`（`unit-overview` skill，`scripts/build_unit_page.py`），
 > 一頁回答「這單元考什麼、哪些公式要背、每題要背哪幾條」；舊的 `study-XX-Un-m.html`（命題分析）與
 > `formula-given-XX-Un-m.html`（給／背分界）改為轉址頁。科目尚未導入單元總覽時，照舊用 `unit-exam-intel`＋`unit-formula-map`。
-> 本節下方的「子項層級七區塊」是 2026-08 以前的舊規格，不要照它產頁。單元層級（`study XX-UN`）仍沿用本節規格。
+> 單元層級（`study XX-UN`）沿用本節規格。（子項層級的舊「七區塊」規格已於 2026-11-09 刪除。）
 >
 > **教材分工（並存不覆蓋）**
 > | | `lecture-`／`textbook-` | `unit-` | `frequency-` |
@@ -341,22 +330,11 @@ SS-U2（塑性/材料/施工）：XX%
   - 整合備考策略說明框
 ```
 
-### 子項層級（study XX-UN-n）頁面結構（七區塊）：
-```
-① 命題分析（KPI + 題型分類卡 + 年度堆疊長條圖 + 題型圓餅圖）
-② 截面圖解（SVG 結構圖：各類斷面）
-③ 解題流程圖（SVG 決策樹）
-④ 核心公式速查（KaTeX 分題型公式卡）
-⑤ 考題清單（互動篩選，依題型分色）
-⑥ 高頻陷阱（考古題歸納，依題型標色）
-⑦ 互動計算器（選用，如：輸入截面參數 → 即時計算）
-```
-
 **資料來源：** `raw/json/question_index.json`（從中統計各子項題數、年度分布、tags）
 
 **命名規則：**
 - 單元層級：`study/study-XX-UN.html`（例：`study/study-SS-U1.html`）
-- 子項層級：`study/study-XX-UN-n.html`（例：`study/study-SS-U1-2.html`）
+- 子項層級：由 skill 產生 `study/unit-XX-Un-m.html`（舊 `study-XX-Un-m.html` 為轉址頁）
 
 ---
 

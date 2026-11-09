@@ -6,7 +6,7 @@ description: 把某一科的獨立知識庫 repo（exam-wiki-RC／SA／SD／SM�
 # exam-subject-migrate — 科目搬入 structural-exam-wiki
 
 把一科的獨立 repo 搬進五科合一知識庫的 `XX/` 資料夾。根目錄 `CLAUDE.md`「科目搬入」寫的是規則，本 skill 是執行步驟。
-第一次完整做過的是 SS（2026-11-08，紀錄見 `SS/SUBJECT.md` §9 與根目錄 CLAUDE.md CHANGELOG），可當範本對照。
+第一次完整做過的是 SS（2026-11-08，紀錄見 `SS/SUBJECT.md` §9 與根目錄 `CHANGELOG.md`），可當範本對照。
 
 ## 已定案的原則（不用再問使用者）
 
@@ -113,7 +113,7 @@ python scripts/refresh_dashboard.py XX                    # 決定用共用樣�
 
 ### 7. 收尾
 
-- 記錄：`XX/SUBJECT.md` §9、根目錄 `CLAUDE.md` CHANGELOG、`XX/wiki/queries/log.md` 各一筆。
+- 記錄：`XX/SUBJECT.md` §9、根目錄 `CHANGELOG.md`、`XX/wiki/queries/log.md` 各一筆。
 - 回報使用者：
   - 搬了什麼、各項去處（一句一類）
   - 驗證結果（逐檔比對、重產一致、xcheck）

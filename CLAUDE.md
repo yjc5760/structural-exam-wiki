@@ -22,7 +22,7 @@
 
 - **題目編號格式：** `XX-YYYY-N`（如 `SS-2015-1`、`RC-2020-3`）
 - **科目判定：** 指令中題號的前兩碼即科目；只說「解析 2024 年考卷」而未指明科目時，先問是哪一科
-- **路徑慣例：** 本文件與 CLAUDE-CODE／SOLVE／SPEC 中的 `raw/`、`wiki/`、`study/` 一律指 **`XX/` 底下**的路徑；`scripts/`、`skills/` 指根目錄
+- **路徑慣例：** 本文件與 CLAUDE-CODE／SPEC 及 `skills/` 中的 `raw/`、`wiki/`、`study/` 一律指 **`XX/` 底下**的路徑；`scripts/`、`skills/` 指根目錄
 
 **核心工作流程：**
 ```
@@ -88,7 +88,7 @@ Cowork 查詢、稽核、盲解報告、卡關紀錄            ──→ XX/wik
 （知識庫根目錄）
 ├── README.md                ← 冷啟動導覽（五科總覽）
 ├── CLAUDE.md                ← 本檔（身份層）
-├── CLAUDE-SOLVE.md          ← 指向 skills/exam-solve（解題流程已改為 skill）
+├── CHANGELOG.md             ← 根目錄／跨科變更紀錄（append only）
 ├── CLAUDE-CODE.md           ← 12 個指令 Runbook
 ├── CLAUDE-SPEC.md           ← 格式／命名／完成標準
 ├── index.html               ← 五科入口頁（GitHub Pages 首頁）
@@ -216,7 +216,7 @@ Cowork 查詢、稽核、盲解報告、卡關紀錄            ──→ XX/wik
 2. **`verifiedSolution` 是最終答案，不可質疑或重新計算**
    > 界線：本條保護的是**已人工驗算確認**（`verificationStatus = "verified"`）的答案。
    > 當使用者明示要求勘誤、或該題已退回 `unverified` 時，本條不阻止重新計算。
-3. **各科 `wiki/queries/log.md` 只可 append，不可刪除已有紀錄**；影響多科或根目錄的變更記在根目錄 CHANGELOG（本檔末）
+3. **各科 `wiki/queries/log.md` 只可 append，不可刪除已有紀錄**；影響多科或根目錄的變更記在根目錄 `CHANGELOG.md`
 4. **wiki/ 只保留 `queries/`，由 Cowork 直接維護**；舊 wiki 在 `archive/wiki/`，唯讀、不再修改
 5. **`verificationStatus` 只有使用者人工複核後才可改為 `verified`**（Cowork 不得自行改）
 6. 題號連結使用 `[[XX-YYYY-N]]`（Obsidian 相容；儀表板閱讀器會導向 `study/problems-view/`）
@@ -228,21 +228,3 @@ Cowork 查詢、稽核、盲解報告、卡關紀錄            ──→ XX/wik
 12. **skill 以 repo `skills/` 為正本**：使用者帳號安裝的 skill 是全域生效的副本（所有對話、所有科目共用）。
     改 skill 一律改 `skills/<name>/` 並重新打包 `skills/<name>.skill`，再請使用者重新安裝；
     在帳號端直接改過的 skill（例如經由對話中的儲存卡片），要同步寫回 `skills/`，兩邊不可分岔
-
----
-
-## CHANGELOG（根目錄／跨科）
-
-> 各科自己的變更紀錄在 `XX/SUBJECT.md` §9（SS 在獨立 repo 時期的完整紀錄已移至 `SS/SUBJECT.md`）。
-
-| 日期 | 變更 | 原因 |
-|------|------|------|
-| 2026-10-29 | **五科合併為單一知識庫**：根目錄 CLAUDE／CODE／SOLVE／SPEC／README 改寫為五科通用（`XX` 代號）；SS 專屬內容（CHANGELOG、設計哲學框架、互動圖內容碼）移入 `SS/SUBJECT.md`；依 SS 架構以 `scripts/scaffold_subject.py` 建立 RC／SA／SD／SM 骨架；`syllabus_taxonomy.json` 以根目錄為正本、各科 `raw/json/` 放同步副本；儀表板改為五科共用樣板（`KB_SUBJECT` 驅動）並新增根目錄五科入口頁；`skills/` 與 `xcheck.py` 移至根目錄共用；改為單一 git repo | 五科架構相同、只有考古題不同，分開維護使同一條規則要改五次 |
-| 2026-10-29 | **解題與勘誤流程改為 skill**：新增 `skills/exam-solve/`（原 CLAUDE-SOLVE.md 的 SOLVE 流程＋CLAUDE-SPEC.md §4.1 完成檢核）與 `skills/exam-errata/`（規則 1 解析勘誤四條件的執行流程＋xcheck 分診）；CLAUDE-SOLVE.md 改為索引頁，ADD-METHOD 移入 CLAUDE-CODE.md；CLAUDE-CODE.md 新增「由 skill 負責的流程」對照表 | 只在解題／勘誤時才需要的長流程不必每次常駐；規則仍留在 CLAUDE.md，格式仍以 CLAUDE-SPEC.md 為唯一依據 |
-| 2026-10-29 | **停用互動圖（`*-viz.html`）**：圖解一律由 `struct-diagram` skill 產生靜態 SVG＋PNG（`figs/`＋`gen_XX-YYYY-N.py`），exam-solve 解完一題後提議、exam-errata 勘誤後重跑；規則 1 的勘誤例外由 `*-viz.html` 改為 `gen_*.py`／`figs/`；SS 既有 19 份 viz 保留為舊檔 | 互動圖與 struct-diagram 功能重疊；靜態圖可重跑、可審核、可進 PDF 與影片管線 |
-| 2026-10-29 | **附圖改由 Cowork 從考卷擷取**：新增 `scripts/extract_figure.py`（preview 座標格線找範圍、crop 產生 500 dpi 證據圖＋向量抽取）；exam-solve 階段一改為「擷取 → 判讀清單（使用者確認）→ struct-diagram 重繪」，觸發語改為「判讀確認，請開始解題」 | 免手動截圖；把判讀攤開確認可在解題前攔下判讀錯誤（SS-2013-4 試作：12 項盲讀全數與勘誤後解析一致，另抓到一處公式來源誤記） |
-| 2026-11-08 | **SS 由獨立 repo `exam-wiki-SS` 重新搬入**（只搬檔案、不含 git 歷史；舊網站維持上線）；SS 較新的 skills（exam-start-page、unit-textbook、unit-* SKILL.md）、`xcheck.py`、勘誤回報表單併入根目錄；移除已停用的 formula-recall-deck、vha-treasure-map | 10-29 合併後 SS 仍在原 repo 持續更新，兩邊分岔 |
-| 2026-11-08 | **根目錄規則整併（以 SS 11-01 以後的規則為準，升為五科通用）**：① wiki 封存（只留 `wiki/queries/`，其餘移 `archive/wiki/`），停用 ingest／compile-all／lint／add-concept（CLAUDE-CODE.md 16 → 12 個指令）；② 記錄檔改為 `wiki/queries/log.md`；③ 規則 1 加第五處例外「題目正本 `-problem.md`」；④ methods 修改條件 ② 與解析勘誤條件 ③ 改為同步 study／problems-view／單元資料；⑤ 規則 5、7 改寫（verified 人工複核、study 頁由正本產生），新增規則 11「共用的東西只放一份」；⑥ 單元總覽、起點頁列為標準教材；⑦ 共用腳本（render_problem_view、build_unit_page、build_frequency、build_start、parse_links、audit_classification）移至根目錄 `scripts/`，`build_unit_page.py` 一併修正 SM／MM 科目名稱對調；⑧ 新增「科目搬入」步驟；scaffold 骨架、skills 同步改寫 | 共用規則與腳本只維護一份；RC／SA／SD／SM 搬入時直接套用 |
-| 2026-11-08 | **主副分類只能填本科子項（五科一律）**：原本副分類可掛他科子項，改採 SS 2026-10-30 起的規則；`subject_profiles.json` 各科 `relatedTopics` 清空、scaffold 範本與各科 `SUBJECT.md` §2 同步；「科目搬入」加一步分類稽核 | 頻率熱圖、單元總覽、分類稽核只認本科子項，他科代號會被排除或報錯 |
-| 2026-11-08 | **skill 正本與安裝**：帳號裡 8 個 exam-wiki 用 skill（add-to-wiki、exam-wiki-pipeline、exam-problem-split、exam-wiki-audit、exam-practice-sheet、subject-frequency-map、blackboard-solution-video、video-handout）備份進 `skills/`（exam-practice-sheet 改指 structural-exam-wiki、subject-frequency-map 改用根目錄 build_frequency）；新增規則 12「skill 以 repo `skills/` 為正本」 | 帳號安裝版與 repo 版各自演進已分岔，需要單一正本 |
-| 2026-11-08 | 新增 `skills/exam-subject-migrate/`：把 SS 搬入的實際流程寫成 skill（盤點→去處對照→複製→規則寫進 SUBJECT.md→分類稽核→重產驗證→收尾），供 RC／SA／SD／SM 搬入時使用 | 讓其他科照同一流程搬入，不必每次重想 |

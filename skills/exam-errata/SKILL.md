@@ -101,7 +101,7 @@ SS 在 2026-08-22 抽查 7 題，就有 3 題錯誤足以改變答案（43%）�
   同步的下游（逐項列出）
 ```
 
-影響答案的批次勘誤，另在該科 `CLAUDE.md` CHANGELOG 加一列摘要。
+影響答案的批次勘誤，另在 `XX/SUBJECT.md` §9 CHANGELOG 加一列（影響多科或根目錄者改記根目錄 `CHANGELOG.md`）。
 
 **回寫 audit ledger**：`wiki/queries/audit-ledger-XX.json` 已有此題時，只改兩欄：
 - `fixed` 設為今天日期（`pending.py --recheck` 會據此把它排進落實檢查）

@@ -37,7 +37,7 @@ description: "exam-wiki 五科題庫的總控流程：一批題目依序定題�
 
 ## 每次啟動時：先盤點進度
 
-1. 讀該科 `CLAUDE.md`（規則 1 可改範圍、資料流、CHANGELOG）。
+1. 讀根目錄 `CLAUDE.md`（規則 1 可改範圍、資料流）與 `XX/SUBJECT.md`。
 2. 跑本檔附錄的 `pipeline_status.py` 列出這批每題目前在哪個階段（腳本只讀不寫）。
 3. 依「階段總覽」找出**最前面還沒完成的階段**，對該階段所有未完成的題目一起處理；不要在同一批裡讓題目各自跑到不同階段太遠。
 4. 開工前用一句話告訴使用者：這批幾題、目前卡在哪個階段、這次要做到哪裡、在哪個關卡停下。
@@ -76,7 +76,7 @@ description: "exam-wiki 五科題庫的總控流程：一批題目依序定題�
 ### F 收尾
 - 一次重建：`study/problems-view/`（該批題目）、單元總覽（`build_unit_page.py` 該子項）、引用這批題目的講義與 PDF、頻率熱圖與儀表板（有異動才重跑）。
 - 檢查：KaTeX 錯誤 0、PDF 頁數與版面合理。
-- 更新 `wiki/queries/log.md` 一筆批次摘要；影響答案者在該科 `CLAUDE.md` CHANGELOG 加一列。
+- 更新 `wiki/queries/log.md` 一筆批次摘要；影響答案者在 `XX/SUBJECT.md` §9 CHANGELOG 加一列（影響多科或根目錄者改記根目錄 `CHANGELOG.md`）。
 - **關卡二**：列出這批每題的最終狀態（一致／已勘誤落實／圖解已補）與複核重點，請使用者人工複核後說「將 XX-YYYY-N 的 verificationStatus 改為 verified」；本 skill 不自行改 verified。
 
 ## 停止條件

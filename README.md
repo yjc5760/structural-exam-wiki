@@ -41,7 +41,7 @@
 
 ```
 （根目錄）
-├── README.md · CLAUDE.md · CLAUDE-SOLVE.md · CLAUDE-CODE.md · CLAUDE-SPEC.md   ← 五科共用
+├── README.md · CLAUDE.md · CLAUDE-CODE.md · CLAUDE-SPEC.md · CHANGELOG.md   ← 五科共用
 ├── index.html                ← 五科入口
 ├── syllabus_taxonomy.json    ← 命題大綱分類正本
 ├── 命題大綱.pdf

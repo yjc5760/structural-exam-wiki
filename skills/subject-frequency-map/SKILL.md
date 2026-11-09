@@ -136,7 +136,7 @@ Windows 主控台若出現亂碼，程式已自動把 stdout 設為 UTF-8；仍�
 
 1. 成果檔：`study/frequency-XX.html`（單一自包含 HTML，無外部相依）
 2. `wiki/queries/log.md`（append only）一筆：產了什麼＋觀察（單元權重、後半期前五、升溫／冷凍、單元佔比變動）——全部抄 Step 2 摘要。
-3. `CLAUDE.md` CHANGELOG 加一列。
+3. `XX/SUBJECT.md` §9 CHANGELOG 加一列（影響多科或根目錄者改記根目錄 `CHANGELOG.md`）。
 4. 把成果檔交付給使用者（這是會反覆回來看的頁面）。
 5. 若使用者偏好自己 commit，寫完檔就停，交出改動的檔案清單。
 

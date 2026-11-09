@@ -353,7 +353,7 @@ python3 skills/unit-exam-intel/scripts/verify.py XX-Un-m
    - 產頁／重構了什麼、刪了哪些重複區段、為什麼
    - 過程中修正的資料錯誤（逐項寫清楚錯在哪、正確值是多少）
    - 由統計得出的命題觀察（漂移、方法別、風險），註明可由 `stats.py` 複算
-4. **`CLAUDE.md` CHANGELOG** 加一列
+4. `XX/SUBJECT.md` §9 CHANGELOG 加一列（影響多科或根目錄者改記根目錄 `CHANGELOG.md`）
 5. 用 `present_files` 把成果 HTML 交給使用者
 
 ## 版本

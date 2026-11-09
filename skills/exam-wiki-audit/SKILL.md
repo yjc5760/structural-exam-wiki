@@ -13,8 +13,8 @@ description: "稽核 exam-wiki 五科（SS、RC、SA、SD、SM）既有題解：
 1. **看原圖，不看 PDF 文字**：考卷一律以 PyMuPDF 轉圖（不可用 poppler／pdftotext）
 2. **盲解**：寫完盲解紀錄之前，**絕不開啟舊題解**（`raw/solutions/<id>/<id>.md`、`archive/wiki/problems/`、`study/problems-view/`）。
    題目正本 `raw/solutions/<id>/<id>-problem.md` 不是題解（只有考卷原文與判讀，沒有解法），**可以讀**。
-   **獨立性揭露**：工作階段會自動載入該科 `CLAUDE.md`，其 CHANGELOG 可能寫有舊勘誤的結論，盲解前無法避開。
-   盲解前先掃過 CHANGELOG，把本批題目被洩漏的點逐題列在報告「方法」節；這些點雙方一致時標「一致但非獨立」，不算佐證。
+   **獨立性揭露**：CHANGELOG 已於 2026-11-09 移出自動載入的 `CLAUDE.md`（改為根目錄 `CHANGELOG.md`），盲解前**不要讀** `CHANGELOG.md`、`XX/SUBJECT.md` §9、`wiki/queries/log.md`。
+   若本工作階段先前已讀過其中任何一份（或看到其他寫有舊勘誤結論的文件），把本批題目被洩漏的點逐題列在報告「方法」節；這些點雙方一致時標「一致但非獨立」，不算佐證。
    講義、log 等其他已讀過的文件若寫了某題的錯誤結論，同樣逐題揭露
 3. **跨家族獨立**：Claude 盲解對照 Gemini 題解；分歧中屬看圖者交使用者判定，屬推理／規範者建議再請 GPT 系列解一次
 4. **唯讀**：只新增報告與 ledger，不修改題解、索引或 wiki。修正由使用者依各科 CLAUDE.md 規則 1（勘誤條件各科不同）另行處理（exam-errata）。

@@ -56,7 +56,7 @@ python3 scripts/build_start.py --repo XX
 
 ### 4. 收尾
 
-- 在 `CLAUDE.md` 的 CHANGELOG 加一行（日期｜做了什麼｜原因／注意事項）。
+- 在 `XX/SUBJECT.md` §9 CHANGELOG 加一行（日期｜做了什麼｜原因／注意事項；影響多科者改記根目錄 `CHANGELOG.md`）。
 - **不要 git commit。** 列出動到的路徑交給使用者自己 commit。
 - 回報時講清楚：哪些單元新增了什麼、哪些欄位因清單沒提到而保留（例如非動畫版講義影片、講義簡報 PDF、NotebookLM），讓使用者決定要不要拿掉。
 

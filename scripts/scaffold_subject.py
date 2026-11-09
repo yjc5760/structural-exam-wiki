@@ -238,7 +238,7 @@ def scaffold(code, dry=False):
 # {code} 科目設定（SUBJECT.md）— {name}
 
 > 本檔是 **{code} 科的科目層設定**。工作流程、重要規則、指令與格式規範一律以知識庫根目錄的
-> `CLAUDE.md`／`CLAUDE-CODE.md`／`CLAUDE-SOLVE.md`／`CLAUDE-SPEC.md` 為準；
+> `CLAUDE.md`／`CLAUDE-CODE.md`／`CLAUDE-SPEC.md` 與根目錄 `skills/` 為準；
 > 根目錄文件中的 `XX` 在本科一律代換成 **`{code}`**。
 > 科目名稱與單元劃分以根目錄 `syllabus_taxonomy.json` 為唯一依據；本檔的科目專屬設定與
 > `scripts/subject_profiles.json` 同步維護。
@@ -317,7 +317,7 @@ def scaffold(code, dry=False):
 
 ## 8. 設計哲學框架（解題邏輯起始版）
 
-> 起始版只列各子項的主幹流程，隨題目解析累積後擴充；SOLVE 時與根目錄 `CLAUDE-SOLVE.md`
+> 起始版只列各子項的主幹流程，隨題目解析累積後擴充；SOLVE 時與 `skills/exam-solve`
 > 的三層掃描法一起使用。內容若與考卷所附公式或適用規範牴觸，以考卷與規範為準。
 {PHILO.get(code, chr(10) + '（待補）' + chr(10))}
 ---

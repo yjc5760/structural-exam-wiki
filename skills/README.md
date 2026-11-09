@@ -287,7 +287,7 @@ instructions: |
 
 1. 將 `.skill` 檔放入本目錄（`skills/`）
 2. 在本 README 的「Skills 清單」補充說明（格式參考 `unit-lecture.skill` 的說明方式）
-3. 在 `CLAUDE.md` 的 CHANGELOG 追加一行說明此次新增
+3. 在根目錄 `CHANGELOG.md` 追加一行說明此次新增
 
 ### 命名規則
 
