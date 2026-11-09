@@ -46,9 +46,9 @@ function card(code,name,color,info){
 (async()=>{
   const out={};
   for(const [code] of SUBJ){
-    delete window.KB_SUBJECT;delete window.KB_QUESTIONS;delete window.SS_QUESTIONS;
+    delete window.KB_SUBJECT;delete window.KB_QUESTIONS;delete window[code+'_QUESTIONS'];
     await new Promise(res=>{const s=document.createElement('script');s.src=code+'/dashboard-data.js';s.onload=res;s.onerror=res;document.head.appendChild(s);});
-    out[code]={s:window.KB_SUBJECT,q:window.KB_QUESTIONS||window.SS_QUESTIONS};
+    out[code]={s:window.KB_SUBJECT,q:window.KB_QUESTIONS||window[code+'_QUESTIONS']};  // SS／SA 暫用原 repo 儀表板（SS_*／SA_*）
   }
   grid.innerHTML=SUBJ.map(([c,n,col])=>card(c,n,col,out[c])).join('');
 })();

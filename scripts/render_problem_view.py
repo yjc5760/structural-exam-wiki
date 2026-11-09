@@ -6,6 +6,8 @@
   - 來源：raw/solutions/<id>/<id>.md（解題內容唯一正本）
   - 若有 raw/solutions/<id>/<id>-problem.md（題目正本：考卷原文＋判讀清單），渲染在解析之前（2026-11-02 起試做）
   - 數學式先保護再還原（$$…$$、$…$），避免 markdown 吞掉 < > _ *
+  - 清單前一行是普通文字時先補空行，否則 Python-Markdown 不認清單（2026-11-09 由 SA 的 md2view.py 併入）
+  - 正本有 **分析法：** 且頁首有 <p class="meta2">（SA 頁面）時，同步頁首的分析法欄位
   - [[ID]] 轉為藍色徽章；相對路徑圖片改指 ../../raw/solutions/<id>/
   - 頁面不存在時，以同目錄任一既有頁為版型，並依索引主分類設定單元按鈕
 需要：pip install markdown
@@ -26,6 +28,25 @@ def set_subject(qid):
     if not (ROOT / "raw/solutions").is_dir():
         sys.exit(f"找不到 {ROOT}/raw/solutions")
     VIEW = ROOT / "study/problems-view"
+FENCE = re.compile(r"^\s*(```|~~~)")
+ITEM = re.compile(r"^\s{0,3}(?:[-*+]|\d+[.)])\s")
+
+
+def pre(text):
+    """清單前一行是普通文字時補一個空行（Python-Markdown 要求清單前有空行；
+    SA 的 md2view.py 一直這樣做，2026-11-09 SA 搬入時併入）"""
+    out, infence, prev = [], False, ""
+    for line in text.split("\n"):
+        if FENCE.match(line):
+            infence = not infence
+        if (not infence and ITEM.match(line) and prev.strip() and not ITEM.match(prev)
+                and not prev.startswith(("    ", "\t", "|", ">"))):
+            out.append("")
+        out.append(line)
+        prev = line
+    return "\n".join(out)
+
+
 BADGE = ('<span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;'
          'font-size:.88em;font-weight:600">{}</span>')
 
@@ -46,7 +67,7 @@ def render_md(qid, text):
     parts = re.split(r"(```.*?```|`[^`\n]+`)", text, flags=re.S)
     text = "".join(pt if i % 2 else re.sub(r"\*\*(?=\S)(.+?)(?<=\S)\*\*", r"<strong>\1</strong>", pt)
                    for i, pt in enumerate(parts))
-    out = markdown.markdown(text, extensions=["tables", "fenced_code", "nl2br"])
+    out = markdown.markdown(pre(text), extensions=["tables", "fenced_code", "nl2br"])
 
     def img(m):
         src = m.group(1)
@@ -78,6 +99,10 @@ def main(ids):
                     'border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px">'
                     f'<summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（{state}）</summary>'
                     + render_md(qid, ptxt) + "</details>\n" + body)
+        m = re.search(r"^\*\*分析法：\*\*\s*(.+?)\s*$", md.read_text(encoding="utf-8"), re.M)
+        if m:  # 頁首 meta2 的分析法欄位與正本同步（SA 頁面才有 meta2；2026-11-09 由 SA md2view.py 併入）
+            t = re.sub(r'(<p class="meta2">.*?｜ )[^｜<]*(</p>)', lambda g: g.group(1) + m.group(1) + g.group(2),
+                       t, count=1, flags=re.S)
         new = re.sub(r"(<main>\n?).*?(\n?</main>)", lambda m: m.group(1) + body + m.group(2), t, count=1, flags=re.S)
         if tpl != page:
             old = tpl.stem

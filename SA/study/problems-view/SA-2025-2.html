@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SA-2025-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+
+header h1{color:#fff!important;font-size:1.25em;margin:0;letter-spacing:.5px}
+header .meta2{margin:8px 0 0;font-size:.84em;opacity:.93;line-height:1.6}
+header .meta2 b{background:rgba(255,255,255,.2);border-radius:4px;padding:1px 7px;font-weight:600}
+header .hbtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+header .hbtns a{font-size:.85em;text-decoration:none;padding:7px 17px;border-radius:22px;
+  font-weight:700;white-space:nowrap;line-height:1.4}
+header .b-study{background:#fff;color:#1565c0}
+header .b-lect{background:#6a1b9a;color:#fff}
+header .b-fg{background:#c62828;color:#fff}
+header .hbtns a:hover{filter:brightness(1.08)}
+header .nomat{margin-top:12px;font-size:.8em;opacity:.85}
+</style></head><body>
+<header>
+<h1>SA-2025-2　靜定及靜不定結構影響線</h1>
+<p class="meta2">主分類 <b>SA-U1-3</b> 靜定及靜不定結構影響線 ｜ 2025 年（民國 114） ｜ 靜力平衡法 ＋ Müller-Breslau 原理（獨立驗核）</p>
+<div class="hbtns"><a class="b-study" href="../unit-SA-U1-3.html">🧭 U1-3 單元總覽</a><a class="b-lect" href="../lecture-SA-U1-3.html">📚 U1-3 靜定及靜不定結構影響線 講義</a></div>
+</header>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>SA-2025-2 題目正本</h1>
+<blockquote>
+<p>本檔只記錄考卷上寫了什麼、圖上畫了什麼，不含任何解法。解析見同資料夾 <code>SA-2025-2.md</code>。<br />
+判讀清單經使用者確認前，狀態為「待確認」；確認後本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>考卷</td>
+<td><code>raw/exams/SA-2025_結構學.pdf</code>，第 1 頁（頁次 2－1），第二題（圖 2）</td>
+</tr>
+<tr>
+<td>考年</td>
+<td>2025（民國一百一十四年）專技高考結構工程技師「結構學」</td>
+</tr>
+<tr>
+<td>配分</td>
+<td>25 分</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td><code>SA-2025-2-fig-2.png</code>（2026-11-07 重新擷取）；既有 <code>SA-2025-2-fig-1.png</code></td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-07 使用者確認。原轉錄：2026-11-07 轉錄；PyMuPDF 110 dpi 整頁＋450–1200 dpi 局部放大；考卷可抽文字，逐字原文以 PDF 文字層核對；盲讀於開啟解析前完成）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<p>二、請畫出圖 2 梁之 A 點反力（R_A）、C 點反力（R_C）、E 點反力（R_E）、A 點彎矩（M_A）及 F 點剪力（V_F）之影響線圖，其中 A 為固定支承、C 及 E 為滾支承（Roller），B 及 D 為內鉸接（Internal pin）。（25 分）</p>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>考卷沒有給任何參考公式或附表。</li>
+<li>靜定梁，不需 EI。</li>
+<li>卷首注意事項：㈠可以使用電子計算器。㈡不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。㈢本科目除專門名詞或數理公式外，應使用本國文字作答。</li>
+<li>考試時間：2 小時。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p><img alt="SA-2025-2 考卷附圖：梁 A–B–C–D–E，「4@4 m」共 16 m；A 固定、C、E 滾支承、B、D 內鉸；F 在 C 左方 2 m" src="../../raw/solutions/SA-2025-2/SA-2025-2-fig-2.png" /><br />
+<em>證據圖 SA-2025-2-fig-2.png（2026-11-07 自考卷 500 dpi 重新擷取）；既有 SA-2025-2-fig-1.png 帶有滑鼠游標（箭頭游標在左下尺寸線旁），保留不改。</em></p>
+<p>圖面文字照錄：2 m、A、B、C、D、E、F、4@4 m、圖 2</p>
+<h2>4. 判讀清單</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>座標</td>
+<td>A(0)、B(4)、C(8)、D(12)、E(16)，F(6)，單位 m</td>
+<td>下方「4@4 m」；上方 2 m 尺寸線由 F 量到 C（500 dpi，F 刻線量得 5.94 m）</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>2</td>
+<td>支承 A</td>
+<td>固定端</td>
+<td>題文＋左側牆剖線</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>支承 C、E</td>
+<td>滾支承</td>
+<td>題文＋圓圈</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>B、D</td>
+<td>內鉸（梁上空心圓）</td>
+<td>題文＋圖面</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>F 點</td>
+<td>BC 段上，距 C 左方 2 m（即 BC 中點）</td>
+<td>2 m 尺寸線</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>6</td>
+<td>靜定性</td>
+<td>反力 5、平衡 3＋內鉸 2：靜定</td>
+<td>計數</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>7</td>
+<td>所求</td>
+<td>R_A、R_C、R_E、M_A、V_F 影響線</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-07（SA-U1-3 題目正本推廣・批 1）</em><br />
+<em>確認：2026-11-07 使用者確認</em></p></details>
+<h1>考題編號：SA-2025-2</h1>
+<p><strong>主分類：</strong> <code>SA-U1-3</code> 靜定及靜不定結構影響線<br />
+<strong>副分類：</strong> （無）<br />
+<strong>分析法：</strong> 靜力平衡法 ＋ Müller-Breslau 原理（獨立驗核）<br />
+<strong>標籤：</strong> <code>影響線</code> <code>靜定梁</code> <code>Gerber 鉸</code> <code>固定端</code> <code>剪力斷面</code> <code>滾支承</code></p>
+<hr />
+<h2>§1 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="SA-2025-2-problem.md"><code>SA-2025-2-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<p><img alt="SA-2025-2 重繪題目附圖：梁 A–E，4@4 m 共 16 m；A 固定端、B、D 內鉸、C、E 滾支承；F 在 C 左方 2 m" src="../../raw/solutions/SA-2025-2/figs/SA-2025-2-fig-1-problem.svg" /><br />
+<em>重繪自考卷附圖，依判讀清單 #1–#7 重繪。攔：F 當成自由端或支承、B／D 讀成支承。</em></p>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F 點</td>
+<td>B–C 間的剪力斷面，距 C 左方 2 m；不是自由端</td>
+<td>自由端（本解 2026-07-02 初版即因此誤讀，$IL_{V_F}$ 變成零線）</td>
+</tr>
+<tr>
+<td>B、D</td>
+<td>內鉸</td>
+<td>支承</td>
+</tr>
+<tr>
+<td>跨長</td>
+<td>4@4 m，A–E 共 16 m；2 m 尺寸線量的是 F 到 C</td>
+<td>AB = 2 m</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> 記號與正負號約定沿用 §4。</p>
+<h3>判讀圖解（解析自繪）</h3>
+<p><img alt="SA-2025-2 題目重繪：A 固定端、B 與 D 內鉸、C 與 E 滾支承、F 為 B–C 間的剪力斷面，4@4 m 共 16 m" src="../../raw/solutions/SA-2025-2/figs/SA-2025-2-fig-1-beam.svg" /></p>
+<p><em>圖 1　題目重繪（向量版）。這張圖攔的就是本題最致命的誤讀：把 F 當成自由端、或把跨距記成 $AB=2$ —— 只要錯一項，五條影響線的縱距全部作廢。</em></p>
+<hr />
+<h2>§2 核心精神與出題者意圖</h2>
+<p><strong>核心觀念：</strong> 含 Gerber 鉸的<strong>靜定</strong>梁。內鉸提供額外的靜力條件（鉸處彎矩為零），使反力數與方程數相等。</p>
+<p><strong>靜定性驗證：</strong></p>
+<p>$$\text{未知反力：} R_A,\ H_A,\ M_A,\ R_C,\ R_E = 5 \text{ 個}$$<br />
+$$\text{靜力平衡：} 3 \text{ 式}\qquad \text{鉸接條件（B、D）：} 2 \text{ 式}$$<br />
+$$\text{超靜定度} = 5 - 3 - 2 = 0 \quad\checkmark\ \text{（靜定）}$$</p>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li><strong>Gerber 鉸的用法</strong> —— 取「鉸右側自由體對該鉸取矩」，一次排除固定端的三個未知力。</li>
+<li><strong>由外而內的解題順序</strong> —— 先用最右邊的鉸 D 解 $R_E$，再用鉸 B 解 $R_C$，最後才回到整體平衡解 $R_A$、$M_A$。</li>
+<li><strong>剪力斷面的單位跳躍</strong> —— F 不在支承上，$IL_{V_F}$ 必在 F 處跳躍 1。</li>
+<li><strong>IL 縱距可以大於 1</strong> —— $IL_{R_C}$ 在 D 達到 2（槓桿效應）。</li>
+</ol>
+<hr />
+<h2>§3 解題戰略地圖</h2>
+<pre><code>對每個載重位置 x（0 ≤ x ≤ 16）：
+  (1) 鉸 D 右側自由體對 D 取矩  → R_E
+  (2) 鉸 B 右側自由體對 B 取矩  → R_C（需先代入 R_E）
+  (3) 全域 ΣFy = 1              → R_A
+  (4) 全域 ΣM_A = 0             → M_A
+  (5) A–F 左側自由體            → V_F
+→ 折點只在 A、B、C、D、E 與斷面 F；各段線性，算折點縱距後連線即可
+</code></pre>
+<p><strong>陷阱分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>應對</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>把 F 當自由端</strong></td>
+<td>誤讀附圖的 2 m 尺寸線</td>
+<td>2 m 量的是 F→C；F 是 B、C 之間的斷面，$IL_{V_F}$ 有單位跳躍</td>
+</tr>
+<tr>
+<td><strong>把跨距記成 4@4 以外</strong></td>
+<td>底部尺寸線是 <code>4@4 m</code></td>
+<td>$A(0)\,B(4)\,C(8)\,D(12)\,E(16)$，四等跨</td>
+</tr>
+<tr>
+<td>鉸條件用錯側</td>
+<td>取左側自由體會被固定端三個未知力糾纏</td>
+<td>一律取<strong>鉸右側</strong>自由體對鉸取矩</td>
+</tr>
+<tr>
+<td>載重位置分段</td>
+<td>鉸右側自由體是否含載重，取決於 $x$ 與鉸位置</td>
+<td>嚴格分段：$x&lt;4$、$4\le x\le12$、$x&gt;12$</td>
+</tr>
+<tr>
+<td>看到 $IL_{R_C} = 2$ 就懷疑算錯</td>
+<td>IL 縱距本來就可以大於 1</td>
+<td>槓桿效應：D 為內鉸，DE 段對 C 形同懸臂</td>
+</tr>
+<tr>
+<td>$M_A$ 的正負</td>
+<td>固定端彎矩的符號慣例</td>
+<td>本文取「使梁上側受拉為正」，$M_A$ 在 B 達 $+4$、在 D 達 $-4$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>§3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後在卡住處標記 <code>⚠</code>；複習時只看 <code>⚠</code> 項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p>繪製 5 條影響線，橫軸為載重位置 $x$，各段為直線。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$R_E = \frac{(x-12)^+}{4}, \qquad
+R_C = \frac{(x-4)^+ - 12\,\boxed{R_E}}{4}, \qquad
+R_A = 1 - \boxed{R_C} - \boxed{R_E}$$</p>
+<p>$$M_A = x - 8\,\boxed{R_C} - 16\,\boxed{R_E}, \qquad
+V_F = \boxed{R_A} - \begin{cases}1 &amp; x &lt; 6\\ 0 &amp; x &gt; 6\end{cases}$$</p>
+<p>（$(\cdot)^+$ 表示取正部，即 $\max(\cdot,0)$。）</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>座標</td>
+<td>A=0、B=4、F=6、C=8、D=12、E=16（m）</td>
+<td>附圖 <code>4@4 m</code> ＋ 頂部 2 m</td>
+</tr>
+<tr>
+<td>支承</td>
+<td>A 固定端、C 滾、E 滾</td>
+<td>反力來源</td>
+</tr>
+<tr>
+<td>內鉸</td>
+<td>B（x=4）、D（x=12）</td>
+<td>提供附加靜力條件</td>
+</tr>
+<tr>
+<td>移動載重</td>
+<td>$P = 1$（向下），位置 $x$</td>
+<td>影響線定義</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：鉸 D 條件（D 右側自由體，對 D 取矩）</strong></p>
+<table>
+<thead>
+<tr>
+<th>範圍</th>
+<th>右側自由體含哪些力</th>
+<th>條件方程</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$x &lt; 12$</td>
+<td>只有 $R_E$（在 $x=16$）</td>
+<td>$4R_E = 0 \Rightarrow R_E = 0$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$x \ge 12$</td>
+<td>$R_E$ ＋ 載重 $P$ 在 $x$</td>
+<td>$4R_E = x-12 \Rightarrow R_E = \dfrac{x-12}{4}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：鉸 B 條件（B 右側自由體，對 B 取矩）</strong></p>
+<table>
+<thead>
+<tr>
+<th>範圍</th>
+<th>方程</th>
+<th>$R_C$</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$x &lt; 4$</td>
+<td>$4R_C + 12R_E = 0$</td>
+<td>$R_C = 0$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$4 \le x \le 12$</td>
+<td>$4R_C = x - 4$（$R_E=0$）</td>
+<td>$R_C = \dfrac{x-4}{4}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$x &gt; 12$</td>
+<td>$4R_C + 3(x-12) = x-4$</td>
+<td>$R_C = 8 - \dfrac{x}{2}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：全域平衡</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$R_A$</td>
+<td>$1 - R_C - R_E$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_A$</td>
+<td>$x - 8R_C - 16R_E$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：剪力斷面</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_F$</td>
+<td>A–F 左側自由體：$R_A$ 減去落在 F 左方的載重</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>內鉸的靜力條件</td>
+<td>「鉸處彎矩為零」→ 取<strong>右側</strong>自由體對鉸取矩，把固定端三個未知力排除在外</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>由外而內的解題順序</td>
+<td>最右邊的鉸只牽涉最少的未知數，先解它</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>靜定結構 IL 為分段直線</td>
+<td>折點在支承、內鉸、以及所求內力的斷面</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>剪力斷面的單位跳躍</td>
+<td>單位載重跨過斷面時，$V$ 的值必變化 1</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>IL 可超過 1</td>
+<td>槓桿效應（懸臂放大）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>§4 詳細計算過程</h2>
+<p><img alt="SA-2025-2 三段載重位置的鉸右側自由體：載重在 A–B、B–D、D–E 三種情形，切斷面標出 N、V、M=0" src="../../raw/solutions/SA-2025-2/figs/SA-2025-2-fig-2-hinge-fbd.svg" /></p>
+<p><em>圖 2　內鉸條件的用法：取「鉸右側」自由體對鉸取矩，把固定端的三個未知力全部排除在外。切斷面同時標出 $N$、$V$、$M$（$M=0$ 才是鉸提供的那條方程）。這張圖攔的是最容易錯的一步 —— 載重落在鉸左側時，右側自由體的載重項為 0。</em></p>
+<h3>4.1 鉸 D 條件求 $R_E$</h3>
+<p><strong>D 右側自由體</strong> ＝ 從 $D(12)$ 到 $E(16)$。對 D 取矩：</p>
+<p>$$\sum M_D^{\text{right}} = 0:\quad R_E\,(16-12) - P\cdot\max(x-12,\,0) = 0$$</p>
+<p>$$\therefore\ R_E = \begin{cases}0 &amp; x &lt; 12\\[4pt] \dfrac{x-12}{4} &amp; x \ge 12\end{cases}$$</p>
+<h3>4.2 鉸 B 條件求 $R_C$</h3>
+<p><strong>B 右側自由體</strong> ＝ 從 $B(4)$ 到 $E(16)$。對 B 取矩：</p>
+<p>$$\sum M_B^{\text{right}} = 0:\quad R_C\,(8-4) + R_E\,(16-4) - P\cdot\max(x-4,\,0) = 0$$</p>
+<p>$$4R_C + 12R_E = \max(x-4,\,0)$$</p>
+<p><strong>（a）$x &lt; 4$：</strong> $4R_C = 0 \Rightarrow R_C = 0$<br />
+<strong>（b）$4 \le x \le 12$（$R_E = 0$）：</strong> $R_C = \dfrac{x-4}{4}$<br />
+<strong>（c）$x &gt; 12$：</strong> $4R_C + 12\cdot\dfrac{x-12}{4} = x-4 \Rightarrow 4R_C = 32 - 2x \Rightarrow R_C = 8 - \dfrac{x}{2}$</p>
+<h3>4.3 全域平衡求 $R_A$、$M_A$</h3>
+<p>$$\sum F_y = 0:\quad R_A = 1 - R_C - R_E$$<br />
+$$\sum M_A = 0:\quad M_A + 8R_C + 16R_E - x = 0 \;\Rightarrow\; M_A = x - 8R_C - 16R_E$$</p>
+<h3>4.4 剪力斷面 F（$x_F = 6$，位於 B–C 之間）</h3>
+<p>取 A–F 左側自由體（A 到 F 之間只有固定端反力，以及可能落在該區的載重）：</p>
+<p>$$V_F = R_A - \begin{cases}1 &amp; \text{載重在 F 左方}\\ 0 &amp; \text{載重在 F 右方}\end{cases}$$</p>
+<hr />
+<h3>4.5 分段直線式</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>A–B（$0\le x\le4$）</th>
+<th>B–D（$4\le x\le12$）</th>
+<th>D–E（$12\le x\le16$）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$IL_{R_A}$</td>
+<td>$1$</td>
+<td>$2 - x/4$</td>
+<td>$x/4 - 4$</td>
+</tr>
+<tr>
+<td>$IL_{R_C}$</td>
+<td>$0$</td>
+<td>$x/4 - 1$</td>
+<td>$8 - x/2$</td>
+</tr>
+<tr>
+<td>$IL_{R_E}$</td>
+<td>$0$（至 D 皆為 0）</td>
+<td>$0$</td>
+<td>$x/4 - 3$</td>
+</tr>
+<tr>
+<td>$IL_{M_A}$（m）</td>
+<td>$x$</td>
+<td>$8 - x$</td>
+<td>$x - 16$</td>
+</tr>
+<tr>
+<td>$IL_{V_F}$</td>
+<td>$0$（A–B）；$1 - x/4$（B–F）</td>
+<td>$2 - x/4$（F–D）</td>
+<td>$x/4 - 4$</td>
+</tr>
+</tbody>
+</table>
+<h3>4.6 影響線縱距總表</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">位置 $x$（m）</th>
+<th style="text-align: center;">A(0)</th>
+<th style="text-align: center;">B(4)</th>
+<th style="text-align: center;"><strong>F(6)</strong></th>
+<th style="text-align: center;">C(8)</th>
+<th style="text-align: center;">D(12)</th>
+<th style="text-align: center;">E(16)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">$IL_{R_A}$</td>
+<td style="text-align: center;">$1$</td>
+<td style="text-align: center;">$1$</td>
+<td style="text-align: center;">$0.5$</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$-1$</td>
+<td style="text-align: center;">$0$</td>
+</tr>
+<tr>
+<td style="text-align: left;">$IL_{R_C}$</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$0.5$</td>
+<td style="text-align: center;">$1$</td>
+<td style="text-align: center;">$\mathbf{2}$</td>
+<td style="text-align: center;">$0$</td>
+</tr>
+<tr>
+<td style="text-align: left;">$IL_{R_E}$</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$1$</td>
+</tr>
+<tr>
+<td style="text-align: left;">$IL_{M_A}$（m）</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$\mathbf{4}$</td>
+<td style="text-align: center;">$2$</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$\mathbf{-4}$</td>
+<td style="text-align: center;">$0$</td>
+</tr>
+<tr>
+<td style="text-align: left;">$IL_{V_F}$</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$\mathbf{-0.5\ /\ +0.5}$</td>
+<td style="text-align: center;">$0$</td>
+<td style="text-align: center;">$-1$</td>
+<td style="text-align: center;">$0$</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>所有 IL 在各段均為<strong>線性</strong>；折點只出現在 A、B、C、D、E 與剪力斷面 F。</p>
+</blockquote>
+<p><img alt="SA-2025-2 五條影響線：RA、RC、RE、MA、VF，各段線性、折點只在支承與內鉸，VF 在 F 處有單位跳躍" src="../../raw/solutions/SA-2025-2/figs/SA-2025-2-fig-3-influence-lines.svg" /></p>
+<p><em>圖 3　五條影響線，縱距與分段式全部由 §4.1–4.4 的方程算出。這張圖攔三件事：把影響線當彎矩圖畫、折點沒落在支承／內鉸／剪力斷面上、以及漏掉 $IL_{R_C}$ 的峰值 2。</em></p>
+<h3>4.7 驗算（三個特殊載重位置）</h3>
+<p><strong>載重在 D（$x=12$）：</strong></p>
+<p>$$R_E = 0,\quad R_C = \frac{12-4}{4} = 2,\quad R_A = 1-2-0 = -1,\quad M_A = 12 - 16 = -4$$</p>
+<p>$\Sigma F_y:\ -1+2+0 = 1\ \checkmark$　　$\Sigma M_A:\ -4 + 8(2) + 0 - 12 = 0\ \checkmark$<br />
+鉸 B 右側：$4(2) + 0 - 1\cdot8 = 0\ \checkmark$　　鉸 D 右側：$4(0) - 0 = 0\ \checkmark$</p>
+<p><strong>載重在 E（$x=16$）：</strong></p>
+<p>$$R_E = 1,\quad R_C = \frac{12 - 12}{4} = 0,\quad R_A = 0,\quad M_A = 16 - 0 - 16 = 0$$</p>
+<p>（單位載重完全由 E 支撐）$\checkmark$</p>
+<p><strong>載重在 F 兩側（$x = 6^\mp$）：</strong></p>
+<p>$$R_A(6) = 2 - \tfrac64 = 0.5 \quad\Rightarrow\quad V_F(6^-) = 0.5 - 1 = -0.5,\qquad V_F(6^+) = 0.5$$</p>
+<p>跳躍 $= 0.5 - (-0.5) = 1\ \checkmark$</p>
+<hr />
+<h2>§5 進階探討</h2>
+<h3>5.1 Müller-Breslau 的獨立驗核</h3>
+<p>靜定結構的影響線可以<strong>完全不用平衡方程</strong>求得：把對應的束制解除，令它產生單位位移／轉角，剛體機構的形狀就是影響線。</p>
+<table>
+<thead>
+<tr>
+<th>影響線</th>
+<th>釋放什麼</th>
+<th>機構形狀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$R_A$</td>
+<td>移除 A 的垂直約束（旋轉約束仍在）</td>
+<td>A 升 1，A–B 段保持水平；B、D 為轉折點，通過 C、E 兩個零點</td>
+</tr>
+<tr>
+<td>$R_C$</td>
+<td>移除 C 的滾支承</td>
+<td>C 升 1；A–B 段仍水平（固定端）；D 為轉折點</td>
+</tr>
+<tr>
+<td>$R_E$</td>
+<td>移除 E 的滾支承</td>
+<td>E 升 1；A–D 段不動（D 左側被 A、C 鎖死）</td>
+</tr>
+<tr>
+<td>$M_A$</td>
+<td>A 處插入鉸並施加單位轉角</td>
+<td>A–B 段斜率 = 1</td>
+</tr>
+<tr>
+<td>$V_F$</td>
+<td>F 處插入剪力釋放（兩側保持平行）</td>
+<td>相對橫向位移 = 1，兩側斜率相同</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="SA-2025-2 Müller-Breslau 五格機構圖：分別釋放 RA、RC、RE、MA、VF 後的剛體機構與縱距" src="../../raw/solutions/SA-2025-2/figs/SA-2025-2-fig-4-muller-breslau.svg" /></p>
+<p><em>圖 4　Müller–Breslau 的獨立檢核：全程只用幾何，一條平衡方程都沒用到。兩條互相獨立的路徑（平衡法／機構法）得到同一組縱距，才算真的算對（產圖腳本已逐點 assert）。這張圖攔的是影響線形狀畫錯。</em></p>
+<h3>5.2 $IL_{R_C}$ 峰值 = 2 的物理解釋</h3>
+<p>載重在 D（$x=12$）時 $R_C = 2 &gt; 1$，這是<strong>槓桿效應</strong>：</p>
+<ul>
+<li>D 是內鉸，D 右側的 DE 段對 C 而言形同一根伸出去的懸臂；</li>
+<li>鉸 D 在 C 右方 4 m、支承 E 在 C 右方 8 m，$1$ 的載重放在 D 上，C 必須出 2 才平衡；</li>
+<li>代價是 $R_A = -1$（<strong>A 被向下壓</strong>）。</li>
+</ul>
+<p>這也告訴我們：$R_C$ 的設計最大值不會發生在 C 正上方，而是在 D。</p>
+<h3>5.3 $V_F$ 的意義：為什麼「F 是不是自由端」是整題的分水嶺</h3>
+<ul>
+<li><strong>若 F 是自由端</strong>：自由端右側沒有結構，$V_F \equiv 0$，$IL_{V_F}$ 是一條水平零線 —— 這條影響線變得毫無資訊。</li>
+<li><strong>F 是 B–C 間的斷面</strong>（本題實況）：$IL_{V_F}$ 在 F 處有<strong>單位跳躍</strong>（$-0.5 \to +0.5$），且在 D 達到 $-1$。</li>
+</ul>
+<p>$V_F$ 的最大負值 $-1$ 出現在載重放在 D 時（因為此時 $R_A = -1$，而載重在 F 右方）。這是設計 BC 段抗剪時的控制情況 —— 而它完全來自右側懸臂的槓桿效應，跟「F 附近的載重」無關。<strong>這正是影響線的價值：它會指出最不利載重位置在你想不到的地方。</strong></p>
+<hr />
+<h2>§6 本題知識點索引</h2>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>概念 ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>影響線</td>
+<td><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">INFLUENCE-LINE</span></td>
+</tr>
+<tr>
+<td>Müller-Breslau 原理</td>
+<td><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">MULLER-BRESLAU-PRINCIPLE</span></td>
+</tr>
+<tr>
+<td>靜不定度判斷</td>
+<td><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">DEGREE-OF-INDETERMINACY</span></td>
+</tr>
+<tr>
+<td>Gerber 梁（內鉸）</td>
+<td><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">GERBER-BEAM</span></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>CHANGELOG</h2>
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>變更</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-07-02</td>
+<td>初版解析</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2026-08-16</td>
+<td>加註 §1.5 勘誤區塊（保留原文），指出附圖幾何應為 4@4 m、F 為 C 左 2 m 的斷面</td>
+<td>原文誤讀附圖，把 F 當自由端、跨距記成 $AB=2$／全長 18 m</td>
+</tr>
+<tr>
+<td>2026-08-26</td>
+<td><strong>全文改寫</strong>：§1～§5 一律改用正確幾何，勘誤區塊併入 §1 的讀圖提醒並降為本表一列</td>
+<td>舊版正文與 §1.5 互相矛盾（§4 全部是錯幾何、§5.3 還在說「F 為自由端故 $IL_{V_F}\equiv0$」），複習時極易讀到錯的那一半</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>解析日期：2026-07-02　｜　勘誤：2026-08-16　｜　全文改寫＋圖解：2026-08-26（向量圖，腳本 <code>gen_SA-2025-2.py</code>，可重跑；改 <code>XA…XF</code> 任一座標重跑，五條影響線與機構圖會一起變）</em></p>
+<p><em>修正日期：2026-11-07（§1 改為指向題目正本並放重繪附圖（figs/SA-2025-2-fig-1-problem.svg）、加常見誤讀；原 §1 解析自繪圖移至「判讀圖解（解析自繪）」；圖由 gen_SA-2025-2_problem.py 產生，可重跑）</em><br />
+<em>修正日期：2026-11-07（圖號依插入順序對調（非勘誤）：鉸右側自由體圖改為圖 2（figs/SA-2025-2-fig-2-hinge-fbd）、五條影響線改為圖 3（figs/SA-2025-2-fig-3-influence-lines）；圖 3 註腳改用中文避免下標字元外露；圖由 gen_SA-2025-2.py 重產）</em></p></main>
+<footer>來源：raw/solutions/SA-2025-2/SA-2025-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+
+<script>
+/* 跟隨來源單元：若由 unit-/lecture-SA-Un-m.html（或舊的 study-/formula-given-）點進來，
+   兩顆按鈕改指向「來源那個單元」。靜態 href 保底，無 JS 或無 referrer 時仍可用。 */
+(function(){
+  var NAMES={"SA-U1-2": "靜定結構之分析", "SA-U1-3": "靜定及靜不定結構影響線", "SA-U2-1": "靜不定結構最小功法", "SA-U2-3": "靜不定結構之傾角變位法", "SA-U2-4": "靜不定結構之矩陣分析法"};
+  var m=(document.referrer||'').match(/\/(?:unit|study|lecture|formula-given)-(SA-U\d+-\d+)\.html/);
+  if(!m||!NAMES[m[1]])return;
+  var u=m[1], s=u.slice(3), box=document.querySelector('.hbtns');
+  if(!box)return;
+  box.innerHTML=
+    '<a class="b-study" href="../unit-'+u+'.html">\u{1F9ED} '+s+' \u55AE\u5143\u7E3D\u89BD</a>'+
+    '<a class="b-lect" href="../lecture-'+u+'.html">\u{1F4DA} '+s+' '+NAMES[u]+' \u8B1B\u7FA9</a>';
+  var n=document.querySelector('.nomat'); if(n)n.remove();
+})();
+</script>
+</body></html>

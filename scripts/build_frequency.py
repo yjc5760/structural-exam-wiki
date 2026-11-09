@@ -723,7 +723,7 @@ def build_html(subject, subj_name, A, today, script_rel):
 {CSS}
 </head>
 <body>
-<style>@media print{{#start-backlink{{display:none}}}}</style><div id="start-backlink" style="font:14px/1.6 'Noto Sans TC',system-ui,sans-serif;padding:8px 16px;background:#2f4a5e;color:#fff"><a href="../start.html" style="color:#fff;text-decoration:none">← 從這裡開始（SS 學習路徑）</a></div>
+<style>@media print{{#start-backlink{{display:none}}}}</style><div id="start-backlink" style="font:14px/1.6 'Noto Sans TC',system-ui,sans-serif;padding:8px 16px;background:#2f4a5e;color:#fff"><a href="../start.html" style="color:#fff;text-decoration:none">← 從這裡開始（{subject} 學習路徑）</a></div>
 <header>
 <h1>{subject} {subj_name} — 全科出題頻率熱圖</h1>
 <p>{span(years)}，{year_desc}｜資料來源：raw/json/question_index.json｜更新日期 {today}</p>
@@ -883,6 +883,9 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
     script_rel = rel(os.path.abspath(__file__), os.getcwd())
     html = build_html(subject, subj_name, A, today, script_rel)
+    if not os.path.exists(os.path.join(out_dir, "..", "start.html")):
+        # 本科還沒有起點頁 start.html：拿掉返回列，避免死連結（2026-11-09 SA 搬入時加）
+        html = re.sub(r'<style>@media print\{#start-backlink.*?</div>', "", html, count=1, flags=re.S)
     with open(out, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"\n寫出 {out}（{len(html):,} 字元）")

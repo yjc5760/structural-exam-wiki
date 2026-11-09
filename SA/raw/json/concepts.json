@@ -1,3 +1,133 @@
 {
-  "concepts": []
+  "description": "SA 科目核心概念定義。供 compile-all 生成 wiki/concepts/ 頁面。",
+  "concepts": [
+    {
+      "concept_id": "DEGREE-OF-INDETERMINACY",
+      "concept_name": "靜不定度",
+      "classification": "SA-U1-1",
+      "related_concept_ids": ["GEOMETRIC-STABILITY", "REDUNDANT-FORCE"],
+      "definition": "結構中多餘束制或桿件的數目，等於靜不定結構超過靜力平衡方程式的方程數。",
+      "key_formula": "桁架：i = m + r - 2j；剛架：i = 3m + r - 3j（扣除內鉸貢獻）"
+    },
+    {
+      "concept_id": "GEOMETRIC-STABILITY",
+      "concept_name": "幾何穩定性",
+      "classification": "SA-U1-1",
+      "related_concept_ids": ["DEGREE-OF-INDETERMINACY"],
+      "definition": "結構在無任何外力下，不會發生剛體移動的性質。靜不定度≥0 是必要但非充分條件。",
+      "key_formula": "需同時確認：(1) i ≥ 0；(2) 支承反力方向配置不形成可動機構"
+    },
+    {
+      "concept_id": "FIXED-END-MOMENT",
+      "concept_name": "固端彎矩（FEM）",
+      "classification": "SA-U2-3",
+      "related_concept_ids": ["SLOPE-DEFLECTION-EQUATION", "MOMENT-DISTRIBUTION-METHOD"],
+      "definition": "假設桿端完全固定（θ=0, Δ=0）時，由外力引起的桿端彎矩。",
+      "key_formula": "均布 w：MFAB = -wL²/12，MFBA = +wL²/12；集中 P（中點）：MFAB = -PL/8，MFBA = +PL/8"
+    },
+    {
+      "concept_id": "SLOPE-DEFLECTION-EQUATION",
+      "concept_name": "傾角變位方程式",
+      "classification": "SA-U2-3",
+      "related_concept_ids": ["FIXED-END-MOMENT", "CHORD-ROTATION"],
+      "definition": "描述桿端彎矩與桿端轉角、側移角及固端彎矩關係的方程式。",
+      "key_formula": "MAB = (2EI/L)(2θA + θB - 3ψ) + MFAB；MBA = (2EI/L)(2θB + θA - 3ψ) + MFBA"
+    },
+    {
+      "concept_id": "DISTRIBUTION-FACTOR",
+      "concept_name": "分配因子（DF）",
+      "classification": "SA-U2-5",
+      "related_concept_ids": ["CARRY-OVER-FACTOR", "MOMENT-DISTRIBUTION-METHOD"],
+      "definition": "彎矩分配法中，節點不平衡彎矩依各桿相對勁度分配給各桿端的比例係數。",
+      "key_formula": "DFij = Kij / ΣK；K = 4EI/L（遠端固定）或 3EI/L（遠端鉸接）；ΣDF = 1"
+    },
+    {
+      "concept_id": "CARRY-OVER-FACTOR",
+      "concept_name": "傳遞因子",
+      "classification": "SA-U2-5",
+      "related_concept_ids": ["DISTRIBUTION-FACTOR"],
+      "definition": "彎矩分配後，近端分配量傳遞至遠端的比例係數。",
+      "key_formula": "遠端固定：COF = 1/2；遠端鉸接：COF = 0"
+    },
+    {
+      "concept_id": "MOMENT-DISTRIBUTION-METHOD",
+      "concept_name": "彎矩分配法",
+      "classification": "SA-U2-5",
+      "related_concept_ids": ["DISTRIBUTION-FACTOR", "CARRY-OVER-FACTOR", "FIXED-END-MOMENT"],
+      "definition": "以迭代方式逐次釋放固定節點、分配不平衡彎矩直至收斂，求解靜不定結構桿端彎矩的方法。",
+      "key_formula": "桿端彎矩 = FEM + Σ分配量 + Σ傳遞量"
+    },
+    {
+      "concept_id": "REDUNDANT-FORCE",
+      "concept_name": "多餘力",
+      "classification": "SA-U2-1",
+      "related_concept_ids": ["DEGREE-OF-INDETERMINACY", "FLEXIBILITY-METHOD"],
+      "definition": "靜不定結構中，超過靜力平衡方程式所需的多餘支承反力或內力，釋放後得到靜定基本結構。",
+      "key_formula": "靜不定度 n → 需 n 個諧合方程：[δ]{R} = -{Δ0}"
+    },
+    {
+      "concept_id": "FLEXIBILITY-METHOD",
+      "concept_name": "柔度法（力法）",
+      "classification": "SA-U2-2",
+      "related_concept_ids": ["REDUNDANT-FORCE", "UNIT-LOAD-METHOD"],
+      "definition": "以多餘力為未知量，利用諧合條件（位移諧合）建立方程組求解靜不定結構的分析方法。",
+      "key_formula": "δij = ∫(mi·mj)/(EI)dx；諧合條件：δi0 + Σδij·Rj = 0"
+    },
+    {
+      "concept_id": "UNIT-LOAD-METHOD",
+      "concept_name": "單位力法（虛功原理）",
+      "classification": "SA-U2-1",
+      "related_concept_ids": ["FLEXIBILITY-METHOD", "CASTIGLIANOS-THEOREM"],
+      "definition": "在欲求位移處施加單位虛力，利用虛功原理計算實際結構位移的方法。",
+      "key_formula": "δ = ∫(m·M)/(EI)dx + ∫(n·N)/(EA)dx（m、n 為單位力引起之內力）"
+    },
+    {
+      "concept_id": "CASTIGLIANOS-THEOREM",
+      "concept_name": "卡式定理（最小功法）",
+      "classification": "SA-U2-1",
+      "related_concept_ids": ["UNIT-LOAD-METHOD"],
+      "definition": "線彈性結構中，對某外力（或多餘力）的偏微分等於該力作用點沿其方向的位移（或對應諧合變位）。",
+      "key_formula": "Δi = ∂U/∂Pi；對多餘力：∂U/∂Ri = 0（最小功法）"
+    },
+    {
+      "concept_id": "INFLUENCE-LINE",
+      "concept_name": "影響線",
+      "classification": "SA-U1-3",
+      "related_concept_ids": ["MULLER-BRESLAU-PRINCIPLE"],
+      "definition": "描述單位移動集中載重作用在結構不同位置時，某特定量值（反力、剪力、彎矩）隨載重位置變化的曲線。",
+      "key_formula": "最大效應 = IL面積 × 均布載重密度（均布）；最大效應 = 最大縱座標 × 集中力（集中）"
+    },
+    {
+      "concept_id": "MULLER-BRESLAU-PRINCIPLE",
+      "concept_name": "Müller-Breslau 原理",
+      "classification": "SA-U1-3",
+      "related_concept_ids": ["INFLUENCE-LINE"],
+      "definition": "某量值 X 的影響線形狀，等同於撤除對應於 X 的束制後，結構在該處施加單位廣義位移時的彈性曲線。",
+      "key_formula": "靜定結構 → IL 為直線段；靜不定結構 → IL 為光滑曲線（需額外計算）"
+    },
+    {
+      "concept_id": "STIFFNESS-MATRIX",
+      "concept_name": "勁度矩陣",
+      "classification": "SA-U2-4",
+      "related_concept_ids": ["MATRIX-DISPLACEMENT-METHOD"],
+      "definition": "描述結構自由度力與位移關係的矩陣，{P} = [K]{Δ}，其中 Kij 表示在 j 方向施加單位位移時 i 方向所需的力。",
+      "key_formula": "梁元素 4×4 局部勁度矩陣：k11=12EI/L³，k22=4EI/L，k12=6EI/L²（見 CLAUDE-SOLVE.md）"
+    },
+    {
+      "concept_id": "MATRIX-DISPLACEMENT-METHOD",
+      "concept_name": "矩陣位移法",
+      "classification": "SA-U2-4",
+      "related_concept_ids": ["STIFFNESS-MATRIX"],
+      "definition": "以節點位移為未知量，組合各元素勁度矩陣建立整體方程組 {P}=[K]{Δ}，求解節點位移後再計算元素內力的分析方法。",
+      "key_formula": "[K] = Σ[T]ᵀ[k][T]；{Δ} = [K]⁻¹{P}；{f} = [k]{d} - {fF}"
+    },
+    {
+      "concept_id": "CHORD-ROTATION",
+      "concept_name": "相對側移角（ψ）",
+      "classification": "SA-U2-3",
+      "related_concept_ids": ["SLOPE-DEFLECTION-EQUATION"],
+      "definition": "傾角變位法中，桿件兩端節點的相對側向位移除以桿件長度，表示桿件弦線轉動角。",
+      "key_formula": "ψ = Δ/L（Δ 為兩端相對側移量）；有側移框架需額外列層剪力方程"
+    }
+  ]
 }

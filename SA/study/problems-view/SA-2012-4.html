@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SA-2012-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+
+header h1{color:#fff!important;font-size:1.25em;margin:0;letter-spacing:.5px}
+header .meta2{margin:8px 0 0;font-size:.84em;opacity:.93;line-height:1.6}
+header .meta2 b{background:rgba(255,255,255,.2);border-radius:4px;padding:1px 7px;font-weight:600}
+header .hbtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+header .hbtns a{font-size:.85em;text-decoration:none;padding:7px 17px;border-radius:22px;
+  font-weight:700;white-space:nowrap;line-height:1.4}
+header .b-study{background:#fff;color:#1565c0}
+header .b-lect{background:#6a1b9a;color:#fff}
+header .b-fg{background:#c62828;color:#fff}
+header .hbtns a:hover{filter:brightness(1.08)}
+header .nomat{margin-top:12px;font-size:.8em;opacity:.85}
+</style></head><body>
+<header>
+<h1>SA-2012-4　靜不定結構之矩陣分析法</h1>
+<p class="meta2">主分類 <b>SA-U2-4</b> 靜不定結構之矩陣分析法 ｜ 副分類 <b>SA-U2-3</b> 靜不定結構之傾角變位法 ｜ 2012 年（民國 101） ｜ 直接勁度法 (Direct Stiffness Method) / 傾角變位法原理</p>
+<div class="hbtns"><a class="b-study" href="../unit-SA-U2-4.html">🧭 U2-4 單元總覽</a><a class="b-lect" href="../lecture-SA-U2-4.html">📚 U2-4 靜不定結構之矩陣分析法 講義</a></div>
+</header>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>SA-2012-4 題目正本</h1>
+<blockquote>
+<p>本檔只記錄考卷上寫了什麼、圖上畫了什麼，不含任何解法。解析見同資料夾 <code>SA-2012-4.md</code>。<br />
+判讀清單經使用者確認前，狀態為「待確認」；確認後本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>考卷</td>
+<td><code>raw/exams/SA-2012_結構學.pdf</code>，第 2 頁（背面）下半，第四題（圖四）</td>
+</tr>
+<tr>
+<td>考年</td>
+<td>2012（民國 101 年）專技高考結構工程技師「結構學」</td>
+</tr>
+<tr>
+<td>配分</td>
+<td>25 分</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td><code>SA-2012-4-fig-1.png</code>、<code>SA-2012-4-fig-2.png</code></td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-05 使用者確認。原轉錄：2026-11-05 轉錄；PyMuPDF 110 dpi 整頁＋250–800 dpi 局部放大、PDF 向量座標；盲讀於開啟解析前完成）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<p>四、如圖四所示剛架有二個自由度，a 點為固接，d 點為鉸接。R₁ 與 R₂ 為作用於結點彎矩，r₁ 與 r₂ 為對應於 R₁ 與 R₂ 之變位。若 ab 與 bc 桿件有相同的彈性模數 E 與慣性矩 I，EI 為常數；cd 桿件 EI 值為無限大。{R₁; R₂} = [K₁₁ K₁₂; K₂₁ K₂₂]{r₁; r₂}。試求勁度矩陣 [K₁₁ K₁₂; K₂₁ K₂₂]。（25 分）</p>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>考卷沒有給任何參考公式或附表。</li>
+<li>矩陣式在考卷上是排版公式，此處以分號表示換列。</li>
+<li>考卷沒有給數值，答案為 EI、L 的式子。</li>
+<li>考卷沒有明說忽略軸向變形；題文寫「有二個自由度」。</li>
+<li>卷首注意事項：可以使用電子計算器。不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。本試題之相關公式、物理常數、符號意義及設計參數未提及時，請自行合理推斷與假設。</li>
+<li>考試時間：2 小時。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p><img alt="SA-2012-4 考卷附圖原截圖（滑鼠游標（手形）在 d 右方空白處，未壓到圖；內容同下圖）" src="../../raw/solutions/SA-2012-4/SA-2012-4-fig-1.png" /><br />
+<em>證據圖 SA-2012-4-fig-1.png</em></p>
+<p><img alt="SA-2012-4 考卷附圖（圖四）：a 在左下為固定端；ab 為垂直柱，長 L；b 為剛接角點；bc 水平 L/2（EI）；cd 水平 L/2，畫粗線標 EI=∞；d 為鉸支承；b 處順時針彎矩 R₁, r₁，d 處順時針彎矩 R₂, r₂" src="../../raw/solutions/SA-2012-4/SA-2012-4-fig-2.png" /><br />
+<em>證據圖 SA-2012-4-fig-2.png（2026-11-05 自考卷重新擷取 500 dpi，無游標）</em></p>
+<p>圖面文字照錄：R₁, r₁、c、R₂, r₂、b、d、EI、EI=∞、L、a、L/2、L/2、圖四</p>
+<h2>4. 判讀清單</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>座標（a 為原點）</td>
+<td>a(0,0)、b(0,L)、c(L/2,L)、d(L,L)</td>
+<td>尺寸線 L（左側）、L/2｜L/2（下方）</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>2</td>
+<td>構件</td>
+<td>ab（柱，EI）、bc（梁，EI）、cd（梁，EI=∞，粗線）</td>
+<td>題文；附圖引線</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>節點 b、c</td>
+<td>剛接（無鉸圈）</td>
+<td>附圖</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>支承 a</td>
+<td>固定端</td>
+<td>題文；剖線</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>支承 d</td>
+<td>鉸支承（三角形＋剖線）</td>
+<td>題文「d 點為鉸接」；附圖 d 畫在支承上</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>6</td>
+<td>自由度</td>
+<td>r₁：b 點轉角；r₂：d 點轉角；兩者箭頭皆<strong>順時針</strong></td>
+<td>題文；800 dpi 箭頭方向</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>7</td>
+<td>載重</td>
+<td>無外加載重（只求勁度矩陣）</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>8</td>
+<td>考卷沒有給</td>
+<td>軸向變形條件；數值</td>
+<td>—</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>9</td>
+<td>證據圖</td>
+<td>舊截圖 fig-1：滑鼠游標（手形）在 d 右方空白處，未壓到圖；新增 fig-2（2026-11-05 自考卷重新擷取 500 dpi）</td>
+<td>—</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-05（SA-U2-4 題目正本推廣・批 1）</em><br />
+<em>確認：2026-11-05 使用者確認</em></p></details>
+<h1>考題編號：SA-2012-4</h1>
+<p><strong>主分類：</strong> <code>SA-U2-4</code> 靜不定結構之矩陣分析法<br />
+<strong>副分類：</strong> <code>SA-U2-3</code> 靜不定結構之傾角變位法<br />
+<strong>分析法：</strong> 直接勁度法 (Direct Stiffness Method) / 傾角變位法原理<br />
+<strong>標籤：</strong> <code>直接勁度法</code>, <code>勁度矩陣</code>, <code>剛性桿件</code>, <code>內部約束</code></p>
+<hr />
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="SA-2012-4-problem.md"><code>SA-2012-4-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<p><img alt="SA-2012-4 重繪題目附圖：剛架 a 固定、ab 柱長 L、bc 梁 L/2（EI）、cd 剛性桿 L/2（EI = ∞）、d 鉸支承；R₁、r₁ 在 b、R₂、r₂ 在 d，皆順時針" src="../../raw/solutions/SA-2012-4/figs/SA-2012-4-fig-1-problem.svg" /><br />
+<em>重繪自考卷附圖，依判讀清單 #1–#8 重繪。攔：d 讀成滾支承、cd 剛桿位置讀錯、自由度轉向讀反。</em></p>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方法</td>
+<td>考卷沒有指定方法，只求勁度矩陣</td>
+<td>題目指定直接勁度法</td>
+</tr>
+<tr>
+<td>軸向變形</td>
+<td>考卷沒寫；題文「二個自由度」已隱含不計</td>
+<td>題幹明示不考慮軸向變形</td>
+</tr>
+<tr>
+<td>r₁、r₂</td>
+<td>b、d 的轉角，皆順時針</td>
+<td>逆時針</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> 記號與正負號約定沿用 §4。</p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題是直接勁度法中極具巧思的「含有無限大剛度桿件 ($EI=\infty$)」題型。出題者的核心測驗點在於：</p>
+<ul>
+<li><strong>主從自由度 (Master-Slave DOFs) 判別與運動學直覺</strong>：面對剛性桿件 c-d，考生必須具備運動學的直覺。剛性桿不發生撓曲變形，因此 c 點的變位（垂直位移與轉角）完全被 d 點的轉角 $r_2$ 「綁定」（Slave）。系統真正的獨立自由度確切只有題目給定的 $r_1$ 與 $r_2$。</li>
+<li><strong>形狀函數與幾何相容性 (Geometric Compatibility)</strong>：當系統被施加 $r_2 = 1$ 時，剛性桿 c-d 猶如一個蹺蹺板，帶動 c 點產生向上的垂直位移與相同的轉角。這會在具備柔性的 b-c 桿件中引入相對弦位移（弦角 $\psi$），進而引發額外的剪力與彎矩，這是多數考生最容易忽略的盲點。</li>
+<li><strong>力矩平衡的轉換與等效節點載重</strong>：在計算勁度矩陣元素 $K_{22}$ 與 $K_{21}$ 時，必須回歸剛性桿 c-d 的靜力平衡，將 b-c 桿件對 c 點施加的剪力與彎矩，精確轉換為對 d 點的等效力矩。</li>
+</ul>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>解題戰略：</strong></p>
+<ol>
+<li><strong>確立自由度與運動學邊界條件</strong>：確立獨立自由度向量 $D = [r_1, r_2]^T$。因不考慮軸向變形，故各節點無水平位移，b 點無垂直位移。精確寫出 c 點受 $r_2$ 控制的位移關係式。</li>
+<li><strong>求解第一行矩陣元素 ($r_1 = 1, r_2 = 0$)</strong>：鎖定 d 點，使 b 點產生單位旋轉。分析 a-b 柱與 b-c 梁的受力，並藉由節點 b 的力矩平衡求得 $K_{11}$，再透過 c 點的受力對 d 點取力矩求得 $K_{21}$。</li>
+<li><strong>求解第二行矩陣元素 ($r_1 = 0, r_2 = 1$)</strong>：鎖定 b 點，使 d 點產生單位旋轉。剛性桿帶動 c 點產生轉角與垂直位移。利用傾角變位方程式求出 b-c 桿的端彎矩與剪力，進而由節點 b 的平衡求 $K_{12}$，對 d 點取力矩求 $K_{22}$。最後藉由 $K_{12} = K_{21}$ 驗證計算。</li>
+</ol>
+<p><strong>關鍵陷阱分析：</strong></p>
+<ul>
+<li><strong>陷阱一：忽略 c 點的垂直位移（致命錯誤）</strong></li>
+<li><em>分析</em>：若在 $r_2=1$ 時，僅考慮剛性桿傳遞了 $\theta_c=1$ 而遺漏蹺蹺板效應造成的 $v_c = L/2$，將導致 b-c 桿的弦角 $\psi=0$，從而算出完全錯誤的 $K_{22}$ 與 $K_{12}$。</li>
+<li><em>應對</em>：嚴格畫出剛性桿旋轉後的變形圖，強制標示出所有產生位移的節點坐標變化。</li>
+<li><strong>陷阱二：剛性桿力臂方向與正負號錯亂</strong></li>
+<li><em>分析</em>：計算 d 點的反作用力矩時，b-c 桿對 c 點的剪力方向與力矩正負號極易搞混。</li>
+<li><em>應對</em>：嚴格遵循「桿端彎矩 $\rightarrow$ 桿件剪力 $\rightarrow$ 節點受力 $\rightarrow$ 對 d 點力矩」的靜力平衡連貫推導，並繪製分離體圖（FBD）。</li>
+<li><strong>陷阱三：軸向變形假設的誤用</strong></li>
+<li><em>分析</em>：若誤將梁或柱的軸向變形納入，會增加不必要的自由度。</li>
+<li><em>應對</em>：題文寫明剛架只有「二個自由度」（考卷沒有寫「不考慮軸向變形」，但兩個自由度已隱含不計軸向變形），應直接封鎖 $u_b, v_b, u_c$ 等位移分量。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p><code>精確求出該 2 個自由度系統的 2x2 結構勁度矩陣 [K]</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>剛性桿位移傳遞：$$ \boxed{v_c} = r_2 \cdot (L_{cd}) $$</li>
+<li>傾角變位方程式 (無側移)：$$ M_{ij} = \frac{2EI}{L} \left( 2\theta_i + \theta_j \right) $$</li>
+<li>傾角變位方程式 (含側移弦角)：$$ M_{ij} = \frac{2EI}{L} \left( 2\theta_i + \theta_j - 3\psi \right), \quad \text{其中 } \psi = \frac{\boxed{v_c}}{L_{bc}} $$</li>
+<li>桿件剪力平衡：$$ V_{c} = \frac{\Sigma M}{L_{bc}} $$</li>
+<li>剛性桿力矩平衡 (對鉸支承 d)：$$ K_{2j} = \Sigma M_d = M_c + \boxed{V_c} \cdot L_{cd} $$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L_{ab}$</td>
+<td>$L$</td>
+<td>a-b 柱長度</td>
+</tr>
+<tr>
+<td>$EI_{ab}$</td>
+<td>$EI$</td>
+<td>a-b 柱抗彎剛度</td>
+</tr>
+<tr>
+<td>$L_{bc}$</td>
+<td>$L/2$</td>
+<td>b-c 梁長度</td>
+</tr>
+<tr>
+<td>$EI_{bc}$</td>
+<td>$EI$</td>
+<td>b-c 梁抗彎剛度</td>
+</tr>
+<tr>
+<td>$L_{cd}$</td>
+<td>$L/2$</td>
+<td>c-d 剛性桿長度</td>
+</tr>
+<tr>
+<td>$EI_{cd}$</td>
+<td>$\infty$</td>
+<td>c-d 桿抗彎剛度 (剛性)</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>狀態一：$r_1=1, r_2=0$</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $K_{11}$ | $\sum M_b = M_{ba} + M_{bc}$ | |<br />
+| $V_{c1}$ | $(M_{bc} + M_{cb}) / L_{bc}$ | |<br />
+| $K_{21}$ | $M_{cb} (\text{反向}) + V_{c1} \times L_{cd}$ | |</p>
+<p><strong>狀態二：$r_1=0, r_2=1$</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\psi$ | $v_c / L_{bc}$ | |<br />
+| $K_{12}$ | $\sum M_b = M_{ba} + M_{bc}$ | |<br />
+| $V_{c2}$ | $(M_{bc} + M_{cb}) / L_{bc}$ | |<br />
+| $K_{22}$ | $M_{cb} (\text{反向}) + V_{c2} \times L_{cd}$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>剛性桿運動學</td>
+<td>$EI=\infty$ 桿件不變形，其端點位移完全由旋轉中心決定（$v = \theta \cdot R$）。</td>
+<td></td>
+</tr>
+<tr>
+<td>弦角 $\psi$ 定義</td>
+<td>桿件兩端相對垂直位移除以桿長，注意旋轉方向之正負號定義。</td>
+<td></td>
+</tr>
+<tr>
+<td>等效力矩轉換</td>
+<td>柔性桿對剛性桿施加的內力（彎矩與剪力），必須透過靜力平衡轉換為剛性桿支承點的力矩。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：定義自由度與變形幾何</h3>
+<ul>
+<li><strong>獨立自由度</strong>：$r_1 = \theta_b$ (順時針)，$r_2 = \theta_d$ (順時針)。</li>
+<li><strong>運動學約束</strong>：</li>
+<li>a 為固定端：$\theta_a = 0, u_a = 0, v_a = 0$。</li>
+<li>不考慮軸向變形：$u_b = 0, v_b = 0$。</li>
+<li>c-d 為剛性桿 ($EI=\infty$)，長度 $L/2$，繞 d 點旋轉。當 d 點有順時針轉角 $r_2$ 時，c 點產生對應變形：<br />
+    $$ \theta_c = r_2 \quad (\text{順時針}) $$<br />
+    $$ v_c = r_2 \cdot (L/2) \quad (\text{因 d 點在右，順時針旋轉使左端 c 點}\textbf{向上}\text{移動}) $$</li>
+</ul>
+<h3>Step 2：求勁度矩陣第一行 (令 $r_1 = 1, r_2 = 0$)</h3>
+<blockquote>
+<p>💡 <strong>策略註解</strong>：此狀態下，b 點順時針旋轉 $1\text{ rad}$，d 點固定。因 $r_2=0$，故剛性桿 c-d 靜止，$v_c = 0, \theta_c = 0$。分別檢視各桿件之受力。</p>
+</blockquote>
+<p><strong>1. a-b 柱件 (長度 $L$, 剛度 $EI$)</strong></p>
+<ul>
+<li>$\theta_a = 0, \theta_b = 1, \Delta = 0$。</li>
+<li>利用傾角變位方程式：<br />
+  $$ M_{ba} = \frac{4EI}{L} \theta_b = \frac{4EI}{L} \quad (\text{順時針，作用於梁端}) $$</li>
+</ul>
+<p><strong>2. b-c 梁件 (長度 $L/2$, 剛度 $EI$)</strong></p>
+<ul>
+<li>$\theta_b = 1, \theta_c = 0, \Delta = 0$。</li>
+<li>
+<p>利用傾角變位方程式：<br />
+  $$ M_{bc} = \frac{4EI}{L/2} \theta_b = \frac{8EI}{L} \quad (\text{順時針}) $$<br />
+  $$ M_{cb} = \frac{2EI}{L/2} \theta_b = \frac{4EI}{L} \quad (\text{順時針}) $$</p>
+</li>
+<li>
+<p><strong>求剪力</strong>：桿件兩端承受順時針彎矩，故需逆時針的剪力力偶平衡。梁左端 b 需受向下力，右端 c 需受向上力。<br />
+  $$ V_{c,\text{on\_beam}} = \frac{M_{bc} + M_{cb}}{L/2} = \frac{12EI/L}{L/2} = \frac{24EI}{L^2} \quad (\text{向上}) $$</p>
+</li>
+</ul>
+<p><strong>3. 組裝 $K_{11}$ 與 $K_{21}$</strong></p>
+<ul>
+<li>
+<p>$K_{11}$ 為 b 點對應之約束力矩：<br />
+  $$ \mathbf{K_{11}} = \sum M_b = M_{ba} + M_{bc} = \frac{4EI}{L} + \frac{8EI}{L} = \boxed{\frac{12EI}{L}} $$</p>
+</li>
+<li>
+<p>$K_{21}$ 為維持 $r_2=0$ 所需施加於 d 點之順時針力矩。<br />
+  分析剛性桿 c-d 受 b-c 桿的反作用力：</p>
+</li>
+<li>
+<p>彎矩：b-c 桿上 $M_{cb}$ 為順時針，故梁對 c 節點施加<strong>逆時針</strong>彎矩 $\frac{4EI}{L}$。</p>
+</li>
+<li>剪力：b-c 桿在 c 端受向上力，故梁對 c 節點施加<strong>向下</strong>力 $\frac{24EI}{L^2}$。<br />
+  對 d 點取力矩 (設順時針為正)：<br />
+  $$ R_2 = - M_c (\text{逆時針}) + V_c (\text{向下}) \times L/2 $$<br />
+<em>(注意：c 點在 d 點左側，向下力會對 d 點產生<strong>逆時針</strong>力矩)</em><br />
+  $$ R_2 = - \left( \frac{4EI}{L} \right) - \left( \frac{24EI}{L^2} \right) \times \frac{L}{2} = - \frac{4EI}{L} - \frac{12EI}{L} = - \frac{16EI}{L} \quad (\text{逆時針}) $$<br />
+  因 $r_2$ 定義為順時針，欲維持平衡的外力 $R_2$ 需與內部抵抗力反向，故外部施力：<br />
+  $$ \mathbf{K_{21}} = \boxed{+\frac{16EI}{L}} $$</li>
+</ul>
+<p><img alt="SA-2012-4 單位狀態 r1 = 1：b 順時針轉 1、剛桿 cd 不動；彎矩 M_ba 4、M_ab 2、M_bc 8、M_cb 4，剛桿 cd 由 c 端 4 線性增到 d 端 16（EI/L）" src="../../raw/solutions/SA-2012-4/figs/SA-2012-4-fig-2-unit-r1.svg" /></p>
+<p><em>圖 2　單位狀態 $r_1 = 1$（以勁度法、cd 取 $EI = 10^9$ 重算，[K] 與 Step 4 一致）。d 端需要的力矩 16 不只是 $M_{cb} = 4$，還有 bc 剪力 $24EI/L^2$ 經剛桿力臂 $L/2$ 傳來的 12。這張圖攔的是只算彎矩、漏掉剪力乘力臂，而把 $K_{21}$ 寫成 4。</em></p>
+<h3>Step 3：求勁度矩陣第二行 (令 $r_1 = 0, r_2 = 1$)</h3>
+<blockquote>
+<p>💡 <strong>策略註解</strong>：此狀態下，b 點固定 ($\theta_b=0$)，d 點順時針旋轉 $1\text{ rad}$。剛性桿帶動 c 點產生 $\theta_c = 1$ (順時針) 與 $v_c = L/2$ (向上)。</p>
+</blockquote>
+<p><strong>1. a-b 柱件</strong></p>
+<ul>
+<li>無任何變形，故 $M_{ba} = 0$。</li>
+</ul>
+<p><strong>2. b-c 梁件 (長度 $L/2$)</strong></p>
+<ul>
+<li>$\theta_b = 0, \theta_c = 1$。</li>
+<li>
+<p><strong>計算弦位移與弦角</strong>：右端 c 向上移動 $L/2$，使得弦產生<strong>逆時針</strong>旋轉。<br />
+  $$ \psi = \frac{v_c}{L/2} = \frac{L/2}{L/2} = 1 \quad (\text{逆時針}) $$</p>
+</li>
+<li>
+<p>代入傾角變位公式 (設順時針轉角為正)：<br />
+  $$ M_{bc} = \frac{2EI}{L/2} \left[ 2\theta_b + \theta_c - 3(-\psi) \right] = \frac{4EI}{L} \left[ 0 + 1 - 3(-1) \right] = \frac{4EI}{L} (4) = \frac{16EI}{L} \quad (\text{順時針}) $$<br />
+  $$ M_{cb} = \frac{2EI}{L/2} \left[ 2\theta_c + \theta_b - 3(-\psi) \right] = \frac{4EI}{L} \left[ 2(1) + 0 - 3(-1) \right] = \frac{4EI}{L} (5) = \frac{20EI}{L} \quad (\text{順時針}) $$</p>
+</li>
+<li>
+<p><strong>求剪力</strong>：梁上總順時針彎矩 $= 36EI/L$。平衡需逆時針剪力力偶 $\Rightarrow$ b 端向下，c 端向上。<br />
+  $$ V_{c,\text{on\_beam}} = \frac{36EI/L}{L/2} = \frac{72EI}{L^2} \quad (\text{向上}) $$</p>
+</li>
+</ul>
+<p><strong>3. 組裝 $K_{12}$ 與 $K_{22}$</strong></p>
+<ul>
+<li>
+<p>$K_{12}$ 為 b 點對應之約束力矩：<br />
+  $$ \mathbf{K_{12}} = \sum M_b = M_{ba} + M_{bc} = 0 + \frac{16EI}{L} = \boxed{\frac{16EI}{L}} $$<br />
+<em>(與 $K_{21}$ 完美對稱，驗證了麥克斯韋-貝蒂互載定理)</em></p>
+</li>
+<li>
+<p>$K_{22}$ 為維持 $r_2=1$ 所需施加於 d 點之順時針力矩。<br />
+  剛性桿 c-d 受 b-c 桿的反作用力：</p>
+</li>
+<li>
+<p>彎矩：逆時針 $\frac{20EI}{L}$</p>
+</li>
+<li>剪力：向下 $\frac{72EI}{L^2}$<br />
+  對 d 點取力矩 (設順時針為正，計算內部抵抗力矩)：<br />
+  $$ M_{\text{internal}} = - \left( \frac{20EI}{L} \right) - \left( \frac{72EI}{L^2} \times \frac{L}{2} \right) = - \frac{20EI}{L} - \frac{36EI}{L} = - \frac{56EI}{L} \quad (\text{逆時針}) $$<br />
+  外部平衡力 $R_2$ 需抵抗之，故：<br />
+  $$ \mathbf{K_{22}} = \boxed{+\frac{56EI}{L}} $$</li>
+</ul>
+<p><img alt="SA-2012-4 單位狀態 r2 = 1：d 順時針轉 1，剛桿 cd 帶 c 上移 L/2 並轉 1；柱 ab 不受力，彎矩 M_bc 16、M_cb 20，剛桿 cd 由 20 線性增到 d 端 56（EI/L）" src="../../raw/solutions/SA-2012-4/figs/SA-2012-4-fig-3-unit-r2.svg" /></p>
+<p><em>圖 3　單位狀態 $r_2 = 1$。剛桿繞 d 轉動時，c 不只轉 1，還上移 $L/2$，使 bc 產生弦轉角 $\psi = 1$；柱 ab 兩端都不動，彎矩為 0。這張圖攔的是漏掉 c 點平移（$K_{22}$ 會少掉弦轉角項而偏小），以及誤以為柱 ab 在 $r_2$ 狀態也受力（$K_{12}$ 只來自 $M_{bc}$）。</em></p>
+<h3>Step 4：統整結構勁度矩陣 $[K]$</h3>
+<p>將四個元素組合，得到最終結構勁度矩陣：<br />
+$$ [K] = \begin{bmatrix} K_{11} &amp; K_{12} \\ K_{21} &amp; K_{22} \end{bmatrix} = \begin{bmatrix} \frac{12EI}{L} &amp; \frac{16EI}{L} \\ \frac{16EI}{L} &amp; \frac{56EI}{L} \end{bmatrix} $$</p>
+<p>提出公因式 $\frac{4EI}{L}$，可寫為更簡潔的形式：<br />
+$$ \mathbf{[K] = \frac{4EI}{L} \begin{bmatrix} 3 &amp; 4 \\ 4 &amp; 14 \end{bmatrix}} $$</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li>
+<p><strong>剛性桿的能量觀點 (應變能虛功驗證)</strong>：<br />
+  如果在考場上對複雜的靜力平衡正負號感到不安，最強大且絕對無誤的驗證武器是「應變能 (Strain Energy)」。<br />
+  在 $r_2 = 1$ 的狀態下，b-c 桿端受力與變形皆為已知，其應變能 $U$ 為端彎矩作功與剪力作功之和：<br />
+  $$ U = \frac{1}{2} M_{cb} \theta_c + \frac{1}{2} V_c v_c = \frac{1}{2} \left(\frac{20EI}{L}\right)(1) + \frac{1}{2} \left(\frac{72EI}{L^2}\right)\left(\frac{L}{2}\right) = \frac{10EI}{L} + \frac{18EI}{L} = \frac{28EI}{L} $$<br />
+  根據能量守恆定律，外部作功 $W$ 等於內部應變能 $U$：<br />
+  $$ W = \frac{1}{2} K_{22} (r_2)^2 = \frac{1}{2} K_{22} (1)^2 = \frac{28EI}{L} $$<br />
+  由此可秒殺求得並確認 $K_{22} = \frac{56EI}{L}$ 絕對正確。此方法跳過了容易出錯的力矩方向判斷，是進階考生的必備防呆技巧。</p>
+</li>
+<li>
+<p><strong>不考慮軸向變形的前提與影響</strong>：<br />
+  題文指定「剛架有二個自由度」，等同不計軸向變形（考卷並未明寫）。若考量軸向變形，b 點與 c 點的水平與垂直位移將不再受到嚴格的幾何約束，矩陣規模將會擴展（例如需要加入 b 點水平、垂直位移及 c 點水平位移等自由度），題目難度與計算量將呈現指數級上升。因此，「不考慮軸向變形」是將系統維度壓縮至 $2 \times 2$ 的絕對核心前提，解題時切勿畫蛇添足將 $u_b, v_b$ 設為未知數。</p>
+</li>
+</ul>
+<p><em>修正日期：2026-11-05（§1 改為指向題目正本並放重繪附圖（figs/SA-2012-4-fig-1-problem.svg）、加常見誤讀；刪除「題幹明示不考慮軸向變形」的加字（§3 陷阱三、§5），改依題文「二個自由度」；圖由 gen_SA-2012-4.py 產生，可重跑）</em></p>
+<p><em>圖解補繪：2026-11-08（向量圖，腳本 <code>gen_SA-2012-4.py</code> 的 fig2_unit_r1／fig3_unit_r2，以勁度法重算 [K] 後 assert 解析值，可重跑）</em></p></main>
+<footer>來源：raw/solutions/SA-2012-4/SA-2012-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+
+<script>
+/* 跟隨來源單元：若由 unit-/lecture-SA-Un-m.html（或舊的 study-/formula-given-）點進來，
+   兩顆按鈕改指向「來源那個單元」。靜態 href 保底，無 JS 或無 referrer 時仍可用。 */
+(function(){
+  var NAMES={"SA-U1-2": "靜定結構之分析", "SA-U1-3": "靜定及靜不定結構影響線", "SA-U2-1": "靜不定結構最小功法", "SA-U2-3": "靜不定結構之傾角變位法", "SA-U2-4": "靜不定結構之矩陣分析法"};
+  var m=(document.referrer||'').match(/\/(?:unit|study|lecture|formula-given)-(SA-U\d+-\d+)\.html/);
+  if(!m||!NAMES[m[1]])return;
+  var u=m[1], s=u.slice(3), box=document.querySelector('.hbtns');
+  if(!box)return;
+  box.innerHTML=
+    '<a class="b-study" href="../unit-'+u+'.html">\u{1F9ED} '+s+' \u55AE\u5143\u7E3D\u89BD</a>'+
+    '<a class="b-lect" href="../lecture-'+u+'.html">\u{1F4DA} '+s+' '+NAMES[u]+' \u8B1B\u7FA9</a>';
+  var n=document.querySelector('.nomat'); if(n)n.remove();
+})();
+</script>
+</body></html>

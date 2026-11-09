@@ -133,6 +133,9 @@ def build(unit, check=False):
     if not os.path.exists(os.path.join(ROOT, "study", f"lecture-{unit}.html")):
         # 尚無觀念講義：拿掉導覽列與按鈕列的講義連結，避免死連結
         out = re.sub(r'\s*<a [^>]*href="lecture-' + re.escape(unit) + r'\.(?:html|pdf)"[^>]*>.*?</a>', "", out)
+    if not os.path.exists(os.path.join(ROOT, "start.html")):
+        # 本科還沒有起點頁 start.html：拿掉返回列，避免死連結（2026-11-09 SA 搬入時加）
+        out = re.sub(r'<style>@media print\{#start-backlink.*?</div>', "", out, count=1, flags=re.S)
     left = re.findall(r"\{\{[A-Z_]+\}\}", out)
     if left:
         print(f"[{unit}] 模板有未替換的欄位：{sorted(set(left))}")
