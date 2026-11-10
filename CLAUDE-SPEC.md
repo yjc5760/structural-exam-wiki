@@ -43,7 +43,6 @@
 | `lecture-` | `study/lecture-XX-UN-n.html`／`.pdf` | `unit-lecture` skill | **觀念講義**：物理原理、公式來源、圖解。第一次接觸該單元、練題**之前**用 |
 | `textbook-` | `study/textbook-XX-UN-n[-<冊名>].html`／`.pdf` | `unit-textbook` skill | **教科書**：以第一性原理推導每條公式，可分上下冊 |
 | `frequency-` | `study/frequency-XX.html` | `subject-frequency-map` skill（`scripts/build_frequency.py`） | **全科出題頻率熱圖**：整科從哪裡開始讀 |
-| `study-`／`formula-given-` | `study/study-XX-UN-n.html`、`study/formula-given-XX-UN-n.html` | 舊版 `unit-exam-intel`／`unit-formula-map` | 已導入單元總覽的科目改為**轉址頁**（轉到 `unit-` 的 `#s1`／`#s2`）；尚未導入的科目照舊使用 |
 | （起點頁） | `XX/start.html`，資料 `study/data/start-links.json` | `exam-start-page` skill（`scripts/build_start.py`） | 給考生的入口：學習路徑、各單元教材、進度表 |
 
 - 同一子項的各種教材**並存**，不可互相覆蓋。

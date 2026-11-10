@@ -6,14 +6,14 @@ description: "exam-wiki 某子項的「單元總覽」unit-XX-Un-m.html（命題
 # 單元總覽（unit-XX-Un-m.html）
 
 一頁回答三件事：這單元考什麼、哪些公式考卷會給／要自己背、每一題要背哪幾條。
-取代舊的 `study-XX-Un-m.html`（命題分析）與 `formula-given-XX-Un-m.html`（給／背分界），舊檔名留作轉址頁。
+取代舊的 `study-XX-Un-m.html`（命題分析）與 `formula-given-XX-Un-m.html`（給／背分界）；舊兩頁與其 skill 已停用，不做轉址頁。
 原理與圖解仍由 `lecture-XX-Un-m.html`（unit-lecture）負責；全科排名看 `frequency-XX.html`（subject-frequency-map）。
 
 ## 何時用
 
 - 知識庫根目錄 `scripts/` 有 `build_unit_page.py` 與 `unit_page_template.html`（structural-exam-wiki 五科共用；在根目錄執行 `python scripts/build_unit_page.py XX-Un-m`，或在科目資料夾執行 `python ../scripts/build_unit_page.py XX-Un-m`）。
 - 使用者說「做 XX-Un-m 命題分析」「整理 XX-Un-m 主要公式／給背分界」「單元總覽」「這單元考什麼」「哪些公式要背」「索引改分類後同步單元頁」。
-- 該科還沒有任何單元總覽時：先問使用者要不要導入（建立 `study/data/unit-XX-Un-m.json` 即可，腳本已在根目錄共用）；不導入就照舊用 unit-exam-intel／unit-formula-map。
+- 該科還沒有任何單元總覽時：先問使用者要不要導入（建立 `study/data/unit-XX-Un-m.json` 即可，腳本已在根目錄共用）。舊的 unit-exam-intel／unit-formula-map 已停用，不要再用。
 
 ## 資料流（唯一事實來源）
 
@@ -50,7 +50,7 @@ study/unit-XX-Un-m.html        ← 產出，勿手改
    - 更正舊證據時，`meta` 敘述裡的題號也要一起改，並在 `footer` 列出「相對於舊版的證據更正」。
 5. **產生與檢查**：`python scripts/build_unit_page.py XX-Un-m`。用 Playwright 開 1280 與 390 寬各看一次：console 無錯、`.katex-error` 為 0、`document.documentElement.scrollWidth` 不超過視窗寬、逐年表合計合理。
 6. **PDF**：Playwright 先把 `#mxBox` 設為 open，`emulateMedia('print')`，`page.pdf({format:'A4', printBackground:true, scale:0.85})`，存成 `study/unit-XX-Un-m.pdf`。
-7. **下游同步**（新建單元或改檔名時）：`scripts/build_frequency.py` 重跑（教材欄偵測 unit-／lecture-／記憶片）；`study/problems-view/*.html` 的按鈕列指向 `../unit-XX-Un-m.html`；`lecture-XX-Un-m.html` 導覽列；舊 `study-`／`formula-given-` 檔改成 meta refresh 轉址頁（分別轉到 `#s1`、`#s2`）。
+7. **下游同步**（新建單元或改檔名時）：`scripts/build_frequency.py` 重跑（教材欄偵測 unit-／lecture-／記憶片）；`study/problems-view/*.html` 的按鈕列指向 `../unit-XX-Un-m.html`；`lecture-XX-Un-m.html` 導覽列。不產生舊的 `study-`／`formula-given-` 檔，也不做轉址頁。
 8. **記錄**：該科 `wiki/queries/log.md` 追加（append only）；`XX/SUBJECT.md` §9 CHANGELOG 加一列。使用者自己 commit：寫完檔就停，列出動到的路徑。
 
 ## 公式卡證據流程（步驟 3 必讀；原 unit-formula-map 的核心）

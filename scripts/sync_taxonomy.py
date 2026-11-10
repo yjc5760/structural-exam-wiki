@@ -3,7 +3,7 @@
 """
 sync_taxonomy.py — 把根目錄 syllabus_taxonomy.json（唯一正本）同步到各科 XX/raw/json/
 
-為什麼要副本：unit-exam-intel、unit-formula-map、subject-frequency-map 等 skill 以
+為什麼要副本：unit-overview、subject-frequency-map 等 skill 以
 「科目資料夾」為工作目錄，預設讀 raw/json/syllabus_taxonomy.json。副本只為相容，
 **改分類一律改根目錄正本，再執行本腳本**；不要手改副本。
 

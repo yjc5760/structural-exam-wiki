@@ -7,8 +7,7 @@ description: "為六科考試知識庫（exam-wiki-SS/RC/SA/SD/SM/MM）的某個
 
 為結構技師考試知識庫的**單一命題大綱單元**產生理解導向講義。
 
-**這不是速查表。** 知識庫裡通常已有 `study/study-XX-Un-m.html`（**命題分析**：這個單元考什麼）
-與 `study/formula-given-XX-Un-m.html`（給／背分界：這條公式要不要背）；
+**這不是速查表。** 知識庫裡通常已有 `study/unit-XX-Un-m.html`（**單元總覽**：這個單元考什麼、這條公式要不要背）；
 本 skill 產出的是**練題之前**用來建立物理直覺的講義，三者並存、不互相覆蓋。
 
 **檔名規則：** `study/lecture-XX-Un-m.html` + `study/lecture-XX-Un-m.pdf`（不要用 `study-` 前綴）
@@ -434,48 +433,39 @@ footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-to
 
 ### 與同子項既有教材互連（必做，最容易漏）
 
-同一個子項往往已經有其他教材躺在 `study/`：
-
-同一個子項最多有三份教材躺在 `study/`，三者並存、互不覆蓋：
+同一個子項的教材都放在 `study/`，並存、互不覆蓋：
 
 | 檔案 | 回答什麼 | 使用時機 | 產出者 |
 |------|---------|---------|--------|
 | `lecture-XX-Un-m.html` / `.pdf` | **為什麼**成立（物理原理） | 第一次接觸該單元、練題前 | 本 skill |
-| `formula-given-XX-Un-m.html` / `.pdf` | 這條公式**要不要背** | 排讀書計畫、決定背誦優先序 | `unit-formula-map` |
-| `study-XX-Un-m.html` | 這個單元**考什麼**（命題事實） | 決定練題順序、考前押題 | `unit-exam-intel` |
+| `unit-XX-Un-m.html` / `.pdf` | 這個單元**考什麼**、公式**要不要背**、每題背哪幾條 | 決定練題順序、背誦優先序、考前押題 | `unit-overview` |
 
-> ⚠️ `study-XX-Un-m.html` 的正式名稱是**「命題分析」**，不是「速查頁」。
-> 「速查頁」是 2026-08 以前那版七區段深度複習頁的舊名，該版已被 `unit-exam-intel`
-> 重構為只回答「考什麼」的命題情報頁，**全站不再使用「速查頁」這個詞**。
+> ⚠️ 舊的 `study-XX-Un-m.html`（命題分析）與 `formula-given-XX-Un-m.html`（給／背分界）已停用，
+> **不要再連到它們**，也不做轉址頁。全站不使用「速查頁」這個詞。
 >
 > ⚠️ **不要放 Keynote 或課堂投影片按鈕**（`XX-Un-m_<單元名>.pdf` 那類使用者自備的
-> 課堂 PDF）。使用者已明確要求移除 —— 它與上面三份教材的分工重疊，且檔名由使用者
+> 課堂 PDF）。使用者已明確要求移除 —— 它與單元總覽的分工重疊，且檔名由使用者
 > 自訂、容易連到不存在的檔案。
 
-**這幾份教材如果彼此不連，使用者會忘記其他幾份存在。** 產出講義後一定要做雙向連結：
+**教材如果彼此不連，使用者會忘記其他份存在。** 產出講義後一定要做雙向連結：
 
-1. **講義 → 其他教材**：在 `<nav>` 尾端加一組連結，固定三顆。
+1. **講義 → 單元總覽**：在 `<nav>` 尾端加兩顆按鈕。
    放在 `<nav>` 裡是刻意的 —— `build_pdf.py` 會把 `<nav>` 整段移除，
    列印版不會出現連不到的本機連結。
 
 ```html
 <span style="flex:1"></span>
-<a href="study-XX-Un-m.html" title="命題分析：出題頻率、考點結構、考題清單、命題風險"
-   style="background:#e3f2fd;color:#1565c0">📊 命題分析</a>
-<a href="formula-given-XX-Un-m.html" title="哪些公式考卷會給、哪些必須自己背"
-   style="background:#ffebee;color:#c62828">🎯 給／背分界</a>
+<a href="unit-XX-Un-m.html" title="單元總覽：考什麼、公式給／背、每題要背哪幾條"
+   style="background:#e3f2fd;color:#1565c0">📊 單元總覽</a>
 <a href="lecture-XX-Un-m.pdf" target="_blank" title="本講義的列印版"
    style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
 ```
 
-2. **命題分析頁 → 講義**：`study-XX-Un-m.html` 的按鈕列應有四顆
-   （觀念講義 📘 → HTML、講義 PDF 🖨️、給／背分界 🎯、分界 PDF 🖨️），
-   規格見 `unit-exam-intel` 的 SKILL.md Step 4-2。
-   按鈕列上方那塊 `.role` 黃底說明裡的使用順序，一律寫成：
-   **觀念講義（練題前）→ 給／背分界（決定背誦優先序）→ 命題分析（考前排練題順序）**。
+2. **單元總覽 → 講義**：`scripts/build_unit_page.py` 會自動偵測 `lecture-XX-Un-m.html`，
+   講義做好後重跑一次即可（不手改產出的 HTML）。
 
-3. 先 `ls study/` 確認哪些檔案真的存在，**不要連到不存在的檔案**；
-   缺哪一份就不放哪一顆按鈕（例如該單元還沒做 `formula-given-` 就只放兩顆）。
+3. 先 `ls study/` 確認檔案真的存在，**不要連到不存在的檔案**；
+   該單元還沒做單元總覽，就只放「本頁 PDF」一顆。
 
 ### 題號連結：連到渲染頁面，不要連到 .md（必做）
 
@@ -672,7 +662,7 @@ asyncio.run(main()); os.remove(tmp); print("PDF ->", PDF)
 ```
 
 **PDF 一定要跟著 HTML 重出。** 改版時最常漏的就是這一步（SS-U1-4、SD-U1-1、SD-U2-2 都曾留下舊圖版 PDF），
-而講義 nav 的「🖨️ 本頁 PDF」與命題分析頁都連到它——舊 PDF 等於把已修正的錯誤繼續發出去。
+而講義 nav 的「🖨️ 本頁 PDF」與單元總覽都連到它——舊 PDF 等於把已修正的錯誤繼續發出去。
 真的無法重出時，在 `wiki/queries/log.md` 與交付訊息都寫明「PDF 未更新」。
 
 ### 8.2 備援：MathJax → WeasyPrint（環境沒有 Chromium 時）
@@ -806,7 +796,7 @@ print('PDF ->', PDF)
    圖上的數字與內文必須來自同一次計算。2026-10 改版就靠這一步抓到 SS-U1-3 範例 C 的算術錯誤
    （B₂ = 1/(1−0.296) 寫成 1.799，正解 1.420）。
 5. **交叉引用**：檢查文中「見 §x.y」的節號在改版後仍然存在。
-6. **教材互連**：講義 nav 的三顆按鈕、命題分析頁的按鈕都指向真實存在的檔案
+6. **教材互連**：講義 nav 的按鈕都指向真實存在的檔案，單元總覽已重跑
    （`ls study/` 逐一核對），nav 內**沒有** Keynote／課堂投影片按鈕，
    全檔沒有「速查頁」字樣，且 PDF 版沒有殘留 nav。
 7. **題號連結渲染**：依 Step 7「題號連結」小節的驗證清單逐項核對

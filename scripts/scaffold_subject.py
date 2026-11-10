@@ -276,7 +276,7 @@ def scaffold(code, dry=False):
 
 > {prof.get('methodNotes', '')}
 >
-> `unit-exam-intel` 的「設計法走向」區塊在本科改用上表的分類軸；儀表板篩選選項亦依此順序。
+> 單元總覽（`unit-overview`）的設計法標註與儀表板篩選選項，在本科一律用上表的分類軸與順序。
 
 ---
 

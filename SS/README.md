@@ -33,7 +33,7 @@
 | **視覺化瀏覽題庫** | **雙擊 `index.html`**（題庫搜尋篩選、考點統計、進度追蹤） |
 | 特定題目的解析 | `raw/solutions/SS-YYYY-N/SS-YYYY-N.md`（題目正本 `SS-YYYY-N-problem.md`） |
 | 題目渲染頁（公式／附圖可讀） | `study/problems-view/SS-YYYY-N.html` |
-| 子項單元總覽（考什麼＋公式給／背＋逐題公式表） | `study/unit-SS-UN-n.html`（資料 `study/data/unit-SS-UN-n.json`；舊 `study-`／`formula-given-` 為轉址頁） |
+| 子項單元總覽（考什麼＋公式給／背＋逐題公式表） | `study/unit-SS-UN-n.html`（資料 `study/data/unit-SS-UN-n.json`） |
 | 單元觀念講義、教科書 | `study/lecture-SS-UN-n.html`、`study/textbook-SS-UN-n*.html`（+ 同名 `.pdf`） |
 | 全科出題頻率熱圖 | `study/frequency-SS.html` |
 | 影片講義 | `影片講義/` |

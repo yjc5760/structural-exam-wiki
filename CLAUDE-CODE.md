@@ -21,7 +21,7 @@
 | 一批題目的總控（定題意→盲解→勘誤→落實檢查→圖解） | `跑 XX-Un-m 第 n 批`、`這批做到哪了` | `exam-wiki-pipeline` |
 | 解析勘誤／重新驗算 | `勘誤 XX-YYYY-N`、`重新驗算`、`批次勘誤 XX-Un-m`、`跑 xcheck` | `exam-errata` |
 | 稽核分類、盲解比對、落實檢查 | `盲解比對`、`稽核分類` | `exam-wiki-audit` |
-| 單元總覽（命題分析＋給背分界＋逐題公式表） | `做 XX-Un-m 單元總覽`、`這單元考什麼`、`哪些公式要背` | `unit-overview`（科目尚未導入時改用 `unit-exam-intel`＋`unit-formula-map`） |
+| 單元總覽（命題分析＋給背分界＋逐題公式表） | `做 XX-Un-m 單元總覽`、`這單元考什麼`、`哪些公式要背` | `unit-overview` |
 | 全科出題頻率熱圖 | `整科出題頻率` | `subject-frequency-map` |
 | 觀念講義／教科書 | `生成 XX-Un-m 講義`、`把 XX-Un-m 寫成教科書` | `unit-lecture`／`unit-textbook` |
 | 起點頁 start.html | `更新 start.html`、`依清單更新起點頁` | `exam-start-page` |
@@ -279,15 +279,15 @@ solutions/ 已有解析但未驗證：[列出題號]
 
 **觸發語句：**
 - `study SS-U2`（單元層級，Cowork 直接執行）
-- `study SS-U1-2`（子項層級，改用 `unit-overview` skill；尚未導入的科目用 `unit-exam-intel`＋`unit-formula-map`）
+- `study SS-U1-2`（子項層級，改用 `unit-overview` skill）
 
 **用途：** 彙整某單元／子項所有考題、重點公式、常見陷阱，產生帶圖表的互動 HTML 複習導覽頁面，存入 `study/` 目錄。
 
 > ### ⚠️ 子項層級（`study XX-UN-n`）改由 skill 負責
 >
 > 子項層級一律做成**單元總覽** `study/unit-XX-Un-m.html`（`unit-overview` skill，`scripts/build_unit_page.py`），
-> 一頁回答「這單元考什麼、哪些公式要背、每題要背哪幾條」；舊的 `study-XX-Un-m.html`（命題分析）與
-> `formula-given-XX-Un-m.html`（給／背分界）改為轉址頁。科目尚未導入單元總覽時，照舊用 `unit-exam-intel`＋`unit-formula-map`。
+> 一頁回答「這單元考什麼、哪些公式要背、每題要背哪幾條」。舊的 `study-XX-Un-m.html`（命題分析）與
+> `formula-given-XX-Un-m.html`（給／背分界）及其 skill（`unit-exam-intel`、`unit-formula-map`）已停用，不再產生、也不做轉址頁。
 > 單元層級（`study XX-UN`）沿用本節規格。（子項層級的舊「七區塊」規格已於 2026-11-09 刪除。）
 >
 > **教材分工（並存不覆蓋）**
@@ -334,7 +334,7 @@ solutions/ 已有解析但未驗證：[列出題號]
 
 **命名規則：**
 - 單元層級：`study/study-XX-UN.html`（例：`study/study-SS-U1.html`）
-- 子項層級：由 skill 產生 `study/unit-XX-Un-m.html`（舊 `study-XX-Un-m.html` 為轉址頁）
+- 子項層級：由 skill 產生 `study/unit-XX-Un-m.html`（舊 `study-XX-Un-m.html` 已停用）
 
 ---
 

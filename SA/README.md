@@ -31,7 +31,7 @@
 | **視覺化瀏覽題庫** | **雙擊 `index.html`**（題庫搜尋篩選、考點統計、進度追蹤） |
 | 特定題目的解析 | `raw/solutions/SA-YYYY-N/SA-YYYY-N.md`（題目正本 `SA-YYYY-N-problem.md`） |
 | 題目渲染頁（公式／附圖可讀） | `study/problems-view/SA-YYYY-N.html` |
-| 子項單元總覽（考什麼＋公式給／背＋逐題公式表） | `study/unit-SA-UN-n.html`（資料 `study/data/unit-SA-UN-n.json`；舊 `study-`／`formula-given-` 為轉址頁） |
+| 子項單元總覽（考什麼＋公式給／背＋逐題公式表） | `study/unit-SA-UN-n.html`（資料 `study/data/unit-SA-UN-n.json`） |
 | 單元觀念講義 | `study/lecture-SA-UN-n.html`（+ 同名 `.pdf`） |
 | 全科出題頻率熱圖 | `study/frequency-SA.html` |
 | 方法論（彎矩分配、傾角變位、矩陣法等） | `raw/solutions/methods/` |
@@ -58,7 +58,6 @@ SA/
 │   ├── unit-*.html    ← 單元總覽 + .pdf（unit-overview）
 │   ├── lecture-*.html ← 觀念講義 + .pdf（unit-lecture）
 │   ├── frequency-SA.html ← 全科出題頻率熱圖
-│   ├── study-*／formula-given-* ← 舊頁轉址到單元總覽
 │   ├── data/          ← unit-*.json（產生單元總覽的資料）
 │   ├── problems-view/ ← 題目渲染頁
 │   └── assets/katex/  ← 本機 KaTeX（勿刪）

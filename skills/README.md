@@ -18,7 +18,7 @@
 |------|--------|
 | 解題與題目正本 | `exam-solve`、`exam-problem-split` |
 | 品質：盲解、勘誤、稽核 | `exam-wiki-pipeline`、`exam-errata`、`exam-wiki-audit` |
-| 分析與教材 | `subject-frequency-map`、`unit-overview`、`unit-lecture`、`unit-textbook`、`unit-exam-intel`／`unit-formula-map`（尚未導入單元總覽的科目） |
+| 分析與教材 | `subject-frequency-map`、`unit-overview`、`unit-lecture`、`unit-textbook` |
 | 練習與入口 | `exam-practice-sheet`、`add-to-wiki`（改卷、卡關紀錄）、`exam-start-page` |
 | 圖與影片 | `struct-diagram`、`blackboard-solution-video`、`video-handout` |
 | 知識庫維護 | `exam-subject-migrate`（科目從原 repo 搬入） |
@@ -77,7 +77,7 @@
 
 **做法：** 維護資料檔 `study/data/unit-XX-Un-m.json`，執行根目錄 `python scripts/build_unit_page.py XX-Un-m`（`--check` 只檢查）；給／背判定須照 skill 內「公式卡證據流程」轉圖目視考卷
 
-**已導入：** SS、SA。尚未導入的科目照舊用 `unit-exam-intel`＋`unit-formula-map`
+**已導入：** SS、SA。其他科第一次做時直接建 `study/data/unit-XX-Un-m.json` 導入（舊的 `unit-exam-intel`／`unit-formula-map` 已於 2026-11-11 停用刪除）
 
 ---
 
@@ -140,112 +140,6 @@
 
 ---
 
-
-### `unit-formula-map.skill`
-
-**功能：** 盤點某單元的主要公式，以歷屆考卷原文為證據，分辨「哪些考卷會給、哪些必須自己背」
-
-**觸發語句：**
-- 「整理 SS-U1-1 主要公式」
-- 「哪些公式題目會給？哪些要自己背？」
-- 「幫我做 RC-U2-1 的給背分界」
-- 「考卷會不會附公式」
-
-**輸出：** `study/formula-given-XX-Un-m.html` ＋ `study/formula-given-XX-Un-m.pdf`
-
-**與另外兩種 study 檔的分工：**
-
-| | `study-*.html` | `lecture-*.html` | `formula-given-*.html`（本 skill） |
-|---|---|---|---|
-| 定位 | **命題分析** | 練題前建立觀念 | **背誦決策** |
-| 回答的問題 | 這個單元**考什麼**？ | 這條公式為什麼成立？ | 這條公式**要不要背**？ |
-| 時機 | 決定練題順序、考前押題 | 第一次接觸該單元 | 排讀書計畫、決定背誦優先序 |
-
-三者並存，互不覆蓋。
-
-**三級判定（保守標準，拿不準就往上歸）：**
-
-| 級別 | 意思 |
-|------|------|
-| 🔴 必背 | 曾經考了卻沒給；或從未被印出來過 |
-| 🟠 別賭 | 多數年份有給，但有沒給先例／給的是舊版需自行修正 |
-| 🟢 通常會給 | 考該題型幾乎必印，背概念與用法即可 |
-
-**方法要點：**
-- 判定一律以 `raw/exams/` 考卷原文為證據，**不得憑印象**
-- 「有給」涵蓋三種擺法：集中式（最後一題後）、隨題式（題目正下方）、內文式（當已知條件給值）
-- **掃描影像頁強制逐頁目視判讀** —— SS 這輪有 4 年（102、105、112、113）的公式全是影像，
-  只靠 `pdftotext` 會全部誤判成「沒給」
-- 公式清單涵蓋四類：主體計算式、判斷式與分界、**係數與折減值**、**流程骨架**
-  （後兩類最常被漏，卻恰好最不會印在考卷上）
-- 附 `scripts/`（`prerender.py` / `build_pdf.py` / `tex2svg.js` / `verify.py`），
-  PDF 走 MathJax→SVG + WeasyPrint（沙盒無 Chromium，此為唯一可行路徑）
-- `verify.py` 自動交叉比對「公式卡年份清單」與「逐年證據表 ✔」，兩處打架會直接報錯
-
-**跨科目：** 六科（SS/RC/SA/SD/SM/MM）結構相同，同一份 skill 通用。
-一次做**一個單元**；要整科就逐單元重複呼叫。
-
-**前置條件：** 該科需有 `raw/exams/*.pdf`、`raw/json/question_index.json`、
-`raw/json/syllabus_taxonomy.json`，以及 `study/assets/katex/`（沒有就從別科複製）
-
----
-
-### `unit-exam-intel.skill`
-
-**功能：** 為某個命題大綱單元產生「命題情報頁」——只回答「這個單元考什麼」
-
-**觸發語句：**
-- 「做 SS-U1-2 的命題分析」
-- 「這單元常考哪些考點？」
-- 「出題趨勢／考點漂移」
-- 「哪些考點空窗很久？幫我押題」
-- 「重做速查頁」（舊稱，該頁現已正名為「命題分析」）
-
-**輸出：** `study/study-XX-Un-m.html`（單一自包含 HTML，無 PDF）
-
-**與另外兩種 study 檔的分工：**
-
-| | `lecture-*.html` | `formula-given-*.html` | `study-*.html`（本 skill） |
-|---|---|---|---|
-| 回答的問題 | 這條公式**為什麼**成立？ | 這條公式**要不要背**？ | 這個單元**考什麼**？ |
-| 資料來源 | wiki + 解析 + 規範 | `raw/exams/` 考卷原文 | `raw/json/question_index.json` |
-| 可否自動重生 | 否 | 半自動 | **是（純資料驅動）** |
-| 時機 | 第一次接觸該單元 | 排讀書計畫 | 決定練題順序、考前押題 |
-
-三者並存，互不覆蓋。
-
-**六個區塊：** 出題概況（KPI＋年度堆疊圖＋題型圓餅）→ 考點結構（3–6 群可篩選卡片）
-→ 考點漂移（前後對切比較）→ 設計法／題型走向 → 考題清單（**主考點＋副考點**，
-可篩選、連 `problems-view/`）→ 命題風險排序（空窗年數 × 頻率 × 趨勢）
-
-**核心原則：頁面上的每個數字都必須由程式算出，不可手打。**
-附兩支腳本（純標準函式庫，沙盒直接可跑）：
-
-| 腳本 | 做什麼 |
-|------|--------|
-| `scripts/stats.py` | 從 `question_index.json` 算出 KPI、排名、空窗年段、前後對切、設計法分布、標籤頻率 |
-| `scripts/verify.py` | 對帳成品頁：`Q[]` 題號集合、主／副旗標、篩選鈕數字、KPI、題號連結、禁用寫法 |
-
-> **這條規則是有代價換來的**：SS-U1-1 舊頁的 KPI 寫「近 6 年 6/6」，實際是 4/6
-> （2019–2021 三年空白）；另一處寫「共 7 題」，實際 6 題。兩個錯誤都活了很久，
-> 因為沒有人會去重數 24 個考年。
-
-**另附** `reference/template.html`：完整頁面骨架（CSS＋篩選邏輯＋兩張 Canvas 圖），
-複製後取代 `{{...}}` 佔位符即可。
-
-**遷移舊頁：** 目標單元若已有早期的「七區段深度複習頁」，SKILL.md Step 6 有重疊盤點
-對照表——通常只有「命題分析」與「考題清單」該留，其餘分別與 lecture、formula-given 重複。
-**檔名不要改**（另外兩份教材都有連回 `study-*.html`）。
-
-**跨科目：** 六科（SS/RC/SA/SD/SM/MM）結構相同，同一份 skill 通用。
-沒有 `designMethod` 欄位的科目（SA、MM 等）會自動改用其他軸線。
-一次做**一個單元**。
-
-**前置條件：** `raw/json/question_index.json` 與 `raw/json/syllabus_taxonomy.json`
-（`study/problems-view/` 為選用，沒有時題號退化為純文字）
-
----
-
 ## 相關 Skills（已內建於 Cowork，無需另外安裝）
 
 | Skill | 功能 | 觸發語句 |
@@ -293,7 +187,7 @@ instructions: |
 
 | 規則 | 說明 |
 |------|------|
-| 全小寫連字號 | `unit-formula-map.skill`，不用底線或大寫 |
+| 全小寫連字號 | `unit-overview.skill`，不用底線或大寫 |
 | 動詞開頭或名詞主題開頭 | 清楚表達功能，如 `generate-xxx`、`analyze-xxx` |
 | 副檔名固定 `.skill` | 不可用 `.md`、`.txt` |
 

@@ -7,38 +7,38 @@ description: "為六科考試知識庫（exam-wiki-SS/RC/SA/SD/SM/MM）產生「
 
 回答一個 `unit-*` 系列答不了的問題：**整科該從哪裡開始讀？**
 
-`unit-exam-intel` 一次只看一個子項，看得很深但看不到全貌；
+`unit-overview` 一次只看一個子項，看得很深但看不到全貌；
 這個 skill 反過來——**一次看完整科，但只看頻率與走向**。
-它不告訴你某個子項該先練哪幾題（那是命題分析頁的事），
+它不告訴你某個子項該先練哪幾題（那是單元總覽的事），
 只告訴你把有限的時間切成幾份、各分給誰。
 
 **檔名規則：** `study/frequency-XX.html`（XX ＝ 科目代碼）
-**產生器：** structural-exam-wiki 根目錄的 `scripts/build_frequency.py`（檔頭標 v1.1，含 SS 2026-10-30 起的單元總覽偵測；五科共用一份；本檔〈附錄〉的 v1.1 只是備份，知識庫內已有就不要用附錄覆蓋）
+**產生器：** structural-exam-wiki 根目錄的 `scripts/build_frequency.py`（檔頭標 v1.2，含單元總覽偵測；五科共用一份；本檔〈附錄〉只是備份，知識庫內已有就不要用附錄覆蓋）
 
 ---
 
 ## ⚠️ Step 0：確認產生器版本（每次都要做）
 
-本 skill 資料夾裡 `scripts/build_frequency.py` 是**舊版 v1.0**，不要用它。
-正確版本在 structural-exam-wiki 根目錄 `scripts/build_frequency.py`（檔頭標 v1.1，含 SS 後續修正；五科共用一份，根目錄 CLAUDE.md 規則 11）：
+本 skill 資料夾裡的 `scripts/build_frequency.py` 只是根目錄那份的備份副本。
+正確版本在 structural-exam-wiki 根目錄 `scripts/build_frequency.py`（檔頭標 v1.2，含單元總覽偵測；五科共用一份，根目錄 CLAUDE.md 規則 11）：
 
-1. 知識庫根目錄 `scripts/build_frequency.py` 存在且檔頭含 `v1.1` 以上 → 直接用，不要覆蓋，也**不要**在科目資料夾另放一份。
+1. 知識庫根目錄 `scripts/build_frequency.py` 存在且檔頭含 `v1.2` 以上 → 直接用，不要覆蓋，也**不要**在科目資料夾另放一份。
 2. 不存在（知識庫以外的環境）→ 才把〈附錄〉的程式碼一字不改寫進暫存目錄使用。
 
 ---
 
-## 定位：與 `unit-*` 三個 skill 的分工
+## 定位：與 `unit-*` skill 的分工
 
-| | `unit-lecture` | `unit-formula-map` | `unit-exam-intel` | `subject-frequency-map`（本 skill） |
-|---|---|---|---|---|
-| 範圍 | 一個子項 | 一個子項 | 一個子項 | **整科** |
-| 回答 | **為什麼**成立 | 公式**要不要背** | 這個子項**考什麼** | **該從哪裡開始讀** |
-| 輸出 | `lecture-XX-Un-m.html` | `formula-given-XX-Un-m.html` | `study-XX-Un-m.html` | `frequency-XX.html` |
-| 資料來源 | wiki＋解析＋規範 | `raw/exams/` 考卷原文 | `question_index.json` | `question_index.json` |
-| 可否自動重生 | 否 | 半自動 | 是 | **是（全自動，無人工判斷步驟）** |
-| 使用時機 | 第一次接觸該子項 | 決定背誦優先序 | 決定練題順序、押題 | **排整科讀書計畫的第一步** |
+| | `unit-lecture` | `unit-overview` | `subject-frequency-map`（本 skill） |
+|---|---|---|---|
+| 範圍 | 一個子項 | 一個子項 | **整科** |
+| 回答 | **為什麼**成立 | 這個子項**考什麼**、公式**要不要背** | **該從哪裡開始讀** |
+| 輸出 | `lecture-XX-Un-m.html` | `unit-XX-Un-m.html` | `frequency-XX.html` |
+| 資料來源 | 解析＋規範 | `question_index.json`＋考卷原文 | `question_index.json` |
+| 可否自動重生 | 否 | 半自動（給／背需目視考卷） | **是（全自動，無人工判斷步驟）** |
+| 使用時機 | 第一次接觸該子項 | 決定練題順序、背誦優先序 | **排整科讀書計畫的第一步** |
 
-> 這是四個 skill 裡唯一沒有「需要人判斷」步驟的一個——從頭到尾由資料決定，
+> 這是這幾個 skill 裡唯一沒有「需要人判斷」步驟的一個——從頭到尾由資料決定，
 > 題庫更新後可以無腦重跑，不會產生前後不一致的敘述。
 
 ---
@@ -122,9 +122,8 @@ Windows 主控台若出現亂碼，程式已自動把 stdout 設為 UTF-8；仍�
 
 | 標籤 | 偵測的檔案 |
 |------|-----------|
-| 命題分析 | `study/study-XX-Un-m.html` |
+| 單元總覽 | `study/unit-XX-Un-m.html` |
 | 講義 | `study/lecture-XX-Un-m.html` |
-| 給／背 | `study/formula-given-XX-Un-m.html` |
 | 記憶片 | `study/XX-Un-m_*記憶片.pdf` **或** `study/decks/XX-Un-m_*記憶片.pdf` |
 | 單元影片 | `解題過程影片/<資料夾>/video/*.mp4`，資料夾名以子項 id 開頭、後接空白或 `-n`（如 `SA-U2-4-1 矩陣分析法核心觀念`） |
 | 題目影片 | `解題過程影片/XX-YYYY-N/video/*.mp4`（資料夾名＝題號） |
@@ -166,20 +165,21 @@ Windows 主控台若出現亂碼，程式已自動把 stdout 設為 UTF-8；仍�
 
 | 錯誤 | 後果 | 防法 |
 |------|------|------|
-| 用 skill 資料夾裡的 v1.0 腳本 | 沒有前後半比較、記憶片在 `study/decks/` 抓不到、頁面指向不存在的路徑 | 照 Step 0 用〈附錄〉v1.1 |
+| 用科目資料夾裡的舊副本（`XX/scripts/build_frequency.py`） | 教材欄找舊的 `study-`／`formula-given-`，連不到單元總覽 | 一律用根目錄 `scripts/build_frequency.py` |
 | 在 `study/` 裡面執行 | 找不到 `raw/json/*.json` | 一律在知識庫根目錄執行 |
 | 手改產出的 HTML | 下次重跑被蓋掉 | 要改內容改腳本 |
 | 忽略孤兒 topicId 警告 | 那些題目沒進熱圖 | 修資料後重跑 |
 | 假設每年都是 4 題 | 某些科目／年份題數不同，敘述會寫錯 | 程式已自動判斷；頁面文案會跟著換 |
 | 記憶片檔名不含「記憶片」三字 | 教材欄顯示灰色 | 沿用 `formula-recall-deck` 的輸出檔名 |
 | 把「冷凍」講成「不用讀」 | 副考點仍會用到 | 看卡片是否註明仍有副考點 |
-| 用這張表押題 | 頻率高 ≠ 一定再考 | 這張表是**分配時間**；押題看命題分析頁的「命題風險排序」 |
+| 用這張表押題 | 頻率高 ≠ 一定再考 | 這張表是**分配時間**；押題看單元總覽的「命題風險排序」 |
 | `<h3 id="x">` 與容器 `<div id="x">` 同名 | 表格被塞進標題 | 標題用 `s-` 前綴 |
 
 ---
 
 ## 版本
 
+- v1.2（2026-11-11 同步）教材欄改偵測單元總覽 `unit-XX-Un-m.html`；附錄與 `scripts/` 副本改為根目錄 v1.2 全文；分工表移除已停用的 `unit-exam-intel`／`unit-formula-map`。
 - v1.1（2026-10-08）前後半期比較與升溫／冷凍標記、後半期排名、資料生成重點觀察、可點熱圖（題目頁／影片）、
   每年合計、可排序排名表、`study/decks/` 與 `解題過程影片/` 偵測、頁面複算指令改指 `scripts/build_frequency.py`。
   已在 SA（24 考年／96 題，實際資料）與合成 SM 測資（8 考年／每年題數不一致／孤兒 topicId／0 題子項／工具型子項）驗證，console 無錯誤。
@@ -187,9 +187,9 @@ Windows 主控台若出現亂碼，程式已自動把 stdout 設為 UTF-8；仍�
 
 ---
 
-## 附錄：`scripts/build_frequency.py`（v1.1 全文，一字不改寫入）
+## 附錄：`scripts/build_frequency.py`（v1.2 全文，與知識庫根目錄同步，一字不改寫入）
 
-若此附錄與知識庫根目錄 `scripts/build_frequency.py` 有出入，以根目錄那份為準（已在 SS 實測）。
+若此附錄與知識庫根目錄 `scripts/build_frequency.py` 有出入，以根目錄那份為準。
 
 ````python
 #!/usr/bin/env python3
@@ -221,6 +221,9 @@ v1.1（2026-10-08）相對 v1.0 的變更：
     - 排名表可點欄位排序；新增「前→後半」「後半排名」欄；教材欄偵測 study/decks/ 的記憶片與
       解題過程影片/ 的單元影片、題目影片。
     - 頁面上的複算指令改指本檔（舊版指向不存在的 skills/ 路徑）。
+
+v1.2（2026-10-29）：教材欄改偵測 unit-XX-Un-m.html（單元總覽，整合舊的命題分析＋給／背分界兩頁），
+    子項名稱連結改指單元總覽；教材標籤由「命題分析／講義／給／背／記憶片」改為「單元總覽／講義／記憶片」。
 """
 
 import argparse
@@ -286,9 +289,9 @@ def scan_materials(study_dir, out_dir, tids):
     """掃描 study/，回傳 {子項id: {kind: 相對連結}}。不硬編任何清單。"""
     have = {t: {} for t in tids}
     for t in tids:
-        for kind, fn in (("study", f"study-{t}.html"),
-                         ("lecture", f"lecture-{t}.html"),
-                         ("formula", f"formula-given-{t}.html")):
+        # 單元總覽 unit-XX-Un-m.html（2026-10-29 起取代 study-／formula-given- 兩頁）
+        for kind, fn in (("unit", f"unit-{t}.html"),
+                         ("lecture", f"lecture-{t}.html")):
             p = os.path.join(study_dir, fn)
             if os.path.exists(p):
                 have[t][kind] = rel(p, out_dir)
@@ -680,9 +683,9 @@ function showCell(ri, yi){
     '<ul class="ql">' + c.p.map(m=>qItem(m,'p')).join('') + c.s.map(m=>qItem(m,'s')).join('') + '</ul>'
     + `<div class="hint" style="margin-top:6px">點左側子項名稱可看這個子項 ${YEARS.length} 年的全部題目</div>`);
 }
-const LBL = {study:'命題分析',lecture:'講義',formula:'給／背',deck:'記憶片'};
+const LBL = {unit:'單元總覽',lecture:'講義',deck:'記憶片'};
 function matTags(r){
-  return ['study','lecture','formula','deck'].map(m=> r.mat[m]
+  return ['unit','lecture','deck'].map(m=> r.mat[m]
      ? `<a class="tag t-y" href="${encodeURI(r.mat[m])}" target="_blank">${LBL[m]}</a>`
      : `<span class="tag t-n">${LBL[m]}</span>`).join('');
 }
@@ -741,8 +744,8 @@ function drawRank(){
     const ri = D.rows.indexOf(r);
     const w = r.p/maxA*150, w2 = r.s/maxA*150;
     const pos = Object.entries(r.pos).map(([k,v])=>`第${k}題×${v}`).join('、') || '—';
-    const nm = r.mat.study
-        ? `<a href="${encodeURI(r.mat.study)}" target="_blank" style="color:var(--ac);text-decoration:none"><b>${r.short}</b> ${esc(r.name)}</a>`
+    const nm = r.mat.unit
+        ? `<a href="${encodeURI(r.mat.unit)}" target="_blank" style="color:var(--ac);text-decoration:none"><b>${r.short}</b> ${esc(r.name)}</a>`
         : `<b>${r.short}</b> ${esc(r.name)}`;
     const dr = DR[r.drift];
     const nv = r.vids.length + r.qvids;
@@ -846,14 +849,14 @@ def build_html(subject, subj_name, A, today, script_rel):
     # ---- 讀書順序表（全部由資料生成）----
     chain = lambda ids: " → ".join(by_id[i]["short"] for i in ids)
     n5 = min(5, len(ordered))
-    full5 = sum(1 for i in topN(n5) if len(by_id[i]["mat"]) == 4)
+    full5 = sum(1 for i in topN(n5) if len(by_id[i]["mat"]) == 3)
     late3 = late_order[:3]
     late3_sum = sum(r["late"] for r in late3)
     read = ""
     if ordered:
         read += (f'<tr><td><b>時間充裕，要拿高分</b></td><td>{chain(topN(n5))}</td>'
                  f'<td>全期前 {n5} 名，合計 {sumN(n5)} 題、佔 {pct(sumN(n5), N)}%'
-                 f'{f"；其中 {full5} 個四種教材都已備齊" if full5 else ""}。</td></tr>\n')
+                 f'{f"；其中 {full5} 個三種教材都已備齊" if full5 else ""}。</td></tr>\n')
     if late3:
         read += (f'<tr><td><b>只剩一個月</b></td><td>'
                  + "、".join(f'{r["short"]}（後半 {r["late"]} 題）' for r in late3) + '</td>'
@@ -914,6 +917,7 @@ def build_html(subject, subj_name, A, today, script_rel):
 {CSS}
 </head>
 <body>
+<style>@media print{{#start-backlink{{display:none}}}}</style><div id="start-backlink" style="font:14px/1.6 'Noto Sans TC',system-ui,sans-serif;padding:8px 16px;background:#2f4a5e;color:#fff"><a href="../start.html" style="color:#fff;text-decoration:none">← 從這裡開始（{subject} 學習路徑）</a></div>
 <header>
 <h1>{subject} {subj_name} — 全科出題頻率熱圖</h1>
 <p>{span(years)}，{year_desc}｜資料來源：raw/json/question_index.json｜更新日期 {today}</p>
@@ -928,7 +932,7 @@ def build_html(subject, subj_name, A, today, script_rel):
 📊 <b>這張表只回答一件事：整科該從哪裡開始讀。</b>
 它把 {N} 題逐題攤在「{len(rows)} 個子項 × {len(years)} 個考年」的格子上，
 並把考年切成前半（{span(E)}）與後半（{span(L)}）比較，讓你同時看到「誰一直重要」與「誰最近才重要」。
-各子項的細節（考點結構、風險排序）看該子項的 <code>study-{subject}-Un-m.html</code> 命題分析頁。<br>
+各子項的細節（考點結構、公式給／背、逐題要背哪幾條）看該子項的 <code>unit-{subject}-Un-m.html</code> 單元總覽頁。<br>
 本頁由 <code>python {script_rel}</code> 從題庫自動產生；題庫或教材更新後重跑即可，請勿手改。
 </div>
 
@@ -989,10 +993,9 @@ def build_html(subject, subj_name, A, today, script_rel):
 </table>
 </div>
 <div class="note">
-📌 <b>一句話</b>：這張表告訴你「該讀哪裡」，<code>study-{subject}-Un-m.html</code> 告訴你「那裡該先練哪幾題」，
-<code>formula-given-{subject}-Un-m.html</code> 告訴你「那裡哪些公式非背不可」。<br>
+📌 <b>一句話</b>：這張表告訴你「該讀哪裡」，<code>unit-{subject}-Un-m.html</code> 告訴你「那裡該先練哪幾題、哪些公式非背不可」。<br>
 ⚠️ <b>使用提醒</b>：頻率高不等於一定會再考，冷凍也不等於不會回來——這張表的用途是<b>分配時間</b>，不是預測考題。
-押題請看各子項命題分析頁的「命題風險排序」。
+押題請看各子項單元總覽頁的「命題風險排序」。
 </div>
 
 </main>
@@ -1054,7 +1057,7 @@ def main():
     print("副>主 的工具型子項：" + ("、".join(f"{r['short']}({r['p']}/{r['s']})" for r in tools) or "無"))
     print("0 題子項：" + ("、".join(r["short"] for r in A["rows"] if r["p"] == 0) or "無"))
     print("冷凍子項（後半期 0 題）：" + ("、".join(f"{r['short']}(最後 {r['last']})" for r in A["rows"] if r["drift"] == "frozen") or "無"))
-    print(f"教材齊全（四種都有）：{'、'.join(r['short'] for r in A['rows'] if len(r['mat']) == 4) or '無'}")
+    print(f"教材齊全（三種都有）：{'、'.join(r['short'] for r in A['rows'] if len(r['mat']) == 3) or '無'}")
     print(f"影片：單元 {A['nTvid']} 支、題目 {A['nQvid']} 支｜problems-view 頁 {len(views & qids)} 題｜已驗證 {A['nVerified']} 題")
 
     for w in warns:
@@ -1074,6 +1077,9 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
     script_rel = rel(os.path.abspath(__file__), os.getcwd())
     html = build_html(subject, subj_name, A, today, script_rel)
+    if not os.path.exists(os.path.join(out_dir, "..", "start.html")):
+        # 本科還沒有起點頁 start.html：拿掉返回列，避免死連結（2026-11-09 SA 搬入時加）
+        html = re.sub(r'<style>@media print\{#start-backlink.*?</div>', "", html, count=1, flags=re.S)
     with open(out, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"\n寫出 {out}（{len(html):,} 字元）")
