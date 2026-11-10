@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2022-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2022-1 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-1.html">&#128202; U1-1 單元總覽</a><a class="lect" href="../lecture-RC-U1-1.html">&#128218; U1-1 RC 梁彎矩強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2022-1</h1>
+<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>雙筋梁</code> <code>壓力筋未降伏</code> <code>有效深度</code> <code>Whitney應力塊</code> <code>φMn</code> <code>εt控制</code> <code>雙層拉力筋</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>題目：</strong> 求下圖所示梁斷面之設計彎矩強度 $\phi M_n$。（25 分）</p>
+<p><strong>材料強度：</strong></p>
+<ul>
+<li>混凝土抗壓強度：$f'_c = 280 \text{ kgf/cm}^2$</li>
+<li>鋼筋降伏強度：$f_y = 5600 \text{ kgf/cm}^2$</li>
+<li>淨保護層：$c = 4 \text{ cm}$</li>
+</ul>
+<p><strong>斷面幾何（由圖讀取）：</strong></p>
+<ul>
+<li>梁寬：$b = 30 \text{ cm}$，梁深：$h = 60 \text{ cm}$</li>
+<li>箍筋：D13（$d_b = 1.27 \text{ cm}$）</li>
+<li>拉力筋（下層）：3-D25（$A_b = 5.067 \text{ cm}^2$）</li>
+<li>拉力筋（上層）：2-D22（$A_b = 3.871 \text{ cm}^2$）；兩層鋼筋淨距 2.5 cm</li>
+<li>壓力筋：2-D19（$A_b = 2.865 \text{ cm}^2$）</li>
+</ul>
+<p><img alt="RC-2022-1 題目附圖：b=30cm、h=60cm 雙筋梁斷面，拉力側下層 3-D25、上層 2-D22（兩層淨距 2.5 cm），壓力側 2-D19，D13 箍筋，淨保護層 4 cm" src="../../raw/solutions/RC-2022-1/RC-2022-1-fig-1.png" /></p>
+<p><em>圖說：矩形斷面 b×h = 30×60 cm，壓力側頂部配 2-D19 壓力筋，拉力側底部配 3-D25，其上方淨距 2.5 cm 處再配 2-D22，箍筋 D13，上下淨保護層均為 4 cm。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 雙筋梁（雙層拉力筋 + 壓力筋）的 $\phi M_n$ 計算。<br />
+本題特殊之處在於 $f_y = 5600 \text{ kgf/cm}^2$（高強度鋼筋），此時壓力筋<strong>不一定</strong>能降伏，必須逐步驗證。</p>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗考生是否能正確計算雙層拉力筋的合力作用點（有效深度 $d$）</li>
+<li>考驗壓力筋降伏假設的驗證流程（高強度鋼筋使 $\varepsilon_y$ 變大，壓力筋更難降伏）</li>
+<li>確認 $\phi$ 值的選取是否根據 $\varepsilon_t$ 判斷</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>計算各鋼筋重心位置 → 求 $d$、$d'$</li>
+<li><strong>先假設壓力筋降伏</strong>，計算 $c$ 並驗證假設</li>
+<li>若壓力筋未降伏 → 用彈性公式建立方程式，解二次方程求 $c$</li>
+<li>計算 $\varepsilon_t$ → 判斷 $\phi$ 值</li>
+<li>計算 $M_n$，求 $\phi M_n$</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠1</td>
+<td><strong>雙層拉力筋的有效深度 $d$</strong> 需以加權形心計算，不可取最下層中心</td>
+<td>對兩層鋼筋面積作力矩求合力作用點</td>
+</tr>
+<tr>
+<td>⚠2</td>
+<td><strong>壓力筋降伏假設</strong>在 $f_y = 5600$ 時 $\varepsilon_y = 0.00274$ 遠大於一般值，需驗證</td>
+<td>先假設降伏求 $c$，回代驗算 $\varepsilon'_s$</td>
+</tr>
+<tr>
+<td>⚠3</td>
+<td>壓力筋的淨壓力需扣除被混凝土佔據的部分：$f'_{s,\text{net}} = f'_s - 0.85f'_c$</td>
+<td>合力方程中使用 $f'_{s,\text{net}}$ 而非 $f'_s$</td>
+</tr>
+<tr>
+<td>⚠4</td>
+<td>$\phi$ 值依 $\varepsilon_t$ 判定：$\varepsilon_t \ge 0.005$ → $\phi = 0.90$；介於 0.004~0.005 → 線性內插</td>
+<td>計算 $\varepsilon_t$ 後判斷</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>求雙筋梁（雙層拉力筋 + 壓力筋）之設計彎矩強度 φMn，含壓力筋是否降伏的判斷流程</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1：雙層拉力筋有效深度} \quad d = h - \frac{A_{s1}\cdot\bar{y}_1 + A_{s2}\cdot\bar{y}_2}{A_{s1}+A_{s2}}$$</p>
+<p>$$\text{Step 2（試算）：假設壓力筋降伏，由力平衡求} \quad 0.85f'_c\beta_1\boxed{c_{\text{trial}}} b + A'_s(f_y - 0.85f'_c) = A_sf_y$$</p>
+<p>$$\text{Step 3（驗算）：} \varepsilon'_s = \frac{0.003\left(\boxed{c_{\text{trial}}}-d'\right)}{\boxed{c_{\text{trial}}}} \quad \text{vs.} \quad \varepsilon_y = \frac{f_y}{E_s}$$</p>
+<p>$$\text{Step 4（}\varepsilon'_s &lt; \varepsilon_y\text{，改用彈性應力）：} f'_s = \frac{6120(c-d')}{c} \Rightarrow \text{整理得二次方程} \Rightarrow \boxed{c}$$</p>
+<p>$$\text{Step 5：} \boxed{a} = \beta_1\boxed{c}, \quad \boxed{f'_{s,\text{net}}} = \frac{6120(\boxed{c}-d')}{\boxed{c}} - 0.85f'_c$$</p>
+<p>$$\text{Step 6：} \varepsilon_t = \frac{0.003\left(d - \boxed{c}\right)}{\boxed{c}} \ge 0.005 \;\Rightarrow\; \phi = 0.90$$</p>
+<p>$$\text{Step 7：} \phi M_n = \phi\!\left[0.85f'_c\cdot\boxed{a}\cdot b\!\left(d-\frac{\boxed{a}}{2}\right) + A'_s\cdot\boxed{f'_{s,\text{net}}}\cdot(d-d')\right]$$</p>
+<hr />
+<h3>L1：題目直接給定</h3>
+<p><em>看到題目就能讀出的數字，不需要任何公式。</em></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>30 cm</td>
+<td>梁寬（附圖）</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>60 cm</td>
+<td>梁深（附圖）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td>混凝土抗壓強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>5600 kgf/cm²</td>
+<td>鋼筋降伏強度</td>
+</tr>
+<tr>
+<td>$c_{\text{prot}}$</td>
+<td>4 cm</td>
+<td>淨保護層</td>
+</tr>
+<tr>
+<td>拉力筋（下層）</td>
+<td>3-D25，$A_{s1} = 3\times5.067 = 15.201$ cm²</td>
+<td>附圖，查表1</td>
+</tr>
+<tr>
+<td>拉力筋（上層）</td>
+<td>2-D22，$A_{s2} = 2\times3.871 = 7.742$ cm²</td>
+<td>附圖，查表1</td>
+</tr>
+<tr>
+<td>壓力筋</td>
+<td>2-D19，$A'_s = 2\times2.865 = 5.730$ cm²</td>
+<td>附圖，查表1</td>
+</tr>
+<tr>
+<td>兩層淨距</td>
+<td>2.5 cm</td>
+<td>附圖（拉力筋層間淨距）</td>
+</tr>
+<tr>
+<td>箍筋</td>
+<td>D13，$d_b = 1.27$ cm</td>
+<td>附圖，查表1</td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td>2,040,000 kgf/cm²</td>
+<td>規範常數</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L2：需知識點推導</h3>
+<p><em>需要知道公式名稱與適用條件，套入 L1 即可算出。</em></p>
+<p><strong>Step 1：斷面幾何</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\bar{y}_1$（下層中心距底）</td>
+<td>$c_{\text{prot}} + d_{b,D13} + d_{b,D25}/2 = 4+1.27+1.27$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\bar{y}_2$（上層中心距底）</td>
+<td>$c_{\text{prot}} + d_{b,D13} + d_{b,D25} + \text{淨距} + d_{b,D22}/2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$d$（有效深度）</td>
+<td>$h - (A_{s1}\bar{y}_1+A_{s2}\bar{y}_2)/(A_{s1}+A_{s2})$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$d'$（壓力筋中心距頂）</td>
+<td>$c_{\text{prot}} + d_{b,D13} + d_{b,D19}/2 = 4+1.27+0.955$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\beta_1$</td>
+<td>$f'_c \le 280$ kgf/cm² → 0.85</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_y$</td>
+<td>$f_y/E_s = 5600/2{,}040{,}000$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2–3：試算壓力筋（先假設降伏，再驗算）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$c_{\text{trial}}$</td>
+<td>由 $0.85f'_c\beta_1 c\cdot b + A'_s(f_y-0.85f'_c) = A_sf_y$ 解一次方程</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon'_s$</td>
+<td>$0.003(c_{\text{trial}}-d')/c_{\text{trial}}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>判斷</td>
+<td>$\varepsilon'_s &lt; \varepsilon_y$ → 壓力筋未降伏，進 Step 4</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：壓力筋彈性，解二次方程</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f'_s$</td>
+<td>$E_s \times 0.003(c-d')/c = 6120(c-d')/c$（kgf/cm²）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f'_{s,\text{net}}$</td>
+<td>$f'_s - 0.85f'_c$（扣除混凝土壓力分配）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$c$</td>
+<td>代入力平衡，整理為 $Ac^2+Bc+C=0$，取正根</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5–6：求 $\phi$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$a$</td>
+<td>$\beta_1 \cdot c$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_t$</td>
+<td>$0.003(d-c)/c$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td>$\varepsilon_t \ge 0.005$ → 0.90（拉力控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 7：彎矩強度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_n$</td>
+<td>$C_c(d-a/2) + A'_s f'_{s,\text{net}}(d-d')$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi M_n$</td>
+<td>$\phi \times M_n$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>壓力筋 net force 概念</td>
+<td>壓力筋在應力塊範圍內，混凝土已佔 $0.85f'_c$，壓力筋只貢獻 $f'_s - 0.85f'_c$；若直接用 $A'_sf'_s$ 則雙重計算</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>為何 $f_y=5600$ 時壓力筋更難降伏？</td>
+<td>$\varepsilon_y = f_y/E_s = 0.00274$（高於 4200 的 0.00206），壓力筋需更大壓縮應變才能降伏，在淺中性軸時很難達到</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\beta_1$ 臨界值</td>
+<td>$f'_c = 280$ kgf/cm² 時 $\beta_1 = 0.85$（280 為臨界值，不折減）；超過 280 才每增 70 減 0.05</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>雙層拉力筋 $d$ 的意義</td>
+<td>$d$ 是所有拉力鋼筋合力作用點距壓力面的距離；取底層中心會高估 $d$，導致 $M_n$ 偏高，是常見失分點</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_t$ 與 $\phi$ 的判斷</td>
+<td>$\varepsilon_t \ge 0.005$ → $\phi=0.90$；$0.004 \le \varepsilon_t &lt; 0.005$ → 線性插值；$\varepsilon_t &lt; 0.004$ → 不符 ACI 延性要求</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：斷面幾何</h3>
+<p><strong>各鋼筋規格（由表1）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>鋼筋號</th>
+<th>$d_b$ (cm)</th>
+<th>$A_b$ (cm²)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D13（箍）</td>
+<td>1.27</td>
+<td>1.267</td>
+</tr>
+<tr>
+<td>D19</td>
+<td>1.91</td>
+<td>2.865</td>
+</tr>
+<tr>
+<td>D22</td>
+<td>2.22</td>
+<td>3.871</td>
+</tr>
+<tr>
+<td>D25</td>
+<td>2.54</td>
+<td>5.067</td>
+</tr>
+</tbody>
+</table>
+<p><strong>壓力筋面積：</strong><br />
+$$A'_s = 2 \times 2.865 = 5.730 \text{ cm}^2$$</p>
+<p><strong>壓力筋重心距頂面（$d'$）：</strong><br />
+$$d' = c + d_{b,\text{D13}} + \frac{d_{b,\text{D19}}}{2} = 4 + 1.27 + \frac{1.91}{2} = 4 + 1.27 + 0.955 = \mathbf{6.225 \text{ cm}}$$</p>
+<p><strong>拉力筋面積：</strong><br />
+$$A_s = 3 \times 5.067 + 2 \times 3.871 = 15.201 + 7.742 = \mathbf{22.943 \text{ cm}^2}$$</p>
+<p><strong>各層拉力筋重心距底面：</strong></p>
+<ul>
+<li>
+<p>下層（3-D25）：<br />
+$$\bar{y}_1 = c + d_{b,\text{D13}} + \frac{d_{b,\text{D25}}}{2} = 4 + 1.27 + \frac{2.54}{2} = 4 + 1.27 + 1.27 = \mathbf{6.54 \text{ cm}}$$</p>
+</li>
+<li>
+<p>上層（2-D22）：<br />
+$$\bar{y}_2 = 4 + 1.27 + 2.54 + 2.5 + \frac{2.22}{2} = 4 + 1.27 + 2.54 + 2.5 + 1.11 = \mathbf{11.42 \text{ cm}}$$</p>
+</li>
+</ul>
+<p><strong>有效深度 $d$（拉力筋合力作用點距頂）：</strong><br />
+$$\bar{y}_{A_s} = \frac{15.201 \times 6.54 + 7.742 \times 11.42}{22.943} = \frac{99.41 + 88.42}{22.943} = \frac{187.83}{22.943} = 8.19 \text{ cm（距底面）}$$</p>
+<p>$$\boxed{d = 60 - 8.19 = 51.81 \text{ cm}}$$</p>
+<hr />
+<h3>Step 2：材料參數</h3>
+<p>$$\beta_1 = 0.85 \quad (f'_c = 280 \text{ kgf/cm}^2 \le 280 \text{ kgf/cm}^2)$$</p>
+<p>$$E_s = 2{,}040{,}000 \text{ kgf/cm}^2 \quad \Rightarrow \quad \varepsilon_y = \frac{f_y}{E_s} = \frac{5600}{2{,}040{,}000} = 0.002745$$</p>
+<hr />
+<h3>Step 3：試假設壓力筋降伏（$f'_s = f_y$）</h3>
+<p>力平衡（令 $a = \beta_1 c = 0.85c$）：</p>
+<p>$$C_c + C'_s = T$$<br />
+$$0.85 f'_c \cdot a \cdot b + A'_s (f_y - 0.85 f'_c) = A_s f_y$$<br />
+$$0.85 \times 280 \times 0.85c \times 30 + 5.730 \times (5600 - 238) = 22.943 \times 5600$$<br />
+$$6069c + 5.730 \times 5362 = 128{,}481$$<br />
+$$6069c + 30{,}723 = 128{,}481$$<br />
+$$c = \frac{97{,}758}{6069} = 16.11 \text{ cm}$$</p>
+<p><strong>驗算壓力筋應變：</strong><br />
+$$\varepsilon'_s = 0.003 \times \frac{c - d'}{c} = 0.003 \times \frac{16.11 - 6.225}{16.11} = 0.003 \times 0.6136 = 0.001841$$</p>
+<p>$$\varepsilon'_s = 0.001841 &lt; \varepsilon_y = 0.002745 \quad \Rightarrow \quad \textbf{壓力筋未降伏！需重算}$$</p>
+<hr />
+<h3>Step 4：壓力筋彈性 → 建立方程式求 $c$</h3>
+<p>$$f'_s = E_s \cdot \varepsilon'_s = 2{,}040{,}000 \times 0.003 \times \frac{c - d'}{c} = \frac{6120(c - 6.225)}{c} \text{ kgf/cm}^2$$</p>
+<p>$$f'_{s,\text{net}} = f'_s - 0.85 f'_c = \frac{6120(c-6.225)}{c} - 238$$</p>
+<p>力平衡：<br />
+$$0.85 \times 280 \times 0.85c \times 30 + 5.730 \left[\frac{6120(c-6.225)}{c} - 238\right] = 22.943 \times 5600$$</p>
+<p>$$6069c + \frac{35{,}068(c-6.225)}{c} - 1363.5 = 128{,}481$$</p>
+<p>兩邊乘以 $c$，整理：</p>
+<p>$$6069c^2 + 35{,}068(c-6.225) - 1363.5c = 128{,}481c$$</p>
+<p>$$6069c^2 + 35{,}068c - 218{,}348 - 1363.5c - 128{,}481c = 0$$</p>
+<p>$$\boxed{6069c^2 - 94{,}777c - 218{,}348 = 0}$$</p>
+<p><strong>解二次方程：</strong><br />
+$$c = \frac{94{,}777 + \sqrt{94{,}777^2 + 4 \times 6069 \times 218{,}348}}{2 \times 6069}$$</p>
+<p>$$\Delta = 94{,}777^2 + 4 \times 6069 \times 218{,}348 = 8{,}982{,}692{,}929 + 5{,}300{,}524{,}848 = 14{,}283{,}217{,}777$$</p>
+<p>$$\sqrt{\Delta} = 119{,}513$$</p>
+<p>$$c = \frac{94{,}777 + 119{,}513}{12{,}138} = \frac{214{,}290}{12{,}138} = \mathbf{17.66 \text{ cm}}$$</p>
+<p>$$a = \beta_1 \cdot c = 0.85 \times 17.66 = \mathbf{15.01 \text{ cm}}$$</p>
+<hr />
+<h3>Step 5：驗算各鋼筋應力與力平衡</h3>
+<p><strong>壓力筋應變與應力：</strong><br />
+$$\varepsilon'_s = 0.003 \times \frac{17.66 - 6.225}{17.66} = 0.003 \times 0.6475 = 0.001943 &lt; \varepsilon_y \quad \checkmark$$</p>
+<p>$$f'_s = 2{,}040{,}000 \times 0.001943 = 3963.7 \text{ kgf/cm}^2$$</p>
+<p>$$f'_{s,\text{net}} = 3963.7 - 0.85 \times 280 = 3963.7 - 238 = 3725.7 \text{ kgf/cm}^2$$</p>
+<p><strong>拉力筋應變（驗算降伏）：</strong><br />
+$$\varepsilon_t = 0.003 \times \frac{d - c}{c} = 0.003 \times \frac{51.81 - 17.66}{17.66} = 0.003 \times 1.934 = 0.00580 &gt; \varepsilon_y \quad \checkmark$$</p>
+<p><strong>力平衡驗算：</strong></p>
+<p>$$C_c = 0.85 \times 280 \times 15.01 \times 30 = 107{,}171 \text{ kgf}$$</p>
+<p>$$C'_s = A'_s \cdot f'_{s,\text{net}} = 5.730 \times 3725.7 = 21{,}348 \text{ kgf}$$</p>
+<p>$$T = A_s \cdot f_y = 22.943 \times 5600 = 128{,}481 \text{ kgf}$$</p>
+<p>$$C_c + C'_s = 107{,}171 + 21{,}348 = 128{,}519 \approx 128{,}481 \text{ kgf} \quad \checkmark$$</p>
+<hr />
+<h3>Step 6：計算 $\phi M_n$</h3>
+<p><strong>強度折減係數：</strong><br />
+$$\varepsilon_t = 0.00580 \ge 0.005 \quad \Rightarrow \quad \phi = 0.90 \text{（拉力控制）}$$</p>
+<p><strong>標稱彎矩 $M_n$（對拉力筋合力作用點取矩）：</strong></p>
+<p>$$M_n = C_c \left(d - \frac{a}{2}\right) + C'_s (d - d')$$</p>
+<p>$$= 107{,}171 \times \left(51.81 - \frac{15.01}{2}\right) + 21{,}348 \times (51.81 - 6.225)$$</p>
+<p>$$= 107{,}171 \times 44.305 + 21{,}348 \times 45.585$$</p>
+<p>$$= 4{,}747{,}847 + 973{,}225$$</p>
+<p>$$= 5{,}721{,}072 \text{ kgf·cm}$$</p>
+<p>$$M_n = 57.21 \text{ tf·m}$$</p>
+<p>$$\boxed{\phi M_n = 0.90 \times 57.21 = \mathbf{51.49 \text{ tf·m}}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>爭議點 1：$d$ 的取法</h3>
+<p>雙層拉力筋時，$d$ 必須取<strong>兩層合力作用點</strong>距壓力面的距離（51.81 cm），而非單取最下層中心距頂（60 - 6.54 = 53.46 cm）。若只取底層中心會高估 $d$，使 $M_n$ 偏高。</p>
+<h3>爭議點 2：壓力筋未降伏的處理</h3>
+<p>本題 $f_y = 5600$ kgf/cm² 時，$\varepsilon_y = 0.00274$，比一般 4200 kgf/cm²（$\varepsilon_y = 0.00206$）大許多，壓力筋更難達到降伏。<strong>考場安全做法：</strong> 先假設降伏計算 $c$，再回代驗算，不可直接略過此步驟。</p>
+<h3>爭議點 3：壓力筋 net force</h3>
+<p>壓力筋位於等值應力塊範圍內（$d' = 6.225$ cm $&lt; a = 15.01$ cm），混凝土壓力已涵蓋此區域，故壓力筋有效貢獻為 $A'_s(f'_s - 0.85f'_c)$，而非 $A'_s \cdot f'_s$。</p>
+<h3>進階：若壓力筋降伏，$\phi M_n$ 會差多少？</h3>
+<p>若誤以為壓力筋降伏（$f'_s = 5600$ kgf/cm²），則 $c = 16.11$ cm，$M_n$ 約多估 ~2 tf·m（因 $C'_s$ 偏高），$\phi M_n$ 約多算 ~1.8 tf·m，誤差約 3.5%。</p></main>
+<footer>來源：raw/solutions/RC-2022-1/RC-2022-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

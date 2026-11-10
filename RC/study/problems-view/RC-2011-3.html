@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2011-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2011-3 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-2.html">&#128202; U1-2 單元總覽</a><a class="lect" href="../lecture-RC-U1-2.html">&#128218; U1-2 RC 柱強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2011-3</h1>
+<p><strong>主分類：</strong> <code>RC-U1-2</code> RC 柱強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>矩形柱</code> <code>P-M互制</code> <code>平衡點</code> <code>三排配筋</code> <code>中排鋼筋</code> <code>過渡區φ值</code> <code>斷面韌性容量</code> <code>柱曲率延展比</code> <code>彈性中性軸</code> <code>載重係數γ</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>針對圖 2 所示矩形 RC 柱斷面（<code>RC-2011-3-fig-1.png</code>）：</p>
+<p><img alt="RC-2011-3 題目附圖：矩形RC柱斷面，b=40cm，h=60cm，6-#10鋼筋分三排（2+2+2），d'=6cm，d''=24cm，d=54cm，#3箍筋" src="../../raw/solutions/RC-2011-3/RC-2011-3-fig-1.png" /></p>
+<p><em>圖說：矩形柱 $b=40$ cm，$h=60$ cm。6-#10 鋼筋分三排（每排 2 根）：第一排（壓力面）$d_1=d'=6$ cm；第二排（中排）$d_2 = d' + d'' = 6+24 = 30$ cm（= $h/2$，斷面形心）；第三排（張力面）$d_3 = d = 54$ cm。各排面積 $A_1 = A_m = A_s = 2\times8.143 = 16.286$ cm²；總配筋 $A_{st} = 48.858$ cm²。#3 箍筋。</em></p>
+<p><strong>材料：</strong> $f'_c = 350$ kgf/cm²，$f_y = 4200$ kgf/cm²，$E_s = 2.04\times10^6$ kgf/cm²</p>
+<p><strong>(一)</strong> 已知 $P_u = 0.9P_b$，求此柱斷面之設計彎矩強度 $\phi M_n$。（15 分）<br />
+<strong>(二)</strong> 求斷面韌性容量 $\mu_\phi = \phi_u/\phi_y$（假設載重係數 $\gamma = 1.3$）。（10 分）</p>
+<hr />
+<p><img alt="RC-2011-3 矩形柱斷面 40×60 cm，6-#10 分三排在 6/30/54 cm，中排恰在塑性形心上" src="../../raw/solutions/RC-2011-3/figs/RC-2011-3-fig-1-section.svg" /></p>
+<p><em>圖 1　矩形柱斷面與三排鋼筋。橘色中排恰在塑性形心（$d_m = h/2 = 30$ cm）：對彎矩力臂為零完全不貢獻，但軸力照樣要算——這一排的兩面性是本題最常被忽略的地方。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong></p>
+<ul>
+<li><strong>(一)</strong>：柱斷面三排鋼筋 P-M 互制；$P_u = 0.9P_b &lt; P_b$ → 偏心增大 → 過渡區 → 需插值 $\phi$。</li>
+<li><strong>(二)</strong>：用 $\gamma=1.3$ 換算服務載重，彈性中性軸求 $\phi_y$，Whitney 中性軸求 $\phi_u$。</li>
+</ul>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗三排鋼筋（含中排）的 P-M 計算，中排力臂為零（不貢獻彎矩）</li>
+<li>測驗 $\phi$ 過渡區插值</li>
+<li>測驗柱斷面韌性的彈性 vs 塑性中性軸雙重計算</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>材料常數（$\beta_1$、$\varepsilon_y$、$E_c$）</li>
+<li>求平衡點 $P_b$（$c_b=6120/(6120+f_y)\times d$）</li>
+<li>建立 $P_n = f(c)$ 方程式，解 $c$ 使 $P_n = 0.9P_b$</li>
+<li>計算 $M_n$（對形心取矩）及 $\phi$ 值</li>
+<li><strong>(二)</strong> 服務載重 $N = P_u/\gamma$；解彈性 NA（$k_y d$）求 $\phi_y$；解塑性 NA（$c_u$）求 $\phi_u$</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>應對</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ 中排鋼筋在形心</td>
+<td>中排力臂 = $d_m - h/2 = 0$，<strong>不貢獻彎矩</strong></td>
+<td>$M_n$ 計算時中排項 = 0</td>
+</tr>
+<tr>
+<td>❷ 中排應力符號</td>
+<td>$c &lt; d_m = 30$ → 中排在張力區；$c &gt; 30$ → 壓力區</td>
+<td>計算前先判斷 $c$ 與 30 的大小</td>
+</tr>
+<tr>
+<td>❸ 壓力鋼筋在 Whitney block 內要扣除 $0.85f'_c$</td>
+<td>若 $d_1 = 6 &lt; a$，$C_1 = A_1(f'_1 - 0.85f'_c)$</td>
+<td>中排若在 block 外，不扣</td>
+</tr>
+<tr>
+<td>❹ $\phi_y$ 用彈性三角形，$\phi_u$ 用 Whitney 矩形</td>
+<td>兩者中性軸位置不同</td>
+<td>分開計算，用 $\gamma$ 算服務載重</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p><strong>(一)</strong> $\phi M_n$（給定 $P_u = 0.9P_b$ 條件下）；<strong>(二)</strong> $\mu_\phi = \phi_u/\phi_y$（$\gamma = 1.3$）</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1：} c_b = \frac{6120}{6120+f_y}\cdot d,\quad a_b = \beta_1 c_b,\quad P_b = C_c^b + C_1^b + S_m^b - T^b$$</p>
+<p>$$\text{Step 2：} 9520c + 94807 - \frac{2{,}990{,}130}{c} = 0.9\boxed{P_b} \quad \Rightarrow \quad c_u$$</p>
+<p>$$\text{Step 3：} M_n = C_c(30 - a/2) + C_1(24) + 0 + T(24) \quad \text{（中排臂 = 0）}$$</p>
+<p>$$\text{Step 4：} \phi = 0.65 + 0.25\frac{\varepsilon_t - \varepsilon_y}{0.005-\varepsilon_y},\quad \phi M_n$$</p>
+<p>$$\text{Step 5（}\phi_y\text{）：} 11{,}556k^2 + 417{,}303k - 17{,}609{,}490 = 0 \quad \Rightarrow \quad k_y d \quad \Rightarrow \quad \phi_y = \frac{\varepsilon_y}{d - \boxed{k_y d}}$$</p>
+<p>$$\text{Step 6（}\phi_u\text{）：} 9520c^2 - 117{,}293c - 2{,}990{,}130 = 0 \quad \Rightarrow \quad c_u^* \quad \Rightarrow \quad \phi_u = \frac{\varepsilon_{cu}}{\boxed{c_u^*}}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f'_c$</td>
+<td>350 kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$b$</td>
+<td>40 cm</td>
+<td>柱寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>60 cm</td>
+<td>柱高</td>
+</tr>
+<tr>
+<td>$d_1 = d'$</td>
+<td>6 cm</td>
+<td>壓力鋼筋位置</td>
+</tr>
+<tr>
+<td>$d_m$</td>
+<td>30 cm（= $d' + d'' = 6+24$）</td>
+<td>中排位置</td>
+</tr>
+<tr>
+<td>$d = d_3$</td>
+<td>54 cm</td>
+<td>拉力鋼筋位置</td>
+</tr>
+<tr>
+<td>各排面積</td>
+<td>16.286 cm²</td>
+<td>$2\times8.143$</td>
+</tr>
+<tr>
+<td>$\gamma$</td>
+<td>1.3</td>
+<td>載重係數（Part (二) 用）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>▌ 材料常數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$0.85 - 0.05(350-280)/70 = 0.80$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\varepsilon_y$</td>
+<td>$4200/2{,}040{,}000 = 0.002059$</td>
+<td></td>
+</tr>
+<tr>
+<td>$E_c$</td>
+<td>$15000\sqrt{350} = 280{,}624$ kgf/cm²</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌ 平衡點 $P_b$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$c_b$</td>
+<td>$6120/10320\times54 = 32.02$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$a_b$</td>
+<td>$0.80\times32.02 = 25.62$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$C_c^b$</td>
+<td>$0.85\times350\times25.62\times40 = 304{,}878$ kgf</td>
+<td></td>
+</tr>
+<tr>
+<td>$\varepsilon_1^b$</td>
+<td>$0.003(32.02-6)/32.02 = 0.002438 &gt; \varepsilon_y$ → 降伏</td>
+<td></td>
+</tr>
+<tr>
+<td>$C_1^b$</td>
+<td>$16.286(4200-297.5) = 63{,}537$ kgf</td>
+<td></td>
+</tr>
+<tr>
+<td>$\varepsilon_m^b$</td>
+<td>$0.003(32.02-30)/32.02 = 0.000189 &gt; 0$（壓），$&lt; \varepsilon_y$</td>
+<td></td>
+</tr>
+<tr>
+<td>$S_m^b$</td>
+<td>$16.286\times2{,}040{,}000\times0.000189 = 6{,}285$ kgf（在 block 外，不扣 $0.85f'_c$）</td>
+<td></td>
+</tr>
+<tr>
+<td>$T^b$</td>
+<td>$16.286\times4200 = 68{,}401$ kgf</td>
+<td></td>
+</tr>
+<tr>
+<td>$P_b$</td>
+<td>$304{,}878+63{,}537+6{,}285-68{,}401 = 306{,}299$ kgf = 306.3 tf</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌ Part (一)：$P_n = 0.9P_b$ 時的中性軸</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_n$</td>
+<td>$0.9\times306.3 = 275.7$ tf = 275,700 kgf</td>
+<td></td>
+</tr>
+<tr>
+<td>$c_u$</td>
+<td>解二次方程 $9520c^2 - 180{,}893c - 2{,}990{,}130 = 0$ → 29.60 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$a$</td>
+<td>$0.80\times29.60 = 23.68$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$\varepsilon_t$</td>
+<td>$0.003\times(54-29.60)/29.60 = 0.002475$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td>過渡區插值 = 0.685</td>
+<td></td>
+</tr>
+<tr>
+<td>$M_n$</td>
+<td>$82.84$ tf·m（見詳算）</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi M_n$</td>
+<td>$0.685\times82.84 = 56.75$ tf·m</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌ Part (二)：服務載重下韌性</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$N$</td>
+<td>$P_u/\gamma = 275.7/1.3 = 212.1$ tf</td>
+<td></td>
+</tr>
+<tr>
+<td>$k_y d$（彈性）</td>
+<td>解 $k^2+36.11k-1524=0$ → 24.96 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi_y$</td>
+<td>$0.002059/(54-24.96) = 7.09\times10^{-5}$ rad/cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$c_u^*$（Whitney，$N=212.1$ tf）</td>
+<td>解 $c^2-12.321c-314.09=0$ → 24.92 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi_u$</td>
+<td>$0.003/24.92 = 1.204\times10^{-4}$ rad/cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$\mu_\phi$</td>
+<td>$1.204/0.709 = 1.70$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中排在形心處力臂為零</td>
+<td>彎矩對形心取矩：$d_m = h/2 = 30$ cm → arm = 0，<strong>中排不貢獻彎矩</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>$P_b$ 是標稱值（無 $\phi$），$P_u$ 是設計值（有 $\phi$）</td>
+<td>原題寫 $P_u = 0.9P_b$，而 $P_b$ 被明定為<strong>標稱</strong>軸壓強度——兩個層次混寫。本解採「$0.9P_b$ 即為標稱軸力 $P_n$」之解讀，詳見 §5「題意歧義」</td>
+<td>⚠</td>
+</tr>
+<tr>
+<td>載重係數 $\gamma$ 的作用</td>
+<td>$\gamma$ 將設計（因數化）荷重轉回服務（工作）荷重：$N = P_u/\gamma$</td>
+<td></td>
+</tr>
+<tr>
+<td>Whitney vs 彈性中性軸</td>
+<td>$\phi_y$：彈性三角形（線彈性假設）；$\phi_u$：Whitney 矩形（極限狀態）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Part (一)：設計彎矩強度 $\phi M_n$</h3>
+<h4>Step 1：材料常數</h4>
+<p>$$\beta_1 = 0.80,\quad \varepsilon_y = 0.002059,\quad E_c = 280{,}624 \text{ kgf/cm}^2$$</p>
+<hr />
+<h4>Step 2：求平衡標稱軸壓強度 $P_b$</h4>
+<p>$$c_b = \frac{6120}{6120+4200}\times54 = 32.02 \text{ cm},\quad a_b = 0.80\times32.02 = 25.62 \text{ cm}$$</p>
+<p><strong>各力（壓力正）：</strong></p>
+<p>$$C_c^b = 0.85\times350\times25.62\times40 = 304{,}878 \text{ kgf}$$</p>
+<p>壓力鋼筋（$d_1=6$ cm，在 block 內）：<br />
+$$\varepsilon_1^b = 0.003\times\frac{32.02-6}{32.02} = 0.002438 &gt; \varepsilon_y \Rightarrow f_1 = f_y$$<br />
+$$C_1^b = 16.286\times(4200-297.5) = 63{,}537 \text{ kgf}$$</p>
+<p>中排鋼筋（$d_m=30$ cm，在 block 外，壓力區）：<br />
+$$\varepsilon_m^b = 0.003\times\frac{32.02-30}{32.02} = 1.893\times10^{-4} \quad (&lt; \varepsilon_y,\ \text{壓縮未降伏})$$<br />
+$$S_m^b = 16.286\times2{,}040{,}000\times1.893\times10^{-4} = 6{,}286 \text{ kgf}$$</p>
+<p>拉力鋼筋（$d=54$ cm，平衡時降伏）：<br />
+$$T^b = 16.286\times4200 = 68{,}401 \text{ kgf}$$</p>
+<p>$$\boxed{P_b = 304{,}878 + 63{,}537 + 6{,}286 - 68{,}401 = 306{,}300 \text{ kgf} = 306.3 \text{ tf}}$$</p>
+<hr />
+<h4>Step 3：求 $c_u$ 使 $P_n = 0.9P_b = 275.7$ tf</h4>
+<p>設 $c &lt; 30$ cm（中排在張力區，待驗證）。Whitney block 力平衡：</p>
+<p>$$P_n = \underbrace{9520c}_{C_c} + \underbrace{63{,}537}_{C_1,\text{ 降伏}} + \underbrace{16.286\times\frac{6120(c-30)}{c}}_{S_m &lt; 0} - \underbrace{68{,}401}_{T}$$</p>
+<p>整理（令 $P_n = 275{,}700$）：</p>
+<p>$$9520c + 94{,}807 - \frac{2{,}990{,}130}{c} = 275{,}700$$</p>
+<p>$$9520c^2 - 180{,}893c - 2{,}990{,}130 = 0$$</p>
+<p>$$\boxed{c_u = \frac{180{,}893 + \sqrt{180{,}893^2 + 4\times9520\times2{,}990{,}130}}{2\times9520} = 29.60 \text{ cm}} \quad (&lt; 30 \checkmark)$$</p>
+<p>$$a = 0.80\times29.60 = 23.68 \text{ cm}$$</p>
+<p><strong>驗算：</strong><br />
+$C_c = 9520\times29.60 = 281{,}792$ kgf；$S_m = 16.286\times6120\times(-0.40)/29.60 = -1{,}347$ kgf</p>
+<p>$P_n = 281{,}792 + 63{,}537 - 1{,}347 - 68{,}401 = 275{,}581 \approx 275{,}700$ kgf ✅</p>
+<hr />
+<h4>Step 4：$\varepsilon_t$ 及 $\phi$ 值</h4>
+<p>$$\varepsilon_t = 0.003\times\frac{54-29.60}{29.60} = 0.003\times0.8243 = 0.002473$$</p>
+<p>$\varepsilon_y = 0.002059 &lt; \varepsilon_t = 0.002473 &lt; 0.005$ → <strong>過渡區</strong></p>
+<p>$$\phi = 0.65 + 0.25\times\frac{0.002473 - 0.002059}{0.005 - 0.002059} = 0.65 + 0.25\times\frac{4.14\times10^{-4}}{2.941\times10^{-3}} = 0.65 + 0.0352 = \boxed{0.685}$$</p>
+<hr />
+<h4>Step 5：計算 $M_n$（對形心 $h/2 = 30$ cm 取矩）</h4>
+<table>
+<thead>
+<tr>
+<th>力</th>
+<th>大小（kgf）</th>
+<th>位置（cm from top）</th>
+<th>力臂（cm）</th>
+<th>力矩（kgf·cm）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_c$</td>
+<td>281,792</td>
+<td>$a/2 = 11.84$</td>
+<td>$30-11.84 = 18.16$</td>
+<td>5,117,363</td>
+</tr>
+<tr>
+<td>$C_1$</td>
+<td>63,537</td>
+<td>6</td>
+<td>$30-6 = 24$</td>
+<td>1,524,888</td>
+</tr>
+<tr>
+<td>$S_m$</td>
+<td>−1,347</td>
+<td>30</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>$T$</td>
+<td>68,401</td>
+<td>54</td>
+<td>$54-30 = 24$</td>
+<td>1,641,624</td>
+</tr>
+</tbody>
+</table>
+<p>$$M_n = 5{,}117{,}363 + 1{,}524{,}888 + 0 + 1{,}641{,}624 = 8{,}283{,}875 \text{ kgf·cm} = 82.84 \text{ tf·m}$$</p>
+<p>$$\boxed{\phi M_n = 0.685\times82.84 = 56.75 \text{ tf·m}}$$</p>
+<blockquote>
+<p>驗算偏心距：$e = M_n/P_n = 82.84/275.7 = 30.05$ cm $&gt; e_b = 84.09/306.3 = 27.46$ cm ✅（偏心大於平衡，符合 $P_n &lt; P_b$）</p>
+</blockquote>
+<hr />
+<h3>Part (二)：斷面韌性容量 $\mu_\phi = \phi_u/\phi_y$（$\gamma = 1.3$）</h3>
+<hr />
+<h4>Step 6：服務載重</h4>
+<p>$$N = \frac{0.9P_b}{\gamma} = \frac{275{,}700}{1.3} = 212{,}077 \approx 212{,}100 \text{ kgf} = 212.1 \text{ tf}$$</p>
+<p>（分子即 Step 3 的 $0.9P_b = 275.7$ tf。原稿寫成 $P_u/\gamma$，但 Step 3 又把同一個數字當成 $P_n$——這個符號矛盾與題意歧義同源，見 §5「題意歧義」。）</p>
+<hr />
+<h4>Step 7：降伏曲率 $\phi_y$（彈性裂縫斷面）</h4>
+<p>在 $N = 212{,}100$ kgf 且 $\varepsilon_t = \varepsilon_y$，設彈性 NA 深度 $k$（$&lt; 30$）：</p>
+<p>各力均以 $\phi_y = \varepsilon_y/(d-k)$ 表示，力平衡 $N + T = C_c^e + C_1^e + S_m^e$：</p>
+<p>$$\underbrace{0.5E_c\varepsilon_y bk^2/(54-k)}_{C_c^e} + \underbrace{A_1 f_y(k-6)/(54-k)}_{C_1^e} + \underbrace{A_m f_y(k-30)/(54-k)}_{S_m^e} = N + T = 280{,}501$$</p>
+<p>整理（乘以 $(54-k)$）：</p>
+<p>$$0.5\times280{,}624\times0.002059\times40\cdot k^2 + 68{,}401(k-6) + 68{,}401(k-30) = 280{,}501(54-k)$$</p>
+<p>$$11{,}556k^2 + 136{,}802k - 2{,}462{,}436 = 15{,}147{,}054 - 280{,}501k$$</p>
+<p>$$11{,}556k^2 + 417{,}303k - 17{,}609{,}490 = 0$$</p>
+<p>$$k^2 + 36.11k - 1524.0 = 0$$</p>
+<p>$$k_y d = \frac{-36.11 + \sqrt{36.11^2 + 4\times1524.0}}{2} = \frac{-36.11 + \sqrt{7400}}{2} = \frac{-36.11 + 86.03}{2} = \boxed{24.96 \text{ cm}}$$</p>
+<p>$$\phi_y = \frac{\varepsilon_y}{d - k_y d} = \frac{0.002059}{54 - 24.96} = \frac{0.002059}{29.04} = 7.09\times10^{-5} \text{ rad/cm}$$</p>
+<hr />
+<h4>Step 8：極限曲率 $\phi_u$（Whitney block，$N = 212.1$ tf）</h4>
+<p>同前設 $c &lt; 30$：</p>
+<p>$$9520c + 94{,}807 - \frac{2{,}990{,}130}{c} = 212{,}100$$</p>
+<p>$$9520c^2 - 117{,}293c - 2{,}990{,}130 = 0$$</p>
+<p>$$c_u^* = \frac{12.321 + \sqrt{12.321^2 + 4\times314.09}}{2} = \frac{12.321 + 37.527}{2} = \boxed{24.92 \text{ cm}}$$</p>
+<p>$$\phi_u = \frac{\varepsilon_{cu}}{c_u^*} = \frac{0.003}{24.92} = 1.204\times10^{-4} \text{ rad/cm}$$</p>
+<hr />
+<h4>Step 9：韌性容量</h4>
+<p>$$\boxed{\mu_\phi = \frac{\phi_u}{\phi_y} = \frac{1.204\times10^{-4}}{7.09\times10^{-5}} = 1.70}$$</p>
+<hr />
+<p><img alt="RC-2011-3 在 0.9Pb 軸力下的斷面、應變分佈與合力三聯圖，c=29.61 cm、a=23.69 cm，中排落在應力塊之外且受微拉" src="../../raw/solutions/RC-2011-3/figs/RC-2011-3-fig-2-balanced.svg" /></p>
+<p><em>圖 2　$P_n = 0.9P_b$ 的斷面／應變／合力。三格垂直比例共用，$a = 23.69 &lt; d_m = 30$ 的相對關係是真的——中排落在等值應力塊<strong>之外</strong>就不扣 $0.85f'_c$ 占位，而且此時它其實受微拉，兩件事一起錯會讓軸力差一截。</em></p>
+<p><img alt="RC-2011-3 降伏狀態（彈性中性軸 24.95 cm）與極限狀態（Whitney 中性軸 24.92 cm）的應變分佈對照，曲率延展比 1.70" src="../../raw/solutions/RC-2011-3/figs/RC-2011-3-fig-3-curvature.svg" /></p>
+<p><em>圖 3　曲率延展比的兩個狀態。左圖用彈性三角形應力分佈求 $\phi_y$、右圖用 Whitney 矩形求 $\phi_u$，兩者本構不同不可混用；兩個中性軸幾乎重合（24.95 vs 24.92 cm）正是 $\mu_\phi$ 只有 1.70 的原因。</em></p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>⚠ 題意歧義：$P_u = 0.9P_b$ 該當成標稱還是設計軸力？（待人工定案）</h3>
+<p>原卷用字（RC-2011 第三題）：「$A_{st}$＝6-#10，$P_u$＝$0.9P_b$，試求此柱斷面之<strong>設計彎矩強度</strong>，其中 $P_b$ 為此柱斷面平衡偏心破壞時之<strong>標稱</strong>軸壓強度」。同一份考卷第一題又自行定義「$P_u$ 及 $M_u$ 分別為柱斷面之<strong>設計</strong>軸力強度及設計彎矩強度」——出題者把兩個層次混寫了。</p>
+<table>
+<thead>
+<tr>
+<th>解讀</th>
+<th>式子</th>
+<th style="text-align: right;">$c$ (cm)</th>
+<th style="text-align: right;">$\varepsilon_t$</th>
+<th style="text-align: right;">$\varphi$</th>
+<th style="text-align: right;">$M_n$ (tf·m)</th>
+<th style="text-align: right;">$\varphi M_n$ (tf·m)</th>
+<th style="text-align: right;">$\mu_\phi$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A（本解採用）</strong></td>
+<td>$P_n = 0.9P_b$</td>
+<td style="text-align: right;">29.61</td>
+<td style="text-align: right;">0.002472</td>
+<td style="text-align: right;">0.685</td>
+<td style="text-align: right;">82.85</td>
+<td style="text-align: right;"><strong>56.75</strong></td>
+<td style="text-align: right;"><strong>1.70</strong></td>
+</tr>
+<tr>
+<td>B（照字面）</td>
+<td>$\varphi P_n = 0.9P_b$</td>
+<td style="text-align: right;">39.63</td>
+<td style="text-align: right;">0.001087</td>
+<td style="text-align: right;">0.650</td>
+<td style="text-align: right;">77.30</td>
+<td style="text-align: right;"><strong>50.25</strong></td>
+<td style="text-align: right;"><strong>2.21</strong></td>
+</tr>
+</tbody>
+</table>
+<p>兩者都自洽，差距不小。解讀 B 的字面依據較強（$P_u$ 依第一題定義即設計值，且出題者特別註明 $P_b$ 是標稱值，正是要考生換算）；解讀 A 則是坊間解答的通行做法。<strong>本頁暫採 A 並保留 B 的完整數字，待人工比對標準答案後擇一定案。</strong></p>
+<p>注意兩點：</p>
+<ol>
+<li>解讀 B 落在<strong>壓力控制區</strong>（$\varepsilon_t = 0.001087 &lt; \varepsilon_{ty} = 0.002059$），$\varphi$ 直接取 0.65，不作內插；解讀 A 則落在過渡區才需要內插。</li>
+<li>Part (二) 的服務載重一律是 $N = 275{,}700 / 1.3 = 212.1$ tf。這個算式（把 $0.9P_b$ 直接除以 $\gamma$）<strong>只有在解讀 B 下才嚴格成立</strong>——$\gamma$ 的定義是把因數化載重轉回服務載重，被除的必須是設計值。解讀 A 若要嚴謹，應為 $N = \varphi P_n/\gamma = 0.685\times275.7/1.3 = 145.3$ tf，$\mu_\phi$ 也會跟著變。本頁沿用通行解法的 212.1 tf，這是解讀 A 的一個內部不一致，<strong>一併待定案</strong>。</li>
+</ol>
+<hr />
+<p><strong>① 中排鋼筋在形心處的特殊性</strong></p>
+<p>由於 $d_m = 30$ cm $= h/2$，中排鋼筋恰好在塑性形心，對彎矩強度貢獻為零。但它參與軸力平衡（在 $c_b = 32.02 &gt; 30$ 時為壓力鋼筋，在 $c &lt; 30$ 時為張力鋼筋）。考生常忽略此點而多算彎矩。</p>
+<p><strong>② 為何本柱的 $\mu_\phi$ 只有 1.70？</strong></p>
+<p>本柱在 $N = 212.1$ tf 下，彈性 NA（24.96 cm）與 Whitney NA（24.92 cm）極為接近，因為：<br />
+$$\mu_\phi = \frac{\phi_u}{\phi_y} = \frac{\varepsilon_{cu}/c_u^*}{\varepsilon_y/(d-k_y d)} = \frac{\varepsilon_{cu}}{\varepsilon_y}\cdot\frac{d-k_y d}{c_u^*}$$</p>
+<p>本題 $\varepsilon_{cu}/\varepsilon_y = 0.003/0.002059 = 1.457$，$(d-k_y d)/c_u^* = 29.04/24.92 = 1.165$，故 $\mu_\phi \approx 1.70$。</p>
+<p><strong>③ $\gamma = 1.3$ 的使用時機</strong></p>
+<p>$\gamma = 1.3$ 僅用於求服務載重（$N = P_u/\gamma$），用於韌性計算。<strong>不能</strong>將 $\phi M_n$ 再除以 $\gamma$。</p>
+<p><strong>④ 考場速解提示（Part (二) 佔 10 分，是計算題不是概念題）</strong></p>
+<blockquote>
+<p>若考場時間不足，可先計算 $\phi_u$（較直接），再記 $\phi_y \approx \phi_u \times c_u/(d-k_y d)$ 的比值，快速估算 $\mu_\phi$。</p>
+</blockquote>
+<p><em>圖解補繪：2026-08-21（向量圖 3 張，腳本 <code>figs/gen_RC-2011-3.py</code>，可重跑；腳本檔尾對 §4 公佈值做 assert）</em></p></main>
+<footer>來源：raw/solutions/RC-2011-3/RC-2011-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

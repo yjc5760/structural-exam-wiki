@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2022-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2022-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U3-3.html">&#128202; U3-3 單元總覽</a><a class="lect" href="../lecture-RC-U3-3.html">&#128218; U3-3 韌性要求與耐震設計 講義</a></div></header>
+<main><h1>考題編號：RC-2022-4</h1>
+<p><strong>主分類：</strong> <code>RC-U3-3</code> 韌性要求與耐震設計<br />
+<strong>副分類：</strong> <code>RC-U1-2</code> RC 柱強度分析與設計<br />
+<strong>設計法：</strong> 概念題（耐震評估）<br />
+<strong>標籤：</strong> <code>曲率韌性</code> <code>轉角韌性</code> <code>位移韌性</code> <code>彎矩塑鉸</code> <code>線性內插</code> <code>塑鉸長度Lp</code> <code>公路橋梁耐震規範</code> <code>單曲率柱</code> <code>需求vs容量</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>題目：</strong> 某 RC 柱底承受 $P = 270$ tf、$M = 232.5$ tf·m，依線性內插求彎矩塑鉸性質，以民國 109 年交通部頒「公路橋梁耐震評估與補強設計規範」公式，評估曲率韌性需求 $\mu_\phi$、轉角韌性需求 $\mu_\theta$、位移韌性需求 $\mu$。（25 分）</p>
+<p><strong>材料與幾何：</strong></p>
+<ul>
+<li>斷面：$80 \times 80$ cm，淨高 $l_u = 6.4$ m</li>
+<li>$f'_c = 280$ kgf/cm²，$f_y = 4200$ kgf/cm²，主筋 D32（$d_b = 3.22$ cm）</li>
+<li>反曲點位於淨高 $l_u/2 = 3.2$ m 處 → <strong>懸臂長度 $L = 3.2$ m</strong></li>
+</ul>
+<p><strong>規範公式：</strong><br />
+$$\delta_y = \frac{\phi_y L^2}{3}, \quad \theta_y = \frac{\delta_y}{L}$$<br />
+$$\delta_u = \frac{M_u}{M_y}\delta_y + (\phi_u - \phi_y)L_p(L - 0.5L_p), \quad \theta_u = \frac{\delta_u}{L}$$<br />
+$$L_p = 0.08L + 0.0022\,d_b\,f_y \ge 0.0044\,d_b\,f_y$$</p>
+<blockquote>
+<p><strong>原卷原文（111 年第四題）核對：</strong> 「某鋼筋混凝土柱之斷面尺寸 $80\times80$ cm、淨高度 6.4 m，<br />
+$f'_c$=280、$f_y$=4200 kgf/cm²，縱向主筋使用 D32。已知該柱於軸壓力分別為 $P$=180 tf 及 $P$=360 tf 作用時，<br />
+柱底彎矩塑鉸性質分別如表 3 所示，皆為雙線性曲線。<strong>該柱底今承受軸壓力 $P$=270 tf，彎矩 $M$=232.5 tf-m</strong>，<br />
+假設其彎矩塑鉸性質可由表 3 數值作線性內插，且反曲點位於淨高度一半位置。<br />
+請根據民國 109 年 12 月交通部頒「公路橋梁耐震評估與補強設計規範」所列公式如下，<strong>以撓曲變形為主</strong>，<br />
+評估反曲點下方柱視作單曲率柱時之曲率韌性需求 $\mu_\phi$、轉角韌性需求 $\mu_\theta$，與位移韌性需求 $\mu$。（25 分）」</p>
+<p>卷首另註明本科作答規範為土木 401-100，但本題明確改用<strong>交通部橋梁規範</strong>，兩者不衝突。<br />
+「<strong>以撓曲變形為主</strong>」＝ 只計撓曲變形，不計剪力變形與鋼筋滑移（bond-slip）之貢獻。</p>
+</blockquote>
+<p><strong>表 3 彎矩塑鉸參數（雙線性曲線）：</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: center;">$P = 180$ tf</th>
+<th style="text-align: center;">$P = 360$ tf</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>降伏點 $(\phi_y, M_y)$</td>
+<td style="text-align: center;">$(0.004 \text{ rad/m},\ 200 \text{ tf·m})$</td>
+<td style="text-align: center;">$(0.006 \text{ rad/m},\ 240 \text{ tf·m})$</td>
+</tr>
+<tr>
+<td>極限點 $(\phi_u, M_u)$</td>
+<td style="text-align: center;">$(0.030 \text{ rad/m},\ 230 \text{ tf·m})$</td>
+<td style="text-align: center;">$(0.010 \text{ rad/m},\ 260 \text{ tf·m})$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 依橋梁耐震規範的雙線性彎矩-曲率模型，評估 RC 柱在指定軸力下的三種韌性比。</p>
+<blockquote>
+<p>⚠ <strong>題意歧義（2026-08-22 留檔）：</strong> 題幹說「韌性<strong>需求</strong>」，但原卷印出的公式（$\delta_u$、$\theta_u$、下標 $u$）<br />
+是<strong>韌性容量</strong>的算式；而題目給的 $M = 232.5$ tf·m <strong>恰好是內插後 $M_y = 220$ 與 $M_u = 245$ 的正中點</strong>，<br />
+在「照公式算容量」的讀法下完全用不到。兩種讀法的完整數字都已留檔於 §5 爭議點 2。<br />
+<strong>本解主線採讀法 A（照原卷印出的公式，用 $M_u$、$\phi_u$）。</strong></p>
+</blockquote>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗線性內插的正確執行（$P = 270$ 在 180~360 之間）</li>
+<li>考驗 $L_p$ 公式的適用（混合單位、下限控制）</li>
+<li>確認三個韌性需求的計算層次：曲率（斷面層次）→ 轉角（構件層次）→ 位移（整體層次）</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1：確認懸臂長度 L = lu/2
+Step 2：線性內插 P = 270 tf 的塑鉸參數
+Step 3：計算 Lp（注意下限控制）
+Step 4：計算 δy、θy
+Step 5：計算 δu、θu
+Step 6：計算三個韌性需求比
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠1</td>
+<td>$L$ 是<strong>反曲點到柱底的距離</strong> $= l_u/2$，不是全柱高 $l_u$</td>
+<td>$L = 6.4/2 = 3.2$ m</td>
+</tr>
+<tr>
+<td>⚠2</td>
+<td>$L_p$ 公式的<strong>下限</strong>：$0.0044d_b f_y$ 可能控制（需取較大值）</td>
+<td>計算兩式後取 $\max$</td>
+</tr>
+<tr>
+<td>⚠3</td>
+<td>$L_p$ 公式混合單位：$L$ 在 m，$d_b$ 在 m，$f_y$ 在 kgf/cm²，結果 $L_p$ 在 m</td>
+<td>代入前統一單位</td>
+</tr>
+<tr>
+<td>⚠4</td>
+<td>$\mu_\theta = \mu$（因 $\theta = \delta/L$，分子分母同除 $L$）</td>
+<td>驗算：兩者應相等</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>依線性內插得 P = 270 tf 下的塑鉸參數，套入橋梁耐震規範公式，求 μφ = φu/φy、μθ = θu/θy、μ = δu/δy</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1：線性內插（}\alpha = 0.5\text{）} \quad \boxed{\phi_y},\,\boxed{M_y},\,\boxed{\phi_u},\,\boxed{M_u} \text{ 由表 3 插值得出}$$</p>
+<p>$$\text{Step 2：塑鉸長度} \quad L_p = \max\!\left(0.08L + 0.0022d_b f_y,\; 0.0044d_b f_y\right) \;\Rightarrow\; \boxed{L_p}$$</p>
+<p>$$\text{Step 3：降伏位移} \quad \boxed{\delta_y} = \frac{\boxed{\phi_y} \cdot L^2}{3}, \quad \boxed{\theta_y} = \frac{\boxed{\delta_y}}{L}$$</p>
+<p>$$\text{Step 4：極限位移} \quad \boxed{\delta_u} = \frac{\boxed{M_u}}{\boxed{M_y}}\boxed{\delta_y} + (\boxed{\phi_u}-\boxed{\phi_y})\cdot\boxed{L_p}\cdot(L-0.5\boxed{L_p}), \quad \boxed{\theta_u} = \frac{\boxed{\delta_u}}{L}$$</p>
+<p>$$\text{Step 5：三種韌性需求} \quad \mu_\phi = \frac{\boxed{\phi_u}}{\boxed{\phi_y}}, \quad \mu_\theta = \frac{\boxed{\theta_u}}{\boxed{\theta_y}}, \quad \mu = \frac{\boxed{\delta_u}}{\boxed{\delta_y}}$$</p>
+<hr />
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$l_u$</td>
+<td>6.4 m</td>
+<td>柱淨高</td>
+</tr>
+<tr>
+<td>$P$</td>
+<td>270 tf</td>
+<td>軸壓力（題目給定，用於內插）</td>
+</tr>
+<tr>
+<td>$M$（應用）</td>
+<td>232.5 tf·m</td>
+<td>柱底彎矩（確認位於降伏後狀態）</td>
+</tr>
+<tr>
+<td>$d_b$</td>
+<td>3.22 cm = 0.0322 m</td>
+<td>D32 主筋直徑</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+<td>主筋降伏強度</td>
+</tr>
+<tr>
+<td>表 3</td>
+<td>見上表</td>
+<td>兩組軸力下的雙線性塑鉸參數</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：線性內插</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\alpha$</td>
+<td>$(P-180)/(360-180) = 90/180 = 0.5$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_y$</td>
+<td>$0.004 + 0.5\times(0.006-0.004)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_y$</td>
+<td>$200 + 0.5\times(240-200)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi_u$</td>
+<td>$0.030 + 0.5\times(0.010-0.030)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_u$</td>
+<td>$230 + 0.5\times(260-230)$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：$L_p$ 與懸臂長</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L$</td>
+<td>$l_u/2 = 6.4/2$（反曲點在柱中）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_p$（第一式）</td>
+<td>$0.08L + 0.0022 \times d_b(\text{m}) \times f_y$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_p$（下限）</td>
+<td>$0.0044 \times d_b(\text{m}) \times f_y$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_p$</td>
+<td>$\max$(兩式)</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3–4：位移計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\delta_y$</td>
+<td>$\phi_y L^2 / 3$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\theta_y$</td>
+<td>$\delta_y / L$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\delta_u$</td>
+<td>$(M_u/M_y)\delta_y + (\phi_u-\phi_y)L_p(L-0.5L_p)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\theta_u$</td>
+<td>$\delta_u / L$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：韌性需求</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\mu_\phi$</td>
+<td>$\phi_u/\phi_y$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\mu_\theta$</td>
+<td>$\theta_u/\theta_y = \delta_u/\delta_y = \mu$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\mu$</td>
+<td>$\delta_u/\delta_y$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>反曲點 → 懸臂柱分析</td>
+<td>反曲點將雙曲率柱拆成兩根等長懸臂柱；塑鉸在柱端，分析長度 $L = l_u/2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>三種韌性的物理層次</td>
+<td>$\mu_\phi$ 描述斷面；$\mu_\theta$ 描述構件轉角；$\mu$ 描述整體位移；三者關係：$\mu_\theta = \mu \le \mu_\phi$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\delta_u$ 公式拆解</td>
+<td>第一項 $(M_u/M_y)\delta_y$：硬化段等效彈性位移；第二項：塑鉸轉角 $\theta_p = (\phi_u-\phi_y)L_p$ 對頂點的力矩臂 $(L-0.5L_p)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>為何 $\mu_\theta = \mu$？</td>
+<td>$\theta = \delta/L$，分子分母同比例 → $\mu_\theta = (\delta_u/L)/(\delta_y/L) = \delta_u/\delta_y = \mu$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_p$ 混合單位慣例</td>
+<td>公式 $0.0022d_b(\text{m}) \times f_y(\text{kgf/cm}^2)$ 給出 $L_p$ 單位為 m；此係數已吸收單位換算，勿自行轉換</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：確認懸臂長度</h3>
+<p>反曲點位於淨高一半：<br />
+$$L = \frac{l_u}{2} = \frac{6.4}{2} = \mathbf{3.2 \text{ m}}$$</p>
+<hr />
+<h3>Step 2：線性內插塑鉸參數（$P = 270$ tf）</h3>
+<p>$$\alpha = \frac{270 - 180}{360 - 180} = \frac{90}{180} = 0.5$$</p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th style="text-align: center;">$P=180$ tf</th>
+<th style="text-align: center;">$P=360$ tf</th>
+<th style="text-align: center;">內插（$P=270$ tf）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\phi_y$（rad/m）</td>
+<td style="text-align: center;">0.004</td>
+<td style="text-align: center;">0.006</td>
+<td style="text-align: center;">$0.004 + 0.5\times0.002 = \mathbf{0.005}$</td>
+</tr>
+<tr>
+<td>$M_y$（tf·m）</td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">240</td>
+<td style="text-align: center;">$200 + 0.5\times40 = \mathbf{220}$</td>
+</tr>
+<tr>
+<td>$\phi_u$（rad/m）</td>
+<td style="text-align: center;">0.030</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">$0.030 + 0.5\times(-0.020) = \mathbf{0.020}$</td>
+</tr>
+<tr>
+<td>$M_u$（tf·m）</td>
+<td style="text-align: center;">230</td>
+<td style="text-align: center;">260</td>
+<td style="text-align: center;">$230 + 0.5\times30 = \mathbf{245}$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>確認：</strong> 應用彎矩 $M = 232.5$ tf·m 介於 $M_y = 220$ tf·m 與 $M_u = 245$ tf·m 之間，柱底已進入塑性階段。</p>
+<p><img alt="RC-2022-4 彎矩曲率雙線性曲線與線性內插：橫軸曲率、縱軸彎矩，三條由原點出發的折線分別為 P=180 tf（降伏 0.004/200、極限 0.030/230）、P=360 tf（0.006/240、0.010/260）與 P=270 tf 內插（0.005/220、0.020/245）；內插曲線上以紅點標出 M=232.5 tf·m 對應的 φd=0.0125 rad/m，並以箭頭標明軸壓由 180 增至 360 tf 時極限曲率由 0.030 遞減至 0.010，右下表列四參數隨軸壓的趨勢為 φy 增、My 增、φu 減、Mu 增" src="../../raw/solutions/RC-2022-4/figs/RC-2022-4-fig-1-bilinear.svg" /></p>
+<p><em>圖 1　表 3 兩組軸力與內插後的三條雙線性 $M$–$\phi$ 折線畫在同一張，並在內插曲線上標出 $M = 232.5$ 對應的 $\phi_d$。攔的是 $\phi_u$ 內插方向弄反（四個參數只有它隨軸壓遞減），以及把 $M = 232.5$ 只當成「確認已降伏」而不知它恰在 $M_y$、$M_u$ 的正中點。</em></p>
+<hr />
+<h3>Step 3：塑鉸長度 $L_p$</h3>
+<p>$$d_b = 3.22 \text{ cm} = 0.0322 \text{ m}, \quad f_y = 4200 \text{ kgf/cm}^2$$</p>
+<p><strong>第一式：</strong><br />
+$$0.08L + 0.0022\,d_b\,f_y = 0.08\times3.2 + 0.0022\times0.0322\times4200$$<br />
+$$= 0.256 + 0.2975 = 0.5535 \text{ m}$$</p>
+<p><strong>下限：</strong><br />
+$$0.0044\,d_b\,f_y = 0.0044\times0.0322\times4200 = 0.5951 \text{ m}$$</p>
+<p>$$\boxed{L_p = \max(0.5535,\ 0.5951) = \mathbf{0.595 \text{ m}}} \quad \text{（下限控制）}$$</p>
+<hr />
+<h3>Step 4：降伏位移與轉角</h3>
+<p>$$\delta_y = \frac{\phi_y L^2}{3} = \frac{0.005 \times 3.2^2}{3} = \frac{0.005 \times 10.24}{3} = \frac{0.05120}{3} = \mathbf{0.01707 \text{ m}}$$</p>
+<p>$$\theta_y = \frac{\delta_y}{L} = \frac{0.01707}{3.2} = \mathbf{0.005333 \text{ rad}}$$</p>
+<hr />
+<h3>Step 5：極限位移與轉角</h3>
+<p>$$\frac{M_u}{M_y} = \frac{245}{220} = 1.1136$$</p>
+<p>$$L - 0.5L_p = 3.2 - 0.5\times0.595 = 3.2 - 0.2975 = 2.9025 \text{ m}$$</p>
+<p>$$\delta_u = \frac{M_u}{M_y}\delta_y + (\phi_u - \phi_y)\cdot L_p\cdot(L - 0.5L_p)$$</p>
+<p>$$= 1.1136\times0.01707 + (0.020 - 0.005)\times0.595\times2.9025$$</p>
+<p>$$= 0.019006 + 0.015\times0.595\times2.9025$$</p>
+<p>$$= 0.019006 + 0.015\times1.72713$$</p>
+<p>$$= 0.019006 + 0.025907 = \mathbf{0.044913 \text{ m}}$$</p>
+<p>$$\theta_u = \frac{\delta_u}{L} = \frac{0.044913}{3.2} = \mathbf{0.014035 \text{ rad}}$$</p>
+<p><img alt="RC-2022-4 反曲點與懸臂柱變形：左格為淨高 6.4 m 的柱呈 S 形雙曲率、中點 3.2 m 處標出反曲點且該處彎矩為零，故分析長度 L=lu/2=3.2 m 而非全柱高；右格為切出的 3.2 m 懸臂柱，柱底有高 0.595 m 的塑鉸帶（由下限式 0.0044·db·fy 控制），藍線為降伏變形頂端 1.707 cm、紅線為極限變形頂端 4.491 cm、比值 2.632 為真實比例，右側以尺寸線標出塑鉸轉角力臂 L−0.5Lp=2.9025 m 並列出 δu 的兩項貢獻 1.901 與 2.591 cm" src="../../raw/solutions/RC-2022-4/figs/RC-2022-4-fig-2-cantilever.svg" /></p>
+<p><em>圖 2　左格畫全柱雙曲率變形與中點反曲點，右格畫由此切出的懸臂柱及其降伏／極限變形、柱底塑鉸長度與力臂。攔的是 $L$ 誤用全柱淨高、$\delta_u$ 第二項力臂誤用 $L$ 或 $L_p$，以及 $L_p$ 忘記取下限。</em></p>
+<hr />
+<h3>Step 6：三種韌性需求</h3>
+<p>$$\boxed{\mu_\phi = \frac{\phi_u}{\phi_y} = \frac{0.020}{0.005} = \mathbf{4.0}}$$</p>
+<p>$$\boxed{\mu_\theta = \frac{\theta_u}{\theta_y} = \frac{0.014035}{0.005333} = \mathbf{2.63}}$$</p>
+<p>$$\boxed{\mu = \frac{\delta_u}{\delta_y} = \frac{0.044913}{0.017067} = \mathbf{2.63}}$$</p>
+<p><strong>驗算：</strong> $\mu_\theta = \theta_u/\theta_y = (\delta_u/L)/(\delta_y/L) = \delta_u/\delta_y = \mu$ ✓（兩者必定相等）</p>
+<hr />
+<h3>彙整表</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: center;">計算值</th>
+<th style="text-align: center;">韌性需求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>降伏曲率 $\phi_y$</td>
+<td style="text-align: center;">0.005 rad/m</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td>極限曲率 $\phi_u$</td>
+<td style="text-align: center;">0.020 rad/m</td>
+<td style="text-align: center;">$\mu_\phi = \mathbf{4.0}$</td>
+</tr>
+<tr>
+<td>降伏位移 $\delta_y$</td>
+<td style="text-align: center;">1.707 cm</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td>極限位移 $\delta_u$</td>
+<td style="text-align: center;">4.491 cm</td>
+<td style="text-align: center;">$\mu = \mathbf{2.63}$</td>
+</tr>
+<tr>
+<td>降伏轉角 $\theta_y$</td>
+<td style="text-align: center;">0.005333 rad</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr>
+<td>極限轉角 $\theta_u$</td>
+<td style="text-align: center;">0.014035 rad</td>
+<td style="text-align: center;">$\mu_\theta = \mathbf{2.63}$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>爭議點 1：$L_p$ 公式的單位系統</h3>
+<p>本題 $L_p$ 公式使用混合單位（$L$ 與 $d_b$ 以 m 代入，$f_y$ 以 kgf/cm²），係台灣橋梁耐震規範的特定版本。其背後物理是 Priestley &amp; Park（1987）的原始公式：</p>
+<p>$$L_p = 0.08L + 0.022\,d_b\,f_y \quad (L,\,d_b \text{ in m},\, f_y \text{ in MPa})$$</p>
+<p>轉換：$f_y = 4200 \text{ kgf/cm}^2 \approx 412 \text{ MPa}$，$d_b = 0.0322 \text{ m}$</p>
+<p>$$\Rightarrow 0.022 \times 0.0322 \times 412 = 0.292 \text{ m} \approx 0.297 \text{ m} \quad\checkmark$$</p>
+<h3>爭議點 2：$M = 232.5$ tf·m 的角色——兩種讀法都要會（本題最值得留檔處）</h3>
+<p><strong>關鍵觀察：</strong> $M = 232.5 = \dfrac{220 + 245}{2}$，<strong>恰好是內插後 $M_y$ 與 $M_u$ 的正中點</strong>。<br />
+出題者隨手挑一個彎矩不會這麼剛好；這強烈暗示 232.5 是要被「用」的，而不只是拿來確認已降伏。<br />
+但原卷印出的公式（$\delta_u = \frac{M_u}{M_y}\delta_y + \ldots$，下標全是 $u$）又明明是<strong>極限狀態</strong>的算式。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>讀法 A（本解主線）</strong></th>
+<th>讀法 B（依 $M = 232.5$ 的「需求」）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>依據</td>
+<td>照原卷印出的公式逐字代入（下標 $u$）</td>
+<td>「需求」＝在實際承受的 $M = 232.5$ 之狀態評估</td>
+</tr>
+<tr>
+<td>曲率</td>
+<td>$\phi_u = 0.020$ rad/m</td>
+<td>$\phi_d = \phi_y + \dfrac{232.5-220}{245-220}(\phi_u-\phi_y) = \mathbf{0.0125}$ rad/m</td>
+</tr>
+<tr>
+<td>$\mu_\phi$</td>
+<td>$0.020/0.005 = \mathbf{4.00}$</td>
+<td>$0.0125/0.005 = \mathbf{2.50}$</td>
+</tr>
+<tr>
+<td>位移</td>
+<td>$\delta_u = 4.491$ cm</td>
+<td>$\delta_d = \dfrac{232.5}{220}\delta_y + (0.0125-0.005)L_p(L-0.5L_p) = \mathbf{3.099}$ cm</td>
+</tr>
+<tr>
+<td>$\mu_\theta = \mu$</td>
+<td>$4.491/1.707 = \mathbf{2.63}$</td>
+<td>$3.099/1.707 = \mathbf{1.82}$</td>
+</tr>
+<tr>
+<td>名稱正確性</td>
+<td>算出來其實是<strong>韌性容量</strong></td>
+<td>才是嚴格意義的<strong>韌性需求</strong></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="RC-2022-4 三層韌性與兩種讀法比較，五列以最大值 4.000 為 100%：讀法A 斷面曲率韌性 4.000、讀法A 構件與整體韌性 2.632、近似式驗算 2.518（λ=0.506）、讀法B 斷面曲率韌性 2.500、讀法B 構件與整體韌性 1.816；讀法A 算的是韌性容量、讀法B 才是嚴格的韌性需求，容量除以需求為 1.449" src="../../raw/solutions/RC-2022-4/figs/RC-2022-4-fig-3-ductility.svg" /></p>
+<p><em>圖 3　兩種讀法下的斷面／構件／整體三層韌性比與近似式驗算並列。攔的是算出 $\mu &gt; \mu_\phi$（不可能），或 $\mu_\theta$ 與 $\mu$ 得到不同值——它們必定相等。</em></p>
+<p><strong>採 A 為主線的理由：</strong> 題幹明寫「請<strong>根據規範所列公式如下</strong>……評估」，而印出來的公式下標就是 $u$；<br />
+照字面代入是最不會被扣分的作法。$M = 232.5$ 則用來確認柱底<strong>確實已降伏</strong>（$232.5 &gt; M_y = 220$）<br />
+且<strong>尚未達極限</strong>（$232.5 &lt; M_u = 245$）——這是「可以把它當塑鉸來算」的前提，本身就是必要的一步。</p>
+<p><strong>考場建議：兩個都寫。</strong> 先照公式給 A（$\mu_\phi = 4.0$、$\mu_\theta = \mu = 2.63$），<br />
+再補一句「若『需求』係指在 $M = 232.5$ tf·m 之實際狀態，則 $\mu_\phi = 2.5$、$\mu_\theta = \mu = 1.82$」。<br />
+規範用語上，A 算的是<strong>容量</strong>、B 算的是<strong>需求</strong>，而耐震評估的判準正是「容量 $\ge$ 需求」——<br />
+本題兩者相除 $2.632 / 1.816 = 1.449$，代表尚有 44.9% 的韌性餘裕，這句話寫上去很加分。</p>
+<h3>進階：三層韌性的物理意義</h3>
+<p>$$\mu_\phi = 4.0 \gg \mu_\theta = \mu = 2.63$$</p>
+<p>這是因為：</p>
+<ul>
+<li>$\mu_\phi$ 只看<strong>斷面塑鉸點</strong>的曲率比（局部），$\phi_u/\phi_y$ 直接由雙線性模型讀出。</li>
+<li>$\mu$ 看的是<strong>整體頂點位移</strong>（全局），塑鉸區只是 $L_p = 0.595$ m 的一段，其貢獻被稀釋於整根 $L = 3.2$ m 的柱中。</li>
+<li>兩者關係：$\mu \approx 1 + (\mu_\phi - 1)\,\lambda$，其中 $\lambda = 3\dfrac{L_p}{L}\!\left(1 - 0.5\dfrac{L_p}{L}\right) &lt; 1$。</li>
+</ul>
+<p>驗算：$\lambda = 3\times\dfrac{0.595}{3.2}\times\left(1 - 0.5\times\dfrac{0.595}{3.2}\right) = 3\times0.1859\times0.9070 = 0.506$</p>
+<p>$$\mu \approx 1 + (4.0-1)\times0.506 = \mathbf{2.518}$$</p>
+<p>比主線的 2.632 略小——差額來自本題公式<strong>多了一項應變硬化</strong> $\dfrac{M_u}{M_y}\delta_y$（$M_u/M_y = 1.114$）。<br />
+  若把硬化拿掉（$M_u/M_y = 1$）：$\delta_u = 0.017067 + 0.025907 = 0.042974$ m，$\mu = 2.518$ ✓ 與近似式完全吻合。<br />
+  <strong>這個交叉驗算很值得寫</strong>——它證明你懂公式裡每一項在做什麼。</p>
+<hr />
+<h2>6. 依最新規範對照</h2>
+<h3>6.1 本題所引規範本身就是現行版</h3>
+<p>「<strong>公路橋梁耐震評估與補強設計規範</strong>」於民國 109 年底定稿、<strong>110 年 3 月 23 日</strong>由交通部以<br />
+交技(110)字第 1105003536 號令頒布（交通部部頒規範網頁之更新日期為 110-03-30）。<br />
+截至 2026 年 8 月，<strong>交通部並未再發布更新版本</strong>，故本題引用的即為現行規範，<br />
+「依最新規範計算」與依原卷規範計算<strong>完全相同</strong>，三個答案不變。</p>
+<h3>6.2 與建築物系統（土木 401-112）的分工——常被混用</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>公路橋梁耐震（本題）</th>
+<th>建築物（土木 401-112／建築物耐震設計規範）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>韌性的表達</td>
+<td>分三層：$\mu_\phi$（斷面）→ $\mu_\theta$（構件）→ $\mu_\Delta$（整體）</td>
+<td>以<strong>結構系統韌性容量 $R$</strong> 與 $F_u$ 折減地震力</td>
+</tr>
+<tr>
+<td>塑鉸長度</td>
+<td>明訂 $L_p = 0.08L + 0.0022d_bf_y \ge 0.0044d_bf_y$（$L,d_b$ 用 m、$f_y$ 用 kgf/cm²）</td>
+<td>401 未訂 $L_p$；耐震設計以 $l_o$（圍束區長度）處理</td>
+</tr>
+<tr>
+<td>評估方式</td>
+<td>容量／需求比對（Pushover 導向）</td>
+<td>強度設計（$\phi S_n \ge U$）＋ 韌性細節規定</td>
+</tr>
+<tr>
+<td>圍束需求</td>
+<td>依曲率韌性需求反算 $\rho_s$</td>
+<td>$A_{sh}$ 三式取大（Table 18.7.5.4）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>考場提醒：</strong> 看到「$\mu_\phi$、$\mu_\theta$、$\mu_\Delta$」「$L_p$」「反曲點」就是<strong>橋梁系統</strong>；<br />
+看到「$A_{sh}$、$s_o$、$l_o$、$1.25f_y$、$M_{pr}$」就是<strong>建築系統</strong>。兩套公式不可互相代入。</p>
+<h3>6.3 $L_p$ 公式的來源與單位（複核確認）</h3>
+<p>原式為 Priestley &amp; Park (1987)：$L_p = 0.08L + 0.022\,d_b f_{ye} \ge 0.044\,d_b f_{ye}$（$L,d_b$：m；$f_{ye}$：MPa）。<br />
+換成 kgf/cm²：$0.022/10.197 = 0.002157 \approx \mathbf{0.0022}$、$0.044/10.197 = 0.004315 \approx \mathbf{0.0044}$ ✓<br />
+與規範印出的係數完全吻合——<strong>代入時 $f_y$ 直接用 4200 kgf/cm²，不要再換算成 MPa</strong>。</p>
+<p>本題 $0.08L = 0.256$ m 只佔 43%，<strong>下限式 $0.0044d_bf_y = 0.595$ m 控制</strong>（大 7.5%）。<br />
+$L$ 越短、主筋越粗、$f_y$ 越高，下限越容易控制——這是本題刻意設計的考點。</p>
+<p><em>圖解補繪：2026-09-07（向量圖 3 張，腳本 <code>figs/gen_RC-2022-4.py</code>，可重跑；腳本檔尾對 §4 公佈值做 assert）</em></p></main>
+<footer>來源：raw/solutions/RC-2022-4/RC-2022-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

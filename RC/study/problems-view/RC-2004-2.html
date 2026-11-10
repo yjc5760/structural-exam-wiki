@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2004-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2004-2 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-1.html">&#128202; U1-1 單元總覽</a><a class="lect" href="../lecture-RC-U1-1.html">&#128218; U1-1 RC 梁彎矩強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2004-2</h1>
+<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>外伸梁</code> <code>懸臂梁</code> <code>D點跨中彎矩</code> <code>單筋梁</code> <code>Whitney應力塊</code> <code>D32鋼筋</code> <code>雙排配筋</code> <code>過渡區φ值</code> <code>ACI載重組合</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>梁結構如圖所示，A-D-B 為 8 m 簡支段（D 為跨中），B-C 為 2 m 懸臂段：</p>
+<p><img alt="RC-2004-2 題目附圖：外伸簡支梁結構示意，均布載重 W 作用於全跨" src="../../raw/solutions/RC-2004-2/RC-2004-2-fig-1.png" /></p>
+<p><em>圖說：梁寬 b = 40 cm，梁高 h = 70 cm，有效深度 d = 60 cm，d' = 6.5 cm。A、B 為鉸支承，C 為自由端。均布載重作用於全長 10 m（A 至 C）。D 為 A-B 跨中（距 A 為 4 m）。</em></p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>簡支跨距 $L$</td>
+<td>$8\ \text{m}$（A-B）</td>
+</tr>
+<tr>
+<td>懸臂長</td>
+<td>$2\ \text{m}$（B-C）</td>
+</tr>
+<tr>
+<td>$b \times h$</td>
+<td>$40 \times 70\ \text{cm}$</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>$60\ \text{cm}$</td>
+</tr>
+<tr>
+<td>$d'$</td>
+<td>$6.5\ \text{cm}$</td>
+</tr>
+<tr>
+<td>$w_D$（不含自重）</td>
+<td>$5\ \text{t/m}$</td>
+</tr>
+<tr>
+<td>$w_L$</td>
+<td>$2\ \text{t/m}$</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>$280\ \text{kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>$4200\ \text{kgf/cm}^2$（D32 主筋）</td>
+</tr>
+<tr>
+<td>箍筋</td>
+<td>D13</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 考題核心精神與出題者意圖</h2>
+<p><strong>核心觀念：</strong> 外伸梁的力學分析（反力計算 → D 點彎矩）+ USD 單筋梁設計 + D32 鋼筋排列。</p>
+<p><strong>測驗重點：</strong></p>
+<ol>
+<li>正確求出懸臂端對簡支段的反力影響（懸臂使 B 支承力增大，A 支承力減小）</li>
+<li>判斷是否需要雙筋（本題 $M_u &lt; \phi M_{n,\max}$ → 單筋即可）</li>
+<li>D32 鋼筋排列：單排最多 5 根，超過需排兩排</li>
+<li>雙排配筋導致實際 $\varepsilon_t$ 落入過渡區，需調整 $\phi$</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>計算梁自重 $w_{SW}$，求總因數化載重 $W_u$</li>
+<li>由靜力求 $R_A$、$R_B$（ΣMa = 0）</li>
+<li>求 D 點（$x = 4\ \text{m}$）因數化彎矩 $M_u$</li>
+<li>計算 $\phi M_{n,\max}$（單筋上限）確認不需雙筋</li>
+<li>設計 $A_s$，選用 D32 鋼筋根數</li>
+<li>驗核 $\phi M_n \ge M_u$（注意 $\varepsilon_t$ 是否進入過渡區）</li>
+</ol>
+<p><strong>關鍵陷阱（3 個）：</strong></p>
+<ul>
+<li>⚠ <strong>懸臂改變反力</strong>：$R_A = 3.75W_u$（≠ $W_u L/2 = 4W_u$），懸臂使 A 端反力減小</li>
+<li>⚠ <strong>D32 排列限制</strong>：單排最多 5 根（$b = 40\ \text{cm}$ 限制），6 根需排兩排，導致 $\varepsilon_t$ 偏低進入過渡區，$\phi &lt; 0.9$</li>
+<li>⚠ <strong>加入 $w_{SW}$ 後再因數化</strong>：梁自重屬死載重，須先加入再乘 1.4</li>
+</ul>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求 D 點所需縱向鋼筋量，並完成鋼筋配置。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1: } W_u = 1.4(w_D + w_{SW}) + 1.7\,w_L$$</p>
+<p>$$\text{Step 2: } R_B = \frac{W_u \times 10 \times 5}{8},\quad R_A = 10W_u - R_B$$</p>
+<p>$$\text{Step 3: } M_u^D = R_A \times 4 - W_u \times \frac{4^2}{2}$$</p>
+<p>$$\text{Step 4: } R_n = \frac{M_u}{\phi \cdot b \cdot d^2},\quad \rho = \frac{0.85f'_c}{f_y}\left[1-\sqrt{1-\frac{2R_n}{0.85f'_c}}\right]$$</p>
+<p>$$\text{Step 5: } A_s = \rho \cdot b \cdot d \quad\Rightarrow\quad \text{選用 D32 根數}$$</p>
+<p>$$\text{Step 6: } a = \frac{A_s f_y}{0.85f'_c b},\quad \varepsilon_t = 0.003\frac{d-c}{c},\quad \phi M_n \ge M_u\ ?$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b,h,d$</td>
+<td>$40,70,60\ \text{cm}$</td>
+<td>梁斷面</td>
+</tr>
+<tr>
+<td>$w_D$（不含自重）</td>
+<td>$5\ \text{t/m}$</td>
+<td>均布呆載重</td>
+</tr>
+<tr>
+<td>$w_L$</td>
+<td>$2\ \text{t/m}$</td>
+<td>均布活載重</td>
+</tr>
+<tr>
+<td>$L_{AB}$</td>
+<td>$8\ \text{m}$</td>
+<td>簡支段</td>
+</tr>
+<tr>
+<td>$L_{BC}$</td>
+<td>$2\ \text{m}$</td>
+<td>懸臂段</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$w_{SW}$</td>
+<td>$0.40 \times 0.70 \times 2.4\ \text{t/m}^3 = 0.672\ \text{t/m}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$W_u$</td>
+<td>$1.4(5.672) + 1.7(2) = 11.34\ \text{t/m}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$R_A, R_B$</td>
+<td>靜力計算</td>
+<td></td>
+</tr>
+<tr>
+<td>$M_u^D$</td>
+<td>$7W_u = 79.4\ \text{t·m}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi M_{n,\max}$</td>
+<td>以 $\varepsilon_t = 0.005$ 計算上限</td>
+<td></td>
+</tr>
+<tr>
+<td>$A_s$</td>
+<td>需求量 vs 6-D32 提供量</td>
+<td></td>
+</tr>
+<tr>
+<td>$\varepsilon_t$</td>
+<td>依 $c$ 計算（過渡區判斷）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程</h2>
+<h3>① 梁自重與因數化載重</h3>
+<p>$$w_{SW} = b \times h \times \gamma = 0.40 \times 0.70 \times 2400 = 672\ \text{kg/m} = 0.672\ \text{t/m}$$</p>
+<p>$$W_u = 1.4(w_D + w_{SW}) + 1.7\,w_L = 1.4(5 + 0.672) + 1.7 \times 2 = 7.941 + 3.400 = 11.34\ \text{t/m}$$</p>
+<hr />
+<h3>② 支承反力（均布載重 $W_u$ 作用於全長 10 m）</h3>
+<p>$$\sum M_A = 0:\quad R_B \times 8 = W_u \times 10 \times 5 \Rightarrow R_B = \frac{50 \times 11.34}{8} = 70.9\ \text{t}$$</p>
+<p>$$R_A = 11.34 \times 10 - 70.9 = 42.5\ \text{t}$$</p>
+<hr />
+<h3>③ D 點因數化彎矩（$x = 4\ \text{m}$ 自 A）</h3>
+<p>$$M_u^D = R_A \times 4 - W_u \times \frac{4^2}{2} = 42.5 \times 4 - 11.34 \times 8 = 170.0 - 90.7 = \boxed{79.4\ \text{t·m}}$$</p>
+<hr />
+<h3>④ 檢核是否需要雙筋（以 $\varepsilon_t = 0.005$ 計算 $\phi M_{n,\max}$）</h3>
+<p>$\varepsilon_t = 0.005$ 時的中性軸深度：<br />
+$$c_{0.005} = \frac{0.003}{0.003+0.005} \times d = \frac{0.003}{0.008} \times 60 = 22.5\ \text{cm}$$<br />
+$$a_{0.005} = \beta_1 c = 0.85 \times 22.5 = 19.13\ \text{cm}$$<br />
+$$A_{s,0.005} = \frac{0.85 f'_c \cdot b \cdot a}{f_y} = \frac{9520 \times 19.13}{4200} = 43.4\ \text{cm}^2$$</p>
+<p>$$\phi M_{n,\max} = 0.9 \times 43.4 \times 4200 \times \left(60 - \frac{19.13}{2}\right) = 0.9 \times 182{,}280 \times 50.44 = 82.7\ \text{t·m}$$</p>
+<p><strong>結論：</strong> $M_u = 79.4\ \text{t·m} &lt; \phi M_{n,\max} = 82.7\ \text{t·m}$ → <strong>單筋梁即可，$\phi = 0.9$</strong></p>
+<hr />
+<h3>⑤ 設計 $A_s$（$\phi = 0.9$）</h3>
+<p>$$R_n = \frac{M_u}{\phi \cdot b \cdot d^2} = \frac{79.4 \times 10^5}{0.9 \times 40 \times 60^2} = \frac{7{,}940{,}000}{129{,}600} = 61.3\ \text{kgf/cm}^2$$</p>
+<p>$$\rho = \frac{0.85 f'_c}{f_y}\left[1 - \sqrt{1 - \frac{2R_n}{0.85f'_c}}\right] = \frac{0.85 \times 280}{4200}\left[1 - \sqrt{1 - \frac{2 \times 61.3}{238}}\right]$$</p>
+<p>$$= 0.05667 \times \left[1 - \sqrt{1 - 0.5151}\right] = 0.05667 \times \left[1 - \sqrt{0.4849}\right] = 0.05667 \times 0.3036 = 0.01720$$</p>
+<p>$$A_{s,\text{req}} = \rho \cdot b \cdot d = 0.01720 \times 40 \times 60 = 41.3\ \text{cm}^2$$</p>
+<p><strong>最小鋼筋量驗核：</strong><br />
+$$A_{s,\min} = \frac{14}{f_y} \times b \times d = \frac{14}{4200} \times 40 \times 60 = 8.0\ \text{cm}^2 \ll 41.3\ \text{cm}^2\ \checkmark$$</p>
+<hr />
+<h3>⑥ 選用鋼筋（D32，$a_b = 8.19\ \text{cm}^2$）</h3>
+<p>$$n_{\min} = \frac{41.3}{8.19} = 5.04 \Rightarrow \text{需 6 根 D32}$$</p>
+<blockquote>
+<p>5 根驗核：$A_s = 40.95\ \text{cm}^2$，$a = 18.1\ \text{cm}$，$\phi M_n = 0.9 \times 171{,}990 \times 51.0 = 78.9\ \text{t·m} &lt; 79.4\ \text{t·m}$（不足）</p>
+</blockquote>
+<p><strong>使用 6-D32：</strong> $A_s = 6 \times 8.19 = 49.14\ \text{cm}^2$</p>
+<hr />
+<h3>⑦ 驗核 $\phi M_n$（6 根 D32）</h3>
+<p>$$a = \frac{49.14 \times 4200}{0.85 \times 280 \times 40} = \frac{206{,}388}{9{,}520} = 21.67\ \text{cm}$$</p>
+<p>$$c = \frac{a}{\beta_1} = \frac{21.67}{0.85} = 25.49\ \text{cm}$$</p>
+<p>$$\varepsilon_t = 0.003 \times \frac{d-c}{c} = 0.003 \times \frac{60-25.49}{25.49} = 0.003 \times 1.354 = 0.00406$$</p>
+<p>由於 $\varepsilon_y &lt; \varepsilon_t = 0.00406 &lt; 0.005$（<strong>過渡區</strong>），需調整 $\phi$：</p>
+<p>$$\phi = 0.65 + (\varepsilon_t - 0.002) \times \frac{0.25}{0.003} = 0.65 + \frac{0.00406-0.002}{0.003} \times 0.25 = 0.65 + 0.172 = 0.822$$</p>
+<p>$$\phi M_n = 0.822 \times 49.14 \times 4200 \times \left(60 - \frac{21.67}{2}\right) = 0.822 \times 206{,}388 \times 49.165$$</p>
+<p>$$= 0.822 \times 10{,}146{,}779 = 8{,}340{,}652\ \text{kgf·cm} = \boxed{83.4\ \text{t·m}}$$</p>
+<p>$$\phi M_n = 83.4\ \text{t·m} \ge M_u = 79.4\ \text{t·m} \quad \checkmark$$</p>
+<hr />
+<h3>⑧ 鋼筋配置</h3>
+<p><strong>排列驗核（$b = 40\ \text{cm}$，D32 + D13 箍筋，覆蓋層 4 cm）：</strong></p>
+<p>單排最大根數：<br />
+$$b = 2(4 + 1.27) + n \times 3.23 + (n-1) \times 3.23 \le 40\ \text{cm}$$<br />
+$$\Rightarrow (2n-1) \times 3.23 \le 29.46 \Rightarrow n \le 5.06 \Rightarrow \text{單排最多 5 根}$$</p>
+<p>→ <strong>6 根 D32 需分兩排（3+3 排列）</strong></p>
+<p>各排距底部距離：</p>
+<ul>
+<li>第 1 排（底部）：$4 + 1.27 + 1.615 = 6.885\ \text{cm}$</li>
+<li>第 2 排：$6.885 + 3.23 + 2.5 = 12.615\ \text{cm}$（排間淨距 25 mm）</li>
+</ul>
+<p>合力中心：$\bar{y} = \dfrac{3 \times 6.885 + 3 \times 12.615}{6} = 9.75\ \text{cm}$ 自底部</p>
+<p>實際有效深度：$d_\text{actual} = 70 - 9.75 = \mathbf{60.25\ \text{cm}} \approx 60\ \text{cm}$ ✓</p>
+<p><strong>最終配置：底部拉力筋 6-D32（兩排，各 3 根）</strong></p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討</h2>
+<p><strong>① D 點正確為 A-B 跨中（非 A-C 之中）</strong></p>
+<p>題目圖示 A-D-B-C 排列，D 在 A 與 B 之間，確認 $x_D = 4\ \text{m}$ 自 A。若誤將 D 取在 A-C 全長中點（$x = 5\ \text{m}$），所求彎矩將不同。</p>
+<p><strong>② 懸臂使 A 端反力「縮水」</strong></p>
+<p>若無懸臂，$R_A = 4.5W_u$；加入 2 m 懸臂後，$R_A = 3.75W_u$，減少 16.7%。這導致 D 點正彎矩由 $wL^2/8 = 8W_u$ 降至 $7W_u$，考生容易忽略懸臂的影響。</p>
+<p><strong>③ 鋼筋過渡區的設計取向</strong></p>
+<p>6 根 D32 使 $\varepsilon_t = 0.00406$（過渡區），$\phi = 0.822$ 而非 0.9。這說明在設計初期假設 $\phi = 0.9$ 求出 $A_s = 41.3\ \text{cm}^2$，再配置 6 D32（49.14 cm²）後，$\phi$ 下降但 $\phi M_n$ 仍足夠——是典型的「設計迭代」情形。考場上可直接選 6 根，再驗核 $\phi M_n$，不需重算 $A_s$。</p></main>
+<footer>來源：raw/solutions/RC-2004-2/RC-2004-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2018-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2018-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U4-1.html">&#128202; U4-1 單元總覽</a><a class="lect" href="../lecture-RC-U4-1.html">&#128218; U4-1 預力梁斷面應力分析 講義</a></div></header>
+<main><h1>考題編號：RC-2018-4</h1>
+<p><strong>主分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> WSD / USD 混合<br />
+<strong>標籤：</strong> <code>後拉法</code> <code>有黏結</code> <code>開裂彎矩</code> <code>極限彎矩</code> <code>fps公式</code> <code>Whitney應力塊</code> <code>鋼鍵拉斷檢核</code> <code>β1折減</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>如圖所示之<strong>後拉法預力梁斷面</strong>，預力鋼鍵套管直徑 7.5 cm φ，施預力後以水泥砂漿填滿（→ 有黏結後拉法）。</p>
+<p><strong>材料條件：</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_{pu}$</td>
+<td>19,000 kgf/cm²（鋼鍵極限強度）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>420 kgf/cm²</td>
+</tr>
+<tr>
+<td>$E_s = E_p$</td>
+<td>2×10⁶ kgf/cm²（鋼材彈性模數）</td>
+</tr>
+<tr>
+<td>$E_c$</td>
+<td>3.07×10⁵ kgf/cm²</td>
+</tr>
+<tr>
+<td>$F_e$（有效預力）</td>
+<td>100 tf = 100,000 kgf</td>
+</tr>
+<tr>
+<td>$A_{ps}$</td>
+<td>14 cm²</td>
+</tr>
+</tbody>
+</table>
+<p><strong>斷面幾何（從圖）：</strong></p>
+<pre><code>          b = 35 cm
+    ┌─────────────┐
+    │             │  70 cm
+    │             │
+    │             │  ← 距頂面 55 cm
+    │      ●      │  ← 鋼鍵（距底 15 cm）
+    └─────────────┘
+</code></pre>
+<ul>
+<li>$b = 35$ cm，$h = 70$ cm，矩形斷面</li>
+<li>鋼鍵距底面 15 cm，故<strong>有效深度</strong> $d_p = 70 - 15 = 55$ cm</li>
+<li>斷面形心（中性軸）距底面 = $h/2 = 35$ cm</li>
+<li><strong>偏心距</strong> $e = 35 - 15 = 20$ cm（鋼鍵在形心以下）</li>
+</ul>
+<p><strong>試求：</strong>（25 分）</p>
+<ol>
+<li>開裂彎矩 $M_{cr}$</li>
+<li>極限彎矩 $M_n$</li>
+<li>檢核鋼鍵是否被拉斷（$f_{ps}$ vs $f_{pu}$）</li>
+</ol>
+<p><strong>題目給定參考公式：</strong><br />
+$$f_{ps} = f_{pu}\!\left(1 - 0.5\,\rho_p\,\frac{f_{pu}}{f'_c}\right) \qquad \text{（有黏結腱）}$$</p>
+<p>$$f_{ps} = f_{se} + 700 + \frac{f'_c}{100\,\rho_p} \qquad \text{（無黏結腱參考）}$$</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<h3>核心觀念</h3>
+<p>本題考察預力梁從<strong>開裂</strong>到<strong>極限</strong>的兩個關鍵強度計算：</p>
+<ol>
+<li><strong>開裂彎矩（$M_{cr}$）</strong>：彈性分析，預力在底纖維建立壓應力，外加彎矩需大到足以克服此壓力並引起拉力裂縫。</li>
+<li><strong>極限彎矩（$M_n$）</strong>：非線性分析，鋼鍵應力在極限狀態下超過有效預力（$f_{ps} &gt; f_{se}$），使用 Whitney 應力塊。</li>
+<li><strong>拉斷檢核</strong>：$f_{ps}$ 是否達到 $f_{pu}$——若使用 fps 公式計算後 $f_{ps} &lt; f_{pu}$，表示斷面先達到混凝土壓碎而非鋼鍵拉斷。</li>
+</ol>
+<p>本題靈魂：<strong>有黏結 vs 無黏結的 $f_{ps}$ 公式選擇</strong>——題目提供兩條公式，有黏結用公式①（附著力讓鋼鍵充分發展應力），無黏結用公式②（滑動摩擦限制應力增量）。</p>
+<h3>出題者意圖</h3>
+<ol>
+<li>考生能區分有黏結/無黏結腱的 $f_{ps}$ 公式適用場景</li>
+<li>考生能正確計算 Mcr 的預壓應力貢獻（$F_e/A + F_e \cdot e/S_b$）</li>
+<li>考生記得 $\beta_1$ 隨 $f'_c$ 遞減（f'c = 420 &gt; 280，$\beta_1 &lt; 0.85$）</li>
+<li>陷阱：偏心距 e 方向、dp vs h 的關係、fr 用 kgf/cm² 或 MPa 公式</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<h3>作戰計畫</h3>
+<pre><code>【開裂彎矩 Mcr】
+Step 1: 計算斷面性質（A、Ig、Sb）
+Step 2: 計算底纖維有效預壓應力 fpe_b
+Step 3: 計算混凝土破裂模數 fr = 2√f'c
+Step 4: Mcr = Sb × (fpe_b + fr)
+
+【極限彎矩 Mn + 鋼鍵檢核】
+Step 5: 計算 fse = Fe / Aps
+Step 6: 計算 ρp = Aps / (b × dp)
+Step 7: 選擇有黏結公式①求 fps（含拉斷檢核）
+Step 8: 計算 β1（f'c = 420 需折減）
+Step 9: Whitney 應力塊求 a
+Step 10: Mn = Aps × fps × (dp - a/2)
+</code></pre>
+<h3>關鍵陷阱</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>誤用無黏結公式②（fse + 700 + f'c/100ρp），導致 fps 嚴重低估</td>
+<td>後拉法 + 水泥砂漿填滿 = 有黏結，<strong>必須用公式①</strong></td>
+</tr>
+<tr>
+<td>②</td>
+<td>忘記 $\beta_1$ 折減（f'c=420 &gt; 280，β1 = 0.75，非 0.85）</td>
+<td>$\beta_1 = 0.85 - 0.05 \times (420-280)/70 = 0.75$</td>
+</tr>
+<tr>
+<td>③</td>
+<td>Mcr 計算時，偏心距 e 符號或方向錯誤</td>
+<td>鋼鍵在形心以下 → 底纖維為額外壓縮（正向有利）</td>
+</tr>
+<tr>
+<td>④</td>
+<td>dp 混淆（從頂算 dp，非 h - e）</td>
+<td>$d_p = h - 15 = 55$ cm（從頂面到鋼鍵中心）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p>求 $M_{cr}$、$M_n$，並確認 $f_{ps} &lt; f_{pu}$（鋼鍵不被拉斷）。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$
+\text{Step 1:}\quad A = b \cdot h,\quad I_g = \frac{b\,h^3}{12},\quad S_b = \frac{I_g}{y_b}
+$$</p>
+<p>$$
+\text{Step 2:}\quad f_{pe,b} = \frac{F_e}{A} + \frac{F_e \cdot e \cdot y_b}{I_g}
+$$</p>
+<p>$$
+\text{Step 3:}\quad f_r = 2\sqrt{f'_c}\ \text{(kgf/cm}^2\text{)}
+$$</p>
+<p>$$
+\text{Step 4:}\quad M_{cr} = \boxed{S_b} \cdot \!\left(\boxed{f_{pe,b}} + \boxed{f_r}\right)
+$$</p>
+<p>$$
+\text{Step 5:}\quad f_{se} = F_e / A_{ps}
+$$</p>
+<p>$$
+\text{Step 6:}\quad \rho_p = A_{ps} / (b \cdot d_p)
+$$</p>
+<p>$$
+\text{Step 7:}\quad f_{ps} = f_{pu}\!\left(1 - 0.5\,\boxed{\rho_p}\,\frac{f_{pu}}{f'_c}\right) \leq f_{pu}
+$$</p>
+<p>$$
+\text{Step 8:}\quad \beta_1 = 0.85 - \frac{0.05(f'_c - 280)}{70}
+$$</p>
+<p>$$
+\text{Step 9:}\quad a = \frac{A_{ps} \cdot \boxed{f_{ps}}}{0.85\,f'_c\,b}
+$$</p>
+<p>$$
+\text{Step 10:}\quad M_n = A_{ps} \cdot \boxed{f_{ps}} \cdot \!\left(d_p - \frac{\boxed{a}}{2}\right)
+$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>35 cm</td>
+<td>梁寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>70 cm</td>
+<td>梁深</td>
+</tr>
+<tr>
+<td>鋼鍵距底</td>
+<td>15 cm</td>
+<td>從圖讀取</td>
+</tr>
+<tr>
+<td>$d_p$</td>
+<td>55 cm</td>
+<td>$h - 15$</td>
+</tr>
+<tr>
+<td>$A_{ps}$</td>
+<td>14 cm²</td>
+<td>鋼鍵面積</td>
+</tr>
+<tr>
+<td>$F_e$</td>
+<td>100,000 kgf</td>
+<td>有效預力</td>
+</tr>
+<tr>
+<td>$f_{pu}$</td>
+<td>19,000 kgf/cm²</td>
+<td>鋼鍵極限強度</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>420 kgf/cm²</td>
+<td>混凝土強度</td>
+</tr>
+<tr>
+<td>$E_p$</td>
+<td>2×10⁶ kgf/cm²</td>
+<td>鋼材彈性模數</td>
+</tr>
+<tr>
+<td>$E_c$</td>
+<td>3.07×10⁵ kgf/cm²</td>
+<td>混凝土彈性模數</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>【斷面性質（毛斷面）】</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A$</td>
+<td>$35 \times 70 = 2450$ cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$y_b = y_t$</td>
+<td>$70/2 = 35$ cm（矩形對稱）</td>
+<td></td>
+</tr>
+<tr>
+<td>$e$</td>
+<td>$35 - 15 = 20$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$I_g$</td>
+<td>$35 \times 70^3/12 = 1{,}000{,}417$ cm⁴</td>
+<td></td>
+</tr>
+<tr>
+<td>$S_b = S_t$</td>
+<td>$I_g/y_b = 28{,}583$ cm³</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>【開裂彎矩計算】</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_{pe,b}$</td>
+<td>$F_e/A + F_e \cdot e/S_b = 40.82 + 69.97 = 110.79$ kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_r$</td>
+<td>$2\sqrt{420} = 40.99$ kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$M_{cr}$</td>
+<td>$S_b \times (f_{pe,b} + f_r) = 28{,}583 \times 151.78$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>【極限彎矩計算】</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_{se}$</td>
+<td>$F_e/A_{ps} = 100{,}000/14 = 7{,}143$ kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$\rho_p$</td>
+<td>$A_{ps}/(b \cdot d_p) = 14/(35 \times 55) = 0.007273$</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_{ps}$</td>
+<td>公式①（有黏結）→ 代入計算</td>
+<td></td>
+</tr>
+<tr>
+<td>$\beta_1$</td>
+<td>$0.85 - 0.05 \times (420-280)/70 = 0.75$</td>
+<td></td>
+</tr>
+<tr>
+<td>$a$</td>
+<td>$A_{ps} \cdot f_{ps}/(0.85 f'_c b)$</td>
+<td></td>
+</tr>
+<tr>
+<td>$M_n$</td>
+<td>$A_{ps} \cdot f_{ps} \cdot (d_p - a/2)$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有黏結 vs 無黏結 fps 公式</td>
+<td>有黏結腱：fps = fpu(1-0.5ρp·fpu/f'c)；無黏結腱：fps = fse + 700 + f'c/(100ρp)（kgf/cm²）。前者 fps 值通常更高</td>
+<td></td>
+</tr>
+<tr>
+<td>β1 折減規則</td>
+<td>f'c ≤ 280 kgf/cm²：β1 = 0.85；每增加 70 kgf/cm²，β1 減 0.05；最小值 0.65</td>
+<td></td>
+</tr>
+<tr>
+<td>Mcr 底纖維預壓應力兩項</td>
+<td>Fe/A 為均勻預壓，Fe·e·yb/Ig 為彎曲預壓（因偏心）——兩項均為底纖維壓縮，計算時相加</td>
+<td></td>
+</tr>
+<tr>
+<td>fps &lt; fpu 的意義</td>
+<td>表示極限狀態下鋼鍵仍有剩餘強度儲備，破壞模式為混凝土壓碎（延性），而非鋼鍵拉斷（脆性）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>━━━━ 第一部分：開裂彎矩 Mcr ━━━━</h3>
+<h3>Step 1：斷面性質（毛斷面）</h3>
+<p>$$
+A = b \times h = 35 \times 70 = 2{,}450\ \text{cm}^2
+$$</p>
+<p>$$
+I_g = \frac{b\,h^3}{12} = \frac{35 \times 70^3}{12} = \frac{35 \times 343{,}000}{12} = \frac{12{,}005{,}000}{12} = 1{,}000{,}417\ \text{cm}^4
+$$</p>
+<p>$$
+y_b = y_t = \frac{h}{2} = 35\ \text{cm}
+$$</p>
+<p>$$
+S_b = \frac{I_g}{y_b} = \frac{1{,}000{,}417}{35} = 28{,}583\ \text{cm}^3
+$$</p>
+<p>幾何關係：<br />
+$$
+d_p = h - 15 = 70 - 15 = 55\ \text{cm}\qquad e = y_b - 15 = 35 - 15 = 20\ \text{cm}
+$$</p>
+<blockquote>
+<p><strong>策略註解：</strong> 使用毛斷面（套管 7.5 cm φ，面積 44.2 cm²，僅佔 1.8%，省略影響合理）。</p>
+</blockquote>
+<h3>Step 2：底纖維有效預壓應力 $f_{pe,b}$</h3>
+<p>鋼鍵在形心以下（e = 20 cm），對底纖維產生<strong>兩種壓力</strong>：</p>
+<p>$$
+\frac{F_e}{A} = \frac{100{,}000}{2{,}450} = 40.82\ \text{kgf/cm}^2 \quad \text{（均勻軸壓）}
+$$</p>
+<p>$$
+\frac{F_e \cdot e}{S_b} = \frac{100{,}000 \times 20}{28{,}583} = \frac{2{,}000{,}000}{28{,}583} = 69.97\ \text{kgf/cm}^2 \quad \text{（偏心彎曲壓力）}
+$$</p>
+<p>$$
+\boxed{f_{pe,b} = 40.82 + 69.97 = 110.79\ \text{kgf/cm}^2\ \text{（壓力，正值）}}
+$$</p>
+<h3>Step 3：混凝土破裂模數 $f_r$</h3>
+<p>$$
+f_r = 2\sqrt{f'_c} = 2\sqrt{420} = 2 \times 20.494 = \boxed{40.99\ \text{kgf/cm}^2}
+$$</p>
+<blockquote>
+<p><strong>策略註解：</strong> 台灣考試使用 $f_r = 2\sqrt{f'_c}$（kgf/cm²），等效於 ACI 的 $0.623\sqrt{f'_c}$（MPa）。</p>
+</blockquote>
+<h3>Step 4：開裂彎矩 $M_{cr}$</h3>
+<p>開裂條件：底纖維總應力 = 0（考慮 fr 即拉力剛出現）：</p>
+<p>$$
+f_{pe,b} - \frac{M_{cr}}{S_b} = -f_r \quad\Rightarrow\quad M_{cr} = S_b \cdot \left(f_{pe,b} + f_r\right)
+$$</p>
+<p>$$
+M_{cr} = 28{,}583 \times (110.79 + 40.99) = 28{,}583 \times 151.78
+$$</p>
+<p>$$
+\boxed{M_{cr} = 4{,}339{,}300\ \text{kgf·cm} \approx 43.4\ \text{tf·m}}
+$$</p>
+<hr />
+<h3>━━━━ 第二部分：極限彎矩 Mn 與鋼鍵檢核 ━━━━</h3>
+<h3>Step 5：有效鋼鍵應力 $f_{se}$</h3>
+<p>$$
+f_{se} = \frac{F_e}{A_{ps}} = \frac{100{,}000}{14} = 7{,}143\ \text{kgf/cm}^2
+$$</p>
+<h3>Step 6：預力鋼筋比 $\rho_p$</h3>
+<p>$$
+\rho_p = \frac{A_{ps}}{b \cdot d_p} = \frac{14}{35 \times 55} = \frac{14}{1{,}925} = 0.007273
+$$</p>
+<h3>Step 7：極限狀態鋼鍵應力 $f_{ps}$（有黏結腱公式）</h3>
+<p>本梁為後拉法 + 水泥砂漿灌滿 → <strong>有黏結（bonded）後拉腱</strong> → 使用公式①：</p>
+<p>$$
+f_{ps} = f_{pu}\!\left(1 - 0.5\,\rho_p\,\frac{f_{pu}}{f'_c}\right)
+$$</p>
+<p>$$
+= 19{,}000 \times \left(1 - 0.5 \times 0.007273 \times \frac{19{,}000}{420}\right)
+$$</p>
+<p>$$
+= 19{,}000 \times \left(1 - 0.5 \times 0.007273 \times 45.24\right)
+$$</p>
+<p>$$
+= 19{,}000 \times \left(1 - 0.5 \times 0.3290\right)
+$$</p>
+<p>$$
+= 19{,}000 \times (1 - 0.1645) = 19{,}000 \times 0.8355
+$$</p>
+<p>$$
+\boxed{f_{ps} = 15{,}875\ \text{kgf/cm}^2}
+$$</p>
+<p><strong>鋼鍵拉斷檢核：</strong></p>
+<p>$$
+f_{ps} = 15{,}875\ \text{kgf/cm}^2 \quad &lt; \quad f_{pu} = 19{,}000\ \text{kgf/cm}^2
+$$</p>
+<p>$$
+\boxed{\therefore\ \text{鋼鍵}\textbf{不被拉斷} \checkmark}
+$$</p>
+<blockquote>
+<p><strong>策略註解：</strong> 若誤用公式②（無黏結腱）：$f_{ps} = 7143 + 700 + 420/(100 \times 0.007273) = 8{,}421$ kgf/cm²（比正確值低 47%），極限彎矩將嚴重低估。兩公式差異巨大，選錯公式會造成根本性錯誤。</p>
+</blockquote>
+<p><strong>與 fse 比較（合理性驗證）：</strong><br />
+$$
+f_{se} = 7{,}143 &lt; f_{ps} = 15{,}875 &lt; f_{pu} = 19{,}000 \quad \checkmark
+$$</p>
+<h3>Step 8：應力塊折減係數 $\beta_1$</h3>
+<p>$$
+\beta_1 = 0.85 - \frac{0.05 \times (f'_c - 280)}{70} = 0.85 - \frac{0.05 \times (420 - 280)}{70} = 0.85 - \frac{0.05 \times 140}{70}
+$$</p>
+<p>$$
+= 0.85 - 0.05 \times 2 = 0.85 - 0.10 = \boxed{0.75}
+$$</p>
+<h3>Step 9：Whitney 等值矩形應力塊深度 $a$</h3>
+<p>$$
+a = \frac{A_{ps} \cdot f_{ps}}{0.85\,f'_c\,b} = \frac{14 \times 15{,}875}{0.85 \times 420 \times 35} = \frac{222{,}250}{12{,}495} = \boxed{17.79\ \text{cm}}
+$$</p>
+<p>中性軸深度：<br />
+$$
+c = \frac{a}{\beta_1} = \frac{17.79}{0.75} = 23.72\ \text{cm}
+$$</p>
+<p>驗核（中性軸在斷面內）：<br />
+$$
+c = 23.72\ \text{cm} &lt; h = 70\ \text{cm} \quad \checkmark
+$$</p>
+<p>$$
+\frac{c}{d_p} = \frac{23.72}{55} = 0.431 &lt; 1.0 \quad \checkmark
+$$</p>
+<h3>Step 10：極限彎矩 $M_n$</h3>
+<p>$$
+M_n = A_{ps} \cdot f_{ps} \cdot \left(d_p - \frac{a}{2}\right)
+$$</p>
+<p>$$
+= 14 \times 15{,}875 \times \left(55 - \frac{17.79}{2}\right)
+$$</p>
+<p>$$
+= 222{,}250 \times (55 - 8.895)
+$$</p>
+<p>$$
+= 222{,}250 \times 46.105
+$$</p>
+<p>$$
+\boxed{M_n = 10{,}246{,}000\ \text{kgf·cm} \approx 102.5\ \text{tf·m}}
+$$</p>
+<hr />
+<h3>最終結果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>求解項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>開裂彎矩 $M_{cr}$</td>
+<td><strong>43.4 tf·m</strong></td>
+</tr>
+<tr>
+<td>鋼鍵應力 $f_{ps}$</td>
+<td>15,875 kgf/cm²</td>
+</tr>
+<tr>
+<td>極限彎矩 $M_n$</td>
+<td><strong>102.5 tf·m</strong></td>
+</tr>
+<tr>
+<td>鋼鍵是否拉斷？</td>
+<td><strong>否</strong>（15,875 &lt; 19,000 kgf/cm²）</td>
+</tr>
+</tbody>
+</table>
+<p>強度裕度比（極限/開裂）：<br />
+$$
+\frac{M_n}{M_{cr}} = \frac{102.5}{43.4} = 2.36 \quad \text{（極限強度為開裂強度的 2.36 倍）}
+$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>5.1 有黏結 vs 無黏結：fps 公式選擇</h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>有黏結（本題）</th>
+<th>無黏結</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>灌漿</td>
+<td>✅ 水泥砂漿填滿</td>
+<td>❌ 套管不填漿</td>
+</tr>
+<tr>
+<td>$f_{ps}$ 公式</td>
+<td>$f_{pu}(1-0.5\rho_p f_{pu}/f'_c)$</td>
+<td>$f_{se} + 700 + f'c/(100\rho_p)$</td>
+</tr>
+<tr>
+<td>本題計算結果</td>
+<td>15,875 kgf/cm²</td>
+<td>8,421 kgf/cm²</td>
+</tr>
+<tr>
+<td>物理意義</td>
+<td>附著力傳遞→局部應變大→fps高</td>
+<td>整體平均應變增量→fps低</td>
+</tr>
+</tbody>
+</table>
+<p>結論：選錯公式，極限彎矩誤差高達 <strong>47%</strong>。</p>
+<h3>5.2 Mcr 的精確計算（是否扣除套管面積）</h3>
+<p>本題使用毛斷面簡算。若用淨斷面：</p>
+<ul>
+<li>套管面積 $A_{duct} = \pi(7.5/2)^2 = 44.2$ cm²（佔總面積 1.8%）</li>
+<li>形心偏移：往上移 $\approx 0.4$ cm（影響甚微）</li>
+<li>$M_{cr}$ 修正量 &lt; 2%</li>
+</ul>
+<p>→ 考場使用毛斷面即可，誤差在合理範圍。</p>
+<h3>5.3 鋼鍵拉斷的物理意義</h3>
+<p>若極限彎矩計算時 $f_{ps} = f_{pu}$，則鋼鍵在達到 $M_n$ 前即拉斷，屬<strong>脆性破壞</strong>（不安全設計）。</p>
+<p>本題 $f_{ps}/f_{pu} = 15875/19000 = 0.836$，表示斷面在極限狀態下：</p>
+<ul>
+<li>混凝土先達到極限壓應變（0.003）→ 延性破壞 ✓</li>
+<li>鋼鍵尚有 16.4% 的強度裕量（仍在彈性範圍延伸）</li>
+</ul>
+<h3>5.4 為何 $f_{ps} &gt; f_{se}$ 合理？</h3>
+<p>有效預力時：$f_{se} = 7143$ kgf/cm²（鋼鍵受拉）<br />
+極限狀態時：$f_{ps} = 15875$ kgf/cm²（鋼鍵繼續被拉伸）</p>
+<p>在外加彎矩作用下，截面變形使鋼鍵進一步伸長，因為黏結傳力使得局部應變增量很大，故 fps &gt;&gt; fse。這是有黏結腱的核心特性。</p>
+<h3>5.5 彈性模數比（模數比）</h3>
+<p>$$
+n = \frac{E_p}{E_c} = \frac{2 \times 10^6}{3.07 \times 10^5} = 6.51
+$$</p>
+<p>題目給的 Es、Ec 主要用於彈性分析（如計算開裂前的應力分布或使用換算斷面法），本題 Mcr 計算中未直接用到，但需注意這組數值是確認材料特性用。</p>
+<hr />
+<p><strong>驗算狀態：</strong> <code>unverified</code><br />
+<strong>手寫補充：</strong> 無</p></main>
+<footer>來源：raw/solutions/RC-2018-4/RC-2018-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

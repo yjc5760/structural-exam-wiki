@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2009-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2009-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U4-1.html">&#128202; U4-1 單元總覽</a><a class="lect" href="../lecture-RC-U4-1.html">&#128218; U4-1 預力梁斷面應力分析 講義</a></div></header>
+<main><h1>考題編號：RC-2009-4</h1>
+<p><strong>主分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
+<strong>副分類：</strong> <code>RC-U3-1</code> 梁工作性要求（含撓度、裂縫）<br />
+<strong>設計法：</strong> 混合（預力 WSD + 裂縫寬度）<br />
+<strong>標籤：</strong> <code>預力RC拉力桿</code> <code>混合斷面</code> <code>裂縫寬度</code> <code>張力硬化</code> <code>wmax</code> <code>有效預力</code> <code>去壓載重</code> <code>15φ預力棒</code> <code>D29鋼筋</code> <code>Scanlon-Murray</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>已知斷面如<strong>圖二(b)</strong>（<code>RC-2009-4-fig-1.png</code>）所示，為鋼筋與預力混凝土混合斷面。</p>
+<p><img alt="RC-2009-4 題目附圖：30×30cm混合預力RC拉力桿件斷面，4根預力棒15φ於角隅位置（距面3cm），4根D29鋼筋於各面中點位置（距面3cm），各鋼筋行距12cm" src="../../raw/solutions/RC-2009-4/RC-2009-4-fig-1.png" /></p>
+<p><em>圖說：30 cm × 30 cm 正方形斷面；配置 4 根預力鋼棒（15φ，$A_p=1.77$ cm²/根）於角隅（距面 3 cm）；配置 4 根 D29 鋼筋（$A_s=6.47$ cm²/根）於各邊中點（距面 3 cm）；鋼筋排列間距 12 cm。</em></p>
+<p><strong>預力鋼棒有效預力：</strong> $f_{pe} = 13200$ kgf/cm²</p>
+<p><strong>最大裂縫寬度公式：</strong><br />
+$$w_{max} = 1.08\times10^{-6}\,\beta\,f_s\,\sqrt[3]{d_c A} \quad [\text{cm}]$$</p>
+<ul>
+<li>$\beta$：中性軸至拉力外緣 vs 至拉筋距離之比值</li>
+<li>$f_s$：拉筋應力（kgf/cm²）</li>
+<li>$d_c$：拉力緣至鋼筋形心厚度（cm）</li>
+<li>$A$：一支受拉鋼筋所佔有受拉混凝土面積（cm²）</li>
+</ul>
+<p><strong>張力硬化模型：</strong> $f_{ct} = f_r/(1+\sqrt{500\varepsilon_{ct}})$，$f_r = 2\sqrt{f'_c}$</p>
+<p><strong>材料：</strong> $f'_c = 350$ kgf/cm²，$E_p = E_s = 2.04\times10^6$ kgf/cm²</p>
+<p><strong>鋼材：</strong></p>
+<ul>
+<li>15φ預力棒：$A_p = 1.77$ cm²，$f_{py} = 16330$ kgf/cm²，$f_{pu} = 18980$ kgf/cm²</li>
+<li>D29：$A_s = 6.47$ cm²，$f_y = 4200$ kgf/cm²</li>
+</ul>
+<p><strong>求：</strong> 使 $w_{max} = 0.03$ cm 的<strong>純軸拉力 $N$</strong>。（25 分）</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 此為預力RC拉力桿件（tension member）問題。分析流程：</p>
+<ol>
+<li>初始狀態：預力壓縮混凝土（$\sigma_{c0} &lt; 0$）</li>
+<li>外力施加：張力增加 → 去壓 → 開裂 → 裂縫增寬</li>
+<li>裂縫寬度公式直接給出 $f_s$，反求 $N$</li>
+<li>張力硬化（tension stiffening）：混凝土在裂縫間仍有平均拉力 $f_{ct}$</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>確認斷面幾何（4 根 $A_p$ + 4 根 $A_s$），計算 $A_{c,tr}$</li>
+<li>初始預壓應力 $\sigma_{c0}$，D29 初始壓應力 $\sigma_{s0}$</li>
+<li>裂縫寬度公式反算 $f_s$（D29 裂縫應力）</li>
+<li>應變相容求 $\Delta\varepsilon$（裂縫附加應變）</li>
+<li>預力棒裂縫應力 $f_{p,cr}$（驗核是否超過 $f_{py}$）</li>
+<li>平衡求 $N$（含張力硬化修正）</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>應對</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ D29 有<strong>初始壓縮</strong>（因預力）</td>
+<td>$\sigma_{s0} = n\sigma_{c0} &lt; 0$</td>
+<td>裂縫應力 $f_s = \sigma_{s0} + E_s\Delta\varepsilon$</td>
+</tr>
+<tr>
+<td>❷ $\beta$ 定義</td>
+<td>純軸拉 → NA 在斷面形心 = 15 cm；$\beta = 15/(15-3) = 1.25$</td>
+<td></td>
+</tr>
+<tr>
+<td>❸ $A$ = 總混凝土面積 ÷ D29 根數</td>
+<td>$A = 900/4 = 225$ cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>❹ 預力棒可能先達 $f_{py}$</td>
+<td>$f_{p,cr}$ 需與 $f_{py} = 16330$ 比較，超過則取 $f_{py}$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求使 $w_{max} = 0.03$ cm 的純軸拉力 $N$。</p>
+<h3>關鍵公式</h3>
+<p>$$\sigma_{c0} = -\frac{A_p f_{pe}}{A_{c,tr}},\quad \sigma_{s0} = n\,\sigma_{c0}$$</p>
+<p>$$f_s = \frac{w_{max}}{1.08\times10^{-6}\,\beta\,(d_c A)^{1/3}}$$</p>
+<p>$$\Delta\varepsilon = \frac{f_s - \sigma_{s0}}{E_s}$$</p>
+<p>$$f_{p,cr} = f_{pe} + E_p\Delta\varepsilon \le f_{py}$$</p>
+<p>$$N = A_p f_{p,cr} + A_s f_s \quad (\text{裂縫處，無混凝土拉力})$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b=h$</td>
+<td>30 cm</td>
+<td>斷面尺寸</td>
+</tr>
+<tr>
+<td>$f_{pe}$</td>
+<td>13200 kgf/cm²</td>
+<td>有效預應力</td>
+</tr>
+<tr>
+<td>$A_p$ per bar</td>
+<td>1.77 cm²</td>
+<td>15φ</td>
+</tr>
+<tr>
+<td>$A_s$ per bar</td>
+<td>6.47 cm²</td>
+<td>D29</td>
+</tr>
+<tr>
+<td>$w_{max}$</td>
+<td>0.03 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$d_c$</td>
+<td>3 cm</td>
+<td>距面距離</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：推導量</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>總 $A_p$</td>
+<td>$4\times1.77$</td>
+<td>7.08 cm²</td>
+</tr>
+<tr>
+<td>總 $A_s$</td>
+<td>$4\times6.47$</td>
+<td>25.88 cm²</td>
+</tr>
+<tr>
+<td>$E_c$</td>
+<td>$15000\sqrt{350}$</td>
+<td>280,624 kgf/cm²</td>
+</tr>
+<tr>
+<td>$n$</td>
+<td>$2{,}040{,}000/280{,}624$</td>
+<td>7.27</td>
+</tr>
+<tr>
+<td>$A_{c,tr}$</td>
+<td>$900 + 6.27\times32.96$</td>
+<td>1106.7 cm²</td>
+</tr>
+<tr>
+<td>$\sigma_{c0}$</td>
+<td>$-93{,}456/1106.7$</td>
+<td>−84.4 kgf/cm²</td>
+</tr>
+<tr>
+<td>$\sigma_{s0}$</td>
+<td>$7.27\times(-84.4)$</td>
+<td>−613.5 kgf/cm²</td>
+</tr>
+<tr>
+<td>$f_r$</td>
+<td>$2\sqrt{350}$</td>
+<td>37.42 kgf/cm²</td>
+</tr>
+<tr>
+<td>$\beta$</td>
+<td>$15/(15-3)$</td>
+<td>1.25</td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>$900/4$</td>
+<td>225 cm²</td>
+</tr>
+<tr>
+<td>$(d_c A)^{1/3}$</td>
+<td>$(3\times225)^{1/3}$</td>
+<td>8.769 cm</td>
+</tr>
+<tr>
+<td>$f_s$ (裂縫)</td>
+<td>from $w_{max}$</td>
+<td>2534 kgf/cm²</td>
+</tr>
+<tr>
+<td>$\Delta\varepsilon$</td>
+<td>$(f_s-\sigma_{s0})/E_s$</td>
+<td>$1.543\times10^{-3}$</td>
+</tr>
+<tr>
+<td>$f_{p,cr}$</td>
+<td>$13200 + E_p\Delta\varepsilon$</td>
+<td>16348 → 取 $f_{py}=16330$</td>
+</tr>
+<tr>
+<td>$N$</td>
+<td>crack equilibrium</td>
+<td>≈ 181 tf</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：斷面幾何</h3>
+<p>斷面 30×30 cm，配筋對稱：</p>
+<ul>
+<li>4 根 15φ 預力棒（角隅，距面 3 cm）：$A_p = 4\times1.77 = 7.08$ cm²</li>
+<li>4 根 D29（各邊中點，距面 3 cm）：$A_s = 4\times6.47 = 25.88$ cm²</li>
+</ul>
+<p>$$E_c = 15000\sqrt{350} = 15000\times18.708 = 280{,}624 \text{ kgf/cm}^2$$</p>
+<p>$$n = \frac{E_s}{E_c} = \frac{2{,}040{,}000}{280{,}624} = 7.27$$</p>
+<p>$$A_{c,tr} = 900 + (n-1)(A_p+A_s) = 900 + 6.27\times(7.08+25.88) = 900 + 6.27\times32.96 = 1{,}106.7 \text{ cm}^2$$</p>
+<hr />
+<h3>Step 2：初始預壓應力</h3>
+<p>$$F_p = A_p\times f_{pe} = 7.08\times13200 = 93{,}456 \text{ kgf}$$</p>
+<p>$$\sigma_{c0} = -\frac{F_p}{A_{c,tr}} = -\frac{93{,}456}{1{,}106.7} = -84.4 \text{ kgf/cm}^2 \text{（壓）}$$</p>
+<p>D29 初始應力（同步壓縮）：<br />
+$$\sigma_{s0} = n\,\sigma_{c0} = 7.27\times(-84.4) = -613.5 \text{ kgf/cm}^2 \text{（壓）}$$</p>
+<hr />
+<h3>Step 3：開裂彎矩與確認開裂</h3>
+<p>$$f_r = 2\sqrt{350} = 37.42 \text{ kgf/cm}^2$$</p>
+<p>混凝土應力 = $-84.4 + N/1{,}106.7$，開裂時達 $f_r$：<br />
+$$N_{cr} = (37.42 + 84.4)\times1{,}106.7 = 121.82\times1{,}106.7 = 134{,}879 \text{ kgf} \approx 135 \text{ tf}$$</p>
+<hr />
+<h3>Step 4：裂縫寬度公式 → 求 $f_s$</h3>
+<p><strong>中性軸位置：</strong> 純軸拉，NA 在斷面形心 = 15 cm 處</p>
+<p>$$\beta = \frac{15}{15-3} = \frac{15}{12} = 1.25$$</p>
+<p>$$d_c = 3 \text{ cm},\quad A = \frac{900}{4} = 225 \text{ cm}^2 \text{（總面積 ÷ D29 根數）}$$</p>
+<p>$$(d_c A)^{1/3} = (3\times225)^{1/3} = (675)^{1/3} = 8.769 \text{ cm}$$</p>
+<p>$$w_{max} = 1.08\times10^{-6}\,\beta\,f_s\,(d_c A)^{1/3}$$</p>
+<p>$$0.03 = 1.08\times10^{-6}\times1.25\times f_s\times8.769 = 1.184\times10^{-5}\,f_s$$</p>
+<p>$$\boxed{f_s = \frac{0.03}{1.184\times10^{-5}} = 2{,}534 \text{ kgf/cm}^2}$$</p>
+<p>驗核：$f_s = 2534 &lt; f_y = 4200$ kgf/cm² ✅（D29 未降伏）</p>
+<hr />
+<h3>Step 5：應變相容求 $\Delta\varepsilon$</h3>
+<p>裂縫附加應變（從初始壓縮狀態到裂縫張力狀態）：</p>
+<p>$$\Delta\varepsilon = \frac{f_s - \sigma_{s0}}{E_s} = \frac{2534 - (-613.5)}{2{,}040{,}000} = \frac{3{,}147.5}{2{,}040{,}000} = 1.543\times10^{-3}$$</p>
+<hr />
+<h3>Step 6：預力棒裂縫應力</h3>
+<p>$$f_{p,cr} = f_{pe} + E_p\,\Delta\varepsilon = 13200 + 2{,}040{,}000\times1.543\times10^{-3} = 13200 + 3{,}148 = 16{,}348 \text{ kgf/cm}^2$$</p>
+<p><strong>驗核：</strong> $f_{p,cr} = 16{,}348 &gt; f_{py} = 16{,}330$ kgf/cm²（剛好超過降伏！）</p>
+<p>→ 取 $f_{p,cr} = f_{py} = 16{,}330$ kgf/cm²（降伏後力無法再增）</p>
+<blockquote>
+<p><strong>物理意義：</strong> 在最大裂縫寬度 0.03 cm 時，預力棒<strong>恰好達到降伏強度</strong>，此為設計的臨界狀態。</p>
+</blockquote>
+<hr />
+<h3>Step 7：裂縫截面力平衡（無混凝土拉力）</h3>
+<p>$$N = A_p\,f_{p,cr} + A_s\,f_s$$</p>
+<p>$$= 7.08\times16{,}330 + 25.88\times2{,}534$$</p>
+<p>$$= 115{,}617 + 65{,}580 = \boxed{181{,}197 \text{ kgf} \approx 181 \text{ tf}}$$</p>
+<hr />
+<h3>Step 8：張力硬化（tension stiffening）驗核</h3>
+<p>平均混凝土拉應變 $\bar{\varepsilon}_{ct} \approx \Delta\varepsilon = 1.543\times10^{-3}$（裂縫應變估計）</p>
+<p>$$f_{ct} = \frac{f_r}{1+\sqrt{500\,\bar{\varepsilon}_{ct}}} = \frac{37.42}{1+\sqrt{500\times1.543\times10^{-3}}} = \frac{37.42}{1+\sqrt{0.772}} = \frac{37.42}{1+0.879} = \frac{37.42}{1.879} = 19.91 \text{ kgf/cm}^2$$</p>
+<p>平均截面平衡驗核（含張力硬化）：<br />
+$$N_{avg} \approx A_p f_{p,avg} + A_s f_{s,avg} + A_c f_{ct}$$</p>
+<p>由迭代計算（略），平均應變 $\bar{\varepsilon}_{avg} \approx 1.28\times10^{-3}$：<br />
+$$f_{p,avg} \approx 13200 + 2{,}040{,}000\times1.28\times10^{-3} = 15{,}811 \text{ kgf/cm}^2$$<br />
+$$f_{s,avg} \approx -613.5 + 2{,}040{,}000\times1.28\times10^{-3} = 1{,}998 \text{ kgf/cm}^2$$<br />
+$$f_{ct} \approx 21 \text{ kgf/cm}^2$$</p>
+<p>$$N_{avg} \approx 7.08\times15{,}811 + 25.88\times1{,}998 + 900\times21 = 111{,}942 + 51{,}688 + 18{,}900 = 182{,}530 \text{ kgf} \approx 182 \text{ tf}$$</p>
+<p>兩方法結果一致（裂縫截面 181 tf ≈ 平均截面 182 tf），差異因張力硬化修正很小。</p>
+<p>$$\boxed{N \approx 181 \text{ tf（使 }w_{max} = 0.03 \text{ cm）}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>① 分析結果的物理意義</strong></p>
+<table>
+<thead>
+<tr>
+<th>載重狀態</th>
+<th>$N$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>去壓載重 $N_0$（混凝土應力 = 0）</td>
+<td>≈ 93 tf</td>
+</tr>
+<tr>
+<td>開裂載重 $N_{cr}$</td>
+<td>≈ 135 tf</td>
+</tr>
+<tr>
+<td>$w_{max} = 0.03$ cm（<strong>答案</strong>）</td>
+<td>≈ <strong>181 tf</strong></td>
+</tr>
+<tr>
+<td>預力棒降伏 $f_{py}$</td>
+<td>≈ 181 tf（恰好同步）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>② 預力效應的作用</strong></p>
+<p>預力棒的初始壓縮有效「推遲」開裂：$N_{cr} = 135 &gt; N_0 = 93$ tf，差距 = $f_r\times A_{c,tr} = 37.42\times1107 = 41.4$ tf。</p>
+<p><strong>③ 張力硬化的影響</strong></p>
+<p>本例中張力硬化使 $N$ 增加約 1 tf（從 181 到 182 tf），影響很小。這是因為已接近預力棒降伏，鋼筋剛度主導，混凝土貢獻相對有限。</p>
+<p><strong>④ $\beta = 1.25$ 的適用性</strong></p>
+<p>對於純軸拉力桿件（symmetric tie member），NA 在幾何中心，$\beta = h/2 / (h/2 - d_c) = 15/12 = 1.25$，大於純彎梁（$\beta$ 通常取 1.2），因此裂縫寬度更敏感於 $f_s$。</p></main>
+<footer>來源：raw/solutions/RC-2009-4/RC-2009-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

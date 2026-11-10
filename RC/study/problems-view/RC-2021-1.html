@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2021-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2021-1 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-1.html">&#128202; U1-1 單元總覽</a><a class="lect" href="../lecture-RC-U1-1.html">&#128218; U1-1 RC 梁彎矩強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2021-1</h1>
+<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>副分類：</strong> <code>RC-U2-1</code> RC 剪力強度分析與設計<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>T形梁</code> <code>最小撓曲鋼筋</code> <code>剪力鋼筋設計</code> <code>最大肋筋間距</code> <code>Vc簡化公式</code> <code>臨界斷面</code> <code>D10肋筋</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>題目：</strong> 跨度 8 m T 型簡支梁，求跨度中點所需最小撓曲鋼筋量 $(A_s)_{\text{req}}$，並設計兩端近支承處之最大肋筋間距 $s_{\max}$。（30 分）</p>
+<p><strong>材料強度：</strong></p>
+<ul>
+<li>$f'_c = 240$ kgf/cm²，$f_y = 4200$ kgf/cm²，$f_{yt} = 2800$ kgf/cm²</li>
+</ul>
+<p><strong>斷面幾何（由圖一讀取）：</strong></p>
+<ul>
+<li>翼板：$b_f = 100$ cm，$h_f = 10$ cm</li>
+<li>腹板：$b_w = 40$ cm，腹板高度 60 cm</li>
+<li>全梁高：$h = 10 + 60 = 70$ cm</li>
+<li>鋼筋重心距底：10 cm → 有效深度 $d = 70 - 10 = \mathbf{60 \text{ cm}}$</li>
+</ul>
+<p><strong>載重：</strong></p>
+<ul>
+<li>靜載重（含自重）：$D = 1.8$ tf/m</li>
+<li>活載重：$L = 4.5$ tf/m</li>
+</ul>
+<p><img alt="RC-2021-1 題目附圖：T 型梁斷面，翼板 100cm×10cm，腹板 40cm，全高 70cm，鋼筋位於底部上方 10cm" src="../../raw/solutions/RC-2021-1/RC-2021-1-fig-1.png" /></p>
+<p><em>圖說：T 型梁斷面，翼板寬 100 cm、厚 10 cm，腹板寬 40 cm、高 60 cm，總高 70 cm，撓曲鋼筋重心距底 10 cm，有效深度 d = 60 cm。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> T 型梁中點撓曲設計（判斷中性軸是否在翼板內）+ 支承端剪力鋼筋設計（臨界斷面 + 最大間距控制）。</p>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗 T 型梁「中性軸是否在翼板內」的判斷（等效矩形梁 vs. T 型梁計算）</li>
+<li>考驗剪力臨界斷面位置（距支承面 $d$ 處）和 $V_c$ 公式</li>
+<li>要求辨別最大間距由「所需 $V_s$」還是「規範最大值」控制</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Part 1（撓曲）：
+  wu → Mu（跨中）→ 假設 a ≤ hf → 解 a → 驗算 → As_req
+Part 2（剪力）：
+  wu → Vu（臨界斷面）→ Vc → 判斷 φVc vs Vu → 求 Vs → 求 s
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠1</td>
+<td>T 型梁中性軸判斷：<strong>先假設在翼板內（$a \le h_f$）</strong>，驗算後才確認用哪種計算</td>
+<td>本題 $a = 7.24$ cm $&lt; h_f = 10$ cm ✓，等效矩形梁 $b = 100$ cm</td>
+</tr>
+<tr>
+<td>⚠2</td>
+<td>剪力設計用<strong>腹板寬</strong> $b_w = 40$ cm，不用翼板寬</td>
+<td>$V_c = 0.53\sqrt{f'_c} \cdot b_w \cdot d$（用 $b_w$）</td>
+</tr>
+<tr>
+<td>⚠3</td>
+<td>臨界斷面距<strong>支承面</strong>（柱面） $d = 60$ cm，不是距梁端</td>
+<td>$V_u = w_u(L/2 - d)$</td>
+</tr>
+<tr>
+<td>⚠4</td>
+<td>最大間距有兩條限制：①所需 $V_s$ 決定的間距；②$V_s &gt; \frac{1}{3}\sqrt{f'_c}b_wd$ 時 $s_{\max} = d/4$</td>
+<td>取較小值</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>Part 1：求跨中最小撓曲鋼筋量 (As)req；Part 2：求兩端最大肋筋間距 smax</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1：因數化載重與彎矩} \quad \boxed{w_u} = 1.2D+1.6L, \quad \boxed{M_u} = \frac{\boxed{w_u}L^2}{8}$$</p>
+<p>$$\text{Step 2：假設 }a \le h_f\text{，解等值應力塊深度} \quad 0.85f'_c\cdot b_f\cdot\boxed{a}\!\left(d-\frac{\boxed{a}}{2}\right) = \frac{\boxed{M_u}}{\phi}$$</p>
+<p>$$\text{Step 3：} \boxed{(A_s)_{\text{req}}} = \frac{0.85f'_c\cdot b_f\cdot\boxed{a}}{f_y} \ge A_{s,\min} = \rho_{\min}\cdot b_w\cdot d$$</p>
+<p>$$\text{Step 4：剪力} \quad \boxed{V_u} = \boxed{w_u}\!\left(\frac{L}{2} - d\right), \quad \boxed{V_c} = 0.53\sqrt{f'_c}\cdot b_w\cdot d$$</p>
+<p>$$\text{Step 5：需求鋼筋剪力} \quad \boxed{V_s} = \frac{\boxed{V_u}}{\phi} - \boxed{V_c}, \quad \phi = 0.75$$</p>
+<p>$$\text{Step 6：最大間距} \quad s_{\max} = \min\!\left(\frac{A_v\cdot f_{yt}\cdot d}{\boxed{V_s}},\; s_{\text{code}}\right)$$</p>
+<hr />
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L$</td>
+<td>8 m</td>
+<td>跨度</td>
+</tr>
+<tr>
+<td>$b_f$</td>
+<td>100 cm</td>
+<td>翼板有效寬度（由圖）</td>
+</tr>
+<tr>
+<td>$h_f$</td>
+<td>10 cm</td>
+<td>翼板厚度</td>
+</tr>
+<tr>
+<td>$b_w$</td>
+<td>40 cm</td>
+<td>腹板寬度</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>60 cm</td>
+<td>有效深度（= 70 - 10）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>240 kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_{yt}$</td>
+<td>2800 kgf/cm²</td>
+<td>肋筋</td>
+</tr>
+<tr>
+<td>$D$</td>
+<td>1.8 tf/m</td>
+<td>靜載重（含自重）</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>4.5 tf/m</td>
+<td>活載重</td>
+</tr>
+<tr>
+<td>$A_b$ (D10)</td>
+<td>0.7133 cm²，2 股</td>
+<td>肋筋規格</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L2：需知識點推導</h3>
+<p><strong>Part 1：撓曲</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$f'_c = 240 &lt; 280$ → 0.85</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w_u$</td>
+<td>$1.2\times1.8 + 1.6\times4.5$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_u$</td>
+<td>$w_u L^2/8$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a$（解二次方程）</td>
+<td>$0.85f'_c b_f a(d-a/2) = M_u/\phi$，取小根</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>驗算 $a \le h_f$</td>
+<td>$a = 7.24 &lt; 10$ cm → 中性軸在翼板內 ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$(A_s)_{\text{req}}$</td>
+<td>$0.85f'_c b_f a / f_y$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\rho_{\min}$</td>
+<td>$\max(14/f_y,\, 0.8\sqrt{f'_c}/f_y)$（使用 $b_w$）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Part 2：剪力</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_u$（臨界）</td>
+<td>$w_u(L/2 - d)$，距支承面 $d$ 處</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_c$（簡化）</td>
+<td>$0.53\sqrt{f'_c}\cdot b_w\cdot d$（kgf, cm）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi V_c$</td>
+<td>$0.75\times V_c$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_s$</td>
+<td>$V_u/0.75 - V_c$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_v$</td>
+<td>$2\times 0.7133 = 1.4266$ cm²（雙肢）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$s$（Vs 需求）</td>
+<td>$A_v\cdot f_{yt}\cdot d / V_s$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>切換門檻</td>
+<td>$(1/3)\sqrt{f'_c}\cdot b_w\cdot d$（決定 $s_{\max}$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$s_{\max}$（規範）</td>
+<td>$d/4 = 15$ cm（若 $V_s &gt; $ 門檻）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T 型梁等效矩形梁條件</td>
+<td>當 $a \le h_f$ 時，壓力區完全在翼板，可等效為寬度 $b_f$ 的矩形梁計算 $A_s$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>T 型梁 $\rho_{\min}$ 用 $b_w$</td>
+<td>最小配筋比公式中，T 型梁用腹板寬 $b_w$，不用翼板寬 $b_f$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>剪力設計用腹板寬</td>
+<td>T 型梁受剪力時，剪力集中於腹板，$V_c = 0.53\sqrt{f'_c}\cdot b_w\cdot d$ 用 $b_w$，不用 $b_f$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_s$ 超過門檻時的最大間距</td>
+<td>$V_s &gt; \frac{1}{3}\sqrt{f'_c}b_wd$ → $s_{\max} = d/4 \le 30$ cm（要求更密的箍筋）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Part 1：跨中最小撓曲鋼筋量</h3>
+<p><strong>Step 1：因數化載重與彎矩</strong><br />
+$$w_u = 1.2D + 1.6L = 1.2\times1.8 + 1.6\times4.5 = 2.16 + 7.20 = \mathbf{9.36 \text{ tf/m}}$$</p>
+<p>$$M_u = \frac{w_u L^2}{8} = \frac{9.36\times8^2}{8} = 9.36\times8 = \mathbf{74.88 \text{ tf·m} = 7{,}488{,}000 \text{ kgf·cm}}$$</p>
+<p><strong>Step 2：$\beta_1$ 與假設中性軸在翼板內</strong></p>
+<p>$$\beta_1 = 0.85 \quad (f'_c = 240 \text{ kgf/cm}^2 &lt; 280 \text{ kgf/cm}^2)$$</p>
+<p>令 $b = b_f = 100$ cm，由 $\phi M_n = M_u$：</p>
+<p>$$0.85f'_c\cdot b_f\cdot a\left(d-\frac{a}{2}\right) = \frac{M_u}{\phi}$$</p>
+<p>$$0.85\times240\times100\times a\left(60-\frac{a}{2}\right) = \frac{7{,}488{,}000}{0.90} = 8{,}320{,}000$$</p>
+<p>$$20{,}400a\left(60-\frac{a}{2}\right) = 8{,}320{,}000$$</p>
+<p>$$1{,}224{,}000a - 10{,}200a^2 = 8{,}320{,}000$$</p>
+<p>整理：</p>
+<p>$$10{,}200a^2 - 1{,}224{,}000a + 8{,}320{,}000 = 0 \quad \Rightarrow \quad a^2 - 120a + 815.69 = 0$$</p>
+<p>$$a = \frac{120 - \sqrt{120^2 - 4\times815.69}}{2} = \frac{120 - \sqrt{14{,}400 - 3{,}262.7}}{2} = \frac{120 - \sqrt{11{,}137.3}}{2} = \frac{120 - 105.53}{2}$$</p>
+<p>$$\boxed{a = 7.24 \text{ cm} &lt; h_f = 10 \text{ cm}} \quad\checkmark \text{（中性軸在翼板內，等效矩形梁有效）}$$</p>
+<p><strong>Step 3：撓曲鋼筋量</strong></p>
+<p>$$\boxed{(A_s)_{\text{req}}} = \frac{0.85f'_c\cdot b_f\cdot a}{f_y} = \frac{0.85\times240\times100\times7.24}{4200} = \frac{147{,}696}{4200} = \mathbf{35.17 \text{ cm}^2}$$</p>
+<p><strong>驗算 $\phi$（確認拉力控制）：</strong><br />
+$$c = \frac{a}{\beta_1} = \frac{7.24}{0.85} = 8.52 \text{ cm}, \quad \varepsilon_t = \frac{0.003(60-8.52)}{8.52} = \frac{0.003\times51.48}{8.52} = 0.01814 \ge 0.005 \quad \phi = 0.90 \checkmark$$</p>
+<p><strong>最小鋼筋量驗算（以腹板寬 $b_w$ 計）：</strong></p>
+<p>$$\rho_{\min} = \max\!\left(\frac{14}{f_y},\;\frac{0.8\sqrt{f'_c}}{f_y}\right) = \max\!\left(\frac{14}{4200},\;\frac{0.8\times15.49}{4200}\right) = \max(0.00333,\;0.00295) = 0.00333$$</p>
+<p>$$A_{s,\min} = 0.00333\times b_w\times d = 0.00333\times40\times60 = 7.99 \text{ cm}^2$$</p>
+<p>$$\boxed{(A_s)_{\text{req}} = \max(35.17,\;7.99) = \mathbf{35.17 \text{ cm}^2}} \quad\text{（撓曲需求控制）}$$</p>
+<hr />
+<h3>Part 2：兩端近支承處最大肋筋間距</h3>
+<p><strong>Step 4：因數化剪力（臨界斷面距支承面 $d = 60$ cm）</strong></p>
+<p>$$V_u = w_u\left(\frac{L}{2} - d\right) = 9.36\times(4.0 - 0.6) = 9.36\times3.4 = \mathbf{31.82 \text{ tf}}$$</p>
+<p><strong>Step 5：混凝土剪力強度</strong></p>
+<p>$$V_c = 0.53\sqrt{f'_c}\cdot b_w\cdot d = 0.53\times\sqrt{240}\times40\times60 = 0.53\times15.49\times2400 = \mathbf{19{,}706 \text{ kgf} = 19.71 \text{ tf}}$$</p>
+<p>$$\phi V_c = 0.75\times19.71 = 14.78 \text{ tf} &lt; V_u = 31.82 \text{ tf} \quad\Rightarrow\quad \text{需設計肋筋}$$</p>
+<p><strong>驗算截面尺寸是否足夠：</strong></p>
+<p>$$V_{s,\max} = \frac{2}{3}\sqrt{f'_c}\cdot b_w\cdot d = \frac{2}{3}\times15.49\times40\times60 = 24{,}784 \text{ kgf} = 24.78 \text{ tf}$$</p>
+<p>$$\phi(V_c + V_{s,\max}) = 0.75\times(19.71+24.78) = 0.75\times44.49 = 33.37 \text{ tf} &gt; 31.82 \text{ tf} \quad\checkmark$$</p>
+<p><strong>Step 6：需求鋼筋剪力</strong></p>
+<p>$$V_s = \frac{V_u}{\phi} - V_c = \frac{31.82}{0.75} - 19.71 = 42.43 - 19.71 = \mathbf{22.72 \text{ tf}}$$</p>
+<p><strong>Step 7：D10 雙肢肋筋間距</strong></p>
+<p>$$A_v = 2\times0.7133 = 1.4266 \text{ cm}^2$$</p>
+<p>$$s \le \frac{A_v\cdot f_{yt}\cdot d}{V_s} = \frac{1.4266\times2800\times60}{22{,}720} = \frac{239{,}669}{22{,}720} = \mathbf{10.55 \text{ cm}}$$</p>
+<p><strong>Step 8：規範最大間距限制</strong></p>
+<p>判斷 $V_s$ 與門檻的關係：</p>
+<p>$$\frac{1}{3}\sqrt{f'_c}\cdot b_w\cdot d = \frac{1}{3}\times15.49\times40\times60 = 12{,}392 \text{ kgf} = 12.39 \text{ tf}$$</p>
+<p>$$V_s = 22.72 \text{ tf} &gt; 12.39 \text{ tf} \quad\Rightarrow\quad s_{\max,\text{code}} = \frac{d}{4} = \frac{60}{4} = 15 \text{ cm}$$</p>
+<p><strong>Step 9：最大間距取小值</strong></p>
+<p>$$s_{\max} = \min(10.55,\;15) = \mathbf{10.55 \text{ cm}}$$</p>
+<p>$$\boxed{s_{\max} = 10.55 \text{ cm，取用 } \mathbf{s = 10 \text{ cm}}}$$</p>
+<p><strong>驗算：</strong> 以 $s = 10$ cm：<br />
+$$V_s = \frac{1.4266\times2800\times60}{10} = 23{,}967 \text{ kgf} = 23.97 \text{ tf}$$<br />
+$$\phi(V_c+V_s) = 0.75\times(19.71+23.97) = 0.75\times43.68 = 32.76 \text{ tf} &gt; 31.82 \text{ tf} \quad\checkmark$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>爭議點 1：翼板有效寬度是否為 100 cm？</h3>
+<p>題目圖一直接標示 100 cm，應取此為有效翼板寬度。若依規範自行計算：</p>
+<ul>
+<li>$L/4 = 800/4 = 200$ cm</li>
+<li>$b_w + 2\times8h_f = 40 + 160 = 200$ cm</li>
+</ul>
+<p>兩者均 ≥ 100 cm，故 100 cm 是最保守的值，用題目所給 100 cm 即可。</p>
+<h3>爭議點 2：$\rho_{\min}$ 用 $b_w$ 還是 $b_f$？</h3>
+<p>ACI/台灣規範：T 型梁計算 $A_{s,\min}$ 時，用<strong>腹板寬</strong> $b_w$（不用翼板寬）。原因是翼板處於壓力區，最小配筋的目的是防止拉力側混凝土開裂後立即脆性破壞，故以腹板寬代入。</p>
+<h3>爭議點 3：最大間距由哪個控制？</h3>
+<p>本題 $V_s = 22.72$ tf 超過門檻 12.39 tf，最大間距縮為 $d/4 = 15$ cm。但由需求 $V_s$ 推算的間距 10.55 cm 更小，故最終 $s_{\max} = 10$ cm 由<strong>強度需求</strong>控制，而非規範最大值。</p>
+<h3>進階：若取 $s = 15$ cm 會怎樣？</h3>
+<p>$$V_s = \frac{1.4266\times2800\times60}{15} = 15{,}978 \text{ kgf} = 15.98 \text{ tf}$$<br />
+$$\phi V_n = 0.75\times(19.71+15.98) = 26.77 \text{ tf} &lt; 31.82 \text{ tf} \quad \times \text{（不足！）}$$</p>
+<p>說明：$s_{\max} = 15$ cm（規範最大值）在本題<strong>無法</strong>滿足強度需求，設計者必須以 10 cm 的間距才夠。</p></main>
+<footer>來源：raw/solutions/RC-2021-1/RC-2021-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

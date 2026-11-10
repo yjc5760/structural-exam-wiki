@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2012-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2012-3 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U3-3.html">&#128202; U3-3 單元總覽</a><a class="lect" href="../lecture-RC-U3-3.html">&#128218; U3-3 韌性要求與耐震設計 講義</a></div></header>
+<main><h1>考題編號：RC-2012-3</h1>
+<p><strong>主分類：</strong> <code>RC-U3-3</code> 韌性要求與耐震設計<br />
+<strong>副分類：</strong> <code>RC-U2-1</code> RC 剪力強度分析與設計<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>強柱弱梁</code> <code>塑鉸機構</code> <code>柱塑鉸區</code> <code>接頭彎矩分擔</code> <code>柱地震設計剪力</code> <code>圍束箍筋</code> <code>Ash</code> <code>特殊矩形框架柱</code> <code>耐震箍筋設計</code> <code>Vc=0條件</code> <code>lo</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>承第二題與附圖，若柱使用 <strong>4 股（4 legs）#4 橫箍筋</strong>，以梁端產生塑鉸方式（<strong>強柱弱梁</strong>情形）計算因地震引入柱剪力作為柱最大設計剪力，試<strong>設計柱塑鉸區箍筋</strong>。（30 分）</p>
+<blockquote>
+<p>本題構架配置、斷面尺寸與配筋見 RC-2012-2 附圖（<code>RC-2012-2-fig-1.png</code>、<code>RC-2012-2-fig-2.png</code>）。</p>
+</blockquote>
+<p><strong>設計參數（沿用第二題）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>柱斷面</td>
+<td>60×60 cm，12-#7，保護層 6 cm（至主筋心）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+</tr>
+<tr>
+<td>$f_{yt}$（箍筋）</td>
+<td>4200 kgf/cm²</td>
+</tr>
+<tr>
+<td>柱淨高 $l_n$</td>
+<td>3 m = 300 cm</td>
+</tr>
+<tr>
+<td>柱設計極限軸力 $N_u$</td>
+<td>50 tf = 50,000 kgf</td>
+</tr>
+<tr>
+<td>柱箍筋</td>
+<td>4 legs #4（每根 $A_b = 1.27\ \text{cm}^2$）</td>
+</tr>
+<tr>
+<td>#7 主筋</td>
+<td>$d_b = 2.22\ \text{cm}$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>由第二題得（已獨立複算相符）：</strong></p>
+<ul>
+<li>$M_{pr}^- = 75.52\ \text{tf·m}$（頂筋 6-#8，$a = 13.42$ cm）</li>
+<li>$M_{pr}^+ = 41.11\ \text{tf·m}$（底筋 4-#7，$a = 6.83$ cm）</li>
+</ul>
+<blockquote>
+<p><strong>原卷原文（101 年第三題）核對：</strong> 「承第二題與附圖，若柱使用 4 股（4 legs）#4 橫箍筋，<br />
+以梁端產生塑鉸方式（<strong>強柱弱梁</strong>情形）計算因地震引入柱剪力作為柱最大設計剪力，試設計柱塑鉸區箍筋。（30 分）」<br />
+附圖為<strong>單跨</strong>多層 RC 抗彎構架之 2 樓與 3 樓外圍剖面：柱 60×60 含 12-#7、梁 50×60 含頂 6-#8／底 4-#7，<br />
+柱淨高 3 m、梁淨跨 7 m，柱斷面圖上標註核心尺寸 <strong>48 cm</strong>（保護層 6 cm 量至<strong>主筋中心</strong>）。<br />
+原卷另印出 $A_{sh1}$／$A_{sh2}$、$s_0$、含軸壓之 $V_c$ 與接頭 $\gamma$ 三值等公式。<br />
+卷首<strong>未指定規範版本</strong>（101 年時為土木 401-100 世代）。</p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心精神：</strong><br />
+特殊矩形框架（SMF）的強柱弱梁設計：地震能量由<strong>梁端塑鉸</strong>消散，柱必須保持彈性。因此：</p>
+<ol>
+<li><strong>柱設計剪力</strong>由梁端 $M_{pr}$ 反推，而非由地震側力直接計算。</li>
+<li><strong>柱塑鉸區箍筋</strong>必須同時滿足：（a）圍束鋼筋（$A_{sh}$）、（b）剪力需求。</li>
+</ol>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測試「以塑鉸機構計算柱剪力」的正確做法：$V_u = (M_{pr,\text{top}} + M_{pr,\text{bot}}) / l_n$</li>
+<li>測試圍束箍筋兩個公式（取大值）的計算過程</li>
+<li>測試 $V_c = 0$ 的耐震條件判斷（$N_u \leq 0.05 f'_c A_g$）</li>
+<li>測試塑鉸區長度 $l_o$ 的規定</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1：柱地震設計剪力 Vu（梁端塑鉸機構）
+Step 2：塑鉸區長度 lo
+Step 3：橫向箍筋最大間距（幾何限制）
+Step 4：圍束箍筋需求 Ash → 反推最大 s
+Step 5：剪力需求（Vc = 0 條件判斷）→ 確認間距
+Step 6：最終設計：取最嚴格間距，驗證 Ash 足夠
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>用側力或 ΣFx 計算柱剪力</strong>：塑鉸機構下應用 Mpr 反推</td>
+<td>$V_u = (M_{pr,\text{top}} + M_{pr,\text{bot}}) / l_n$，以最大 Mpr⁻ 控制</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>忘記接頭處的梁彎矩要由上下柱分擔</strong> ← 本題舊版最大錯誤</td>
+<td>$\Sigma M_{col} = \Sigma M_{pr,beam}$；上下柱等勁度時各半，故 $V_u = \dfrac{\Sigma M_{pr,beam}}{l_n} = \dfrac{75.52}{3.0} = \mathbf{25.17\ \text{tf}}$，不是 50.33</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Vc 不歸零</strong>：$N_u = 50\ \text{tf} \approx 0.05 f'_c A_g = 50.4\ \text{tf}$，已達 Vc = 0 條件</td>
+<td>取 $V_c = 0$，全由 Vs 承擔</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>bc、Ach 用毛斷面</strong>：圍束公式用核心面積</td>
+<td>依附圖標註取 $b_c = 48\ \text{cm}$，$A_{ch} = 2304\ \text{cm}^2$（規範定義與敏感度見 §5④）</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>以 Ash 取較小值</strong>：兩公式應取<strong>較大值</strong></td>
+<td>$A_{sh} = \max(A_{sh1},\ A_{sh2})$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>設計柱塑鉸區（lo 範圍內）的 4-leg #4 箍筋間距 s，同時滿足圍束與剪力需求</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1:}\quad V_u = \frac{M_{pr,\text{top}} + M_{pr,\text{bot}}}{l_n}$$</p>
+<p>$$\text{Step 2:}\quad l_o = \max\!\left(\frac{l_n}{6},\ b_{\max},\ 45\ \text{cm}\right)$$</p>
+<p>$$\text{Step 3:}\quad s_0 = 10 + \frac{35 - h_x}{3}\ \text{（cm）}$$</p>
+<p>$$\text{Step 4a:}\quad A_{sh1} = 0.3 \times s \times b_c \times \frac{f'_c}{f_{yt}} \times \left(\frac{A_g}{A_{ch}} - 1\right)$$</p>
+<p>$$\text{Step 4b:}\quad A_{sh2} = 0.09 \times s \times b_c \times \frac{f'_c}{f_{yt}}$$</p>
+<p>$$\text{Step 5:}\quad V_s = \frac{A_v \cdot f_{yt} \cdot d}{s} \geq \frac{\boxed{V_u}}{\phi}\ \text{（Vc = 0 時）}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>柱斷面</td>
+<td>60×60 cm</td>
+<td>方形柱</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_{yt}$</td>
+<td>4200 kgf/cm²</td>
+<td>箍筋降伏強度</td>
+</tr>
+<tr>
+<td>$N_u$</td>
+<td>50 tf</td>
+<td>設計極限軸力</td>
+</tr>
+<tr>
+<td>$l_n$</td>
+<td>300 cm</td>
+<td>柱淨高</td>
+</tr>
+<tr>
+<td>箍筋</td>
+<td>4-leg #4，$A_b = 1.27\ \text{cm}^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>主筋</td>
+<td>12-#7，$d_b = 2.22\ \text{cm}$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>▌柱地震設計剪力</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_u$</td>
+<td>$\Sigma M_{pr,\text{beam}}/l_n = 75.52/3.0 = \mathbf{25.17\ \text{tf}}$（接頭梁彎矩由上下柱各半分擔）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌塑鉸區長度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$l_o$</td>
+<td>$\max(300/6,\ 60,\ 45) = 60\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌斷面核心尺寸</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b_c$</td>
+<td>$60 - 2\times6 = 48\ \text{cm}$（<strong>主筋中心至主筋中心</strong>；規範定義量至箍筋外緣，見 §5④）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>$60 - 6 = 54\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_g$</td>
+<td>$60\times60 = 3600\ \text{cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{ch}$</td>
+<td>$48\times48 = 2304\ \text{cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_v$</td>
+<td>$4\times1.27 = 5.08\ \text{cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌間距上限（幾何）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$h_x$</td>
+<td>$48/3 = 16\ \text{cm}$（相鄰被支撐主筋中心距）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$s_0$</td>
+<td>$10+(35-16)/3 = 16.3\ \text{cm}$，取上限 15 cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$s_{\text{geom}}$</td>
+<td>$\min(60/4,\ 6\times2.22,\ 15) = \min(15,\ 13.3,\ 15) = 13.3\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌圍束需求 → 控制間距</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$s$ 從 $A_{sh1}$</td>
+<td>$s = 5.08 / 0.540 = 9.41\ \text{cm}$ → 採 $s = 9\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{sh1}$（驗證 s=9）</td>
+<td>$4.86\ \text{cm}^2 &lt; 5.08\ \text{cm}^2\ ✓$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{sh2}$（驗證 s=9）</td>
+<td>$2.59\ \text{cm}^2 &lt; 5.08\ \text{cm}^2\ ✓$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌剪力需求（Vc = 0）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_c = 0$ 條件</td>
+<td>$N_u = 50\ \text{tf} \leq 0.05 f'_c A_g = 50.4\ \text{tf}$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$s_{\text{shear}}$</td>
+<td>$5.08\times4200\times54/\,(25.17\times10^3/0.75) = \mathbf{34.3\ \text{cm}}$（遠寬鬆）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>塑鉸機構柱剪力</strong></td>
+<td>接頭處 $\Sigma M_{col} = \Sigma M_{pr,\text{beam}}$，上下柱依勁度分擔（等高等斷面各半），反曲點在柱中點 $\Rightarrow V_u = \Sigma M_{pr,\text{beam}}/l_n$。<strong>分子是「一個接頭」的梁彎矩總和</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>取最大 Mpr 方向</strong></td>
+<td>同一柱線在某搖擺方向下，梁端為 Mpr⁻（頂筋受拉）= 75.52 &gt; Mpr⁺ = 41.11，故以 Mpr⁻ 控制</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>Vc = 0 的耐震條件</strong></td>
+<td>ACI 318 特殊框架：當 (a) 地震剪力 ≥ 1/2 設計剪力，且 (b) $N_u \leq 0.05 f'_c A_g$ 時，取 $V_c = 0$（保守，確保柱剪力完全由箍筋承擔）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>Ash 取兩式較大值</strong></td>
+<td>公式一控制最小圍束量（防止核心爆裂），公式二控制最小配箍率。必取 max，不可取較小</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>bc vs d</strong></td>
+<td>規範定義 $b_c$／$A_{ch}$ 量至<strong>橫向鋼筋外緣</strong>（不是中心線）；$d$ 是有效深度（剪力用）。本題依附圖標註取 48 cm，敏感度見 §5④</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>lo 的三取大</strong></td>
+<td>淨高/6、最大柱邊、450 mm（18 in）—任何一個都要滿足</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：柱地震設計剪力（2026-08-22 全面改正）</h3>
+<blockquote>
+<p>⚠ <strong>舊版寫 $V_u = (75.5+75.5)/3.0 = 50.33$ tf，把一根柱的上下兩端各給了一個「完整的」梁 $M_{pr}$。</strong><br />
+這少了關鍵的一步：<strong>接頭處梁傳來的彎矩，是由接頭上、下兩根柱依勁度分擔的</strong>，不是整個給某一根柱。</p>
+</blockquote>
+<p><strong>正確推導（三步）：</strong></p>
+<p><strong>① 接頭彎矩平衡。</strong> 本構架為<strong>單跨</strong>，每個外圍接頭只有<strong>一根</strong>梁：</p>
+<p>$$\Sigma M_{col} = \Sigma M_{pr,\text{beam}} = M_{pr}^- = 75.52\ \text{tf·m}$$</p>
+<p>（取 $M_{pr}^-$ 而非 $M_{pr}^+$：同一柱線在某一搖擺方向下，梁端為頂筋受拉之負彎矩，值較大者控制。）</p>
+<p><strong>② 上下柱分擔。</strong> 各層柱淨高、斷面均相同 ⇒ 勁度相同 ⇒ 各分擔一半：</p>
+<p>$$M_{col,\text{top}} = M_{col,\text{bot}} = \frac{75.52}{2} = 37.76\ \text{tf·m}$$</p>
+<p><strong>③ 柱剪力（反曲點在柱淨高中點）：</strong></p>
+<p>$$V_u = \frac{M_{col,\text{top}} + M_{col,\text{bot}}}{l_n} = \frac{37.76 + 37.76}{3.0} = \boxed{25.17\ \text{tf}}$$</p>
+<p><strong>等價的快速寫法：</strong></p>
+<p>$$V_u = \frac{\Sigma M_{pr,\text{beam at joint}}}{l_n} = \frac{75.52}{3.0} = 25.17\ \text{tf}$$</p>
+<p><img alt="RC-2012-3 強柱弱梁塑鉸機構：左格為單跨構架局部，梁端塑鉸傳入接頭的 Mpr⁻=75.52 tf·m 由上下兩根淨高 3 m 的柱依勁度各分擔 37.76 tf·m；右格為單根柱的直線彎矩圖，兩端各 37.76 tf·m、反曲點在柱淨高中點 1.5 m，得 Vu=25.17 tf，並以紅框標示舊版誤把整個 Mpr 給單一柱端而得 50.3 tf" src="../../raw/solutions/RC-2012-3/figs/RC-2012-3-fig-1-mechanism.svg" /></p>
+<p><em>圖 1　梁端塑鉸把 $M_{pr}^-$ 送進接頭後，如何經「接頭彎矩平衡 → 上下柱依勁度分擔 → 反曲點在柱淨高中點」變成單根柱的 $V_u$。攔的是把一根柱的上下兩端各給一個完整的梁 $M_{pr}$、使 $V_u$ 高估一倍（圖右把錯值與正解並排）。</em></p>
+<blockquote>
+<p>📝 <strong>記憶點：</strong> 分子是「<strong>一個接頭</strong>的梁 $M_{pr}$ 總和」，不是「上下兩個接頭的總和」。<br />
+之所以看起來像「上下兩端相加」，是因為 $M_{col,\text{top}}$ 與 $M_{col,\text{bot}}$ 各只有梁彎矩的一半，加起來剛好等於一個 $M_{pr}$。</p>
+<p><strong>本題最終設計 $s = 9$ cm 由圍束公式控制，不受此更正影響</strong>（剪力需求本來就寬鬆），<br />
+但這個觀念<strong>直接影響 RC-2012-4 的接頭剪力檢核</strong>（$V_{col}$ 是 $V_{jh}$ 的減項）——<br />
+該題已於 <strong>2026-09-07 依本頁更正值重解</strong>：$V_{jh}$ 由 109.4 改為 <strong>134.5 tf</strong>，利用率由 57% 升到 82%，<br />
+結論（足夠）不變但餘裕大幅縮小。</p>
+</blockquote>
+<hr />
+<h3>Step 2：塑鉸區（圍束區）長度 $l_o$</h3>
+<p>$$l_o = \max\!\left(\frac{l_n}{6},\ b_{\max},\ 450\ \text{mm}\right) = \max\!\left(\frac{300}{6},\ 60,\ 45\right) = \max(50,\ 60,\ 45)$$</p>
+<p>$$\boxed{l_o = 60\ \text{cm}}$$</p>
+<hr />
+<h3>Step 3：斷面核心尺寸</h3>
+<p>保護層 6 cm 量至主筋心，故原卷附圖標註的 48 cm 是<strong>主筋中心至主筋中心</strong>（規範定義為量至橫向鋼筋外緣，兩者差異與敏感度見 §5④）：</p>
+<p>$$b_c = 60 - 2 \times 6 = \boxed{48\ \text{cm}}$$</p>
+<p>$$A_g = 60 \times 60 = 3{,}600\ \text{cm}^2, \quad A_{ch} = 48 \times 48 = \boxed{2{,}304\ \text{cm}^2}$$</p>
+<p>$$A_v = 4 \times 1.27 = \boxed{5.08\ \text{cm}^2}\ \text{（4 leg \#4）}$$</p>
+<hr />
+<h3>Step 4：橫向箍筋間距上限（幾何）</h3>
+<p><strong>主筋分布：</strong> 12-#7 分布於 60×60 柱，頂底面各 4 根，側面各 2 根（不含角筋）。頂底面上相鄰主筋中心距：</p>
+<p>$$h_x = \frac{b_c}{n-1} = \frac{48}{3} = 16\ \text{cm}$$</p>
+<p>（48 cm 面上 4 根主筋，3 個間格，且 4-leg 設計含橫向 cross-tie，各主筋均受支撐。）</p>
+<p><strong>公式間距：</strong></p>
+<p>$$s_0 = 10 + \frac{35 - h_x}{3} = 10 + \frac{35 - 16}{3} = 10 + 6.3 = 16.3\ \text{cm}$$</p>
+<p>取上限 15 cm（ACI 318 規定 $s_0 \leq 150\ \text{mm}$）：$s_0 = 15\ \text{cm}$</p>
+<p><strong>綜合間距上限：</strong></p>
+<p>$$s_{\max,\text{geom}} = \min\!\left(\frac{b}{4},\ 6d_b,\ s_0\right) = \min\!\left(\frac{60}{4},\ 6\times2.22,\ 15\right) = \min(15,\ 13.3,\ 15)$$</p>
+<p>$$\boxed{s_{\max,\text{geom}} = 13.3\ \text{cm}}$$</p>
+<hr />
+<h3>Step 5：圍束箍筋需求（Ash）→ 反推間距</h3>
+<p>設 $A_{sh,\text{prov}} = 5.08\ \text{cm}^2$ ≥ $A_{sh,\text{req}}$，求最大可用 s。</p>
+<p><strong>公式一（控制）：</strong></p>
+<p>$$A_{sh1} = 0.3 \times s \times b_c \times \frac{f'_c}{f_{yt}} \times \left(\frac{A_g}{A_{ch}} - 1\right) = 0.3 \times s \times 48 \times \frac{280}{4{,}200} \times \left(\frac{3{,}600}{2{,}304} - 1\right)$$</p>
+<p>$$= 0.3 \times s \times 48 \times 0.06667 \times 0.5625 = 0.540\,s$$</p>
+<p>令 $A_{sh1} \leq 5.08$：</p>
+<p>$$0.540\,s \leq 5.08 \implies s \leq \frac{5.08}{0.540} = 9.41\ \text{cm}$$</p>
+<p><strong>公式二：</strong></p>
+<p>$$A_{sh2} = 0.09 \times s \times b_c \times \frac{f'_c}{f_{yt}} = 0.09 \times s \times 48 \times 0.06667 = 0.288\,s$$</p>
+<p>令 $A_{sh2} \leq 5.08$：</p>
+<p>$$s \leq \frac{5.08}{0.288} = 17.6\ \text{cm}$$</p>
+<p><strong>公式一控制，$s_{\max,\text{conf}} = 9.41\ \text{cm}$。</strong></p>
+<hr />
+<h3>Step 6：剪力需求（$V_c = 0$ 條件）</h3>
+<p><strong>檢核是否取 $V_c = 0$：</strong></p>
+<p>$$0.05 f'_c A_g = 0.05 \times 280 \times 3{,}600 = 50{,}400\ \text{kgf} = 50.4\ \text{tf}$$</p>
+<p>$$N_u = 50\ \text{tf} \leq 50.4\ \text{tf} \quad \checkmark$$</p>
+<p>→ <strong>軸壓力剛好落在門檻以下，取 $V_c = 0$（保守）。</strong></p>
+<p>所需 $V_s$：</p>
+<p>$$V_s = \frac{V_u}{\phi} = \frac{25.17}{0.75} = 33.56\ \text{tf} = 33{,}560\ \text{kgf}$$</p>
+<p>由此推算間距：</p>
+<p>$$s_{\text{shear}} = \frac{A_v \cdot f_{yt} \cdot d}{V_s} = \frac{5.08 \times 4{,}200 \times 54}{33{,}560} = \frac{1{,}152{,}144}{33{,}560} = \boxed{34.3\ \text{cm}}$$</p>
+<p>剪力間距要求（34.3 cm）<strong>遠寬鬆於</strong>圍束要求（9.41 cm）。<br />
+（舊版因 $V_u$ 高估一倍而得 17.2 cm，雖然一樣不控制，但數字是錯的。）</p>
+<hr />
+<h3>Step 7：控制間距彙整</h3>
+<table>
+<thead>
+<tr>
+<th>條件</th>
+<th>最大間距</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>柱最小邊 / 4</td>
+<td>15.0 cm</td>
+</tr>
+<tr>
+<td>$6 d_b$（主筋）</td>
+<td>13.3 cm</td>
+</tr>
+<tr>
+<td>$s_0$（主筋橫向間距）</td>
+<td>15.0 cm</td>
+</tr>
+<tr>
+<td>圍束 $A_{sh1}$</td>
+<td><strong>9.4 cm ←控制</strong></td>
+</tr>
+<tr>
+<td>圍束 $A_{sh2}$</td>
+<td>17.6 cm</td>
+</tr>
+<tr>
+<td>剪力（$V_c = 0$）</td>
+<td>34.3 cm</td>
+</tr>
+</tbody>
+</table>
+<p><strong>採用間距：$\boxed{s = 9\ \text{cm}}$</strong></p>
+<p><img alt="RC-2012-3 柱塑鉸區箍筋間距六個候選上限比較，由寬鬆到嚴格為剪力強度需求 34.33 cm、圍束公式二 17.64 cm、柱最小邊四分之一 15.00 cm、so 公式值 16.33 cm 被 15 cm 上限截住、6db=13.32 cm、圍束公式一 9.41 cm 控制，結論採 s=9 cm、塑鉸區外 13 cm" src="../../raw/solutions/RC-2012-3/figs/RC-2012-3-fig-2-spacing.svg" /></p>
+<p><em>圖 2　塑鉸區箍筋間距的六個候選上限同時攤開，長條越長代表越寬鬆。攔的是誤以為剪力需求控制（它其實寬鬆到餘裕 3.8 倍），以及只查一兩條就下結論而沒有取六者中最嚴格者。</em></p>
+<hr />
+<h3>Step 8：驗算（s = 9 cm）</h3>
+<p>$$A_{sh1} = 0.540 \times 9 = 4.86\ \text{cm}^2 \leq A_v = 5.08\ \text{cm}^2 \quad \checkmark$$</p>
+<p>$$A_{sh2} = 0.288 \times 9 = 2.59\ \text{cm}^2 \leq A_v = 5.08\ \text{cm}^2 \quad \checkmark$$</p>
+<p>$$V_s = \frac{5.08 \times 4{,}200 \times 54}{9} = \frac{1{,}152{,}144}{9} = 128{,}016\ \text{kgf} = 128.0\ \text{tf}$$</p>
+<p>$$\phi V_s = 0.75 \times 128.0 = 96.0\ \text{tf} \geq V_u = 25.17\ \text{tf} \quad \checkmark\ (\text{餘裕 } 3.8\text{ 倍})$$</p>
+<hr />
+<h3>結論</h3>
+<p>$$\boxed{\text{柱塑鉸區：4 腳 \#4 箍筋 @ } s = 9\ \text{cm，自梁柱接頭面起 } l_o = 60\ \text{cm；塑鉸區外 @ } 13\ \text{cm}}$$</p>
+<p><strong>設計摘要</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: center;">值</th>
+<th>依據</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>柱地震設計剪力 $V_u$</td>
+<td style="text-align: center;"><strong>25.17 tf</strong></td>
+<td>$\Sigma M_{pr,\text{beam}}/l_n$（上下柱各分擔一半）</td>
+</tr>
+<tr>
+<td>塑鉸區長度 $l_o$</td>
+<td style="text-align: center;">60 cm</td>
+<td>$\max(l_n/6,\ b_{\max},\ 45)$</td>
+</tr>
+<tr>
+<td>圍束需求（控制）</td>
+<td style="text-align: center;">$A_{sh1}/s = 0.540$ → $s \le 9.41$ cm</td>
+<td>$0.3sb_c\frac{f'_c}{f_{yt}}\!\left(\frac{A_g}{A_{ch}}-1\right)$</td>
+</tr>
+<tr>
+<td>幾何間距上限</td>
+<td style="text-align: center;">13.3 cm</td>
+<td>$\min(b/4,\ 6d_b,\ s_0)$</td>
+</tr>
+<tr>
+<td>剪力需求（$V_c=0$）</td>
+<td style="text-align: center;">$s \le 34.3$ cm</td>
+<td>不控制</td>
+</tr>
+<tr>
+<td><strong>採用（塑鉸區）</strong></td>
+<td style="text-align: center;"><strong>9 cm</strong></td>
+<td>圍束控制</td>
+</tr>
+<tr>
+<td><strong>採用（塑鉸區外）</strong></td>
+<td style="text-align: center;"><strong>13 cm</strong></td>
+<td>$\min(6d_b,\ 15)$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>① $N_u$ 剛好在 $V_c = 0$ 門檻附近的處理</strong></p>
+<p>$N_u = 50\ \text{tf}$，而門檻 $0.05 f'_c A_g = 50.4\ \text{tf}$，差距僅 0.4 tf（&lt; 1%）。嚴格而言已滿足 $V_c = 0$ 條件。考場上若不確定，可改用題目所給有軸力的 $V_c$ 公式：</p>
+<p>$$V_c = 0.53\left(1 + \frac{N_u}{140 A_g}\right)\!\sqrt{f'_c}\,b_w\,d = 0.53\left(1 + \frac{50{,}000}{140\times3{,}600}\right)\!\times16.733\times60\times54 = 31.6\ \text{tf}$$</p>
+<p>$$\phi V_c = 0.75 \times 31.6 = 23.7\ \text{tf} \ &lt;\ V_u = 25.17\ \text{tf}\ \text{（幾乎相當，只差 6\%）}$$</p>
+<p>即使計入 $V_c$，箍筋僅需承擔 $(25.17-23.7)/0.75 = 1.96$ tf，間距上限遠超過幾何限制。<br />
+<strong>無論採哪種做法，圍束公式一均控制，最終 $s = 9$ cm 不變。</strong></p>
+<p><strong>② 為何圍束箍筋是 max 而非 min</strong></p>
+<p>兩式均為下限（required ≤ provided），設計者需提供至少 $\max(A_{sh1}, A_{sh2})$。$A_{sh1}$ 針對斷面形狀（$A_g/A_{ch}$），$A_{sh2}$ 針對單純配箍率。兩式均不足時都可能發生核心混凝土爆裂破壞。</p>
+<p><strong>③ 塑鉸區箍筋 vs 一般箍筋</strong></p>
+<p>塑鉸區（lo 範圍內）同時須滿足：</p>
+<ul>
+<li>圍束（$A_{sh}$）：防止軸壓下核心爆裂，提供韌性</li>
+<li>剪力（$V_s$）：抵抗地震引入的柱剪力</li>
+<li>間距（$s_{\max}$）：防止主筋壓屈、確保圍束效果</li>
+</ul>
+<p>三者中最嚴格者控制設計，本題為圍束公式一。</p>
+<hr />
+<p><strong>④ $b_c$／$A_{ch}$ 的定義與敏感度（本題最值得留檔的假設）</strong></p>
+<p>規範定義：$b_c$ 與 $A_{ch}$ 均量至<strong>橫向鋼筋外緣</strong>（out-to-out of transverse reinforcement）。<br />
+但原卷附圖標的「48 cm」是<strong>主筋中心到主筋中心</strong>（保護層 6 cm 量至主筋心）。兩種取法差很多：</p>
+<table>
+<thead>
+<tr>
+<th>取法</th>
+<th style="text-align: center;">$b_c$</th>
+<th style="text-align: center;">$A_{ch}$</th>
+<th style="text-align: center;">$A_g/A_{ch}-1$</th>
+<th style="text-align: center;">$A_{sh1}/s$</th>
+<th style="text-align: center;">圍束容許 $s$</th>
+<th style="text-align: center;"><strong>最終 $s$</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A（本解主線）</strong> 依附圖 48 cm</td>
+<td style="text-align: center;">48.0</td>
+<td style="text-align: center;">2,304</td>
+<td style="text-align: center;">0.5625</td>
+<td style="text-align: center;">0.540</td>
+<td style="text-align: center;">9.41 cm</td>
+<td style="text-align: center;"><strong>9 cm</strong>（圍束控制）</td>
+</tr>
+<tr>
+<td>B 嚴格依規範（箍筋外緣）<br>$= 60-2(6-1.11-1.27)$</td>
+<td style="text-align: center;">52.76</td>
+<td style="text-align: center;">2,784</td>
+<td style="text-align: center;">0.2933</td>
+<td style="text-align: center;">0.309</td>
+<td style="text-align: center;">16.4 cm</td>
+<td style="text-align: center;"><strong>13 cm</strong>（$6d_b$ 幾何控制）</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="RC-2012-3 柱斷面 bc 兩種取法對照：同為 60×60 cm、12-#7、4 legs #4（Av=5.08 cm²），左格依原卷附圖取核心邊界至主筋中心得 bc=48.0、Ach=2304、Ash1/s=0.540、s≤9.41 cm、最終 9 cm 由圍束控制；右格嚴格依規範取至箍筋外緣得 bc=52.76、Ach=2783.6、Ash1/s=0.309、s≤16.4 cm、最終 13 cm 由 6db 控制" src="../../raw/solutions/RC-2012-3/figs/RC-2012-3-fig-3-section.svg" /></p>
+<p><em>圖 3　同一個柱斷面、同一組 4 腳箍筋，$b_c$ 量到主筋中心與量到箍筋外緣兩種取法的核心邊界與後續數值全程對照。攔的是把規範定義與原卷附圖標註混為一談——量測起點只差 2.38 cm，$A_{sh}$ 需求就差 74%，最終間距由 9 cm 變成 13 cm。</em></p>
+<p><strong>採 A 的理由：</strong> ① 原卷附圖把 48 cm 標得非常明確，出題者顯然要考生用它；<br />
+② A 比 B <strong>保守 74%</strong>（$A_{sh}$ 需求），考場上偏保守不會失分；<br />
+③ B 需要自行假設保護層與箍筋直徑的細節，原卷沒交代。<br />
+<strong>但作答時建議加一句</strong>「若 $b_c$ 依規範量至箍筋外緣則 $s$ 可放寬至 13 cm（由 $6d_b$ 控制）」，顯示知道定義。</p>
+<p><strong>⑤ 密箍區以外的間距（原文未提）</strong></p>
+<p>$$s_{\text{outside}} \le \min(6d_b,\ 15\ \text{cm}) = \min(6\times2.22,\ 15) = \boxed{13.3\ \text{cm}} \Rightarrow \text{取 } 13\ \text{cm}$$</p>
+<p>（土木 401-112 §15.4.4／ACI 318-19 §18.7.5.5。注意 $6d_b$ 與 150 mm <strong>兩個都要查</strong>。）</p>
+<h2>6. 依最新規範對照（土木 401-112／ACI 318-19）</h2>
+<p>原卷（101 年）未指定版本，當時為 <strong>土木 401-100</strong>（ACI 318-05 世代）。<br />
+現行為 <strong>土木 401-112</strong>（2023 年 8 月，ACI 318-19 世代）。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>401-100（原卷世代）</th>
+<th>401-112／ACI 318-19</th>
+<th>影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>柱設計剪力 $V_e$</td>
+<td>由梁 $M_{pr}$ 反推（接頭分擔）</td>
+<td>同（§18.7.6.1.1）；並明訂 $V_e$ 不必超過由<strong>接頭強度</strong>推得之值</td>
+<td><strong>不變</strong>（25.17 tf）</td>
+</tr>
+<tr>
+<td>$A_{sh}$</td>
+<td>兩式取大</td>
+<td><strong>三式</strong>取大（Table 18.7.5.4），新增 $0.2k_fk_n\dfrac{P_u}{f_{yt}A_{ch}}$</td>
+<td>觸發門檻 $0.3A_gf'_c = \mathbf{302\ tf}$；本題 $N_u = 50$ tf ⇒ <strong>不觸發</strong></td>
+</tr>
+<tr>
+<td>$b_c,\ A_{ch}$ 定義</td>
+<td>量至橫向鋼筋外緣</td>
+<td>同</td>
+<td>見 §5④ 之敏感度留檔</td>
+</tr>
+<tr>
+<td>密箍區間距</td>
+<td>$\min(b/4,\ 6d_b,\ s_0)$</td>
+<td>同；$6d_b$ 明訂為「<strong>最小</strong>縱筋」直徑，Grade 550 改 $5d_b$</td>
+<td>本題 Grade 420 ⇒ 不變（13.3 cm）</td>
+</tr>
+<tr>
+<td>$s_0$</td>
+<td>$10+\dfrac{35-h_x}{3}$，$10\sim15$ cm</td>
+<td>同（§18.7.5.3(c)）</td>
+<td>不變（15 cm）</td>
+</tr>
+<tr>
+<td>$l_o$</td>
+<td>$\max(l_n/6,\ b_{\max},\ 45\ \text{cm})$</td>
+<td>同（§18.7.5.1）</td>
+<td>不變（60 cm）</td>
+</tr>
+<tr>
+<td>$l_o$ 以外間距</td>
+<td>$\min(6d_b,\ 15\ \text{cm})$</td>
+<td>同（§18.7.5.5）</td>
+<td><strong>原文未提，已補</strong>（13 cm）</td>
+</tr>
+<tr>
+<td>$V_c = 0$ 條件</td>
+<td>(a) 地震剪力 $\ge$ 需求之半、(b) $P_u &lt; A_gf'_c/20$</td>
+<td>同（§18.7.6.2.1）</td>
+<td>$50 &lt; 50.4$ tf ✓ <strong>踩線通過</strong></td>
+</tr>
+<tr>
+<td>含軸壓之 $V_c$（若不取 0）</td>
+<td>$0.53\!\left(1+\dfrac{N_u}{140A_g}\right)\!\sqrt{f'_c}b_wd$（原卷印出）</td>
+<td><strong>已廢除</strong>；改為 $\left[0.53\lambda\sqrt{f'_c} + \dfrac{N_u}{6A_g}\right]b_wd$</td>
+<td>318-19 式：$\left[8.868 + \dfrac{50{,}000}{6\times3600}\right]\!\times3240 = 36.2$ tf（舊式 31.6 tf）</td>
+</tr>
+<tr>
+<td>強柱弱梁</td>
+<td>$\Sigma M_{nc} \ge \frac65 \Sigma M_{nb}$</td>
+<td>同（§18.7.3.2）</td>
+<td>本題未問，但是「梁端塑鉸」假設的前提</td>
+</tr>
+</tbody>
+</table>
+<p><strong>兩個值得記住的結論：</strong></p>
+<ol>
+<li>
+<p>本題 $N_u = 50$ tf 與門檻 $A_gf'_c/20 = 50.4$ tf 只差 0.8%，是典型的「踩線題」。<br />
+   若軸力再大一點就不能取 $V_c = 0$，剪力需求會鬆一些——但<strong>圍束仍控制，答案照樣是 9 cm</strong>。</p>
+</li>
+<li>
+<p>318-19 把含軸壓的 $V_c$ 由「乘法修正」改成「加法項 $N_u/(6A_g)$」，本題兩式差 15%，<br />
+   但因為取 $V_c = 0$ 而完全用不到。同庫 <code>RC-2014-3</code> 才是這條改動真正改變答案的題目。</p>
+</li>
+</ol>
+<p><em>圖解補繪：2026-09-07（向量圖 3 張，腳本 <code>figs/gen_RC-2012-3.py</code>，可重跑；腳本檔尾對 §4 公佈值做 assert）</em></p></main>
+<footer>來源：raw/solutions/RC-2012-3/RC-2012-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2006-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2006-2 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-2.html">&#128202; U1-2 單元總覽</a><a class="lect" href="../lecture-RC-U1-2.html">&#128218; U1-2 RC 柱強度分析與設計 講義</a></div></header>
+<main><h3>考題編號：RC-2006-2</h3>
+<p><strong>主分類：</strong> <code>RC-U1-3</code> 細長柱<br />
+<strong>副分類：</strong> <code>RC-U1-2</code> RC 柱強度分析與設計<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>無側移柱</code> <code>彎矩放大法</code> <code>細長柱</code> <code>Cm係數</code> <code>單曲率</code> <code>δns放大係數</code> <code>臨界挫屈載重Pc</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>無側移方形柱（50×50 cm），8-#10 鋼筋，單曲率彎矩，以<strong>彎矩放大法</strong>求設計放大彎矩 $M_c$。</p>
+<p><strong>已知條件：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>斷面</td>
+<td>$50 \times 50$ cm</td>
+</tr>
+<tr>
+<td>配筋</td>
+<td>8-#10，$A_b = 8.14$ cm²，$A_{st} = 65.12$ cm²</td>
+</tr>
+<tr>
+<td>淨高 $l_u$</td>
+<td>6 m = 600 cm</td>
+</tr>
+<tr>
+<td>有效長度係數 $k$</td>
+<td>0.9</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+</tr>
+<tr>
+<td>設計軸力 $P_u$</td>
+<td>400 tf = 400,000 kgf</td>
+</tr>
+<tr>
+<td>持續載重比 $\beta_d$</td>
+<td>0.3</td>
+</tr>
+<tr>
+<td>柱頭彎矩 $M_1$</td>
+<td>15 tf·m（小端）</td>
+</tr>
+<tr>
+<td>柱腳彎矩 $M_2$</td>
+<td>27 tf·m（大端）</td>
+</tr>
+<tr>
+<td>彎曲型式</td>
+<td>單曲率（Same side curvature）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>題目附圖：</strong></p>
+<p><img alt="RC-2006-2 方形柱斷面 50×50cm，8-#10 鋼筋，水平尺寸 7-18-18-7cm（中排缺中心筋），Y軸垂直、X軸水平，彎矩對Y軸" src="../../raw/solutions/RC-2006-2/RC-2006-2-fig-1.png" /></p>
+<p><em>圖說：$50 \times 50$ cm 方形柱，8-#10 鋼筋（3×3 格扣中心 = 8 根），水平方向：鋼筋心位置為 7, 25, 43 cm（距左面），各排到形心距離 18 cm 或 0 cm。$f'_c=280$，$f_y=4200$ kgf/cm²，彎矩對 Y 軸。</em></p>
+<hr />
+<p><img alt="RC-2006-2 柱斷面 50×50 cm，8-#10 呈 3×3 扣中心排列，繞 Y 軸彎曲時 6 根力臂 18 cm、2 根力臂為零" src="../../raw/solutions/RC-2006-2/figs/RC-2006-2-fig-1-section.svg" /></p>
+<p><em>圖 1　柱斷面與 $I_{se}$ 的力臂。8 根不是「每排 4 根」而是 3×3 扣掉正中心；繞 Y 軸時只有 6 根有 18 cm 力臂，可攔下 $I_{se}$ 數錯根數。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>四步驟：</strong> 計算 $EI$ → 求 $P_c$ → 求 $\delta_{ns}$ → $M_c = \delta_{ns} \times M_2$</p>
+<p><strong>關鍵陷阱：</strong></p>
+<ul>
+<li>$C_m$ 的符號：<strong>單曲率</strong> → $M_1/M_2$ 為<strong>正值</strong> → $C_m = 0.6 + 0.4(M_1/M_2) \approx 0.82$</li>
+<li>雙曲率才能讓 $C_m &lt; 0.6$</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>工作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>細長比 $kl_u/r$，確認需要放大</td>
+</tr>
+<tr>
+<td>2</td>
+<td>計算 $EI = 0.4E_cI_g/(1+\beta_d)$（簡化式）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>計算 $P_c = \pi^2 EI/(kl_u)^2$</td>
+</tr>
+<tr>
+<td>4</td>
+<td>$C_m = 0.6 + 0.4(M_1/M_2)$（單曲率正號）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>$\delta_{ns} = C_m/(1-P_u/0.75P_c) \geq 1.0$</td>
+</tr>
+<tr>
+<td>6</td>
+<td>$M_c = \delta_{ns} \times M_2$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>二大陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠ $C_m$ 符號</td>
+<td>單曲率：M1/M2 取<strong>正值</strong>；雙曲率：取<strong>負值</strong> → 本題 Cm = 0.822</td>
+</tr>
+<tr>
+<td>⚠ $r$ 的計算</td>
+<td>$r = 0.3h$（矩形柱），$h$ 為彎矩方向的截面尺寸</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p><code>計算放大彎矩 Mc = δns × M2</code></p>
+<h3>本題關鍵公式鏈</h3>
+<p>$$\text{Step 1: } \frac{kl_u}{r} = \frac{0.9 \times 600}{0.3 \times 50} = 36 \quad &gt; 34-12\!\left(\frac{M_1}{M_2}\right) = 27.3 \Rightarrow \text{需放大}$$</p>
+<p>$$\text{Step 2: } EI = \frac{0.4 E_c I_g}{1+\beta_d}$$</p>
+<p>$$\text{Step 3: } P_c = \frac{\pi^2 \boxed{EI}}{(kl_u)^2}$$</p>
+<p>$$\text{Step 4: } C_m = 0.6 + 0.4\!\left(\frac{M_1}{M_2}\right) \quad \text{（單曲率取正號）}$$</p>
+<p>$$\text{Step 5: } \delta_{ns} = \frac{\boxed{C_m}}{1 - \dfrac{P_u}{0.75 \boxed{P_c}}} \geq 1.0$$</p>
+<p>$$\text{Step 6: } M_c = \boxed{\delta_{ns}} \times M_2$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b = h$</td>
+<td>50 cm</td>
+</tr>
+<tr>
+<td>$l_u$</td>
+<td>600 cm</td>
+</tr>
+<tr>
+<td>$k$</td>
+<td>0.9</td>
+</tr>
+<tr>
+<td>$P_u$</td>
+<td>400,000 kgf</td>
+</tr>
+<tr>
+<td>$\beta_d$</td>
+<td>0.3</td>
+</tr>
+<tr>
+<td>$M_1, M_2$</td>
+<td>15, 27 tf·m（單曲率）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$r$</td>
+<td>$0.3h = 0.3\times50 = 15$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$kl_u/r$</td>
+<td>$0.9\times600/15 = 36$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>需放大條件</td>
+<td>$36 &gt; 34-12\times(15/27)=27.3$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$E_c$</td>
+<td>$15{,}000\sqrt{280}=250{,}995$ kgf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_g$</td>
+<td>$50^4/12=520{,}833$ cm⁴</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$EI$</td>
+<td>$0.4\times250{,}995\times520{,}833/1.3=4.022\times10^{10}$ kgf·cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_c$</td>
+<td>$\pi^2\times4.022\times10^{10}/(540)^2=1{,}362$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_m$</td>
+<td>$0.6+0.4\times(15/27)=0.822$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$0.75P_c$</td>
+<td>$0.75\times1{,}362=1{,}021$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\delta_{ns}$</td>
+<td>$0.822/(1-400/1{,}021)=1.351$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_c$</td>
+<td>$1.351\times27=36.5$ tf·m</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>單曲率 $C_m$ 正值</td>
+<td>同向彎矩→等效均布彎矩接近 $M_2$→$C_m \to 1$；$M_1/M_2$ 用正號</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$0.4EcIg$ 為何（非 $EI$ 實際值）</td>
+<td>ACI 用折減 $EI$ 反映裂縫與潛變；$1+\beta_d$ 再折減長期效果</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>為何 $0.75P_c$</td>
+<td>$0.75$ 是穩定折減係數，類似保險因數</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：細長比與是否需要放大</h3>
+<p>$$r = 0.3h = 0.3 \times 50 = 15 \text{ cm}$$</p>
+<p>$$\frac{kl_u}{r} = \frac{0.9 \times 600}{15} = 36$$</p>
+<p>判斷是否需要放大（單曲率）：<br />
+$$34 - 12\frac{M_1}{M_2} = 34 - 12 \times \frac{15}{27} = 34 - 6.67 = 27.33$$</p>
+<p>（此界限另有上限 40：$27.33 &lt; 40$，未觸頂。）</p>
+<p>$$36 &gt; 27.33 \quad \Rightarrow \text{需考慮細長效應，應用彎矩放大法}$$</p>
+<p><strong>適用性檢核：</strong> $kl_u/r = 36 &lt; 100$，可用彎矩放大法；超過 100 必須做二階分析。</p>
+<p><strong>最小彎矩檢核（規範必做，容易漏）：</strong></p>
+<p>$$M_{2,\min} = P_u(1.5 + 0.03h) = 400{,}000 \times (1.5 + 0.03\times50) = 400{,}000 \times 3.0 = 1.2\times10^6\ \text{kgf·cm} = 12.0\ \text{tf·m}$$</p>
+<p>$$M_2 = 27 &gt; M_{2,\min} = 12.0 \quad \Rightarrow \text{以實際 } M_2 = 27\ \text{tf·m 為準}$$</p>
+<blockquote>
+<p>本題 $M_2$ 控制，$M_c$ 不受影響；但這一步是規範明列的必要步驟，卷面省略會被扣分。<br />
+另外要記住配套規定：<strong>若改由 $M_{2,\min}$ 控制，$C_m$ 須取 1.0</strong>（或依實際端點彎矩比計算），<br />
+不能沿用原本的 $0.6+0.4(M_1/M_2)$。</p>
+</blockquote>
+<h3>Step 2：計算 $EI$</h3>
+<p>$$E_c = 15{,}000\sqrt{f'_c} = 15{,}000\sqrt{280} = 15{,}000 \times 16.7332 = 250{,}998 \text{ kgf/cm}^2$$</p>
+<p>$$I_g = \frac{b h^3}{12} = \frac{50 \times 50^3}{12} = \frac{6{,}250{,}000}{12} = 520{,}833 \text{ cm}^4$$</p>
+<p>$$EI = \frac{0.4 E_c I_g}{1+\beta_d} = \frac{0.4 \times 250{,}995 \times 520{,}833}{1.3}$$</p>
+<p>$$= \frac{0.4 \times 130{,}727 \times 10^6}{1.3} = \frac{52{,}291 \times 10^6}{1.3} = \boxed{4.022 \times 10^{10} \text{ kgf·cm}^2}$$</p>
+<h3>Step 3：臨界挫屈載重 $P_c$</h3>
+<p>$$kl_u = 0.9 \times 600 = 540 \text{ cm}$$</p>
+<p>$$P_c = \frac{\pi^2 EI}{(kl_u)^2} = \frac{9.870 \times 4.022 \times 10^{10}}{(540)^2} = \frac{3.970 \times 10^{11}}{291{,}600} = \boxed{1{,}362{,}000 \text{ kgf} = 1{,}362 \text{ tf}}$$</p>
+<h3>Step 4：等效均布彎矩係數 $C_m$</h3>
+<p><strong>單曲率</strong>（同向彎矩，$M_1/M_2$ 取正值）：</p>
+<blockquote>
+<p><strong>符號約定（務必與細長比界限用同一套）：</strong> 本解採 ACI 318-99／318-02 的原生組合——<br />
+單曲率 $M_1/M_2 &gt; 0$，配 $34 - 12(M_1/M_2)$ 與 $C_m = 0.6 + 0.4(M_1/M_2)$。<br />
+ACI 318-14 之後改為單曲率取<strong>負</strong>，公式同步變成 $34 + 12(M_1/M_2)$ 與 $C_m = 0.6 - 0.4(M_1/M_2)$，<br />
+兩套會得到<strong>完全相同</strong>的 27.33 與 0.822。錯的是把新慣例配舊公式（或反之）——<br />
+那會得出「不需放大、$M_c = 27$」的相反結論。</p>
+</blockquote>
+<p>$$C_m = 0.6 + 0.4\frac{M_1}{M_2} = 0.6 + 0.4 \times \frac{15}{27} = 0.6 + 0.222 = \boxed{0.822}$$</p>
+<p>（$C_m = 0.822 \geq 0.4$ ✓）</p>
+<h3>Step 5：彎矩放大係數 $\delta_{ns}$</h3>
+<p>$$\frac{P_u}{0.75 P_c} = \frac{400}{0.75 \times 1{,}362} = \frac{400}{1{,}021.5} = 0.3916$$</p>
+<p>$$\delta_{ns} = \frac{C_m}{1 - P_u/(0.75 P_c)} = \frac{0.822}{1 - 0.3916} = \frac{0.822}{0.6084} = \boxed{1.351} \geq 1.0 \quad \checkmark$$</p>
+<h3>Step 6：放大彎矩 $M_c$</h3>
+<p>$$M_c = \delta_{ns} \times \max(M_2,\ M_{2,\min}) = 1.351 \times \max(27,\ 12.0) = 1.351 \times 27 = \boxed{36.5 \text{ tf·m}}$$</p>
+<hr />
+<p><img alt="RC-2006-2 單曲率與雙曲率的挫屈變形與端點彎矩圖對照，單曲率 Cm=0.822、雙曲率 Cm 取 0.4 下限" src="../../raw/solutions/RC-2006-2/figs/RC-2006-2-fig-2-curvature.svg" /></p>
+<p><em>圖 2　單曲率 vs 雙曲率的 $C_m$。單曲率時最大彎矩與挫屈變形疊在一起，$C_m$ 趨近 1.0 最不利；圖下方註明本頁採 318-02 慣例，可攔下把新慣例（單曲率取負）配舊公式而得出「不需放大」的相反結論。</em></p>
+<p><img alt="RC-2006-2 放大係數隨軸力比變化的曲線，標出本題工作點 δns=1.352 與精確 EI 式的 1.266，右側列出各中間量與 M2,min 檢核" src="../../raw/solutions/RC-2006-2/figs/RC-2006-2-fig-3-magnifier.svg" /></p>
+<p><em>圖 3　$\delta_{ns}$ 隨 $P_u/(0.75P_c)$ 的變化。曲線在接近 1 時陡升，說明 0.75 折減與 $\delta_{ns} \ge 1.0$ 下限都不能漏；右下角把 $M_{2,\min} = 12.0$ tf·m 的檢核標出來，那是本題原本完全缺席的規範步驟。</em></p>
+<h2>5. 關鍵爭議點與進階探討</h2>
+<h3>單曲率 vs 雙曲率的 $C_m$</h3>
+<table>
+<thead>
+<tr>
+<th>型式</th>
+<th>$M_1/M_2$ 符號</th>
+<th>$C_m$ 計算（$\lvert M_1/M_2 \rvert = 0.556$）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>單曲率（本題）</td>
+<td>正值</td>
+<td>$0.6 + 0.4\times0.556 = 0.822$</td>
+</tr>
+<tr>
+<td>雙曲率</td>
+<td>負值</td>
+<td>$0.6 - 0.4\times0.556 = 0.378 \rightarrow$ 取 0.4</td>
+</tr>
+</tbody>
+</table>
+<p>→ 單曲率 $C_m$ 較大（約 0.82），放大效應更顯著，是較危險的情況。</p>
+<h3>精確 $EI$ 公式驗算</h3>
+<p>$$EI_{better} = \frac{0.2E_cI_g + E_sI_{se}}{1+\beta_d}$$</p>
+<p>$$I_{se} = 6\times8.14\times18^2 + 2\times8.14\times0^2 = 6\times8.14\times324 = 15{,}824 \text{ cm}^4$$</p>
+<p>$$EI_{better} = \frac{0.2\times250{,}995\times520{,}833 + 2{,}040{,}000\times15{,}824}{1.3} = \frac{2.615\times10^{10}+3.228\times10^{10}}{1.3} = 4.495\times10^{10} \text{ kgf·cm}^2$$</p>
+<p>$$P_{c,better} = 9.870\times4.495\times10^{10}/291{,}600 = 1{,}521 \text{ tf}$$</p>
+<p>$$\delta_{ns,better} = 0.822/(1-400/0.75/1{,}521) = 0.822/0.650 = 1.265$$</p>
+<p>$$M_{c,better} = 1.265\times27 = 34.2 \text{ tf·m}$$</p>
+<p>簡化式（較保守）：36.5 tf·m；精確式：34.2 tf·m。考試使用簡化式即可。</p>
+<p><em>圖解補繪：2026-08-21（向量圖 3 張，腳本 <code>figs/gen_RC-2006-2.py</code>，可重跑；腳本檔尾對 §4 公佈值做 assert）</em></p></main>
+<footer>來源：raw/solutions/RC-2006-2/RC-2006-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

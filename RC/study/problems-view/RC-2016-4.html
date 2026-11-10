@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2016-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2016-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U4-1.html">&#128202; U4-1 單元總覽</a><a class="lect" href="../lecture-RC-U4-1.html">&#128218; U4-1 預力梁斷面應力分析 講義</a></div></header>
+<main><h1>考題編號：RC-2016-4</h1>
+<p><strong>主分類：</strong> <code>RC-U4-3</code> 預力損失<br />
+<strong>副分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
+<strong>設計法：</strong> WSD工作應力法<br />
+<strong>標籤：</strong> <code>先拉法</code> <code>彈性縮短損失</code> <code>初施預力</code> <code>斷面應力分析</code> <code>裂縫判斷</code> <code>壓應力檢核</code> <code>矩形斷面</code> <code>n值計算</code></p>
+<hr />
+<h2>1. 原始題目重述（Problem Restatement）</h2>
+<p>某預力梁矩形斷面，斷面尺寸為 <strong>20 cm（寬）× 60 cm（深）</strong>，預力鋼鍵置於斷面中心以下 15 cm 處。</p>
+<p><strong>斷面與材料條件：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>斷面寬 $b$</td>
+<td>20 cm</td>
+</tr>
+<tr>
+<td>斷面深 $h$</td>
+<td>60 cm</td>
+</tr>
+<tr>
+<td>偏心距 $e$（離斷面中心）</td>
+<td>15 cm（Aps 在形心以下）</td>
+</tr>
+<tr>
+<td>鋼鍵總面積 $A_{ps}$</td>
+<td>3.95 cm²</td>
+</tr>
+<tr>
+<td>鋼鍵抗拉強度 $f_{pu}$</td>
+<td>19,000 kgf/cm²</td>
+</tr>
+<tr>
+<td>混凝土設計強度 $f'_c$</td>
+<td>350 kgf/cm²</td>
+</tr>
+<tr>
+<td>彈性模數比值 $n$</td>
+<td>6</td>
+</tr>
+<tr>
+<td>初施預力 $f_{pi}$</td>
+<td>$0.7\,f_{pu} = 13{,}300$ kgf/cm²</td>
+</tr>
+<tr>
+<td>初施預力時混凝土強度 $f'_{ci}$</td>
+<td>$0.7\,f'_c = 245$ kgf/cm²</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="RC-2016-4 題目附圖：20 cm 寬 × 60 cm 深矩形斷面，形心在斷面中央（距頂 30 cm），Aps 位於形心以下 15 cm 處（距頂 45 cm）" src="../../raw/solutions/RC-2016-4/RC-2016-4-fig-1.png" /></p>
+<p><em>圖說：矩形斷面 20 cm × 60 cm，形心軸（中性軸）距頂面 30 cm；Aps = 3.95 cm² 位於距頂面 45 cm 處，偏心距 e = 15 cm。</em></p>
+<p><strong>試求：</strong></p>
+<ol>
+<li>初施預力時，混凝土彈性收縮造成之預力損失 $\Delta f_{pES}$</li>
+<li>彈性收縮後，混凝土頂部與底部纖維之應力</li>
+<li>判斷混凝土是否開裂（開裂）或受壓過多</li>
+</ol>
+<hr />
+<h2>2. 考題核心精神與出題者意圖（Core Concepts &amp; Examiner's Intent）</h2>
+<p><strong>核心觀念：</strong> 預力傳遞給混凝土的瞬間，混凝土因受壓而彈性縮短，鋼鍵隨之縮短，預力因此減少。這是「立即損失」的核心，也是先拉法的標誌性損失項目。</p>
+<p><strong>出題者意圖：</strong></p>
+<ul>
+<li>測驗彈性縮短損失公式的正確應用：$\Delta f_{pES} = n \cdot f_{cpa}$</li>
+<li>測驗斷面應力的組合（軸壓 + 偏心彎矩）：$f = \frac{P_e}{A} \pm \frac{P_e \cdot e \cdot y}{I}$</li>
+<li>測驗容許應力判斷能力：開裂（抗拉）與受壓過多（抗壓）</li>
+</ul>
+<p><strong>關鍵陷阱預告：</strong></p>
+<ul>
+<li>$f_{cpa}$ 必須是 <strong>Aps 形心位置處的混凝土壓應力</strong>，不是斷面最大壓應力</li>
+<li>頂部纖維因偏心效應會出現<strong>拉應力</strong>，須與開裂強度 $f_r = 2\sqrt{f'_{ci}}$ 比較</li>
+<li>底部纖維為最大壓應力，須與 $0.60\,f'_{ci}$ 比較</li>
+<li>彈性收縮後的有效預力 $P_e$（而非 $P_i$）用於計算斷面應力</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析（Strategic Roadmap &amp; Trap Analysis）</h2>
+<p><strong>作戰計畫（五步驟）：</strong></p>
+<pre><code>Step 1  計算斷面幾何性質（A、I、yt、yb）
+   ↓
+Step 2  計算初始預力合力 Pi，求 Aps 位置之混凝土應力 fcpa
+   ↓
+Step 3  彈性縮短損失：ΔfpES = n × fcpa（立即損失）
+   ↓
+Step 4  有效預力 Pe = (fpi - ΔfpES) × Aps，計算頂底纖維應力
+   ↓
+Step 5  判斷：ft vs. fr（開裂）、fb vs. 0.60 f'ci（受壓過多）
+</code></pre>
+<p><strong>陷阱分析（四個關鍵陷阱）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>正確做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>以 $P_i$ 計算斷面應力（忽略彈性縮短後的損失）</td>
+<td>計算 $\Delta f_{pES}$ → 得 $P_e$ → 再算斷面應力</td>
+</tr>
+<tr>
+<td>②</td>
+<td>$f_{cpa}$ 誤算為只有軸壓項 $P_i/A$</td>
+<td>$f_{cpa} = P_i/A + P_i e^2/I$（含偏心貢獻）</td>
+</tr>
+<tr>
+<td>③</td>
+<td>開裂判斷用 $f'_{ci}$ 而非 $f_r = 2\sqrt{f'_{ci}}$</td>
+<td>抗拉開裂強度為模數破裂 $f_r = 2\sqrt{f'_{ci}}$</td>
+</tr>
+<tr>
+<td>④</td>
+<td>忘記頂部纖維為拉應力（符號錯誤）</td>
+<td>偏心預力在頂部引起<strong>拉力</strong>，需特別注意</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p>計算初施預力時的彈性縮短預力損失，以及損失後混凝土頂底纖維應力，並判斷開裂與受壓過多。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1:}\quad A = b \cdot h,\quad I = \frac{b h^3}{12},\quad y_t = y_b = h/2$$</p>
+<p>$$\text{Step 2:}\quad P_i = f_{pi} \cdot A_{ps}$$</p>
+<p>$$\text{Step 3:}\quad f_{cpa} = \frac{P_i}{A} + \frac{P_i \cdot e^2}{I}$$</p>
+<p>$$\text{Step 4:}\quad \Delta f_{pES} = n \cdot \boxed{f_{cpa}}$$</p>
+<p>$$\text{Step 5:}\quad P_e = (f_{pi} - \boxed{\Delta f_{pES}}) \cdot A_{ps}$$</p>
+<p>$$\text{Step 6:}\quad f_{top} = \frac{\boxed{P_e}}{A} - \frac{\boxed{P_e} \cdot e \cdot y_t}{I},\quad f_{bot} = \frac{\boxed{P_e}}{A} + \frac{\boxed{P_e} \cdot e \cdot y_b}{I}$$</p>
+<p>$$\text{Step 7 判斷:}\quad f_{top}\ \text{(拉力)} \overset{?}{&lt;} f_r = 2\sqrt{f'_{ci}},\quad f_{bot}\ \text{(壓力)} \overset{?}{&lt;} 0.60\,f'_{ci}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>20 cm</td>
+<td>斷面寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>60 cm</td>
+<td>斷面深</td>
+</tr>
+<tr>
+<td>$e$</td>
+<td>15 cm</td>
+<td>Aps 離斷面中心之偏心距</td>
+</tr>
+<tr>
+<td>$A_{ps}$</td>
+<td>3.95 cm²</td>
+<td>鋼鍵總面積</td>
+</tr>
+<tr>
+<td>$f_{pu}$</td>
+<td>19,000 kgf/cm²</td>
+<td>鋼鍵極限抗拉強度</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>350 kgf/cm²</td>
+<td>混凝土設計強度</td>
+</tr>
+<tr>
+<td>$f'_{ci}$</td>
+<td>245 kgf/cm²（= $0.7f'_c$）</td>
+<td>初施預力時混凝土強度</td>
+</tr>
+<tr>
+<td>$n$</td>
+<td>6</td>
+<td>彈性模數比（$E_p/E_{ci}$）</td>
+</tr>
+<tr>
+<td>$f_{pi}$</td>
+<td>13,300 kgf/cm²（= $0.7f_{pu}$）</td>
+<td>初施預力（未扣損失）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>▎斷面幾何</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A$</td>
+<td>$b \cdot h = 20 \times 60$</td>
+<td></td>
+</tr>
+<tr>
+<td>$I$</td>
+<td>$\frac{b h^3}{12} = \frac{20 \times 60^3}{12}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$y_t = y_b$</td>
+<td>$h/2 = 30$ cm（矩形對稱）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▎初始預力與 fcpa</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_i$</td>
+<td>$f_{pi} \times A_{ps}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_{cpa}$</td>
+<td>$P_i/A + P_i e^2/I$（Aps 位置之混凝土壓應力）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▎彈性縮短損失</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\Delta f_{pES}$</td>
+<td>$n \cdot f_{cpa}$（先拉法，全部鋼鍵同時損失）</td>
+<td></td>
+</tr>
+<tr>
+<td>損失率</td>
+<td>$\Delta f_{pES} / f_{pi} \times 100\%$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▎彈性縮短後之有效預力與斷面應力</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_{pe}$</td>
+<td>$f_{pi} - \Delta f_{pES}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$P_e$</td>
+<td>$f_{pe} \times A_{ps}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_{top}$</td>
+<td>$P_e/A - P_e \cdot e \cdot y_t / I$（拉為負）</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_{bot}$</td>
+<td>$P_e/A + P_e \cdot e \cdot y_b / I$（壓為正）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▎開裂與受壓過多判斷</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_r$</td>
+<td>$2\sqrt{f'_{ci}}$（模數破裂強度，kgf/cm²）</td>
+<td></td>
+</tr>
+<tr>
+<td>壓應力上限</td>
+<td>$0.60\,f'_{ci}$（初施預力階段容許壓應力）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>先拉法彈性縮短機制</td>
+<td>鋼鍵先張拉後鑄入混凝土，放張後混凝土受壓縮短，鋼鍵縮短量 = 混凝土縮短量，故損失 = $n \times f_{cpa}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_{cpa}$ 的意義</td>
+<td>不是斷面中性軸應力，而是<strong>Aps 形心所在位置</strong>的混凝土壓應力（含偏心彎矩貢獻）</td>
+<td></td>
+</tr>
+<tr>
+<td>偏心預力的應力方向</td>
+<td>偏心在形心<strong>以下</strong>，使斷面頂部受<strong>拉</strong>、底部受<strong>額外壓</strong>；偏心預力在頂部同時產生軸壓（$P_e/A$，壓）和彎矩拉（$P_e e y_t/I$，拉），拉力通常大於軸壓</td>
+<td></td>
+</tr>
+<tr>
+<td>開裂判斷依據</td>
+<td>用模數破裂 $f_r = 2\sqrt{f'_{ci}}$（kgf/cm²），拉應力超過此值即開裂</td>
+<td></td>
+</tr>
+<tr>
+<td>受壓過多判斷依據</td>
+<td>初施預力階段容許壓應力 = $0.60\,f'_{ci}$（ACI 規範）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程（Step-by-Step Detailed Calculation）</h2>
+<h3>Step 1：斷面幾何性質</h3>
+<p>$$A = 20 \times 60 = 1{,}200 \text{ cm}^2$$</p>
+<p>$$I = \frac{20 \times 60^3}{12} = \frac{20 \times 216{,}000}{12} = 360{,}000 \text{ cm}^4$$</p>
+<p>$$y_t = y_b = \frac{60}{2} = 30 \text{ cm}$$</p>
+<p>Aps 位置：距頂面 = $30 + 15 = 45$ cm（距底面 = 15 cm）</p>
+<hr />
+<h3>Step 2：初始預力合力</h3>
+<p>$$f_{pi} = 0.7 \times 19{,}000 = 13{,}300 \text{ kgf/cm}^2$$</p>
+<p>$$P_i = f_{pi} \times A_{ps} = 13{,}300 \times 3.95 = \boxed{52{,}535 \text{ kgf}}$$</p>
+<hr />
+<h3>Step 3：Aps 位置之混凝土應力 $f_{cpa}$</h3>
+<blockquote>
+<p><strong>策略：</strong> 僅考慮預力（無外載），Aps 所在位置受：(1) 均勻軸壓 $P_i/A$ 和 (2) 偏心彎矩在 Aps 位置處的附加壓力 $P_i e^2/I$，兩者均為壓力（同號）。</p>
+</blockquote>
+<p>$$f_{cpa} = \frac{P_i}{A} + \frac{P_i \cdot e^2}{I}$$</p>
+<p>$$= \frac{52{,}535}{1{,}200} + \frac{52{,}535 \times 15^2}{360{,}000}$$</p>
+<p>$$= 43.78 + \frac{52{,}535 \times 225}{360{,}000}$$</p>
+<p>$$= 43.78 + 32.83$$</p>
+<p>$$= \boxed{76.61 \text{ kgf/cm}^2 \text{（壓）}}$$</p>
+<hr />
+<h3>Step 4：彈性縮短預力損失</h3>
+<p>$$\Delta f_{pES} = n \cdot f_{cpa} = 6 \times 76.61 = \boxed{459.7 \text{ kgf/cm}^2}$$</p>
+<p>損失率：<br />
+$$\frac{\Delta f_{pES}}{f_{pi}} = \frac{459.7}{13{,}300} = 3.46\%$$</p>
+<hr />
+<h3>Step 5：彈性縮短後之有效預力</h3>
+<p>$$f_{pe} = f_{pi} - \Delta f_{pES} = 13{,}300 - 459.7 = 12{,}840.3 \text{ kgf/cm}^2$$</p>
+<p>$$P_e = f_{pe} \times A_{ps} = 12{,}840.3 \times 3.95 = \boxed{50{,}719 \text{ kgf} \approx 50.72 \text{ tf}}$$</p>
+<hr />
+<h3>Step 6：彈性收縮後混凝土頂底纖維應力</h3>
+<blockquote>
+<p><strong>規則：</strong> 壓應力為正（+），拉應力為負（−）</p>
+</blockquote>
+<p>$$\frac{P_e}{A} = \frac{50{,}719}{1{,}200} = 42.27 \text{ kgf/cm}^2$$</p>
+<p>$$\frac{P_e \cdot e \cdot y_t}{I} = \frac{50{,}719 \times 15 \times 30}{360{,}000} = \frac{22{,}823{,}550}{360{,}000} = 63.40 \text{ kgf/cm}^2$$</p>
+<p><strong>頂部纖維（偏心預力在頂部引起拉力）：</strong></p>
+<p>$$f_{top} = \frac{P_e}{A} - \frac{P_e \cdot e \cdot y_t}{I} = 42.27 - 63.40 = \boxed{-21.13 \text{ kgf/cm}^2 \text{（拉）}}$$</p>
+<p><strong>底部纖維（偏心預力在底部引起額外壓力）：</strong></p>
+<p>$$f_{bot} = \frac{P_e}{A} + \frac{P_e \cdot e \cdot y_b}{I} = 42.27 + 63.40 = \boxed{+105.67 \text{ kgf/cm}^2 \text{（壓）}}$$</p>
+<hr />
+<h3>Step 7：開裂與受壓過多判斷</h3>
+<p><strong>（a）開裂判斷（頂部拉應力 vs. 模數破裂強度）：</strong></p>
+<p>$$f_r = 2\sqrt{f'_{ci}} = 2\sqrt{245} = 2 \times 15.65 = 31.30 \text{ kgf/cm}^2$$</p>
+<p>$$f_{top}(\text{拉}) = 21.13 \text{ kgf/cm}^2 &lt; f_r = 31.30 \text{ kgf/cm}^2$$</p>
+<p>$$\Rightarrow \boxed{\text{頂部纖維不開裂}}$$</p>
+<p><strong>（b）受壓過多判斷（底部壓應力 vs. 容許壓應力）：</strong></p>
+<p>$$0.60\,f'_{ci} = 0.60 \times 245 = 147 \text{ kgf/cm}^2$$</p>
+<p>$$f_{bot}(\text{壓}) = 105.67 \text{ kgf/cm}^2 &lt; 147 \text{ kgf/cm}^2$$</p>
+<p>$$\Rightarrow \boxed{\text{底部纖維受壓未過多}}$$</p>
+<p><strong>結論：</strong> 初施預力彈性收縮後，頂部拉應力 21.13 kgf/cm² 未超過開裂強度，底部壓應力 105.67 kgf/cm² 未超過容許值，斷面安全。</p>
+<hr />
+<h3>計算結果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>計算值</th>
+<th>限制值</th>
+<th>判斷</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>彈性縮短預力損失 $\Delta f_{pES}$</td>
+<td>459.7 kgf/cm²（3.46%）</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>頂部纖維應力 $f_{top}$</td>
+<td>21.13 kgf/cm²（拉）</td>
+<td>$f_r = 31.30$ kgf/cm²</td>
+<td>✅ 不開裂</td>
+</tr>
+<tr>
+<td>底部纖維應力 $f_{bot}$</td>
+<td>105.67 kgf/cm²（壓）</td>
+<td>$0.60 f'_{ci} = 147$ kgf/cm²</td>
+<td>✅ 受壓未過多</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討（Critical Issues &amp; Advanced Discussion）</h2>
+<h3>爭議 1：$f_{cpa}$ 應用初始預力 $P_i$ 或有效預力 $P_e$？</h3>
+<p>嚴格而言，彈性縮短後的 $f_{cpa}$ 應用 $P_e$（損失後的力），但這形成循環計算。考場標準做法是<strong>用 $P_i$ 近似計算 $f_{cpa}$</strong>，誤差約 3–5%，為業界與考試認可的近似解。</p>
+<h3>爭議 2：先拉法 vs. 後拉法的彈性縮短差異</h3>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>彈性縮短損失</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>先拉法（全部鋼鍵同時放張）</td>
+<td>$\Delta f_{pES} = n \cdot f_{cpa}$（本題）</td>
+</tr>
+<tr>
+<td>後拉法（單一鋼鍵）</td>
+<td>等效地，幾乎無彈性縮短損失（千斤頂直接施力於已縮短的混凝土）</td>
+</tr>
+<tr>
+<td>後拉法（多鋼鍵依序張拉）</td>
+<td>約為先拉法的一半：$\Delta f_{pES} = \frac{n}{2} \cdot f_{cpa}$</td>
+</tr>
+</tbody>
+</table>
+<p>本題給定 $n = 6$ 且不提千斤頂施拉條件，採先拉法公式處理。</p>
+<h3>進階：偏心對損失量的放大效應</h3>
+<p>如果鋼鍵位於形心（$e = 0$），則：<br />
+$$f_{cpa} = P_i/A = 43.78 \text{ kgf/cm}^2 \Rightarrow \Delta f_{pES} = 262.7 \text{ kgf/cm}^2$$</p>
+<p>而本題偏心 $e = 15$ cm 使 $f_{cpa}$ 增加 $P_i e^2/I = 32.83$，導致損失多出 197 kgf/cm²（約75%增幅）。偏心越大，Aps 位置的混凝土壓應力越高，彈性縮短損失也越大。</p></main>
+<footer>來源：raw/solutions/RC-2016-4/RC-2016-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

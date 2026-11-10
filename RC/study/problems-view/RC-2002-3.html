@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2002-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2002-3 題目解析</h1><div class="navbtns"></div></header>
+<main><h1>考題編號：RC-2002-3</h1>
+<p><strong>主分類：</strong> <code>RC-U2-2</code> RC 扭力強度設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>扭力忽略門檻</code> <code>偏心均佈載重</code> <code>最大偏心量e</code> <code>單端拘束</code> <code>tu×L扭矩圖</code> <code>矩形梁</code> <code>f'c=210</code> <code>ACI 318-89</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>題目（20 分）：</strong></p>
+<p>有鋼筋混凝土矩形梁：</p>
+<ul>
+<li>對垂直載重：跨度 λ = 8 m，兩端簡支</li>
+<li>對扭轉：一端支座完全受拘束（fixed），另一端完全不受拘束（free）</li>
+<li>梁承受偏心均佈設計載重 Wu = 2.0 t/m（偏心量為 e）</li>
+<li>已知：f'c = 210 kgf/cm²，d = 45 cm</li>
+<li>求：在不需考慮扭力影響下，最大偏心量 e 值</li>
+</ul>
+<p><strong>斷面幾何（由附圖讀取）：</strong></p>
+<ul>
+<li>b = 36 cm（寬度）</li>
+<li>h = 50 cm（深度；d = 45 cm → 保護層至鋼筋心距 = 5 cm）</li>
+</ul>
+<p><img alt="RC-2002-3 題目附圖：矩形梁斷面 b=36cm × h=50cm，偏心均佈載重 Wu=2t/m 作用於形心線右方偏心距 e 處" src="../../raw/solutions/RC-2002-3/RC-2002-3-fig-1.png" /></p>
+<p><em>圖說：矩形斷面 b=36 cm × h=50 cm；Wu = 2.0 t/m 作用在距截面剪力中心（形心）e 處，產生均佈扭矩 tu = Wu × e；扭轉邊界：左端完全固定（反力 T = tu×L），右端自由（T = 0）。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong><br />
+本題考查兩個層面：</p>
+<ol>
+<li><strong>扭矩圖的建立</strong>：偏心均佈載重在「一端固定、一端自由」扭轉邊界條件下，最大扭矩在何處？數值為何？</li>
+<li><strong>扭力忽略門檻</strong>（ACI 318 閾值扭矩）：Tu ≤ φTc 時可忽略扭力效應。</li>
+</ol>
+<p><strong>出題者意圖：</strong></p>
+<ul>
+<li>測驗是否能正確建立非對稱扭轉邊界條件下的扭矩圖（最大值在固定端）</li>
+<li>測驗是否記得 ACI 318 閾值扭矩公式（x²y 型舊版公式）</li>
+<li>兩者聯立即可解出 e</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>建立扭矩分布（一端固定、一端自由，均佈扭矩 tu = Wu × e）</li>
+<li>求最大扭矩 Tu_max（在固定端）</li>
+<li>代入 ACI 閾值扭矩公式求 φTc</li>
+<li>令 Tu_max ≤ φTc，解出 e_max</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>誤用兩端對稱邊界（Tu = tu×L/2），忽略一端自由的條件</td>
+<td>一端固定、一端自由 → Tu_max = tu × L（全部扭矩由固定端承受）</td>
+</tr>
+<tr>
+<td>②</td>
+<td>閾值扭矩公式忘記 φ（0.85）</td>
+<td>φTc = 0.5 × φ × √f'c × x²y/3，不可忽略 φ</td>
+</tr>
+<tr>
+<td>③</td>
+<td>x²y 中 x 取短邊（36 cm），y 取長邊（50 cm）</td>
+<td>不可把 b 和 h 互調</td>
+</tr>
+<tr>
+<td>④</td>
+<td>Wu 單位換算：2 t/m = 20 kgf/cm</td>
+<td>混用 tf/m 和 kgf/cm 導致結果差 1000 倍</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p>求偏心均佈載重 Wu = 2 t/m 在一端固定、一端自由梁中，可忽略扭力效應的最大偏心距 e_max。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1（均佈扭矩）：} \quad t_u = W_u \times e$$</p>
+<p>$$\text{Step 2（最大扭矩，一端固定一端自由）：} \quad T_{u,\max} = t_u \times L = W_u \times e \times L$$</p>
+<p>$$\text{Step 3（ACI 閾值扭矩）：} \quad \phi T_c = 0.5\,\phi\,\sqrt{f'_c} \cdot \frac{x^2 y}{3}$$</p>
+<p>$$\text{Step 4（令 } T_{u,\max} = \phi T_c \text{，解 e）：} \quad e_{\max} = \frac{\phi T_c}{W_u \times L}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L</td>
+<td>8 m = 800 cm</td>
+<td>跨度</td>
+</tr>
+<tr>
+<td>Wu</td>
+<td>2.0 t/m = 20 kgf/cm</td>
+<td>偏心均佈設計載重</td>
+</tr>
+<tr>
+<td>f'c</td>
+<td>210 kgf/cm²</td>
+<td>混凝土強度</td>
+</tr>
+<tr>
+<td>b</td>
+<td>36 cm</td>
+<td>梁寬（圖）</td>
+</tr>
+<tr>
+<td>h</td>
+<td>50 cm</td>
+<td>梁深（圖）</td>
+</tr>
+<tr>
+<td>d</td>
+<td>45 cm</td>
+<td>有效深度（題目給定）</td>
+</tr>
+<tr>
+<td>扭轉邊界</td>
+<td>一端固定，一端自由</td>
+<td>題目指定</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>均佈扭矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tu</td>
+<td>Wu × e = 20e kgf（kgf·cm/cm）</td>
+<td></td>
+</tr>
+<tr>
+<td>Tu_max</td>
+<td>tu × L（一端固定一端自由，固定端） = 20e × 800 = 16,000e kgf·cm</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>ACI 閾值扭矩（ACI 318-89/95）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>min(b, h) = 36 cm（短邊）</td>
+<td></td>
+</tr>
+<tr>
+<td>y</td>
+<td>max(b, h) = 50 cm（長邊）</td>
+<td></td>
+</tr>
+<tr>
+<td>x²y</td>
+<td>36² × 50 = 64,800 cm³</td>
+<td></td>
+</tr>
+<tr>
+<td>φ</td>
+<td>0.85（扭力，舊版 ACI）</td>
+<td></td>
+</tr>
+<tr>
+<td>φTc</td>
+<td>0.5 × 0.85 × √210 × 64,800/3</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一端固定一端自由的扭矩圖</td>
+<td>均佈扭矩下，固定端承受全部反力 T = tu×L；自由端 T = 0；中間線性變化</td>
+<td></td>
+</tr>
+<tr>
+<td>ACI 閾值扭矩公式版本差異</td>
+<td>ACI 318-89/95 用 0.5φ√f'c×Σx²y/3（舊）；ACI 318-99 用 φ√f'c/12×Acp²/pcp（新）；台灣2002年考試用舊版</td>
+<td></td>
+</tr>
+<tr>
+<td>x²y 的定義</td>
+<td>x 為截面各矩形部分短邊，y 為長邊；Σx²y 取各矩形之和；純矩形梁只有一項</td>
+<td></td>
+</tr>
+<tr>
+<td>扭矩忽略門檻的物理意義</td>
+<td>Tu &lt; 0.5φTcr（裂縫扭矩的一半），代表扭矩很小，可視為次要效應忽略</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：建立均佈扭矩 tu</h3>
+<p>偏心均佈設計載重 Wu 作用在距截面剪力中心偏心距 e 處，產生均佈扭矩：</p>
+<p>$$t_u = W_u \times e = 20\,\frac{\text{kgf}}{\text{cm}} \times e\,\text{cm} = 20e\,\left[\frac{\text{kgf·cm}}{\text{cm}}\right]$$</p>
+<h3>Step 2：建立扭矩圖，求 Tu_max</h3>
+<p><strong>邊界條件：</strong> 一端完全拘束（扭轉固定端，提供扭矩反力），一端完全不拘束（扭轉自由端，無扭矩反力）</p>
+<p>對整梁作扭轉平衡（均佈扭矩 tu，一端固定，一端自由）：</p>
+<pre><code>固定端 A ←─────────────── L=800 cm ───────────────→ 自由端 B
+  T_A = tu×L                                              T_B = 0
+
+扭矩圖（自 A 至 B）：
+T(x) = tu × (L − x)
+T(0) = tu × L ← 最大值（固定端）
+T(L) = 0       （自由端）
+</code></pre>
+<p>$$T_{u,\max} = t_u \times L = 20e\,\text{kgf} \times 800\,\text{cm} = \boxed{16{,}000\,e\;\text{kgf·cm}}$$</p>
+<p>（其中 e 單位為 cm）</p>
+<h3>Step 3：計算 ACI 閾值扭矩 φTc</h3>
+<p>依 ACI 318-89/CNS 1480（舊版），純矩形截面，扭力可忽略之條件：</p>
+<p>$$T_u \leq 0.5\,\phi\,\sqrt{f'_c} \cdot \frac{\Sigma x^2 y}{3}$$</p>
+<p><strong>截面參數：</strong></p>
+<ul>
+<li>x = b = 36 cm（短邊）</li>
+<li>y = h = 50 cm（長邊）</li>
+<li>Σx²y = 36² × 50 = 1296 × 50 = 64,800 cm³</li>
+<li>φ = 0.85（舊版 ACI 扭力強度折減係數）</li>
+<li>√f'c = √210 = 14.49 kgf^0.5/cm</li>
+</ul>
+<p>$$\phi T_c = 0.5 \times 0.85 \times 14.49 \times \frac{64{,}800}{3}$$</p>
+<p>$$= 0.5 \times 0.85 \times 14.49 \times 21{,}600$$</p>
+<p>$$= 0.425 \times 14.49 \times 21{,}600$$</p>
+<p>$$= 0.425 \times 312{,}984$$</p>
+<p>$$= \boxed{132{,}978\;\text{kgf·cm}}$$</p>
+<h3>Step 4：令 Tu_max = φTc，解出 e_max</h3>
+<p>$$T_{u,\max} \leq \phi T_c$$</p>
+<p>$$16{,}000\,e \leq 132{,}978$$</p>
+<p>$$e \leq \frac{132{,}978}{16{,}000} = 8.31\;\text{cm}$$</p>
+<p>$$\boxed{e_{\max} \approx 8.31\;\text{cm}}$$</p>
+<p><strong>結論：</strong> 當偏心量 e ≤ 8.31 cm 時，最大扭矩 Tu 不超過門檻扭矩 φTc，設計時可忽略扭力效應。</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>1. 為何固定端承受全部扭矩（Tu = tu × L），而非 tu × L/2？</strong></p>
+<p>若兩端均為扭轉固定，各端各承受 tu×L/2（對稱）。但本題一端自由（無扭轉反力），全部均佈扭矩只能由固定端提供反力。因此固定端反力 T = tu × L，為最大扭矩。</p>
+<p><strong>2. ACI 318 新舊版差異（本題重要背景）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>閾值公式（solid rectangle）</th>
+<th>φTc（本題）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACI 318-89/95（舊）</td>
+<td>0.5φ√f'c × x²y/3</td>
+<td>132,978 kgf·cm → e = 8.31 cm</td>
+</tr>
+<tr>
+<td>ACI 318-99/02（新）</td>
+<td>φ√f'c/12 × Acp²/pcp</td>
+<td>52,484 kgf·cm → e = 3.28 cm</td>
+</tr>
+</tbody>
+</table>
+<p>2002 年考試適用舊版（CNS 1480），採 e ≈ 8.31 cm。若用新版公式，閾值更嚴格（e ≈ 3.28 cm），差異顯著。</p>
+<p><strong>3. d = 45 cm 在本題的用途：</strong><br />
+題目給定 d = 45 cm，但閾值扭矩公式使用 x²y（毛斷面尺寸），d 不直接出現。d 可能作為後續剪力設計的輸入，但本題只問扭力忽略條件，d 未直接使用。</p>
+<p><strong>4. 若偏心量 e &gt; 8.31 cm 需如何處理？</strong><br />
+需進行完整扭力設計：</p>
+<ul>
+<li>計算 φTn = φ(Tc + Ts)</li>
+<li>配置閉合箍筋（for torsion）與縱向扭力筋</li>
+<li>同時驗算斷面適當性（剪力+扭力組合）</li>
+</ul></main>
+<footer>來源：raw/solutions/RC-2002-3/RC-2002-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

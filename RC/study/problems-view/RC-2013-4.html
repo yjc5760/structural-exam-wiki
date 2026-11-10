@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2013-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2013-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U4-1.html">&#128202; U4-1 單元總覽</a><a class="lect" href="../lecture-RC-U4-1.html">&#128218; U4-1 預力梁斷面應力分析 講義</a></div></header>
+<main><h1>考題編號：RC-2013-4</h1>
+<p><strong>主分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
+<strong>副分類：</strong> （無）<br />
+<strong>設計法：</strong> 混合（WSD 開裂彎矩 + USD 極限應變）<br />
+<strong>標籤：</strong> <code>先拉法</code> <code>有黏結腱</code> <code>開裂彎矩</code> <code>鋼腱極限應變</code> <code>fps公式</code> <code>矩形斷面</code> <code>Whitney應力塊</code> <code>β₁折減</code> <code>應變相容</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>一<strong>先拉預力梁</strong>，斷面 $b=30\ \text{cm}$，$h=60\ \text{cm}$，鋼腱偏心距 $e=20\ \text{cm}$，<br />
+有效預力 $F_e=65\ \text{tf}$，混凝土強度 $f'_c=350\ \text{kgf/cm}^2$，$f_{pu}=17{,}100\ \text{kgf/cm}^2$，<br />
+$A_{ps}=6.5\ \text{cm}^2$，鋼腱彈性模數 $E_p=2.04\times10^6\ \text{kgf/cm}^2$。</p>
+<p><strong>試求：</strong></p>
+<ol>
+<li>開裂彎矩 $M_{cr}$</li>
+<li>鋼腱極限應變 $\varepsilon_{ps,u}$</li>
+</ol>
+<p><strong>參考公式：</strong><br />
+$$f_{ps} = f_{pu}\!\left(1 - 0.5\,\rho_p \cdot \frac{f_{pu}}{f'_c}\right)$$</p>
+<blockquote>
+<p>無附圖（純文字題）。鋼腱位於斷面重心<strong>下方</strong> $e=20\ \text{cm}$ 處，即距頂纖維 $d_p = h/2 + e = 30 + 20 = 50\ \text{cm}$。</p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心精神：</strong><br />
+預力梁的行為分兩階段：</p>
+<ul>
+<li><strong>使用階段（WSD）</strong>：有效預力提供底纖維預壓縮，須施加足夠外力矩才能使底纖維拉力達到 $f_r$ 而開裂 → <strong>開裂彎矩</strong></li>
+<li><strong>極限階段（USD）</strong>：斷面到達混凝土壓碎，以 Whitney 應力塊平衡，並用應變相容求鋼腱極限應變</li>
+</ul>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測試開裂彎矩公式的建立：底纖維預壓縮 + 斷裂模數 $f_r$ 共同決定 $M_{cr}$</li>
+<li>測試 $f_{ps}$ 簡化公式的運用（ACI 限定條件下）</li>
+<li>測試極限應變的三層分解：初始預應變 $\varepsilon_{pe}$、去壓應變 $\varepsilon_{ce}$、撓曲增量 $\Delta\varepsilon_{flex}$</li>
+<li>注意 $\beta_1$ 隨 $f'_c$ 降低（350 &gt; 280 kgf/cm²）</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>【Part 1：開裂彎矩】
+Step 1：計算斷面幾何特性（A, I, Sb, St）
+Step 2：計算底纖維預壓應力（Fe/A + Fe·e/Sb）
+Step 3：計算斷裂模數 fr = 2√f'c
+Step 4：Mcr = Sb × (預壓 + fr)
+
+【Part 2：鋼腱極限應變】
+Step 5：計算 ρp、代入 fps 公式
+Step 6：計算 β1（f'c &gt; 280 kgf/cm²）
+Step 7：力平衡求中性軸深度 c
+Step 8：三層應變相加 → εps,u
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>β₁ 忘記折減</strong>：f'c = 350 &gt; 280 kgf/cm²，β₁ ≠ 0.85</td>
+<td>β₁ = 0.85 − 0.05×(350−280)/70 = <strong>0.80</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>dp 混淆</strong>：e 是到重心的距離，不是到底面的距離</td>
+<td>dp = h/2 + e = 30 + 20 = <strong>50 cm</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>εce 忽略</strong>：去壓應變是極限應變的一部分，不可遺漏</td>
+<td>εce = fce/Ec，fce 含軸壓與彎曲兩項</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>ρp 分母用 b×h 而非 b×dp</strong>：ACI 公式中 ρp = Aps/(b·dp)</td>
+<td>ρp = 6.5/(30×50) = 0.004333</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>求開裂彎矩 Mcr（預壓縮 + fr 決定）與鋼腱極限應變 εps,u（三層疊加）</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1:}\quad A = bh,\quad I = \frac{bh^3}{12},\quad S_b = \frac{I}{y_b},\quad d_p = \frac{h}{2} + e$$</p>
+<p>$$\text{Step 2:}\quad f_{b,\text{pre}} = \frac{F_e}{A} + \frac{F_e \cdot e}{S_b},\quad f_r = 2\sqrt{f'_c}$$</p>
+<p>$$\text{Step 3:}\quad M_{cr} = S_b\!\left(f_{b,\text{pre}} + f_r\right)$$</p>
+<p>$$\text{Step 4:}\quad \rho_p = \frac{A_{ps}}{b\cdot d_p},\quad f_{ps} = f_{pu}\!\left(1 - 0.5\,\rho_p\cdot\frac{f_{pu}}{f'_c}\right)$$</p>
+<p>$$\text{Step 5:}\quad \beta_1 = 0.85 - 0.05\cdot\frac{f'_c - 280}{70},\quad c = \frac{A_{ps}\cdot \boxed{f_{ps}}}{0.85\,f'_c\,\beta_1\,b}$$</p>
+<p>$$\text{Step 6:}\quad \varepsilon_{pe} = \frac{F_e/A_{ps}}{E_p},\quad f_{ce} = \frac{F_e}{A} + \frac{F_e\cdot e^2}{I},\quad \varepsilon_{ce} = \frac{\boxed{f_{ce}}}{E_c}$$</p>
+<p>$$\text{Step 7:}\quad \varepsilon_{ps,u} = \varepsilon_{pe} + \varepsilon_{ce} + \varepsilon_{cu}\cdot\frac{d_p - \boxed{c}}{\boxed{c}}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>30 cm</td>
+<td>斷面寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>60 cm</td>
+<td>斷面高</td>
+</tr>
+<tr>
+<td>$e$</td>
+<td>20 cm</td>
+<td>鋼腱偏心距（距中性軸）</td>
+</tr>
+<tr>
+<td>$F_e$</td>
+<td>65 tf = 65,000 kgf</td>
+<td>有效預力</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>350 kgf/cm²</td>
+<td>混凝土強度</td>
+</tr>
+<tr>
+<td>$f_{pu}$</td>
+<td>17,100 kgf/cm²</td>
+<td>鋼腱抗拉強度</td>
+</tr>
+<tr>
+<td>$A_{ps}$</td>
+<td>6.5 cm²</td>
+<td>預力鋼腱面積</td>
+</tr>
+<tr>
+<td>$E_p$</td>
+<td>2.04×10⁶ kgf/cm²</td>
+<td>鋼腱彈性模數</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：斷面幾何</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A$</td>
+<td>$30\times60=1{,}800\ \text{cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I$</td>
+<td>$30\times60^3/12=540{,}000\ \text{cm}^4$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$y_b=y_t$</td>
+<td>$60/2=30\ \text{cm}$（矩形對稱）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$S_b=S_t$</td>
+<td>$540{,}000/30=18{,}000\ \text{cm}^3$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$d_p$</td>
+<td>$30+20=50\ \text{cm}$（鋼腱距頂纖維）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：Part 1 開裂彎矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$F_e/A$</td>
+<td>$65{,}000/1{,}800=36.11\ \text{kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$F_e\cdot e/S_b$</td>
+<td>$65{,}000\times20/18{,}000=72.22\ \text{kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_{b,\text{pre}}$</td>
+<td>$36.11+72.22=108.33\ \text{kgf/cm}^2$（壓）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_r$</td>
+<td>$2\sqrt{350}=37.42\ \text{kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{cr}$</td>
+<td>$(108.33+37.42)\times18{,}000=2{,}623{,}500\ \text{kgf·cm}=26.24\ \text{tf·m}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：Part 2 fps &amp; β₁</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\rho_p$</td>
+<td>$6.5/(30\times50)=0.004333$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$0.5\rho_p f_{pu}/f'_c$</td>
+<td>$0.5\times0.004333\times17{,}100/350=0.1059$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_{ps}$</td>
+<td>$17{,}100\times(1-0.1059)=15{,}290\ \text{kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\beta_1$</td>
+<td>$0.85-0.05\times(350-280)/70=0.80$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$c$</td>
+<td>$6.5\times15{,}290/(0.85\times350\times0.80\times30)=13.92\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：極限應變三層</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_e = F_e/A_{ps}$</td>
+<td>$65{,}000/6.5=10{,}000\ \text{kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_{pe}$</td>
+<td>$10{,}000/(2.04\times10^6)=4.902\times10^{-3}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$E_c$</td>
+<td>$15{,}000\sqrt{350}=280{,}624\ \text{kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_{ce}$</td>
+<td>$36.11+65{,}000\times400/540{,}000=36.11+48.15=84.26\ \text{kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_{ce}$</td>
+<td>$84.26/280{,}624=3.00\times10^{-4}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\Delta\varepsilon_{flex}$</td>
+<td>$0.003\times(50-13.92)/13.92=7.776\times10^{-3}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_{ps,u}$</td>
+<td>$4.902\times10^{-3}+0.300\times10^{-3}+7.776\times10^{-3}=12.98\times10^{-3}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>底纖維預壓縮兩項</strong></td>
+<td>$F_e/A$（均壓）+ $F_e\cdot e/S_b$（偏心彎矩）共同決定預壓縮量，缺一不可</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>β₁ 隨 f'c 遞減</strong></td>
+<td>規範：$f'_c&gt;280$ kgf/cm² 時每增加 70 kgf/cm² 降低 0.05；350 kgf/cm² 恰好降 0.05→ β₁=0.80</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>三層應變疊加</strong></td>
+<td>①初始預應變 $\varepsilon_{pe}$（張拉時儲存）②去壓應變 $\varepsilon_{ce}$（消除混凝土預壓縮才能拉伸鋼腱）③撓曲增量（平截面假設，比例於 $(d_p-c)/c$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>fce 的計算方式</strong></td>
+<td>鋼腱位置的混凝土應力 = 軸壓分量 + 偏心彎曲分量，即 $F_e/A + F_e\cdot e^2/I$（$e$ 是重心到鋼腱的距離，也是力矩臂，故力矩 = $F_e\cdot e$，在鋼腱處的應力 = $F_e\cdot e\cdot e/I = F_e\cdot e^2/I$）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>▌ Part 1：開裂彎矩 $M_{cr}$</h3>
+<hr />
+<h4>Step 1：斷面幾何特性</h4>
+<p>$$A = b \times h = 30 \times 60 = \boxed{1{,}800\ \text{cm}^2}$$</p>
+<p>$$I = \frac{bh^3}{12} = \frac{30 \times 60^3}{12} = \boxed{540{,}000\ \text{cm}^4}$$</p>
+<p>$$y_b = y_t = \frac{h}{2} = 30\ \text{cm} \qquad S_b = S_t = \frac{I}{y_b} = \frac{540{,}000}{30} = \boxed{18{,}000\ \text{cm}^3}$$</p>
+<p>$$d_p = \frac{h}{2} + e = 30 + 20 = \boxed{50\ \text{cm}} \quad \text{（鋼腱距頂纖維）}$$</p>
+<hr />
+<h4>Step 2：底纖維有效預壓縮應力</h4>
+<p>有效預力 $F_e = 65\ \text{tf} = 65{,}000\ \text{kgf}$，鋼腱在重心下方 $e=20\ \text{cm}$，<br />
+底纖維同時受軸壓與偏心彎矩壓縮：</p>
+<p>$$f_{b,\text{pre}} = \frac{F_e}{A} + \frac{F_e \cdot e}{S_b} = \frac{65{,}000}{1{,}800} + \frac{65{,}000 \times 20}{18{,}000} = 36.11 + 72.22 = \boxed{108.33\ \text{kgf/cm}^2 \text{（壓）}}$$</p>
+<hr />
+<h4>Step 3：混凝土斷裂模數</h4>
+<p>$$f_r = 2\sqrt{f'_c} = 2\sqrt{350} = 2 \times 18.708 = \boxed{37.42\ \text{kgf/cm}^2}$$</p>
+<hr />
+<h4>Step 4：開裂彎矩</h4>
+<p>開裂條件：外力矩在底纖維產生拉應力 = 預壓縮 + $f_r$</p>
+<p>$$\frac{M_{cr}}{S_b} = f_{b,\text{pre}} + f_r = 108.33 + 37.42 = 145.75\ \text{kgf/cm}^2$$</p>
+<p>$$M_{cr} = 145.75 \times 18{,}000 = 2{,}623{,}500\ \text{kgf·cm} = \boxed{26.24\ \text{tf·m}}$$</p>
+<hr />
+<h3>▌ Part 2：鋼腱極限應變 $\varepsilon_{ps,u}$</h3>
+<hr />
+<h4>Step 5：計算 $f_{ps}$（極限鋼腱應力）</h4>
+<p>$$\rho_p = \frac{A_{ps}}{b \cdot d_p} = \frac{6.5}{30 \times 50} = \frac{6.5}{1{,}500} = 0.004333$$</p>
+<p>$$0.5\,\rho_p \cdot \frac{f_{pu}}{f'_c} = 0.5 \times 0.004333 \times \frac{17{,}100}{350} = 0.5 \times 0.004333 \times 48.857 = 0.10586$$</p>
+<p>$$f_{ps} = 17{,}100 \times (1 - 0.10586) = 17{,}100 \times 0.89414 = \boxed{15{,}290\ \text{kgf/cm}^2}$$</p>
+<hr />
+<h4>Step 6：確定 $\beta_1$（$f'_c = 350\ \text{kgf/cm}^2 &gt; 280$）</h4>
+<p>$$\beta_1 = 0.85 - 0.05 \times \frac{350 - 280}{70} = 0.85 - 0.05 \times 1.0 = \boxed{0.80}$$</p>
+<hr />
+<h4>Step 7：力平衡求中性軸深度 $c$</h4>
+<p>$$C_c = 0.85\,f'_c \cdot \beta_1 \cdot c \cdot b = 0.85 \times 350 \times 0.80 \times c \times 30 = 7{,}140\,c \ (\text{kgf})$$</p>
+<p>$$T_{ps} = A_{ps} \cdot f_{ps} = 6.5 \times 15{,}290 = 99{,}385\ \text{kgf}$$</p>
+<p>$$7{,}140\,c = 99{,}385 \implies c = \frac{99{,}385}{7{,}140} = \boxed{13.92\ \text{cm}}$$</p>
+<p>$$a = \beta_1 \cdot c = 0.80 \times 13.92 = 11.14\ \text{cm}$$</p>
+<p>延性檢核：$\varepsilon_t = 0.003 \times (50 - 13.92)/13.92 = 0.00778 &gt; 0.005$ → <strong>拉力控制</strong> ✓</p>
+<hr />
+<h4>Step 8：鋼腱極限應變（三層疊加）</h4>
+<p><strong>① 初始預應變 $\varepsilon_{pe}$</strong>（張拉時儲存在鋼腱中的應變）</p>
+<p>$$f_e = \frac{F_e}{A_{ps}} = \frac{65{,}000}{6.5} = 10{,}000\ \text{kgf/cm}^2$$</p>
+<p>$$\varepsilon_{pe} = \frac{f_e}{E_p} = \frac{10{,}000}{2.04 \times 10^6} = 4.902 \times 10^{-3}$$</p>
+<p><strong>② 去壓應變 $\varepsilon_{ce}$</strong>（消除鋼腱處混凝土預壓縮，鋼腱才開始伸長）</p>
+<p>$$E_c = 15{,}000\sqrt{f'_c} = 15{,}000\sqrt{350} = 280{,}624\ \text{kgf/cm}^2$$</p>
+<p>鋼腱位置的混凝土壓應力（軸壓 + 偏心彎矩，取 $e$ 距離）：</p>
+<p>$$f_{ce} = \frac{F_e}{A} + \frac{F_e \cdot e^2}{I} = \frac{65{,}000}{1{,}800} + \frac{65{,}000 \times 20^2}{540{,}000} = 36.11 + 48.15 = 84.26\ \text{kgf/cm}^2$$</p>
+<p>$$\varepsilon_{ce} = \frac{f_{ce}}{E_c} = \frac{84.26}{280{,}624} = 3.002 \times 10^{-4}$$</p>
+<p><strong>③ 撓曲增量 $\Delta\varepsilon_{flex}$</strong>（平截面假設，與混凝土頂纖維應變成比例）</p>
+<p>$$\Delta\varepsilon_{flex} = \varepsilon_{cu} \times \frac{d_p - c}{c} = 0.003 \times \frac{50 - 13.92}{13.92} = 0.003 \times 2.593 = 7.778 \times 10^{-3}$$</p>
+<p><strong>三層合計：</strong></p>
+<p>$$\varepsilon_{ps,u} = \varepsilon_{pe} + \varepsilon_{ce} + \Delta\varepsilon_{flex}$$</p>
+<p>$$= 4.902 \times 10^{-3} + 0.300 \times 10^{-3} + 7.778 \times 10^{-3}$$</p>
+<p>$$= \boxed{\varepsilon_{ps,u} = 12.98 \times 10^{-3} \approx 0.013}$$</p>
+<hr />
+<h3>結論彙整</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: center;">結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>開裂彎矩 $M_{cr}$</td>
+<td style="text-align: center;"><strong>26.24 tf·m</strong>（= 2,623,500 kgf·cm）</td>
+</tr>
+<tr>
+<td>底纖維預壓縮</td>
+<td style="text-align: center;">108.33 kgf/cm²</td>
+</tr>
+<tr>
+<td>斷裂模數 $f_r$</td>
+<td style="text-align: center;">37.42 kgf/cm²</td>
+</tr>
+<tr>
+<td>極限鋼腱應力 $f_{ps}$</td>
+<td style="text-align: center;">15,290 kgf/cm²</td>
+</tr>
+<tr>
+<td>中性軸深度 $c$</td>
+<td style="text-align: center;">13.92 cm</td>
+</tr>
+<tr>
+<td>初始預應變 $\varepsilon_{pe}$</td>
+<td style="text-align: center;">4.902×10⁻³</td>
+</tr>
+<tr>
+<td>去壓應變 $\varepsilon_{ce}$</td>
+<td style="text-align: center;">0.300×10⁻³</td>
+</tr>
+<tr>
+<td>撓曲增量 $\Delta\varepsilon_{flex}$</td>
+<td style="text-align: center;">7.778×10⁻³</td>
+</tr>
+<tr>
+<td><strong>鋼腱極限應變 $\varepsilon_{ps,u}$</strong></td>
+<td style="text-align: center;"><strong>0.013（12.98×10⁻³）</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>① $f_{ps}$ 公式的適用條件</strong></p>
+<p>給定公式 $f_{ps}=f_{pu}(1-0.5\rho_p f_{pu}/f'_c)$ 是 ACI 318 對<strong>有黏結</strong>（bonded）先拉或後拉梁的簡化公式，需滿足：</p>
+<ul>
+<li>無受壓鋼筋（或受壓鋼筋量極少）</li>
+<li>鋼腱滿足最低延性要求</li>
+</ul>
+<p>若同時有普通鋼筋，分母需加入 $\omega/\omega_p$ 項（混合配筋公式）。</p>
+<p><strong>② 三層應變疊加的物理意義</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">層</th>
+<th>何時發生</th>
+<th>物理本質</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$\varepsilon_{pe}$</td>
+<td>施拉時</td>
+<td>鋼腱本身儲存的彈性應變，梁自重加上也不消失</td>
+</tr>
+<tr>
+<td style="text-align: center;">$\varepsilon_{ce}$</td>
+<td>外力矩增加到使鋼腱處混凝土應變歸零</td>
+<td>必須「消耗」這段行程才能讓鋼腱額外伸長</td>
+</tr>
+<tr>
+<td style="text-align: center;">$\Delta\varepsilon_{flex}$</td>
+<td>超過去壓後直到極限破壞</td>
+<td>平截面假設：頂纖維達 εcu=0.003 時，鋼腱的比例伸長</td>
+</tr>
+</tbody>
+</table>
+<p><strong>③ $\varepsilon_{ps,u}$ 驗算</strong></p>
+<p>$\varepsilon_{ps,u} = 0.013$，換算對應應力：$0.013 \times 2.04\times10^6 = 26{,}520\ \text{kgf/cm}^2 \gg f_{pu}$</p>
+<p>這表明<strong>鋼腱已超過彈性範圍進入非線性段</strong>，而非線性應力應變曲線在高應變時應力低於<br />
+彈性外插值。$f_{ps} = 15{,}290\ \text{kgf/cm}^2 &lt; f_{pu} = 17{,}100\ \text{kgf/cm}^2$，正好落在鋼腱的非線性硬化區，物理上合理。</p>
+<p><strong>④ 考場快速估算 $M_{cr}$</strong></p>
+<p>$$M_{cr} \approx \frac{F_e\cdot S_b}{A} + F_e\cdot e + f_r\cdot S_b = \underbrace{F_e\!\left(\frac{S_b}{A}+e\right)}_{\text{預力項}} + \underbrace{f_r\cdot S_b}_{\text{開裂項}}$$</p>
+<p>對矩形梁：$S_b/A = I/(A\cdot y_b) = (bh^3/12)/(bh\cdot h/2) = h/6$，故</p>
+<p>$$M_{cr} = F_e\!\left(\frac{h}{6}+e\right) + f_r\cdot S_b = 65{,}000\times(10+20) + 37.42\times18{,}000 = 1{,}950{,}000 + 673{,}560 = 2{,}623{,}560\ \text{kgf·cm} ✓$$</p></main>
+<footer>來源：raw/solutions/RC-2013-4/RC-2013-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

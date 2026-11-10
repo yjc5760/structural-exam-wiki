@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2017-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2017-1 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-2.html">&#128202; U1-2 單元總覽</a><a class="lect" href="../lecture-RC-U1-2.html">&#128218; U1-2 RC 柱強度分析與設計 講義</a></div></header>
+<main><h3>考題編號：RC-2017-1</h3>
+<p><strong>主分類：</strong> <code>RC-U1-2</code> RC 柱強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>加大柱</code> <code>組合截面</code> <code>軸壓強度</code> <code>雙折線應力應變</code> <code>最大可用軸力</code> <code>締箍柱</code> <code>最小偏心</code> <code>新舊混凝土</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>規範依據：</strong> 中國土木水利工程學會「混凝土工程設計規範與解說」（土木 401-100）</p>
+<p>一方形柱斷面原為 $40\text{ cm} \times 40\text{ cm}$，配有 $8$ 支 D25 鋼筋（$f_y = 4{,}200\text{ kgf/cm}^2$，$A_b = 5.067\text{ cm}^2$），如附圖1所示。混凝土強度 $f'_c = 210\text{ kgf/cm}^2$。</p>
+<p>評估後發現必須將柱加大為 $40\text{ cm} \times 70\text{ cm}$（兩側各加寬 $15\text{ cm}$，斷面構成為 $15\text{ cm}|40\text{ cm}|15\text{ cm}$），使用常重混凝土（$f'_c = 210\text{ kgf/cm}^2$），鋼筋維持 $8$ 支 D25（$4$ 支集中於 $40\text{ cm}$ 面各端），保護層 $6.5\text{ cm}$（量至鋼筋中心）。</p>
+<p>混凝土應力應變關係可簡化為雙折線（圖2）：</p>
+<p>$$\text{上升段（}0 \leq \varepsilon_c \leq 0.002\text{）：} f_c = \frac{\varepsilon_c}{0.002} \cdot f'_c \quad(\text{線性至 }1.0f'_c)$$</p>
+<p>$$\text{下降段（}0.002 \leq \varepsilon_c \leq 0.003\text{）：} f_c \text{ 線性自 } 1.0f'_c \text{ 降至 } 0.8f'_c$$</p>
+<p>即在極限應變 $\varepsilon_{cu} = 0.003$ 時，$f_c = 0.8f'_c$。</p>
+<p><strong>試求：</strong></p>
+<ol>
+<li>加大後柱在 $e = 0$（純軸壓）時的標稱軸壓強度 $P_n$，以及締箍柱最大可用設計軸力 $\phi P_{n,\max}$</li>
+<li>在<strong>適當軸力</strong>（平衡軸力 $P_{n,b}$）下，長邊（70 cm 方向）所能承受的<strong>最大可能彎矩</strong> $M_{n,b}$</li>
+</ol>
+<p>（25分）</p>
+<p><img alt="RC-2017-1 加大柱斷面圖：加大後 40cm×70cm 截面，中央為原有 40cm×40cm 舊核心（內含原 8 支 D25 呈 3-2-3 排列與舊箍筋），兩側各 15cm 為新增混凝土、各配 4 支 D25 成一直行，虛線標示新舊混凝土界面" src="../../raw/solutions/RC-2017-1/RC-2017-1-fig-1.png" /></p>
+<p><em>圖說：原柱 $40\text{ cm} \times 40\text{ cm}$，兩側各擴增 $15\text{ cm}$ 新混凝土，加大後為 $40\text{ cm} \times 70\text{ cm}$；鋼筋 8 支 D25（$A_b = 5.067\text{ cm}^2$），保護層至鋼筋中心 $= 6.5\text{ cm}$，$f'_c = 210\text{ kgf/cm}^2$（新舊相同），$f_y = 4{,}200\text{ kgf/cm}^2$。</em></p>
+<p><img alt="RC-2017-1 混凝土雙折線應力應變圖：縱軸為應力（上方1.0f'c，下方0.8f'c），橫軸為應變（0.002與0.003兩個關鍵點），上升段線性至0.002，下降段線性至0.003" src="../../raw/solutions/RC-2017-1/RC-2017-1-fig-2.png" /></p>
+<p><em>圖說：雙折線簡化模型；上升段 $0 \sim 0.002$ 線性至峰值 $1.0f'_c = 210\text{ kgf/cm}^2$；下降段 $0.002 \sim 0.003$ 線性降至 $0.8f'_c = 168\text{ kgf/cm}^2$；極限應變 $\varepsilon_{cu} = 0.003$ 對應混凝土應力 $= 0.8f'_c$。</em></p>
+<hr />
+<p><img alt="RC-2017-1 加大柱斷面 40×70 cm，中央虛線為原 40×40 舊核心，兩翼各配 4 支 D25" src="../../raw/solutions/RC-2017-1/figs/RC-2017-1-fig-1-section.svg" /></p>
+<p><em>圖 1　加大柱斷面（向量重繪）。彎曲方向是 70 cm 全深、8 支 D25 集中在兩翼各成一直行——這是題目與原圖都講明的條件，不是假設；排列一改，Part (c) 的 $M_{n,b}$ 會掉 23%。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 本題是「加大柱（Column Jacketing）」的軸壓強度計算，考驗兩項能力：</p>
+<ol>
+<li><strong>雙折線直接讀取（Part a）</strong>：不使用 Whitney 矩形應力塊（$0.85f'_c$），而是根據題目提供的雙折線在 $\varepsilon_{cu} = 0.003$ 直接讀取 $f_c = 0.8f'_c$；</li>
+<li><strong>締箍柱規範限制（Part b）</strong>：理解規範以 $0.80$ 係數（對應 $e_{\min} = 0.10h$）反映施工不可避免之偶然偏心，進而得到最大可用設計軸力 $\phi P_{n,\max}$；</li>
+<li><strong>對雙折線分區積分（Part c）</strong>：偏心受壓時應變沿斷面線性變化，壓力區的應力<strong>不是常數</strong>——雙折線在 $\varepsilon = 0.002$ 有轉折，壓力區必須切成「梯形段」與「三角形段」分別求合力與形心，<strong>不能套 $C_c = 0.85f'_c\,a\,b$</strong>。這是本題工作量最大、也最容易偷懶出錯的部分。</li>
+</ol>
+<p><strong>出題者意圖：</strong></p>
+<ul>
+<li>測試學生是否能辨識「題目另給應力-應變模型時，不應自動套用 Whitney $0.85f'_c$」——Part (c) 才是這個意圖的真正考場</li>
+<li>測試「純軸壓標稱強度」與「最大可用設計軸力」兩個不同層次的概念</li>
+<li>測試對任意本構關係求壓力合力與其作用位置的一般能力（不是背 Whitney 公式）</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>計算斷面幾何：$A_g$、$A_{st}$、$\rho_g$（確認在 1~8% 限制內）</li>
+<li>確認鋼筋降伏：$\varepsilon_{cu} = 0.003 &gt; \varepsilon_y$？</li>
+<li>讀取雙折線：$\varepsilon_{cu} = 0.003 \Rightarrow f_c = 0.8f'_c$</li>
+<li>計算 $P_n(e=0)$</li>
+<li>套用締箍柱最大軸力限制：$\phi P_{n,\max} = 0.80 \times \phi \times P_n$</li>
+<li>【Part c】平衡條件求 $c_b$（$\varepsilon_t = \varepsilon_y$ 於 $d = 63.5$ cm）</li>
+<li>【Part c】定位雙折線轉折點：$\varepsilon = 0.002$ 落在距壓力面 $c_b/3$ 處</li>
+<li>【Part c】壓力區<strong>分區積分</strong>：梯形段（$168 \to 210$）＋ 三角形段（$210 \to 0$），各求合力與形心後加權</li>
+<li>【Part c】壓力鋼筋扣排開混凝土（用該位置的雙折線應力，不是 $0.85f'_c$）</li>
+<li>【Part c】對斷面形心取矩 → $M_{n,b}$</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>正確做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>套用 Whitney $0.85f'_c$</strong>：習慣直接用 ACI 矩形應力塊，忽略題目額外給定了雙折線模型</td>
+<td>雙折線在 $\varepsilon_{cu}=0.003$ 直接給出 $f_c = \mathbf{0.8}f'_c$，不用 $0.85f'_c$</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>遺漏締箍柱 0.80 折減</strong>：算完 $\phi P_n(e=0)$ 後直接報答，未考慮最小偏心</td>
+<td>締箍柱最終答案 $= 0.80 \times \phi \times P_n$（螺旋柱為 $0.85$）</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>$\phi$ 值誤用 0.9</strong>：誤判為拉力控制</td>
+<td>$e=0$ 全截面受壓，壓力控制：締箍柱 $\phi = \mathbf{0.65}$</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>未扣除鋼筋面積</strong>：$P_c = 0.8f'_c \times A_g$（錯），應用淨面積</td>
+<td>$P_c = 0.8f'_c \times (A_g - A_{st})$，鋼筋單獨計算 $P_s = f_y A_{st}$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>(a) Pn(e=0) 與 φPn,max；(c) 平衡點最大彎矩 Mn,b：須對雙折線應力分布進行分區積分</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<blockquote>
+<p>$\boxed{\cdot}$ = 需由前步驟推導，非題目直接給定的變數</p>
+</blockquote>
+<p>$$\text{Step 1: } A_g = b \times h, \quad A_{st} = n \cdot A_b$$</p>
+<p>$$\text{Step 2: } \varepsilon_y = \frac{f_y}{E_s} \quad \Rightarrow \quad \text{確認 }\varepsilon_{cu} &gt; \varepsilon_y \Rightarrow f_s = f_y$$</p>
+<p>$$\text{Step 3: 雙折線讀取：}\varepsilon_{cu} = 0.003 \Rightarrow f_c = 0.8f'_c$$</p>
+<p>$$\text{Step 4: } P_n(e=0) = 0.8f'_c \cdot \left(\boxed{A_g} - \boxed{A_{st}}\right) + f_y \cdot \boxed{A_{st}}$$</p>
+<p>$$\text{Step 5: } \phi P_{n,\max} = 0.80 \times \phi \times \boxed{P_n(e=0)}$$</p>
+<p>$$\text{Step 6: } c_b = \frac{\varepsilon_{cu}}{\varepsilon_{cu} + \varepsilon_y}\,d,\qquad x_{\text{peak}} = \frac{\boxed{c_b}}{3}\ (\text{即 }\varepsilon = 0.002\text{ 的位置})$$</p>
+<p>$$\text{Step 7: } f_c(x) = \begin{cases} 0.8f'_c \to 1.0f'_c &amp; 0 \le x \le \boxed{c_b}/3 \ (\text{梯形段})\\[2pt] 1.0f'_c \to 0 &amp; \boxed{c_b}/3 \le x \le \boxed{c_b} \ (\text{三角形段})\end{cases}$$</p>
+<p>$$\text{Step 8: } C_c = b\!\int_0^{c_b}\! f_c(x)\,dx = C_1 + C_2,\qquad \bar x_c = \frac{C_1\bar x_1 + C_2\bar x_2}{C_1 + C_2}$$</p>
+<p>$$\text{Step 9: } M_{n,b} = \boxed{C_c}\!\left(\frac{h}{2} - \boxed{\bar x_c}\right) + \boxed{C'_s}\!\left(\frac{h}{2} - d'\right) + \boxed{T_s}\!\left(d - \frac{h}{2}\right)$$</p>
+<blockquote>
+<p>對本題的雙折線，積分有封閉解：$C_c = b\,c_b\,(63 + 70) = 133\,b\,c_b$（單位 kgf/cm²·cm）。<br />
+可用來快速驗算分區積分的結果。</p>
+</blockquote>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>40 cm</td>
+<td>加大後柱寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>70 cm</td>
+<td>加大後柱高（15+40+15 cm）</td>
+</tr>
+<tr>
+<td>$n$</td>
+<td>8 支</td>
+<td>D25 縱向鋼筋數量</td>
+</tr>
+<tr>
+<td>$A_b$</td>
+<td>5.067 cm²</td>
+<td>單支 D25 鋼筋面積</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4,200 kgf/cm²</td>
+<td>鋼筋降伏強度</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>210 kgf/cm²</td>
+<td>混凝土強度（新舊相同）</td>
+</tr>
+<tr>
+<td>$d'$</td>
+<td>6.5 cm</td>
+<td>保護層至鋼筋中心</td>
+</tr>
+<tr>
+<td>$\varepsilon_{cu}$</td>
+<td>0.003</td>
+<td>混凝土極限應變（雙折線右端點）</td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td>2.04×10⁶ kgf/cm²</td>
+<td>鋼筋彈性模數（考卷給定）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：斷面幾何</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_g$</td>
+<td>$40 \times 70 = 2{,}800\text{ cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{st}$</td>
+<td>$8 \times 5.067 = 40.54\text{ cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\rho_g$</td>
+<td>$40.54/2800 = 1.45\%$，介於 $1\%\sim8\%$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：鋼筋降伏確認</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\varepsilon_y$</td>
+<td>$f_y / E_s = 4200 / 2{,}040{,}000 = 0.00206$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>判斷</td>
+<td>$\varepsilon_{cu} = 0.003 &gt; \varepsilon_y = 0.00206$ → 鋼筋降伏 ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：雙折線極限應力讀取</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_c(\varepsilon_{cu})$</td>
+<td>由圖2讀取：$\varepsilon=0.003$ 時 $f_c = 0.8f'_c = 0.8 \times 210 = 168\text{ kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：標稱軸壓強度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_c$</td>
+<td>$0.8f'_c \times (A_g - A_{st}) = 168 \times 2{,}759.46 = 463{,}589\text{ kgf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_s$</td>
+<td>$f_y \times A_{st} = 4{,}200 \times 40.54 = 170{,}268\text{ kgf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_n$</td>
+<td>$463{,}589 + 170{,}268 = 633{,}857\text{ kgf} \approx 634\text{ tf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：最大可用設計軸力</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\phi$</td>
+<td>0.65（締箍柱，壓力控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$e_{\min}$</td>
+<td>$0.10h = 0.10 \times 70 = 7.0\text{ cm}$（對應 0.80 折減）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi P_{n,\max}$</td>
+<td>$0.80 \times 0.65 \times 634 = 329.7\text{ tf} \approx 330\text{ tf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>雙折線 vs Whitney 差異</td>
+<td>Whitney 用 $0.85f'_c$ 作為等效矩形平均應力；本題雙折線在 $\varepsilon_{cu}=0.003$ 直接讀出 $0.8f'_c$，兩者差 6%，必須用題目給的模型</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>締箍柱 0.80 的物理意義</td>
+<td>代表最小偶然偏心 $e_{\min} \approx 0.10h$，規範要求即使設計為純軸壓，也不得超過 $0.80\phi P_n(e=0)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>螺旋柱 vs 締箍柱係數差異</td>
+<td>螺旋柱：$0.85\phi P_n$；締箍柱：$0.80\phi P_n$（螺旋圍束效果更好）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$e=0$ 時不需計算中性軸</td>
+<td>對稱截面受純軸力→全截面均勻壓縮→不需要建立應變分布圖，直接取 $\varepsilon_{cu}$ 代入</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>【前置】材料參數確認</h3>
+<p>$$f'_c = 210\text{ kgf/cm}^2,\quad f_y = 4{,}200\text{ kgf/cm}^2,\quad E_s = 2.04 \times 10^6\text{ kgf/cm}^2$$</p>
+<p>$$\beta_1 = 0.85 \quad (f'_c = 210\text{ kgf/cm}^2 \leq 280\text{ kgf/cm}^2)$$</p>
+<blockquote>
+<p>⚠ <strong>本題全程不使用 $\beta_1$。</strong> 它是 Whitney 等值應力塊的參數，而題目已指定雙折線本構——<br />
+列在這裡只是因為考卷附了這條公式。看到 $\beta_1$ 就順手寫 $C_c = 0.85f'_c\beta_1 c\,b$，<br />
+正是本題最大的陷阱（Part (c) 會因此高估 $C_c$ 約 14%）。</p>
+</blockquote>
+<p>$$\text{規範：土木 401-100；締箍柱 }\phi = 0.65\text{（壓力控制）}$$</p>
+<hr />
+<h3>【Step 1】斷面幾何</h3>
+<p>加大後柱截面 $b \times h = 40\text{ cm} \times 70\text{ cm}$：</p>
+<p>$$A_g = 40 \times 70 = \boxed{2{,}800\text{ cm}^2}$$</p>
+<p>縱向鋼筋（8 支 D25，保護層至鋼筋中心 $d' = 6.5\text{ cm}$，4 支集中於截面兩端）：</p>
+<p>$$A_{st} = 8 \times 5.067 = \boxed{40.54\text{ cm}^2}$$</p>
+<p><strong>配筋率驗核：</strong><br />
+$$\rho_g = \frac{A_{st}}{A_g} = \frac{40.54}{2{,}800} = 1.45\% \quad \Rightarrow \quad 1\% \leq 1.45\% \leq 8\% \quad \checkmark$$</p>
+<hr />
+<h3>【Step 2】確認鋼筋降伏</h3>
+<p>$$\varepsilon_y = \frac{f_y}{E_s} = \frac{4{,}200}{2{,}040{,}000} = 0.002059$$</p>
+<p>$$\varepsilon_{cu} = 0.003 &gt; \varepsilon_y = 0.002059 \quad \Rightarrow \quad \text{所有縱筋均降伏，}f_s = f_y = 4{,}200\text{ kgf/cm}^2 \quad \checkmark$$</p>
+<hr />
+<h3>【Step 3】雙折線極限混凝土應力</h3>
+<p>由題目圖2，雙折線模型在 $\varepsilon_{cu} = 0.003$ 時：</p>
+<p>$$f_c = 0.8f'_c = 0.8 \times 210 = \boxed{168\text{ kgf/cm}^2}$$</p>
+<blockquote>
+<p>📝 <strong>策略註解：</strong> 此 $0.8f'_c$ 直接來自雙折線下降段終點，與 ACI Whitney 矩形應力塊的 $0.85f'_c$ 不同。在 $e=0$ 的均勻壓縮情況下，整個截面應變相同、應力也相同，無需積分。</p>
+<p>⚠ <strong>但「取 $\varepsilon = 0.003$」是一個選擇，不是唯一答案。</strong> 純軸壓時軸力是應變的函數<br />
+$P(\varepsilon) = f_c(\varepsilon)(A_g - A_{st}) + f_s(\varepsilon)A_{st}$，而雙折線在 $\varepsilon = 0.002$ 才是峰值：</p>
+<table>
+<thead>
+<tr>
+<th>$\varepsilon$</th>
+<th style="text-align: right;">0.0018</th>
+<th style="text-align: right;"><strong>0.0020</strong></th>
+<th style="text-align: right;">0.002059</th>
+<th style="text-align: right;">0.0025</th>
+<th style="text-align: right;">0.0030</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_c$</td>
+<td style="text-align: right;">189.0</td>
+<td style="text-align: right;"><strong>210.0</strong></td>
+<td style="text-align: right;">207.5</td>
+<td style="text-align: right;">189.0</td>
+<td style="text-align: right;">168.0</td>
+</tr>
+<tr>
+<td>$f_s$</td>
+<td style="text-align: right;">3,672</td>
+<td style="text-align: right;"><strong>4,080</strong>（未降伏）</td>
+<td style="text-align: right;">4,200</td>
+<td style="text-align: right;">4,200</td>
+<td style="text-align: right;">4,200</td>
+</tr>
+<tr>
+<td>$P$ (tf)</td>
+<td style="text-align: right;">670.4</td>
+<td style="text-align: right;"><strong>744.9 ← 最大</strong></td>
+<td style="text-align: right;">742.9</td>
+<td style="text-align: right;">691.8</td>
+<td style="text-align: right;"><strong>633.8</strong></td>
+</tr>
+</tbody>
+</table>
+<p>本解取 $\varepsilon_{cu} = 0.003$ 得 <strong>634 tf</strong>，理由是要與 Part (c) 的 P-M 曲線共用同一組假設<br />
+（$e = 0$ 即 $c \to \infty$ 的曲線端點）；題目特地把下降段畫到 $0.8f'_c$，出題意圖也應是要考生讀 168。<br />
+若把「軸壓強度」定義為 $P(\varepsilon)$ 的極大值，答案是 <strong>745 tf</strong>（此時鋼筋 $f_s = 4{,}080 &lt; f_y$ 尚未降伏，<br />
+下面 Step 2「所有縱筋均降伏」的前提也要跟著改）。作答時宜註明採用哪一個定義。<br />
+（對照：若誤用 ACI 的 $0.85f'_c$ 則為 662.8 tf。）</p>
+</blockquote>
+<hr />
+<h3>【Part (a)：純軸壓標稱強度 $P_n(e=0)$】</h3>
+<p>$e = 0$ 時，截面受均勻壓縮（全截面應變均為 $\varepsilon_{cu} = 0.003$）：</p>
+<p><strong>混凝土承壓力：</strong><br />
+$$P_c = f_c \times (A_g - A_{st}) = 168 \times (2{,}800 - 40.54) = 168 \times 2{,}759.46 = 463{,}589\text{ kgf}$$</p>
+<p><strong>鋼筋承壓力（已確認降伏）：</strong><br />
+$$P_s = f_y \times A_{st} = 4{,}200 \times 40.54 = 170{,}268\text{ kgf}$$</p>
+<p><strong>標稱軸壓強度：</strong><br />
+$$\boxed{P_n(e=0) = 463{,}589 + 170{,}268 = 633{,}857\text{ kgf} \approx \mathbf{634\text{ tf}}}$$</p>
+<hr />
+<h3>【Part (b)：最大可用設計軸力 $\phi P_{n,\max}$】</h3>
+<p>依土木 401-100（ACI 318 §22.4.2.1），<strong>締箍柱</strong>設計軸力上限：</p>
+<p>$$\phi P_{n,\max} = 0.80 \times \phi \times P_n(e=0)$$</p>
+<p>其中：</p>
+<ul>
+<li>$\phi = 0.65$（締箍柱，壓力控制）  </li>
+<li>$0.80$ 係數：代表最小偶然偏心 $e_{\min} = 0.10h = 0.10 \times 70 = 7.0\text{ cm}$</li>
+</ul>
+<p>$$\phi P_{n,\max} = 0.80 \times 0.65 \times 634 = 0.52 \times 634 = \boxed{\mathbf{329.7\text{ tf} \approx 330\text{ tf}}}$$</p>
+<blockquote>
+<p>📝 <strong>策略註解：</strong> 此 $330\text{ tf}$ 為「最大可用」軸力—即使設計目標為純軸壓，規範亦不允許設計軸力超過此值；物理意義是承認任何施工都有不可避免的偶然偏心，以 $e_{\min} = 7.0\text{ cm}$ 加以保守修正。</p>
+</blockquote>
+<hr />
+<h3>【Part (c)：適當軸力下長邊最大可能彎矩 $M_{n,b}$】</h3>
+<p>「最大可能彎矩」對應 <strong>P-M 交互曲線最外凸的那一點</strong>（不是頂點——頂點是純軸壓 $P_0$），即平衡點（Balanced Point）：拉力鋼筋恰好達到降伏 $\varepsilon_t = \varepsilon_y$ 的同時，壓力面混凝土達到極限應變 $\varepsilon_{cu} = 0.003$。</p>
+<h4>【c-1】平衡中性軸深度 $c_b$</h4>
+<p>線性應變分布（$\varepsilon_{cu}=0.003$ 在壓力面，$\varepsilon_t=\varepsilon_y=0.002059$ 在拉力鋼筋處 $d=63.5\text{ cm}$）：</p>
+<p>$$\frac{\varepsilon_{cu}}{c_b} = \frac{\varepsilon_y}{d - c_b} \quad\Rightarrow\quad c_b = \frac{\varepsilon_{cu}}{{ \varepsilon_{cu}+\varepsilon_y }}\cdot d = \frac{0.003}{0.003+0.002059}\times63.5 = \boxed{37.7\text{ cm}}$$</p>
+<h4>【c-2】雙折線應力分布：三個關鍵深度</h4>
+<p>任意深度 $x$（由壓力面量起）的應變：$\varepsilon(x)=0.003(1 - x/37.7)$</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">位置 $x$</th>
+<th style="text-align: center;">應變 $\varepsilon$</th>
+<th style="text-align: center;">雙折線區段</th>
+<th style="text-align: center;">混凝土應力 $f_c$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">$x=0$（壓力面）</td>
+<td style="text-align: center;">0.003</td>
+<td style="text-align: center;">下降段端點</td>
+<td style="text-align: center;">$0.8f'_c = 168$ kgf/cm²</td>
+</tr>
+<tr>
+<td style="text-align: center;">$x_{\text{peak}}=12.57\text{ cm}$</td>
+<td style="text-align: center;">0.002</td>
+<td style="text-align: center;">轉折點（峰值）</td>
+<td style="text-align: center;">$1.0f'_c = 210$ kgf/cm²</td>
+</tr>
+<tr>
+<td style="text-align: center;">$x=37.7\text{ cm}$（中性軸）</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">上升段端點</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📝 <strong>策略重點：</strong> 雙折線模型的峰值應力不在壓力面，而在距壓力面 $c_b/3 = 12.57\text{ cm}$ 處！這與 Whitney 矩形應力塊完全不同，必須分兩段積分。</p>
+</blockquote>
+<p><strong>各分段的應力表達式：</strong></p>
+<ul>
+<li><strong>下降段</strong>（$0 \leq x \leq 12.57\text{ cm}$）：$f_c(x) = 168 + 3.34x$ （kgf/cm²，由 168 線性升至 210）</li>
+<li><strong>上升段</strong>（$12.57\text{ cm} \leq x \leq 37.7\text{ cm}$）：$f_c(x) = 210\times\dfrac{37.7-x}{25.13}$（由 210 線性降至 0）</li>
+</ul>
+<h4>【c-3】混凝土壓力合力 $C_c$ 及其作用點 $\bar{x}_c$</h4>
+<p><strong>分段一（梯形分布，底 168、頂 210，長度 12.57 cm）：</strong><br />
+$$C_1 = \frac{168+210}{2}\times12.57\times40 = 189\times12.57\times40 = \boxed{95{,}066\text{ kgf}}$$</p>
+<p>梯形形心距壓力面：$\bar{x}_1 = 12.57\times\dfrac{168+2\times210}{3\times(168+210)} = 12.57\times\dfrac{588}{1134} = \boxed{6.52\text{ cm}}$</p>
+<p><strong>分段二（三角形分布，底 210、頂 0，長度 25.13 cm）：</strong><br />
+$$C_2 = \frac{210}{2}\times25.13\times40 = 105\times25.13\times40 = \boxed{105{,}546\text{ kgf}}$$</p>
+<p>三角形形心距壓力面：$\bar{x}_2 = 12.57 + \dfrac{25.13}{3} = 12.57 + 8.38 = \boxed{20.95\text{ cm}}$</p>
+<p><strong>合計：</strong><br />
+$$C_c = C_1 + C_2 = 95{,}066 + 105{,}546 = \boxed{200{,}612\text{ kgf} \approx 200.6\text{ tf}}$$</p>
+<p>$$\bar{x}_c = \frac{C_1\bar{x}_1 + C_2\bar{x}_2}{C_c} = \frac{95{,}066\times6.52 + 105{,}546\times20.95}{200{,}612} = \frac{619{,}830 + 2{,}211{,}189}{200{,}612} = \boxed{14.11\text{ cm}}\text{（距壓力面）}$$</p>
+<h4>【c-4】鋼筋力</h4>
+<p><strong>壓力鋼筋</strong>（4-D25，$d'=6.5\text{ cm}$，位於下降段，應變 $\varepsilon_{s'}=0.00248 &gt; \varepsilon_y$ → 降伏）：<br />
+$$f_c\text{@}x{=}6.5 = 168 + 3.34\times6.5 = 189.7\text{ kgf/cm}^2$$<br />
+$$C_{s'} = (f_y - f_c@d')\times A_{st,\text{comp}} = (4{,}200 - 189.7)\times20.27 = 4{,}010.3\times20.27 = \boxed{81{,}289\text{ kgf}}$$</p>
+<p><strong>拉力鋼筋</strong>（4-D25，$d=63.5\text{ cm}$，恰好降伏）：<br />
+$$T_s = f_y\times A_{st,\text{tens}} = 4{,}200\times20.27 = \boxed{85{,}134\text{ kgf}}$$</p>
+<h4>【c-5】平衡軸力與最大標稱彎矩（對截面形心取矩）</h4>
+<p>截面形心在 $h/2 = 35\text{ cm}$ 處（對稱截面）。</p>
+<p><strong>平衡軸力：</strong><br />
+$$P_{n,b} = C_c + C_{s'} - T_s = 200{,}612 + 81{,}289 - 85{,}134 = \boxed{196{,}767\text{ kgf} \approx 197\text{ tf}}$$</p>
+<p><strong>最大標稱彎矩（對形心取矩）：</strong></p>
+<p>$$M_{n,b} = C_c\times(35-\bar{x}_c) + C_{s'}\times(35-d') + T_s\times(d-35)$$</p>
+<p>$$= 200{,}612\times(35-14.11) + 81{,}289\times(35-6.5) + 85{,}134\times(63.5-35)$$</p>
+<p>$$= 200{,}612\times20.89 + 81{,}289\times28.5 + 85{,}134\times28.5$$</p>
+<p>$$= 4{,}190{,}785 + 2{,}316{,}737 + 2{,}426{,}319 = 8{,}933{,}841\text{ kgf·cm}$$</p>
+<p>$$\boxed{M_{n,b} \approx 89.3\text{ tf·m}}$$</p>
+<h4>【c-6】強度折減係數與設計值</h4>
+<p>平衡點 $\varepsilon_t = \varepsilon_y = 0.00206$，恰在過渡區：</p>
+<p>$$\phi = 0.65 + (\varepsilon_t - 0.002)\times\frac{0.25}{0.003} = 0.65 + (0.00206 - 0.002)\times83.33 = 0.65 + 0.005 = 0.655$$</p>
+<p>$$\phi P_{n,b} = 0.655\times197 = \boxed{129\text{ tf}}$$</p>
+<p>$$\phi M_{n,b} = 0.655\times89.3 = \boxed{58.5\text{ tf·m}}$$</p>
+<blockquote>
+<p>📝 <strong>物理意義：</strong> $(\phi P_{n,b},\,\phi M_{n,b}) = (129\text{ tf},\,58.5\text{ tf·m})$ 即為本柱設計 P-M 曲線最外凸處，代表「長邊（70cm 方向）在最有利軸力下所能抵抗的最大設計彎矩」。</p>
+<p>已用程式沿 $c = 5 \sim 90$ cm 掃描全曲線驗證：$M_n$ 的極大值 $89.31$ tf·m 確實出現在 $c = 37.65$ cm，與 $c_b$ 重合。<br />
+（注意這是<strong>標稱</strong> $M_n$ 的峰值。若問「最大極限彎矩載重」$\varphi M_n$，峰值會移到 $\varepsilon_t = 0.005$ 處——見 <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RC-2015-1</span>。）</p>
+<p>$\varphi = 0.655$ 採考卷首頁所附公式 $\varphi = 0.65 + (\varepsilon_t - 0.002)\times\frac{0.25}{0.003}$。<br />
+若依現行規範以 $\varepsilon_{ty} = f_y/E_s$ 為壓力控制界限，平衡點恰在界限上、$\varphi = 0.65$，$\varphi M_{n,b} = 58.1$ tf·m（差 0.7%）。本題以考卷所附公式為準。</p>
+</blockquote>
+<hr />
+<h3>【結論】</h3>
+<table>
+<thead>
+<tr>
+<th>求解項目</th>
+<th>公式</th>
+<th style="text-align: center;">結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>(a)</strong> 純軸壓標稱強度 $P_n(e=0)$</td>
+<td>$0.8f'_c(A_g-A_{st}) + f_y A_{st}$</td>
+<td style="text-align: center;">$\boxed{634\text{ tf}}$</td>
+</tr>
+<tr>
+<td><strong>(b)</strong> 最大可用設計軸力 $\phi P_{n,\max}$</td>
+<td>$0.80 \times 0.65 \times P_n(e=0)$</td>
+<td style="text-align: center;">$\boxed{330\text{ tf}}$</td>
+</tr>
+<tr>
+<td><strong>(c)</strong> 平衡點標稱彎矩 $M_{n,b}$</td>
+<td>雙折線分區積分（梯形+三角形）</td>
+<td style="text-align: center;">$\boxed{89.3\text{ tf·m}}$</td>
+</tr>
+<tr>
+<td><strong>(c)</strong> 設計最大彎矩 $\phi M_{n,b}$</td>
+<td>$\phi=0.655$，$\phi M_{n,b}$</td>
+<td style="text-align: center;">$\boxed{58.5\text{ tf·m}}$（對應 $\phi P_{n,b}=129\text{ tf}$）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><img alt="RC-2017-1 題目指定的雙折線應力應變關係：0 到 0.002 線性升至 1.0f'c，0.002 到 0.003 線性降至 0.8f'c" src="../../raw/solutions/RC-2017-1/figs/RC-2017-1-fig-2-bilinear.svg" /></p>
+<p><em>圖 2　題目指定的本構關係。這條線上根本沒有 $0.85f'_c$ 這個值，可攔下「看到 $\beta_1$ 就順手寫 Whitney」的反射動作。</em></p>
+<p><img alt="RC-2017-1 平衡點壓力區的應力分佈：藍色為雙折線分區積分的真實分佈，灰虛線為 Whitney 矩形，右側列出兩者的 Cc、形心、Pn,b、Mn,b 差距" src="../../raw/solutions/RC-2017-1/figs/RC-2017-1-fig-3-stress-block.svg" /></p>
+<p><em>圖 3　平衡點壓力區：雙折線分區積分 vs Whitney 近似。兩者疊在同一張圖上，$C_c$ 差 14.1%、$P_{n,b}$ 差 14.5%——這正是本題設計來抓的錯，而 $M_{n,b}$ 只差 1.8%，所以光看彎矩答案還察覺不出來。</em></p>
+<p><img alt="RC-2017-1 e=0 時軸力隨應變變化的曲線，峰值 745 tf 在應變 0.002，本解採用的 634 tf 在應變 0.003" src="../../raw/solutions/RC-2017-1/figs/RC-2017-1-fig-4-axial.svg" /></p>
+<p><em>圖 4　$e = 0$ 時軸力隨應變的變化。雙折線下軸力是應變的函數，峰值在 $\varepsilon = 0.002$（745 tf）而非 $\varepsilon_{cu} = 0.003$（634 tf）；本解取後者以與 P-M 曲線端點共用假設，但作答時必須說明取的是哪一個定義。</em></p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>爭議1：雙折線 vs Whitney 的數值差異</strong></p>
+<ul>
+<li>本題雙折線在 $\varepsilon_{cu} = 0.003$ 給 $f_c = 0.8f'_c$（而非 ACI Whitney 的 $0.85f'_c$）</li>
+<li>兩種方法差異：$0.85/0.80 = 1.0625$，約高估 6%</li>
+<li>考場規則：題目若提供應力-應變圖，<strong>必須依題目模型計算</strong>，不可自行改用 Whitney</li>
+</ul>
+<p><strong>爭議2：新舊混凝土是否需分別計算？</strong></p>
+<ul>
+<li>本題新舊混凝土 $f'_c$ 相同（均為 $210\text{ kgf/cm}^2$），可視為一整體截面計算</li>
+<li>若新舊混凝土 $f'_c$ 不同，需依彈性模數比 $n = E_{c,new}/E_{c,old}$ 做轉換截面</li>
+</ul>
+<p><strong>爭議3：8 支還是 16 支？（配筋讀法）</strong></p>
+<p>配筋<strong>排列</strong>不是假設——考卷原文明寫「鋼筋為 8 根 D25，<strong>分布於長向之兩邊</strong>，保護層 6.5 cm」，<br />
+圖1 也把兩個 15 cm 增厚翼各畫 4 支新筋、排成一直行。故 $d' = 6.5$、$d = 63.5$ cm 是題給條件。</p>
+<p>真正的歧義在<strong>根數</strong>：圖1 同時畫出舊核心原有的 8 支（3-2-3 排列）與兩翼新增的 8 支，畫面上共 16 支，<br />
+但文字只說「8 根」。兩種讀法：</p>
+<table>
+<thead>
+<tr>
+<th>讀法</th>
+<th style="text-align: right;">$A_{st}$</th>
+<th style="text-align: right;">$\rho_g$</th>
+<th style="text-align: right;">$P_n(e=0)$</th>
+<th style="text-align: right;">$\phi P_{n,\max}$</th>
+<th style="text-align: right;">$P_{n,b}$</th>
+<th style="text-align: right;">$M_{n,b}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>只計兩翼 8 支（本解）</strong></td>
+<td style="text-align: right;">40.54 cm²</td>
+<td style="text-align: right;">1.45%</td>
+<td style="text-align: right;">634 tf</td>
+<td style="text-align: right;">330 tf</td>
+<td style="text-align: right;">197 tf</td>
+<td style="text-align: right;"><strong>89.3 tf·m</strong></td>
+</tr>
+<tr>
+<td>全斷面 16 支</td>
+<td style="text-align: right;">81.07 cm²</td>
+<td style="text-align: right;">2.90%</td>
+<td style="text-align: right;">797 tf</td>
+<td style="text-align: right;">415 tf</td>
+<td style="text-align: right;">212 tf</td>
+<td style="text-align: right;">98.0 tf·m</td>
+</tr>
+</tbody>
+</table>
+<p>本解取 8 支以符合文字敘述。另注意排列對 Part (c) <strong>影響極大</strong>：若改成「沿兩個 70 cm 長邊各 4 支、<br />
+沿深度均布（6.5 / 25.5 / 44.5 / 63.5）」，$M_{n,b}$ 會掉到 68.5 tf·m（−23%）。<br />
+所以「配筋排列對答案無影響」只在 Part (a) 成立，Part (c) 完全由它決定。</p>
+<p><strong>爭議4：保護層 6.5 cm 是量到鋼筋中心還是淨保護層？</strong></p>
+<ul>
+<li>本解採「量至鋼筋中心」（D25 配 6.5 cm 淨保護層不合理）</li>
+<li>若當淨保護層（再加 D13 箍筋與 D25 半徑，$d' \approx 9.1$、$d \approx 60.9$）：<br />
+  $c_b = 36.14$ cm、$P_{n,b} = 188.2$ tf、$M_{n,b} = 84.4$ tf·m（−5.5%）</li>
+</ul>
+<p><strong>進階：為何需要題目第二題（植筋設計）？</strong></p>
+<ul>
+<li>新舊混凝土若無有效介面連結，各自單獨承力（不發揮組合截面效果）</li>
+<li>植筋確保介面剪力傳遞，才能讓加大後截面真正以 $A_g = 2{,}800\text{ cm}^2$ 整體受力</li>
+<li>此即第二題的設計目的（→ RC-2017-2）</li>
+</ul>
+<p><em>圖解補繪：2026-08-21（向量圖 4 張，腳本 <code>figs/gen_RC-2017-1.py</code>，可重跑；腳本檔尾對 §4 公佈值做 assert）</em></p></main>
+<footer>來源：raw/solutions/RC-2017-1/RC-2017-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

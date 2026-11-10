@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RC-U1-2 影片講義｜RC 柱強度　少一條方程式</title>
+<link rel="stylesheet" href="../study/assets/katex/katex.min.css">
+<script defer src="../study/assets/katex/katex.min.js"></script>
+<script defer src="../study/assets/katex/auto-render.min.js"></script>
+<style>
+:root{
+  --paper:#faf7ef; --ink:#23302a; --muted:#5d6b63; --board:#2b4136; --board2:#1f3329;
+  --chalk:#f1ecd8; --yellow:#e9c84a; --line:#d9d2bd;
+  --warn-bg:#fdecea; --warn:#b3392f; --ok-bg:#e8f4ea; --ok:#2f7a45; --key-bg:#fdf6d8; --key:#9a7a12;
+  --red:#c8553d; --blue:#3f7fa6; --green:#3d8a55; --orange:#d07a2c;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.75;font-size:16.5px}
+main{max-width:860px;margin:0 auto;padding:24px 16px 60px}
+h1,h2,h3{line-height:1.35}
+a{color:var(--board)}
+.cover{background:linear-gradient(160deg,var(--board),var(--board2));color:var(--chalk);border-radius:14px;padding:28px 26px 24px;margin-bottom:22px}
+.cover .tag{font-size:13px;letter-spacing:.08em;color:#b9c9bd}
+.cover h1{margin:8px 0 6px;font-size:30px;color:#fff}
+.cover h1 span{color:var(--yellow)}
+.cover .meta{font-size:14px;color:#b9c9bd}
+.cover .core{margin-top:16px;border:2px solid var(--yellow);border-radius:8px;padding:10px 14px;color:var(--yellow);font-size:17px}
+.toc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:22px}
+.toc h2{font-size:17px;margin:0 0 8px}
+.toc ol{list-style:none;margin:0;padding:0;columns:2;column-gap:24px}
+.toc li{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px dotted var(--line);break-inside:avoid}
+.toc li a{text-decoration:none}
+.toc li span{color:var(--muted);font-variant-numeric:tabular-nums;font-size:14px}
+.player{position:sticky;top:0;z-index:5;background:var(--paper);padding:6px 0 10px}
+.player video{width:100%;border-radius:10px;background:#000;display:block}
+section{margin-top:34px}
+section>h2{display:flex;align-items:center;flex-wrap:wrap;gap:10px;font-size:22px;border-bottom:3px solid var(--board);padding-bottom:6px;margin-bottom:14px}
+.seek{font:inherit;font-size:13px;background:var(--board);color:var(--chalk);border:0;border-radius:999px;padding:3px 12px;cursor:pointer}
+.seek:hover{background:var(--board2)}
+figure{margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;break-inside:avoid}
+figure img{width:100%;display:block;border-radius:6px}
+figcaption{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;color:var(--muted);padding:6px 4px 0}
+figcaption b{color:var(--ink);font-weight:600}
+figcaption .t{white-space:nowrap}
+p{margin:10px 0}
+.box{border-radius:8px;padding:10px 14px;margin:14px 0;break-inside:avoid;border-left:5px solid}
+.warn{background:var(--warn-bg);border-color:var(--warn)}
+.warn>b:first-child{color:var(--warn)}
+.ok{background:var(--ok-bg);border-color:var(--ok)}
+.ok>b:first-child{color:var(--ok)}
+.key{background:var(--key-bg);border-color:var(--key)}
+.key>b:first-child{color:var(--key)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:15px;background:#fff;break-inside:avoid}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#eef1ea}
+td:first-child,th:first-child{white-space:nowrap}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.katex-display{overflow-x:auto;overflow-y:hidden;padding:4px 0}
+.legend{font-size:13.5px;color:var(--muted)}
+footer{margin-top:44px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+@media (max-width:620px){
+  .toc ol{columns:1}
+  .cover h1{font-size:24px}
+  figcaption{flex-direction:column;gap:2px}
+  table{font-size:13.5px}
+}
+@media print{
+  @page{size:A4;margin:14mm}
+  body{background:#fff;font-size:11pt}
+  main{max-width:none;padding:0}
+  .player,.seek{display:none!important}
+  .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  figure,.box,table,.katex-display{break-inside:avoid}
+  section>h2{break-after:avoid}
+  figure img{max-height:118mm;object-fit:contain}
+}
+</style>
+</head>
+<body>
+<main>
+
+<header class="cover">
+  <div class="tag">RC 鋼筋混凝土 ／ RC-U1-2 柱強度分析與設計 ／ 影片講義</div>
+  <h1>RC 柱強度　<span>少一條方程式</span></h1>
+  <div class="meta">影片 11:24 ・ 15 章 ・ 31 段 ・ 示範柱 60×60 cm、8-#9、f'c = 280、fy = 4200 kgf/cm²</div>
+  <div class="core">整個單元只有一台計算引擎，差別只在中性軸深度 c 從哪裡來。</div>
+</header>
+
+<nav class="toc">
+  <h2>目錄</h2>
+  <ol>
+    <li><a href="#c0">開場</a><span>0:00</span></li>
+    <li><a href="#c1">① 少一條方程式</a><span>0:19</span></li>
+    <li><a href="#c2">② 掃描 c</a><span>1:01</span></li>
+    <li><a href="#c3">③ 唯一計算引擎</a><span>1:37</span></li>
+    <li><a href="#c4">④ 兩個掉分細節</a><span>3:04</span></li>
+    <li><a href="#c5">⑤ P-M 互制圖</a><span>3:50</span></li>
+    <li><a href="#c6">⑥ 為什麼鼓出來</a><span>4:34</span></li>
+    <li><a href="#c7">⑦ 入口 A　直讀</a><span>5:22</span></li>
+    <li><a href="#c8">⑧ 入口 B　反解</a><span>6:04</span></li>
+    <li><a href="#c9">⑨ 入口 C　四控制點</a><span>7:09</span></li>
+    <li><a href="#c10">⑩ φ 值</a><span>7:38</span></li>
+    <li><a href="#c11">⑪ 最大設計彎矩</a><span>8:22</span></li>
+    <li><a href="#c12">⑫ 細長效應</a><span>9:12</span></li>
+    <li><a href="#c13">⑬ 兩把檢核尺</a><span>9:59</span></li>
+    <li><a href="#c14">總結</a><span>10:42</span></li>
+  </ol>
+</nav>
+
+<div class="player">
+  <video id="vid" controls preload="metadata" src="video/RC-U1-2.mp4"></video>
+</div>
+
+<!-- c0 -->
+<section id="c0">
+  <h2>開場 <button class="seek" data-t="0">▶ 0:00</button></h2>
+  <figure>
+    <img src="img/RC-U1-2/s01.jpg" alt="開場：四種題型標籤與一台計算引擎" loading="lazy">
+    <figcaption><b>四種題型（平衡點／給偏心距 e／P-M 互制圖／細長柱）其實共用一台引擎</b><span class="t">影片 0:19</span></figcaption>
+  </figure>
+  <p>RC 柱的題型看起來很多：平衡點、給偏心距、畫互制圖、還有細長柱。但整個單元其實只有一台計算引擎，差別只在中性軸深度 \(c\) 從哪裡來。我們先搞懂，柱的答案為什麼是一條曲線。</p>
+</section>
+
+<!-- c1 -->
+<section id="c1">
+  <h2>① 少一條方程式 <button class="seek" data-t="19.6">▶ 0:19</button></h2>
+  <p>先把梁和柱放在一起。兩者用同一套斷面假設：平面保持平面，混凝土極限應變 0.003。</p>
+  <figure>
+    <img src="img/RC-U1-2/s03.jpg" alt="梁與柱的未知數與方程式對照" loading="lazy">
+    <figcaption><b>左：梁（P = 0）；右：柱（P ≠ 0）——同樣的應變假設，未知數多一個</b><span class="t">影片 1:00</span></figcaption>
+  </figure>
+  <table>
+    <tr><th></th><th>梁（\(P=0\)）</th><th>柱（\(P\neq0\)）</th></tr>
+    <tr><td>未知數</td><td>只有 \(c\)（1 個）</td><td>\(c\) 與 \(P_n\)（2 個）</td></tr>
+    <tr><td>方程式</td><td>\(C_c=T\)（1 條）</td><td>\(\Sigma F=0\)（1 條）</td></tr>
+    <tr><td>結果</td><td>\(c\) 定死 → \(M_n\) 唯一的數字</td><td>掃描 \(c\) → \((P_n,M_n)\) 一整條軌跡</td></tr>
+  </table>
+  <p>梁沒有軸力，未知數只有中性軸深度 \(c\) 一個，力平衡 \(C_c=T\) 一條式子，\(c\) 就被定死，\(M_n\) 是唯一的數字。柱多了軸力 \(P_n\)，未知數變成 \(c\) 和 \(P_n\) 兩個，方程式卻還是只有軸力平衡一條。未知數比方程式多一個，所以答案不是一個點，而是一整條軌跡。</p>
+  <div class="box key"><b>重點</b>　梁和柱的差別，不是有沒有軸力，而是少了一條方程式。</div>
+</section>
+
+<!-- c2 -->
+<section id="c2">
+  <h2>② 掃描 c <button class="seek" data-t="61.13">▶ 1:01</button></h2>
+  <p>少一條方程式怎麼辦？就自己指定 \(c\)。所有的應變直線，都繞著頂端 \(\varepsilon_{cu}=0.003\) 這一點轉。\(c\) 越深，直線越陡，斷面受壓的比例就越高。這個動作，就叫做<strong>掃描 \(c\)</strong>。</p>
+  <figure>
+    <img src="img/RC-U1-2/s05.jpg" alt="應變直線繞 0.003 旋轉，對應 P-M 曲線上的五個點" loading="lazy">
+    <figcaption><b>左：應變直線繞頂端 0.003 旋轉；右：每條直線對應曲線上一點</b><span class="t">影片 1:37</span></figcaption>
+  </figure>
+  <p>每一條直線，算出一組 \(P_n\) 和 \(M_n\)，就是圖上的一個點。從純彎、拉力控制界限、平衡點，一路到拉力筋應變為零、全斷面受壓。把所有點連起來，就是 P-M 互制圖。</p>
+  <p class="legend">圖中編號：① 純彎　② 拉力控制界限　③ 平衡點　④ \(\varepsilon_t=0\)　⑤ 全斷面受壓</p>
+</section>
+
+<!-- c3 -->
+<section id="c3">
+  <h2>③ 唯一計算引擎 <button class="seek" data-t="97.87">▶ 1:37</button></h2>
+  <p>用一根示範柱來跑這台引擎。斷面 60×60 cm，8-#9 鋼筋，分上中下三排，深度 6、30、54 cm。\(f'_c=280\)，\(f_y=4200\)（\(\beta_1=0.85\)，\(A_{st}=51.76\ \text{cm}^2\)）。先給一個 \(c\)，這裡取平衡點，\(c=c_b=32.02\ \text{cm}\)。</p>
+  <figure>
+    <img src="img/RC-U1-2/s09.jpg" alt="唯一計算引擎三格：斷面、應變、力與彎矩" loading="lazy">
+    <figcaption><b>引擎三格：① 斷面與配筋 → ② 應變（相似三角形）→ ③ 力（兩次平衡）</b><span class="t">影片 3:03</span></figcaption>
+  </figure>
+  <h3>第一格：應變</h3>
+  <p>用相似三角形，壓為正、拉為負；應力等於 \(E_s\) 乘應變，上下限截在 \(\pm f_y\)：</p>
+  $$\varepsilon_i=0.003\,\frac{c-d_i}{c},\qquad f_{si}=\operatorname{clip}\!\left(E_s\varepsilon_i,\,-f_y,\,+f_y\right)$$
+  <table>
+    <tr><th>排</th><th>\(d_i\) (cm)</th><th>應變 \(\varepsilon_i\)</th><th>鋼筋力 \(F_i\) (tf)</th><th>力臂 \(h/2-d_i\) (cm)</th></tr>
+    <tr><td>上排</td><td class="n">6</td><td class="n">\(\color{#c8553d}{+0.00244}\)</td><td class="n">+76.9</td><td class="n">+24</td></tr>
+    <tr><td>中排</td><td class="n">30</td><td class="n">\(\color{#c8553d}{+0.00019}\)</td><td class="n">+5.0</td><td class="n">0</td></tr>
+    <tr><td>下排</td><td class="n">54</td><td class="n">\(\color{#3f7fa6}{-0.00206}\)</td><td class="n">−81.5</td><td class="n">−24</td></tr>
+  </table>
+  <p class="legend">黑板配色：紅＝受壓、藍＝受拉。</p>
+  <h3>第二格：軸力平衡</h3>
+  <p>\(a=\beta_1 c=27.22\ \text{cm}\)，混凝土壓力 \(C_c=388.7\ \text{tf}\)。三排鋼筋力分別是 +76.9、+5.0、−81.5。全部加起來：</p>
+  $$P_n=C_c+\Sigma F_i=389.1\ \text{tf}$$
+  <h3>第三格：對形心取矩</h3>
+  <p>混凝土的力臂是 \(h/2-a/2\)，鋼筋的力臂是 \(h/2-d_i\)。加總得到：</p>
+  $$M_n=C_c\left(\frac{h}{2}-\frac{a}{2}\right)+\Sigma F_i\left(\frac{h}{2}-d_i\right)=101.73\ \text{tf}\cdot\text{m}$$
+  <div class="box key"><b>重點</b>　全單元所有題型共用這台引擎，差別只在 \(c\) 從哪裡來。</div>
+</section>
+
+<!-- c4 -->
+<section id="c4">
+  <h2>④ 兩個掉分細節 <button class="seek" data-t="184.33">▶ 3:04</button></h2>
+  <figure>
+    <img src="img/RC-U1-2/s11.jpg" alt="細節一：a 內壓力筋扣 0.85f'c；細節二：中排力臂為零" loading="lazy">
+    <figcaption><b>左：應力塊內的壓力筋要扣 0.85f'c；右：對形心取矩，中排力臂 = 0</b><span class="t">影片 3:49</span></figcaption>
+  </figure>
+  <div class="box warn"><b>細節一：應力塊範圍內的壓力筋，要扣 \(0.85f'_c\)</b><br>
+  因為那塊面積已經算進混凝土壓力，不能算兩次。示範柱 \(a=27.2\)，上排在 \(a\) 內要扣；中排在 30 cm，剛好在 \(a\) 外，不扣。
+  $$d_i\le a:\ F_i=A_{si}\left(f_{si}-0.85f'_c\right)\qquad d_i>a:\ F_i=A_{si}f_{si}$$
+  </div>
+  <div class="box warn"><b>細節二：對形心取矩，中排鋼筋的力臂等於零</b><br>
+  它會影響 \(P_n\)，對 \(M_n\) 卻完全沒有貢獻。上排 +76.9 × (+24)，下排 −81.5 × (−24)，兩項都是正彎矩。
+  </div>
+  <table>
+    <tr><th>排</th><th>力 × 力臂</th><th>對 \(M_n\) 貢獻 (tf·m)</th></tr>
+    <tr><td>上排</td><td>\(+76.9\times(+24)\)</td><td class="n">+18.5</td></tr>
+    <tr><td>中排</td><td>\(+5.0\times 0\)</td><td class="n">0（力臂 = 0）</td></tr>
+    <tr><td>下排</td><td>\(-81.5\times(-24)\)</td><td class="n">+19.6</td></tr>
+  </table>
+  <div class="box key"><b>考場作法</b>　先把每排「在不在 \(a\) 內」「力臂多少」列成表再代。</div>
+</section>
+
+<!-- c5 -->
+<section id="c5">
+  <h2>⑤ P-M 互制圖 <button class="seek" data-t="230.03">▶ 3:50</button></h2>
+  <p>把引擎套在五個關鍵的 \(c\)，就得到這根柱的互制圖：</p>
+  <table>
+    <tr><th>控制點</th><th>\(P_n\) (tf)</th><th>\(M_n\) (tf·m)</th></tr>
+    <tr><td>① 純軸壓 \(P_o\)</td><td class="n">1061.9</td><td class="n">0.00</td></tr>
+    <tr><td>② \(\varepsilon_t=0\)</td><td class="n">764.5</td><td class="n">64.67</td></tr>
+    <tr><td>③ 平衡點</td><td class="n">389.1</td><td class="n">101.73</td></tr>
+    <tr><td>④ 拉力控制界限</td><td class="n">203.0</td><td class="n">90.61</td></tr>
+    <tr><td>⑤ 純彎矩</td><td class="n">0.0</td><td class="n">54.62</td></tr>
+  </table>
+  <figure>
+    <img src="img/RC-U1-2/s13.jpg" alt="示範柱 P-M 互制圖、安全區與 0.80Po 上限" loading="lazy">
+    <figcaption><b>曲線內側＝安全區；紅虛線 0.80P<sub>o</sub> = 849 tf 為締箍柱軸力上限</b><span class="t">影片 4:34</span></figcaption>
+  </figure>
+  <p>載重落在曲線內側就安全，落在外側就是斷面不足。曲線本身跟作用的軸力大小無關，它是<strong>斷面的身分證</strong>。另外，締箍柱的軸力上限要再乘 0.8，也就是 \(0.80P_o=849\ \text{tf}\)，保留最小偏心。</p>
+</section>
+
+<!-- c6 -->
+<section id="c6">
+  <h2>⑥ 為什麼鼓出來 <button class="seek" data-t="274.93">▶ 4:34</button></h2>
+  <p>互制圖為什麼會鼓出來？因為軸力在平衡點前後換了立場。</p>
+  <figure>
+    <img src="img/RC-U1-2/s15.jpg" alt="下半段軸力是幫手、上半段軸力是兇手" loading="lazy">
+    <figcaption><b>左（綠）：下半段軸力是幫手；右（紅）：上半段軸力是兇手</b><span class="t">影片 5:21</span></figcaption>
+  </figure>
+  <table>
+    <tr><th></th><th style="color:var(--green)">下半段：軸力是幫手</th><th style="color:var(--red)">上半段：軸力是兇手</th></tr>
+    <tr><td>範圍</td><td>\(c&lt;c_b\)，斷面大半受拉</td><td>\(c&gt;c_b\)，斷面幾乎全壓</td></tr>
+    <tr><td>加軸壓的效果</td><td>把受拉區「壓回去」：中性軸下移，壓力合力變大、力偶臂拉長</td><td>混凝土的容量被軸力吃掉，留給彎矩的就變少</td></tr>
+    <tr><td>\(M_n\) 變化</td><td>54.6 → 101.7 tf·m（P 與 M 同時增加）</td><td>101.7 → 0（P 增、M 減）</td></tr>
+  </table>
+  <div class="box key"><b>重點</b>　轉折點就是平衡點：對稱配筋柱的<strong>標稱</strong>最大彎矩一定在這裡，大約是純彎矩的 1.9 倍。</div>
+</section>
+
+<!-- c7 -->
+<section id="c7">
+  <h2>⑦ 入口 A　直讀 <button class="seek" data-t="322.1">▶ 5:22</button></h2>
+  <p>接下來看 \(c\) 從哪裡來，一共三個入口。入口 A，\(c\) 直接讀出來。</p>
+  <figure>
+    <img src="img/RC-U1-2/s17.jpg" alt="入口 A：εt=0 與平衡點直接讀出 c" loading="lazy">
+    <figcaption><b>左：\(\varepsilon_t=0\Rightarrow c=d_t\)；右：平衡點／恰好降伏 \(\Rightarrow c=c_b\)</b><span class="t">影片 6:03</span></figcaption>
+  </figure>
+  <table>
+    <tr><th>題目說</th><th>\(c\)</th><th>代進引擎</th></tr>
+    <tr><td>拉力筋應變為零、或應力為零</td><td>\(c=d_t=54\ \text{cm}\)</td><td>\(P_n=764.5\ \text{tf}\)，\(M_n=64.67\ \text{tf}\cdot\text{m}\)</td></tr>
+    <tr><td>平衡點、或拉力筋恰好降伏</td><td>\(c_b=32.02\ \text{cm}\)</td><td>\(P_n=389.1\ \text{tf}\)，\(M_n=101.73\ \text{tf}\cdot\text{m}\)</td></tr>
+  </table>
+  $$c_b=\frac{6120}{6120+f_y}\,d_t=32.02\ \text{cm}\qquad(\text{SI 制把 }6120\text{ 換成 }600)$$
+  <div class="box key"><b>重點</b>　看到「應變為零」「恰好降伏」「直接給 \(c\)」，就走入口 A，最省時間。</div>
+</section>
+
+<!-- c8 -->
+<section id="c8">
+  <h2>⑧ 入口 B　反解 <button class="seek" data-t="364.34">▶ 6:04</button></h2>
+  <p>入口 B，題目鎖住了 \(P\) 或偏心距 \(e\)。偏心距的意思是：一個偏心的 \(P\)，等於中心的 \(P\) 加上一個彎矩 \(P\cdot e\)，所以</p>
+  $$e=\frac{M_n}{P_n}$$
+  <p>在互制圖上，固定 \(e\)，就是一條通過原點的射線。</p>
+  <figure>
+    <img src="img/RC-U1-2/s20.jpg" alt="入口 B：由 Pn=Pu/φ 反解 c 並驗證 φ" loading="lazy">
+    <figcaption><b>左：偏心受壓 ≡ 中心壓＋彎矩，代回得 φM<sub>n</sub>；右：\(P_n(c)\) 曲線反解 \(c=40.05\)</b><span class="t">影片 7:08</span></figcaption>
+  </figure>
+  <p>給了 \(P_u\)，就令 \(P_n=P_u/\phi\)，反解 \(c\)。例如 \(P_u=350\ \text{tf}\)，\(\phi\) 先假設 0.65，\(P_n=538.5\ \text{tf}\)。把 \(C_c\) 和各排鋼筋力寫成 \(c\) 的代數式，整理成二次方程式，解出 \(c=40.05\ \text{cm}\)。\(P_n\) 對 \(c\) 單調上升，根是唯一的。</p>
+  <p>代回引擎：</p>
+  $$c=40.05\ \Rightarrow\ M_n=91.48\ \text{tf}\cdot\text{m},\qquad \varepsilon_t=0.00104&lt;\varepsilon_y\ \Rightarrow\ \phi=0.65,\qquad \phi M_n=59.46\ \text{tf}\cdot\text{m}$$
+  <p>最外層拉應變只有 0.00104，小於降伏應變，屬於壓力控制，\(\phi\) 確實是 0.65。</p>
+  <div class="box ok"><b>檢查</b>　解出 \(c\) 之後，一定要回頭驗證每排鋼筋到底降伏了沒有，不可沿用假設。</div>
+</section>
+
+<!-- c9 -->
+<section id="c9">
+  <h2>⑨ 入口 C　四控制點 <button class="seek" data-t="429.27">▶ 7:09</button></h2>
+  <p>入口 C，要畫互制圖，就依序算四個控制點。</p>
+  <figure>
+    <img src="img/RC-U1-2/s21.jpg" alt="入口 C 四控制點" loading="lazy">
+    <figcaption><b>四格：純軸壓 → εt=0 → 平衡點 → 純彎矩</b><span class="t">影片 7:37</span></figcaption>
+  </figure>
+  <table>
+    <tr><th>順序</th><th>條件</th><th>\(P_n\) (tf)</th><th>\(M_n\) (tf·m)</th><th>備註</th></tr>
+    <tr><td>① 純軸壓 \(P_o\)</td><td>全斷面均勻受壓</td><td class="n">1061.9</td><td class="n">0.00</td><td>設計時再乘 0.80（螺箍柱 0.85）</td></tr>
+    <tr><td>② \(\varepsilon_t=0\)</td><td>\(c=d_t\)</td><td class="n">764.5</td><td class="n">64.67</td><td>壓力控制 \(\phi=0.65\)</td></tr>
+    <tr><td>③ 平衡點</td><td>\(c=c_b\)</td><td class="n">389.1</td><td class="n">101.73</td><td>壓力控制 \(\phi=0.65\)</td></tr>
+    <tr><td>④ 純彎矩</td><td>\(P_n=0\)</td><td class="n">0.0</td><td class="n">54.62</td><td>拉力控制 \(\phi=0.90\)</td></tr>
+  </table>
+  <div class="box key"><b>重點</b>　四點連起來就是整條曲線，觀念題照這個順序寫，就是完整答案。</div>
+</section>
+
+<!-- c10 -->
+<section id="c10">
+  <h2>⑩ φ 值 <button class="seek" data-t="458.49">▶ 7:38</button></h2>
+  <p>\(\phi\) 是破壞有沒有預警的價格標籤，看最外層拉力筋的應變 \(\varepsilon_t\)。</p>
+  <table>
+    <tr><th>\(\varepsilon_t\)</th><th>控制模式</th><th>\(\phi\)</th></tr>
+    <tr><td>\(\varepsilon_t\ge 0.005\)</td><td>拉力控制</td><td>0.90</td></tr>
+    <tr><td>\(\varepsilon_y&lt;\varepsilon_t&lt;0.005\)</td><td>過渡區</td><td>線性內插</td></tr>
+    <tr><td>\(\varepsilon_t\le\varepsilon_y=0.00206\)</td><td>壓力控制</td><td>矩形締箍柱 0.65、螺箍柱 0.75</td></tr>
+  </table>
+  $$\phi=0.65+0.25\,\frac{\varepsilon_t-\varepsilon_y}{0.005-\varepsilon_y}\qquad(\text{締箍柱；螺箍柱壓力控制端改為 }0.75)$$
+  <figure>
+    <img src="img/RC-U1-2/s23.jpg" alt="φ–εt 圖與標稱曲線壓扁成設計曲線" loading="lazy">
+    <figcaption><b>左：\(\phi\)–\(\varepsilon_t\) 三區；右：標稱曲線（虛線）→ 設計曲線（綠），頂端截平於 552 tf</b><span class="t">影片 8:22</span></figcaption>
+  </figure>
+  <p>標稱曲線乘上 \(\phi\)，才是設計曲線。\(\phi\) 不是常數：下半段乘 0.9，上半段乘 0.65，曲線被不等比例壓扁，頂端再被 \(\phi\cdot0.80P_o=552\ \text{tf}\) 截平。</p>
+  <div class="box warn"><b>易錯</b>　判 \(\phi\) 一定用<strong>最外層</strong>鋼筋，不是中排，也不是平均應變。</div>
+</section>
+
+<!-- c11 -->
+<section id="c11">
+  <h2>⑪ 最大設計彎矩 <button class="seek" data-t="502.5">▶ 8:22</button></h2>
+  <figure>
+    <img src="img/RC-U1-2/s25.jpg" alt="Mn 與 φMn 隨 εt 變化，峰值位置不同" loading="lazy">
+    <figcaption><b><span style="color:var(--blue)">藍＝標稱 M<sub>n</sub></span>，峰值在平衡點；<span style="color:var(--red)">紅＝設計 φM<sub>n</sub></span>，峰值在 εt = 0.005</b><span class="t">影片 9:12</span></figcaption>
+  </figure>
+  <div class="box warn"><b>陷阱</b>　標稱 \(M_n\) 的峰值在平衡點，101.7；但平衡點的 \(\phi\) 只有 0.65，\(\phi M_n\) 只剩 66.1。設計彎矩的峰值，反而落在拉力控制界限 \(\varepsilon_t=0.005\)，81.5 tf·m。</div>
+  <table>
+    <tr><th>位置</th><th>\(\color{#3f7fa6}{M_n}\) (tf·m)</th><th>\(\phi\)</th><th>\(\color{#c8553d}{\phi M_n}\) (tf·m)</th></tr>
+    <tr><td>平衡點（\(\varepsilon_t=\varepsilon_y\)）</td><td class="n">101.7（峰值）</td><td class="n">0.65</td><td class="n">66.1</td></tr>
+    <tr><td>拉力控制界限（\(\varepsilon_t=0.005\)）</td><td class="n">90.6</td><td class="n">0.90</td><td class="n">81.5（峰值）</td></tr>
+  </table>
+  <p>原因是過渡區裡 \(\phi\) 從 0.65 走到 0.9，漲了 38%，\(M_n\) 同一段只退大約 15%，乘積一路上升，直到 \(\phi\) 觸頂被截平，形成<strong>折點極大值</strong>，不能用微分求。</p>
+  <div class="box key"><b>口訣</b>　問標稱 \(M_n\)，找平衡點；問極限或設計彎矩，找 \(\varepsilon_t=0.005\)。<br>題目鎖住了 \(P_u\)、\(e\) 或 \(\varepsilon_t\)，就沒有這個陷阱。</div>
+</section>
+
+<!-- c12 -->
+<section id="c12">
+  <h2>⑫ 細長效應 <button class="seek" data-t="552.8">▶ 9:12</button></h2>
+  <figure>
+    <img src="img/RC-U1-2/s27.jpg" alt="細長效應兩關：判斷細長、放大彎矩打進同一張圖" loading="lazy">
+    <figcaption><b>第一關：算不算細長？第二關：放大後的 M<sub>c</sub> 打進同一張圖</b><span class="t">影片 9:58</span></figcaption>
+  </figure>
+  <h3>第一關：這根柱算不算細長？</h3>
+  <p>考場第一步，先看題目有沒有給 \(l_u\)、\(k\) 和 \(\beta_d\)。有給就檢查細長比：</p>
+  $$\frac{k\,l_u}{r}\le 34-12\,\frac{M_1}{M_2}\qquad(\text{單曲度時 }M_1/M_2\text{ 取正})$$
+  <p>成立就是短柱，直接用 \(M_2\)；不成立，就要放大彎矩（額外彎矩 \(=P_u\cdot\delta\)）。</p>
+  <h3>第二關：放大後打進同一張圖</h3>
+  $$\delta_{ns}=\frac{C_m}{1-\dfrac{P_u}{0.75P_c}}\ge 1.0,\qquad M_c=\delta_{ns}M_2$$
+  <p>例如 \((M_2,P_u)=(40,300)\)，\(M_2=40\) 放大成 \(M_c=54\)，打進同一張互制圖。</p>
+  <div class="box warn"><b>最常見的錯</b>　細長效應改的是「需求」，不是「容量」；最常見的錯，是拿 \(\delta\) 去折減斷面強度。</div>
+</section>
+
+<!-- c13 -->
+<section id="c13">
+  <h2>⑬ 兩把檢核尺 <button class="seek" data-t="599.0">▶ 9:59</button></h2>
+  <figure>
+    <img src="img/RC-U1-2/s28.jpg" alt="檢核尺一：Pn 落在 Po 之下" loading="lazy">
+    <figcaption><b>檢核尺一：算出來的 P<sub>n</sub> 一定要落在 P<sub>o</sub> 之下</b><span class="t">影片 10:21</span></figcaption>
+  </figure>
+  <p>第一把，算出來的 \(P_n\) 一定要落在 \(P_o\) 之下。示範柱平衡點大約三成七 \(P_o\)，拉力筋應變為零大約七成二，設計上限八成。</p>
+  <table>
+    <tr><th>項目</th><th>\(P_n\) (tf)</th><th>占 \(P_o\)</th></tr>
+    <tr><td>純軸壓 \(P_o\)</td><td class="n">1062</td><td class="n">100%</td></tr>
+    <tr><td>設計上限 \(0.80P_o\)</td><td class="n">849</td><td class="n">80%</td></tr>
+    <tr><td>\(\varepsilon_t=0\) 時的 \(P_n\)</td><td class="n">764</td><td class="n">72%</td></tr>
+    <tr><td>平衡點 \(P_b\)</td><td class="n">389</td><td class="n">37%</td></tr>
+  </table>
+  <div class="box ok"><b>檢查</b>　如果 \(P_n\) 比 \(P_o\) 還大，一定是 \(a\) 超過 \(h\) 沒有截斷，或鋼筋力正負號寫反。</div>
+  <figure>
+    <img src="img/RC-U1-2/s29.jpg" alt="檢核尺二：標稱最大彎矩約為純彎矩兩倍" loading="lazy">
+    <figcaption><b>檢核尺二：標稱最大彎矩約為純彎矩的 2 倍</b><span class="t">影片 10:42</span></figcaption>
+  </figure>
+  <p>第二把，標稱最大彎矩大約是純彎矩的兩倍，本柱 \(M_b/M_0=1.86\)，常見範圍 1.8～2.2。</p>
+  <table>
+    <tr><th>項目</th><th>\(M_n\) (tf·m)</th><th>占 \(M_b\)</th></tr>
+    <tr><td>平衡點 \(M_b\)</td><td class="n">101.7</td><td class="n">100%</td></tr>
+    <tr><td>\(\varepsilon_t=0.005\) 的 \(M_n\)</td><td class="n">90.6</td><td class="n">89%</td></tr>
+    <tr><td>\(\varepsilon_t=0\) 的 \(M_n\)</td><td class="n">64.7</td><td class="n">64%</td></tr>
+    <tr><td>純彎矩 \(M_0\)</td><td class="n">54.6</td><td class="n">54%</td></tr>
+  </table>
+  <div class="box ok"><b>檢查</b>　算出來只有 1.1 倍、或高到 3 倍以上，多半是鋼筋排數或力臂弄錯了。</div>
+  <div class="box warn"><b>注意</b>　這把尺量的是標稱 \(M_n\)，不是設計彎矩。</div>
+</section>
+
+<!-- c14 -->
+<section id="c14">
+  <h2>總結 <button class="seek" data-t="642.97">▶ 10:42</button></h2>
+  <figure>
+    <img src="img/RC-U1-2/s31.jpg" alt="總結五點" loading="lazy">
+    <figcaption><b>五點總結：拿到柱題，先問「這次的 c，從哪裡來？」</b><span class="t">影片 11:23</span></figcaption>
+  </figure>
+  <table>
+    <tr><th>#</th><th>重點</th></tr>
+    <tr><td>①</td><td>柱比梁少一條方程式，所以答案是一條曲線。</td></tr>
+    <tr><td>②</td><td>唯一的引擎：給 \(c\)，算應變，做兩次平衡；\(a\) 內的壓力筋扣 \(0.85f'_c\)，中排鋼筋力臂為零。</td></tr>
+    <tr><td>③</td><td>三個入口：直讀、反解、四控制點。</td></tr>
+    <tr><td>④</td><td>\(\phi\) 看最外層的 \(\varepsilon_t\)；問設計彎矩找 0.005，不是平衡點。</td></tr>
+    <tr><td>⑤</td><td>細長效應只放大需求彎矩。</td></tr>
+  </table>
+  <div class="box key"><b>拿到柱題，先問一句</b>　這次的 \(c\)，從哪裡來？</div>
+</section>
+
+<footer>
+  來源：<code>解題過程影片/RC-U1-2/video/</code> 的 RC-concept-column-strength.mp4（11:24）、segments.py（31 段旁白逐字稿）、RC-concept-column-strength.srt（字幕時間軸）。黑板圖為各段結束前 0.5 秒的畫面截圖。示範柱數值已依 HANDOFF.md 及引擎重算核對。
+</footer>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.renderMathInElement) {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ],
+      throwOnError: false
+    });
+  }
+  var v = document.getElementById('vid');
+  document.querySelectorAll('.seek').forEach(function (b) {
+    b.addEventListener('click', function () {
+      v.currentTime = parseFloat(b.dataset.t);
+      v.play();
+      v.scrollIntoView({behavior: 'smooth', block: 'start'});
+    });
+  });
+});
+</script>
+</body>
+</html>

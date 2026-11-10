@@ -7,17 +7,20 @@ description: "exam-wiki 六科（SS/RC/SA/SD/SM/MM）為既有解析補建題目
 
 把每題的「考卷寫了什麼」從解析裡拆出來，存成凍結的題目正本 `raw/solutions/<id>/<id>-problem.md`。判讀確認後，有附圖的題目依判讀清單重繪附圖（與 exam-solve 階段一第 6 步相同），解析 §1 改為指向題目正本並放重繪圖。目的：題意先單獨驗證，讀錯題的錯誤在動解答前就被抓到；重繪圖上每個支承、尺寸、載重都對應判讀清單一項，讓判讀結果看得見。
 
-新題目的解題流程用 exam-solve（`Downloads\[考古題知識庫]\skill\exam-solve.skill`，階段一的讀題法與本 skill 相同）。本 skill 處理**已有解析的題目**的補建。
+新題目的解題流程用 exam-solve（`structural-exam-wiki/skills/exam-solve/`，階段一的讀題法與本 skill 相同）。本 skill 處理**已有解析的題目**的補建。
+
+> **路徑慣例**：五科合一知識庫 `structural-exam-wiki`（`C:\Users\yjc57\Downloads\structural-exam-wiki`）。本檔的 `raw/`、`study/`、`wiki/`、`scripts/fixes/` 一律指科目資料夾 `XX/` 底下；`scripts/`（共用腳本）、`skills/` 指根目錄。
 
 在題庫總流程（exam-wiki-pipeline）中本 skill 是階段 A：先定題意，再由 exam-wiki-audit 盲解比對。本 skill 第 4 步會打開解析 §1，**同一對話接著盲解就不算獨立**；盲解要在另一個對話做，或在比對報告揭露。
 
-## 0. 開工前（每個 repo 第一次做時）
+## 0. 開工前（每科第一次做時）
 
-1. 讀 repo 的 `CLAUDE.md` 與 `wiki/queries/log.md` 最後幾筆，確認沒有其他工作階段正在改同一批檔。
-2. 考卷 PDF 在各科 repo 的 `raw/exams/`（例 `C:\Users\yjc57\Downloads\exam-wiki-RC\raw\exams`）。只有 SS 的考卷進了 git；其他科只在使用者本機，GitHub 上沒有，**一律從本機讀**。請使用者把該科 repo 資料夾連進來；`raw/exams/` 找不到檔案就停下來問。
-3. 找題目瀏覽頁的渲染腳本：SS、SD 是 `scripts/render_problem_view.py`，SA 是 `scripts/md2view.py`（自 2026-11-04 起已支援「📄 題目正本」區塊），RC 是 `scripts/gen_problems_view.py`，SM、MM 沒有。尚未支援的腳本：偵測到 `-problem.md` 時，在解析前插入「📄 題目正本」區塊（照 SS 的 `render_problem_view.py` 或 SA 的 `md2view.py` 做）；改完對沒有題目正本的題目重產，確認輸出 0 差異。沒有腳本的科目，先和使用者確認要新建腳本還是只建 problem.md。
-4. `CLAUDE.md` 規則 1 的「raw/ 不可修改」例外加入 `<id>-problem.md`（照 SS、SA 的寫法：建立時待確認、確認後凍結、凍結後要改須回考卷原圖並記 log）。資料流與資料夾結構也補上 problem.md 與重繪圖 `figs/<id>-fig-N-problem.svg`，CHANGELOG 加一列。
-5. `raw/json/question_index.json` 的 `tagSystem` 加 `problemStatus` 說明（draft／confirmed；欄位不存在 = 尚未建立）。順便檢查 `tagSystem` 有無亂碼（SA 曾有 UTF-8 被當 cp1252 再編碼一次的字串）。
+1. 讀根目錄 `CLAUDE.md`、`XX/SUBJECT.md` 與 `XX/wiki/queries/log.md` 最後幾筆，確認沒有其他工作階段正在改同一批檔。
+2. 考卷 PDF 在 `structural-exam-wiki/XX/raw/exams/`。請使用者把 `structural-exam-wiki` 資料夾連進來，**一律從本機讀**（GitHub 上的副本可能落後於本機未 commit 的版本）；`raw/exams/` 找不到檔案就停下來問。
+   - 該科若還沒搬進 `structural-exam-wiki`（`XX/` 只有 scaffold 骨架、沒有 `raw/solutions/` 題目）：**停下來**，請使用者先用 exam-subject-migrate 搬入，不要在原獨立 repo（`exam-wiki-XX`）建題目正本，否則兩邊又會分岔。
+3. 題目瀏覽頁一律用根目錄共用腳本 `python scripts/render_problem_view.py <id> …`（五科共用，已支援「📄 題目正本」區塊：有 `<id>-problem.md` 就渲染在解析之前，未確認時標「待確認」）。原 repo 的 `md2view.py`、`gen_problems_view.py` 已停用，不要用。
+4. 規則 1 的 problem.md 例外、資料流與資料夾結構已寫在根目錄 `CLAUDE.md`（五科通用），**不用再改**。
+5. `XX/raw/json/question_index.json` 的 `tagSystem` 若還沒有 `problemStatus` 說明（2026-11-11 時 RC、SD、SM 沒有），照 SS／SA 的寫法補上（draft／confirmed；欄位不存在 = 尚未建立），並在 `XX/wiki/queries/log.md` 記一筆。順便檢查 `tagSystem` 有無亂碼（SA 曾有 UTF-8 被當 cp1252 再編碼一次的字串）。
 
 ## 1. 分批
 
@@ -31,12 +34,12 @@ description: "exam-wiki 六科（SS/RC/SA/SD/SM/MM）為既有解析補建題目
 1. 取得考卷影像（考卷只在本機時）：
    - 優先用 `device_stage_files` 把該批考卷 PDF 送到雲端工作區，在雲端用 PyMuPDF 轉圖後直接看。
    - 若無法 stage：在本機 shell 用 `pdftoppm`（本機通常沒有 PyMuPDF）轉 PNG 存到 repo 外的暫存處，再 stage PNG。
-   - SS 的考卷在 git 內，也可用 GitHub 上同一 commit 的副本轉圖，但要先比對與本機的 md5。
+   - 已 commit 的考卷也可用 GitHub 上同一 commit 的副本轉圖，但要先比對與本機的 md5。
 2. 每份考卷 110 dpi 全頁轉圖，逐頁看。可抽文字的考卷用 pdftotext 核對逐字原文。
 3. 附圖用 300–500 dpi 局部放大。定位用 PDF 文字座標或內嵌圖片的 bbox，不要用猜的座標。
 4. 向量圖（曲線圖、尺寸線）可讀 PDF drawings 座標取值或核對端點；這些座標之後也是重繪的依據，記在判讀清單的依據欄。
 5. 題內公式若是圖片，用 `pdftoppm -r 150 -x -y -W -H` 截成 `<id>-eqn-N.png` 放在題目資料夾（在本機 shell 直接對 `raw/exams/` 的 PDF 執行）。
-6. 證據圖：沿用解析既有的 `<id>-fig-N.png`。先做一張全批證據圖的縮圖總表，一次看出哪幾張有問題。既有圖裁切不完整、解析度太低（小符號看不清）、**截圖帶有滑鼠游標等雜訊（尤其壓在支承或尺寸上）**、或該題有附圖卻沒有 fig 檔時，從考卷重新擷取 500 dpi PNG（repo 有 `scripts/extract_figure.py` 就用它，否則用 PyMuPDF 依 bbox 裁切），存成下一個未用的編號，不覆蓋既有證據圖。
+6. 證據圖：沿用解析既有的 `<id>-fig-N.png`。先做一張全批證據圖的縮圖總表，一次看出哪幾張有問題。既有圖裁切不完整、解析度太低（小符號看不清）、**截圖帶有滑鼠游標等雜訊（尤其壓在支承或尺寸上）**、或該題有附圖卻沒有 fig 檔時，從考卷重新擷取 500 dpi PNG（用根目錄 `scripts/extract_figure.py`；不能用時改用 PyMuPDF 依 bbox 裁切），存成下一個未用的編號，不覆蓋既有證據圖。
 
 **歷次查到的讀錯題型態，盲讀時逐一檢查：**
 - 尺寸線端點量到哪裡：全深 vs 腹板淨高、外緣 vs 中心線、外緣 vs 形心。

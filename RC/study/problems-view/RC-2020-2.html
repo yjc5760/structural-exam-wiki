@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2020-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2020-2 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U2-1.html">&#128202; U2-1 單元總覽</a><a class="lect" href="../lecture-RC-U2-1.html">&#128218; U2-1 RC 剪力強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2020-2</h1>
+<p><strong>主分類：</strong> <code>RC-U2-1</code> RC 剪力強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>倒T型梁</code> <code>臨界斷面</code> <code>d偏移規則</code> <code>懸吊式載重</code> <code>下翼板載重</code> <code>不可d偏移</code> <code>最大肋筋間距</code> <code>最大設計剪力</code> <code>Vc簡化公式</code> <code>懸吊鋼筋</code></p>
+<hr />
+<h2>1. 原始題目重述（Problem Restatement）</h2>
+<p><strong>作答規範（原卷明訂）：</strong> 內政部民國 108 年 2 月 25 日公布之「混凝土結構設計規範」，或中國土木水利工程學會「混凝土工程設計規範與解說（土木 401-100）」。</p>
+<p>一簡支<strong>獨立</strong>倒 T 型梁（腹板在上、翼板在下），受均佈設計（因數化）載重 $w_u = 15 \text{ tf/m}$（含自重），跨度 800 cm。</p>
+<p><strong>已知條件：</strong></p>
+<ul>
+<li>$f'_c = 280 \text{ kgf/cm}^2$，$f_y = 4200 \text{ kgf/cm}^2$</li>
+<li>混凝土剪力強度公式（原卷給定）：$V_c = 0.53\sqrt{f'_c}\, b_w d$</li>
+<li>剪力筋：D13，一支斷面積 $= 1.267 \text{ cm}^2$</li>
+</ul>
+<p><strong>斷面幾何（由圖讀取）：</strong></p>
+<ul>
+<li>腹板（上方）：寬 $b_w = 35 \text{ cm}$，高 $70 \text{ cm}$</li>
+<li>翼板（下方）：寬 $100 \text{ cm}$，深 $20 \text{ cm}$</li>
+<li>全深 $h = 70 + 20 = 90 \text{ cm}$</li>
+<li>上、下保護層（至鋼筋重心）均為 $6 \text{ cm}$，有效深度 $d = 90 - 6 = 84 \text{ cm}$</li>
+</ul>
+<p><strong>三小題：</strong></p>
+<ol>
+<li>請判斷支承處斷面可否按距離支承面 $d$ 處斷面之 $V_u$ 設計之，請說明原因。（5 分）</li>
+<li>計算支承位置剪力鋼筋之最大間距。（15 分）</li>
+<li>計算此梁斷面所能抵抗之最大設計剪力 $V_u$。（5 分）</li>
+</ol>
+<p><img alt="RC-2020-2 題目附圖：簡支倒T型梁側視圖（跨度800cm，wu=15tf/m 之箭頭終止於下翼板頂面）與斷面圖（腹板35×70cm，翼板100×20cm，上下保護層各6cm，D13箍筋）" src="../../raw/solutions/RC-2020-2/RC-2020-2-fig-1.png" /></p>
+<p><em>圖說：倒T型梁斷面，腹板 $b_w=35$ cm 在上，翼板 $100\times20$ cm 在下；$h=90$ cm，$d=84$ cm；梁跨度 $L=800$ cm。<strong>側視圖中 $w_u$ 的載重箭頭並非畫在梁頂，而是自梁深 70 cm 處（即下翼板頂面）向下指、終止於翼板上緣</strong>——載重是壓在下翼板上（拉力側），不是壓在腹板頂面。D13 閉合箍筋，$A_v=2\times1.267=2.534$ cm²；$f'_c=280$ kgf/cm²，$f_y=4200$ kgf/cm²。</em></p>
+<blockquote>
+<p>⚠ <strong>附圖判讀是本題全部得分的樞紐。</strong> 量測原圖像素：側視圖全深 90 cm 對應 502 px，<br />
+載重箭頭的起始線在距梁頂 380 px ≈ 68 cm 處、箭頭尖端落在 70 cm 處，<br />
+正好是翼板上緣。若把箭頭誤讀成「梁頂均佈載重」，小題(一)會答成「可以」，<br />
+小題(二)的箍筋間距會從 16.6 cm 放寬到 24.1 cm（<strong>偏不安全 45%</strong>），<br />
+而且會錯過規範間距上限由 $d/2$ 落到 $d/4$ 的分支。</p>
+</blockquote>
+<hr />
+<p><img alt="RC-2020-2 倒 T 型梁題目重繪：側視圖 wu 箭頭終止於距梁頂 70 cm 的下翼板頂面，斷面為腹板 35×70 在上、翼板 100×20 在下，d=84 cm，D13 閉合箍" src="../../raw/solutions/RC-2020-2/figs/RC-2020-2-fig-1-beam.svg" /></p>
+<p><em>圖 1　倒 T 型梁題目重繪。側視圖的載重箭頭<strong>止於下翼板頂面</strong>而非梁頂——這一個像素高度就是本題全部 25 分的樞紐：讀成梁頂載重，小題(一)答成「可以」，小題(二)的間距會從 16.6 cm 放寬到 24.1 cm。</em></p>
+<h2>2. 考題核心精神與出題者意圖（Core Concepts &amp; Examiner's Intent）</h2>
+<p><strong>核心觀念：</strong></p>
+<ol>
+<li>$d$ 偏移規則（critical section at $d$ from support）的<strong>三項適用條件</strong>，尤其是「載重須施加於構材頂部附近」這一條</li>
+<li>倒 T 型梁（承托梁／ledger beam）的載重自<strong>下翼板（拉力側）</strong>進入，屬懸吊式載重</li>
+<li>依支承面 $V_u$ 計算所需箍筋間距，並對照規範上限的雙門檻（$d/2$ vs $d/4$）</li>
+<li>斷面最大可承受剪力受 $V_{s,\max} = 4V_c$ 控制</li>
+</ol>
+<p><strong>出題者意圖：</strong></p>
+<ul>
+<li>小題(一) 是本題靈魂：<strong>故意畫一個載重從下翼板進入的倒 T 型梁</strong>，測驗考生會不會反射性地套 $d$ 偏移。5 分的判斷題，答錯會連帶把 15 分的小題(二)一起做錯。</li>
+<li>小題(二) 測驗完整剪力設計流程（$\phi$ → $V_s$ → 間距 → 規範上限），且刻意讓 $V_s$ <strong>剛好落在 $2V_c$ 之上</strong>（53.9 vs 52.1 tf，只超 3.4%），若誤用 $d$ 偏移就會掉到門檻以下、選錯上限。</li>
+<li>小題(三) 測驗 $V_{s,\max}$ 對截面剪力容量的控制概念。</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析（Strategic Roadmap &amp; Trap Analysis）</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>(一) 逐條檢核 $d$ 偏移三條件 → 條件(b)不成立（載重在拉力側）→ <strong>不可偏移</strong>，臨界斷面取支承面</li>
+<li>計算 $V_c$、支承面 $V_u = w_u L/2$</li>
+<li>(二) 計算 $V_s$，與 $2V_c$、$4V_c$ 比較定間距上限，再與強度需求取小</li>
+<li>(三) 以 $V_{s,\max} = 4V_c$ 代入求 $\phi V_{n,\max}$</li>
+</ol>
+<p><strong>五大陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>對策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>載重位置誤判（致命）</strong></td>
+<td>倒 T 型梁的載重箭頭畫在下翼板頂面，非梁頂</td>
+<td>放大附圖確認箭頭尖端的高度；「倒 T」＋「獨立」＝承托梁的典型畫法</td>
+</tr>
+<tr>
+<td>$\phi$ 值選擇</td>
+<td>108 年規範／土木 401-100 剪力用 $\phi = 0.75$</td>
+<td>$\phi = 0.75$，非 0.85（ACI 318-99 舊制）</td>
+</tr>
+<tr>
+<td>$A_v$ 計算</td>
+<td>閉合箍筋一組 = 2 支 D13</td>
+<td>$A_v = 2 \times 1.267 = 2.534 \text{ cm}^2$</td>
+</tr>
+<tr>
+<td>間距上限選擇</td>
+<td>需先判斷 $V_s$ 是否超過 $2V_c$，再選 $d/2$ 或 $d/4$</td>
+<td>本題 $V_s = 53.9 &gt; 2V_c = 52.1$ → 取 $d/4$</td>
+</tr>
+<tr>
+<td>最大 $V_u$ 的 $V_{s,\max}$</td>
+<td>$V_{s,\max} = 4V_c$（超過需放大斷面），非無限大</td>
+<td>$V_{u,\max} = \phi(V_c + 4V_c) = 5\phi V_c$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>(一) 判斷臨界斷面位置；(二) 求支承位置最大箍筋間距；(三) 求斷面最大可承受設計剪力</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1: } V_c = 0.53\sqrt{f'_c}\, b_w d$$</p>
+<p>$$\text{Step 2: } V_u\big|_{\text{critical}} = V_{u,\text{support}} = \frac{w_u L}{2} \quad \text{（不可 d 偏移）}$$</p>
+<p>$$\text{Step 3: } V_s = \frac{V_u}{\phi} - \boxed{V_c}$$</p>
+<p>$$\text{Step 4: } s = \frac{A_v f_{yt} d}{\boxed{V_s}} \leq s_{\max,\text{code}} = \begin{cases} \min(d/2,\,60) &amp; \boxed{V_s} \le 2\boxed{V_c} \\ \min(d/4,\,30) &amp; \boxed{V_s} &gt; 2\boxed{V_c}\end{cases}$$</p>
+<p>$$\text{Step 5（最大Vu）: } V_{u,\max} = \phi\!\left(\boxed{V_c} + 4\boxed{V_c}\right) = 5\phi \boxed{V_c}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td>混凝土抗壓強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+<td>剪力筋降伏強度</td>
+</tr>
+<tr>
+<td>$w_u$</td>
+<td>15 tf/m</td>
+<td>均佈設計載重（施加於<strong>下翼板頂面</strong>）</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>800 cm</td>
+<td>梁跨度</td>
+</tr>
+<tr>
+<td>$b_w$</td>
+<td>35 cm</td>
+<td>腹板寬（剪力計算用）</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>90 cm</td>
+<td>斷面全深</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>84 cm</td>
+<td>有效深度（90−6）</td>
+</tr>
+<tr>
+<td>$A_v$</td>
+<td>2.534 cm²</td>
+<td>一組 D13 閉合箍面積（2×1.267）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：混凝土剪力強度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_c$</td>
+<td>$0.53 \times \sqrt{280} \times 35 \times 84 = 26{,}074 \text{ kgf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi V_c$</td>
+<td>$0.75 \times 26{,}074 = 19{,}555 \text{ kgf} = 19.6 \text{ tf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：臨界斷面剪力（＝支承面，不偏移）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_{u,\text{support}}$</td>
+<td>$w_u \times L/2 = 15 \times 8/2 = 60 \text{ tf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_{u,\text{critical}}$</td>
+<td>$= V_{u,\text{support}} = 60 \text{ tf}$（<strong>不可</strong> 扣 $w_u d$）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：所需 Vs</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_s$</td>
+<td>$60/0.75 - 26.07 = 80 - 26.07 = 53.93 \text{ tf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：間距計算與上限判斷</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>門檻 $2V_c$</td>
+<td>$2 \times 26{,}074 = 52{,}147 \text{ kgf} = 52.15 \text{ tf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>比較</td>
+<td>$V_s = 53.93 \text{ tf} &gt; 52.15 \text{ tf}$ → $s_{\max,\text{code}} = \min(d/4,\,30) = 21 \text{ cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$s$ （強度）</td>
+<td>$2.534 \times 4200 \times 84 / 53{,}926 = 16.58 \text{ cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>控制間距</td>
+<td>$\min(16.58,\ 21) = 16.6 \text{ cm}$（實配 16 cm）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：最大設計剪力</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_{s,\max}$</td>
+<td>$4V_c = 4 \times 26{,}074 = 104{,}295 \text{ kgf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_{u,\max}$</td>
+<td>$\phi \times 5V_c = 0.75 \times 130{,}369 = 97{,}776 \text{ kgf} = 97.8 \text{ tf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$d$ 偏移三條件</td>
+<td>(a) 支承反力在端區產生壓力；(b) <strong>載重施加於構材頂部或其附近</strong>；(c) 支承面至臨界斷面間無集中載重。<strong>三條缺一即不可偏移</strong>，本題(b)不成立</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>為何載重在拉力側就不能偏移</td>
+<td>偏移的物理基礎是支承附近形成直接斜壓撐；載重若自下翼板（拉力側）進入，必須先被垂直懸吊鋼筋「吊」到腹板頂部才能形成壓撐，端區反而是全剪力作用</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_s$ 間距上限雙門檻</td>
+<td>$V_s \leq 2V_c$ → $s \leq \min(d/2, 60)$；$2V_c &lt; V_s \leq 4V_c$ → $s \leq \min(d/4, 30)$；$V_s &gt; 4V_c$ → 需放大斷面</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_v = 2$ 支 D13</td>
+<td>閉合箍筋每組兩腳，$A_v = 2 \times 1.267$，不是 1.267</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>108年規範 / 401-100 之 $\phi = 0.75$</td>
+<td>剪力強度折減係數由 ACI 318-99 的 0.85 改為 0.75</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>懸吊鋼筋（hanger reinforcement）</td>
+<td>下翼板載重須以額外垂直鋼筋吊入腹板壓力區，需求量 $A_h \ge w_u/(\phi f_y)$（單位長度）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程（Step-by-Step Detailed Calculation）</h2>
+<h3>前置：斷面與材料參數整理</h3>
+<p>$$b_w = 35 \text{ cm}, \quad d = 84 \text{ cm}, \quad A_v = 2 \times 1.267 = 2.534 \text{ cm}^2$$</p>
+<p>$$\phi = 0.75 \text{（剪力，依 108 年規範／土木 401-100）}$$</p>
+<h3>小題(一)：支承處是否可採 $d$ 偏移</h3>
+<p><strong>判斷結論：不可以（NO）。臨界斷面必須取在支承面。</strong></p>
+<p>依規範（土木 401-100 §4.11.1／ACI 318 §9.4.3.2），可將臨界斷面移至距支承面 $d$ 處，須<strong>同時</strong>滿足三條件：</p>
+<table>
+<thead>
+<tr>
+<th>條件</th>
+<th>內容</th>
+<th style="text-align: center;">本題</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(a)</td>
+<td>支承反力在構材端區產生<strong>壓力</strong></td>
+<td style="text-align: center;">✓ 簡支支承向上頂住翼板</td>
+</tr>
+<tr>
+<td>(b)</td>
+<td>載重施加於構材<strong>頂部或其附近</strong>（不得自拉力側進入）</td>
+<td style="text-align: center;">✗ <strong>載重壓在下翼板頂面（拉力側）</strong></td>
+</tr>
+<tr>
+<td>(c)</td>
+<td>支承面與臨界斷面之間無集中載重</td>
+<td style="text-align: center;">✓ 純均佈載重</td>
+</tr>
+</tbody>
+</table>
+<p><strong>理由：</strong> 本梁為<strong>倒 T 型（腹板在上、翼板在下）獨立梁</strong>，附圖中 $w_u$ 的載重箭頭終止於距梁頂 70 cm 處，即<strong>下翼板的頂面</strong>。簡支梁的拉力側在下方，故此載重是自<strong>拉力側</strong>進入斷面，屬<strong>懸吊式載重（hanging / suspended load）</strong>——實務上就是倒 T 承托梁（ledger beam）以下翼板承托預鑄版或小梁的情形。</p>
+<p>此時支承附近無法形成「載重點直接斜壓撐至支承」的傳力機制：載重必須先由腹板中的<strong>垂直懸吊鋼筋</strong>吊升至腹板壓力區，再向支承傳遞。斜裂縫會穿越整個端區，端區承受的是<strong>未折減的全部剪力</strong>。</p>
+<p>$$\boxed{\text{臨界斷面：支承面（}x = 0\text{），}V_u = 60 \text{ tf；不得取 } d = 84 \text{ cm 處}}$$</p>
+<blockquote>
+<p><strong>對照（若誤判為梁頂載重）：</strong> $V_{u,d} = 60 - 15 \times 0.84 = 47.4$ tf，<br />
+$V_s = 47.4/0.75 - 26.07 = 37.13$ tf $&lt; 2V_c$，$s_{\max} = \min(24.1,\,42) = 24.1$ cm。<br />
+與正解 16.6 cm 相差 45%，且規範上限誤用 $d/2$ 而非 $d/4$——這正是出題者設計的陷阱。</p>
+</blockquote>
+<hr />
+<h3>小題(二)：支承位置剪力筋最大間距</h3>
+<p><strong>Step 1：計算混凝土剪力強度 $V_c$</strong></p>
+<p>$$V_c = 0.53\sqrt{f'_c}\,b_w d = 0.53 \times \sqrt{280} \times 35 \times 84$$</p>
+<p>$$= 0.53 \times 16.7332 \times 2{,}940 = 26{,}074 \text{ kgf} = 26.07 \text{ tf}$$</p>
+<p><strong>Step 2：支承面（臨界斷面）剪力 $V_u$</strong></p>
+<p>$$V_u = V_{u,\text{support}} = w_u \times \frac{L}{2} = 15 \times \frac{8}{2} = \mathbf{60 \text{ tf}} = 60{,}000 \text{ kgf}$$</p>
+<p>（依小題(一)，<strong>不作</strong> $d$ 偏移。）</p>
+<p><strong>Step 3：計算所需箍筋剪力強度 $V_s$</strong></p>
+<p>$$\phi V_n \geq V_u \implies V_n = V_c + V_s \geq \frac{V_u}{\phi}$$</p>
+<p>$$V_s = \frac{V_u}{\phi} - V_c = \frac{60{,}000}{0.75} - 26{,}074 = 80{,}000 - 26{,}074 = \mathbf{53{,}926 \text{ kgf}} = 53.93 \text{ tf}$$</p>
+<p><strong>Step 4：判斷規範間距上限門檻</strong></p>
+<p>$$2V_c = 2 \times 26{,}074 = 52{,}147 \text{ kgf} = 52.15 \text{ tf}$$</p>
+<p>$$4V_c = 4 \times 26{,}074 = 104{,}295 \text{ kgf} = 104.30 \text{ tf}$$</p>
+<p>$$2V_c = 52.15 \ \mathbf{&lt;}\ V_s = 53.93 \ \mathbf{&lt;}\ 4V_c = 104.30 \quad\Rightarrow\quad \text{斷面尺寸足夠，但適用加嚴間距}$$</p>
+<p>$$s_{\max,\text{code}} = \min\!\left(\frac{d}{4},\ 30 \text{ cm}\right) = \min(21,\ 30) = 21 \text{ cm}$$</p>
+<blockquote>
+<p>只超過門檻 3.4%（53.93 vs 52.15），但規範是硬門檻——上限直接由 42 cm 腰斬為 21 cm。</p>
+</blockquote>
+<p><strong>Step 5：由強度需求計算間距</strong></p>
+<p>$$s = \frac{A_v f_{yt} d}{V_s} = \frac{2.534 \times 4200 \times 84}{53{,}926} = \frac{894{,}005}{53{,}926} = \mathbf{16.58 \text{ cm}}$$</p>
+<p><strong>Step 6：取最小值（控制間距）</strong></p>
+<p>$$s_{\max} = \min(s_{\text{strength}},\ s_{\max,\text{code}}) = \min(16.58,\ 21) = \boxed{16.6 \text{ cm}}$$</p>
+<p>支承位置剪力筋最大間距 $= \mathbf{16.6 \text{ cm}}$（實際採用 D13 @ 16 cm）。</p>
+<p><strong>最小剪力筋量驗核：</strong></p>
+<p>$$A_{v,\min} = \max\!\left(0.2\sqrt{f'_c}\,\frac{b_w s}{f_{yt}},\ 3.5\,\frac{b_w s}{f_{yt}}\right)
+= \max\!\left(\frac{0.2(16.733)(35)(16)}{4200},\ \frac{3.5(35)(16)}{4200}\right)$$</p>
+<p>$$= \max(0.446,\ 0.467) = 0.467 \text{ cm}^2 \ \ll\ A_v = 2.534 \text{ cm}^2 \quad \checkmark$$</p>
+<hr />
+<h3>小題(三)：斷面最大可承受設計剪力 $V_{u,\max}$</h3>
+<p>規範規定，箍筋可提供的最大剪力強度（超過則必須放大斷面）：</p>
+<p>$$V_{s,\max} = 2.12\sqrt{f'_c}\,b_w d = 4V_c = 4 \times 26{,}074 = 104{,}295 \text{ kgf}$$</p>
+<p>最大標稱剪力強度：</p>
+<p>$$V_{n,\max} = V_c + V_{s,\max} = 5V_c = 26{,}074 + 104{,}295 = 130{,}369 \text{ kgf}$$</p>
+<p>最大設計剪力容量：</p>
+<p>$$V_{u,\max} = \phi V_{n,\max} = 5\phi V_c = 0.75 \times 130{,}369 = \boxed{97{,}776 \text{ kgf} \approx 97.8 \text{ tf}}$$</p>
+<p><strong>驗算：</strong> 支承面 $V_u = 60 \text{ tf} &lt; V_{u,\max} = 97.8 \text{ tf}$ ✓，斷面尺寸足夠（餘裕 63%）。</p>
+<hr />
+<h3>計算結果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: center;">結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_c$</td>
+<td style="text-align: center;">26.07 tf（$\phi V_c = 19.6$ tf）</td>
+</tr>
+<tr>
+<td><strong>(一) 臨界斷面</strong></td>
+<td style="text-align: center;"><strong>支承面；不可 $d$ 偏移</strong>（載重自下翼板／拉力側進入）</td>
+</tr>
+<tr>
+<td>臨界斷面 $V_u$</td>
+<td style="text-align: center;">60.0 tf</td>
+</tr>
+<tr>
+<td>所需 $V_s$</td>
+<td style="text-align: center;">53.93 tf（$&gt; 2V_c = 52.15$，$&lt; 4V_c = 104.30$）</td>
+</tr>
+<tr>
+<td>規範間距上限</td>
+<td style="text-align: center;">$\min(d/4,\,30) = 21$ cm</td>
+</tr>
+<tr>
+<td>強度需求間距</td>
+<td style="text-align: center;">16.58 cm</td>
+</tr>
+<tr>
+<td><strong>(二) 最大間距</strong></td>
+<td style="text-align: center;"><strong>16.6 cm（實配 D13 @ 16 cm）</strong></td>
+</tr>
+<tr>
+<td><strong>(三) $V_{u,\max}$</strong></td>
+<td style="text-align: center;"><strong>97.8 tf</strong>（$= 5\phi V_c$）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><img alt="RC-2020-2 兩種載重位置的力流對照：左為梁頂載重形成直達支承的斜壓撐、臨界斷面在 x=d，右為下翼板載重須先由懸吊筋吊上壓力區、臨界斷面在支承面" src="../../raw/solutions/RC-2020-2/figs/RC-2020-2-fig-2-loadpath.svg" /></p>
+<p><em>圖 2　$d$ 偏移的物理基礎。左圖載重在壓力側，斜壓撐直接把力送到支承，端區不必靠腹筋跨越；右圖載重自拉力側進入，得先被懸吊筋吊上壓力區才形成壓撐，斜裂縫穿越整個端區。可攔下「簡支梁一律可偏移」這個把構件名稱當判準的反射動作。</em></p>
+<p><img alt="RC-2020-2 半跨剪力包絡線與三條水平門檻：支承面 60 tf、d 處 47.4 tf、φVc=19.6 tf、φ(Vc+Vs)=60.0 tf、Vu,max=5φVc=97.8 tf" src="../../raw/solutions/RC-2020-2/figs/RC-2020-2-fig-3-shear.svg" /></p>
+<p><em>圖 3　剪力需求與三條門檻。$\phi V_c$ 只是「不必配箍筋」的界線，真正的斷面容量天花板是 $V_{u,\max} = 5\phi V_c = 97.8$ tf；把 $\phi V_c$ 當成 $V_u$ 上限、或忘記 $V_{s,\max} = 4V_c$ 這條，小題(三)就答不出來。</em></p>
+<p><img alt="RC-2020-2 四個箍筋間距候選值長條比較：誤用 d/2 上限 42 cm、誤判載重在梁頂 24.08 cm、規範上限 d/4 為 21 cm、強度需求 16.58 cm 控制" src="../../raw/solutions/RC-2020-2/figs/RC-2020-2-fig-4-spacing.svg" /></p>
+<p><em>圖 4　四個候選間距同時攤開，長條越長＝越不安全。$V_s = 53.93$ tf 只超過 $2V_c = 52.15$ tf 三個百分點，規範上限就由 42 cm 腰斬為 21 cm；最終仍由強度需求 16.58 cm 控制。可攔下上限選錯分支、以及忘記與強度需求取小。</em></p>
+<h2>5. 關鍵爭議點與進階探討（Critical Issues &amp; Advanced Discussion）</h2>
+<p><strong>1. $d$ 偏移的本質，以及「倒 T 型梁」為何是反例</strong></p>
+<p>$d$ 偏移成立的物理基礎是：支承附近的斜壓撐（diagonal compression strut）把外力<strong>直接</strong>傳至支承，不必靠腹筋跨越斜裂縫。這要求載重進入斷面的位置在壓力側（梁頂）。</p>
+<p>倒 T 型梁的下翼板承托載重時，力流是「翼板 → 垂直懸吊筋 → 腹板頂部壓力區 → 斜壓撐 → 支承」。載重在被吊上去之前，端區的每一條斜裂縫都必須由腹筋橫跨，因此<strong>端區剪力不得折減</strong>。規範這條的原文是「載重施加於構材頂部或其附近」，而不是「簡支梁一律可偏移」——<strong>判準是條件，不是構件名稱</strong>。</p>
+<p><strong>2. 懸吊鋼筋（hanger reinforcement）需求量</strong></p>
+<p>本題未問，但這是倒 T 承托梁的必要配筋，考場上寫出來能加分：</p>
+<p>$$A_h \ \ge\ \frac{w_u}{\phi f_y} = \frac{150 \text{ kgf/cm}}{0.75 \times 4200} = 0.0476 \text{ cm}^2/\text{cm} = 4.76 \text{ cm}^2/\text{m}$$</p>
+<p>本題 D13 閉合箍 @ 16 cm 提供 $2.534/16 = 0.158\ \text{cm}^2/\text{cm} = 15.8\ \text{cm}^2/\text{m}$，遠大於 4.76 ✓。<br />
+也就是說剪力需求已「順便」蓋住懸吊需求；但若剪力需求很小（例如梁很短），懸吊需求就會反過來控制箍筋量——<strong>兩者必須分別檢核，不可互相取代</strong>（懸吊筋還須錨定至腹板壓力區，且宜與翼板頂面的橫向筋一併配置）。</p>
+<p><strong>3. $\phi = 0.75$ vs $\phi = 0.85$ 的選擇</strong></p>
+<p>108 年規範（民國 108 年 2 月 25 日公布）與土木 401-100 剪力均採 $\phi = 0.75$。$\phi = 0.85$ 是 ACI 318-99 之前的舊制。原卷已明訂作答規範，故 $\phi = 0.75$。</p>
+<p>若誤用 $\phi = 0.85$：$V_s = 60/0.85 - 26.07 = 44.5$ tf $&lt; 2V_c$，間距上限回到 $d/2$、強度需求間距 20.1 cm——<strong>兩個分支都跟著錯</strong>。</p>
+<p><strong>4. 依最新規範（土木 401-112／ACI 318-19）重算對照</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: center;">土木 401-100（原卷指定，本解主線）</th>
+<th style="text-align: center;">土木 401-112／ACI 318-19</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$d$ 偏移條件</td>
+<td style="text-align: center;">§4.11.1 三條件</td>
+<td style="text-align: center;">§9.4.3.2 三條件（<strong>條文與判斷完全相同</strong>）</td>
+</tr>
+<tr>
+<td>$V_c$</td>
+<td style="text-align: center;">原卷指定 $0.53\sqrt{f'_c}b_w d = 26.07$ tf</td>
+<td style="text-align: center;">$\left[0.53\lambda\sqrt{f'_c} + \dfrac{N_u}{6A_g}\right]b_w d$；$N_u=0$ 且 $A_v \ge A_{v,\min}$ → 同為 26.07 tf</td>
+</tr>
+<tr>
+<td>$\phi$（剪力）</td>
+<td style="text-align: center;">0.75</td>
+<td style="text-align: center;">0.75</td>
+</tr>
+<tr>
+<td>間距門檻</td>
+<td style="text-align: center;">$V_s \lessgtr 2V_c$ → $d/2$ 或 $d/4$</td>
+<td style="text-align: center;">§9.7.6.2.2 同（$1.06\sqrt{f'_c}b_wd = 2V_c$）</td>
+</tr>
+<tr>
+<td>$V_{s,\max}$</td>
+<td style="text-align: center;">$4V_c = 2.12\sqrt{f'_c}b_wd$</td>
+<td style="text-align: center;">§22.5.1.2 同</td>
+</tr>
+<tr>
+<td>$A_{v,\min}$</td>
+<td style="text-align: center;">$\max(0.2\sqrt{f'_c},\,3.5)\dfrac{b_ws}{f_{yt}}$</td>
+<td style="text-align: center;">§9.6.3.4 同</td>
+</tr>
+<tr>
+<td><strong>答案</strong></td>
+<td style="text-align: center;"><strong>16.6 cm／97.8 tf</strong></td>
+<td style="text-align: center;"><strong>16.6 cm／97.8 tf（不變）</strong></td>
+</tr>
+</tbody>
+</table>
+<p>本題三小題的答案在兩版規範下<strong>完全一致</strong>，因為 $V_c$ 由原卷直接給定、$N_u = 0$、且斷面配有充足腹筋（$A_v \ge A_{v,\min}$，故不觸發 318-19 新增的尺寸效應係數 $\lambda_s$）。<br />
+唯一需注意的是：若本題改為<strong>無腹筋</strong>斷面，318-19 就必須改用 $V_c = 2.12\lambda_s\lambda(\rho_w)^{1/3}\sqrt{f'_c}b_wd$，<br />
+$\lambda_s = \sqrt{2/(1+d/25)} \le 1$（$d$ 以 cm 計時為 $\sqrt{2/(1+d/25.4)}$ 之公制對應式），$d = 84$ cm 的深梁會被顯著折減。</p>
+<p><strong>5. 若題目改成「腹板頂面承載」的完整對照表</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: center;">載重在下翼板（<strong>本題</strong>）</th>
+<th style="text-align: center;">載重在腹板頂面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$d$ 偏移</td>
+<td style="text-align: center;">不可</td>
+<td style="text-align: center;">可</td>
+</tr>
+<tr>
+<td>臨界斷面 $V_u$</td>
+<td style="text-align: center;">60.0 tf</td>
+<td style="text-align: center;">47.4 tf</td>
+</tr>
+<tr>
+<td>$V_s$</td>
+<td style="text-align: center;">53.93 tf</td>
+<td style="text-align: center;">37.13 tf</td>
+</tr>
+<tr>
+<td>$V_s$ vs $2V_c$</td>
+<td style="text-align: center;">$&gt;$（超 3.4%）</td>
+<td style="text-align: center;">$&lt;$</td>
+</tr>
+<tr>
+<td>規範上限</td>
+<td style="text-align: center;">$\min(d/4,30) = 21$ cm</td>
+<td style="text-align: center;">$\min(d/2,60) = 42$ cm</td>
+</tr>
+<tr>
+<td>強度需求</td>
+<td style="text-align: center;">16.58 cm</td>
+<td style="text-align: center;">24.08 cm</td>
+</tr>
+<tr>
+<td><strong>最大間距</strong></td>
+<td style="text-align: center;"><strong>16.6 cm</strong></td>
+<td style="text-align: center;">24.1 cm</td>
+</tr>
+<tr>
+<td>額外配筋</td>
+<td style="text-align: center;">需懸吊鋼筋</td>
+<td style="text-align: center;">不需</td>
+</tr>
+</tbody>
+</table>
+<p><em>圖解補繪：2026-09-02（向量圖 4 張，腳本 <code>figs/gen_RC-2020-2.py</code>，可重跑；腳本檔尾對 §4 公佈值做 assert）</em></p></main>
+<footer>來源：raw/solutions/RC-2020-2/RC-2020-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

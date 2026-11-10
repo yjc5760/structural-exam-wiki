@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2024-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2024-1 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-1.html">&#128202; U1-1 單元總覽</a><a class="lect" href="../lecture-RC-U1-1.html">&#128218; U1-1 RC 梁彎矩強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2024-1</h1>
+<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>T形梁</code> <code>最大鋼筋量</code> <code>最小鋼筋量</code> <code>平衡鋼筋量</code> <code>Whitney應力塊</code> <code>β1係數</code> <code>延性控制</code> <code>高強度鋼筋</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>某一左右對稱 T 形梁斷面，幾何尺寸如圖 1 所示。</p>
+<p><img alt="RC-2024-1 T形梁斷面示意圖：翼板寬80cm、翼板厚20cm、腹板高60cm、腹板寬40cm，受拉鋼筋As位於腹板底部" src="../../raw/solutions/RC-2024-1/RC-2024-1-fig-1.png" /></p>
+<p><em>圖說：T形梁斷面，翼板有效寬度 $b = 80\ \text{cm}$，翼板厚度 $h_f = 20\ \text{cm}$，腹板高度 $60\ \text{cm}$，腹板寬度 $b_w = 40\ \text{cm}$，總深度 $h = 80\ \text{cm}$，受拉鋼筋 $A_s$ 位於腹板底部（假設有效深度 $d = 74\ \text{cm}$，自底面至 $A_s$ 形心保護層厚度 $\approx 6\ \text{cm}$）。</em></p>
+<p><strong>【小題一】</strong> 採中強度鋼筋（$f_y = 4200\ \text{kgf/cm}^2$，$E_s = 2.04 \times 10^6\ \text{kgf/cm}^2$）、混凝土（$f'_c = 280\ \text{kgf/cm}^2$，$\varepsilon_u = 0.003$），依規範（土木 401-112）計算：</p>
+<ul>
+<li>(a) 最大鋼筋量 $A_{s,\max}$</li>
+<li>(b) 最小鋼筋量 $A_{s,\min}$</li>
+</ul>
+<p><strong>【小題二】</strong> 改用高強度鋼筋（$f_y = 6900\ \text{kgf/cm}^2$，$E_s = 2.04 \times 10^6\ \text{kgf/cm}^2$）及較低強度混凝土（$f'_c = 210\ \text{kgf/cm}^2$，$\varepsilon_u = 0.004$），斷面不變，計算：</p>
+<ul>
+<li>(a) 平衡鋼筋量 $A_{s,b}$</li>
+<li>(b) 最大鋼筋量 $A_{s,\max}$</li>
+</ul>
+<blockquote>
+<p><strong>假設說明：</strong> 題目未明確標示有效深度 $d$，本解析採 $d = h - 6\ \text{cm} = 74\ \text{cm}$（自底面至 $A_s$ 形心距離 $= 6\ \text{cm}$）。</p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> T 形梁的最大、最小、平衡鋼筋量計算，以及當材料參數（$f_y$、$f'_c$、$\varepsilon_u$）改變時，如何系統性修正計算流程。</p>
+<p><strong>出題意圖：</strong></p>
+<ol>
+<li>測試學生能否判斷「中性軸在翼板內或腹板內」並切換計算模式</li>
+<li>測試 $\varepsilon_u = 0.004$（非標準值）時的平衡條件修正</li>
+<li>高強度鋼筋 $f_y = 6900$ 導致 $\varepsilon_y &gt; \varepsilon_u(\text{Case 1})$，學生必須重新計算 $\varepsilon_y$ 而非套用舊公式</li>
+<li>最大鋼筋量（$\varepsilon_t \geq 0.004$）在 $\varepsilon_u = 0.004$ 的情況下的邊界意義</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1：確定 β1（依 f'c 大小）
+Step 2（Case 1 最大）：由 εt = 0.004 → c_max → a_max → 判斷 NA 位置 → 求壓力 → As,max
+Step 3（Case 1 最小）：公式 max(0.8√f'c/fy, 14/fy) × bw × d
+Step 4（Case 2 平衡）：由 εu/(εu+εy) → cb → ab → 判斷 NA 位置 → As,b
+Step 5（Case 2 最大）：同 Step 2 但用 εu=0.004
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>正確做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>最大鋼筋量直接套 $\rho_{max} = 0.75\rho_b$（舊 ACI 法）</td>
+<td>土木401-112 改用 $\varepsilon_t \geq 0.004$ 控制，$c_{max}/d = \varepsilon_u/(\varepsilon_u+0.004)$</td>
+</tr>
+<tr>
+<td>②</td>
+<td>假設 $a \leq h_f$ 不驗算就套矩形梁公式</td>
+<td>計算 $a_{max}$ 後必須與 $h_f=20\ \text{cm}$ 比較，本題均 $&gt;h_f$，需用 T 形梁公式</td>
+</tr>
+<tr>
+<td>③</td>
+<td>最小鋼筋量用翼板寬 $b$ 而非腹板寬 $b_w$</td>
+<td>依規範明確使用 $b_w$</td>
+</tr>
+<tr>
+<td>④</td>
+<td>Case 2 的 $\varepsilon_u=0.004$ 認為是打字錯誤</td>
+<td>這是本題刻意設定，影響 $c_b$ 公式與最大鋼筋量條件</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>Case 1：計算 As,max（εt≥0.004 限制）與 As,min（規範下限）</code><br />
+<code>Case 2：計算 As,b（平衡狀態）與 As,max（εt≥0.004 限制，εu=0.004）</code></p>
+<h3>本題關鍵公式鏈</h3>
+<p>$$\text{Case 1 最大：} c_{max} = \frac{\varepsilon_u}{\varepsilon_u+0.004} \cdot d \xrightarrow{\times \beta_1} \boxed{a_{max}} \xrightarrow{\text{T形壓力}} C = 0.85f'_c[(b-b_w)h_f + b_w \boxed{a_{max}}] \xrightarrow{\div f_y} A_{s,max}$$</p>
+<p>$$\text{Case 1 最小：} A_{s,min} = \max\!\left(\frac{0.8\sqrt{f'_c}}{f_y},\ \frac{14}{f_y}\right) \cdot b_w \cdot d$$</p>
+<p>$$\text{Case 2 平衡：} c_b = \frac{\varepsilon_u}{\varepsilon_u + \boxed{\varepsilon_y}} \cdot d \xrightarrow{\times \beta_1} \boxed{a_b} \xrightarrow{\text{T形壓力}} C_b \xrightarrow{\div f_y} A_{s,b}$$</p>
+<p>$$\text{Case 2 最大：} c_{max} = \frac{\varepsilon_u}{\varepsilon_u+0.004} \cdot d = \frac{0.004}{0.008} \cdot d = 0.5d$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th style="text-align: center;">數值（Case 1）</th>
+<th style="text-align: center;">數值（Case 2）</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td style="text-align: center;">80 cm</td>
+<td style="text-align: center;">80 cm</td>
+<td>T 形梁翼板寬度</td>
+</tr>
+<tr>
+<td>$h_f$</td>
+<td style="text-align: center;">20 cm</td>
+<td style="text-align: center;">20 cm</td>
+<td>翼板厚度</td>
+</tr>
+<tr>
+<td>$b_w$</td>
+<td style="text-align: center;">40 cm</td>
+<td style="text-align: center;">40 cm</td>
+<td>腹板寬度</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td style="text-align: center;">80 cm</td>
+<td style="text-align: center;">80 cm</td>
+<td>總深度（20+60）</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td style="text-align: center;">74 cm（假設）</td>
+<td style="text-align: center;">74 cm（假設）</td>
+<td>有效深度</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td style="text-align: center;">280 kgf/cm²</td>
+<td style="text-align: center;">210 kgf/cm²</td>
+<td>混凝土抗壓強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td style="text-align: center;">4200 kgf/cm²</td>
+<td style="text-align: center;">6900 kgf/cm²</td>
+<td>鋼筋降伏強度</td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td style="text-align: center;">2.04×10⁶ kgf/cm²</td>
+<td style="text-align: center;">2.04×10⁶ kgf/cm²</td>
+<td>鋼筋彈性模數</td>
+</tr>
+<tr>
+<td>$\varepsilon_u$</td>
+<td style="text-align: center;">0.003</td>
+<td style="text-align: center;">0.004</td>
+<td>混凝土極限壓應變</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step A：β₁ 係數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$f'_c \leq 280\ \text{kgf/cm}^2 \Rightarrow \beta_1=0.85$；每增加 $70\ \text{kgf/cm}^2$ 減 $0.05$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step B：Case 1 最大鋼筋量</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$c_{max}$</td>
+<td>$\varepsilon_u/(\varepsilon_u+0.004) \cdot d = (3/7) \times 74 = 31.71\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a_{max}$</td>
+<td>$\beta_1 \cdot c_{max} = 0.85 \times 31.71 = 26.96\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>判斷</td>
+<td>$a_{max}=26.96 &gt; h_f=20 \Rightarrow$ NA 在腹板，T 形梁行為</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_{total}$</td>
+<td>$0.85f'_c[(b-b_w)h_f + b_w \cdot a_{max}]$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{s,max}$</td>
+<td>$C_{total}/f_y$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step C：Case 1 最小鋼筋量</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$0.8\sqrt{f'_c}/f_y$</td>
+<td>$0.8\times16.73/4200 = 0.003187$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$14/f_y$</td>
+<td>$14/4200 = 0.003333$ → 控制</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{s,min}$</td>
+<td>$0.003333 \times b_w \times d$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step D：Case 2 鋼筋降伏應變</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\varepsilon_y$</td>
+<td>$f_y/E_s = 6900/(2.04\times10^6) = 0.003382$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step E：Case 2 平衡鋼筋量</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$c_b$</td>
+<td>$\varepsilon_u/(\varepsilon_u+\varepsilon_y) \cdot d = 0.004/0.007382 \times 74 = 40.10\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a_b$</td>
+<td>$\beta_1 \cdot c_b = 0.85 \times 40.10 = 34.09\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>判斷</td>
+<td>$a_b=34.09 &gt; h_f=20 \Rightarrow$ T 形梁行為</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{s,b}$</td>
+<td>$0.85f'_c[(b-b_w)h_f + b_w \cdot a_b]/f_y$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step F：Case 2 最大鋼筋量</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$c_{max}$</td>
+<td>$\varepsilon_u/(\varepsilon_u+0.004) \cdot d = 0.004/0.008 \times 74 = 37\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a_{max}$</td>
+<td>$0.85 \times 37 = 31.45\ \text{cm} &gt; h_f$ → T 形梁</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{s,max}$</td>
+<td>$0.85f'_c[(b-b_w)h_f + b_w \cdot a_{max}]/f_y$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>土木401-112 改用 $\varepsilon_t \geq 0.004$ 替代 $0.75\rho_b$</td>
+<td>舊ACI 318-99 用 $\rho_{max}=0.75\rho_b$；新版改用淨拉應變控制，兩者結果不同</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>T 形梁 NA 位置判斷</td>
+<td>$a \leq h_f$ → 矩形梁（用 $b$）；$a &gt; h_f$ → T形梁壓力公式（分翼板+腹板兩部分）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_u$ 非標準值的影響</td>
+<td>公式 $c_b = \varepsilon_u d/(\varepsilon_u+\varepsilon_y)$ 需用題目給定的 $\varepsilon_u$，不可固定套 0.003</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>最小鋼筋量用 $b_w$ 不用 $b$</td>
+<td>T 形梁翼板屬壓力區，裂縫後受拉區接近腹板，故最小鋼筋量以 $b_w$ 計算</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>Case 2 驗證：$A_{s,max} &lt; A_{s,b}$</td>
+<td>當 $\varepsilon_u=0.004$ 且最大鋼筋條件同為 $\varepsilon_t=0.004$，$c_{max}/d=0.5 &lt; c_b/d=0.542$，故 $A_{s,max} &lt; A_{s,b}$（合理）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>前置：斷面幾何確認</h3>
+<p>$$b = 80\ \text{cm},\quad h_f = 20\ \text{cm},\quad b_w = 40\ \text{cm},\quad h = 80\ \text{cm}$$</p>
+<p>$$d = 74\ \text{cm} \quad \text{（假設保護層 + 箍筋 + 主筋半徑} \approx 6\ \text{cm）}$$</p>
+<hr />
+<h3>【Case 1】$f_y = 4200\ \text{kgf/cm}^2$，$f'_c = 280\ \text{kgf/cm}^2$，$\varepsilon_u = 0.003$</h3>
+<p><strong>Step A1：β₁ 係數</strong></p>
+<p>$$f'_c = 280\ \text{kgf/cm}^2 \leq 280\ \text{kgf/cm}^2 \Rightarrow \boxed{\beta_1 = 0.85}$$</p>
+<p><strong>Step A2：最大鋼筋量</strong>（土木401-112：$\varepsilon_t \geq 0.004$）</p>
+<p>最大鋼筋量對應 $\varepsilon_t = 0.004$（最小淨拉應變），中性軸深度：</p>
+<p>$$c_{max} = \frac{\varepsilon_u}{\varepsilon_u + 0.004} \cdot d = \frac{0.003}{0.003 + 0.004} \times 74 = \frac{3}{7} \times 74 = 31.71\ \text{cm}$$</p>
+<p>等值應力塊深度：</p>
+<p>$$a_{max} = \beta_1 \cdot c_{max} = 0.85 \times 31.71 = \mathbf{26.96\ \text{cm}}$$</p>
+<p><strong>判斷 NA 位置：</strong> $a_{max} = 26.96\ \text{cm} &gt; h_f = 20\ \text{cm}$ → 中性軸在腹板，T 形梁行為</p>
+<p>壓力合力（分翼板懸挑部分 + 腹板部分）：</p>
+<p>$$C = 0.85 f'_c \left[(b - b_w) \cdot h_f + b_w \cdot a_{max}\right]$$</p>
+<p>$$= 0.85 \times 280 \times \left[(80-40) \times 20 + 40 \times 26.96\right]$$</p>
+<p>$$= 238 \times \left[800 + 1078.4\right] = 238 \times 1878.4$$</p>
+<p>$$= 447{,}060\ \text{kgf}$$</p>
+<p>最大鋼筋量（$T = C$，鋼筋已降伏）：</p>
+<p>$$\boxed{A_{s,max} = \frac{C}{f_y} = \frac{447{,}060}{4200} \approx 106.4\ \text{cm}^2}$$</p>
+<hr />
+<p><strong>Step A3：最小鋼筋量</strong>（土木401-112 Section 9.6.1）</p>
+<p>$$A_{s,min} = \max\!\left(\frac{0.8\sqrt{f'_c}}{f_y},\ \frac{14}{f_y}\right) \cdot b_w \cdot d$$</p>
+<p>各值計算：</p>
+<p>$$\frac{0.8\sqrt{280}}{4200} = \frac{0.8 \times 16.73}{4200} = \frac{13.39}{4200} = 0.003187$$</p>
+<p>$$\frac{14}{4200} = 0.003333 \quad \text{← 控制}$$</p>
+<p>$$\boxed{A_{s,min} = 0.003333 \times 40 \times 74 = 9.87\ \text{cm}^2}$$</p>
+<hr />
+<h3>【Case 2】$f_y = 6900\ \text{kgf/cm}^2$，$f'_c = 210\ \text{kgf/cm}^2$，$\varepsilon_u = 0.004$</h3>
+<p><strong>Step B1：基本材料參數</strong></p>
+<p>$$\beta_1：f'_c = 210\ \text{kgf/cm}^2 &lt; 280\ \text{kgf/cm}^2 \Rightarrow \beta_1 = 0.85$$</p>
+<p>$$\varepsilon_y = \frac{f_y}{E_s} = \frac{6900}{2.04 \times 10^6} = 0.003382$$</p>
+<p><strong>Step B2：平衡鋼筋量</strong>（平衡條件：$\varepsilon_s = \varepsilon_y$，$\varepsilon_c = \varepsilon_u = 0.004$）</p>
+<p>$$c_b = \frac{\varepsilon_u}{\varepsilon_u + \varepsilon_y} \cdot d = \frac{0.004}{0.004 + 0.003382} \times 74 = \frac{0.004}{0.007382} \times 74 = 0.5419 \times 74 = 40.10\ \text{cm}$$</p>
+<p>$$a_b = \beta_1 \cdot c_b = 0.85 \times 40.10 = \mathbf{34.09\ \text{cm}}$$</p>
+<p><strong>判斷 NA 位置：</strong> $a_b = 34.09\ \text{cm} &gt; h_f = 20\ \text{cm}$ → T 形梁行為</p>
+<p>壓力合力：</p>
+<p>$$C_b = 0.85 \times 210 \times \left[(80-40) \times 20 + 40 \times 34.09\right]$$</p>
+<p>$$= 178.5 \times \left[800 + 1363.6\right] = 178.5 \times 2163.6$$</p>
+<p>$$= 386{,}203\ \text{kgf}$$</p>
+<p>平衡鋼筋量：</p>
+<p>$$\boxed{A_{s,b} = \frac{386{,}203}{6900} \approx 56.0\ \text{cm}^2}$$</p>
+<hr />
+<p><strong>Step B3：最大鋼筋量</strong>（$\varepsilon_t \geq 0.004$，$\varepsilon_u = 0.004$）</p>
+<p>$$c_{max} = \frac{\varepsilon_u}{\varepsilon_u + 0.004} \cdot d = \frac{0.004}{0.004 + 0.004} \times 74 = 0.5 \times 74 = 37.0\ \text{cm}$$</p>
+<p>$$a_{max} = 0.85 \times 37.0 = 31.45\ \text{cm} &gt; h_f = 20\ \text{cm} \Rightarrow \text{T 形梁行為}$$</p>
+<p>壓力合力：</p>
+<p>$$C_{max} = 178.5 \times \left[(80-40) \times 20 + 40 \times 31.45\right]$$</p>
+<p>$$= 178.5 \times \left[800 + 1258.0\right] = 178.5 \times 2058.0$$</p>
+<p>$$= 367{,}353\ \text{kgf}$$</p>
+<p>最大鋼筋量：</p>
+<p>$$\boxed{A_{s,max} = \frac{367{,}353}{6900} \approx 53.2\ \text{cm}^2}$$</p>
+<p><strong>合理性檢驗：</strong> $A_{s,max} = 53.2 &lt; A_{s,b} = 56.0\ \text{cm}^2$ ✓（最大鋼筋量應小於平衡鋼筋量）</p>
+<hr />
+<h3>結果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>說明</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Case 1 $A_{s,max}$</td>
+<td>$f_y=4200$，$f'_c=280$，$\varepsilon_u=0.003$，$\varepsilon_t=0.004$ 控制</td>
+<td><strong>106.4 cm²</strong></td>
+</tr>
+<tr>
+<td>Case 1 $A_{s,min}$</td>
+<td>$14/f_y \times b_w \times d$ 控制</td>
+<td><strong>9.87 cm²</strong></td>
+</tr>
+<tr>
+<td>Case 2 $A_{s,b}$</td>
+<td>$f_y=6900$，$f'_c=210$，$\varepsilon_u=0.004$，平衡條件</td>
+<td><strong>56.0 cm²</strong></td>
+</tr>
+<tr>
+<td>Case 2 $A_{s,max}$</td>
+<td>$\varepsilon_t=0.004$ 控制，$c_{max}=0.5d$</td>
+<td><strong>53.2 cm²</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>爭議點 1：有效深度 $d$ 未明確給定</strong></p>
+<p>考場上的安全做法：若題目未標示 $d$，應在答案卷上清楚寫明「設 $d = h - 6 = 74\ \text{cm}$」，以使閱卷委員了解假設基礎。部分考生可能採 $d = 70\ \text{cm}$ 或 $d = 75\ \text{cm}$，方法相同即可得分。</p>
+<p><strong>爭議點 2：最大鋼筋量的規範依據</strong></p>
+<p>土木401-112（2023 年版）已取消舊 ACI 318-99 的 $\rho_{max} = 0.75\rho_b$ 規定，改用淨拉應變條件 $\varepsilon_t \geq 0.004$。考生應注意：</p>
+<ul>
+<li>$\varepsilon_t \geq 0.005$：拉力控制斷面，$\phi = 0.90$</li>
+<li>$0.004 \leq \varepsilon_t &lt; 0.005$：過渡區，$\phi$ 線性內插</li>
+<li>$\varepsilon_t &lt; 0.004$：梁設計<strong>不允許</strong>（壓力控制，延性不足）</li>
+</ul>
+<p><strong>爭議點 3：高強度鋼筋的「拉力控制界限」不是固定的 0.005</strong></p>
+<p>本題只問<strong>最大鋼筋量</strong>（由 $\varepsilon_t \geq 0.004$ 控制），故不受影響。但若延伸去算 $\phi$ 就要小心：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>$f_y = 4200$（Case 1）</th>
+<th>$f_y = 6900$（Case 2）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\varepsilon_{ty} = f_y/E_s$</td>
+<td>0.002059</td>
+<td>0.003382</td>
+</tr>
+<tr>
+<td>壓力控制界限</td>
+<td>$\varepsilon_t \leq 0.002059$</td>
+<td>$\varepsilon_t \leq 0.003382$</td>
+</tr>
+<tr>
+<td>拉力控制界限</td>
+<td>0.005</td>
+<td>$\varepsilon_{ty} + 0.003 = 0.006382$</td>
+</tr>
+</tbody>
+</table>
+<p>土木401-112／ACI 318-19 的拉力控制界限是 $\varepsilon_{ty} + 0.003$，<br />
+對 SD420 恰好等於 $0.002 + 0.003 = 0.005$（習慣上直接記 0.005），但<strong>對 SD690 是 0.006382</strong>。<br />
+Case 2 在 $\varepsilon_t = 0.004$ 時只比 $\varepsilon_{ty} = 0.003382$ 高一點點，<br />
+$\phi$ 會落在<strong>過渡區的很前段</strong>（約 0.70），離 0.90 還很遠——高強度鋼筋的斷面延性餘裕遠比想像中小。</p>
+<p><strong>進階：Case 2 為何 $A_{s,max} &lt; A_{s,b}$？</strong></p>
+<p>當 $\varepsilon_u = 0.004$ 時，最大鋼筋條件 $\varepsilon_t = 0.004$ 使 $c_{max}/d = 0.5$，而平衡條件中 $\varepsilon_y = 0.003382 &lt; 0.004 = \varepsilon_u$，導致 $c_b/d = 0.5419 &gt; 0.5$。因此最大鋼筋量的中性軸反而比平衡條件更高（壓力區更小），導致 $A_{s,max} &lt; A_{s,b}$。這與 Case 1（$\varepsilon_u = 0.003$，$\varepsilon_y = fy/Es \approx 0.00206 &lt; 0.003$）相反，是高強度鋼筋的特殊現象。</p></main>
+<footer>來源：raw/solutions/RC-2024-1/RC-2024-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

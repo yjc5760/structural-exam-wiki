@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2009-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2009-2 題目解析</h1><div class="navbtns"></div></header>
+<main><h1>考題編號：RC-2009-2</h1>
+<p><strong>主分類：</strong> <code>RC-U3-1</code> 梁工作性要求（含撓度、裂縫）<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> 工作性分析（非強度設計）<br />
+<strong>標籤：</strong> <code>懸臂梁</code> <code>即時撓度</code> <code>降伏彎矩</code> <code>裂縫斷面慣性矩</code> <code>開裂彎矩</code> <code>轉換斷面法</code> <code>曲率積分</code> <code>雙段EI</code> <code>kd中性軸</code> <code>Icr</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>35 cm 寬 × 60 cm 深單筋矩形懸臂梁，自由端受單點荷重，懸臂長度 $L = 4$ m = 400 cm。</p>
+<p>材料：$f'_c = 210$ kgf/cm²，$f_y = 2800$ kgf/cm²<br />
+配筋：$A_s = 10.13$ cm²（拉力筋，在頂部），$d = 50$ cm（由底纖維量至鋼筋中心）</p>
+<p>給定：<br />
+$$E_c = 15000\sqrt{f'_c} \text{ kgf/cm}^2,\quad E_s = 2.04\times10^6 \text{ kgf/cm}^2,\quad f_r = 2.0\sqrt{f'_c} \text{ kgf/cm}^2$$</p>
+<p><strong>問：</strong> 當荷重使固定端受降伏彎矩（拉力筋應變恰達降伏點），不考慮剪力影響，求<strong>自由端即時撓度</strong>。（25 分）</p>
+<blockquote>
+<p><strong>斷面說明：</strong> 懸臂梁向下撓曲 → 頂纖維受拉（鋼筋在頂部）→ 底纖維受壓（壓力面）。$d = 50$ cm 從底部（壓力面）量至鋼筋中心。</p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong></p>
+<ul>
+<li>降伏時固定端為裂縫斷面，梁沿長度並非全部開裂（近自由端 M 較小，尚未開裂）</li>
+<li>需分<strong>裂縫區</strong>（$I_{cr}$）與<strong>非裂縫區</strong>（$I_g$）分段計算曲率，再積分求撓度</li>
+</ul>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗轉換斷面法求裂縫中性軸 $kd$ 與 $I_{cr}$</li>
+<li>測驗開裂彎矩 $M_{cr}$ 的計算（需用 $f_r$）</li>
+<li>測驗非均一 EI 下的撓度積分（雙段 EI 法）</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>計算材料常數（$E_c$、$n$、$\varepsilon_y$）</li>
+<li>用轉換斷面法求裂縫中性軸 $kd$ 和 $I_{cr}$</li>
+<li>計算全斷面慣性矩 $I_g$ 和開裂彎矩 $M_{cr}$（用 $f_r$）</li>
+<li>求降伏彎矩 $M_y$ 和對應的載重 $P$</li>
+<li>確定裂縫從固定端延伸的距離 $x_{cr}$</li>
+<li>分段積分求撓度 $\delta$</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>應對</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ 懸臂梁頂部受拉</td>
+<td>鋼筋在頂部，$d$ 從底部（壓力面）量</td>
+<td>$d - kd$ = NA 到鋼筋距離 = 從 NA 往上量</td>
+</tr>
+<tr>
+<td>❷ $yt = h/2 = 30$ cm（到頂部拉力纖維）</td>
+<td>矩形斷面 $M_{cr} = f_r I_g/y_t$，$y_t$ 是到<strong>拉力</strong>纖維距離</td>
+<td>拉力纖維在頂部，$y_t = 30$ cm</td>
+</tr>
+<tr>
+<td>❸ 不能用整根梁統一的 $I_{cr}$</td>
+<td>近自由端 $M &lt; M_{cr}$，為非裂縫斷面</td>
+<td>分段：裂縫區用 $I_{cr}$，非裂縫區用 $I_g$</td>
+</tr>
+<tr>
+<td>❹ 撓度積分方法</td>
+<td>用虛功法（彎矩面積法）：$\delta = \int \phi(x)(L-x)\,dx$</td>
+<td>對懸臂梁成立</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求懸臂梁在固定端降伏時的<strong>自由端即時撓度</strong> $\delta$。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1：} n = E_s/E_c,\quad \varepsilon_y = f_y/E_s$$</p>
+<p>$$\text{Step 2（轉換斷面法）：} \frac{b\,(kd)^2}{2} = n\,A_s\,(d-kd) \quad\Rightarrow\quad kd$$</p>
+<p>$$\text{Step 3：} I_{cr} = \frac{b\,(kd)^3}{3} + n\,A_s\,(d-\boxed{kd})^2$$</p>
+<p>$$\text{Step 4：} M_y = A_s\,f_y\!\left(d - \frac{\boxed{kd}}{3}\right),\quad P = \frac{\boxed{M_y}}{L}$$</p>
+<p>$$\text{Step 5：} M_{cr} = \frac{f_r\,I_g}{y_t},\quad x_{cr} = L - \frac{\boxed{M_{cr}}}{P}$$</p>
+<p>$$\text{Step 6：} \delta = \frac{P}{E_c}\!\left[\frac{L^3-(L-x_{cr})^3}{3\,\boxed{I_{cr}}} + \frac{(L-x_{cr})^3}{3\,\boxed{I_g}}\right]$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>35 cm</td>
+<td>梁寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>60 cm</td>
+<td>梁深（全高）</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>400 cm</td>
+<td>懸臂長度</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>50 cm</td>
+<td>有效深度（壓力面到鋼筋中心）</td>
+</tr>
+<tr>
+<td>$A_s$</td>
+<td>10.13 cm²</td>
+<td>拉力鋼筋面積</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>210 kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>2800 kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td>$2.04\times10^6$ kgf/cm²</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$E_c$</td>
+<td>$15000\sqrt{210} = 217{,}371$ kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$n$</td>
+<td>$2{,}040{,}000/217{,}371 = 9.38$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\varepsilon_y$</td>
+<td>$2800/2{,}040{,}000 = 1.373\times10^{-3}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$kd$</td>
+<td>由二次方程求解 ≈ 14.0 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$I_{cr}$</td>
+<td>$35\times14^3/3 + 9.38\times10.13\times36^2 = 155{,}159$ cm⁴</td>
+<td></td>
+</tr>
+<tr>
+<td>$I_g$</td>
+<td>$35\times60^3/12 = 630{,}000$ cm⁴</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_r$</td>
+<td>$2.0\sqrt{210} = 28.98$ kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$M_{cr}$</td>
+<td>$28.98\times630{,}000/30 = 608{,}580$ kgf·cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$M_y$</td>
+<td>$28{,}364\times45.33 = 1{,}285{,}700$ kgf·cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$P$</td>
+<td>$1{,}285{,}700/400 = 3{,}214$ kgf</td>
+<td></td>
+</tr>
+<tr>
+<td>$L-x_{cr}$</td>
+<td>$608{,}580/3{,}214 = 189.4$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$\delta$</td>
+<td>積分求得 ≈ <strong>1.87 cm</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>懸臂梁撓度公式 $\delta = \int \phi(L-x)\,dx$</td>
+<td>用虛功法推導：對自由端施加單位荷重，虛彎矩 = $(L-x)$</td>
+<td></td>
+</tr>
+<tr>
+<td>為何 $M_y$ 用彈性轉換斷面而非 Whitney</td>
+<td>降伏時混凝土尚未進入非線性（$\varepsilon_c = 0.00053 \ll \varepsilon_{cu}$），仍在彈性範圍</td>
+<td></td>
+</tr>
+<tr>
+<td>$y_t = 30$ cm（頂部受拉，不是底部）</td>
+<td>懸臂梁頂部拉力 → $y_t$ 量至頂纖維（受拉外緣）</td>
+<td></td>
+</tr>
+<tr>
+<td>$kd$ 從壓力面（底部）量起</td>
+<td>壓力面 = 底纖維 → $d-kd = 36$ cm = NA 到頂部鋼筋距離</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：材料常數</h3>
+<p>$$E_c = 15000\sqrt{210} = 15000\times14.491 = 217{,}371 \text{ kgf/cm}^2$$</p>
+<p>$$n = \frac{E_s}{E_c} = \frac{2{,}040{,}000}{217{,}371} = 9.38$$</p>
+<p>$$\varepsilon_y = \frac{f_y}{E_s} = \frac{2800}{2{,}040{,}000} = 1.373\times10^{-3}$$</p>
+<hr />
+<h3>Step 2：裂縫中性軸 $kd$（轉換斷面法）</h3>
+<p>裂縫後斷面：壓力區（三角形混凝土）+ 轉換鋼筋</p>
+<p>$$\frac{b\,(kd)^2}{2} = n\,A_s\,(d-kd)$$</p>
+<p>$$17.5\,(kd)^2 = 9.38\times10.13\times(50-kd) = 95.0\times(50-kd)$$</p>
+<p>$$17.5\,(kd)^2 + 95.0\,(kd) - 4750 = 0$$</p>
+<p>$$kd = \frac{-95.0 + \sqrt{95.0^2 + 4\times17.5\times4750}}{2\times17.5} = \frac{-95.0 + \sqrt{9025 + 332{,}500}}{35} = \frac{-95.0 + 584.5}{35} = \boxed{14.0 \text{ cm}}$$</p>
+<blockquote>
+<p>混凝土受壓區在<strong>底部</strong>（壓力面）$0$ 到 $kd = 14$ cm；鋼筋在<strong>頂部</strong>，離底 $d - kd$... </p>
+</blockquote>
+<p><strong>斷面配置確認（懸臂梁）：</strong>  </p>
+<ul>
+<li>壓力面 = 底纖維（距 $kd = 14$ cm 處為 NA）  </li>
+<li>拉力面 = 頂纖維  </li>
+<li>鋼筋在頂部：距壓力面 $d = 50$ cm，距 NA = $d - kd = 50 - 14 = 36$ cm</li>
+</ul>
+<hr />
+<h3>Step 3：裂縫斷面慣性矩 $I_{cr}$</h3>
+<p>$$I_{cr} = \frac{b\,(kd)^3}{3} + n\,A_s\,(d-kd)^2$$</p>
+<p>$$= \frac{35\times14^3}{3} + 9.38\times10.13\times36^2$$</p>
+<p>$$= \frac{35\times2744}{3} + 95.0\times1296$$</p>
+<p>$$= 32{,}013 + 123{,}120 = \boxed{155{,}133 \text{ cm}^4}$$</p>
+<hr />
+<h3>Step 4：全斷面慣性矩 $I_g$ 與開裂彎矩 $M_{cr}$</h3>
+<p>$$I_g = \frac{b\,h^3}{12} = \frac{35\times60^3}{12} = \frac{35\times216{,}000}{12} = \boxed{630{,}000 \text{ cm}^4}$$</p>
+<p>$$f_r = 2.0\sqrt{210} = 2.0\times14.491 = 28.98 \text{ kgf/cm}^2$$</p>
+<p>拉力纖維距斷面形心：$y_t = h/2 = 30$ cm（頂纖維）</p>
+<p>$$M_{cr} = \frac{f_r\,I_g}{y_t} = \frac{28.98\times630{,}000}{30} = 28.98\times21{,}000 = \boxed{608{,}580 \text{ kgf·cm}}$$</p>
+<hr />
+<h3>Step 5：降伏彎矩 $M_y$ 與載重 $P$</h3>
+<p>在降伏狀態，鋼筋應力 = $f_y$：<br />
+$$T = A_s\,f_y = 10.13\times2800 = 28{,}364 \text{ kgf}$$</p>
+<p>彈性壓力合力 $C = T = 28{,}364$ kgf，作用於 $kd/3 = 14/3 = 4.67$ cm 處（從底部）</p>
+<p>力臂：<br />
+$$a = d - \frac{kd}{3} = 50 - 4.67 = 45.33 \text{ cm}$$</p>
+<p>降伏彎矩：<br />
+$$M_y = T\times a = 28{,}364\times45.33 = \boxed{1{,}285{,}700 \text{ kgf·cm} = 12.86 \text{ tf·m}}$$</p>
+<p><strong>驗核混凝土應力（確認仍在彈性範圍）：</strong><br />
+$$\varepsilon_{c,top} = \varepsilon_y\times\frac{kd}{d-kd} = 1.373\times10^{-3}\times\frac{14}{36} = 5.34\times10^{-4} \ll \varepsilon'_{cu} \approx 2\times10^{-3} \quad \checkmark$$</p>
+<p>自由端載重：<br />
+$$P = \frac{M_y}{L} = \frac{1{,}285{,}700}{400} = \boxed{3{,}214 \text{ kgf}}$$</p>
+<hr />
+<h3>Step 6：確定裂縫起始位置 $x_{cr}$</h3>
+<p>裂縫從固定端（$x=0$）向自由端延伸，到 $x_{cr}$ 處彎矩降至 $M_{cr}$：</p>
+<p>$$M(x_{cr}) = P\,(L-x_{cr}) = M_{cr}$$</p>
+<p>$$L - x_{cr} = \frac{M_{cr}}{P} = \frac{608{,}580}{3{,}214} = 189.4 \text{ cm}$$</p>
+<p>$$x_{cr} = 400 - 189.4 = 210.6 \text{ cm}$$</p>
+<p><strong>分段：</strong></p>
+<ul>
+<li>$0 \le x \le 210.6$ cm：裂縫斷面，使用 $I_{cr}$</li>
+<li>$210.6 \le x \le 400$ cm：完整斷面，使用 $I_g$</li>
+</ul>
+<hr />
+<h3>Step 7：自由端即時撓度（曲率積分）</h3>
+<p>懸臂梁自由端撓度（用虛功法，虛單位載重在自由端）：</p>
+<p>$$\delta = \int_0^L \varphi(x)\,(L-x)\,dx$$</p>
+<p>其中 $\varphi(x) = M(x)/[E_c\,I(x)] = P(L-x)/[E_c\,I(x)]$，故：</p>
+<p>$$\delta = \frac{P}{E_c}\int_0^L \frac{(L-x)^2}{I(x)}\,dx = \frac{P}{E_c}\!\left[\frac{1}{I_{cr}}\int_0^{x_{cr}}(L-x)^2\,dx + \frac{1}{I_g}\int_{x_{cr}}^L (L-x)^2\,dx\right]$$</p>
+<p><strong>計算各積分：</strong></p>
+<p>令 $\beta = (L-x_{cr})/L = 189.4/400 = 0.4735$</p>
+<p>$$\int_0^{x_{cr}}(L-x)^2\,dx = \frac{L^3 - (L-x_{cr})^3}{3} = \frac{400^3 - 189.4^3}{3} = \frac{64{,}000{,}000 - 6{,}796{,}100}{3} = \frac{57{,}203{,}900}{3} = 19{,}067{,}967 \text{ cm}^3$$</p>
+<p>$$\int_{x_{cr}}^L (L-x)^2\,dx = \frac{(L-x_{cr})^3}{3} = \frac{189.4^3}{3} = \frac{6{,}796{,}100}{3} = 2{,}265{,}367 \text{ cm}^3$$</p>
+<p><strong>代入數值：</strong></p>
+<p>$$\delta_1 = \frac{P}{E_c\,I_{cr}}\times19{,}067{,}967 = \frac{3{,}214}{217{,}371\times155{,}133}\times19{,}067{,}967$$</p>
+<p>$$= \frac{3{,}214}{3.373\times10^{10}}\times1.907\times10^7 = 9.533\times10^{-8}\times1.907\times10^7 = 1.818 \text{ cm}$$</p>
+<p>$$\delta_2 = \frac{P}{E_c\,I_g}\times2{,}265{,}367 = \frac{3{,}214}{217{,}371\times630{,}000}\times2{,}265{,}367$$</p>
+<p>$$= \frac{3{,}214}{1.369\times10^{11}}\times2.265\times10^6 = 2.348\times10^{-8}\times2.265\times10^6 = 0.0532 \text{ cm}$$</p>
+<p><strong>自由端即時撓度：</strong></p>
+<p>$$\boxed{\delta = \delta_1 + \delta_2 = 1.818 + 0.053 = 1.87 \text{ cm}}$$</p>
+<hr />
+<h3>彙整成果</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>彈性中性軸 $kd$</td>
+<td>14.0 cm</td>
+</tr>
+<tr>
+<td>裂縫斷面慣性矩 $I_{cr}$</td>
+<td>155,133 cm⁴</td>
+</tr>
+<tr>
+<td>全斷面慣性矩 $I_g$</td>
+<td>630,000 cm⁴</td>
+</tr>
+<tr>
+<td>開裂彎矩 $M_{cr}$</td>
+<td>608,580 kgf·cm = 6.09 tf·m</td>
+</tr>
+<tr>
+<td>降伏彎矩 $M_y$</td>
+<td>1,285,700 kgf·cm = 12.86 tf·m</td>
+</tr>
+<tr>
+<td>對應載重 $P$</td>
+<td>3,214 kgf = 3.21 tf</td>
+</tr>
+<tr>
+<td>裂縫區起點（從固定端）</td>
+<td>$x_{cr}$ = 210.6 cm</td>
+</tr>
+<tr>
+<td>裂縫區撓度分量 $\delta_1$</td>
+<td>1.818 cm</td>
+</tr>
+<tr>
+<td>非裂縫區撓度分量 $\delta_2$</td>
+<td>0.053 cm</td>
+</tr>
+<tr>
+<td><strong>自由端即時撓度</strong></td>
+<td><strong>1.87 cm</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>① 為何不用 ACI 有效慣性矩 $I_e$ 公式？</strong></p>
+<p>ACI $I_e = (M_{cr}/M_a)^3 I_g + [1-(M_{cr}/M_a)^3]I_{cr}$ 是針對<strong>服務載重</strong>的近似方法，將全梁的非均勻開裂效果轉換成一個均一的等效慣性矩。本題採用<strong>分段積分</strong>（雙段EI），物理意義更清晰且更精確。</p>
+<p>若採用 ACI $I_e$（在固定端計算）：<br />
+$$I_e = (608{,}580/1{,}285{,}700)^3\times630{,}000 + [1-(0.4733)^3]\times155{,}133 = 0.106\times630{,}000 + 0.894\times155{,}133 = 205{,}447 \text{ cm}^4$$<br />
+$$\delta_{ACI} = PL^3/(3E_cI_e) = 1.53 \text{ cm（較小，偏保守）}$$</p>
+<p><strong>② 驗算裂縫比例</strong></p>
+<p>$x_{cr}/L = 210.6/400 = 52.6\%$，即梁有約 52.6% 的長度已開裂。近自由端的 47.4% 尚未開裂，此部分剛度大（$I_g$），對撓度貢獻很小（只有 0.053 cm）。</p>
+<p><strong>③ 考場速解策略</strong></p>
+<p>若時間緊，可用<strong>全裂縫斷面近似</strong>：<br />
+$$\delta_{approx} = PL^3/(3E_cI_{cr}) = 3214\times400^3/(3\times217{,}371\times155{,}133) = 2.03 \text{ cm（偏高，保守）}$$</p>
+<p>但精確解 1.87 cm 需分段積分，是本題的考核重點。</p></main>
+<footer>來源：raw/solutions/RC-2009-2/RC-2009-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

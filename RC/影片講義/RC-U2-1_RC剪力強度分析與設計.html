@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RC-U2-1 剪力強度分析與設計｜影片講義</title>
+<link rel="stylesheet" href="../study/assets/katex/katex.min.css">
+<script defer src="../study/assets/katex/katex.min.js"></script>
+<script defer src="../study/assets/katex/auto-render.min.js"></script>
+<style>
+:root{--paper:#faf7f0;--ink:#24302a;--board:#24382f;--board2:#2f4a3e;--chalk:#f1ecd8;--gold:#c99a2e;--muted:#6b7a72;
+--red:#c0473d;--green:#3f8f5a;--yellow:#b8860b;--purple:#7a5fb0;--blue:#3a7fa8;--orange:#c7782c;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;line-height:1.75;font-size:16.5px}
+main{max-width:860px;margin:0 auto;padding:28px 18px 60px}
+.cover{background:linear-gradient(160deg,var(--board),var(--board2));color:var(--chalk);border-radius:14px;padding:30px 30px 26px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.cover .tag{font-size:13px;letter-spacing:.08em;color:#cfe3d6;opacity:.9}
+.cover h1{margin:.25em 0 .2em;font-size:30px;color:#f3d27a;font-weight:700}
+.cover .meta{font-size:14px;color:#cfe3d6}
+.cover .core{margin-top:18px;padding:14px 16px;border:1.5px dashed rgba(243,210,122,.7);border-radius:10px;font-size:18px}
+.cover .core b{color:#f3d27a}
+h2{margin:2.2em 0 .6em;padding:.25em 0 .25em .7em;border-left:6px solid var(--board);font-size:22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+h2 .no{color:var(--muted);font-size:15px;font-weight:500}
+.toc{margin:22px 0;padding:16px 20px;background:#fff;border:1px solid #e3ddcc;border-radius:10px}
+.toc h3{margin:0 0 8px;font-size:16px;color:var(--board)}
+.toc ol{margin:0;padding-left:0;list-style:none;columns:2;column-gap:28px}
+.toc li{break-inside:avoid;padding:2px 0;font-size:15px;display:flex;justify-content:space-between;gap:10px;border-bottom:1px dotted #e3ddcc}
+.toc a{color:var(--ink);text-decoration:none}.toc a:hover{color:var(--red)}
+.toc .t{color:var(--muted);font-variant-numeric:tabular-nums}
+.vbox{position:sticky;top:0;z-index:5;background:var(--paper);padding:10px 0 6px}
+video{width:100%;border-radius:10px;background:#000;display:block}
+.seek{font:inherit;font-size:13px;border:1px solid var(--board);background:#fff;color:var(--board);border-radius:999px;padding:1px 10px;cursor:pointer}
+.seek:hover{background:var(--board);color:#fff}
+figure{margin:18px 0;background:#fff;border:1px solid #e3ddcc;border-radius:10px;padding:8px;break-inside:avoid}
+figure img{width:100%;display:block;border-radius:6px}
+figcaption{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;color:var(--muted);padding:6px 4px 0}
+figcaption .ts{white-space:nowrap}
+p{margin:.6em 0}
+.key,.warn,.ok{border-radius:8px;padding:10px 14px;margin:14px 0;break-inside:avoid}
+.key{background:#fff8e1;border:1.5px solid #e6c35c}
+.warn{background:#fdecea;border:1.5px solid #e08a82}
+.ok{background:#e9f5ec;border:1.5px solid #8cc49d}
+.key b:first-child,.warn b:first-child,.ok b:first-child{margin-right:.3em}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:15px;background:#fff;break-inside:avoid}
+th,td{border:1px solid #ddd5c2;padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#eef2ec;color:var(--board)}
+td:first-child,th:first-child{white-space:nowrap}
+.katex-display{margin:.7em 0;overflow-x:auto;overflow-y:hidden}
+.src{margin-top:3em;font-size:13px;color:var(--muted);border-top:1px solid #e3ddcc;padding-top:10px}
+.c-purple{color:var(--purple);font-weight:600}.c-blue{color:var(--blue);font-weight:600}.c-orange{color:var(--orange);font-weight:600}
+@media (max-width:640px){.toc ol{columns:1}.cover h1{font-size:24px}body{font-size:16px}.vbox{position:static}}
+@media print{
+  @page{size:A4;margin:14mm}
+  body{background:#fff;font-size:11pt}
+  main{max-width:none;padding:0}
+  .vbox,.seek{display:none!important}
+  .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  h2{break-after:avoid}
+  figure,.key,.warn,.ok,table{break-inside:avoid}
+  .toc{break-after:page}
+}
+</style>
+</head>
+<body>
+<main>
+
+<header class="cover">
+  <div class="tag">鋼筋混凝土 ｜ 命題大綱 RC-U2-1 ｜ 影片講義</div>
+  <h1>剪力強度分析與設計</h1>
+  <div class="meta">影片 11:46 ・ 13 章 ・ 26 段 ・ 黑板圖 25 張</div>
+  <div class="core">混凝土沒有「抗剪強度」這回事——剪應力造成 <b>45° 斜向主拉應力</b>，把混凝土拉裂。<br>從這句話出發：<b>三大機制 → 四道關卡 → 兩個邊界主題</b>。</div>
+</header>
+
+<nav class="toc">
+  <h3>目錄</h3>
+  <ol>
+    <li><a href="#c0">0　一句話</a><span class="t">0:00</span></li>
+    <li><a href="#c1">1　剪力破壞的本質</a><span class="t">0:24</span></li>
+    <li><a href="#c2">2　三大傳力機制</a><span class="t">1:31</span></li>
+    <li><a href="#c3">3　桁架類比　Vc 與 Vs</a><span class="t">2:28</span></li>
+    <li><a href="#c4">4　Vs 是數出來的</a><span class="t">3:11</span></li>
+    <li><a href="#c5">5　關卡一　臨界斷面</a><span class="t">3:58</span></li>
+    <li><a href="#c6">6　關卡二　Vc 四張臉</a><span class="t">4:58</span></li>
+    <li><a href="#c7">7　關卡三　Vs 區間</a><span class="t">5:58</span></li>
+    <li><a href="#c8">8　關卡四　分區配箍</a><span class="t">6:57</span></li>
+    <li><a href="#c9">9　邊界一　深梁 STM</a><span class="t">8:04</span></li>
+    <li><a href="#c10">10　邊界二　剪力摩擦</a><span class="t">8:59</span></li>
+    <li><a href="#c11">11　四個陷阱</a><span class="t">9:55</span></li>
+    <li><a href="#c12">12　總結</a><span class="t">10:54</span></li>
+  </ol>
+</nav>
+
+<div class="vbox"><video id="v" controls preload="metadata" src="video/RC-U2-1.mp4"></video></div>
+
+<!-- c0 -->
+<section id="c0">
+<h2><span class="no">0</span>一句話 <button class="seek" data-t="0.0">▶ 0:00</button></h2>
+<figure><img src="img/RC-U2-1/s01.jpg" alt="開場：底層一句話與全片路線" loading="lazy"><figcaption><span>開場：底層一句話與全片路線</span><span class="ts">影片 0:24</span></figcaption></figure>
+<p>剪力這個單元，公式很多，但底層只有一句話：<b>混凝土沒有抗剪強度這回事。</b>所謂剪力破壞，是剪應力造成的斜向主拉應力，把混凝土拉裂。</p>
+$$\text{剪應力}\;\Longrightarrow\;45^\circ\ \text{斜向主拉應力}\;\Longrightarrow\;\text{混凝土被拉裂}$$
+<p>從這句話出發，走過三大機制、四道關卡和兩個邊界主題。</p>
+</section>
+
+<!-- c1 -->
+<section id="c1">
+<h2><span class="no">1</span>剪力破壞的本質 <button class="seek" data-t="24.6">▶ 0:24</button></h2>
+<figure><img src="img/RC-U2-1/s02.jpg" alt="簡支梁取斷面：剪應力拋物線分布，中性軸上為純剪" loading="lazy"><figcaption><span>簡支梁取斷面：剪應力拋物線分布，中性軸上為純剪</span><span class="ts">影片 0:40</span></figcaption></figure>
+<p>簡支梁取一個斷面。剪應力</p>
+$$\tau=\frac{VQ}{Ib}$$
+<p>在中性軸最大，那裡的彎曲正應力剛好是零。所以中性軸上的微元素，處在<b>純剪狀態</b>（\(\sigma_x=\sigma_y=0\)）。</p>
+<figure><img src="img/RC-U2-1/s03.jpg" alt="純剪莫爾圓：主拉＝剪應力，實體差 45° → 斜張裂縫" loading="lazy"><figcaption><span>純剪莫爾圓：主拉＝剪應力，實體差 45° → 斜張裂縫</span><span class="ts">影片 1:04</span></figcaption></figure>
+<p>純剪的莫爾圓，圓心在原點，半徑就是剪應力。轉 90°（\(2\theta=90^\circ\)），也就是實體上轉 45°，主拉應力等於剪應力：\(\sigma_1=+\tau\)、\(\sigma_3=-\tau\)。</p>
+<div class="key"><b>重點</b>剪力換個方向，就變成拉力；裂縫垂直主拉方向，於是出現 <b>45° 斜張裂縫</b>。</div>
+<figure><img src="img/RC-U2-1/s04.jpg" alt="混凝土怕拉不怕壓（以 f'c = 280 kgf/cm² 為例）" loading="lazy"><figcaption><span>混凝土怕拉不怕壓（以 f'c = 280 kgf/cm² 為例）</span><span class="ts">影片 1:30</span></figcaption></figure>
+<p>混凝土怕拉不怕壓。以 \(f'_c=280\) 為例：</p>
+<table>
+<tr><th>強度</th><th>數值 (kgf/cm²)</th><th>相對 f'c</th></tr>
+<tr><td>抗壓 \(f'_c\)</td><td>280</td><td>100 %</td></tr>
+<tr><td>直接抗拉 \(\approx1.06\sqrt{f'_c}\)</td><td>17.7</td><td>6.3 %</td></tr>
+<tr><td>開裂剪應力 \(0.53\sqrt{f'_c}\)</td><td>8.87</td><td>3.2 %</td></tr>
+</table>
+<div class="key"><b>根號從哪來？</b>因為抗拉強度正比於根號 f'c：\(f_t\propto\sqrt{f'_c}\)，不是 \(f'_c\)。</div>
+</section>
+
+<!-- c2 -->
+<section id="c2">
+<h2><span class="no">2</span>三大傳力機制 <button class="seek" data-t="91.2">▶ 1:31</button></h2>
+<figure><img src="img/RC-U2-1/s05.jpg" alt="三張卡：桁架類比／壓拉桿 STM／剪力摩擦" loading="lazy"><figcaption><span>三張卡：桁架類比／壓拉桿 STM／剪力摩擦</span><span class="ts">影片 2:04</span></figcaption></figure>
+<p>解題第一步，先認出傳力機制。</p>
+<table>
+<tr><th>機制</th><th>適用</th><th>強度式／驗什麼</th></tr>
+<tr><td><span class="c-purple">A 桁架類比</span></td><td>一般梁</td><td>\(V_n=V_c+V_s\)</td></tr>
+<tr><td><span class="c-blue">B 壓拉桿 STM</span></td><td>深梁、托架、接頭</td><td>驗壓桿、拉桿、節點</td></tr>
+<tr><td><span class="c-orange">C 剪力摩擦</span></td><td>新舊混凝土介面、既有裂縫面</td><td>\(V_n=\mu A_{vf}f_y\)</td></tr>
+</table>
+<div class="warn"><b>注意</b>認錯機制，公式必錯。</div>
+<figure><img src="img/RC-U2-1/s06.jpg" alt="判準：剪力跨深比 a/d 數線與題目關鍵字" loading="lazy"><figcaption><span>判準：剪力跨深比 a/d 數線與題目關鍵字</span><span class="ts">影片 2:27</span></figcaption></figure>
+<p>判準是剪力跨深比 \(a/d\)：</p>
+<table>
+<tr><th>a/d</th><th>主控行為</th><th>用什麼</th></tr>
+<tr><td>\(\le 2\)</td><td>拱作用主控（深梁）</td><td>壓拉桿 STM</td></tr>
+<tr><td>2 ～ 2.5</td><td>過渡區</td><td>—</td></tr>
+<tr><td>\(&gt;2.5\)</td><td>細長梁</td><td>桁架類比 \(V_n=V_c+V_s\)</td></tr>
+</table>
+<div class="key"><b>看關鍵字</b>題目寫「牛腿」「托架」，直接進壓拉桿；寫「施工縫」「新舊混凝土」，就是剪力摩擦。</div>
+</section>
+
+<!-- c3 -->
+<section id="c3">
+<h2><span class="no">3</span>桁架類比　Vc 與 Vs <button class="seek" data-t="148.0">▶ 2:28</button></h2>
+<figure><img src="img/RC-U2-1/s07.jpg" alt="沿斜裂縫切開：Vc 的四個來源" loading="lazy"><figcaption><span>沿斜裂縫切開：Vc 的四個來源</span><span class="ts">影片 2:50</span></figcaption></figure>
+<p>沿斜裂縫切開，傳剪力的有四樣，合稱 \(V_c\)：</p>
+<table>
+<tr><th>來源</th><th>板上標示的比例</th></tr>
+<tr><td>① 未裂壓力區</td><td>20 ～ 40 %</td></tr>
+<tr><td>② 骨材互鎖</td><td>33 ～ 50 %</td></tr>
+<tr><td>③ 縱筋銷栓作用</td><td>15 ～ 25 %</td></tr>
+<tr><td>④ 拱／懸吊</td><td>隨 a/d</td></tr>
+</table>
+<p>規範用一條式子代表：\(V_c\approx0.53\sqrt{f'_c}\,b_wd\)。</p>
+<div class="warn"><b>耐震塑鉸區</b>四項同時歸零，所以規範令 \(V_c=0\)。</div>
+<figure><img src="img/RC-U2-1/s08.jpg" alt="Vc 與 Vs：兩個量、兩種物理" loading="lazy"><figcaption><span>Vc 與 Vs：兩個量、兩種物理</span><span class="ts">影片 3:11</span></figcaption></figure>
+<p>跨過裂縫的箍筋提供 \(V_s\)。</p>
+<table>
+<tr><th></th><th>Vc　混凝土</th><th>Vs　箍筋</th></tr>
+<tr><td>是什麼</td><td>斜裂縫「出現」瞬間的剪力</td><td>裂縫出現「之後」箍筋縫住裂縫的能力</td></tr>
+<tr><td>物理</td><td>抗拉問題 → \(\propto\sqrt{f'_c}\)</td><td>鋼筋降伏 → \(\propto A_vf_{yt}\)</td></tr>
+<tr><td>極限</td><td>塑鉸區、大軸拉 → 歸零</td><td>天花板來自斜壓桿壓碎：\(V_s\le4V_c\)</td></tr>
+</table>
+<div class="key"><b>一句話</b>Vc 是「抗拉」的故事，Vs 的天花板是「抗壓」的故事——兩個量、兩種物理，不要混為一談。</div>
+</section>
+
+<!-- c4 -->
+<section id="c4">
+<h2><span class="no">4</span>Vs 是數出來的 <button class="seek" data-t="191.9">▶ 3:11</button></h2>
+<figure><img src="img/RC-U2-1/s09.jpg" alt="45° 裂縫水平投影為 d，跨過的箍筋 n = d/s 支" loading="lazy"><figcaption><span>45° 裂縫水平投影為 d，跨過的箍筋 n = d/s 支</span><span class="ts">影片 3:39</span></figcaption></figure>
+<p>\(V_s\) 的公式是數出來的。45° 裂縫的水平投影剛好是 \(d\)；間距 \(s\)，跨過裂縫的箍筋就有 \(d/s\) 支，每支貢獻 \(A_vf_{yt}\)，相乘：</p>
+$$V_s=n\,A_vf_{yt}=\frac{d}{s}A_vf_{yt}=\frac{A_vf_{yt}\,d}{s}$$
+<p>\(A_v\) 是一組箍筋的總面積（雙肢：\(A_v=2\times\) 單肢），D13 雙肢 \(A_v=2.534\ \text{cm}^2\)。</p>
+<figure><img src="img/RC-U2-1/s10.jpg" alt="s > d 時有裂縫一支都沒跨到；s = d/2 時任一條至少跨到一支" loading="lazy"><figcaption><span>s > d 時有裂縫一支都沒跨到；s = d/2 時任一條至少跨到一支</span><span class="ts">影片 3:58</span></figcaption></figure>
+<p>為什麼間距要 \(s\le d/2\)？如果 \(s&gt;d\)，就有裂縫完全沒跨到箍筋；取 \(d/2\)，任何一條裂縫至少跨到一支。</p>
+<div class="key"><b>重點</b>\(s_{max}\le d/2\)：保證桁架的「拉桿」真的存在。</div>
+</section>
+
+<!-- c5 -->
+<section id="c5">
+<h2><span class="no">5</span>關卡一　臨界斷面 <button class="seek" data-t="238.6">▶ 3:58</button></h2>
+<div class="key"><b>基準斷面</b>（關卡一～四共用）\(35\times70\)、\(d=63\)、\(f'_c=280\)、SD420。</div>
+<figure><img src="img/RC-U2-1/s11.jpg" alt="臨界斷面取在距支承面 d 處" loading="lazy"><figcaption><span>臨界斷面取在距支承面 d 處</span><span class="ts">影片 4:25</span></figcaption></figure>
+<p>接下來是四道關卡。關卡一，臨界斷面。規範允許取<b>距支承面 \(d\) 處</b>的 \(V_u\)，因為 45° 裂縫到 \(d\) 處才穿到頂，\(d\) 以內的剪力由斜壓桿直接進支承。</p>
+<figure><img src="img/RC-U2-1/s12.jpg" alt="三個前提，以及三種「只能取支承面」的情形" loading="lazy"><figcaption><span>三個前提，以及三種「只能取支承面」的情形</span><span class="ts">影片 4:58</span></figcaption></figure>
+<p>但三個前提要同時成立：</p>
+<p>(a) 支承讓端區受壓　(b) 載重加在頂面　(c) \(d\) 以內沒有集中載重</p>
+<div class="warn"><b>只能取支承面</b>梁吊掛在另一支梁側面、倒 T 梁小梁掛在腹版下緣、\(d\) 以內有集中載重。</div>
+<table>
+<tr><th>例題</th><th>可否取 d 處</th><th>Vu</th></tr>
+<tr><td>例①</td><td>可用</td><td>42.00 → 34.44 t，省 18 %</td></tr>
+<tr><td>例③（吊掛）</td><td>只能取支承面</td><td>63.00 t</td></tr>
+</table>
+</section>
+
+<!-- c6 -->
+<section id="c6">
+<h2><span class="no">6</span>關卡二　Vc 四張臉 <button class="seek" data-t="299.0">▶ 4:58</button></h2>
+<figure><img src="img/RC-U2-1/s13.jpg" alt="① 簡化式與 ② 詳細式（含兩項檢核）" loading="lazy"><figcaption><span>① 簡化式與 ② 詳細式（含兩項檢核）</span><span class="ts">影片 5:23</span></figcaption></figure>
+<p>關卡二，\(V_c\) 有四張臉。沒提軸力，用簡化式：</p>
+$$V_c=0.53\sqrt{f'_c}\,b_wd=19.56\ \text{t}$$
+<p>給了 \(\rho_w\)、\(V_u\)、\(M_u\)，用詳細式，得 23.24 t：</p>
+$$V_c=\left(0.50\sqrt{f'_c}+175\rho_w\frac{V_ud}{M_u}\right)b_wd$$
+<div class="ok"><b>檢核</b>\(\dfrac{V_ud}{M_u}\le1\)；上限 \(V_c\le0.93\sqrt{f'_c}\,b_wd\)。</div>
+<figure><img src="img/RC-U2-1/s14.jpg" alt="軸力修正：Vc–Nu 折線，拉側斜率是壓側 4 倍" loading="lazy"><figcaption><span>軸力修正：Vc–Nu 折線，拉側斜率是壓側 4 倍</span><span class="ts">影片 5:57</span></figcaption></figure>
+<p>有軸力就乘修正：</p>
+<table>
+<tr><th>情形</th><th>修正係數</th><th>基準斷面結果</th></tr>
+<tr><td>① 簡化式</td><td>—</td><td>19.56 t</td></tr>
+<tr><td>② 詳細式</td><td>—</td><td>23.24 t</td></tr>
+<tr><td>③ 軸壓 \(N_u=+60\) t</td><td>\(\times\left(1+\dfrac{N_u}{140A_g}\right)\)</td><td>22.98 t（+17.5 %）</td></tr>
+<tr><td>④ 軸拉 \(N_u=-60\) t</td><td>\(\times\left(1+\dfrac{N_u}{35A_g}\right)\)</td><td>5.87 t（−70 %）</td></tr>
+<tr><td>⑤ 耐震塑鉸區</td><td>規範直接令為 0</td><td>0</td></tr>
+</table>
+<p>板上折線另標出：軸拉到 \(N_u=-85.8\) t 時 \(V_c\) 降到 0。</p>
+<div class="key"><b>怕拉不怕壓</b>拉的分母小四倍，傷害大四倍：\(\dfrac{1}{35}\div\dfrac{1}{140}=4\) 倍。</div>
+</section>
+
+<!-- c7 -->
+<section id="c7">
+<h2><span class="no">7</span>關卡三　Vs 區間 <button class="seek" data-t="358.3">▶ 5:58</button></h2>
+<figure><img src="img/RC-U2-1/s15.jpg" alt="用 Vc 當尺：Vs 落在哪一區決定 smax" loading="lazy"><figcaption><span>用 Vc 當尺：Vs 落在哪一區決定 smax</span><span class="ts">影片 6:27</span></figcaption></figure>
+<p>關卡三：</p>
+$$V_s=\frac{V_u}{\phi}-V_c,\qquad\phi=0.75$$
+<p>再拿 \(V_c\) 當尺：\(2V_c=39.11\)、\(4V_c=78.22\)。</p>
+<table>
+<tr><th>Vs 區間</th><th>smax</th><th>例</th></tr>
+<tr><td>\(V_s\le2V_c\)</td><td>\(\min(d/2,\ 60\ \text{cm})\)</td><td>例① \(V_s=26.36\)</td></tr>
+<tr><td>\(2V_c&lt;V_s\le4V_c\)</td><td>\(\min(d/4,\ 30\ \text{cm})\)　裂縫變密，減半</td><td>例③ \(V_s=64.44\)</td></tr>
+<tr><td>\(V_s&gt;4V_c\)</td><td>加大斷面</td><td>—</td></tr>
+</table>
+<figure><img src="img/RC-U2-1/s16.jpg" alt="箍筋加太密 ⇒ 斜壓桿先壓碎（脆性）" loading="lazy"><figcaption><span>箍筋加太密 ⇒ 斜壓桿先壓碎（脆性）</span><span class="ts">影片 6:57</span></figcaption></figure>
+<p>超過四倍 \(V_c\)，破壞換成斜壓桿壓碎，脆性，加再多箍筋也沒用。所以</p>
+$$V_n=V_c+V_s\le V_c+4V_c=5V_c$$
+$$V_{u,max}=5\phi V_c=5\times0.75\times19.56=73.33\ \text{t}$$
+<div class="ok"><b>例③</b>\(V_u=63.00\) t ⇒ 使用率 85.9 %，剛好夠。</div>
+<div class="warn"><b>超過只有三條路</b>加大 \(b_w\)、加大 \(d\)、提高 \(f'_c\)——加箍筋無效。</div>
+</section>
+
+<!-- c8 -->
+<section id="c8">
+<h2><span class="no">8</span>關卡四　分區配箍 <button class="seek" data-t="417.6">▶ 6:57</button></h2>
+<figure><img src="img/RC-U2-1/s18.jpg" alt="例③ 剪力圖三條水平線與 A～D 分區配箍" loading="lazy"><figcaption><span>例③ 剪力圖三條水平線與 A～D 分區配箍</span><span class="ts">影片 8:04</span></figcaption></figure>
+<p>關卡四，把間距沿梁長走一遍。例③均佈 \(w_u=18\) t/m，淨跨 7 m，剪力從支承面 63 直線降到跨中 0。畫三條水平線：</p>
+<table>
+<tr><th>水平線</th><th>值 (t)</th><th>交點 x</th></tr>
+<tr><td>\(3\phi V_c\)</td><td>44.00</td><td>1.06 m</td></tr>
+<tr><td>\(\phi V_c\)</td><td>14.67</td><td>2.69 m</td></tr>
+<tr><td>\(0.5\phi V_c\)</td><td>7.33</td><td>3.09 m</td></tr>
+</table>
+<p>每一區都是<b>強度、\(s_{max}\)、最小箍筋量取最小</b>：</p>
+<table>
+<tr><th>分區</th><th>控制</th><th>採用</th></tr>
+<tr><td>A</td><td>強度 10.40、\(d/4=15.75\)</td><td>D13@10</td></tr>
+<tr><td>B</td><td>強度 17.14、\(d/2=31.5\)</td><td>D13@15</td></tr>
+<tr><td>C</td><td>只剩最小箍筋量：\(A_{v,min}\) 反算 86.88 → 被 \(s_{max}=31.5\) 控制</td><td>D13@30</td></tr>
+<tr><td>D</td><td>\(V_u\le0.5\phi V_c\) 規範可免</td><td>實務仍配 @30</td></tr>
+</table>
+<div class="key"><b>問「最少要配到哪裡」</b>答案是 \(0.5\phi V_c\) 的位置。</div>
+</section>
+
+<!-- c9 -->
+<section id="c9">
+<h2><span class="no">9</span>邊界一　深梁 STM <button class="seek" data-t="484.9">▶ 8:04</button></h2>
+<figure><img src="img/RC-U2-1/s19.jpg" alt="a/d ≈ 0.7、2.0、4.0 三根梁的傳力路徑" loading="lazy"><figcaption><span>a/d ≈ 0.7、2.0、4.0 三根梁的傳力路徑</span><span class="ts">影片 8:29</span></figcaption></figure>
+<p>第一個邊界主題，深梁。\(a/d\) 越小，壓桿越陡、力臂越短，強度反而越高；\(a/d\le2\)，拱作用直接把載重帶進支承，箍筋不再是主要路徑。</p>
+<div class="warn"><b>用錯機制</b>用桁架類比算深梁，會<b>低估 2～4 倍</b>；反過來用壓拉桿算細長梁，會<b>高估而且不安全</b>。</div>
+<figure><img src="img/RC-U2-1/s20.jpg" alt="壓拉桿只驗三樣：壓桿、拉桿、節點" loading="lazy"><figcaption><span>壓拉桿只驗三樣：壓桿、拉桿、節點</span><span class="ts">影片 8:58</span></figcaption></figure>
+<p>壓拉桿只驗三樣：</p>
+<table>
+<tr><th>構件</th><th>強度</th><th>係數</th></tr>
+<tr><td><span class="c-blue">壓桿 strut</span></td><td>\(f_{ce}=0.85\beta_sf'_c\)</td><td>\(\beta_s\)：稜柱形 1.0；瓶形有橫向鋼筋 0.75</td></tr>
+<tr><td><span style="color:var(--red);font-weight:600">拉桿 tie</span></td><td>\(\phi F_{nt}=\phi A_{ts}f_y\)</td><td>務必檢核錨定長度</td></tr>
+<tr><td><span class="c-orange">節點 node</span></td><td>\(f_{ce}=0.85\beta_nf'_c\)</td><td>\(\beta_n\)：三面受壓 1.0（CCC）；一根拉桿 0.8（CCT）；兩根以上 0.6（CTT）</td></tr>
+</table>
+<p>板上另寫：深梁總上限 \(V_n\le2.65\sqrt{f'_c}\,b_wd\)，與 \(5V_c\) 同一精神。</p>
+</section>
+
+<!-- c10 -->
+<section id="c10">
+<h2><span class="no">10</span>邊界二　剪力摩擦 <button class="seek" data-t="539.3">▶ 8:59</button></h2>
+<figure><img src="img/RC-U2-1/s21.jpg" alt="滑動 → 鋸齒爬升張開 → 鋼筋降伏夾緊" loading="lazy"><figcaption><span>滑動 → 鋸齒爬升張開 → 鋼筋降伏夾緊</span><span class="ts">影片 9:25</span></figcaption></figure>
+<p>第二個邊界主題，剪力摩擦。粗糙面滑動一定伴隨張開，垂直介面的鋼筋被拉到降伏，產生夾緊力，再變成摩擦力：</p>
+$$V_n=\mu A_{vf}f_y$$
+<div class="key"><b>重點</b>鋼筋不是「擋住」滑動，而是「夾住」介面。</div>
+<p>\(\mu\) 是規範的等效值：</p>
+<table>
+<tr><th>介面</th><th>μ</th></tr>
+<tr><td>單體澆置</td><td>1.4</td></tr>
+<tr><td>粗糙化（≥ 6 mm）硬固混凝土</td><td>1.0</td></tr>
+<tr><td>未粗糙化硬固混凝土</td><td>0.6</td></tr>
+<tr><td>混凝土與輥軋鋼板（板上列出）</td><td>0.7</td></tr>
+</table>
+<figure><img src="img/RC-U2-1/s22.jpg" alt="例④：粗糙面 vs 未粗糙化的 Avf，與上限檢核" loading="lazy"><figcaption><span>例④：粗糙面 vs 未粗糙化的 Avf，與上限檢核</span><span class="ts">影片 9:55</span></figcaption></figure>
+<p>例④，\(V_u=45\) t，\(A_c=35\times60\)：</p>
+$$A_{vf}=\frac{V_u}{\phi\mu f_y}$$
+<table>
+<tr><th>介面</th><th>Avf</th><th>配筋</th></tr>
+<tr><td>粗糙面 \(\mu=1.0\)</td><td>14.29 cm²</td><td>5-D19（14.33）</td></tr>
+<tr><td>未粗糙化 \(\mu=0.6\)</td><td>23.81 cm²</td><td>多了 66.7 %</td></tr>
+</table>
+$$\phi V_{n,max}=0.75\times56\times2100=88.20\ \text{t}\ \ge45\quad(\text{使用率 }51.0\,\%)$$
+<div class="warn"><b>注意</b>\(A_{vf}\) 是「垂直穿過介面」的鋼筋，不是梁的箍筋 \(A_v\)。</div>
+</section>
+
+<!-- c11 -->
+<section id="c11">
+<h2><span class="no">11</span>四個陷阱 <button class="seek" data-t="595.8">▶ 9:55</button></h2>
+<figure><img src="img/RC-U2-1/s23.jpg" alt="陷阱①單位換算、陷阱②詳細式＋軸壓" loading="lazy"><figcaption><span>陷阱①單位換算、陷阱②詳細式＋軸壓</span><span class="ts">影片 10:31</span></figcaption></figure>
+<div class="warn"><b>陷阱① 單位換算</b>兩種係數不能混用：
+<table>
+<tr><th>型式</th><th>例</th><th>psi → kgf/cm²</th></tr>
+<tr><td>根號型 \(\sqrt{f'_c}\)</td><td>\(2\sqrt{f'_c}\to0.53\sqrt{f'_c}\)</td><td>× 0.265</td></tr>
+<tr><td>直接應力型</td><td>\(2500\rho_w\to175\rho_w\)</td><td>× 0.0703</td></tr>
+</table></div>
+<div class="warn"><b>陷阱② 詳細式有軸壓</b>\(M_u\) 先扣成 \(M_m\)：
+$$M_m=M_u-N_u\frac{4h-d}{8}$$
+\(M_m\le0\) 時斷面幾乎全壓，不可再代入詳細式，直接取上限：
+$$V_c=0.93\sqrt{f'_c}\,b_wd\,\sqrt{1+\frac{N_u}{35A_g}}$$</div>
+<figure><img src="img/RC-U2-1/s24.jpg" alt="陷阱③間距只算強度、陷阱④扭力用 Acp 還是 Aoh" loading="lazy"><figcaption><span>陷阱③間距只算強度、陷阱④扭力用 Acp 還是 Aoh</span><span class="ts">影片 10:53</span></figcaption></figure>
+<div class="warn"><b>陷阱③ 間距只算強度就交卷</b>算出 \(s=\dfrac{A_vf_{yt}d}{V_s}\) 就停 ✗ → 強度、\(s_{max}\)、\(A_{v,min}\) 取最小 ✓。</div>
+<div class="warn"><b>陷阱④ 扭力：Acp 還是 Aoh？</b>
+<table>
+<tr><th>用途</th><th>用哪個面積</th></tr>
+<tr><td>判斷扭力能否忽略</td><td>\(A_{cp}\)（全外緣）；基準斷面門檻 \(\phi T_{th}=0.951\) t-m</td></tr>
+<tr><td>真正設計扭力鋼筋</td><td>才用 \(A_{oh}\)（閉合箍中心線）</td></tr>
+</table></div>
+</section>
+
+<!-- c12 -->
+<section id="c12">
+<h2><span class="no">12</span>總結 <button class="seek" data-t="654.2">▶ 10:54</button></h2>
+<figure><img src="img/RC-U2-1/s25.jpg" alt="全景：三機制＋四關卡，順序不可換" loading="lazy"><figcaption><span>全景：三機制＋四關卡，順序不可換</span><span class="ts">影片 11:18</span></figcaption></figure>
+<p>一張圖收尾。剪應力變成 45° 主拉，把混凝土拉裂；再依 \(a/d\) 和介面，分成三大機制：</p>
+<p><span class="c-purple">桁架類比 \(a/d&gt;2.5\)</span>　<span class="c-blue">STM \(a/d\le2\)</span>　<span class="c-orange">剪力摩擦　既有介面</span></p>
+<p>一般梁照四關卡走，<b>順序不可換</b>：</p>
+<table>
+<tr><th>關卡</th><th>做什麼</th></tr>
+<tr><td>關卡 1</td><td>臨界斷面：先定 \(V_u\) 位置</td></tr>
+<tr><td>關卡 2</td><td>混凝土：再定 \(V_c\)</td></tr>
+<tr><td>關卡 3</td><td>判 \(V_s\) 區間（順便檢核斷面）</td></tr>
+<tr><td>關卡 4</td><td>最後才是間距 \(s\)（取小）</td></tr>
+</table>
+<figure><img src="img/RC-U2-1/s26.jpg" alt="三句話帶走" loading="lazy"><figcaption><span>三句話帶走</span><span class="ts">影片 11:45</span></figcaption></figure>
+<div class="key">
+<b>整理</b><br>
+第一　\(V_c\) 是「抗拉」的故事：跟 \(\sqrt{f'_c}\) 走，怕拉不怕壓。<br>
+第二　\(V_s\) 是「數箍筋」數出來的：天花板 \(4V_c\)。<br>
+第三　每一步都問：哪一條在控制。
+</div>
+<p style="text-align:center;font-size:19px;font-weight:700;color:var(--board)">認機制 → 走四關 → 哪一條在控制</p>
+</section>
+
+<div class="src">來源：<code>解題過程影片/RC-U2-1/video/RC-U2-1.mp4</code>（影片 11:46）、<code>segments.py</code>（逐字旁白）、<code>RC-U2-1.srt</code>（時間軸）。黑板圖為各段結束前 0.5 秒截圖。例題數值與 <code>HANDOFF.md</code> 核對一致。</div>
+
+</main>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+  var v=document.getElementById('v');
+  document.querySelectorAll('.seek').forEach(function(b){b.addEventListener('click',function(){
+    v.currentTime=parseFloat(b.dataset.t);v.play();v.scrollIntoView({behavior:'smooth',block:'nearest'});});});
+});
+</script>
+</body>
+</html>

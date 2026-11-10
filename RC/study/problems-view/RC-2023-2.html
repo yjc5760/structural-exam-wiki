@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2023-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2023-2 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-1.html">&#128202; U1-1 單元總覽</a><a class="lect" href="../lecture-RC-U1-1.html">&#128218; U1-1 RC 梁彎矩強度分析與設計 講義</a></div></header>
+<main><h3>考題編號：RC-2023-2</h3>
+<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>T形梁</code> <code>雙筋梁</code> <code>壓力鋼筋未降伏</code> <code>應變相容</code> <code>雙排配筋</code> <code>有效深度計算</code> <code>Whitney應力塊</code> <code>翼板內中性軸</code> <code>鋼筋間距檢核</code> <code>題目條件互相矛盾</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>鋼筋混凝土 T 型雙筋梁，斷面條件如下：</p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>梁腹寬 $b_w$</td>
+<td>30 cm</td>
+</tr>
+<tr>
+<td>有效翼緣寬 $b_e$</td>
+<td>90 cm</td>
+</tr>
+<tr>
+<td>翼緣厚 $h_f$</td>
+<td>15 cm</td>
+</tr>
+<tr>
+<td>梁深 $h$</td>
+<td>70 cm</td>
+</tr>
+<tr>
+<td>拉力鋼筋</td>
+<td>8 根 D32，雙排排列（$A_s = 8 \times 8.14 = 65.12 \text{ cm}^2$）</td>
+</tr>
+<tr>
+<td>壓力鋼筋</td>
+<td>$A_s' = 18 \text{ cm}^2$（單排）</td>
+</tr>
+<tr>
+<td>箍筋</td>
+<td>D10</td>
+</tr>
+<tr>
+<td>混凝土強度</td>
+<td>$f'_c = 280 \text{ kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>鋼筋降伏強度</td>
+<td>$f_y = 4200 \text{ kgf/cm}^2$</td>
+</tr>
+</tbody>
+</table>
+<p>保護層及上下層間距均依規範最小值。試求設計彎矩強度 $\phi M_n$。（25 分）</p>
+<blockquote>
+<p><strong>幾何假設（規範最小值）：</strong><br />
+- 最小淨保護層（至箍筋外面）= <strong>4 cm</strong>（室內梁，土木401-110）<br />
+- D10 箍筋直徑 = 0.96 cm（取 <strong>1.0 cm</strong> 簡化）<br />
+- 雙排拉力鋼筋層間淨距 = <strong>2.5 cm</strong>（規範下限）<br />
+- 壓力鋼筋假設單排，<strong>$d' = 6 \text{ cm}$</strong>（壓力鋼筋尺寸未給定，依最小覆蓋估算）</p>
+<p>⚠ <strong>原卷的兩個條件互相矛盾：</strong> 「8 根 D32 採雙排排列」（即 4+4）與「間距均依規範最小值」<br />
+在 $b_w = 30$ cm 下<strong>無法同時成立</strong>（每排 4 根的淨間距只有 2.37 cm &lt; $d_b$ = 3.22 cm）。<br />
+本解依原卷文字採 4+4；若嚴守間距須改三排，$\phi M_n$ 降為 130.6 tf·m。詳見 §5 ①。</p>
+</blockquote>
+<hr />
+<p><img alt="RC-2023-2 T形雙筋梁斷面：翼板 90×15 cm、腹板 30 cm、8-D32 分 4+4 兩排，右格放大顯示底排 4 根 D32 的淨間距只有 2.37 cm，小於 max(db, 2.5) = 3.22 cm" src="../../raw/solutions/RC-2023-2/figs/RC-2023-2-fig-1-section.svg" /></p>
+<p><em>圖 1　斷面配筋與淨間距檢核。原卷「雙排排列」與「間距依規範最小值」在 $b_w = 30$ cm 下無法並存——這張圖攔下「算完 $d$ 就往下走、從不回頭驗每排放不放得下」。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 雙筋梁的設計強度需同時考慮三個力：混凝土壓力 $C_c$、壓力鋼筋力 $C_s$、拉力鋼筋力 $T$，且壓力鋼筋是否降伏需通過<strong>應變相容</strong>驗算，不能直接假設。</p>
+<p><strong>出題者測驗的能力：</strong></p>
+<ol>
+<li>能否正確算出雙排鋼筋的有效深度 $d$（規範最小覆蓋 + 層間距）</li>
+<li>能否識別「壓力鋼筋未降伏」並進行應變相容迭代求解</li>
+<li>T 形梁壓縮區面積的正確處理（先判斷 $a$ vs. $h_f$，再決定是否需要 T 形面積計算）</li>
+</ol>
+<p><strong>常見陷阱：</strong></p>
+<ul>
+<li>直接假設壓力鋼筋降伏，不驗算 $\varepsilon'_s$</li>
+<li>誤把中性軸深度 $c$ 與應力塊深度 $a$ 拿去跟 $h_f$ 比較（應比較的是 $a$）</li>
+<li>忘記壓力鋼筋貢獻的混凝土扣除項（淨壓力應為 $A_s'(f'_s - 0.85f'_c)$）</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1：計算 d（雙排鋼筋最小覆蓋 + 層間距）、d'
+     ↓
+Step 2：假設壓力鋼筋降伏 → 試算 a → 驗算 ε's
+     （若 ε's &lt; εy → 不降伏 → 進 Step 3）
+     ↓
+Step 3：應變相容 + 力平衡 → 建立二次方程 → 求 c
+     ↓
+Step 4：驗算 a ≤ hf（確認壓縮區在翼板內）
+     ↓
+Step 5：計算 Mn = Cc(d - a/2) + Cs_net(d - d')
+     ↓
+Step 6：確認 φ（判斷 εt）→ 輸出 φMn
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠ 壓力鋼筋假設降伏不驗算</td>
+<td>壓力鋼筋可能因中性軸偏深而應變不足</td>
+<td>必驗 $\varepsilon'_s = \varepsilon_{cu}(c-d')/c$</td>
+</tr>
+<tr>
+<td>⚠ Cs 未扣混凝土</td>
+<td>壓力鋼筋所在位置已有混凝土壓力 $0.85f'_c$</td>
+<td>淨力 $C_s = A_s'(f'_s - 0.85f'_c)$</td>
+</tr>
+<tr>
+<td>⚠ 比較 $c$ vs. $h_f$</td>
+<td>應力塊深度 $a$（非 $c$）才是判斷翼板是否足夠的依據</td>
+<td>始終比較 $a = \beta_1 c$ 與 $h_f$</td>
+</tr>
+<tr>
+<td>⚠ 雙排鋼筋的 $d$ 計算</td>
+<td>雙排重心不等於單排位置</td>
+<td>取兩排形心的加權平均</td>
+</tr>
+<tr>
+<td>⚠ 沒檢查每排放不放得下</td>
+<td>4 根 D32 在 $b_w = 30$ 的淨間距只有 2.37 cm，<strong>違反 $s \geq d_b$</strong></td>
+<td>$s = \dfrac{b_w - 2c - 2d_s - nd_b}{n-1} \geq \max(d_b,\ 2.5)$，見 §5 ①</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>計算 T 型雙筋梁的設計彎矩強度 φMn（壓力鋼筋應變相容驗算 + 力矩平衡）</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1: } d = h - \bar{y}_s;\quad d' \approx c_{\text{cover}} + d_{s} + d_{b,\text{comp}}/2$$</p>
+<p>$$\text{Step 2（試驗）: } \varepsilon'_s = \varepsilon_{cu}\frac{c - d'}{\boxed{c}}$$</p>
+<p>$$\text{Step 3（不降伏）: } f'_s = E_s \cdot \varepsilon'_s = \frac{6120(c - d')}{c}$$</p>
+<p>$$\text{Step 4（平衡）: } 0.85f'_c b_e \beta_1 c + A_s'(f'_s - 0.85f'_c) = A_s f_y \quad\Rightarrow\quad \text{二次方程求 } c$$</p>
+<p>$$\text{Step 5: } M_n = C_c\!\left(d - \frac{\boxed{a}}{2}\right) + C_{s,\text{net}}(d - d')$$</p>
+<p>$$\text{Step 6: } \phi M_n = \phi \cdot \boxed{M_n},\quad \phi = 0.9 \text{ if } \varepsilon_t \geq 0.005$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b_w$</td>
+<td>30 cm</td>
+<td>腹板寬</td>
+</tr>
+<tr>
+<td>$b_e$</td>
+<td>90 cm</td>
+<td>有效翼緣寬（題目已給定）</td>
+</tr>
+<tr>
+<td>$h_f$</td>
+<td>15 cm</td>
+<td>翼緣厚</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>70 cm</td>
+<td>梁深</td>
+</tr>
+<tr>
+<td>$A_s$</td>
+<td>65.12 cm²</td>
+<td>8×D32，查表 $8\times8.14$</td>
+</tr>
+<tr>
+<td>$A_s'$</td>
+<td>18 cm²</td>
+<td>壓力鋼筋量</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td>混凝土強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+<td>鋼筋降伏強度</td>
+</tr>
+<tr>
+<td>$\varepsilon_{cu}$</td>
+<td>0.003</td>
+<td>規範極限壓應變</td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td>2,040,000 kgf/cm²</td>
+<td>鋼筋彈性模數</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：幾何計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底排重心 $y_1$</td>
+<td>$4 + 1.0 + d_{b}/2 = 4 + 1.0 + 1.61 = 6.61$ cm（D32）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>頂排重心 $y_2$</td>
+<td>$y_1 + d_{b}/2 + 2.5 + d_{b}/2 = 6.61 + 5.72 = 12.33$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>拉鋼筋形心 $\bar{y}_s$</td>
+<td>$(4\times y_1 + 4\times y_2)/8$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>有效深度 $d$</td>
+<td>$h - \bar{y}_s$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>壓力鋼筋深度 $d'$</td>
+<td>假設 6 cm（壓力鋼筋尺寸未給定）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：材料常數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$f'_c = 280 \Rightarrow 0.85$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_y$</td>
+<td>$f_y / E_s = 4200/2{,}040{,}000 = 0.002059$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：壓力鋼筋應變相容（不降伏路徑）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f'_s$</td>
+<td>$E_s \cdot \varepsilon_{cu}(c-d')/c = 6120(c-6)/c$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_c$</td>
+<td>$0.85\times280\times90\times0.85c = 18{,}207c$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_{s,\text{net}}$</td>
+<td>$18\times(f'_s - 238)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$c$（二次方程）</td>
+<td>聯立 $C_c + C_{s,\text{net}} = T$，整理成 $18{,}207c^2 - 167{,}628c - 660{,}960 = 0$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：彎矩計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\varepsilon_t$</td>
+<td>$\varepsilon_{cu}(d-c)/c$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td>$\varepsilon_t \geq 0.005 \Rightarrow 0.9$；過渡區線性插值</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_n$</td>
+<td>$C_c(d-a/2) + C_{s,\text{net}}(d-d')$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>為何比較 $a$ 而非 $c$ 與 $h_f$？</td>
+<td>Whitney 應力塊深度 $a$ 代表混凝土受壓區實際高度；$c$ 是彈性中性軸，不是壓力區範圍</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>壓力鋼筋淨力扣除 $0.85f'_c$</td>
+<td>壓力鋼筋截面積所在處混凝土已貢獻 $0.85f'_c$，合力計算時鋼筋只補充額外部分</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>二次方程如何建立？</td>
+<td>將 $f'_s = E_s\varepsilon_{cu}(c-d')/c$ 代入平衡方程，整理後為 $Ac^2 + Bc + C = 0$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon'_s &lt; \varepsilon_y$ 的物理意義</td>
+<td>中性軸偏淺 → 壓力鋼筋所在位置壓應變不足以達到降伏應力</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：計算有效深度 $d$ 及 $d'$</h3>
+<p>拉力鋼筋（D32，雙排 4+4 排列）：</p>
+<p>$$y_1 = 4.0 + 1.0 + \frac{3.22}{2} = 4.0 + 1.0 + 1.61 = 6.61 \text{ cm（底排重心距底面）}$$</p>
+<p>$$y_2 = 6.61 + \frac{3.22}{2} + 2.5 + \frac{3.22}{2} = 6.61 + 1.61 + 2.5 + 1.61 = 12.33 \text{ cm（頂排重心距底面）}$$</p>
+<p>$$\bar{y}_s = \frac{4 \times 6.61 + 4 \times 12.33}{8} = \frac{26.44 + 49.32}{8} = \frac{75.76}{8} = 9.47 \text{ cm}$$</p>
+<p>$$d = 70 - 9.47 = \mathbf{60.53 \text{ cm}} \quad (\text{取 } 60.5 \text{ cm})$$</p>
+<p>$$d' = 6.0 \text{ cm} \quad \text{（壓力鋼筋深度，依最小覆蓋估算，壓力鋼筋尺寸未給）}$$</p>
+<p>其他常數：</p>
+<p>$$\beta_1 = 0.85 \;(f'_c = 280 \text{ kgf/cm}^2),\quad \varepsilon_y = \frac{4200}{2{,}040{,}000} = 2.059 \times 10^{-3}$$</p>
+<p>$$A_s = 8 \times 8.14 = 65.12 \text{ cm}^2,\quad T = A_s f_y = 65.12 \times 4200 = 273{,}504 \text{ kgf}$$</p>
+<hr />
+<h3>Step 2：先假設壓力鋼筋降伏（$f'_s = f_y = 4200$ kgf/cm²）</h3>
+<p>$$0.85 f'_c b_e a + A_s'(f_y - 0.85f'_c) = A_s f_y$$</p>
+<p>$$0.85 \times 280 \times 90 \times a + 18 \times (4200 - 238) = 273{,}504$$</p>
+<p>$$21{,}420\, a + 71{,}316 = 273{,}504 \quad\Rightarrow\quad a = \frac{202{,}188}{21{,}420} = 9.44 \text{ cm}$$</p>
+<p>$$c_{\text{trial}} = \frac{a}{\beta_1} = \frac{9.44}{0.85} = 11.11 \text{ cm}$$</p>
+<p><strong>驗算壓力鋼筋應變：</strong></p>
+<p>$$\varepsilon'_s = \varepsilon_{cu} \cdot \frac{c - d'}{c} = 0.003 \times \frac{11.11 - 6}{11.11} = 0.003 \times 0.4599 = 1.380 \times 10^{-3}$$</p>
+<p>$$\varepsilon'_s = 0.001380 &lt; \varepsilon_y = 0.002059 \quad \Rightarrow \quad \textbf{壓力鋼筋未降伏！}$$</p>
+<hr />
+<h3>Step 3：應變相容 + 力平衡（壓力鋼筋不降伏）</h3>
+<p>$$f'_s = E_s \cdot \varepsilon'_s = E_s \cdot \varepsilon_{cu} \cdot \frac{c - d'}{c} = 2{,}040{,}000 \times 0.003 \times \frac{c - 6}{c} = \frac{6{,}120(c - 6)}{c}$$</p>
+<p>$$= 6{,}120 - \frac{36{,}720}{c}$$</p>
+<p>力平衡（$C_c + C_{s,\text{net}} = T$）：</p>
+<p>$$0.85 \times 280 \times 90 \times (0.85c) + 18\!\left[\left(6{,}120 - \frac{36{,}720}{c}\right) - 238\right] = 273{,}504$$</p>
+<p>$$18{,}207c + 18\!\left(5{,}882 - \frac{36{,}720}{c}\right) = 273{,}504$$</p>
+<p>$$18{,}207c + 105{,}876 - \frac{660{,}960}{c} = 273{,}504$$</p>
+<p>$$18{,}207c - \frac{660{,}960}{c} = 167{,}628$$</p>
+<p>兩邊乘以 $c$：</p>
+<p>$$18{,}207c^2 - 167{,}628c - 660{,}960 = 0$$</p>
+<p>$$c = \frac{167{,}628 + \sqrt{167{,}628^2 + 4 \times 18{,}207 \times 660{,}960}}{2 \times 18{,}207}$$</p>
+<p>$$= \frac{167{,}628 + \sqrt{28{,}099 \times 10^6 + 48{,}146 \times 10^6}}{36{,}414} = \frac{167{,}628 + \sqrt{76{,}245 \times 10^6}}{36{,}414}$$</p>
+<p>$$= \frac{167{,}628 + 276{,}127}{36{,}414} = \frac{443{,}755}{36{,}414} = \mathbf{12.19 \text{ cm}}$$</p>
+<p>$$\boxed{a = 0.85 \times 12.19 = 10.36 \text{ cm} &lt; h_f = 15 \text{ cm} \checkmark \text{（壓縮區在翼板內，可用 } b_e \text{）}}$$</p>
+<p><strong>確認壓力鋼筋應力（不超過 $f_y$）：</strong></p>
+<p>$$f'_s = \frac{6{,}120 \times (12.19 - 6)}{12.19} = \frac{6{,}120 \times 6.19}{12.19} = \frac{37{,}883}{12.19} = 3{,}108 \text{ kgf/cm}^2 &lt; f_y \checkmark$$</p>
+<hr />
+<p><img alt="RC-2023-2 三聯圖：T形斷面、應變分佈（c = 12.19 cm，壓力鋼筋應變 0.001523 小於 εy）、Whitney 等值應力塊（a = 10.36 cm 小於 hf = 15 cm）" src="../../raw/solutions/RC-2023-2/figs/RC-2023-2-fig-2-strain-stress.svg" /></p>
+<p><em>圖 2　中性軸與應力塊。垂直尺度三格共用，故 $c = 12.19$ 與 $a = 10.36$ 的相對深度是真的——判斷翼板夠不夠要拿 $a$ 去比 $h_f$，拿 $c$ 去比會誤判；圖上同時標出 $\varepsilon'_s$ 落在 $\varepsilon_y$ 以下，攔下「壓力鋼筋逕自假設降伏」。</em></p>
+<h3>Step 4：計算各合力</h3>
+<p>$$C_c = 0.85 \times 280 \times 90 \times 10.36 = 21{,}420 \times 10.36 = 221{,}911 \text{ kgf}$$</p>
+<p>$$C_{s,\text{net}} = A_s'(f'_s - 0.85f'_c) = 18 \times (3{,}108 - 238) = 18 \times 2{,}870 = 51{,}660 \text{ kgf}$$</p>
+<p><strong>平衡驗核：</strong></p>
+<p>$$C_c + C_{s,\text{net}} = 221{,}911 + 51{,}660 = 273{,}571 \approx T = 273{,}504 \text{ kgf} \checkmark$$</p>
+<hr />
+<h3>Step 5：計算 $M_n$ 與 $\phi M_n$</h3>
+<p><strong>力臂：</strong></p>
+<p>$$d - \frac{a}{2} = 60.5 - \frac{10.36}{2} = 60.5 - 5.18 = 55.32 \text{ cm}$$</p>
+<p>$$d - d' = 60.5 - 6.0 = 54.5 \text{ cm}$$</p>
+<p><strong>標稱彎矩強度：</strong></p>
+<p>$$M_n = C_c \!\left(d - \frac{a}{2}\right) + C_{s,\text{net}}(d - d')$$</p>
+<p>$$= 221{,}911 \times 55.32 + 51{,}660 \times 54.5$$</p>
+<p>$$= 12{,}276{,}797 + 2{,}815{,}470 = 15{,}092{,}267 \text{ kgf·cm}$$</p>
+<p><strong>強度折減因子 $\phi$（確認 $\varepsilon_t$）：</strong></p>
+<p>$$\varepsilon_t = \varepsilon_{cu} \cdot \frac{d - c}{c} = 0.003 \times \frac{60.5 - 12.19}{12.19} = 0.003 \times \frac{48.31}{12.19} = 0.003 \times 3.963 = 0.01189$$</p>
+<p>$$\varepsilon_t = 0.01189 \gg 0.005 \quad \Rightarrow \quad \text{拉力控制斷面} \quad \phi = 0.90$$</p>
+<p><strong>設計彎矩強度：</strong></p>
+<p>$$\boxed{\phi M_n = 0.90 \times 15{,}092{,}267 \text{ kgf·cm} \approx 13{,}583{,}000 \text{ kgf·cm} \approx \mathbf{136 \text{ tf·m}}}$$</p>
+<hr />
+<h3>計算彙整表</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: center;">數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有效深度 $d$</td>
+<td style="text-align: center;">60.5 cm</td>
+</tr>
+<tr>
+<td>壓力鋼筋深度 $d'$</td>
+<td style="text-align: center;">6.0 cm（假設）</td>
+</tr>
+<tr>
+<td>中性軸深度 $c$</td>
+<td style="text-align: center;">12.19 cm</td>
+</tr>
+<tr>
+<td>應力塊深度 $a$</td>
+<td style="text-align: center;">10.36 cm（&lt; $h_f$ = 15 cm ✓）</td>
+</tr>
+<tr>
+<td>壓力鋼筋應力 $f'_s$</td>
+<td style="text-align: center;">3,108 kgf/cm²（&lt; $f_y$ ✓）</td>
+</tr>
+<tr>
+<td>$C_c$</td>
+<td style="text-align: center;">221,911 kgf</td>
+</tr>
+<tr>
+<td>$C_{s,\text{net}}$</td>
+<td style="text-align: center;">51,660 kgf</td>
+</tr>
+<tr>
+<td>$\varepsilon_t$</td>
+<td style="text-align: center;">0.0119（&gt;&gt; 0.005）</td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td style="text-align: center;">0.90</td>
+</tr>
+<tr>
+<td>$\phi M_n$</td>
+<td style="text-align: center;"><strong>≈ 136 tf·m</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>1. ⚠ 原卷「雙排排列」與「間距取規範最小值」互相矛盾</strong></p>
+<p>原卷（112 年第二題）寫「縱向拉鋼筋 8 根 D32 <strong>採雙排排列</strong>……鋼筋保護層及上下層間距<strong>均依規範最小值</strong>之規定」。<br />
+但每排 4 根 D32 在 $b_w = 30$ cm 內的淨間距為：</p>
+<p>$$s_{\text{clear}} = \frac{b_w - 2c_{\text{cover}} - 2d_{\text{stirrup}} - 4d_b}{3}
+= \frac{30 - 2(4) - 2(1.0) - 4(3.22)}{3} = \frac{7.12}{3} = 2.37 \text{ cm}$$</p>
+<p>$$2.37 \text{ cm} &lt; \max(d_b,\ 2.5 \text{ cm}) = 3.22 \text{ cm} \quad ✗\ \textbf{不符規範}$$</p>
+<p>改為每排 3 根則 $s = \dfrac{20 - 3(3.22)}{2} = 5.17$ cm ✓ 通過。也就是說：<br />
+<strong>「雙排」與「間距合規」在本斷面二選一，不可能同時成立。</strong></p>
+<p><strong>兩種處理的完整對照：</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">4+4（本解，依原卷文字）</th>
+<th style="text-align: right;">3+3+2（三排，嚴守間距）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底排／次排／第三排形心</td>
+<td style="text-align: right;">6.61 ／ 12.33 cm</td>
+<td style="text-align: right;">6.61 ／ 12.33 ／ 18.05 cm</td>
+</tr>
+<tr>
+<td>$\bar y_s$</td>
+<td style="text-align: right;">9.47 cm</td>
+<td style="text-align: right;">11.62 cm</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td style="text-align: right;">60.53 cm</td>
+<td style="text-align: right;">58.38 cm</td>
+</tr>
+<tr>
+<td>$c$</td>
+<td style="text-align: right;">12.19 cm</td>
+<td style="text-align: right;">12.19 cm（<strong>不變</strong>）</td>
+</tr>
+<tr>
+<td>$a$</td>
+<td style="text-align: right;">10.36 cm</td>
+<td style="text-align: right;">10.36 cm（<strong>不變</strong>）</td>
+</tr>
+<tr>
+<td>$f'_s$</td>
+<td style="text-align: right;">3,107 kgf/cm²</td>
+<td style="text-align: right;">3,107（<strong>不變</strong>）</td>
+</tr>
+<tr>
+<td>$M_n$</td>
+<td style="text-align: right;">151.0 tf·m</td>
+<td style="text-align: right;">145.1 tf·m</td>
+</tr>
+<tr>
+<td>$\phi M_n$</td>
+<td style="text-align: right;"><strong>136 tf·m</strong></td>
+<td style="text-align: right;"><strong>130.6 tf·m（−3.9%）</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>為什麼 $c$、$a$、$f'_s$ 完全不變？</strong> 它們只由<strong>力平衡</strong>（$C_c + C_{s,\text{net}} = A_sf_y$）決定，<br />
+與 $d$ 無關；$d$ 只進到<strong>力臂</strong>。所以換排列只改彎矩、不改中性軸——這個結構值得記住。</p>
+</blockquote>
+<p><img alt="RC-2023-2 4+4 與 3+3+2 兩種排列對照：兩圖的中性軸 c = 12.19 cm 完全相同，只有 d 從 60.53 降到 58.38 cm，φMn 從 135.9 降到 130.6 tf·m" src="../../raw/solutions/RC-2023-2/figs/RC-2023-2-fig-3-layout.svg" /></p>
+<p><em>圖 3　換排列只改力臂。兩格畫的是同一條中性軸——$c$ 由力平衡定出，與 $d$ 無關；這張圖攔下「以為改排列會連中性軸一起變」而把整題重算一遍的錯。</em></p>
+<p><strong>考場建議：</strong> 依原卷文字寫 4+4（坊間解答通行），但<strong>在卷面加一句</strong><br />
+「註：4 根 D32 於 $b_w=30$ 之淨間距 2.37 cm 未達 $d_b$，本解依題意仍採雙排」，<br />
+把矛盾點出來反而顯示有做間距檢核。</p>
+<p><strong>2. 壓力鋼筋尺寸未給定的處理</strong></p>
+<p>本題未明示壓力鋼筋尺寸，故 $d'$ 需假設。若改用 $d' = 6.5$ cm（如 D29 bars），則 $c$ 略有變化但 $\phi M_n$ 差異在 1% 以內，不影響最終有效位數。考場上應明確寫出假設值。</p>
+<p><strong>3. 中性軸在翼板以外的情境（本題不需，但需能判斷）</strong></p>
+<p>若無壓力鋼筋時：$a = 12.77$ cm，仍 $&lt; h_f = 15$ cm，翼板完全足夠。本題有壓力鋼筋後 $a$ 更小。因此本題全程用 $b_e = 90$ cm 是正確的。若 $a &gt; h_f$，才需要分離 $A_{sf}$（翼板部分）與 $A_{sw}$（腹板部分）分別計算。</p>
+<p><strong>4. 為何 $C_{s,\text{net}} = A_s'(f'_s - 0.85f'_c)$？</strong></p>
+<p>壓力鋼筋面積所在位置，Whitney 應力塊原本就有 $0.85f'_c$ 的混凝土壓力貢獻。若計算 $C_c$ 時已包含整個寬度（包括鋼筋所在位置），則壓力鋼筋只能提供「額外的」壓力，即 $A_s'(f'_s - 0.85f'_c)$。</p>
+<p><strong>5. 考場最安全作法</strong></p>
+<ol>
+<li>先假設壓力鋼筋降伏 → 快速試算 $c$ → 驗算 $\varepsilon'_s$</li>
+<li>若 $\varepsilon'_s &lt; \varepsilon_y$，才建立二次方程求 $c$（不要跳過這個試驗步驟）</li>
+<li>翼板判斷：永遠比較 $a$ 與 $h_f$，而非 $c$ 與 $h_f$</li>
+<li>算完 $d$ <strong>順手驗一次每排的淨間距</strong>——本題正是靠這一步才看得出原卷條件矛盾</li>
+</ol>
+<hr />
+<p><em>圖解補繪：2026-08-31（向量圖 3 張，腳本 <code>figs/gen_RC-2023-2.py</code>，可重跑；腳本檔尾對 §4／§5 公佈值做 assert）</em></p></main>
+<footer>來源：raw/solutions/RC-2023-2/RC-2023-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

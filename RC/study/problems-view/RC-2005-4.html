@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2005-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2005-4 題目解析</h1><div class="navbtns"></div></header>
+<main><h1>考題編號：RC-2005-4</h1>
+<p><strong>主分類：</strong> <code>RC-U3-1</code> 梁工作性要求（含撓度、裂縫）<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> 概念題<br />
+<strong>標籤：</strong> <code>潛變</code> <code>潛變係數Cc</code> <code>長期變形</code> <code>彈性縮短</code> <code>軸向變形</code> <code>混凝土時間相依行為</code> <code>純壓柱變形</code> <code>Ec計算</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>（甲）定義題（10 分）</strong><br />
+何謂混凝土之潛變與潛變係數？潛變對鋼筋混凝土構件之行為有何影響？</p>
+<p><strong>（乙）計算題（10 分）</strong><br />
+一混凝土矩形柱長 1.5 m，斷面為 25 cm × 35 cm，採用混凝土強度 $f'_c = 280\ \text{kgf/cm}^2$；若此柱承受軸向壓力 $P = 15{,}000\ \text{kgf}$，試求三年後柱之<strong>總軸向變形</strong>。（已知三年後潛變係數 $C_c = 3.0$，不計收縮變形）</p>
+<p><strong>已知條件：</strong></p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>柱長 $L$</td>
+<td>$150\ \text{cm}$</td>
+</tr>
+<tr>
+<td>斷面</td>
+<td>$25 \times 35\ \text{cm}$</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>$280\ \text{kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>軸向壓力 $P$</td>
+<td>$15{,}000\ \text{kgf}$</td>
+</tr>
+<tr>
+<td>潛變係數 $C_c$（3 年後）</td>
+<td>$3.0$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 混凝土的時間相依行為——區分<strong>彈性應變</strong>（立即）和<strong>潛變應變</strong>（長期），以潛變係數串聯兩者。</p>
+<p><strong>測驗重點：</strong></p>
+<ol>
+<li>潛變的定義及其實質影響（定性分析，影響梁撓度、柱載重重分配、預力損失）</li>
+<li>計算彈性變形 $\delta_e = PL/(E_c A)$，其中 $E_c = 15{,}000\sqrt{f'_c}$（kgf/cm² 制）</li>
+<li>總變形 = 彈性變形 × $(1 + C_c)$</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>回答定義：潛變 = 持續應力下隨時間增加的應變；$C_c$ = 潛變應變 ÷ 彈性應變</li>
+<li>條列潛變的影響（梁撓度、柱載重重分配、預力損失、超靜定力重分佈）</li>
+<li>計算 $E_c$、$\delta_e$、$\delta_{cr}$、$\delta_{total}$</li>
+</ol>
+<p><strong>關鍵陷阱（2 個）：</strong></p>
+<ul>
+<li>⚠ <strong>總變形不是只加潛變</strong>：$\delta_{total} = \delta_e + \delta_{cr} = \delta_e(1+C_c)$，必須保留彈性部分</li>
+<li>⚠ <strong>$E_c$ 公式</strong>：台灣 kgf/cm² 制：$E_c = 15{,}000\sqrt{f'_c}$，勿與 SI 制 $4700\sqrt{f'_c}$（MPa）混淆</li>
+</ul>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>三年後柱的總軸向壓縮變形 $\delta_{total}$（cm）。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1: } E_c = 15{,}000\sqrt{f'_c}\ (\text{kgf/cm}^2)$$</p>
+<p>$$\text{Step 2: } \delta_e = \frac{P \cdot L}{E_c \cdot A_c}$$</p>
+<p>$$\text{Step 3: } \delta_{cr} = C_c \cdot \boxed{\delta_e}$$</p>
+<p>$$\text{Step 4: } \delta_{total} = \boxed{\delta_e} + \boxed{\delta_{cr}} = \boxed{\delta_e}\cdot(1 + C_c)$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L$</td>
+<td>$150\ \text{cm}$</td>
+<td>柱長</td>
+</tr>
+<tr>
+<td>$A_c$</td>
+<td>$25 \times 35 = 875\ \text{cm}^2$</td>
+<td>斷面積</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>$280\ \text{kgf/cm}^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$P$</td>
+<td>$15{,}000\ \text{kgf}$</td>
+<td>軸向壓力</td>
+</tr>
+<tr>
+<td>$C_c$</td>
+<td>$3.0$</td>
+<td>三年後潛變係數</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$E_c$</td>
+<td>$15{,}000\sqrt{280} = 251{,}000\ \text{kgf/cm}^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\delta_e$</td>
+<td>$PL/(E_c A_c) = 0.01025\ \text{cm}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\delta_{cr}$</td>
+<td>$C_c \cdot \delta_e = 3.0 \times 0.01025 = 0.03075\ \text{cm}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\delta_{total}$</td>
+<td>$\delta_e(1+C_c) = 0.041\ \text{cm}$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>潛變係數定義</td>
+<td>$C_c = \varepsilon_{cr}/\varepsilon_e$（潛變應變 ÷ 彈性應變），故 $\delta_{cr} = C_c \cdot \delta_e$</td>
+<td></td>
+</tr>
+<tr>
+<td>$E_c$ 換算</td>
+<td>正常重量混凝土（kgf/cm²）：$E_c = 15{,}000\sqrt{f'_c}$；SI（MPa）：$E_c = 4700\sqrt{f'_c}$</td>
+<td></td>
+</tr>
+<tr>
+<td>收縮 vs 潛變</td>
+<td>收縮（乾縮）不需載重；潛變發生在有持續應力之下；本題明確排除收縮</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>甲：潛變定義與影響（概念）</h3>
+<p><strong>（一）潛變（Creep）的定義</strong></p>
+<p>混凝土在<strong>持續不變的應力</strong>下，隨時間推移產生超過即時彈性應變的附加應變，稱為<strong>潛變</strong>。其特性如下：</p>
+<ul>
+<li>潛變在施載初期發展最快，爾後速率遞減，趨近最終值</li>
+<li>溫度升高、濕度降低、水灰比增大、齡期短、應力高時，潛變增大</li>
+</ul>
+<p><strong>（二）潛變係數（Creep Coefficient，$C_c$）的定義</strong></p>
+<p>$$C_c = \frac{\varepsilon_{cr}}{\varepsilon_e}$$</p>
+<p>其中：</p>
+<ul>
+<li>$\varepsilon_{cr}$ = 潛變應變（隨時間發展之附加應變）</li>
+<li>$\varepsilon_e$ = 彈性應變（施載瞬間的即時應變）</li>
+</ul>
+<p>$C_c$ 代表「潛變應變是彈性應變的幾倍」，一般在長期作用下 $C_c = 1.5 \sim 3.0$。</p>
+<p><strong>（三）潛變對 RC 構件行為的影響</strong></p>
+<table>
+<thead>
+<tr>
+<th>構件類型</th>
+<th>影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RC 梁、版</strong></td>
+<td>長期撓度增加。ACI 規定：長期附加撓度 = $\lambda \cdot \Delta_{i(DL)}$，其中 $\lambda = \xi/(1+50\rho')$，反映潛變（及收縮）累積</td>
+</tr>
+<tr>
+<td><strong>RC 柱（鋼筋混凝土）</strong></td>
+<td>混凝土潛變使軸力重分配——混凝土收縮後，鋼筋承擔更多壓力，可能使鋼筋達到降伏應力</td>
+</tr>
+<tr>
+<td><strong>預力混凝土</strong></td>
+<td>潛變使混凝土軸向縮短，導致鋼腱鬆弛，即<strong>預力損失</strong>（潛變損失 $\Delta f_{pCR}$）</td>
+</tr>
+<tr>
+<td><strong>超靜定結構</strong></td>
+<td>潛變引起的變形會在超靜定結構中重分配內力（次彎矩），長期下需特別注意</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>乙：柱總軸向變形計算</h3>
+<h4>① 混凝土彈性模數 $E_c$</h4>
+<p>$$E_c = 15{,}000\sqrt{f'_c} = 15{,}000 \times \sqrt{280} = 15{,}000 \times 16.733 = 250{,}995 \approx 251{,}000\ \text{kgf/cm}^2$$</p>
+<h4>② 斷面積 $A_c$</h4>
+<p>$$A_c = 25 \times 35 = 875\ \text{cm}^2$$</p>
+<h4>③ 柱平均應力（檢核）</h4>
+<p>$$f_c = \frac{P}{A_c} = \frac{15{,}000}{875} = 17.1\ \text{kgf/cm}^2$$</p>
+<p>$$\frac{f_c}{f'_c} = \frac{17.1}{280} = 0.061 \ll 0.45 \quad \checkmark \text{（應力遠低於允許壓應力，彈性假設有效）}$$</p>
+<h4>④ 彈性軸向變形 $\delta_e$</h4>
+<p>$$\delta_e = \frac{P \cdot L}{E_c \cdot A_c} = \frac{15{,}000 \times 150}{251{,}000 \times 875} = \frac{2{,}250{,}000}{219{,}625{,}000} = 0.01025\ \text{cm}$$</p>
+<h4>⑤ 潛變軸向變形 $\delta_{cr}$</h4>
+<p>$$\delta_{cr} = C_c \times \delta_e = 3.0 \times 0.01025 = 0.03075\ \text{cm}$$</p>
+<h4>⑥ 三年後總軸向變形 $\delta_{total}$</h4>
+<p>$$\delta_{total} = \delta_e + \delta_{cr} = \delta_e (1 + C_c) = 0.01025 \times (1 + 3.0) = 0.01025 \times 4.0$$</p>
+<p>$$\boxed{\delta_{total} = 0.041\ \text{cm} = 0.41\ \text{mm}}$$</p>
+<p><strong>變形組成彙整：</strong></p>
+<table>
+<thead>
+<tr>
+<th>變形類型</th>
+<th>數值 (cm)</th>
+<th>比例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>彈性變形 $\delta_e$</td>
+<td>$0.0103$</td>
+<td>25%</td>
+</tr>
+<tr>
+<td>潛變變形 $\delta_{cr}$</td>
+<td>$0.0308$</td>
+<td>75%</td>
+</tr>
+<tr>
+<td><strong>總變形 $\delta_{total}$</strong></td>
+<td><strong>$0.0411$</strong></td>
+<td><strong>100%</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>① 潛變係數的實際範圍</strong></p>
+<p>ACI 209 報告指出，長期（50 年）潛變係數 $C_c$ 的終極值約為 1.5～3.0，視下列因素而定：</p>
+<ul>
+<li>養護條件（水中 &lt; 空氣中）</li>
+<li>施載齡期（越早施載，潛變越大）</li>
+<li>水灰比（越大，潛變越大）</li>
+<li>構件尺寸（越小，潛變越大）</li>
+</ul>
+<p>本題給定 $C_c = 3.0$（3 年後），屬於上限值，說明環境條件不利或施載較早。</p>
+<p><strong>② RC 柱（有鋼筋）的長期變形</strong></p>
+<p>若柱有鋼筋（鋼筋面積 $A_s$），由於混凝土潛變縮短，鋼筋被迫額外壓縮，造成<strong>荷載重分配</strong>：混凝土應力降低，鋼筋應力上升。長期應力重分配量為：</p>
+<p>$$\Delta f_s = n \cdot f_{c,0} \cdot \frac{C_c \cdot n \rho}{1 + n \rho (1 + C_c)}$$</p>
+<p>（$n = E_s/E_c$，$\rho = A_s/A_c$，$f_{c,0}$ = 初始混凝土應力）</p>
+<p>本題為純混凝土柱，不需此修正。</p>
+<p><strong>③ 為何不計收縮變形</strong></p>
+<p>混凝土收縮（乾縮）是無應力作用下因水分散失引起的體積收縮，與載重無關。題目排除收縮，讓計算聚焦於潛變機制，是合理的簡化。實務上，收縮量級與潛變相當，需一併計算才能得到真實長期變形。</p></main>
+<footer>來源：raw/solutions/RC-2005-4/RC-2005-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

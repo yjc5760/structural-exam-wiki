@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2022-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2022-2 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-1.html">&#128202; U1-1 單元總覽</a><a class="lect" href="../lecture-RC-U1-1.html">&#128218; U1-1 RC 梁彎矩強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2022-2</h1>
+<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>梁設計</code> <code>最經濟材料</code> <code>D25</code> <code>材料強度比較</code> <code>四組合評估</code> <code>fy影響</code> <code>f'c影響</code> <code>鋼筋用量</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>題目：</strong> 矩形梁斷面，承受設計彎矩 $M_u = 19.5$ tf·m，使用 D25 拉力筋，試從下列四種材料組合中選出<strong>最經濟（D25 支數最少）</strong>的組合，並評論材料強度對拉力鋼筋用量的影響。（25 分）</p>
+<p><strong>已知條件：</strong></p>
+<ul>
+<li>斷面尺寸：$b = 30$ cm，$h = 50$ cm，$d = 43.5$ cm</li>
+<li>設計彎矩：$M_u = 19.5$ tf·m $= 1{,}950{,}000$ kgf·cm</li>
+<li>拉力筋限用 D25（$A_b = 5.067$ cm²）</li>
+<li>可選材料：</li>
+<li>$f'_c = 210$ kgf/cm² 或 $f'_c = 280$ kgf/cm²</li>
+<li>$f_y = 4200$ kgf/cm² 或 $f_y = 5600$ kgf/cm²</li>
+<li>梁寬 30 cm 時，D25 每層最多 3 支（由表 2）</li>
+</ul>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 理解 $f'_c$ 與 $f_y$ 對拉力鋼筋需求量的影響機制，並能比較四種材料組合的設計結果。</p>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗考生能否快速評估四種材料組合，找出最少鋼筋用量</li>
+<li>考驗對「$f_y$ 影響大、$f'_c$ 影響小」的物理直覺</li>
+<li>要求定量計算 + 定性評論，評測綜合表達能力</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>對四種組合分別解方程求 $A_s$（需求值）</li>
+<li>除以 $A_{b,D25} = 5.067$ cm² → 無條件進位取整數支數</li>
+<li>驗算 $\varepsilon_t$（確認 $\phi = 0.90$）及 $\rho_{\min}$</li>
+<li>比較，找出 D25 支數最少且混凝土強度最低的組合</li>
+<li>定性評論材料強度的影響</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠1</td>
+<td>假設 $\phi = 0.90$，但需事後驗算 $\varepsilon_t \ge 0.005$</td>
+<td>求出 $c$ 後計算 $\varepsilon_t$，確認拉力控制</td>
+</tr>
+<tr>
+<td>⚠2</td>
+<td>求出 $A_{s,\text{req}}$ 後必須<strong>無條件進位</strong>為整數支數</td>
+<td>向上取整 → 驗算提供量是否足夠</td>
+</tr>
+<tr>
+<td>⚠3</td>
+<td>「最經濟」≠最小 $A_s$，而是最小<strong>支數</strong>；支數相同時取較低 $f'_c$</td>
+<td>先比支數，再比混凝土等級</td>
+</tr>
+<tr>
+<td>⚠4</td>
+<td>需確認 D25 能排入梁寬（表2：b=30 cm 時最多 3 支 D25）</td>
+<td>本題最多 2 支，符合限制</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>對四種材料組合（f'c × fy）分別求所需 D25 支數，找出最經濟（支數最少）之組合，並評論材料強度對鋼筋用量的影響</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1：需求標稱彎矩} \quad \boxed{M_{n,\text{req}}} = \frac{M_u}{\phi}$$</p>
+<p>$$\text{Step 2：由 } M_{n,\text{req}} \text{ 解等值應力塊深度} \quad 0.85f'_c\cdot b\cdot\boxed{a}\!\left(d-\frac{\boxed{a}}{2}\right) = \boxed{M_{n,\text{req}}}$$</p>
+<p>$$\text{Step 3：所需拉力鋼筋面積} \quad \boxed{A_{s,\text{req}}} = \frac{0.85f'_c\cdot b\cdot\boxed{a}}{f_y}$$</p>
+<p>$$\text{Step 4：無條件進位取整數支} \quad n = \left\lceil\frac{\boxed{A_{s,\text{req}}}}{A_{b,D25}}\right\rceil \;\Rightarrow\; \boxed{A_{s,\text{prov}}} = n\times 5.067 \text{ cm}^2$$</p>
+<p>$$\text{Step 5（驗算）：} \boxed{a_{\text{prov}}} = \frac{\boxed{A_{s,\text{prov}}}\cdot f_y}{0.85f'_c\cdot b}, \quad \phi M_n = \phi\cdot\boxed{A_{s,\text{prov}}}\cdot f_y\!\left(d-\frac{\boxed{a_{\text{prov}}}}{2}\right) \ge M_u$$</p>
+<p>$$\text{Step 6（驗算 }\phi\text{）：} \varepsilon_t = \frac{0.003\left(d - \boxed{c_{\text{prov}}}\right)}{\boxed{c_{\text{prov}}}} \ge 0.005 \;\Rightarrow\; \phi = 0.90 \quad \left(\boxed{c_{\text{prov}}} = \frac{\boxed{a_{\text{prov}}}}{\beta_1}\right)$$</p>
+<hr />
+<h3>L1：題目直接給定</h3>
+<p><em>看到題目就能讀出的數字，不需要任何公式。</em></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>30 cm</td>
+<td>梁寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>50 cm</td>
+<td>梁深</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>43.5 cm</td>
+<td>有效深度（題目已給）</td>
+</tr>
+<tr>
+<td>$M_u$</td>
+<td>19.5 tf·m $= 1{,}950{,}000$ kgf·cm</td>
+<td>設計彎矩</td>
+</tr>
+<tr>
+<td>$A_{b,D25}$</td>
+<td>5.067 cm²</td>
+<td>查表1</td>
+</tr>
+<tr>
+<td>$f'_c$ 選項</td>
+<td>210 或 280 kgf/cm²</td>
+<td>四種組合中選</td>
+</tr>
+<tr>
+<td>$f_y$ 選項</td>
+<td>4200 或 5600 kgf/cm²</td>
+<td>四種組合中選</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L2：需知識點推導</h3>
+<p><em>需要知道公式名稱與適用條件，套入 L1 即可算出。</em></p>
+<p><strong>Step 1：共用前置</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$f'_c \le 280$ kgf/cm² → 0.85</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td>假設拉力控制 $\varepsilon_t \ge 0.005$ → 0.90（Step 6 驗算確認）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{n,\text{req}}$</td>
+<td>$M_u/\phi = 1{,}950{,}000/0.90$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2–3：求 $A_{s,\text{req}}$（每種材料組合各做一次）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$a$</td>
+<td>由 $0.85f'_c b\cdot a(d-a/2) = M_{n,\text{req}}$ 解二次方程（取小根）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{s,\text{req}}$</td>
+<td>$0.85f'_c b\cdot a / f_y$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：整數化支數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$n$</td>
+<td>$\lceil A_{s,\text{req}}/5.067 \rceil$（無條件進位）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{s,\text{prov}}$</td>
+<td>$n \times 5.067$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>棒數上限</td>
+<td>查表2：$b=30$ cm 時 D25 最多 3 支／層</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5–6：驗算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$a_{\text{prov}}$</td>
+<td>$A_{s,\text{prov}}\cdot f_y / (0.85f'_c b)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi M_n$</td>
+<td>$\phi\cdot A_{s,\text{prov}}\cdot f_y(d - a_{\text{prov}}/2) \ge M_u$？</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$c_{\text{prov}}$</td>
+<td>$a_{\text{prov}}/\beta_1$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_t$</td>
+<td>$0.003(d-c_{\text{prov}})/c_{\text{prov}} \ge 0.005$？</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>為何提高 $f_y$ 比提高 $f'_c$ 更有效？</td>
+<td>低配筋率時 $a \ll d$，力矩臂 $(d-a/2) \approx d$，故 $A_{s,\text{req}} \approx M_u/(\phi f_y d)$，與 $f'_c$ 幾乎無關；而 $f_y$ 直接在分母，提高立竿見影</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f'_c$ 何時有顯著影響？</td>
+<td>當梁接近平衡配筋（$\rho \to \rho_b$，高配筋率），$a$ 不可忽略，此時提高 $f'_c$ 才能有效縮小 $a$，進而減少 $A_s$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>最大棒數限制</td>
+<td>表2：$b=30$ cm 配 D13 箍筋時，D25 每層最多 3 支；本題 2 支完全符合</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>「最經濟」的定義</td>
+<td>本題以最少 D25 支數為準；若支數相同，再以較低混凝土強度（較便宜）為優</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>## 4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</td>
+<td></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>前置：共用參數</h3>
+<p>$$\beta_1 = 0.85 \quad (f'_c \le 280 \text{ kgf/cm}^2)$$<br />
+$$\phi = 0.90 \text{（假設拉力控制，事後驗算）}$$<br />
+$$M_{n,\text{req}} = \frac{M_u}{\phi} = \frac{1{,}950{,}000}{0.90} = 2{,}166{,}667 \text{ kgf·cm}$$</p>
+<p>利用 $M_{n,\text{req}} = A_s f_y \left(d - \frac{a}{2}\right)$，其中 $a = \frac{A_s f_y}{0.85 f'_c b}$，整理為二次方程：</p>
+<p>$$A_s = \frac{0.85 f'_c b}{f_y} \left[d - \sqrt{d^2 - \frac{2 M_{n,\text{req}}}{0.85 f'_c b}}\right]$$</p>
+<hr />
+<h3>組合一：$f'_c = 210$，$f_y = 4200$ kgf/cm²</h3>
+<p>$$A_s = \frac{0.85 \times 210 \times 30}{4200} \left[43.5 - \sqrt{43.5^2 - \frac{2 \times 2{,}166{,}667}{0.85 \times 210 \times 30}}\right]$$</p>
+<p>計算根號內：<br />
+$$43.5^2 - \frac{4{,}333{,}334}{5355} = 1892.25 - 809.2 = 1083.05 \quad \Rightarrow \quad \sqrt{1083.05} = 32.91$$</p>
+<p>$$A_s = \frac{1276.5}{4200}(43.5 - 32.91) = 0.3039 \times 10.59 = 13.48 \text{ cm}^2$$</p>
+<p>$$n = \left\lceil \frac{13.48}{5.067} \right\rceil = \lceil 2.66 \rceil = \mathbf{3} \text{ 支 D25}，\quad A_{s,\text{prov}} = 15.201 \text{ cm}^2$$</p>
+<p>驗算（$a = 15.201 \times 4200 / 5355 = 11.92$ cm，$c = 14.02$ cm）：<br />
+$$\varepsilon_t = \frac{0.003(43.5 - 14.02)}{14.02} = 0.00631 \ge 0.005 \quad \phi = 0.90 \checkmark$$</p>
+<hr />
+<h3>組合二：$f'_c = 210$，$f_y = 5600$ kgf/cm²</h3>
+<p>$$A_s = \frac{0.85 \times 210 \times 30}{5600} \left[43.5 - \sqrt{43.5^2 - \frac{2 \times 2{,}166{,}667}{0.85 \times 210 \times 30}}\right]$$</p>
+<p>根號內值同上（$f'_c$ 相同）$= 1083.05$，$\sqrt{1083.05} = 32.91$</p>
+<p>$$A_s = \frac{1276.5}{5600}(43.5 - 32.91) = 0.22795 \times 10.59 = \mathbf{10.10 \text{ cm}^2}$$</p>
+<p>$$n = \left\lceil \frac{10.10}{5.067} \right\rceil = \lceil 1.994 \rceil = \mathbf{2} \text{ 支 D25}，\quad A_{s,\text{prov}} = 10.134 \text{ cm}^2$$</p>
+<p><strong>驗算 $\phi M_n$：</strong><br />
+$$a = \frac{10.134 \times 5600}{5355} = 10.60 \text{ cm}, \quad c = \frac{10.60}{0.85} = 12.47 \text{ cm}$$</p>
+<p>$$M_n = 10.134 \times 5600 \times \left(43.5 - \frac{10.60}{2}\right) = 56{,}750 \times 38.20 = 2{,}169{,}850 \text{ kgf·cm}$$</p>
+<p>$$\phi M_n = 0.90 \times 2{,}169{,}850 = 1{,}952{,}865 \text{ kgf·cm} = 19.53 \text{ tf·m} &gt; 19.5 \text{ tf·m} \checkmark$$</p>
+<p>$$\varepsilon_t = \frac{0.003(43.5 - 12.47)}{12.47} = 0.00747 \ge 0.005 \quad \phi = 0.90 \checkmark$$</p>
+<hr />
+<h3>組合三：$f'_c = 280$，$f_y = 4200$ kgf/cm²</h3>
+<p>根號內：<br />
+$$43.5^2 - \frac{2 \times 2{,}166{,}667}{0.85 \times 280 \times 30} = 1892.25 - \frac{4{,}333{,}334}{7140} = 1892.25 - 606.9 = 1285.35$$<br />
+$$\sqrt{1285.35} = 35.85$$</p>
+<p>$$A_s = \frac{0.85 \times 280 \times 30}{4200}(43.5 - 35.85) = \frac{7140}{4200} \times 7.65 = 1.700 \times 7.65 = \mathbf{13.01 \text{ cm}^2}$$</p>
+<p>$$n = \left\lceil \frac{13.01}{5.067} \right\rceil = \lceil 2.57 \rceil = \mathbf{3} \text{ 支 D25}，\quad A_{s,\text{prov}} = 15.201 \text{ cm}^2$$</p>
+<p>驗算（$a = 15.201 \times 4200 / 7140 = 8.94$ cm，$c = 10.52$ cm）：<br />
+$$\varepsilon_t = \frac{0.003(43.5 - 10.52)}{10.52} = 0.00940 \ge 0.005 \quad \phi = 0.90 \checkmark$$</p>
+<hr />
+<h3>組合四：$f'_c = 280$，$f_y = 5600$ kgf/cm²</h3>
+<p>根號內值同上（$f'_c$ 相同）$= 1285.35$，$\sqrt{1285.35} = 35.85$</p>
+<p>$$A_s = \frac{7140}{5600}(43.5 - 35.85) = 1.275 \times 7.65 = \mathbf{9.754 \text{ cm}^2}$$</p>
+<p>$$n = \left\lceil \frac{9.754}{5.067} \right\rceil = \lceil 1.925 \rceil = \mathbf{2} \text{ 支 D25}，\quad A_{s,\text{prov}} = 10.134 \text{ cm}^2$$</p>
+<p>驗算：<br />
+$$a = \frac{10.134 \times 5600}{7140} = 7.95 \text{ cm}, \quad c = 9.35 \text{ cm}$$</p>
+<p>$$M_n = 10.134 \times 5600 \times (43.5 - 3.975) = 56{,}750 \times 39.525 = 2{,}243{,}494 \text{ kgf·cm}$$</p>
+<p>$$\phi M_n = 0.90 \times 2{,}243{,}494 = 2{,}019{,}145 \text{ kgf·cm} = 20.19 \text{ tf·m} &gt; 19.5 \text{ tf·m} \checkmark$$</p>
+<p>$$\varepsilon_t = \frac{0.003(43.5 - 9.35)}{9.35} = 0.01096 \ge 0.005 \quad \phi = 0.90 \checkmark$$</p>
+<hr />
+<h3>比較彙整</h3>
+<table>
+<thead>
+<tr>
+<th>組合</th>
+<th>$f'_c$</th>
+<th>$f_y$</th>
+<th>$A_{s,\text{req}}$ (cm²)</th>
+<th>D25 支數</th>
+<th>$A_{s,\text{prov}}$ (cm²)</th>
+<th>$\phi M_n$ (tf·m)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一</td>
+<td>210</td>
+<td>4200</td>
+<td>13.48</td>
+<td><strong>3</strong></td>
+<td>15.201</td>
+<td>22.75</td>
+</tr>
+<tr>
+<td>二</td>
+<td>210</td>
+<td><strong>5600</strong></td>
+<td><strong>10.10</strong></td>
+<td><strong>2</strong></td>
+<td>10.134</td>
+<td>19.53</td>
+</tr>
+<tr>
+<td>三</td>
+<td>280</td>
+<td>4200</td>
+<td>13.01</td>
+<td><strong>3</strong></td>
+<td>15.201</td>
+<td>25.67</td>
+</tr>
+<tr>
+<td>四</td>
+<td>280</td>
+<td><strong>5600</strong></td>
+<td>9.754</td>
+<td><strong>2</strong></td>
+<td>10.134</td>
+<td>20.19</td>
+</tr>
+</tbody>
+</table>
+<p><strong>組合二、四均只需 2 支 D25。組合二混凝土強度較低（較經濟），故最經濟選擇為：</strong></p>
+<p>$$\boxed{f'_c = 210 \text{ kgf/cm}^2,\quad f_y = 5600 \text{ kgf/cm}^2,\quad \textbf{2 支 D25}}$$</p>
+<hr />
+<h3>最小配筋驗算（以組合二為例）</h3>
+<p>$$\rho_{\min} = \max\left(\frac{14}{f_y}, \frac{0.8\sqrt{f'_c}}{f_y}\right) = \max\left(\frac{14}{5600}, \frac{0.8\sqrt{210}}{5600}\right) = \max(0.00250, 0.00207) = 0.00250$$</p>
+<p>$$A_{s,\min} = 0.00250 \times 30 \times 43.5 = 3.26 \text{ cm}^2 &lt; 10.134 \text{ cm}^2 \quad \checkmark$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>評論：材料強度對拉力鋼筋用量的影響</h3>
+<p><strong>（一）提高 $f_y$ 的效果（主要因素）：</strong></p>
+<p>$$A_s \approx \frac{M_u}{\phi f_y \left(d - \dfrac{a}{2}\right)}$$</p>
+<p>提高 $f_y$：</p>
+<ol>
+<li>分母直接增大 → $A_s$ 減少</li>
+<li>$f_y$ 大使 $a = A_s f_y/(0.85f'_c b)$ 中兩效果相消，但淨效果仍使 $A_s$ 減少</li>
+<li><strong>本題：$f_y$ 從 4200→5600（增加 33%），D25 支數從 3 降至 2（減少 33%）</strong></li>
+</ol>
+<p><strong>（二）提高 $f'_c$ 的效果（次要因素）：</strong></p>
+<p>當梁配筋率很低（$\varepsilon_t \gg 0.005$，如本題 $\varepsilon_t \approx 0.007 \sim 0.011$），等值應力塊深度 $a$ 極小，力矩臂 $(d-a/2) \approx d$ 幾乎不變。此時：</p>
+<p>$$A_s \approx \frac{M_u}{\phi f_y d} \quad \text{（與 $f'_c$ 幾乎無關）}$$</p>
+<p><strong>本題：$f'_c$ 從 210→280（增加 33%），D25 支數不變（組合一→三同為 3 支，組合二→四同為 2 支）</strong></p>
+<p><strong>（三）結論：</strong></p>
+<ul>
+<li>對低配筋率梁（即一般梁設計），<strong>提高 $f_y$ 是最有效的節省鋼筋方式</strong>，$f'_c$ 影響甚微。</li>
+<li>只有在接近 $\rho_{\max}$ 的高配筋梁，提高 $f'_c$ 才能顯著減少鋼筋用量。</li>
+<li>從工程實務看，若鋼筋費用遠高於混凝土費用，採高強度鋼筋（fy=5600）可達到最佳材料經濟性。</li>
+</ul>
+<h3>爭議點：「最經濟」的定義</h3>
+<p>本題以「D25 支數最少」為判斷準則，組合二、四均為 2 支。若同時考慮材料成本：</p>
+<ul>
+<li>高強度混凝土（f'c=280）通常比 f'c=210 貴 ~20%</li>
+<li>兩種組合鋼筋量相同，故<strong>組合二（f'c=210, fy=5600）更經濟</strong>。</li>
+</ul></main>
+<footer>來源：raw/solutions/RC-2022-2/RC-2022-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

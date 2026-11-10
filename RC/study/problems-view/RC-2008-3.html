@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2008-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2008-3 題目解析</h1><div class="navbtns"></div></header>
+<main><h3>考題編號：RC-2008-3</h3>
+<p><strong>主分類：</strong> <code>RC-U2-2</code> RC 扭力強度設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>矩形梁</code> <code>純扭矩</code> <code>斷面適當性</code> <code>空間桁架類比</code> <code>閉合箍筋</code> <code>Aoh計算</code> <code>poh最大間距</code> <code>縱向扭力筋</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>矩形梁承受<strong>純扭矩</strong>，試驗算：</p>
+<ul>
+<li><strong>(a)</strong> 斷面大小是否合適？（10 分）</li>
+<li><strong>(b)</strong> 扭力鋼筋配置是否合適？（15 分）</li>
+</ul>
+<p><strong>已知條件：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>斷面</td>
+<td>$b \times h = 30 \times 60 \text{ cm}$</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>$280 \text{ kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>$f_y = f_{yt}$</td>
+<td>$2800 \text{ kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>閉合箍筋</td>
+<td>#4，$d_b = 1.27 \text{ cm}$，$A_t = 1.27 \text{ cm}^2$，間距 $s = 15 \text{ cm}$</td>
+</tr>
+<tr>
+<td>縱向鋼筋</td>
+<td>#4，$A_b = 1.27 \text{ cm}^2$（每根）</td>
+</tr>
+<tr>
+<td>淨保護層</td>
+<td>$4 \text{ cm}$</td>
+</tr>
+<tr>
+<td>設計扭矩</td>
+<td>$T_u = 3.0 \text{ tf·m} = 300{,}000 \text{ kgf·cm}$</td>
+</tr>
+<tr>
+<td>$\phi$（扭力）</td>
+<td>$0.75$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>題目附圖：</strong></p>
+<p><img alt="RC-2008-3 矩形梁斷面 30cm×60cm，#4@15cm 閉合箍筋，淨保護層 4cm" src="../../raw/solutions/RC-2008-3/RC-2008-3-fig-1.png" /></p>
+<p><em>圖說：矩形斷面 $b \times h = 30 \times 60 \text{ cm}$，#4 閉合箍筋（$d_b=1.27$ cm，$A_t=1.27$ cm²）間距 15 cm，淨保護層 4 cm（至箍筋外緣）。$f'_c=280$，$f_y=f_{yt}=2800$ kgf/cm²，純扭矩設計 $T_u=3.0$ tf·m。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<ol>
+<li><strong>(a) 斷面適當性</strong> = 驗算混凝土不因斜壓破壞而壓碎（上限公式），與鋼筋量無關</li>
+<li><strong>(b) 鋼筋適當性</strong> = 空間桁架模型，驗算 $\phi T_n \geq T_u$，並查最大間距 $s \leq p_{oh}/8$</li>
+</ol>
+<p><strong>出題者陷阱：</strong></p>
+<ul>
+<li>$f_y = 2800$（非 4200），容易用錯</li>
+<li>淨保護層到箍筋<strong>外緣</strong>，求 $A_{oh}$ 時需加 $d_b/2$ 到箍筋中心</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>工作項目</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>計算 $A_{cp}$、$p_{cp}$（外輪廓）和 $A_{oh}$、$p_{oh}$（箍筋中心線）</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>(a)</strong> 計算扭力剪應力 $\tau_T$，與 $\phi(\tau_c + \tau_{max})$ 比較</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>(b-1)</strong> 計算 $\phi T_n$（箍筋貢獻），與 $T_u$ 比較</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>(b-2)</strong> 驗算最大間距 $s \leq p_{oh}/8$</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>(b-3)</strong> 計算需要之縱向鋼筋 $A_l$，換算 #4 根數</td>
+</tr>
+</tbody>
+</table>
+<p><strong>四大陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠ 保護層到箍筋中心</td>
+<td>$c_{to center} = 4 + 1.27/2 = 4.635$ cm，不是直接用 4 cm</td>
+</tr>
+<tr>
+<td>⚠ $f_y = 2800$（非 4200）</td>
+<td>本題特殊，縱向和橫向鋼筋降伏強度均為 2800</td>
+</tr>
+<tr>
+<td>⚠ 斷面適當性與鋼筋量無關</td>
+<td>(a) 只看斷面幾何，不看鋼筋多少</td>
+</tr>
+<tr>
+<td>⚠ $A_o = 0.85 A_{oh}$，非 $A_{oh}$</td>
+<td>計算 $T_n$ 時用 $A_o$，計算間距/縱筋用 $A_{oh}$ / $p_{oh}$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>(a) 驗算斷面剪應力上限；(b) 驗算 φTn≥Tu 及間距、縱筋是否合規</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1: } A_{oh} = x_{oh} \times y_{oh}, \quad p_{oh} = 2(x_{oh}+y_{oh}), \quad A_o = 0.85 A_{oh}$$</p>
+<p>$$\text{(a) Step 2: } \frac{T_u \cdot p_{oh}}{1.7 A_{oh}^2} \leq \phi\!\left(\frac{V_c}{b_w d} + \frac{2\sqrt{f'_c}}{3}\right)$$</p>
+<p>$$\text{(b) Step 3: } \phi T_n = \phi \cdot 2 \boxed{A_o} \cdot \frac{A_t}{s} \cdot f_{yt} \geq T_u$$</p>
+<p>$$\text{Step 4 (間距): } s \leq \frac{p_{oh}}{8}, \quad s \leq 30 \text{ cm}$$</p>
+<p>$$\text{Step 5 (縱筋): } A_l = \frac{A_t}{s} \cdot \boxed{p_{oh}} \cdot \frac{f_{yt}}{f_y}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b, h$</td>
+<td>30, 60 cm</td>
+<td>斷面外輪廓</td>
+</tr>
+<tr>
+<td>淨保護層</td>
+<td>4 cm</td>
+<td>至箍筋外緣</td>
+</tr>
+<tr>
+<td>$d_b$</td>
+<td>1.27 cm（#4）</td>
+<td>箍筋直徑</td>
+</tr>
+<tr>
+<td>$A_t$</td>
+<td>1.27 cm²</td>
+<td>單肢箍筋面積</td>
+</tr>
+<tr>
+<td>$s$</td>
+<td>15 cm</td>
+<td>箍筋間距</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_y = f_{yt}$</td>
+<td>2800 kgf/cm²</td>
+<td>縱向與橫向均同</td>
+</tr>
+<tr>
+<td>$T_u$</td>
+<td>300,000 kgf·cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td>0.75</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：幾何計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>箍筋中心至面距</td>
+<td>$4 + 1.27/2 = 4.635$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$x_{oh}$</td>
+<td>$30 - 2 \times 4.635 = 20.73$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$y_{oh}$</td>
+<td>$60 - 2 \times 4.635 = 50.73$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{oh}$</td>
+<td>$20.73 \times 50.73 = 1051.6$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$p_{oh}$</td>
+<td>$2(20.73+50.73) = 142.92$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_o$</td>
+<td>$0.85 \times 1051.6 = 893.9$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{cp}$</td>
+<td>$30 \times 60 = 1800$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：(a) 斷面適當性</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\tau_T$（左側）</td>
+<td>$T_u \cdot p_{oh}/(1.7 A_{oh}^2) = 300{,}000 \times 142.92 / (1.7 \times 1051.6^2) = 22.81$ kgf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_c/b_wd$（右側）</td>
+<td>$0.53\sqrt{280} = 8.87$ kgf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$(2/3)\sqrt{f'_c}$</td>
+<td>$(2/3)\times 16.73 = 11.16$ kgf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>右側上限</td>
+<td>$\phi(8.87+11.16) = 0.75 \times 20.03 = 15.02$ kgf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>結論</strong></td>
+<td>$22.81 &gt; 15.02$ → <strong>斷面不合適，需加大</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：(b) 箍筋能力</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\phi T_n$</td>
+<td>$0.75 \times 2 \times 893.9 \times (1.27/15) \times 2800 = 317{,}900$ kgf·cm $= 3.179$ tf·m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>結論</strong></td>
+<td>$3.179 &gt; T_u = 3.0$ tf·m → 箍筋強度<strong>合適</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>最大間距</td>
+<td>$p_{oh}/8 = 142.92/8 = 17.87$ cm；$s = 15 &lt; 17.87$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：(b) 縱向鋼筋</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_l$（需求）</td>
+<td>$(A_t/s)_{req} \times p_{oh} = 0.07991 \times 142.92 = 11.42$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>#4 根數</td>
+<td>$11.42/1.27 = 9.0$，需 <strong>9 根</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>縱筋間距</td>
+<td>$p_{oh}/9 = 15.88$ cm $\leq 30$ cm ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>斷面適當性公式意義</td>
+<td>左側為扭力產生之斜向壓力應力；右側為混凝土能承受的上限（防止斜壓壓碎）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_o$ vs $A_{oh}$</td>
+<td>$A_{oh}$ 是箍筋中心圍成的面積；$A_o = 0.85A_{oh}$ 是有效剪力流面積（考慮混凝土彈性與裂縫後退縮）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>最大間距 $p_{oh}/8$</td>
+<td>確保在每個 45° 對角裂縫段至少有一支箍筋；$p_{oh}$ 是箍筋中心線周長</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$(A_t/s)_{req}$ vs 已提供</td>
+<td>計算需求縱筋時用<strong>需求的</strong> $A_t/s$（非提供值），避免虛增縱筋</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：幾何計算</h3>
+<p>外輪廓（$A_{cp}$、$p_{cp}$）：<br />
+$$A_{cp} = b \times h = 30 \times 60 = 1800 \text{ cm}^2$$<br />
+$$p_{cp} = 2(b+h) = 2(30+60) = 180 \text{ cm}$$</p>
+<p>至箍筋中心的距離：<br />
+$$c_{eff} = \text{淨保護層} + \frac{d_b}{2} = 4 + \frac{1.27}{2} = 4.635 \text{ cm}$$</p>
+<p>箍筋中心圍成的矩形：<br />
+$$x_{oh} = b - 2c_{eff} = 30 - 2 \times 4.635 = \boxed{20.73 \text{ cm}}$$<br />
+$$y_{oh} = h - 2c_{eff} = 60 - 2 \times 4.635 = \boxed{50.73 \text{ cm}}$$</p>
+<p>$$A_{oh} = x_{oh} \times y_{oh} = 20.73 \times 50.73 = \boxed{1051.6 \text{ cm}^2}$$<br />
+$$p_{oh} = 2(x_{oh}+y_{oh}) = 2(20.73+50.73) = 2 \times 71.46 = \boxed{142.92 \text{ cm}}$$<br />
+$$A_o = 0.85 A_{oh} = 0.85 \times 1051.6 = \boxed{893.9 \text{ cm}^2}$$</p>
+<hr />
+<h3>(a) 斷面大小是否合適？</h3>
+<p><strong>斷面適當性上限公式</strong>（純扭矩，$V_u = 0$）：</p>
+<p>$$\frac{T_u \cdot p_{oh}}{1.7 A_{oh}^2} \leq \phi\left(\frac{V_c}{b_w d} + \frac{2\sqrt{f'_c}}{3}\right)$$</p>
+<p><strong>左側（扭力剪應力）：</strong><br />
+$$\tau_T = \frac{T_u \cdot p_{oh}}{1.7 A_{oh}^2} = \frac{300{,}000 \times 142.92}{1.7 \times (1051.6)^2}$$</p>
+<p>$$= \frac{42{,}876{,}000}{1.7 \times 1{,}105{,}863} = \frac{42{,}876{,}000}{1{,}879{,}967} = \boxed{22.81 \text{ kgf/cm}^2}$$</p>
+<p><strong>右側上限：</strong><br />
+$$\frac{V_c}{b_w d} = 0.53\sqrt{f'_c} = 0.53 \times \sqrt{280} = 0.53 \times 16.73 = 8.87 \text{ kgf/cm}^2$$</p>
+<p>$$\frac{2\sqrt{f'_c}}{3} = \frac{2 \times 16.73}{3} = 11.16 \text{ kgf/cm}^2$$</p>
+<p>$$\phi\left(\frac{V_c}{b_w d} + \frac{2\sqrt{f'_c}}{3}\right) = 0.75 \times (8.87 + 11.16) = 0.75 \times 20.03 = \boxed{15.02 \text{ kgf/cm}^2}$$</p>
+<p><strong>比較：</strong><br />
+$$\tau_T = 22.81 \text{ kgf/cm}^2 \quad &gt; \quad 15.02 \text{ kgf/cm}^2$$</p>
+<p>$$\boxed{\text{斷面不合適，混凝土斜壓應力超限，需加大斷面尺寸}}$$</p>
+<hr />
+<h3>(b) 扭力鋼筋配置是否合適？</h3>
+<h4>b-1：閉合箍筋強度驗算</h4>
+<p>標稱扭矩（空間桁架模型）：<br />
+$$T_n = 2 A_o \cdot \frac{A_t}{s} \cdot f_{yt} = 2 \times 893.9 \times \frac{1.27}{15} \times 2800$$</p>
+<p>$$= 2 \times 893.9 \times 0.08467 \times 2800 = 1787.8 \times 237.1 = 423{,}887 \text{ kgf·cm}$$</p>
+<p>$$\phi T_n = 0.75 \times 423{,}887 = 317{,}915 \text{ kgf·cm} = \boxed{3.179 \text{ tf·m}}$$</p>
+<p>$$\phi T_n = 3.179 \text{ tf·m} \quad &gt; \quad T_u = 3.0 \text{ tf·m} \quad \checkmark$$</p>
+<p>→ <strong>箍筋強度合適</strong></p>
+<h4>b-2：最大間距驗算</h4>
+<p>$$s_{max} = \min\!\left(\frac{p_{oh}}{8},\ 30 \text{ cm}\right) = \min\!\left(\frac{142.92}{8},\ 30\right) = \min(17.87,\ 30) = 17.87 \text{ cm}$$</p>
+<p>$$s = 15 \text{ cm} \leq s_{max} = 17.87 \text{ cm} \quad \checkmark$$</p>
+<p>→ <strong>箍筋間距合適</strong></p>
+<h4>b-3：縱向扭力鋼筋需求</h4>
+<p>需求 $A_t/s$（依 $T_u$）：<br />
+$$\left(\frac{A_t}{s}\right)_{req} = \frac{T_u}{\phi \cdot 2 A_o \cdot f_{yt}} = \frac{300{,}000}{0.75 \times 2 \times 893.9 \times 2800} = \frac{300{,}000}{3{,}754{,}380} = 0.07991 \text{ cm}^2/\text{cm}$$</p>
+<p>需求縱向鋼筋總面積（$f_y = f_{yt}$ 時 $f_{yt}/f_y = 1$）：<br />
+$$A_l = \left(\frac{A_t}{s}\right)_{req} \times p_{oh} \times \frac{f_{yt}}{f_y} = 0.07991 \times 142.92 \times 1.0 = \boxed{11.42 \text{ cm}^2}$$</p>
+<p>使用 #4 縱向鋼筋（$A_b = 1.27$ cm²），需要根數：<br />
+$$n = \frac{A_l}{A_b} = \frac{11.42}{1.27} = 8.99 \rightarrow \text{最少需 } \boxed{9 \text{ 根 \#4 縱向鋼筋}}$$</p>
+<p>縱筋間距驗算（沿 $p_{oh}$ 均勻分布）：<br />
+$$s_l = \frac{p_{oh}}{n} = \frac{142.92}{9} = 15.88 \text{ cm} \leq 30 \text{ cm} \quad \checkmark$$</p>
+<p><strong>縱向鋼筋小結：</strong></p>
+<ul>
+<li>需 $A_l = 11.42$ cm²，以 #4 計最少 <strong>9 根</strong></li>
+<li>均勻分布於箍筋周圍，間距 ≈ 15.9 cm ≤ 30 cm ✓</li>
+<li>四角落必須各配一根，長側（$y_{oh}=50.73$ cm）需至少 3 根（包含角落），短側（$x_{oh}=20.73$ cm）需至少 2 根（包含角落），共最少配置 <strong>10 根</strong>（4角+2根×長側2面+1根×短側2面=10根）即可滿足間距 ≤ 30 cm 並提供足夠 $A_l$</li>
+</ul>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>爭議：(a) 斷面不合適，(b) 鋼筋卻合適？</h3>
+<p>這兩個檢核是<strong>獨立的</strong>：</p>
+<ul>
+<li><strong>(a) 斷面壓碎上限</strong>：確保混凝土斜向壓力不超限（一旦超限，加多少鋼筋都沒用）</li>
+<li><strong>(b) 鋼筋強度</strong>：確保扭力靠鋼筋的剪力流抵抗</li>
+</ul>
+<p>因此即使斷面不足，計算顯示所提供的 #4@15 箍筋在數學上仍能提供 3.18 tf·m &gt; 3.0 tf·m。實際設計時，應優先<strong>加大斷面</strong>（使 (a) 通過），然後重新驗算鋼筋。</p>
+<h3>如何加大斷面？</h3>
+<p>若將 $h$ 加大至 70 cm（其他不變）：</p>
+<ul>
+<li>$y_{oh} = 70 - 9.27 = 60.73$ cm</li>
+<li>$A_{oh} = 20.73 \times 60.73 = 1258.9$ cm²</li>
+<li>$p_{oh} = 2(20.73+60.73) = 162.92$ cm</li>
+<li>$\tau_T = 300{,}000 \times 162.92/(1.7 \times 1258.9^2) = 48{,}876{,}000/2{,}698{,}570 = 18.11$ kgf/cm²</li>
+</ul>
+<p>仍超過 15.02 kgf/cm²。需要更大的斷面或提高 $f'_c$。</p>
+<h3>$(A_t/s)_{req}$ 用需求值還是提供值計算 $A_l$？</h3>
+<p>ACI 規定：計算<strong>需求</strong> $A_l$ 時，用<strong>需求的</strong> $A_t/s$（不能用提供值放大 $A_l$，那樣反而增加鋼筋用量，不合理）。</p></main>
+<footer>來源：raw/solutions/RC-2008-3/RC-2008-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2020-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2020-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U4-1.html">&#128202; U4-1 單元總覽</a><a class="lect" href="../lecture-RC-U4-1.html">&#128218; U4-1 預力梁斷面應力分析 講義</a></div></header>
+<main><h1>考題編號：RC-2020-4</h1>
+<p><strong>主分類：</strong> <code>RC-U4-2</code> 預力量與偏心量設計<br />
+<strong>副分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
+<strong>設計法：</strong> WSD 工作應力法<br />
+<strong>標籤：</strong> <code>預力連續梁</code> <code>一致腱</code> <code>二次彎矩</code> <code>等效載重法</code> <code>均勻軸壓條件</code> <code>偏心量設計</code> <code>C線</code></p>
+<hr />
+<h2>1. 原始題目重述（Problem Restatement）</h2>
+<p>一預力連續梁 A-B-C（兩跨等跨），受均佈靜載重（含自重）$w = 1.6 \text{ tf/m}$，預力鋼腱採拋物線型配置，鋼腱於支承 B 處之偏心為 35 cm。</p>
+<p><strong>已知條件：</strong></p>
+<ul>
+<li>跨度：$L_{AB} = L_{BC} = 1500 \text{ cm} = 15 \text{ m}$</li>
+<li>$D$ = 跨 AB 之中點（距 A 750 cm），$E$ = 跨 BC 之中點（距 B 750 cm）</li>
+<li>斷面：矩形 $50 \times 90 \text{ cm}$</li>
+<li>鋼腱在 B 支承偏心 $e_B = 35 \text{ cm}$（由圖知在<strong>形心以上</strong>）</li>
+<li>有效預力 $P_e$ 與初始預力 $P_i$ 之比：$P_e/P_i = 0.8$</li>
+</ul>
+<p><strong>兩小題：</strong></p>
+<ol>
+<li>求 D、E 點偏心值（$e_D$、$e_E$）及 $P_e$，使（i）無二次彎矩、（ii）在 $P_e$ 與載重下斷面受均勻軸壓應力。（15 分）</li>
+<li>求在初始預力 $P_i$ 及載重作用下，斷面 B 上緣與下緣應力。（10 分）</li>
+</ol>
+<p><img alt="RC-2020-4 題目附圖：預力連續梁立面圖（A-D-B-E-C，跨度1500+1500cm，B點鋼腱偏心35cm，均佈載重w=1.6tf/m）及矩形斷面（50×90cm）" src="../../raw/solutions/RC-2020-4/RC-2020-4-fig-1.png" /></p>
+<p><em>圖說：兩跨連續梁ABC，各跨L=1500 cm，D、E為各跨中點；鋼腱拋物線配置，於B支承上偏心35 cm，D、E處偏心eD、eE待求；矩形斷面50×90 cm；w=1.6 tf/m均佈靜載重（含自重）。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖（Core Concepts &amp; Examiner's Intent）</h2>
+<p><strong>核心觀念：</strong> 一致腱（concordant tendon）的設計原理：當鋼腱形狀使得預力等效荷載恰好與外部載重在各斷面產生等值反向彎矩，則：</p>
+<ol>
+<li>無二次彎矩（超靜定反應不改變預力效果）</li>
+<li>斷面僅受均勻軸壓，無彎曲應力</li>
+</ol>
+<p><strong>出題者意圖：</strong></p>
+<ul>
+<li>測驗「均勻軸壓 ↔ 每斷面 $M_{total} = 0$」的觀念</li>
+<li>由 $P_e \cdot e(x) = M_{applied}(x)$ 同時解出 $P_e$ 和偏心分布</li>
+<li>利用超靜定梁彎矩公式（支點彎矩 $M_B = -wL^2/8$，跨中彎矩 $M_D = wL^2/16$）</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析（Strategic Roadmap &amp; Trap Analysis）</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>建立均勻軸壓條件：$P_e \cdot e(x) = M_{applied}(x)$（在每個關鍵斷面）</li>
+<li>利用已知 $e_B = 35 \text{ cm}$ 和 $M_B = -wL^2/8$ → 求 $P_e$</li>
+<li>代入 $M_D = wL^2/16$ → 求 $e_D = e_E$</li>
+<li>小題(二)：$P_i = P_e/0.8$，計算等效彎矩 $M_{total}(B)$，求斷面 B 應力</li>
+</ol>
+<p><strong>三大陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>對策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>兩跨梁彎矩公式</td>
+<td>$M_D = wL^2/16$（非 $wL^2/8$），$M_B = -wL^2/8$</td>
+<td>用三彎矩定理或直接記憶等跨結果</td>
+</tr>
+<tr>
+<td>小題(二) 等效力矩方向</td>
+<td>$P_i &gt; P_e$，等效上載 $&gt; w$，B點淨力矩 = 殘差</td>
+<td>$M_{total}(B) = wL^2/8 \times (P_i/P_e - 1)$</td>
+</tr>
+<tr>
+<td>斷面 B 上下緣判斷</td>
+<td>B點淨矩為正（下撓），上緣壓力更大</td>
+<td>用 $\pm M_{total}/Z$ 分別計算上下緣</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>(一) 由均勻軸壓條件求 eD、eE、Pe；(二) 由 Pi + w 求斷面 B 上下緣應力</code></p>
+<h3>本題關鍵公式</h3>
+<p>$$\text{Step 1: 均勻軸壓條件：} P_e \cdot e(x) = M_{applied}(x) \text{（每斷面）}$$</p>
+<p>$$\text{Step 2: 由 B 點：} P_e \cdot e_B = |M_B| = \frac{wL^2}{8} \implies P_e = \frac{wL^2}{8 e_B}$$</p>
+<p>$$\text{Step 3: 由 D 點：} e_D = \frac{M_D}{P_e} = \frac{wL^2/16}{P_e} = \frac{e_B}{2}$$</p>
+<p>$$\text{Step 4: (二) } M_{total}(B) = M_{applied}(B) + M_{Pi,primary}(B) = -\frac{wL^2}{8} + \frac{P_i}{P_e} \cdot \frac{wL^2}{8} = \frac{wL^2}{8}\!\left(\frac{P_i}{P_e} - 1\right)$$</p>
+<p>$$\text{Step 5: } \sigma_{top} = -\frac{P_i}{A} - \frac{\boxed{M_{total}}}{Z};\quad \sigma_{bot} = -\frac{P_i}{A} + \frac{\boxed{M_{total}}}{Z}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$w$</td>
+<td>1.6 tf/m</td>
+<td>均佈靜載重</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>15 m = 1500 cm</td>
+<td>各跨跨度</td>
+</tr>
+<tr>
+<td>$e_B$</td>
+<td>35 cm（形心以上）</td>
+<td>支承B鋼腱偏心</td>
+</tr>
+<tr>
+<td>$b \times h$</td>
+<td>50 × 90 cm</td>
+<td>矩形斷面</td>
+</tr>
+<tr>
+<td>$P_e/P_i$</td>
+<td>0.8</td>
+<td>損失比</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：斷面幾何</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A$</td>
+<td>$50 \times 90 = 4500 \text{ cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I$</td>
+<td>$50 \times 90^3/12 = 3{,}037{,}500 \text{ cm}^4$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$Z_t = Z_b$</td>
+<td>$I/45 = 67{,}500 \text{ cm}^3$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：兩跨連續梁應用彎矩（均佈載重 w，等跨 L）</strong></p>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>彎矩</th>
+<th>公式</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中點 D, E</td>
+<td>正（撓）</td>
+<td>$M_D = M_E = +wL^2/16$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>中間支點 B</td>
+<td>負（拱）</td>
+<td>$M_B = -wL^2/8$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：求 Pe 與偏心量（一）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>數值</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_B$</td>
+<td>$-wL^2/8$</td>
+<td>$-1.6 \times 225/8 = -45 \text{ tf·m}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_e$</td>
+<td>$|M_B|/e_B = 45/0.35$</td>
+<td>$128.6 \text{ tf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_D$</td>
+<td>$+wL^2/16$</td>
+<td>$+22.5 \text{ tf·m}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$e_D = e_E$</td>
+<td>$M_D/P_e = 22.5/128.6$</td>
+<td>$17.5 \text{ cm}$（形心以下）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：斷面 B 應力計算（二）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>數值</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_i$</td>
+<td>$P_e/0.8$</td>
+<td>$160.7 \text{ tf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{Pi,primary}(B)$</td>
+<td>$+(P_i/P_e) \times |M_B|$</td>
+<td>$+56.25 \text{ tf·m}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{total}(B)$</td>
+<td>$-45 + 56.25$</td>
+<td>$+11.25 \text{ tf·m}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_i/A$</td>
+<td>$160{,}714/4500$</td>
+<td>$35.71 \text{ kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{total}/Z$</td>
+<td>$1{,}125{,}000/67{,}500$</td>
+<td>$16.67 \text{ kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一致腱的意義</td>
+<td>鋼腱形狀使 $M_{primary}(x) = -M_{applied}(x)$，故 $M_{secondary} = 0$ 且無彎矩殘差</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>小題(二) 為何 M_pi_primary 是正</td>
+<td>$P_i &gt; P_e$，等效上拱力 $&gt; w$，超額等效上拱力在 B 點創正（撓）彎矩</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>兩跨梁 $M_D = wL^2/16$ 推導</td>
+<td>由支反力 $R_A = 3wL/8$，$M_D = R_A \times L/2 - w(L/2)^2/2 = 3wL^2/16 - wL^2/8 = wL^2/16$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>偏心符號：B點在形心上方</td>
+<td>在B處鋼腱在形心上方 → 使斷面受正（撓）等效彎矩 → 抵消外載負（拱）彎矩</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程（Step-by-Step Detailed Calculation）</h2>
+<h3>斷面幾何</h3>
+<p>$$A = 50 \times 90 = 4{,}500 \text{ cm}^2,\quad I = \frac{50 \times 90^3}{12} = 3{,}037{,}500 \text{ cm}^4$$</p>
+<p>$$y_t = y_b = 45 \text{ cm},\quad Z = I/45 = 67{,}500 \text{ cm}^3$$</p>
+<hr />
+<h3>小題(一)：求 $e_D$、$e_E$、$P_e$</h3>
+<p><strong>Step 1：兩跨等跨連續梁（均佈載重 w）各關鍵斷面彎矩</strong></p>
+<p>支反力：$R_A = R_C = 3wL/8$，$R_B = 5wL/4$</p>
+<p>$$M_B = -\frac{wL^2}{8} = -\frac{1.6 \times 15^2}{8} = -\frac{360}{8} = -45 \text{ tf·m} = -4{,}500{,}000 \text{ kgf·cm}$$</p>
+<p>$$M_D = M_E = \frac{wL^2}{16} = \frac{1.6 \times 225}{16} = \frac{360}{16} = 22.5 \text{ tf·m} = 2{,}250{,}000 \text{ kgf·cm}$$</p>
+<p><strong>Step 2：均勻軸壓條件 → 一致腱</strong></p>
+<p>使斷面僅受軸壓（零彎矩）的條件：</p>
+<p>$$M_{net}(x) = M_{applied}(x) + M_{prestress}(x) = 0$$</p>
+<p>其中 $M_{prestress}(x) = P_e \cdot e(x)$（$e$ 在形心以下為正，以上為負）</p>
+<p>▸ 在支承 B（鋼腱在形心以上 35 cm，$e_B = -35$ cm）：</p>
+<p>$$M_{applied}(B) + P_e \cdot e_B = 0$$</p>
+<p>$$-45 + P_e \cdot (-0.35) = 0 \implies P_e = \frac{45}{0.35} = \frac{900}{7} \approx \boxed{128.6 \text{ tf}}$$</p>
+<p>▸ 在跨中 D（鋼腱在形心以下，$e_D &gt; 0$）：</p>
+<p>$$M_{applied}(D) + P_e \cdot (-e_D) = 0$$</p>
+<p>$$+22.5 - P_e \cdot e_D = 0 \implies e_D = \frac{22.5}{128.6} = \frac{22.5}{45/0.35} = 0.35 \times \frac{22.5}{45} = 0.35 \times 0.5 = \boxed{0.175 \text{ m} = 17.5 \text{ cm}}$$</p>
+<p>由對稱性：$e_E = e_D = 17.5 \text{ cm}$（形心以下）</p>
+<p><strong>結果彙整：</strong></p>
+<p>$$\boxed{e_D = e_E = 17.5 \text{ cm（形心以下）}}$$</p>
+<p>$$\boxed{P_e = 128.6 \text{ tf}}$$</p>
+<p><strong>Step 3：驗算（等效載重法）</strong></p>
+<p>拋物線腱在跨 AB 的撓度（chord sag）：<br />
+$$f = e_D - \frac{e_A + e_B}{2} = 17.5 - \frac{0 + (-35)}{2} = 17.5 + 17.5 = 35 \text{ cm}$$</p>
+<p>等效上拱均佈力：<br />
+$$q_{eq} = \frac{8 P_e f}{L^2} = \frac{8 \times 128.6 \times 0.35}{15^2} = \frac{360}{225} = 1.6 \text{ tf/m} = w \quad \checkmark$$</p>
+<p>等效上拱力恰好等於外載，證明設計正確。</p>
+<hr />
+<h3>小題(二)：斷面 B 在 $P_i$ + 載重下之應力</h3>
+<p><strong>Step 1：初始預力</strong></p>
+<p>$$P_i = \frac{P_e}{0.8} = \frac{128.6}{0.8} = \frac{1125}{7} \approx \mathbf{160.7 \text{ tf}} = 160{,}714 \text{ kgf}$$</p>
+<p><strong>Step 2：斷面 B 的總彎矩</strong></p>
+<p>由於腱形為一致腱（concordant），對任意預力值均無二次彎矩（$M_{secondary} = 0$）。</p>
+<p>$P_i$ 的等效上拱載重：$q_i = (P_i/P_e) \times w = 1.25 \times 1.6 = 2.0 \text{ tf/m}$</p>
+<p>$P_i$ 在 B 點產生的等效撓矩（upward load → 正值）：<br />
+$$M_{Pi,B} = +\frac{q_i L^2}{8} = +\frac{2.0 \times 225}{8} = +56.25 \text{ tf·m}$$</p>
+<p>外載在 B 點彎矩（downward, negative）：<br />
+$$M_{w,B} = -\frac{wL^2}{8} = -45 \text{ tf·m}$$</p>
+<p>淨彎矩：<br />
+$$M_{total}(B) = M_{w,B} + M_{Pi,B} = -45 + 56.25 = +11.25 \text{ tf·m} = +1{,}125{,}000 \text{ kgf·cm}$$</p>
+<p>（正值 = 撓曲，下緣受拉趨勢）</p>
+<p><strong>Step 3：斷面 B 應力</strong>（拉力正值）</p>
+<p>直接軸壓應力：<br />
+$$\sigma_{axial} = -\frac{P_i}{A} = -\frac{160{,}714}{4{,}500} = -35.71 \text{ kgf/cm}^2$$</p>
+<p>彎曲應力（$M_{total} &gt; 0$ = 撓曲，上緣壓、下緣拉）：<br />
+$$\frac{M_{total}}{Z} = \frac{1{,}125{,}000}{67{,}500} = 16.67 \text{ kgf/cm}^2$$</p>
+<p><strong>上緣應力（壓力更大）：</strong><br />
+$$\sigma_{top} = -35.71 - 16.67 = \boxed{-52.4 \text{ kgf/cm}^2 \text{（壓應力）}}$$</p>
+<p><strong>下緣應力（壓力較小）：</strong><br />
+$$\sigma_{bot} = -35.71 + 16.67 = \boxed{-19.0 \text{ kgf/cm}^2 \text{（壓應力）}}$$</p>
+<p>兩者均為壓應力（合理，初始預力未損失且腱為一致腱）。</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討（Critical Issues &amp; Advanced Discussion）</h2>
+<p><strong>1. 一致腱（Concordant Tendon）的幾何意義</strong><br />
+一致腱的形狀與外部載重的彎矩圖成比例。本題連續梁外力彎矩圖：支點B為負（拱），跨中D/E為正（撓），比值 = $M_B : M_D = -2 : 1$。腱的偏心比值 = $-35 : 17.5 = -2 : 1$，完全一致，確認為一致腱。</p>
+<p><strong>2. 小題(二) 應力 vs 均勻軸壓狀態的差異</strong><br />
+小題(一)在 $P_e$ 下斷面受均勻軸壓（$\sigma_{top} = \sigma_{bot} = -P_e/A = -128600/4500 = -28.6 \text{ kgf/cm}^2$）。小題(二)在 $P_i = 1.25 P_e$ 下，等效上拱力 $&gt; w$，B點出現殘餘正（撓）彎矩 $+11.25 \text{ tf·m}$，因此：</p>
+<ul>
+<li>上緣：$-52.4$ kgf/cm²（更大壓力）</li>
+<li>下緣：$-19.0$ kgf/cm²（較小壓力）</li>
+</ul>
+<p>這在設計階段（初始預力）是合理的暫態應力狀態，需確認不超過容許值。</p>
+<p><strong>3. 等跨連續梁彎矩公式的記憶</strong></p>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>兩跨等跨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>跨中 D, E</td>
+<td>$+wL^2/16$</td>
+</tr>
+<tr>
+<td>支點 B</td>
+<td>$-wL^2/8$</td>
+</tr>
+<tr>
+<td>端支點 A, C</td>
+<td>$0$（簡支）</td>
+</tr>
+</tbody>
+</table>
+<p>$M_D/|M_B| = 1/2$，因此 $e_D = e_B/2 = 35/2 = 17.5$ cm 可直接推算（無需先求 $P_e$）。</p>
+<p><strong>4. 若腱非一致腱的後果</strong><br />
+非一致腱在超靜定結構中會產生二次彎矩，改變支反力，並使C線偏離預設位置。本題特別要求「無二次彎矩」，即要求腱為一致腱，設計中 $e_B : e_D = -2 : 1$ 是關鍵。</p></main>
+<footer>來源：raw/solutions/RC-2020-4/RC-2020-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2019-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2019-2 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-2.html">&#128202; U1-2 單元總覽</a><a class="lect" href="../lecture-RC-U1-2.html">&#128218; U1-2 RC 柱強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2019-2</h1>
+<p><strong>主分類：</strong> <code>RC-U1-2</code> RC 柱強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>矩形柱</code> <code>P-M互制</code> <code>壓力控制斷面</code> <code>拉力鋼筋未降伏</code> <code>二次方程求中性軸</code> <code>每側5-#8</code> <code>偏心受壓</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>如附圖所示，一矩形鋼筋混凝土柱斷面，柱內縱向鋼筋為<strong>每側 5-#8</strong>（共 10 根）。在設計軸力 $P_u = 291\ \text{tf}$ 作用下，試求該柱斷面所能承受之<strong>最大設計彎矩 $M_{u,\max}$</strong>。</p>
+<p><strong>斷面幾何（依附圖）：</strong></p>
+<p><img alt="RC-2019-2 題目附圖：矩形柱斷面，彎曲方向全深 h=70 cm（保護層各 7 cm，鋼筋淨距 56 cm），垂直彎曲方向寬 b=50 cm，左右各配置 5-#8 縱向鋼筋；下方示意柱受 Pu 軸力及 Mu,max 彎矩作用" src="../../raw/solutions/RC-2019-2/RC-2019-2-fig-1.png" /></p>
+<p><em>圖說：矩形柱斷面，彎曲方向全深 h = 70 cm（由「7 + 56 + 7」讀取），垂直彎曲方向寬 b = 50 cm；壓力側保護層（至鋼筋形心）d′ = 7 cm，拉力側有效深度 d = 63 cm；左側（壓力側）5-#8，右側（拉力側）5-#8，$A_b^{\#8} = 5.07\ \text{cm}^2$。</em></p>
+<p><strong>材料強度：</strong></p>
+<ul>
+<li>$f'_c = 280\ \text{kgf/cm}^2$</li>
+<li>$f_y = 4{,}200\ \text{kgf/cm}^2$</li>
+<li>$A_b^{\#8} = 5.07\ \text{cm}^2$</li>
+</ul>
+<p><strong>提示（來自原題）：</strong></p>
+<ol>
+<li>本命題之斷面屬於「壓力控制斷面」→ $\phi = 0.65$（矩形箍筋柱）</li>
+<li>一根 #8 筋斷面積 $A_b^{\#8} = 5.07\ \text{cm}^2$</li>
+</ol>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 給定軸力 $P_u$，在 P-M 互制曲線上找出對應的最大設計彎矩。本題測驗：</p>
+<ol>
+<li>能否正確判斷 $\phi = 0.65$（壓力控制，已由題目提示）</li>
+<li>能否建立「拉力鋼筋<strong>未降伏</strong>」的軸力平衡方程，化為二次方程求中性軸深度 $c$</li>
+<li>能否正確計算混凝土壓力合力與鋼筋力對<strong>塑性形心</strong>的力臂，求出 $M_n$</li>
+</ol>
+<p><strong>出題者意圖：</strong></p>
+<ul>
+<li>壓力控制斷面的 $\phi M_n$ 低於拉力控制，但對應的 $\phi P_n$ 較高；題目選取 $P_u = 291\ \text{tf}$ 使斷面恰好落在壓力控制區（$c &gt; c_b$），考察考生是否理解這個條件。</li>
+<li>壓力控制時拉力鋼筋通常「尚未降伏」，若誤用 $f_s = f_y$（拉力鋼筋已降伏）則方程直接求解，答案偏高且錯誤。</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫（五步驟）：</strong></p>
+<ol>
+<li>確認 $\beta_1$、確定 $A_s = A_s' = 5 \times 5.07\ \text{cm}^2$</li>
+<li>以 $P_u/\phi$ 求名義軸力 $P_n$</li>
+<li>判斷各鋼筋應變狀態（壓力筋已降伏？拉力筋未降伏？）</li>
+<li>建立軸力平衡方程化為二次方程，求中性軸深度 $c$</li>
+<li>對塑性形心取力矩，求 $M_n$，再乘以 $\phi$ 得 $M_{u,\max}$</li>
+</ol>
+<p><strong>關鍵陷阱與應對：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>拉力鋼筋假設已降伏</strong>（誤用 $f_s = f_y$）</td>
+<td>壓力控制時 $c &gt; c_b$，拉力鋼筋應變 $\varepsilon_t &lt; \varepsilon_y$，應用 $f_s = E_s \varepsilon_t$</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>壓力鋼筋力計算忘減混凝土</strong>（Cs′ 重複計算混凝土）</td>
+<td>壓力鋼筋在應力塊範圍內：$C_s' = A_s'(f_s' - 0.85f'_c)$</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>力矩基準點選錯</strong>（取壓力合力作用點，而非塑性形心）</td>
+<td>對塑性形心（$h/2 = 35\ \text{cm}$ 處）取矩；對稱斷面等鋼筋，塑性形心 = 幾何形心</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>$\beta_1 = 0.85$ 的邊界</strong></td>
+<td>$f'_c = 280\ \text{kgf/cm}^2$ 恰為分界點，仍取 $\beta_1 = 0.85$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p>在已知 $P_u = 291\ \text{tf}$（壓力控制）下，求柱斷面所能承受之最大設計彎矩 $M_{u,\max} = \phi M_n$。</p>
+<hr />
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$
+\text{Step 1: } P_n = \frac{P_u}{\phi} = \frac{291}{0.65}
+$$</p>
+<p>$$
+\text{Step 2: } C_c = 0.85 f'_c \cdot a \cdot b = 0.85 f'_c \cdot \beta_1 c \cdot b
+$$</p>
+<p>$$
+\text{Step 3: } \varepsilon_s' = 0.003\,\frac{c-d'}{c} \geq \varepsilon_y \Rightarrow f_s' = f_y \quad ;\quad C_s' = A_s'(f_y - 0.85f'_c)
+$$</p>
+<p>$$
+\text{Step 4: } \varepsilon_t = 0.003\,\frac{d-c}{c} &lt; \varepsilon_y \Rightarrow f_s = \frac{6120(d-c)}{c} \quad ;\quad T = A_s \cdot f_s
+$$</p>
+<p>$$
+\text{Step 5: } P_n = \boxed{C_c} + \boxed{C_s'} - \boxed{T} \quad \Rightarrow \quad \text{二次方程求 }c
+$$</p>
+<p>$$
+\text{Step 6: } M_n = \boxed{C_c}\!\left(\frac{h}{2}-\frac{\boxed{a}}{2}\right) + \boxed{C_s'}\!\left(\frac{h}{2}-d'\right) + \boxed{T}\!\left(d-\frac{h}{2}\right)
+$$</p>
+<p>$$
+\text{Step 7: } M_{u,\max} = \phi \cdot \boxed{M_n}
+$$</p>
+<hr />
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>50 cm</td>
+<td>柱寬（垂直彎曲方向）</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>70 cm</td>
+<td>柱深（彎曲方向全深，7+56+7）</td>
+</tr>
+<tr>
+<td>$d'$</td>
+<td>7 cm</td>
+<td>壓力側保護層至鋼筋形心</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>63 cm</td>
+<td>拉力側有效深度（70 − 7）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td>混凝土抗壓強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4,200 kgf/cm²</td>
+<td>鋼筋降伏應力</td>
+</tr>
+<tr>
+<td>$A_s = A_s'$</td>
+<td>25.35 cm²（= 5 × 5.07）</td>
+<td>各側縱向鋼筋量</td>
+</tr>
+<tr>
+<td>$P_u$</td>
+<td>291 tf = 291,000 kgf</td>
+<td>設計軸力</td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td>0.65</td>
+<td>壓力控制（矩形箍筋柱，題目已告知）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L2：需知識點推導</h3>
+<p><strong>（A）材料常數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$f'_c = 280 \leq 280 \Rightarrow \beta_1 = 0.85$</td>
+<td></td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td>$2.04 \times 10^6\ \text{kgf/cm}^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\varepsilon_y$</td>
+<td>$= 4200/2{,}040{,}000 = 0.002059$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>（B）軸力分解</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_n$</td>
+<td>$= P_u/\phi = 291{,}000/0.65 = 447{,}692\ \text{kgf}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$C_c$</td>
+<td>$= 0.85 \times 280 \times 0.85c \times 50 = 10{,}115c$</td>
+<td></td>
+</tr>
+<tr>
+<td>$C_s'$</td>
+<td>$= 25.35(4200 - 0.85 \times 280) = 100{,}437\ \text{kgf}$（壓力筋已降伏）</td>
+<td></td>
+</tr>
+<tr>
+<td>$T$</td>
+<td>$= 25.35 \times 6120(63-c)/c = 155{,}142(63-c)/c$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>（C）二次方程與解</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方程</td>
+<td>$c^2 - 18.99c - 966.3 = 0$</td>
+<td></td>
+</tr>
+<tr>
+<td>$c$</td>
+<td>$= 42.00\ \text{cm}$（取正根）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>（D）彎矩計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_n$</td>
+<td>各力 × 力臂（對塑性形心 $h/2 = 35\ \text{cm}$）</td>
+<td></td>
+</tr>
+<tr>
+<td>$M_{u,\max}$</td>
+<td>$= \phi M_n = 0.65 M_n$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>壓力控制定義</strong></td>
+<td>$\varepsilon_t \leq \varepsilon_y$（拉力側鋼筋未達降伏），對應 $c &gt; c_b$；$\phi = 0.65$（矩形箍筋）</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>平衡點 $c_b$ 的計算</strong></td>
+<td>$c_b = 6120d/(6120+f_y) = 6120 \times 63/(6120+4200) = 37.36\ \text{cm}$；$c &gt; c_b$ 確認壓力控制</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>壓力鋼筋力需減去混凝土</strong></td>
+<td>壓力鋼筋被混凝土包圍，在 Whitney 應力塊範圍內，混凝土早已計算過一次，故 $C_s' = A_s'(f_s' - 0.85f'_c)$</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>塑性形心 = 幾何形心（本題）</strong></td>
+<td>左右各等量等位置的鋼筋，對稱→塑性形心在 $h/2$；若不對稱需另行計算塑性形心</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>為何拉力筋未降伏</strong></td>
+<td>壓力控制下中性軸深，拉力側拉應變小；$\varepsilon_t = 0.003(d-c)/c &lt; \varepsilon_y$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>4.1 斷面確認與材料參數</h3>
+<p>$$h = 70\ \text{cm},\quad b = 50\ \text{cm},\quad d' = 7\ \text{cm},\quad d = 63\ \text{cm}$$</p>
+<p>$$f'_c = 280\ \text{kgf/cm}^2\ (\leq 280) \Rightarrow \beta_1 = 0.85$$</p>
+<p>$$A_s = A_s' = 5 \times 5.07 = 25.35\ \text{cm}^2,\quad \varepsilon_y = \frac{4200}{2{,}040{,}000} = 0.002059$$</p>
+<p>$$\phi = 0.65\ (\text{壓力控制，矩形箍筋柱，題目已告知})$$</p>
+<hr />
+<h3>4.2 求名義軸力 $P_n$</h3>
+<p>$$P_n = \frac{P_u}{\phi} = \frac{291{,}000}{0.65} = 447{,}692\ \text{kgf}$$</p>
+<hr />
+<h3>4.3 確認平衡點並驗證壓力控制</h3>
+<p>平衡中性軸深度：</p>
+<p>$$c_b = \frac{6120\,d}{6120 + f_y} = \frac{6120 \times 63}{6120 + 4200} = \frac{385{,}560}{10{,}320} = 37.36\ \text{cm}$$</p>
+<p>後續若解出 $c &gt; 37.36\ \text{cm}$，確認為壓力控制 ✓</p>
+<hr />
+<h3>4.4 建立各力</h3>
+<p><strong>① 混凝土壓力合力</strong></p>
+<p>$$C_c = 0.85 f'_c \cdot a \cdot b = 0.85 \times 280 \times (\beta_1 c) \times 50 = 0.85 \times 280 \times 0.85c \times 50 = 10{,}115\,c\ \text{(kgf)}$$</p>
+<p><strong>② 壓力鋼筋（假設已降伏，後驗算）</strong></p>
+<p>$d' = 7\ \text{cm} \ll c$，待求 c 必然 $&gt; d'$，故壓力筋應變遠大於 $\varepsilon_y$，已降伏 $\Rightarrow f_s' = f_y = 4200\ \text{kgf/cm}^2$</p>
+<p>壓力鋼筋在 Whitney 應力塊範圍內（$d' = 7 &lt; a = 0.85c$），需扣除已計算的混凝土壓力：</p>
+<p>$$C_s' = A_s'(f_y - 0.85 f'_c) = 25.35 \times (4200 - 0.85 \times 280) = 25.35 \times (4200 - 238) = 25.35 \times 3962 = 100{,}437\ \text{kgf}$$</p>
+<p><strong>③ 拉力鋼筋（假設未降伏，用 $\varepsilon_t$ 計算）</strong></p>
+<p>$$\varepsilon_t = 0.003 \cdot \frac{d - c}{c} = 0.003 \cdot \frac{63 - c}{c}$$</p>
+<p>$$f_s = E_s \varepsilon_t = 2{,}040{,}000 \times 0.003 \cdot \frac{63 - c}{c} = \frac{6120(63 - c)}{c}\ \text{kgf/cm}^2$$</p>
+<p>$$T = A_s \cdot f_s = 25.35 \times \frac{6120(63 - c)}{c} = \frac{155{,}142(63 - c)}{c}\ \text{kgf}$$</p>
+<hr />
+<h3>4.5 軸力平衡方程</h3>
+<p>$$P_n = C_c + C_s' - T$$</p>
+<p>$$447{,}692 = 10{,}115\,c + 100{,}437 - \frac{155{,}142(63 - c)}{c}$$</p>
+<p>兩側乘以 $c$：</p>
+<p>$$447{,}692\,c = 10{,}115\,c^2 + 100{,}437\,c - 155{,}142 \times 63 + 155{,}142\,c$$</p>
+<p>$$447{,}692\,c = 10{,}115\,c^2 + 255{,}579\,c - 9{,}773{,}946$$</p>
+<p>整理：</p>
+<p>$$10{,}115\,c^2 - 192{,}113\,c - 9{,}773{,}946 = 0$$</p>
+<p>除以 10,115：</p>
+<p>$$\boxed{c^2 - 18.99\,c - 966.3 = 0}$$</p>
+<p>求解：</p>
+<p>$$c = \frac{18.99 + \sqrt{18.99^2 + 4 \times 966.3}}{2} = \frac{18.99 + \sqrt{360.6 + 3865.2}}{2} = \frac{18.99 + \sqrt{4225.8}}{2} = \frac{18.99 + 65.01}{2} = \boxed{42.00\ \text{cm}}$$</p>
+<p>（捨去另一根 $c = -22.01\ \text{cm}$，無物理意義）</p>
+<hr />
+<h3>4.6 驗算各假設</h3>
+<p>$$a = \beta_1 c = 0.85 \times 42.00 = 35.70\ \text{cm}$$</p>
+<p><strong>拉力鋼筋應變驗算：</strong></p>
+<p>$$\varepsilon_t = 0.003 \times \frac{63 - 42}{42} = 0.003 \times 0.500 = 0.00150 &lt; \varepsilon_y = 0.002059 \quad \checkmark\ \text{（未降伏，假設正確）}$$</p>
+<p>$$f_s = 6120 \times \frac{63 - 42}{42} = 6120 \times 0.500 = 3{,}060\ \text{kgf/cm}^2 &lt; f_y \quad \checkmark$$</p>
+<p><strong>壓力鋼筋應變驗算：</strong></p>
+<p>$$\varepsilon_s' = 0.003 \times \frac{42 - 7}{42} = 0.003 \times \frac{35}{42} = 0.00250 &gt; \varepsilon_y = 0.002059 \quad \checkmark\ \text{（已降伏，假設正確）}$$</p>
+<p><strong>壓力控制確認：</strong></p>
+<p>$$c = 42.00\ \text{cm} &gt; c_b = 37.36\ \text{cm},\quad \varepsilon_t = 0.0015 &lt; \varepsilon_y \quad \checkmark$$</p>
+<p><strong>軸力驗算：</strong></p>
+<p>$$C_c = 10{,}115 \times 42.00 = 424{,}830\ \text{kgf}$$<br />
+$$T = 25.35 \times 3{,}060 = 77{,}571\ \text{kgf}$$<br />
+$$P_n = 424{,}830 + 100{,}437 - 77{,}571 = 447{,}696\ \text{kgf}$$<br />
+$$\phi P_n = 0.65 \times 447{,}696 = 291{,}003\ \text{kgf} \approx 291\ \text{tf} \quad \checkmark$$</p>
+<hr />
+<h3>4.7 計算 $M_n$（對塑性形心取矩）</h3>
+<p>對稱斷面（等量等位置鋼筋），<strong>塑性形心</strong> = 幾何中心 = 距壓力面 $h/2 = 35\ \text{cm}$</p>
+<p>各力對塑性形心之力臂：</p>
+<table>
+<thead>
+<tr>
+<th>力</th>
+<th>大小 (kgf)</th>
+<th>力臂 (cm)</th>
+<th>力矩 (kgf·cm)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_c$（→壓力形心 $a/2 = 17.85\ \text{cm}$ 處）</td>
+<td>424,830</td>
+<td>$35 - 17.85 = 17.15$</td>
+<td>$7{,}285{,}835$</td>
+</tr>
+<tr>
+<td>$C_s'$（→壓力鋼筋，$d' = 7\ \text{cm}$ 處）</td>
+<td>100,437</td>
+<td>$35 - 7 = 28.00$</td>
+<td>$2{,}812{,}236$</td>
+</tr>
+<tr>
+<td>$T$（→拉力鋼筋，$d = 63\ \text{cm}$ 處）</td>
+<td>77,571</td>
+<td>$63 - 35 = 28.00$</td>
+<td>$2{,}171{,}988$</td>
+</tr>
+</tbody>
+</table>
+<p>$$M_n = 7{,}285{,}835 + 2{,}812{,}236 + 2{,}171{,}988 = 12{,}270{,}059\ \text{kgf·cm} = 122.70\ \text{tf·m}$$</p>
+<p>$$\boxed{M_{u,\max} = \phi M_n = 0.65 \times 122.70 = 79.76\ \text{tf·m}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>5.1 本題的「最大彎矩」概念</h3>
+<p>在 P-M 互制曲線上，對於特定軸力 $P_u = 291\ \text{tf}$，對應曲線上的<strong>唯一交點</strong>就是最大設計彎矩。由於 $P_u &gt; \phi P_{n,b}$（平衡點設計強度），此交點落在壓力控制區。</p>
+<p>平衡點軸力驗算（供參考）：</p>
+<p>$$\phi P_{n,b} = 0.65 \times (C_{c,b} + C_{s,b}' - T_b)$$<br />
+$$= 0.65 \times (377{,}944 + 100{,}437 - 106{,}470) = 0.65 \times 371{,}911 = 241.7\ \text{tf}$$</p>
+<p>$P_u = 291\ \text{tf} &gt; \phi P_{n,b} = 241.7\ \text{tf}$，確認在壓力控制區 ✓</p>
+<h3>5.2 $c = 42\ \text{cm}$ 的整數結果</h3>
+<p>注意到 $\varepsilon_t = 0.0015$ 且 $f_s = 3060\ \text{kgf/cm}^2 = 0.5 f_y$，這是題目精心設計的整數答案（$c/d = 42/63 = 2/3$），使計算過程特別簡潔。</p>
+<h3>5.3 最大軸壓力上限驗核</h3>
+<p>$$\phi P_{n,\max} = 0.80 \times 0.65 \times [0.85 f'_c(A_g - A_{st}) + f_y A_{st}]$$<br />
+$$= 0.52 \times [0.85 \times 280 \times (3500 - 50.7) + 4200 \times 50.7]$$<br />
+$$= 0.52 \times [238 \times 3449.3 + 212{,}940]$$<br />
+$$= 0.52 \times 1{,}033{,}935 = 537{,}646\ \text{kgf} = 537.6\ \text{tf}$$</p>
+<p>$P_u = 291\ \text{tf} &lt; \phi P_{n,\max} = 537.6\ \text{tf}$ ✓，軸力在許可範圍內。</p></main>
+<footer>來源：raw/solutions/RC-2019-2/RC-2019-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2007-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2007-2 題目解析</h1><div class="navbtns"></div></header>
+<main><h3>考題編號：RC-2007-2</h3>
+<p><strong>主分類：</strong> <code>RC-U3-1</code> 梁工作性要求（含撓度、裂縫）<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>雙筋梁</code> <code>即時撓度</code> <code>長期撓度</code> <code>有效慣性矩Ie</code> <code>開裂彎矩Mcr</code> <code>λ長期修正係數</code> <code>五小題撓度</code> <code>20%持續活載重</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>簡支梁（跨 8 m），計算下列五項撓度：</p>
+<ol>
+<li>靜載重下位移 $({\Delta_i})_D$</li>
+<li>持續載重（20%LL）下位移 $({\Delta_i})_{sus}$</li>
+<li>活載重瞬間位移 $({\Delta_i})_l$</li>
+<li>一年後總位移</li>
+<li>五年後總位移</li>
+</ol>
+<p><strong>已知條件：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>斷面</td>
+<td>$b \times h = 30 \times 60$ cm</td>
+</tr>
+<tr>
+<td>跨距 $L$</td>
+<td>8 m = 800 cm</td>
+</tr>
+<tr>
+<td>張力筋</td>
+<td>8-D25，$A_s = 40.56$ cm²，兩排各 4 根</td>
+</tr>
+<tr>
+<td>壓力筋</td>
+<td>3-D19，$A_s' = 8.55$ cm²，$d' = 6.5$ cm</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²，$E_s = 2.04 \times 10^6$ kgf/cm²</td>
+</tr>
+<tr>
+<td>靜載重</td>
+<td>自重 + 0.1 tf/m</td>
+</tr>
+<tr>
+<td>活載重</td>
+<td>2 tf/m，其中 <strong>20% 為持續</strong></td>
+</tr>
+<tr>
+<td>$\gamma_c$</td>
+<td>2.4 tf/m³</td>
+</tr>
+</tbody>
+</table>
+<p><strong>有效深度假設（兩排張力筋，保護層 4.5 cm + D10 箍筋）：</strong><br />
+$$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
+（各排中心分別在 6.77 cm 和 11.84 cm，重心約 9.31 cm from bottom）</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心：</strong> 分三個荷載水準分別計算 $I_e$，再用 ACI 長期公式疊加。</p>
+<p><strong>關鍵觀察：</strong> DL 彎矩 &lt; $M_{cr}$（斷面<strong>未開裂</strong>）→ $({\Delta_i})_D$ 使用 $I_g$；加上持續 LL 後才開裂。</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>工作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>計算各荷載水準之 $M_a$</td>
+</tr>
+<tr>
+<td>2</td>
+<td>計算 $M_{cr}$，判斷哪些水準開裂</td>
+</tr>
+<tr>
+<td>3</td>
+<td>對未開裂水準用 $I_g$；開裂水準計算 $I_{cr}$ → $I_e$</td>
+</tr>
+<tr>
+<td>4</td>
+<td>計算三項即時撓度 (a)(b)(c)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>計算 $\lambda$（1年/5年），用長期公式得 (d)(e)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>四大陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠ DL 不開裂</td>
+<td>$M_a^{DL} = 4.26 &lt; M_{cr} = 6.02$ tf·m → $I_e = I_g$，不用 $I_{cr}$</td>
+</tr>
+<tr>
+<td>⚠ $\rho'$ 的定義</td>
+<td>$\rho' = A_s'/(b \cdot d)$，用<strong>壓力鋼筋</strong>面積</td>
+</tr>
+<tr>
+<td>⚠ 長期公式只乘持續載重</td>
+<td>$\lambda$ 只作用於 DL + 持續 LL 的即時撓度，非全部 LL</td>
+</tr>
+<tr>
+<td>⚠ $n$ 值</td>
+<td>$n = E_s/E_c = 2{,}040{,}000/255{,}000 = 8$（$E_c$ 用 $E_s/n=255{,}000$）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>分別求 DL 撓度、持續 LL 撓度、全 LL 撓度，再疊加長期效應得 1 年與 5 年總撓度</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1: } M_{cr} = \frac{f_r \cdot I_g}{y_t}, \quad f_r = 2\sqrt{f'_c}$$</p>
+<p>$$\text{Step 2 (Icr): } \frac{b(\boxed{kd})^2}{2} + (n-1)A_s'(\boxed{kd}-d') = nA_s(d-\boxed{kd})$$</p>
+<p>$$\text{Step 3: } I_e = \left(\frac{M_{cr}}{M_a}\right)^3\!I_g + \left[1-\left(\frac{M_{cr}}{M_a}\right)^3\right]\!\boxed{I_{cr}}$$</p>
+<p>$$\text{Step 4: } (\Delta_i) = \frac{5wL^4}{384 E_c \boxed{I_e}}$$</p>
+<p>$$\text{Step 5: } \lambda = \frac{\xi}{1+50\rho'}, \quad \Delta_{total} = \left[(\Delta_i)_D + (\Delta_i)_{sus}\right](1+\lambda) + \left[(\Delta_i)_l - (\Delta_i)_{sus}\right]$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b, h$</td>
+<td>30, 60 cm</td>
+<td>斷面</td>
+</tr>
+<tr>
+<td>$d'$</td>
+<td>6.5 cm</td>
+<td>壓力筋深度</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>800 cm</td>
+<td>跨距</td>
+</tr>
+<tr>
+<td>$A_s$</td>
+<td>40.56 cm²</td>
+<td>8-D25</td>
+</tr>
+<tr>
+<td>$A_s'$</td>
+<td>8.55 cm²</td>
+<td>3-D19</td>
+</tr>
+<tr>
+<td>$w_{LL}$</td>
+<td>2 tf/m（20% 持續）</td>
+<td>活載重</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：荷載、幾何</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$d$</td>
+<td>兩排重心 ≈ 51 cm（見說明）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w_{SW}$</td>
+<td>$2.4\times0.30\times0.60=0.432$ tf/m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w_{DL}$</td>
+<td>$0.432+0.1=0.532$ tf/m = 5.32 kgf/cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w_{sus}$</td>
+<td>$0.20\times2=0.4$ tf/m = 4.0 kgf/cm（持續 LL）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w_{LL}$</td>
+<td>2.0 tf/m = 20.0 kgf/cm（全部 LL）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{DL}$</td>
+<td>$5.32\times800^2/8=425{,}600$ kgf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{sus}$</td>
+<td>$4.0\times80{,}000=320{,}000$ kgf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{LL}$</td>
+<td>$20.0\times80{,}000=1{,}600{,}000$ kgf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：斷面性質</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$E_c$</td>
+<td>$E_s/n = 255{,}000$ kgf/cm²（$n=8$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_g$</td>
+<td>$30\times60^3/12=540{,}000$ cm⁴</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{cr}$</td>
+<td>$2\sqrt{280}\times540{,}000/30=602{,}460$ kgf·cm = 6.02 tf·m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$kd$</td>
+<td>二次方程求解 = 23.15 cm（見 Step 4 詳計）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_{cr}$</td>
+<td>三項合計 = 392,500 cm⁴</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：各荷載水準 $I_e$</strong></p>
+<table>
+<thead>
+<tr>
+<th>情況</th>
+<th>$M_a$</th>
+<th>$M_{cr}/M_a$</th>
+<th>$(M_{cr}/M_a)^3$</th>
+<th>$I_e$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DL 只</td>
+<td>425,600</td>
+<td><strong>1.415 &gt; 1</strong> → 未裂</td>
+<td>—</td>
+<td>$I_g = 540{,}000$</td>
+</tr>
+<tr>
+<td>DL+sus_LL</td>
+<td>745,600</td>
+<td>0.808</td>
+<td>0.528</td>
+<td>470,300</td>
+</tr>
+<tr>
+<td>DL+全LL</td>
+<td>2,025,600</td>
+<td>0.297</td>
+<td>0.026</td>
+<td>396,400</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：三項即時撓度</strong></p>
+<table>
+<thead>
+<tr>
+<th>撓度</th>
+<th>$w$（kgf/cm）</th>
+<th>$E_c I_e$（×10¹¹）</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$({\Delta_i})_D$</td>
+<td>5.32</td>
+<td>1.377</td>
+<td><strong>0.206 cm</strong></td>
+</tr>
+<tr>
+<td>$({\Delta_i})_{sus}$</td>
+<td>4.0</td>
+<td>1.199</td>
+<td><strong>0.178 cm</strong></td>
+</tr>
+<tr>
+<td>$({\Delta_i})_l$</td>
+<td>20.0</td>
+<td>1.011</td>
+<td><strong>1.055 cm</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：長期係數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\rho'$</td>
+<td>$8.55/(30\times51)=0.00559$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\lambda_{1yr}$</td>
+<td>$1.4/(1+50\times0.00559)=1.094$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\lambda_{5yr}$</td>
+<td>$2.0/(1+50\times0.00559)=1.563$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>持續撓度</td>
+<td>$({\Delta_i})_D+({\Delta_i})_{sus}=0.384$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>非持續 LL</td>
+<td>$({\Delta_i})_l-({\Delta_i})_{sus}=0.877$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>未開裂時 $I_e=I_g$</td>
+<td>當 $M_a \leq M_{cr}$，式中 $I_e$ 公式退化為 $I_g$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\xi$ 對應時間</td>
+<td>1年→1.4，5年→2.0（3月=1.0，6月=1.2）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>長期公式只乘持續部分</td>
+<td>$\lambda$ 描述潛變+乾縮，只有恆載入才會持續發生潛變</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>兩排鋼筋的 $d$</td>
+<td>加權平均：$d = h - (\text{兩排重心距底})$，需手算</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：幾何與荷載</h3>
+<p>有效深度（8-D25 兩排各 4 根，保護層 4.5 cm，D10 箍筋，D25 直徑 = 2.54 cm）：</p>
+<p>$$y_1 = 4.5 + 1.0 + 1.27 = 6.77 \text{ cm（第一排中心，距底）}$$<br />
+$$y_2 = 6.77 + 2.54 + 2.54 = 11.85 \text{ cm（第二排中心，距底，取淨間距} = d_b)$$<br />
+$$\bar{y} = \frac{4 \times 6.77 + 4 \times 11.85}{8} = 9.31 \text{ cm} \Rightarrow \boxed{d = 60 - 9.31 = 50.69 \approx 51 \text{ cm}}$$</p>
+<p>$$w_{SW} = 2.4 \times 0.30 \times 0.60 = 0.432 \text{ tf/m} \Rightarrow w_{DL} = 0.432 + 0.1 = 0.532 \text{ tf/m} = 5.32 \text{ kgf/cm}$$<br />
+$$w_{sus} = 0.20 \times 2.0 = 0.40 \text{ tf/m} = 4.0 \text{ kgf/cm}$$<br />
+$$w_{LL} = 2.0 \text{ tf/m} = 20.0 \text{ kgf/cm}$$</p>
+<p><strong>跨中彎矩（$L=800$ cm）：</strong><br />
+$$M_{DL} = \frac{5.32 \times 800^2}{8} = 425{,}600 \text{ kgf·cm} = 4.256 \text{ tf·m}$$<br />
+$$M_{sus} = \frac{4.0 \times 800^2}{8} = 320{,}000 \text{ kgf·cm} = 3.2 \text{ tf·m}$$<br />
+$$M_{LL} = \frac{20.0 \times 800^2}{8} = 1{,}600{,}000 \text{ kgf·cm} = 16.0 \text{ tf·m}$$</p>
+<hr />
+<h3>Step 2：斷面性質</h3>
+<p>$$E_c = \frac{E_s}{n} = \frac{2{,}040{,}000}{8} = 255{,}000 \text{ kgf/cm}^2, \quad n = 8$$</p>
+<p>$$I_g = \frac{30 \times 60^3}{12} = 540{,}000 \text{ cm}^4$$</p>
+<p>$$f_r = 2\sqrt{280} = 33.47 \text{ kgf/cm}^2, \quad y_t = 30 \text{ cm}$$</p>
+<p>$$M_{cr} = \frac{f_r I_g}{y_t} = \frac{33.47 \times 540{,}000}{30} = \boxed{602{,}460 \text{ kgf·cm} = 6.025 \text{ tf·m}}$$</p>
+<p><strong>荷載水準與開裂判斷：</strong></p>
+<p>$$M_{DL} = 4.256 \text{ tf·m} &lt; M_{cr} = 6.025 \text{ tf·m} \Rightarrow \text{DL 水準未開裂，} I_e = I_g$$</p>
+<p>$$M_{DL} + M_{sus} = 7.456 \text{ tf·m} &gt; M_{cr} \Rightarrow \text{持續載重水準開裂}$$</p>
+<p>$$M_{DL} + M_{LL} = 20.256 \text{ tf·m} \gg M_{cr} \Rightarrow \text{全載重水準深裂}$$</p>
+<hr />
+<h3>Step 3：開裂轉換斷面 $I_{cr}$（$d=51$ cm，$d'=6.5$ cm）</h3>
+<p>中性軸方程式：<br />
+$$\frac{b(kd)^2}{2} + (n-1)A_s'(kd-d') = nA_s(d-kd)$$<br />
+$$15(kd)^2 + 7 \times 8.55 \times (kd-6.5) = 8 \times 40.56 \times (51-kd)$$<br />
+$$15(kd)^2 + 59.85(kd) - 389.0 = 16{,}548 - 324.5(kd)$$<br />
+$$15(kd)^2 + 384.3(kd) - 16{,}937 = 0$$<br />
+$$(kd)^2 + 25.62(kd) - 1{,}129.1 = 0$$</p>
+<p>$$kd = \frac{-25.62 + \sqrt{25.62^2 + 4 \times 1{,}129.1}}{2} = \frac{-25.62 + \sqrt{5{,}173}}{2} = \frac{-25.62 + 71.93}{2} = \boxed{23.15 \text{ cm}}$$</p>
+<p>$$I_{cr} = \frac{30 \times 23.15^3}{3} + 7 \times 8.55 \times (23.15-6.5)^2 + 8 \times 40.56 \times (51-23.15)^2$$</p>
+<p>$$= \frac{30 \times 12{,}406}{3} + 59.85 \times 277.2 + 324.5 \times 776.2$$</p>
+<p>$$= 124{,}060 + 16{,}591 + 251{,}827 = \boxed{392{,}478 \approx 392{,}500 \text{ cm}^4}$$</p>
+<hr />
+<h3>Step 4：各水準有效慣性矩 $I_e$</h3>
+<p><strong>持續荷載水準</strong> ($M_a = 745{,}600$ kgf·cm)：<br />
+$$\left(\frac{M_{cr}}{M_a}\right)^3 = \left(\frac{602{,}460}{745{,}600}\right)^3 = (0.8080)^3 = 0.5278$$</p>
+<p>$$I_{e,sus} = 0.5278 \times 540{,}000 + 0.4722 \times 392{,}500 = 285{,}012 + 185{,}240 = \boxed{470{,}252 \text{ cm}^4}$$</p>
+<p><strong>全活載重水準</strong> ($M_a = 2{,}025{,}600$ kgf·cm)：<br />
+$$\left(\frac{M_{cr}}{M_a}\right)^3 = \left(\frac{602{,}460}{2{,}025{,}600}\right)^3 = (0.2974)^3 = 0.02626$$</p>
+<p>$$I_{e,LL} = 0.02626 \times 540{,}000 + 0.97374 \times 392{,}500 = 14{,}180 + 382{,}242 = \boxed{396{,}422 \text{ cm}^4}$$</p>
+<hr />
+<h3>Step 5：三項即時撓度（$\Delta_i = \frac{5wL^4}{384E_cI_e}$）</h3>
+<p>共同因子：$\frac{5L^4}{384} = \frac{5 \times 800^4}{384} = \frac{5 \times 4.096 \times 10^{11}}{384} = 5.333 \times 10^9$ cm</p>
+<p><strong>(a) $({\Delta_i})_D$（DL 未開裂，$I_e = I_g = 540{,}000$ cm⁴）：</strong><br />
+$$EI_D = 255{,}000 \times 540{,}000 = 1.377 \times 10^{11} \text{ kgf·cm}^2$$</p>
+<p>$$\boxed{({\Delta_i})_D = \frac{5.32 \times 5.333 \times 10^9}{1.377 \times 10^{11}} = \frac{2.837 \times 10^{10}}{1.377 \times 10^{11}} = 0.206 \text{ cm}}$$</p>
+<p><strong>(b) $({\Delta_i})_{sus}$（持續 LL = 4 kgf/cm，$I_e = 470{,}252$ cm⁴）：</strong><br />
+$$EI_{sus} = 255{,}000 \times 470{,}252 = 1.199 \times 10^{11}$$</p>
+<p>$$\boxed{({\Delta_i})_{sus} = \frac{4.0 \times 5.333 \times 10^9}{1.199 \times 10^{11}} = \frac{2.133 \times 10^{10}}{1.199 \times 10^{11}} = 0.178 \text{ cm}}$$</p>
+<p><strong>(c) $({\Delta_i})_l$（全 LL = 20 kgf/cm，$I_e = 396{,}422$ cm⁴）：</strong><br />
+$$EI_{LL} = 255{,}000 \times 396{,}422 = 1.011 \times 10^{11}$$</p>
+<p>$$\boxed{({\Delta_i})_l = \frac{20.0 \times 5.333 \times 10^9}{1.011 \times 10^{11}} = \frac{1.067 \times 10^{11}}{1.011 \times 10^{11}} = 1.055 \text{ cm}}$$</p>
+<hr />
+<h3>Step 6：長期修正係數 $\lambda$</h3>
+<p>$$\rho' = \frac{A_s'}{b \cdot d} = \frac{8.55}{30 \times 51} = 0.005588$$</p>
+<table>
+<thead>
+<tr>
+<th>時間</th>
+<th>$\xi$</th>
+<th>$\lambda = \xi/(1+50\rho')$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 年</td>
+<td>1.4</td>
+<td>$1.4/(1+0.2794) = 1.094$</td>
+</tr>
+<tr>
+<td>5 年</td>
+<td>2.0</td>
+<td>$2.0/1.2794 = 1.563$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>Step 7：長期總撓度</h3>
+<p>持續載重之即時撓度：<br />
+$$(\Delta_i)_{sustained} = ({\Delta_i})_D + ({\Delta_i})_{sus} = 0.206 + 0.178 = 0.384 \text{ cm}$$</p>
+<p>非持續 LL 之即時撓度：<br />
+$$(\Delta_i)_{non-sus} = ({\Delta_i})_l - ({\Delta_i})_{sus} = 1.055 - 0.178 = 0.877 \text{ cm}$$</p>
+<p>長期總撓度公式：<br />
+$$\Delta_{total} = (\Delta_i)_{sustained} \times (1+\lambda) + (\Delta_i)_{non-sus}$$</p>
+<p><strong>(d) 一年後總撓度：</strong><br />
+$$\Delta_{total,1yr} = 0.384 \times (1 + 1.094) + 0.877 = 0.384 \times 2.094 + 0.877 = 0.804 + 0.877 = \boxed{1.681 \approx 1.68 \text{ cm}}$$</p>
+<p><strong>(e) 五年後總撓度：</strong><br />
+$$\Delta_{total,5yr} = 0.384 \times (1 + 1.563) + 0.877 = 0.384 \times 2.563 + 0.877 = 0.984 + 0.877 = \boxed{1.861 \approx 1.86 \text{ cm}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>彙總表</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$({\Delta_i})_D$（DL，未裂，$I_e = I_g$）</td>
+<td><strong>0.206 cm</strong></td>
+</tr>
+<tr>
+<td>$({\Delta_i})_{sus}$（持續 LL = 20%×LL）</td>
+<td><strong>0.178 cm</strong></td>
+</tr>
+<tr>
+<td>$({\Delta_i})_l$（全 LL）</td>
+<td><strong>1.055 cm</strong></td>
+</tr>
+<tr>
+<td>$\Delta_{total,1yr}$（1 年後）</td>
+<td><strong>1.68 cm</strong></td>
+</tr>
+<tr>
+<td>$\Delta_{total,5yr}$（5 年後）</td>
+<td><strong>1.86 cm</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>爭議：DL 未裂但加上持續 LL 後才裂</h3>
+<p>本題有一特殊現象：DL 單獨作用時 $M_{DL} = 4.26 &lt; M_{cr} = 6.02$ tf·m（未裂），但一旦加上 20%LL = 3.2 tf·m，合計 7.46 tf·m &gt; 6.02 tf·m（開裂）。</p>
+<p>這表示：</p>
+<ul>
+<li>計算 $({\Delta_i})_D$ 時使用 $I_g$（正確）</li>
+<li>計算 $({\Delta_i})_{sus}$ 時使用 $I_{e,sus}$（基於 $M_{DL}+M_{sus}$），此 $I_e$ 已反映裂縫狀態</li>
+</ul>
+<p>若改用：$({\Delta_i})_{sus} = \Delta_{DL+sus} - ({\Delta_i})_D$ 的差值法（同一 $I_{e,sus}$）：<br />
+$\Delta_{DL+sus} = 9.32 \times 5.333 \times 10^9/1.199 \times 10^{11} = 0.415$ cm<br />
+$({\Delta_i})_{sus,diff} = 0.415 - 0.206 = 0.209$ cm</p>
+<p>這與直接法（0.178 cm）略有差異，是因為不同 $I_e$ 的非線性。兩種方法在考試中均可接受，本解採直接法。</p>
+<h3>$\xi = 1.4$（1 年）vs $\xi = 2.0$（≥5 年）</h3>
+<p>$\xi$ 值對應關係：3 個月 = 1.0，6 個月 = 1.2，1 年 = 1.4，5 年以上 = 2.0。</p></main>
+<footer>來源：raw/solutions/RC-2007-2/RC-2007-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

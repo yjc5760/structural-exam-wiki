@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2018-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2018-1 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U2-1.html">&#128202; U2-1 單元總覽</a><a class="lect" href="../lecture-RC-U2-1.html">&#128218; U2-1 RC 剪力強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2018-1</h1>
+<p><strong>主分類：</strong> <code>RC-U2-2</code> RC 扭力強度設計<br />
+<strong>副分類：</strong> <code>RC-U2-1</code> RC 剪力強度分析與設計<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>矩形梁</code> <code>扭矩剪力組合</code> <code>空間桁架類比</code> <code>塑性理念</code> <code>閉合箍筋</code> <code>poh/8最大間距</code> <code>Aoh計算</code> <code>縱向扭力筋</code></p>
+<hr />
+<h2>1. 原始題目重述（Problem Restatement）</h2>
+<p>一鋼筋混凝土矩形梁斷面，承受<strong>扭矩</strong> $T_u = 4 \text{ tf·m}$ 及<strong>剪力</strong> $V_u = 20 \text{ tf}$。梁斷面配置 D13 閉合箍筋，淨保護層 $c_c = 4 \text{ cm}$。試以塑性理念設計箍筋之間距。</p>
+<p><img alt="RC-2018-1 題目附圖：矩形梁斷面，寬b=50cm、深h=43cm，角落4支D13縱向筋，側面淨保護層4cm，底部至主筋形心距7cm" src="../../raw/solutions/RC-2018-1/RC-2018-1-fig-1.png" /></p>
+<p><em>圖說：矩形斷面寬 $b = 50 \text{ cm}$，高 $h = 43 \text{ cm}$，有效深度 $d = h - 7 = 36 \text{ cm}$（底部至主筋形心距 7 cm）。左右淨保護層各 $c_c = 4 \text{ cm}$。角落配置 4-D13 縱向鋼筋（兼作扭力縱向鋼筋）。箍筋為 D13 封閉箍，待設計間距。</em></p>
+<p><strong>材料參數（全卷通用）：</strong></p>
+<p>$$f'_c = 280 \text{ kgf/cm}^2, \quad \sqrt{f'_c} = 16.73 \text{ kgf}^{1/2}/\text{cm}$$</p>
+<p>$$f_{yt} = 2800 \text{ kgf/cm}^2 \quad \text{（D13 箍筋）}$$</p>
+<p>$$f_{yl} = 2800 \text{ kgf/cm}^2 \quad \text{（D13 縱向筋）}$$</p>
+<p><strong>D13 鋼筋：</strong> $d_b = 1.27 \text{ cm}$，$A_b = 1.27 \text{ cm}^2$</p>
+<blockquote>
+<p><strong>單位換算約定：</strong> 以下計算採 SI 制（N, mm, MPa），並以近似換算係數 ÷ 10 轉換強度單位（誤差 &lt; 2%）：<br />
+$f'_c = 28 \text{ MPa}$，$f_{yt} = 280 \text{ MPa}$，$T_u = 40 \times 10^6 \text{ N·mm}$，$V_u = 200{,}000 \text{ N}$。</p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖（Core Concepts &amp; Examiner's Intent）</h2>
+<p><strong>核心觀念：</strong> 本題測驗「塑性理念（空間桁架類比）」設計扭力箍筋的完整流程，同時兼顧剪力箍筋需求，考查是否能正確計算 $A_{oh}$、$p_{oh}$，並判斷控制間距的限制條件。</p>
+<p><strong>出題者的五個考點：</strong></p>
+<ol>
+<li>能否從斷面幾何正確算出 $A_{oh}$（箍筋中心線圍合面積）—— 不是總截面積 $A_{cp}$</li>
+<li>是否先判斷 $T_u &gt; \phi T_{th}$（扭力門檻），而非跳過門檻直接設計</li>
+<li>截面尺寸上限（solid section check）是否執行</li>
+<li>合併扭力與剪力需求時，是否取最嚴格的 $s$</li>
+<li><strong>最大間距</strong> $s \leq p_{oh}/8$ 常被忽略 —— 本題中是控制條件</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析（Strategic Roadmap &amp; Trap Analysis）</h2>
+<p><strong>作戰計畫（7步）：</strong></p>
+<pre><code>Step 1 → 計算斷面幾何（Acp, pcp, Aoh, poh, d）
+Step 2 → 扭力門檻判斷（是否需要設計扭力鋼筋？）
+Step 3 → 截面尺寸上限檢核（solid section check）
+Step 4 → 扭力箍筋需求：At/s
+Step 5 → 剪力箍筋需求：Av/s
+Step 6 → 最大間距限制（poh/8 &amp; d/2）
+Step 7 → 取最小值，確定設計間距 s
+</code></pre>
+<p><strong>陷阱清單：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>後果</th>
+<th>正確做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>用總截面積 $A_{cp}$ 代替 $A_{oh}$ 計算 $A_t/s$</td>
+<td>箍筋量嚴重低估</td>
+<td>$A_{oh}$ = 箍筋中心線圍合面積，需扣保護層與箍筋半徑</td>
+</tr>
+<tr>
+<td>②</td>
+<td>忘記扭力最大間距 $s \leq p_{oh}/8$</td>
+<td>間距偏大，不符規範</td>
+<td>本題中 $p_{oh}/8$ 比 $A_t$ 計算要求更嚴</td>
+</tr>
+<tr>
+<td>③</td>
+<td>剪力 $V_c$ 用總深 $h$ 代替有效深度 $d$</td>
+<td>$V_c$ 偏大，$V_s$ 低估</td>
+<td>$V_c = \frac{1}{6}\sqrt{f'_c}\,b_w\,d$（$d$，非$h$）</td>
+</tr>
+<tr>
+<td>④</td>
+<td>忽略縱向扭力鋼筋 $A_l$ 的需求</td>
+<td>解答不完整</td>
+<td>$A_l = (A_t/s)\cdot p_{oh}\cdot\cot^2\theta$ 需另行設計</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>設計 D13 閉合箍筋之間距 s，使梁在 Tu = 4 tf·m + Vu = 20 tf 下滿足強度需求</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<blockquote>
+<p>$\boxed{\cdot}$ = 需由前步驟推導，非題目直接給定的變數</p>
+</blockquote>
+<p>$$\text{Step 1: } A_{oh} = x_1 \cdot y_1, \quad p_{oh} = 2(x_1+y_1)$$</p>
+<p>$$\text{Step 2（門檻）: } \phi T_{th} = \phi \cdot \frac{1}{12}\sqrt{f'_c} \cdot \frac{A_{cp}^2}{p_{cp}} &lt; T_u \Rightarrow \text{需設計扭力筋}$$</p>
+<p>$$\text{Step 3（截面限制）: } \sqrt{\left(\frac{V_u}{b_w d}\right)^2 + \left(\frac{T_u \cdot \boxed{p_{oh}}}{1.7\,\boxed{A_{oh}}^2}\right)^2} \leq \phi\!\left[\frac{V_c}{b_w d} + \frac{2}{3}\sqrt{f'_c}\right]$$</p>
+<p>$$\text{Step 4（扭力）: } \frac{A_t}{s} = \frac{T_u}{\phi \cdot 2\,\boxed{A_{oh}} \cdot f_{yt} \cdot \cot\theta} \quad (\theta=45°)$$</p>
+<p>$$\text{Step 5（剪力）: } \frac{A_v}{s} = \frac{V_s}{f_{yt}\cdot d}, \quad V_s = \frac{V_u}{\phi} - V_c$$</p>
+<p>$$\text{Step 6（最大間距）: } s \leq \min\!\left(\frac{\boxed{p_{oh}}}{8},\, \frac{d}{2}\right)$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>50 cm</td>
+<td>梁寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>43 cm</td>
+<td>梁全深</td>
+</tr>
+<tr>
+<td>$c_c$</td>
+<td>4 cm</td>
+<td>淨保護層</td>
+</tr>
+<tr>
+<td>$d_b\text{（箍筋）}$</td>
+<td>1.27 cm</td>
+<td>D13</td>
+</tr>
+<tr>
+<td>$A_b$</td>
+<td>1.27 cm²</td>
+<td>D13 單支面積</td>
+</tr>
+<tr>
+<td>$T_u$</td>
+<td>4 tf·m = $40\times10^6$ N·mm</td>
+<td>因數化扭矩</td>
+</tr>
+<tr>
+<td>$V_u$</td>
+<td>20 tf = 200,000 N</td>
+<td>因數化剪力</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>28 MPa</td>
+<td>混凝土強度（近似換算）</td>
+</tr>
+<tr>
+<td>$f_{yt}$</td>
+<td>280 MPa</td>
+<td>箍筋降伏強度（近似換算）</td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td>0.75</td>
+<td>剪力/扭力強度折減係數</td>
+</tr>
+<tr>
+<td>$\theta$</td>
+<td>45°</td>
+<td>塑性理念壓力桿傾角（規範預設）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：斷面幾何</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$x_1$</td>
+<td>$b - 2c_c - d_b = 50-8-1.27 = 40.73 \text{ cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$y_1$</td>
+<td>$h - 2c_c - d_b = 43-8-1.27 = 33.73 \text{ cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{oh}$</td>
+<td>$x_1 \cdot y_1 = 40.73 \times 33.73 = 1373.8 \text{ cm}^2 = 137{,}380 \text{ mm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$p_{oh}$</td>
+<td>$2(x_1+y_1) = 2(40.73+33.73) = 148.9 \text{ cm} = 1489 \text{ mm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>$h - 7 = 43 - 7 = 36 \text{ cm} = 360 \text{ mm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{cp}$</td>
+<td>$b \cdot h = 50\times43 = 2150 \text{ cm}^2 = 215{,}000 \text{ mm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$p_{cp}$</td>
+<td>$2(b+h)=186 \text{ cm}=1860 \text{ mm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：扭力門檻</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\phi T_{th}$</td>
+<td>$\phi\cdot\frac{1}{12}\sqrt{f'_c}\cdot\frac{A_{cp}^2}{p_{cp}}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：截面上限</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_c$</td>
+<td>$\frac{1}{6}\sqrt{f'_c}\,b_w\,d$（N，mm，MPa）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>LHS</td>
+<td>$\sqrt{(V_u/b_wd)^2+(T_u\,p_{oh}/1.7A_{oh}^2)^2}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>RHS</td>
+<td>$\phi[V_c/b_wd+(2/3)\sqrt{f'_c}]$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：扭力箍筋需求</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$(A_t/s)_{req}$</td>
+<td>$T_u/(\phi\cdot2A_{oh}\cdot f_{yt}\cdot\cot\theta)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$s_{T}$</td>
+<td>$A_b/(A_t/s)_{req}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：剪力箍筋需求</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_s$</td>
+<td>$V_u/\phi - V_c$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$(A_v/s)_{req}$</td>
+<td>$V_s/(f_{yt}\cdot d)$（2腿箍筋）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$s_V$</td>
+<td>$2A_b/(A_v/s)_{req}$（D13 雙腿，$A_v=2A_b$）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 6：最大間距</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$s_{max,T}$</td>
+<td>$p_{oh}/8 = 1489/8 = 186.1 \text{ mm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$s_{max,V}$</td>
+<td>$d/2 = 360/2 = 180 \text{ mm}$（$V_s \leq \frac{1}{3}\sqrt{f'_c}b_wd$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$s_{design}$</td>
+<td>$\min(s_T,\,s_V,\,s_{max,T},\,s_{max,V})$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_{oh}$ 的幾何意義</td>
+<td>是封閉箍筋中心線所圍之面積，不是總截面積 $A_{cp}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>塑性理念（空間桁架類比）適用條件</td>
+<td>$T_u &gt; \phi T_{th}$ 才啟動；$\theta=45°$ 是台灣規範預設值（保守）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>扭力最大間距 $p_{oh}/8$ 來源</td>
+<td>來自 ACI 318 §11.5.6.1，確保扭力環形力流完整閉合</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>扭力縱向鋼筋 $A_l$</td>
+<td>與箍筋配套設計；本題僅要求間距，但 $A_l$ 亦需設計</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi = 0.75$ 適用於剪力/扭力</td>
+<td>不是彎矩的 $\phi = 0.9$；混用會嚴重低估箍筋需求</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程（Step-by-Step Detailed Calculation）</h2>
+<h3>Step 1：斷面幾何</h3>
+<p>梁尺寸：$b = 500 \text{ mm}$，$h = 430 \text{ mm}$，$d = 360 \text{ mm}$</p>
+<p>淨保護層 $c_c = 40 \text{ mm}$，箍筋 D13：$d_b = 12.7 \text{ mm}$</p>
+<p>箍筋中心線至外面距離 = $c_c + d_b/2 = 40 + 6.35 = 46.35 \text{ mm}$</p>
+<p>$$x_1 = 500 - 2\times46.35 = 407.3 \text{ mm}$$</p>
+<p>$$y_1 = 430 - 2\times46.35 = 337.3 \text{ mm}$$</p>
+<p>$$\boxed{A_{oh} = 407.3 \times 337.3 = 137{,}380 \text{ mm}^2}$$</p>
+<p>$$\boxed{p_{oh} = 2(407.3 + 337.3) = 1489 \text{ mm}}$$</p>
+<p>總截面（用於門檻計算）：</p>
+<p>$$A_{cp} = 500\times430 = 215{,}000 \text{ mm}^2,\quad p_{cp} = 2(500+430) = 1860 \text{ mm}$$</p>
+<h3>Step 2：扭力門檻判斷</h3>
+<p>$$\phi T_{th} = 0.75 \times \frac{1}{12}\sqrt{28} \times \frac{(215{,}000)^2}{1860}$$</p>
+<p>$$= 0.75 \times \frac{5.292}{12} \times 2.487\times10^{10}/1860$$</p>
+<p>$$= 0.75 \times 0.441 \times 1.337\times10^7 = 4.42\times10^6 \text{ N·mm} = 4.42 \text{ kN·m}$$</p>
+<p>$$T_u = 40 \text{ kN·m} \gg \phi T_{th} = 4.42 \text{ kN·m} \quad \Rightarrow \text{需設計扭力箍筋 ✓}$$</p>
+<h3>Step 3：截面尺寸上限檢核（Solid Section Check）</h3>
+<p>$$V_c = \frac{1}{6}\sqrt{28}\times500\times360 = \frac{5.292}{6}\times180{,}000 = 158{,}760 \text{ N}$$</p>
+<p>計算 LHS 各項：</p>
+<p>$$\frac{V_u}{b_w d} = \frac{200{,}000}{500\times360} = \frac{200{,}000}{180{,}000} = 1.111 \text{ MPa}$$</p>
+<p>$$\frac{T_u\cdot p_{oh}}{1.7\,A_{oh}^2} = \frac{40\times10^6\times1489}{1.7\times(137{,}380)^2} = \frac{5.956\times10^{10}}{1.7\times1.888\times10^{10}} = \frac{5.956\times10^{10}}{3.210\times10^{10}} = 1.856 \text{ MPa}$$</p>
+<p>$$\text{LHS} = \sqrt{1.111^2 + 1.856^2} = \sqrt{1.234+3.445} = \sqrt{4.679} = 2.163 \text{ MPa}$$</p>
+<p>$$\text{RHS} = \phi\left[\frac{V_c}{b_w d}+\frac{2}{3}\sqrt{f'_c}\right] = 0.75\left[\frac{158{,}760}{180{,}000}+\frac{2}{3}\times5.292\right]$$</p>
+<p>$$= 0.75\left[0.882+3.528\right] = 0.75\times4.410 = 3.308 \text{ MPa}$$</p>
+<p>$$\text{LHS}\ 2.163 &lt; \text{RHS}\ 3.308 \text{ MPa} \quad \Rightarrow \text{截面尺寸符合規範上限 ✓}$$</p>
+<h3>Step 4：扭力箍筋設計（At/s）</h3>
+<p>塑性理念（空間桁架類比），取 $\theta = 45°$，$\cot\theta = 1$：</p>
+<p>$$\left(\frac{A_t}{s}\right)_{req} = \frac{T_u}{\phi\cdot2A_{oh}\cdot f_{yt}\cdot\cot\theta} = \frac{40\times10^6}{0.75\times2\times137{,}380\times280\times1}$$</p>
+<p>$$= \frac{40\times10^6}{57{,}699{,}600} = 0.693 \text{ mm}^2/\text{mm}$$</p>
+<p>D13 單腿：$A_t = 127 \text{ mm}^2$</p>
+<p>$$s_T = \frac{A_t}{(A_t/s)_{req}} = \frac{127}{0.693} = 183.3 \text{ mm}$$</p>
+<blockquote>
+<p><strong>策略註解：</strong> $A_t$ 取單腿面積（1支D13），因空間桁架類比中，封閉箍筋每一腿各自抵抗環形扭力流。</p>
+</blockquote>
+<h3>Step 5：剪力箍筋設計（Av/s）</h3>
+<p>$$V_s = \frac{V_u}{\phi} - V_c = \frac{200{,}000}{0.75} - 158{,}760 = 266{,}667 - 158{,}760 = 107{,}907 \text{ N}$$</p>
+<p>驗證最大間距適用性（$V_s$ 是否超過臨界值）：</p>
+<p>$$\frac{1}{3}\sqrt{f'_c}\cdot b_w\cdot d = \frac{5.292}{3}\times500\times360 = 317{,}520 \text{ N}$$</p>
+<p>$$V_s = 107{,}907 \text{ N} &lt; 317{,}520 \text{ N} \quad \Rightarrow s_{max,V} = d/2 \text{ 適用（不需加密至 }d/4\text{）}$$</p>
+<p>D13 閉合箍筋（雙腿）：$A_v = 2\times127 = 254 \text{ mm}^2$</p>
+<p>$$\left(\frac{A_v}{s}\right)_{req} = \frac{V_s}{f_{yt}\cdot d} = \frac{107{,}907}{280\times360} = \frac{107{,}907}{100{,}800} = 1.071 \text{ mm}^2/\text{mm}$$</p>
+<p>$$s_V = \frac{A_v}{(A_v/s)_{req}} = \frac{254}{1.071} = 237.2 \text{ mm}$$</p>
+<h3>Step 6：最大間距限制</h3>
+<table>
+<thead>
+<tr>
+<th>限制條件</th>
+<th>公式</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>扭力最大間距</td>
+<td>$s \leq p_{oh}/8$</td>
+<td>$1489/8 = 186.1 \text{ mm}$</td>
+</tr>
+<tr>
+<td>剪力最大間距</td>
+<td>$s \leq d/2$（$V_s \leq \frac{1}{3}\sqrt{f'c}b_wd$）</td>
+<td>$360/2 = 180 \text{ mm}$</td>
+</tr>
+<tr>
+<td>絕對最大間距</td>
+<td>$s \leq 600 \text{ mm}$</td>
+<td>600 mm</td>
+</tr>
+</tbody>
+</table>
+<h3>Step 7：設計間距確定</h3>
+<table>
+<thead>
+<tr>
+<th>條件</th>
+<th>控制間距</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>扭力需求 $A_t/s$</td>
+<td>$s \leq 183.3 \text{ mm}$</td>
+</tr>
+<tr>
+<td>剪力需求 $A_v/s$</td>
+<td>$s \leq 237.2 \text{ mm}$</td>
+</tr>
+<tr>
+<td>扭力最大間距 $p_{oh}/8$</td>
+<td>$s \leq 186.1 \text{ mm}$</td>
+</tr>
+<tr>
+<td><strong>剪力最大間距 $d/2$</strong></td>
+<td><strong>$s \leq 180 \text{ mm}$ ← 控制</strong></td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{s = 180 \text{ mm} = 18 \text{ cm}}$$</p>
+<p>控制條件為剪力最大間距 $d/2 = 18 \text{ cm}$。</p>
+<h3>補充：縱向扭力鋼筋 $A_l$</h3>
+<p>題目要求為箍筋間距，但扭力設計亦需縱向鋼筋 $A_l$（分布於斷面周圍）：</p>
+<p>$$A_l = \left(\frac{A_t}{s}\right)\cdot p_{oh}\cdot\cot^2\theta = 0.693 \times 1489 \times 1 = 1032 \text{ mm}^2$$</p>
+<p>最小縱向扭力筋：</p>
+<p>$$A_{l,min} = \frac{5\sqrt{f'_c}\cdot A_{cp}}{12 f_{yl}} - \frac{A_t}{s}\cdot p_{oh}\cdot\frac{f_{yt}}{f_{yl}}$$</p>
+<p>$$= \frac{5\times5.292\times215{,}000}{12\times280} - 0.693\times1489\times1 = \frac{5{,}688{,}900}{3{,}360} - 1032 = 1693 - 1032 = 661 \text{ mm}^2$$</p>
+<p>取 $A_l = \max(1032, 661) = 1032 \text{ mm}^2$，每面最大間距 $\leq 300 \text{ mm}$（沿 $p_{oh}$ 均勻分布）。</p>
+<p>現有 4-D13 縱向筋 $= 4\times127 = 508 \text{ mm}^2 &lt; 1032 \text{ mm}^2$，<strong>需補充約 3-D13（381 mm²），共 7-D13（889 mm²）≈ 1032 mm²</strong>，或使用較大尺寸鋼筋。</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討（Critical Issues &amp; Advanced Discussion）</h2>
+<h3>爭議 1：$\theta = 45°$ 還是可以取較小角度？</h3>
+<p>ACI 318 允許 $21.8° \leq \theta \leq 45°$，較小角度可減少箍筋量但增加縱向筋量。<strong>考場建議取 $\theta = 45°$（計算最簡單、不需迭代），且此為規範預設值</strong>。</p>
+<h3>爭議 2：扭力與剪力箍筋可以共用同一組封閉箍嗎？</h3>
+<p><strong>可以。</strong> ACI 318 §11.5.3.6 允許扭力箍筋兼用作剪力箍筋，只要滿足兩者需求中的較大者。本題同一 D13 閉合箍筋同時提供 $A_t$（單腿，抗扭）和 $A_v$（雙腿，抗剪），<strong>設計時取較嚴格的 $s$ 即可</strong>，不需分別設計兩組箍筋。</p>
+<h3>爭議 3：底部 7 cm 的意義</h3>
+<p>題目圖示底部 7 cm = 淨保護層 4 cm + D13 箍筋直徑 1.27 cm + D25 主筋半徑 1.27 cm（或 D22 主筋半徑 1.11 cm + 空隙），此即有效深度 $d = h - 7 = 43 - 7 = 36 \text{ cm}$ 的來源。</p>
+<h3>實務補充</h3>
+<p>真實設計時，$V_u$ 取臨界斷面（距支承 $d$ 處）而非最大剪力處；$T_u$ 在超靜定構架中若為「相容扭矩」，可折減至開裂扭矩後重新分析。但本題為靜定梁，$T_u$ 不可折減，須足額設計。</p></main>
+<footer>來源：raw/solutions/RC-2018-1/RC-2018-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

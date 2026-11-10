@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2005-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2005-2 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-1.html">&#128202; U1-1 單元總覽</a><a class="lect" href="../lecture-RC-U1-1.html">&#128218; U1-1 RC 梁彎矩強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2005-2</h1>
+<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>T形梁</code> <code>最大拉力筋量</code> <code>0.75ρb</code> <code>T型梁平衡鋼筋</code> <code>NA在翼板</code> <code>活載重反推</code> <code>設計彎矩</code> <code>ACI載重組合</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>一簡支 T 型鋼筋混凝土梁，斷面尺寸如下：</p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有效翼板寬 $b$</td>
+<td>$120\ \text{cm}$</td>
+</tr>
+<tr>
+<td>腹板寬 $b_w$</td>
+<td>$25\ \text{cm}$</td>
+</tr>
+<tr>
+<td>翼板厚 $h_f$</td>
+<td>$12\ \text{cm}$</td>
+</tr>
+<tr>
+<td>梁總高 $h$</td>
+<td>$63\ \text{cm}$</td>
+</tr>
+<tr>
+<td>有效深度 $d$</td>
+<td>$50\ \text{cm}$</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>$280\ \text{kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>$4200\ \text{kgf/cm}^2$</td>
+</tr>
+</tbody>
+</table>
+<p>（一）試使用 ACI 規範允許之最大拉力筋量的一半，計算此梁之設計彎矩 $\phi M_n$。</p>
+<p>（二）若梁之簡支跨距為 9 m，並承受靜載重（含自重）$w_D = 0.75\ \text{t/m}$，則可承受之最大容許活載重 $w_L$ 為何？</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> T 型梁平衡鋼筋量的正確計算，以及 USD 反推活載重。</p>
+<p><strong>測驗重點：</strong></p>
+<ol>
+<li>T 型梁的平衡鋼筋量 $A_{sb}$ 計算（平衡時 NA 在腹板中，需計算翼板 + 腹板壓力面積）</li>
+<li>確認使用 $A_s = A_{s,\max}/2$ 後，中性軸深度是否仍在翼板內（若在翼板，可簡化為矩形梁計算）</li>
+<li>知道「設計彎矩」= $\phi M_n$，並確認 $\phi = 0.9$（拉力控制）</li>
+<li>利用 $\phi M_n = M_u = W_u L^2/8$ 反推因數化載重，再求 $w_L$</li>
+</ol>
+<p><strong>典型陷阱：</strong></p>
+<ul>
+<li>誤用矩形梁 $\rho_b$ 而忽略翼板壓力貢獻 → 低估 $A_{s,\max}$</li>
+<li>計算完 $A_{s,\max}/2$ 後，未檢核 NA 是否在翼板內，就套用 T 形梁公式</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>求平衡中性軸深度 $a_b$，判斷 NA 是在翼板還是腹板</li>
+<li>依 NA 位置計算 T 型梁平衡壓力 → 求 $A_{sb}$</li>
+<li>$A_{s,\max} = 0.75 A_{sb}$；使用 $A_s = A_{s,\max}/2$</li>
+<li>確認 NA 位置（用 $A_s/2$ 計算的 $a$ 是否 $\le h_f$）</li>
+<li>若 NA 在翼板 → 矩形梁公式求 $\phi M_n$</li>
+<li>設 $\phi M_n = W_u L^2/8$，以 $W_u = 1.4w_D + 1.7w_L$ 反推 $w_L$</li>
+</ol>
+<p><strong>關鍵陷阱（3 個）：</strong></p>
+<ul>
+<li>⚠ <strong>T 型梁平衡時 NA 在腹板中</strong>：$a_b = 25.2\ \text{cm} &gt; h_f = 12\ \text{cm}$，翼板伸出部分 + 腹板均受壓，壓力面積比矩形梁大很多，$A_{sb}$ 也遠大於矩形梁的 $\rho_b \times b_w \times d$</li>
+<li>⚠ <strong>用 $A_s/2$ 後 NA 反而跑回翼板內</strong>：用 $A_{s,\max}/2 = 37.6\ \text{cm}^2$ 時，$a = 5.53\ \text{cm} &lt; 12\ \text{cm}$，此時設計方法退化為矩形梁（寬度 $b = 120\ \text{cm}$），<strong>不需用 T 形梁公式</strong></li>
+<li>⚠ <strong>$\phi$ 值驗核</strong>：$\varepsilon_t = 0.02 \gg 0.005$，確認拉力控制 $\phi = 0.9$ ✓</li>
+</ul>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p>（一）求 $\phi M_n$（設計彎矩，使用 $A_{s,\max}/2$）；（二）求最大容許活載重 $w_L$（t/m）。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1: } a_b = \beta_1 \cdot \frac{6120}{6120+f_y} \cdot d$$</p>
+<p>$$\text{Step 2: } C_b = 0.85f'_c \cdot (b-b_w) \cdot h_f + 0.85f'_c \cdot b_w \cdot \boxed{a_b}$$</p>
+<p>$$\text{Step 3: } A_{sb} = \frac{C_b}{f_y};\quad A_{s,\max} = 0.75\,A_{sb};\quad A_s = \frac{A_{s,\max}}{2}$$</p>
+<p>$$\text{Step 4: } a = \frac{\boxed{A_s} \cdot f_y}{0.85f'_c \cdot b} \quad \text{（驗核：} a \le h_f \text{ → 矩形梁）}$$</p>
+<p>$$\text{Step 5: } \phi M_n = \phi \cdot \boxed{A_s} \cdot f_y \cdot \left(d - \frac{\boxed{a}}{2}\right)$$</p>
+<p>$$\text{Step 6: } W_u = \frac{8\,\phi M_n}{L^2};\quad w_L = \frac{W_u - 1.4\,w_D}{1.7}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>$120\ \text{cm}$</td>
+<td>有效翼板寬</td>
+</tr>
+<tr>
+<td>$b_w$</td>
+<td>$25\ \text{cm}$</td>
+<td>腹板寬</td>
+</tr>
+<tr>
+<td>$h_f$</td>
+<td>$12\ \text{cm}$</td>
+<td>翼板厚</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>$50\ \text{cm}$</td>
+<td>有效深度</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>$280\ \text{kgf/cm}^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>$4200\ \text{kgf/cm}^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>$9\ \text{m}$</td>
+<td>簡支跨距</td>
+</tr>
+<tr>
+<td>$w_D$</td>
+<td>$0.75\ \text{t/m}$</td>
+<td>靜載重（含自重）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>平衡條件</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$0.85$（$f'_c \le 280$）</td>
+<td></td>
+</tr>
+<tr>
+<td>$a_b$</td>
+<td>$\beta_1 \times 6120/10320 \times d = 25.2\ \text{cm}$（在腹板）</td>
+<td></td>
+</tr>
+<tr>
+<td>$C_b$</td>
+<td>翼板 + 腹板壓力之和 = $421{,}260\ \text{kgf}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$A_{sb}$</td>
+<td>$C_b/f_y = 100.3\ \text{cm}^2$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>鋼筋用量與 NA 位置</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_{s,\max}$</td>
+<td>$0.75 \times 100.3 = 75.2\ \text{cm}^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$A_s$</td>
+<td>$75.2/2 = 37.6\ \text{cm}^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$a$</td>
+<td>$37.6 \times 4200/28{,}560 = 5.53\ \text{cm} &lt; h_f$（矩形梁！）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>設計彎矩與活載重</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\varepsilon_t$</td>
+<td>$0.003(d-c)/c$；$c = 6.51\ \text{cm}$ → $\varepsilon_t = 0.020 \gg 0.005$ → $\phi=0.9$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi M_n$</td>
+<td>$0.9 \times A_s \times f_y \times (d-a/2)$</td>
+<td></td>
+</tr>
+<tr>
+<td>$W_u$</td>
+<td>$8\phi M_n/L^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$w_L$</td>
+<td>$(W_u - 1.4 w_D)/1.7$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T 型梁平衡 NA 在翼板或腹板</td>
+<td>先算 $a_b$，與 $h_f$ 比較，本題 $a_b = 25.2 &gt; 12$ → 腹板中，壓力需分開計算翼板+腹板</td>
+<td></td>
+</tr>
+<tr>
+<td>使用部分鋼筋後 NA 位置可能改變</td>
+<td>$A_{s,\max}/2 = 37.6\ \text{cm}^2$ 比平衡時小很多，此時 $a = 5.53 &lt; h_f$ → NA 回到翼板內，退化為矩形梁</td>
+<td></td>
+</tr>
+<tr>
+<td>ACI USD 載重組合（1999版）</td>
+<td>$U = 1.4D + 1.7L$（2005年台灣考試採ACI 318-99基準）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>① 求平衡 Whitney 應力塊深度 $a_b$</h3>
+<p>$$a_b = \beta_1 \cdot c_b = \beta_1 \cdot \frac{6120}{6120+f_y} \cdot d = 0.85 \times \frac{6120}{10320} \times 50$$</p>
+<p>$$= 0.85 \times 0.5930 \times 50 = \boxed{25.2\ \text{cm}}$$</p>
+<p><strong>判斷：</strong> $a_b = 25.2\ \text{cm} &gt; h_f = 12\ \text{cm}$，<strong>平衡中性軸在腹板中</strong> → 需計算 T 型斷面完整壓力</p>
+<hr />
+<h3>② 計算 T 型梁平衡壓力 $C_b$ 與 $A_{sb}$</h3>
+<p>$$C_f = 0.85 f'_c (b - b_w) h_f = 0.85 \times 280 \times (120-25) \times 12 = 238 \times 1{,}140 = 271{,}320\ \text{kgf}$$</p>
+<p>$$C_w = 0.85 f'_c \cdot b_w \cdot a_b = 238 \times 25 \times 25.2 = 149{,}940\ \text{kgf}$$</p>
+<p>$$C_b = 271{,}320 + 149{,}940 = 421{,}260\ \text{kgf}$$</p>
+<p>$$A_{sb} = \frac{C_b}{f_y} = \frac{421{,}260}{4{,}200} = \boxed{100.3\ \text{cm}^2}$$</p>
+<hr />
+<h3>③ 最大鋼筋量與使用量</h3>
+<p>$$A_{s,\max} = 0.75 \times A_{sb} = 0.75 \times 100.3 = 75.2\ \text{cm}^2$$</p>
+<p>$$A_s = \frac{A_{s,\max}}{2} = \frac{75.2}{2} = \boxed{37.6\ \text{cm}^2}$$</p>
+<hr />
+<h3>④ 驗核 NA 位置（確認矩形梁模式）</h3>
+<p>假設 NA 在翼板（$a \le h_f$）：</p>
+<p>$$a = \frac{A_s f_y}{0.85 f'_c \cdot b} = \frac{37.6 \times 4{,}200}{0.85 \times 280 \times 120} = \frac{157{,}920}{28{,}560} = \boxed{5.53\ \text{cm}}$$</p>
+<p><strong>驗核：</strong> $a = 5.53\ \text{cm} &lt; h_f = 12\ \text{cm}$ ✓</p>
+<p>→ <strong>NA 在翼板內，等效為矩形梁（$b = 120\ \text{cm}$）</strong></p>
+<hr />
+<h3>⑤ 確認 $\phi$ 值</h3>
+<p>$$c = \frac{a}{\beta_1} = \frac{5.53}{0.85} = 6.51\ \text{cm}$$</p>
+<p>$$\varepsilon_t = 0.003 \times \frac{d - c}{c} = 0.003 \times \frac{50 - 6.51}{6.51} = 0.003 \times 6.68 = 0.020 \gg 0.005$$</p>
+<p><strong>拉力控制斷面，$\phi = 0.9$ ✓</strong></p>
+<hr />
+<h3>⑥ 設計彎矩 $\phi M_n$</h3>
+<p>$$M_n = A_s f_y \left(d - \frac{a}{2}\right) = 37.6 \times 4{,}200 \times \left(50 - \frac{5.53}{2}\right)$$</p>
+<p>$$= 157{,}920 \times 47.235 = 7{,}460{,}872\ \text{kgf·cm} = 74.6\ \text{tf·m}$$</p>
+<p>$$\phi M_n = 0.9 \times 74.6 = \boxed{67.1\ \text{tf·m}}$$</p>
+<hr />
+<h3>⑦ 最大容許活載重</h3>
+<p>簡支梁跨中最大彎矩：</p>
+<p>$$M_u = \frac{W_u L^2}{8} = \phi M_n \Rightarrow W_u = \frac{8\,\phi M_n}{L^2}$$</p>
+<p>$$W_u = \frac{8 \times 67.1}{9^2} = \frac{536.8}{81} = 6.63\ \text{t/m}$$</p>
+<p>ACI USD 載重組合（$U = 1.4D + 1.7L$）：</p>
+<p>$$W_u = 1.4\,w_D + 1.7\,w_L$$</p>
+<p>$$6.63 = 1.4 \times 0.75 + 1.7\,w_L = 1.05 + 1.7\,w_L$$</p>
+<p>$$w_L = \frac{6.63 - 1.05}{1.7} = \frac{5.58}{1.7} = \boxed{w_{L,\max} \approx 3.28\ \text{t/m}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>① 「T 型梁最大鋼筋量」的計算方式</strong></p>
+<p>本解採用<strong>T 型斷面完整平衡法</strong>（全 T 截面一次計算 $A_{sb}$），強調翼板壓力完整參與平衡。部分教科書採「分拆法」（$A_{sf} + 0.75\rho_b^\text{rect} \times b_w \times d$），其中翼板鋼筋 $A_{sf}$ 不受 0.75 限制，腹板部分才受延性限制。兩種方法在台灣考場均可接受，但應選一種方法貫徹到底，避免混用。</p>
+<p><strong>② 令人驚訝的「退化」現象</strong></p>
+<p>平衡時 NA 在腹板（$a_b = 25.2\ \text{cm}$），加上翼板貢獻後 $A_{sb} = 100.3\ \text{cm}^2$（遠大於矩形梁的 $\rho_b b_w d = 0.0286 \times 25 \times 50 = 35.8\ \text{cm}^2$）。但取 $A_{s,\max}/2 = 37.6\ \text{cm}^2$ 後，$a$ 縮短至 5.53 cm，NA 重新落入翼板，此時 T 形梁完全以矩形梁行為運作。這說明「大翼板 T 型梁」在使用遠低於最大鋼筋量時，翼板幾乎總是未被充分利用。</p>
+<p><strong>③ 實際配筋數量估算</strong></p>
+<p>$A_s = 37.6\ \text{cm}^2$，若選用 #8 筋（$A_s = 5.07\ \text{cm}^2$/根）：<br />
+需根數 = $37.6/5.07 = 7.4$ → 選 8 根 #8（$A_s = 40.6\ \text{cm}^2$，略大於需求，合理）</p>
+<p>若選用 #9 筋（$A_s = 6.47\ \text{cm}^2$/根）：<br />
+需根數 = $37.6/6.47 = 5.8$ → 選 6 根 #9（$A_s = 38.8\ \text{cm}^2$，合理）</p>
+<p>需驗核 $b_w = 25\ \text{cm}$ 腹板內能否排下（考量淨距與覆蓋層）。</p></main>
+<footer>來源：raw/solutions/RC-2005-2/RC-2005-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

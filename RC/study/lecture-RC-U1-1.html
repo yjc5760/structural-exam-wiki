@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RC-U1-1 觀念講義｜RC 梁彎矩強度分析與設計</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--tension:#2e7d32;--tension2:#e8f5e9;
+--comp:#c62828;--comp2:#ffebee;--warn:#ef6c00;--warn2:#fff3e0;
+--key:#6a1b9a;--key2:#f3e5f5;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:34px 26px}
+header h1{margin:0 0 8px;font-size:1.6em}header .sub{opacity:.9;font-size:.93em;margin:0}
+header .meta{margin-top:12px;font-size:.82em;opacity:.8}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);
+padding:9px 14px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+nav a{text-decoration:none;color:var(--ac);font-size:.85em;padding:4px 11px;border-radius:14px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:980px;margin:0 auto;padding:24px 18px 80px}
+section{margin-bottom:46px}
+h2{font-size:1.32em;border-left:6px solid var(--ac);padding-left:12px;margin:44px 0 18px;line-height:1.4}
+h3{font-size:1.08em;margin:30px 0 10px;color:#0d47a1}
+h4{font-size:.99em;margin:20px 0 8px;color:#37474f}
+.lead{font-size:1.03em;background:#fff;border:1px solid var(--bd);border-left:5px solid var(--ac);
+border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:16px 18px;margin:16px 0}
+.why{background:var(--key2);border:1px solid #ce93d8;border-left:5px solid var(--key);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.why b:first-child{color:var(--key)}
+.trap{background:var(--warn2);border:1px solid #ffcc80;border-left:5px solid var(--warn);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.trap b:first-child{color:#e65100}
+.tens{background:var(--tension2);border:1px solid #a5d6a7;border-left:5px solid var(--tension);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.comp{background:var(--comp2);border:1px solid #ef9a9a;border-left:5px solid var(--comp);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.fig{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 14px 10px;margin:20px 0;overflow-x:auto}
+.fig svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig .cap{font-size:.85em;color:var(--mut);text-align:center;margin-top:10px;line-height:1.6}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9em;background:#fff}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}li{margin:5px 0}
+.pill{display:inline-block;font-size:.76em;padding:2px 8px;border-radius:10px;margin-right:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+details{background:#fff;border:1px solid var(--bd);border-radius:9px;padding:10px 14px;margin:12px 0}
+summary{cursor:pointer;font-weight:600;color:var(--ac)}
+details p{border-left:3px solid #e0e0e0;padding-left:12px;margin:8px 0;color:#37474f}
+.qlink{color:#1565c0;text-decoration:none;border-bottom:1px dotted #90caf9;font-weight:600}
+.katex-display{margin:14px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-top:1px solid var(--bd)}
+.chain{background:#eceff1;border-radius:9px;padding:11px 15px;margin:14px 0;font-size:.94em;line-height:1.9}
+.chain b{color:#0d47a1}
+</style>
+</head>
+<body>
+<header>
+  <h1>RC-U1-1 觀念講義：RC 梁彎矩強度分析與設計</h1>
+  <p class="sub">理解導向 — 先把物理搞懂，再去算數字。每一個規範常數都追到來源，不背表。</p>
+  <p class="meta">結構工程技師 · 第三科 鋼筋混凝土設計與預力｜涵蓋歷屆 19 題主分類 + 3 題副分類（2002–2024）｜2026-07-25 產生 · 2026-10-24 圖解改版（全部圖形由公式計算座標）</p>
+</header>
+<nav>
+  <a href="#s0">§0 全景</a>
+  <a href="#s1">§1 三個假設</a>
+  <a href="#s2">§2 單筋梁</a>
+  <a href="#s3">§3 延性的量尺</a>
+  <a href="#s4">§4 雙筋梁</a>
+  <a href="#s5">§5 T 形梁</a>
+  <a href="#s6">§6 彎矩-曲率</a>
+  <a href="#s7">§7 從載重到 As</a>
+  <a href="#s8">§8 解題流程</a>
+  <a href="#s9">§9 考點對照</a>
+  <a href="#s10">§10 陷阱總表</a>
+  <a href="#s11">§11 自我檢測</a>
+  <a href="#s12">★ 精選 5 題</a>
+  <span style="flex:1"></span>
+  <a href="unit-RC-U1-1.html" style="background:#eceff1;color:#455a64">📊 單元總覽</a>
+  <a href="lecture-RC-U1-1.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+<main>
+<section id="s0">
+<h2>§0 全景：整個單元只在問兩件事</h2>
+
+<div class="lead">
+<b>一句話：斷面的「強度」是力的平衡問題，斷面的「安全」是應變的幾何問題。</b><br>
+\(M_n\) 算得再大都沒用 —— 規範會先問你「最外層拉力筋的應變 \(\varepsilon_t\) 夠不夠大」，
+不夠就把 \(\phi\) 砍下來，甚至直接不准你這樣設計。
+RC-U1-1 的 22 題考題，全部是這兩條線的排列組合。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="強度與安全兩條線" font-family="Microsoft JhengHei,Noto Sans TC,Noto Sans CJK TC,sans-serif"><defs><marker id="f0r" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#c62828"/></marker><marker id="f0g" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#2e7d32"/></marker></defs><line x1="40.0" y1="137.5" x2="860.0" y2="137.5" stroke="#90a4ae" stroke-width="1" stroke-dasharray="5 4"/><text x="862.0" y="141.5" font-size="12" fill="#607d8b" text-anchor="end" dy="-8">中性軸</text><line x1="450.0" y1="20.0" x2="450.0" y2="390.0" stroke="#b0bec5" stroke-width="1.5" stroke-dasharray="6 5"/><text x="225.0" y="34.0" font-size="17" fill="#c62828" text-anchor="middle" font-weight="bold">強度 = 力的平衡（用 a）</text><text x="675.0" y="34.0" font-size="17" fill="#2e7d32" text-anchor="middle" font-weight="bold">安全 = 應變的幾何（用 c）</text><rect x="120.0" y="70.0" width="110.0" height="210.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="2"/><rect x="120.0" y="70.0" width="110.0" height="57.4" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.5"/><text x="175.0" y="103.7" font-size="13" fill="#b71c1c" text-anchor="middle">0.85f′c</text><circle cx="145.0" cy="250.0" r="6" fill="#1565c0" stroke="none" stroke-width="1.5"/><circle cx="175.0" cy="250.0" r="6" fill="#1565c0" stroke="none" stroke-width="1.5"/><circle cx="205.0" cy="250.0" r="6" fill="#1565c0" stroke="none" stroke-width="1.5"/><line x1="106.0" y1="70.0" x2="106.0" y2="127.4" stroke="#c62828" stroke-width="1.4"/><line x1="101.0" y1="70.0" x2="111.0" y2="70.0" stroke="#c62828" stroke-width="1.4"/><line x1="101.0" y1="127.4" x2="111.0" y2="127.4" stroke="#c62828" stroke-width="1.4"/><text x="99.0" y="102.7" font-size="12.5" fill="#c62828" text-anchor="end">a</text><line x1="80.0" y1="70.0" x2="80.0" y2="250.0" stroke="#455a64" stroke-width="1.4"/><line x1="75.0" y1="70.0" x2="85.0" y2="70.0" stroke="#455a64" stroke-width="1.4"/><line x1="75.0" y1="250.0" x2="85.0" y2="250.0" stroke="#455a64" stroke-width="1.4"/><text x="73.0" y="164.0" font-size="12.5" fill="#455a64" text-anchor="end">d</text><line x1="240.0" y1="98.7" x2="325.0" y2="98.7" stroke="#c62828" stroke-width="3" marker-end="url(#f0r)"/><text x="280.0" y="90.7" font-size="14" fill="#c62828" text-anchor="middle" font-weight="bold">C</text><line x1="325.0" y1="250.0" x2="240.0" y2="250.0" stroke="#2e7d32" stroke-width="3" marker-end="url(#f0g)"/><text x="280.0" y="242.0" font-size="14" fill="#2e7d32" text-anchor="middle" font-weight="bold">T</text><line x1="340.0" y1="98.7" x2="340.0" y2="250.0" stroke="#607d8b" stroke-width="1.4"/><line x1="335.0" y1="98.7" x2="345.0" y2="98.7" stroke="#607d8b" stroke-width="1.4"/><line x1="335.0" y1="250.0" x2="345.0" y2="250.0" stroke="#607d8b" stroke-width="1.4"/><text x="347.0" y="178.3" font-size="12.5" fill="#607d8b" text-anchor="start">d − a/2</text><text x="60.0" y="312.0" font-size="13.5" fill="#263238" text-anchor="start">C = 0.85 f′c · a · b</text><text x="60.0" y="333.0" font-size="13.5" fill="#263238" text-anchor="start">T = As · fy</text><text x="60.0" y="358.0" font-size="13.5" fill="#c62828" text-anchor="start" font-weight="bold">C = T  →  解出 a</text><text x="60.0" y="381.0" font-size="13.5" fill="#c62828" text-anchor="start" font-weight="bold">Mn = T · (d − a/2)</text><line x1="640.0" y1="70.0" x2="640.0" y2="280.0" stroke="#455a64" stroke-width="2"/><path d="M640.0,70.0 L700.0,70.0 L540.0,250.0 L640.0,250.0 Z" fill="#f1f8e9" stroke="#263238" stroke-width="1.8"/><path d="M640.0,70.0 L700.0,70.0 L640.0,137.5 Z" fill="#ffebee" stroke="none" stroke-width="0"/><line x1="700.0" y1="70.0" x2="540.0" y2="250.0" stroke="#263238" stroke-width="2"/><text x="700.0" y="60.0" font-size="13" fill="#c62828" text-anchor="middle">εcu = 0.003（固定）</text><text x="534.0" y="255.0" font-size="13" fill="#2e7d32" text-anchor="end">εt = 0.005</text><line x1="725.0" y1="70.0" x2="725.0" y2="137.5" stroke="#1565c0" stroke-width="1.4"/><line x1="720.0" y1="70.0" x2="730.0" y2="70.0" stroke="#1565c0" stroke-width="1.4"/><line x1="720.0" y1="137.5" x2="730.0" y2="137.5" stroke="#1565c0" stroke-width="1.4"/><text x="732.0" y="107.8" font-size="12.5" fill="#1565c0" text-anchor="start">c</text><line x1="725.0" y1="137.5" x2="725.0" y2="250.0" stroke="#1565c0" stroke-width="1.4"/><line x1="720.0" y1="137.5" x2="730.0" y2="137.5" stroke="#1565c0" stroke-width="1.4"/><line x1="720.0" y1="250.0" x2="730.0" y2="250.0" stroke="#1565c0" stroke-width="1.4"/><text x="732.0" y="197.8" font-size="12.5" fill="#1565c0" text-anchor="start">dt − c</text><text x="500.0" y="312.0" font-size="13.5" fill="#263238" text-anchor="start">相似三角形：εt / (dt − c) = 0.003 / c</text><text x="500.0" y="333.0" font-size="13.5" fill="#263238" text-anchor="start">c 越淺 → εt 越大 → 破壞越有預警</text><text x="500.0" y="358.0" font-size="13.5" fill="#2e7d32" text-anchor="start" font-weight="bold">εt 決定 φ、ρmax、μφ</text><text x="500.0" y="381.0" font-size="13.5" fill="#2e7d32" text-anchor="start" font-weight="bold">兩側共用同一個 c（a = β₁c）</text></svg>
+<div class="cap">左右兩張圖用<b>同一個縱座標</b>：虛線中性軸貫穿兩側，所以左邊的 a（= β₁c）和右邊的 c 是同一件事的兩種讀法。本圖按 εt = 0.005（c/d = 3/8）等比例繪製：0.003 與 εt 的長度比正好是 c 與 dt − c 的比。</div>
+</div>
+
+<div class="why">
+<b>為什麼要分成兩條線看？</b><br>
+因為考題永遠在其中一條線上加變化，而不是兩條一起改：
+<ul>
+<li><b>改左邊（力平衡）</b>：加壓力鋼筋（雙筋梁）、把壓力區從矩形換成 T 形、把混凝土換成兩種 f'c —— 合力的算法變了，幾何沒變。</li>
+<li><b>改右邊（應變幾何）</b>：問 φ 值、問 ρmax、問曲率延展比、問是不是過筋梁 —— 幾何的解讀變了，合力算法沒變。</li>
+</ul>
+看到題目先判斷「這題在動哪一條線」，你就不會拿錯公式。
+</div>
+
+<h3>本單元的地形圖</h3>
+<table>
+<thead><tr><th>考點群</th><th>在動哪一條線</th><th>歷屆出現</th><th>本講義章節</th></tr></thead>
+<tbody>
+<tr><td>Whitney 應力塊 / 單筋矩形梁</td><td>力平衡（基本型）</td><td>11 次（最高頻）</td><td>§1、§2</td></tr>
+<tr><td>雙筋梁 / 壓力筋是否降伏</td><td>力平衡（加一項）</td><td>7 次</td><td>§4</td></tr>
+<tr><td>T 形梁 / 有效翼板寬 / 中性軸位置</td><td>力平衡（換形狀）</td><td>6 次</td><td>§5</td></tr>
+<tr><td>應變相容 / φ 值 / ρb、ρmax、ρmin</td><td>應變幾何</td><td>10+ 次</td><td>§3</td></tr>
+<tr><td>曲率延展比 μφ / 轉換斷面法</td><td>應變幾何（延伸到變形）</td><td>3 次</td><td>§6</td></tr>
+<tr><td>載重組合 / 固端彎矩 / 反算 As</td><td>兩條線之外的「前置作業」</td><td>3 次</td><td>§7</td></tr>
+</tbody>
+</table>
+</section>
+<section id="s1">
+<h2>§1 三個假設撐起整個單元</h2>
+
+<div class="lead">
+USD 梁彎矩的所有公式，都只從三個假設長出來。把這三個記住，你不需要背任何一條 \(M_n\) 公式 —— 現場推得出來。
+</div>
+
+<table>
+<thead><tr><th>#</th><th>假設</th><th>它讓你能做什麼</th><th>規範</th></tr></thead>
+<tbody>
+<tr><td>①</td><td><b>平面保持平面</b>（Bernoulli）</td><td>應變沿深度線性 → 可用相似三角形，從 c 推出任何一根鋼筋的應變</td><td>ACI 318 §22.2.1.2</td></tr>
+<tr><td>②</td><td><b>混凝土壓碎應變 \(\varepsilon_{cu}=0.003\)</b></td><td>訂出「極限狀態」的錨點。整個單元都在講「混凝土壓到 0.003 的那一瞬間」</td><td>§22.2.2.1</td></tr>
+<tr><td>③</td><td><b>Whitney 等值矩形應力塊</b></td><td>把積分變成乘法：\(C = 0.85f'_c \cdot a \cdot b\)</td><td>§22.2.2.3–4</td></tr>
+</tbody>
+</table>
+
+<p>加上一個「鋼筋是理想彈塑性」（\(\varepsilon_s \ge \varepsilon_y\) 時 \(f_s = f_y\)，否則 \(f_s = E_s\varepsilon_s\)），
+本單元的物理就到此為止了。</p>
+
+<h3>1.1 Whitney 應力塊在等效什麼</h3>
+
+<div class="fig">
+<svg viewBox="0 0 900 322" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Whitney 應力塊等效" font-family="Microsoft JhengHei,Noto Sans TC,Noto Sans CJK TC,sans-serif"><defs><marker id="f1p" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#6a1b9a"/></marker></defs><line x1="30.0" y1="210.0" x2="880.0" y2="210.0" stroke="#90a4ae" stroke-width="1" stroke-dasharray="4 3"/><line x1="30.0" y1="110.0" x2="880.0" y2="110.0" stroke="#90a4ae" stroke-width="1" stroke-dasharray="4 3"/><text x="880.0" y="226.0" font-size="11.5" fill="#607d8b" text-anchor="end">中性軸</text><text x="150.0" y="30.0" font-size="14.5" fill="#0d47a1" text-anchor="middle" font-weight="bold">① 應變（直線）</text><line x1="100.0" y1="60.0" x2="100.0" y2="250.0" stroke="#455a64" stroke-width="2"/><path d="M100.0,60.0 L190.0,60.0 L100.0,210.0 Z" fill="#ffebee" stroke="#263238" stroke-width="1.6"/><line x1="100.0" y1="210.0" x2="76.0" y2="250.0" stroke="#263238" stroke-width="1.6" stroke-dasharray="4 3"/><text x="194.0" y="64.0" font-size="12" fill="#c62828" text-anchor="start">0.003</text><text x="168.0" y="125.0" font-size="12" fill="#607d8b" text-anchor="start">0.002</text><circle cx="160.0" cy="110.0" r="3" fill="#607d8b" stroke="none" stroke-width="1.5"/><line x1="82.0" y1="60.0" x2="82.0" y2="210.0" stroke="#1565c0" stroke-width="1.4"/><line x1="77.0" y1="60.0" x2="87.0" y2="60.0" stroke="#1565c0" stroke-width="1.4"/><line x1="77.0" y1="210.0" x2="87.0" y2="210.0" stroke="#1565c0" stroke-width="1.4"/><text x="75.0" y="139.0" font-size="12.5" fill="#1565c0" text-anchor="end">c</text><text x="415.0" y="30.0" font-size="14.5" fill="#0d47a1" text-anchor="middle" font-weight="bold">② 真實應力（曲線）</text><path d="M360.0,60.0 L451.7,60.0 L451.9,61.2 L452.1,62.5 L452.3,63.8 L452.5,65.0 L452.7,66.2 L452.9,67.5 L453.1,68.8 L453.3,70.0 L453.5,71.2 L453.8,72.5 L454.0,73.8 L454.2,75.0 L454.4,76.2 L454.6,77.5 L454.8,78.8 L455.0,80.0 L455.2,81.2 L455.4,82.5 L455.6,83.8 L455.8,85.0 L456.0,86.2 L456.2,87.5 L456.5,88.8 L456.7,90.0 L456.9,91.2 L457.1,92.5 L457.3,93.8 L457.5,95.0 L457.7,96.2 L457.9,97.5 L458.1,98.8 L458.3,100.0 L458.5,101.2 L458.8,102.5 L459.0,103.8 L459.2,105.0 L459.4,106.2 L459.6,107.5 L459.8,108.8 L460.0,110.0 L460.0,111.2 L459.9,112.5 L459.9,113.8 L459.8,115.0 L459.6,116.2 L459.4,117.5 L459.2,118.8 L459.0,120.0 L458.7,121.2 L458.4,122.5 L458.1,123.8 L457.8,125.0 L457.4,126.2 L456.9,127.5 L456.5,128.8 L456.0,130.0 L455.5,131.2 L454.9,132.5 L454.4,133.8 L453.8,135.0 L453.1,136.2 L452.4,137.5 L451.7,138.8 L451.0,140.0 L450.2,141.2 L449.4,142.5 L448.6,143.8 L447.8,145.0 L446.9,146.2 L445.9,147.5 L445.0,148.8 L444.0,150.0 L443.0,151.2 L441.9,152.5 L440.9,153.8 L439.8,155.0 L438.6,156.2 L437.4,157.5 L436.2,158.8 L435.0,160.0 L433.7,161.2 L432.4,162.5 L431.1,163.8 L429.8,165.0 L428.4,166.2 L426.9,167.5 L425.5,168.8 L424.0,170.0 L422.5,171.2 L420.9,172.5 L419.4,173.8 L417.8,175.0 L416.1,176.2 L414.4,177.5 L412.7,178.8 L411.0,180.0 L409.2,181.2 L407.4,182.5 L405.6,183.8 L403.8,185.0 L401.9,186.2 L399.9,187.5 L398.0,188.8 L396.0,190.0 L394.0,191.2 L391.9,192.5 L389.9,193.8 L387.8,195.0 L385.6,196.2 L383.4,197.5 L381.2,198.8 L379.0,200.0 L376.7,201.2 L374.4,202.5 L372.1,203.8 L369.8,205.0 L367.4,206.2 L364.9,207.5 L362.5,208.8 L360.0,210.0 L360.0,210.0 Z" fill="#ffcdd2" stroke="#c62828" stroke-width="2"/><line x1="360.0" y1="60.0" x2="360.0" y2="250.0" stroke="#455a64" stroke-width="2"/><text x="468.0" y="102.0" font-size="12" fill="#c62828" text-anchor="start">峰值 k₃f′c（ε = 0.002 處）</text><text x="455.7" y="56.0" font-size="11.5" fill="#c62828" text-anchor="start">0.92×峰值</text><line x1="300.0" y1="121.5" x2="356.0" y2="121.5" stroke="#6a1b9a" stroke-width="2.5" marker-end="url(#f1p)"/><text x="296.0" y="117.5" font-size="13" fill="#6a1b9a" text-anchor="end" font-weight="bold">C</text><text x="296.0" y="134.5" font-size="11.5" fill="#6a1b9a" text-anchor="end">在 0.41c</text><text x="340.0" y="242.0" font-size="12" fill="#455a64" text-anchor="start">合力 = 0.764 × 峰值 × c · b</text><text x="745.0" y="30.0" font-size="14.5" fill="#0d47a1" text-anchor="middle" font-weight="bold">③ 等值矩形（a = β₁c）</text><line x1="690.0" y1="60.0" x2="690.0" y2="250.0" stroke="#455a64" stroke-width="2"/><rect x="690.0" y="60.0" width="89.9" height="127.5" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="2"/><text x="734.9" y="76.0" font-size="12" fill="#b71c1c" text-anchor="middle">0.85f′c</text><line x1="795.9" y1="60.0" x2="795.9" y2="187.5" stroke="#c62828" stroke-width="1.4"/><line x1="790.9" y1="60.0" x2="800.9" y2="60.0" stroke="#c62828" stroke-width="1.4"/><line x1="790.9" y1="187.5" x2="800.9" y2="187.5" stroke="#c62828" stroke-width="1.4"/><text x="802.9" y="127.8" font-size="12.5" fill="#c62828" text-anchor="start">a = 0.85c</text><line x1="630.0" y1="123.8" x2="686.0" y2="123.8" stroke="#6a1b9a" stroke-width="2.5" marker-end="url(#f1p)"/><text x="626.0" y="119.8" font-size="13" fill="#6a1b9a" text-anchor="end" font-weight="bold">C</text><text x="626.0" y="153.8" font-size="11.5" fill="#6a1b9a" text-anchor="end">在 a/2 = 0.425c</text><text x="670.0" y="242.0" font-size="12" fill="#455a64" text-anchor="start">合力 = 0.85f′c · a · b</text><line x1="356.0" y1="121.5" x2="626.0" y2="123.8" stroke="#6a1b9a" stroke-width="1" stroke-dasharray="2 3"/><text x="40.0" y="285.0" font-size="13.5" fill="#263238" text-anchor="start" font-weight="bold">兩個等效條件：合力大小相等（0.85β₁f′c = k₁k₃f′c）＋ 作用點相同（β₁/2 = k₂ → β₁ = 2k₂）</text><text x="40.0" y="309.0" font-size="12.5" fill="#c62828" text-anchor="start">以 Hognestad 曲線（εo = 0.002）積分：k₂ = 0.410 → 2k₂ = 0.82；規範由試驗迴歸取 β₁ = 0.85（f′c ≤ 280），相差約 4%。</text></svg>
+<div class="cap">三格共用同一個中性軸與 c，曲線是以 Hognestad 應力-應變關係逐點算出的真實形狀：應力在中性軸處為零、在 ε = 0.002 處達峰值、最外緣略為下降。Whitney 應力塊不是「近似」而是「等效」—— 被設計成合力大小與作用點都跟曲線一致，所以兩個紫色箭頭幾乎等高。</div>
+</div>
+
+<div class="why">
+<b>0.85 從哪來？</b>　它<u>不是</u>安全係數。標準圓柱試體是在幾分鐘內快速加載到破壞測得 \(f'_c\)；
+實際構材承受的是<b>持續載重</b>，混凝土在長期應力下強度約掉 15%（Rüsch 效應），
+再加上構材幾何與試體不同。這 0.85 是把「試體強度」翻譯成「構材裡的可用強度」的轉換係數，
+所以它<b>不隨 \(f'_c\) 改變</b>。
+</div>
+
+<div class="why">
+<b>β₁ 為什麼會隨 f'c 遞減？</b>　由上圖：\(\beta_1 = 2k_2\)，而 \(k_2\) 是真實應力分布的<b>形心位置</b>。
+低強度混凝土的應力-應變曲線在峰值後平緩下降（延性），壓力區飽滿 → 形心偏低 → \(k_2\) 大 → \(\beta_1\) 大。
+高強度混凝土曲線又陡又尖（脆性），峰值後迅速崩落，壓力集中在最外緣一小片 →
+形心往上跑 → \(k_2\) 小 → \(\beta_1\) 小。<br>
+<b>所以「β₁ 遞減」其實是在說「高強度混凝土比較脆」。</b>這條物理同時解釋了為什麼高強混凝土的斷面延性較差。
+</div>
+
+<h3>1.2 β₁ 的分段公式與它的兩個端點</h3>
+
+$$\beta_1 = \begin{cases}
+0.85 & f'_c \leq 280 \\[4pt]
+0.85 - 0.05\,\dfrac{f'_c - 280}{70} & 280 < f'_c < 560 \\[4pt]
+0.65 & f'_c \geq 560
+\end{cases}\qquad (\text{kgf/cm}^2)$$
+
+<div class="fig">
+<svg viewBox="0 55 760 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="β1 分段曲線" font-family="Microsoft JhengHei,Noto Sans TC,Noto Sans CJK TC,sans-serif"><line x1="90.0" y1="250.0" x2="690.0" y2="250.0" stroke="#455a64" stroke-width="1.8"/><line x1="90.0" y1="250.0" x2="90.0" y2="70.0" stroke="#455a64" stroke-width="1.8"/><line x1="90.0" y1="250.0" x2="90.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="90.0" y="271.0" font-size="12" fill="#455a64" text-anchor="middle">0</text><text x="90.0" y="286.0" font-size="10.5" fill="#607d8b" text-anchor="middle"></text><line x1="210.0" y1="250.0" x2="210.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="210.0" y="271.0" font-size="12" fill="#455a64" text-anchor="middle">140</text><text x="210.0" y="286.0" font-size="10.5" fill="#607d8b" text-anchor="middle">MPa 版 14</text><line x1="330.0" y1="250.0" x2="330.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="330.0" y="271.0" font-size="12" fill="#455a64" text-anchor="middle">280</text><text x="330.0" y="286.0" font-size="10.5" fill="#607d8b" text-anchor="middle">MPa 版 28</text><line x1="450.0" y1="250.0" x2="450.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="450.0" y="271.0" font-size="12" fill="#455a64" text-anchor="middle">420</text><text x="450.0" y="286.0" font-size="10.5" fill="#607d8b" text-anchor="middle">MPa 版 42</text><line x1="570.0" y1="250.0" x2="570.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="570.0" y="271.0" font-size="12" fill="#455a64" text-anchor="middle">560</text><text x="570.0" y="286.0" font-size="10.5" fill="#607d8b" text-anchor="middle">MPa 版 56</text><line x1="690.0" y1="250.0" x2="690.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="690.0" y="271.0" font-size="12" fill="#455a64" text-anchor="middle">700</text><text x="690.0" y="286.0" font-size="10.5" fill="#607d8b" text-anchor="middle">MPa 版 70</text><line x1="84.0" y1="220.0" x2="90.0" y2="220.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="224.0" font-size="12" fill="#455a64" text-anchor="end">0.65</text><line x1="90.0" y1="220.0" x2="690.0" y2="220.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="190.0" x2="90.0" y2="190.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="194.0" font-size="12" fill="#455a64" text-anchor="end">0.70</text><line x1="90.0" y1="190.0" x2="690.0" y2="190.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="160.0" x2="90.0" y2="160.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="164.0" font-size="12" fill="#455a64" text-anchor="end">0.75</text><line x1="90.0" y1="160.0" x2="690.0" y2="160.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="130.0" x2="90.0" y2="130.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="134.0" font-size="12" fill="#455a64" text-anchor="end">0.80</text><line x1="90.0" y1="130.0" x2="690.0" y2="130.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="100.0" x2="90.0" y2="100.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="104.0" font-size="12" fill="#455a64" text-anchor="end">0.85</text><line x1="90.0" y1="100.0" x2="690.0" y2="100.0" stroke="#eceff1" stroke-width="1"/><text x="390.0" y="300.0" font-size="13.5" fill="#263238" text-anchor="middle">f′c（kgf/cm²；下排為 MPa 版公式的對應刻度）</text><text x="36.0" y="160.0" font-size="14" fill="#263238" text-anchor="middle">β₁</text><path d="M90.0,100.0 L330.0,100.0 L570.0,220.0 L690.0,220.0" fill="none" stroke="#1565c0" stroke-width="3"/><circle cx="330.0" cy="100.0" r="5" fill="#c62828" stroke="none" stroke-width="1.5"/><text x="338.0" y="91.0" font-size="12.5" fill="#c62828" text-anchor="start">(280, 0.85) 高原結束</text><circle cx="570.0" cy="220.0" r="5" fill="#c62828" stroke="none" stroke-width="1.5"/><text x="578.0" y="211.0" font-size="12.5" fill="#c62828" text-anchor="start">(560, 0.65) 地板</text><circle cx="390.0" cy="130.0" r="4.5" fill="#ef6c00" stroke="none" stroke-width="1.5"/><line x1="390.0" y1="130.0" x2="390.0" y2="250.0" stroke="#ef6c00" stroke-width="1" stroke-dasharray="3 3"/><text x="398.0" y="123.0" font-size="12.5" fill="#ef6c00" text-anchor="start">f′c=350 → β₁=0.80　← RC-2002-4</text><circle cx="450.0" cy="160.0" r="4.5" fill="#ef6c00" stroke="none" stroke-width="1.5"/><line x1="450.0" y1="160.0" x2="450.0" y2="250.0" stroke="#ef6c00" stroke-width="1" stroke-dasharray="3 3"/><text x="442.0" y="180.0" font-size="12.5" fill="#ef6c00" text-anchor="end">f′c=420 → β₁=0.75</text><path d="M450.0,160.0 L510.0,160.0 L510.0,190.0 Z" fill="none" stroke="#607d8b" stroke-width="1" stroke-dasharray="3 2"/><text x="480.0" y="155.0" font-size="11.5" fill="#607d8b" text-anchor="middle">+70</text><text x="514.0" y="169.0" font-size="11.5" fill="#607d8b" text-anchor="start">−0.05</text></svg>
+<div class="cap">兩個端點就是全部資訊：280 以下是高原、560 以上是地板，中間每 +70 少 0.05。MPa 版公式把端點寫成 28 / 56、每 7 MPa 少 0.05，形狀完全一樣（下排刻度）。</div>
+</div>
+
+<div class="trap">
+<b>單位陷阱（最常見的低級失分）</b><br>
+kgf/cm² 版本：轉折點 280、560，每 <b>70</b> 遞減 0.05。<br>
+MPa 版本：轉折點 28、56，每 <b>7</b> 遞減 0.05。<br>
+兩者是同一條線，只是橫軸刻度差 ~10.2 倍。看到題目先確認單位，再選端點 —— 不要把 280 kgf/cm² 誤當成 280 MPa。
+</div>
+
+<div class="trap">
+<b>β₁ 只管幾何換算，不管應力大小</b><br>
+\(0.85f'_c\) 這個<b>應力值</b>永遠是 0.85，不會因為 β₁ 變成 0.75 就跟著改。
+β₁ 唯一的工作是 \(a = \beta_1 c\)，也就是「應力塊深度 ↔ 中性軸深度」的換算。
+把兩個 0.85 混在一起是本單元最典型的觀念錯誤。
+</div>
+
+<div class="chain">
+<b>因果鏈①：</b>高強混凝土脆 → 應力分布尖 → 形心上移 → k₂ 小 → <b>β₁ 小</b> →
+同樣的 a 對應更深的 c → εt 更小 → <b>延性更差</b>
+</div>
+</section>
+<section id="s2">
+<h2>§2 單筋矩形梁：五步全景（其他梁型都是它的變形）</h2>
+
+<div class="lead">
+單筋矩形梁不是「最簡單的一種梁」，而是<b>母型</b>。雙筋梁是它多一項力，T 形梁是它換一個壓力區形狀。
+先把這五步走順，後面兩節只是在第 1 步動手腳。
+</div>
+
+<table>
+<thead><tr><th>步</th><th>做什麼</th><th>式子</th><th>在問什麼</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>力平衡求應力塊深度</td><td>\(a = \dfrac{A_s f_y}{0.85 f'_c b}\)</td><td>混凝土要動用多深才壓得住鋼筋的拉力</td></tr>
+<tr><td>2</td><td>換算中性軸</td><td>\(c = a/\beta_1\)</td><td>真正的應變零點在哪</td></tr>
+<tr><td>3</td><td>應變幾何</td><td>\(\varepsilon_t = 0.003\dfrac{d_t - c}{c}\)</td><td>破壞夠不夠有預警</td></tr>
+<tr><td>4</td><td>查 φ</td><td>見 §3</td><td>規範願意給你幾成強度</td></tr>
+<tr><td>5</td><td>強度與驗核</td><td>\(M_n = A_s f_y\!\left(d - \dfrac{a}{2}\right)\)，\(\phi M_n \ge M_u\)</td><td>夠不夠</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>為什麼第 1 步能直接用 \(f_y\)，不必先驗鋼筋降不降伏？</b><br>
+因為第 3 步會替你檢查。如果你算出來的 \(\varepsilon_t &lt; \varepsilon_y\)，代表「鋼筋根本沒降伏」，
+第 1 步的 \(A_s f_y\) 就是假的，整題要改用應變相容重算（這正是<b>過筋梁</b>，見 RC-2014-1）。
+所以第 3 步不是「順便算 φ」，它是<b>對第 1 步假設的驗證</b>。<br>
+換句話說：<b>先假設、後驗證</b>是本單元的統一解題節奏，不只用在雙筋梁的壓力筋上。
+</div>
+
+<h3>2.1 力臂為什麼是 d − a/2</h3>
+<p>拉力 \(T\) 作用在鋼筋形心（深度 \(d\)），壓力 \(C\) 作用在矩形應力塊的形心（深度 \(a/2\)）。
+兩力大小相等方向相反，構成力偶，力臂就是兩者距離 \(d - a/2\)。
+所以 \(M_n\) 也可以寫成 \(0.85f'_c\,ab\,(d - a/2)\) —— 兩式恆等，因為 \(C=T\)。
+考試時哪個數字比較乾淨就用哪個。</p>
+
+<div class="trap">
+<b>力臂用的是 a/2，不是 c/2</b><br>
+形心屬於<b>應力塊</b>，不屬於中性軸。\(c\) 只在算應變時出現，\(a\) 只在算力與力臂時出現。
+把兩者的角色分清楚，本單元一半的計算錯誤就消失了。
+</div>
+
+<h3>2.2 三個能救命的極限檢查</h3>
+<div class="box">
+<b>① \(A_s \to 0\)：</b> \(a \to 0\)，力臂 \(\to d\)（最大值），\(M_n \to A_s f_y d\)。
+方向合理 —— 鋼筋越少，每一根鋼筋的效率越高，但總強度趨近 0。<br><br>
+<b>② \(f'_c \uparrow\)：</b> \(a \downarrow\) → 力臂 \(d - a/2 \uparrow\) → \(M_n\) 微幅上升。
+注意<b>上升幅度很小</b>（因為 \(a\) 本來就遠小於 \(d\)）。
+這解釋了 RC-2022-2 的結論：<b>提高 f'c 對梁的彎矩強度幾乎無效，提高 fy 或加 As 才有效</b>。
+混凝土強度該花在柱子與剪力上，不是花在梁的彎矩上。<br><br>
+<b>③ \(a\) 必須遠小於 \(d\)：</b>正常設計 \(a/d\) 約 0.15～0.30。
+而 \(\rho_{max}\) 對應的 \(a/d = 3\beta_1/7\)（\(\beta_1=0.85\) 時 <b>0.364</b>）。算出 \(a/d\) 超過這個值，斷面就已經超過 \(\rho_{max}\)，先別往下算，回頭檢查 \(A_s\) 是否抄錯。
+</div>
+
+<div class="chain">
+<b>因果鏈②：</b>As 增加 → T 增加 → a 增加 → c 增加 → <b>εt 減小</b> →
+φ 下降、延性下降 → 到某個點 φMn 不增反減。<b>加鋼筋不是無限有效的</b>，這是 ρmax 存在的理由。
+</div>
+</section>
+
+<section id="s3">
+<h2>§3 延性的量尺：εt、φ、ρb、ρmax、ρmin</h2>
+
+<div class="lead">
+這一節是 RC-U1-1 的心臟。所有「看起來要背」的數字 —— 0.002、0.004、0.005、0.75ρb、6120、3/7、14/fy ——
+其實只有<b>兩個</b>獨立來源：\(\varepsilon_{cu}=0.003\) 與 \(\varepsilon_y = f_y/E_s\)。其餘都是它們的算術結果。
+</div>
+
+<h3>3.1 一切的起點：把應變幾何寫成 c/d</h3>
+<p>設最外層拉力筋深度 \(d_t\)，指定一個目標應變 \(\varepsilon_t\)，相似三角形立刻給你中性軸位置：</p>
+$$\frac{c}{d_t} = \frac{\varepsilon_{cu}}{\varepsilon_{cu} + \varepsilon_t} = \frac{0.003}{0.003+\varepsilon_t}$$
+<p>這一條就是<b>整節的萬用鑰匙</b>。把不同的 \(\varepsilon_t\) 代進去：</p>
+
+<table>
+<thead><tr><th>代入 \(\varepsilon_t\)</th><th>\(c/d_t\)</th><th>這叫什麼</th><th>意義</th></tr></thead>
+<tbody>
+<tr><td>\(\varepsilon_y = 0.00206\)（SD420）</td><td>0.593</td><td><b>平衡狀態</b></td><td>混凝土壓碎與鋼筋降伏同時發生 → 導出 \(\rho_b\)</td></tr>
+<tr><td>0.004</td><td>3/7 = 0.4286</td><td><b>最低延性門檻</b></td><td>新規範 \(\rho_{max}\) 的來源</td></tr>
+<tr><td>0.005</td><td>3/8 = 0.375</td><td><b>拉力控制</b></td><td>\(\phi = 0.9\) 的門檻</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>6120 是什麼？</b>　把上式乘開就看到了：
+\(\dfrac{0.003}{0.003+f_y/E_s} = \dfrac{0.003E_s}{0.003E_s + f_y} = \dfrac{6120}{6120+f_y}\)，
+其中 \(6120 = 0.003 \times 2.04\times10^6\) kgf/cm²。<br>
+MPa 制下 \(E_s = 2\times10^5\)，同一個數變成 \(600\)。
+<b>它不是常數，它是 \(\varepsilon_{cu}E_s\)。</b>忘了就當場乘一次，比背安全。
+</div>
+
+<h3>3.2 平衡鋼筋比 ρ<sub>b</sub>：把幾何翻譯回鋼筋量</h3>
+<p>在平衡狀態下 \(c_b = \dfrac{6120}{6120+f_y}d\)，代回力平衡 \(0.85f'_c\beta_1 c_b b = A_s f_y\)：</p>
+$$\rho_b = \frac{0.85\beta_1 f'_c}{f_y}\cdot\frac{6120}{6120+f_y}$$
+
+<div class="box">
+<b>極限檢查：</b>
+\(f_y \to \infty\)：後項 \(\to 0\)，\(\rho_b \to 0\)。物理上合理 —— 鋼筋強到幾乎不會降伏，
+「同時降伏與壓碎」這件事就不可能發生，平衡點退化。<br>
+\(f'_c \uparrow\)：\(\rho_b \uparrow\)（混凝土壓得住更多鋼筋），但 \(\beta_1\) 同時下降，
+所以<b>成長比線性慢</b>。這就是高強混凝土題的隱藏考點。
+</div>
+
+<h3>3.3 兩代最大配筋規定：其實是同一件事的兩種寫法</h3>
+
+<div class="fig">
+<svg viewBox="0 0 780 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="兩代最大配筋 c/d 比較" font-family="Microsoft JhengHei,Noto Sans TC,Noto Sans CJK TC,sans-serif"><line x1="90.0" y1="270.0" x2="730.0" y2="270.0" stroke="#eceff1" stroke-width="1"/><line x1="90.0" y1="231.7" x2="730.0" y2="231.7" stroke="#eceff1" stroke-width="1"/><line x1="90.0" y1="193.3" x2="730.0" y2="193.3" stroke="#eceff1" stroke-width="1"/><line x1="90.0" y1="116.7" x2="730.0" y2="116.7" stroke="#eceff1" stroke-width="1"/><line x1="90.0" y1="40.0" x2="730.0" y2="40.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="270.0" x2="90.0" y2="270.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="274.0" font-size="12" fill="#455a64" text-anchor="end">0.30</text><line x1="84.0" y1="218.9" x2="90.0" y2="218.9" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="222.9" font-size="12" fill="#455a64" text-anchor="end">0.40</text><line x1="84.0" y1="167.8" x2="90.0" y2="167.8" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="171.8" font-size="12" fill="#455a64" text-anchor="end">0.50</text><line x1="84.0" y1="116.7" x2="90.0" y2="116.7" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="120.7" font-size="12" fill="#455a64" text-anchor="end">0.60</text><line x1="84.0" y1="65.6" x2="90.0" y2="65.6" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="69.6" font-size="12" fill="#455a64" text-anchor="end">0.70</text><line x1="90.0" y1="270.0" x2="730.0" y2="270.0" stroke="#455a64" stroke-width="1.8"/><line x1="90.0" y1="270.0" x2="90.0" y2="40.0" stroke="#455a64" stroke-width="1.8"/><line x1="90.0" y1="270.0" x2="90.0" y2="276.0" stroke="#455a64" stroke-width="1.5"/><text x="90.0" y="291.0" font-size="12" fill="#455a64" text-anchor="middle">2000</text><line x1="218.0" y1="270.0" x2="218.0" y2="276.0" stroke="#455a64" stroke-width="1.5"/><text x="218.0" y="291.0" font-size="12" fill="#455a64" text-anchor="middle">3000</text><line x1="346.0" y1="270.0" x2="346.0" y2="276.0" stroke="#455a64" stroke-width="1.5"/><text x="346.0" y="291.0" font-size="12" fill="#455a64" text-anchor="middle">4000</text><line x1="474.0" y1="270.0" x2="474.0" y2="276.0" stroke="#455a64" stroke-width="1.5"/><text x="474.0" y="291.0" font-size="12" fill="#455a64" text-anchor="middle">5000</text><line x1="602.0" y1="270.0" x2="602.0" y2="276.0" stroke="#455a64" stroke-width="1.5"/><text x="602.0" y="291.0" font-size="12" fill="#455a64" text-anchor="middle">6000</text><line x1="730.0" y1="270.0" x2="730.0" y2="276.0" stroke="#455a64" stroke-width="1.5"/><text x="730.0" y="291.0" font-size="12" fill="#455a64" text-anchor="middle">7000</text><text x="410.0" y="316.0" font-size="13.5" fill="#263238" text-anchor="middle">fy（kgf/cm²）</text><text x="30.0" y="157.6" font-size="14" fill="#263238" text-anchor="middle">c/d</text><path d="M90.0,38.1 L96.4,40.5 L102.8,42.8 L109.2,45.1 L115.6,47.4 L122.0,49.6 L128.4,51.8 L134.8,54.0 L141.2,56.2 L147.6,58.3 L154.0,60.5 L160.4,62.5 L166.8,64.6 L173.2,66.7 L179.6,68.7 L186.0,70.7 L192.4,72.7 L198.8,74.6 L205.2,76.5 L211.6,78.5 L218.0,80.4 L224.4,82.2 L230.8,84.1 L237.2,85.9 L243.6,87.7 L250.0,89.5 L256.4,91.3 L262.8,93.0 L269.2,94.8 L275.6,96.5 L282.0,98.2 L288.4,99.9 L294.8,101.5 L301.2,103.2 L307.6,104.8 L314.0,106.4 L320.4,108.0 L326.8,109.6 L333.2,111.2 L339.6,112.7 L346.0,114.2 L352.4,115.8 L358.8,117.3 L365.2,118.8 L371.6,120.2 L378.0,121.7 L384.4,123.1 L390.8,124.6 L397.2,126.0 L403.6,127.4 L410.0,128.8 L416.4,130.2 L422.8,131.5 L429.2,132.9 L435.6,134.2 L442.0,135.6 L448.4,136.9 L454.8,138.2 L461.2,139.5 L467.6,140.8 L474.0,142.0 L480.4,143.3 L486.8,144.5 L493.2,145.8 L499.6,147.0 L506.0,148.2 L512.4,149.4 L518.8,150.6 L525.2,151.8 L531.6,153.0 L538.0,154.1 L544.4,155.3 L550.8,156.4 L557.2,157.6 L563.6,158.7 L570.0,159.8 L576.4,160.9 L582.8,162.0 L589.2,163.1 L595.6,164.2 L602.0,165.2 L608.4,166.3 L614.8,167.4 L621.2,168.4 L627.6,169.4 L634.0,170.5 L640.4,171.5 L646.8,172.5 L653.2,173.5 L659.6,174.5 L666.0,175.5 L672.4,176.5 L678.8,177.4 L685.2,178.4 L691.6,179.3 L698.0,180.3 L704.4,181.2 L710.8,182.2 L717.2,183.1 L723.6,184.0 L730.0,184.9" fill="none" stroke="#90a4ae" stroke-width="2" stroke-dasharray="6 4"/><text x="678.8" y="169.4" font-size="12" fill="#607d8b" text-anchor="middle">平衡 cb/d</text><path d="M90.0,134.4 L96.4,136.2 L102.8,137.9 L109.2,139.7 L115.6,141.4 L122.0,143.0 L128.4,144.7 L134.8,146.4 L141.2,148.0 L147.6,149.6 L154.0,151.2 L160.4,152.7 L166.8,154.3 L173.2,155.8 L179.6,157.3 L186.0,158.8 L192.4,160.3 L198.8,161.8 L205.2,163.2 L211.6,164.7 L218.0,166.1 L224.4,167.5 L230.8,168.9 L237.2,170.3 L243.6,171.6 L250.0,173.0 L256.4,174.3 L262.8,175.6 L269.2,176.9 L275.6,178.2 L282.0,179.5 L288.4,180.7 L294.8,182.0 L301.2,183.2 L307.6,184.4 L314.0,185.6 L320.4,186.8 L326.8,188.0 L333.2,189.2 L339.6,190.4 L346.0,191.5 L352.4,192.7 L358.8,193.8 L365.2,194.9 L371.6,196.0 L378.0,197.1 L384.4,198.2 L390.8,199.3 L397.2,200.3 L403.6,201.4 L410.0,202.4 L416.4,203.5 L422.8,204.5 L429.2,205.5 L435.6,206.5 L442.0,207.5 L448.4,208.5 L454.8,209.5 L461.2,210.4 L467.6,211.4 L474.0,212.4 L480.4,213.3 L486.8,214.2 L493.2,215.2 L499.6,216.1 L506.0,217.0 L512.4,217.9 L518.8,218.8 L525.2,219.7 L531.6,220.6 L538.0,221.4 L544.4,222.3 L550.8,223.2 L557.2,224.0 L563.6,224.9 L570.0,225.7 L576.4,226.5 L582.8,227.3 L589.2,228.2 L595.6,229.0 L602.0,229.8 L608.4,230.6 L614.8,231.4 L621.2,232.1 L627.6,232.9 L634.0,233.7 L640.4,234.4 L646.8,235.2 L653.2,236.0 L659.6,236.7 L666.0,237.4 L672.4,238.2 L678.8,238.9 L685.2,239.6 L691.6,240.3 L698.0,241.0 L704.4,241.8 L710.8,242.5 L717.2,243.1 L723.6,243.8 L730.0,244.5" fill="none" stroke="#546e7a" stroke-width="3"/><text x="102.8" y="127.9" font-size="12.5" fill="#37474f" text-anchor="start">舊：0.75ρb ⇔ c/d = 0.75·cb/d</text><line x1="90.0" y1="204.3" x2="730.0" y2="204.3" stroke="#1565c0" stroke-width="3"/><text x="726.0" y="196.3" font-size="12.5" fill="#1565c0" text-anchor="end">新：εt ≥ 0.004 ⇔ c/d = 3/7（與 fy 無關）</text><line x1="90.0" y1="231.7" x2="730.0" y2="231.7" stroke="#2e7d32" stroke-width="1.5" stroke-dasharray="5 4"/><text x="726.0" y="247.7" font-size="12" fill="#2e7d32" text-anchor="end">εt = 0.005 ⇔ c/d = 3/8（SD420 拉力控制）</text><circle cx="421.5" cy="204.3" r="5" fill="#c62828" stroke="none" stroke-width="1.5"/><text x="413.5" y="224.3" font-size="12" fill="#c62828" text-anchor="end">交點 fy ≈ 4590</text><line x1="192.4" y1="270.0" x2="192.4" y2="45.1" stroke="#ef6c00" stroke-width="1" stroke-dasharray="2 3"/><text x="192.4" y="40.6" font-size="12" fill="#ef6c00" text-anchor="middle" font-weight="bold">SD280</text><circle cx="192.4" cy="160.3" r="4" fill="#546e7a" stroke="none" stroke-width="1.5"/><text x="198.4" y="154.3" font-size="11.5" fill="#37474f" text-anchor="start">0.515</text><text x="198.4" y="65.6" font-size="11.5" fill="#ef6c00" text-anchor="start">新/舊 = 0.833</text><text x="198.4" y="80.6" font-size="11.5" fill="#ef6c00" text-anchor="start">（新版嚴 17%）</text><line x1="371.6" y1="270.0" x2="371.6" y2="45.1" stroke="#ef6c00" stroke-width="1" stroke-dasharray="2 3"/><text x="371.6" y="40.6" font-size="12" fill="#ef6c00" text-anchor="middle" font-weight="bold">SD420</text><circle cx="371.6" cy="196.0" r="4" fill="#546e7a" stroke="none" stroke-width="1.5"/><text x="377.6" y="190.0" font-size="11.5" fill="#37474f" text-anchor="start">0.445</text><text x="377.6" y="65.6" font-size="11.5" fill="#ef6c00" text-anchor="start">新/舊 = 0.964</text><text x="377.6" y="80.6" font-size="11.5" fill="#ef6c00" text-anchor="start">（新版嚴 4%）</text><line x1="550.8" y1="270.0" x2="550.8" y2="45.1" stroke="#ef6c00" stroke-width="1" stroke-dasharray="2 3"/><text x="550.8" y="40.6" font-size="12" fill="#ef6c00" text-anchor="middle" font-weight="bold">SD550</text><circle cx="550.8" cy="223.2" r="4" fill="#546e7a" stroke="none" stroke-width="1.5"/><text x="556.8" y="217.2" font-size="11.5" fill="#37474f" text-anchor="start">0.392</text><text x="556.8" y="65.6" font-size="11.5" fill="#ef6c00" text-anchor="start">新/舊 = 1.094</text><text x="556.8" y="80.6" font-size="11.5" fill="#ef6c00" text-anchor="start">（新版寬 9%）</text></svg>
+<div class="cap">橫軸是鋼筋強度，縱軸是允許的最大 c/d（c/d 越大＝鋼筋越多）。舊規範的上限隨 fy 下滑，新規範是一條水平線，兩者在 fy ≈ 4590 相交。所以「新規範比較嚴」只對 SD420 以下成立；SD550 時新版的 c/d 上限反而較寬，代價是 εt = 0.004 落在過渡區深處（φ ≈ 0.75），強度被 φ 砍回來。</div>
+</div>
+
+<p>新規範 \(\rho_{max}\) 的推導只要三行：</p>
+$$c_{max} = \frac{0.003}{0.003+0.004}d = \frac{3}{7}d \;\Rightarrow\; a_{max} = \frac{3\beta_1}{7}d
+\;\Rightarrow\; \rho_{max} = \frac{0.85f'_c a_{max}}{f_y d} = \frac{3\beta_1}{7}\cdot\frac{0.85f'_c}{f_y}$$
+
+<h3>3.4 φ 值：規範用它逼你設計出延性破壞</h3>
+
+<div class="fig">
+<svg viewBox="0 0 780 305" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="φ 與 εt" font-family="Microsoft JhengHei,Noto Sans TC,Noto Sans CJK TC,sans-serif"><rect x="90.0" y="40.0" width="164.7" height="210.0" rx="0" fill="#ffebee" stroke="none" stroke-width="0" opacity=".7"/><rect x="254.7" y="40.0" width="235.3" height="210.0" rx="0" fill="#fff3e0" stroke="none" stroke-width="0" opacity=".7"/><rect x="490.0" y="40.0" width="240.0" height="210.0" rx="0" fill="#e8f5e9" stroke="none" stroke-width="0" opacity=".7"/><defs><pattern id="hatchB" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="#c62828" stroke-width="1.2" opacity=".45"/></pattern></defs><rect x="90.0" y="40.0" width="320.0" height="210.0" rx="0" fill="url(#hatchB)" stroke="none" stroke-width="0"/><line x1="410.0" y1="40.0" x2="410.0" y2="250.0" stroke="#c62828" stroke-width="1.6" stroke-dasharray="5 3"/><text x="194.0" y="130.0" font-size="13" fill="#c62828" text-anchor="middle" font-weight="bold">梁不允許</text><text x="194.0" y="147.0" font-size="11.5" fill="#c62828" text-anchor="middle">εt < 0.004（§9.3.3.1）</text><text x="172.4" y="56.0" font-size="12.5" fill="#c62828" text-anchor="middle">壓力控制</text><text x="372.4" y="56.0" font-size="12.5" fill="#e65100" text-anchor="middle">過渡區</text><text x="610.0" y="56.0" font-size="12.5" fill="#2e7d32" text-anchor="middle">拉力控制</text><line x1="90.0" y1="250.0" x2="730.0" y2="250.0" stroke="#455a64" stroke-width="1.8"/><line x1="90.0" y1="250.0" x2="90.0" y2="40.0" stroke="#455a64" stroke-width="1.8"/><line x1="90.0" y1="250.0" x2="90.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="90.0" y="270.0" font-size="11.5" fill="#455a64" text-anchor="middle">0</text><line x1="170.0" y1="250.0" x2="170.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="170.0" y="270.0" font-size="11.5" fill="#455a64" text-anchor="middle">0.001</text><line x1="250.0" y1="250.0" x2="250.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="250.0" y="270.0" font-size="11.5" fill="#455a64" text-anchor="middle">0.002</text><line x1="330.0" y1="250.0" x2="330.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="330.0" y="270.0" font-size="11.5" fill="#455a64" text-anchor="middle">0.003</text><line x1="410.0" y1="250.0" x2="410.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="410.0" y="270.0" font-size="11.5" fill="#455a64" text-anchor="middle">0.004</text><line x1="490.0" y1="250.0" x2="490.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="490.0" y="270.0" font-size="11.5" fill="#455a64" text-anchor="middle">0.005</text><line x1="570.0" y1="250.0" x2="570.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="570.0" y="270.0" font-size="11.5" fill="#455a64" text-anchor="middle">0.006</text><line x1="650.0" y1="250.0" x2="650.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="650.0" y="270.0" font-size="11.5" fill="#455a64" text-anchor="middle">0.007</text><line x1="730.0" y1="250.0" x2="730.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="730.0" y="270.0" font-size="11.5" fill="#455a64" text-anchor="middle">0.008</text><line x1="90.0" y1="40.0" x2="730.0" y2="40.0" stroke="#90a4ae" stroke-width="1"/><line x1="170.0" y1="40.0" x2="170.0" y2="35.0" stroke="#607d8b" stroke-width="1.5"/><text x="170.0" y="31.0" font-size="10.5" fill="#607d8b" text-anchor="middle">0.750</text><line x1="250.0" y1="40.0" x2="250.0" y2="35.0" stroke="#607d8b" stroke-width="1.5"/><text x="250.0" y="31.0" font-size="10.5" fill="#607d8b" text-anchor="middle">0.600</text><line x1="330.0" y1="40.0" x2="330.0" y2="35.0" stroke="#607d8b" stroke-width="1.5"/><text x="330.0" y="31.0" font-size="10.5" fill="#607d8b" text-anchor="middle">0.500</text><line x1="410.0" y1="40.0" x2="410.0" y2="35.0" stroke="#607d8b" stroke-width="1.5"/><text x="410.0" y="31.0" font-size="10.5" fill="#607d8b" text-anchor="middle">0.429</text><line x1="490.0" y1="40.0" x2="490.0" y2="35.0" stroke="#607d8b" stroke-width="1.5"/><text x="490.0" y="31.0" font-size="10.5" fill="#607d8b" text-anchor="middle">0.375</text><line x1="570.0" y1="40.0" x2="570.0" y2="35.0" stroke="#607d8b" stroke-width="1.5"/><text x="570.0" y="31.0" font-size="10.5" fill="#607d8b" text-anchor="middle">0.333</text><line x1="730.0" y1="40.0" x2="730.0" y2="35.0" stroke="#607d8b" stroke-width="1.5"/><text x="730.0" y="31.0" font-size="10.5" fill="#607d8b" text-anchor="middle">0.273</text><text x="82.0" y="31.0" font-size="10.5" fill="#607d8b" text-anchor="end">c/dt =</text><line x1="84.0" y1="220.0" x2="90.0" y2="220.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="224.0" font-size="12" fill="#455a64" text-anchor="end">0.65</text><line x1="84.0" y1="160.0" x2="90.0" y2="160.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="164.0" font-size="12" fill="#455a64" text-anchor="end">0.75</text><line x1="84.0" y1="130.0" x2="90.0" y2="130.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="134.0" font-size="12" fill="#455a64" text-anchor="end">0.80</text><line x1="84.0" y1="70.0" x2="90.0" y2="70.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="74.0" font-size="12" fill="#455a64" text-anchor="end">0.90</text><text x="410.0" y="296.0" font-size="13.5" fill="#263238" text-anchor="middle">εt（最外層拉力筋淨拉應變）</text><text x="36.0" y="145.0" font-size="15" fill="#263238" text-anchor="middle">φ</text><path d="M90.0,220.0 L254.7,220.0 L490.0,70.0 L730.0,70.0" fill="none" stroke="#1565c0" stroke-width="3"/><circle cx="254.7" cy="220.0" r="5" fill="#c62828" stroke="none" stroke-width="1.5"/><text x="261.7" y="237.0" font-size="12" fill="#c62828" text-anchor="start">(εty = 0.00206, 0.65)</text><circle cx="410.0" cy="121.0" r="5" fill="#ef6c00" stroke="none" stroke-width="1.5"/><text x="402.0" y="112.0" font-size="12.5" fill="#ef6c00" text-anchor="end" font-weight="bold">εt = 0.004 → φ = 0.815</text><circle cx="490.0" cy="70.0" r="5" fill="#2e7d32" stroke="none" stroke-width="1.5"/><text x="497.0" y="88.0" font-size="12.5" fill="#2e7d32" text-anchor="start">(0.005, 0.90)</text></svg>
+<div class="cap">φ 不是安全係數，是「破壞模式的定價」：破壞越沒有預警，規範給的折扣越少。上緣刻度把 εt 換成 c/dt，方便與 §3.1 對照。斜線區（εt < 0.004）對<b>梁</b>是禁區 —— 不只壓力控制段，連過渡區的前半段都不准；用 ρmax 頂滿的梁 φ = 0.815，一定不是 0.9。</div>
+</div>
+
+$$\phi = 0.65 + 0.25\,\frac{\varepsilon_t - \varepsilon_{ty}}{0.005-\varepsilon_{ty}}
+\;\xrightarrow{\;\text{SD420},\;\varepsilon_{ty}=4200/2.04\times10^6=0.00206\;}\;
+\phi = 0.65 + 0.25\,\frac{\varepsilon_t - 0.00206}{0.00294}$$
+<p>本知識庫一律用這個現行式。坊間舊式 \(0.65+(\varepsilon_t-0.002)\times0.25/0.003\) 在 \(\varepsilon_t=0.004\) 給 0.817、現行式給 0.815，
+差很小，但平衡點 \(\varepsilon_t=\varepsilon_{ty}\) 時現行式恰為 0.650（不內插），舊式卻得 0.655。</p>
+
+<div class="trap">
+<b>0.002 不是魔術數字，是 \(\varepsilon_{ty}=f_y/E_s\)</b><br>
+SD420：\(4200/2.04\times10^6 = 0.00206 \approx 0.002\)，所以坊間公式直接寫 0.002。<br>
+但若題目用 SD280，\(\varepsilon_{ty}=0.00137\)；用 SD550，\(\varepsilon_{ty}=0.00275\)。
+此時 \(0.25/0.003\) 這個斜率就<b>錯了</b>。ACI 318-19 的原式是以 \(\varepsilon_{ty}\) 寫的，
+而且<b>拉力控制界限其實是 \(\varepsilon_{ty}+0.003\)</b>，只是對 SD420 恰好等於 0.005。
+SD550 的拉力控制界限是 0.00575，內插分母要換成 0.003 —— 遇到非 SD420 的題目要回到原式。
+</div>
+
+<div class="trap">
+<b>\(d_t \ne d\)（雙排配筋必踩）</b><br>
+\(\varepsilon_t\) 看的是<b>最外層</b>（離壓力面最遠那一排）鋼筋，深度 \(d_t\)；
+而 \(M_n\) 的力臂用的是<b>全部拉力筋形心</b>的深度 \(d\)。雙排配筋時 \(d_t &gt; d\)，
+用 \(d\) 去算 \(\varepsilon_t\) 會低估延性、把 φ 算小（偏保守但不得分）。
+RC-2022-1、RC-2023-2、RC-2004-2 都在這裡設關卡。
+</div>
+
+
+<h4>3.4.1 「最大設計彎矩」不在最大鋼筋量（RC-2015-2 實算）</h4>
+<p>把 φ 曲線與 \(M_n\) 相乘，會發生一件反直覺的事：在過渡區內，<b>少放鋼筋反而讓 \(\phi M_n\) 變大</b>。
+下圖固定 RC-2015-2 的斷面（b = 35、d = 63、d′ = 7 cm、f′c = 350、A′s = 10.134 cm²），掃描 εt（等於掃描 As）：</p>
+<div class="fig">
+<svg viewBox="0 0 780 335" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC-2015-2 φMn 掃描" font-family="Microsoft JhengHei,Noto Sans TC,Noto Sans CJK TC,sans-serif"><defs><pattern id="hatchS" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="#c62828" stroke-width="1.2" opacity=".35"/></pattern></defs><rect x="90.0" y="40.0" width="124.0" height="220.0" rx="0" fill="url(#hatchS)" stroke="none" stroke-width="0"/><text x="152.0" y="249.0" font-size="12" fill="#c62828" text-anchor="middle" font-weight="bold">梁不允許</text><line x1="90.0" y1="260.0" x2="710.0" y2="260.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="260.0" x2="90.0" y2="260.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="264.0" font-size="12" fill="#455a64" text-anchor="end">80</text><line x1="90.0" y1="205.0" x2="710.0" y2="205.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="205.0" x2="90.0" y2="205.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="209.0" font-size="12" fill="#455a64" text-anchor="end">100</text><line x1="90.0" y1="150.0" x2="710.0" y2="150.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="150.0" x2="90.0" y2="150.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="154.0" font-size="12" fill="#455a64" text-anchor="end">120</text><line x1="90.0" y1="95.0" x2="710.0" y2="95.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="95.0" x2="90.0" y2="95.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="99.0" font-size="12" fill="#455a64" text-anchor="end">140</text><line x1="90.0" y1="40.0" x2="710.0" y2="40.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="40.0" x2="90.0" y2="40.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="44.0" font-size="12" fill="#455a64" text-anchor="end">160</text><line x1="90.0" y1="260.0" x2="710.0" y2="260.0" stroke="#455a64" stroke-width="1.8"/><line x1="90.0" y1="260.0" x2="90.0" y2="40.0" stroke="#455a64" stroke-width="1.8"/><line x1="90.0" y1="260.0" x2="90.0" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="90.0" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">0.003</text><text x="90.0" y="295.0" font-size="10.5" fill="#607d8b" text-anchor="middle">As=71.9</text><line x1="214.0" y1="260.0" x2="214.0" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="214.0" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">0.004</text><text x="214.0" y="295.0" font-size="10.5" fill="#607d8b" text-anchor="middle">As=63.0</text><line x1="338.0" y1="260.0" x2="338.0" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="338.0" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">0.005</text><text x="338.0" y="295.0" font-size="10.5" fill="#607d8b" text-anchor="middle">As=56.3</text><line x1="462.0" y1="260.0" x2="462.0" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="462.0" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">0.006</text><text x="462.0" y="295.0" font-size="10.5" fill="#607d8b" text-anchor="middle">As=50.8</text><line x1="586.0" y1="260.0" x2="586.0" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="586.0" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">0.007</text><text x="586.0" y="295.0" font-size="10.5" fill="#607d8b" text-anchor="middle">As=46.1</text><line x1="710.0" y1="260.0" x2="710.0" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="710.0" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">0.008</text><text x="710.0" y="295.0" font-size="10.5" fill="#607d8b" text-anchor="middle">As=42.1</text><text x="400.0" y="322.0" font-size="13" fill="#263238" text-anchor="middle">εt（右移 = 少放拉力筋；下排為對應 As, cm²）</text><text x="34.0" y="150.0" font-size="12.5" fill="#263238" text-anchor="middle">tf·m</text><path d="M90.0,55.4 L93.1,56.6 L96.2,57.7 L99.3,58.8 L102.4,59.9 L105.5,61.0 L108.6,62.1 L111.7,63.2 L114.8,64.3 L117.9,65.4 L121.0,66.5 L124.1,67.5 L127.2,68.6 L130.3,69.7 L133.4,70.7 L136.5,71.8 L139.6,72.8 L142.7,73.9 L145.8,74.9 L148.9,75.9 L152.0,76.9 L155.1,78.0 L158.2,79.0 L161.3,80.0 L164.4,81.0 L167.5,82.0 L170.6,82.9 L173.7,83.9 L176.8,84.9 L179.9,85.9 L183.0,86.8 L186.1,87.8 L189.2,88.8 L192.3,89.7 L195.4,90.7 L198.5,91.6 L201.6,92.5 L204.7,93.5 L207.8,94.4 L210.9,95.3 L214.0,96.2 L217.1,97.1 L220.2,98.1 L223.3,99.0 L226.4,99.9 L229.5,100.8 L232.6,101.6 L235.7,102.5 L238.8,103.4 L241.9,104.3 L245.0,105.1 L248.1,106.0 L251.2,106.9 L254.3,107.7 L257.4,108.6 L260.5,109.4 L263.6,110.3 L266.7,111.1 L269.8,111.9 L272.9,112.8 L276.0,113.6 L279.1,114.4 L282.2,115.2 L285.3,116.1 L288.4,116.9 L291.5,117.7 L294.6,118.5 L297.7,119.3 L300.8,120.1 L303.9,120.9 L307.0,121.6 L310.1,122.4 L313.2,123.2 L316.3,124.0 L319.4,124.7 L322.5,125.5 L325.6,126.3 L328.7,127.0 L331.8,127.8 L334.9,128.5 L338.0,129.3 L341.1,130.0 L344.2,130.8 L347.3,131.5 L350.4,132.2 L353.5,133.0 L356.6,133.7 L359.7,134.4 L362.8,135.1 L365.9,135.9 L369.0,136.6 L372.1,137.3 L375.2,138.0 L378.3,138.7 L381.4,139.4 L384.5,140.1 L387.6,140.8 L390.7,141.5 L393.8,142.1 L396.9,142.8 L400.0,143.6 L403.1,144.4 L406.2,145.1 L409.3,145.9 L412.4,146.6 L415.5,147.4 L418.6,148.1 L421.7,148.9 L424.8,149.6 L427.9,150.4 L431.0,151.1 L434.1,151.8 L437.2,152.6 L440.3,153.3 L443.4,154.0 L446.5,154.7 L449.6,155.5 L452.7,156.2 L455.8,156.9 L458.9,157.6 L462.0,158.3 L465.1,159.0 L468.2,159.7 L471.3,160.4 L474.4,161.1 L477.5,161.8 L480.6,162.5 L483.7,163.2 L486.8,163.9 L489.9,164.6 L493.0,165.2 L496.1,165.9 L499.2,166.6 L502.3,167.3 L505.4,167.9 L508.5,168.6 L511.6,169.3 L514.7,169.9 L517.8,170.6 L520.9,171.2 L524.0,171.9 L527.1,172.5 L530.2,173.2 L533.3,173.8 L536.4,174.5 L539.5,175.1 L542.6,175.8 L545.7,176.4 L548.8,177.0 L551.9,177.7 L555.0,178.3 L558.1,178.9 L561.2,179.6 L564.3,180.2 L567.4,180.8 L570.5,181.4 L573.6,182.0 L576.7,182.6 L579.8,183.3 L582.9,183.9 L586.0,184.5 L589.1,185.1 L592.2,185.7 L595.3,186.3 L598.4,186.9 L601.5,187.5 L604.6,188.1 L607.7,188.7 L610.8,189.3 L613.9,189.9 L617.0,190.4 L620.1,191.0 L623.2,191.6 L626.3,192.2 L629.4,192.8 L632.5,193.3 L635.6,193.9 L638.7,194.5 L641.8,195.1 L644.9,195.6 L648.0,196.2 L651.1,196.8 L654.2,197.3 L657.3,197.9 L660.4,198.4 L663.5,199.0 L666.6,199.6 L669.7,200.1 L672.8,200.7 L675.9,201.2 L679.0,201.8 L682.1,202.3 L685.2,202.8 L688.3,203.4 L691.4,203.9 L694.5,204.5 L697.6,205.0 L700.7,205.5 L703.8,206.1 L706.9,206.6 L710.0,207.1" fill="none" stroke="#90a4ae" stroke-width="2.2" stroke-dasharray="6 4"/><text x="102.4" y="51.9" font-size="12.5" fill="#607d8b" text-anchor="start">Mn（標稱）</text><path d="M90.0,170.1 L93.1,170.0 L96.2,169.9 L99.3,169.8 L102.4,169.8 L105.5,169.7 L108.6,169.6 L111.7,169.6 L114.8,169.5 L117.9,169.4 L121.0,169.3 L124.1,169.3 L127.2,169.2 L130.3,169.1 L133.4,169.1 L136.5,169.0 L139.6,168.9 L142.7,168.8 L145.8,168.8 L148.9,168.7 L152.0,168.6 L155.1,168.6 L158.2,168.5 L161.3,168.4 L164.4,168.4 L167.5,168.3 L170.6,168.2 L173.7,168.1 L176.8,168.1 L179.9,168.0 L183.0,167.9 L186.1,167.9 L189.2,167.8 L192.3,167.7 L195.4,167.7 L198.5,167.6 L201.6,167.5 L204.7,167.4 L207.8,167.4 L210.9,167.3 L214.0,167.2 L217.1,167.2 L220.2,167.1 L223.3,167.0 L226.4,167.0 L229.5,166.9 L232.6,166.8 L235.7,166.7 L238.8,166.7 L241.9,166.6 L245.0,166.5 L248.1,166.5 L251.2,166.4 L254.3,166.3 L257.4,166.2 L260.5,166.2 L263.6,166.1 L266.7,166.0 L269.8,166.0 L272.9,165.9 L276.0,165.8 L279.1,165.7 L282.2,165.7 L285.3,165.6 L288.4,165.5 L291.5,165.5 L294.6,165.4 L297.7,165.3 L300.8,165.2 L303.9,165.2 L307.0,165.1 L310.1,165.0 L313.2,164.9 L316.3,164.9 L319.4,164.8 L322.5,164.7 L325.6,164.7 L328.7,164.6 L331.8,164.5 L334.9,164.4 L338.0,164.4 L341.1,165.0 L344.2,165.7 L347.3,166.4 L350.4,167.0 L353.5,167.7 L356.6,168.3 L359.7,169.0 L362.8,169.6 L365.9,170.3 L369.0,170.9 L372.1,171.5 L375.2,172.2 L378.3,172.8 L381.4,173.4 L384.5,174.1 L387.6,174.7 L390.7,175.3 L393.8,175.9 L396.9,176.6 L400.0,177.2 L403.1,177.9 L406.2,178.6 L409.3,179.3 L412.4,180.0 L415.5,180.7 L418.6,181.3 L421.7,182.0 L424.8,182.7 L427.9,183.3 L431.0,184.0 L434.1,184.7 L437.2,185.3 L440.3,186.0 L443.4,186.6 L446.5,187.3 L449.6,187.9 L452.7,188.6 L455.8,189.2 L458.9,189.8 L462.0,190.5 L465.1,191.1 L468.2,191.7 L471.3,192.4 L474.4,193.0 L477.5,193.6 L480.6,194.2 L483.7,194.9 L486.8,195.5 L489.9,196.1 L493.0,196.7 L496.1,197.3 L499.2,197.9 L502.3,198.5 L505.4,199.1 L508.5,199.7 L511.6,200.3 L514.7,200.9 L517.8,201.5 L520.9,202.1 L524.0,202.7 L527.1,203.3 L530.2,203.9 L533.3,204.5 L536.4,205.0 L539.5,205.6 L542.6,206.2 L545.7,206.8 L548.8,207.3 L551.9,207.9 L555.0,208.5 L558.1,209.0 L561.2,209.6 L564.3,210.2 L567.4,210.7 L570.5,211.3 L573.6,211.8 L576.7,212.4 L579.8,212.9 L582.9,213.5 L586.0,214.0 L589.1,214.6 L592.2,215.1 L595.3,215.7 L598.4,216.2 L601.5,216.7 L604.6,217.3 L607.7,217.8 L610.8,218.3 L613.9,218.9 L617.0,219.4 L620.1,219.9 L623.2,220.4 L626.3,221.0 L629.4,221.5 L632.5,222.0 L635.6,222.5 L638.7,223.0 L641.8,223.6 L644.9,224.1 L648.0,224.6 L651.1,225.1 L654.2,225.6 L657.3,226.1 L660.4,226.6 L663.5,227.1 L666.6,227.6 L669.7,228.1 L672.8,228.6 L675.9,229.1 L679.0,229.6 L682.1,230.1 L685.2,230.6 L688.3,231.0 L691.4,231.5 L694.5,232.0 L697.6,232.5 L700.7,233.0 L703.8,233.5 L706.9,233.9 L710.0,234.4" fill="none" stroke="#1565c0" stroke-width="3"/><text x="648.0" y="244.6" font-size="12.5" fill="#1565c0" text-anchor="middle" font-weight="bold">φMn（設計）</text><circle cx="214.0" cy="167.2" r="5" fill="#ef6c00" stroke="none" stroke-width="1.5"/><text x="214.0" y="191.2" font-size="12.5" fill="#ef6c00" text-anchor="middle" font-weight="bold">最大鋼筋量 0.004：113.7</text><circle cx="338.0" cy="164.4" r="5" fill="#c62828" stroke="none" stroke-width="1.5"/><text x="338.0" y="150.4" font-size="12.5" fill="#c62828" text-anchor="middle" font-weight="bold">峰值 0.005：114.8 ← 答案</text><circle cx="462.0" cy="190.5" r="5" fill="#2e7d32" stroke="none" stroke-width="1.5"/><text x="470.0" y="180.5" font-size="12.5" fill="#2e7d32" text-anchor="start" font-weight="bold">0.006：105.3</text><text x="276.0" y="67.5" font-size="12" fill="#e65100" text-anchor="middle">φ 從 0.815 爬到 0.90（+10.4%）</text><text x="276.0" y="83.5" font-size="12" fill="#e65100" text-anchor="middle">Mn 只退 8.6% → 乘積上升</text><text x="561.2" y="67.5" font-size="12" fill="#2e7d32" text-anchor="middle">φ 觸頂 0.90 → 乘積跟著 Mn 下降</text></svg>
+<div class="cap">實線 φMn 在 εt = 0.005 出現<b>折點極大值</b>（不是導數為零的平滑極值，不能用微分求）。過渡區內 φ 必須從 0.815 走到 0.90，相對漲 10.4%；同區間 Mn 只退 8.6% —— 乘積一路上升，直到 φ 觸頂被截平。</div>
+</div>
+<div class="why">
+<b>「最大鋼筋量」是配筋上限，不是設計彎矩上限。</b>　兩件事常被混為一談：
+\(\varepsilon_t=0.004\) 給的是<b>標稱</b> \(M_n\) 最大（139.6 tf·m），
+\(\varepsilon_t=0.005\) 給的才是<b>設計</b> \(\phi M_n\) 最大（114.8 tf·m，比 0.004 的 113.7 大）。<br>
+<b>觸發句型：</b>「在<b>適當設置／適當調整</b>○○後，可具有之最大設計（極限）彎矩」—— 出現這句，就代表那個變數要掃描，
+答案要附 εt = 0.004、0.005、0.006 三點的 \(\phi M_n\) 表證明單峰。
+同一份 2015 考卷第一題（柱）用了同一句型，峰值同樣不在平衡點。<br>
+<b>配套檢查：</b>c 變小後壓力筋可能不再降伏 —— 必須重驗 \(\varepsilon'_s\)（本題 0.005 時 \(\varepsilon'_s=0.00211\)，只比 \(\varepsilon_y\) 高 2.5%，勉強降伏）。
+</div>
+
+<h3>3.5 最小鋼筋量：另一種脆性破壞</h3>
+$$\rho_{min} = \max\!\left(\frac{0.8\sqrt{f'_c}}{f_y},\; \frac{14}{f_y}\right)\ (\text{kgf/cm}^2)
+\qquad
+\rho_{min} = \max\!\left(\frac{0.25\sqrt{f'_c}}{f_y},\; \frac{1.4}{f_y}\right)\ (\text{MPa})$$
+
+<div class="why">
+<b>ρmin 在怕什麼？</b>　怕的是<b>「開裂即破壞」</b>。素混凝土梁在開裂前靠全斷面抵抗，開裂彎矩
+\(M_{cr}=f_r I_g/y_t\)。若鋼筋量太少，裂縫一出現，原本由混凝土承擔的拉力瞬間全部轉給鋼筋，
+鋼筋當場被拉斷 —— <b>沒有任何預警，比過筋梁更危險</b>。<br>
+所以 ρmin 的設計條件是 \(\phi M_n \gtrsim 1.2 M_{cr}\)：開裂之後還要留有餘裕。
+把 \(f_r = 2\sqrt{f'_c}\)、\(h\approx d/0.9\) 代進去，就會長出 \(\sqrt{f'_c}/f_y\) 的形狀 ——
+<b>根號 f'c 是從破裂模數來的</b>，不是憑空出現。
+</div>
+
+<div class="box">
+<b>哪一項控制？</b>　\(0.8\sqrt{f'_c} = 14 \Rightarrow f'_c \approx 306\) kgf/cm²（≈31 MPa）。<br>
+所以台灣常見的 \(f'_c = 210\!\sim\!280\) 題目，<b>幾乎都是 \(14/f_y\) 控制</b>；
+只有高強混凝土題（350、420）才輪到 \(0.8\sqrt{f'_c}/f_y\)。考試時兩個都算、取大即可，但心裡要知道誰會贏。
+</div>
+
+<div class="chain">
+<b>因果鏈③：</b>εcu = 0.003 與 εy = fy/Es 是唯二輸入 →
+相似三角形給出 c/d → 力平衡把 c/d 翻成 ρ → 於是 <b>ρb、ρmax、φ 全部是同一條幾何的不同切片</b>。
+只要記得住 c/dt = 0.003/(0.003+εt)，這一節不需要背任何公式。
+</div>
+</section>
+<section id="s4">
+<h2>§4 雙筋梁：只多了一項力，卻多了兩個陷阱</h2>
+
+<div class="lead">
+雙筋梁在力平衡上只是 \(C_c + C_s = T\)。
+但 \(C_s\) 這一項藏著兩個必考陷阱：<b>要不要扣 0.85f'c</b>、<b>壓力筋到底降不降伏</b>。
+7 題主分類考題踩在這裡，是本單元第二高頻的考點群。
+</div>
+
+<h3>4.1 陷阱一：Cs 要扣掉 0.85f'c</h3>
+
+<div class="fig">
+<svg viewBox="0 0 870 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="壓力筋扣除 0.85fc" font-family="Microsoft JhengHei,Noto Sans TC,Noto Sans CJK TC,sans-serif"><defs><marker id="f4r" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#c62828"/></marker><marker id="f4o" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#ef6c00"/></marker><marker id="f4g" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#2e7d32"/></marker></defs><text x="145.0" y="34.0" font-size="15" fill="#c62828" text-anchor="middle" font-weight="bold">✗ 混凝土算滿＋鋼筋全額</text><rect x="40.0" y="70.0" width="210.0" height="150.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="1.8"/><rect x="40.0" y="70.0" width="210.0" height="74.0" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.5"/><line x1="36.0" y1="144.0" x2="254.0" y2="144.0" stroke="#c62828" stroke-width="1" stroke-dasharray="4 3"/><circle cx="85.0" cy="114.0" r="12" fill="#ffe0b2" stroke="#ef6c00" stroke-width="2"/><circle cx="205.0" cy="114.0" r="12" fill="#ffe0b2" stroke="#ef6c00" stroke-width="2"/><line x1="266.0" y1="70.0" x2="266.0" y2="144.0" stroke="#c62828" stroke-width="1.4"/><line x1="261.0" y1="70.0" x2="271.0" y2="70.0" stroke="#c62828" stroke-width="1.4"/><line x1="261.0" y1="144.0" x2="271.0" y2="144.0" stroke="#c62828" stroke-width="1.4"/><text x="273.0" y="111.0" font-size="12.5" fill="#c62828" text-anchor="start">a</text><line x1="26.0" y1="70.0" x2="26.0" y2="114.0" stroke="#ef6c00" stroke-width="1.4"/><line x1="21.0" y1="70.0" x2="31.0" y2="70.0" stroke="#ef6c00" stroke-width="1.4"/><line x1="21.0" y1="114.0" x2="31.0" y2="114.0" stroke="#ef6c00" stroke-width="1.4"/><text x="19.0" y="96.0" font-size="12.5" fill="#ef6c00" text-anchor="end">d′</text><text x="145.0" y="248.0" font-size="13" fill="#c62828" text-anchor="middle">鋼筋位置的混凝土被算了兩次</text><text x="145.0" y="270.0" font-size="13.5" fill="#c62828" text-anchor="middle" font-weight="bold">Cs = A′s·f′s → Mn 高估</text><text x="435.0" y="34.0" font-size="15" fill="#2e7d32" text-anchor="middle" font-weight="bold">✓ 鋼筋只補差額</text><rect x="330.0" y="70.0" width="210.0" height="150.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="1.8"/><rect x="330.0" y="70.0" width="210.0" height="74.0" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.5"/><line x1="326.0" y1="144.0" x2="544.0" y2="144.0" stroke="#c62828" stroke-width="1" stroke-dasharray="4 3"/><circle cx="375.0" cy="114.0" r="12" fill="#ffffff" stroke="#2e7d32" stroke-width="2.2"/><line x1="367.0" y1="106.0" x2="383.0" y2="122.0" stroke="#2e7d32" stroke-width="1.2"/><line x1="367.0" y1="122.0" x2="383.0" y2="106.0" stroke="#2e7d32" stroke-width="1.2"/><circle cx="495.0" cy="114.0" r="12" fill="#ffffff" stroke="#2e7d32" stroke-width="2.2"/><line x1="487.0" y1="106.0" x2="503.0" y2="122.0" stroke="#2e7d32" stroke-width="1.2"/><line x1="487.0" y1="122.0" x2="503.0" y2="106.0" stroke="#2e7d32" stroke-width="1.2"/><line x1="556.0" y1="70.0" x2="556.0" y2="144.0" stroke="#c62828" stroke-width="1.4"/><line x1="551.0" y1="70.0" x2="561.0" y2="70.0" stroke="#c62828" stroke-width="1.4"/><line x1="551.0" y1="144.0" x2="561.0" y2="144.0" stroke="#c62828" stroke-width="1.4"/><text x="563.0" y="111.0" font-size="12.5" fill="#c62828" text-anchor="start">a</text><line x1="316.0" y1="70.0" x2="316.0" y2="114.0" stroke="#ef6c00" stroke-width="1.4"/><line x1="311.0" y1="70.0" x2="321.0" y2="70.0" stroke="#ef6c00" stroke-width="1.4"/><line x1="311.0" y1="114.0" x2="321.0" y2="114.0" stroke="#ef6c00" stroke-width="1.4"/><text x="309.0" y="96.0" font-size="12.5" fill="#ef6c00" text-anchor="end">d′</text><text x="435.0" y="248.0" font-size="13" fill="#2e7d32" text-anchor="middle">先把鋼筋位置「挖洞」退還</text><text x="435.0" y="270.0" font-size="13.5" fill="#2e7d32" text-anchor="middle" font-weight="bold">Cs = A′s(f′s − 0.85f′c)</text><text x="725.0" y="34.0" font-size="15" fill="#1565c0" text-anchor="middle" font-weight="bold">a ≤ d′：根本沒重疊</text><rect x="620.0" y="70.0" width="210.0" height="150.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="1.8"/><rect x="620.0" y="70.0" width="210.0" height="30.0" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.5"/><line x1="616.0" y1="100.0" x2="834.0" y2="100.0" stroke="#c62828" stroke-width="1" stroke-dasharray="4 3"/><circle cx="665.0" cy="114.0" r="12" fill="#ffe0b2" stroke="#ef6c00" stroke-width="2"/><circle cx="785.0" cy="114.0" r="12" fill="#ffe0b2" stroke="#ef6c00" stroke-width="2"/><line x1="846.0" y1="70.0" x2="846.0" y2="100.0" stroke="#c62828" stroke-width="1.4"/><line x1="841.0" y1="70.0" x2="851.0" y2="70.0" stroke="#c62828" stroke-width="1.4"/><line x1="841.0" y1="100.0" x2="851.0" y2="100.0" stroke="#c62828" stroke-width="1.4"/><text x="853.0" y="89.0" font-size="12.5" fill="#c62828" text-anchor="start">a</text><line x1="606.0" y1="70.0" x2="606.0" y2="114.0" stroke="#ef6c00" stroke-width="1.4"/><line x1="601.0" y1="70.0" x2="611.0" y2="70.0" stroke="#ef6c00" stroke-width="1.4"/><line x1="601.0" y1="114.0" x2="611.0" y2="114.0" stroke="#ef6c00" stroke-width="1.4"/><text x="599.0" y="96.0" font-size="12.5" fill="#ef6c00" text-anchor="end">d′</text><text x="725.0" y="248.0" font-size="13" fill="#1565c0" text-anchor="middle">壓力筋在應力塊下方</text><text x="725.0" y="270.0" font-size="13.5" fill="#1565c0" text-anchor="middle" font-weight="bold">Cs = A′s·f′s，不必扣</text><rect x="40.0" y="300.0" width="790.0" height="40.0" rx="7" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1"/><text x="435.0" y="325.0" font-size="13.5" fill="#4a148c" text-anchor="middle">判斷要不要扣，看的是「鋼筋有沒有埋在 0.85f′c 那塊裡」：a > d′ 才扣；f′s 未降伏時一樣要扣</text></svg>
+<div class="cap">判斷的不是「有沒有壓力筋」，而是「壓力筋有沒有埋在 0.85f′c 那塊應力塊裡」。中間那張的 ⊗ 就是退還的混凝土：凡是把鋼筋放進已經算滿的混凝土區域，鋼筋的力都要扣掉它排開的混凝土。</div>
+</div>
+
+<h3>4.2 陷阱二：壓力筋常常沒有降伏</h3>
+
+<p>壓力筋離壓力面很近（\(d'\) 通常只有 5～7 cm），它的應變是：</p>
+$$\varepsilon'_s = 0.003\cdot\frac{c-d'}{c}$$
+
+<div class="why">
+<b>什麼時候壓力筋一定不會降伏？</b>　令 \(\varepsilon'_s \ge \varepsilon_y\) 解出門檻：
+$$\frac{d'}{c} \le 1-\frac{\varepsilon_y}{0.003}
+\;\xrightarrow{\;\text{SD420}\;}\; \frac{d'}{c}\le 1-\frac{0.00206}{0.003}=0.314
+\;\Rightarrow\; c \ge 3.19\,d'$$
+<b>記這一條就夠了：\(c \gtrsim 3.2 d'\) 壓力筋才會降伏。</b><br>
+以 \(d'=6\) cm 為例，需要 \(c \ge 19\) cm。而延性良好的梁 \(c\) 往往只有 \(0.3d\) 左右 ——
+\(d=60\) cm 時 \(c\approx18\) cm，剛好在邊緣。<br>
+<b>結論：越延性的斷面（c 越淺），壓力筋越不會降伏。</b>
+這就是為什麼「壓力鋼筋未降伏」在考題裡出現得比「降伏」還頻繁（RC-2006-1、RC-2022-1、RC-2023-2、RC-2024-2 都是未降伏；RC-2015-2 在 εt = 0.005 時只是勉強降伏）。
+</div>
+<div class="fig">
+<svg viewBox="0 0 780 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="壓力筋應力與 c/d′" font-family="Microsoft JhengHei,Noto Sans TC,Noto Sans CJK TC,sans-serif"><line x1="90.0" y1="250.0" x2="710.0" y2="250.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="250.0" x2="90.0" y2="250.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="254.0" font-size="11.5" fill="#455a64" text-anchor="end">-2000</text><line x1="90.0" y1="217.7" x2="710.0" y2="217.7" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="217.7" x2="90.0" y2="217.7" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="221.7" font-size="11.5" fill="#455a64" text-anchor="end">-1000</text><line x1="90.0" y1="185.4" x2="710.0" y2="185.4" stroke="#455a64" stroke-width="1.4"/><line x1="84.0" y1="185.4" x2="90.0" y2="185.4" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="189.4" font-size="11.5" fill="#455a64" text-anchor="end">0</text><line x1="90.0" y1="153.1" x2="710.0" y2="153.1" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="153.1" x2="90.0" y2="153.1" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="157.1" font-size="11.5" fill="#455a64" text-anchor="end">1000</text><line x1="90.0" y1="120.8" x2="710.0" y2="120.8" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="120.8" x2="90.0" y2="120.8" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="124.8" font-size="11.5" fill="#455a64" text-anchor="end">2000</text><line x1="90.0" y1="88.5" x2="710.0" y2="88.5" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="88.5" x2="90.0" y2="88.5" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="92.5" font-size="11.5" fill="#455a64" text-anchor="end">3000</text><line x1="90.0" y1="56.2" x2="710.0" y2="56.2" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="56.2" x2="90.0" y2="56.2" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="60.2" font-size="11.5" fill="#455a64" text-anchor="end">4000</text><line x1="90.0" y1="250.0" x2="710.0" y2="250.0" stroke="#455a64" stroke-width="1.8"/><line x1="90.0" y1="250.0" x2="90.0" y2="40.0" stroke="#455a64" stroke-width="1.8"/><line x1="146.4" y1="250.0" x2="146.4" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="146.4" y="270.0" font-size="12" fill="#455a64" text-anchor="middle">1</text><line x1="259.1" y1="250.0" x2="259.1" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="259.1" y="270.0" font-size="12" fill="#455a64" text-anchor="middle">2</text><line x1="371.8" y1="250.0" x2="371.8" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="371.8" y="270.0" font-size="12" fill="#455a64" text-anchor="middle">3</text><line x1="484.5" y1="250.0" x2="484.5" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="484.5" y="270.0" font-size="12" fill="#455a64" text-anchor="middle">4</text><line x1="597.3" y1="250.0" x2="597.3" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="597.3" y="270.0" font-size="12" fill="#455a64" text-anchor="middle">5</text><line x1="710.0" y1="250.0" x2="710.0" y2="256.0" stroke="#455a64" stroke-width="1.5"/><text x="710.0" y="270.0" font-size="12" fill="#455a64" text-anchor="middle">6</text><text x="400.0" y="298.0" font-size="13.5" fill="#263238" text-anchor="middle">c / d′</text><text x="30.0" y="145.0" font-size="13.5" fill="#263238" text-anchor="middle">f′s</text><text x="30.0" y="161.0" font-size="10" fill="#607d8b" text-anchor="middle">kgf/cm²</text><path d="M119.3,247.8 L121.3,242.0 L123.3,236.4 L125.2,231.0 L127.2,225.9 L129.2,220.9 L131.2,216.2 L133.1,211.7 L135.1,207.3 L137.1,203.1 L139.1,199.1 L141.0,195.2 L143.0,191.4 L145.0,187.8 L147.0,184.3 L148.9,181.0 L150.9,177.7 L152.9,174.6 L154.9,171.5 L156.8,168.6 L158.8,165.7 L160.8,162.9 L162.8,160.3 L164.7,157.7 L166.7,155.1 L168.7,152.7 L170.7,150.3 L172.6,148.0 L174.6,145.8 L176.6,143.6 L178.6,141.4 L180.6,139.4 L182.5,137.4 L184.5,135.4 L186.5,133.5 L188.5,131.6 L190.4,129.8 L192.4,128.0 L194.4,126.3 L196.4,124.6 L198.3,123.0 L200.3,121.4 L202.3,119.8 L204.3,118.3 L206.2,116.8 L208.2,115.3 L210.2,113.9 L212.2,112.5 L214.1,111.1 L216.1,109.8 L218.1,108.5 L220.1,107.2 L222.0,106.0 L224.0,104.7 L226.0,103.5 L228.0,102.4 L229.9,101.2 L231.9,100.1 L233.9,99.0 L235.9,97.9 L237.8,96.8 L239.8,95.8 L241.8,94.7 L243.8,93.7 L245.7,92.7 L247.7,91.8 L249.7,90.8 L251.7,89.9 L253.6,89.0 L255.6,88.1 L257.6,87.2 L259.6,86.3 L261.5,85.5 L263.5,84.6 L265.5,83.8 L267.5,83.0 L269.5,82.2 L271.4,81.4 L273.4,80.6 L275.4,79.9 L277.4,79.1 L279.3,78.4 L281.3,77.7 L283.3,76.9 L285.3,76.2 L287.2,75.6 L289.2,74.9 L291.2,74.2 L293.2,73.5 L295.1,72.9 L297.1,72.3 L299.1,71.6 L301.1,71.0 L303.0,70.4 L305.0,69.8 L307.0,69.2 L309.0,68.6 L310.9,68.0 L312.9,67.5 L314.9,66.9 L316.9,66.4 L318.8,65.8 L320.8,65.3 L322.8,64.7 L324.8,64.2 L326.7,63.7 L328.7,63.2 L330.7,62.7 L332.7,62.2 L334.6,61.7 L336.6,61.2 L338.6,60.7 L340.6,60.3 L342.5,59.8 L344.5,59.4 L346.5,58.9 L348.5,58.5 L350.4,58.0 L352.4,57.6 L354.4,57.1 L356.4,56.7 L358.4,56.3 L360.3,55.9 L362.3,55.5 L364.3,55.1 L366.3,54.7 L368.2,54.3 L370.2,53.9 L372.2,53.5 L374.2,53.1 L376.1,52.7 L378.1,52.4 L380.1,52.0 L382.1,51.6 L384.0,51.3 L386.0,50.9 L388.0,50.6 L390.0,50.2 L391.9,49.9 L393.9,49.7 L395.9,49.7 L397.9,49.7 L399.8,49.7 L401.8,49.7 L403.8,49.7 L405.8,49.7 L407.7,49.7 L409.7,49.7 L411.7,49.7 L413.7,49.7 L415.6,49.7 L417.6,49.7 L419.6,49.7 L421.6,49.7 L423.5,49.7 L425.5,49.7 L427.5,49.7 L429.5,49.7 L431.4,49.7 L433.4,49.7 L435.4,49.7 L437.4,49.7 L439.3,49.7 L441.3,49.7 L443.3,49.7 L445.3,49.7 L447.3,49.7 L449.2,49.7 L451.2,49.7 L453.2,49.7 L455.2,49.7 L457.1,49.7 L459.1,49.7 L461.1,49.7 L463.1,49.7 L465.0,49.7 L467.0,49.7 L469.0,49.7 L471.0,49.7 L472.9,49.7 L474.9,49.7 L476.9,49.7 L478.9,49.7 L480.8,49.7 L482.8,49.7 L484.8,49.7 L486.8,49.7 L488.7,49.7 L490.7,49.7 L492.7,49.7 L494.7,49.7 L496.6,49.7 L498.6,49.7 L500.6,49.7 L502.6,49.7 L504.5,49.7 L506.5,49.7 L508.5,49.7 L510.5,49.7 L512.4,49.7 L514.4,49.7 L516.4,49.7 L518.4,49.7 L520.3,49.7 L522.3,49.7 L524.3,49.7 L526.3,49.7 L528.2,49.7 L530.2,49.7 L532.2,49.7 L534.2,49.7 L536.2,49.7 L538.1,49.7 L540.1,49.7 L542.1,49.7 L544.1,49.7 L546.0,49.7 L548.0,49.7 L550.0,49.7 L552.0,49.7 L553.9,49.7 L555.9,49.7 L557.9,49.7 L559.9,49.7 L561.8,49.7 L563.8,49.7 L565.8,49.7 L567.8,49.7 L569.7,49.7 L571.7,49.7 L573.7,49.7 L575.7,49.7 L577.6,49.7 L579.6,49.7 L581.6,49.7 L583.6,49.7 L585.5,49.7 L587.5,49.7 L589.5,49.7 L591.5,49.7 L593.4,49.7 L595.4,49.7 L597.4,49.7 L599.4,49.7 L601.3,49.7 L603.3,49.7 L605.3,49.7 L607.3,49.7 L609.2,49.7 L611.2,49.7 L613.2,49.7 L615.2,49.7 L617.1,49.7 L619.1,49.7 L621.1,49.7 L623.1,49.7 L625.1,49.7 L627.0,49.7 L629.0,49.7 L631.0,49.7 L633.0,49.7 L634.9,49.7 L636.9,49.7 L638.9,49.7 L640.9,49.7 L642.8,49.7 L644.8,49.7 L646.8,49.7 L648.8,49.7 L650.7,49.7 L652.7,49.7 L654.7,49.7 L656.7,49.7 L658.6,49.7 L660.6,49.7 L662.6,49.7 L664.6,49.7 L666.5,49.7 L668.5,49.7 L670.5,49.7 L672.5,49.7 L674.4,49.7 L676.4,49.7 L678.4,49.7 L680.4,49.7 L682.3,49.7 L684.3,49.7 L686.3,49.7 L688.3,49.7 L690.2,49.7 L692.2,49.7 L694.2,49.7 L696.2,49.7 L698.1,49.7 L700.1,49.7 L702.1,49.7 L704.1,49.7 L706.0,49.7 L708.0,49.7 L710.0,49.7" fill="none" stroke="#1565c0" stroke-width="3"/><line x1="393.0" y1="250.0" x2="393.0" y2="49.7" stroke="#c62828" stroke-width="1.4" stroke-dasharray="5 3"/><circle cx="393.0" cy="49.7" r="5" fill="#c62828" stroke="none" stroke-width="1.5"/><text x="385.0" y="37.7" font-size="12.5" fill="#c62828" text-anchor="end" font-weight="bold">c/d′ ≥ 3.19 才降伏</text><text x="152.4" y="177.4" font-size="11.5" fill="#607d8b" text-anchor="start">c = d′：應變為零</text><text x="159.9" y="209.6" font-size="12" fill="#ef6c00" text-anchor="start">← c < d′：「壓力筋」其實受拉</text><circle cx="414.1" cy="49.7" r="4.5" fill="#2e7d32" stroke="none" stroke-width="1.5"/><text x="422.1" y="71.7" font-size="12" fill="#2e7d32" text-anchor="start">RC-2015-2（一）：c/d′ = 3.38，勉強降伏</text><circle cx="125.2" cy="231.1" r="4.5" fill="#ef6c00" stroke="none" stroke-width="1.5"/><text x="135.2" y="235.1" font-size="12" fill="#ef6c00" text-anchor="start">RC-2015-2（二）：c/d′ = 0.81，A′s 受拉</text><circle cx="371.8" cy="53.6" r="4.5" fill="#6a1b9a" stroke="none" stroke-width="1.5"/><line x1="371.8" y1="53.6" x2="367.8" y2="81.6" stroke="#6a1b9a" stroke-width="1"/><text x="363.8" y="93.6" font-size="12" fill="#6a1b9a" text-anchor="end">常見 d=60、d′=6、c≈0.3d：c/d′ = 3.0 未降伏</text><text x="708.0" y="39.7" font-size="12" fill="#1565c0" text-anchor="end">f′s = fy = 4200</text></svg>
+<div class="cap">\(f'_s = 6120\,(1-d'/c)\)，到 \(f_y\) 截平。c/d′ 從 3 到 3.19 這一小段，就是「看起來應該降伏、其實沒有」的陷阱帶。c < d′ 時曲線穿到零以下：所謂的壓力筋已在中性軸下方受拉（RC-2015-2 第二小題放最少拉力筋時就是這樣），平衡式必須重寫。</div>
+</div>
+
+<div class="box">
+<b>標準流程（先假設、後驗證）</b>
+<ol>
+<li>假設 \(f'_s = f_y\)，力平衡求 \(a = \dfrac{A_sf_y - A'_s(f_y-0.85f'_c)}{0.85f'_cb}\)，得 \(c = a/\beta_1\)；確認 \(a &gt; d'\)（否則 Cs 不扣 0.85f′c）</li>
+<li>驗算 \(\varepsilon'_s = 0.003(c-d')/c \ge \varepsilon_y\)？</li>
+<li><b>成立</b> → 直接算 \(M_n = C_c(d-a/2) + C_s(d-d')\)</li>
+<li><b>不成立</b> → 令 \(f'_s = E_s\varepsilon'_s = 6120\dfrac{c-d'}{c}\) 代回力平衡，
+得到 \(c\) 的<b>二次方程</b>：
+$$0.85f'_c\beta_1 b\,c^2 + \left(6120A'_s - 0.85f'_cA'_s - A_sf_y\right)c - 6120A'_sd' = 0$$
+取 \(0&lt;c&lt;d\) 的正根</li>
+</ol>
+<b>檢查習慣：</b>解出的 \(f'_s\) 必須 &lt; \(f_y\)。若算出 \(f'_s &gt; f_y\)，代表第 2 步的判斷做錯了，回頭重來。
+</div>
+
+<div class="trap">
+<b>二次方程取根</b><br>
+常數項 \(-6120A'_sd'\) 為負，因此兩根必為一正一負（韋達定理：乘積 &lt; 0）。
+<b>直接取正根即可</b>，不用兩根都算。這個結構性事實可以省下考場上的 30 秒與一次算錯的機會。
+</div>
+
+<h3>4.3 加壓力筋到底買到了什麼</h3>
+<table>
+<thead><tr><th>你以為</th><th>實際上</th></tr></thead>
+<tbody>
+<tr><td>增加彎矩強度</td><td>增加得很少 —— \(C_s\) 的力臂 \(d-d'\) 雖大，但 \(A'_s\) 通常不多，且 \(f'_s\) 常未降伏</td></tr>
+<tr><td>—</td><td><b>真正買到的是延性</b>：\(C_s\) 分擔了壓力 → \(a\) 變小 → \(c\) 變小 → \(\varepsilon_t\) 變大 → φ 回到 0.9、\(\mu_\phi\) 上升</td></tr>
+<tr><td>—</td><td><b>還買到長期撓度的改善</b>：\(\lambda_\Delta = \xi/(1+50\rho')\)，壓力筋抑制潛變（屬 RC-U3-1 範圍）</td></tr>
+</tbody>
+</table>
+
+<div class="chain">
+<b>因果鏈④：</b>加 A's → Cs 分擔壓力 → a 減小 → c 減小 → εt 增大 →
+<b>φ 回升、μφ 上升</b>，同時 ρmax 的限制放寬（可以再多放拉力筋）→ 這才是雙筋梁存在的理由。
+RC-2015-2「求最大設計彎矩與最大韌性」問的就是這條鏈。
+</div>
+</section>
+
+<section id="s5">
+<h2>§5 T 形梁：先問「中性軸在哪」，再決定用哪個模型</h2>
+
+<div class="lead">
+T 形梁的困難不在公式，在<b>分類</b>。90% 的 T 形梁題目算完會發現「中性軸在翼板內」，
+此時它<b>根本不是 T 形梁問題</b>，就是一根寬度 \(b_e\) 的矩形梁。
+先做這個判斷，你就省掉一半的計算量與全部的出錯機會。
+</div>
+
+<h3>5.1 有效翼板寬：剪力遲滯的工程化處理</h3>
+
+<div class="fig">
+<svg viewBox="0 0 820 364" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="有效翼板寬等面積" font-family="Microsoft JhengHei,Noto Sans TC,Noto Sans CJK TC,sans-serif"><defs></defs><path d="M70.0,128.0 L70.0,101.0 L72.0,100.8 L74.0,100.7 L76.0,100.6 L78.0,100.5 L80.0,100.4 L82.0,100.2 L84.0,100.1 L86.0,100.0 L88.0,99.9 L90.0,99.7 L92.0,99.6 L94.0,99.5 L96.0,99.3 L98.0,99.2 L100.0,99.1 L102.0,98.9 L104.0,98.8 L106.0,98.6 L108.0,98.5 L110.0,98.3 L112.0,98.2 L114.0,98.0 L116.0,97.9 L118.0,97.7 L120.0,97.6 L122.0,97.4 L124.0,97.2 L126.0,97.1 L128.0,96.9 L130.0,96.7 L132.0,96.5 L134.0,96.4 L136.0,96.2 L138.0,96.0 L140.0,95.8 L142.0,95.6 L144.0,95.4 L146.0,95.2 L148.0,95.0 L150.0,94.9 L152.0,94.6 L154.0,94.4 L156.0,94.2 L158.0,94.0 L160.0,93.8 L162.0,93.6 L164.0,93.4 L166.0,93.2 L168.0,92.9 L170.0,92.7 L172.0,92.5 L174.0,92.3 L176.0,92.0 L178.0,91.8 L180.0,91.5 L182.0,91.3 L184.0,91.0 L186.0,90.8 L188.0,90.5 L190.0,90.3 L192.0,90.0 L194.0,89.8 L196.0,89.5 L198.0,89.2 L200.0,89.0 L202.0,88.7 L204.0,88.4 L206.0,88.1 L208.0,87.8 L210.0,87.5 L212.0,87.2 L214.0,87.0 L216.0,86.7 L218.0,86.4 L220.0,86.0 L222.0,85.7 L224.0,85.4 L226.0,85.1 L228.0,84.8 L230.0,84.5 L232.0,84.2 L234.0,83.8 L236.0,83.5 L238.0,83.2 L240.0,82.8 L242.0,82.5 L244.0,82.1 L246.0,81.8 L248.0,81.5 L250.0,81.1 L252.0,80.8 L254.0,80.4 L256.0,80.0 L258.0,79.7 L260.0,79.3 L262.0,79.0 L264.0,78.6 L266.0,78.2 L268.0,77.9 L270.0,77.5 L272.0,77.1 L274.0,76.7 L276.0,76.4 L278.0,76.0 L280.0,75.6 L282.0,75.2 L284.0,74.8 L286.0,74.4 L288.0,74.1 L290.0,73.7 L292.0,73.3 L294.0,72.9 L296.0,72.5 L298.0,72.1 L300.0,71.7 L302.0,71.4 L304.0,71.0 L306.0,70.6 L308.0,70.2 L310.0,69.8 L312.0,69.5 L314.0,69.1 L316.0,68.7 L318.0,68.3 L320.0,68.0 L322.0,67.6 L324.0,67.2 L326.0,66.9 L328.0,66.5 L330.0,66.2 L332.0,65.8 L334.0,65.5 L336.0,65.1 L338.0,64.8 L340.0,64.4 L342.0,64.1 L344.0,63.8 L346.0,63.5 L348.0,63.2 L350.0,62.9 L352.0,62.6 L354.0,62.3 L356.0,62.0 L358.0,61.7 L360.0,61.5 L362.0,61.2 L364.0,61.0 L366.0,60.7 L368.0,60.5 L370.0,60.3 L372.0,60.1 L374.0,59.9 L376.0,59.7 L378.0,59.5 L380.0,59.3 L382.0,59.1 L384.0,59.0 L386.0,58.8 L388.0,58.7 L390.0,58.6 L392.0,58.5 L394.0,58.4 L396.0,58.3 L398.0,58.2 L400.0,58.1 L402.0,58.1 L404.0,58.1 L406.0,58.0 L408.0,58.0 L410.0,58.0 L412.0,58.0 L414.0,58.0 L416.0,58.1 L418.0,58.1 L420.0,58.1 L422.0,58.2 L424.0,58.3 L426.0,58.4 L428.0,58.5 L430.0,58.6 L432.0,58.7 L434.0,58.8 L436.0,59.0 L438.0,59.1 L440.0,59.3 L442.0,59.5 L444.0,59.7 L446.0,59.9 L448.0,60.1 L450.0,60.3 L452.0,60.5 L454.0,60.7 L456.0,61.0 L458.0,61.2 L460.0,61.5 L462.0,61.7 L464.0,62.0 L466.0,62.3 L468.0,62.6 L470.0,62.9 L472.0,63.2 L474.0,63.5 L476.0,63.8 L478.0,64.1 L480.0,64.4 L482.0,64.8 L484.0,65.1 L486.0,65.5 L488.0,65.8 L490.0,66.2 L492.0,66.5 L494.0,66.9 L496.0,67.2 L498.0,67.6 L500.0,68.0 L502.0,68.3 L504.0,68.7 L506.0,69.1 L508.0,69.5 L510.0,69.8 L512.0,70.2 L514.0,70.6 L516.0,71.0 L518.0,71.4 L520.0,71.7 L522.0,72.1 L524.0,72.5 L526.0,72.9 L528.0,73.3 L530.0,73.7 L532.0,74.1 L534.0,74.4 L536.0,74.8 L538.0,75.2 L540.0,75.6 L542.0,76.0 L544.0,76.4 L546.0,76.7 L548.0,77.1 L550.0,77.5 L552.0,77.9 L554.0,78.2 L556.0,78.6 L558.0,79.0 L560.0,79.3 L562.0,79.7 L564.0,80.0 L566.0,80.4 L568.0,80.8 L570.0,81.1 L572.0,81.5 L574.0,81.8 L576.0,82.1 L578.0,82.5 L580.0,82.8 L582.0,83.2 L584.0,83.5 L586.0,83.8 L588.0,84.2 L590.0,84.5 L592.0,84.8 L594.0,85.1 L596.0,85.4 L598.0,85.7 L600.0,86.0 L602.0,86.4 L604.0,86.7 L606.0,87.0 L608.0,87.2 L610.0,87.5 L612.0,87.8 L614.0,88.1 L616.0,88.4 L618.0,88.7 L620.0,89.0 L622.0,89.2 L624.0,89.5 L626.0,89.8 L628.0,90.0 L630.0,90.3 L632.0,90.5 L634.0,90.8 L636.0,91.0 L638.0,91.3 L640.0,91.5 L642.0,91.8 L644.0,92.0 L646.0,92.3 L648.0,92.5 L650.0,92.7 L652.0,92.9 L654.0,93.2 L656.0,93.4 L658.0,93.6 L660.0,93.8 L662.0,94.0 L664.0,94.2 L666.0,94.4 L668.0,94.6 L670.0,94.9 L672.0,95.0 L674.0,95.2 L676.0,95.4 L678.0,95.6 L680.0,95.8 L682.0,96.0 L684.0,96.2 L686.0,96.4 L688.0,96.5 L690.0,96.7 L692.0,96.9 L694.0,97.1 L696.0,97.2 L698.0,97.4 L700.0,97.6 L702.0,97.7 L704.0,97.9 L706.0,98.0 L708.0,98.2 L710.0,98.3 L712.0,98.5 L714.0,98.6 L716.0,98.8 L718.0,98.9 L720.0,99.1 L722.0,99.2 L724.0,99.3 L726.0,99.5 L728.0,99.6 L730.0,99.7 L732.0,99.9 L734.0,100.0 L736.0,100.1 L738.0,100.2 L740.0,100.4 L742.0,100.5 L744.0,100.6 L746.0,100.7 L748.0,100.8 L750.0,101.0 L750.0,128.0 Z" fill="#ffcdd2" stroke="#c62828" stroke-width="2"/><rect x="180.9" y="58.0" width="458.3" height="70.0" rx="0" fill="none" stroke="#1565c0" stroke-width="2.2" stroke-dasharray="6 4"/><text x="70.0" y="22.0" font-size="12.5" fill="#c62828" text-anchor="start">紅：真實壓應力，離腹板越遠越小（剪力遲滯 shear lag）</text><text x="70.0" y="40.0" font-size="12.5" fill="#1565c0" text-anchor="start">藍虛框：最大應力 × be，面積與紅色相等（由積分算出）</text><rect x="70.0" y="128.0" width="680.0" height="30.0" rx="0" fill="#eceff1" stroke="#607d8b" stroke-width="1.8"/><rect x="380.0" y="158.0" width="60.0" height="90.0" rx="0" fill="#eceff1" stroke="#607d8b" stroke-width="1.8"/><rect x="180.9" y="128.0" width="458.3" height="30.0" rx="0" fill="#bbdefb" stroke="#1565c0" stroke-width="2"/><text x="78.0" y="148.0" font-size="12.5" fill="#455a64" text-anchor="start">樓版</text><line x1="180.9" y1="288.0" x2="639.1" y2="288.0" stroke="#1565c0" stroke-width="1.4"/><line x1="180.9" y1="283.0" x2="180.9" y2="293.0" stroke="#1565c0" stroke-width="1.4"/><line x1="639.1" y1="283.0" x2="639.1" y2="293.0" stroke="#1565c0" stroke-width="1.4"/><text x="410.0" y="305.0" font-size="13" fill="#1565c0" text-anchor="middle">be（有效翼板寬）</text><line x1="380.0" y1="256.0" x2="440.0" y2="256.0" stroke="#455a64" stroke-width="1.4"/><line x1="380.0" y1="251.0" x2="380.0" y2="261.0" stroke="#455a64" stroke-width="1.4"/><line x1="440.0" y1="251.0" x2="440.0" y2="261.0" stroke="#455a64" stroke-width="1.4"/><text x="410.0" y="273.0" font-size="12" fill="#455a64" text-anchor="middle">bw</text><text x="70.0" y="330.0" font-size="13.5" fill="#263238" text-anchor="start">be 不是幾何量，是力學等效量：「最大應力 × be」＝「真實應力對全寬的積分」。</text><text x="70.0" y="352.0" font-size="13.5" fill="#263238" text-anchor="start">跨度越長，應力分布越平 → 等效寬越大，這就是 be 跟 L 掛鉤的原因。</text></svg>
+<div class="cap">紅色曲線下的面積（真實合力）由數值積分算出，藍框寬度 be 正是讓「最大應力 × be」等於該面積的寬度。be 的三條規定分別在防三件事：\(L/4\) 防跨度太短（遲滯嚴重）、\(b_w+16h_f\) 防翼板太薄（傳不了力）、梁中心距防兩根梁搶同一塊版。取最小＝三個都要滿足。</div>
+</div>
+
+<table>
+<thead><tr><th></th><th>內梁（兩側都有版）</th><th>邊梁（只有一側有版）</th></tr></thead>
+<tbody>
+<tr><td>ACI 318-19 寫法<br>（每側懸出量）</td>
+<td>每側 \(\le \min(8h_f,\ s_w/2,\ \ell_n/8)\)<br>\(b_e = b_w + 2\times\) 該值</td>
+<td>單側 \(\le \min(6h_f,\ s_w/2,\ \ell_n/12)\)<br>\(b_e = b_w + \) 該值</td></tr>
+<tr><td>傳統三式寫法</td>
+<td>\(b_e=\min\!\left(\dfrac{\ell}{4},\ b_w+16h_f,\ \text{梁中心距}\right)\)</td>
+<td>\(b_e=\min\!\left(b_w+\dfrac{\ell}{12},\ b_w+6h_f,\ b_w+\dfrac{\text{淨間距}}{2}\right)\)</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>ℓ 是跨度還是淨跨 ℓn？</b><br>
+ACI 318-19 用<b>淨跨 \(\ell_n\)</b>；舊版與許多國內教科書寫「跨度 \(\ell\)」。
+考題若同時給支承中心距與淨跨，<b>寫清楚你採用哪一個並說明依據</b>，兩者差異通常不到 10%，
+閱卷多半接受，但沒交代就可能被扣。RC-2007-1 直接給「梁間距 = 跨距 = 6 m」，避開了這個爭議。
+</div>
+
+<h3>5.2 兩種模型的分岔</h3>
+
+<div class="fig">
+<svg viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="T 形梁兩種模型" font-family="Microsoft JhengHei,Noto Sans TC,Noto Sans CJK TC,sans-serif"><defs><marker id="f6r" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#c62828"/></marker><marker id="f6o" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#ef6c00"/></marker><marker id="f6g" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#2e7d32"/></marker></defs><line x1="450.0" y1="16.0" x2="450.0" y2="335.0" stroke="#b0bec5" stroke-width="1.5" stroke-dasharray="6 5"/><text x="225.0" y="30.0" font-size="15.5" fill="#2e7d32" text-anchor="middle" font-weight="bold">a ≤ hf：其實是寬 be 的矩形梁</text><text x="675.0" y="30.0" font-size="15.5" fill="#ef6c00" text-anchor="middle" font-weight="bold">a > hf：才是真 T 形梁</text><rect x="70.0" y="60.0" width="240.0" height="36.0" rx="0" fill="#eceff1" stroke="#607d8b" stroke-width="1.8"/><rect x="155.0" y="96.0" width="70.0" height="186.0" rx="0" fill="#eceff1" stroke="#607d8b" stroke-width="1.8"/><circle cx="170.0" cy="260.0" r="6" fill="#1565c0" stroke="none" stroke-width="1.5"/><circle cx="190.0" cy="260.0" r="6" fill="#1565c0" stroke="none" stroke-width="1.5"/><circle cx="210.0" cy="260.0" r="6" fill="#1565c0" stroke="none" stroke-width="1.5"/><line x1="56.0" y1="60.0" x2="56.0" y2="96.0" stroke="#607d8b" stroke-width="1.4"/><line x1="51.0" y1="60.0" x2="61.0" y2="60.0" stroke="#607d8b" stroke-width="1.4"/><line x1="51.0" y1="96.0" x2="61.0" y2="96.0" stroke="#607d8b" stroke-width="1.4"/><text x="49.0" y="82.0" font-size="12.5" fill="#607d8b" text-anchor="end">hf</text><rect x="70.0" y="60.0" width="240.0" height="22.0" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.6"/><line x1="324.0" y1="60.0" x2="324.0" y2="82.0" stroke="#c62828" stroke-width="1.4"/><line x1="319.0" y1="60.0" x2="329.0" y2="60.0" stroke="#c62828" stroke-width="1.4"/><line x1="319.0" y1="82.0" x2="329.0" y2="82.0" stroke="#c62828" stroke-width="1.4"/><text x="331.0" y="75.0" font-size="12.5" fill="#c62828" text-anchor="start">a</text><line x1="350.0" y1="71.0" x2="410.0" y2="71.0" stroke="#c62828" stroke-width="2.5" marker-end="url(#f6r)"/><text x="380.0" y="64.0" font-size="13" fill="#c62828" text-anchor="middle" font-weight="bold">C</text><text x="70.0" y="306.0" font-size="13.5" fill="#2e7d32" text-anchor="start">a = As·fy / (0.85f′c · be)</text><text x="70.0" y="328.0" font-size="13.5" fill="#2e7d32" text-anchor="start">Mn = As·fy (d − a/2)　← 一條式子</text><line x1="26.0" y1="60.0" x2="26.0" y2="260.0" stroke="#607d8b" stroke-width="1.4"/><line x1="21.0" y1="60.0" x2="31.0" y2="60.0" stroke="#607d8b" stroke-width="1.4"/><line x1="21.0" y1="260.0" x2="31.0" y2="260.0" stroke="#607d8b" stroke-width="1.4"/><text x="19.0" y="164.0" font-size="12.5" fill="#607d8b" text-anchor="end">d</text><rect x="520.0" y="60.0" width="240.0" height="36.0" rx="0" fill="#eceff1" stroke="#607d8b" stroke-width="1.8"/><rect x="605.0" y="96.0" width="70.0" height="186.0" rx="0" fill="#eceff1" stroke="#607d8b" stroke-width="1.8"/><circle cx="620.0" cy="260.0" r="6" fill="#1565c0" stroke="none" stroke-width="1.5"/><circle cx="640.0" cy="260.0" r="6" fill="#1565c0" stroke="none" stroke-width="1.5"/><circle cx="660.0" cy="260.0" r="6" fill="#1565c0" stroke="none" stroke-width="1.5"/><line x1="506.0" y1="60.0" x2="506.0" y2="96.0" stroke="#607d8b" stroke-width="1.4"/><line x1="501.0" y1="60.0" x2="511.0" y2="60.0" stroke="#607d8b" stroke-width="1.4"/><line x1="501.0" y1="96.0" x2="511.0" y2="96.0" stroke="#607d8b" stroke-width="1.4"/><text x="499.0" y="82.0" font-size="12.5" fill="#607d8b" text-anchor="end">hf</text><rect x="520.0" y="60.0" width="85.0" height="36.0" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.6"/><rect x="675.0" y="60.0" width="85.0" height="36.0" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.6"/><rect x="605.0" y="60.0" width="70.0" height="70.0" rx="0" fill="#ffe0b2" stroke="#ef6c00" stroke-width="1.8"/><text x="562.5" y="83.0" font-size="13" fill="#b71c1c" text-anchor="middle" font-weight="bold">Cf</text><text x="717.5" y="83.0" font-size="13" fill="#b71c1c" text-anchor="middle" font-weight="bold">Cf</text><text x="640.0" y="120.0" font-size="13" fill="#e65100" text-anchor="middle" font-weight="bold">Cw</text><line x1="774.0" y1="60.0" x2="774.0" y2="96.0" stroke="#c62828" stroke-width="1.4"/><line x1="769.0" y1="60.0" x2="779.0" y2="60.0" stroke="#c62828" stroke-width="1.4"/><line x1="769.0" y1="96.0" x2="779.0" y2="96.0" stroke="#c62828" stroke-width="1.4"/><text x="781.0" y="82.0" font-size="12.5" fill="#c62828" text-anchor="start">hf</text><line x1="802.0" y1="60.0" x2="802.0" y2="130.0" stroke="#ef6c00" stroke-width="1.4"/><line x1="797.0" y1="60.0" x2="807.0" y2="60.0" stroke="#ef6c00" stroke-width="1.4"/><line x1="797.0" y1="130.0" x2="807.0" y2="130.0" stroke="#ef6c00" stroke-width="1.4"/><text x="809.0" y="99.0" font-size="12.5" fill="#ef6c00" text-anchor="start">aw（從頂面量）</text><line x1="603.0" y1="130.0" x2="677.0" y2="130.0" stroke="#ef6c00" stroke-width="1" stroke-dasharray="3 2"/><text x="520.0" y="306.0" font-size="13.5" fill="#ef6c00" text-anchor="start">Cf 力臂 d − hf/2；Cw 力臂 d − aw/2</text><text x="520.0" y="328.0" font-size="13.5" fill="#ef6c00" text-anchor="start" font-weight="bold">a = aw（同起點，hf 與 aw 不相加）</text></svg>
+<div class="cap">分岔判準只有一個：先用 be 當寬度算 a，再看 a 有沒有超過 hf。右圖的 aw 與 hf <b>都從頂面量起</b>（兩條尺寸線同一個起點），所以壓力區總深度就是 aw。歷屆 6 題 T 形梁只有 RC-2011-2 落在右邊 —— 但左邊那條路必須<b>算完才知道</b>。</div>
+</div>
+
+<div class="box">
+<b>a &gt; hf 時的拆法（把翼板伸出部想成「另一根小梁」）</b>
+$$A_{sf}=\frac{0.85f'_c(b_e-b_w)h_f}{f_y},\qquad A_{sw}=A_s-A_{sf},\qquad
+a_w=\frac{A_{sw}f_y}{0.85f'_cb_w}$$
+$$M_n = A_{sf}f_y\!\left(d-\frac{h_f}{2}\right) + A_{sw}f_y\!\left(d-\frac{a_w}{2}\right)$$
+<b>注意力臂：</b>翼板那塊用 \(h_f/2\)（因為它整片翼板厚度都受壓，形心在 \(h_f/2\)），
+不是 \(a/2\)。這是本節最常見的計算錯誤。<br>
+<b>中性軸怎麼算：</b>壓力區被拆成「翼板伸出部（深度固定 \(h_f\)）」與「腹板部（深度 \(a_w\)，從<u>頂面</u>起算）」。
+所以整個應力塊深度就是 \(a = a_w\)，中性軸 \(c = a_w/\beta_1\)。
+<b>不要</b>把 \(h_f\) 和 \(a_w\) 相加 —— 兩者都是從斷面頂面起算，不是接續的。
+</div>
+
+<div class="trap">
+<b>負彎矩 T 形梁（RC-2015-3）</b><br>
+連續梁支承處是負彎矩：<b>翼板在受拉側、腹板在受壓側</b>。
+此時翼板的混凝土完全不計（拉力由鋼筋承擔），斷面退化成寬度 \(b_w\) 的矩形梁。
+「T 形梁」三個字在這裡是<b>誘餌</b>。判斷準則永遠是「壓力區長什麼形狀」，不是斷面外形。
+</div>
+
+<div class="trap">
+<b>配筋率的分母用 bw</b><br>
+T 形梁的 \(\rho = A_s/(b_w d)\)，用<b>腹板寬</b>不是 \(b_e\)。
+因為 \(\rho_{min}\)、\(\rho\) 的規定本來就是針對腹板訂的（翼板是樓版，另有其配筋）。
+</div>
+
+<div class="chain">
+<b>因果鏈⑤：</b>算 be（三選一取小）→ 假設 NA 在翼板，用 be 算 a →
+比對 a 與 hf → <b>a ≤ hf 就當矩形梁做完收工；a &gt; hf 才拆兩塊</b> →
+最後不論哪條路，都要回到 §3 算 εt 定 φ。
+</div>
+</section>
+<section id="s6">
+<h2>§6 從強度到韌性：彎矩-曲率與 μ<sub>φ</sub></h2>
+
+<div class="lead">
+前面五節都在算「斷面能撐多大彎矩」。這一節換一個問題：<b>撐到極限之前，它能彎多少</b>。
+考題出現 3 次（RC-2011-2、RC-2015-2、RC-2023-1），而且每次都是高分題 ——
+因為它同時考「彈性分析」與「極限分析」兩套模型，最能分辨考生是懂還是背。
+</div>
+
+<h3>6.1 三個階段，三種模型</h3>
+
+<div class="fig">
+<svg viewBox="0 20 860 292" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC-2023-1 彎矩曲率" font-family="Microsoft JhengHei,Noto Sans TC,Noto Sans CJK TC,sans-serif"><line x1="90.0" y1="260.0" x2="730.0" y2="260.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="260.0" x2="90.0" y2="260.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="264.0" font-size="12" fill="#455a64" text-anchor="end">0</text><line x1="90.0" y1="220.0" x2="730.0" y2="220.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="220.0" x2="90.0" y2="220.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="224.0" font-size="12" fill="#455a64" text-anchor="end">10</text><line x1="90.0" y1="180.0" x2="730.0" y2="180.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="180.0" x2="90.0" y2="180.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="184.0" font-size="12" fill="#455a64" text-anchor="end">20</text><line x1="90.0" y1="140.0" x2="730.0" y2="140.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="140.0" x2="90.0" y2="140.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="144.0" font-size="12" fill="#455a64" text-anchor="end">30</text><line x1="90.0" y1="100.0" x2="730.0" y2="100.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="100.0" x2="90.0" y2="100.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="104.0" font-size="12" fill="#455a64" text-anchor="end">40</text><line x1="90.0" y1="60.0" x2="730.0" y2="60.0" stroke="#eceff1" stroke-width="1"/><line x1="84.0" y1="60.0" x2="90.0" y2="60.0" stroke="#455a64" stroke-width="1.5"/><text x="80.0" y="64.0" font-size="12" fill="#455a64" text-anchor="end">50</text><line x1="90.0" y1="260.0" x2="730.0" y2="260.0" stroke="#455a64" stroke-width="1.8"/><line x1="90.0" y1="260.0" x2="90.0" y2="60.0" stroke="#455a64" stroke-width="1.8"/><line x1="90.0" y1="260.0" x2="90.0" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="90.0" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">0.0</text><line x1="196.7" y1="260.0" x2="196.7" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="196.7" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">0.5</text><line x1="303.3" y1="260.0" x2="303.3" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="303.3" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">1.0</text><line x1="410.0" y1="260.0" x2="410.0" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="410.0" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">1.5</text><line x1="516.7" y1="260.0" x2="516.7" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="516.7" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">2.0</text><line x1="623.3" y1="260.0" x2="623.3" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="623.3" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">2.5</text><line x1="730.0" y1="260.0" x2="730.0" y2="266.0" stroke="#455a64" stroke-width="1.5"/><text x="730.0" y="280.0" font-size="12" fill="#455a64" text-anchor="middle">3.0</text><text x="410.0" y="300.0" font-size="13.5" fill="#263238" text-anchor="middle">曲率 φ（×10⁻⁴ 1/cm）</text><text x="36.0" y="160.0" font-size="14" fill="#263238" text-anchor="middle">M</text><text x="36.0" y="176.0" font-size="11" fill="#607d8b" text-anchor="middle">tf·m</text><path d="M90.0,260.0 L99.5,232.2 L216.2,100.1 L546.0,99.7" fill="none" stroke="#ef6c00" stroke-width="3"/><circle cx="99.5" cy="232.2" r="4.5" fill="#ef6c00" stroke="none" stroke-width="1.5"/><circle cx="216.2" cy="100.1" r="4.5" fill="#ef6c00" stroke="none" stroke-width="1.5"/><circle cx="546.0" cy="99.7" r="4.5" fill="#ef6c00" stroke="none" stroke-width="1.5"/><text x="546.0" y="89.7" font-size="12.5" fill="#ef6c00" text-anchor="middle" font-weight="bold">f′c=210</text><line x1="216.2" y1="238.0" x2="546.0" y2="238.0" stroke="#ef6c00" stroke-width="2"/><text x="554.0" y="242.0" font-size="12" fill="#ef6c00" text-anchor="start" font-weight="bold">μφ = 3.61</text><line x1="216.2" y1="233.0" x2="216.2" y2="243.0" stroke="#ef6c00" stroke-width="2"/><line x1="546.0" y1="233.0" x2="546.0" y2="243.0" stroke="#ef6c00" stroke-width="2"/><path d="M90.0,260.0 L99.5,227.9 L212.6,98.9 L698.0,94.7" fill="none" stroke="#1565c0" stroke-width="3"/><circle cx="99.5" cy="227.9" r="4.5" fill="#1565c0" stroke="none" stroke-width="1.5"/><circle cx="212.6" cy="98.9" r="4.5" fill="#1565c0" stroke="none" stroke-width="1.5"/><circle cx="698.0" cy="94.7" r="4.5" fill="#1565c0" stroke="none" stroke-width="1.5"/><text x="698.0" y="84.7" font-size="12.5" fill="#1565c0" text-anchor="middle" font-weight="bold">f′c=280</text><line x1="212.6" y1="220.0" x2="698.0" y2="220.0" stroke="#1565c0" stroke-width="2"/><text x="706.0" y="224.0" font-size="12" fill="#1565c0" text-anchor="start" font-weight="bold">μφ = 4.96</text><line x1="212.6" y1="215.0" x2="212.6" y2="225.0" stroke="#1565c0" stroke-width="2"/><line x1="698.0" y1="215.0" x2="698.0" y2="225.0" stroke="#1565c0" stroke-width="2"/><text x="107.5" y="236.2" font-size="12" fill="#607d8b" text-anchor="start">開裂 Mcr = 7.0</text><text x="212.2" y="70.1" font-size="12" fill="#263238" text-anchor="middle">降伏 My ≈ 40.0</text><text x="212.2" y="85.1" font-size="11" fill="#607d8b" text-anchor="middle">（此時混凝土 εc = 0.00108）</text><text x="431.3" y="65.7" font-size="12" fill="#263238" text-anchor="middle">極限 Mn ≈ 40.1（兩種 f′c 只差 3.2%）</text><text x="292.7" y="152.0" font-size="12.5" fill="#0d47a1" text-anchor="start">① 開裂→降伏：開裂後彈性（轉換斷面）求 φy</text><text x="292.7" y="170.0" font-size="12.5" fill="#2e7d32" text-anchor="start">② 降伏→極限：Whitney 應力塊求 φu = 0.003/c</text></svg>
+<div class="cap">以 RC-2023-1 斷面（b = 40、h = 60、d = 53 cm、As = 20.28 cm²）按比例繪製，兩種 f′c 同框。降伏時混凝土最外緣應變只有 0.001 左右，還在線彈性段 —— 拿 Whitney 應力塊算 φy 是張冠李戴。注意 My 與 Mn 幾乎等高：μφ 的差別幾乎全部來自橫軸（φu = 0.003/c），不是縱軸。降伏後以直線連接為簡化。</div>
+</div>
+
+<table>
+<thead><tr><th>階段</th><th>混凝土模型</th><th>中性軸</th><th>曲率</th></tr></thead>
+<tbody>
+<tr><td>未開裂</td><td>全斷面線彈性</td><td>轉換全斷面形心</td><td>\(\phi = M/(E_cI_g)\)</td></tr>
+<tr><td><b>鋼筋降伏</b></td><td><b>開裂後線彈性（三角形應力）</b></td><td>\(k d\)，\(k=-n\rho+\sqrt{(n\rho)^2+2n\rho}\)</td><td>\(\phi_y = \dfrac{\varepsilon_y}{d(1-k)}\)</td></tr>
+<tr><td><b>極限</b></td><td><b>Whitney 應力塊</b></td><td>\(c = a/\beta_1\)</td><td>\(\phi_u = \dfrac{\varepsilon_{cu}}{c} = \dfrac{0.003}{c}\)</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>\(k = -n\rho + \sqrt{(n\rho)^2+2n\rho}\) 是怎麼冒出來的？</b>　不用背，它就是「開裂斷面的形心條件」：
+壓力區混凝土的一次矩 = 轉換鋼筋的一次矩
+$$b\,(kd)\cdot\frac{kd}{2} = nA_s(d-kd)
+\;\Longrightarrow\; \frac{k^2}{2} = n\rho(1-k)
+\;\Longrightarrow\; k^2+2n\rho k-2n\rho=0$$
+解二次方程就是上式。<b>考場忘記公式時，60 秒可以重推出來</b>，這比記錯符號安全得多。<br>
+另外 \(\phi_y = \varepsilon_y/[d(1-k)]\) 也是相似三角形：鋼筋處應變 \(\varepsilon_y\)，
+到中性軸的距離是 \(d - kd = d(1-k)\)。
+</div>
+
+<h3>6.2 f'c 對延性的影響：一個具體的數字</h3>
+
+<div class="box">
+<b>RC-2023-1 的斷面：</b>\(b=40\)、\(d=53\) cm、\(A_s=20.28\) cm²（4-D25）、\(f_y=4200\)、\(E_s=2.04\times10^6\)。
+$$\rho = \frac{20.28}{40\times53}=0.00957,\qquad E_c = 15000\sqrt{f'_c}$$
+<table>
+<thead><tr><th>\(f'_c\)</th><th>\(n=E_s/E_c\)</th><th>\(k\)</th><th>\(\phi_y\) (1/cm)</th><th>\(c\) (cm)</th><th>\(\phi_u\) (1/cm)</th><th>\(\mu_\phi\)</th></tr></thead>
+<tbody>
+<tr><td>210</td><td>9.39</td><td>0.343</td><td>5.92×10⁻⁵</td><td>14.04</td><td>2.14×10⁻⁴</td><td><b>3.61</b></td></tr>
+<tr><td>280</td><td>8.13</td><td>0.324</td><td>5.75×10⁻⁵</td><td>10.53</td><td>2.85×10⁻⁴</td><td><b>4.96</b></td></tr>
+</tbody>
+</table>
+<b>比值 4.96 / 3.61 = 1.37</b>：\(f'_c\) 提高 33%，斷面韌性提高 37%。
+</div>
+
+<div class="why">
+<b>為什麼提高 f'c 對「強度」幾乎沒用，對「韌性」卻很有效？</b><br>
+看兩條式子就清楚了：
+<ul>
+<li>強度：\(M_n = A_sf_y(d-a/2)\)。\(f'_c\uparrow \Rightarrow a\downarrow\)，但 \(a/2\) 相對 \(d\) 本來就小，
+力臂只增加幾個百分點 →<b>幾乎不動</b>。</li>
+<li>韌性：\(\phi_u = 0.003/c\)，而 \(c\) 與 \(f'_c\) <b>成反比</b>。
+\(f'_c\) 從 210 到 280（×1.33），\(c\) 從 14.0 掉到 10.5（÷1.33）→ \(\phi_u\) 直接 ×1.33。</li>
+</ul>
+<b>一句話：\(f'_c\) 出現在分母（透過 c），所以它買的是變形能力，不是強度。</b>
+這條理解可以同時回答 RC-2023-1 與 RC-2022-2 兩題。
+</div>
+
+<div class="trap">
+<b>μφ 題的三個高頻失分點</b>
+<ol>
+<li>用 Whitney 應力塊算 \(\phi_y\) —— 模型張冠李戴，直接失分</li>
+<li>\(\phi_y\) 的分母寫成 \(d\cdot k\)（應為 \(d(1-k)\)）—— 混淆「到中性軸的距離」與「中性軸深度」</li>
+<li>雙筋梁的 \(k\) 要把 \(A'_s\) 也轉換（\((n-1)A'_s\)，扣 1 是因為壓力筋佔位的混凝土已計入）——
+RC-2015-2 就是雙筋梁求 μφ</li>
+</ol>
+</div>
+
+<div class="chain">
+<b>因果鏈⑥：</b>f'c ↑ → a ↓ → c ↓ → φu = 0.003/c ↑，同時 εt ↑ →
+<b>μφ ↑、φ 值 ↑</b>；但 Mn 幾乎不變。反過來，As ↑ → c ↑ → μφ ↓ →
+<b>強度與韌性是互相拉扯的</b>，這就是耐震設計裡「不要過度配筋」的來源。
+</div>
+</section>
+
+<section id="s7">
+<h2>§7 從載重到 A<sub>s</sub>：設計題的前半段</h2>
+
+<div class="lead">
+分析題給你 \(A_s\) 求 \(M_n\)；設計題給你載重求 \(A_s\)。
+後者多了兩段：<b>把載重變成 \(M_u\)</b>、<b>把 \(M_u\) 反解成 \(A_s\)</b>。
+這兩段本身不難，但它們是 RC-2004-2、RC-2016-1、RC-2007-1 的實際失分處。
+</div>
+
+<h3>7.1 Mu 從哪來</h3>
+<table>
+<thead><tr><th>組合</th><th>什麼時候控制</th><th>本單元的考題</th></tr></thead>
+<tbody>
+<tr><td>\(1.4D\)</td><td>活載重極小時（倉庫底板、純自重構材）</td><td>幾乎不控制，但要算過才知道</td></tr>
+<tr><td>\(1.2D + 1.6L\)</td><td><b>一般樓版梁的控制組合</b></td><td>RC-2004-2、RC-2007-1、RC-2016-1</td></tr>
+<tr><td>\(1.2D + 1.0L + 1.0E\)</td><td>地震與重力同向疊加時（梁端負彎矩）</td><td>RC-2016-1（需與上式比大小）</td></tr>
+<tr><td>\(0.9D + 1.0E\)</td><td>地震與重力<b>反向</b>時 —— 重力打折，梁端可能翻成正彎矩</td><td>RC-2016-1（梁端 +8.06 tf·m）</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>地震組合的活載重因數是 1.0 不是 1.6</b><br>
+理由：地震與滿載活載同時發生的機率低，規範已在載重因數上打折。
+RC-2016-1 就是要你把 \(1.2D+1.6L\)、\(1.2D+1.0L+1.0E\)、\(0.9D+1.0E\) 都算一次再取大。<br>
+<b>地震彎矩會反向</b>：\(0.9D+1.0E\) 時重力打九折，若 \(M_E\) 大於 \(0.9M_{D,端}\)，梁端就翻成<b>正彎矩</b>（底部受拉）。
+RC-2016-1 的梁端正彎矩 8.06 小於跨中 9.375 所以不控制底筋 —— 但「算過才知道不控制」和「沒算」是兩回事。<br>
+<b>注意題意：</b>該題「整跨頂部與底部配置相同鋼筋」指的是<b>頂筋全跨一致、底筋全跨一致</b>，不是頂筋等於底筋
+（實際頂筋 14.46 cm²、底筋由 ρmin 控制 7.35 cm²）。耐震「底筋強度 ≥ 頂筋一半」要比的是<b>彎矩強度</b>（該題 0.517），不是面積。
+</div>
+
+<div class="box">
+<b>兩端固定梁的彈性彎矩（RC-2016-1 直接給定）</b>
+$$M_{\text{端}} = \frac{wL^2}{12}\ (\text{負彎矩}),\qquad M_{\text{跨中}}=\frac{wL^2}{24}\ (\text{正彎矩})$$
+<b>檢查：</b>兩者相加 \(=wL^2/12+wL^2/24 = wL^2/8\)，正好等於簡支梁的跨中彎矩。
+這個「總彎矩守恆」是自我檢查的好工具 —— 任何超靜定梁的端彎矩與跨中彎矩之和，
+都等於同載重下的簡支跨中彎矩。
+</div>
+
+<h3>7.2 反解 As：二次方程與它的兩個近似</h3>
+<p>把 \(a = A_sf_y/(0.85f'_cb)\) 代入 \(M_u = \phi A_sf_y(d-a/2)\)，得到 \(A_s\) 的二次方程：</p>
+$$\frac{\phi f_y^2}{1.7f'_cb}A_s^2 - \phi f_yd\,A_s + M_u = 0$$
+
+<div class="box">
+<b>考場實務：用迭代法比解二次方程快而且不易錯</b>
+<ol>
+<li>先猜力臂 \(jd \approx 0.9d\)（一般梁）或 \(0.95d\)（T 形梁，因為 \(a\) 很淺）</li>
+<li>\(A_s \approx \dfrac{M_u}{\phi f_y \cdot jd}\)</li>
+<li>用這個 \(A_s\) 算 \(a\)，回頭修正 \(jd = d - a/2\)</li>
+<li>再算一次 \(A_s\)。通常<b>第二輪就收斂到 1% 以內</b>，不用第三輪</li>
+</ol>
+迭代的另一個好處：每一輪都看得到 \(a\)，可以隨時檢查 \(a/d\) 是否落在合理的 0.15～0.30，
+以及是否超過 \(\rho_{max}\)。直接解二次方程反而看不到這些中間訊號。
+</div>
+
+<div class="trap">
+<b>φ 值的雞生蛋問題</b><br>
+要算 \(A_s\) 得先知道 \(\phi\)，但 \(\phi\) 又要由 \(\varepsilon_t\)（也就是 \(A_s\)）決定。<br>
+<b>標準做法：</b>先假設 \(\phi=0.9\)（拉力控制）算出 \(A_s\)，再驗算 \(\varepsilon_t\)。
+若 \(\varepsilon_t \ge 0.005\) → 假設成立，收工；
+若落在過渡區 → 用內插的 \(\phi\) 再算一輪。
+RC-2007-1 與 RC-2019-1 都在題目裡直接給了過渡區的 φ 內插式，就是暗示<b>這裡會需要第二輪</b>。
+</div>
+
+<h3>7.3 配筋完還沒結束：三個一定要檢查的</h3>
+<table>
+<thead><tr><th>檢查</th><th>條件</th><th>不過怎麼辦</th></tr></thead>
+<tbody>
+<tr><td>最小鋼筋量</td><td>\(A_s \ge \rho_{min}b_wd\)</td><td>補到 \(\rho_{min}\)（或補到需求量的 4/3）</td></tr>
+<tr><td>最大鋼筋量 / 延性</td><td>\(\varepsilon_t \ge 0.004\)</td><td>加深斷面、提高 \(f'_c\)、或改雙筋梁</td></tr>
+<tr><td>鋼筋排得下嗎</td><td>淨間距 \(\ge \max(2.5\text{cm},\ d_b,\ 4/3\times\) 粒徑\()\)</td><td>改雙排 → \(d\) 變小 → 回頭重算（RC-2007-1、RC-2023-2）</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>改雙排會回頭改變 d</b><br>
+這是設計題最容易漏的一步：排不下 → 改兩排 → 拉力筋形心下移 → \(d\) 減小 →
+\(M_n\) 減小 → 可能又不夠 → 要再補鋼筋。<b>考試至少要把這個回饋做一輪</b>並寫出來，
+即使最後數字沒變太多，閱卷看的是你有沒有意識到這個迴路。
+</div>
+</section>
+<section id="s8">
+<h2>§8 解題決策流程</h2>
+
+<div class="lead">
+這張圖不是步驟清單，是<b>判斷清單</b>。每一個菱形都是一次「先假設、後驗證」，
+而每一個驗證失敗的分支，都對應歷屆的一道考題。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 960 1084" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="解題決策流程" font-family="Microsoft JhengHei,Noto Sans TC,Noto Sans CJK TC,sans-serif"><defs><marker id="f8a" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#455a64"/></marker><marker id="f8o" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#ef6c00"/></marker><marker id="f8r" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#c62828"/></marker><marker id="f8g" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#2e7d32"/></marker></defs><rect x="180.0" y="14.0" width="360.0" height="44.0" rx="22" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.8"/><text x="360.0" y="41.0" font-size="13.5" fill="#1565c0" text-anchor="middle">讀題：正 / 負彎矩？壓力區長什麼形狀？</text><line x1="360.0" y1="58.0" x2="360.0" y2="83.0" stroke="#455a64" stroke-width="2" marker-end="url(#f8a)"/><path d="M360.0,84.0 L490.0,124.0 L360.0,164.0 L230.0,124.0 Z" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/><text x="360.0" y="120.0" font-size="13.5" fill="#ef6c00" text-anchor="middle" font-weight="bold">壓力側有翼板？</text><text x="360.0" y="138.0" font-size="11.5" fill="#8d6e63" text-anchor="middle">負彎矩時翼板在拉力側 → 否</text><line x1="490.0" y1="124.0" x2="569.0" y2="124.0" stroke="#ef6c00" stroke-width="2" marker-end="url(#f8o)"/><text x="530.0" y="117.0" font-size="12.5" fill="#ef6c00" text-anchor="middle">是</text><rect x="570.0" y="98.0" width="370.0" height="52.0" rx="8" fill="#fff" stroke="#ef6c00" stroke-width="1.8"/><text x="755.0" y="119.5" font-size="13" fill="#ef6c00" text-anchor="middle">be = min（三條件），b ← be</text><text x="755.0" y="138.5" font-size="12" fill="#8d6e63" text-anchor="middle">內梁 / 邊梁公式不同</text><line x1="360.0" y1="164.0" x2="360.0" y2="199.0" stroke="#455a64" stroke-width="2" marker-end="url(#f8a)"/><text x="368.0" y="180.0" font-size="12" fill="#455a64" text-anchor="start">否 → b ← bw</text><path d="M755.0,150.0 L755.0,188.0 L400.0,188.0" fill="none" stroke="#ef6c00" stroke-width="1.6" stroke-dasharray="5 4"/><line x1="400.0" y1="188.0" x2="362.0" y2="188.0" stroke="#ef6c00" stroke-width="1.6" marker-end="url(#f8o)"/><rect x="170.0" y="200.0" width="380.0" height="52.0" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.8"/><text x="360.0" y="221.5" font-size="13" fill="#2e7d32" text-anchor="middle">假設拉力筋 fs = fy（有 A′s 也先假設 f′s = fy）</text><text x="360.0" y="240.5" font-size="13" fill="#2e7d32" text-anchor="middle">力平衡 C = T 求 a</text><line x1="360.0" y1="252.0" x2="360.0" y2="277.0" stroke="#455a64" stroke-width="2" marker-end="url(#f8a)"/><path d="M360.0,278.0 L490.0,318.0 L360.0,358.0 L230.0,318.0 Z" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/><text x="360.0" y="323.0" font-size="13.5" fill="#ef6c00" text-anchor="middle" font-weight="bold">有壓力鋼筋 A′s？</text><line x1="490.0" y1="318.0" x2="569.0" y2="318.0" stroke="#ef6c00" stroke-width="2" marker-end="url(#f8o)"/><text x="530.0" y="311.0" font-size="12.5" fill="#ef6c00" text-anchor="middle">是</text><rect x="570.0" y="266.0" width="370.0" height="104.0" rx="8" fill="#fff" stroke="#ef6c00" stroke-width="1.8"/><text x="755.0" y="294.5" font-size="12.5" fill="#ef6c00" text-anchor="middle">a > d′ → Cs 扣 0.85f′c；a ≤ d′ → 不扣</text><text x="755.0" y="313.5" font-size="12.5" fill="#ef6c00" text-anchor="middle">驗 ε′s = 0.003(c − d′)/c ≥ εy ？</text><text x="755.0" y="332.5" font-size="12.5" fill="#ef6c00" text-anchor="middle">否 → f′s = 6120(c − d′)/c，解 c 的二次式</text><text x="755.0" y="351.5" font-size="11.5" fill="#8d6e63" text-anchor="middle">（c < d′ 時 A′s 其實落在拉力區）</text><line x1="360.0" y1="358.0" x2="360.0" y2="397.0" stroke="#455a64" stroke-width="2" marker-end="url(#f8a)"/><text x="368.0" y="374.0" font-size="12" fill="#455a64" text-anchor="start">否（單筋）</text><path d="M755.0,370.0 L755.0,386.0 L400.0,386.0" fill="none" stroke="#ef6c00" stroke-width="1.6" stroke-dasharray="5 4"/><line x1="400.0" y1="386.0" x2="362.0" y2="386.0" stroke="#ef6c00" stroke-width="1.6" marker-end="url(#f8o)"/><path d="M360.0,398.0 L490.0,438.0 L360.0,478.0 L230.0,438.0 Z" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/><text x="360.0" y="434.0" font-size="13.5" fill="#ef6c00" text-anchor="middle" font-weight="bold">T 形且 a > hf ？</text><text x="360.0" y="452.0" font-size="11.5" fill="#8d6e63" text-anchor="middle">中性軸掉進腹板</text><line x1="490.0" y1="438.0" x2="569.0" y2="438.0" stroke="#ef6c00" stroke-width="2" marker-end="url(#f8o)"/><text x="530.0" y="431.0" font-size="12.5" fill="#ef6c00" text-anchor="middle">是</text><rect x="570.0" y="404.0" width="370.0" height="68.0" rx="8" fill="#fff" stroke="#ef6c00" stroke-width="1.8"/><text x="755.0" y="424.0" font-size="12.5" fill="#ef6c00" text-anchor="middle">拆兩塊：Asf、Asw、aw</text><text x="755.0" y="443.0" font-size="12.5" fill="#ef6c00" text-anchor="middle">Mn = Asf·fy(d − hf/2) + Asw·fy(d − aw/2)</text><text x="755.0" y="462.0" font-size="12" fill="#8d6e63" text-anchor="middle">a = aw（不是 hf + aw）</text><line x1="360.0" y1="478.0" x2="360.0" y2="513.0" stroke="#455a64" stroke-width="2" marker-end="url(#f8a)"/><text x="368.0" y="494.0" font-size="12" fill="#455a64" text-anchor="start">否 → 矩形梁</text><path d="M755.0,472.0 L755.0,502.0 L400.0,502.0" fill="none" stroke="#ef6c00" stroke-width="1.6" stroke-dasharray="5 4"/><line x1="400.0" y1="502.0" x2="362.0" y2="502.0" stroke="#ef6c00" stroke-width="1.6" marker-end="url(#f8o)"/><rect x="170.0" y="514.0" width="380.0" height="52.0" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.8"/><text x="360.0" y="535.5" font-size="13.5" fill="#2e7d32" text-anchor="middle">c = a / β₁</text><text x="360.0" y="554.5" font-size="13" fill="#2e7d32" text-anchor="middle">εt = 0.003(dt − c)/c　（dt 用最外層！）</text><line x1="360.0" y1="566.0" x2="360.0" y2="591.0" stroke="#455a64" stroke-width="2" marker-end="url(#f8a)"/><path d="M360.0,592.0 L490.0,632.0 L360.0,672.0 L230.0,632.0 Z" fill="#ffebee" stroke="#c62828" stroke-width="2"/><text x="360.0" y="628.0" font-size="13.5" fill="#c62828" text-anchor="middle" font-weight="bold">εt ≥ εy ？</text><text x="360.0" y="646.0" font-size="11.5" fill="#8d6e63" text-anchor="middle">拉力筋真的降伏了嗎</text><line x1="230.0" y1="632.0" x2="201.0" y2="632.0" stroke="#c62828" stroke-width="2" marker-end="url(#f8r)"/><text x="215.0" y="625.0" font-size="12.5" fill="#c62828" text-anchor="middle">否</text><rect x="10.0" y="598.0" width="190.0" height="68.0" rx="8" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/><text x="105.0" y="618.0" font-size="13" fill="#c62828" text-anchor="middle">過筋梁：fs < fy</text><text x="105.0" y="637.0" font-size="12.5" fill="#c62828" text-anchor="middle">應變相容重解 c</text><text x="105.0" y="656.0" font-size="11.5" fill="#8d6e63" text-anchor="middle">（RC-2014-1）</text><path d="M105.0,598.0 L105.0,226.0 L168.0,226.0" fill="none" stroke="#c62828" stroke-width="1.4" stroke-dasharray="5 4"/><line x1="160.0" y1="226.0" x2="169.0" y2="226.0" stroke="#c62828" stroke-width="1.4" marker-end="url(#f8r)"/><text x="111.0" y="396.0" font-size="11.5" fill="#c62828" text-anchor="start">改用 fs = Es·εs</text><line x1="360.0" y1="672.0" x2="360.0" y2="697.0" stroke="#455a64" stroke-width="2" marker-end="url(#f8a)"/><text x="368.0" y="688.0" font-size="12" fill="#455a64" text-anchor="start">是</text><path d="M360.0,698.0 L490.0,738.0 L360.0,778.0 L230.0,738.0 Z" fill="#ffebee" stroke="#c62828" stroke-width="2"/><text x="360.0" y="734.0" font-size="13.5" fill="#c62828" text-anchor="middle" font-weight="bold">εt ≥ 0.004 ？</text><text x="360.0" y="752.0" font-size="11.5" fill="#8d6e63" text-anchor="middle">非預力梁的延性下限</text><line x1="230.0" y1="738.0" x2="201.0" y2="738.0" stroke="#c62828" stroke-width="2" marker-end="url(#f8r)"/><text x="215.0" y="731.0" font-size="12.5" fill="#c62828" text-anchor="middle">否</text><rect x="10.0" y="694.0" width="190.0" height="88.0" rx="8" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/><text x="105.0" y="714.5" font-size="13" fill="#c62828" text-anchor="middle">規範不准當梁</text><text x="105.0" y="733.5" font-size="12" fill="#8d6e63" text-anchor="middle">設計題：加深 / 加 A′s 重來</text><text x="105.0" y="752.5" font-size="12" fill="#8d6e63" text-anchor="middle">分析題：照算 φMn，</text><text x="105.0" y="771.5" font-size="12" fill="#8d6e63" text-anchor="middle">並寫明「不符規範」</text><line x1="360.0" y1="778.0" x2="360.0" y2="809.0" stroke="#455a64" stroke-width="2" marker-end="url(#f8a)"/><text x="368.0" y="794.0" font-size="12" fill="#455a64" text-anchor="start">是</text><path d="M360.0,810.0 L490.0,850.0 L360.0,890.0 L230.0,850.0 Z" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/><text x="360.0" y="846.0" font-size="13.5" fill="#ef6c00" text-anchor="middle" font-weight="bold">εt ≥ εty + 0.003 ？</text><text x="360.0" y="864.0" font-size="11.5" fill="#8d6e63" text-anchor="middle">SD420 即 0.005</text><line x1="490.0" y1="850.0" x2="569.0" y2="850.0" stroke="#2e7d32" stroke-width="2" marker-end="url(#f8g)"/><text x="530.0" y="843.0" font-size="12.5" fill="#2e7d32" text-anchor="middle">是</text><rect x="570.0" y="828.0" width="240.0" height="44.0" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.8"/><text x="690.0" y="855.0" font-size="13.5" fill="#2e7d32" text-anchor="middle">φ = 0.90（拉力控制）</text><line x1="230.0" y1="850.0" x2="201.0" y2="850.0" stroke="#ef6c00" stroke-width="2" marker-end="url(#f8o)"/><text x="215.0" y="843.0" font-size="12.5" fill="#ef6c00" text-anchor="middle">否</text><rect x="10.0" y="816.0" width="190.0" height="68.0" rx="8" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.8"/><text x="105.0" y="836.0" font-size="13" fill="#ef6c00" text-anchor="middle">過渡區 φ 內插</text><text x="105.0" y="855.0" font-size="12" fill="#8d6e63" text-anchor="middle">φ = 0.65 + 0.25 ×</text><text x="105.0" y="874.0" font-size="12" fill="#8d6e63" text-anchor="middle">(εt − εty)/(0.005 − εty)</text><path d="M105.0,884.0 L105.0,912.0 L690.0,912.0 L690.0,872.0" fill="none" stroke="#455a64" stroke-width="2"/><line x1="360.0" y1="890.0" x2="360.0" y2="912.0" stroke="#455a64" stroke-width="1" stroke-dasharray="2 3"/><line x1="360.0" y1="912.0" x2="360.0" y2="937.0" stroke="#455a64" stroke-width="2" marker-end="url(#f8a)"/><rect x="190.0" y="938.0" width="340.0" height="44.0" rx="22" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.8"/><text x="360.0" y="965.0" font-size="14.5" fill="#1565c0" text-anchor="middle">φMn ≥ Mu ？</text><rect x="100.0" y="996.0" width="760.0" height="76.0" rx="8" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.8"/><text x="480.0" y="1020.0" font-size="12.5" fill="#6a1b9a" text-anchor="middle">收尾必查：ρ ≥ ρmin ‧ 鋼筋排得下（改雙排 → d 變小 → 重算）</text><text x="480.0" y="1039.0" font-size="12.5" fill="#6a1b9a" text-anchor="middle">反向彎矩組合（0.9D + 1.0E 可能讓梁端翻成正彎矩）</text><text x="480.0" y="1058.0" font-size="12.5" fill="#4a148c" text-anchor="middle">題目說「適當設置 / 調整○○後的最大設計彎矩」→ 掃描 εt，峰值在拉力控制界限</text></svg>
+<div class="cap">由上往下只有一個方向。橘色菱形是「假設要驗證」（不成立就走右邊修正後回主線），紅色菱形是「規範或物理的硬門檻」。任何路徑最後都會回到 εt —— 不論你走的是矩形、雙筋還是 T 形。</div>
+</div>
+
+<div class="box">
+<b>設計題（給 Mu 求 As）怎麼接？</b>　把上圖倒過來走：
+先假設 \(\phi=0.9\)、\(jd\approx0.9d\) 反算一個試算 \(A_s\)（見 §7.2），
+然後<b>把這個 \(A_s\) 丟進上面的流程跑一遍</b>做驗證。驗證不過就修正再跑。
+設計題 = 一次猜測 + 一到兩次分析，沒有別的。
+</div>
+
+<div class="why">
+<b>口訣：分析＝順藤摸瓜；設計＝先射箭、後驗靶。</b><br>
+「倒過來走」容易記錯成「整張圖反著畫」，其實不是——<b>分析和設計走的是同一條藤（同一張流程圖，方向不變，永遠由上往下）</b>。
+差別只在<b>起點 \(A_s\) 從哪來</b>：分析題起點是題目給的，直接摸下去；設計題起點沒有，
+所以先用 §7.2 的簡化公式「射一箭」猜出 \(A_s\)，把這支箭放回流程圖最上面，照樣由上往下走一次「驗靶」——
+沒中（\(\phi M_n < M_u\) 或某個檢核不過）就回頭修改箭再射一次，不是逆著箭頭走。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 960 232" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="mm-b" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1565c0"/></marker>
+    <marker id="mm-o" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#ef6c00"/></marker>
+    <marker id="mm-r" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker>
+  </defs>
+
+  <text x="20" y="20" font-size="13" font-weight="bold" fill="#0d47a1">分析：順藤摸瓜（起點齊全，由上往下一次到底）</text>
+  <rect x="20" y="30" width="190" height="40" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+  <text x="115" y="55" text-anchor="middle" font-size="12.5" fill="#0d47a1">起點：已知 As</text>
+  <line x1="210" y1="50" x2="250" y2="50" stroke="#1565c0" stroke-width="2" marker-end="url(#mm-b)"/>
+  <rect x="254" y="30" width="250" height="40" rx="8" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.6"/>
+  <text x="379" y="55" text-anchor="middle" font-size="12.5" fill="#e65100">§8 決策流程（由上往下）</text>
+  <line x1="504" y1="50" x2="544" y2="50" stroke="#1565c0" stroke-width="2" marker-end="url(#mm-b)"/>
+  <rect x="548" y="30" width="150" height="40" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="623" y="55" text-anchor="middle" font-size="12.5" fill="#1b5e20">終點：Mn</text>
+
+  <text x="20" y="102" font-size="13" font-weight="bold" fill="#e65100">設計：先射箭、後驗靶（起點用猜的，仍由上往下走）</text>
+  <rect x="20" y="112" width="190" height="40" rx="8" fill="#fff3e0" stroke="#ef6c00" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="115" y="132" text-anchor="middle" font-size="11.5" fill="#e65100">目標 Mu（As 未知）</text>
+  <text x="115" y="147" text-anchor="middle" font-size="11" fill="#8d6e63">§7.2 射箭猜 As</text>
+  <line x1="210" y1="132" x2="250" y2="132" stroke="#ef6c00" stroke-width="2" marker-end="url(#mm-o)"/>
+  <rect x="254" y="112" width="250" height="40" rx="8" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.6"/>
+  <text x="379" y="132" text-anchor="middle" font-size="11.5" fill="#e65100">同一張 §8 流程</text>
+  <text x="379" y="147" text-anchor="middle" font-size="11" fill="#8d6e63">帶著猜的 As 由上往下走一次</text>
+  <line x1="504" y1="132" x2="544" y2="132" stroke="#1565c0" stroke-width="2" marker-end="url(#mm-b)"/>
+  <rect x="548" y="112" width="150" height="40" rx="8" fill="#fff" stroke="#455a64" stroke-width="1.6"/>
+  <text x="623" y="132" text-anchor="middle" font-size="12.5" fill="#263238">驗靶：φMn≥Mu？</text>
+
+  <path d="M623,152 L623,190 L115,190 L115,158" fill="none" stroke="#c62828" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#mm-r)"/>
+  <text x="369" y="205" text-anchor="middle" font-size="11.5" fill="#c62828">沒中靶 → 回頭改猜的 As，再射一次（不是逆著箭頭走）</text>
+</svg>
+<div class="cap">上下兩排是<b>同一張流程圖、同一個方向</b>；設計題只是在最上面多插一支「用猜的」起點，
+其餘走法與分析題完全相同。</div>
+</div>
+</section>
+<section id="s9">
+<h2>§9 歷屆題 × 觀念對照表</h2>
+
+<h3>9.1 主分類（primaryTopicId = RC-U1-1，共 19 題）</h3>
+<table>
+<thead><tr><th>題號</th><th>年</th><th>梁型</th><th>主要考的是</th><th>對應章節</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2002-4/RC-2002-4.md&amp;t=RC-2002-4">RC-2002-4</a></td><td>2002</td><td>雙筋矩形</td><td>f'c=350 → β₁=0.80；壓力筋恰在降伏邊界；Cs 扣 0.85f'c</td><td>§1.2、§4</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2004-2/RC-2004-2.md&amp;t=RC-2004-2">RC-2004-2</a></td><td>2004</td><td>外伸／單筋</td><td>載重組合 → 跨中彎矩；雙排配筋的 d 與 dt；過渡區 φ</td><td>§3.4、§7</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2005-2/RC-2005-2.md&amp;t=RC-2005-2">RC-2005-2</a></td><td>2005</td><td>T 形</td><td>舊版 0.75ρb 求最大拉力筋量；由 φMn 反推可承受活載重</td><td>§3.3、§5</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2007-1/RC-2007-1.md&amp;t=RC-2007-1">RC-2007-1</a></td><td>2007</td><td>T 形／單筋</td><td>有效翼板寬三式；設計反算 As；D29 排得下嗎（間距檢核）</td><td>§5.1、§7</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2011-2/RC-2011-2.md&amp;t=RC-2011-2">RC-2011-2</a></td><td>2011</td><td>T 形（NA 在腹板）</td><td>T 形梁平衡鋼筋量；As=0.9Asb 的 φMn（εt = 0.00277 &lt; 0.004，規範上不准當梁，但分析題照算並註明）；曲率延展比</td><td>§3.2、§5.2、§6</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2014-1/RC-2014-1.md&amp;t=RC-2014-1">RC-2014-1</a></td><td>2014</td><td>單筋（過筋）</td><td>壓力控制斷面；鋼筋未降伏需應變相容；雙 f'c 複合斷面</td><td>§2、§3.4</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2014-2/RC-2014-2.md&amp;t=RC-2014-2">RC-2014-2</a></td><td>2014</td><td>矩形</td><td>彎矩-曲率三階段（開裂→降伏→極限）；轉換斷面法</td><td>§6.1</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2015-2/RC-2015-2.md&amp;t=RC-2015-2">RC-2015-2</a></td><td>2015</td><td>雙筋矩形</td><td>「適當設置拉力筋後」的最大設計彎矩：峰值在 εt = 0.005（114.8），<b>不在</b>最大鋼筋量 0.004（113.7）；雙筋梁 μφ</td><td>§3.4.1、§4.3、§6</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2015-3/RC-2015-3.md&amp;t=RC-2015-3">RC-2015-3</a></td><td>2015</td><td>T 形（負彎矩）</td><td>翼板受拉不計 → 退化為腹板矩形；雙筋處理；分步設計</td><td>§5.2 陷阱</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2016-1/RC-2016-1.md&amp;t=RC-2016-1">RC-2016-1</a></td><td>2016</td><td>單筋矩形</td><td>固端彎矩 wL²/12、wL²/24；三組載重組合（含 0.9D+1.0E 反號）；頂筋、底筋各自全跨一致</td><td>§7.1</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2019-1/RC-2019-1.md&amp;t=RC-2019-1">RC-2019-1</a></td><td>2019</td><td>單筋矩形</td><td>二次方程反算 As；過渡區 φ 的迭代（φ 與 As 互相依賴）</td><td>§7.2</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2020-1/RC-2020-1.md&amp;t=RC-2020-1">RC-2020-1</a></td><td>2020</td><td>T 形</td><td>有效翼板寬 + 中性軸在翼板；最少鋼筋量檢核</td><td>§3.5、§5</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2021-1/RC-2021-1.md&amp;t=RC-2021-1">RC-2021-1</a></td><td>2021</td><td>T 形</td><td>最小撓曲鋼筋；併考剪力設計與最大肋筋間距</td><td>§3.5、§5</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2022-1/RC-2022-1.md&amp;t=RC-2022-1">RC-2022-1</a></td><td>2022</td><td>雙筋矩形</td><td>壓力筋未降伏 → 二次方程；雙層拉力筋的有效深度</td><td>§4.2</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2022-2/RC-2022-2.md&amp;t=RC-2022-2">RC-2022-2</a></td><td>2022</td><td>矩形（比較題）</td><td>四種 f'c×fy 組合比較用鋼量 → 論證「提高 f'c 對梁彎矩沒用」</td><td>§2.2、§6.2</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2023-1/RC-2023-1.md&amp;t=RC-2023-1">RC-2023-1</a></td><td>2023</td><td>單筋矩形</td><td>兩種 f'c 的曲率延展比與比值（本講義 §6.2 的算例）</td><td>§6</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2023-2/RC-2023-2.md&amp;t=RC-2023-2">RC-2023-2</a></td><td>2023</td><td>T 形＋雙筋</td><td>三個考點疊在一題：翼板內 NA、壓力筋未降伏、雙排 d</td><td>§4、§5</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2024-1/RC-2024-1.md&amp;t=RC-2024-1">RC-2024-1</a></td><td>2024</td><td>T 形</td><td>T 形梁的 ρb、ρmax、ρmin 三件套；高強度鋼筋的 β₁ 修正</td><td>§3.2、§3.3、§3.5</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2024-2/RC-2024-2.md&amp;t=RC-2024-2">RC-2024-2</a></td><td>2024</td><td>雙筋懸臂</td><td>壓力筋未降伏；因數化均佈載重求 Mu；二次方程求 c</td><td>§4.2、§7.1</td></tr>
+</tbody>
+</table>
+
+<h3>9.2 副分類（本單元是配角，但主體觀念仍用得到）</h3>
+<table>
+<thead><tr><th>題號</th><th>年</th><th>主分類是</th><th>為什麼會用到 RC-U1-1</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2005-3/RC-2005-3.md&amp;t=RC-2005-3">RC-2005-3</a></td><td>2005</td><td>梁柱接頭剪力</td><td>要先用 Whitney 應力塊求梁端 Mn，才能反推接頭水平剪力 Vjh</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2006-1/RC-2006-1.md&amp;t=RC-2006-1">RC-2006-1</a></td><td>2006</td><td>剪力設計</td><td>懸臂雙筋梁：先算撓曲強度（壓力筋未降伏）才能定設計剪力</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2012-2/RC-2012-2.md&amp;t=RC-2012-2">RC-2012-2</a></td><td>2012</td><td>耐震韌性設計</td><td>可能彎矩強度 Mpr 就是把 fy 換成 1.25fy 的 Mn 計算</td></tr>
+</tbody>
+</table>
+
+<div class="box">
+<b>從表裡讀出來的命題趨勢</b>
+<ul>
+<li><b>近年（2019–2024）六題全是「單一斷面、多重考點疊加」</b>：一題同時要 T 形＋雙筋＋雙排＋φ 內插（RC-2023-2 是極致）。
+不再考單一觀念，考的是流程完整度。</li>
+<li><b>曲率延展比連續出現在 2011、2014、2015、2023</b>，約每 4 年一次，2023 剛考過。</li>
+<li><b>T 形梁 6 題中 5 題中性軸在翼板</b>（只有 RC-2011-2 在腹板）。
+但你不能因此跳過驗證 —— 那正是出題者設陷阱的地方。</li>
+<li><b>2016 之後沒再單獨考過「載重組合 → 設計」</b>，題目多半直接給 Mu 或給斷面。但 2016-1 的固端彎矩型仍可能回鍋。</li>
+</ul>
+</div>
+</section>
+
+<section id="s10">
+<h2>§10 陷阱總表（考前十分鐘掃這張）</h2>
+
+<table>
+<thead><tr><th>#</th><th>觸發信號</th><th>錯誤思維</th><th>正確認知</th><th>出自</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>f'c &gt; 280 kgf/cm²</td><td>β₁ 直接用 0.85</td><td>β₁ = 0.85 − 0.05(f'c−280)/70，下限 0.65；f'c=350 → 0.80</td><td>RC-2002-4</td></tr>
+<tr><td>2</td><td>題目用 MPa</td><td>把 280 當轉折點</td><td>MPa 制轉折點是 28 / 56，每 7 MPa 減 0.05</td><td>—</td></tr>
+<tr><td>3</td><td>β₁ ≠ 0.85 的題目</td><td>把 0.85f'c 也跟著改</td><td>應力值恆為 0.85f'c；β₁ 只管 a = β₁c 的換算</td><td>RC-2002-4</td></tr>
+<tr><td>4</td><td>雙筋梁</td><td>Cs = A's·f's</td><td>Cs = A's(f's − 0.85f'c)，退還重複計算的混凝土</td><td>RC-2002-4</td></tr>
+<tr><td>5</td><td>雙筋梁、d' 較大或 c 較淺</td><td>直接假設壓力筋降伏</td><td>需 c ≥ 3.2d'（SD420）才降伏；否則解 c 的二次方程</td><td>RC-2022-1、RC-2024-2</td></tr>
+<tr><td>6</td><td>二次方程求 c</td><td>兩根都算、取錯根</td><td>常數項為負 → 必為一正一負，直接取正根且驗 0 &lt; c &lt; d</td><td>RC-2023-2</td></tr>
+<tr><td>7</td><td>雙排（含以上）拉力筋</td><td>用 d 算 εt</td><td>εt 用最外層 dt；Mn 力臂用形心 d。dt &gt; d</td><td>RC-2004-2、RC-2022-1</td></tr>
+<tr><td>8</td><td>算出 εt 在 0.002~0.005</td><td>四捨五入成 0.9 或 0.65</td><td>過渡區必須內插；εt=0.004 時 φ = 0.815（現行式）</td><td>RC-2019-1、RC-2011-2</td></tr>
+<tr><td>9</td><td>非 SD420 鋼筋</td><td>內插式仍用 (εt−0.002)×0.25/0.003</td><td>下限是 εty = fy/Es，不是常數 0.002</td><td>RC-2024-1</td></tr>
+<tr><td>10</td><td>題目寫「依 ACI 318-99」或給 0.75ρb</td><td>硬套 εt ≥ 0.004</td><td>照題目給的版本做，並在答案註明依據</td><td>RC-2005-2</td></tr>
+<tr><td>11</td><td>T 形梁</td><td>只算 L/4 就當 be</td><td>三條件取最小；內梁邊梁公式不同</td><td>RC-2007-1、RC-2020-1</td></tr>
+<tr><td>12</td><td>T 形梁算完 be</td><td>直接跳進「翼板+腹板」兩段式</td><td>先假設 NA 在翼板求 a，驗 a ≤ hf 才決定路徑</td><td>RC-2011-2</td></tr>
+<tr><td>13</td><td>a &gt; hf 的 T 形梁</td><td>翼板部分力臂寫 d − a/2</td><td>翼板整片受壓，力臂是 d − hf/2</td><td>RC-2011-2</td></tr>
+<tr><td>14</td><td>連續梁支承處 / 懸臂梁根部</td><td>看到 T 形斷面就用 be</td><td>負彎矩時翼板受拉不計，退化成 bw 矩形梁</td><td>RC-2015-3</td></tr>
+<tr><td>15</td><td>T 形梁求 ρ、ρmin</td><td>分母用 be</td><td>ρ = As/(bw·d)，用腹板寬</td><td>RC-2024-1</td></tr>
+<tr><td>16</td><td>求降伏曲率 φy</td><td>用 Whitney 應力塊求 c</td><td>降伏時仍近似彈性 → 用轉換斷面法求 kd</td><td>RC-2023-1、RC-2015-2</td></tr>
+<tr><td>17</td><td>寫 φy 公式</td><td>φy = εy/(kd)</td><td>φy = εy/[d(1−k)]，分母是鋼筋到中性軸的距離</td><td>RC-2011-2</td></tr>
+<tr><td>18</td><td>雙筋梁求 μφ</td><td>轉換斷面只轉拉力筋</td><td>壓力筋要以 (n−1)A's 轉換（扣 1 = 退還佔位混凝土）</td><td>RC-2015-2</td></tr>
+<tr><td>19</td><td>有地震彎矩 ME</td><td>用 1.2D + 1.6L + 1.0E</td><td>地震組合是 1.2D + 1.0L ± 1.0E；且要與 1.2D+1.6L 比大小</td><td>RC-2016-1</td></tr>
+<tr><td>20</td><td>設計題算出 As 後</td><td>直接寫答案</td><td>三檢查：ρmin、εt ≥ 0.004、鋼筋排得下（排不下改雙排 → d 變小 → 重算）</td><td>RC-2007-1、RC-2023-2</td></tr>
+<tr><td>21</td><td>f'c 有兩種或斷面加寬</td><td>套單一 f'c 的公式</td><td>壓力區分區積分，各區用各自的 0.85f'c；c 仍只有一個</td><td>RC-2014-1</td></tr>
+<tr><td>22</td><td>「在適當設置／調整○○後的最大設計彎矩」</td><td>取最大鋼筋量 εt = 0.004</td><td>φMn 峰值在拉力控制界限 εt = 0.005；最大鋼筋量是配筋上限不是設計彎矩上限。附三點掃描表證明單峰</td><td>RC-2015-2</td></tr>
+<tr><td>23</td><td>a 很淺（d′ 較大）的雙筋梁</td><td>一律 Cs = A′s(f′s − 0.85f′c)</td><td>a ≤ d′ 時壓力筋不在應力塊內，不扣；c &lt; d′ 時 A′s 甚至受拉</td><td>RC-2015-2</td></tr>
+<tr><td>24</td><td>算出 εt &lt; 0.004 的分析題</td><td>以為算錯而改數字</td><td>照算 φMn，但寫明「不符 §9.3.3.1，不得作為梁」</td><td>RC-2011-2</td></tr>
+<tr><td>25</td><td>有地震彎矩</td><td>只算 1.2D+1.0L+1.0E</td><td>0.9D+1.0E 可能讓梁端翻成正彎矩，要算過才知道控不控制</td><td>RC-2016-1</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="s11">
+<h2>§11 自我檢測：12 個「為什麼」</h2>
+<p>不看講義先想 20 秒，講得出來才算懂。答案點開對照。</p>
+
+<details><summary>1. 0.85f'c 的 0.85 是安全係數嗎？</summary>
+<p>不是。它是「試體強度 → 構材可用強度」的轉換：標準圓柱是快速加載測得，
+實際構材承受持續載重，長期強度約降 15%（Rüsch 效應）。安全係數是 φ，不是 0.85。
+所以 0.85 不隨 f'c 改變。</p></details>
+
+<details><summary>2. β₁ 為什麼會隨 f'c 遞減，而 0.85 不會？</summary>
+<p>β₁ = 2k₂，k₂ 是真實應力分布的形心位置。高強混凝土曲線陡峭、峰後脆崩，
+壓力集中在最外緣 → 形心上移 → k₂ 小 → β₁ 小。0.85 管的是「應力大小的折算」，
+與分布形狀無關，所以不動。</p></details>
+
+<details><summary>3. 6120 這個數字如果忘了怎麼辦？</summary>
+<p>當場乘出來：6120 = εcu × Es = 0.003 × 2.04×10⁶ kgf/cm²。
+MPa 制就是 0.003 × 2×10⁵ = 600。它不是常數，是兩個物理量的乘積。</p></details>
+
+<details><summary>4. 為什麼新規範用 εt ≥ 0.004，而不是繼續用 0.75ρb？</summary>
+<p>因為規範真正要管的是「破壞前鋼筋拉長了多少」，直接限制 εt 才是對準目的；限制鋼筋量只是間接手段。
+兩者換算成 c/d 後：新規範是與 fy 無關的 3/7，舊規範 0.75·cb/d 隨 fy 下滑，兩線在 fy ≈ 4590 相交 ——
+SD280 時新版嚴 17%、SD420 嚴 4%，SD550 反而寬 9%（但此時 εt = 0.004 的 φ 只有約 0.75，強度被 φ 砍回來）。</p></details>
+
+<details><summary>5. 為什麼 εt = 0.004 的梁，φ 一定不是 0.9？</summary>
+<p>0.004 &lt; 0.005，落在過渡區，必須內插：φ = 0.65 + 0.25×(0.004−0.00206)/(0.005−0.00206) = 0.815。
+換句話說，用 ρmax 頂到滿的梁，強度折減也被同步砍掉 —— 規範用這個方式讓「配到最滿」變得不划算。</p></details>
+
+<details><summary>6. dt 和 d 什麼時候會不一樣？用錯會怎樣？</summary>
+<p>雙排以上配筋時 dt（最外層）&gt; d（形心）。
+用 d 算 εt 會低估 εt（偏保守），可能把本來 0.9 的 φ 算成過渡區；
+反之用 dt 算力臂會高估 Mn（不安全）。兩者角色不能互換。</p></details>
+
+<details><summary>7. 為什麼「壓力鋼筋未降伏」比「降伏」還常出現在考題？</summary>
+<p>降伏條件是 c ≥ 3.2d'（SD420）。而設計良好的延性梁 c 通常只有 0.3d 左右，
+d' 又常有 6～7 cm，很容易不滿足。延性越好的斷面，壓力筋越不會降伏 —— 這是結構性的，不是巧合。</p></details>
+
+<details><summary>8. 加壓力鋼筋主要買到什麼？</summary>
+<p>買到延性，不是強度。Cs 分擔壓力 → a 減小 → c 減小 → εt 增大 → φ 回到 0.9、μφ 上升、ρmax 放寬。
+彎矩強度的增加通常只有幾個百分點。附帶好處是長期撓度改善（λ = ξ/(1+50ρ')）。</p></details>
+
+<details><summary>9. T 形梁題目算出 a ≤ hf，代表什麼？</summary>
+<p>代表它根本不是 T 形梁問題，就是一根寬度 be 的矩形梁，用 Mn = Asfy(d − a/2) 一條式子做完。
+歷屆 6 題 T 形梁有 5 題如此。但你必須「算完才知道」，不能用看的。</p></details>
+
+<details><summary>10. 為什麼降伏曲率不能用 Whitney 應力塊算？</summary>
+<p>Whitney 應力塊是「混凝土壓到 0.003 即將壓碎」時的等效模型。
+鋼筋降伏那一刻，混凝土最外緣應變通常只有 0.001 左右，還在線彈性段，應力是三角形不是矩形。
+用極限模型去描述彈性狀態，中性軸位置會算錯，μφ 整題垮掉。</p></details>
+
+<details><summary>11. 提高 f'c 對梁的彎矩強度幫助有多大？為什麼？</summary>
+<p>幾乎沒有。Mn = Asfy(d − a/2)，f'c 只透過 a 影響力臂，而 a 本來就遠小於 d，
+力臂只增加幾個百分點。但 f'c 對<b>韌性</b>很有效，因為 φu = 0.003/c，c 與 f'c 成反比 ——
+f'c 出現在分母。要提高梁彎矩強度，該加的是 As 或 fy。</p></details>
+
+<details><summary>12. 設計題算完 As，還有哪三件事沒做？</summary>
+<p>① 檢查 ρmin（防「開裂即斷」的脆性破壞）；② 檢查 εt ≥ 0.004 並回頭修正 φ；
+③ 檢查鋼筋排得下 —— 排不下改雙排會使 d 減小，必須回頭重算一輪。第三項是最常漏的。</p></details>
+</section>
+<section id="s12">
+<h2>★ 精選 5 題：時間有限就練這五題</h2>
+
+<div class="lead">
+選題原則不是「涵蓋最多標籤」，而是<b>每題練到的獨立技能最多、彼此重疊最少</b>。
+這 5 題涵蓋本單元 6 個考點群中的 5 個（未涵蓋者見文末誠實說明），
+且刻意各自代表一種不同的<b>題型骨架</b>：三合一分析、觀念鏈、設計反算、極限配筋、載重前置。
+</div>
+
+<h3>① <a class="qlink" href="../index.html#md=raw/solutions/RC-2023-2/RC-2023-2.md&amp;t=RC-2023-2">RC-2023-2</a>（2023）— 三個考點疊一題的當代標準題</h3>
+<div class="box">
+<b>為什麼選它：</b>近年命題的模板 —— T 形梁 ＋ 雙筋 ＋ 壓力筋未降伏 ＋ 雙排配筋求 d。
+單一題就把 §4 和 §5 的全部關卡走一次，而且是<b>你必須自己從保護層推算 d 與 d'</b> 的型式。<br>
+<b>先讀：</b>§4.1、§4.2、§5.2<br>
+<b>做完要能回答：</b>
+<ul>
+<li>你怎麼確定中性軸落在翼板內？如果落在腹板，哪幾步會改？</li>
+<li>d 和 dt 在這題差多少？φ 會不會因此跨區？</li>
+<li>二次方程的兩個根，你憑什麼直接丟掉一個？</li>
+<li>原卷要求 8-D32 雙排、淨間距取規範最小值：4 根 D32 在 bw = 30 cm 一排真的排得下嗎？</li>
+</ul>
+</div>
+
+<h3>② <a class="qlink" href="../index.html#md=raw/solutions/RC-2011-2/RC-2011-2.md&amp;t=RC-2011-2">RC-2011-2</a>（2011）— 唯一的「中性軸在腹板」＋ 觀念鏈</h3>
+<div class="box">
+<b>為什麼選它：</b>計算量不大，但牽動的因果鏈最長：
+T 形梁平衡鋼筋量 → As = 0.9Asb → 求 φMn（過渡區 φ）→ 再求曲率延展比。
+它是<b>歷屆唯一 a &gt; hf 的 T 形梁</b>，這個路徑不練就永遠不會。<br>
+<b>先讀：</b>§3.2、§5.2、§6.1<br>
+<b>做完要能回答：</b>
+<ul>
+<li>T 形梁的 Asb 為什麼要拆成翼板與腹板兩部分算？</li>
+<li>As = 0.9Asb 為什麼一定落在過渡區而不是 φ = 0.9？算出的 εt 連 0.004 都不到，這代表什麼？</li>
+<li>這題的 φy 與 φu 各用哪一套材料模型？為什麼不能共用？</li>
+</ul>
+</div>
+
+<h3>③ <a class="qlink" href="../index.html#md=raw/solutions/RC-2007-1/RC-2007-1.md&amp;t=RC-2007-1">RC-2007-1</a>（2007）— 從載重一路做到「排不排得下」的完整設計題</h3>
+<div class="box">
+<b>為什麼選它：</b>唯一一題把<b>設計全流程</b>走完：載重組合 → 有效翼板寬 → 反算 As →
+選 D29 根數 → 檢查間距 → 檢查 ρmin/ρmax。前四題都是分析，這題是設計。
+題目還直接給了過渡區 φ 內插式，等於明示「你會需要跑第二輪」。<br>
+<b>先讀：</b>§5.1、§7.2、§7.3<br>
+<b>做完要能回答：</b>
+<ul>
+<li>三個 be 條件各自在防什麼？哪一個控制？</li>
+<li>你的第一輪 jd 猜多少？第二輪修正後差幾 %？</li>
+<li>如果 D29 排不下要改雙排，你要回頭改哪幾個數字？</li>
+</ul>
+</div>
+
+<h3>④ <a class="qlink" href="../index.html#md=raw/solutions/RC-2015-2/RC-2015-2.md&amp;t=RC-2015-2">RC-2015-2</a>（2015）— 「最大」這兩個字的完整意思</h3>
+<div class="box">
+<b>為什麼選它：</b>它問的不是「這根梁多強」，而是「這個斷面<b>最多</b>能多強、<b>最多</b>能多韌」。
+要回答就必須把 §3.4.1 的折點極大值（峰值在 εt = 0.005，不在最大鋼筋量）、§4 的雙筋處理、§6 的雙筋轉換斷面全部串起來。
+兩個小題（最大彎矩 / 最大韌性）方向相反，正好練「強度與韌性互相拉扯」。<br>
+<b>先讀：</b>§3.4.1、§4.2、§4.3、§6<br>
+<b>做完要能回答：</b>
+<ul>
+<li>為什麼 εt = 0.005 的 φMn（114.8）比 εt = 0.004（113.7）還大？你的答案有沒有附掃描表？</li>
+<li>雙筋梁的轉換斷面為什麼壓力筋要用 (n−1)A's？</li>
+<li>如果把 A's 加倍，最大 φMn 與最大 μ 各會怎麼變？</li>
+</ul>
+</div>
+
+<h3>⑤ <a class="qlink" href="../index.html#md=raw/solutions/RC-2016-1/RC-2016-1.md&amp;t=RC-2016-1">RC-2016-1</a>（2016）— 你得自己把載重變成彎矩</h3>
+<div class="box">
+<b>為什麼選它：</b>前四題都直接或間接給你彎矩，這題要你<b>自己建立前置資料</b>：
+固端彎矩、跨中彎矩、三組載重組合比大小、地震反向時梁端翻號。
+這個「題目沒給、要自己生」的能力是別題練不到的，而且它在 RC-U3-3、SD 科目會重複用到。<br>
+<b>先讀：</b>§7.1<br>
+<b>做完要能回答：</b>
+<ul>
+<li>哪一個載重組合控制端點？哪一個控制跨中？為什麼可能不同？</li>
+<li>題目的「整跨頂部與底部配置相同鋼筋」到底是什麼意思？（提示：不是頂筋 = 底筋）</li>
+<li>用「端彎矩＋跨中彎矩 = wL²/8」檢查你的彈性分析，對得上嗎？</li>
+</ul>
+</div>
+
+<h3>練這五題的正確方法</h3>
+<div class="why">
+<b>不要一題做完就對答案。</b>建議這樣跑：
+<ol>
+<li><b>第一遍只畫流程</b>：不算數字，只在紙上寫出 §8 那張圖你會走哪條路、每個菱形你答什麼。
+花 5 分鐘。走錯路是最貴的錯，先確保路是對的。</li>
+<li><b>第二遍完整計算</b>，每算出一個中間值就做一次極限檢查（a/d 合理嗎？c/d' 大於 3.2 嗎？εt 落在哪一區？）。</li>
+<li><b>第三遍才看解答</b>，重點不是比數字，是比<b>你有沒有漏掉某個驗證步驟</b>。
+數字差 2% 不重要，漏了「檢查 a ≤ hf」才是真失分。</li>
+<li>在解析 .md 的 §3.5 變數層次分析裡，把你卡住的知識點標 ⚠，複習時只看 ⚠。</li>
+</ol>
+</div>
+
+<h3>候補題（時間還有就加做）</h3>
+<table>
+<thead><tr><th>題號</th><th>補什麼</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2024-1/RC-2024-1.md&amp;t=RC-2024-1">RC-2024-1</a></td><td>T 形梁的 ρb / ρmax / ρmin 三件套一次到位，且是高強度鋼筋 —— 補「非 SD420 時 εty 不是 0.002」這個坑</td></tr>
+<tr><td><a class="qlink" href="../index.html#md=raw/solutions/RC-2019-1/RC-2019-1.md&amp;t=RC-2019-1">RC-2019-1</a></td><td>最乾淨的「二次方程反算 As ＋ φ 迭代」單筋題，適合當設計流程的計時練習（目標 15 分鐘）</td></tr>
+</tbody>
+</table>
+
+<h3 style="color:#c62828">誠實說明：這 5 題沒涵蓋到的</h3>
+<div class="trap">
+<b>練完這五題，以下四個考點群你仍然是空白的：</b>
+<ol>
+<li><b>過筋梁 / 壓力控制斷面</b>（<a class="qlink" href="../index.html#md=raw/solutions/RC-2014-1/RC-2014-1.md&amp;t=RC-2014-1">RC-2014-1</a>）——
+鋼筋<u>未</u>降伏時的應變相容，加上雙 f'c 複合斷面。這是唯一考「反過來」的題型。</li>
+<li><b>彎矩-曲率三階段（含開裂彎矩 Mcr）</b>（<a class="qlink" href="../index.html#md=raw/solutions/RC-2014-2/RC-2014-2.md&amp;t=RC-2014-2">RC-2014-2</a>）——
+本講義 §6.1 只講到降伏與極限，第一折點 Mcr 屬 RC-U3-1，兩單元交界處。</li>
+<li><b>負彎矩 T 形梁</b>（<a class="qlink" href="../index.html#md=raw/solutions/RC-2015-3/RC-2015-3.md&amp;t=RC-2015-3">RC-2015-3</a>）——
+陷阱 #14。觀念在 §5.2 講過，但沒有實際練過一次，考場上很容易反射性去算 be。</li>
+<li><b>材料經濟性論述題</b>（<a class="qlink" href="../index.html#md=raw/solutions/RC-2022-2/RC-2022-2.md&amp;t=RC-2022-2">RC-2022-2</a>）——
+四組 f'c×fy 比較用鋼量並「評論」。這是申論成分最高的一題，計算簡單但要寫得出理由。</li>
+</ol>
+<b>建議：</b>若這五題做得順，優先補 RC-2014-1（題型最獨特）與 RC-2015-3（陷阱最致命）。
+RC-2014-2 建議與 RC-U3-1 撓度單元一起讀，效率較高。
+</div>
+
+<h3>因果鏈總複習（考前用嘴巴講一次）</h3>
+<div class="chain">
+<b>①</b> 高強混凝土脆 → 應力分布尖 → 形心上移 → k₂ 小 → <b>β₁ 小</b> → 同樣的 a 對應更深的 c → 延性更差
+</div>
+<div class="chain">
+<b>②</b> As 增加 → T 增加 → a 增加 → c 增加 → <b>εt 減小</b> → φ 下降 → 加鋼筋不是無限有效 → ρmax 存在的理由
+</div>
+<div class="chain">
+<b>③</b> εcu = 0.003 與 εy = fy/Es 是唯二輸入 → c/dt = 0.003/(0.003+εt) →
+力平衡翻成 ρ → <b>ρb、ρmax、φ 全是同一條幾何的切片</b>
+</div>
+<div class="chain">
+<b>④</b> 加 A's → Cs 分擔壓力 → a 減小 → c 減小 → εt 增大 → <b>φ 回升、μφ 上升、ρmax 放寬</b> → 雙筋梁的真正價值
+</div>
+<div class="chain">
+<b>⑤</b> 算 be → 假設 NA 在翼板算 a → 比對 a 與 hf → <b>a ≤ hf 當矩形梁；a &gt; hf 才拆兩塊</b> → 最後都回到 εt 定 φ
+</div>
+<div class="chain">
+<b>⑥</b> f'c ↑ → a ↓ → c ↓ → φu = 0.003/c ↑ → <b>μφ ↑ 但 Mn 幾乎不變</b> →
+f'c 買的是變形能力，不是強度
+</div>
+</section></main>
+<footer>
+RC-U1-1 觀念講義 · exam-wiki-RC · 與 study-RC-U1-1.html（命題分析）、formula-given-RC-U1-1.html（給／背分界）並用
+</footer>
+</body>
+</html>

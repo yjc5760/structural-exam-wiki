@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2021-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2021-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U4-1.html">&#128202; U4-1 單元總覽</a><a class="lect" href="../lecture-RC-U4-1.html">&#128218; U4-1 預力梁斷面應力分析 講義</a></div></header>
+<main><h1>考題編號：RC-2021-4</h1>
+<p><strong>主分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> WSD 工作應力法（容許應力設計法）<br />
+<strong>標籤：</strong> <code>預力T型梁</code> <code>組合斷面</code> <code>有效翼板寬</code> <code>容許壓應力</code> <code>容許拉應力</code> <code>最大活載重</code> <code>服務載重分析</code> <code>後拉法</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>題目：</strong> 後拉法預鑄預力矩形梁與場鑄板組合成 T 型梁，求可承載之最大均布活載重。（25 分）</p>
+<p><strong>材料與基本參數：</strong></p>
+<ul>
+<li>$f'_c = 350$ kgf/cm²（梁與板同材料）</li>
+<li>容許壓應力：$0.6f'_c = 210$ kgf/cm²</li>
+<li>容許拉應力：$1.6\sqrt{f'_c} = 1.6\times\sqrt{350} = \mathbf{29.93}$ kgf/cm²</li>
+<li>$F_i = 300$ tf，$F_e = 0.7F_i = \mathbf{210}$ tf（梁中點有效預力）</li>
+</ul>
+<p><strong>幾何尺寸（由圖四之一讀取）：</strong></p>
+<ul>
+<li>預鑄梁：$b_w = 30$ cm，$h = 50$ cm</li>
+<li>場鑄板：厚 $h_f = 12$ cm，梁中心距 250 cm</li>
+<li>跨度：$L = 12$ m</li>
+</ul>
+<p><strong>鋼腱配置（由圖四之二讀取）：</strong></p>
+<ul>
+<li>拋物線鋼腱：支承端位於梁形心（距梁底 25 cm，$e = 0$）；梁中點位於梁底 10 cm（距梁底 10 cm）</li>
+</ul>
+<p><strong>載重：</strong></p>
+<ul>
+<li>靜載重（含自重）：$W_D = 1.6$ tf/m</li>
+</ul>
+<p><img alt="RC-2021-4 附圖一：T 型組合斷面，場鑄板 12cm，預鑄梁 30×50cm，梁間距 250cm，鋼腱位置如示" src="../../raw/solutions/RC-2021-4/RC-2021-4-fig-1.png" /></p>
+<p><em>圖說：T 型組合斷面，有效翼板寬 222 cm（計算所得），場鑄板厚 12 cm，預鑄梁 30×50 cm，翼板形心距梁底 56 cm，梁形心距梁底 25 cm。</em></p>
+<p><img alt="RC-2021-4 附圖二：拋物線鋼腱立面，跨度 12m，支承端距梁底 25cm（梁形心），梁中點距梁底 10cm" src="../../raw/solutions/RC-2021-4/RC-2021-4-fig-2.png" /></p>
+<p><em>圖說：拋物線鋼腱，支承端在預鑄梁形心（距底 25 cm，e=0），梁中點降至距底 10 cm（距組合截面形心 34.83 cm 處）。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 預力組合 T 型梁服務載重分析。先計算有效翼板寬及組合斷面性質，再對各纖維施加容許應力限制，求解最大活載重。</p>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗有效翼板寬的三條件計算</li>
+<li>考驗 T 型組合斷面形心與慣性矩的計算</li>
+<li>確認上下纖維均需驗算，找出控制條件（底部拉應力 vs 頂部壓應力）</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1：計算有效翼板寬 bf（三條件取最小）
+Step 2：計算組合 T 型斷面 A、ȳ、I（忽略鋼腱貢獻）
+Step 3：計算鋼腱在組合截面的偏心量 e
+Step 4：列出中點底纖維（拉力控制）和頂纖維（壓力控制）兩個應力不等式
+Step 5：解最大 wL
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠1</td>
+<td><strong>有效翼板寬</strong>需取三條件最小值，且 L/4 是<strong>總</strong>翼板寬</td>
+<td>分別計算三者後取 min</td>
+</tr>
+<tr>
+<td>⚠2</td>
+<td>偏心量 $e$ 是從<strong>組合截面形心</strong>量到鋼腱，不是從預鑄梁形心</td>
+<td>$e = \bar{y}_b - 10 = 44.83 - 10 = 34.83$ cm</td>
+</tr>
+<tr>
+<td>⚠3</td>
+<td><strong>底纖維</strong>在大活載重下承受拉力（預力 + DL 的壓縮被 LL 的拉力抵消）→ 通常控制</td>
+<td>底部拉應力限制給出 $w_L \le 3.73$ tf/m</td>
+</tr>
+<tr>
+<td>⚠4</td>
+<td>頂纖維壓應力限制通常不控制（因翼板很寬，翼板頂壓力不大）</td>
+<td>驗算 $w_L \le 9.00$ tf/m（不控制）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>求滿足容許壓應力（$0.6f'_c$）與容許拉應力（$1.6\sqrt{f'_c}$）的最大均布活載重 $w_L$</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1：有效翼板寬} \quad \boxed{b_f} = \min\!\left(\frac{L}{4},\; b_w + 2\times8h_f,\; b_w + \text{淨距}\right)$$</p>
+<p>$$\text{Step 2：組合斷面} \quad \boxed{A},\;\boxed{\bar{y}_b},\;\boxed{I} \text{ 由 T 型斷面公式計算}$$</p>
+<p>$$\text{Step 3：偏心量} \quad \boxed{e} = \boxed{\bar{y}_b} - 10 \text{ cm（鋼腱距組合截面底部）}$$</p>
+<p>$$\text{Step 4：底纖維應力} \quad f_{\text{bot}} = \frac{F_e}{A} + \frac{F_e\cdot\boxed{e}\cdot\boxed{\bar{y}_b}}{\boxed{I}} - \frac{(M_D + M_L)\cdot\boxed{\bar{y}_b}}{\boxed{I}} \ge -1.6\sqrt{f'_c}$$</p>
+<p>$$\text{Step 5：頂纖維應力} \quad f_{\text{top}} = \frac{F_e}{A} - \frac{F_e\cdot\boxed{e}\cdot c_{\text{top}}}{\boxed{I}} + \frac{(M_D + M_L)\cdot c_{\text{top}}}{\boxed{I}} \le 0.6f'_c$$</p>
+<p>$$\text{Step 6：由 Step 4 解} \quad \boxed{w_L} = \frac{\left(f_{\text{bot,ps+DL}} + 1.6\sqrt{f'_c}\right)\cdot\boxed{I}/\boxed{\bar{y}_b}}{L^2/8}$$</p>
+<hr />
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L$</td>
+<td>12 m</td>
+<td>跨度</td>
+</tr>
+<tr>
+<td>$b_w$</td>
+<td>30 cm</td>
+<td>腹板（預鑄梁）寬</td>
+</tr>
+<tr>
+<td>$h_{\text{beam}}$</td>
+<td>50 cm</td>
+<td>預鑄梁高</td>
+</tr>
+<tr>
+<td>$h_f$</td>
+<td>12 cm</td>
+<td>場鑄板厚</td>
+</tr>
+<tr>
+<td>梁中心距</td>
+<td>250 cm</td>
+<td>相鄰梁間距</td>
+</tr>
+<tr>
+<td>$F_i$</td>
+<td>300 tf</td>
+<td>初始預力</td>
+</tr>
+<tr>
+<td>$F_e$</td>
+<td>$0.7\times300 = 210$ tf</td>
+<td>有效預力（中點）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>350 kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$W_D$</td>
+<td>1.6 tf/m</td>
+<td>含自重靜載重</td>
+</tr>
+<tr>
+<td>鋼腱（中點）</td>
+<td>距底 10 cm</td>
+<td>圖四之二</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：有效翼板寬</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① $L/4$</td>
+<td>$1200/4 = 300$ cm（總寬限制）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>② $b_w + 2\times8h_f$</td>
+<td>$30 + 2\times96 = 222$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>③ $b_w + \text{淨距}$</td>
+<td>$30 + (250-30) = 250$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$b_f$</td>
+<td>$\min(300, 222, 250) = 222$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2–3：組合斷面性質</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A$</td>
+<td>$222\times12 + 30\times50$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\bar{y}_b$（形心距底）</td>
+<td>$\sum A_i\bar{y}_i / A$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$c_{\text{top}}$</td>
+<td>$h_{\text{total}} - \bar{y}_b$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I$</td>
+<td>Steiner 定理（各分區 $I_0 + A d^2$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$e$（鋼腱偏心）</td>
+<td>$\bar{y}_b - 10$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4–5：應力不等式 → wL</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_D$</td>
+<td>$W_D L^2/8 = 1.6\times18 = 28.8$ tf·m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_L$</td>
+<td>$w_L\times18$ tf·m（wL 為待求）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>底纖維 $f_{\text{bot}}$</td>
+<td>三項（Fe/A + 預力彎矩 - 外力彎矩）$\ge -29.93$ kgf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>頂纖維 $f_{\text{top}}$</td>
+<td>三項 $\le 210$ kgf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>預力梁底纖維在服務載重下</td>
+<td>預力創造大壓縮（底部 309 kgf/cm²），DL + LL 的彎矩拉力逐漸抵消；活載重越大，底部越趨向拉力，最終到達容許拉應力限制</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>有效翼板寬三條件</td>
+<td>① L/4（跨度效應）② bw + 2×8hf（翼板剛度效應）③ bw + 淨距（鄰梁限制）；取最小值代表最嚴格的有效壓縮寬度</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>偏心量用組合截面形心</td>
+<td>服務階段的預力彎矩是 Fe×e，其中 e 相對於<strong>組合截面</strong>形心計算，而非預鑄梁形心，因為服務階段整個組合斷面共同承力</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：有效翼板寬 $b_f$</h3>
+<p>$$\text{淨距（每側）} = \frac{250-30}{2} = 110 \text{ cm}$$</p>
+<table>
+<thead>
+<tr>
+<th>條件</th>
+<th>計算</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① $L/4$（總翼板寬限）</td>
+<td>$1200/4 = 300$ cm</td>
+<td>300 cm</td>
+</tr>
+<tr>
+<td>② $b_w + 2\times8h_f$</td>
+<td>$30 + 2\times8\times12 = 30 + 192$</td>
+<td>222 cm</td>
+</tr>
+<tr>
+<td>③ $b_w + 2\times\min(8h_f,\text{淨距/2})$</td>
+<td>同上（$8h_f = 96 &lt; 110$，故取 96）</td>
+<td>222 cm</td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{b_f = \min(300,\;222,\;250) = \mathbf{222 \text{ cm}}}$$</p>
+<hr />
+<h3>Step 2：組合 T 型斷面性質</h3>
+<p><strong>全高：</strong> $h_{\text{total}} = 50 + 12 = 62$ cm</p>
+<p><strong>各分區（以距底面量測）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>分區</th>
+<th style="text-align: center;">面積 $A_i$</th>
+<th style="text-align: center;">形心 $\bar{y}_i$</th>
+<th style="text-align: center;">$A_i\bar{y}_i$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>預鑄梁（30×50）</td>
+<td style="text-align: center;">1500 cm²</td>
+<td style="text-align: center;">25 cm</td>
+<td style="text-align: center;">37,500 cm³</td>
+</tr>
+<tr>
+<td>場鑄板（222×12）</td>
+<td style="text-align: center;">2664 cm²</td>
+<td style="text-align: center;">56 cm</td>
+<td style="text-align: center;">149,184 cm³</td>
+</tr>
+<tr>
+<td><strong>合計</strong></td>
+<td style="text-align: center;"><strong>4164 cm²</strong></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><strong>186,684 cm³</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>形心距底面：</strong><br />
+$$\bar{y}_b = \frac{186{,}684}{4{,}164} = \mathbf{44.83 \text{ cm}}$$</p>
+<p>$$c_{\text{top}} = 62 - 44.83 = \mathbf{17.17 \text{ cm}}$$</p>
+<p><strong>慣性矩：</strong></p>
+<table>
+<thead>
+<tr>
+<th>分區</th>
+<th style="text-align: center;">$I_0$ (cm⁴)</th>
+<th style="text-align: center;">$A_i d_i^2$ ($d_i$ = 距複合形心)</th>
+<th style="text-align: center;">$I_i$ (cm⁴)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>梁：$d = 44.83-25 = 19.83$ cm</td>
+<td style="text-align: center;">312,500</td>
+<td style="text-align: center;">$1500\times19.83^2 = 589{,}845$</td>
+<td style="text-align: center;">902,345</td>
+</tr>
+<tr>
+<td>板：$d = 56-44.83 = 11.17$ cm</td>
+<td style="text-align: center;">32,016</td>
+<td style="text-align: center;">$2664\times11.17^2 = 332{,}387$</td>
+<td style="text-align: center;">364,403</td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{I = 902{,}345 + 364{,}403 = \mathbf{1{,}266{,}748 \text{ cm}^4}}$$</p>
+<hr />
+<h3>Step 3：鋼腱偏心量</h3>
+<p>鋼腱在梁中點距底 10 cm（距組合截面底部 10 cm）：<br />
+$$e = \bar{y}_b - 10 = 44.83 - 10 = \mathbf{34.83 \text{ cm（在形心以下）}}$$</p>
+<hr />
+<h3>Step 4：容許應力</h3>
+<p>$$f_{c,\text{all}} = 0.6\times350 = 210 \text{ kgf/cm}^2 \text{（壓縮）}$$</p>
+<p>$$f_{t,\text{all}} = 1.6\sqrt{350} = 1.6\times18.71 = \mathbf{29.93 \text{ kgf/cm}^2 \text{（拉伸）}}$$</p>
+<hr />
+<h3>Step 5：服務載重應力（梁中點）</h3>
+<p><strong>預力貢獻（壓縮正）：</strong><br />
+$$\frac{F_e}{A} = \frac{210{,}000}{4{,}164} = 50.43 \text{ kgf/cm}^2$$</p>
+<p>$$\frac{F_e\cdot e}{I} = \frac{210{,}000\times34.83}{1{,}266{,}748} = 5.774 \text{ kgf/cm}^2/\text{cm}$$</p>
+<p>底纖維預力應力：<br />
+$$f_{\text{bot,ps}} = 50.43 + 5.774\times44.83 = 50.43 + 258.9 = \mathbf{309.3 \text{ kgf/cm}^2}$$</p>
+<p>頂纖維預力應力：<br />
+$$f_{\text{top,ps}} = 50.43 - 5.774\times17.17 = 50.43 - 99.1 = \mathbf{-48.7 \text{ kgf/cm}^2 \text{（拉）}}$$</p>
+<p><strong>靜載重 $M_D$（梁中點）：</strong><br />
+$$M_D = \frac{1.6\times12^2}{8} = 28.8 \text{ tf·m} = 2{,}880{,}000 \text{ kgf·cm}$$</p>
+<p>$$\frac{M_D}{I}\times\bar{y}_b = \frac{2{,}880{,}000\times44.83}{1{,}266{,}748} = \mathbf{101.9 \text{ kgf/cm}^2}$$</p>
+<p>$$\frac{M_D}{I}\times c_{\text{top}} = \frac{2{,}880{,}000\times17.17}{1{,}266{,}748} = \mathbf{39.0 \text{ kgf/cm}^2}$$</p>
+<p><strong>靜載重後各纖維應力：</strong></p>
+<p>$$f_{\text{bot,ps+DL}} = 309.3 - 101.9 = 207.4 \text{ kgf/cm}^2 &lt; 210 \quad\checkmark$$</p>
+<p>$$f_{\text{top,ps+DL}} = -48.7 + 39.0 = -9.7 \text{ kgf/cm}^2 &gt; -29.93 \quad\checkmark$$</p>
+<hr />
+<h3>Step 6：活載重上限</h3>
+<p>設 $w_L$（tf/m），則：<br />
+$$M_L = \frac{w_L\times12^2}{8} = 18w_L \text{ tf·m} = 1{,}800{,}000w_L \text{ kgf·cm}$$</p>
+<p><strong>底纖維（拉力控制）：</strong><br />
+$$f_{\text{bot}} = 207.4 - \frac{1{,}800{,}000 w_L\times44.83}{1{,}266{,}748} = 207.4 - 63.70w_L \ge -29.93$$</p>
+<p>$$63.70w_L \le 207.4 + 29.93 = 237.33$$</p>
+<p>$$\boxed{w_L \le \frac{237.33}{63.70} = \mathbf{3.73 \text{ tf/m}}} \quad\cdots \text{①（控制）}$$</p>
+<p><strong>頂纖維（壓力控制）：</strong><br />
+$$f_{\text{top}} = -9.7 + \frac{1{,}800{,}000 w_L\times17.17}{1{,}266{,}748} = -9.7 + 24.40w_L \le 210$$</p>
+<p>$$24.40w_L \le 219.7$$</p>
+<p>$$w_L \le 9.00 \text{ tf/m} \quad\cdots \text{②（不控制）}$$</p>
+<p><strong>彙整：</strong></p>
+<table>
+<thead>
+<tr>
+<th>條件</th>
+<th style="text-align: center;">限制 $w_L$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 底纖維拉應力 $\ge -29.93$ kgf/cm²</td>
+<td style="text-align: center;"><strong>3.73 tf/m</strong> ← 控制</td>
+</tr>
+<tr>
+<td>② 頂纖維壓應力 $\le 210$ kgf/cm²</td>
+<td style="text-align: center;">9.00 tf/m</td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{w_{L,\max} = \mathbf{3.73 \text{ tf/m}}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>爭議點 1：預力應力用哪個截面計算？</h3>
+<p>本題採用<strong>組合截面</strong>計算服務預力應力（統一使用組合斷面 A、I、ȳ）。嚴格分析應採用「分段施工法」：</p>
+<ul>
+<li><strong>施工階段</strong>（預鑄梁+濕板重）：用預鑄梁斷面（30×50 cm）</li>
+<li><strong>服務階段</strong>（超載重+活載重）：增量應力用組合斷面</li>
+</ul>
+<p>此題採統一組合截面為簡化處理，考場常見。</p>
+<h3>爭議點 2：偏心量為什麼是 34.83 cm？</h3>
+<p>鋼腱在中點距底 10 cm，但<strong>組合截面形心</strong>在 44.83 cm 處（比預鑄梁形心 25 cm 高很多，因翼板面積大）。因此偏心量 = 44.83 - 10 = 34.83 cm，遠大於用預鑄梁形心計算的 15 cm。這是本題最容易出錯的地方。</p>
+<h3>爭議點 3：頂纖維在 DL + LL 下是否可能受拉？</h3>
+<p>從服務分析：在 $w_L &lt; 0.397$ tf/m 時，頂纖維仍受拉（$f_{\text{top}} &lt; 0$），但拉力很小（最大 9.7 kgf/cm² 在 $w_L = 0$），遠低於容許拉應力 29.93 kgf/cm²，故合理。</p>
+<h3>進階：預力上拱（camber）的物理意義</h3>
+<p>等效預力向上力 $w_p = 8F_e e / L^2 = 8\times210\times0.3483/144 = 4.06$ tf/m，相當於均布向上力，抵消大部分靜載重（1.6 tf/m），這正是預力設計的核心精髓。</p></main>
+<footer>來源：raw/solutions/RC-2021-4/RC-2021-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

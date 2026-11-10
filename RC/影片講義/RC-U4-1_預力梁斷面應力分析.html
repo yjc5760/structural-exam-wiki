@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RC-U4-1 預力梁斷面應力 影片講義</title>
+<link rel="stylesheet" href="../study/assets/katex/katex.min.css">
+<script defer src="../study/assets/katex/katex.min.js"></script>
+<script defer src="../study/assets/katex/auto-render.min.js"></script>
+<style>
+:root{--paper:#faf7f0;--ink:#26302b;--board:#2b3f36;--board2:#33493f;--chalk:#eef1ea;--yel:#e8cf5a;
+  --blue:#2f7fae;--red:#c4473a;--green:#3f8f5a;--org:#d0802e;--line:#ddd5c4;--mute:#6b6f68}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.75 "Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 48px}
+.cover{background:linear-gradient(160deg,var(--board),var(--board2));color:var(--chalk);border-radius:10px;padding:28px 28px 24px;margin-bottom:22px}
+.cover .meta{font-size:13px;letter-spacing:.08em;color:#b9c9bf}
+.cover h1{font-size:30px;line-height:1.3;margin:6px 0 4px;color:#fff}
+.cover .sub{color:#c8d6cd;font-size:14px}
+.cover .core{margin-top:16px;border:1.5px solid var(--yel);color:var(--yel);border-radius:6px;padding:10px 14px;font-size:17px}
+.cover .core .katex{color:var(--yel)}
+h2{font-size:21px;margin:38px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--board);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h2 .num{color:var(--org)}
+.seek{font:13px/1 inherit;font-family:inherit;background:var(--board);color:var(--chalk);border:0;border-radius:14px;padding:5px 11px;cursor:pointer;margin-left:auto}
+.seek:hover{background:var(--org)}
+.toc{columns:2;column-gap:28px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 20px;margin:0 0 20px}
+.toc a{display:flex;justify-content:space-between;gap:10px;color:var(--ink);text-decoration:none;padding:3px 0;break-inside:avoid;border-bottom:1px dotted var(--line)}
+.toc a span:last-child{color:var(--mute);font-variant-numeric:tabular-nums}
+.toc a:hover{color:var(--org)}
+video{width:100%;border-radius:8px;background:#000;display:block}
+.vidbox{padding:6px 0 8px}
+figure{margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px;break-inside:avoid}
+figure img{width:100%;display:block;border-radius:4px}
+figcaption{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--mute);padding:6px 4px 0}
+figcaption b{color:var(--ink);font-weight:600}
+.eq{background:#fff;border-left:4px solid var(--board);padding:4px 14px;margin:12px 0;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:15px;background:#fff}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:center;vertical-align:middle}
+th{background:#eef0ea}
+td:first-child,th:first-child{white-space:nowrap}
+.warn,.ok,.key{border-radius:6px;padding:10px 14px;margin:14px 0;break-inside:avoid}
+.warn{background:#fbeceb;border:1.5px solid var(--red)}
+.ok{background:#eaf5ee;border:1.5px solid var(--green)}
+.key{background:#fdf7dc;border:1.5px solid #c9a72a}
+.warn b:first-child{color:var(--red)} .ok b:first-child{color:var(--green)} .key b:first-child{color:#8a6d00}
+.c{color:var(--blue)} .t{color:var(--red)} .g{color:var(--green)}
+p{margin:10px 0}
+ol,ul{padding-left:1.4em}
+.foot{margin-top:40px;font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding-top:12px}
+@media (max-width:640px){.toc{columns:1}.cover h1{font-size:24px}h2{font-size:19px}table{font-size:13px}th,td{padding:5px 6px}}
+@media print{
+  @page{size:A4;margin:14mm}
+  .vidbox,.seek{display:none!important}
+  html,body{font-size:14px;background:#fff}
+  .wrap{padding:0}
+  figure,.warn,.ok,.key,.eq,table{break-inside:avoid}
+  h2{break-after:avoid;break-inside:avoid}
+  .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <div class="meta">RC 鋼筋混凝土 ／ RC-U4-1 預力混凝土 ／ 影片講義</div>
+  <h1>預力梁斷面應力——三項加減</h1>
+  <div class="sub">影片 13:04 ・ 13 章 ・ 28 段 ・ 示範梁 40×80 cm、L = 12 m、e = 25 cm</div>
+  <div class="core">斷面上永遠只有三項應力 \( \dfrac{P}{A} \pm \dfrac{Pe}{S} \mp \dfrac{M}{S} \)；換來換去的只是：哪個 \(P\)、哪個 \(M\)、哪個 \(S\)。</div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <a href="#c0"><span>開場</span><span>0:00</span></a>
+  <a href="#c1"><span>① 三項應力</span><span>0:24</span></a>
+  <a href="#c2"><span>② 現場定符號</span><span>1:46</span></a>
+  <a href="#c3"><span>③ 兩階段四控制點</span><span>2:37</span></a>
+  <a href="#c4"><span>④ 核心距</span><span>4:06</span></a>
+  <a href="#c5"><span>⑤ 非對稱斷面</span><span>5:03</span></a>
+  <a href="#c6"><span>⑥ 組合梁時序</span><span>6:19</span></a>
+  <a href="#c7"><span>⑦ 濕版地雷</span><span>7:11</span></a>
+  <a href="#c8"><span>⑧ 開裂彎矩</span><span>8:07</span></a>
+  <a href="#c9"><span>⑨ 極限強度　換語言</span><span>9:07</span></a>
+  <a href="#c10"><span>⑩ 反算偏心距</span><span>10:20</span></a>
+  <a href="#c11"><span>⑪ 時間軸</span><span>11:18</span></a>
+  <a href="#c12"><span>總結</span><span>12:09</span></a>
+</nav>
+
+<div class="vidbox"><video id="v" controls preload="metadata" src="video/RC-U4-1.mp4"></video></div>
+
+<!-- c0 -->
+<section id="c0">
+<h2>開場 <button class="seek" data-t="0">▶ 0:00</button></h2>
+<figure><img src="img/RC-U4-1/s01.jpg" alt="開場：預力梁斷面應力的六個關鍵詞"><figcaption><span>題型關鍵詞看起來很多，換的只是 P、M、S</span><b>影片 0:24</b></figcaption></figure>
+<p>預力梁的斷面應力題，看起來公式一大堆：傳遞階段、使用階段、頂纖維、底纖維、組合斷面、開裂彎矩。但斷面上其實<strong>永遠只有三項應力</strong>，換來換去的只是：用哪個 \(P\)、哪個 \(M\)、哪個 \(S\)。這支影片用同一根梁，把整個單元串起來。</p>
+</section>
+
+<!-- c1 -->
+<section id="c1">
+<h2><span class="num">①</span> 三項應力 <button class="seek" data-t="24.5">▶ 0:24</button></h2>
+<figure><img src="img/RC-U4-1/s02.jpg" alt="示範梁斷面 40×80、e=25"><figcaption><span>示範梁斷面與符號約定</span><b>影片 0:48</b></figcaption></figure>
+<p>示範梁斷面 40×80 cm，跨度 12 m，鋼腱放在形心下方 25 cm，也就是偏心距 \(e=25\)。</p>
+<div class="eq">$$A=40\times80=3200\ \text{cm}^2,\qquad S=\frac{bh^2}{6}=42\,667\ \text{cm}^3$$</div>
+<div class="key"><b>本單元約定：</b><span class="c">壓應力為正（＋）</span>，<span class="t">拉應力為負（－）</span>。應力單位 kgf/cm²。</div>
+
+<p>先看<strong>傳遞階段</strong>：初始預力 \(P_i=150\ \text{tf}\)，加上梁自重彎矩 \(M_d=13.82\ \text{tf}\cdot\text{m}\)。</p>
+<table>
+<tr><th>項</th><th>意義</th><th>頂纖維</th><th>底纖維</th></tr>
+<tr><td>① \(P/A\)</td><td>軸壓，全斷面同號</td><td class="c">+46.88</td><td class="c">+46.88</td></tr>
+<tr><td>② \(P\cdot e/S\)</td><td>偏心彎矩，上拉下壓</td><td class="t">−87.89</td><td class="c">+87.89</td></tr>
+<tr><td>③ \(M/S\)</td><td>外力彎矩，上壓下拉</td><td class="c">+32.40</td><td class="t">−32.40</td></tr>
+<tr><th>④ 合成</th><th>梯形分佈</th><th class="t">−8.62（拉）</th><th class="c">+102.37（壓）</th></tr>
+</table>
+<figure><img src="img/RC-U4-1/s04.jpg" alt="三項應力圖疊加成梯形分佈"><figcaption><span>三個應力圖相加 → 頂 −8.62、底 +102.37</span><b>影片 1:45</b></figcaption></figure>
+<div class="eq">$$f_{\text{頂}}=46.88-87.89+32.40=-8.62,\qquad f_{\text{底}}=46.88+87.89-32.40=+102.37$$</div>
+<div class="key"><b>重點：</b>三項的<strong>大小</strong>由 \(P、e、M、A、S\) 決定；三項的<strong>正負</strong>，由誰把梁頂上去、誰把梁壓下來決定。</div>
+</section>
+
+<!-- c2 -->
+<section id="c2">
+<h2><span class="num">②</span> 現場定符號 <button class="seek" data-t="106.33">▶ 1:46</button></h2>
+<p>正負號不用背頂、底兩套公式，現場問一句就好。</p>
+<table>
+<tr><th>項</th><th>誰在作用</th><th>梁的變形</th><th>頂纖維</th><th>底纖維</th></tr>
+<tr><td>偏心項 \(P\cdot e/S\)</td><td>鋼腱在形心下方，反拱力把梁往上頂</td><td>上拱：頂被拉開、底被壓緊</td><td class="t">（−）拉</td><td class="c">（＋）壓</td></tr>
+<tr><td>外力項 \(M/S\)</td><td>載重（含自重）把梁往下壓</td><td>下垂：頂被壓緊、底被拉開</td><td class="c">（＋）壓</td><td class="t">（−）拉</td></tr>
+<tr><td>軸壓項 \(P/A\)</td><td colspan="2">—</td><td colspan="2" class="c">全斷面恆為（＋）</td></tr>
+</table>
+<figure><img src="img/RC-U4-1/s06.jpg" alt="上拱與下垂兩種變形決定符號"><figcaption><span>左：鋼腱把梁「頂」起來；右：載重把梁「壓」下去</span><b>影片 2:37</b></figcaption></figure>
+<div class="eq">$$f_t=\frac{P}{A}-\frac{Pe}{S_t}+\frac{M}{S_t}\qquad\qquad f_b=\frac{P}{A}+\frac{Pe}{S_b}-\frac{M}{S_b}$$</div>
+<div class="key"><b>重點：</b>同一條式子兩個階段都成立，換階段只是換 \(P\) 和 \(M\) 的值，不是換公式。</div>
+</section>
+
+<!-- c3 -->
+<section id="c3">
+<h2><span class="num">③</span> 兩階段四控制點 <button class="seek" data-t="157.87">▶ 2:37</button></h2>
+<p>為什麼要檢核兩個階段？因為預力隨時間變小，從 \(P_i\) 掉到 \(P_e\)；載重隨時間變大，從只有自重變成全載重。而兩者造成的彎矩方向剛好相反。兩個最不利的時刻，乘上頂、底兩個危險纖維，就是<strong>四個控制點</strong>。</p>
+<figure><img src="img/RC-U4-1/s07.jpg" alt="兩個時刻 × 兩個纖維 = 四個控制點"><figcaption><span>傳遞：①頂拉 ②底壓；使用：③頂壓 ④底拉</span><b>影片 2:59</b></figcaption></figure>
+<p><strong>傳遞階段</strong>：預力最大、載重最小，梁被頂成上拱，混凝土強度用放張時的 \(f'_{ci}=280\)。<br>
+<strong>使用階段</strong>：預力扣完損失剩 \(P_e=120\ \text{tf}\)，彎矩加上活載重 45，共 \(58.82\ \text{tf}\cdot\text{m}\)，梁被壓成下垂，\(f'_c\) 用 350。</p>
+<table>
+<tr><th>控制點</th><th>計算應力</th><th>容許值</th><th>結果</th></tr>
+<tr><td>① 傳遞・頂纖維受拉</td><td class="t">−8.62</td><td>\(-0.8\sqrt{f'_{ci}}=-13.39\)</td><td class="g">OK</td></tr>
+<tr><td>② 傳遞・底纖維受壓</td><td class="c">+102.37</td><td>\(0.6f'_{ci}=168\)</td><td class="g">OK</td></tr>
+<tr><td>③ 使用・頂纖維受壓</td><td class="c">+105.06</td><td>\(0.6f'_c=210\)</td><td class="g">OK</td></tr>
+<tr><td>④ 使用・底纖維受拉</td><td class="t">−30.06</td><td>\(-2\sqrt{f'_c}=-37.42\)</td><td class="g">OK</td></tr>
+</table>
+<figure><img src="img/RC-U4-1/s09.jpg" alt="傳遞與使用階段四控制點檢核"><figcaption><span>上：傳遞（上拱）；下：使用（下垂）——四點全過</span><b>影片 4:05</b></figcaption></figure>
+<div class="ok"><b>檢查：</b>四個點全部通過才算合格；任何一個超限，就得改 \(P\)、改 \(e\)、改斷面，或改 \(f'_{ci}\)。</div>
+</section>
+
+<!-- c4 -->
+<section id="c4">
+<h2><span class="num">④</span> 核心距 <button class="seek" data-t="246.3">▶ 4:06</button></h2>
+<p>接著問：鋼腱偏心到哪裡，另一邊才開始出現拉應力？只看有效預力 \(P_e=120\ \text{tf}\)，不加外力彎矩。</p>
+<table>
+<tr><th>偏心距 \(e\)</th><th>狀態</th><th>頂</th><th>底</th></tr>
+<tr><td>0</td><td>全斷面均勻受壓</td><td class="c">+37.50</td><td class="c">+37.50</td></tr>
+<tr><td>13.33</td><td>頂纖維恰為 0</td><td>0.00</td><td class="c">+75.00</td></tr>
+<tr><td>25（本例）</td><td>核心外 → 頂受拉</td><td class="t">−32.81</td><td class="c">+107.81</td></tr>
+</table>
+<p>這個 13.33 就是<strong>核心距</strong>。矩形斷面兩者都是 \(h/6\)，中間三分之一就是核心區：</p>
+<div class="eq">$$k_t=\frac{S_b}{A},\qquad k_b=\frac{S_t}{A}\qquad(\text{矩形}=\tfrac{h}{6}=13.33\ \text{cm})$$</div>
+<figure><img src="img/RC-U4-1/s11.jpg" alt="核心區與 e=0、13.33、25 三種應力分佈"><figcaption><span>核心區（橘）；e = 25 落在核心外，頂纖維 −32.81</span><b>影片 5:03</b></figcaption></figure>
+<div class="warn"><b>易錯：</b>落在核心外<strong>不代表不合格</strong>，只要仍在容許值內就可以。而且核心距只是 \(P\) 單獨作用的臨界點，真正的檢核還要把 \(M/S\) 一起加進來。</div>
+</section>
+
+<!-- c5 -->
+<section id="c5">
+<h2><span class="num">⑤</span> 非對稱斷面 <button class="seek" data-t="303.77">▶ 5:03</button></h2>
+<p>遇到非對稱斷面，例如梁上多一塊現場版，變成 T 形組合斷面：有效寬 \(b_e=150\)、版厚 \(t=15\)，梁 40×80；這裡假設版和梁的混凝土強度相同。形心不在半高，\(S_t\neq S_b\)。</p>
+<p><strong>第一步，分割求形心：</strong></p>
+<table>
+<tr><th>組成</th><th>\(A_i\)（cm²）</th><th>\(y_i\)（cm）</th><th>\(A_iy_i\)</th></tr>
+<tr><td>版 150×15</td><td>2250</td><td>87.5</td><td>196 875</td></tr>
+<tr><td>梁 40×80</td><td>3200</td><td>40.0</td><td>128 000</td></tr>
+<tr><th>Σ</th><th>5450</th><th></th><th>324 875</th></tr>
+</table>
+<div class="eq">$$\bar y_b=\frac{324\,875}{5450}=59.61\ \text{cm}$$</div>
+<figure><img src="img/RC-U4-1/s12.jpg" alt="T 形組合斷面分割求形心"><figcaption><span>T 形組合斷面與分割表</span><b>影片 5:39</b></figcaption></figure>
+<p><strong>第二步</strong>，平行軸定理求 \(I\)；<strong>第三步</strong>，分別除以各自的距離：</p>
+<div class="eq">$$I=\Sigma(I_i+A_id_i^2)=4\,729\,588\ \text{cm}^4$$
+$$S_b=\frac{I}{59.61}=79\,342,\qquad S_t(\text{梁頂})=\frac{I}{20.39}=231\,957\approx2.9\,S_b$$
+$$S_t(\text{版頂})=\frac{I}{35.39}=133\,642$$</div>
+<p>所以同一個彎矩 \(M=32.4\ \text{tf}\cdot\text{m}\)，底纖維拉應力 <span class="t">−40.84</span>，比頂面大得多，底纖維才是使用階段的危險面。</p>
+<p><strong>第四步</strong>，偏心距跟著改：</p>
+<div class="eq">$$e=\bar y_b-y_{ps}=59.61-15=44.61\ \text{cm}$$</div>
+<figure><img src="img/RC-U4-1/s13.jpg" alt="組合斷面 I、Sb、St 與 e"><figcaption><span>步驟固定：①分割求 ȳ ②平行軸求 I ③ St = I/yt、Sb = I/yb ④ e = ȳb − yps</span><b>影片 6:18</b></figcaption></figure>
+<div class="warn"><b>易錯：</b>絕對不可以直接用 \(I/(h/2)\)。</div>
+</section>
+
+<!-- c6 -->
+<section id="c6">
+<h2><span class="num">⑥</span> 組合梁時序 <button class="seek" data-t="379.03">▶ 6:19</button></h2>
+<p>組合梁的關鍵是施工時序：<strong>每一刻，只有已經硬化、而且能傳力的那部分斷面在工作。</strong></p>
+<table>
+<tr><th>階段</th><th>斷面</th><th>承受</th><th style="white-space:nowrap">偏心距</th></tr>
+<tr><td>① 張拉／放張</td><td>淨斷面 \(A_n, S_n\)（後拉法導管還沒灌漿）</td><td>\(P_i\) ＋ 梁自重 \(M_G\)</td><td>25</td></tr>
+<tr><td>② 灌漿後～組合前</td><td>全斷面 \(A_g, S_g\)（導管已填實，濕版尚無勁度）</td><td>\(P_e\) ＋ 濕版重 \(M_S\) 累加</td><td>25</td></tr>
+<tr><td>③ 現場版硬化後</td><td>組合斷面 \(A_c, S_c\)（形心上移到 59.61）</td><td>只再承受活載重與疊加靜載重，預力不再新增</td><td>44.61</td></tr>
+</table>
+<figure><img src="img/RC-U4-1/s15.jpg" alt="組合梁三階段斷面"><figcaption><span>三個時刻、三種斷面</span><b>影片 7:10</b></figcaption></figure>
+<div class="key"><b>重點：</b>應力是「一階段一階段累加」上去的，不是用最終斷面一次算完，這是組合梁題目最大的分水嶺。</div>
+</section>
+
+<!-- c7 -->
+<section id="c7">
+<h2><span class="num">⑦</span> 濕版地雷 <button class="seek" data-t="431.27">▶ 7:11</button></h2>
+<p>最常見的失分地雷，是濕版重。版寬 150、厚 15，每公尺 540 kgf，跨中彎矩：</p>
+<div class="eq">$$M_S=\frac{0.54\times12^2}{8}=9.72\ \text{tf}\cdot\text{m}$$</div>
+<p>濕混凝土沒有勁度，版還是液體，只是掛在梁上的重量，只能由原梁斷面獨自承擔。</p>
+<table>
+<tr><th></th><th>採用斷面</th><th>計算</th><th>\(\Delta f_b\)</th></tr>
+<tr><td class="g">✔ 正確</td><td>預鑄梁斷面 \(S_{b1}=42\,667\)</td><td>\(-\dfrac{9.72\times10^5}{42\,667}\)</td><td class="g">−22.78</td></tr>
+<tr><td class="t">✘ 錯誤</td><td>組合斷面 \(S_{b3}=79\,342\)</td><td>\(-\dfrac{9.72\times10^5}{79\,342}\)</td><td class="t">−12.25</td></tr>
+</table>
+<figure><img src="img/RC-U4-1/s17.jpg" alt="濕版重用 Sb1 與 Sb3 的對照"><figcaption><span>左：正確用 Sb1；右：誤用組合斷面 Sb3</span><b>影片 8:06</b></figcaption></figure>
+<div class="warn"><b>最常見的錯：</b>差了 10.53，等於把這一項的底部拉應力低估將近一半，邊緣的情況就會把不合格的斷面算成合格。吊裝、拆除支撐、疊加靜載重都是同一個道理。</div>
+<div class="key"><b>判斷準則只有一句：</b>此刻，誰已經硬化？</div>
+</section>
+
+<!-- c8 -->
+<section id="c8">
+<h2><span class="num">⑧</span> 開裂彎矩 <button class="seek" data-t="487.2">▶ 8:07</button></h2>
+<p>想像底纖維的壓應力，被外力彎矩一路抵銷：</p>
+<table>
+<tr><th>狀態</th><th>彎矩 \(M\)（tf·m）</th><th>底纖維應力</th></tr>
+<tr><td>① 只有 \(P_e\)</td><td>0</td><td class="c">+107.81</td></tr>
+<tr><td>② 加自重 \(M_d\)</td><td>13.82</td><td class="c">+75.41</td></tr>
+<tr><td>③ 加使用載重</td><td>58.82</td><td class="t">−30.06</td></tr>
+<tr><td>④ 到 \(M=M_{cr}\)</td><td>61.96</td><td class="t">−37.42 ＝ \(-f_r\) → 開裂</td></tr>
+</table>
+<figure><img src="img/RC-U4-1/s18.jpg" alt="底纖維應力從 +107.81 一路降到 −37.42"><figcaption><span>底纖維應力在數線上由壓走到拉，碰到 −fr 開裂</span><b>影片 8:32</b></figcaption></figure>
+<p>兩條式子就結束：</p>
+<div class="eq">$$f_{ce}=\frac{P_e}{A}+\frac{P_e\,e}{S_b}=37.50+70.31=107.81\ \text{kgf/cm}^2$$
+$$M_{cr}=S_b\,(f_{ce}+f_r)=42\,667\times(107.81+37.42)=61.96\ \text{tf}\cdot\text{m}$$</div>
+<p>扣掉已經作用的自重 \(M_d\)，還能再加 \(48.14\ \text{tf}\cdot\text{m}\)。</p>
+<figure><img src="img/RC-U4-1/s19.jpg" alt="fce 與 Mcr 兩條式子"><figcaption><span>fce → Mcr；φMn ≥ 1.2 Mcr</span><b>影片 9:06</b></figcaption></figure>
+<div class="key"><b>規範：</b>\(\phi M_n\ge1.2M_{cr}\)，避免「一開裂就斷」的脆性破壞。</div>
+</section>
+
+<!-- c9 -->
+<section id="c9">
+<h2><span class="num">⑨</span> 極限強度　換語言 <button class="seek" data-t="547.1">▶ 9:07</button></h2>
+<p>到了極限狀態，語言要整組換掉。</p>
+<table>
+<tr><th></th><th>彈性語言（WSD）｜使用載重下</th><th>強度語言（LRFD）｜極限狀態</th></tr>
+<tr><td>斷面</td><td>全斷面有效、未開裂、應力線性分佈</td><td>已開裂，只剩壓力塊和鋼腱形成力偶</td></tr>
+<tr><td>檢核</td><td>混凝土纖維應力 ≤ 容許應力</td><td>\(\phi M_n\ge M_u\)</td></tr>
+<tr><td>鋼腱應力</td><td>\(f_{pe}=10\,132\ (\approx0.55f_{pu})\)</td><td>\(f_{ps}=17\,024\)（接近 \(f_{pu}\)）</td></tr>
+</table>
+<div class="eq">$$C=0.85f'_c\,a\,b\;=\;T=A_{ps}f_{ps}=201\,632\ \text{kgf}$$
+$$a=16.94\ \text{cm},\qquad c=21.18\ \text{cm}$$
+$$M_n=A_{ps}f_{ps}\left(d_p-\frac a2\right),\quad d_p-\frac a2=56.53\ \text{cm}\;\Rightarrow\;M_n=113.98\ \text{tf}\cdot\text{m}$$</div>
+<table>
+<tr><th>檢核</th><th>值</th><th>結果</th></tr>
+<tr><td>\(\phi M_n\ \text{vs}\ M_u\)</td><td>102.58 ≥ 88.59</td><td class="g">OK</td></tr>
+<tr><td>\(\phi M_n\ \text{vs}\ 1.2M_{cr}\)</td><td>102.58 ≥ 74.36</td><td class="g">OK</td></tr>
+</table>
+<figure><img src="img/RC-U4-1/s22.jpg" alt="WSD 應力圖與 LRFD 力偶對照"><figcaption><span>左：應力語言；右：力偶語言</span><b>影片 10:19</b></figcaption></figure>
+<div class="key"><b>重點：</b>有黏結時 \(M_n\) 幾乎與 \(P_e\) 無關：預力決定「何時開裂、變形多少」，不決定極限承載力。</div>
+</section>
+
+<!-- c10 -->
+<section id="c10">
+<h2><span class="num">⑩</span> 反算偏心距 <button class="seek" data-t="620.07">▶ 10:20</button></h2>
+<p>第三種題型是反算：把四個檢核式從不等式改成等式，解出來的就是設計量。以偏心距為例：</p>
+<div class="eq">
+<p><span class="c">傳遞：頂纖維不得超拉 → \(e\) 上限</span></p>
+$$e\le\left(\frac{P_i}{A}+\frac{M_d}{S_t}+f_{ti}\right)\frac{S_t}{P_i},\qquad e_{\max}=26.36\ \text{cm（跨中）}$$
+<p><span class="t">使用：底纖維不得超拉 → \(e\) 下限</span></p>
+$$e\ge\left(\frac{M_T}{S_b}-\frac{P_e}{A}-f_{ts}\right)\frac{S_b}{P_e},\qquad e_{\min}=22.38\ \text{cm（跨中）}$$
+</div>
+<p>本例採用 25，正好夾在中間 \(22.38\le25\le26.36\)；兩個壓應力條件在本例不控制。</p>
+<figure><img src="img/RC-U4-1/s24.jpg" alt="沿跨度的 emax、emin 曲線與鋼腱可行區"><figcaption><span>藍：emax；紅：emin；橘虛線：鋼腱拋物線（跨中 e = 25）</span><b>影片 11:18</b></figcaption></figure>
+<p>沿著跨度畫，兩條曲線夾出鋼腱可行區。端部彎矩為零，下限掉到零，上限只剩 17.14，反而最緊。</p>
+<div class="key"><b>重點：</b>這正是預力梁鋼腱要「彎起來」、做成曲線配置的原因。</div>
+</section>
+
+<!-- c11 -->
+<section id="c11">
+<h2><span class="num">⑪</span> 時間軸 <button class="seek" data-t="678.9">▶ 11:18</button></h2>
+<p>最後，用一張時間軸收攏全單元，以組合梁為例。</p>
+<table>
+<tr><th>時刻</th><th>\(P\)（tf）</th><th>\(M\)（tf·m）</th><th>斷面</th><th>檢核</th><th>容許</th></tr>
+<tr><td>張拉／放張</td><td>\(P_i=150\)</td><td>\(M_G=13.82\)</td><td>淨斷面</td><td>①頂拉 ②底壓</td><td>\(0.8\sqrt{f'_{ci}}\)／\(0.6f'_{ci}\)</td></tr>
+<tr><td>灌漿</td><td>150</td><td>13.82</td><td>全斷面</td><td>—</td><td>—</td></tr>
+<tr><td>澆置樓版</td><td>\(P_e=120\)</td><td>\(M_G+M_S=23.54\)</td><td>全斷面</td><td>累加應力</td><td>\(0.6f'_c\)</td></tr>
+<tr><td>樓版硬化</td><td>120</td><td>23.54</td><td>組合斷面</td><td>—</td><td>—</td></tr>
+<tr><td>使用載重</td><td>120</td><td>\(+M_L\to55.94\)</td><td>組合斷面</td><td>③頂壓 ④底拉</td><td>\(2\sqrt{f'_c}\)／\(0.6f'_c\)</td></tr>
+<tr><td>極限狀態</td><td>—</td><td>\(M_u=80.09\)</td><td>組合斷面</td><td>\(\phi M_n\ge M_u\)</td><td>\(1.2M_{cr}\)</td></tr>
+</table>
+<figure><img src="img/RC-U4-1/s26.jpg" alt="組合梁時間軸：P 線、M 線與各時刻斷面"><figcaption><span>P 由 150 掉到 120；M 由 13.82 一路累加到 Mu = 80.09</span><b>影片 12:09</b></figcaption></figure>
+<div class="key"><b>重點：</b>把題目先切成時刻，每個時刻寫下<strong>斷面、P、M、容許值</strong>四格，剩下的就只是代數。三項永遠是 \(\tfrac{P}{A}\pm\tfrac{Pe}{S}\mp\tfrac{M}{S}\)。</div>
+</section>
+
+<!-- c12 -->
+<section id="c12">
+<h2>總結 <button class="seek" data-t="729.63">▶ 12:09</button></h2>
+<figure><img src="img/RC-U4-1/s28.jpg" alt="總結六點"><figcaption><span>六點總結</span><b>影片 13:03</b></figcaption></figure>
+<ol>
+<li><strong>只有三項</strong>：軸壓、偏心彎矩、外力彎矩；正負號問誰把梁頂上去、誰把梁壓下來。</li>
+<li><strong>兩時刻 × 兩纖維 = 四控制點</strong>，全部通過；傳遞用 \(P_i\) 和 \(f'_{ci}\)，使用用 \(P_e\) 和 \(f'_c\)，數據絕不串料。</li>
+<li><strong>非對稱斷面</strong>先求形心，\(S_t\) 和 \(S_b\) 分開算。</li>
+<li><strong>組合梁看時序</strong>，濕版重只能由梁斷面承擔。</li>
+<li><strong>開裂彎矩</strong>用應力語言，<strong>極限強度</strong>換成力偶語言。</li>
+<li><strong>反算</strong>就是把檢核式改成等式，夾出 \(e\) 的範圍。</li>
+</ol>
+<div class="key"><b>拿到預力題，先問一句：</b>這一刻，用哪個 \(P\)、哪個 \(M\)、哪個 \(S\)？</div>
+</section>
+
+<div class="foot">來源：解題過程影片/RC-U4-1/video/ 之 RC-concept-prestress-stress.mp4、segments.py（旁白逐字稿）、.srt（時間軸）。示範梁數值已依 HANDOFF.md 複算核對。文字取自旁白，圖片為各段結束時的黑板畫面。</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+  var v=document.getElementById('v');
+  document.querySelectorAll('.seek').forEach(function(b){b.addEventListener('click',function(){
+    v.currentTime=parseFloat(b.dataset.t);v.play();v.scrollIntoView({behavior:'smooth',block:'nearest'});});});
+});
+</script>
+</body>
+</html>

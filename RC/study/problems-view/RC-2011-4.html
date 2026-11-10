@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2011-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2011-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U2-1.html">&#128202; U2-1 單元總覽</a><a class="lect" href="../lecture-RC-U2-1.html">&#128218; U2-1 RC 剪力強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2011-4</h1>
+<p><strong>主分類：</strong> <code>RC-U2-2</code> RC 扭力強度設計<br />
+<strong>副分類：</strong> <code>RC-U2-1</code> RC 剪力強度分析與設計<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>矩形梁</code> <code>開裂扭矩</code> <code>扭矩剪力組合</code> <code>斷面適當性檢核</code> <code>空間桁架類比</code> <code>Aoh計算</code> <code>閉合箍筋</code> <code>Tu=Tcr條件</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>矩形 RC 梁斷面：$b = 35$ cm，$d = 53$ cm，$h = 60$ cm<br />
+材料：$f'_c = 280$ kgf/cm²，$f_y = f_{yt} = 2800$ kgf/cm²<br />
+配置：#4@8 cm 閉合箍筋，淨保護層 4 cm  </p>
+<h1>4 鋼筋：$d_b = 1.27$ cm，$A_b = 1.267$ cm²（一根）</h1>
+<p><strong>已知條件：</strong> 梁承受扭矩 $T_u = T_{cr}$（等於此斷面之開裂扭矩）</p>
+<p><strong>求：</strong> 在此扭矩條件下，梁斷面尚可承受之<strong>最大設計剪力</strong> $V_u$。（20 分）</p>
+<blockquote>
+<p>本題為純文字題，無附圖，無截圖需求。</p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 矩形實心斷面在扭矩與剪力<strong>同時作用</strong>下，受兩個限制：</p>
+<ol>
+<li><strong>箍筋能力</strong>：箍筋必須同時抵抗扭矩與剪力，兩者共享</li>
+<li><strong>斷面適當性</strong>：混凝土受壓斜撐不得壓碎（ACI §11.6.3.1），此為<strong>上限</strong></li>
+</ol>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗是否能正確計算開裂扭矩 $T_{cr} = (\sqrt{f'_c}/3) \times A_{cp}^2/p_{cp}$</li>
+<li>測驗 $A_{oh}$、$p_h$ 的幾何計算（保護層 + 箍筋半徑）</li>
+<li>測驗聯合扭矩-剪力斷面適當性公式（ACI §11.6.3.1）</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>求 $A_{cp}$、$p_{cp}$ → 算 $T_{cr}$</li>
+<li>求 $A_{oh}$、$p_h$（需考慮保護層 + 箍筋半徑至中心線）</li>
+<li>計算 $V_c$（混凝土剪力貢獻）</li>
+<li>代入斷面適當性公式，解出 $V_u$</li>
+<li>驗算箍筋是否足夠（確認控制條件）</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>應對</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ $A_{oh}$ 以箍筋中心線圍成</td>
+<td>$A_{oh} \ne b\times h$，需扣掉保護層 + 箍筋半徑</td>
+<td>各邊扣除 $cc + d_b/2$</td>
+</tr>
+<tr>
+<td>❷ $T_{cr}$ 用 $A_{cp}$（全斷面），$A_{oh}$ 用箍筋中心線圍成面積</td>
+<td>兩個面積定義不同</td>
+<td>$A_{cp}$：全斷面；$A_{oh}$：箍筋中心線</td>
+</tr>
+<tr>
+<td>❸ 兩個控制條件</td>
+<td>斷面適當性（壓碎限制）與箍筋能力各自限制 $V_u$，取小值</td>
+<td>兩個都算，看哪個控制</td>
+</tr>
+<tr>
+<td>❹ $\phi = 0.75$（剪力與扭力）</td>
+<td>不是 0.9，也不是 0.65</td>
+<td>ACI §9.3.2.3：剪力扭力取 $\phi = 0.75$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>在 $T_u = T_{cr}$ 已固定之條件下，求此矩形梁斷面能額外承受的最大設計剪力 $V_u$。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1：} T_{cr} = \frac{\sqrt{f'_c}}{3}\cdot\frac{A_{cp}^2}{p_{cp}}$$</p>
+<p>$$\text{Step 2：} A_{oh} = x_{oh}\cdot y_{oh},\quad x_{oh} = b - 2\!\left(cc + \frac{d_b}{2}\right),\quad p_h = 2(x_{oh}+y_{oh})$$</p>
+<p>$$\text{Step 3：} V_c = 0.53\sqrt{f'_c}\cdot b_w\cdot d$$</p>
+<p>$$\text{Step 4（斷面適當性）：} \sqrt{\left(\frac{V_u}{b_w d}\right)^2 + \left(\frac{\boxed{T_{cr}}\cdot\boxed{p_h}}{1.7\,\boxed{A_{oh}}^2}\right)^2} \le \phi\!\left(\frac{V_c}{b_w d} + 2.12\sqrt{f'_c}\right)$$</p>
+<p>$$\text{Step 5（箍筋驗算）：} \frac{A_t}{s}\bigg|_{req,T} = \frac{T_u}{\phi\cdot2\cdot A_o\cdot f_{yt}},\quad \frac{A_v}{s}\bigg|_{req,V} = \frac{V_u - \phi V_c}{\phi\cdot f_{yt}\cdot d}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b_w = b$</td>
+<td>35 cm</td>
+<td>梁寬</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>53 cm</td>
+<td>有效深度</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>60 cm</td>
+<td>全高</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_{yt}$</td>
+<td>2800 kgf/cm²</td>
+<td>箍筋降伏強度</td>
+</tr>
+<tr>
+<td>$A_b$（一根#4）</td>
+<td>1.267 cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$d_b$（#4）</td>
+<td>1.27 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$s$</td>
+<td>8 cm</td>
+<td>箍筋間距</td>
+</tr>
+<tr>
+<td>$cc$</td>
+<td>4 cm</td>
+<td>淨保護層</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>▌ 全斷面幾何（$T_{cr}$ 用）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_{cp}$</td>
+<td>$b\times h = 35\times60 = 2100$ cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$p_{cp}$</td>
+<td>$2(b+h) = 2(35+60) = 190$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$T_{cr}$</td>
+<td>$(\sqrt{280}/3)\times2100^2/190 = 129{,}444$ kgf·cm</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌ 箍筋中心線幾何（$A_{oh}$、$p_h$ 用）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>邊距（至箍筋中心）</td>
+<td>$cc + d_b/2 = 4 + 0.635 = 4.635$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$x_{oh}$</td>
+<td>$35 - 2\times4.635 = 25.73$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$y_{oh}$</td>
+<td>$60 - 2\times4.635 = 50.73$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$A_{oh}$</td>
+<td>$25.73\times50.73 = 1305.3$ cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$p_h$</td>
+<td>$2(25.73+50.73) = 152.92$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$A_o$</td>
+<td>$0.85\times1305.3 = 1109.5$ cm²</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌ 剪力與斷面適當性</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_c$</td>
+<td>$0.53\sqrt{280}\times35\times53 = 16{,}452$ kgf</td>
+<td></td>
+</tr>
+<tr>
+<td>$\tau_t$（扭矩剪應力）</td>
+<td>$T_{cr}\times p_h/(1.7\times A_{oh}^2) = 6.83$ kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>斷面限制應力</td>
+<td>$\phi(V_c/(b_wd) + 2.12\sqrt{f'_c}) = 33.27$ kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$V_u$</td>
+<td>$b_wd\times\sqrt{33.27^2 - 6.83^2} = 60{,}380$ kgf = 60.4 tf</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$T_{cr}$ 開裂扭矩公式推導</td>
+<td>以薄壁管類比，主拉應力達 $(1/3)\sqrt{f'_c}$ 時開裂</td>
+<td></td>
+</tr>
+<tr>
+<td>$A_{cp}$ vs $A_{oh}$：兩個面積的區別</td>
+<td>$A_{cp}$：全斷面面積（計算 $T_{cr}$）；$A_{oh}$：箍筋中心線圍成面積（計算扭矩強度）</td>
+<td></td>
+</tr>
+<tr>
+<td>斷面適當性公式的意義</td>
+<td>防止混凝土斜壓撐在扭矩 + 剪力合力作用下壓碎，是<strong>絕對上限</strong>，箍筋再多也無法突破</td>
+<td></td>
+</tr>
+<tr>
+<td>$2.12\sqrt{f'_c}$（kgf/cm²）= $8\sqrt{f'_c}$（psi）= $0.66\sqrt{f'_c}$（MPa）的換算</td>
+<td>三種單位系統的等效寫法，本質相同</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：全斷面幾何</h3>
+<p>$$A_{cp} = b\times h = 35\times60 = 2100 \text{ cm}^2$$</p>
+<p>$$p_{cp} = 2(b+h) = 2(35+60) = 190 \text{ cm}$$</p>
+<hr />
+<h3>Step 2：開裂扭矩 $T_{cr}$</h3>
+<p>$$T_{cr} = \frac{\sqrt{f'_c}}{3}\cdot\frac{A_{cp}^2}{p_{cp}} = \frac{\sqrt{280}}{3}\times\frac{2100^2}{190}$$</p>
+<p>$$= \frac{16.733}{3}\times\frac{4{,}410{,}000}{190} = 5.578\times23{,}210.5 = \boxed{129{,}444 \text{ kgf·cm}}$$</p>
+<hr />
+<h3>Step 3：箍筋中心線幾何（$A_{oh}$、$p_h$）</h3>
+<p>各邊面到箍筋中心線距離：<br />
+$$cc + \frac{d_b}{2} = 4 + \frac{1.27}{2} = 4 + 0.635 = 4.635 \text{ cm}$$</p>
+<p>$$x_{oh} = b - 2\times4.635 = 35 - 9.27 = 25.73 \text{ cm}$$</p>
+<p>$$y_{oh} = h - 2\times4.635 = 60 - 9.27 = 50.73 \text{ cm}$$</p>
+<p>$$\boxed{A_{oh} = 25.73\times50.73 = 1305.3 \text{ cm}^2}$$</p>
+<p>$$p_h = 2(x_{oh}+y_{oh}) = 2(25.73+50.73) = 2\times76.46 = 152.92 \text{ cm}$$</p>
+<p>$$A_o = 0.85\times A_{oh} = 0.85\times1305.3 = 1109.5 \text{ cm}^2$$</p>
+<hr />
+<h3>Step 4：混凝土剪力強度 $V_c$</h3>
+<p>$$V_c = 0.53\sqrt{f'_c}\cdot b_w\cdot d = 0.53\times\sqrt{280}\times35\times53$$</p>
+<p>$$= 0.53\times16.733\times1855 = 8.869\times1855 = 16{,}452 \text{ kgf}$$</p>
+<hr />
+<h3>Step 5：扭矩對應的剪應力 $\tau_t$</h3>
+<p>$$\tau_t = \frac{T_u\cdot p_h}{1.7\cdot A_{oh}^2} = \frac{129{,}444\times152.92}{1.7\times1305.3^2}$$</p>
+<p>$$= \frac{19{,}793{,}377}{1.7\times1{,}703{,}808} = \frac{19{,}793{,}377}{2{,}896{,}474} = \boxed{6.83 \text{ kgf/cm}^2}$$</p>
+<hr />
+<h3>Step 6：斷面適當性限制（ACI §11.6.3.1）</h3>
+<p>實心斷面檢核：</p>
+<p>$$\sqrt{\left(\frac{V_u}{b_w d}\right)^2 + \left(\frac{T_u\cdot p_h}{1.7\cdot A_{oh}^2}\right)^2} \le \phi\left(\frac{V_c}{b_w d} + 2.12\sqrt{f'_c}\right) \quad [\text{kgf/cm}^2]$$</p>
+<p>計算右側上限（$\phi = 0.75$）：</p>
+<p>$$2.12\sqrt{f'_c} = 2.12\times\sqrt{280} = 2.12\times16.733 = 35.47 \text{ kgf/cm}^2$$</p>
+<p>$$\frac{V_c}{b_w d} = \frac{16{,}452}{35\times53} = \frac{16{,}452}{1855} = 8.87 \text{ kgf/cm}^2$$</p>
+<p>$$\text{上限} = \phi\!\left(\frac{V_c}{b_w d} + 2.12\sqrt{f'_c}\right) = 0.75\times(8.87+35.47) = 0.75\times44.34 = \boxed{33.26 \text{ kgf/cm}^2}$$</p>
+<p><strong>代入已知 $\tau_t = 6.83$ kgf/cm²，解 $V_u$：</strong></p>
+<p>$$\sqrt{\left(\frac{V_u}{1855}\right)^2 + 6.83^2} = 33.26$$</p>
+<p>$$\left(\frac{V_u}{1855}\right)^2 = 33.26^2 - 6.83^2 = 1{,}106.2 - 46.6 = 1{,}059.6$$</p>
+<p>$$\frac{V_u}{1855} = \sqrt{1{,}059.6} = 32.55 \text{ kgf/cm}^2$$</p>
+<p>$$\boxed{V_u = 32.55\times1855 = 60{,}380 \text{ kgf} \approx 60.4 \text{ tf}}$$</p>
+<hr />
+<h3>Step 7：驗算箍筋是否足夠</h3>
+<p><strong>扭矩所需 $A_t/s$：</strong></p>
+<p>$$\frac{A_t}{s}\bigg|_{req,T} = \frac{T_u}{\phi\cdot2\cdot A_o\cdot f_{yt}} = \frac{129{,}444}{0.75\times2\times1109.5\times2800} = \frac{129{,}444}{4{,}659{,}900} = 0.02778 \text{ cm}^2/\text{cm}$$</p>
+<p><strong>剪力所需 $A_v/s$：</strong></p>
+<p>$$\phi V_c = 0.75\times16{,}452 = 12{,}339 \text{ kgf}$$</p>
+<p>$$\frac{A_v}{s}\bigg|_{req,V} = \frac{V_u - \phi V_c}{\phi\cdot f_{yt}\cdot d} = \frac{60{,}380 - 12{,}339}{0.75\times2800\times53} = \frac{48{,}041}{111{,}300} = 0.4317 \text{ cm}^2/\text{cm}$$</p>
+<p><strong>合計需求 vs. 提供量：</strong></p>
+<p>$$\left(\frac{A_v}{s} + 2\frac{A_t}{s}\right)_{req} = 0.4317 + 2\times0.02778 = 0.4317 + 0.05556 = 0.487 \text{ cm}^2/\text{cm}$$</p>
+<p>$$\left(\frac{A_v+2A_t}{s}\right)_{prov} = \frac{4\times A_b}{s} = \frac{4\times1.267}{8} = 0.634 \text{ cm}^2/\text{cm}$$</p>
+<p>$$0.487 &lt; 0.634 \quad \checkmark \text{（箍筋充足）}$$</p>
+<p><strong>結論：斷面適當性（Step 6）控制，$V_u$ 由混凝土壓碎上限決定。</strong></p>
+<p>$$\boxed{V_u = 60.4 \text{ tf}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>① 為何斷面適當性才是控制條件？</strong></p>
+<p>本題箍筋 #4@8cm 非常密，箍筋能力 $(A_v+2A_t)/s = 0.634$ cm²/cm 遠大於需求 0.487 cm²/cm。箍筋不是限制，而是混凝土斜壓撐的上限（section adequacy）才是。</p>
+<p>若改用較稀疏的箍筋（如 #3@20cm），箍筋能力將成為控制因素。</p>
+<p><strong>② $2.12\sqrt{f'_c}$（kgf/cm² 系統）的來源</strong></p>
+<table>
+<thead>
+<tr>
+<th>單位系統</th>
+<th>公式</th>
+<th>f'c=280 kgf/cm² 時</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SI（MPa）</td>
+<td>$0.66\sqrt{f'_c\text{[MPa]}}$</td>
+<td>$0.66\times\sqrt{27.46} = 3.46$ MPa $= 35.3$ kgf/cm²</td>
+</tr>
+<tr>
+<td>美制（psi）</td>
+<td>$8\sqrt{f'_c\text{[psi]}}$</td>
+<td>$8\times\sqrt{3984} = 505$ psi $= 35.5$ kgf/cm²</td>
+</tr>
+<tr>
+<td>台灣（kgf/cm²）</td>
+<td>$2.12\sqrt{f'_c\text{[kgf/cm²]}}$</td>
+<td>$2.12\times16.73 = 35.5$ kgf/cm²</td>
+</tr>
+</tbody>
+</table>
+<p>三者等效，只是單位換算。</p>
+<p><strong>③ 開裂扭矩 $T_{cr}$ 的物理意義</strong></p>
+<p>$T_{cr} = (\sqrt{f'_c}/3) \times A_{cp}^2/p_{cp}$ 來自薄壁管理論（thin-walled tube analogy）：</p>
+<ul>
+<li>等效薄壁厚度 $t \approx A_{cp}/(4\times p_{cp})$... 但實際上 ACI 使用 $A_{cp}^2/p_{cp}$ 的形式</li>
+<li>裂縫時主拉應力達 $\approx (1/3)\sqrt{f'_c}$（混凝土拉裂強度）</li>
+</ul>
+<p><strong>④ 考場速解提示</strong></p>
+<p>本題的計算順序：$T_{cr}$ → $A_{oh}$ → $V_c$ → 斷面適當性公式反解 $V_u$</p>
+<p>不需要解聯立方程式，但需要留意：</p>
+<ul>
+<li>$\tau_t = T_{cr} \times p_h / (1.7 \times A_{oh}^2)$ 是一個已知的「扭矩剪應力」</li>
+<li>斷面限制是一個圓方程：$\tau_v^2 + \tau_t^2 \le R^2$，解 $\tau_v$ 後乘以 $b_w d$ 即得 $V_u$</li>
+</ul></main>
+<footer>來源：raw/solutions/RC-2011-4/RC-2011-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

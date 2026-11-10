@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2005-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2005-1 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-2.html">&#128202; U1-2 單元總覽</a><a class="lect" href="../lecture-RC-U1-2.html">&#128218; U1-2 RC 柱強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2005-1</h1>
+<p><strong>主分類：</strong> <code>RC-U1-2</code> RC 柱強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>矩形柱</code> <code>P-M互制</code> <code>曲率延展比</code> <code>壓縮區鋼筋未降伏</code> <code>彎矩曲率</code> <code>8-#8對稱配筋</code> <code>偏心受壓</code> <code>三排配筋</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>一鋼筋混凝土柱斷面如圖所示，採用混凝土 $f'_c = 280\ \text{kgf/cm}^2$，鋼筋降伏強度 $f_y = 4200\ \text{kgf/cm}^2$，試求作用於此斷面上之標稱軸力 $P_n = 90\ \text{t}$ 時之標稱極限彎矩 $M_n$ 與延展比 $\mu_\phi$。（20 分）</p>
+<p><img alt="RC-2005-1 題目附圖：60cm×50cm 矩形柱斷面，8-#8 三排對稱配筋" src="../../raw/solutions/RC-2005-1/RC-2005-1-fig-1.png" /></p>
+<p><em>圖說：柱斷面寬 b = 60 cm，高 h = 50 cm。8 根 #8 鋼筋以三排配置：頂排 3 根、中排左右各 1 根（共 2 根）、底排 3 根。水平方向鋼筋間距標示 23 cm + 23 cm，由此推得鋼筋至邊緣距離為 (60−46)/2 = 7 cm。彎矩 $M_n$ 作用方向使上緣受壓、下緣受拉。</em></p>
+<p><strong>斷面幾何整理：</strong></p>
+<table>
+<thead>
+<tr>
+<th>排別</th>
+<th>位置（壓力面起算）</th>
+<th>鋼筋量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>頂排（壓縮側）</td>
+<td>$d'_1 = 7\ \text{cm}$</td>
+<td>$A_{s1} = 3 \times 5.07 = 15.21\ \text{cm}^2$</td>
+</tr>
+<tr>
+<td>中排</td>
+<td>$d_2 = 25\ \text{cm}$（形心）</td>
+<td>$A_{s2} = 2 \times 5.07 = 10.14\ \text{cm}^2$</td>
+</tr>
+<tr>
+<td>底排（拉力側）</td>
+<td>$d_3 = 43\ \text{cm}$</td>
+<td>$A_{s3} = 3 \times 5.07 = 15.21\ \text{cm}^2$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>材料參數：</strong></p>
+<ul>
+<li>$\beta_1 = 0.85$（$f'_c = 280\ \text{kgf/cm}^2$）</li>
+<li>$E_s = 2{,}040{,}000\ \text{kgf/cm}^2$</li>
+<li>$\varepsilon_y = f_y/E_s = 4200/2{,}040{,}000 = 0.00206$</li>
+<li>$E_c = 15000\sqrt{280} = 251{,}000\ \text{kgf/cm}^2$，$n = E_s/E_c \approx 8$</li>
+</ul>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> P-M 互制與曲率延展比的組合計算。出題者要求考生在指定軸力下，利用應變相容 + Whitney 應力塊求出 $M_n$，再用彈性開裂斷面理論求 $\phi_y$，最後對比得到 $\mu_\phi$。</p>
+<p><strong>測驗能力：</strong></p>
+<ol>
+<li>在給定 $P_n$ 下用試算法找出中性軸深度 $c$（非純彎、非純壓，需迭代）</li>
+<li>判斷各排鋼筋在極限狀態是否降伏（壓縮鋼筋通常未達 $f_y$）</li>
+<li>用彈性開裂斷面（Elastic Cracked Section）計算降伏曲率 $\phi_y$</li>
+<li>中排鋼筋位於形心，對 $M_n$ 貢獻為零（是典型陷阱）</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>假設 $c$，計算各排鋼筋應變與應力（注意壓縮鋼筋是否降伏）</li>
+<li>驗核 $P_n$ 平衡，調整 $c$ 直到 $P_n = 90\ \text{t}$</li>
+<li>取矩（對斷面形心）→ 求 $M_n$</li>
+<li>切換至彈性模型求 $\phi_y$（底排鋼筋剛好達 $\varepsilon_y$，上方各排鋼筋仍彈性）</li>
+<li>$\mu_\phi = \phi_u / \phi_y$</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<ul>
+<li>⚠ <strong>壓縮鋼筋是否降伏</strong>：頂排 $d'_1 = 7\ \text{cm}$ 在 $c = 13\ \text{cm}$ 時，$\varepsilon_{s1} = 0.00139 &lt; \varepsilon_y$ → 未降伏，須用 $f_{s1} = E_s \varepsilon_{s1}$，同時需減去 $0.85f'_c$（已含在 $C_c$ 中）</li>
+<li>⚠ <strong>中排鋼筋力矩臂為零</strong>：中排在形心（$d_2 = 25 = h/2$），對 $M_n$ 取矩臂 = 0，但對軸力有貢獻</li>
+<li>⚠ <strong>彈性 vs 極限模型</strong>：$\phi_u$ 用 Whitney 應力塊（$c = 13\ \text{cm}$），$\phi_y$ 用彈性開裂斷面（$c_y = 16\ \text{cm}$）；兩個 $c$ 值不同</li>
+<li>⚠ <strong>中性軸在極限狀態比降伏狀態淺</strong>（$c_u = 13 &lt; c_y = 16$）：隨著載重增大，中性軸向上移動（正確）</li>
+</ul>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p>求 $P_n = 90\ \text{t}$ 時之標稱極限彎矩 $M_n$（tf·m）及曲率延展比 $\mu_\phi = \phi_u / \phi_y$。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1: } C_c = 0.85 f'_c \cdot b \cdot a, \quad a = \beta_1 c$$</p>
+<p>$$\text{Step 2: } \varepsilon_{si} = 0.003 \cdot \frac{c - d_i}{c}, \quad f_{si} = \min(E_s |\varepsilon_{si}|,\, f_y)$$</p>
+<p>$$\text{Step 3: } P_n = C_c + C_{s1} - T_{s2} - T_{s3} = 90{,}000\ \text{kgf} \quad \Rightarrow \text{解出 } \boxed{c}$$</p>
+<p>$$\text{Step 4: } M_n = C_c\left(\frac{h}{2} - \frac{a}{2}\right) + C_{s1}\left(\frac{h}{2} - d'_1\right) + T_{s3}\left(d_3 - \frac{h}{2}\right)$$</p>
+<p>$$\text{Step 5 (降伏態): 彈性開裂斷面，令 } \varepsilon_{s3} = \varepsilon_y \Rightarrow \phi_y = \frac{\varepsilon_y}{d_3 - \boxed{c_y}}$$</p>
+<p>$$\text{Step 6: } \phi_u = \frac{\varepsilon_{cu}}{\boxed{c}} = \frac{0.003}{\boxed{c}}$$</p>
+<p>$$\text{Step 7: } \mu_\phi = \frac{\phi_u}{\phi_y}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f'_c$</td>
+<td>$280\ \text{kgf/cm}^2$</td>
+<td>混凝土抗壓強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>$4200\ \text{kgf/cm}^2$</td>
+<td>鋼筋降伏強度</td>
+</tr>
+<tr>
+<td>$b$</td>
+<td>$60\ \text{cm}$</td>
+<td>斷面寬（壓力面）</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>$50\ \text{cm}$</td>
+<td>斷面高</td>
+</tr>
+<tr>
+<td>配筋</td>
+<td>$8\text{-\#8}$</td>
+<td>共 8 根，$A_s = 5.07\ \text{cm}^2$/根</td>
+</tr>
+<tr>
+<td>$P_n$</td>
+<td>$90\ \text{t} = 90{,}000\ \text{kgf}$</td>
+<td>標稱軸力</td>
+</tr>
+<tr>
+<td>$d'_1$</td>
+<td>$7\ \text{cm}$</td>
+<td>壓縮側鋼筋至壓力面距離（由圖推算）</td>
+</tr>
+<tr>
+<td>$d_3$</td>
+<td>$43\ \text{cm}$</td>
+<td>拉力側鋼筋至壓力面距離</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>基本材料參數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$0.85$（$f'_c \le 280\ \text{kgf/cm}^2$）</td>
+<td></td>
+</tr>
+<tr>
+<td>$\varepsilon_y$</td>
+<td>$f_y/E_s = 4200/2{,}040{,}000 = 0.00206$</td>
+<td></td>
+</tr>
+<tr>
+<td>$n$</td>
+<td>$E_s/E_c = 2{,}040{,}000/251{,}000 \approx 8$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>極限狀態（Whitney 應力塊，求 $c$）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\varepsilon_{s1}$</td>
+<td>$0.003(c-7)/c$；若 $&lt; \varepsilon_y$ 則 $f_{s1} = E_s\varepsilon_{s1}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\varepsilon_{s2}, \varepsilon_{s3}$</td>
+<td>$0.003(c-d_i)/c$；負值表示受拉</td>
+<td></td>
+</tr>
+<tr>
+<td>$C_{s1}$</td>
+<td>$A_{s1}(f_{s1} - 0.85f'_c)$（壓縮鋼筋在 Whitney 塊內需扣除）</td>
+<td></td>
+</tr>
+<tr>
+<td>$T_{s2}, T_{s3}$</td>
+<td>$A_{si} \cdot f_{si}$（拉力區直接用應力）</td>
+<td></td>
+</tr>
+<tr>
+<td>$c$</td>
+<td>由 $P_n = C_c + C_{s1} - T_{s2} - T_{s3} = 90{,}000$ 試算求解</td>
+<td></td>
+</tr>
+<tr>
+<td>$M_n$</td>
+<td>各力對形心取矩之和（中排矩臂 = 0）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>降伏曲率（彈性開裂斷面）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$c_y$</td>
+<td>由彈性平衡方程二次式求解（令 $\varepsilon_{s3} = \varepsilon_y$，各力正比於 $\phi_y$）</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi_y$</td>
+<td>$\varepsilon_y / (d_3 - c_y)$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi_u$</td>
+<td>$\varepsilon_{cu}/c = 0.003/c$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\mu_\phi$</td>
+<td>$\phi_u / \phi_y$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>壓縮鋼筋 $C_s$ 的 $0.85f'_c$ 修正</td>
+<td>壓縮鋼筋位於 Whitney 塊內時，混凝土已算入 $C_c$，故鋼筋淨貢獻 = $A_s(f_s - 0.85f'_c)$</td>
+<td></td>
+</tr>
+<tr>
+<td>彈性開裂斷面假設</td>
+<td>計算 $\phi_y$ 時，混凝土為線彈性三角形應力塊，$\phi_y = \varepsilon_y/(d_3-c_y)$</td>
+<td></td>
+</tr>
+<tr>
+<td>中排鋼筋在形心的特殊性</td>
+<td>$d_2 = h/2 = 25\ \text{cm}$ → 取矩臂為 0 → 對 $M_n$ 貢獻為零（但對軸力有貢獻）</td>
+<td></td>
+</tr>
+<tr>
+<td>兩種中性軸的差異</td>
+<td>$c_u$（極限，Whitney）vs. $c_y$（降伏，彈性）：同一 $P_n$ 下兩者不同</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>斷面參數確認</h3>
+<p>$$b = 60\ \text{cm},\quad h = 50\ \text{cm},\quad h/2 = 25\ \text{cm}$$</p>
+<p>$$A_{s1} = 3 \times 5.07 = 15.21\ \text{cm}^2\ (d'_1=7\ \text{cm})$$<br />
+$$A_{s2} = 2 \times 5.07 = 10.14\ \text{cm}^2\ (d_2=25\ \text{cm})$$<br />
+$$A_{s3} = 3 \times 5.07 = 15.21\ \text{cm}^2\ (d_3=43\ \text{cm})$$</p>
+<p>$$0.85f'_c \cdot b = 0.85 \times 280 \times 60 = 14{,}280\ \text{kgf/cm}$$</p>
+<hr />
+<h3>① 極限狀態：求中性軸深度 $c$（試算法）</h3>
+<p><strong>假設 $c = 13\ \text{cm}$，$a = \beta_1 c = 0.85 \times 13 = 11.05\ \text{cm}$</strong></p>
+<p><strong>各排應變（壓力面 $\varepsilon_{cu} = 0.003$）：</strong></p>
+<p>$$\varepsilon_{s1} = 0.003 \times \frac{13-7}{13} = 0.003 \times \frac{6}{13} = 0.00138 &lt; \varepsilon_y \Rightarrow f_{s1} = 2{,}040{,}000 \times 0.00138 = 2{,}824\ \text{kgf/cm}^2\ \text{（壓，未降伏）}$$</p>
+<p>$$\varepsilon_{s2} = 0.003 \times \frac{13-25}{13} = -0.00277 \Rightarrow f_{s2} = \min(0.00277 \times 2{,}040{,}000,\ 4200) = 4{,}200\ \text{kgf/cm}^2\ \text{（拉，已降伏）}$$</p>
+<p>$$\varepsilon_{s3} = 0.003 \times \frac{13-43}{13} = -0.00692 \Rightarrow f_{s3} = 4{,}200\ \text{kgf/cm}^2\ \text{（拉，已降伏）}$$</p>
+<p><strong>各力計算：</strong></p>
+<p>$$C_c = 14{,}280 \times 11.05 = 157{,}794\ \text{kgf}$$</p>
+<p>$$C_{s1} = A_{s1}(f_{s1} - 0.85f'_c) = 15.21 \times (2{,}824 - 238) = 15.21 \times 2{,}586 = 39{,}333\ \text{kgf}$$</p>
+<blockquote>
+<p><em>$d'_1 = 7\ \text{cm} &lt; a = 11.05\ \text{cm}$，頂排鋼筋在 Whitney 塊內 → 扣除 $0.85f'_c = 238\ \text{kgf/cm}^2$</em></p>
+</blockquote>
+<p>$$T_{s2} = 10.14 \times 4{,}200 = 42{,}588\ \text{kgf}$$<br />
+$$T_{s3} = 15.21 \times 4{,}200 = 63{,}882\ \text{kgf}$$</p>
+<p><strong>軸力平衡驗核：</strong></p>
+<p>$$P_n = C_c + C_{s1} - T_{s2} - T_{s3} = 157{,}794 + 39{,}333 - 42{,}588 - 63{,}882 = 90{,}657\ \text{kgf} \approx 90\ \text{t}\ \checkmark$$</p>
+<hr />
+<h3>② 標稱彎矩 $M_n$（對斷面形心 $h/2 = 25\ \text{cm}$ 取矩）</h3>
+<table>
+<thead>
+<tr>
+<th>力</th>
+<th>大小 (kgf)</th>
+<th>力臂 (cm)</th>
+<th>矩 (kgf·cm)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_c$</td>
+<td>$157{,}794$</td>
+<td>$25 - a/2 = 25 - 5.525 = 19.475$</td>
+<td>$3{,}073{,}038$</td>
+</tr>
+<tr>
+<td>$C_{s1}$</td>
+<td>$39{,}333$</td>
+<td>$25 - 7 = 18$</td>
+<td>$707{,}994$</td>
+</tr>
+<tr>
+<td>$T_{s2}$</td>
+<td>$42{,}588$</td>
+<td>$\|25 - 25\| = 0$</td>
+<td>$0$</td>
+</tr>
+<tr>
+<td>$T_{s3}$</td>
+<td>$63{,}882$</td>
+<td>$43 - 25 = 18$</td>
+<td>$1{,}149{,}876$</td>
+</tr>
+</tbody>
+</table>
+<p>$$M_n = 3{,}073{,}038 + 707{,}994 + 0 + 1{,}149{,}876 = 4{,}930{,}908\ \text{kgf·cm}$$</p>
+<p>$$\boxed{M_n \approx 49.3\ \text{tf·m}}$$</p>
+<p>偏心距：$e = M_n/P_n = 49.3/90 = 0.548\ \text{m} = 54.8\ \text{cm}$</p>
+<hr />
+<h3>③ 極限曲率 $\phi_u$</h3>
+<p>$$\phi_u = \frac{\varepsilon_{cu}}{c} = \frac{0.003}{13} = 2.308 \times 10^{-4}\ \text{rad/cm}$$</p>
+<hr />
+<h3>④ 降伏曲率 $\phi_y$（彈性開裂斷面）</h3>
+<p><strong>條件：</strong> 令底排鋼筋恰好達到 $\varepsilon_y$，即 $\varepsilon_{s3} = \varepsilon_y$，各力正比於 $\phi_y$。</p>
+<p>設中性軸深度為 $c_y$，則 $\phi_y = \varepsilon_y/(d_3 - c_y) = \varepsilon_y/(43 - c_y)$。</p>
+<p>各力以 $c_y$ 表示（彈性三角形混凝土 + 彈性鋼筋）：</p>
+<p>$$C_c^y = \frac{1}{2} b c_y \cdot E_c \phi_y c_y = \frac{1}{2} \times 60 \times c_y \times \frac{E_c \varepsilon_y c_y}{43-c_y}$$</p>
+<p>$$C_{s1}^y = A_{s1} E_s \phi_y (c_y - 7) = A_{s1} \cdot n \cdot E_c \cdot \frac{\varepsilon_y(c_y-7)}{43-c_y}$$</p>
+<p>$$T_{s2}^y = A_{s2} \cdot n \cdot E_c \cdot \frac{\varepsilon_y(25-c_y)}{43-c_y}$$</p>
+<p>$$T_{s3}^y = A_{s3} \cdot f_y = 63{,}882\ \text{kgf（定值）}$$</p>
+<p>代入 $P_n = C_c^y + C_{s1}^y - T_{s2}^y - T_{s3}^y = 90{,}000$，乘以 $(43-c_y)$ 後整理（$n=8$，$f_y/(n) = 525\ \text{kgf/cm}^2$）：</p>
+<p>$$15{,}750\, c_y^2 + 260{,}352\, c_y - 8{,}128{,}800 = 0$$</p>
+<p>$$c_y^2 + 16.53\, c_y - 516.1 = 0$$</p>
+<p>$$c_y = \frac{-16.53 + \sqrt{16.53^2 + 4 \times 516.1}}{2} = \frac{-16.53 + \sqrt{2{,}337.6}}{2} = \frac{-16.53 + 48.35}{2} = 15.91\ \text{cm}$$</p>
+<p>取 $c_y \approx 16\ \text{cm}$</p>
+<p><strong>驗核（$c_y = 16\ \text{cm}$）：</strong></p>
+<p>$$\phi_y = \frac{0.00206}{43-16} = \frac{0.00206}{27} = 7.63 \times 10^{-5}\ \text{rad/cm}$$</p>
+<p>各排應變：</p>
+<ul>
+<li>$\varepsilon_{s1} = 7.63 \times 10^{-5} \times 9 = 6.87 \times 10^{-4} &lt; \varepsilon_y$（壓，彈性 ✓）</li>
+<li>$\varepsilon_{s2} = 7.63 \times 10^{-5} \times (-9) = -6.87 \times 10^{-4} &lt; \varepsilon_y$（拉，彈性 ✓）</li>
+</ul>
+<p>各力：</p>
+<ul>
+<li>$C_c^y = \tfrac{1}{2} \times 60 \times 16 \times (251{,}000 \times 7.63 \times 10^{-5} \times 16) = 480 \times 305.7 = 146{,}736\ \text{kgf}$</li>
+<li>$C_{s1}^y = 15.21 \times (2{,}040{,}000 \times 6.87\times10^{-4}) = 15.21 \times 1{,}401 = 21{,}309\ \text{kgf}$</li>
+<li>$T_{s2}^y = 10.14 \times 1{,}401 = 14{,}206\ \text{kgf}$</li>
+<li>$T_{s3}^y = 63{,}882\ \text{kgf}$</li>
+</ul>
+<p>$$P_n^y = 146{,}736 + 21{,}309 - 14{,}206 - 63{,}882 = 89{,}957 \approx 90{,}000\ \text{kgf}\ \checkmark$$</p>
+<hr />
+<h3>⑤ 曲率延展比 $\mu_\phi$</h3>
+<p>$$\mu_\phi = \frac{\phi_u}{\phi_y} = \frac{2.308 \times 10^{-4}}{7.63 \times 10^{-5}} = \frac{0.003/13}{0.00206/27} = \frac{0.003 \times 27}{0.00206 \times 13}$$</p>
+<p>$$= \frac{0.081}{0.02678} = \boxed{\mu_\phi \approx 3.0}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>① 壓縮鋼筋是否降伏的判斷（高頻陷阱）</strong></p>
+<p>本題頂排鋼筋在極限狀態：$\varepsilon_{s1} = 0.00138 &lt; \varepsilon_y = 0.00206$，<strong>未降伏</strong>。若錯誤使用 $f_y$，$C_{s1}$ 會高估，導致 $c$ 值偏小，$M_n$ 和 $\mu_\phi$ 均偏離正確值。考場安全做法：<strong>先假設，後驗核</strong>。</p>
+<p><strong>② 中排鋼筋的角色</strong></p>
+<p>中排鋼筋位於斷面形心（$d_2 = h/2 = 25\ \text{cm}$），取矩時臂長為零，<strong>對 $M_n$ 完全無貢獻</strong>。但在軸力平衡（$P_n$ 驗核）及 $c_y$ 求解的二次方程中，<strong>中排鋼筋必須計入</strong>。</p>
+<p><strong>③ 彈性模型的適用性</strong></p>
+<p>在彈性模型下，計算 $c_y = 16\ \text{cm}$ 時，混凝土上緣應力 $f_c = E_c \phi_y c_y \approx 306\ \text{kgf/cm}^2 &gt; f'_c$。這是線彈性近似的限制。實際上混凝土應力—應變曲線非線性，但 $\varepsilon_{c,top} = 0.00122 &lt; \varepsilon_{cu} = 0.003$，尚未壓碎。考場上採用此線彈性近似為標準作法。</p>
+<p><strong>④ 延展比的工程意義</strong></p>
+<p>$\mu_\phi \approx 3.0$ 代表本柱在 $P_n = 90\ \text{t}$ 的偏壓下，極限曲率為降伏曲率的 3 倍，具有一定的塑性轉動能力。與純彎梁（典型 $\mu_\phi \approx 10+$）相比較低，原因是軸壓力使中性軸較深，壓縮區較大，縮短了力臂也限制了延性。</p></main>
+<footer>來源：raw/solutions/RC-2005-1/RC-2005-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

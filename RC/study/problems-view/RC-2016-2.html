@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2016-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2016-2 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U3-3.html">&#128202; U3-3 單元總覽</a><a class="lect" href="../lecture-RC-U3-3.html">&#128218; U3-3 韌性要求與耐震設計 講義</a></div></header>
+<main><h1>考題編號：RC-2016-2</h1>
+<p><strong>主分類：</strong> <code>RC-U3-3</code> 韌性要求與耐震設計<br />
+<strong>副分類：</strong> <code>RC-U2-1</code> RC 剪力強度分析與設計<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>特殊矩形框架梁</code> <code>塑性鉸區</code> <code>可能彎矩強度Mpr</code> <code>密箍區間距</code> <code>耐震箍筋設計</code> <code>Vc判斷</code> <code>強度設計剪力Ve</code></p>
+<hr />
+<h2>1. 原始題目重述（Problem Restatement）</h2>
+<p>承第一題梁結構（兩端固定，$b=35$ cm、$h=70$ cm、$L=7.5$ m、$w_D=2$ tf/m、$w_L=1$ tf/m），整跨配筋均一致：</p>
+<ul>
+<li><strong>頂部梁筋：</strong> 3-D29，$A_{s,\text{top}} = 3 \times 6.47 = 19.41 \text{ cm}^2$</li>
+<li><strong>底部梁筋：</strong> 3-D22，$A_{s,\text{bot}} = 3 \times 3.87 = 11.61 \text{ cm}^2$</li>
+<li>有效深度：$d = 63$ cm</li>
+<li>$f'_c = 280 \text{ kgf/cm}^2$，$f_y = 4200 \text{ kgf/cm}^2$（所有鋼筋）</li>
+</ul>
+<p><strong>目標：</strong> 參考規範耐震設計規定，以 3 股（3 legs）-D10 作為梁端塑性鉸區之橫向箍筋設計。計算彎矩強度時，以<strong>單筋斷面</strong>方式計算。（25 分）</p>
+<blockquote>
+<p><strong>無附圖</strong>：斷面尺寸與配筋同第一題，無須額外截圖。</p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖（Core Concepts &amp; Examiner's Intent）</h2>
+<p><strong>核心觀念：</strong></p>
+<ol>
+<li><strong>可能彎矩強度（$M_{pr}$）</strong>：耐震設計使用 $f_s = 1.25f_y$、$\phi=1.0$，以反映鋼筋超強效應，這是耐震設計中求設計剪力的關鍵</li>
+<li><strong>梁端塑性鉸區設計剪力</strong>：$V_e = (M_{pr,\text{left}} + M_{pr,\text{right}}) / l_n$（地震剪力）加上重力剪力</li>
+<li><strong>$V_c = 0$ 判斷</strong>：當地震剪力 $\geq V_u/2$ 且 $P_u &lt; A_g f'_c / 20$ 時，取 $V_c = 0$</li>
+<li><strong>密箍間距四控制</strong>：$d/4$、$8d_b$（最小縱筋）、$24d_b$（箍筋）、300mm，取最小值</li>
+</ol>
+<p><strong>出題者意圖：</strong></p>
+<ul>
+<li>考驗考生能否正確計算 $M_{pr}$（1.25fy vs fy 的差異）</li>
+<li>驗證地震剪力組合與 $V_c$ 取捨的判斷能力</li>
+<li>確認密箍區間距四控制條件的掌握</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析（Strategic Roadmap &amp; Trap Analysis）</h2>
+<h3>作戰計畫</h3>
+<pre><code>Step 1：計算梁端可能彎矩強度 Mpr（1.25fy，φ=1.0，單筋斷面）
+Step 2：計算塑性鉸剪力機構下的設計剪力 Ve
+Step 3：判斷 Vc = 0 條件（地震剪力比）
+Step 4：計算 Vc（若不為零）
+Step 5：計算箍筋需求間距（強度需求）
+Step 6：確定密箍區長度 lo
+Step 7：確定密箍區間距（四控制取小值）
+Step 8：驗證 φVn ≥ Vu
+</code></pre>
+<h3>關鍵陷阱</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>說明</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>$M_{pr}$ 使用 $1.25f_y$，不是 $f_y$</td>
+<td>耐震設計刻意放大鋼筋強度以設計最保守剪力</td>
+<td>固定記憶：$M_{pr}$ → $f_s=1.25f_y$，$\phi=1.0$</td>
+</tr>
+<tr>
+<td>②</td>
+<td>「單筋斷面」的意涵</td>
+<td>計算 $M_{pr}$ 時，不論頂/底筋，均以拉力筋為主，忽略壓力鋼筋貢獻</td>
+<td>分別以頂筋（負彎矩）和底筋（正彎矩）計算各自的 $M_{pr}$</td>
+</tr>
+<tr>
+<td>③</td>
+<td>$V_c = 0$ 判斷的臨界值</td>
+<td>地震剪力 $\geq V_u/2$ 才取 $V_c=0$，本題數值極接近臨界（49.6%）</td>
+<td>精確計算後判斷，本題 &lt; 50%，$V_c \neq 0$</td>
+</tr>
+<tr>
+<td>④</td>
+<td>密箍區間距「8db」用最小縱筋直徑</td>
+<td>D29 與 D22 並存，應取<strong>最小</strong>縱筋 D22（$d_b=2.2$ cm）</td>
+<td>查清楚哪種鋼筋徑較小，用最小值</td>
+</tr>
+<tr>
+<td>⑤</td>
+<td>密箍區長度 $l_o$ 的計算</td>
+<td>$l_o = \max(2h,\ l_n/6,\ 45\text{ cm})$</td>
+<td>三者均算，取最大值</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>計算 Mpr → 求設計剪力 Ve → 判斷 Vc → 求箍筋間距 s（密箍區四控制）</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<blockquote>
+<p>$\boxed{\cdot}$ = 需由前步驟推導，非題目直接給定的變數</p>
+</blockquote>
+<p>$$\text{Step 1: } a_{pr} = \frac{A_s \times 1.25 f_y}{0.85 f'_c b}$$</p>
+<p>$$\text{Step 2: } M_{pr} = 1.0 \times A_s \times 1.25 f_y \left(d - \frac{\boxed{a_{pr}}}{2}\right)$$</p>
+<p>$$\text{Step 3: } V_e = \frac{\boxed{M_{pr,\text{neg}}} + \boxed{M_{pr,\text{pos}}}}{l_n} + \frac{w_u \cdot l_n}{2}$$</p>
+<p>$$\text{Step 4（Vc判斷）: } \text{若}\ \frac{V_{e,\text{地震部分}}}{V_u} \geq 0.5 \Rightarrow V_c = 0$$</p>
+<p>$$\text{Step 5: } s_{\text{strength}} = \frac{A_v f_y d}{\boxed{V_s}}$$</p>
+<p>$$\text{Step 6（密箍四控）: } s \leq \min\!\left(\frac{d}{4},\ 8d_{b,\min},\ 24d_{b,\text{stir}},\ 300\text{ mm}\right)$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>35 cm</td>
+<td>梁寬</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>63 cm</td>
+<td>有效深度</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>70 cm</td>
+<td>梁全深</td>
+</tr>
+<tr>
+<td>$l_n$</td>
+<td>7.5 m</td>
+<td>淨跨度</td>
+</tr>
+<tr>
+<td>$A_{s,\text{top}}$</td>
+<td>19.41 cm²（3-D29）</td>
+<td>頂部鋼筋面積</td>
+</tr>
+<tr>
+<td>$A_{s,\text{bot}}$</td>
+<td>11.61 cm²（3-D22）</td>
+<td>底部鋼筋面積</td>
+</tr>
+<tr>
+<td>$A_v$</td>
+<td>2.13 cm²（3-D10）</td>
+<td>三股箍筋面積</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td>混凝土強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+<td>所有鋼筋強度</td>
+</tr>
+<tr>
+<td>$w_D$</td>
+<td>2 tf/m</td>
+<td>靜載重</td>
+</tr>
+<tr>
+<td>$w_L$</td>
+<td>1 tf/m</td>
+<td>活載重</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：可能彎矩強度 $M_{pr}$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_s$</td>
+<td>$1.25 \times f_y = 5250$ kgf/cm²（耐震放大）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a_{pr,\text{neg}}$</td>
+<td>$A_{s,\text{top}} \times 1.25f_y / (0.85 f'_c b)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{pr,\text{neg}}$</td>
+<td>$A_{s,\text{top}} \times 1.25f_y \times (d - a/2)$，$\phi=1.0$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a_{pr,\text{pos}}$</td>
+<td>$A_{s,\text{bot}} \times 1.25f_y / (0.85 f'_c b)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{pr,\text{pos}}$</td>
+<td>$A_{s,\text{bot}} \times 1.25f_y \times (d - a/2)$，$\phi=1.0$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：設計剪力</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$w_u$</td>
+<td>$1.2w_D + 1.0w_L = 3.4$ tf/m（地震組合）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_{e,\text{seis}}$</td>
+<td>$(M_{pr,\text{neg}} + M_{pr,\text{pos}})/l_n$（地震剪力分量）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_{e,\text{grav}}$</td>
+<td>$w_u l_n / 2$（重力剪力分量）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_u$</td>
+<td>$V_{e,\text{seis}} + V_{e,\text{grav}}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：$V_c$ 判斷與計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_c = 0$ 條件</td>
+<td>地震剪力 $\geq V_u/2$ 且梁 $P_u \approx 0 &lt; A_g f'_c/20$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_c$（若不為零）</td>
+<td>$0.53\sqrt{f'_c} \times b \times d$（kgf/cm² 慣用）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：箍筋設計</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_s$</td>
+<td>$V_u/\phi - V_c$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$s_{\text{strength}}$</td>
+<td>$A_v f_y d / V_s$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$l_o$</td>
+<td>$\max(2h,\ l_n/6,\ 45\text{ cm})$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$s_{\text{seismic}}$</td>
+<td>$\min(d/4,\ 8d_{b,\min},\ 24d_{b,\text{stir}},\ 300\text{ mm})$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_{pr}$ vs $M_n$</td>
+<td>$M_n$：$\phi f_y$，用於容量設計；$M_{pr}$：$1.0 \times 1.25f_y$，反映超強效應，專用於耐震剪力設計</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>剪力機構（sway mechanism）</td>
+<td>地震時梁端同時形成塑性鉸，地震剪力 $V_{seis} = (M_{pr,left}+M_{pr,right})/l_n$，此值代表地震單獨造成的剪力</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_c = 0$ 的物理意義</td>
+<td>當地震剪力佔比 ≥ 50%，表示地震剪力主導，混凝土可能在地震往復作用下劣化，故保守取 $V_c=0$，由鋼筋單獨承擔全部剪力</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>密箍四控中「最小縱筋徑」</td>
+<td>梁同時有 D22 和 D29，$8d_b$ 應用最小的 D22（$d_b=2.2$ cm），目的是確保縱筋不因箍筋間距過大而挫屈</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程（Step-by-Step Detailed Calculation）</h2>
+<h3>Step 1：計算可能彎矩強度 $M_{pr}$</h3>
+<blockquote>
+<p>📌 <strong>策略註解：</strong> 耐震設計用 $f_s = 1.25f_y$ 和 $\phi = 1.0$，以反映鋼筋真實強度可能超過標稱值，確保箍筋能承受最不利剪力。題目要求以「單筋斷面」計算。</p>
+</blockquote>
+<p><strong>放大鋼筋應力：</strong></p>
+<p>$$f_s = 1.25 \times f_y = 1.25 \times 4200 = 5250 \text{ kgf/cm}^2$$</p>
+<p><strong>① 負彎矩（頂筋受拉，$A_{s,\text{top}} = 3\text{-D29} = 19.41 \text{ cm}^2$）：</strong></p>
+<p>$$a_{pr,\text{neg}} = \frac{A_{s,\text{top}} \times 1.25 f_y}{0.85 f'_c \times b} = \frac{19.41 \times 5250}{0.85 \times 280 \times 35} = \frac{101{,}903}{8{,}330} = 12.23 \text{ cm}$$</p>
+<p>$$M_{pr,\text{neg}} = A_{s,\text{top}} \times 1.25 f_y \times \left(d - \frac{a_{pr,\text{neg}}}{2}\right) = 19.41 \times 5250 \times \left(63 - \frac{12.23}{2}\right)$$</p>
+<p>$$= 101{,}903 \times (63 - 6.115) = 101{,}903 \times 56.885 = 5{,}797{,}400 \text{ kgf-cm}$$</p>
+<p>$$\boxed{M_{pr,\text{neg}} = 57.97 \text{ tf-m}}$$</p>
+<p><strong>② 正彎矩（底筋受拉，$A_{s,\text{bot}} = 3\text{-D22} = 11.61 \text{ cm}^2$）：</strong></p>
+<p>$$a_{pr,\text{pos}} = \frac{11.61 \times 5250}{0.85 \times 280 \times 35} = \frac{60{,}953}{8{,}330} = 7.317 \text{ cm}$$</p>
+<p>$$M_{pr,\text{pos}} = 11.61 \times 5250 \times \left(63 - \frac{7.317}{2}\right) = 60{,}953 \times (63 - 3.659) = 60{,}953 \times 59.341$$</p>
+<p>$$= 3{,}617{,}100 \text{ kgf-cm}$$</p>
+<p>$$\boxed{M_{pr,\text{pos}} = 36.17 \text{ tf-m}}$$</p>
+<hr />
+<h3>Step 2：計算塑性鉸設計剪力 $V_e$</h3>
+<blockquote>
+<p>📌 <strong>策略註解：</strong> 地震剪力機構（sway mechanism）：假設梁兩端同時形成塑性鉸，地震從左到右時，左端承受負彎矩（$M_{pr,\text{neg}}$）、右端承受正彎矩（$M_{pr,\text{pos}}$）。</p>
+</blockquote>
+<p><strong>地震組合重力載重：</strong></p>
+<p>$$w_u = 1.2 w_D + 1.0 w_L = 1.2 \times 2 + 1.0 \times 1 = 3.4 \text{ tf/m}$$</p>
+<p><strong>地震誘發剪力（地震分量）：</strong></p>
+<p>$$V_{e,\text{seis}} = \frac{M_{pr,\text{neg}} + M_{pr,\text{pos}}}{l_n} = \frac{57.97 + 36.17}{7.5} = \frac{94.14}{7.5} = 12.55 \text{ tf}$$</p>
+<p><strong>重力剪力分量：</strong></p>
+<p>$$V_{e,\text{grav}} = \frac{w_u \cdot l_n}{2} = \frac{3.4 \times 7.5}{2} = 12.75 \text{ tf}$$</p>
+<p><strong>設計剪力（最大端剪力）：</strong></p>
+<p>$$V_u = V_{e,\text{seis}} + V_{e,\text{grav}} = 12.55 + 12.75 = \boxed{25.30 \text{ tf}}$$</p>
+<hr />
+<h3>Step 3：判斷 $V_c = 0$ 條件</h3>
+<p>依 CNS 1480（土木401-100）耐震設計規定，當同時滿足下列兩條件時，取 $V_c = 0$：</p>
+<p><strong>條件（一）：</strong> 地震剪力分量 $\geq V_u / 2$</p>
+<p>$$\frac{V_{e,\text{seis}}}{V_u} = \frac{12.55}{25.30} = 0.496 = 49.6\% &lt; 50\%$$</p>
+<blockquote>
+<p>❗ <strong>未滿足條件（一）</strong>：12.55 tf &lt; 25.30/2 = 12.65 tf（差距極小，僅 0.10 tf）</p>
+</blockquote>
+<p><strong>條件（二）：</strong> $P_u &lt; A_g f'_c / 20$（梁無軸壓，$P_u \approx 0$）→ 滿足</p>
+<p><strong>結論：</strong> 因條件（一）以 49.6% 未達 50%，故 $V_c \neq 0$。</p>
+<blockquote>
+<p>📌 <strong>考場策略：</strong> 本題數值極為接近臨界值（0.496 vs 0.500），若考場時四捨五入恰好超過 50%，可保守取 $V_c = 0$ 並說明理由；本解以精算結果 $V_c \neq 0$ 為準。</p>
+</blockquote>
+<hr />
+<h3>Step 4：計算混凝土剪力強度 $V_c$</h3>
+<p>$$V_c = 0.53\sqrt{f'_c} \times b \times d = 0.53 \times \sqrt{280} \times 35 \times 63$$</p>
+<p>$$= 0.53 \times 16.733 \times 2205 = 19{,}548 \text{ kgf} = \boxed{19.55 \text{ tf}}$$</p>
+<p><strong>$\phi V_c$：</strong></p>
+<p>$$\phi V_c = 0.75 \times 19.55 = 14.66 \text{ tf}$$</p>
+<p>因為 $V_u = 25.30 \text{ tf} &gt; \phi V_c = 14.66 \text{ tf}$，確認需要腹筋。</p>
+<hr />
+<h3>Step 5：由強度需求計算箍筋間距</h3>
+<p>$$V_s = \frac{V_u}{\phi} - V_c = \frac{25.30}{0.75} - 19.55 = 33.73 - 19.55 = 14.18 \text{ tf} = 14{,}180 \text{ kgf}$$</p>
+<p><strong>3 股 D10 箍筋面積：</strong></p>
+<p>$$A_v = 3 \times 0.71 = 2.13 \text{ cm}^2$$</p>
+<p><strong>由強度需求決定的間距：</strong></p>
+<p>$$s_{\text{strength}} = \frac{A_v \times f_y \times d}{V_s} = \frac{2.13 \times 4200 \times 63}{14{,}180} = \frac{563{,}634}{14{,}180} = 39.75 \text{ cm}$$</p>
+<hr />
+<h3>Step 6：塑性鉸區長度 $l_o$</h3>
+<p>依規範，密箍區須延伸至距支承面 $l_o$ 之範圍：</p>
+<p>$$l_o = \max\!\left(2h,\ \frac{l_n}{6},\ 45\text{ cm}\right)$$</p>
+<p>$$= \max\!\left(2 \times 70,\ \frac{750}{6},\ 45\right) = \max(140,\ 125,\ 45) = \boxed{140 \text{ cm}}$$</p>
+<blockquote>
+<p>📌 第一支箍筋距支承面 ≤ 5 cm。</p>
+</blockquote>
+<hr />
+<h3>Step 7：塑性鉸區間距（四控制取小值）</h3>
+<table>
+<thead>
+<tr>
+<th>控制條件</th>
+<th>計算</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$d/4$</td>
+<td>$63/4 = 15.75$ cm</td>
+<td><strong>15.75 cm</strong> ← 最小</td>
+</tr>
+<tr>
+<td>$8 \times d_{b,\min}$</td>
+<td>$8 \times 2.2 = 17.6$ cm（D22，最小縱筋）</td>
+<td>17.6 cm</td>
+</tr>
+<tr>
+<td>$24 \times d_{b,\text{stir}}$</td>
+<td>$24 \times 1.0 = 24$ cm（D10）</td>
+<td>24 cm</td>
+</tr>
+<tr>
+<td>300 mm</td>
+<td>30 cm</td>
+<td>30 cm</td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{s \leq 15.75 \text{ cm} \Rightarrow \text{取}\ s = 15 \text{ cm}}$$</p>
+<blockquote>
+<p>📌 強度需求間距 $s_{\text{strength}} = 39.75$ cm &gt;&gt; 耐震間距 $s = 15$ cm，由耐震規定控制。</p>
+</blockquote>
+<hr />
+<h3>Step 8：驗算 $\phi V_n \geq V_u$</h3>
+<p>以 $s = 15$ cm 計算實際 $V_s$：</p>
+<p>$$V_s = \frac{A_v \times f_y \times d}{s} = \frac{2.13 \times 4200 \times 63}{15} = \frac{563{,}634}{15} = 37{,}576 \text{ kgf} = 37.58 \text{ tf}$$</p>
+<p><strong>驗算最大 $V_s$ 限制：</strong></p>
+<p>$$V_{s,\max} = 2 \times 0.53\sqrt{f'_c} \times b \times d = 2 \times 19{,}548 = 39{,}096 \text{ kgf} = 39.10 \text{ tf}$$</p>
+<p>$$V_s = 37.58 \text{ tf} &lt; V_{s,\max} = 39.10 \text{ tf} \quad \checkmark$$</p>
+<p><strong>設計強度：</strong></p>
+<p>$$\phi V_n = \phi(V_c + V_s) = 0.75 \times (19.55 + 37.58) = 0.75 \times 57.13 = 42.85 \text{ tf}$$</p>
+<p>$$\phi V_n = 42.85 \text{ tf} \geq V_u = 25.30 \text{ tf} \quad \checkmark$$</p>
+<hr />
+<h3>Step 9：檢核最小鋼筋量與耐震配筋規定</h3>
+<p><strong>最小腹筋：</strong></p>
+<p>$$A_{v,\min} = \frac{0.35 \times b \times s}{f_y} = \frac{0.35 \times 35 \times 15}{4200} = \frac{183.75}{4200} = 0.0438 \text{ cm}^2 \ll A_v = 2.13 \text{ cm}^2 \quad \checkmark$$</p>
+<p><strong>底筋 $\geq$ 頂筋/2（整梁任一斷面）：</strong></p>
+<p>$$A_{s,\text{bot}} = 11.61 \text{ cm}^2 \geq \frac{A_{s,\text{top}}}{2} = \frac{19.41}{2} = 9.705 \text{ cm}^2 \quad \checkmark$$</p>
+<p><strong>任一斷面頂/底筋 $\geq$ 全梁最大鋼筋量/4：</strong></p>
+<p>$$A_{s,\text{bot}} = 11.61 \text{ cm}^2 \geq \frac{A_{s,\text{top}}}{4} = \frac{19.41}{4} = 4.85 \text{ cm}^2 \quad \checkmark$$</p>
+<hr />
+<h3>最終答案</h3>
+<p>$$\boxed{
+\begin{aligned}
+&amp;\text{塑性鉸區箍筋設計：3 股 D10，間距}\ s = 15\ \text{cm}\\
+&amp;\text{密箍區長度：}l_o = 140\ \text{cm（距支承面）}\\
+&amp;\text{第一支箍筋：距支承面} \leq 5\ \text{cm}\\
+&amp;\phi V_n = 42.85\ \text{tf} \geq V_u = 25.30\ \text{tf} \quad \checkmark
+\end{aligned}
+}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討（Critical Issues &amp; Advanced Discussion）</h2>
+<h3>爭議點一：$V_c = 0$ 的臨界判斷</h3>
+<p>本題地震剪力比 = 49.6%，與 50% 臨界值僅差 0.4%（約 0.10 tf），在實際設計中屬於「工程判斷」範疇。</p>
+<p><strong>考場建議：</strong></p>
+<ul>
+<li>若精算結果 &lt; 50%：$V_c \neq 0$，如本解</li>
+<li>若四捨五入後 ≥ 50%：取 $V_c = 0$，更保守</li>
+<li>考場可兩者均列出並說明，不影響最終間距（因耐震間距已控制）</li>
+</ul>
+<h3>爭議點二：$V_c = 0$ 時的間距影響</h3>
+<p>若取 $V_c = 0$：<br />
+$$V_s = V_u/\phi = 25.30/0.75 = 33.73 \text{ tf}$$<br />
+$$s_{\text{strength}} = 2.13 \times 4200 \times 63 / 33{,}730 = 563{,}634 / 33{,}730 = 16.71 \text{ cm}$$</p>
+<p>仍大於耐震間距限制 15 cm，<strong>最終間距結論相同（s = 15 cm）</strong>。</p>
+<h3>爭議點三：塑性鉸區長度定義</h3>
+<ul>
+<li>本解採 $2h = 140$ cm（ACI 318-14 §18.6.4.1 規定）</li>
+<li>部分教材採 $2d = 126$ cm，略保守但結論相同</li>
+<li>考場建議：明確寫出公式 $\max(2h, l_n/6, 45\text{cm})$，取最大值</li>
+</ul>
+<h3>進階觀念：耐震設計的「能量耗散」哲學</h3>
+<p>梁端塑性鉸區的密箍設計：</p>
+<ol>
+<li><strong>圍束混凝土</strong>：密箍提升混凝土延性，使塑性鉸能反覆承受大變形</li>
+<li><strong>防止縱筋挫屈</strong>：間距 $8d_b$ 確保縱筋不因壓力而向外挫屈</li>
+<li><strong>剪力承擔</strong>：地震往復作用下混凝土裂縫擴展，箍筋承擔全部剪力</li>
+</ol></main>
+<footer>來源：raw/solutions/RC-2016-2/RC-2016-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

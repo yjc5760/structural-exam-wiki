@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2016-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2016-3 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-2.html">&#128202; U1-2 單元總覽</a><a class="lect" href="../lecture-RC-U1-2.html">&#128218; U1-2 RC 柱強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2016-3</h1>
+<p><strong>主分類：</strong> <code>RC-U1-3</code> 細長柱<br />
+<strong>副分類：</strong> <code>RC-U1-2</code> RC 柱強度分析與設計<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>細長柱</code> <code>無側移構架</code> <code>放大彎矩法</code> <code>Cm係數</code> <code>雙曲度</code> <code>臨界載重Pc</code> <code>δns計算</code></p>
+<hr />
+<h2>1. 原始題目重述（Problem Restatement）</h2>
+<p>無側移構架中之矩形柱，資料如下：</p>
+<ul>
+<li><strong>斷面：</strong> 40 cm × 40 cm 正方形</li>
+<li><strong>淨高：</strong> $l_u = 8$ m = 800 cm</li>
+<li><strong>有效長度係數：</strong> $K = 0.9$</li>
+<li><strong>EI 值：</strong> $EI = 0.25\,E_c I_g$</li>
+<li><strong>材料：</strong> $f'_c = 280 \text{ kgf/cm}^2$，$f_y = 4200 \text{ kgf/cm}^2$</li>
+<li><strong>極限軸力：</strong> $P_u = 130$ tf</li>
+<li><strong>端部彎矩：</strong> 一端 $M_1 = 35$ tf-m（較小端），另一端 $M_2 = 40$ tf-m（較大端）</li>
+<li><strong>受力型式：</strong> 雙曲度（S 形）</li>
+</ul>
+<p><strong>試求設計彎矩與軸力。（20 分）</strong></p>
+<p>考卷提供參考公式（已由考卷截取）：</p>
+<p>$$E_c = 15000\sqrt{f'_c} \text{ kgf/cm}^2$$</p>
+<p>$$\frac{kl_u}{r} \leq 34 - 12\frac{M_1}{M_2}$$</p>
+<p>$$\delta_{ns} = \frac{C_m}{1 - P_u/(0.75P_c)} \geq 1.0$$</p>
+<p>$$C_m = 0.6 + 0.4\frac{M_1}{M_2} \geq 0.4$$</p>
+<p>$$P_c = \frac{\pi^2 EI}{(kl_u)^2}$$</p>
+<blockquote>
+<p><strong>無附圖：</strong> 純文字敘述題，無需截圖。</p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖（Core Concepts &amp; Examiner's Intent）</h2>
+<p><strong>核心觀念：</strong></p>
+<ol>
+<li><strong>細長柱判斷</strong>：以 $kl_u/r$ 與臨界值 $34-12(M_1/M_2)$ 比較，決定是否需要放大彎矩</li>
+<li><strong>雙曲度符號慣例</strong>：雙曲度時 $M_1/M_2$ 取<strong>負值</strong>（ACI/CNS 慣例），使 $C_m$ 降低、放大係數相對小</li>
+<li><strong>放大係數 $\delta_{ns}$</strong>：ACI 無側移構架放大彎矩法，最終設計彎矩 $M_c = \delta_{ns} M_2$</li>
+<li><strong>EI 計算</strong>：題目直接給定 $EI = 0.25E_cI_g$，考驗 $E_c$ 計算</li>
+</ol>
+<p><strong>出題者意圖：</strong></p>
+<ul>
+<li>測驗細長柱判斷流程是否完整（含臨界值計算，不可直接跳到放大係數）</li>
+<li>確認雙曲度下 $M_1/M_2$ 符號的正確取法（負值）與 $C_m$ 下限的應用</li>
+<li>驗證 $P_c$ 計算的精確性</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析（Strategic Roadmap &amp; Trap Analysis）</h2>
+<h3>作戰計畫</h3>
+<pre><code>Step 1：計算迴轉半徑 r，求細長比 klu/r
+Step 2：計算臨界細長比（雙曲度），判斷是否為細長柱
+Step 3：計算 Ec 與 Ig，求 EI
+Step 4：計算歐拉臨界載重 Pc
+Step 5：計算 Cm（注意雙曲度符號）
+Step 6：計算放大係數 δns
+Step 7：計算設計彎矩 Mc = δns × M2
+</code></pre>
+<h3>關鍵陷阱</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>說明</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>雙曲度 $M_1/M_2$ 取負值</td>
+<td>雙曲度（S形）代表兩端彎矩方向相反，ACI 規定此時 $M_1/M_2 &lt; 0$</td>
+<td>記憶：單曲度（弓形）→ 正值（危險）；雙曲度（S形）→ 負值（有利）</td>
+</tr>
+<tr>
+<td>②</td>
+<td>$C_m$ 下限 0.4</td>
+<td>計算出 $C_m = 0.25 &lt; 0.4$，必須取 $C_m = 0.4$</td>
+<td>每次計算 $C_m$ 後都要與 0.4 比較取大值</td>
+</tr>
+<tr>
+<td>③</td>
+<td>細長比臨界值也含 $M_1/M_2$</td>
+<td>臨界值 $= 34-12\times(-0.875)=44.5$，而非固定值 34</td>
+<td>代入含負號的 $M_1/M_2$ 計算，不可省略</td>
+</tr>
+<tr>
+<td>④</td>
+<td>$r$ 的計算：用 $0.3h$ 近似</td>
+<td>方形斷面 $r = h/\sqrt{12} \approx 0.289h$，工程上取 $r = 0.3h$</td>
+<td>考場可直接用 $r = 0.3h$，精算用 $h/\sqrt{12}$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>計算放大係數 δns → 求設計彎矩 Mc = δns × M2（設計軸力 Pu 不變）</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<blockquote>
+<p>$\boxed{\cdot}$ = 需由前步驟推導，非題目直接給定的變數</p>
+</blockquote>
+<p>$$\text{Step 1: } r = 0.3h \quad \Rightarrow \quad \frac{kl_u}{r} = \frac{0.9 \times 800}{\boxed{r}}$$</p>
+<p>$$\text{Step 2: } 34 - 12\!\left(\frac{M_1}{M_2}\right) \quad \left(\frac{M_1}{M_2} &lt; 0\ \text{雙曲度}\right)$$</p>
+<p>$$\text{Step 3: } E_c = 15000\sqrt{f'_c},\quad I_g = \frac{b h^3}{12},\quad EI = 0.25\,E_c I_g$$</p>
+<p>$$\text{Step 4: } P_c = \frac{\pi^2 \boxed{EI}}{(kl_u)^2}$$</p>
+<p>$$\text{Step 5: } C_m = 0.6 + 0.4\!\left(\frac{M_1}{M_2}\right) \geq 0.4$$</p>
+<p>$$\text{Step 6: } \delta_{ns} = \frac{\boxed{C_m}}{1 - P_u/(0.75\boxed{P_c})} \geq 1.0$$</p>
+<p>$$\text{Step 7: } M_c = \boxed{\delta_{ns}} \times M_2$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b = h$</td>
+<td>40 cm</td>
+<td>方形斷面邊長</td>
+</tr>
+<tr>
+<td>$l_u$</td>
+<td>800 cm（8 m）</td>
+<td>柱淨高</td>
+</tr>
+<tr>
+<td>$K$</td>
+<td>0.9</td>
+<td>有效長度係數</td>
+</tr>
+<tr>
+<td>$P_u$</td>
+<td>130 tf</td>
+<td>極限軸力（因數化）</td>
+</tr>
+<tr>
+<td>$M_2$</td>
+<td>40 tf-m</td>
+<td>較大端彎矩（控制端）</td>
+</tr>
+<tr>
+<td>$M_1$</td>
+<td>35 tf-m</td>
+<td>較小端彎矩（注意：雙曲度需取負號）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td>混凝土強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+<td>鋼筋強度</td>
+</tr>
+<tr>
+<td>EI</td>
+<td>$0.25\,E_c I_g$</td>
+<td>有效彎曲剛度（題目給定）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：細長比計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$r$</td>
+<td>$0.3h = 0.3 \times 40 = 12$ cm（矩形近似）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$kl_u/r$</td>
+<td>$0.9 \times 800 / 12 = 60$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>臨界值</td>
+<td>$34 - 12 \times (-35/40) = 44.5$（雙曲度為負）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>結論</td>
+<td>$60 &gt; 44.5$ → 細長柱，需放大彎矩</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：EI 與 Pc</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$E_c$</td>
+<td>$15000\sqrt{280} = 250{,}998$ kgf/cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_g$</td>
+<td>$40^4/12 = 213{,}333$ cm⁴</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$EI$</td>
+<td>$0.25 \times 250{,}998 \times 213{,}333 = 1.339 \times 10^{10}$ kgf-cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$kl_u$</td>
+<td>$0.9 \times 800 = 720$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_c$</td>
+<td>$\pi^2 \times EI / (720)^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：放大係數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_m$</td>
+<td>$0.6 + 0.4\times(-0.875) = 0.25 &lt; 0.4$ → 取 $C_m = 0.4$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\delta_{ns}$</td>
+<td>$0.4/(1 - 130/(0.75 P_c))$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_c$</td>
+<td>$\delta_{ns} \times 40$ tf-m</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>雙曲度 vs 單曲度的物理意義</td>
+<td>雙曲度：兩端彎矩相互對抗，降低中央撓曲（有利）；$C_m &lt; 1$ 反映此有利效應</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_m = 0.4$ 下限的意義</td>
+<td>即使雙曲度很強，最小放大因子仍不得小於 0.4，確保最低安全係數</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$0.75P_c$ 中 0.75 的意義</td>
+<td>折減係數，考慮計算 $P_c$ 的不確定性（EI 估算誤差、初始偏斜等）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\delta_{ns}$ 分母趨近零的意義</td>
+<td>若 $P_u \to 0.75P_c$，$\delta_{ns} \to \infty$，代表柱接近失穩；$\delta_{ns}$ 計算結果 &gt; 1 才有效</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程（Step-by-Step Detailed Calculation）</h2>
+<h3>Step 1：細長比計算</h3>
+<p><strong>迴轉半徑（方形斷面，取近似值）：</strong></p>
+<p>$$r = 0.3\,h = 0.3 \times 40 = 12 \text{ cm}$$</p>
+<blockquote>
+<p>精確值：$r = h/\sqrt{12} = 40/3.464 = 11.547$ cm，工程實務常取 $0.3h = 12$ cm。</p>
+</blockquote>
+<p><strong>細長比：</strong></p>
+<p>$$\frac{kl_u}{r} = \frac{0.9 \times 800}{12} = \frac{720}{12} = \boxed{60}$$</p>
+<hr />
+<h3>Step 2：細長柱臨界值判斷</h3>
+<p><strong>雙曲度下 $M_1/M_2$ 取負值（ACI/CNS 符號慣例）：</strong></p>
+<p>$$\frac{M_1}{M_2} = -\frac{35}{40} = -0.875 \quad \text{（雙曲度，S 形，取負號）}$$</p>
+<p><strong>臨界細長比：</strong></p>
+<p>$$34 - 12\!\left(\frac{M_1}{M_2}\right) = 34 - 12 \times (-0.875) = 34 + 10.5 = \boxed{44.5}$$</p>
+<p><strong>判斷：</strong></p>
+<p>$$\frac{kl_u}{r} = 60 &gt; 44.5 \quad \Rightarrow \text{為細長柱，需進行放大彎矩計算}$$</p>
+<blockquote>
+<p>📌 <strong>策略註解：</strong> 另外確認 $kl_u/r = 60 \leq 100$（ACI 規定超過100不得用本法），本題符合。</p>
+</blockquote>
+<hr />
+<h3>Step 3：計算 $E_c$、$I_g$、EI</h3>
+<p><strong>混凝土彈性模數（依考卷參考公式）：</strong></p>
+<p>$$E_c = 15000\sqrt{f'_c} = 15000 \times \sqrt{280} = 15000 \times 16.733 = 250{,}995 \text{ kgf/cm}^2$$</p>
+<p><strong>毛斷面慣性矩（方形斷面）：</strong></p>
+<p>$$I_g = \frac{bh^3}{12} = \frac{40 \times 40^3}{12} = \frac{40 \times 64{,}000}{12} = \frac{2{,}560{,}000}{12} = 213{,}333 \text{ cm}^4$$</p>
+<p><strong>有效彎曲剛度（依題目給定）：</strong></p>
+<p>$$EI = 0.25\,E_c I_g = 0.25 \times 250{,}995 \times 213{,}333$$</p>
+<p>$$= 0.25 \times 5.354 \times 10^{10} = \boxed{1.339 \times 10^{10} \text{ kgf·cm}^2}$$</p>
+<blockquote>
+<p>📌 中間計算：$250{,}995 \times 213{,}333 = 5.354 \times 10^{10}$</p>
+</blockquote>
+<hr />
+<h3>Step 4：計算歐拉臨界載重 $P_c$</h3>
+<p><strong>有效長度：</strong></p>
+<p>$$kl_u = 0.9 \times 800 = 720 \text{ cm}$$</p>
+<p><strong>臨界載重：</strong></p>
+<p>$$P_c = \frac{\pi^2 EI}{(kl_u)^2} = \frac{9.8696 \times 1.339 \times 10^{10}}{720^2} = \frac{9.8696 \times 1.339 \times 10^{10}}{518{,}400}$$</p>
+<p>分子：</p>
+<p>$$\pi^2 \times EI = 9.8696 \times 1.339 \times 10^{10} = 1.321 \times 10^{11} \text{ kgf·cm}^2$$</p>
+<p>$$P_c = \frac{1.321 \times 10^{11}}{518{,}400} = 254{,}900 \text{ kgf} = \boxed{254.9 \text{ tf}}$$</p>
+<hr />
+<h3>Step 5：計算 $C_m$ 係數</h3>
+<p>$$C_m = 0.6 + 0.4 \times \frac{M_1}{M_2} = 0.6 + 0.4 \times (-0.875) = 0.6 - 0.35 = 0.25$$</p>
+<p><strong>但 $C_m \geq 0.4$（規範下限）：</strong></p>
+<p>$$C_m = \max(0.25,\ 0.4) = \boxed{0.4}$$</p>
+<blockquote>
+<p>📌 <strong>策略註解：</strong> 雙曲度時 $C_m$ 計算值往往低於 0.4 下限，本題即為典型案例。$C_m = 0.4$ 代表即使變形最有利，仍需保留 40% 的放大效應作為安全餘裕。</p>
+</blockquote>
+<hr />
+<h3>Step 6：計算放大係數 $\delta_{ns}$</h3>
+<p>$$0.75\,P_c = 0.75 \times 254.9 = 191.2 \text{ tf}$$</p>
+<p>$$\frac{P_u}{0.75\,P_c} = \frac{130}{191.2} = 0.6800$$</p>
+<p>$$\delta_{ns} = \frac{C_m}{1 - P_u/(0.75\,P_c)} = \frac{0.4}{1 - 0.6800} = \frac{0.4}{0.3200} = \boxed{1.250}$$</p>
+<p><strong>檢核：</strong></p>
+<p>$$\delta_{ns} = 1.250 \geq 1.0 \quad \checkmark$$</p>
+<hr />
+<h3>Step 7：計算設計彎矩</h3>
+<p>$$M_c = \delta_{ns} \times M_2 = 1.250 \times 40 = \boxed{50.0 \text{ tf-m}}$$</p>
+<hr />
+<h3>最終答案</h3>
+<p>$$\boxed{
+\begin{aligned}
+&amp;\text{設計軸力：} P_u = 130 \text{ tf（不變）}\\
+&amp;\text{設計彎矩：} M_c = \delta_{ns} \times M_2 = 1.250 \times 40 = 50.0 \text{ tf-m}
+\end{aligned}
+}$$</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>計算值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>細長比 $kl_u/r$</td>
+<td>60</td>
+</tr>
+<tr>
+<td>臨界細長比</td>
+<td>44.5</td>
+</tr>
+<tr>
+<td>結論</td>
+<td>細長柱（60 &gt; 44.5）</td>
+</tr>
+<tr>
+<td>$E_c$</td>
+<td>250,995 kgf/cm²</td>
+</tr>
+<tr>
+<td>$I_g$</td>
+<td>213,333 cm⁴</td>
+</tr>
+<tr>
+<td>$EI$</td>
+<td>$1.339 \times 10^{10}$ kgf-cm²</td>
+</tr>
+<tr>
+<td>$P_c$</td>
+<td>254.9 tf</td>
+</tr>
+<tr>
+<td>$C_m$</td>
+<td>0.4（下限控制）</td>
+</tr>
+<tr>
+<td>$\delta_{ns}$</td>
+<td>1.250</td>
+</tr>
+<tr>
+<td><strong>設計彎矩 $M_c$</strong></td>
+<td><strong>50.0 tf-m</strong></td>
+</tr>
+<tr>
+<td><strong>設計軸力 $P_u$</strong></td>
+<td><strong>130 tf（不變）</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討（Critical Issues &amp; Advanced Discussion）</h2>
+<h3>爭議點一：$r$ 的精確計算 vs 近似值</h3>
+<ul>
+<li><strong>近似值</strong>（考場常用）：$r = 0.3h = 12$ cm → $kl_u/r = 60$</li>
+<li><strong>精確值</strong>：$r = h/\sqrt{12} = 40/3.464 = 11.547$ cm → $kl_u/r = 720/11.547 = 62.3$</li>
+</ul>
+<p>以精確值計算：<br />
+$$C_m/(1 - P_u/0.75P_c)$$<br />
+$P_c$ 與 $r$ 無關（EI 直接給定），故 $P_c$ 及 $\delta_{ns}$ 結論相同，僅臨界值判斷略有差異（62.3 &gt; 44.5，結論不變）。考場使用 $r = 0.3h$ 即可。</p>
+<h3>爭議點二：雙曲度的符號使用</h3>
+<p>本題考卷明確說明「雙曲度」，但部分考生可能習慣以絕對值處理 $M_1/M_2$：</p>
+<table>
+<thead>
+<tr>
+<th>做法</th>
+<th>$M_1/M_2$</th>
+<th>$C_m$</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>正確（ACI 慣例）</strong></td>
+<td>$-0.875$</td>
+<td>$0.4$（下限）</td>
+<td>雙曲度取負</td>
+</tr>
+<tr>
+<td>錯誤（忽略符號）</td>
+<td>$+0.875$</td>
+<td>$0.95$</td>
+<td>將高估放大係數</td>
+</tr>
+</tbody>
+</table>
+<p>若錯誤取 $+0.875$：$C_m = 0.6 + 0.4 \times 0.875 = 0.95$<br />
+$\delta_{ns} = 0.95/0.3200 = 2.97$ → $M_c = 118.8$ tf-m（嚴重高估）</p>
+<h3>爭議點三：$E_c$ 公式版本</h3>
+<ul>
+<li>考卷提供：$E_c = 15000\sqrt{f'_c}$（kgf/cm²，舊版 ACI，適用常重混凝土）</li>
+<li>現代 SI：$E_c = 4700\sqrt{f'_c}$（MPa）</li>
+</ul>
+<p>兩者等價（$15000 \sqrt{\text{kgf/cm}^2} \approx 4730 \sqrt{\text{MPa}}$，差異來自單位換算係數）。考試直接用題目所給公式。</p>
+<h3>進階觀念：$P_u$ 接近 $0.75P_c$ 的危險</h3>
+<p>本題 $P_u/0.75P_c = 0.680$，表示柱承受了理論穩定載重的 68%。若繼續增大軸力：</p>
+<ul>
+<li>當 $P_u = 0.75P_c = 191.2$ tf → $\delta_{ns} \to \infty$（柱失穩）</li>
+<li>規範因此限制 $\delta_{ns}$ 分母不得趨近零，實際設計須確保 $P_u &lt; 0.75P_c$</li>
+</ul>
+<p>本題 $P_u = 130$ tf &lt; $0.75P_c = 191.2$ tf，安全餘裕合理。</p></main>
+<footer>來源：raw/solutions/RC-2016-3/RC-2016-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2007-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2007-3 題目解析</h1><div class="navbtns"></div></header>
+<main><h3>考題編號：RC-2007-3</h3>
+<p><strong>主分類：</strong> <code>RC-U3-2</code> 樓版與基腳設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>獨立基腳</code> <code>正方形基腳</code> <code>因數化土壓</code> <code>彎矩檢核</code> <code>單向剪力</code> <code>穿孔剪力</code> <code>φMn驗算</code> <code>雙向剪力</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>一方形獨立基腳，<strong>檢核承受彎矩與剪力之適當性</strong>。</p>
+<p><strong>已知條件：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>柱斷面</td>
+<td>$45 \times 45$ cm</td>
+</tr>
+<tr>
+<td>靜載重 $P_{DL}$</td>
+<td>100 tf</td>
+</tr>
+<tr>
+<td>活載重 $P_{LL}$</td>
+<td>80 tf</td>
+</tr>
+<tr>
+<td>基腳尺寸</td>
+<td>$3 \times 3$ m，方形</td>
+</tr>
+<tr>
+<td>基腳埋置深度</td>
+<td>地表下 1.5 m</td>
+</tr>
+<tr>
+<td>有效深度 $d$</td>
+<td>50 cm</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+</tr>
+<tr>
+<td>$\gamma_c$，$\gamma_s$</td>
+<td>2.4，2.0 tf/m³</td>
+</tr>
+<tr>
+<td>土壤承載力</td>
+<td>25 tf/m²</td>
+</tr>
+<tr>
+<td>雙向配筋 $A_s$（每方向）</td>
+<td>50 cm²（全寬 3 m）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心：</strong> 方形基腳有三項強度驗算——<strong>彎矩</strong>、<strong>單向剪力</strong>（廣剪）、<strong>雙向剪力</strong>（衝剪）。</p>
+<p><strong>關鍵規則：</strong></p>
+<ul>
+<li>結構設計使用<strong>因數化淨上壓力</strong> $q_u = P_u/A$（不含基腳自重）</li>
+<li>彎矩臨界斷面：柱面</li>
+<li>單向剪力臨界斷面：距柱面 $d$ 處</li>
+<li>雙向剪力臨界周長：距柱面 $d/2$ 處圍起之矩形</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>工作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>計算 $P_u$，求因數化淨上壓力 $q_u$</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>彎矩</strong>：臨界斷面在柱面，計算 $M_u$，與 $\phi M_n$ 比較</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>單向剪力</strong>：臨界斷面在柱面 + $d$ 處，計算 $V_u$，與 $\phi V_c$ 比較</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>雙向剪力</strong>：計算臨界周長 $b_o$，求 $V_u$ 與 $\phi V_c$ 比較</td>
+</tr>
+</tbody>
+</table>
+<p><strong>四大陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠ 彎矩懸臂長</td>
+<td>從基腳邊緣到柱面 = $(B-c)/2 = (300-45)/2 = 127.5$ cm，非到柱中心</td>
+</tr>
+<tr>
+<td>⚠ 單向剪力位置</td>
+<td>從柱面起量 $d$，非從基腳邊緣</td>
+</tr>
+<tr>
+<td>⚠ 雙向剪力 $b_o$</td>
+<td>$b_o = 4(c+d) = 4 \times 95 = 380$ cm（柱 45 + $d$ 50 = 95 cm 每邊）</td>
+</tr>
+<tr>
+<td>⚠ $V_u$（衝剪）需扣除柱投影區土壓</td>
+<td>$V_u = P_u - q_u \times (c+d)^2$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>驗算方形基腳承受因數化載重時，彎矩、單向剪力、雙向剪力均在容量之內</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1: } P_u = 1.2P_{DL} + 1.6P_{LL}, \quad q_u = \frac{P_u}{B^2}$$</p>
+<p>$$\text{Step 2 (彎矩): } M_u = q_u \cdot B \cdot \frac{L_c^2}{2}, \quad \phi M_n = \phi A_s f_y \!\left(d - \frac{a}{2}\right)$$</p>
+<p>$$\text{Step 3 (單向剪): } V_u = q_u \cdot B \cdot (L_c - d), \quad \phi V_c = \phi \cdot 0.53\sqrt{f'_c} \cdot B \cdot d$$</p>
+<p>$$\text{Step 4 (雙向剪): } b_o = 4(c+d), \quad V_u = P_u - q_u(c+d)^2$$<br />
+$$\phi V_c = \phi \cdot 1.06\sqrt{f'_c} \cdot b_o \cdot d$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$B$</td>
+<td>300 cm</td>
+<td>基腳邊長</td>
+</tr>
+<tr>
+<td>$c$</td>
+<td>45 cm</td>
+<td>柱邊長</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>50 cm</td>
+<td>有效深度</td>
+</tr>
+<tr>
+<td>$P_{DL}, P_{LL}$</td>
+<td>100, 80 tf</td>
+<td>服務載重</td>
+</tr>
+<tr>
+<td>$A_s$</td>
+<td>50 cm²（每方向全寬）</td>
+<td>配筋量</td>
+</tr>
+<tr>
+<td>$f'_c, f_y$</td>
+<td>280, 4200 kgf/cm²</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：因數化荷載</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_u$</td>
+<td>$1.2\times100+1.6\times80=248$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$q_u$</td>
+<td>$248/(3\times3)=27.56$ tf/m²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$L_c$</td>
+<td>$(300-45)/2=127.5$ cm（懸臂長）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：彎矩驗算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_u$</td>
+<td>$27.56\times3.0\times1.275^2/2=67.2$ tf·m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a$</td>
+<td>$50\times4200/(0.85\times280\times300)=2.94$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi M_n$</td>
+<td>$0.9\times50\times4200\times(50-1.47)=91.7$ tf·m</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>判斷</strong></td>
+<td>$\phi M_n=91.7&gt;M_u=67.2$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：單向剪力驗算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_u$</td>
+<td>$27.56\times3.0\times(1.275-0.50)=64.1$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi V_c$</td>
+<td>$0.75\times0.53\sqrt{280}\times300\times50=99.8$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>判斷</strong></td>
+<td>$\phi V_c=99.8&gt;V_u=64.1$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：雙向剪力驗算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b_o$</td>
+<td>$4\times(45+50)=380$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$(c+d)^2$</td>
+<td>$95^2=9025$ cm² = 0.9025 m²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$V_u$</td>
+<td>$248-27.56\times0.9025=223.1$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi V_c$</td>
+<td>$0.75\times1.06\sqrt{280}\times380\times50=252.8$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>判斷</strong></td>
+<td>$\phi V_c=252.8&gt;V_u=223.1$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>彎矩臨界斷面在柱面</td>
+<td>基腳像懸臂梁，固端在柱面，自由端在基腳邊緣</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>單向剪力臨界在 $d$ 處</td>
+<td>ACI：梁/基腳之剪力臨界斷面在支承面（柱面）起 $d$ 處</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>雙向剪力 $b_o$ 公式</td>
+<td>臨界周長在柱面起 $d/2$ 處 → 邊長 $(c+d)$ → $b_o=4(c+d)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi V_c = 1.06\sqrt{f'_c} b_o d$（方柱）</td>
+<td>此為三個 ACI 公式中最小值（$\beta_c=1$ 時），需逐一驗算取控制</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：因數化荷載與淨上壓力</h3>
+<p>$$P_u = 1.2 \times 100 + 1.6 \times 80 = 120 + 128 = \boxed{248 \text{ tf}}$$</p>
+<p>$$q_u = \frac{P_u}{B^2} = \frac{248}{3 \times 3} = \boxed{27.56 \text{ tf/m}^2}$$</p>
+<p>懸臂長（柱面到基腳邊緣）：<br />
+$$L_c = \frac{B - c}{2} = \frac{300 - 45}{2} = \boxed{127.5 \text{ cm} = 1.275 \text{ m}}$$</p>
+<hr />
+<h3>(a) 彎矩驗算</h3>
+<p><strong>臨界斷面：柱面處</strong></p>
+<p>$$M_u = q_u \times B \times \frac{L_c^2}{2} = 27.56 \times 3.0 \times \frac{1.275^2}{2}$$</p>
+<p>$$= 27.56 \times 3.0 \times \frac{1.6256}{2} = 27.56 \times 3.0 \times 0.8128 = \boxed{67.2 \text{ tf·m}}$$</p>
+<p><strong>計算 $\phi M_n$：</strong>（$b = 300$ cm，$d = 50$ cm，$A_s = 50$ cm²）</p>
+<p>$$a = \frac{A_s f_y}{0.85 f'_c b} = \frac{50 \times 4200}{0.85 \times 280 \times 300} = \frac{210{,}000}{71{,}400} = 2.94 \text{ cm}$$</p>
+<p>$$\phi M_n = \phi A_s f_y \left(d - \frac{a}{2}\right) = 0.9 \times 50 \times 4200 \times \left(50 - 1.47\right)$$</p>
+<p>$$= 0.9 \times 210{,}000 \times 48.53 = 9{,}172{,}170 \text{ kgf·cm} = \boxed{91.7 \text{ tf·m}}$$</p>
+<p>$$\phi M_n = 91.7 \text{ tf·m} \quad &gt; \quad M_u = 67.2 \text{ tf·m} \quad \boxed{\checkmark \text{ 彎矩強度合適}}$$</p>
+<hr />
+<h3>(b) 單向剪力驗算（寬梁剪力）</h3>
+<p><strong>臨界斷面：距柱面 $d = 50$ cm 處</strong></p>
+<p>距基腳邊緣之剩餘懸臂 = $L_c - d = 127.5 - 50 = 77.5$ cm = 0.775 m</p>
+<p>$$V_u = q_u \times B \times (L_c - d) = 27.56 \times 3.0 \times 0.775 = \boxed{64.1 \text{ tf}}$$</p>
+<p><strong>混凝土剪力強度：</strong>（$b_w = B = 300$ cm）</p>
+<p>$$\phi V_c = \phi \times 0.53\sqrt{f'_c} \times b_w \times d = 0.75 \times 0.53\sqrt{280} \times 300 \times 50$$</p>
+<p>$$= 0.75 \times 0.53 \times 16.73 \times 300 \times 50 = 0.75 \times 133{,}000 = \boxed{99.8 \text{ tf}}$$</p>
+<p>$$\phi V_c = 99.8 \text{ tf} \quad &gt; \quad V_u = 64.1 \text{ tf} \quad \boxed{\checkmark \text{ 單向剪力合適}}$$</p>
+<hr />
+<h3>(c) 雙向剪力驗算（衝剪）</h3>
+<p><strong>臨界周長：距柱面 $d/2 = 25$ cm 處</strong></p>
+<p>臨界方塊邊長：$c + d = 45 + 50 = 95$ cm</p>
+<p>$$b_o = 4 \times (c + d) = 4 \times 95 = \boxed{380 \text{ cm}}$$</p>
+<p><strong>衝剪力（扣除柱下方土壓）：</strong></p>
+<p>$$V_u = P_u - q_u \times (c+d)^2 = 248 - 27.56 \times \frac{95^2}{10{,}000}$$</p>
+<p>$$= 248 - 27.56 \times 0.9025 = 248 - 24.87 = \boxed{223.1 \text{ tf}}$$</p>
+<p><strong>雙向剪力強度</strong>（方柱 $\beta_c = 45/45 = 1$，取三式最小值）：</p>
+<table>
+<thead>
+<tr>
+<th>公式</th>
+<th>計算</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$(1)$ $\left(0.53+\frac{1.06}{\beta_c}\right)\sqrt{f'_c}\,b_o d$</td>
+<td>$(0.53+1.06)\times16.73\times380\times50$</td>
+<td><strong>504.7 tf</strong></td>
+</tr>
+<tr>
+<td>$(2)$ $\left(0.27\frac{\alpha_s d}{b_o}+0.53\right)\sqrt{f'_c}\,b_o d$（$\alpha_s=40$，內柱）</td>
+<td>$\left(0.27\times\frac{40\times50}{380}+0.53\right)\times\ldots$</td>
+<td><strong>≈ 424 tf</strong></td>
+</tr>
+<tr>
+<td>$(3)$ $1.06\sqrt{f'_c}\,b_o d$</td>
+<td>$1.06\times16.73\times380\times50$</td>
+<td><strong>337.0 tf</strong></td>
+</tr>
+</tbody>
+</table>
+<p>公式 (3) 控制（最小值）：</p>
+<p>$$\phi V_c = 0.75 \times 1.06 \times \sqrt{280} \times 380 \times 50 = 0.75 \times 1.06 \times 16.73 \times 19{,}000$$</p>
+<p>$$= 0.75 \times 17.737 \times 19{,}000 = 0.75 \times 337{,}000 = \boxed{252.8 \text{ tf}}$$</p>
+<p>$$\phi V_c = 252.8 \text{ tf} \quad &gt; \quad V_u = 223.1 \text{ tf} \quad \boxed{\checkmark \text{ 雙向剪力合適}}$$</p>
+<hr />
+<h2>5. 結論與進階探討</h2>
+<h3>彙總驗算表</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>需求</th>
+<th>容量</th>
+<th>安全餘裕</th>
+<th>判斷</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>彎矩</td>
+<td>$M_u = 67.2$ tf·m</td>
+<td>$\phi M_n = 91.7$ tf·m</td>
+<td>36%</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>單向剪力</td>
+<td>$V_u = 64.1$ tf</td>
+<td>$\phi V_c = 99.8$ tf</td>
+<td>56%</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>雙向剪力</td>
+<td>$V_u = 223.1$ tf</td>
+<td>$\phi V_c = 252.8$ tf</td>
+<td>13%</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>基腳所有強度均合適</strong>，但雙向剪力安全餘裕最小（13%），為設計控制點。</p>
+<h3>土壓驗算（附）</h3>
+<p>估計基腳全深 $h \approx 60$ cm（$d=50$ cm + 保護層 10 cm），服務載重土壓：</p>
+<p>$$q = \frac{P_{service} + W_f + W_s}{A} = \frac{180 + 12.96 + 16.2}{9} = \frac{209.2}{9} = 23.2 \text{ tf/m}^2 &lt; 25 \text{ tf/m}^2 \quad \checkmark$$</p>
+<p>（$W_f = 2.4\times3\times3\times0.6 = 12.96$ tf，$W_s = 2.0\times9\times0.9 = 16.2$ tf）</p>
+<h3>彎矩分布係數</h3>
+<p>ACI 規定：T 形基腳（非方形柱），在柱寬 + $2d$ 的帶狀範圍內需集中較多鋼筋。對方柱方形基腳（對稱），鋼筋均勻分布即可。</p>
+<h3>最小配筋量驗算</h3>
+<p>$$A_{s,min} = 0.002 \times b \times h = 0.002 \times 300 \times 60 = 36 \text{ cm}^2 \ll 50 \text{ cm}^2 \quad \checkmark$$</p></main>
+<footer>來源：raw/solutions/RC-2007-3/RC-2007-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

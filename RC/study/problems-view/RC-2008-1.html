@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2008-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2008-1 題目解析</h1><div class="navbtns"></div></header>
+<main><h3>考題編號：RC-2008-1</h3>
+<p><strong>主分類：</strong> <code>RC-U3-1</code> 梁工作性要求（含撓度、裂縫）<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>懸臂梁</code> <code>雙筋梁</code> <code>長期撓度</code> <code>有效慣性矩Ie</code> <code>開裂彎矩Mcr</code> <code>λ長期修正係數</code> <code>轉換斷面法</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>有一懸臂梁（固定端 A、自由端 B），梁端 B 點承受集中載重 $P = 2 \text{ tf}$，計算<strong>集中載重與梁自重持續作用一年後，B 點之撓度</strong>。</p>
+<p><strong>已知條件：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>斷面</td>
+<td>$b = 40 \text{ cm}$，$h = 50 \text{ cm}$</td>
+</tr>
+<tr>
+<td>張力鋼筋（頂部）</td>
+<td>$A_s = 50 \text{ cm}^2$，保護層 $10 \text{ cm}$</td>
+</tr>
+<tr>
+<td>壓力鋼筋（底部）</td>
+<td>$A_s' = 20 \text{ cm}^2$，保護層 $10 \text{ cm}$</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>$280 \text{ kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>$4200 \text{ kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td>$2.04 \times 10^6 \text{ kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>$n$</td>
+<td>$8$</td>
+</tr>
+<tr>
+<td>跨度</td>
+<td>$L = 5 \text{ m} = 500 \text{ cm}$</td>
+</tr>
+<tr>
+<td>集中載重</td>
+<td>$P = 2 \text{ tf} = 2000 \text{ kgf}$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>題目附圖：</strong></p>
+<p><img alt="RC-2008-1 懸臂梁立面圖（5m跨、B端2tf集中載重）與矩形斷面圖（40cm×50cm、頂部As=50cm²、底部As'=20cm²、上下各10cm保護層）" src="../../raw/solutions/RC-2008-1/RC-2008-1-fig-1.png" /></p>
+<p><em>圖說：懸臂梁 A（固定端）至 B（自由端）跨度 5 m。斷面 $b \times h = 40 \times 50 \text{ cm}$，頂部（張力側）$A_s = 50 \text{ cm}^2$，距頂面 10 cm；底部（壓力側）$A_s' = 20 \text{ cm}^2$，距底面 10 cm。$f'_c = 280 \text{ kgf/cm}^2$，$f_y = 4200 \text{ kgf/cm}^2$，$n = 8$。</em></p>
+<p><strong>題目給定的撓度公式：</strong><br />
+$$\delta_P = \frac{PL^3}{3EI}, \quad \delta_w = \frac{wL^4}{8EI}$$</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> ACI 有效慣性矩法（$I_e$）求即時撓度，再乘以長期修正係數 $\lambda$ 估算潛變與收縮引起的附加撓度。</p>
+<p><strong>出題者測驗能力：</strong></p>
+<ol>
+<li>能否正確識別懸臂梁「哪側是壓力側」——懸臂梁頂部受拉，故 $A_s$（頂部，50 cm²）是張力鋼筋，$A_s'$（底部，20 cm²）是壓力鋼筋（$\rho'$ 用此算）</li>
+<li>能否用轉換斷面法求 $I_{cr}$（雙筋梁，壓力鋼筋以 $(n-1)A_s'$ 計）</li>
+<li>能否正確套用 $I_e$ 公式（以固定端最大彎矩 $M_a$ 代入）</li>
+<li>能否正確選取 1 年對應的 $\xi = 1.4$，並計算 $\lambda$</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰順序：</strong></p>
+<ol>
+<li>算 $E_c = E_s/n$；算梁自重 $w$</li>
+<li>算 $I_g$、$M_{cr}$；算固定端最大彎矩 $M_a$，判斷是否開裂</li>
+<li>用轉換斷面法解中性軸深度 $kd$，求 $I_{cr}$</li>
+<li>套 $I_e$ 公式</li>
+<li>算即時撓度 $\delta_i$（集中載重 + 自重）</li>
+<li>算長期修正係數 $\lambda$（$\xi = 1.4$ 對應 1 年），求 1 年後總撓度</li>
+</ol>
+<p><strong>四大陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠ 壓力側判斷</td>
+<td>懸臂梁頂受拉，$A_s'$（壓力鋼筋）在<strong>底部</strong>；$\rho'$ 用 $A_s'/(b \cdot d)$ 計算</td>
+</tr>
+<tr>
+<td>⚠ $M_a$ 的計算基準</td>
+<td>對懸臂梁，$M_a$ 取固定端（最大彎矩截面），而非跨中</td>
+</tr>
+<tr>
+<td>⚠ $\xi$ 值選取</td>
+<td>1 年 → $\xi = 1.4$（≥5年才取 2.0）</td>
+</tr>
+<tr>
+<td>⚠ $I_{cr}$ 中壓力鋼筋係數</td>
+<td>轉換斷面法中壓力鋼筋面積取 $(n-1)A_s'$，不是 $nA_s'$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>求懸臂梁 B 點在集中載重 + 自重持續作用 1 年後的總撓度 δ_total</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<blockquote>
+<p>$\boxed{\cdot}$ = 需由前步驟推導，非題目直接給定的變數</p>
+</blockquote>
+<p>$$\text{Step 1: } E_c = \frac{E_s}{n}, \quad w = \gamma \cdot b \cdot h$$</p>
+<p>$$\text{Step 2: } M_a = P \cdot L + \frac{w L^2}{2}$$</p>
+<p>$$\text{Step 3 (Mcr): } M_{cr} = \frac{f_r \cdot I_g}{y_t}, \quad f_r = 2\sqrt{f'_c}$$</p>
+<p>$$\text{Step 4 (Icr): } \frac{b \cdot (kd)^2}{2} + (n-1)A_s'(kd - d') = n A_s (d - kd)$$</p>
+<p>$$I_{cr} = \frac{b(\boxed{kd})^3}{3} + (n-1)A_s'(\boxed{kd}-d')^2 + n A_s (d - \boxed{kd})^2$$</p>
+<p>$$\text{Step 5: } I_e = \left(\frac{M_{cr}}{M_a}\right)^3 I_g + \left[1 - \left(\frac{M_{cr}}{M_a}\right)^3\right] \boxed{I_{cr}}$$</p>
+<p>$$\text{Step 6 (即時撓度): } \delta_i = \frac{PL^3}{3 E_c \boxed{I_e}} + \frac{w L^4}{8 E_c \boxed{I_e}}$$</p>
+<p>$$\text{Step 7 (長期撓度): } \lambda = \frac{\xi}{1 + 50\rho'}, \quad \delta_{total} = \boxed{\delta_i}(1 + \lambda)$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>40 cm</td>
+<td>梁寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>50 cm</td>
+<td>梁總深</td>
+</tr>
+<tr>
+<td>$A_s$</td>
+<td>50 cm²</td>
+<td>頂部（張力）鋼筋</td>
+</tr>
+<tr>
+<td>$A_s'$</td>
+<td>20 cm²</td>
+<td>底部（壓力）鋼筋</td>
+</tr>
+<tr>
+<td>cover</td>
+<td>10 cm（頂底均同）</td>
+<td>淨保護層（至鋼筋中心）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td>混凝土抗壓強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+<td>鋼筋降伏強度</td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td>$2.04 \times 10^6$ kgf/cm²</td>
+<td>鋼筋彈性模數</td>
+</tr>
+<tr>
+<td>$n$</td>
+<td>8</td>
+<td>模數比 $E_s/E_c$</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>500 cm</td>
+<td>懸臂梁跨度</td>
+</tr>
+<tr>
+<td>$P$</td>
+<td>2000 kgf</td>
+<td>B 點集中載重</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：基本材料參數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$E_c$</td>
+<td>$E_s / n = 2{,}040{,}000/8 = 255{,}000 \text{ kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>$h - \text{cover} = 50 - 10 = 40 \text{ cm}$（張力鋼筋到壓力緣距離）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$d'$</td>
+<td>$\text{cover} = 10 \text{ cm}$（壓力鋼筋到壓力緣距離）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w$</td>
+<td>$2400 \times 0.40 \times 0.50 = 480 \text{ kgf/m} = 4.8 \text{ kgf/cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：固定端最大彎矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_P$</td>
+<td>$P \cdot L = 2000 \times 500 = 1{,}000{,}000 \text{ kgf·cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_w$</td>
+<td>$wL^2/2 = 4.8 \times 500^2/2 = 600{,}000 \text{ kgf·cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_a$</td>
+<td>$1{,}000{,}000 + 600{,}000 = 1{,}600{,}000 \text{ kgf·cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：開裂彎矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$I_g$</td>
+<td>$bh^3/12 = 40 \times 50^3/12 = 416{,}667 \text{ cm}^4$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_r$</td>
+<td>$2\sqrt{f'_c} = 2\sqrt{280} = 33.47 \text{ kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$y_t$</td>
+<td>$h/2 = 25 \text{ cm}$（矩形斷面）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{cr}$</td>
+<td>$33.47 \times 416{,}667/25 = 557{,}780 \text{ kgf·cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p>→ $M_a = 1{,}600{,}000 &gt; M_{cr} = 557{,}780$，斷面<strong>已開裂</strong></p>
+<p><strong>Step 4：開裂轉換斷面慣性矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$kd$</td>
+<td>由二次方程求解（壓力緣量起） = 18.94 cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_{cr}$</td>
+<td>三項之和 = 279,187 cm⁴</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：有效慣性矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$(M_{cr}/M_a)^3$</td>
+<td>$(557{,}780/1{,}600{,}000)^3 = 0.04237$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_e$</td>
+<td>ACI 公式 = 285,150 cm⁴（≤ $I_g$）✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 6：即時撓度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\delta_P$</td>
+<td>$PL^3/(3E_cI_e) = 1.146 \text{ cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\delta_w$</td>
+<td>$wL^4/(8E_cI_e) = 0.516 \text{ cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\delta_i$</td>
+<td>$1.146 + 0.516 = 1.662 \text{ cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 7：1 年長期撓度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\rho'$</td>
+<td>$A_s'/(b \cdot d) = 20/(40 \times 40) = 0.0125$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\xi$</td>
+<td>1 年 → $\xi = 1.4$（查 ACI 表格）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\lambda$</td>
+<td>$1.4/(1 + 50 \times 0.0125) = 0.862$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\delta_{total}$</td>
+<td>$1.662 \times (1 + 0.862) = 3.09 \text{ cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>懸臂梁壓力側方向</td>
+<td>懸臂梁下側受壓（底部壓力），頂部受拉；$A_s'$ 在底（壓力側）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I_{cr}$ 壓力鋼筋係數</td>
+<td>壓力鋼筋用 $(n-1)A_s'$（總轉換面積 $= nA_s'$，減去混凝土面積 $A_s'$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>ACI $I_e$ 的 $M_a$ 選取</td>
+<td>懸臂梁用固定端最大彎矩（不像連續梁取跨中）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\xi$ 與持續時間</td>
+<td>3月→1.0、6月→1.2、1年→<strong>1.4</strong>、5年以上→2.0</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\lambda$ 為何含 $\rho'$</td>
+<td>$\rho'$ 愈大代表壓力鋼筋愈多，可抵抗潛變，故長期撓度修正愈小</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：基本材料與幾何</h3>
+<p>$$E_c = \frac{E_s}{n} = \frac{2.04 \times 10^6}{8} = 255{,}000 \text{ kgf/cm}^2$$</p>
+<p>懸臂梁受向下載重時，頂部為張力側，底部為壓力側：<br />
+$$d = 50 - 10 = 40 \text{ cm} \quad (\text{壓力緣至張力鋼筋中心})$$<br />
+$$d' = 10 \text{ cm} \quad (\text{壓力緣至壓力鋼筋中心})$$</p>
+<p>梁自重（$\gamma = 2400 \text{ kgf/m}^3$）：<br />
+$$w = 2400 \times 0.40 \times 0.50 = 480 \text{ kgf/m} = 4.8 \text{ kgf/cm}$$</p>
+<h3>Step 2：固定端最大服務彎矩</h3>
+<p>$$M_P = P \cdot L = 2000 \times 500 = 1{,}000{,}000 \text{ kgf·cm}$$</p>
+<p>$$M_w = \frac{wL^2}{2} = \frac{4.8 \times 500^2}{2} = 600{,}000 \text{ kgf·cm}$$</p>
+<p>$$M_a = M_P + M_w = \boxed{1{,}600{,}000 \text{ kgf·cm}}$$</p>
+<h3>Step 3：開裂彎矩</h3>
+<p>$$I_g = \frac{bh^3}{12} = \frac{40 \times 50^3}{12} = 416{,}667 \text{ cm}^4$$</p>
+<p>$$f_r = 2\sqrt{f'_c} = 2\sqrt{280} = 33.47 \text{ kgf/cm}^2$$</p>
+<p>$$M_{cr} = \frac{f_r \cdot I_g}{y_t} = \frac{33.47 \times 416{,}667}{25} = 557{,}780 \text{ kgf·cm}$$</p>
+<p>比較：$M_a = 1{,}600{,}000 &gt; M_{cr} = 557{,}780$ kgf·cm → <strong>斷面已開裂，需計算 $I_{cr}$</strong></p>
+<h3>Step 4：開裂轉換斷面中性軸（$kd$ 從壓力緣量起）</h3>
+<p>雙筋梁裂縫斷面力矩平衡（壓力區面積矩 = 張力區面積矩）：</p>
+<p>$$\frac{b \cdot (kd)^2}{2} + (n-1)A_s'(kd - d') = n A_s (d - kd)$$</p>
+<p>代入數值：<br />
+$$\frac{40(kd)^2}{2} + 7 \times 20 \times (kd - 10) = 8 \times 50 \times (40 - kd)$$</p>
+<p>$$20(kd)^2 + 140 \cdot kd - 1{,}400 = 16{,}000 - 400 \cdot kd$$</p>
+<p>$$20(kd)^2 + 540 \cdot kd - 17{,}400 = 0$$</p>
+<p>$$\Rightarrow (kd)^2 + 27 \cdot kd - 870 = 0$$</p>
+<p>$$kd = \frac{-27 + \sqrt{27^2 + 4 \times 870}}{2} = \frac{-27 + \sqrt{729 + 3{,}480}}{2} = \frac{-27 + \sqrt{4{,}209}}{2} = \frac{-27 + 64.88}{2}$$</p>
+<p>$$\boxed{kd = 18.94 \text{ cm}}$$</p>
+<p>驗證：$kd = 18.94 &gt; d' = 10$ cm → 壓力鋼筋確在壓力區 ✓</p>
+<h3>Step 5：開裂斷面慣性矩 $I_{cr}$</h3>
+<p>$$I_{cr} = \frac{b(kd)^3}{3} + (n-1)A_s'(kd - d')^2 + n A_s (d - kd)^2$$</p>
+<p>$$= \frac{40 \times (18.94)^3}{3} + 7 \times 20 \times (18.94 - 10)^2 + 8 \times 50 \times (40 - 18.94)^2$$</p>
+<p>$$= \frac{40 \times 6{,}794}{3} + 140 \times (8.94)^2 + 400 \times (21.06)^2$$</p>
+<p>$$= 90{,}587 + 140 \times 79.92 + 400 \times 443.52$$</p>
+<p>$$= 90{,}587 + 11{,}189 + 177{,}408 = \boxed{279{,}184 \text{ cm}^4}$$</p>
+<h3>Step 6：有效慣性矩 $I_e$</h3>
+<p>$$\left(\frac{M_{cr}}{M_a}\right)^3 = \left(\frac{557{,}780}{1{,}600{,}000}\right)^3 = (0.3486)^3 = 0.04237$$</p>
+<p>$$I_e = \left(\frac{M_{cr}}{M_a}\right)^3 I_g + \left[1 - \left(\frac{M_{cr}}{M_a}\right)^3\right] I_{cr}$$</p>
+<p>$$= 0.04237 \times 416{,}667 + 0.95763 \times 279{,}184$$</p>
+<p>$$= 17{,}654 + 267{,}480 = \boxed{285{,}134 \text{ cm}^4}$$</p>
+<p>（$I_e = 285{,}134 &lt; I_g = 416{,}667$ cm⁴ ✓）</p>
+<p>$$EI = E_c \times I_e = 255{,}000 \times 285{,}134 = 7.271 \times 10^{10} \text{ kgf·cm}^2$$</p>
+<h3>Step 7：即時撓度 $\delta_i$</h3>
+<p>集中載重 $P = 2000$ kgf：<br />
+$$\delta_P = \frac{PL^3}{3EI} = \frac{2000 \times (500)^3}{3 \times 7.271 \times 10^{10}} = \frac{2.500 \times 10^{11}}{2.181 \times 10^{11}} = 1.146 \text{ cm}$$</p>
+<p>均布自重 $w = 4.8$ kgf/cm：<br />
+$$\delta_w = \frac{wL^4}{8EI} = \frac{4.8 \times (500)^4}{8 \times 7.271 \times 10^{10}} = \frac{3.000 \times 10^{11}}{5.817 \times 10^{11}} = 0.516 \text{ cm}$$</p>
+<p>$$\delta_i = \delta_P + \delta_w = 1.146 + 0.516 = \boxed{1.662 \text{ cm}}$$</p>
+<h3>Step 8：長期撓度修正（1 年）</h3>
+<p>壓力鋼筋比（以懸臂梁壓力側 $A_s' = 20$ cm² 計算）：<br />
+$$\rho' = \frac{A_s'}{b \cdot d} = \frac{20}{40 \times 40} = 0.0125$$</p>
+<p>查 ACI：持續作用 <strong>1 年</strong>對應 $\xi = 1.4$</p>
+<p>$$\lambda = \frac{\xi}{1 + 50\rho'} = \frac{1.4}{1 + 50 \times 0.0125} = \frac{1.4}{1.625} = 0.862$$</p>
+<p>兩種載重均為持續作用，故全部即時撓度均乘以 $\lambda$：<br />
+$$\Delta_{LT} = \lambda \cdot \delta_i = 0.862 \times 1.662 = 1.432 \text{ cm}$$</p>
+<h3>最終答案</h3>
+<p>$$\delta_{total} = \delta_i + \Delta_{LT} = 1.662 + 1.432 = \boxed{3.09 \text{ cm}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>爭議 1：自重是否應計入持續荷載？</h3>
+<p>本題明確說「集中載重<strong>及梁自重</strong>持續作用一年後」，故兩者均為持續載重，全部即時撓度均需乘以 $\lambda$。若題目說「活載重為短期載重」，則只對持續部分（如死載重）乘 $\lambda$。</p>
+<h3>爭議 2：$d$ 的認定（10 cm 是到形心還是到外緣？）</h3>
+<p>本題圖說明確標示 10 cm 為保護層（到鋼筋中心），故 $d = 40$ cm、$d' = 10$ cm。若題目改為「到外緣 10 cm，鋼筋直徑 xx」，則需再扣半徑。</p>
+<h3>進階：懸臂梁 $I_e$ 的另一種處理</h3>
+<p>ACI 318-14 後，部分文獻建議懸臂梁可用全跨平均 $I_e$（類似連續梁作法），但考試場合以<strong>固定端最大彎矩計算之 $I_e$</strong> 最為保守且常見，為正規做法。</p>
+<h3>進階：若改為不計自重？</h3>
+<p>若題目只問集中載重的即時撓度：$M_a = 1{,}000{,}000$ kgf·cm，此時 $(M_{cr}/M_a)^3 = (0.5578)^3 = 0.1737$，$I_e$ 明顯偏大（接近未裂斷面），答案會差很多——提醒自重對雙筋重梁不可忽略。</p></main>
+<footer>來源：raw/solutions/RC-2008-1/RC-2008-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

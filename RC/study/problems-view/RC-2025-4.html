@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2025-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2025-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U4-1.html">&#128202; U4-1 單元總覽</a><a class="lect" href="../lecture-RC-U4-1.html">&#128218; U4-1 預力梁斷面應力分析 講義</a></div></header>
+<main><h3>考題編號：RC-2025-4</h3>
+<p><strong>主分類：</strong> <code>RC-U4-2</code> 預力量與偏心量設計<br />
+<strong>副分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
+<strong>設計法：</strong> WSD（容許應力法）<br />
+<strong>標籤：</strong> <code>偏心距限制</code> <code>核心距</code> <code>傳遞階段</code> <code>使用階段</code> <code>簡支預力梁</code> <code>應力驗核</code> <code>eccentricity</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>規範依據：</strong> 中國土木水利工程學會「混凝土工程設計規範與解說」（土木401-112）</p>
+<p>一簡支預力混凝土梁，跨度 $l = 12\text{ m}$，斷面 $b = 40\text{ cm}$，$h = 120\text{ cm}$。</p>
+<p><strong>預力資料：</strong></p>
+<ul>
+<li>鋼鍵有效預力比：$f_{pe}/f_{pi} = 0.85$</li>
+<li>初始預力：$P_i = 200\text{ tf}$</li>
+<li>有效預力：$P_e = 0.85 \times 200 = 170\text{ tf}$</li>
+</ul>
+<p><strong>材料強度：</strong></p>
+<ul>
+<li>初始混凝土強度（傳遞時）：$f'_{ci} = 320\text{ kgf/cm}^2$</li>
+<li>終期混凝土強度（使用時）：$f'_c = 420\text{ kgf/cm}^2$</li>
+</ul>
+<p><strong>載重：</strong></p>
+<ul>
+<li>均布活載重：$w_L = 1.5\text{ tf/m}$</li>
+<li>自重：$w_D = 2.4 \times 0.40 \times 1.20 = 1.152\text{ tf/m}$</li>
+</ul>
+<p><strong>要求：</strong> 求梁中央點鋼鍵配置之偏心距限制。（20 分）</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 預力梁的鋼鍵偏心距 $e$ 必須落在一個可行範圍內——偏心太小（$e &lt; e_{min}$）則有效預力不足以抵抗活載重引起的底纖維拉力；偏心太大（$e &gt; e_{max}$）則傳遞瞬間頂纖維拉力或底纖維壓力超標。這個「可行範圍」即<strong>偏心距限制</strong>。</p>
+<p><strong>解題架構（四個應力控制條件）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>條件</th>
+<th>控制點</th>
+<th>時間點</th>
+<th>作用力</th>
+<th>限制類型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>頂纖維</td>
+<td>傳遞時（$P_i$, $M_D$）</td>
+<td>拉力 ≤ $f_{ti}$</td>
+<td>$e$ 上界</td>
+</tr>
+<tr>
+<td>②</td>
+<td>底纖維</td>
+<td>傳遞時（$P_i$, $M_D$）</td>
+<td>壓力 ≤ $f_{ci}$</td>
+<td>$e$ 上界</td>
+</tr>
+<tr>
+<td>③</td>
+<td>底纖維</td>
+<td>使用時（$P_e$, $M_T$）</td>
+<td>拉力 ≤ $f_{ts}$</td>
+<td>$e$ 下界</td>
+</tr>
+<tr>
+<td>④</td>
+<td>頂纖維</td>
+<td>使用時（$P_e$, $M_T$）</td>
+<td>壓力 ≤ $f_{cs}$</td>
+<td>$e$ 下界（通常不控制）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>計算斷面幾何量 $A$、$I$、$S_t = S_b$</li>
+<li>計算各階段彎矩 $M_D$、$M_T$</li>
+<li>列出容許應力 $f_{ti}$、$f_{ci}$、$f_{ts}$、$f_{cs}$</li>
+<li>列四個應力條件不等式，解出 $e_{min}$ 與 $e_{max}$</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>正確做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>用 $P_i$ 做使用階段分析</strong>（忘記乘損失率）</td>
+<td>使用階段用 $P_e = 0.85 P_i$</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>彎矩用 tf·m，應力用 kgf/cm² 不換算</strong></td>
+<td>統一換算至 kgf·cm</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>傳遞時頂纖維符號弄反</strong>（預壓使底受壓/頂受拉，自重使頂受壓）</td>
+<td>仔細追蹤各力的應力符號</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>忘記計算自重</strong></td>
+<td>$w_D = 2.4 \times b \times h = 1.152\text{ tf/m}$</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>四個條件中哪些給上界、哪些給下界混淆</strong></td>
+<td>記住：傳遞時超量給上界，使用時不足給下界</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>求梁中點偏心距可行範圍 e_min ≤ e ≤ e_max</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<blockquote>
+<p>$\boxed{\cdot}$ = 需由前步驟推導，非題目直接給定的變數</p>
+</blockquote>
+<p>$$\text{Step 1: } f_{t,i} = -\frac{P_i}{A} + \frac{P_i \cdot e}{\boxed{S_t}} - \frac{M_D}{\boxed{S_t}} \leq f_{ti} \quad \Rightarrow\quad e \leq e_{max,①}$$</p>
+<p>$$\text{Step 2: } f_{b,i} = -\frac{P_i}{A} - \frac{P_i \cdot e}{\boxed{S_b}} + \frac{M_D}{\boxed{S_b}} \geq -f_{ci} \quad \Rightarrow\quad e \leq e_{max,②}$$</p>
+<p>$$\text{Step 3: } f_{b,s} = -\frac{P_e}{A} - \frac{P_e \cdot e}{\boxed{S_b}} + \frac{\boxed{M_T}}{\boxed{S_b}} \leq f_{ts} \quad \Rightarrow\quad e \geq e_{min}$$</p>
+<p>$$\text{Step 4: 取 } e_{max} = \min(e_{max,①},\; e_{max,②}),\quad e_{min} = e_{min,③}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$l$</td>
+<td>12 m</td>
+<td>簡支跨度</td>
+</tr>
+<tr>
+<td>$b$</td>
+<td>40 cm</td>
+<td>梁寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>120 cm</td>
+<td>梁高</td>
+</tr>
+<tr>
+<td>$P_i$</td>
+<td>200 tf = 200,000 kgf</td>
+<td>初始預力</td>
+</tr>
+<tr>
+<td>$f_{pe}/f_{pi}$</td>
+<td>0.85</td>
+<td>預力保留率</td>
+</tr>
+<tr>
+<td>$f'_{ci}$</td>
+<td>320 kgf/cm²</td>
+<td>傳遞時混凝土強度</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>420 kgf/cm²</td>
+<td>使用時混凝土強度</td>
+</tr>
+<tr>
+<td>$w_L$</td>
+<td>1.5 tf/m</td>
+<td>均布活載重</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：幾何與材料</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_e$</td>
+<td>$0.85 \times 200 = 170\text{ tf}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>$40 \times 120 = 4800\text{ cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$I$</td>
+<td>$40 \times 120^3/12 = 5{,}760{,}000\text{ cm}^4$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$S_t = S_b$</td>
+<td>$I/(h/2) = 5{,}760{,}000/60 = 96{,}000\text{ cm}^3$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$w_D$</td>
+<td>$2.4 \times 0.40 \times 1.20 = 1.152\text{ tf/m}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_D$</td>
+<td>$1.152 \times 12^2/8 = 20.74\text{ tf·m} = 2{,}073{,}600\text{ kgf·cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_L$</td>
+<td>$1.5 \times 12^2/8 = 27.0\text{ tf·m} = 2{,}700{,}000\text{ kgf·cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_T$</td>
+<td>$M_D + M_L = 47.74\text{ tf·m} = 4{,}773{,}600\text{ kgf·cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：容許應力</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_{ti}$（傳遞拉力）</td>
+<td>$0.5\sqrt{f'_{ci}} = 0.5\sqrt{320} = 8.94\text{ kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_{ci}$（傳遞壓力）</td>
+<td>$0.6 f'_{ci} = 0.6 \times 320 = 192\text{ kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_{ts}$（使用拉力）</td>
+<td>$0\text{ kgf/cm}^2$（不允許拉力）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_{cs}$（使用壓力）</td>
+<td>$0.45 f'_c = 0.45 \times 420 = 189\text{ kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：偏心距限制</strong></p>
+<table>
+<thead>
+<tr>
+<th>條件</th>
+<th>控制邊界</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 傳遞頂纖維拉力</td>
+<td>$e \leq e_{max,①}$</td>
+<td>$e \leq 34.66\text{ cm}$ ← 控制上界</td>
+</tr>
+<tr>
+<td>② 傳遞底纖維壓力</td>
+<td>$e \leq e_{max,②}$</td>
+<td>$e \leq 82.53\text{ cm}$</td>
+</tr>
+<tr>
+<td>③ 使用底纖維拉力</td>
+<td>$e \geq e_{min}$</td>
+<td>$e \geq 8.08\text{ cm}$ ← 控制下界</td>
+</tr>
+<tr>
+<td>④ 使用頂纖維壓力</td>
+<td>$e \geq e_{min,④}$</td>
+<td>$e \geq -58.65\text{ cm}$（不控制）</td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>預壓應力的符號</td>
+<td>$P_i/A$ 為均勻壓力（負號）；$P_i \cdot e/S$ 為偏心效應（頂為拉/底為壓）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>傳遞時自重的作用</td>
+<td>傳遞瞬間即有自重矩 $M_D$（梁已架設），使頂受壓、底受拉，緩解預壓偏心效應</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>四個條件哪些控制</td>
+<td>傳遞頂拉（①）控制上界；使用底拉（③）控制下界。另兩個條件通常不控制</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>容許應力來源</td>
+<td>傳遞：土木401-112 §18.3.3；使用：§18.3.4（依混凝土等級）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>【前置】斷面幾何</h3>
+<p>$$A = b \times h = 40 \times 120 = 4800\text{ cm}^2$$</p>
+<p>$$I = \frac{bh^3}{12} = \frac{40 \times 120^3}{12} = 5{,}760{,}000\text{ cm}^4$$</p>
+<p>矩形對稱斷面，$y_t = y_b = h/2 = 60\text{ cm}$：</p>
+<p>$$S_t = S_b = \frac{I}{60} = 96{,}000\text{ cm}^3$$</p>
+<hr />
+<h3>【Step 1】各階段彎矩</h3>
+<p><strong>自重（鋼筋混凝土單位重 2.4 tf/m³）：</strong></p>
+<p>$$w_D = 2.4 \times 0.40 \times 1.20 = 1.152\text{ tf/m}$$</p>
+<p>$$M_D = \frac{w_D l^2}{8} = \frac{1.152 \times 12^2}{8} = 1.152 \times 18 = 20.74\text{ tf·m} = \boxed{2{,}073{,}600\text{ kgf·cm}}$$</p>
+<p><strong>活載重：</strong></p>
+<p>$$M_L = \frac{w_L l^2}{8} = \frac{1.5 \times 144}{8} = 27.0\text{ tf·m} = \boxed{2{,}700{,}000\text{ kgf·cm}}$$</p>
+<p><strong>使用總彎矩：</strong></p>
+<p>$$M_T = M_D + M_L = 47.74\text{ tf·m} = \boxed{4{,}773{,}600\text{ kgf·cm}}$$</p>
+<hr />
+<h3>【Step 2】容許應力</h3>
+<table>
+<thead>
+<tr>
+<th>時間</th>
+<th>類型</th>
+<th>公式</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>傳遞時</td>
+<td>壓力</td>
+<td>$0.6 f'_{ci}$</td>
+<td>$192\text{ kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>傳遞時</td>
+<td>拉力</td>
+<td>$0.5\sqrt{f'_{ci}}$</td>
+<td>$0.5\sqrt{320} = 8.94\text{ kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>使用時</td>
+<td>壓力</td>
+<td>$0.45 f'_c$</td>
+<td>$0.45 \times 420 = 189\text{ kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>使用時</td>
+<td>拉力</td>
+<td>不允許拉力</td>
+<td>$0\text{ kgf/cm}^2$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>基本常數（用於不等式）：</strong></p>
+<p>$$\frac{P_i}{A} = \frac{200{,}000}{4800} = 41.67\text{ kgf/cm}^2$$</p>
+<p>$$\frac{P_e}{A} = \frac{170{,}000}{4800} = 35.42\text{ kgf/cm}^2$$</p>
+<p>$$\frac{M_D}{S} = \frac{2{,}073{,}600}{96{,}000} = 21.60\text{ kgf/cm}^2$$</p>
+<p>$$\frac{M_T}{S} = \frac{4{,}773{,}600}{96{,}000} = 49.73\text{ kgf/cm}^2$$</p>
+<hr />
+<h3>【Step 3】四個應力控制條件</h3>
+<blockquote>
+<p>符號規定：壓力為負（−），拉力為正（+）；$e$ 為鋼鍵在形心以下的偏心距（正值）</p>
+</blockquote>
+<p><strong>條件①：傳遞時頂纖維拉力限制（$P_i$，$M_D$）</strong></p>
+<p>$$f_{t,i} = -\frac{P_i}{A} + \frac{P_i e}{S_t} - \frac{M_D}{S_t} \leq f_{ti}$$</p>
+<p>$$-41.67 + \frac{200{,}000 e}{96{,}000} - 21.60 \leq 8.94$$</p>
+<p>$$2.0833e \leq 8.94 + 41.67 + 21.60 = 72.21$$</p>
+<p>$$\boxed{e \leq 34.66\text{ cm}} \quad \leftarrow \text{控制上界}$$</p>
+<p><strong>條件②：傳遞時底纖維壓力限制（$P_i$，$M_D$）</strong></p>
+<p>$$f_{b,i} = -\frac{P_i}{A} - \frac{P_i e}{S_b} + \frac{M_D}{S_b} \geq -f_{ci}$$</p>
+<p>$$-41.67 - 2.0833e + 21.60 \geq -192$$</p>
+<p>$$-2.0833e \geq -192 + 41.67 - 21.60 = -171.93$$</p>
+<p>$$\boxed{e \leq 82.53\text{ cm}} \quad \leftarrow \text{不控制（上界較寬鬆）}$$</p>
+<p><strong>條件③：使用時底纖維拉力限制（$P_e$，$M_T$）</strong></p>
+<p>$$f_{b,s} = -\frac{P_e}{A} - \frac{P_e e}{S_b} + \frac{M_T}{S_b} \leq f_{ts} = 0$$</p>
+<p>$$-35.42 - \frac{170{,}000 e}{96{,}000} + 49.73 \leq 0$$</p>
+<p>$$14.31 - 1.7708e \leq 0$$</p>
+<p>$$1.7708e \geq 14.31$$</p>
+<p>$$\boxed{e \geq 8.08\text{ cm}} \quad \leftarrow \text{控制下界}$$</p>
+<p><strong>條件④：使用時頂纖維壓力限制（$P_e$，$M_T$）</strong></p>
+<p>$$f_{t,s} = -\frac{P_e}{A} + \frac{P_e e}{S_t} - \frac{M_T}{S_t} \geq -f_{cs}$$</p>
+<p>$$-35.42 + 1.7708e - 49.73 \geq -189$$</p>
+<p>$$1.7708e \geq -189 + 35.42 + 49.73 = -103.85$$</p>
+<p>$$e \geq -58.65\text{ cm} \quad \leftarrow \text{不控制（$e$ 必為正值）}$$</p>
+<hr />
+<h3>【結論】梁中點鋼鍵偏心距限制</h3>
+<p>$$\boxed{8.08\text{ cm} \leq e \leq 34.66\text{ cm}}$$</p>
+<table>
+<thead>
+<tr>
+<th>控制條件</th>
+<th>限制</th>
+<th>計算值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 傳遞時頂纖維拉力（$\leq 0.5\sqrt{f'_{ci}}$）</td>
+<td>$e \leq$</td>
+<td><strong>34.66 cm</strong>（控制）</td>
+</tr>
+<tr>
+<td>② 傳遞時底纖維壓力（$\leq 0.6f'_{ci}$）</td>
+<td>$e \leq$</td>
+<td>82.53 cm</td>
+</tr>
+<tr>
+<td>③ 使用時底纖維不拉（$\leq 0$）</td>
+<td>$e \geq$</td>
+<td><strong>8.08 cm</strong>（控制）</td>
+</tr>
+<tr>
+<td>④ 使用時頂纖維壓力（$\leq 0.45f'_c$）</td>
+<td>$e \geq$</td>
+<td>−58.65 cm（不控制）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📝 <strong>結論：</strong> 鋼鍵需放置在形心以下 8.08 cm 至 34.66 cm 之間，才能同時滿足傳遞與使用階段的應力限制。</p>
+</blockquote>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>爭議1：自重是否應該計入？</strong></p>
+<ul>
+<li>傳遞瞬間梁已就位於支承，自重矩 $M_D$ 立即存在，必須計入</li>
+<li>若題目明確說「不計自重」，則 $M_D = 0$，上界將大幅縮小（$e_{max}$ ≈ 24 cm）</li>
+</ul>
+<p><strong>爭議2：使用時允許拉力值</strong></p>
+<ul>
+<li>取 $f_{ts} = 0$（最保守）：不允許任何拉力</li>
+<li>取 $f_{ts} = 0.5\sqrt{f'_c}$（Class T）：$= 0.5\sqrt{420} = 10.25\text{ kgf/cm}^2$，則 $e_{min}$ 降為 2.3 cm</li>
+<li>本題採 $f_{ts} = 0$ 為最常見考場設定</li>
+</ul>
+<p><strong>進階思考：偏心距可行區域（Feasibility Zone）</strong></p>
+<ul>
+<li>若將各年份各截面的上下界畫成圖，即為鋼鍵的「可行範圍（Feasibility Zone）」</li>
+<li>連接各截面中點的連線即理想的鋼鍵線（concordant profile）</li>
+<li>拋物線鋼鍵形狀可使各截面同時達到最佳應力狀態</li>
+</ul></main>
+<footer>來源：raw/solutions/RC-2025-4/RC-2025-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

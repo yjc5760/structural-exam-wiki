@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2021-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2021-2 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-2.html">&#128202; U1-2 單元總覽</a><a class="lect" href="../lecture-RC-U1-2.html">&#128218; U1-2 RC 柱強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2021-2</h1>
+<p><strong>主分類：</strong> <code>RC-U1-2</code> RC 柱強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>偏心軸壓</code> <code>偏心距求解</code> <code>P-M互制</code> <code>中性軸位置</code> <code>鋼筋應變分析</code> <code>壓縮區鋼筋淨力</code> <code>大偏心</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>題目：</strong> 已知方柱 50×50 cm，配 8-D25，破壞時中性軸距最大壓應變面 $c = 14.5$ cm，求偏心距 $e_x$。（25 分）</p>
+<p><strong>材料強度：</strong></p>
+<ul>
+<li>$f'_c = 280$ kgf/cm²，$E_c = 12000\sqrt{f'_c}$（kgf/cm² 單位）</li>
+<li>$f_y = 4200$ kgf/cm²，$E_s = 2.04\times10^6$ kgf/cm²</li>
+</ul>
+<p><strong>斷面幾何（由圖二讀取）：</strong></p>
+<ul>
+<li>斷面：$50\times50$ cm（關於 Y 軸對稱）</li>
+<li>8-D25（$A_b = 5.067$ cm²）；保護層至鋼筋中心均為 6.5 cm</li>
+<li>偏心距 $e_x$ 沿 X 方向（水平向）</li>
+<li>鋼筋排列（3+2+3）：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>X 位置（距右面）</th>
+<th>棒數</th>
+<th>總面積</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>右列（壓力側）</td>
+<td>6.5 cm</td>
+<td>3</td>
+<td>15.201 cm²</td>
+</tr>
+<tr>
+<td>中列（形心）</td>
+<td>25 cm</td>
+<td>2</td>
+<td>10.134 cm²</td>
+</tr>
+<tr>
+<td>左列（拉力側）</td>
+<td>43.5 cm</td>
+<td>3</td>
+<td>15.201 cm²</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="RC-2021-2 題目附圖：50×50 cm 方柱斷面，8-D25，保護層 6.5 cm，3+2+3 配筋，偏心距 ex 沿 X 方向" src="../../raw/solutions/RC-2021-2/RC-2021-2-fig-1.png" /></p>
+<p><em>圖說：50×50 cm 方柱，8-D25 以 3（頂）+2（中）+3（底）方式排列，各排至邊緣距離 6.5 cm，偏心載重 ex 沿 X 軸（水平）施加。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 由已知中性軸深度 $c$，逆推各排鋼筋應力 → 計算 $P_n$、$M_n$ → 求偏心距 $e_x = M_n/P_n$。</p>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗考生能否從已知 $c$ 出發，<strong>不需要試誤法</strong>，直接求 $P_n$、$M_n$</li>
+<li>考驗壓縮區鋼筋的「淨壓力」處理（需扣除 $0.85f'_c$）</li>
+<li>確認中間排鋼筋（位於形心）應變是否達降伏</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1：確定中性軸、β1、a
+Step 2：計算各排鋼筋應變，判斷是否降伏
+Step 3：計算各排鋼筋淨力
+Step 4：求 Pn（水平力平衡），取矩求 Mn
+Step 5：ex = Mn/Pn
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠1</td>
+<td>壓縮區鋼筋（右列）位於應力塊內：需用<strong>淨壓力</strong> $f_{s,\text{net}} = f_s - 0.85f'_c$</td>
+<td>確認 $d_s &lt; a$ → 使用淨力</td>
+</tr>
+<tr>
+<td>⚠2</td>
+<td>中間列（x=25）鋼筋位於<strong>截面形心</strong>，對彎矩<strong>無貢獻</strong></td>
+<td>力矩臂為零，只貢獻 $P_n$</td>
+</tr>
+<tr>
+<td>⚠3</td>
+<td>中間列應變是否達降伏須<strong>驗算</strong>（$|\varepsilon_s| &gt; \varepsilon_y$？）</td>
+<td>本題 $|\varepsilon_{\text{center}}| = 0.00217 &gt; \varepsilon_y = 0.00206$ → 剛好降伏</td>
+</tr>
+<tr>
+<td>⚠4</td>
+<td>$e_x$ 可能 $&gt; h/2 = 25$ cm（大偏心），不必驚訝</td>
+<td>大偏心柱屬拉力控制，$c$ 小，$e_x$ 大</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>由已知 c = 14.5 cm，求各排鋼筋應力 → Pn、Mn → ex = Mn/Pn</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1：} \boxed{a} = \beta_1 c = 0.85\times14.5$$</p>
+<p>$$\text{Step 2：各排應變} \quad \varepsilon_{si} = 0.003\times\frac{c - d_i}{c}, \quad \varepsilon_y = \frac{f_y}{E_s}$$</p>
+<p>$$\text{Step 3：各排應力（壓縮區淨力）} \quad \boxed{f_{s1,\text{net}}} = \boxed{f_{s1}} - 0.85f'_c \;\;(d_1 &lt; \boxed{a})$$</p>
+<p>$$\text{Step 4：軸力} \quad \boxed{P_n} = 0.85f'_c\cdot\boxed{a}\cdot b + A_{s1}\cdot\boxed{f_{s1,\text{net}}} - A_{s2}\cdot f_y - A_{s3}\cdot f_y$$</p>
+<p>$$\text{Step 5：彎矩（對形心取矩）} \quad \boxed{M_n} = C_c\!\left(25-\frac{\boxed{a}}{2}\right) + C_{s1}(25-d_1) + T_3(d_3-25)$$</p>
+<p>$$\text{Step 6：偏心距} \quad \boxed{e_x} = \frac{\boxed{M_n}}{\boxed{P_n}}$$</p>
+<hr />
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$h = b$</td>
+<td>50 cm</td>
+<td>方柱邊長</td>
+</tr>
+<tr>
+<td>$c$</td>
+<td>14.5 cm</td>
+<td><strong>直接給定</strong>的中性軸深度</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td>$2.04\times10^6$ kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$A_b$</td>
+<td>5.067 cm²</td>
+<td>D25</td>
+</tr>
+<tr>
+<td>保護層</td>
+<td>6.5 cm（至鋼筋中心）</td>
+<td>圖二</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L2：需知識點推導</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$f'_c = 280$ → 0.85（臨界值）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a$</td>
+<td>$0.85\times c = 0.85\times14.5$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_y$</td>
+<td>$f_y/E_s = 4200/2{,}040{,}000$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$d_1, d_2, d_3$</td>
+<td>各排距壓縮面：6.5, 25, 43.5 cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_{s1}$（右列）</td>
+<td>$0.003(c-6.5)/c$（壓縮，正）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_{s2}$（中列）</td>
+<td>$0.003(c-25)/c$（張拉，負）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_{s3}$（左列）</td>
+<td>$0.003(c-43.5)/c$（張拉，負）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>各排是否降伏</td>
+<td>比較 $|\varepsilon_{si}|$ vs $\varepsilon_y$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$f_{s1,\text{net}}$</td>
+<td>$f_{s1} - 0.85f'_c$（因 $d_1 &lt; a$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$C_c$</td>
+<td>$0.85f'_c\cdot a\cdot b$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_n$</td>
+<td>$C_c + C_{s1} - T_2 - T_3$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_n$</td>
+<td>對形心取矩，$T_2$ 力矩臂 $= 0$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$e_x$</td>
+<td>$M_n/P_n$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>壓縮區鋼筋淨力的物理意義</td>
+<td>鋼筋佔據了混凝土應力塊面積，若直接加 $A_s\times f_s$，混凝土壓力就被重複計算一次；淨力 $= A_s(f_s-0.85f'c)$ 才是正確的額外貢獻</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>中間排對彎矩無貢獻</td>
+<td>中間排在截面形心（距壓縮面 25 cm = h/2），力矩臂 = 0；但仍貢獻 $P_n$（向下的張拉力）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\beta_1 = 280$ 的臨界值</td>
+<td>$f'_c = 280$ 是 $\beta_1$ 折減的起始點，此值本身仍用 0.85，超過才折減</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>大偏心（張力控制）的物理意義</td>
+<td>$c = 14.5$ cm 遠小於平衡中性軸 $c_b$；軸力小、偏心大；$e_x &gt; h/2 = 25$ cm 表示載重作用點在截面外側，為超大偏心情形</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：材料參數與等值應力塊</h3>
+<p>$$\beta_1 = 0.85 \quad (f'_c = 280 \text{ kgf/cm}^2 \le 280)$$</p>
+<p>$$a = \beta_1 \times c = 0.85\times14.5 = \mathbf{12.325 \text{ cm}}$$</p>
+<p>$$\varepsilon_y = \frac{f_y}{E_s} = \frac{4200}{2{,}040{,}000} = 0.002059$$</p>
+<hr />
+<h3>Step 2：各排鋼筋位置與應變</h3>
+<p>壓縮面在右側，各排鋼筋距壓縮面：</p>
+<table>
+<thead>
+<tr>
+<th>排別</th>
+<th style="text-align: center;">距壓縮面 $d_i$</th>
+<th style="text-align: center;">應變 $\varepsilon_{si}$</th>
+<th style="text-align: center;">降伏？</th>
+<th style="text-align: center;">應力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>右列（3 根）</td>
+<td style="text-align: center;">6.5 cm</td>
+<td style="text-align: center;">$+0.003\times\dfrac{14.5-6.5}{14.5} = +0.001655$</td>
+<td style="text-align: center;">未降伏（壓縮）</td>
+<td style="text-align: center;">$+3{,}376$ kgf/cm²</td>
+</tr>
+<tr>
+<td>中列（2 根）</td>
+<td style="text-align: center;">25 cm</td>
+<td style="text-align: center;">$+0.003\times\dfrac{14.5-25}{14.5} = -0.002172$</td>
+<td style="text-align: center;"><strong>剛好降伏</strong>（拉力）</td>
+<td style="text-align: center;">$-4{,}200$ kgf/cm²</td>
+</tr>
+<tr>
+<td>左列（3 根）</td>
+<td style="text-align: center;">43.5 cm</td>
+<td style="text-align: center;">$+0.003\times\dfrac{14.5-43.5}{14.5} = -0.006$</td>
+<td style="text-align: center;">降伏（拉力）</td>
+<td style="text-align: center;">$-4{,}200$ kgf/cm²</td>
+</tr>
+</tbody>
+</table>
+<p><strong>右列詳算：</strong><br />
+$$f_{s1} = E_s \times \varepsilon_{s1} = 2{,}040{,}000\times0.001655 = 3{,}376 \text{ kgf/cm}^2 \quad (\text{壓縮，未降伏})$$</p>
+<p><strong>驗算中列是否降伏：</strong><br />
+$$|\varepsilon_{s2}| = 0.002172 &gt; \varepsilon_y = 0.002059 \quad\Rightarrow\quad f_{s2} = -4200 \text{ kgf/cm}^2 \checkmark$$</p>
+<p><strong>右列在應力塊內？</strong><br />
+$$d_1 = 6.5 \text{ cm} &lt; a = 12.325 \text{ cm} \quad\Rightarrow\quad \text{右列在壓縮應力塊內，需用淨力}$$</p>
+<p>$$f_{s1,\text{net}} = f_{s1} - 0.85f'_c = 3{,}376 - 0.85\times280 = 3{,}376 - 238 = \mathbf{3{,}138 \text{ kgf/cm}^2}$$</p>
+<hr />
+<h3>Step 3：各截面力</h3>
+<p><strong>混凝土壓力：</strong><br />
+$$C_c = 0.85\times f'_c\times a\times b = 0.85\times280\times12.325\times50 = 238\times616.25 = \mathbf{146{,}668 \text{ kgf}}$$</p>
+<p>作用點距壓縮面：$a/2 = 6.163$ cm</p>
+<p><strong>右列鋼筋淨壓力：</strong><br />
+$$C_{s1} = A_{s1}\times f_{s1,\text{net}} = (3\times5.067)\times3{,}138 = 15.201\times3{,}138 = \mathbf{47{,}701 \text{ kgf}}$$</p>
+<p><strong>中列拉力（位於形心）：</strong><br />
+$$T_2 = A_{s2}\times f_y = (2\times5.067)\times4200 = 10.134\times4200 = \mathbf{42{,}563 \text{ kgf}}$$</p>
+<p><strong>左列拉力：</strong><br />
+$$T_3 = A_{s3}\times f_y = (3\times5.067)\times4200 = 15.201\times4200 = \mathbf{63{,}844 \text{ kgf}}$$</p>
+<hr />
+<h3>Step 4：軸力 $P_n$</h3>
+<p>$$P_n = C_c + C_{s1} - T_2 - T_3$$<br />
+$$= 146{,}668 + 47{,}701 - 42{,}563 - 63{,}844$$<br />
+$$= 194{,}369 - 106{,}407 = \mathbf{87{,}962 \text{ kgf} = 87.96 \text{ tf}}$$</p>
+<hr />
+<h3>Step 5：彎矩 $M_n$（對截面形心取矩）</h3>
+<p>形心位於距壓縮面 $h/2 = 25$ cm 處，各力矩臂：</p>
+<table>
+<thead>
+<tr>
+<th>力</th>
+<th style="text-align: center;">大小 (kgf)</th>
+<th style="text-align: center;">距壓縮面 (cm)</th>
+<th style="text-align: center;">距形心（正→壓縮側）</th>
+<th style="text-align: center;">力矩 (kgf·cm)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_c$</td>
+<td style="text-align: center;">146,668</td>
+<td style="text-align: center;">6.163</td>
+<td style="text-align: center;">$25-6.163 = +18.837$</td>
+<td style="text-align: center;">$+2{,}762{,}734$</td>
+</tr>
+<tr>
+<td>$C_{s1}$</td>
+<td style="text-align: center;">47,701</td>
+<td style="text-align: center;">6.5</td>
+<td style="text-align: center;">$25-6.5 = +18.5$</td>
+<td style="text-align: center;">$+882{,}469$</td>
+</tr>
+<tr>
+<td>$T_2$</td>
+<td style="text-align: center;">42,563</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;">$25-25 = 0$</td>
+<td style="text-align: center;">$\mathbf{0}$</td>
+</tr>
+<tr>
+<td>$T_3$</td>
+<td style="text-align: center;">63,844</td>
+<td style="text-align: center;">43.5</td>
+<td style="text-align: center;">$43.5-25 = -18.5$（拉力向左）</td>
+<td style="text-align: center;">$+1{,}181{,}114$</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>說明：$T_3$ 為拉力，力矩方向與 $C_c$ 相同（同向加大彎矩），故為正值。</p>
+</blockquote>
+<p>$$M_n = 2{,}762{,}734 + 882{,}469 + 0 + 1{,}181{,}114 = \mathbf{4{,}826{,}317 \text{ kgf·cm} = 48.26 \text{ tf·m}}$$</p>
+<hr />
+<h3>Step 6：偏心距</h3>
+<p>$$\boxed{e_x = \frac{M_n}{P_n} = \frac{4{,}826{,}317}{87{,}962} = \mathbf{54.87 \text{ cm}}}$$</p>
+<p><strong>驗算大偏心合理性：</strong></p>
+<p>平衡點中性軸深度（以有效深度 $d = 43.5$ cm 估計）：<br />
+$$c_b = \frac{6120}{6120 + 4200}\times43.5 = 0.5930\times43.5 = 25.79 \text{ cm}$$</p>
+<p>$$c = 14.5 \text{ cm} \ll c_b = 25.79 \text{ cm} \quad\Rightarrow\quad \text{大偏心（拉力控制）}$$</p>
+<p>大偏心柱的偏心距 $e_x &gt; e_b$，可以超過 $h/2 = 25$ cm，本題 $e_x = 54.87$ cm 物理上合理。</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>爭議點 1：中列鋼筋是否恰好降伏？</h3>
+<p>$|\varepsilon_{s2}| = 0.002172$ 比 $\varepsilon_y = 0.002059$ 大了 5.5%，確實已降伏。若只差一點點，應取 $f_{s2} = E_s|\varepsilon_{s2}|$ 而非直接取 $f_y$，本題可直接取 $-4200$ kgf/cm²。</p>
+<h3>爭議點 2：設計彎矩強度 $\phi M_n$ vs $M_n$</h3>
+<p>本題求的是<strong>標稱</strong>軸力 $P_n$ 和偏心距，不是設計強度。若題目問設計偏心距，則應用 $\phi P_n$ 和 $\phi M_n$（$\phi$ 依 $\varepsilon_t$ 決定）：<br />
+$$\varepsilon_t = 0.003\times\frac{43.5-14.5}{14.5} = 0.003\times2.0 = 0.006 \ge 0.005 \Rightarrow \phi = 0.90$$</p>
+<h3>進階：偏心方向確認</h3>
+<p>本題 $e_x = 54.87$ cm 是 X 方向偏心，比截面寬度 50 cm 還大，代表軸力 $P$ 作用點在截面右緣外側（超出右緣 4.87 cm）。這是純拉力控制情形，在橋梁柱、高層建築邊柱常見。</p></main>
+<footer>來源：raw/solutions/RC-2021-2/RC-2021-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

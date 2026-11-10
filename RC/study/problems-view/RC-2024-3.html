@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2024-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2024-3 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-2.html">&#128202; U1-2 單元總覽</a><a class="lect" href="../lecture-RC-U1-2.html">&#128218; U1-2 RC 柱強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2024-3</h1>
+<p><strong>主分類：</strong> <code>RC-U1-2</code> RC 柱強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>方形柱</code> <code>P-M互制</code> <code>拉力鋼筋應變為零</code> <code>應變相容</code> <code>壓力鋼筋未降伏</code> <code>中性軸深度</code> <code>軸力彎矩組合</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>40 cm × 40 cm 方形柱斷面，配置 8-#8（D25）主筋，斷面如圖 3。材料性質：$f'_c = 280\ \text{kgf/cm}^2$，$f_y = 4200\ \text{kgf/cm}^2$，$E_s = 2.04 \times 10^6\ \text{kgf/cm}^2$，$\varepsilon_u = 0.003$。</p>
+<p><img alt="RC-2024-3 方形柱斷面：40×40cm，頂排3-#8在y=8cm，中排2-#8在y=20cm，底排3-#8在y=32cm，全配8-#8" src="../../raw/solutions/RC-2024-3/RC-2024-3-fig-1.png" /></p>
+<p><em>圖說：方形柱 $b = h = 40\ \text{cm}$，8-#8 主筋，$d_b = 2.54\ \text{cm}$，$A_b = 5.07\ \text{cm}^2$。鋼筋布置（自頂部壓力面量起）：頂排 3 根在 $y_1 = 8\ \text{cm}$；中排 2 根在 $y_2 = 20\ \text{cm}$（柱形心層）；底排 3 根在 $y_3 = 32\ \text{cm}$。水平方向：$x = 8, 20, 32\ \text{cm}$（頂底排均為 3 根；中排僅兩側各 1 根）。</em></p>
+<p><strong>條件：</strong> 柱受軸力與<strong>單向彎矩</strong>（繞水平軸，頂部受壓）；柱破壞時<strong>拉力鋼筋（底排）應變恰為零</strong>。</p>
+<p>計算：</p>
+<ul>
+<li>(a) 此條件下斷面承受之軸力 $P_n$</li>
+<li>(b) 此條件下斷面承受之彎矩 $M_n$</li>
+</ul>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> P-M 互制圖上的特殊點——「拉力鋼筋應變 = 0」等同於中性軸剛好落在底排鋼筋處，此為平衡點（$\varepsilon_t = \varepsilon_y$）與純壓縮點之間的某個位置，是直接用應變相容求解的題型。</p>
+<p><strong>出題意圖：</strong></p>
+<ol>
+<li>測試學生能否正確設定應變圖（c = dt = 32 cm）</li>
+<li>測試各排鋼筋應變計算與降伏判斷</li>
+<li>注意壓力鋼筋位於應力塊內，需減去混凝土已計算的 $0.85f'_c$ 貢獻</li>
+<li>考驗力矩計算方向感（取矩於形心軸）</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1：確定 c = dt = 32 cm（εt = 0 → NA 在底排）
+Step 2：計算各排鋼筋應變，判斷降伏
+Step 3：計算各排鋼筋有效應力（壓力筋在應力塊內需減 0.85f'c）
+Step 4：算 Pn（軸力平衡）
+Step 5：算 Mn（對形心取矩）
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>正確做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>應變圖設定錯誤（c 不等於 dt）</td>
+<td>$\varepsilon_t = 0$ 且假設線性應變 → $c = d_t = 32\ \text{cm}$</td>
+</tr>
+<tr>
+<td>②</td>
+<td>壓力鋼筋應力計算時忘記減去 $0.85f'_c$（鋼筋在應力塊內已有混凝土應力）</td>
+<td>壓力筋在塊內：$f_{s,\text{net}} = f_s - 0.85f'_c$</td>
+</tr>
+<tr>
+<td>③</td>
+<td>底排鋼筋（εt=0）誤以為有拉力貢獻</td>
+<td>$f_t = E_s \times 0 = 0$，底排鋼筋對力矩<strong>無貢獻</strong></td>
+</tr>
+<tr>
+<td>④</td>
+<td>中排鋼筋（位於形心）取矩貢獻 = 0 但軸力貢獻 ≠ 0</td>
+<td>計算 Pn 時中排鋼筋要加入；計算 Mn 時力臂為 0</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>由 εt = 0 的幾何條件確定 c → 計算各排鋼筋應力 → 求解 Pn 與 Mn</code></p>
+<h3>本題關鍵公式鏈</h3>
+<p>$$\varepsilon_t = 0 \Rightarrow c = d_t = 32\ \text{cm} \Rightarrow a = \beta_1 c = 27.2\ \text{cm}$$</p>
+<p>$$\varepsilon_{s,i} = \varepsilon_u \cdot \frac{c - y_i}{c},\quad f_{s,i} = \min(E_s \varepsilon_{s,i},\ f_y)$$</p>
+<p>$$P_n = 0.85f'_c b a + \sum_i A_{s,i}(f_{s,i} - 0.85f'_c)\big|_{y_i \leq a} + \sum_j A_{s,j} f_{s,j}\big|_{y_j &gt; a}$$</p>
+<p>$$M_n = 0.85f'_c b a \!\left(\frac{h}{2}-\frac{a}{2}\right) + \sum_i A_{s,i}(f_{s,i}-0.85f'_c)\!\left(\frac{h}{2}-y_i\right)\bigg|_{y_i \leq a}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th style="text-align: center;">數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b = h$</td>
+<td style="text-align: center;">40 cm</td>
+<td>方形柱邊長</td>
+</tr>
+<tr>
+<td>$y_1$</td>
+<td style="text-align: center;">8 cm（頂排，from top）</td>
+<td>壓力面→頂排鋼筋距離</td>
+</tr>
+<tr>
+<td>$y_2$</td>
+<td style="text-align: center;">20 cm（中排，形心）</td>
+<td>壓力面→中排鋼筋距離</td>
+</tr>
+<tr>
+<td>$y_3$</td>
+<td style="text-align: center;">32 cm（底排）</td>
+<td>壓力面→底排鋼筋距離</td>
+</tr>
+<tr>
+<td>$A_{s1}$</td>
+<td style="text-align: center;">3×5.07=15.21 cm²</td>
+<td>頂排 3-#8 面積</td>
+</tr>
+<tr>
+<td>$A_{s2}$</td>
+<td style="text-align: center;">2×5.07=10.14 cm²</td>
+<td>中排 2-#8 面積</td>
+</tr>
+<tr>
+<td>$A_{s3}$</td>
+<td style="text-align: center;">3×5.07=15.21 cm²</td>
+<td>底排 3-#8 面積</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td style="text-align: center;">280 kgf/cm²</td>
+<td>混凝土抗壓強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td style="text-align: center;">4200 kgf/cm²</td>
+<td>鋼筋降伏強度</td>
+</tr>
+<tr>
+<td>$\varepsilon_u$</td>
+<td style="text-align: center;">0.003</td>
+<td>混凝土極限壓應變</td>
+</tr>
+<tr>
+<td>$\varepsilon_t$</td>
+<td style="text-align: center;">0（題目條件）</td>
+<td>底排鋼筋應變</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step A：由 εt=0 確定 c</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$c$</td>
+<td>$\varepsilon_t=0$ 且線性應變 $\Rightarrow c = y_3 = 32\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\beta_1$</td>
+<td>$f'_c=280\ \text{kgf/cm}^2 \leq 280 \Rightarrow \beta_1=0.85$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a$</td>
+<td>$\beta_1 \times c = 0.85 \times 32 = 27.2\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step B：各排鋼筋應變與應力</strong></p>
+<table>
+<thead>
+<tr>
+<th>排次</th>
+<th style="text-align: center;">$y_i$</th>
+<th style="text-align: center;">$\varepsilon_{s,i}$</th>
+<th style="text-align: center;">$\varepsilon_y$?</th>
+<th style="text-align: center;">$f_{s,i}$</th>
+<th style="text-align: center;">在塊內?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>頂排</td>
+<td style="text-align: center;">8 cm</td>
+<td style="text-align: center;">$0.003\times24/32 = 0.00225$</td>
+<td style="text-align: center;">$&gt;0.002059$ ✓降伏</td>
+<td style="text-align: center;">4200 kgf/cm²</td>
+<td style="text-align: center;">$y_1=8&lt;a=27.2$ ✓</td>
+</tr>
+<tr>
+<td>中排</td>
+<td style="text-align: center;">20 cm</td>
+<td style="text-align: center;">$0.003\times12/32 = 0.001125$</td>
+<td style="text-align: center;">$&lt;0.002059$ 未降伏</td>
+<td style="text-align: center;">2295 kgf/cm²</td>
+<td style="text-align: center;">$y_2=20&lt;27.2$ ✓</td>
+</tr>
+<tr>
+<td>底排</td>
+<td style="text-align: center;">32 cm</td>
+<td style="text-align: center;">0（題目給定）</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">$y_3=32&gt;27.2$ ✗</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step C：有效鋼筋力（在塊內需減 0.85f'c）</strong></p>
+<table>
+<thead>
+<tr>
+<th>排次</th>
+<th>公式</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>頂排</td>
+<td>$A_{s1}(f_{s1}-0.85f'_c)=15.21\times3962$</td>
+<td>60,262 kgf（壓）</td>
+</tr>
+<tr>
+<td>中排</td>
+<td>$A_{s2}(f_{s2}-0.85f'_c)=10.14\times2057$</td>
+<td>20,858 kgf（壓）</td>
+</tr>
+<tr>
+<td>底排</td>
+<td>$A_{s3}\times0=0$</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>應變為零等於中性軸在該層</td>
+<td>線性應變分布：$\varepsilon = \varepsilon_u(c-y)/c = 0 \Rightarrow y = c$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>鋼筋在壓力塊內需減 $0.85f'_c$</td>
+<td>混凝土壓力公式 $0.85f'_c \times b \times a$ 已計算了包含鋼筋所在的混凝土面積，鋼筋的淨貢獻為 $(f_s - 0.85f'_c)$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>中排鋼筋在 P-M 計算中的分工</td>
+<td>中排位於形心 → 對 $M_n$ 力臂=0（無力矩貢獻）；但仍有軸力貢獻</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_y$ 的計算</td>
+<td>$\varepsilon_y = f_y/E_s = 4200/2{,}040{,}000 = 0.002059$；不可假設固定為 0.002</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：確定中性軸深度 c</h3>
+<p>題目條件：拉力鋼筋（底排，$y_3 = 32\ \text{cm}$）應變 $\varepsilon_t = 0$。</p>
+<p>由線性應變分布（壓力面在頂部，$\varepsilon_u = 0.003$）：</p>
+<p>$$\frac{\varepsilon_u}{c} = \frac{\varepsilon_u - \varepsilon_t}{c - y_3} \Rightarrow \varepsilon_t = 0 \Rightarrow \boxed{c = y_3 = 32\ \text{cm}}$$</p>
+<p>等值應力塊深度（$f'_c = 280 \leq 280\ \text{kgf/cm}^2$，$\beta_1 = 0.85$）：</p>
+<p>$$a = \beta_1 \cdot c = 0.85 \times 32 = \mathbf{27.2\ \text{cm}}$$</p>
+<hr />
+<h3>Step 2：各排鋼筋應變</h3>
+<p>$$\varepsilon_y = \frac{f_y}{E_s} = \frac{4200}{2{,}040{,}000} = 0.002059$$</p>
+<p><strong>頂排</strong>（$y_1 = 8\ \text{cm}$，在壓力塊內 $8 &lt; 27.2$）：</p>
+<p>$$\varepsilon_{s1} = \varepsilon_u \cdot \frac{c - y_1}{c} = 0.003 \times \frac{32 - 8}{32} = 0.003 \times 0.75 = 0.00225\ \text{（壓縮）}$$</p>
+<p>$\varepsilon_{s1} = 0.00225 &gt; \varepsilon_y = 0.002059$ → <strong>頂排降伏</strong> → $f_{s1} = f_y = 4200\ \text{kgf/cm}^2$</p>
+<p><strong>中排</strong>（$y_2 = 20\ \text{cm}$，在壓力塊內 $20 &lt; 27.2$）：</p>
+<p>$$\varepsilon_{s2} = 0.003 \times \frac{32 - 20}{32} = 0.003 \times 0.375 = 0.001125\ \text{（壓縮）}$$</p>
+<p>$\varepsilon_{s2} = 0.001125 &lt; \varepsilon_y$ → <strong>中排未降伏</strong></p>
+<p>$$f_{s2} = E_s \varepsilon_{s2} = 2{,}040{,}000 \times 0.001125 = 2{,}295\ \text{kgf/cm}^2\ \text{（壓縮）}$$</p>
+<p><strong>底排</strong>（$y_3 = 32\ \text{cm}$，在壓力塊外 $32 &gt; 27.2$）：</p>
+<p>$$\varepsilon_t = 0 \Rightarrow f_t = 0\ \text{（零應力）}$$</p>
+<hr />
+<h3>Step 3：計算各力（鋼筋在壓力塊內減去混凝土貢獻）</h3>
+<p><strong>混凝土壓力合力：</strong></p>
+<p>$$C_c = 0.85 f'_c \cdot b \cdot a = 0.85 \times 280 \times 40 \times 27.2 = 238 \times 40 \times 27.2$$</p>
+<p>$$= 9{,}520 \times 27.2 = 258{,}944\ \text{kgf}$$</p>
+<p>（作用點：距頂部 $a/2 = 13.6\ \text{cm}$）</p>
+<p><strong>頂排鋼筋淨壓力</strong>（在塊內，$y_1=8 &lt; a=27.2$）：</p>
+<p>$$C_{s1} = A_{s1}(f_{s1} - 0.85f'_c) = 15.21 \times (4200 - 238) = 15.21 \times 3962 = 60{,}262\ \text{kgf}$$</p>
+<p><strong>中排鋼筋淨壓力</strong>（在塊內，$y_2=20 &lt; a=27.2$）：</p>
+<p>$$C_{s2} = A_{s2}(f_{s2} - 0.85f'_c) = 10.14 \times (2295 - 238) = 10.14 \times 2057 = 20{,}858\ \text{kgf}$$</p>
+<p><strong>底排鋼筋力</strong> = 0（$f_t = 0$）</p>
+<hr />
+<h3>Step 4：標稱軸力 $P_n$</h3>
+<p>$$P_n = C_c + C_{s1} + C_{s2} = 258{,}944 + 60{,}262 + 20{,}858$$</p>
+<p>$$\boxed{P_n = 340{,}064\ \text{kgf} \approx 340.1\ \text{tf}\ (\text{壓力})}$$</p>
+<hr />
+<h3>Step 5：標稱彎矩 $M_n$（對形心軸取矩，形心在 $h/2 = 20\ \text{cm}$ from top）</h3>
+<p>各力的力臂（以形心為原點，正方向朝壓力端）：</p>
+<table>
+<thead>
+<tr>
+<th>力</th>
+<th>作用位置</th>
+<th>力臂 = 20 - 位置</th>
+<th>方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$C_c = 258{,}944$ kgf</td>
+<td>$13.6$ cm from top</td>
+<td>$20 - 13.6 = +6.4$ cm</td>
+<td>正彎矩</td>
+</tr>
+<tr>
+<td>$C_{s1} = 60{,}262$ kgf</td>
+<td>$8$ cm from top</td>
+<td>$20 - 8 = +12$ cm</td>
+<td>正彎矩</td>
+</tr>
+<tr>
+<td>$C_{s2} = 20{,}858$ kgf</td>
+<td>$20$ cm from top</td>
+<td>$20 - 20 = 0$</td>
+<td>無力矩</td>
+</tr>
+<tr>
+<td>$F_{s3} = 0$</td>
+<td>$32$ cm from top</td>
+<td>$32 - 20 = 12$ cm</td>
+<td>零力</td>
+</tr>
+</tbody>
+</table>
+<p>$$M_n = C_c \times 6.4 + C_{s1} \times 12 + C_{s2} \times 0$$</p>
+<p>$$= 258{,}944 \times 6.4 + 60{,}262 \times 12$$</p>
+<p>$$= 1{,}657{,}242 + 723{,}144$$</p>
+<p>$$\boxed{M_n = 2{,}380{,}386\ \text{kgf-cm} \approx 23{,}804\ \text{kgf-m} \approx 23.8\ \text{tf-m}}$$</p>
+<hr />
+<h3>結果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>計算值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中性軸深度 $c$</td>
+<td>32 cm（= 底排鋼筋位置）</td>
+</tr>
+<tr>
+<td>等值應力塊深度 $a$</td>
+<td>27.2 cm</td>
+</tr>
+<tr>
+<td>頂排鋼筋應力 $f_{s1}$</td>
+<td>4200 kgf/cm²（降伏）</td>
+</tr>
+<tr>
+<td>中排鋼筋應力 $f_{s2}$</td>
+<td>2295 kgf/cm²（未降伏）</td>
+</tr>
+<tr>
+<td>底排鋼筋應力 $f_{t}$</td>
+<td>0（應變為零）</td>
+</tr>
+<tr>
+<td>標稱軸力 $P_n$</td>
+<td><strong>340 tf（壓力）</strong></td>
+</tr>
+<tr>
+<td>標稱彎矩 $M_n$</td>
+<td><strong>23.8 tf-m</strong></td>
+</tr>
+<tr>
+<td>偏心距 $e = M_n/P_n$</td>
+<td>$\approx 7.0\ \text{cm}$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>爭議點 1：此點在 P-M 互制圖上的位置</strong></p>
+<p>$\varepsilon_t = 0$ 對應中性軸在最外側拉力筋位置。在 P-M 互制圖上，這個點位於<strong>平衡點（$\varepsilon_t = \varepsilon_y$）與純壓點之間</strong>，且幾乎正在兩者中點：$P_b = 136.6$ tf、$P_0 = 541.5$ tf、本題 $P_n = 340.1$ tf，位置比例 $(P_n - P_b)/(P_0 - P_b) = 0.50$。與平衡點比較：平衡點的 $c_b = \varepsilon_u d/(\varepsilon_u + \varepsilon_y) = 0.003\times32/0.005059 = 18.97\ \text{cm} &lt; c = 32\ \text{cm}$，確認本題 $c &gt; c_b$，軸力 $P_n &gt; P_{nb}$（壓力控制區）。</p>
+<p><strong>爭議點 2：壓力鋼筋淨貢獻 $(f_s - 0.85f'_c)$ 的意義</strong></p>
+<p>混凝土壓力公式 $C_c = 0.85f'_c \times b \times a$ 計算了<strong>整個 b×a 面積的平均壓力</strong>，包含鋼筋所在位置的混凝土。鋼筋實際上置換了部分混凝土，因此鋼筋的淨貢獻為：<br />
+$$C_{s,\text{net}} = A_s \cdot f_s - A_s \cdot 0.85f'_c = A_s(f_s - 0.85f'_c)$$</p>
+<p>若忽略此修正（簡化法）：$P_n = 340{,}064 + 15.21\times238 + 10.14\times238 = 340{,}064 + 3{,}620 + 2{,}413 = 346{,}097\ \text{kgf}$（誤差約 1.8%）。考場允許簡化，但精確法得分更高。</p>
+<p><strong>進階：為何中排鋼筋對彎矩無貢獻？</strong></p>
+<p>中排鋼筋（$y_2 = 20\ \text{cm}$）恰好位於斷面形心（$h/2 = 20\ \text{cm}$），其對形心的力臂為零。中排鋼筋<strong>只增加軸力</strong>（$C_{s2} = 20{,}858\ \text{kgf}$）而不改變彎矩。這是方形柱對稱配筋的特點：若無側向彎矩，中間層鋼筋的力矩貢獻恰好相消。</p></main>
+<footer>來源：raw/solutions/RC-2024-3/RC-2024-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

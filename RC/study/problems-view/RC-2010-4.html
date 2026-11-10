@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2010-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2010-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U4-1.html">&#128202; U4-1 單元總覽</a><a class="lect" href="../lecture-RC-U4-1.html">&#128218; U4-1 預力梁斷面應力分析 講義</a></div></header>
+<main><h1>考題編號：RC-2010-4</h1>
+<p><strong>主分類：</strong> <code>RC-U4-2</code> 預力量與偏心量設計<br />
+<strong>副分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
+<strong>設計法：</strong> WSD 工作應力設計法<br />
+<strong>標籤：</strong> <code>簡支預力梁</code> <code>偏心距限制</code> <code>四控制條件</code> <code>容許應力</code> <code>曲線型鋼腱</code> <code>直線型鋼腱</code> <code>等效載重法</code> <code>傳遞階段</code> <code>使用階段</code> <code>WG自重</code> <code>全斷面矩形</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>簡支預力混凝土梁，跨度 $l = 15$ m，斷面 $b = 50$ cm，$h = 90$ cm<br />
+有效預力比：$f_{pe}/f_{pi} = 0.85$，初終混凝土強度：$f'_{ci} = 280$ kgf/cm²，$f'_c = 350$ kgf/cm²<br />
+除自重外，均佈活重 $W_l = 1.5$ tf/m</p>
+<p><strong>(一)（5 分）</strong> 採用<strong>曲線型鋼腱</strong>時，其可承受之載重能力可較<strong>直線型鋼腱</strong>提升多少？</p>
+<p><strong>(二)（15 分）</strong> 若初始預力 $P_i = 200$ tf，試求<strong>梁中央點</strong>鋼腱配置之<strong>偏心距限制</strong>。</p>
+<blockquote>
+<p>本題為純文字計算題，無附圖，無截圖需求。</p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong></p>
+<ul>
+<li><strong>(一)</strong> 曲線型鋼腱透過「等效載重」產生向上分佈力，可平衡重力載重；直線型（水平）鋼腱無此效果</li>
+<li><strong>(二)</strong> 偏心距過小 → 服務載重下底纖維受拉；偏心距過大 → 施拉時頂纖維受拉；四控制條件確定允許範圍</li>
+</ul>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗等效載重法概念（曲線腱 vs 直線腱）</li>
+<li>測驗四個應力控制條件的設定與求解偏心距範圍</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫（Part (二)）：</strong></p>
+<ol>
+<li>確認基本參數（$A$、$Z$、$P_i$、$P_e$、自重 $W_G$）</li>
+<li>建立各纖維應力公式（以 $e_p$ 為變數）</li>
+<li>代入四個容許應力條件，得出 $e_p$ 的上下限</li>
+<li>綜合確認限制範圍</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>應對</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ 傳遞用 $P_i$，服務用 $P_e = P_i \times 0.85$</td>
+<td>兩個階段用不同預力</td>
+<td>分清楚</td>
+</tr>
+<tr>
+<td>❷ 容許應力使用「初強度」vs「終強度」</td>
+<td>傳遞用 $f'_{ci}$，服務用 $f'_c$</td>
+<td>不可混用</td>
+</tr>
+<tr>
+<td>❸ $Z = I/(h/2)$（矩形斷面上下緣相同）</td>
+<td>$Z_t = Z_b = b h^2/6$</td>
+<td></td>
+</tr>
+<tr>
+<td>❹ 自重矩 $M_G$ 轉換單位（tf·m → kgf·cm）</td>
+<td>1 tf·m = 100,000 kgf·cm</td>
+<td></td>
+</tr>
+<tr>
+<td>❺ 找「上限」和「下限」各來自哪個控制條件</td>
+<td>上限：傳遞時頂纖維拉力 → $e_p$ 不可過大</td>
+<td>下限：服務時底纖維拉力 → $e_p$ 不可過小</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>確定梁中央點鋼腱偏心距 $e_p$ 的允許範圍 $e_{p,\min} \le e_p \le e_{p,\max}$。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1：} W_G = \gamma_c \cdot b \cdot h,\quad M_G = \frac{W_G l^2}{8},\quad M_L = \frac{W_l l^2}{8}$$</p>
+<p>$$\text{Step 2：} P_e = 0.85\,P_i,\quad A = b\,h,\quad Z = \frac{b\,h^2}{6}$$</p>
+<p>$$\text{Step 3（傳遞）：} \sigma_{t,i} = \frac{P_i}{A} - \frac{P_i\,e_p}{Z} + \frac{M_G}{Z},\quad \sigma_{b,i} = \frac{P_i}{A} + \frac{P_i\,e_p}{Z} - \frac{M_G}{Z}$$</p>
+<p>$$\text{Step 4（服務）：} \sigma_{t,s} = \frac{P_e}{A} - \frac{P_e\,e_p}{Z} + \frac{M_G+M_L}{Z},\quad \sigma_{b,s} = \frac{P_e}{A} + \frac{P_e\,e_p}{Z} - \frac{M_G+M_L}{Z}$$</p>
+<p>$$\text{Step 5（四條件）：上限從} \sigma_{t,i} \ge 0 \to e_{p,\max};\quad \text{下限從} \sigma_{b,s} \ge 0 \to e_{p,\min}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$l$</td>
+<td>15 m = 1500 cm</td>
+<td>跨度</td>
+</tr>
+<tr>
+<td>$b$</td>
+<td>50 cm</td>
+<td>梁寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>90 cm</td>
+<td>梁高</td>
+</tr>
+<tr>
+<td>$f'_{ci}$</td>
+<td>280 kgf/cm²</td>
+<td>混凝土初強度（傳遞時）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>350 kgf/cm²</td>
+<td>混凝土終強度（服務時）</td>
+</tr>
+<tr>
+<td>$f_{pe}/f_{pi}$</td>
+<td>0.85</td>
+<td>有效預力比</td>
+</tr>
+<tr>
+<td>$W_l$</td>
+<td>1.5 tf/m</td>
+<td>均佈活重</td>
+</tr>
+<tr>
+<td>$P_i$</td>
+<td>200 tf</td>
+<td>初始預力</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>▌ 截面性質</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A$</td>
+<td>$b \times h = 50 \times 90$</td>
+<td>4500 cm²</td>
+</tr>
+<tr>
+<td>$I$</td>
+<td>$bh^3/12 = 50\times90^3/12$</td>
+<td>3,037,500 cm⁴</td>
+</tr>
+<tr>
+<td>$Z = Z_t = Z_b$</td>
+<td>$I/(h/2) = 3{,}037{,}500/45$</td>
+<td>67,500 cm³</td>
+</tr>
+<tr>
+<td>$P_e$</td>
+<td>$0.85 \times 200{,}000$</td>
+<td>170,000 kgf</td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌ 載重與彎矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$W_G$</td>
+<td>$2400 \times 0.5 \times 0.9$</td>
+<td>1,080 kgf/m = 10.80 kgf/cm</td>
+</tr>
+<tr>
+<td>$M_G$</td>
+<td>$10.80 \times 1500^2/8$</td>
+<td>3,037,500 kgf·cm</td>
+</tr>
+<tr>
+<td>$M_L$</td>
+<td>$15.0 \times 1500^2/8$</td>
+<td>4,218,750 kgf·cm</td>
+</tr>
+<tr>
+<td>$M_G + M_L$</td>
+<td>—</td>
+<td>7,256,250 kgf·cm</td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌ 容許應力</strong></p>
+<table>
+<thead>
+<tr>
+<th>條件</th>
+<th>公式</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>傳遞壓縮 $f_{ci,c}$</td>
+<td>$0.60 \times 280$</td>
+<td>168 kgf/cm²</td>
+</tr>
+<tr>
+<td>傳遞拉力 $f_{ci,t}$</td>
+<td>0（完全預力，不允許拉應力）</td>
+<td>0</td>
+</tr>
+<tr>
+<td>服務壓縮 $f_{c}$</td>
+<td>$0.45 \times 350$</td>
+<td>157.5 kgf/cm²</td>
+</tr>
+<tr>
+<td>服務拉力 $f_{t}$</td>
+<td>0（完全預力，不允許拉應力）</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>傳遞階段頂纖維受拉的成因</td>
+<td>偏心大 → 偏心矩大（向上彎）→ 頂纖維被拉 ↓；活載未加 → 頂纖維沒有被壓回來</td>
+<td></td>
+</tr>
+<tr>
+<td>服務階段底纖維受拉的成因</td>
+<td>偏心小 → 預壓不足 → 加上活載後底纖維受拉</td>
+<td></td>
+</tr>
+<tr>
+<td>為何 $M_G$ 在傳遞時幫忙壓頂纖維</td>
+<td>自重彎矩（下沉）在傳遞時已存在，可抵消偏心上彎造成的頂纖維拉應力</td>
+<td></td>
+</tr>
+<tr>
+<td>為何 $M_L$ 在服務時加劇底纖維受拉</td>
+<td>活載彎矩使底纖維拉應力增加，超過預力提供的壓應力</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Part (一)：曲線型 vs 直線型鋼腱之載重提升</h3>
+<hr />
+<p><strong>直線型鋼腱（水平，偏心距為零）：</strong></p>
+<ul>
+<li>僅提供軸向壓力 $P_e/A$</li>
+<li>無等效向上分佈載重</li>
+</ul>
+<p><strong>曲線型（拋物線）鋼腱，中央偏心 $e_p$，端部偏心為零：</strong></p>
+<ul>
+<li>透過等效載重法，產生向上均佈等效載重：</li>
+</ul>
+<p>$$W_e = \frac{8\,P_e\,e_p}{l^2}$$</p>
+<ul>
+<li>此向上力平衡部分重力載重，等同於梁可多承受 $W_e$ 的均佈載重</li>
+</ul>
+<p><strong>載重提升量：</strong></p>
+<p>$$\boxed{\Delta W = W_e = \frac{8\,P_e\,e_p}{l^2}}$$</p>
+<p>使用 $P_e = 170$ tf 及 Part (二) 求得之 $e_p \approx 29$ cm = 0.29 m（代表性取值）：</p>
+<p>$$W_e = \frac{8 \times 170 \times 0.29}{15^2} = \frac{394.4}{225} \approx 1.75 \text{ tf/m}$$</p>
+<p>由於 $W_e = 1.75 \text{ tf/m} &gt; W_l = 1.5 \text{ tf/m}$，曲線型鋼腱可完全平衡活載重，尚有餘裕。</p>
+<blockquote>
+<p>結論：曲線型鋼腱的等效向上載重 $W_e = 8P_e e_p/l^2$，此即較直線型鋼腱額外能承受的均佈載重量。</p>
+</blockquote>
+<hr />
+<h3>Part (二)：梁中央點偏心距限制</h3>
+<hr />
+<h4>Step 1：截面性質</h4>
+<p>$$A = 50 \times 90 = 4{,}500 \text{ cm}^2$$</p>
+<p>$$Z = Z_t = Z_b = \frac{50 \times 90^2}{6} = \frac{50 \times 8100}{6} = 67{,}500 \text{ cm}^3$$</p>
+<p>$$P_e = 0.85 \times 200{,}000 = 170{,}000 \text{ kgf}$$</p>
+<hr />
+<h4>Step 2：載重計算</h4>
+<p>$$W_G = 2400 \times 0.5 \times 0.9 = 1{,}080 \text{ kgf/m} = 10.80 \text{ kgf/cm}$$</p>
+<p>$$M_G = \frac{10.80 \times 1500^2}{8} = 10.80 \times 281{,}250 = 3{,}037{,}500 \text{ kgf·cm}$$</p>
+<p>$$M_L = \frac{15.0 \times 1500^2}{8} = 15.0 \times 281{,}250 = 4{,}218{,}750 \text{ kgf·cm}$$</p>
+<p>$$M_G + M_L = 7{,}256{,}250 \text{ kgf·cm}$$</p>
+<hr />
+<h4>Step 3：中央斷面纖維應力公式</h4>
+<p><strong>符號規定：壓力 = 正，拉力 = 負；$e_p &gt; 0$ 表示鋼腱在形心以下。</strong></p>
+<p><strong>傳遞階段（$P_i = 200{,}000$ kgf，$M_G$）：</strong></p>
+<p>$$\sigma_{t,i} = \frac{P_i}{A} - \frac{P_i\,e_p}{Z} + \frac{M_G}{Z} = \frac{200{,}000}{4500} - \frac{200{,}000\,e_p}{67{,}500} + \frac{3{,}037{,}500}{67{,}500}$$</p>
+<p>$$= 44.44 - 2.963\,e_p + 45.00 = \boxed{89.44 - 2.963\,e_p}$$</p>
+<p>$$\sigma_{b,i} = \frac{P_i}{A} + \frac{P_i\,e_p}{Z} - \frac{M_G}{Z} = 44.44 + 2.963\,e_p - 45.00 = \boxed{-0.556 + 2.963\,e_p}$$</p>
+<p><strong>服務階段（$P_e = 170{,}000$ kgf，$M_G + M_L$）：</strong></p>
+<p>$$\sigma_{t,s} = \frac{P_e}{A} - \frac{P_e\,e_p}{Z} + \frac{M_G+M_L}{Z} = \frac{170{,}000}{4500} - \frac{170{,}000\,e_p}{67{,}500} + \frac{7{,}256{,}250}{67{,}500}$$</p>
+<p>$$= 37.78 - 2.519\,e_p + 107.5 = \boxed{145.28 - 2.519\,e_p}$$</p>
+<p>$$\sigma_{b,s} = \frac{P_e}{A} + \frac{P_e\,e_p}{Z} - \frac{M_G+M_L}{Z} = 37.78 + 2.519\,e_p - 107.5 = \boxed{-69.72 + 2.519\,e_p}$$</p>
+<hr />
+<h4>Step 4：容許應力條件（四控制條件）</h4>
+<table>
+<thead>
+<tr>
+<th>編號</th>
+<th>條件</th>
+<th>公式</th>
+<th>解 $e_p$</th>
+<th>是否控制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>傳遞，頂壓 ≤ 168</td>
+<td>$89.44-2.963e_p \le 168$</td>
+<td>$e_p \ge -26.5$ cm</td>
+<td>❌ 不控制（$e_p &gt; 0$）</td>
+</tr>
+<tr>
+<td>②</td>
+<td>傳遞，底壓 ≤ 168</td>
+<td>$-0.556+2.963e_p \le 168$</td>
+<td>$e_p \le 56.9$ cm</td>
+<td>❌ 不控制</td>
+</tr>
+<tr>
+<td>③</td>
+<td><strong>傳遞，頂拉 ≥ 0</strong></td>
+<td>$89.44-2.963e_p \ge 0$</td>
+<td>$e_p \le 30.18$ cm</td>
+<td>✅ <strong>上限</strong></td>
+</tr>
+<tr>
+<td>④</td>
+<td>傳遞，底拉 ≥ 0</td>
+<td>$-0.556+2.963e_p \ge 0$</td>
+<td>$e_p \ge 0.19$ cm</td>
+<td>❌ 不控制</td>
+</tr>
+<tr>
+<td>⑤</td>
+<td>服務，頂壓 ≤ 157.5</td>
+<td>$145.28-2.519e_p \le 157.5$</td>
+<td>$e_p \ge -4.85$ cm</td>
+<td>❌ 不控制</td>
+</tr>
+<tr>
+<td>⑥</td>
+<td>服務，頂拉 ≥ 0</td>
+<td>$145.28-2.519e_p \ge 0$</td>
+<td>$e_p \le 57.7$ cm</td>
+<td>❌ 不控制</td>
+</tr>
+<tr>
+<td>⑦</td>
+<td>服務，底壓 ≤ 157.5</td>
+<td>$-69.72+2.519e_p \le 157.5$</td>
+<td>$e_p \le 89.8$ cm</td>
+<td>❌ 不控制</td>
+</tr>
+<tr>
+<td>⑧</td>
+<td><strong>服務，底拉 ≥ 0</strong></td>
+<td>$-69.72+2.519e_p \ge 0$</td>
+<td>$e_p \ge 27.68$ cm</td>
+<td>✅ <strong>下限</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4>Step 5：偏心距允許範圍</h4>
+<p>$$\boxed{27.68 \text{ cm} \le e_p \le 30.18 \text{ cm}}$$</p>
+<p><strong>驗算：</strong></p>
+<p>取 $e_p = 27.68$ cm（下限）：</p>
+<table>
+<thead>
+<tr>
+<th>纖維</th>
+<th>應力</th>
+<th>驗核</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>傳遞頂</td>
+<td>$89.44 - 2.963\times27.68 = +7.44$ kgf/cm²</td>
+<td>≥ 0 ✅</td>
+</tr>
+<tr>
+<td>傳遞底</td>
+<td>$-0.556 + 2.963\times27.68 = +81.44$ kgf/cm²</td>
+<td>≤ 168 ✅</td>
+</tr>
+<tr>
+<td>服務頂</td>
+<td>$145.28 - 2.519\times27.68 = +75.55$ kgf/cm²</td>
+<td>≤ 157.5 ✅</td>
+</tr>
+<tr>
+<td>服務底</td>
+<td>$-69.72 + 2.519\times27.68 = +0.01 \approx 0$ kgf/cm²</td>
+<td>≥ 0 ✅</td>
+</tr>
+</tbody>
+</table>
+<p>取 $e_p = 30.18$ cm（上限）：</p>
+<table>
+<thead>
+<tr>
+<th>纖維</th>
+<th>應力</th>
+<th>驗核</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>傳遞頂</td>
+<td>$89.44 - 2.963\times30.18 \approx 0$ kgf/cm²</td>
+<td>≥ 0 ✅</td>
+</tr>
+<tr>
+<td>傳遞底</td>
+<td>$-0.556 + 2.963\times30.18 = +88.86$ kgf/cm²</td>
+<td>≤ 168 ✅</td>
+</tr>
+<tr>
+<td>服務頂</td>
+<td>$145.28 - 2.519\times30.18 = +69.26$ kgf/cm²</td>
+<td>≤ 157.5 ✅</td>
+</tr>
+<tr>
+<td>服務底</td>
+<td>$-69.72 + 2.519\times30.18 = +6.30$ kgf/cm²</td>
+<td>≥ 0 ✅</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>物理解釋：</strong></p>
+<ul>
+<li>$e_{p,\min} = 27.68$ cm：若偏心距再小，服務載重下底纖維產生拉應力（預壓不足抵抗 $M_G + M_L$）</li>
+<li>$e_{p,\max} = 30.18$ cm：若偏心距再大，傳遞時頂纖維產生拉應力（偏心彎矩過大，$M_G$ 不足抵消）</li>
+</ul>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>① 控制條件分析（為何只有③和⑧控制）</strong></p>
+<table>
+<thead>
+<tr>
+<th>控制條件</th>
+<th>物理成因</th>
+<th>所受關鍵力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>③ 傳遞頂拉（e_p 上限）</td>
+<td>傳遞時活載未存在，$M_G$ 較小 → 偏心大時頂纖維被拉</td>
+<td>$P_i$（大）、$M_G$（中）</td>
+</tr>
+<tr>
+<td>⑧ 服務底拉（e_p 下限）</td>
+<td>服務時活載很大，$M_G+M_L$ 很大 → 偏心小時底纖維被拉</td>
+<td>$P_e$（小，損失後）、$M_G+M_L$（大）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>② 為何允許範圍很窄（僅約 2.5 cm）？</strong></p>
+<p>矩形截面的 $Z_t = Z_b$（上下緣對稱），使得：<br />
+$$e_{p,\max} - e_{p,\min} = \frac{(P_i/A)(f_{ci,c} + f_{ci,t}) + (P_e/A)(f_{c,t} + f_{c,c})...}{...}$$</p>
+<p>本題預力損失大（fpe/fpi = 0.85），加上活載 $W_l$ 大（1.5 tf/m），導致 $P_e$ 與 $M_G+M_L$ 之間的差距使範圍縮窄。</p>
+<p><strong>③ 若允許小量拉應力（寬鬆標準）</strong></p>
+<p>若採用：</p>
+<ul>
+<li>傳遞頂拉 ≥ $-0.25\sqrt{f'_{ci}} = -4.18$ kgf/cm²（小量拉力許可）</li>
+<li>服務底拉 ≥ $-0.5\sqrt{f'_c} = -9.35$ kgf/cm²</li>
+</ul>
+<p>則：</p>
+<ul>
+<li>上限：$89.44 - 2.963e_p \ge -4.18 \Rightarrow e_p \le 31.60$ cm</li>
+<li>下限：$-69.72 + 2.519e_p \ge -9.35 \Rightarrow e_p \ge 24.00$ cm</li>
+</ul>
+<p>允許範圍擴大為：$24.00 \le e_p \le 31.60$ cm（寬鬆約 7.6 cm）</p>
+<p><strong>④ 鋼腱實際偏心限制（幾何約束）</strong></p>
+<p>實際安裝時，鋼腱中心與底面之間需有最小保護層（如 5-8 cm）：<br />
+$$e_{p,\text{max, practical}} = \frac{h}{2} - \text{底蓋層} = 45 - 8 = 37 \text{ cm}$$</p>
+<p>本題計算的 30.18 cm &lt; 37 cm，故幾何限制不控制。</p>
+<p><strong>⑤ Part (一) 的等效載重公式推導</strong></p>
+<p>拋物線鋼腱在端點為 0、中央為 $e_p$ 的曲率下：<br />
+鋼腱曲率半徑 $R = l^2/(8e_p)$（近似值）<br />
+等效向上均佈力 = $P_e / R = 8P_e e_p / l^2$ ✓</p></main>
+<footer>來源：raw/solutions/RC-2010-4/RC-2010-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

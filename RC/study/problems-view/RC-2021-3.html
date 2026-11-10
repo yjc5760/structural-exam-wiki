@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2021-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2021-3 題目解析</h1><div class="navbtns"></div></header>
+<main><h1>考題編號：RC-2021-3</h1>
+<p><strong>主分類：</strong> <code>RC-U3-2</code> 樓版與基腳設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>樁帽設計</code> <code>偏心載重</code> <code>基樁軸力</code> <code>最大偏心距</code> <code>雙向剪力</code> <code>角隅基樁穿孔</code> <code>剛性樁帽假設</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>題目：</strong> 260×260 cm 樁帽，4 根 D30 基樁，柱 50×50 cm，承受偏心軸力 $P_u = 100$ tf，求柱載重最大容許偏心距 $e_x$。（20 分）</p>
+<p><strong>條件與限制：</strong></p>
+<ul>
+<li>樁帽厚 $D = 55$ cm，有效深度 $d = 55 - 10 = 45$ cm</li>
+<li>$f'_c = 280$ kgf/cm²，不設置剪力鋼筋</li>
+<li>基樁最大承壓軸力：$P_c = 40$ tf</li>
+<li>基樁最大承拉軸力：$P_t = -10$ tf</li>
+<li>忽略樁帽自重；假設樁帽為剛體</li>
+</ul>
+<p><strong>樁位幾何（由圖三之一讀取）：</strong></p>
+<ul>
+<li>樁帽 260×260 cm，樁中心距邊緣 40 cm → 樁中心距樁帽中心 = 260/2 - 40 = <strong>90 cm</strong></li>
+<li>4 根樁位於 $(x, y) = (\pm90, \pm90)$ cm（以樁帽形心為原點）</li>
+</ul>
+<p><img alt="RC-2021-3 附圖一：260×260 cm 樁帽平面，4 根 D30 基樁，柱 50×50 cm，各樁距邊緣 40 cm" src="../../raw/solutions/RC-2021-3/RC-2021-3-fig-1.png" /></p>
+<p><em>圖說：260×260 cm 樁帽，4 根 D30 樁排列於 (±90, ±90) cm，柱 50×50 cm 位於形心，偏心距 ex 沿 X 方向。</em></p>
+<p><img alt="RC-2021-3 附圖二：樁帽側視圖，柱偏心載重 Pu=100tf，偏心距 ex，厚度 D=55cm，底部 10cm 至鋼筋中心" src="../../raw/solutions/RC-2021-3/RC-2021-3-fig-2.png" /></p>
+<p><em>圖說：樁帽厚 55 cm，底部 10 cm 至主筋中心，有效深度 d = 45 cm，偏心載重 Pu 作用點偏移 ex。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 在偏心軸力下，利用剛體靜力學求各基樁軸力；再依基樁承壓/承拉限制與樁帽穿孔剪力，決定最大容許偏心距。</p>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗「剛性樁帽假設」的應用（靜力學）</li>
+<li>考驗樁帽雙向剪力（穿孔）設計公式的三條件選最小值</li>
+<li>確認哪個限制（基樁力 vs 穿孔剪力）才是真正控制條件</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1：確認樁位及各樁到形心距離
+Step 2：用剛性樁帽公式求各樁軸力 → 由 Pc、Pt 限制求 ex
+Step 3：驗算柱底穿孔剪力（αs = 40）
+Step 4：驗算角隅基樁穿孔剪力（αs = 20）
+Step 5：取 Step 2 與 Step 3~4 中最嚴格的 ex
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠1</td>
+<td>對稱 4 根樁的 $\Sigma x_i^2$ 計算：<strong>全部 4 根都要算</strong></td>
+<td>$\Sigma x_i^2 = 4\times90^2 = 32{,}400$ cm²</td>
+</tr>
+<tr>
+<td>⚠2</td>
+<td>$\beta_c$（柱長短邊比）= 50/50 = 1（方柱）</td>
+<td>公式一 $0.265(2+4/\beta_c) = 1.59$，不是 2</td>
+</tr>
+<tr>
+<td>⚠3</td>
+<td>穿孔周長 $b_0$ 對柱為方形周長 + $d$；對基樁為圓形周長（取 3/4 圓考量角隅）</td>
+<td>分別計算 $b_0$</td>
+</tr>
+<tr>
+<td>⚠4</td>
+<td>本題壓力限制（$P_c \le 40$ tf）比拉力限制（$P_t \ge -10$ tf）嚴格，必須<strong>分別計算兩者對應的 $e_x$</strong></td>
+<td>取較小值</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>求偏心距 ex，使：① 各基樁軸力不超過 Pc/Pt 限制；② 樁帽雙向剪力不超過 φVc（無箍筋）</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1：基樁軸力} \quad \boxed{P_i} = \frac{P_u}{n} \pm \frac{P_u\cdot e_x\cdot x_i}{\sum x_j^2}$$</p>
+<p>$$\text{Step 2：由 } \boxed{P_{i,\max}} \le P_c \text{ 得} \quad \boxed{e_{x,P_c}} = \left(P_c - \frac{P_u}{n}\right)\frac{\sum x_j^2}{P_u\cdot x_{\max}}$$</p>
+<p>$$\text{Step 3：柱底穿孔} \quad \frac{V_c}{\sqrt{f'_c}\cdot\boxed{b_{0,\text{col}}}\cdot d} = \min\!\left(0.265\!\left(2+\tfrac{4}{\beta_c}\right),\;0.265\!\left(2+\tfrac{\alpha_s d}{\boxed{b_{0,\text{col}}}}\right),\;1.06\right)$$</p>
+<p>$$\text{Step 4：角隅基樁穿孔} \quad \frac{V_c}{\sqrt{f'_c}\cdot\boxed{b_{0,\text{pile}}}\cdot d} = \min\!\left(\cdots,\;1.06\right)$$</p>
+<p>$$\text{Step 5：} \boxed{e_{x,\max}} = \min\!\left(\boxed{e_{x,P_c}},\;e_{x,P_t},\;e_x \text{ s.t. } P_{i,\max} \le \phi V_{c,\text{pile}}\right)$$</p>
+<hr />
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>樁帽平面</td>
+<td>260×260 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$D$</td>
+<td>55 cm</td>
+<td>樁帽厚度</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>$55-10=45$ cm</td>
+<td>有效深度（圖三之二：底部 10 cm 至鋼筋）</td>
+</tr>
+<tr>
+<td>柱斷面</td>
+<td>50×50 cm</td>
+<td>$\beta_c = 1$</td>
+</tr>
+<tr>
+<td>樁徑</td>
+<td>30 cm（D30）</td>
+<td></td>
+</tr>
+<tr>
+<td>$n$</td>
+<td>4 根</td>
+<td></td>
+</tr>
+<tr>
+<td>樁心距邊緣</td>
+<td>40 cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$P_u$</td>
+<td>100 tf</td>
+<td>因數化軸力</td>
+</tr>
+<tr>
+<td>$P_c$（上限）</td>
+<td>40 tf</td>
+<td>承壓容許</td>
+</tr>
+<tr>
+<td>$P_t$（下限）</td>
+<td>-10 tf</td>
+<td>承拉容許</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L2：需知識點推導</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>樁位 $x_i$</td>
+<td>$260/2 - 40 = 90$ cm（各樁距形心）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\Sigma x_i^2$</td>
+<td>$4\times90^2 = 32{,}400$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_i$（各基樁力）</td>
+<td>$P_u/4 \pm P_u\cdot e_x\cdot 90/32{,}400$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$e_{x,P_c}$</td>
+<td>令 $P_{i,\max} = 40$ tf 解 $e_x$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$e_{x,P_t}$</td>
+<td>令 $P_{i,\min} = -10$ tf 解 $e_x$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$b_{0,\text{col}}$（柱）</td>
+<td>$4\times(50+d) = 4\times95$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$b_{0,\text{pile}}$（角隅樁，3/4圓）</td>
+<td>$(3/4)\times2\pi\times(15+d/2) = (3/4)\times2\pi\times37.5$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi V_c$</td>
+<td>$\phi\times1.06\times\sqrt{f'_c}\times b_0\times d$（最小值公式控制）</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>剛性樁帽假設</td>
+<td>樁帽視為不變形，載重按「平截面保持平面」原理分配到各樁；公式同彎矩分配 $P_i = P/n \pm M x_i/\Sigma x_i^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>穿孔剪力三條控制公式</td>
+<td>① 柱長短邊比（適用非方柱）② 剪跨比（$\alpha_s$ 取決於柱位置：內柱 40、邊柱 30、角柱 20）③ 固定上限 1.06；取<strong>最小值</strong>為設計控制</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>角隅樁 $b_0$ 修正</td>
+<td>角隅樁的臨界剪切面受樁帽兩側邊限制，取 3/4 圓；若臨界面在帽內則無需修正，但本題習慣採保守 3/4 圓</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\alpha_s = 20$ 用於角隅樁</td>
+<td>角隅樁相當於「角柱」位置，$\alpha_s = 20$ 使公式②更大，表示不是控制條件</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：樁位幾何</h3>
+<p>樁帽 260 cm，距邊緣 40 cm → 4 根樁位於 $(x, y) = (\pm90, \pm90)$ cm</p>
+<p>$$\sum x_i^2 = 4\times90^2 = 32{,}400 \text{ cm}^2$$</p>
+<hr />
+<h3>Step 2：基樁軸力公式（剛性樁帽假設）</h3>
+<p>偏心矩 $M_x = P_u \times e_x = 100\,e_x$ tf·cm，各樁軸力：</p>
+<p>$$P_i = \frac{P_u}{4} \pm \frac{P_u\cdot e_x\cdot x_i}{\sum x_j^2} = 25 \pm \frac{100\cdot e_x\cdot 90}{32{,}400} = 25 \pm \frac{e_x}{3.6} \text{ (tf)}$$</p>
+<p><strong>壓力側（$x_i = +90$）：</strong><br />
+$$P_{i,\max} = 25 + \frac{e_x}{3.6}$$</p>
+<p><strong>拉力側（$x_i = -90$）：</strong><br />
+$$P_{i,\min} = 25 - \frac{e_x}{3.6}$$</p>
+<hr />
+<h3>Step 3：由基樁軸力限制求 $e_x$</h3>
+<p><strong>限制一：$P_{i,\max} \le 40$ tf（承壓上限）</strong><br />
+$$25 + \frac{e_x}{3.6} \le 40 \quad\Rightarrow\quad \frac{e_x}{3.6} \le 15 \quad\Rightarrow\quad \boxed{e_x \le 54 \text{ cm}} \quad \cdots \text{①}$$</p>
+<p><strong>限制二：$P_{i,\min} \ge -10$ tf（承拉下限）</strong><br />
+$$25 - \frac{e_x}{3.6} \ge -10 \quad\Rightarrow\quad \frac{e_x}{3.6} \le 35 \quad\Rightarrow\quad e_x \le 126 \text{ cm} \quad \cdots \text{②}$$</p>
+<p><strong>基樁軸力控制：</strong> 取較嚴格的 ① → $e_x \le 54$ cm</p>
+<hr />
+<h3>Step 4：驗算柱底穿孔剪力（$\alpha_s = 40$）</h3>
+<p>$$d = 55 - 10 = 45 \text{ cm}, \quad \sqrt{280} = 16.73$$</p>
+<p><strong>臨界周長：</strong><br />
+$$b_{0,\text{col}} = 4\times(50 + d) = 4\times95 = 380 \text{ cm}$$</p>
+<p><strong>抗剪係數（取最小值）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>公式</th>
+<th>計算</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① $0.265\times(2+4/\beta_c)$</td>
+<td>$0.265\times(2+4/1)$</td>
+<td>$1.59$</td>
+</tr>
+<tr>
+<td>② $0.265\times(2+\alpha_s d/b_0)$</td>
+<td>$0.265\times(2+40\times45/380)$</td>
+<td>$1.785$</td>
+</tr>
+<tr>
+<td>③ 固定上限</td>
+<td>—</td>
+<td>$\mathbf{1.06}$ ← 控制</td>
+</tr>
+</tbody>
+</table>
+<p><strong>柱底穿孔剪力強度：</strong><br />
+$$V_c = 1.06\times\sqrt{280}\times380\times45 = 1.06\times16.73\times17{,}100 = 303{,}241 \text{ kgf}$$</p>
+<p>$$\phi V_c = 0.75\times303{,}241 = \mathbf{227{,}431 \text{ kgf} = 227.4 \text{ tf}}$$</p>
+<p><strong>剪力需求：</strong> 所有 4 根樁均位於柱底臨界面<strong>外側</strong>（樁心距柱心 $\sqrt{90^2+90^2} = 127.3$ cm $\gg d/2+c/2 = 22.5+25 = 47.5$ cm），故：</p>
+<p>$$V_u = P_u = 100 \text{ tf} \ll \phi V_c = 227.4 \text{ tf} \quad\checkmark \text{（與 }e_x\text{ 無關，恆成立）}$$</p>
+<hr />
+<h3>Step 5：驗算角隅基樁穿孔剪力（$\alpha_s = 20$）</h3>
+<p>最大基樁軸力（當 $e_x = 54$ cm）：$P_{i,\max} = 40$ tf</p>
+<p><strong>臨界周長（取 3/4 圓）：</strong></p>
+<p>基樁半徑 $r = 15$ cm，$d/2 = 22.5$ cm，臨界圓半徑 $= r + d/2 = 37.5$ cm</p>
+<p>$$b_{0,\text{pile}} = \frac{3}{4}\times2\pi\times37.5 = \frac{3}{4}\times235.6 = \mathbf{176.7 \text{ cm}}$$</p>
+<p><strong>抗剪係數（取最小值）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>公式</th>
+<th>計算</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① $0.265\times(2+4/1)$</td>
+<td>—</td>
+<td>$1.59$</td>
+</tr>
+<tr>
+<td>② $0.265\times(2+20\times45/176.7)$</td>
+<td>$0.265\times(2+5.09)$</td>
+<td>$1.88$</td>
+</tr>
+<tr>
+<td>③ 固定上限</td>
+<td>—</td>
+<td>$\mathbf{1.06}$ ← 控制</td>
+</tr>
+</tbody>
+</table>
+<p><strong>角隅基樁穿孔剪力強度：</strong><br />
+$$V_c = 1.06\times16.73\times176.7\times45 = 1.06\times133{,}006 = 140{,}986 \text{ kgf}$$</p>
+<p>$$\phi V_c = 0.75\times140{,}986 = \mathbf{105{,}740 \text{ kgf} = 105.7 \text{ tf}}$$</p>
+<p><strong>最大基樁軸力 = 40 tf $\ll$ $\phi V_c$ = 105.7 tf $\quad\checkmark$</strong>（穿孔剪力不控制）</p>
+<hr />
+<h3>Step 6：最大容許偏心距</h3>
+<table>
+<thead>
+<tr>
+<th>限制條件</th>
+<th>來源</th>
+<th style="text-align: center;">$e_x$ 上限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基樁承壓 $P_{i,\max} \le 40$ tf</td>
+<td>剛體靜力學</td>
+<td style="text-align: center;"><strong>54 cm</strong> ← 控制</td>
+</tr>
+<tr>
+<td>基樁承拉 $P_{i,\min} \ge -10$ tf</td>
+<td>剛體靜力學</td>
+<td style="text-align: center;">126 cm</td>
+</tr>
+<tr>
+<td>柱底穿孔剪力</td>
+<td>恆滿足</td>
+<td style="text-align: center;">無限制</td>
+</tr>
+<tr>
+<td>角隅基樁穿孔剪力</td>
+<td>恆滿足</td>
+<td style="text-align: center;">無限制</td>
+</tr>
+</tbody>
+</table>
+<p>$$\boxed{e_{x,\max} = 54 \text{ cm}} \quad\text{（由基樁最大承壓軸力控制）}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>爭議點 1：有效深度 $d$ 的取法</h3>
+<p>本題 $d = 55 - 10 = 45$ cm，其中 10 cm 為「鋼筋中心距底面」（由圖三之二讀取）。若誤取 $d = D = 55$ cm，穿孔剪力結果略有不同，但本題結果不受影響（控制條件為基樁軸力，非穿孔剪力）。</p>
+<h3>爭議點 2：角隅樁 $b_0$ 的計算方式</h3>
+<p>本題採 3/4 圓保守估算（因樁心距邊緣僅 40 cm，臨界半徑 37.5 cm，僅差 2.5 cm）。若精確計算，由於臨界面在帽內，可使用完整圓周長（$b_0 = 2\pi\times37.5 = 235.6$ cm），使 $\phi V_c$ 更大，結論不變。</p>
+<h3>爭議點 3：拉力限制為何不控制？</h3>
+<p>在 $e_x = 54$ cm 時，拉力側樁力 $= 25 - 54/3.6 = 25 - 15 = 10$ tf（仍為壓縮力）。樁沒有進入受拉狀態。拉力限制（$P_t \ge -10$ tf）在 $e_x &gt; 90$ cm 時才開始控制，遠大於壓力限制所得 54 cm。</p>
+<h3>進階：若增加樁數或改變樁間距？</h3>
+<p>本題 4 根樁在 $\pm90$ cm 處，相當於樁群的「抵抗力矩 $= \Sigma x_i^2/x_{\max} = 32400/90 = 360$ cm」。若樁間距增大，$\Sigma x_i^2$ 增加，可允許更大的偏心距。</p></main>
+<footer>來源：raw/solutions/RC-2021-3/RC-2021-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

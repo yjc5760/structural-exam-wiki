@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2011-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2011-1 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-2.html">&#128202; U1-2 單元總覽</a><a class="lect" href="../lecture-RC-U1-2.html">&#128218; U1-2 RC 柱強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2011-1</h1>
+<p><strong>主分類：</strong> <code>RC-U1-2</code> RC 柱強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> 概念題（USD）<br />
+<strong>標籤：</strong> <code>P-M互制圖</code> <code>求算步驟</code> <code>平衡點</code> <code>應變相容</code> <code>φ值分區</code> <code>純軸壓</code> <code>純彎</code> <code>壓力控制</code> <code>過渡區</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>請簡要說明鋼筋混凝土柱斷面之 $P_u$-$M_u$ 關係曲線圖（P-M 互制圖）之求算步驟，其中 $P_u$ 及 $M_u$ 分別為柱斷面之<strong>設計軸力強度</strong>（$\phi P_n$）及<strong>設計彎矩強度</strong>（$\phi M_n$）。（10 分）</p>
+<blockquote>
+<p>本題為純概念說明題，無附圖，無截圖需求。</p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> P-M 互制圖是描述「柱斷面在各種偏心距下最大承載能力」的包絡線。任何 $(P_u, M_u)$ 落在曲線內部，表示斷面安全；落在外部表示斷面不足。</p>
+<p><strong>出題者測驗能力：</strong></p>
+<ol>
+<li>是否理解應變相容（strain compatibility）與力平衡（force equilibrium）兩原則的聯合應用</li>
+<li>是否能正確識別三個關鍵特徵點：純壓點、平衡點、純彎點</li>
+<li>是否理解 $\phi$ 值如何隨 $\varepsilon_t$ 過渡（壓力控制 → 過渡區 → 拉力控制）</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>先確立座標系（縱軸 $\phi P_n$，橫軸 $\phi M_n$）</li>
+<li>求三個邊界特徵點（純壓、平衡、純彎）</li>
+<li>在特徵點之間取若干假設 $c$ 值，逐點計算</li>
+<li>對各點套用對應的 $\phi$ 值後描點連線</li>
+</ol>
+<p><strong>關鍵陷阱：</strong><br />
+| 陷阱 | 說明 | 應對 |<br />
+|------|------|------|<br />
+| ❶ $\phi P_{n,\text{max}}$ 上限 | ACI 規定：純軸壓設計上限 = $0.80\phi P_{n0}$（矩形箍），非 $\phi P_{n0}$ | 記住 0.80（矩形）/ 0.85（螺旋）修正係數 |<br />
+| ❷ $c_b$ 公式單位 | $c_b = \frac{6120}{6120+f_y}\cdot d$（kgf/cm² 單位），SI 制為 $\frac{600}{600+f_y}\cdot d$ | 確認單位制再代公式 |<br />
+| ❸ 壓力鋼筋應力 | $c$ 大時，$A'_s$ 所在應變未必達 $\varepsilon_y$，需應變相容驗算 | $f'_s = \min(E_s\varepsilon'_s,\ f_y)$ |<br />
+| ❹ $\phi$ 值判斷 | $\varepsilon_t &lt; \varepsilon_y$ → 壓力控制 $\phi=0.65$；$\varepsilon_t &gt; 0.005$ → 拉力控制 $\phi=0.9$；中間線性插值 | 以 $\varepsilon_t$ 而非 $c/d$ 判斷 |</p>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求出柱斷面在不同偏心距下對應的設計強度點集合 $(\phi M_n,\ \phi P_n)$，繪成封閉包絡曲線。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1（純壓）：} P_{n0} = 0.85f'_c(A_g - A_{st}) + f_y A_{st}$$</p>
+<p>$$\text{Step 2（平衡中性軸）：} c_b = \frac{6120}{6120 + f_y}\cdot d \quad \Rightarrow \quad a_b = \beta_1 \cdot \boxed{c_b}$$</p>
+<p>$$\text{Step 3（平衡點力）：} P_{nb} = 0.85f'_c \cdot \boxed{a_b} \cdot b + C_s - T_b$$</p>
+<p>$$\text{Step 4（任意點應變）：} \varepsilon'_s = \varepsilon_{cu}\cdot\frac{c - d'}{c},\quad \varepsilon_t = \varepsilon_{cu}\cdot\frac{d - c}{c}$$</p>
+<p>$$\text{Step 5（任意點力矩）：} M_n = \sum F_i \cdot y_i \quad \text{（各力對斷面形心取矩）}$$</p>
+<p>$$\text{Step 6（φ值）：} \phi = \begin{cases}0.65 &amp; \varepsilon_t \le \varepsilon_y \\ 0.65 + 0.25\dfrac{\varepsilon_t - \varepsilon_y}{0.005 - \varepsilon_y} &amp; \varepsilon_y &lt; \varepsilon_t &lt; 0.005 \\ 0.90 &amp; \varepsilon_t \ge 0.005\end{cases}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>—</td>
+<td>—</td>
+<td>本題為概念說明題，無具體數值</td>
+</tr>
+<tr>
+<td>$\varepsilon_{cu}$</td>
+<td>0.003</td>
+<td>混凝土極限壓應變（ACI 規定）</td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td>$2.04\times10^6$ kgf/cm²</td>
+<td>鋼筋彈性模數</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>▌ 材料常數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$0.85 - 0.05(f'_c - 280)/70$，$f'_c &gt; 280$ kgf/cm²</td>
+<td></td>
+</tr>
+<tr>
+<td>$\varepsilon_y$</td>
+<td>$f_y / E_s$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌ 純壓點（Point A）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_{n0}$</td>
+<td>$0.85f'_c(A_g - A_{st}) + f_y A_{st}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi P_{n,\text{max}}$</td>
+<td>$0.80 \times \phi_{cc} \times P_{n0}$，$\phi_{cc}=0.65$（矩形箍）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌ 平衡點（Point B）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$c_b$</td>
+<td>$\dfrac{6120}{6120+f_y}\cdot d$（kgf/cm²）</td>
+<td></td>
+</tr>
+<tr>
+<td>$a_b$</td>
+<td>$\beta_1 \cdot c_b$</td>
+<td></td>
+</tr>
+<tr>
+<td>$C_c$</td>
+<td>$0.85 f'_c \cdot a_b \cdot b$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\varepsilon'_{sb}$</td>
+<td>$\varepsilon_{cu}(c_b - d')/c_b$ → 驗算是否 $\ge \varepsilon_y$</td>
+<td></td>
+</tr>
+<tr>
+<td>$f'_{sb}$</td>
+<td>$\min(E_s\varepsilon'_{sb},\ f_y)$</td>
+<td></td>
+</tr>
+<tr>
+<td>$C_s$</td>
+<td>$A'_s(f'_{sb} - 0.85f'_c)$</td>
+<td></td>
+</tr>
+<tr>
+<td>$T_b$</td>
+<td>$A_s \cdot f_y$（平衡點拉力鋼筋必降伏）</td>
+<td></td>
+</tr>
+<tr>
+<td>$P_{nb}$</td>
+<td>$C_c + C_s - T_b$</td>
+<td></td>
+</tr>
+<tr>
+<td>$M_{nb}$</td>
+<td>各力對斷面形心取矩之總和</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>▌ 任意中間點（假設 $c$）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\varepsilon_t$</td>
+<td>$\varepsilon_{cu}(d-c)/c$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\varepsilon'_s$</td>
+<td>$\varepsilon_{cu}(c-d')/c$</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_s$、$f'_s$</td>
+<td>$\min(E_s\varepsilon, f_y)$</td>
+<td></td>
+</tr>
+<tr>
+<td>$P_n$</td>
+<td>$C_c + C_s - T$</td>
+<td></td>
+</tr>
+<tr>
+<td>$M_n$</td>
+<td>各力對形心之矩</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\phi P_{n,\text{max}}$ 上限係數 0.80/0.85</td>
+<td>防止柱在「幾乎零偏心」下因施工偏差而破壞，ACI 強制設計上限</td>
+<td></td>
+</tr>
+<tr>
+<td>形心（plastic centroid）的位置</td>
+<td>對形心取矩才能得到正確 $M_n$；對稱斷面形心在幾何中心，不對稱斷面需另算</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi$ 值的連續過渡</td>
+<td>ACI 規定拉力控制 $\phi=0.9$、壓力控制 $\phi=0.65$，中間以 $\varepsilon_t$ 線性插值，不是跳躍式切換</td>
+<td></td>
+</tr>
+<tr>
+<td>壓力鋼筋應力修正 $-0.85f'_c$</td>
+<td>$C_s = A'_s(f'_s - 0.85f'_c)$，因混凝土壓力已計入 $C_c$，須扣除重複計算部分</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<blockquote>
+<p>本題為概念說明，以下依步驟條列 P-M 互制圖完整求算流程。</p>
+</blockquote>
+<hr />
+<h3>步驟一：確立基本材料常數</h3>
+<p>$$\beta_1 = 0.85 - 0.05\cdot\frac{f'_c - 280}{70} \quad (f'_c &gt; 280 \text{ kgf/cm}^2)$$</p>
+<p>$$\varepsilon_y = \frac{f_y}{E_s} = \frac{f_y}{2.04\times10^6}$$</p>
+<p>$$\varepsilon_{cu} = 0.003 \text{（ACI 規定混凝土極限壓應變）}$$</p>
+<hr />
+<h3>步驟二：求純軸壓點（Point A，e = 0）</h3>
+<p>$$P_{n0} = 0.85f'_c(A_g - A_{st}) + f_y A_{st}$$</p>
+<p>ACI 設計上限（考慮最小偏心）：</p>
+<p>$$\boxed{P_{u,\max} = \phi P_{n,\max} = 0.80\,\phi P_{n0}} \quad (\phi = 0.65 \text{，矩形箍筋柱})$$</p>
+<p>此點座標：$(\phi M_n = 0,\ \phi P_n = P_{u,\max})$</p>
+<blockquote>
+<p>$P_u$ 本身已是設計（因數化）值，不可再寫成 $\phi P_{u,\max}$——那等於把 $\phi$ 計入兩次。</p>
+</blockquote>
+<hr />
+<h3>步驟三：求平衡點（Point B，$\varepsilon_t = \varepsilon_y$）</h3>
+<p><strong>中性軸深度：</strong></p>
+<p>$$c_b = \frac{\varepsilon_{cu}}{\varepsilon_{cu} + \varepsilon_y}\cdot d = \frac{6120}{6120 + f_y}\cdot d \quad \text{（kgf/cm² 單位）}$$</p>
+<p>$$a_b = \beta_1 \cdot c_b$$</p>
+<p><strong>各力：</strong></p>
+<p>$$C_c = 0.85f'_c \cdot a_b \cdot b$$</p>
+<p>$$\varepsilon'_s = \varepsilon_{cu}\cdot\frac{c_b - d'}{c_b} \quad \Rightarrow \quad f'_s = \min(E_s\varepsilon'_s,\ f_y)$$</p>
+<p>$$C_s = A'_s(f'_s - 0.85f'_c),\quad T = A_s\cdot f_y$$</p>
+<p><strong>標稱強度：</strong></p>
+<p>$$P_{nb} = C_c + C_s - T$$</p>
+<p>$$M_{nb} = C_c\!\left(\frac{h}{2} - \frac{a_b}{2}\right) + C_s\!\left(\frac{h}{2} - d'\right) + T\!\left(d - \frac{h}{2}\right)$$</p>
+<p><strong>φ 值判斷：</strong> $\varepsilon_t = \varepsilon_y$，屬壓力控制過渡邊界，$\phi = 0.65$（保守取）</p>
+<p>$$\boxed{(\phi M_{nb},\ \phi P_{nb}) = (0.65 M_{nb},\ 0.65 P_{nb})}$$</p>
+<hr />
+<h3>步驟四：求純彎點（Point C，$P_n = 0$）</h3>
+<p>令 $P_n = 0$，以中性軸 $c$ 為未知數求解（同單筋/雙筋梁分析）：</p>
+<p>$$0.85f'_c\cdot\beta_1 c\cdot b + A'_s(f'_s - 0.85f'_c) - A_s f_s = 0$$</p>
+<p>其中 $f_s = \min(E_s\varepsilon_t, f_y)$，$f'_s = \min(E_s\varepsilon'_s, f_y)$，解出 $c$ 後：</p>
+<p>$$M_{nc} = \text{各力對形心之矩}$$</p>
+<p>此區段須<strong>實算</strong> $\varepsilon_t$ 再定 $\phi$：一般梁式配筋的純彎點 $\varepsilon_t \gg 0.005$ 而 $\phi = 0.90$，但重配筋斷面可能落在過渡區，不可直接假設。</p>
+<p>$$\boxed{(\phi M_{nc},\ \phi P_{nc}) = (0.90 M_{nc},\ 0)}$$</p>
+<hr />
+<h3>步驟五：求若干中間點（假設一系列 $c$ 值）</h3>
+<p>$c$ 由小到大掃過三段：$0 &lt; c &lt; c_b$、$c_b &lt; c &lt; h$、以及 $c &gt; h$（全斷面受壓，一路延伸到被 $0.80\phi P_{n0}$ 水平截平為止；漏掉這一段，曲線上半部就畫不完整）。每段各取 3–5 個 $c$ 值，並且<strong>必須包含這兩個點</strong>：</p>
+<ul>
+<li>$c = c_b$（平衡點）——標稱曲線的彎矩峰值</li>
+<li>$c = \dfrac{0.003}{0.003+0.005}d = 0.375d$（$\varepsilon_t = 0.005$）——<strong>設計</strong>曲線的彎矩峰值兼折點</li>
+</ul>
+<p>對每個 $c$：</p>
+<table>
+<thead>
+<tr>
+<th>計算項目</th>
+<th>公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>壓力鋼筋應變</td>
+<td>$\varepsilon'_s = \varepsilon_{cu}(c - d')/c$</td>
+</tr>
+<tr>
+<td>拉力鋼筋應變</td>
+<td>$\varepsilon_t = \varepsilon_{cu}(d - c)/c$</td>
+</tr>
+<tr>
+<td>鋼筋應力（限制 $\le f_y$）</td>
+<td>$f'_s = \min(E_s\varepsilon'_s, f_y)$，$f_s = \min(E_s\varepsilon_t, f_y)$</td>
+</tr>
+<tr>
+<td>各力</td>
+<td>$C_c = 0.85f'_c\cdot\beta_1 c\cdot b$，$C_s = A'_s(f'_s-0.85f'_c)$，$T = A_s f_s$</td>
+</tr>
+<tr>
+<td>標稱強度</td>
+<td>$P_n = C_c + C_s - T$，$M_n = \sum F_i y_i$（對形心取矩）</td>
+</tr>
+<tr>
+<td>φ 值</td>
+<td>依 $\varepsilon_t$ 線性插值（見 §3.5）</td>
+</tr>
+<tr>
+<td>設計強度</td>
+<td>$(\phi M_n,\ \phi P_n)$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>步驟六：描點繪製互制圖</h3>
+<p>將所有計算點 $(\phi M_n,\ \phi P_n)$ 描在座標系上連成曲線，並標示：</p>
+<blockquote>
+<p><strong>注意：$\phi P_n$–$\phi M_n$ 曲線並不平滑。</strong> 平滑的是<strong>標稱</strong>曲線；設計曲線有兩個不連續處：<br />
+（a）$\varepsilon_t = 0.005$ 處 $\varphi$ 觸頂 0.90 後被截平，曲線出現<strong>折點</strong>，<br />
+　　且 $\varphi M_n$ 的<strong>極大值就落在這個折點上</strong>，不在平衡點（推導見 RC-2015-1）；<br />
+（b）上緣被 $0.80\phi P_{n0}$ 水平截平。<br />
+描點時若把這兩處硬拉成平滑弧線，圖形與最大設計彎矩的位置都會畫錯。</p>
+</blockquote>
+<ul>
+<li>曲線上方/右方 → 斷面<strong>不足</strong>（unsafe）</li>
+<li>曲線內部 → 斷面<strong>安全</strong>（safe）</li>
+<li>壓力控制區（$\varepsilon_t \le \varepsilon_y$）、過渡區、拉力控制區三段</li>
+</ul>
+<p>$$\boxed{\text{P-M 互制圖繪製完成}}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>① 對稱斷面 vs. 不對稱斷面的形心位置</strong></p>
+<ul>
+<li>雙向對稱斷面（$A_s = A'_s$，$d + d' = h$）：塑性形心 = 幾何形心 = $h/2$</li>
+<li>不對稱配筋：需由 $x_p = \sum(F_i \cdot y_i)/\sum F_i$ 計算塑性形心後再取矩</li>
+</ul>
+<p><strong>② $\phi$ 值的折減邏輯</strong></p>
+<ul>
+<li>拉力控制（$\varepsilon_t \ge 0.005$）：$\phi = 0.90$——斷面延性足，允許較高利用率</li>
+<li>壓力控制（$\varepsilon_t \le \varepsilon_y$）：$\phi = 0.65$（矩形箍）——壓力破壞突然，需更保守</li>
+<li>螺旋柱壓力控制 $\phi = 0.75$，因圍束效果較好</li>
+</ul>
+<p><strong>③ 考場速解提示（10 分概念題）</strong></p>
+<blockquote>
+<p>本題只要寫出「六個步驟 + 三個特徵點 + φ 值分區」即可拿滿分。<br />
+不需要代入具體數字，但公式必須寫出且正確。</p>
+</blockquote></main>
+<footer>來源：raw/solutions/RC-2011-1/RC-2011-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

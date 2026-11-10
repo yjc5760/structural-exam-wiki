@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2020-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2020-1 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-1.html">&#128202; U1-1 單元總覽</a><a class="lect" href="../lecture-RC-U1-1.html">&#128218; U1-1 RC 梁彎矩強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2020-1</h1>
+<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>T形梁</code> <code>有效翼板寬</code> <code>中性軸在翼板</code> <code>最少鋼筋量</code> <code>Whitney應力塊</code> <code>正彎矩設計</code></p>
+<hr />
+<h2>1. 原始題目重述（Problem Restatement）</h2>
+<p>一梁版系統斷面如圖所示，每一梁腹與部分相連的版可視為一 T 型梁抵抗外載。<br />
+每一 T 型梁所受之設計（因數化）正彎矩 $M_u = 130 \text{ tf-m}$（含自重之效應），求每一 T 型梁所需之<strong>最少</strong>拉力筋面積 $A_s$。</p>
+<p><strong>已知條件：</strong></p>
+<ul>
+<li>混凝土抗壓強度 $f'_c = 210 \text{ kgf/cm}^2$</li>
+<li>鋼筋降伏強度 $f_y = 4200 \text{ kgf/cm}^2$</li>
+<li>梁跨度 $L = 500 \text{ cm}$</li>
+<li>設計正彎矩 $M_u = 130 \text{ tf-m} = 13{,}000{,}000 \text{ kgf-cm}$</li>
+</ul>
+<p><strong>斷面幾何（由圖讀取）：</strong></p>
+<ul>
+<li>版厚（翼板厚）$h_f = 10 \text{ cm}$</li>
+<li>梁腹寬 $b_w = 50 \text{ cm}$</li>
+<li>梁腹高（翼板底至梁底）$= 70 \text{ cm}$</li>
+<li>全深 $h = 10 + 70 = 80 \text{ cm}$</li>
+<li>保護層（至鋼筋重心）$= 6 \text{ cm}$，故有效深度 $d = 80 - 6 = 74 \text{ cm}$</li>
+<li>梁間淨距 $= 400 \text{ cm}$（每側）</li>
+</ul>
+<p><img alt="RC-2020-1 題目附圖：T形梁版系統橫斷面，梁間淨距 400+400 cm，版厚 10 cm，梁腹 50×70 cm，保護層 6 cm" src="../../raw/solutions/RC-2020-1/RC-2020-1-fig-1.png" /></p>
+<p><em>圖說：T形梁斷面，有效翼板範圍由三個條件控制；梁腹寬 bw=50 cm，版厚 hf=10 cm，全深 h=80 cm，d=74 cm，兩側梁間淨距均為 400 cm，L=500 cm，f'c=210 kgf/cm²，fy=4200 kgf/cm²。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖（Core Concepts &amp; Examiner's Intent）</h2>
+<p><strong>核心觀念：</strong> T 形梁有效翼板寬三個控制條件的判斷 → 中性軸位置假設與驗證 → USD 設計彎矩強度公式求 $A_s$。</p>
+<p><strong>出題者意圖：</strong></p>
+<ol>
+<li>測驗考生能否正確套用三個有效翼板寬規定，取最小值</li>
+<li>判斷中性軸是否在翼板內（內 T 梁多數情況中性軸在翼板，需驗算）</li>
+<li>求解 $A_s$ 的二次方程求根，並確認最小鋼筋量</li>
+</ol>
+<p><strong>陷阱：</strong> 題目明示三個規定條件，考生需<strong>全部計算</strong>後取最小值；另外 $M_u = 130 \text{ tf-m}$ 需正確換算為 kgf-cm 單位（$\times 10^5$，不是 $\times 10^4$）。</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析（Strategic Roadmap &amp; Trap Analysis）</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>計算有效翼板寬 $b_e$（三條件取最小）</li>
+<li>假設中性軸在翼板內 → 當作矩形梁（寬 $b_e$）求解 $A_s$</li>
+<li>驗算假設（$a \leq h_f$）</li>
+<li>確認 $\varepsilon_t \geq 0.005$（拉力控制，$\phi = 0.9$）</li>
+<li>檢核最小鋼筋量 $A_{s,\min}$</li>
+</ol>
+<p><strong>三大陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>對策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>單位換算</td>
+<td>$M_u = 130 \text{ tf-m}$，1 tf = 1000 kgf，1 m = 100 cm</td>
+<td>$M_u = 130 \times 10^5 = 1.3 \times 10^7 \text{ kgf-cm}$</td>
+</tr>
+<tr>
+<td>有效翼板寬取最小</td>
+<td>三個條件需<strong>全部算</strong>，取最小值</td>
+<td>逐一計算後比較</td>
+</tr>
+<tr>
+<td>最小鋼筋量用 $b_w$</td>
+<td>$A_{s,\min}$ 公式中用腹板寬 $b_w$，<strong>不用</strong> $b_e$</td>
+<td>$A_{s,\min} = \frac{14}{f_y} b_w d$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>求滿足 φMn ≥ Mu 的最少拉力筋面積 As（同時不得低於 As,min）</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<blockquote>
+<p>$\boxed{\cdot}$ = 需由前步驟推導，非題目直接給定的變數</p>
+</blockquote>
+<p>$$\text{Step 1: } b_e = \min\!\left(\frac{L}{4},\ b_w + 2 \times 8h_f,\ b_w + s_{clear}\right)$$</p>
+<p>$$\text{Step 2: } a = \frac{A_s f_y}{0.85 f'_c \boxed{b_e}}$$</p>
+<p>$$\text{Step 3: } \phi M_n = \phi A_s f_y \!\left(d - \frac{\boxed{a}}{2}\right) \geq M_u \quad \Rightarrow \text{解二次方程求 }A_s$$</p>
+<p>$$\text{Step 4（驗算假設）: } \boxed{a} \leq h_f \quad \Rightarrow \text{中性軸確在翼板內}$$</p>
+<p>$$\text{Step 5（延性驗算）: } \varepsilon_t = 0.003 \times \frac{d - \boxed{c}}{\boxed{c}} \geq 0.005 \quad \Rightarrow \phi = 0.9$$</p>
+<p>$$\text{Step 6: } A_{s,\min} = \frac{14}{f_y} \cdot b_w \cdot d$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f'_c$</td>
+<td>210 kgf/cm²</td>
+<td>混凝土抗壓強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+<td>鋼筋降伏強度</td>
+</tr>
+<tr>
+<td>$M_u$</td>
+<td>130 tf-m</td>
+<td>設計正彎矩</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>500 cm</td>
+<td>梁跨度</td>
+</tr>
+<tr>
+<td>$h_f$</td>
+<td>10 cm</td>
+<td>翼板（版）厚</td>
+</tr>
+<tr>
+<td>$b_w$</td>
+<td>50 cm</td>
+<td>梁腹寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>80 cm</td>
+<td>全深（10+70）</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>74 cm</td>
+<td>有效深度（h − 6）</td>
+</tr>
+<tr>
+<td>$s_{clear}$</td>
+<td>400 cm</td>
+<td>梁間淨距（每側）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：有效翼板寬</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b_e$ 條件1</td>
+<td>$L/4 = 500/4 = 125 \text{ cm}$（總寬限制）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$b_e$ 條件2</td>
+<td>$b_w + 2 \times 8h_f = 50 + 160 = 210 \text{ cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$b_e$ 條件3</td>
+<td>$b_w + s_{clear} = 50 + 400 = 450 \text{ cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$b_e$</td>
+<td>$\min(125, 210, 450) = 125 \text{ cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：β₁ 與壓力塊高度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$f'_c = 210 \leq 280 \Rightarrow \beta_1 = 0.85$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a$</td>
+<td>$A_s \times 4200/(0.85 \times 210 \times 125) = 0.18826 A_s$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：求 As（二次方程）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_s$</td>
+<td>$0.9 A_s \cdot 4200(74 - 0.09413A_s) = 13{,}000{,}000$ → 二次方程解</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>取小根</td>
+<td>$A_s = (279{,}720 - \sqrt{279{,}720^2 - 4 \times 355.8 \times 13{,}000{,}000})/(2 \times 355.8)$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4–5：驗算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$a$</td>
+<td>$0.18826 \times 49.65 = 9.35 \text{ cm} \leq h_f = 10$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$c$</td>
+<td>$a/\beta_1 = 9.35/0.85 = 11.0 \text{ cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_t$</td>
+<td>$0.003 \times (74-11.0)/11.0 = 0.0172 \geq 0.005$ ✓ → $\phi=0.9$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 6：最小鋼筋量</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$A_{s,\min}$</td>
+<td>$\max(0.8\sqrt{f'_c}/f_y,\ 14/f_y) \times b_w \times d = (14/4200) \times 50 \times 74 = 12.33 \text{ cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>三個有效翼板寬條件的物理意義</td>
+<td>條件1限制翼板參與受力的長度；條件2限制剪力滯效應；條件3避免相鄰梁翼板重疊</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>中性軸假設的驗算邏輯</td>
+<td>若 $a &gt; h_f$ 必須改用 T 梁公式（分離 Asf + Asw），本題不需要</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>最小鋼筋量用 $b_w$ 而非 $b_e$</td>
+<td>T 梁腹板是受拉側主體；若用 $b_e$ 會低估最低鋼筋要求</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>二次方程取小根</td>
+<td>較小根對應延性破壞（拉力控制）；較大根表示壓力控制，不符延性設計</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程（Step-by-Step Detailed Calculation）</h2>
+<h3>Step 1：有效翼板寬 $b_e$</h3>
+<p>條件一：總有效翼板寬 $\leq L/4$</p>
+<p>$$b_e \leq \frac{L}{4} = \frac{500}{4} = 125 \text{ cm}$$</p>
+<p>條件二：每側懸出 $\leq 8h_f$</p>
+<p>$$b_e \leq b_w + 2 \times 8h_f = 50 + 2 \times 8 \times 10 = 50 + 160 = 210 \text{ cm}$$</p>
+<p>條件三：每側懸出 $\leq$ 梁間淨距$/2$</p>
+<p>$$b_e \leq b_w + 2 \times \frac{400}{2} = 50 + 400 = 450 \text{ cm}$$</p>
+<p>$$\boxed{b_e = \min(125,\ 210,\ 450) = 125 \text{ cm}}$$</p>
+<h3>Step 2：材料參數</h3>
+<p>$$\beta_1 = 0.85 \quad (f'_c = 210 \text{ kgf/cm}^2 \leq 280)$$</p>
+<p>單位換算：</p>
+<p>$$M_u = 130 \text{ tf-m} = 130 \times 1000 \times 100 = 13{,}000{,}000 \text{ kgf-cm}$$</p>
+<h3>Step 3：假設中性軸在翼板內，求 $A_s$</h3>
+<p>以 $b_e = 125 \text{ cm}$ 矩形梁進行設計，$\phi = 0.9$（先假設拉力控制）。</p>
+<p>Whitney 應力塊高度：</p>
+<p>$$a = \frac{A_s f_y}{0.85 f'_c b_e} = \frac{A_s \times 4200}{0.85 \times 210 \times 125} = \frac{4200 A_s}{22{,}312.5} = 0.18826 A_s$$</p>
+<p>彎矩強度方程式：</p>
+<p>$$\phi M_n = \phi A_s f_y \left(d - \frac{a}{2}\right) = M_u$$</p>
+<p>$$0.9 \times A_s \times 4200 \times \left(74 - \frac{0.18826 A_s}{2}\right) = 13{,}000{,}000$$</p>
+<p>$$3780 A_s (74 - 0.09413 A_s) = 13{,}000{,}000$$</p>
+<p>$$279{,}720 A_s - 355.8 A_s^2 = 13{,}000{,}000$$</p>
+<p>整理為標準二次方程式：</p>
+<p>$$355.8 A_s^2 - 279{,}720 A_s + 13{,}000{,}000 = 0$$</p>
+<p>判別式：</p>
+<p>$$\Delta = 279{,}720^2 - 4 \times 355.8 \times 13{,}000{,}000 = 78{,}242{,}678{,}400 - 18{,}501{,}600{,}000 = 59{,}741{,}078{,}400$$</p>
+<p>$$\sqrt{\Delta} = 244{,}421$$</p>
+<p>取小根（延性解）：</p>
+<p>$$A_s = \frac{279{,}720 - 244{,}421}{2 \times 355.8} = \frac{35{,}299}{711.6} \approx \boxed{49.6 \text{ cm}^2}$$</p>
+<h3>Step 4：驗算中性軸假設</h3>
+<p>$$a = 0.18826 \times 49.6 = 9.34 \text{ cm} &lt; h_f = 10 \text{ cm} \quad \checkmark$$</p>
+<p>中性軸在翼板內，假設成立。</p>
+<h3>Step 5：驗算 $\phi$ 值（延性確認）</h3>
+<p>$$c = \frac{a}{\beta_1} = \frac{9.34}{0.85} = 10.99 \text{ cm}$$</p>
+<p>$$\varepsilon_t = 0.003 \times \frac{d - c}{c} = 0.003 \times \frac{74 - 10.99}{10.99} = 0.003 \times 5.732 = 0.01720 \gg 0.005 \quad \checkmark$$</p>
+<p>$\phi = 0.9$（拉力控制），假設正確。</p>
+<h3>Step 6：最小鋼筋量檢核</h3>
+<p>$$A_{s,\min} = \max\!\left(\frac{0.8\sqrt{f'_c}}{f_y},\ \frac{14}{f_y}\right) \times b_w \times d$$</p>
+<p>$$= \max\!\left(\frac{0.8 \times \sqrt{210}}{4200},\ \frac{14}{4200}\right) \times 50 \times 74$$</p>
+<p>$$= \max\left(\frac{11.59}{4200},\ \frac{14}{4200}\right) \times 3700$$</p>
+<p>$$= \frac{14}{4200} \times 3700 = 0.003333 \times 3700 = 12.33 \text{ cm}^2$$</p>
+<p>$$A_s = 49.6 \text{ cm}^2 \gg A_{s,\min} = 12.33 \text{ cm}^2 \quad \checkmark \text{（強度需求控制）}$$</p>
+<h3>最終結果</h3>
+<p>$$\boxed{A_s = 49.6 \text{ cm}^2}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討（Critical Issues &amp; Advanced Discussion）</h2>
+<p><strong>1. 有效深度 d 的取法</strong><br />
+本題圖面標示保護層 6 cm 為至鋼筋重心距離（台灣考題慣例），故 $d = 80 - 6 = 74$ cm。若誤解為淨保護層，需再減去鋼筋半徑，導致 $d$ 偏小。</p>
+<p><strong>2. 中性軸幾乎恰在翼板底部</strong><br />
+$a = 9.34$ cm，距 $h_f = 10$ cm 僅剩 0.66 cm，稍有不慎（如誤用更小的 $d$）可能導致 $a &gt; h_f$，需改用 T 梁腹板分解公式。考場上應先假設在翼板內，計算後<strong>必須驗算</strong>。</p>
+<p><strong>3. 最小鋼筋量用 $b_w$ 不用 $b_e$</strong><br />
+T 梁最小鋼筋量規定使用 $b_w$（腹板寬），因腹板是受拉部分的主要承力寬度。本題 $A_{s,\min} = 12.33$ cm² 遠小於計算值 49.6 cm²，無影響。</p>
+<p><strong>4. 延性驗算替代方法</strong><br />
+可直接檢核 $\rho \leq 0.75\rho_b$：<br />
+$$\rho = \frac{A_s}{b_e \cdot d} = \frac{49.6}{125 \times 74} = 0.00536$$<br />
+$$0.75\rho_b = 0.75 \times 0.85 \times 0.85 \times \frac{210}{4200} \times \frac{6120}{10320} = 0.01607$$<br />
+$$0.00536 \ll 0.01607 \quad \checkmark$$</p></main>
+<footer>來源：raw/solutions/RC-2020-1/RC-2020-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

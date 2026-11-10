@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2016-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2016-1 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-1.html">&#128202; U1-1 單元總覽</a><a class="lect" href="../lecture-RC-U1-1.html">&#128218; U1-1 RC 梁彎矩強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2016-1</h1>
+<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>副分類：</strong> <code>RC-U3-3</code> 韌性要求與耐震設計<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>兩端固定梁</code> <code>地震彎矩組合</code> <code>雙曲度彎矩</code> <code>固端彎矩</code> <code>頂底筋設計</code> <code>單筋矩形梁</code> <code>ACI載重組合</code></p>
+<hr />
+<h2>1. 原始題目重述（Problem Restatement）</h2>
+<p>兩端均為固定端之矩形斷面 RC 梁，斷面尺寸 35 cm（寬）× 70 cm（深），梁淨跨度 $L = 7.5$ m。</p>
+<p><strong>載重條件：</strong></p>
+<ul>
+<li>靜載重：$w_D = 2 \text{ tf/m}$（含梁自重）</li>
+<li>活載重：$w_L = 1 \text{ tf/m}$</li>
+<li>地震彎矩：$M_E = 16.5 \text{ tf-m}$（兩端均等，成雙曲度一組彎矩）</li>
+</ul>
+<p><strong>材料：</strong></p>
+<ul>
+<li>$f'_c = 280 \text{ kgf/cm}^2$</li>
+<li>$f_y = 4200 \text{ kgf/cm}^2$</li>
+<li>有效深度：$d = 63 \text{ cm}$（統一取值）</li>
+</ul>
+<p><strong>力學假設（彈性分析）：</strong></p>
+<ul>
+<li>固定端彎矩採用 $wL^2/12$（兩端）</li>
+<li>跨中彎矩採用 $wL^2/24$</li>
+</ul>
+<p><strong>目標：</strong> 整跨頂部與底部配置相同鋼筋量，試設計之。（30 分）</p>
+<p><img alt="RC-2016-1 兩端固定RC梁示意圖：梁淨跨L=7.5m，均佈載重wD=wL，兩端地震彎矩ME成雙曲度，以及矩形斷面b=35cm,h=70cm" src="../../raw/solutions/RC-2016-1/RC-2016-1-fig-1.png" /></p>
+<p><em>圖說：(a) 兩端固定RC梁，跨度L=7.5m，承受均佈靜載重wD=2tf/m及活載重wL=1tf/m，兩端地震彎矩ME=±16.5tf-m成雙曲度；(b) 矩形斷面b=35cm、h=70cm，有效深度d=63cm，f'c=280kgf/cm²，fy=4200kgf/cm²。</em></p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖（Core Concepts &amp; Examiner's Intent）</h2>
+<p><strong>核心觀念：</strong></p>
+<ol>
+<li><strong>地震載重組合</strong>：除重力載重外，須加入地震作用的 ACI 載重組合（1.2D+1.0E+1.0L 或 0.9D+1.0E），考驗考生能否正確處理不同組合情境</li>
+<li><strong>兩端固定梁的力學</strong>：固端彎矩與跨中彎矩公式的正確應用</li>
+<li><strong>雙曲度彎矩方向</strong>：$M_E$ 在兩端的方向對固端彎矩的疊加方式具有決定性影響——雙曲度意味著地震彎矩在固端有不同的增強/抵消效果</li>
+<li><strong>頂底筋相同設計</strong>：以最大彎矩需求控制，同時滿足正負彎矩需求</li>
+</ol>
+<p><strong>出題者意圖：</strong></p>
+<ul>
+<li>測驗考生能否正確完成載重組合，特別是地震彎矩的疊加</li>
+<li>確認考生理解「雙曲度」代表的物理意義（兩端彎矩方向使梁呈S型）</li>
+<li>驗證單筋矩形梁的設計流程</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析（Strategic Roadmap &amp; Trap Analysis）</h2>
+<h3>作戰計畫</h3>
+<pre><code>Step 1：計算因數化均佈載重彎矩（重力載重組合 1.2D+1.6L）
+Step 2：計算因數化地震組合彎矩（1.2D+1.0E+1.0L 及 0.9D+1.0E）
+Step 3：地震反向 → 檢查梁端會不會翻號成正彎矩（ME 大於重力端彎矩時就會）
+Step 4：列出三個控制點（固端負、固端正、跨中正）的最大設計彎矩 Mu
+Step 5：設計控制斷面的頂部與底部鋼筋量
+Step 6：延性（εt ≥ 0.004）與最小鋼筋量檢核
+Step 7：選配鋼筋 + 間距檢核
+Step 8：耐震規定 Mn,bot ≥ Mn,top / 2（比彎矩強度，不是比面積）
+</code></pre>
+<h3>關鍵陷阱</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>說明</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>地震彎矩方向</td>
+<td>雙曲度：地震時梁呈S型，兩端 $M_E$ 方向<strong>相同</strong>（均為順時針或逆時針），但固端彎矩因位置（左/右端）與地震疊加方式不同</td>
+<td>明確定義正負號：正彎矩使底部受拉，負彎矩使頂部受拉</td>
+</tr>
+<tr>
+<td>②</td>
+<td>載重組合選擇</td>
+<td>ACI 地震組合：$1.2D+1.0E+1.0L$ 及 $0.9D+1.0E$ 兩種均需計算</td>
+<td>兩組均算，取最大值</td>
+</tr>
+<tr>
+<td>③</td>
+<td>固端負彎矩 vs 跨中正彎矩</td>
+<td>地震組合下，固端彎矩可能增大或減小，需分別考慮 $+M_E$ 和 $-M_E$ 的疊加</td>
+<td>固端取最大絕對值，跨中取正彎矩最大值</td>
+</tr>
+<tr>
+<td>③'</td>
+<td><strong>漏算「梁端正彎矩」</strong></td>
+<td>$M_E = 16.5 &gt; 0.9M_{D,\text{end}} = 8.44$，地震反向那一端<strong>會翻號成正彎矩</strong> $+8.06$ tf-m</td>
+<td>組合表必須有「固端（正彎矩）」這一格；本題它小於跨中 9.375 故不控制，但要算過才知道</td>
+</tr>
+<tr>
+<td>④</td>
+<td>「頂底筋相同」不是說配置方式相同</td>
+<td>是指整跨同位置（頂部）配置相同量、整跨同位置（底部）配置相同量，然後取兩者最大值作為統一值</td>
+<td>求出 $M_{u,max}$（不論正負），以此設計鋼筋量</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>計算各載重組合下的設計彎矩 Mu → 設計單筋矩形梁的頂部與底部鋼筋量 As</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<blockquote>
+<p>$\boxed{\cdot}$ = 需由前步驟推導，非題目直接給定的變數</p>
+</blockquote>
+<p>$$\text{Step 1: } M_{u,\text{gravity}} = 1.2M_D + 1.6M_L \quad \text{(重力組合固端與跨中)}$$</p>
+<p>$$\text{Step 2: } M_{u,\text{EQ}} = 1.2M_D + 1.0M_E + 1.0M_L \quad \text{或} \quad 0.9M_D + 1.0M_E$$</p>
+<p>$$\text{Step 3: } M_u = \max\left(\boxed{M_{u,\text{gravity}}},\ \boxed{M_{u,\text{EQ}}}\right)$$</p>
+<p>$$\text{Step 4: } a = \frac{A_s f_y}{0.85 f'_c b}$$</p>
+<p>$$\text{Step 5: } \phi M_n = \phi A_s f_y \!\left(d - \frac{\boxed{a}}{2}\right) \geq M_u$$</p>
+<p>$$\text{Step 6（延性檢核）: } \rho_{\min} \leq \rho = \frac{A_s}{bd} \leq \rho_{\max}$$</p>
+<h3>L1：題目直接給定</h3>
+<p><em>看到題目就能讀出的數字，不需要任何公式。</em></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td>35 cm</td>
+<td>梁寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>70 cm</td>
+<td>梁深</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>63 cm</td>
+<td>有效深度（統一取值）</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>7.5 m = 750 cm</td>
+<td>梁淨跨度</td>
+</tr>
+<tr>
+<td>$w_D$</td>
+<td>2 tf/m</td>
+<td>靜載重</td>
+</tr>
+<tr>
+<td>$w_L$</td>
+<td>1 tf/m</td>
+<td>活載重</td>
+</tr>
+<tr>
+<td>$M_E$</td>
+<td>16.5 tf-m</td>
+<td>地震時分析彎矩（雙曲度，兩端等值）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td>混凝土抗壓強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+<td>鋼筋降伏強度</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><em>需要知道公式名稱與適用條件，套入 L1 即可算出。</em></p>
+<p><strong>Step 1：材料與幾何基本參數</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$f'_c = 280 \leq 280$ → $\beta_1 = 0.85$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\rho_b$</td>
+<td>$0.85\beta_1 f'_c/f_y \cdot 6120/(6120+f_y) = 0.85\times0.85\times280/4200\times6120/10320$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_{s,\max}$</td>
+<td>$\varepsilon_t \geq 0.004$ → $c_{\max}=3d/7$ → $A_{s,\max}=0.85f'_c\beta_1c_{\max}b/f_y$（<strong>非</strong> $0.75\rho_b$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\rho_{\min}$</td>
+<td>$\max(14/f_y,\ 0.8\sqrt{f'_c}/f_y)$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：重力載重下的彈性分析彎矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_{D,\text{end}}$</td>
+<td>$w_D L^2/12$（固端）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{D,\text{mid}}$</td>
+<td>$w_D L^2/24$（跨中）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{L,\text{end}}$</td>
+<td>$w_L L^2/12$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{L,\text{mid}}$</td>
+<td>$w_L L^2/24$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：設計彎矩（含地震組合）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_{u1,\text{end}}$</td>
+<td>$1.2M_{D,\text{end}} + 1.6M_{L,\text{end}}$（純重力，固端）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{u1,\text{mid}}$</td>
+<td>$1.2M_{D,\text{mid}} + 1.6M_{L,\text{mid}}$（純重力，跨中）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{u2,\text{end}}$</td>
+<td>$1.2M_{D,\text{end}} + 1.0M_E + 1.0M_{L,\text{end}}$（地震組合A）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_{u3,\text{end}}$</td>
+<td>$0.9M_{D,\text{end}} + 1.0M_E$（地震組合B）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$M_u$</td>
+<td>各組合最大值</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：設計鋼筋量</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$R_n$</td>
+<td>$M_u/(\phi b d^2)$（彎矩係數，用二次方程）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_s$</td>
+<td>由 $\phi A_s f_y(d-a/2) = M_u$ 解二次方程</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>雙曲度 vs 單曲度</td>
+<td>雙曲度：兩端彎矩同向，梁呈S形；單曲度：兩端彎矩反向，梁呈弓形。題目說「成一組雙曲度彎矩」→ 兩端的 $M_E$ 彎矩方向一致（地震從左到右，左端產生正$M_E$，右端也產生正$M_E$，或同時為負）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>ACI 地震載重組合</td>
+<td>$U=1.2D+1.0E+1.0L$ 及 $U=0.9D+1.0E$ 兩組，前者控制梁端負彎矩，後者控制地震反向時可能減小軸壓的情境</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>固端彎矩符號慣例</td>
+<td>均佈載重下：固端負彎矩（使頂部受拉），跨中正彎矩（使底部受拉）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>「整跨頂底筋配置一致」</td>
+<td>代表頂筋全跨相同，底筋全跨相同，設計時取最大需求彎矩</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程（Step-by-Step Detailed Calculation）</h2>
+<h3>Step 1：材料基本參數</h3>
+<p><strong>β₁ 係數：</strong></p>
+<p>$$f'_c = 280 \text{ kgf/cm}^2 \leq 280 \Rightarrow \beta_1 = 0.85$$</p>
+<p><strong>平衡鋼筋比：</strong></p>
+<p>$$\rho_b = \frac{0.85\,\beta_1\,f'_c}{f_y} \cdot \frac{6120}{6120 + f_y} = \frac{0.85 \times 0.85 \times 280}{4200} \cdot \frac{6120}{6120 + 4200}$$</p>
+<p>$$= \frac{202.3}{4200} \times \frac{6120}{10320} = 0.04817 \times 0.5930 = 0.02856$$</p>
+<p><strong>最大鋼筋量（延性控制，土木 401-100 已改用淨拉應變）：</strong></p>
+<p>規範規定非預力梁 $\varepsilon_t \geq 0.004$，對應 $c/d = 0.003/(0.003+0.004) = 3/7$：</p>
+<p>$$c_{\max} = \frac{3}{7}\times 63 = 27.00 \text{ cm},\qquad a_{\max} = 0.85\times27.00 = 22.95 \text{ cm}$$</p>
+<p>$$A_{s,\max} = \frac{0.85f'_c\,a_{\max}\,b}{f_y} = \frac{238 \times 22.95 \times 35}{4200} = 45.52 \text{ cm}^2
+\quad\Rightarrow\quad \rho_{\max} = \frac{45.52}{2205} = 0.02064$$</p>
+<blockquote>
+<p><strong>與舊制對照：</strong> ACI 318-99 的 $\rho_{\max} = 0.75\rho_b = 0.02142$（$A_{s,\max} = 47.24$ cm²），<br />
+對應 $\varepsilon_t = 0.003745$，比現行的 0.004 <strong>略寬鬆</strong>。本解採現行規定（與 RC-2024-1 一致）。</p>
+</blockquote>
+<p><strong>最小鋼筋比：</strong></p>
+<p>$$\rho_{\min} = \max\!\left(\frac{14}{f_y},\,\frac{0.8\sqrt{f'_c}}{f_y}\right) = \max\!\left(\frac{14}{4200},\,\frac{0.8\times\sqrt{280}}{4200}\right)$$</p>
+<p>$$= \max(0.003333,\; 0.003175) = 0.003333$$</p>
+<p><strong>最小鋼筋面積：</strong></p>
+<p>$$A_{s,\min} = \rho_{\min} \times b \times d = 0.003333 \times 35 \times 63 = 7.35 \text{ cm}^2$$</p>
+<hr />
+<h3>Step 2：彈性分析彎矩（服務載重）</h3>
+<p><strong>靜載重（固端與跨中）：</strong></p>
+<p>$$M_{D,\text{end}} = \frac{w_D L^2}{12} = \frac{2 \times 7.5^2}{12} = \frac{2 \times 56.25}{12} = 9.375 \text{ tf-m（負彎矩，頂部受拉）}$$</p>
+<p>$$M_{D,\text{mid}} = \frac{w_D L^2}{24} = \frac{2 \times 56.25}{24} = 4.688 \text{ tf-m（正彎矩，底部受拉）}$$</p>
+<p><strong>活載重：</strong></p>
+<p>$$M_{L,\text{end}} = \frac{w_L L^2}{12} = \frac{1 \times 56.25}{12} = 4.688 \text{ tf-m}$$</p>
+<p>$$M_{L,\text{mid}} = \frac{w_L L^2}{24} = \frac{1 \times 56.25}{24} = 2.344 \text{ tf-m}$$</p>
+<blockquote>
+<p>📌 <strong>策略註解：</strong> 固端彎矩為負（使頂部受拉），跨中彎矩為正（使底部受拉）。以下計算均採絕對值處理，符號僅代表頂/底受拉方向。</p>
+</blockquote>
+<hr />
+<h3>Step 3：設計彎矩計算（載重組合）</h3>
+<h4>組合一：純重力載重（1.2D + 1.6L）</h4>
+<p><strong>固端（負彎矩）：</strong></p>
+<p>$$M_{u1,\text{end}} = 1.2 \times 9.375 + 1.6 \times 4.688 = 11.25 + 7.50 = 18.75 \text{ tf-m}$$</p>
+<p><strong>跨中（正彎矩）：</strong></p>
+<p>$$M_{u1,\text{mid}} = 1.2 \times 4.688 + 1.6 \times 2.344 = 5.625 + 3.75 = 9.375 \text{ tf-m}$$</p>
+<hr />
+<h4>組合二：地震載重組合（1.2D + 1.0E + 1.0L）</h4>
+<blockquote>
+<p>📌 <strong>雙曲度說明：</strong> 題目明確說明 $M_E = 16.5$ tf-m 在兩端形成一組雙曲度彎矩（梁呈S形）。地震時，固端彎矩與重力固端彎矩<strong>疊加</strong>（取方向不利者）。</p>
+</blockquote>
+<p>地震時，對固端的最不利情況：地震彎矩與重力固端彎矩<strong>同向（均為負彎矩，使頂部受拉）</strong>，因此固端負彎矩增大；跨中則因雙曲度效應，地震引起的跨中彎矩較小（由固端承擔主要地震效應），通常仍以重力正彎矩控制。</p>
+<p><strong>固端（地震使負彎矩增大）：</strong></p>
+<p>$$M_{u2,\text{end}} = 1.2 \times M_{D,\text{end}} + 1.0 \times M_E + 1.0 \times M_{L,\text{end}}$$</p>
+<p>$$= 1.2 \times 9.375 + 1.0 \times 16.5 + 1.0 \times 4.688 = 11.25 + 16.5 + 4.688 = 32.44 \text{ tf-m}$$</p>
+<p><strong>跨中（地震對跨中影響，雙曲度下通常較小）：</strong></p>
+<p>對於雙曲度彎矩，跨中彎矩採用重力控制：</p>
+<p>$$M_{u2,\text{mid}} \approx 1.2 \times 4.688 + 1.0 \times 2.344 = 5.625 + 2.344 = 7.97 \text{ tf-m}$$</p>
+<hr />
+<h4>組合三：地震載重組合（0.9D + 1.0E）</h4>
+<p><strong>固端（地震與重力同向，負彎矩）：</strong></p>
+<p>$$M_{u3,\text{end}} = 0.9 \times 9.375 + 1.0 \times 16.5 = 8.438 + 16.5 = 24.94 \text{ tf-m（頂部受拉）}$$</p>
+<hr />
+<h4>組合四（<strong>容易漏掉</strong>）：地震<strong>反向</strong>時梁端出現正彎矩</h4>
+<blockquote>
+<p>📌 雙曲度地震彎矩在梁的兩端方向相反（圖上一端標 $-$、一端標 $+$）。<br />
+在 $M_E$ 與重力固端負彎矩<strong>反向</strong>的那一端，兩者相減；<br />
+由於 $M_E = 16.5 &gt; 0.9M_{D,\text{end}} = 8.44$，<strong>合成後會翻號成正彎矩（梁端底部受拉）</strong>。</p>
+</blockquote>
+<p>$$0.9D + 1.0E:\quad -8.438 + 16.5 = \boxed{+8.06 \text{ tf-m（梁端底部受拉）}}$$</p>
+<p>$$1.2D + 1.0L + 1.0E:\quad -(11.25 + 4.688) + 16.5 = +0.56 \text{ tf-m}$$</p>
+<p>梁端最大正彎矩 $= 8.06$ tf-m。</p>
+<hr />
+<p><img alt="RC-2016-1 三種載重組合的彎矩圖：純重力兩端 -18.75、地震組合二右端 -32.44／左端 +0.56、組合三右端 -24.94／左端翻號成 +8.06 tf-m" src="../../raw/solutions/RC-2016-1/figs/RC-2016-1-fig-1-bmd.svg" /></p>
+<p><em>圖 1　雙曲度地震彎矩只讓「一端」加大。$M_E$ 在兩端方向相反，與重力固端負彎矩反向的那一端相減後翻號成正彎矩——這張圖攔下「以為兩端一起加大」而漏掉組合四那一格。</em></p>
+<h4>匯整最大設計彎矩</h4>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>組合一<br>1.2D+1.6L</th>
+<th>組合二<br>1.2D+1.0E+1.0L</th>
+<th>組合三<br>0.9D+1.0E</th>
+<th>組合四<br>地震反向</th>
+<th><strong>控制值 Mu</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>固端（負彎矩，頂部受拉）</td>
+<td>18.75</td>
+<td><strong>32.44</strong></td>
+<td>24.94</td>
+<td>—</td>
+<td><strong>32.44 tf-m</strong></td>
+</tr>
+<tr>
+<td>固端（正彎矩，底部受拉）</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>8.06</td>
+<td>8.06 tf-m</td>
+</tr>
+<tr>
+<td>跨中（正彎矩，底部受拉）</td>
+<td><strong>9.375</strong></td>
+<td>7.97</td>
+<td>—</td>
+<td>—</td>
+<td><strong>9.375 tf-m</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>📌 <strong>設計控制：</strong><br />
+- <strong>頂筋</strong>由固端負彎矩 $M_u = 32.44$ tf-m 控制（地震組合二）。<br />
+- <strong>底筋</strong>由跨中正彎矩 $M_u = 9.375$ tf-m 控制——梁端正彎矩 8.06 &lt; 9.375，不控制，<br />
+  但<strong>這一格必須算出來才知道不控制</strong>，直接略過是失分點。</p>
+</blockquote>
+<hr />
+<p><img alt="RC-2016-1 四個控制點的設計彎矩長條比較：固端負 32.44 控制頂筋、跨中正 9.375 控制底筋、梁端正 8.06 不控制、純重力固端 18.75 對照" src="../../raw/solutions/RC-2016-1/figs/RC-2016-1-fig-2-envelope.svg" /></p>
+<p><em>圖 2　四個控制點的相對量級。梁端正彎矩 8.06 小於跨中 9.375 故不控制底筋——但「算過才知道不控制」與「沒算」在卷面上是兩件事。</em></p>
+<h3>Step 4：設計控制斷面鋼筋量（固端，$M_u = 32.44$ tf-m）</h3>
+<p>將彎矩換算為 kgf-cm 單位：</p>
+<p>$$M_u = 32.44 \times 10^5 \text{ kgf-cm} = 3,244,000 \text{ kgf-cm}$$</p>
+<p><strong>由 $\phi M_n \geq M_u$ 解鋼筋量（$\phi = 0.9$，假設拉力控制）：</strong></p>
+<p>$$\phi A_s f_y \!\left(d - \frac{a}{2}\right) = M_u$$</p>
+<p>其中 $a = \dfrac{A_s f_y}{0.85 f'_c b} = \dfrac{A_s \times 4200}{0.85 \times 280 \times 35} = \dfrac{4200\,A_s}{8330} = 0.5042\,A_s$</p>
+<p>代入彎矩方程：</p>
+<p>$$0.9 \times A_s \times 4200 \times \left(63 - \frac{0.5042\,A_s}{2}\right) = 3,244,000$$</p>
+<p>$$3780\,A_s \times (63 - 0.2521\,A_s) = 3,244,000$$</p>
+<p>$$238,140\,A_s - 953.0\,A_s^2 = 3,244,000$$</p>
+<p>整理為二次方程：</p>
+<p>$$953.0\,A_s^2 - 238,140\,A_s + 3,244,000 = 0$$</p>
+<p>$$A_s^2 - 249.88\,A_s + 3404.0 = 0$$</p>
+<p>$$A_s = \frac{249.88 \pm \sqrt{249.88^2 - 4 \times 3404.0}}{2} = \frac{249.88 \pm \sqrt{62440 - 13616}}{2}$$</p>
+<p>$$= \frac{249.88 \pm \sqrt{48824}}{2} = \frac{249.88 \pm 220.96}{2}$$</p>
+<p>取較小根（合理解）：</p>
+<p>$$A_s = \frac{249.88 - 220.96}{2} = \frac{28.92}{2} = 14.46 \text{ cm}^2$$</p>
+<hr />
+<h3>Step 5：延性與最小鋼筋量檢核</h3>
+<p><strong>鋼筋比：</strong></p>
+<p>$$\rho = \frac{A_s}{bd} = \frac{14.46}{35 \times 63} = \frac{14.46}{2205} = 0.00656$$</p>
+<p><strong>延性檢核：</strong></p>
+<p>$$\rho_{\min} = 0.003333 \leq \rho = 0.00656 \leq \rho_{\max} = 0.02064 \quad \checkmark$$</p>
+<p><strong>驗算 $\phi M_n$（確認拉力控制）：</strong></p>
+<p>$$a = 0.5042 \times 14.46 = 7.291 \text{ cm}$$</p>
+<p>$$c = \frac{a}{\beta_1} = \frac{7.291}{0.85} = 8.578 \text{ cm}$$</p>
+<p><strong>確認拉力控制（$\varepsilon_t \geq 0.005$）：</strong></p>
+<p>$$\varepsilon_t = \frac{d - c}{c} \times 0.003 = \frac{63 - 8.578}{8.578} \times 0.003 = \frac{54.42}{8.578} \times 0.003 = 0.01903 \gg 0.005 \quad \Rightarrow \phi = 0.9\ \checkmark$$</p>
+<p><strong>設計彎矩強度：</strong></p>
+<p>$$\phi M_n = 0.9 \times 14.46 \times 4200 \times \left(63 - \frac{7.291}{2}\right) = 0.9 \times 14.46 \times 4200 \times 59.355$$</p>
+<p>$$= 0.9 \times 3,604,520 = 3,244,068 \text{ kgf-cm} \approx 32.44 \text{ tf-m} \geq M_u = 32.44 \text{ tf-m} \quad \checkmark$$</p>
+<hr />
+<h3>Step 6：跨中正彎矩鋼筋量（$M_u = 9.375$ tf-m）</h3>
+<p>$$M_u = 9.375 \times 10^5 = 937,500 \text{ kgf-cm}$$</p>
+<p>解二次方程：</p>
+<p>$$953.0\,A_s^2 - 238,140\,A_s + 937,500 = 0$$</p>
+<p>$$A_s^2 - 249.88\,A_s + 983.7 = 0$$</p>
+<p>$$A_s = \frac{249.88 \pm \sqrt{249.88^2 - 4 \times 983.7}}{2} = \frac{249.88 \pm \sqrt{62440 - 3935}}{2} = \frac{249.88 \pm \sqrt{58505}}{2}$$</p>
+<p>$$= \frac{249.88 \pm 241.88}{2}$$</p>
+<p>取較小根：</p>
+<p>$$A_s = \frac{249.88 - 241.88}{2} = \frac{8.00}{2} = 4.00 \text{ cm}^2$$</p>
+<p><strong>但需滿足最小鋼筋量：</strong></p>
+<p>$$A_{s,\min} = 7.35 \text{ cm}^2 &gt; 4.00 \text{ cm}^2 \Rightarrow \text{取} \ A_s = 7.35 \text{ cm}^2$$</p>
+<hr />
+<h3>Step 7：決定頂部與底部鋼筋量</h3>
+<p><strong>題目要求「整跨頂部與底部鋼筋均配置一致」：</strong></p>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th style="text-align: right;">控制彎矩</th>
+<th style="text-align: right;">計算需求 $A_s$</th>
+<th style="text-align: right;">$A_{s,\min}$</th>
+<th style="text-align: right;"><strong>採用</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>頂部（抵抗固端負彎矩）</td>
+<td style="text-align: right;">32.44 tf-m</td>
+<td style="text-align: right;">14.46 cm² ← 控制</td>
+<td style="text-align: right;">7.35 cm²</td>
+<td style="text-align: right;"><strong>14.46 cm²</strong></td>
+</tr>
+<tr>
+<td>底部（抵抗跨中正彎矩）</td>
+<td style="text-align: right;">9.375 tf-m</td>
+<td style="text-align: right;">4.00 cm²</td>
+<td style="text-align: right;">7.35 cm² ← 控制</td>
+<td style="text-align: right;"><strong>7.35 cm²</strong></td>
+</tr>
+</tbody>
+</table>
+<p>底筋的計算需求 $4.00\ \text{cm}^2 &lt; A_{s,\min} = 7.35\ \text{cm}^2$，故由<strong>最小鋼筋量</strong>控制，取 $7.35\ \text{cm}^2$。<br />
+（梁端正彎矩需求 8.06 tf-m 亦小於跨中的 9.375 tf-m，不控制——見 Step 3 組合四。）</p>
+<p><strong>鋼筋選配（依題目給定鋼筋規格）：</strong></p>
+<p>可用鋼筋：D10 ($A_s = 0.71$ cm²), D22 ($A_s = 3.87$ cm²), D29 ($A_s = 6.47$ cm²)</p>
+<p><strong>頂部鋼筋：$A_{s,\text{top}} \geq 14.46 \text{ cm}^2$</strong></p>
+<table>
+<thead>
+<tr>
+<th>組合</th>
+<th>根數</th>
+<th>$A_s$（cm²）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4-D29</td>
+<td>4根</td>
+<td>$4 \times 6.47 = 25.88$ ✓（過多）</td>
+</tr>
+<tr>
+<td>3-D29</td>
+<td>3根</td>
+<td>$3 \times 6.47 = 19.41$ ✓（可行）</td>
+</tr>
+<tr>
+<td>4-D22</td>
+<td>4根</td>
+<td>$4 \times 3.87 = 15.48$ ✓（接近需求）</td>
+</tr>
+</tbody>
+</table>
+<p>→ 選用 <strong>4-D22</strong>（$A_s = 15.48 \text{ cm}^2 \geq 14.46 \text{ cm}^2$）✓</p>
+<p><strong>底部鋼筋：$A_{s,\text{bot}} \geq 7.35 \text{ cm}^2$</strong></p>
+<table>
+<thead>
+<tr>
+<th>組合</th>
+<th>根數</th>
+<th>$A_s$（cm²）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2-D22</td>
+<td>2根</td>
+<td>$2 \times 3.87 = 7.74$ ✓（符合）</td>
+</tr>
+<tr>
+<td>1-D29+1-D22</td>
+<td>2根</td>
+<td>$6.47 + 3.87 = 10.34$ ✓</td>
+</tr>
+</tbody>
+</table>
+<p>→ 選用 <strong>2-D22</strong>（$A_s = 7.74 \text{ cm}^2 \geq 7.35 \text{ cm}^2$）✓</p>
+<p><strong>配筋幾何檢核（$b = 35$ cm，保護層 4 cm、D10 箍筋 1 cm，D22 之 $d_b = 2.22$ cm）：</strong></p>
+<p>$$s_{\text{clear}} = \frac{35 - 2(4+1) - 4\times2.22}{3} = \frac{25 - 8.88}{3} = 5.37 \text{ cm} &gt; \max(d_b,\ 2.5) = 2.5 \text{ cm}\ ✓$$</p>
+<p>單排配置時 $d = 70 - (4 + 1 + 2.22/2) = 63.9 \approx 63$ cm ✓，與題給有效深度相符。</p>
+<hr />
+<h3>Step 8：耐震規定檢核（梁端正彎矩強度 ≥ 負彎矩強度 × 1/2）</h3>
+<p>⚠ <strong>規範比的是「彎矩強度」不是「鋼筋面積」</strong>（$M_n$ 對 $A_s$ 非線性），必須實算：</p>
+<p>$$M_{n,\text{top}}:\quad a = 0.5042\times15.48 = 7.805 \text{ cm},\qquad
+M_n = 15.48\times4200\times\!\left(63-\tfrac{7.805}{2}\right) = 3{,}842{,}000 \text{ kgf-cm} = 38.42 \text{ tf-m}$$</p>
+<p>$$M_{n,\text{bot}}:\quad a = 0.5042\times7.74 = 3.903 \text{ cm},\qquad
+M_n = 7.74\times4200\times\!\left(63-\tfrac{3.903}{2}\right) = 1{,}985{,}000 \text{ kgf-cm} = 19.85 \text{ tf-m}$$</p>
+<p>$$\frac{M_{n,\text{bot}}}{M_{n,\text{top}}} = \frac{19.85}{38.42} = 0.517 \geq 0.50 \quad \checkmark\ (\text{僅餘 } 3\%)$$</p>
+<blockquote>
+<p><strong>面積比是偏保守的快篩，不是偏樂觀（2026-08-31 訂正）：</strong><br />
+用實配量算，面積比 $= A_{s,\text{bot}}/A_{s,\text{top}} = 7.74/15.48 = 0.500$，恰好卡在下限；<br />
+彎矩強度比 $0.517$ 反而<strong>比較寬鬆</strong>。原因是 $M_n = A_sf_y\left(d-\frac{a}{2}\right)$ 中，<br />
+$A_s$ 較小的底筋力臂較長（$d-a/2 = 61.05$ cm，對頂筋的 $59.10$ cm）：</p>
+<p>$$\frac{M_{n,\text{bot}}}{M_{n,\text{top}}}
+&gt; = \frac{A_{s,\text{bot}}}{A_{s,\text{top}}}\cdot
+&gt; \frac{d-a_{\text{bot}}/2}{d-a_{\text{top}}/2}
+&gt; \;\geq\; \frac{A_{s,\text{bot}}}{A_{s,\text{top}}}
+&gt; \qquad(\text{只要 } A_{s,\text{bot}} \leq A_{s,\text{top}})$$</p>
+<p>所以<strong>面積比恆不大於彎矩強度比</strong>：面積比過關則強度比必過關，拿它當快篩只會偏嚴、不會誤放行；<br />
+反之若面積比不過，仍須實算強度比才能定論。<br />
+真正該避免的是把<strong>需求量</strong>與<strong>實配量</strong>混算（$7.74/14.46 = 0.535$）——那既不是面積比也不是強度比。</p>
+</blockquote>
+<hr />
+<p><img alt="RC-2016-1 耐震底筋檢核：鋼筋面積比 0.500 與彎矩強度比 0.517 的長條對照，兩者皆不小於規範下限 0.50" src="../../raw/solutions/RC-2016-1/figs/RC-2016-1-fig-3-ratio.svg" /></p>
+<p><em>圖 3　面積比與彎矩強度比的關係。$A_s$ 較小的底筋力臂較長，所以面積比恆「不大於」彎矩強度比——這張圖攔下把兩者方向記反，也攔下拿需求量 14.46 與實配量 7.74 混算成 0.535 的算法。</em></p>
+<h3>最終答案</h3>
+<p>$$\boxed{
+\begin{aligned}
+&amp;\text{頂部鋼筋（整跨）：4-D22，}A_{s,\text{top}} = 15.48 \text{ cm}^2\\
+&amp;\text{底部鋼筋（整跨）：2-D22，}A_{s,\text{bot}} = 7.74 \text{ cm}^2\\
+&amp;\text{控制設計彎矩：}M_u = 32.44 \text{ tf-m（地震組合，固端）}
+\end{aligned}
+}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討（Critical Issues &amp; Advanced Discussion）</h2>
+<h3>爭議點一：「整跨頂底筋配置一致」的解讀</h3>
+<p>題目說「整跨梁頂部與底部鋼筋均配置一致，試設計」，最自然的解讀是：</p>
+<ul>
+<li>頂部鋼筋：全跨等量</li>
+<li>底部鋼筋：全跨等量</li>
+<li>兩者可以不同（分別設計頂、底鋼筋量）</li>
+</ul>
+<p>本解採此解讀。若考官意圖是「頂底筋量完全相同」，則需取 $\max(14.46, 7.35) = 14.46$ cm² 統一使用。</p>
+<h3>爭議點二：地震組合的活載重係數</h3>
+<p>依 ACI 318-19：</p>
+<ul>
+<li>$U = 1.2D + 1.0E + 1.0L$（若 $L \leq 0.5 \text{ kPa}$ 可取 $0.5L$）</li>
+<li>本題 $w_L = 1 \text{ tf/m}$，採 $1.0L$ 較保守</li>
+</ul>
+<h3>考場建議</h3>
+<p>考場上，<strong>地震彎矩組合計算是本題的核心得分點</strong>。建議：</p>
+<ol>
+<li>先明確寫出三個載重組合</li>
+<li>固端（負彎矩）以地震組合 $1.2D + 1.0E + 1.0L$ 控制</li>
+<li>跨中（正彎矩）以純重力 $1.2D + 1.6L$ 控制</li>
+<li>二次方程解 $A_s$ 後，記得驗算最小鋼筋量</li>
+</ol>
+<h3>進階探討：耐震梁的底筋規定</h3>
+<p>依土木401-100 耐震設計規定（第二題主題），梁端底部正彎矩<strong>強度</strong> $\geq$ 該端負彎矩強度 × 1/2。</p>
+<p>實算見 §4 Step 8：$M_{n,\text{bot}}/M_{n,\text{top}} = 19.85/38.42 = 0.517 \geq 0.50$ ✓</p>
+<p>面積比只能當快篩：以實配量計，$A_{s,\text{bot}} \geq A_{s,\text{top}}/2 = 15.48/2 = 7.74$ cm²<br />
+（本解恰為 7.74，剛好通過）。$M_n = A_sf_y(d-a/2)$ 的力臂會隨 $A_s$ 減少而變長，故<br />
+<strong>面積比恆不大於彎矩強度比</strong>（本題 0.500 對 0.517）。方向是固定的：<br />
+面積比過關 $\Rightarrow$ 強度比必過關（偏保守）；面積比不過時才需要實算強度比。</p>
+<h3>進階探討：為什麼一定要算「梁端正彎矩」？</h3>
+<p>$M_E = 16.5$ tf-m 大於 $0.9M_{D,\text{end}} = 8.44$ tf-m，所以在地震彎矩與重力固端負彎矩<strong>反向</strong>的那一端，<br />
+合成後會<strong>翻號</strong>成正彎矩（梁端底部受拉）8.06 tf-m。本題它小於跨中的 9.375，不控制底筋；<br />
+但只要 $M_E$ 再大一些（或跨度再短一些），底筋就會改由<strong>梁端</strong>控制。<br />
+「兩端固定梁 + 雙曲度地震彎矩」這個題型，<strong>梁端反號是核心得分點之一，不能因為結果不控制就略過不寫</strong>。</p>
+<hr />
+<p><em>圖解補繪：2026-08-31（向量圖 3 張，腳本 <code>figs/gen_RC-2016-1.py</code>，可重跑；腳本檔尾對 §4 公佈值做 assert）</em><br />
+<em>數值訂正：2026-08-31（$\rho_b$ 算術、舊制 $A_{s,\max}$、$M_n$ 位數、面積比與彎矩強度比的大小方向，詳見 §4 Step 8）</em></p></main>
+<footer>來源：raw/solutions/RC-2016-1/RC-2016-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

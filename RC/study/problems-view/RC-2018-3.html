@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2018-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2018-3 題目解析</h1><div class="navbtns"></div></header>
+<main><h1>考題編號：RC-2018-3</h1>
+<p><strong>主分類：</strong> <code>RC-U3-1</code> 梁工作性要求（含撓度、裂縫）<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>T形梁</code> <code>負彎矩</code> <code>裂縫控制</code> <code>主筋分布寬度</code> <code>側面縱向表層鋼筋</code> <code>拉力翼板</code> <code>間距限制</code> <code>skin reinforcement</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>有一承受<strong>負彎矩 120 tf-m</strong> 之鋼筋混凝土 T 型梁斷面，其：</p>
+<ul>
+<li>梁腹寬 $b_w = 40$ cm</li>
+<li>梁深 $h = 120$ cm</li>
+<li>有效深度 $d = 113$ cm</li>
+<li>翼緣厚（板厚）$h_f = 15$ cm</li>
+<li>梁跨度 $l_n = 12$ m</li>
+<li>梁與鄰梁中心距 3 m（故相鄰梁中距 = 300 cm）</li>
+</ul>
+<p>此 T 型梁將採 <strong>12-D25 主筋</strong>與 <strong>D13 肋筋</strong>，鋼筋淨保護層均為 4 cm。</p>
+<p><strong>試依規範對裂紋控制之規定：</strong></p>
+<ol>
+<li>計算主筋分布之<strong>寬度</strong>與<strong>間距</strong></li>
+<li>計算側面縱向表層鋼筋（Skin Reinforcement）之<strong>配置範圍</strong>與<strong>間距</strong></li>
+</ol>
+<p>（25 分）</p>
+<p><em>注意：本題為純文字描述幾何條件，無獨立附圖。</em></p>
+<p><strong>全局材料條件：</strong></p>
+<ul>
+<li>$f'_c = 280$ kgf/cm²</li>
+<li>D25：$d_b = 2.54$ cm，$A_b = 5.07$ cm²</li>
+<li>D13（箍筋）：$d_b = 1.27$ cm</li>
+<li>D25 以上：$f_y = 4200$ kgf/cm²</li>
+<li>依據：內政部《混凝土結構設計規範》（土木 401-100，對應 ACI 318-08）</li>
+</ul>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<h3>核心觀念</h3>
+<p>本題考察<strong>負彎矩 T 型梁</strong>的裂縫控制設計——這是一個容易被考生忽略的特殊情境：</p>
+<ul>
+<li>負彎矩下，T 形梁的<strong>拉力區在頂部（翼板/板面）</strong>，而非底部</li>
+<li>拉力鋼筋（12-D25）必須<strong>分布於翼板有效寬度內</strong>，且受間距限制</li>
+<li>當梁深 h &gt; 90 cm，<strong>側面表層鋼筋（skin bars）為強制配置</strong></li>
+</ul>
+<p>本題靈魂：<strong>裂縫控制 = 控制鋼筋間距，而非控制鋼筋面積</strong>，且 T 形梁拉力翼板的分布寬度受「跨度/10」限制。</p>
+<h3>出題者意圖</h3>
+<ol>
+<li>考生是否熟悉<strong>負彎矩 T 形梁</strong>的拉力翼板特性（翼板在拉力區）</li>
+<li>考生是否能正確計算<strong>主筋分布寬度</strong>（由有效翼板寬度與 $l_n/10$ 取小值控制）</li>
+<li>考生是否記得<strong>側面縱向表層鋼筋</strong>的觸發條件（h &gt; 90 cm）及配置規定</li>
+<li>陷阱：若誤把 T 形梁當正彎矩處理，分布寬度邏輯完全相反</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<h3>作戰計畫</h3>
+<pre><code>【主筋裂縫控制】
+Step 1: 計算服務載重鋼筋應力 fs（取 2/3 fy）
+Step 2: 計算最大允許間距 s_max（ACI 裂縫控制公式）
+Step 3: 計算有效翼板懸伸寬度（per ACI 8.12）
+Step 4: 計算主筋分布寬度 = bw + min(有效懸伸, ln/10)
+Step 5: 計算 12-D25 在分布寬度內的實際間距
+Step 6: 驗證 s_actual ≤ s_max ✓
+
+【側面表層鋼筋】
+Step 7: 確認 h &gt; 90 cm → 需配側面鋼筋
+Step 8: 計算配置範圍（h/2 自拉力面計算）
+Step 9: 計算間距上限（min(d/6, 30 cm)）
+</code></pre>
+<h3>關鍵陷阱</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>應對策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>誤以為正彎矩分析：拉力區在底部</td>
+<td>負彎矩下拉力在<strong>頂部翼板</strong>，T 形梁主筋在頂</td>
+</tr>
+<tr>
+<td>②</td>
+<td>有效翼板寬誤用正彎矩翼板寬（280 cm）直接判斷</td>
+<td>需計算各限制條件取小值，再與 $l_n/10$ 比較</td>
+</tr>
+<tr>
+<td>③</td>
+<td>忘記側面表層鋼筋觸發條件（h &gt; 90 cm）</td>
+<td>h = 120 cm &gt; 90 cm，<strong>必須配</strong></td>
+</tr>
+<tr>
+<td>④</td>
+<td>側面鋼筋範圍算錯（以梁底往上 h/2 vs. 以拉力面往下 h/2）</td>
+<td>負彎矩：拉力在頂，故範圍從<strong>頂面往下 h/2 = 60 cm</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p>求 12-D25 主筋應分布的<strong>寬度</strong>及<strong>間距</strong>（滿足裂縫控制），並求側面縱向表層鋼筋的<strong>配置範圍</strong>及<strong>間距</strong>。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$
+\text{Step 1:}\quad f_s = \tfrac{2}{3}\,f_y
+$$</p>
+<p>$$
+\text{Step 2:}\quad s_{max} = \frac{380 \times 280}{\boxed{f_s}} - 2.5\,c_c \leq \frac{300 \times 280}{\boxed{f_s}} \quad \text{(mm, MPa)}
+$$</p>
+<p>$$
+\text{Step 3:}\quad b_{e,one} = \min\!\left(8h_f,\;\frac{s_w}{2},\;\frac{l_n}{8}\right) \quad \text{（每側懸伸）}
+$$</p>
+<p>$$
+\text{Step 4:}\quad \text{分布寬度} = b_w + \min\!\left(2\,\boxed{b_{e,one}},\;\frac{l_n}{10}\right)
+$$</p>
+<p>$$
+\text{Step 5:}\quad s = \frac{\text{分布寬度} - 2\,(c_c + r_b)}{n - 1}
+$$</p>
+<p>$$
+\text{Step 6（skin）:}\quad s_{skin} \leq \min\!\left(\frac{d}{6},\;300\,\text{mm}\right)
+$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b_w$</td>
+<td>40 cm</td>
+<td>梁腹寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>120 cm</td>
+<td>梁全深</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>113 cm</td>
+<td>梁有效深度</td>
+</tr>
+<tr>
+<td>$h_f$</td>
+<td>15 cm</td>
+<td>翼緣（板）厚</td>
+</tr>
+<tr>
+<td>$l_n$</td>
+<td>1200 cm</td>
+<td>梁跨度</td>
+</tr>
+<tr>
+<td>中距</td>
+<td>300 cm</td>
+<td>鄰梁中心距</td>
+</tr>
+<tr>
+<td>$n$</td>
+<td>12</td>
+<td>主筋支數（D25）</td>
+</tr>
+<tr>
+<td>$d_b$</td>
+<td>2.54 cm</td>
+<td>D25 鋼筋直徑</td>
+</tr>
+<tr>
+<td>$d_{stirrup}$</td>
+<td>1.27 cm</td>
+<td>D13 箍筋直徑</td>
+</tr>
+<tr>
+<td>$c_c$</td>
+<td>4 cm</td>
+<td>淨保護層（到箍筋外面）</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+<td>主筋降伏強度</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+<td>混凝土強度</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>【服務載重鋼筋應力】</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_s$</td>
+<td>$\tfrac{2}{3} \times 4200 = 2800$ kgf/cm²（規範允許估算值）</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_s$ (MPa)</td>
+<td>$2800 / 10.197 = 274.6$ MPa</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>【最大裂縫控制間距】</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$s_{max,1}$</td>
+<td>$380 \times (280/274.6) - 2.5 \times 40 = 287$ mm $= 28.7$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$s_{max,2}$</td>
+<td>$300 \times (280/274.6) = 305.8$ mm $= 30.6$ cm（上限）</td>
+<td></td>
+</tr>
+<tr>
+<td>$s_{max}$</td>
+<td>$\min(28.7, 30.6) = 28.7$ cm（由 $s_{max,1}$ 控制）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>【有效翼板懸伸寬度】</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$s_w$</td>
+<td>鄰梁間淨距 $= 300 - 40 = 260$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$8h_f$</td>
+<td>$8 \times 15 = 120$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$s_w/2$</td>
+<td>$260/2 = 130$ cm（每側）</td>
+<td></td>
+</tr>
+<tr>
+<td>$l_n/8$</td>
+<td>$1200/8 = 150$ cm（每側）</td>
+<td></td>
+</tr>
+<tr>
+<td>$b_{e,one}$</td>
+<td>$\min(120, 130, 150) = 120$ cm（每側）</td>
+<td></td>
+</tr>
+<tr>
+<td>總有效懸伸</td>
+<td>$2 \times 120 = 240$ cm</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>【主筋分布寬度】</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$l_n/10$</td>
+<td>$1200/10 = 120$ cm（懸伸寬度上限）</td>
+<td></td>
+</tr>
+<tr>
+<td>懸伸限制</td>
+<td>$\min(240, 120) = 120$ cm（因 240 &gt; 120，以 $l_n/10$ 控制）</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>分布寬度</strong></td>
+<td>$b_w + 120 = 40 + 120 = 160$ cm</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>【主筋實際間距】</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>邊距 $r_b$</td>
+<td>$c_c + d_b/2 = 4 + 1.27 = 5.27$ cm（bar center from edge）</td>
+<td></td>
+</tr>
+<tr>
+<td>可用寬</td>
+<td>$160 - 2 \times 5.27 = 149.46$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>$s$</td>
+<td>$149.46 / (12-1) = 13.6$ cm</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>【側面表層鋼筋】</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>觸發條件</td>
+<td>$h = 120\ \text{cm} &gt; 90\ \text{cm}$ → 需配</td>
+<td></td>
+</tr>
+<tr>
+<td>配置範圍</td>
+<td>從拉力面（頂面）往下 $h/2 = 60$ cm</td>
+<td></td>
+</tr>
+<tr>
+<td>腹板範圍</td>
+<td>$60 - 15 = 45$ cm（扣除翼板厚）</td>
+<td></td>
+</tr>
+<tr>
+<td>$s_{skin}$</td>
+<td>$\min(d/6, 30) = \min(113/6, 30) = \min(18.8, 30) = 18.8$ cm</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T 形梁負彎矩的翼板為拉力區</td>
+<td>負彎矩時頂部為拉力，翼板（板面）鋼筋均在拉力區，與正彎矩相反</td>
+<td></td>
+</tr>
+<tr>
+<td>$l_n/10$ 限制懸伸分布寬度</td>
+<td>當有效懸伸（240 cm）超過跨度/10（120 cm）時，主筋只需分布在 $l_n/10$ 寬度內；其餘外緣另加分布筋</td>
+<td></td>
+</tr>
+<tr>
+<td>cc 的定義</td>
+<td>規範中 cc = 拉力面到最近鋼筋<strong>表面</strong>的淨距離；本題以淨保護層 4 cm 直接計算（到箍筋外面）</td>
+<td></td>
+</tr>
+<tr>
+<td>側面表層鋼筋觸發 h &gt; 90 cm</td>
+<td>梁深超過 90 cm 強制要求側面縱向鋼筋，間距 ≤ min(d/6, 300 mm)</td>
+<td></td>
+</tr>
+<tr>
+<td>側面鋼筋範圍從<strong>拉力面</strong>算</td>
+<td>負彎矩→從頂算；正彎矩→從底算。方向不可搞反</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>━━━━ 第一部分：主筋裂縫控制 ━━━━</h3>
+<h3>Step 1：計算服務載重下主筋應力 $f_s$</h3>
+<p>規範允許以下列值估算（ACI 318-08 / 土木 401-100 §10.6.4）：</p>
+<p>$$
+f_s = \frac{2}{3}\,f_y = \frac{2}{3} \times 4200 = 2800\ \text{kgf/cm}^2 = 274.6\ \text{MPa}
+$$</p>
+<h3>Step 2：計算最大允許鋼筋間距 $s_{max}$（裂縫控制）</h3>
+<p>使用 ACI 318-08 §10.6.4 公式（mm, MPa 單位）：</p>
+<p>$$
+s_{max} = \frac{380 \times 280}{f_s} - 2.5\,c_c
+$$</p>
+<p>其中：</p>
+<ul>
+<li>$f_s = 274.6$ MPa</li>
+<li>$c_c = 40$ mm（淨保護層，到箍筋外面）</li>
+</ul>
+<p>$$
+s_{max,1} = \frac{380 \times 280}{274.6} - 2.5 \times 40 = \frac{106{,}400}{274.6} - 100 = 387.5 - 100 = 287.5\ \text{mm}
+$$</p>
+<p>上限驗算：</p>
+<p>$$
+s_{max,2} = \frac{300 \times 280}{274.6} = \frac{84{,}000}{274.6} = 305.9\ \text{mm}
+$$</p>
+<p>$$
+\boxed{s_{max} = \min(287.5, 305.9) = 287.5\ \text{mm} = \mathbf{28.75\ cm}}
+$$</p>
+<blockquote>
+<p><strong>策略註解：</strong> 裂縫控制的本質是「限制鋼筋間距」，間距越小、裂縫越細分散。$s_{max}$ 是上限，實際設計間距需 ≤ 28.75 cm。</p>
+</blockquote>
+<h3>Step 3：計算有效翼板懸伸寬度（ACI 8.12.2）</h3>
+<p>T 形梁（內梁）每側有效懸伸取下列三項之最小值：</p>
+<table>
+<thead>
+<tr>
+<th>限制條件</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$8h_f = 8 \times 15$</td>
+<td><strong>120 cm</strong>（控制）</td>
+</tr>
+<tr>
+<td>梁間淨距之半 $(s_w/2) = (300-40)/2$</td>
+<td>130 cm</td>
+</tr>
+<tr>
+<td>跨度之八分之一 $l_n/8 = 1200/8$</td>
+<td>150 cm</td>
+</tr>
+</tbody>
+</table>
+<p>$$
+\boxed{b_{e,one} = \min(120, 130, 150) = 120\ \text{cm（每側）}}
+$$</p>
+<p>總有效懸伸寬度（兩側）：<br />
+$$
+2 \times b_{e,one} = 2 \times 120 = 240\ \text{cm}
+$$</p>
+<h3>Step 4：計算主筋分布寬度</h3>
+<p><strong>負彎矩 T 形梁的特殊規定</strong>（ACI 318-08 §10.6.6）：</p>
+<blockquote>
+<p>當翼緣在拉力區時，拉力鋼筋必須分布於有效懸伸翼板寬度內，或跨度 $l_n/10$（取兩者小值）。若有效懸伸超過 $l_n/10$，須在翼板外緣補充配置鋼筋。</p>
+</blockquote>
+<p>計算：<br />
+$$
+\frac{l_n}{10} = \frac{1200}{10} = 120\ \text{cm}
+$$</p>
+<p>$$
+\text{懸伸分布限制} = \min(2 \times 120,\ 120) = \min(240,\ 120) = 120\ \text{cm}
+$$</p>
+<p>因為有效懸伸（240 cm）<strong>超過</strong> $l_n/10$（120 cm），故：</p>
+<ul>
+<li>主筋分布於 $l_n/10 = 120$ cm 懸伸範圍內（兩側各 60 cm）</li>
+<li>在 60 cm 到 120 cm 的<strong>外緣翼板區</strong>需另行補充分布筋</li>
+</ul>
+<p>$$
+\boxed{\text{主筋分布寬度} = b_w + \frac{l_n}{10} = 40 + 120 = \mathbf{160\ cm}}
+$$</p>
+<p>以下圖示說明分布區域（單位 cm）：</p>
+<pre><code>←────────────────── 280 cm（總有效翼板）──────────────────→
+←────────── 160 cm（主筋分布寬度）──────────→
+│           │←─ 60 ─→│←── 40 ──→│←─ 60 ─→│           │
+│  補充筋區  │ 懸伸分布 │    腹板   │ 懸伸分布 │  補充筋區  │
+│ (60 cm)  │ 有主筋  │  有主筋  │  有主筋  │ (60 cm)  │
+</code></pre>
+<h3>Step 5：計算 12-D25 主筋實際間距</h3>
+<p>12 支 D25 均勻分布於 160 cm 寬度內（一排）：</p>
+<p>鋼筋中心距邊緣：<br />
+$$
+r_b = c_c + \frac{d_b}{2} = 4 + \frac{2.54}{2} = 4 + 1.27 = 5.27\ \text{cm}
+$$</p>
+<p>可用排列寬度：<br />
+$$
+b_{avail} = 160 - 2 \times 5.27 = 160 - 10.54 = 149.46\ \text{cm}
+$$</p>
+<p>主筋中心距（12 支，11 個間距）：<br />
+$$
+\boxed{s = \frac{149.46}{12 - 1} = \frac{149.46}{11} \approx 13.6\ \text{cm}}
+$$</p>
+<h3>Step 6：裂縫控制驗核</h3>
+<p>$$
+s = 13.6\ \text{cm} \leq s_{max} = 28.75\ \text{cm} \quad \checkmark
+$$</p>
+<p>最小間距驗核（ACI 7.6.1）：<br />
+$$
+s_{min} = \max(1.5\,d_b,\ 1.5\,d_{agg},\ 4\ \text{cm}) \approx \max(3.81,\ \sim3.75,\ 4) = 4\ \text{cm}
+$$<br />
+$$
+s = 13.6\ \text{cm} &gt; s_{min} = 4\ \text{cm} \quad \checkmark
+$$</p>
+<p>$$
+\boxed{\therefore\ \text{主筋分布寬度} = 160\ \text{cm}，\text{主筋間距} = 13.6\ \text{cm}\ (\leq 28.75\ \text{cm}\ \checkmark)}
+$$</p>
+<hr />
+<h3>━━━━ 第二部分：側面縱向表層鋼筋 ━━━━</h3>
+<h3>Step 7：確認配置必要性</h3>
+<p>$$
+h = 120\ \text{cm} = 1200\ \text{mm} &gt; 900\ \text{mm} \quad \Rightarrow \quad \textbf{必須配置側面縱向表層鋼筋}
+$$</p>
+<p>（ACI 318-08 §10.6.7；土木 401-100 同）</p>
+<h3>Step 8：計算配置範圍</h3>
+<p><strong>規定：</strong> 側面鋼筋從拉力面起，配置於最近拉力鋼筋側 $h/2$ 之範圍內。</p>
+<p>負彎矩 → 拉力面在<strong>頂部</strong>（翼板頂面）：</p>
+<p>$$
+\frac{h}{2} = \frac{120}{2} = 60\ \text{cm\ （自梁頂計算）}
+$$</p>
+<p><strong>在腹板側面上的配置範圍：</strong></p>
+<ul>
+<li>翼板（板面）厚度 = 15 cm，主筋已在此區</li>
+<li>腹板起始點（板底）= 15 cm 深處</li>
+<li>側面鋼筋配置到：60 cm 深處</li>
+</ul>
+<p>$$
+\boxed{\text{腹板側面配置範圍} = 60 - 15 = \mathbf{45\ cm}\ \text{（從翼板底緣往下）}}
+$$</p>
+<p>示意（從梁頂往下量，cm）：</p>
+<pre><code> 0 ──── 翼板頂面（拉力面）← 主筋（12-D25）在此
+        ←── 主筋分布區 ───→
+15 ──── 翼板底面 = 腹板頂面
+        ↑
+        │  45 cm  ← 側面鋼筋配置範圍
+        ↓
+60 ──── h/2 線（skin bar 終止線）
+       │
+       │  60 cm（無需配側面筋）
+       │
+120 ── 梁底面（壓力面）
+</code></pre>
+<h3>Step 9：計算側面鋼筋間距</h3>
+<p>$$
+s_{skin} \leq \min\!\left(\frac{d}{6},\ 300\ \text{mm}\right) = \min\!\left(\frac{113}{6},\ 30\right) = \min(18.83,\ 30)
+$$</p>
+<p>$$
+\boxed{s_{skin} \leq 18.8\ \text{cm}\ \text{（取 } d/6 \text{ 控制）}}
+$$</p>
+<p><strong>腹板側面 45 cm 範圍內，以 $s_{skin} = 15$ cm 均勻配置：</strong></p>
+<ul>
+<li>第 1 根：距翼板底（梁頂 15 cm 處）→ 深度 $15 + 15 = 30$ cm</li>
+<li>第 2 根：深度 $30 + 15 = 45$ cm</li>
+<li>第 3 根：深度 $45 + 15 = 60$ cm（= $h/2$ 邊界）</li>
+</ul>
+<p>$$
+\rightarrow\ \text{每側 3 支（D13 或以上），間距 15 cm} \leq 18.8\ \text{cm}\ \checkmark
+$$</p>
+<p>或採用 s = 18 cm：</p>
+<ul>
+<li>第 1 根：深度 30 cm、第 2 根：48 cm（&lt; 60 cm ✓）→ 每側 2 支，s = 18 cm ≤ 18.8 cm ✓</li>
+</ul>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>5.1 分布寬度：160 cm 還是 120 cm？</h3>
+<p>常見爭議：</p>
+<table>
+<thead>
+<tr>
+<th>解讀方式</th>
+<th>分布寬度</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>（正確）分布寬度 = bw + ln/10</strong></td>
+<td><strong>160 cm</strong></td>
+<td>ACI §10.6.6：bars distributed over 「effective overhanging flange width or ln/10」，overhanging = 120 cm（兩側），加上 web = 160 cm</td>
+</tr>
+<tr>
+<td>（錯誤）分布寬度 = ln/10</td>
+<td>120 cm</td>
+<td>誤解為僅指懸伸部分</td>
+</tr>
+</tbody>
+</table>
+<p>考場最安全做法：寫明分布寬度 = 160 cm（包含腹板寬40 cm + 兩側懸伸各60 cm），並說明依 ln/10 = 120 cm 限制懸伸寬度。</p>
+<h3>5.2 外緣翼板補充鋼筋</h3>
+<p>本題有效懸伸（240 cm）&gt; $l_n/10$（120 cm），故在外緣翼板（每側 60\~120 cm）需補充縱向分布筋：</p>
+<ul>
+<li>面積及間距依 ACI §10.6.6（需另行設計）</li>
+<li>考試通常只要求點明此規定，不要求計算</li>
+</ul>
+<h3>5.3 側面鋼筋面積要求</h3>
+<p>本題只問範圍與間距，未問面積。完整設計尚需計算每單位高度的最小面積：<br />
+$$
+A_{sk}/s \geq 0.1\,\frac{b_w \cdot (h - 90\text{cm})}{24}\ \text{（各規範版本略有差異）}
+$$</p>
+<p>典型選用 D13（$A_b = 1.27$ cm²）即可滿足多數情況。</p>
+<h3>5.4 規範版本提醒</h3>
+<p>ACI 318-11 起已將裂縫控制公式改寫為「暴露等級（Exposure Class）」制，但 2018 年考試所依規範（土木 401-100，基於 ACI 318-08）仍使用 $s = 380(280/f_s) - 2.5c_c$ 的明確公式，直接計算即可。</p>
+<hr />
+<p><strong>驗算狀態：</strong> <code>unverified</code><br />
+<strong>手寫補充：</strong> 無</p></main>
+<footer>來源：raw/solutions/RC-2018-3/RC-2018-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

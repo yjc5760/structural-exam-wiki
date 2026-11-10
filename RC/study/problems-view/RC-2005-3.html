@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2005-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2005-3 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U3-3.html">&#128202; U3-3 單元總覽</a><a class="lect" href="../lecture-RC-U3-3.html">&#128218; U3-3 韌性要求與耐震設計 講義</a></div></header>
+<main><h1>考題編號：RC-2005-3</h1>
+<p><strong>主分類：</strong> <code>RC-U3-3</code> 韌性要求與耐震設計<br />
+<strong>副分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>角柱接頭</code> <code>接頭剪力</code> <code>梁柱接頭</code> <code>外接頭</code> <code>Vjh</code> <code>γ係數3.2</code> <code>Aj接頭有效面積</code> <code>Vcol反推</code> <code>1.25fy</code> <code>屋頂層接頭折減</code> <code>Whitney應力塊</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>一 RC 構架樓層高 365 cm，梁之尺寸與配筋等均相同，且柱與梁同寬，柱斷面為 60 cm × 60 cm，梁之有效深度 $d = 70\ \text{cm}$，拉力筋為 6-#8，採用混凝土 $f'_c = 280\ \text{kgf/cm}^2$，鋼筋降伏強度 $f_y = 4200\ \text{kgf/cm}^2$，試檢核該構架<strong>角柱接頭</strong>之剪力強度。（20 分）</p>
+<blockquote>
+<p><strong>原卷原文（94 年第三題）核對：</strong> 「一 RC 構架樓層高 365 cm，梁之尺寸與配筋等均相同，且<strong>柱與梁同寬</strong>，<br />
+柱斷面為 60 cm×60 cm，梁之有效深度 d=70 cm，拉力筋為 6-#8，採用混凝土 $f'_c$=280 kgf/cm²，<br />
+鋼筋降伏強度 $f_y$=4200 kgf/cm²，試檢核該構架<strong>角柱接頭</strong>之剪力強度。（20 分）」<br />
+原卷<strong>未指定規範版本</strong>（94 年時為土木 401-86／ACI 318-99 世代），亦未給梁全高、柱軸力與接頭所在樓層。</p>
+<h1>8 ＝ D25（$A_b = 5.07$ cm²）。</h1>
+</blockquote>
+<p><strong>已知條件整理：</strong></p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>樓層高 $H$</td>
+<td>$365\ \text{cm}$</td>
+</tr>
+<tr>
+<td>柱斷面 $b_c \times h_c$</td>
+<td>$60 \times 60\ \text{cm}$</td>
+</tr>
+<tr>
+<td>梁寬 $b_w$</td>
+<td>$60\ \text{cm}$（同柱寬）</td>
+</tr>
+<tr>
+<td>梁有效深度 $d$</td>
+<td>$70\ \text{cm}$</td>
+</tr>
+<tr>
+<td>梁拉力筋</td>
+<td>6-#8（$A_s = 6 \times 5.07 = 30.42\ \text{cm}^2$）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>$280\ \text{kgf/cm}^2$</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>$4200\ \text{kgf/cm}^2$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 梁柱接頭（BCJ）剪力的水平力平衡——梁鋼筋拉力傳入接頭，柱剪力分擔部分，剩餘由接頭承擔。</p>
+<blockquote>
+<p>⚠ <strong>2026-08-22 兩處改判（主線數值變更）：</strong><br />
+① <strong>梁鋼筋拉力取 $1.25f_y$ 而非 $f_y$。</strong> $V_{jh} = \gamma\sqrt{f'_c}A_j$ 這條檢核<strong>只存在於耐震專章</strong><br />
+（土木 401 §15／ACI 318 Ch.18），其配套規定 §18.8.2.1 明訂「接頭力應以梁受拉鋼筋 $1.25f_y$ 計算」。<br />
+既然用了耐震專章的<strong>強度</strong>公式，需求就必須用耐震專章的<strong>力</strong>，不可混用。<br />
+② <strong>$V_{col} = M/H$，不是 $2M/H$。</strong> 接頭處梁彎矩由<strong>上下兩根柱</strong>分擔（等勁度時各半），<br />
+柱反曲點在樓層中高，故 $V_{col} = \dfrac{M/2}{H/2} = \dfrac{M}{H}$。舊版的 $2M/H$ 大了一倍，<br />
+使 $V_{jh}$ 被低估。（舊版 §4③ 的說明文字本身就自相矛盾：先寫出 $(M_n/2)/(H/2)$，<br />
+又斷言 $V_{col}\times(H/2) = M_n$。）</p>
+</blockquote>
+<p><strong>測驗重點：</strong></p>
+<ol>
+<li>接頭水平剪力 $V_{jh}$ 的力平衡推導（由梁鋼筋拉力 $T$ 與柱剪力 $V_{col}$ 計算）</li>
+<li>柱剪力 $V_{col}$ 的計算（先求梁 $M_{pr}$，再由<strong>接頭上下柱各分擔一半</strong>得 $V_{col} = M_{pr}/H$）</li>
+<li>接頭強度 $\phi V_n = \phi \gamma \sqrt{f'_c} A_j$ 中 $\gamma$ 的選取（角柱接頭 = 外接頭 = $\gamma = 3.2$）</li>
+<li>有效接頭面積 $A_j$ 的計算</li>
+</ol>
+<p><strong>典型陷阱：</strong></p>
+<ul>
+<li>⚠ <strong>$T$ 要用 $1.25f_y$</strong>：接頭剪力檢核出自耐震專章，配套規定就是超強係數 1.25（§18.8.2.1）</li>
+<li>⚠ <strong>$V_{col} = M_{pr}/H$ 不是 $2M_{pr}/H$</strong>：接頭處的梁彎矩由上下兩根柱分擔</li>
+<li>⚠ <strong>$V_{jh} \ne T$</strong>：不少考生直接以 $T$ 作為接頭剪力，忽略柱剪力 $V_{col}$ 的減項</li>
+<li>⚠ <strong>$\gamma$ 係數選錯</strong>：角柱接頭 = 「其他」類 → $\gamma = 3.2$；不可用 3.9（三面／一雙對面）或 5.3（四面）。<strong>318-19 另有屋頂層接頭之 2.2</strong></li>
+<li>⚠ <strong>$A_j = b_j \times h_c$</strong>：$b_j$ 需按公式取較小值，梁寬 = 柱寬時 $b_j = b_c$</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>計算梁鋼筋拉力 $T = 1.25A_s f_y$（耐震）</li>
+<li>計算梁可能彎矩強度 $M_{pr}$（Whitney 應力塊，$\phi = 1.0$）</li>
+<li>由 $M_{pr}$ 反推柱剪力 $V_{col} = M_{pr}/H$（上下柱各分擔一半）</li>
+<li>求接頭水平剪力需求 $V_{jh} = T - V_{col}$</li>
+<li>計算接頭有效面積 $A_j$ 與強度係數 $\gamma$</li>
+<li>驗核 $\phi V_n \ge V_{jh}$</li>
+</ol>
+<p><strong>關鍵陷阱（4 個）：</strong></p>
+<ul>
+<li>⚠ <strong>柱剪力大小</strong>：$V_{col} = M_{pr}/H$（<strong>不是</strong> $2M_{pr}/H$）；方向使它成為接頭剪力的<strong>減項</strong></li>
+<li>⚠ <strong>角柱接頭分類</strong>：角柱 = 僅兩個垂直方向各有一根梁（從兩個面進入），在分析平面內只有單側梁 → 外接頭（other joint）→ $\gamma = 3.2$（從 ACI 12 psi^{1/2} 換算）</li>
+<li>⚠ <strong>$b_j$ 的計算</strong>：$b_j = \min(b_{beam}+h_{col},\ b_{beam}+2x) \le b_{col}$，本題梁與柱同寬 → $b_j = 60\ \text{cm}$</li>
+<li>⚠ <strong>$H$ 的使用</strong>：題目給「樓層高 365 cm」，此即柱上下兩端的中心線距離，以 $H/2$ 作為柱反彎點至接頭的距離</li>
+</ul>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p>計算角柱接頭之水平剪力需求 $V_{jh}$（以 $1.25f_y$）與設計強度 $\phi V_n$（$\gamma = 3.2$），比較後判斷是否安全。</p>
+<p><strong>答案：$V_{jh} = 131.5$ tf $\le \phi V_n = 163.8$ tf ✓ 通過（利用率 80%）。</strong></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1: } T = 1.25\,A_s f_y \quad(\text{耐震規定；對照值用 } A_sf_y)$$</p>
+<p>$$\text{Step 2: } a = \frac{T}{0.85f'_c \cdot b_w},\quad M_{pr} = T \cdot \left(d - \frac{a}{2}\right)$$</p>
+<p>$$\text{Step 3: } V_{col} = \frac{\boxed{M_{pr}}}{H} \quad \text{（接頭梁彎矩由上下柱各半分擔，柱反曲點在樓層中高）}$$</p>
+<p>$$\text{Step 4: } V_{jh} = T - \boxed{V_{col}}$$</p>
+<p>$$\text{Step 5: } A_j = b_j \times h_c,\quad b_j = \min\!\big(b_w + h_c,\; b_w + 2x\big) \le b_c$$</p>
+<p>$$\text{Step 6: } \phi V_n = \phi \cdot \gamma \cdot \sqrt{f'_c} \cdot A_j \ge V_{jh} \;?$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H$</td>
+<td>$365\ \text{cm}$</td>
+<td>樓層高（柱上下中心距）</td>
+</tr>
+<tr>
+<td>$b_c = h_c$</td>
+<td>$60\ \text{cm}$</td>
+<td>正方形柱邊長</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>$70\ \text{cm}$</td>
+<td>梁有效深度</td>
+</tr>
+<tr>
+<td>$A_s$</td>
+<td>$6 \times 5.07 = 30.42\ \text{cm}^2$</td>
+<td>梁拉力筋（6-#8）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>$280\ \text{kgf/cm}^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>$4200\ \text{kgf/cm}^2$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>梁強度計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$T$</td>
+<td>$1.25A_s f_y = 1.25\times30.42 \times 4200 = 159{,}705\ \text{kgf}$（耐震 §18.8.2.1）</td>
+<td></td>
+</tr>
+<tr>
+<td>$a$</td>
+<td>$T/(0.85 f'_c b_w) = 159{,}705/14{,}280 = 11.18\ \text{cm}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$M_{pr}$</td>
+<td>$T \times (70 - 5.59) = 159{,}705 \times 64.41 = 10{,}286{,}000\ \text{kgf·cm} = 102.9\ \text{tf·m}$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>接頭力平衡</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V_{col}$</td>
+<td>$M_{pr}/H = 10{,}286{,}000/365 = 28{,}181\ \text{kgf} = 28.2\ \text{tf}$（<strong>不是 $2M/H$</strong>）</td>
+<td></td>
+</tr>
+<tr>
+<td>$V_{jh}$</td>
+<td>$T - V_{col} = 159{,}705 - 28{,}181 = 131{,}524\ \text{kgf} = \mathbf{131.5\ \text{tf}}$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>接頭強度</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b_j$</td>
+<td>$\min(b_{beam}+h_{col},\ b_{beam}+2x) \le b_{col} = \min(120,\ 60) = 60\ \text{cm}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$A_j$</td>
+<td>$b_j \times h_c = 60 \times 60 = 3{,}600\ \text{cm}^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\gamma$</td>
+<td>$3.2$（角柱＝「其他」類；若為<strong>屋頂層</strong>接頭，318-19 降為 <strong>2.2</strong>，見 §6）</td>
+<td></td>
+</tr>
+<tr>
+<td>$\phi V_n$</td>
+<td>$0.85 \times 3.2 \times \sqrt{280} \times 3{,}600 = 163{,}851\ \text{kgf} = 163.8\ \text{tf}$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>接頭水平剪力推導</td>
+<td>取「接頭＋上半柱」自由體：梁拉力 $T$ 傳入、柱剪力 $V_{col}$ 反向，故 $V_{jh} = T - V_{col}$（不是 $T + V_{col}$）</td>
+<td></td>
+</tr>
+<tr>
+<td>ACI 接頭分類與 $\gamma$ 換算</td>
+<td>四面 / 三面或一雙對面 / 其他 = $1.7/1.2/1.0\sqrt{f'_c}$（MPa）＝ 土木 401 之 <strong>5.3 / 3.9 / 3.2</strong>（kgf/cm²）。318-19 另依「柱是否延伸至接頭上方」再分一組（4.7/3.2/<strong>2.2</strong>）</td>
+<td></td>
+</tr>
+<tr>
+<td>角柱接頭 = 「其他」類</td>
+<td>角柱接頭在分析平面內只有一根梁（單面），不滿足 3 面以上 → 取 $\gamma = 3.2$</td>
+<td></td>
+</tr>
+<tr>
+<td>有效接頭面積 $A_j$ 的梁寬限制</td>
+<td>規範式 $b_j = \min(b_{beam}+h_{col},\ b_{beam}+2x) \le b_{col}$；梁寬＝柱寬時得 $b_j = b_{col}$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<blockquote>
+<p><strong>主線採耐震規定：梁受拉鋼筋取 $1.25f_y$</strong>（土木 401-112 §15.6.2／ACI 318-19 §18.8.2.1）。<br />
+文末並列「用 $f_y$」的對照值，兩者結論相同（皆通過）。</p>
+</blockquote>
+<h3>① 梁受拉鋼筋拉力 $T$</h3>
+<p>$$T = 1.25\,A_s f_y = 1.25 \times 30.42 \times 4{,}200 = \boxed{159{,}705\ \text{kgf}}$$</p>
+<p>（對照：若取 $T = A_sf_y = 127{,}764$ kgf）</p>
+<hr />
+<h3>② 梁可能彎矩強度 $M_{pr}$（Whitney 應力塊，$b_w = 60$ cm，$\phi = 1.0$）</h3>
+<p>$$a = \frac{T}{0.85 f'_c b_w} = \frac{159{,}705}{0.85 \times 280 \times 60} = \frac{159{,}705}{14{,}280} = 11.18\ \text{cm}$$</p>
+<p>$$M_{pr} = T\left(d - \frac{a}{2}\right) = 159{,}705 \times \left(70 - 5.59\right) = 159{,}705 \times 64.41 = 10{,}286{,}000\ \text{kgf·cm}$$</p>
+<p>$$\boxed{M_{pr} = 102.86\ \text{tf·m}}\qquad(\text{對照：用 } f_y \text{ 時 } M_n = 83.72\ \text{tf·m})$$</p>
+<hr />
+<h3>③ 柱剪力 $V_{col}$（⚠ 本題最容易錯的一步）</h3>
+<p><strong>接頭彎矩平衡：</strong> 角柱接頭在分析平面內<strong>只有一根梁</strong>，故</p>
+<p>$$\Sigma M_{col} = \Sigma M_{beam} = M_{pr} = 102.86\ \text{tf·m}$$</p>
+<p><strong>上下柱分擔：</strong> 上下層柱斷面與樓高相同 ⇒ 勁度相同 ⇒ 各分擔一半</p>
+<p>$$M_{col,\text{上}} = M_{col,\text{下}} = \frac{M_{pr}}{2} = 51.43\ \text{tf·m}$$</p>
+<p><strong>柱剪力（反曲點在樓層中高，力臂 $H/2$）：</strong></p>
+<p>$$V_{col} = \frac{M_{col,\text{上}}}{H/2} = \frac{M_{pr}/2}{H/2} = \frac{M_{pr}}{H}
+= \frac{10{,}286{,}000}{365} = \boxed{28{,}181\ \text{kgf} = 28.18\ \text{tf}}$$</p>
+<blockquote>
+<p>⚠ <strong>舊版寫 $V_{col} = 2M_n/H = 45.9$ tf，分子多算了一倍。</strong><br />
+檢查方式：$V_{col} \times H$ 應該等於<strong>一個接頭</strong>的梁彎矩（$28.18 \times 3.65 = 102.9$ ✓），<br />
+而不是兩倍。物理上：$V_{col}$ 是整個樓層的柱剪力，一根柱上下端合計產生的彎矩 $V_{col}\cdot H$<br />
+必須等於該柱線上下兩個接頭各分一半後的總和 $= M_{pr}$。</p>
+<p>（對照：用 $f_y$ 時 $V_{col} = 83.72\times10^5/365 = 22.94$ tf。）</p>
+</blockquote>
+<hr />
+<h3>④ 接頭水平剪力需求 $V_{jh}$</h3>
+<p>角柱（外）接頭的自由體：頂部梁筋拉力 $T$ 向接頭傳入，柱剪力 $V_{col}$ 反向：</p>
+<p>$$V_{jh} = T - V_{col} = 159{,}705 - 28{,}181 = \boxed{131{,}524\ \text{kgf} = 131.5\ \text{tf}}$$</p>
+<p>（內接頭則為 $V_{jh} = T_1 + C_2 - V_{col}$，本題單邊有梁故只有一項 $T$。）</p>
+<p><img alt="RC-2005-3 角柱接頭柱彎矩分擔與自由體：左格為柱線側視，60×60 柱貫穿接頭、僅右側單邊接梁（左側標明無梁），梁端傳入 102.86 tf·m 由上下柱各分擔 51.43 tf·m，上下反曲點各距接頭 182.5 cm、構成力偶臂 365 cm 而得 Vcol=28.18 tf；右格以虛線框住接頭加上半柱隔離體，梁頂筋拉力 159.71 tf 向右、柱剪力 28.18 tf 向左、接頭水平剪力 131.52 tf 向左" src="../../raw/solutions/RC-2005-3/figs/RC-2005-3-fig-1-joint-fbd.svg" /></p>
+<p><em>圖 1　左格把梁端 $M_{pr}$ 由上下柱等分、反曲點落在樓層中高、兩個反向的 $V_{col}$ 構成力偶臂 $H$ 畫在同一張；右格用虛線框住「接頭＋上半柱」隔離體並在兩個切斷面標出內力。攔的是 $V_{col}$ 寫成 $2M_{pr}/H$（力偶臂被誤當成 $H/2$），以及 $V_{jh}$ 寫成 $T + V_{col}$（$V_{col}$ 其實與 $T$ 反向，是減項）。</em></p>
+<hr />
+<h3>⑤ 有效接頭面積 $A_j$</h3>
+<p>土木 401-112 §15.6.3／ACI 318-19 §15.4.2.4：接頭有效寬度取</p>
+<p>$$b_j = \min\big(b_{beam} + h_{col},\ b_{beam} + 2x\big) \le b_{col}$$</p>
+<p>其中 $x$ 為梁側面至柱側面之較小距離。本題梁寬＝柱寬 ⇒ $x = 0$：</p>
+<p>$$b_j = \min(60+60,\ 60+0) = 60\ \text{cm}\ \ (\le b_{col} = 60\ ✓)$$</p>
+<p>$$A_j = b_j \times h_{col} = 60 \times 60 = \boxed{3{,}600\ \text{cm}^2}$$</p>
+<blockquote>
+<p>舊版寫的 $b_j = \min(b_c,\ b_w + 0.5h_c)$ 是坊間簡化式；本題梁柱同寬時兩式同得 60 cm，<br />
+但梁比柱窄時兩式會不同，宜引規範原式。</p>
+</blockquote>
+<hr />
+<h3>⑥ 接頭剪力強度 $\phi V_n$</h3>
+<p><strong>接頭分類：</strong> 角柱接頭在分析平面內僅單側有梁，<strong>不</strong>滿足「四面」「三面」或「一雙對面」受圍束<br />
+⇒ 屬「<strong>其他</strong>」類。土木 401（及 101 年考卷原文）的三個 $\gamma$ 值（kgf/cm² 制）為</p>
+<p>$$\gamma = 5.3\ (\text{四面圍束}),\quad 3.9\ (\text{三面或一雙對面}),\quad \boxed{3.2}\ (\text{其他})$$</p>
+<p><img alt="RC-2005-3 接頭圍束分類四格俯視平面：受梁圍束面畫藍粗實線、未圍束面畫紅虛線。四面受梁圍束 γ=5.3、φVn=271.4 tf；三面或一雙對面 γ=3.9、φVn=199.7 tf；其他含角柱（本題，兩個正交方向各一根梁、任一分析平面內只遮住一面）γ=3.2、φVn=163.9 tf；屋頂層之其他（柱未延伸至接頭上方，ACI 318-19 新增）γ=2.2、φVn=112.6 tf" src="../../raw/solutions/RC-2005-3/figs/RC-2005-3-fig-2-gamma.svg" /></p>
+<p><em>圖 2　四格俯視平面，逐一畫出四面／三面／角柱／屋頂層角柱的梁遮蔽情形。攔的是角柱接頭被誤歸為「三面」或「四面」——角柱只在兩個正交方向各有一根梁，任一分析平面內都只遮住一面。</em></p>
+<p>（SI 制對應 $1.7 / 1.2 / 1.0\sqrt{f'_c}$ MPa；舊 psi 制 $20/15/12\sqrt{f'_c}$ psi。<br />
+舊版本頁把中間那項寫成 4.0，是 psi 制換算值；<strong>土木 401 印的是 3.9</strong>。）</p>
+<p>$$\phi V_n = \phi\,\gamma\sqrt{f'_c}\,A_j = 0.85 \times 3.2 \times \sqrt{280} \times 3{,}600
+= 0.85 \times 3.2 \times 16.733 \times 3{,}600$$</p>
+<p>$$= \boxed{163{,}851\ \text{kgf} = 163.8\ \text{tf}}\qquad(\phi = 0.85\ \text{為接頭剪力專用，§21.2.1})$$</p>
+<hr />
+<h3>⑦ 強度驗核</h3>
+<p>$$V_{jh} = 131.5\ \text{tf} \ \le\ \phi V_n = 163.8\ \text{tf} \quad \checkmark$$</p>
+<p>$$\frac{V_{jh}}{\phi V_n} = \frac{131.5}{163.8} = 0.80 \quad (\text{利用率 80\%，餘裕 20\%})$$</p>
+<p><strong>結論：角柱接頭剪力強度符合要求。</strong></p>
+<p><img alt="RC-2005-3 角柱接頭剪力需求與容量比較，五列共用同一尺標並以 163.85 tf 為 100%：容量 φVn（γ=3.2，中間樓層）163.85 tf；需求 Vjh 約等於 T 的保守下限 159.71 tf、利用率 97%；主線需求 Vjh=T−Vcol 為 131.52 tf、利用率 80% 通過；容量 φVn（γ=2.2，屋頂層）112.65 tf 低於主線需求故不通過；需求 Vjh 改用 fy 不計超強為 104.83 tf、利用率 64%" src="../../raw/solutions/RC-2005-3/figs/RC-2005-3-fig-3-check.svg" /></p>
+<p><em>圖 3　把三個需求值與兩條容量線放在同一尺標上，百分比即為對主線容量的利用率。攔的是「只算中間樓層就宣告通過」與「餘裕很夠」兩種誤判：屋頂層容量會低於主線需求，而忽略 $V_{col}$ 的保守下限利用率已達 97%。</em></p>
+<hr />
+<h3>兩種讀法對照（供比對坊間解答）</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: center;"><strong>主線：$1.25f_y$（耐震規定）</strong></th>
+<th style="text-align: center;">對照：$f_y$</th>
+<th style="text-align: center;">舊版本頁（兩處都錯）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$T$</td>
+<td style="text-align: center;">159,705 kgf</td>
+<td style="text-align: center;">127,764 kgf</td>
+<td style="text-align: center;">127,764 kgf</td>
+</tr>
+<tr>
+<td>$M$</td>
+<td style="text-align: center;">102.86 tf·m</td>
+<td style="text-align: center;">83.72 tf·m</td>
+<td style="text-align: center;">83.72 tf·m</td>
+</tr>
+<tr>
+<td>$V_{col}$</td>
+<td style="text-align: center;">$M/H$ = <strong>28.18 tf</strong></td>
+<td style="text-align: center;">$M/H$ = 22.94 tf</td>
+<td style="text-align: center;">$2M/H$ = 45.89 tf ✗</td>
+</tr>
+<tr>
+<td>$V_{jh}$</td>
+<td style="text-align: center;"><strong>131.5 tf</strong></td>
+<td style="text-align: center;">104.8 tf</td>
+<td style="text-align: center;">81.9 tf ✗</td>
+</tr>
+<tr>
+<td>$\phi V_n$</td>
+<td style="text-align: center;">163.8 tf</td>
+<td style="text-align: center;">163.8 tf</td>
+<td style="text-align: center;">163.8 tf</td>
+</tr>
+<tr>
+<td>利用率</td>
+<td style="text-align: center;"><strong>80%</strong></td>
+<td style="text-align: center;">64%</td>
+<td style="text-align: center;">50%</td>
+</tr>
+<tr>
+<td>判定</td>
+<td style="text-align: center;">✅ 通過</td>
+<td style="text-align: center;">✅ 通過</td>
+<td style="text-align: center;">✅ 通過</td>
+</tr>
+</tbody>
+</table>
+<p>三種算法<strong>結論都是通過</strong>，但餘裕差很多。考場上寫 $1.25f_y$ 版本最安全，<br />
+並可加一句「若不計超強係數則 $V_{jh} = 104.8$ tf，利用率 64%」。</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>① $V_{jh} = T - V_{col}$ 的推導邏輯</strong></p>
+<p>取「接頭 + 上半柱」為自由體，水平力平衡：</p>
+<table>
+<thead>
+<tr>
+<th>力</th>
+<th>方向</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$T = 1.25A_sf_y$</td>
+<td>→ 向右（梁頂筋拉力傳入）</td>
+<td>梁受拉鋼筋</td>
+</tr>
+<tr>
+<td>$V_{col}$</td>
+<td>← 向左</td>
+<td>上柱剪力</td>
+</tr>
+<tr>
+<td>$V_{jh}$</td>
+<td>← 向左</td>
+<td>接頭水平剪力（待求）</td>
+</tr>
+</tbody>
+</table>
+<p>$\Rightarrow T - V_{col} - V_{jh} = 0$，故 $V_{jh} = T - V_{col}$（$V_{col}$ 是<strong>減項</strong>）。</p>
+<p>若保守忽略 $V_{col}$：$V_{jh} \approx T = 159.7$ tf，仍 $&lt; \phi V_n = 163.8$ tf ✓（利用率 97%，僅剩 3% 餘裕）。<br />
+<strong>這個「保守下限」很值得在考卷上寫一句</strong>——它顯示本接頭其實相當吃緊。</p>
+<p><strong>② $\gamma$ 係數三值與單位制</strong></p>
+<table>
+<thead>
+<tr>
+<th>接頭圍束情形</th>
+<th style="text-align: center;">ACI（psi 制）</th>
+<th style="text-align: center;">SI（MPa 制）</th>
+<th style="text-align: center;">土木 401（kgf/cm² 制）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>四面受梁圍束</td>
+<td style="text-align: center;">$20\sqrt{f'_c}$</td>
+<td style="text-align: center;">$1.7\sqrt{f'_c}$</td>
+<td style="text-align: center;"><strong>5.3</strong></td>
+</tr>
+<tr>
+<td>三面或一雙對面</td>
+<td style="text-align: center;">$15\sqrt{f'_c}$</td>
+<td style="text-align: center;">$1.2\sqrt{f'_c}$</td>
+<td style="text-align: center;"><strong>3.9</strong>（非 4.0）</td>
+</tr>
+<tr>
+<td>其他（含角柱）</td>
+<td style="text-align: center;">$12\sqrt{f'_c}$</td>
+<td style="text-align: center;">$1.0\sqrt{f'_c}$</td>
+<td style="text-align: center;"><strong>3.2</strong></td>
+</tr>
+</tbody>
+</table>
+<p>記憶：<strong>角柱 3.2、T 形 3.9、內柱 5.3</strong>。<br />
+（換算須乘 $\sqrt{10.197} = 3.193$：SI 的 $1.2/1.0/0.7$ 得 $3.83/3.19/2.24 \fallingdotseq 3.9/3.2/2.2$ ✓；但 <strong>5.3 是由 psi 制 $20\sqrt{f'_c}$ 換來</strong>（$20/3.771 = 5.30$），SI 的 1.7 換出來是 5.43。三套數值各自取整，<strong>不可互相反推</strong>。）</p>
+<p><strong>③ 角柱接頭為何是「其他」類？</strong></p>
+<p>規範看的是「梁把接頭的<strong>面</strong>遮住多少」：需梁寬 $\ge \frac34$ 柱寬且梁深不小於最深梁的 $\frac34$，<br />
+該面才算「受圍束」。角柱在<strong>兩個正交方向各只有一根梁</strong>，於任一分析平面內都只遮住一面<br />
+⇒ 既非四面、也非三面、更非「一雙<strong>對</strong>面」⇒ 落入「其他」，$\gamma = 3.2$。<br />
+<strong>這也是角柱接頭在耐震設計中最脆弱的原因</strong>：需求跟內柱差不多，強度卻只有內柱的 60%。</p>
+<p><strong>④ 本題的工程意義：角柱接頭是不是控制項？</strong></p>
+<p>利用率 80%（忽略 $V_{col}$ 時 97%）。梁只要再加一點鋼筋、或混凝土強度略低於設計值，<br />
+這個接頭就會不通過。<strong>角柱接頭通常是整棟建築耐震設計最吃緊的節點之一</strong>，<br />
+實務上常以「加大柱斷面」「提高柱混凝土強度」「梁筋改用機械式錨定／彎鉤加大彎折半徑」處理，<br />
+而不是靠增加接頭箍筋（接頭箍筋只提供圍束，不計入 $\gamma\sqrt{f'_c}A_j$）。</p>
+<p><strong>⑤ 柱淨高 vs 樓層高</strong></p>
+<p>本題以樓層高 $H = 365$ cm（柱上下接頭中心距）計算 $V_{col}$，這與「反曲點在樓層中高」的假設一致，是正確用法。<br />
+若誤用柱<strong>淨高</strong>（扣掉梁深），$V_{col}$ 會偏大、$V_{jh}$ 偏小 ⇒ <strong>偏不安全</strong>。原卷未給梁全高，用 365 cm 是唯一可行且正確的作法。</p>
+<p><strong>⑥ 接頭尚須檢核（本題未問，但實務必做）</strong></p>
+<ul>
+<li>接頭橫向鋼筋：至少延續柱端圍束箍筋（§18.8.3），或滿足減量規定。</li>
+<li>
+<p>梁筋在外接頭的<strong>錨定</strong>：$90°$ 標準彎鉤，$\ell_{dh} = \dfrac{f_yd_b}{17.2\sqrt{f'_c}}$（kgf 制），<br />
+  且 $\ge 8d_b$、$\ge 15$ cm。D25：$\ell_{dh} = \dfrac{4200\times2.54}{17.2\times16.733} = 37.1$ cm，<br />
+  而柱深只有 60 cm、扣保護層後可用約 55 cm ⇒ 剛好可行，但沒有太多餘裕。</p>
+</li>
+<li>
+<p>柱深 $\ge 20d_b$（梁筋貫穿內接頭時）：本題為外接頭不適用，但同類題常考。</p>
+</li>
+</ul>
+<hr />
+<h2>6. 依最新規範對照（土木 401-112／ACI 318-19）</h2>
+<p>原卷（94 年）未指定版本，當時為 <strong>土木 401-86／ACI 318-99</strong> 世代。現行為 <strong>土木 401-112</strong>（ACI 318-19 世代）。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>舊制（318-99 世代）</th>
+<th>401-112／ACI 318-19</th>
+<th>影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>接頭剪力需求之鋼筋應力</td>
+<td>$1.25f_y$（§21 已有此規定）</td>
+<td>同（§18.8.2.1）</td>
+<td>主線改用 1.25$f_y$</td>
+</tr>
+<tr>
+<td>$V_{jh} = T - V_{col}$</td>
+<td>同</td>
+<td>同</td>
+<td>不變</td>
+</tr>
+<tr>
+<td>$A_j$ 有效寬度</td>
+<td>$b_j = \min(b+h,\ b+2x) \le b_{col}$</td>
+<td>同（§15.4.2.4）</td>
+<td>不變（60 cm）</td>
+</tr>
+<tr>
+<td>$\phi$（接頭剪力）</td>
+<td>0.85</td>
+<td>0.85（§21.2.1(e)）</td>
+<td>不變</td>
+</tr>
+<tr>
+<td><strong>$\gamma$ 值</strong></td>
+<td>三檔：$20/15/12\sqrt{f'_c}$ psi</td>
+<td><strong>六檔</strong>（Table 18.8.4.3）：<br>依「柱是否延伸至接頭上方」再分兩組</td>
+<td><strong>本題可能不通過，見下</strong></td>
+</tr>
+<tr>
+<td>$\lambda$（輕質混凝土）</td>
+<td>—</td>
+<td>明訂 $\gamma$ 須乘 $\lambda$</td>
+<td>常重混凝土 $\lambda = 1$</td>
+</tr>
+</tbody>
+</table>
+<h3>⚠ ACI 318-19 新增的「屋頂層接頭」折減——本題的關鍵風險</h3>
+<p>318-19 把接頭 $\gamma$ 依「<strong>柱是否連續延伸至接頭上方</strong>」再分成兩組：</p>
+<table>
+<thead>
+<tr>
+<th>圍束情形</th>
+<th style="text-align: center;">柱<strong>延伸</strong>至接頭上方</th>
+<th style="text-align: center;">柱<strong>未延伸</strong>（屋頂層接頭）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>四面受梁圍束</td>
+<td style="text-align: center;">$1.7\sqrt{f'_c}$（kgf 制 5.3）</td>
+<td style="text-align: center;">$1.5\sqrt{f'_c}$（kgf 制 4.7）</td>
+</tr>
+<tr>
+<td>三面或一雙對面</td>
+<td style="text-align: center;">$1.2\sqrt{f'_c}$（3.9）</td>
+<td style="text-align: center;">$1.0\sqrt{f'_c}$（3.2）</td>
+</tr>
+<tr>
+<td><strong>其他（含角柱）</strong></td>
+<td style="text-align: center;">$1.0\sqrt{f'_c}$（<strong>3.2</strong>）</td>
+<td style="text-align: center;">$0.7\sqrt{f'_c}$（<strong>2.2</strong>）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本題若為屋頂層角柱接頭：</strong></p>
+<p>$$\phi V_n = 0.85 \times 2.2 \times 16.733 \times 3{,}600 = 112{,}648\ \text{kgf} = \mathbf{112.65\ \text{tf}}$$</p>
+<p>$$V_{jh} = 131.5\ \text{tf}\ &gt;\ \phi V_n = 112.65\ \text{tf} \quad ✗ \ \textbf{不通過（超出 17\%）}$$</p>
+<p>原卷只說「一 RC 構架樓層高 365 cm」，<strong>沒有交代接頭在哪一層</strong>。</p>
+<ul>
+<li>若為<strong>中間樓層</strong>（柱上下連續）：$\gamma = 3.2$、$\phi V_n = 163.8$ tf ⇒ <strong>通過</strong>（本解主線）。</li>
+<li>若為<strong>屋頂層</strong>（柱不再往上延伸）：依 318-19 之 $\gamma = 2.2$ ⇒ <strong>不通過</strong>，須加大柱斷面或提高 $f'_c$。</li>
+</ul>
+<blockquote>
+<p>這是本題「依最新規範計算」唯一會改變<strong>結論</strong>的地方，作答時建議明寫假設：<br />
+「本解假設該角柱接頭位於<strong>中間樓層</strong>（柱延伸至接頭上方）；若為屋頂層接頭，<br />
+依 ACI 318-19 Table 18.8.4.3 之 $\gamma$ 應降為 $0.7\sqrt{f'_c}$（kgf 制 2.2），$\phi V_n = 112.65$ tf，將不通過。」</p>
+</blockquote>
+<p><strong>318-19 這樣改的理由：</strong> 屋頂層接頭上方沒有柱提供軸壓與圍束，斜壓桿無法閉合，<br />
+實驗顯示其剪力強度明顯低於中間層接頭——這是 318-14 → 318-19 在第 18 章最實質的修訂之一。</p>
+<p><em>圖解補繪：2026-09-07（向量圖 3 張，腳本 <code>figs/gen_RC-2005-3.py</code>，可重跑；腳本檔尾對 §4 公佈值做 assert）</em></p></main>
+<footer>來源：raw/solutions/RC-2005-3/RC-2005-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

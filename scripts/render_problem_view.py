@@ -7,6 +7,7 @@
   - 若有 raw/solutions/<id>/<id>-problem.md（題目正本：考卷原文＋判讀清單），渲染在解析之前（2026-11-02 起試做）
   - 數學式先保護再還原（$$…$$、$…$），避免 markdown 吞掉 < > _ *
   - 清單前一行是普通文字時先補空行，否則 Python-Markdown 不認清單（2026-11-09 由 SA 的 md2view.py 併入）
+  - 引言（> …）後緊接清單時也補空行，否則清單被吃進引言（2026-11-11 RC 搬入時加）
   - 正本有 **分析法：** 且頁首有 <p class="meta2">（SA 頁面）時，同步頁首的分析法欄位
   - [[ID]] 轉為藍色徽章；相對路徑圖片改指 ../../raw/solutions/<id>/
   - 頁面不存在時，以同目錄任一既有頁為版型，並依索引主分類設定單元按鈕
@@ -40,7 +41,8 @@ def pre(text):
         if FENCE.match(line):
             infence = not infence
         if (not infence and ITEM.match(line) and prev.strip() and not ITEM.match(prev)
-                and not prev.startswith(("    ", "\t", "|", ">"))):
+                and (prev.lstrip().startswith(">")  # 引言後緊接清單：補空行結束引言（2026-11-11 RC 搬入時加，RC-2009-1）
+                     or not prev.startswith(("    ", "\t", "|", ">")))):
             out.append("")
         out.append(line)
         prev = line

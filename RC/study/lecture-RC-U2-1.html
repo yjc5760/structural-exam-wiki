@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RC-U2-1 觀念講義｜RC 剪力強度分析與設計</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--tension:#2e7d32;--tension2:#e8f5e9;
+--comp:#c62828;--comp2:#ffebee;--warn:#ef6c00;--warn2:#fff3e0;
+--key:#6a1b9a;--key2:#f3e5f5;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:34px 26px}
+header h1{margin:0 0 8px;font-size:1.6em}header .sub{opacity:.9;font-size:.93em;margin:0}
+header .meta{margin-top:12px;font-size:.82em;opacity:.8}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);
+padding:9px 14px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+nav a{text-decoration:none;color:var(--ac);font-size:.85em;padding:4px 11px;border-radius:14px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:980px;margin:0 auto;padding:24px 18px 80px}
+section{margin-bottom:46px}
+h2{font-size:1.32em;border-left:6px solid var(--ac);padding-left:12px;margin:44px 0 18px;line-height:1.4}
+h3{font-size:1.08em;margin:30px 0 10px;color:#0d47a1}
+h4{font-size:.99em;margin:20px 0 8px;color:#37474f}
+.lead{font-size:1.03em;background:#fff;border:1px solid var(--bd);border-left:5px solid var(--ac);
+border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:16px 18px;margin:16px 0}
+.why{background:var(--key2);border:1px solid #ce93d8;border-left:5px solid var(--key);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.why b:first-child{color:var(--key)}
+.trap{background:var(--warn2);border:1px solid #ffcc80;border-left:5px solid var(--warn);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.trap b:first-child{color:#e65100}
+.tens{background:var(--tension2);border:1px solid #a5d6a7;border-left:5px solid var(--tension);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.comp{background:var(--comp2);border:1px solid #ef9a9a;border-left:5px solid var(--comp);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.fig{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 14px 10px;margin:20px 0;overflow-x:auto}
+.fig svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig .cap{font-size:.85em;color:var(--mut);text-align:center;margin-top:10px;line-height:1.6}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9em;background:#fff}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}li{margin:5px 0}
+.pill{display:inline-block;font-size:.76em;padding:2px 8px;border-radius:10px;margin-right:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+details{background:#fff;border:1px solid var(--bd);border-radius:9px;padding:10px 14px;margin:12px 0}
+summary{cursor:pointer;font-weight:600;color:var(--ac)}
+details p{border-left:3px solid #e0e0e0;padding-left:12px;margin:8px 0;color:#37474f}
+.qlink{color:#1565c0;text-decoration:none;border-bottom:1px dotted #90caf9;font-weight:600}
+.katex-display{margin:14px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+<h1>RC-U2-1 觀念講義：RC 剪力強度分析與設計</h1>
+<p class="sub">理解導向 — 每條公式追到來源，每個規範係數交代出處。練題之前先讀這一份。</p>
+<p class="meta">結構工程技師｜鋼筋混凝土設計與預力｜第二單元第 1 子項<br>
+涵蓋歷屆考題：主分類 7 題、副分類 9 題（2003–2025）</p>
+</header>
+<nav>
+  <a href="#s0">§0 全景</a>
+  <a href="#s1">§1 桁架類比</a>
+  <a href="#s2">§2 Vc 的四張臉</a>
+  <a href="#s3">§3 箍筋與間距</a>
+  <a href="#s4">§4 臨界斷面</a>
+  <a href="#s5">§5 D 區與 STM</a>
+  <a href="#s6">§6 介面剪力</a>
+  <a href="#s7">§7 剪力＋扭力</a>
+  <a href="#s8">§8 解題流程</a>
+  <a href="#s9">§9 考點對照</a>
+  <a href="#s10">§10 陷阱總表</a>
+  <a href="#s11">§11 自我檢測</a>
+  <a href="#s12">★ 精選 5 題</a>
+  <a href="#s13">§13 因果鏈</a>
+  <span style="flex:1"></span>
+  <a href="unit-RC-U2-1.html" style="background:#eceff1;color:#455a64">📊 單元總覽</a>
+  <a href="lecture-RC-U2-1.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+<main>
+<section id="s0">
+<h2>§0 全景：剪力破壞不是被剪斷，是被拉裂</h2>
+
+<div class="lead">
+<b>一句話：混凝土沒有「抗剪強度」這回事 —— 所謂剪力破壞，是剪應力造成的<u>斜向主拉應力</u>把混凝土拉裂。</b><br>
+這一句話解釋了本單元幾乎所有公式：為什麼 \(V_c \propto \sqrt{f'_c}\)（抗拉強度的代理）而不是 \(\propto f'_c\)；
+為什麼軸壓提高 \(V_c\)、軸拉降低 \(V_c\)、預力提高 \(V_c\)、塑鉸區 \(V_c=0\)。
+而 \(V_s\) 的上限則換成<b>另一個</b>機制 —— 斜壓桿被壓碎。
+</div>
+
+<div class="fig">
+<!--FIG:mohr-->
+<svg viewBox="0 0 900 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="三種軸力狀態下的微元素與莫爾圓">
+  <text x="150" y="26" font-size="14.5" text-anchor="middle" fill="#0d47a1" font-weight="700">無軸力（純剪）</text>
+  <clipPath id="clip00"><rect x="111" y="65" width="78" height="78"/></clipPath>
+  <rect x="111" y="65" width="78" height="78" rx="0" fill="#fafbfc" stroke="#546e7a" stroke-width="1.6"/>
+  <g clip-path="url(#clip00)" stroke="#c62828" stroke-width="2.4"><line x1="77.9" y1="63" x2="191" y2="176.1"/><line x1="93.4" y1="47.4" x2="206.6" y2="160.6"/><line x1="109" y1="31.9" x2="222.1" y2="145"/></g>
+  <line x1="196" y1="125" x2="196" y2="88.6" stroke="#1565c0" stroke-width="1.8"/>
+  <polygon points="196,83 199.2,90 192.8,90" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="104" y1="83" x2="104" y2="119.4" stroke="#1565c0" stroke-width="1.8"/>
+  <polygon points="104,125 100.8,118 107.2,118" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="129" y1="58" x2="165.4" y2="58" stroke="#1565c0" stroke-width="1.8"/>
+  <polygon points="171,58 164,61.1 164,54.9" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="171" y1="150" x2="134.6" y2="150" stroke="#1565c0" stroke-width="1.8"/>
+  <polygon points="129,150 136,146.8 136,153.2" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <text x="202" y="87" font-size="11" fill="#1565c0" font-weight="700">τ = 1.00 ft</text>
+  <line x1="115.8" y1="138.2" x2="184.2" y2="69.8" stroke="#ef6c00" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <polygon points="188.2,65.8 185.5,73 181,68.5" fill="#ef6c00" stroke="none" stroke-width="1.2"/>
+  <polygon points="111.8,142.2 114.5,135 119,139.5" fill="#ef6c00" stroke="none" stroke-width="1.2"/>
+  <text x="192.2" y="62.8" font-size="11" fill="#ef6c00" font-weight="700">σ1</text>
+  <line x1="12" y1="292" x2="288" y2="292" stroke="#607d8b" stroke-width="1.1"/>
+  <line x1="160" y1="216" x2="160" y2="368" stroke="#607d8b" stroke-width="1.1"/>
+  <text x="286" y="287" font-size="11" text-anchor="end" fill="#607d8b">σ</text>
+  <text x="164" y="226" font-size="11" fill="#607d8b">τ</text>
+  <line x1="206" y1="212" x2="206" y2="372" stroke="#c62828" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="209" y="380" font-size="11" fill="#c62828" font-weight="700">ft</text>
+  <circle cx="160" cy="292" r="46" fill="none" stroke="#0d47a1" stroke-width="2.2"/>
+  <line x1="160" y1="246" x2="160" y2="338" stroke="#0d47a1" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <circle cx="160" cy="246" r="3.6" fill="#0d47a1" stroke="#0d47a1" stroke-width="1"/>
+  <circle cx="206" cy="292" r="4.2" fill="#c62828" stroke="#c62828" stroke-width="1"/>
+  <text x="166" y="240" font-size="10.5" fill="#0d47a1">(σx, τ)</text>
+  <text x="150" y="398" font-size="13" text-anchor="middle" fill="#0d47a1" font-weight="700">開裂所需 τcr = 1.00 ft</text>
+  <text x="150" y="418" font-size="12" text-anchor="middle" fill="#263238">裂縫與梁軸夾角 45°（標準）</text>
+  <text x="150" y="437" font-size="12" text-anchor="middle" fill="#607d8b">Vc 基準值</text>
+  <line x1="300" y1="14" x2="300" y2="440" stroke="#cfd8dc" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="450" y="26" font-size="14.5" text-anchor="middle" fill="#2e7d32" font-weight="700">加軸壓  σx = −1.0 ft</text>
+  <clipPath id="clip01"><rect x="411" y="65" width="78" height="78"/></clipPath>
+  <rect x="411" y="65" width="78" height="78" rx="0" fill="#fafbfc" stroke="#546e7a" stroke-width="1.6"/>
+  <g clip-path="url(#clip01)" stroke="#c62828" stroke-width="2.4"><line x1="372" y1="75.8" x2="502.6" y2="168.2"/><line x1="384.7" y1="57.8" x2="515.3" y2="150.2"/><line x1="397.4" y1="39.8" x2="528" y2="132.2"/></g>
+  <line x1="496" y1="129.1" x2="496" y2="84.5" stroke="#1565c0" stroke-width="1.8"/>
+  <polygon points="496,78.9 499.1,85.9 492.9,85.9" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="404" y1="78.9" x2="404" y2="123.5" stroke="#1565c0" stroke-width="1.8"/>
+  <polygon points="404,129.1 400.9,122.1 407.1,122.1" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="424.9" y1="58" x2="469.5" y2="58" stroke="#1565c0" stroke-width="1.8"/>
+  <polygon points="475.1,58 468.1,61.1 468.1,54.9" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="475.1" y1="150" x2="430.5" y2="150" stroke="#1565c0" stroke-width="1.8"/>
+  <polygon points="424.9,150 431.9,146.8 431.9,153.2" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <text x="502" y="82.9" font-size="11" fill="#1565c0" font-weight="700">τ = 1.41 ft</text>
+  <line x1="365" y1="104" x2="387.8" y2="104" stroke="#2e7d32" stroke-width="2.4"/>
+  <polygon points="395,104 386,108 386,100" fill="#2e7d32" stroke="none" stroke-width="1.2"/>
+  <line x1="535" y1="104" x2="512.2" y2="104" stroke="#2e7d32" stroke-width="2.4"/>
+  <polygon points="505,104 514,100 514,108" fill="#2e7d32" stroke="none" stroke-width="1.2"/>
+  <text x="381" y="94" font-size="11" text-anchor="middle" fill="#2e7d32" font-weight="700">σx</text>
+  <line x1="422.1" y1="143.5" x2="477.9" y2="64.5" stroke="#ef6c00" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <polygon points="481.2,59.9 479.7,67.4 474.6,63.8" fill="#ef6c00" stroke="none" stroke-width="1.2"/>
+  <polygon points="418.8,148.1 420.3,140.6 425.4,144.2" fill="#ef6c00" stroke="none" stroke-width="1.2"/>
+  <text x="485.2" y="56.9" font-size="11" fill="#ef6c00" font-weight="700">σ1</text>
+  <line x1="312" y1="292" x2="588" y2="292" stroke="#607d8b" stroke-width="1.1"/>
+  <line x1="460" y1="216" x2="460" y2="368" stroke="#607d8b" stroke-width="1.1"/>
+  <text x="586" y="287" font-size="11" text-anchor="end" fill="#607d8b">σ</text>
+  <text x="464" y="226" font-size="11" fill="#607d8b">τ</text>
+  <line x1="506" y1="212" x2="506" y2="372" stroke="#c62828" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="509" y="380" font-size="11" fill="#c62828" font-weight="700">ft</text>
+  <circle cx="437" cy="292" r="69" fill="none" stroke="#2e7d32" stroke-width="2.2"/>
+  <line x1="414" y1="226.9" x2="460" y2="357.1" stroke="#2e7d32" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <circle cx="414" cy="226.9" r="3.6" fill="#2e7d32" stroke="#2e7d32" stroke-width="1"/>
+  <circle cx="506" cy="292" r="4.2" fill="#c62828" stroke="#c62828" stroke-width="1"/>
+  <text x="410" y="220.9" font-size="10.5" text-anchor="end" fill="#2e7d32">(σx, τ)</text>
+  <text x="450" y="398" font-size="13" text-anchor="middle" fill="#2e7d32" font-weight="700">開裂所需 τcr = 1.41 ft</text>
+  <text x="450" y="418" font-size="12" text-anchor="middle" fill="#263238">裂縫與梁軸夾角 35°（較平）</text>
+  <text x="450" y="437" font-size="12" text-anchor="middle" fill="#607d8b">Vc 提高、裂縫較窄</text>
+  <line x1="600" y1="14" x2="600" y2="440" stroke="#cfd8dc" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="750" y="26" font-size="14.5" text-anchor="middle" fill="#c62828" font-weight="700">加軸拉  σx = +0.5 ft</text>
+  <clipPath id="clip02"><rect x="711" y="65" width="78" height="78"/></clipPath>
+  <rect x="711" y="65" width="78" height="78" rx="0" fill="#fafbfc" stroke="#546e7a" stroke-width="1.6"/>
+  <g clip-path="url(#clip02)" stroke="#c62828" stroke-width="2.4"><line x1="685.8" y1="51.4" x2="778.2" y2="182"/><line x1="703.8" y1="38.7" x2="796.2" y2="169.3"/><line x1="721.8" y1="26" x2="814.2" y2="156.6"/></g>
+  <line x1="796" y1="122.1" x2="796" y2="91.5" stroke="#1565c0" stroke-width="1.8"/>
+  <polygon points="796,85.9 799.1,92.9 792.9,92.9" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="704" y1="85.9" x2="704" y2="116.5" stroke="#1565c0" stroke-width="1.8"/>
+  <polygon points="704,122.1 700.9,115.1 707.1,115.1" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="731.9" y1="58" x2="762.5" y2="58" stroke="#1565c0" stroke-width="1.8"/>
+  <polygon points="768.1,58 761.1,61.1 761.1,54.9" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="768.1" y1="150" x2="737.5" y2="150" stroke="#1565c0" stroke-width="1.8"/>
+  <polygon points="731.9,150 738.9,146.8 738.9,153.2" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <text x="802" y="89.9" font-size="11" fill="#1565c0" font-weight="700">τ = 0.71 ft</text>
+  <line x1="695" y1="104" x2="676.2" y2="104" stroke="#c62828" stroke-width="2.4"/>
+  <polygon points="669,104 678,100 678,108" fill="#c62828" stroke="none" stroke-width="1.2"/>
+  <line x1="805" y1="104" x2="823.8" y2="104" stroke="#c62828" stroke-width="2.4"/>
+  <polygon points="831,104 822,108 822,100" fill="#c62828" stroke="none" stroke-width="1.2"/>
+  <text x="681" y="94" font-size="11" text-anchor="middle" fill="#c62828" font-weight="700">σx</text>
+  <line x1="710.5" y1="131.9" x2="789.5" y2="76.1" stroke="#ef6c00" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <polygon points="794.1,72.8 790.2,79.4 786.6,74.3" fill="#ef6c00" stroke="none" stroke-width="1.2"/>
+  <polygon points="705.9,135.2 709.8,128.6 713.4,133.7" fill="#ef6c00" stroke="none" stroke-width="1.2"/>
+  <text x="798.1" y="69.8" font-size="11" fill="#ef6c00" font-weight="700">σ1</text>
+  <line x1="612" y1="292" x2="888" y2="292" stroke="#607d8b" stroke-width="1.1"/>
+  <line x1="760" y1="216" x2="760" y2="368" stroke="#607d8b" stroke-width="1.1"/>
+  <text x="886" y="287" font-size="11" text-anchor="end" fill="#607d8b">σ</text>
+  <text x="764" y="226" font-size="11" fill="#607d8b">τ</text>
+  <line x1="806" y1="212" x2="806" y2="372" stroke="#c62828" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="809" y="380" font-size="11" fill="#c62828" font-weight="700">ft</text>
+  <circle cx="771.5" cy="292" r="34.5" fill="none" stroke="#c62828" stroke-width="2.2"/>
+  <line x1="783" y1="259.5" x2="760" y2="324.5" stroke="#c62828" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <circle cx="783" cy="259.5" r="3.6" fill="#c62828" stroke="#c62828" stroke-width="1"/>
+  <circle cx="806" cy="292" r="4.2" fill="#c62828" stroke="#c62828" stroke-width="1"/>
+  <text x="789" y="253.5" font-size="10.5" fill="#c62828">(σx, τ)</text>
+  <text x="750" y="398" font-size="13" text-anchor="middle" fill="#c62828" font-weight="700">開裂所需 τcr = 0.71 ft</text>
+  <text x="750" y="418" font-size="12" text-anchor="middle" fill="#263238">裂縫與梁軸夾角 55°（較陡）</text>
+  <text x="750" y="437" font-size="12" text-anchor="middle" fill="#607d8b">Vc 降低、裂縫較寬</text>
+</svg>
+<!--/FIG:mohr-->
+<div class="cap">
+三格都畫在<b>開裂瞬間</b>（σ<sub>1</sub> 恰達 \(f_t\)，三個莫爾圓都碰到同一條 \(f_t\) 虛線）。由 \(\sigma_1=f_t\) 解出
+\(\tau_{cr}=f_t\sqrt{1-\sigma_x/f_t}\)：軸壓 \(\sigma_x=-f_t\) 要 1.41 倍的剪應力才開裂，軸拉 \(+0.5f_t\) 只要 0.71 倍。
+裂縫垂直於 σ<sub>1</sub>（橘色虛線），角度由 \(\tan 2\theta_p = 2\tau/\sigma_x\) 算出：<b>軸壓 → 裂縫較平（35°）、較窄；軸拉 → 較陡（55°，趨近垂直）、較寬</b>。
+這正是 <a class="qlink" href="problems-view/RC-2010-3.html">RC-2010-3</a> 第一小題（5 分論述）要你答的內容。
+</div>
+</div>
+
+<div class="why">
+<b>從莫爾圓一步就能推出來（考場上畫得出來就不會忘）</b><br>
+梁腹中性軸附近是<b>接近純剪</b>的應力狀態。純剪時主應力：
+
+$$\sigma_{1,2} = \frac{\sigma_x}{2} \pm \sqrt{\left(\frac{\sigma_x}{2}\right)^2 + \tau^2}$$
+
+・\(\sigma_x = 0\)（無軸力）→ \(\sigma_1 = +\tau\)、\(\sigma_2 = -\tau\)，主軸恰好轉 45° → <b>裂縫 45°</b>。<br>
+・\(\sigma_x < 0\)（軸壓）→ \(\sigma_1\) 變小 → 同樣的 \(\tau\) 不會開裂 → <b>\(V_c\) 提高</b>；
+σ<sub>1</sub> 方向轉得更接近垂直（\(\theta_p > 45°\)）→ 垂直於它的<b>裂縫變平</b>（與梁軸夾角 &lt; 45°，預力梁腹剪裂縫約 30° 就是這個道理）、較窄。<br>
+・\(\sigma_x > 0\)（軸拉）→ \(\sigma_1\) 變大 → <b>\(V_c\) 降低</b>；σ<sub>1</sub> 轉向水平 → <b>裂縫變陡</b>（趨近垂直）、較寬，可貫穿全深。<br>
+<b>這一個式子就把 §2 全部四種 \(V_c\) 修正的方向決定了</b>，不需要背哪個加、哪個減。
+</div>
+
+<h3>本單元的三種傳力機制（先認出是哪一種）</h3>
+
+<table>
+<thead><tr><th>機制</th><th>什麼時候用</th><th>核心工具</th><th>代表題</th><th>本講義</th></tr></thead>
+<tbody>
+<tr><td><b>A. 桁架類比</b>（B 區）</td><td>一般梁，平截面假設成立</td><td>\(V_n = V_c + V_s\)；\(V_s = A_v f_{yt} d/s\)</td><td>RC-2020-2、RC-2014-3、RC-2006-1、RC-2021-1</td><td>§1–§4</td></tr>
+<tr><td><b>B. 壓拉桿模式</b>（D 區）</td><td>深梁、接頭、托架、集中載重靠近支承</td><td>STM：壓桿 \(\beta_s\)、節點 \(\beta_n\)、拉桿</td><td><a class="qlink" href="problems-view/RC-2009-3.html">RC-2009-3</a></td><td>§5</td></tr>
+<tr><td><b>C. 摩擦剪力</b>（已有介面）</td><td>新舊混凝土介面、既有裂縫面、預鑄接合</td><td>\(V_n = \mu A_{vf} f_y\)</td><td><a class="qlink" href="problems-view/RC-2017-2.html">RC-2017-2</a></td><td>§6</td></tr>
+</tbody>
+</table>
+
+<p>
+三種機制的<b>差別只在「斜壓桿長什麼樣、拉力繫桿是誰」</b>：
+桁架類比的斜壓桿是 45° 的混凝土斜撐、拉桿是箍筋；
+深梁的斜壓桿直接從載重點連到支承（拱作用），根本不需要箍筋當拉桿；
+介面則<b>沒有斜壓桿</b>，只剩粗糙面的摩擦與植筋的夾緊力。
+認錯機制，公式全錯 —— 這是本單元第一個要做的判斷（§8）。
+</p>
+</section>
+
+<section id="s1">
+<h2>§1 桁架類比：V<sub>c</sub> 與 V<sub>s</sub> 各是誰</h2>
+
+<div class="lead">
+<b>本節主張：</b>\(V_n = V_c + V_s\) 不是「混凝土的份 + 鋼筋的份」這麼簡單的分帳。
+\(V_c\) 是<b>開裂那一瞬間</b>的剪力（四個來源的總和），\(V_s\) 是<b>開裂之後</b>箍筋把裂縫縫住的能力。
+它們發生在不同時刻，能相加是規範的<b>經驗簡化</b>，不是嚴格的力學疊加。
+</div>
+
+<h3>1.1 三個階段</h3>
+
+<div class="fig">
+<!--FIG:stages-->
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC 梁剪力傳遞的三個階段">
+  <text x="150" y="24" font-size="13.5" text-anchor="middle" fill="#0d47a1" font-weight="700">① 未開裂</text>
+  <rect x="70" y="46" width="46" height="150" rx="0" fill="#f5f7f8" stroke="#546e7a" stroke-width="1.6"/>
+  <text x="93" y="212" font-size="11" text-anchor="middle" fill="#607d8b">b</text>
+  <line x1="60" y1="46" x2="60" y2="196" stroke="#607d8b" stroke-width="1.1"/>
+  <line x1="54" y1="46" x2="66" y2="46" stroke="#607d8b" stroke-width="1.1"/>
+  <line x1="54" y1="196" x2="66" y2="196" stroke="#607d8b" stroke-width="1.1"/>
+  <text x="54" y="124.8" font-size="11" text-anchor="end" fill="#607d8b" font-weight="700">h</text>
+  <polygon points="132,46 132,46 138.8,49.8 145.3,53.5 151.4,57.2 157.2,61 162.6,64.8 167.7,68.5 172.4,72.2 176.8,76 180.8,79.8 184.5,83.5 187.8,87.2 190.8,91 193.4,94.8 195.7,98.5 197.6,102.2 199.2,106 200.4,109.8 201.3,113.5 201.8,117.2 202,121 201.8,124.8 201.3,128.5 200.4,132.2 199.2,136 197.6,139.8 195.7,143.5 193.4,147.2 190.8,151 187.8,154.8 184.5,158.5 180.8,162.2 176.8,166 172.4,169.8 167.7,173.5 162.6,177.2 157.2,181 151.4,184.8 145.3,188.5 138.8,192.2 132,196 132,196" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.6"/>
+  <line x1="132" y1="46" x2="132" y2="196" stroke="#1565c0" stroke-width="1.2"/>
+  <line x1="132" y1="64.8" x2="158.6" y2="64.8" stroke="#1565c0" stroke-width="1"/>
+  <polygon points="162.6,64.8 157.6,67 157.6,62.5" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="132" y1="83.5" x2="180.5" y2="83.5" stroke="#1565c0" stroke-width="1"/>
+  <polygon points="184.5,83.5 179.5,85.8 179.5,81.2" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="132" y1="102.2" x2="193.6" y2="102.2" stroke="#1565c0" stroke-width="1"/>
+  <polygon points="197.6,102.2 192.6,104.5 192.6,100" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="132" y1="121" x2="198" y2="121" stroke="#1565c0" stroke-width="1"/>
+  <polygon points="202,121 197,123.2 197,118.8" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="132" y1="139.8" x2="193.6" y2="139.8" stroke="#1565c0" stroke-width="1"/>
+  <polygon points="197.6,139.8 192.6,142 192.6,137.5" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="132" y1="158.5" x2="180.5" y2="158.5" stroke="#1565c0" stroke-width="1"/>
+  <polygon points="184.5,158.5 179.5,160.8 179.5,156.2" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <line x1="132" y1="177.2" x2="158.6" y2="177.2" stroke="#1565c0" stroke-width="1"/>
+  <polygon points="162.6,177.2 157.6,179.5 157.6,175" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <text x="208" y="125" font-size="11.5" fill="#1565c0" font-weight="700">τmax</text>
+  <text x="208" y="141" font-size="10.5" fill="#1565c0">= 1.5V/(bh)</text>
+  <text x="150" y="232" font-size="11.5" text-anchor="middle" fill="#263238">全斷面均質彈性，箍筋幾乎不受力</text>
+  <text x="150" y="256" font-size="12" text-anchor="middle" fill="#2e7d32" font-weight="700">V 由整個斷面以拋物線分布承擔</text>
+  <text x="455" y="24" font-size="13.5" text-anchor="middle" fill="#0d47a1" font-weight="700">② 斜裂縫出現：Vc 的四個來源</text>
+  <rect x="320" y="50" width="250" height="120" rx="0" fill="#fbfcfd" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="320,50 454,50 454,84 394,144 386,170 320,170" fill="#e3f2fd" stroke="none" stroke-width="1.2"/>
+  <line x1="320" y1="84" x2="570" y2="84" stroke="#90a4ae" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="566" y="79" font-size="10" text-anchor="end" fill="#607d8b">壓力區</text>
+  <line x1="320" y1="158" x2="570" y2="158" stroke="#263238" stroke-width="2.6"/>
+  <polyline points="386,170 394,144 454,84" fill="none" stroke="#c62828" stroke-width="2.8" stroke-linejoin="round"/>
+  <line x1="442" y1="54" x2="442" y2="75.6" stroke="#1565c0" stroke-width="2"/>
+  <polygon points="442,82 438.4,74 445.6,74" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <text x="436" y="68" font-size="10.5" text-anchor="end" fill="#1565c0" font-weight="700">① Vcz</text>
+  <line x1="430" y1="94" x2="410.5" y2="113.5" stroke="#1565c0" stroke-width="2"/>
+  <polygon points="406,118 409.1,109.8 414.2,114.9" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <text x="436" y="120" font-size="10.5" fill="#1565c0" font-weight="700">② Va 骨材互鎖</text>
+  <line x1="388" y1="134" x2="388" y2="148.6" stroke="#1565c0" stroke-width="2"/>
+  <polygon points="388,155 384.4,147 391.6,147" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <text x="380" y="146" font-size="10.5" text-anchor="end" fill="#1565c0" font-weight="700">③ Vd 銷栓</text>
+  <text x="455" y="192" font-size="11" text-anchor="middle" fill="#1565c0">④ 拱作用：短跨才顯著（§5）</text>
+  <text x="455" y="232" font-size="11.5" text-anchor="middle" fill="#263238">四者無法個別量化 → 規範以 √f'c 迴歸</text>
+  <text x="455" y="256" font-size="12" text-anchor="middle" fill="#2e7d32" font-weight="700">Vc = 開裂瞬間 ①＋②＋③（＋④）</text>
+  <text x="760" y="24" font-size="13.5" text-anchor="middle" fill="#0d47a1" font-weight="700">③ 箍筋接手</text>
+  <rect x="625" y="50" width="250" height="120" rx="0" fill="#fbfcfd" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="625,50 759,50 759,84 699,144 691,170 625,170" fill="#e3f2fd" stroke="none" stroke-width="1.2"/>
+  <line x1="625" y1="84" x2="875" y2="84" stroke="#90a4ae" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="871" y="79" font-size="10" text-anchor="end" fill="#607d8b">壓力區</text>
+  <line x1="625" y1="158" x2="875" y2="158" stroke="#263238" stroke-width="2.6"/>
+  <line x1="670" y1="55" x2="670" y2="165" stroke="#a5d6a7" stroke-width="1.8"/>
+  <line x1="700" y1="55" x2="700" y2="165" stroke="#2e7d32" stroke-width="2.6"/>
+  <line x1="706" y1="117" x2="706" y2="134.4" stroke="#2e7d32" stroke-width="1.6"/>
+  <polygon points="706,140 702.9,133 709.1,133" fill="#2e7d32" stroke="none" stroke-width="1.2"/>
+  <line x1="730" y1="55" x2="730" y2="165" stroke="#2e7d32" stroke-width="2.6"/>
+  <line x1="736" y1="87" x2="736" y2="104.4" stroke="#2e7d32" stroke-width="1.6"/>
+  <polygon points="736,110 732.9,103 739.1,103" fill="#2e7d32" stroke="none" stroke-width="1.2"/>
+  <line x1="760" y1="55" x2="760" y2="165" stroke="#a5d6a7" stroke-width="1.8"/>
+  <line x1="790" y1="55" x2="790" y2="165" stroke="#a5d6a7" stroke-width="1.8"/>
+  <line x1="820" y1="55" x2="820" y2="165" stroke="#a5d6a7" stroke-width="1.8"/>
+  <line x1="850" y1="55" x2="850" y2="165" stroke="#a5d6a7" stroke-width="1.8"/>
+  <text x="760" y="192" font-size="11.5" text-anchor="middle" fill="#2e7d32" font-weight="700">跨越裂縫的箍筋降伏：每支 Av·fyt</text>
+  <polyline points="691,170 699,144 759,84" fill="none" stroke="#c62828" stroke-width="2.8" stroke-linejoin="round"/>
+  <text x="760" y="232" font-size="11.5" text-anchor="middle" fill="#263238">裂縫張開後 ②③ 衰退，箍筋縫住裂縫</text>
+  <text x="760" y="256" font-size="12" text-anchor="middle" fill="#2e7d32" font-weight="700">Vs = 跨越裂縫箍筋的降伏力總和</text>
+  <text x="450" y="288" font-size="11" text-anchor="middle" fill="#607d8b">藍底＝裂縫左側自由體；箭頭＝切面上作用於自由體的剪力分量（向下，與支承反力平衡）</text>
+</svg>
+<!--/FIG:stages-->
+<div class="cap">
+第 ② 格的四個來源<b>都與混凝土的抗拉能力有關</b>（骨材互鎖靠裂縫面沒有張太開、銷栓靠保護層沒被劈開）。
+這解釋了為什麼耐震塑鉸區要令 \(V_c = 0\)：反覆載重把裂縫張開又閉合，四個來源同時失效（§2.4）。
+</div>
+</div>
+
+<h3>1.2 V<sub>s</sub> 公式是數出來的，不是背出來的</h3>
+
+<div class="fig">
+<!--FIG:truss-->
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="45 度斜裂縫跨越箍筋數 n = d/s">
+  <rect x="70" y="56" width="760" height="168" rx="0" fill="#f7f9fb" stroke="#cfd8dc" stroke-width="1.2"/>
+  <line x1="90" y1="210" x2="230" y2="70" stroke="#ef9a9a" stroke-width="2" stroke-dasharray="7 5"/>
+  <line x1="160" y1="210" x2="300" y2="70" stroke="#ef9a9a" stroke-width="2" stroke-dasharray="7 5"/>
+  <line x1="230" y1="210" x2="370" y2="70" stroke="#ef9a9a" stroke-width="2" stroke-dasharray="7 5"/>
+  <line x1="300" y1="210" x2="440" y2="70" stroke="#ef9a9a" stroke-width="2" stroke-dasharray="7 5"/>
+  <line x1="370" y1="210" x2="510" y2="70" stroke="#ef9a9a" stroke-width="2" stroke-dasharray="7 5"/>
+  <line x1="440" y1="210" x2="580" y2="70" stroke="#ef9a9a" stroke-width="2" stroke-dasharray="7 5"/>
+  <line x1="510" y1="210" x2="650" y2="70" stroke="#ef9a9a" stroke-width="2" stroke-dasharray="7 5"/>
+  <line x1="580" y1="210" x2="720" y2="70" stroke="#ef9a9a" stroke-width="2" stroke-dasharray="7 5"/>
+  <line x1="650" y1="210" x2="790" y2="70" stroke="#ef9a9a" stroke-width="2" stroke-dasharray="7 5"/>
+  <line x1="90" y1="70" x2="90" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="125" y1="70" x2="125" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="160" y1="70" x2="160" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="195" y1="70" x2="195" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="230" y1="70" x2="230" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="265" y1="70" x2="265" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="300" y1="70" x2="300" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="335" y1="70" x2="335" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="370" y1="70" x2="370" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="405" y1="70" x2="405" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="440" y1="70" x2="440" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="475" y1="70" x2="475" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="510" y1="70" x2="510" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="545" y1="70" x2="545" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="580" y1="70" x2="580" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="615" y1="70" x2="615" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="650" y1="70" x2="650" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="685" y1="70" x2="685" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="720" y1="70" x2="720" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="755" y1="70" x2="755" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="790" y1="70" x2="790" y2="210" stroke="#2e7d32" stroke-width="2.4"/>
+  <line x1="70" y1="70" x2="830" y2="70" stroke="#c62828" stroke-width="4"/>
+  <line x1="70" y1="210" x2="830" y2="210" stroke="#2e7d32" stroke-width="4"/>
+  <text x="836" y="74" font-size="11.5" fill="#c62828" font-weight="700">上弦（壓）</text>
+  <text x="836" y="214" font-size="11.5" fill="#2e7d32" font-weight="700">下弦（拉）</text>
+  <line x1="282.5" y1="210" x2="422.5" y2="70" stroke="#ef6c00" stroke-width="4"/>
+  <text x="430.5" y="50" font-size="12" fill="#ef6c00" font-weight="700">一條 45° 斜裂縫（水平投影 = d）</text>
+  <circle cx="300" cy="192.5" r="5" fill="#ef6c00" stroke="#fff" stroke-width="1.5"/>
+  <line x1="309" y1="210.5" x2="309" y2="182.1" stroke="#2e7d32" stroke-width="1.8"/>
+  <polygon points="309,176.5 312.1,183.5 305.9,183.5" fill="#2e7d32" stroke="none" stroke-width="1.2"/>
+  <text x="313" y="206.5" font-size="11" fill="#2e7d32" font-weight="700">1</text>
+  <circle cx="335" cy="157.5" r="5" fill="#ef6c00" stroke="#fff" stroke-width="1.5"/>
+  <line x1="344" y1="175.5" x2="344" y2="147.1" stroke="#2e7d32" stroke-width="1.8"/>
+  <polygon points="344,141.5 347.1,148.5 340.9,148.5" fill="#2e7d32" stroke="none" stroke-width="1.2"/>
+  <text x="348" y="171.5" font-size="11" fill="#2e7d32" font-weight="700">2</text>
+  <circle cx="370" cy="122.5" r="5" fill="#ef6c00" stroke="#fff" stroke-width="1.5"/>
+  <line x1="379" y1="140.5" x2="379" y2="112.1" stroke="#2e7d32" stroke-width="1.8"/>
+  <polygon points="379,106.5 382.1,113.5 375.9,113.5" fill="#2e7d32" stroke="none" stroke-width="1.2"/>
+  <text x="383" y="136.5" font-size="11" fill="#2e7d32" font-weight="700">3</text>
+  <circle cx="405" cy="87.5" r="5" fill="#ef6c00" stroke="#fff" stroke-width="1.5"/>
+  <line x1="414" y1="105.5" x2="414" y2="77.1" stroke="#2e7d32" stroke-width="1.8"/>
+  <polygon points="414,71.5 417.1,78.5 410.9,78.5" fill="#2e7d32" stroke="none" stroke-width="1.2"/>
+  <text x="418" y="101.5" font-size="11" fill="#2e7d32" font-weight="700">4</text>
+  <text x="199" y="170" font-size="11" fill="#c62828">斜壓桿</text>
+  <line x1="282.5" y1="234" x2="422.5" y2="234" stroke="#263238" stroke-width="1.1"/>
+  <line x1="282.5" y1="228" x2="282.5" y2="240" stroke="#263238" stroke-width="1.1"/>
+  <line x1="422.5" y1="228" x2="422.5" y2="240" stroke="#263238" stroke-width="1.1"/>
+  <text x="352.5" y="250" font-size="12" text-anchor="middle" fill="#263238" font-weight="700">d</text>
+  <line x1="125" y1="234" x2="160" y2="234" stroke="#607d8b" stroke-width="1.1"/>
+  <line x1="125" y1="228" x2="125" y2="240" stroke="#607d8b" stroke-width="1.1"/>
+  <line x1="160" y1="228" x2="160" y2="240" stroke="#607d8b" stroke-width="1.1"/>
+  <text x="142.5" y="249" font-size="11" text-anchor="middle" fill="#607d8b" font-weight="700">s</text>
+  <line x1="62" y1="70" x2="62" y2="210" stroke="#263238" stroke-width="1.1"/>
+  <line x1="56" y1="70" x2="68" y2="70" stroke="#263238" stroke-width="1.1"/>
+  <line x1="56" y1="210" x2="68" y2="210" stroke="#263238" stroke-width="1.1"/>
+  <text x="56" y="144.2" font-size="12" text-anchor="end" fill="#263238" font-weight="700">d</text>
+  <text x="450" y="284" font-size="13" text-anchor="middle" fill="#0d47a1" font-weight="700">跨越 n = d / s = 4 支，每支降伏力 Av·fyt   →   Vs = n·Av·fyt = Av·fyt·d / s</text>
+</svg>
+<!--/FIG:truss-->
+<div class="cap">
+把 45° 斜裂縫畫出來，<b>數一數它跨過幾支箍筋</b>，\(V_s\) 的公式就自己出現了（圖中 \(s=d/4\)，恰跨 4 支）。
+綠色垂直線是箍筋（拉力繫桿），紅色虛線是混凝土斜壓桿 —— 這就是「桁架類比」的字面意思。
+</div>
+</div>
+
+<div class="why">
+<b>三個由這張圖直接推出的結論</b><br>
+① <b>間距 \(s\) 一定要小於 \(d\)</b>，否則會出現「一條裂縫一支箍筋都沒跨到」的情況 ——
+這就是 \(s_{\max} \leq d/2\) 的<b>物理下限</b>（取一半以確保至少跨到一支，且有餘裕）。
+規範的 \(d/2\) 不是隨便訂的。<br>
+② <b>箍筋必須降伏才算數</b> → 所以要用閉合箍或標準彎鉤錨定，否則箍筋還沒降伏就先拔出。<br>
+③ 若把裂縫角度改成 \(\theta\)（不是 45°），水平投影變成 \(d\cot\theta\)，
+\(V_s = A_v f_{yt} d \cot\theta / s\) —— 這正是<b>扭力設計</b>（RC-U2-2）與變角度桁架模型的公式來源。
+兩個單元的公式其實是同一個。
+</div>
+</section>
+<section id="s2">
+<h2>§2 V<sub>c</sub> 的四張臉：同一個量，四種問法</h2>
+
+<div class="lead">
+<b>本節主張：</b>考題會用四種不同形式問 \(V_c\) —— 簡化式、詳細式、軸力修正式、\(V_c=0\)。
+它們不是四個公式，是「<b>斜向主拉應力何時達到 \(f_t\)</b>」在四種條件下的答案。
+先判斷題目屬於哪一種，再代公式。
+</div>
+
+<h3>2.1 單位制對照（本單元最容易整題錯判的地方）</h3>
+
+<table>
+<thead><tr><th>量</th><th>psi 制</th><th>MPa 制</th><th>kgf/cm² 制</th><th>用途</th></tr></thead>
+<tbody>
+<tr><td>\(V_c\) 簡化式係數</td><td>2</td><td>1/6 = 0.166</td><td><b>0.53</b></td><td>無軸力一般梁</td></tr>
+<tr><td>詳細式首項</td><td>1.9</td><td>0.158</td><td><b>0.50</b></td><td>含 \(\rho_w\)、\(V_u d/M\) 的精算</td></tr>
+<tr><td>詳細式上限</td><td>3.5</td><td>0.29</td><td><b>0.93</b></td><td>\(V_c\) 的天花板</td></tr>
+<tr><td>間距減半門檻</td><td>4</td><td>1/3 = 0.332</td><td><b>1.06</b></td><td>\(s_{\max}\) 由 \(d/2\) 變 \(d/4\)</td></tr>
+<tr><td>\(V_s\) 上限</td><td>8</td><td>2/3 = 0.664</td><td><b>2.12</b></td><td>超過須加大斷面</td></tr>
+<tr><td>\(\rho_w\) 項係數（直接應力）</td><td>2500</td><td>—</td><td><b>175</b></td><td>詳細式第二項</td></tr>
+<tr><td>軸壓修正基準</td><td>—</td><td>14 MPa</td><td><b>140</b></td><td>\(1 + N_u/(140A_g)\)</td></tr>
+<tr><td>軸拉修正基準</td><td>—</td><td>3.5 MPa</td><td><b>35</b></td><td>\(1 + N_u/(35A_g)\)，\(N_u<0\)</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>換算規則：\(\sqrt{f'_c}\) 型與「直接應力」型的換算係數<u>不一樣</u></b><br>
+・\(k\sqrt{f'_c}\) 型（根號裡也要換單位）：psi → kgf/cm² 乘 \(\sqrt{0.0703}=0.265\)；psi → MPa 乘 \(\sqrt{0.006895}=0.0830\)。<br>
+　驗算：\(2\times0.265=0.530\) ✓、\(8\times0.265=2.121\) ✓、\(4\times0.265=1.061\) ✓、\(3.5\times0.265=0.928\) ✓。<br>
+・<b>直接應力</b>型（如 \(2500\rho_w\)，本身就是應力，不含根號）：psi → kgf/cm² 只乘 \(0.0703\)。<br>
+　驗算：\(2500\times0.0703 = 175.8 \approx 175\) ✓；\(14\ \text{MPa}\times10.197 = 142.8 \approx 140\) ✓；\(3.5\times10.197 = 35.7 \approx 35\) ✓。<br>
+<b>兩種換算搞混，是本科最常見的「整題數量級錯誤」來源</b>（同一條詳細式裡兩項各用一種）。
+</div>
+
+<h3>2.2 四張臉</h3>
+
+<table>
+<thead><tr><th>#</th><th>形式（kgf/cm² 制）</th><th>什麼時候用</th><th>代表題</th></tr></thead>
+<tbody>
+<tr><td>①</td><td>\(V_c = 0.53\sqrt{f'_c}\,b_w d\)</td><td>無軸力、題目說「用簡化式」或未指定</td><td>RC-2020-2、RC-2021-1</td></tr>
+<tr><td>②</td><td>\(V_c = \left(0.50\sqrt{f'_c} + 175\rho_w\dfrac{V_u d}{M_u}\right)b_w d \leq 0.93\sqrt{f'_c}b_w d\)</td><td>題目要「<b>最大</b> \(V_c\)」或明示用詳細式（結果通常比①大）</td><td><a class="qlink" href="problems-view/RC-2014-3.html">RC-2014-3</a></td></tr>
+<tr><td>③</td><td>\(V_c = 0.53\sqrt{f'_c}b_w d\left(1+\dfrac{N_u}{140A_g}\right)\)（壓）<br>\(V_c = 0.53\sqrt{f'_c}b_w d\left(1+\dfrac{N_u}{35A_g}\right)\)（拉，\(N_u<0\)）</td><td>有軸力且用簡化式</td><td><a class="qlink" href="problems-view/RC-2010-3.html">RC-2010-3</a></td></tr>
+<tr><td>④</td><td>\(V_c = 0\)</td><td>耐震塑鉸區（地震剪力 &gt; 50% 且 \(N_u < A_g f'_c/20\)）</td><td>RC-2016-2、RC-2025-2</td></tr>
+</tbody>
+</table>
+
+<h3>2.3 軸力的方向感：拉的傷害是壓的幫助的 4 倍</h3>
+
+<div class="fig">
+<!--FIG:axial-->
+<svg viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="軸力對 Vc 的修正係數">
+  <rect x="110" y="65.5" width="146" height="220.5" rx="0" fill="#ffebee" stroke="none" stroke-width="0"/>
+  <rect x="256" y="65.5" width="584" height="220.5" rx="0" fill="#e8f5e9" stroke="none" stroke-width="0"/>
+  <line x1="110" y1="233.5" x2="840" y2="233.5" stroke="#b0bec5" stroke-width="0.8" stroke-dasharray="3 4"/>
+  <text x="102" y="237.5" font-size="11" text-anchor="end" fill="#607d8b">0.5</text>
+  <line x1="110" y1="181" x2="840" y2="181" stroke="#b0bec5" stroke-width="0.8" stroke-dasharray="3 4"/>
+  <text x="102" y="185" font-size="11" text-anchor="end" fill="#607d8b">1.0</text>
+  <line x1="110" y1="128.5" x2="840" y2="128.5" stroke="#b0bec5" stroke-width="0.8" stroke-dasharray="3 4"/>
+  <text x="102" y="132.5" font-size="11" text-anchor="end" fill="#607d8b">1.5</text>
+  <line x1="110" y1="76" x2="840" y2="76" stroke="#b0bec5" stroke-width="0.8" stroke-dasharray="3 4"/>
+  <text x="102" y="80" font-size="11" text-anchor="end" fill="#607d8b">2.0</text>
+  <line x1="110" y1="286" x2="110" y2="291" stroke="#263238" stroke-width="1.2"/>
+  <text x="110" y="305" font-size="11" text-anchor="middle" fill="#c62828">-35</text>
+  <line x1="256" y1="286" x2="256" y2="291" stroke="#263238" stroke-width="1.2"/>
+  <text x="256" y="305" font-size="11" text-anchor="middle" fill="#263238">0</text>
+  <line x1="402" y1="286" x2="402" y2="291" stroke="#263238" stroke-width="1.2"/>
+  <text x="402" y="305" font-size="11" text-anchor="middle" fill="#2e7d32">+35</text>
+  <line x1="548" y1="286" x2="548" y2="291" stroke="#263238" stroke-width="1.2"/>
+  <text x="548" y="305" font-size="11" text-anchor="middle" fill="#2e7d32">+70</text>
+  <line x1="694" y1="286" x2="694" y2="291" stroke="#263238" stroke-width="1.2"/>
+  <text x="694" y="305" font-size="11" text-anchor="middle" fill="#2e7d32">+105</text>
+  <line x1="840" y1="286" x2="840" y2="291" stroke="#263238" stroke-width="1.2"/>
+  <text x="840" y="305" font-size="11" text-anchor="middle" fill="#2e7d32">+140</text>
+  <text x="102" y="290" font-size="11" text-anchor="end" fill="#607d8b">0</text>
+  <line x1="110" y1="286" x2="854" y2="286" stroke="#263238" stroke-width="1.6"/>
+  <line x1="256" y1="294" x2="256" y2="57.5" stroke="#263238" stroke-width="1.6"/>
+  <text x="840" y="324" font-size="12" text-anchor="end" fill="#263238">Nu / Ag（kgf/cm²，壓為正）</text>
+  <text x="248" y="53.5" font-size="12" text-anchor="end" fill="#263238">Vc / Vc0</text>
+  <text x="183" y="86.5" font-size="12.5" text-anchor="middle" fill="#c62828" font-weight="700">軸拉區</text>
+  <text x="548" y="90.5" font-size="12.5" text-anchor="middle" fill="#2e7d32" font-weight="700">軸壓區</text>
+  <line x1="110" y1="286" x2="256" y2="181" stroke="#c62828" stroke-width="3.2"/>
+  <line x1="256" y1="181" x2="840" y2="76" stroke="#2e7d32" stroke-width="3.2"/>
+  <text x="114.2" y="133.8" font-size="11.5" fill="#c62828" font-weight="700">1 + Nu/(35Ag)</text>
+  <text x="548" y="116.5" font-size="11.5" text-anchor="middle" fill="#2e7d32" font-weight="700">1 + Nu/(140Ag)</text>
+  <circle cx="203.9" cy="218.5" r="5.5" fill="#c62828" stroke="#fff" stroke-width="1.5"/>
+  <text x="211.9" y="240.5" font-size="11" fill="#c62828" font-weight="700">RC-2010-3：-12.5 → 0.643</text>
+  <circle cx="308.1" cy="171.6" r="5.5" fill="#2e7d32" stroke="#fff" stroke-width="1.5"/>
+  <text x="318.1" y="193.6" font-size="11" fill="#2e7d32" font-weight="700">RC-2010-3：+12.5 → 1.089</text>
+  <text x="548" y="220.9" font-size="13" text-anchor="middle" fill="#0d47a1" font-weight="700">斜率比 = (1/35) ÷ (1/140) = 4</text>
+  <text x="548" y="241.9" font-size="12" text-anchor="middle" fill="#263238">同樣大小的 N/Ag，軸拉的傷害是軸壓幫助的 4 倍</text>
+  <text x="548" y="261.9" font-size="12" text-anchor="middle" fill="#c62828">N/Ag = −35 時 Vc 歸零；再拉也取 Vc = 0</text>
+</svg>
+<!--/FIG:axial-->
+<div class="cap">
+兩條直線只差斜率。左邊陡（1/35）、右邊緩（1/140）—— <b>混凝土怕拉不怕壓，在這張圖上就是斜率差 4 倍</b>。
+RC-2010-3 的兩個實際點（\(N/A_g = \pm12.5\)）標在圖上：軸壓只 +8.9%，軸拉卻 −35.7%。
+</div>
+</div>
+
+<div class="box">
+<b>手算對照：<a href="problems-view/RC-2010-3.html" class="qlink">RC-2010-3</a>（簡化式）vs <a href="problems-view/RC-2014-3.html" class="qlink">RC-2014-3</a>（詳細式）</b><br>
+
+<h4>RC-2010-3（簡化式，b=40、d=52、h=60、f'c=280，Nu=±30 tf）</h4>
+$$V_{c0} = 0.53\sqrt{280}\times40\times52 = 18{,}446\ \text{kgf};\qquad A_g = 2400\ \text{cm}^2$$
+$$\text{軸壓：}\ 1+\frac{30000}{140\times2400} = 1.089 \;\Rightarrow\; \phi V_c = 0.75\times20{,}092 = \mathbf{15.07\ tf}\ (+8.9\%)$$
+$$\text{軸拉：}\ 1-\frac{30000}{35\times2400} = 0.643 \;\Rightarrow\; \phi V_c = 0.75\times11{,}858 = \mathbf{8.89\ tf}\ (-35.7\%)$$
+
+<h4>RC-2014-3（詳細式，b=30、d=60、h=70、f'c=280，Nu=±25 tf）</h4>
+等效彎矩統一處理三種軸力（<b>壓為正、拉為負</b>）：
+$$M_m = M_u - N_u\frac{4h-d}{8},\qquad \frac{4h-d}{8} = \frac{4(70)-60}{8} = 27.5\ \text{cm}$$
+$$V_c = \left(0.50\sqrt{f'_c} + 175\rho_w\frac{V_u d}{M_m}\right)b_w d \leq 0.93\sqrt{f'_c}b_w d = 28{,}010\ \text{kgf}$$
+
+<table>
+<thead><tr><th>案例</th><th>\(M_m\)</th><th>\(V_u d/M_m\)</th><th>\(V_c\)</th></tr></thead>
+<tbody>
+<tr><td>無軸力</td><td>660,000</td><td>0.864</td><td>18,751 kgf</td></tr>
+<tr><td>軸壓 +25 tf</td><td><b>−27,500 &lt; 0</b></td><td>公式失效</td><td>取上限 <b>28,010 kgf</b></td></tr>
+<tr><td>軸拉 −25 tf</td><td>1,347,500</td><td>0.423</td><td>16,868 kgf</td></tr>
+</tbody>
+</table>
+
+<b>三個自我檢查：</b><br>
+① 三個值必須<b>單調</b>：軸拉 16,868 &lt; 無軸力 18,751 &lt; 軸壓 28,010 ✓。順序反了就是符號錯。<br>
+② 詳細式的無軸力值 18,751 應<b>大於</b>簡化式 15,963（詳細式多了 \(\rho_w\) 的貢獻）✓。
+若你算出詳細式比簡化式小，多半是把 175 寫成 2500 或漏乘單位。<br>
+③ \(M_m < 0\) 代表「軸壓造成的等效反向彎矩已蓋過外力彎矩」→ 斷面幾乎全壓 → 直接取上限，
+<b>不要繼續代公式</b>（會得到負的或荒謬的大值）。
+</div>
+
+<h3>2.4 為什麼塑鉸區 V<sub>c</sub> = 0</h3>
+
+<div class="why">
+<b>回到 §1.1 第 ② 格的四個來源</b><br>
+反覆正負彎矩下：裂縫<b>貫穿全深度</b>（未裂壓力區消失）→ ①沒了；
+裂縫反覆張開閉合、裂縫面磨平 → ②骨材互鎖失效；
+保護層剝落 → ③銷栓作用失效；
+梁不是短跨 → ④拱作用本來就沒有。<b>四個來源同時歸零</b>，所以 \(V_c=0\) 不是保守假設，是物理事實。<br>
+而附帶的軸力條件（\(N_u < A_g f'_c/20\)）意義是：<b>足夠的軸壓能把裂縫壓閉合、恢復骨材互鎖</b> ——
+這與 §2.3 的軸壓修正是同一件事。所以梁（無軸壓）幾乎必然 \(V_c=0\)，柱（有軸壓）要實際算過。
+詳見 <a href="lecture-RC-U3-3.html" class="qlink">RC-U3-3 觀念講義</a> §1.2。
+</div>
+</section>
+
+<section id="s3">
+<h2>§3 箍筋與間距：用 V<sub>c</sub> 當尺，門檻在 2V<sub>c</sub> 和 4V<sub>c</sub></h2>
+
+<div class="lead">
+<b>本節主張：</b>\(s_{\max}\) 的兩個門檻（\(1.06\sqrt{f'_c}b_wd\) 與 \(2.12\sqrt{f'_c}b_wd\））
+其實就是<b>簡化式 \(V_c\) 的 2 倍與 4 倍</b>。用 \(V_c\) 當尺，三個區間一眼看完，不必記兩個帶根號的數字。
+</div>
+
+<h3>3.1 三個區間</h3>
+
+<div class="fig">
+<!--FIG:zones-->
+<svg viewBox="0 0 900 396" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vs 的三個區間與箍筋間距">
+  <rect x="80" y="70" width="300" height="36" rx="0" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.6"/>
+  <text x="230" y="93" font-size="12.5" text-anchor="middle" fill="#2e7d32" font-weight="700">smax = min(d/2, 60 cm)</text>
+  <text x="230" y="58" font-size="11.5" text-anchor="middle" fill="#263238">裂縫還不密，箍筋跨得到</text>
+  <rect x="380" y="70" width="300" height="36" rx="0" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.6"/>
+  <text x="530" y="93" font-size="12.5" text-anchor="middle" fill="#ef6c00" font-weight="700">smax = min(d/4, 30 cm)</text>
+  <text x="530" y="58" font-size="11.5" text-anchor="middle" fill="#263238">裂縫變密 → 間距減半</text>
+  <rect x="680" y="70" width="165" height="36" rx="0" fill="#ffebee" stroke="#c62828" stroke-width="1.6"/>
+  <text x="762.5" y="93" font-size="12.5" text-anchor="middle" fill="#c62828" font-weight="700">斷面不足，必須加大</text>
+  <text x="762.5" y="58" font-size="11.5" text-anchor="middle" fill="#263238">斜壓桿壓碎，加箍筋沒用</text>
+  <line x1="80" y1="124" x2="882.8" y2="124" stroke="#263238" stroke-width="1.6"/>
+  <polygon points="890,124 881,128.1 881,120" fill="#263238" stroke="none" stroke-width="1.2"/>
+  <text x="890" y="116" font-size="12" text-anchor="end" fill="#263238">Vs / Vc</text>
+  <line x1="80" y1="118" x2="80" y2="130" stroke="#263238" stroke-width="1.3"/>
+  <text x="80" y="146" font-size="11.5" text-anchor="middle" fill="#263238">0</text>
+  <line x1="230" y1="118" x2="230" y2="130" stroke="#263238" stroke-width="1.3"/>
+  <text x="230" y="146" font-size="11.5" text-anchor="middle" fill="#263238">1</text>
+  <line x1="380" y1="118" x2="380" y2="130" stroke="#263238" stroke-width="1.3"/>
+  <text x="380" y="146" font-size="11.5" text-anchor="middle" fill="#263238">2</text>
+  <line x1="530" y1="118" x2="530" y2="130" stroke="#263238" stroke-width="1.3"/>
+  <text x="530" y="146" font-size="11.5" text-anchor="middle" fill="#263238">3</text>
+  <line x1="680" y1="118" x2="680" y2="130" stroke="#263238" stroke-width="1.3"/>
+  <text x="680" y="146" font-size="11.5" text-anchor="middle" fill="#263238">4</text>
+  <line x1="830" y1="118" x2="830" y2="130" stroke="#263238" stroke-width="1.3"/>
+  <text x="830" y="146" font-size="11.5" text-anchor="middle" fill="#263238">5</text>
+  <text x="380" y="164" font-size="11" text-anchor="middle" fill="#ef6c00" font-weight="700">2Vc = 1.06√f'c bw d</text>
+  <text x="680" y="164" font-size="11" text-anchor="middle" fill="#c62828" font-weight="700">4Vc = 2.12√f'c bw d</text>
+  <polygon points="293.6,118 287.6,108 299.6,108" fill="#1565c0" stroke="none" stroke-width="1.2"/>
+  <text x="293.6" y="184" font-size="11" text-anchor="middle" fill="#1565c0" font-weight="700">RC-2020-2：Vs = 1.42 Vc</text>
+  <line x1="293.6" y1="130" x2="293.6" y2="172" stroke="#1565c0" stroke-width="1" stroke-dasharray="3 3"/>
+  <rect x="110" y="222" width="300" height="104" rx="0" fill="#fafbfc" stroke="#546e7a" stroke-width="1.4"/>
+  <line x1="124" y1="226" x2="124" y2="322" stroke="#b0bec5" stroke-width="1.6"/>
+  <line x1="176" y1="226" x2="176" y2="322" stroke="#b0bec5" stroke-width="1.6"/>
+  <line x1="228" y1="226" x2="228" y2="322" stroke="#2e7d32" stroke-width="2.6"/>
+  <circle cx="228" cy="300" r="4.5" fill="#2e7d32" stroke="#fff" stroke-width="1.4"/>
+  <line x1="280" y1="226" x2="280" y2="322" stroke="#2e7d32" stroke-width="2.6"/>
+  <circle cx="280" cy="248" r="4.5" fill="#2e7d32" stroke="#fff" stroke-width="1.4"/>
+  <line x1="332" y1="226" x2="332" y2="322" stroke="#b0bec5" stroke-width="1.6"/>
+  <line x1="384" y1="226" x2="384" y2="322" stroke="#b0bec5" stroke-width="1.6"/>
+  <line x1="202" y1="326" x2="306" y2="222" stroke="#c62828" stroke-width="3"/>
+  <line x1="202" y1="340" x2="306" y2="340" stroke="#263238" stroke-width="1.1"/>
+  <line x1="202" y1="335" x2="202" y2="345" stroke="#263238" stroke-width="1.1"/>
+  <line x1="306" y1="335" x2="306" y2="345" stroke="#263238" stroke-width="1.1"/>
+  <text x="254" y="355" font-size="11" text-anchor="middle" fill="#263238" font-weight="700">d</text>
+  <text x="260" y="214" font-size="12.5" text-anchor="middle" fill="#2e7d32" font-weight="700">s = d/2 → 跨 2 支</text>
+  <rect x="510" y="222" width="300" height="104" rx="0" fill="#fafbfc" stroke="#546e7a" stroke-width="1.4"/>
+  <line x1="524" y1="226" x2="524" y2="322" stroke="#b0bec5" stroke-width="1.6"/>
+  <line x1="550" y1="226" x2="550" y2="322" stroke="#b0bec5" stroke-width="1.6"/>
+  <line x1="576" y1="226" x2="576" y2="322" stroke="#b0bec5" stroke-width="1.6"/>
+  <line x1="602" y1="226" x2="602" y2="322" stroke="#ef6c00" stroke-width="2.6"/>
+  <circle cx="602" cy="313" r="4.5" fill="#ef6c00" stroke="#fff" stroke-width="1.4"/>
+  <line x1="628" y1="226" x2="628" y2="322" stroke="#ef6c00" stroke-width="2.6"/>
+  <circle cx="628" cy="287" r="4.5" fill="#ef6c00" stroke="#fff" stroke-width="1.4"/>
+  <line x1="654" y1="226" x2="654" y2="322" stroke="#ef6c00" stroke-width="2.6"/>
+  <circle cx="654" cy="261" r="4.5" fill="#ef6c00" stroke="#fff" stroke-width="1.4"/>
+  <line x1="680" y1="226" x2="680" y2="322" stroke="#ef6c00" stroke-width="2.6"/>
+  <circle cx="680" cy="235" r="4.5" fill="#ef6c00" stroke="#fff" stroke-width="1.4"/>
+  <line x1="706" y1="226" x2="706" y2="322" stroke="#b0bec5" stroke-width="1.6"/>
+  <line x1="732" y1="226" x2="732" y2="322" stroke="#b0bec5" stroke-width="1.6"/>
+  <line x1="758" y1="226" x2="758" y2="322" stroke="#b0bec5" stroke-width="1.6"/>
+  <line x1="784" y1="226" x2="784" y2="322" stroke="#b0bec5" stroke-width="1.6"/>
+  <line x1="810" y1="226" x2="810" y2="322" stroke="#b0bec5" stroke-width="1.6"/>
+  <line x1="589" y1="326" x2="693" y2="222" stroke="#c62828" stroke-width="3"/>
+  <line x1="589" y1="340" x2="693" y2="340" stroke="#263238" stroke-width="1.1"/>
+  <line x1="589" y1="335" x2="589" y2="345" stroke="#263238" stroke-width="1.1"/>
+  <line x1="693" y1="335" x2="693" y2="345" stroke="#263238" stroke-width="1.1"/>
+  <text x="641" y="355" font-size="11" text-anchor="middle" fill="#263238" font-weight="700">d</text>
+  <text x="660" y="214" font-size="12.5" text-anchor="middle" fill="#ef6c00" font-weight="700">s = d/4 → 跨 4 支</text>
+  <text x="450" y="384" font-size="12.5" text-anchor="middle" fill="#0d47a1" font-weight="700">推論：Vu,max = φ(Vc + 4Vc) = 5φVc（RC-2020-2：5 × 0.75 × 26.07 = 97.8 tf）</text>
+</svg>
+<!--/FIG:zones-->
+<div class="cap">
+下排兩格與上排同比例：間距由 \(d/2\) 減為 \(d/4\)，同一條 45° 裂縫跨越的箍筋由 2 支變 4 支。
+把三個門檻換算成「\(V_c\) 的幾倍」，整節就只剩兩個數字要記：<b>2 倍</b>（間距減半）與 <b>4 倍</b>（斷面不足）。
+最右邊的紅區是<b>換了機制</b> —— 不再是箍筋不夠，而是混凝土斜壓桿要被壓碎，加再多箍筋也沒用。
+</div>
+</div>
+
+<div class="why">
+<b>為什麼 4V<sub>c</sub> 之後加箍筋沒用（這是本節最重要的觀念）</b><br>
+桁架類比裡，箍筋是<b>拉力繫桿</b>、混凝土斜撐是<b>壓桿</b>。加箍筋只能加強拉桿；
+但剪力同時也在壓斜撐。當 \(V_s > 4V_c\)，<b>斜壓桿的壓應力先達到混凝土抗壓強度</b> ——
+破壞模式從「箍筋降伏」（延性、有預警）變成「腹板壓碎」（脆性、無預警）。<br>
+規範不是說「不准設計」，而是說<b>這條路走不通，請加大斷面</b>（增大 \(b_w d\) 直接降低斜壓桿應力）。<br>
+<b>這也是 §0 那句話的第二半</b>：\(V_c\) 是抗拉問題，\(V_s\) 的上限是抗壓問題 —— 兩個不同的機制。
+</div>
+
+<h3>3.2 設計時要通過三道關卡（缺一不可）</h3>
+
+<table>
+<thead><tr><th>關卡</th><th>條件</th><th>漏掉會怎樣</th></tr></thead>
+<tbody>
+<tr><td>① 強度</td><td>\(s \leq \dfrac{A_v f_{yt} d}{V_s}\)，其中 \(V_s = \dfrac{V_u}{\phi} - V_c\)</td><td>剪力不足，直接破壞</td></tr>
+<tr><td>② 最大間距</td><td>\(V_s \leq 2V_c\) 時 \(\min(d/2, 60)\)；\(2V_c < V_s \leq 4V_c\) 時 \(\min(d/4, 30)\)</td><td>裂縫可能「穿過」箍筋之間（§1.2 圖）</td></tr>
+<tr><td>③ 最小鋼筋量</td><td>\(A_{v,\min} = \max\left(0.2\sqrt{f'_c}\dfrac{b_w s}{f_{yt}},\ 3.5\dfrac{b_w s}{f_{yt}}\right)\)（kgf/cm² 制）<br>需要條件：\(V_u > 0.5\phi V_c\)</td><td>脆性破壞 —— 混凝土一開裂就沒有替代路徑</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>陷阱：三道關卡只算第一道</b><br>
+觸發信號：題目問「箍筋間距」或「最大間距」。<br>
+錯誤思維：算出 \(s = A_v f_{yt} d/V_s\) 就交卷。<br>
+正確認知：<b>三個都要算再取最小</b>。RC-2020-2 的實際數字：強度需求給 \(s\)，但還要先判斷
+\(V_s = 37.1\) tf 與 \(2V_c = 52.1\) tf 的大小 → \(V_s < 2V_c\) → \(s_{\max} = d/2 = 42\) cm。
+<b>沒寫出這個判斷就拿不到過程分。</b>
+</div>
+
+<div class="box">
+<b>手算：<a href="problems-view/RC-2020-2.html" class="qlink">RC-2020-2</a>（2020，倒 T 型梁，剪力設計全流程）</b><br>
+\(b_w = 35\)、\(h = 90\)、\(d = 84\) cm，\(L = 800\) cm，\(w_u = 15\) tf/m，
+\(f'_c = 280\)、\(f_{yt} = 4200\) kgf/cm²，D13 閉合箍（\(A_v = 2\times1.267 = 2.534\) cm²）。
+
+<h4>① 混凝土剪力強度</h4>
+$$V_c = 0.53\sqrt{280}\times35\times84 = 26{,}073\ \text{kgf} = 26.07\ \text{tf}$$
+
+<h4>② 臨界斷面剪力（本題可用 d 偏移，理由見 §4）</h4>
+$$V_{u,\text{支承面}} = \frac{15\times8}{2} = 60\ \text{tf};\qquad
+V_{u,d} = 60 - 15\times0.84 = \mathbf{47.4\ tf}$$
+
+<h4>③ 所需 V<sub>s</sub></h4>
+$$V_s = \frac{V_u}{\phi} - V_c = \frac{47.4}{0.75} - 26.07 = 63.2 - 26.07 = \mathbf{37.13\ tf}$$
+
+<h4>④ 判斷落在哪個區間（關鍵步驟）</h4>
+$$2V_c = 52.1\ \text{tf} > V_s = 37.1\ \text{tf} \;\Rightarrow\; s_{\max} = \min\!\left(\frac{d}{2},\ 60\right) = \min(42,\ 60) = \mathbf{42\ cm}$$
+
+<h4>⑤ 斷面能承受的最大設計剪力</h4>
+$$V_{u,\max} = \phi(V_c + V_{s,\max}) = \phi(V_c + 4V_c) = 5\phi V_c = 5\times0.75\times26.07 = \mathbf{97.8\ tf}$$
+
+<b>兩個自我檢查：</b><br>
+① \(V_{u,\max} = 97.8\) tf 遠大於實際 \(V_u = 47.4\) tf → 斷面充裕，合理 ✓。
+若算出 \(V_{u,\max}\) 比 \(V_u\) 還小，代表斷面根本不夠，要回頭檢查尺寸。<br>
+② 「\(V_{s,\max} = 4V_c\)」這個關係只在<b>用簡化式 \(V_c\)</b> 時成立（因 \(2.12 = 4\times0.53\)）。
+若題目用詳細式的 \(V_c\)，就要老實用 \(2.12\sqrt{f'_c}b_wd\) 算 \(V_{s,\max}\)。
+</div>
+</section>
+<section id="s4">
+<h2>§4 臨界斷面：d 偏移是「有條件的優惠」</h2>
+
+<div class="lead">
+<b>本節主張：</b>「臨界斷面取距支承面 \(d\) 處」不是通例，是<b>優惠</b>。
+它的理由只有一個：<b>從支承面出發的 45° 斜裂縫，會在 \(d\) 處才穿到梁頂</b>，
+所以 \(d\) 以內的那段剪力其實是靠斜壓桿<u>直接</u>傳進支承，不需要箍筋。
+凡是破壞這個前提的情況，優惠就取消。
+</div>
+
+<div class="fig">
+<!--FIG:critical-->
+<svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="臨界斷面可否取距支承面 d 處">
+  <line x1="450" y1="14" x2="450" y2="408" stroke="#cfd8dc" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="225" y="26" font-size="14" text-anchor="middle" fill="#2e7d32" font-weight="700">可以用 d 偏移（RC-2020-2 實際比例）</text>
+  <rect x="47.5" y="159.5" width="22.5" height="18" rx="0" fill="#90a4ae" stroke="none" stroke-width="1.6"/>
+  <rect x="47.5" y="92" width="322.5" height="67.5" rx="0" fill="#f5f7f8" stroke="#546e7a" stroke-width="1.6"/>
+  <line x1="47.5" y1="155" x2="370" y2="155" stroke="#263238" stroke-width="2"/>
+  <line x1="76" y1="68" x2="76" y2="85.2" stroke="#546e7a" stroke-width="1.3"/>
+  <polygon points="76,90 73.3,84 78.7,84" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <line x1="112" y1="68" x2="112" y2="85.2" stroke="#546e7a" stroke-width="1.3"/>
+  <polygon points="112,90 109.3,84 114.7,84" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <line x1="148" y1="68" x2="148" y2="85.2" stroke="#546e7a" stroke-width="1.3"/>
+  <polygon points="148,90 145.3,84 150.7,84" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <line x1="184" y1="68" x2="184" y2="85.2" stroke="#546e7a" stroke-width="1.3"/>
+  <polygon points="184,90 181.3,84 186.7,84" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <line x1="220" y1="68" x2="220" y2="85.2" stroke="#546e7a" stroke-width="1.3"/>
+  <polygon points="220,90 217.3,84 222.7,84" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <line x1="256" y1="68" x2="256" y2="85.2" stroke="#546e7a" stroke-width="1.3"/>
+  <polygon points="256,90 253.3,84 258.7,84" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <line x1="292" y1="68" x2="292" y2="85.2" stroke="#546e7a" stroke-width="1.3"/>
+  <polygon points="292,90 289.3,84 294.7,84" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <line x1="328" y1="68" x2="328" y2="85.2" stroke="#546e7a" stroke-width="1.3"/>
+  <polygon points="328,90 325.3,84 330.7,84" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <line x1="364" y1="68" x2="364" y2="85.2" stroke="#546e7a" stroke-width="1.3"/>
+  <polygon points="364,90 361.3,84 366.7,84" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <line x1="76" y1="68" x2="364" y2="68" stroke="#546e7a" stroke-width="1.3"/>
+  <text x="370" y="62" font-size="11" text-anchor="end" fill="#607d8b">wu = 15 tf/m（作用於梁頂）</text>
+  <text x="374" y="129.8" font-size="10" fill="#607d8b">≈ 跨中</text>
+  <line x1="70" y1="155" x2="133" y2="92" stroke="#c62828" stroke-width="3"/>
+  <text x="139" y="108" font-size="11.5" fill="#c62828" font-weight="700">45° 斜裂縫</text>
+  <line x1="133" y1="88" x2="133" y2="330" stroke="#1565c0" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="138" y="326" font-size="11" fill="#1565c0" font-weight="700">臨界斷面</text>
+  <line x1="41.5" y1="92" x2="41.5" y2="155" stroke="#263238" stroke-width="1.1"/>
+  <line x1="36.5" y1="92" x2="46.5" y2="92" stroke="#263238" stroke-width="1.1"/>
+  <line x1="36.5" y1="155" x2="46.5" y2="155" stroke="#263238" stroke-width="1.1"/>
+  <text x="35.5" y="127.3" font-size="11" text-anchor="end" fill="#263238" font-weight="700">d</text>
+  <line x1="70" y1="189.5" x2="133" y2="189.5" stroke="#263238" stroke-width="1.1"/>
+  <line x1="70" y1="184.5" x2="70" y2="194.5" stroke="#263238" stroke-width="1.1"/>
+  <line x1="133" y1="184.5" x2="133" y2="194.5" stroke="#263238" stroke-width="1.1"/>
+  <text x="101.5" y="204.5" font-size="11" text-anchor="middle" fill="#263238" font-weight="700">d = 0.84 m</text>
+  <polygon points="70,312 70,252 370,312" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+  <polygon points="70,312 70,252 133,264.6 133,312" fill="#bbdefb" stroke="#1565c0" stroke-width="1.2"/>
+  <line x1="70" y1="312" x2="380" y2="312" stroke="#263238" stroke-width="1.2"/>
+  <text x="66" y="256" font-size="11" text-anchor="end" fill="#263238" font-weight="700">60</text>
+  <text x="139" y="262.6" font-size="11" fill="#1565c0" font-weight="700">Vu,d = 60 − 15×0.84 = 47.4 tf</text>
+  <text x="366" y="327" font-size="10.5" text-anchor="end" fill="#607d8b">V（tf）</text>
+  <text x="225" y="360" font-size="11.5" text-anchor="middle" fill="#263238">支承反力向上壓住端區；d 以內的剪力沿斜壓桿直入支承</text>
+  <text x="225" y="382" font-size="12" text-anchor="middle" fill="#2e7d32" font-weight="700">藍色那段不必以 60 tf 設計 → 以 47.4 tf 設計（省 21%）</text>
+  <text x="225" y="402" font-size="11" text-anchor="middle" fill="#607d8b">三條件 (a)(b)(c) 同時成立才可用（§4.1）</text>
+  <text x="672" y="26" font-size="14" text-anchor="middle" fill="#c62828" font-weight="700">以下情況不可用（取支承面）</text>
+  <rect x="484" y="44" width="90" height="12" rx="0" fill="#90a4ae" stroke="none" stroke-width="1.6"/>
+  <line x1="500" y1="56" x2="500" y2="124" stroke="#263238" stroke-width="3"/>
+  <rect x="492" y="124" width="16" height="5" rx="0" fill="#263238" stroke="none" stroke-width="1.6"/>
+  <rect x="492" y="88" width="150" height="34" rx="0" fill="#f5f7f8" stroke="#546e7a" stroke-width="1.6"/>
+  <line x1="522" y1="112" x2="522" y2="75.6" stroke="#c62828" stroke-width="1.8"/>
+  <polygon points="522,70 525.1,77 518.9,77" fill="#c62828" stroke="none" stroke-width="1.2"/>
+  <text x="526" y="80" font-size="11" fill="#c62828" font-weight="700">T</text>
+  <text x="668" y="70" font-size="12" fill="#c62828" font-weight="700">(a) 端部由拉力構件支承（吊掛）</text>
+  <text x="668" y="88" font-size="11" fill="#607d8b">反力不在端區產生壓力</text>
+  <text x="668" y="105" font-size="11" fill="#607d8b">條件 (a) 不成立 → 取支承面</text>
+  <polygon points="548,160 584,160 584,226 622,226 622,250 510,250 510,226 548,226" fill="#f5f7f8" stroke="#546e7a" stroke-width="1.6"/>
+  <line x1="522" y1="190" x2="522" y2="218.6" stroke="#c62828" stroke-width="2"/>
+  <polygon points="522,225 518.4,217 525.6,217" fill="#c62828" stroke="none" stroke-width="1.2"/>
+  <line x1="610" y1="190" x2="610" y2="218.6" stroke="#c62828" stroke-width="2"/>
+  <polygon points="610,225 606.4,217 613.6,217" fill="#c62828" stroke="none" stroke-width="1.2"/>
+  <text x="516" y="186" font-size="11" text-anchor="end" fill="#c62828" font-weight="700">P</text>
+  <polyline points="554,244 554,166 578,166 578,244 554,244" fill="none" stroke="#2e7d32" stroke-width="2" stroke-linejoin="round"/>
+  <line x1="566" y1="238" x2="566" y2="181.6" stroke="#2e7d32" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <polygon points="566,176 569.1,183 562.9,183" fill="#2e7d32" stroke="none" stroke-width="1.2"/>
+  <text x="668" y="182" font-size="12" fill="#c62828" font-weight="700">(b) 載重作用在下翼（倒 T 梁托承）</text>
+  <text x="668" y="200" font-size="11" fill="#607d8b">力要靠吊筋（綠）吊回腹板上方</text>
+  <text x="668" y="217" font-size="11" fill="#607d8b">條件 (b) 不成立；RC-2020-2 載重在頂面 ✓</text>
+  <rect x="486" y="352" width="20" height="14" rx="0" fill="#90a4ae" stroke="none" stroke-width="1.6"/>
+  <rect x="506" y="300" width="136" height="52" rx="0" fill="#f5f7f8" stroke="#546e7a" stroke-width="1.6"/>
+  <line x1="535.9" y1="272" x2="535.9" y2="292.6" stroke="#c62828" stroke-width="2.2"/>
+  <polygon points="535.9,299 532.3,291 539.5,291" fill="#c62828" stroke="none" stroke-width="1.2"/>
+  <text x="540.9" y="288" font-size="11" fill="#c62828" font-weight="700">P</text>
+  <line x1="535.9" y1="303" x2="509" y2="349" stroke="#c62828" stroke-width="2" stroke-dasharray="5 3"/>
+  <line x1="552" y1="296" x2="552" y2="356" stroke="#1565c0" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <line x1="506" y1="374" x2="535.9" y2="374" stroke="#263238" stroke-width="1.1"/>
+  <line x1="506" y1="370" x2="506" y2="378" stroke="#263238" stroke-width="1.1"/>
+  <line x1="535.9" y1="370" x2="535.9" y2="378" stroke="#263238" stroke-width="1.1"/>
+  <text x="521" y="388.5" font-size="10.5" text-anchor="middle" fill="#263238" font-weight="700">&lt; d</text>
+  <text x="668" y="312" font-size="12" fill="#c62828" font-weight="700">(c) 支承面與 d 處之間有集中載重</text>
+  <text x="668" y="330" font-size="11" fill="#607d8b">力經斜壓桿直入支承（紅虛線）</text>
+  <text x="668" y="347" font-size="11" fill="#607d8b">不可折減，必要時改用 STM（§5）</text>
+</svg>
+<!--/FIG:critical-->
+<div class="cap">
+左圖按 <a class="qlink" href="problems-view/RC-2020-2.html">RC-2020-2</a> 實際比例（\(h=90\)、\(d=84\) cm、半跨 4 m）：45° 紅線就是全部的理由，下方剪力圖的藍色段即「免算」的那一段。
+右邊三種情況各自破壞一個前提：(a) 支承反力經拉力構件傳入，端區沒有壓力；(b) 載重從下翼進來，要靠吊筋吊回壓力區；(c) 力根本沒經過 \(d\) 處的斷面。
+注意<b>懸臂梁本身不在其中</b> —— 固定端只要反力壓住端區（如 RC-2023-3）就可用，見 §4.1 下方對照表。
+</div>
+</div>
+
+<h3>4.1 判準是三個條件，不是構件名稱</h3>
+
+<p>ACI 318 §9.4.3.2 明列三條，<b>同時成立</b>才可取距支承面 \(d\) 處：</p>
+
+<table>
+<thead><tr><th>#</th><th>條件</th><th>沒滿足會怎樣</th></tr></thead>
+<tbody>
+<tr><td>(a)</td><td>支承反力在端區產生<b>壓力</b></td><td>斜壓撐不成立，\(d\) 以內的剪力仍需箍筋承擔</td></tr>
+<tr><td>(b)</td><td>載重施加於<b>頂面或近頂面</b>（壓力側）</td><td>載重從拉力側「吊」入腹板，會把腹板往下拉裂</td></tr>
+<tr><td>(c)</td><td>支承面與臨界斷面之間<b>無集中載重</b></td><td>該力沿斜壓桿直達支承，根本沒經過 \(d\) 處斷面</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>陷阱：倒 T 型梁一律不能用 d 偏移？—— 不對，要看載重從哪裡進來</b><br>
+<a href="problems-view/RC-2020-2.html" class="qlink">RC-2020-2</a> 的 verified 解答判定<b>可以</b>使用，
+理由是該題「均佈載重從梁<b>頂部</b>施加」，並非從下翼板吊掛 —— 條件 (b) 成立。<br>
+<b>正確認知：違反的是條件 (b)，不是「因為它是倒 T 梁」。</b>
+倒 T 梁常被列為例外，是因為它<u>典型的</u>用途是承接兩側樓板／次梁，載重從下翼板進來。<br>
+<span style="font-size:.92em;color:#6d4c41">（附記：知識庫 <code>archive/wiki/traps/SHEAR-CRITICAL-SECTION.md</code> 原本把倒 T 梁列為「一律不可」，
+已於 <b>2026-07-26</b> 依 RC-2020-2 改寫為條件式並記入 <code>wiki/queries/log.md</code>。）</span>
+</div>
+
+<div class="tens">
+<b>懸臂梁沒有被規範排除 —— 差別在條件 (a) 能不能從題目確認</b><br>
+
+<table>
+<thead><tr><th>題號</th><th>支承條件</th><th>(a)</th><th>處理</th><th>結果</th></tr></thead>
+<tbody>
+<tr><td><a href="problems-view/RC-2006-1.html" class="qlink">RC-2006-1</a></td>
+<td>題目<b>未明示</b>（與柱同澆或吊掛不明）</td><td>？</td>
+<td><b>保守</b>取固定端面</td><td>\(V_u = 19{,}913\) kgf → \(s = 13.2\) cm</td></tr>
+<tr><td><a href="problems-view/RC-2023-3.html" class="qlink">RC-2023-3</a></td>
+<td>明示<b>固定端反力向上、端區受壓</b></td><td>✓</td>
+<td>取距端 \(d\) 處</td><td>\(V_u = 2.5\times(3.5-0.53) = 7.425\) tf</td></tr>
+</tbody>
+</table>
+
+兩題處理不同是<b>條件不同</b>，不是規則衝突。
+（RC-2006-1 若 (a) 成立，\(s\) 會變成 15.2 cm；取 13.2 cm 屬保守側，兩者皆安全。）<br>
+<b>考場策略：把三個條件逐一寫出再下結論</b> ——
+「固定端反力向上（a ✓）、載重在頂面（b ✓）、\(d\) 內無集中載重（c ✓）→ 取 \(d\) 處」；
+條件無法確認就寫「(a) 未明示，保守取端面」。
+這也是 RC-2020-2 第一小題 5 分的評分重點 —— 它問的是「請說明原因」，不是問是或否。
+</div>
+
+<div class="trap">
+<b>勿用錯理由：「懸臂梁固定端剪力最大，所以不能折減」是錯誤推論</b><br>
+簡支梁的剪力同樣是<b>支承面最大、向內遞減</b>，卻可以採 \(d\) 偏移。
+\(d\) 偏移這條規定的前提<u>本來就是</u>「支承面剪力最大」——
+如果最大值在別處，這條規定根本不必寫。<br>
+所以「剪力最大」無法區分懸臂梁與簡支梁，<b>真正的判準只有 (a)(b)(c) 三條件</b>。
+</div>
+</section>
+
+<section id="s5">
+<h2>§5 D 區與壓拉桿模式：a/d 決定一切</h2>
+
+<div class="lead">
+<b>本節主張：</b>當剪力跨 \(a\) 相對於 \(d\) 很短時，載重會<b>直接沿一根斜壓桿走到支承</b>（拱作用），
+根本不經過「箍筋把裂縫縫住」的機制。此時桁架類比會嚴重低估強度，必須改用壓拉桿模式（STM）。
+</div>
+
+<div class="fig">
+<!--FIG:stm-ad-->
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="a/d 與直接壓桿強度、Vc 的比較">
+  <rect x="537.5" y="50" width="282.5" height="250" rx="0" fill="#e8f5e9" stroke="none" stroke-width="0"/>
+  <rect x="100" y="50" width="437.5" height="250" rx="0" fill="#fff3e0" stroke="none" stroke-width="0"/>
+  <text x="92" y="304" font-size="11" text-anchor="end" fill="#607d8b">0</text>
+  <line x1="100" y1="244.4" x2="820" y2="244.4" stroke="#cfd8dc" stroke-width="0.8" stroke-dasharray="3 4"/>
+  <text x="92" y="248.4" font-size="11" text-anchor="end" fill="#607d8b">10</text>
+  <line x1="100" y1="188.9" x2="820" y2="188.9" stroke="#cfd8dc" stroke-width="0.8" stroke-dasharray="3 4"/>
+  <text x="92" y="192.9" font-size="11" text-anchor="end" fill="#607d8b">20</text>
+  <line x1="100" y1="133.3" x2="820" y2="133.3" stroke="#cfd8dc" stroke-width="0.8" stroke-dasharray="3 4"/>
+  <text x="92" y="137.3" font-size="11" text-anchor="end" fill="#607d8b">30</text>
+  <line x1="100" y1="77.8" x2="820" y2="77.8" stroke="#cfd8dc" stroke-width="0.8" stroke-dasharray="3 4"/>
+  <text x="92" y="81.8" font-size="11" text-anchor="end" fill="#607d8b">40</text>
+  <line x1="100" y1="300" x2="100" y2="305" stroke="#263238" stroke-width="1.2"/>
+  <text x="100" y="319" font-size="11" text-anchor="middle" fill="#607d8b">0</text>
+  <line x1="220" y1="300" x2="220" y2="305" stroke="#263238" stroke-width="1.2"/>
+  <text x="220" y="319" font-size="11" text-anchor="middle" fill="#607d8b">0.5</text>
+  <line x1="340" y1="300" x2="340" y2="305" stroke="#263238" stroke-width="1.2"/>
+  <text x="340" y="319" font-size="11" text-anchor="middle" fill="#607d8b">1</text>
+  <line x1="460" y1="300" x2="460" y2="305" stroke="#263238" stroke-width="1.2"/>
+  <text x="460" y="319" font-size="11" text-anchor="middle" fill="#607d8b">1.5</text>
+  <line x1="580" y1="300" x2="580" y2="305" stroke="#263238" stroke-width="1.2"/>
+  <text x="580" y="319" font-size="11" text-anchor="middle" fill="#607d8b">2</text>
+  <line x1="700" y1="300" x2="700" y2="305" stroke="#263238" stroke-width="1.2"/>
+  <text x="700" y="319" font-size="11" text-anchor="middle" fill="#607d8b">2.5</text>
+  <line x1="820" y1="300" x2="820" y2="305" stroke="#263238" stroke-width="1.2"/>
+  <text x="820" y="319" font-size="11" text-anchor="middle" fill="#607d8b">3</text>
+  <line x1="100" y1="300" x2="830" y2="300" stroke="#263238" stroke-width="1.6"/>
+  <line x1="100" y1="306" x2="100" y2="42" stroke="#263238" stroke-width="1.6"/>
+  <text x="820" y="338" font-size="12" text-anchor="end" fill="#263238">剪力跨深比 a / d</text>
+  <text x="106" y="38" font-size="12" fill="#263238">V / (b d)　kgf/cm²</text>
+  <clipPath id="clip6"><rect x="100" y="50" width="720" height="250"/></clipPath>
+  <polyline points="172,109.1 176.6,108.7 181.1,108.5 185.7,108.5 190.3,108.6 194.8,108.9 199.4,109.3 204,109.9 208.5,110.5 213.1,111.4 217.7,112.3 222.3,113.3 226.8,114.4 231.4,115.6 236,116.9 240.5,118.3 245.1,119.7 249.7,121.2 254.2,122.7 258.8,124.3 263.4,125.9 267.9,127.6 272.5,129.3 277.1,131 281.6,132.7 286.2,134.4 290.8,136.2 295.3,138 299.9,139.7 304.5,141.5 309.1,143.3 313.6,145.1 318.2,146.8 322.8,148.6 327.3,150.4 331.9,152.1 336.5,153.8 341,155.5 345.6,157.2 350.2,158.9 354.7,160.6 359.3,162.2 363.9,163.9 368.4,165.5 373,167.1 377.6,168.6 382.2,170.2 386.7,171.7 391.3,173.2 395.9,174.7 400.4,176.2 405,177.6 409.6,179.1 414.1,180.5 418.7,181.8 423.3,183.2 427.8,184.5 432.4,185.9 437,187.2 441.5,188.4 446.1,189.7 450.7,190.9 455.2,192.1 459.8,193.3 464.4,194.5 469,195.7 473.5,196.8 478.1,197.9 482.7,199 487.2,200.1 491.8,201.2 496.4,202.2 500.9,203.2 505.5,204.3 510.1,205.2 514.6,206.2 519.2,207.2 523.8,208.1 528.3,209.1 532.9,210 537.5,210.9" fill="none" stroke="#7986cb" stroke-width="1.5" stroke-dasharray="6 4" stroke-linejoin="round" clip-path="url(#clip6)"/>
+  <polyline points="172,88.4 176.6,88.4 181.1,88.4 185.7,88.4 190.3,88.4 194.8,88.4 199.4,88.4 204,88.4 208.5,88.4 213.1,88.4 217.7,88.4 222.3,88.4 226.8,88.4 231.4,88.4 236,88.4 240.5,88.4 245.1,88.4 249.7,88.4 254.2,88.4 258.8,88.4 263.4,88.4 267.9,88.4 272.5,88.4 277.1,88.4 281.6,88.4 286.2,88.4 290.8,88.4 295.3,88.4 299.9,88.4 304.5,88.4 309.1,88.4 313.6,88.4 318.2,88.4 322.8,88.4 327.3,88.4 331.9,88.4 336.5,88.4 341,88.4 345.6,88.4 350.2,88.4 354.7,88.4 359.3,88.4 363.9,88.4 368.4,88.4 373,88.4 377.6,88.4 382.2,88.4 386.7,88.4 391.3,88.4 395.9,88.4 400.4,88.4 405,88.4 409.6,88.4 414.1,88.4 418.7,88.4 423.3,88.4 427.8,88.4 432.4,88.4 437,88.4 441.5,88.4 446.1,88.4 450.7,88.4 455.2,88.4 459.8,88.4 464.4,88.4 469,88.4 473.5,88.4 478.1,88.4 482.7,88.4 487.2,88.4 491.8,88.4 496.4,88.4 500.9,88.4 505.5,88.4 510.1,88.4 514.6,88.4 519.2,88.4 523.8,88.4 528.3,88.4 532.9,88.4 537.5,88.4" fill="none" stroke="#9575cd" stroke-width="1.5" stroke-dasharray="6 4" stroke-linejoin="round" clip-path="url(#clip6)"/>
+  <polyline points="172,-691.7 176.6,-632.5 181.1,-580 185.7,-533.1 190.3,-490.9 194.8,-452.8 199.4,-418.2 204,-386.7 208.5,-357.8 213.1,-331.2 217.7,-306.7 222.3,-284 226.8,-263 231.4,-243.4 236,-225.2 240.5,-208.1 245.1,-192.1 249.7,-177.1 254.2,-162.9 258.8,-149.6 263.4,-137 267.9,-125.2 272.5,-113.9 277.1,-103.2 281.6,-93.1 286.2,-83.4 290.8,-74.3 295.3,-65.5 299.9,-57.1 304.5,-49.2 309.1,-41.5 313.6,-34.2 318.2,-27.2 322.8,-20.5 327.3,-14.1 331.9,-7.9 336.5,-1.9 341,3.8 345.6,9.3 350.2,14.6 354.7,19.7 359.3,24.7 363.9,29.4 368.4,34 373,38.5 377.6,42.8 382.2,46.9 386.7,51 391.3,54.9 395.9,58.7 400.4,62.3 405,65.9 409.6,69.4 414.1,72.7 418.7,76 423.3,79.1 427.8,82.2 432.4,85.2 437,88.1 441.5,90.9 446.1,93.7 450.7,96.4 455.2,99 459.8,101.6 464.4,104.1 469,106.5 473.5,108.8 478.1,111.2 482.7,113.4 487.2,115.6 491.8,117.8 496.4,119.9 500.9,121.9 505.5,123.9 510.1,125.9 514.6,127.8 519.2,129.7 523.8,131.5 528.3,133.3 532.9,135.1 537.5,136.8" fill="none" stroke="#4db6ac" stroke-width="1.5" stroke-dasharray="6 4" stroke-linejoin="round" clip-path="url(#clip6)"/>
+  <polyline points="172,109.1 176.6,108.7 181.1,108.5 185.7,108.5 190.3,108.6 194.8,108.9 199.4,109.3 204,109.9 208.5,110.5 213.1,111.4 217.7,112.3 222.3,113.3 226.8,114.4 231.4,115.6 236,116.9 240.5,118.3 245.1,119.7 249.7,121.2 254.2,122.7 258.8,124.3 263.4,125.9 267.9,127.6 272.5,129.3 277.1,131 281.6,132.7 286.2,134.4 290.8,136.2 295.3,138 299.9,139.7 304.5,141.5 309.1,143.3 313.6,145.1 318.2,146.8 322.8,148.6 327.3,150.4 331.9,152.1 336.5,153.8 341,155.5 345.6,157.2 350.2,158.9 354.7,160.6 359.3,162.2 363.9,163.9 368.4,165.5 373,167.1 377.6,168.6 382.2,170.2 386.7,171.7 391.3,173.2 395.9,174.7 400.4,176.2 405,177.6 409.6,179.1 414.1,180.5 418.7,181.8 423.3,183.2 427.8,184.5 432.4,185.9 437,187.2 441.5,188.4 446.1,189.7 450.7,190.9 455.2,192.1 459.8,193.3 464.4,194.5 469,195.7 473.5,196.8 478.1,197.9 482.7,199 487.2,200.1 491.8,201.2 496.4,202.2 500.9,203.2 505.5,204.3 510.1,205.2 514.6,206.2 519.2,207.2 523.8,208.1 528.3,209.1 532.9,210 537.5,210.9" fill="none" stroke="#1565c0" stroke-width="3.4" stroke-linejoin="round" clip-path="url(#clip6)"/>
+  <text x="422.8" y="70.6" font-size="11" fill="#00897b" font-weight="700">拉桿降伏</text>
+  <text x="172" y="82.4" font-size="11" fill="#7e57c2" font-weight="700">CCT 節點承壓</text>
+  <text x="400" y="166.1" font-size="12" fill="#1565c0" font-weight="700">直接壓桿（STM）強度</text>
+  <line x1="100" y1="250.7" x2="820" y2="250.7" stroke="#2e7d32" stroke-width="3"/>
+  <text x="816" y="242.7" font-size="11.5" text-anchor="end" fill="#2e7d32" font-weight="700">桁架類比 Vc = 0.53√f'c = 8.87</text>
+  <line x1="537.5" y1="50" x2="537.5" y2="300" stroke="#ef6c00" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="537.5" y="46" font-size="11.5" text-anchor="middle" fill="#ef6c00" font-weight="700">θ = 25° → a/d = 1.82</text>
+  <text x="545.5" y="133.3" font-size="11" fill="#607d8b">θ &lt; 25°：STM 不合法</text>
+  <text x="545.5" y="149.3" font-size="11" fill="#2e7d32" font-weight="700">→ B 區，用 Vc + Vs</text>
+  <text x="318.7" y="66.7" font-size="12.5" text-anchor="middle" fill="#ef6c00" font-weight="700">D 區：拱作用（直接壓桿）</text>
+  <circle cx="220" cy="112.8" r="4" fill="#1565c0" stroke="#fff" stroke-width="1.4"/>
+  <text x="216" y="132.8" font-size="11" text-anchor="middle" fill="#1565c0" font-weight="700">3.8×Vc</text>
+  <circle cx="340" cy="155.2" r="4" fill="#1565c0" stroke="#fff" stroke-width="1.4"/>
+  <text x="336" y="175.2" font-size="11" text-anchor="middle" fill="#1565c0" font-weight="700">2.9×Vc</text>
+  <circle cx="460" cy="193.4" r="4" fill="#1565c0" stroke="#fff" stroke-width="1.4"/>
+  <text x="456" y="213.4" font-size="11" text-anchor="middle" fill="#1565c0" font-weight="700">2.2×Vc</text>
+  <text x="450" y="362" font-size="10.5" text-anchor="middle" fill="#607d8b">計算條件：f'c=280、fy=4200 kgf/cm²，z=0.85d，承壓板寬＝節點高＝0.2d，βs=0.60、βn=0.80，標稱值（未乘 φ）</text>
+</svg>
+<!--/FIG:stm-ad-->
+<div class="cap">
+藍線是用本講義 §5.1 的係數<b>實際算出</b>的直接壓桿強度（壓桿、CCT 節點、拉桿三者取小）：
+\(a/d=0.5\) 時約 3.8 倍 \(V_c\)，所以 D 區硬套 \(V_c+V_s\) 會嚴重低估。
+橘色界線來自 STM 的 \(\theta \ge 25°\)：\(\tan\theta = z/a = 0.85d/a\) → \(a/d \le 0.85/\tan25° = 1.82\)，
+這就是「\(a/d \approx 2\) 是 D/B 區分界」的幾何來源。超過之後只能靠桁架類比 —— 規範不是「修正 \(V_c\)」，而是<b>換一套模型</b>。
+</div>
+</div>
+
+<h3>5.1 STM 的三個元件與兩個係數</h3>
+
+<table>
+<thead><tr><th>元件</th><th>是什麼</th><th>有效強度</th><th>係數</th></tr></thead>
+<tbody>
+<tr><td><b>壓桿 Strut</b></td><td>混凝土斜撐</td><td>\(f_{ce} = 0.85\beta_s f'_c\)</td><td>\(\beta_s = 1.0\)（稜柱形，如純彎區水平壓桿）<br>\(\beta_s = 0.75\)（瓶形，有符合規定的腹筋）<br>\(\beta_s = 0.60\)（瓶形，無腹筋）</td></tr>
+<tr><td><b>拉桿 Tie</b></td><td>鋼筋</td><td>\(T = A_s f_y\)</td><td>—（要能錨定！）</td></tr>
+<tr><td><b>節點 Node</b></td><td>桿件交會處</td><td>\(f_{ce} = 0.85\beta_n f'_c\)</td><td>\(\beta_n = 1.0\)（CCC，全部是壓桿）<br>\(\beta_n = 0.80\)（CCT，接一支拉桿）<br>\(\beta_n = 0.60\)（CTT，接兩支以上拉桿）</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>β<sub>s</sub> 與 β<sub>n</sub> 的物理：拉力會削弱混凝土的抗壓能力</b><br>
+・<b>瓶形壓桿</b>（bottle-shaped）：壓力從窄的節點區向外擴散，擴散會在側向產生<b>拉應力</b> →
+把壓桿撐裂 → 抗壓能力下降 → \(\beta_s = 0.75\)（若有腹筋把它箍住）或 0.60（沒有）。
+稜柱形壓桿沒有擴散、沒有側拉 → \(\beta_s = 1.0\)。<br>
+・<b>節點</b>：CCC 節點三面受壓（三軸壓），混凝土最強 → 1.0；每多接一支<b>拉桿</b>，
+就多一個方向的拉應變穿過節點 → 削弱 → 0.80、0.60。<br>
+<b>一句話：βs、βn 都在回答「這塊混凝土被多少拉力干擾」</b>，
+與 §0「剪力是拉力問題」完全一致。
+</div>
+
+<div class="box">
+<b>手算：<a href="problems-view/RC-2009-3.html" class="qlink">RC-2009-3</a>（2009，深梁 STM，本單元唯一的 D 區題）</b><br>
+深梁 \(b=20\)、\(h=70\) cm，兩點載重各距支承 \(a=30\) cm，6-D19 底筋（\(A_s = 6\times2.87 = 17.22\) cm²），
+承壓鈑 \(l_b = 20\) cm，\(f'_c = 250\)、\(f_y = 4200\) kgf/cm²，\(\phi = 1.0\)。
+
+<h4>① 幾何：先定力臂與角度</h4>
+$$z = 70 - 10 - 10 = 50\ \text{cm};\qquad \tan\theta = \frac{z}{a} = \frac{50}{30} \Rightarrow \theta = 59°\ (> 25°\ ✓)$$
+\(a/d \approx 30/60 = 0.5 \ll 2\) → 確認是 D 區。
+
+<h4>② 各桿件力（純靜力，以 P 表示）</h4>
+$$T = \frac{P}{2}\cdot\frac{a}{z} = 0.3P;\qquad F_{diag} = \frac{P/2}{\sin 59°} = 0.583P$$
+驗算：\(\sqrt{0.3^2+0.5^2} = 0.583\) ✓（水平 0.3P 與垂直 0.5P 的合力）
+
+<h4>③ 四道強度限制，取最小</h4>
+
+<table>
+<thead><tr><th>限制</th><th>計算</th><th>得到 P</th></tr></thead>
+<tbody>
+<tr><td>拉桿降伏</td><td>\(0.3P \leq 17.22\times4200 = 72{,}324\)</td><td>241 tf</td></tr>
+<tr><td>斜壓桿（瓶形 \(\beta_s=0.75\)）</td><td>\(f_{ce}=0.85(0.75)(250)=159.4\)；\(w_s = 20\sin59°+20\cos59° = 27.4\) cm；\(A_{cs}=548\) cm²</td><td>150 tf</td></tr>
+<tr><td>CCT 節點承壓面</td><td>\(f_{ce}=0.85(0.80)(250)=170\)；\(A=20\times20=400\) cm²；\(P/2 \leq 170\times400\)</td><td><b>136 tf ← 控制</b></td></tr>
+<tr><td>CCC 節點（載重點）</td><td>\(f_{ce}=0.85(1.0)(250)=212.5\)；\(P/2 \leq 212.5\times400\)</td><td>170 tf</td></tr>
+</tbody>
+</table>
+
+$$\boxed{P_{\max} = 136\ \text{tf}}\qquad \text{破壞模式：支承 CCT 節點承壓破壞（脆性）}$$
+
+<b>三個自我檢查：</b><br>
+① \(\theta = 59° > 25°\) 必須驗（ACI 要求），否則模型不合法。<br>
+② 拉桿給的 241 tf 遠大於節點的 136 tf → <b>不是延性破壞</b>。
+若控制項是拉桿，才可以說「延性破壞、有預警」——<b>題目問「可能破壞模式」就是在問這個</b>。<br>
+③ 支承節點是 CCT（有一支拉桿進來），載重點是 CCC（全壓）→
+所以支承端的容許應力必然比載重端小，控制項出現在支承端是<b>可預期</b>的。
+若你算出載重端控制，回去檢查 \(\beta_n\) 有沒有用反。
+</div>
+</section>
+
+<section id="s6">
+<h2>§6 介面剪力：摩擦是被「撐開」逼出來的</h2>
+
+<div class="lead">
+<b>本節主張：</b>\(V_n = \mu A_{vf} f_y\) 看起來像高中物理的摩擦力，但<b>夾緊力不是外加的</b> ——
+它是粗糙介面滑動時被迫「張開」，把穿越介面的鋼筋拉長到降伏，鋼筋的反作用力才產生的。
+理解這個順序，就知道為什麼 \(\mu\) 可以大於 1、為什麼鋼筋一定要錨定。
+</div>
+
+<div class="fig">
+<!--FIG:friction-->
+<svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="剪力摩擦：滑動引起張開，鋼筋受拉產生夾緊力">
+  <line x1="450" y1="14" x2="450" y2="306" stroke="#cfd8dc" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="225" y="28" font-size="14" text-anchor="middle" fill="#0d47a1" font-weight="700">滑動前：介面閉合</text>
+  <polygon points="60,60 60,150 90,135 120,150 150,135 180,150 210,135 240,150 270,135 300,150 330,135 360,150 390,135 390,60" fill="#eceff1" stroke="#546e7a" stroke-width="1.8"/>
+  <polygon points="60,240 60,150 90,135 120,150 150,135 180,150 210,135 240,150 270,135 300,150 330,135 360,150 390,135 390,240" fill="#cfd8dc" stroke="#546e7a" stroke-width="1.8"/>
+  <line x1="217" y1="72" x2="217" y2="228" stroke="#2e7d32" stroke-width="3.4"/>
+  <text x="225" y="222" font-size="11.5" fill="#2e7d32" font-weight="700">植筋 Avf（兩側錨定）</text>
+  <line x1="120" y1="150" x2="154" y2="150" stroke="#ef6c00" stroke-width="1.2" stroke-dasharray="3 2"/>
+  <text x="142" y="147" font-size="12" fill="#ef6c00" font-weight="700">α</text>
+  <text x="225" y="266" font-size="11.5" text-anchor="middle" fill="#263238">齒高 / 半齒距 = tanα = 0.50（粗糙面 ≥ 6 mm 凹凸）</text>
+  <text x="225" y="288" font-size="11.5" text-anchor="middle" fill="#607d8b">鋼筋尚未受力</text>
+  <text x="675" y="28" font-size="14" text-anchor="middle" fill="#0d47a1" font-weight="700">滑動 δ 後：被迫張開 w = δ·tanα</text>
+  <polygon points="534,48 534,138 564,123 594,138 624,123 654,138 684,123 714,138 744,123 774,138 804,123 834,138 864,123 864,48" fill="#eceff1" stroke="#546e7a" stroke-width="1.8"/>
+  <polygon points="510,240 510,150 540,135 570,150 600,135 630,150 660,135 690,150 720,135 750,150 780,135 810,150 840,135 840,240" fill="#cfd8dc" stroke="#546e7a" stroke-width="1.8"/>
+  <polyline points="691,60 691,119 667,156 667,228" fill="none" stroke="#2e7d32" stroke-width="3.4" stroke-linejoin="round"/>
+  <line x1="550" y1="74" x2="586.8" y2="74" stroke="#c62828" stroke-width="2.4"/>
+  <polygon points="594,74 585,78 585,70" fill="#c62828" stroke="none" stroke-width="1.2"/>
+  <text x="600" y="78" font-size="12" fill="#c62828" font-weight="700">Vu</text>
+  <line x1="780" y1="238" x2="743.2" y2="238" stroke="#c62828" stroke-width="2.4"/>
+  <polygon points="736,238 745,233.9 745,242.1" fill="#c62828" stroke="none" stroke-width="1.2"/>
+  <line x1="810" y1="123" x2="810" y2="135" stroke="#ef6c00" stroke-width="1.1"/>
+  <line x1="806" y1="123" x2="814" y2="123" stroke="#ef6c00" stroke-width="1.1"/>
+  <line x1="806" y1="135" x2="814" y2="135" stroke="#ef6c00" stroke-width="1.1"/>
+  <text x="816" y="132.7" font-size="10.5" fill="#ef6c00" font-weight="700">w = 12</text>
+  <line x1="570" y1="172" x2="594" y2="172" stroke="#ef6c00" stroke-width="1.1"/>
+  <line x1="570" y1="168" x2="570" y2="176" stroke="#ef6c00" stroke-width="1.1"/>
+  <line x1="594" y1="168" x2="594" y2="176" stroke="#ef6c00" stroke-width="1.1"/>
+  <text x="582" y="186.5" font-size="10.5" text-anchor="middle" fill="#ef6c00" font-weight="700">δ = 24</text>
+  <line x1="689" y1="100" x2="689" y2="121.6" stroke="#2e7d32" stroke-width="2"/>
+  <polygon points="689,128 685.4,120 692.6,120" fill="#2e7d32" stroke="none" stroke-width="1.2"/>
+  <line x1="689" y1="200" x2="689" y2="178.4" stroke="#2e7d32" stroke-width="2"/>
+  <polygon points="689,172 692.6,180 685.4,180" fill="#2e7d32" stroke="none" stroke-width="1.2"/>
+  <text x="697" y="108" font-size="11.5" fill="#2e7d32" font-weight="700">夾緊力</text>
+  <text x="697" y="194" font-size="11.5" fill="#2e7d32" font-weight="700">= Avf·fy</text>
+  <text x="675" y="266" font-size="13" text-anchor="middle" fill="#0d47a1" font-weight="700">Vn = μ × (Avf · fy)</text>
+  <text x="675" y="288" font-size="11.5" text-anchor="middle" fill="#607d8b">夾緊力是張開的「副產品」，不是外加的</text>
+</svg>
+<!--/FIG:friction-->
+<div class="cap">
+關鍵在右圖的 δ 與 w：齒面斜率 tanα = 0.5，滑動 δ 就必然張開 \(w=\delta\tan\alpha\)（圖中 24 → 12）——
+<b>粗糙面不可能純滑動，一定同時張開（dilatancy）</b>。
+所以只要鋼筋錨定得住，滑動越多、夾緊越緊、摩擦越大 —— 這是一個自我加強的機制。
+</div>
+</div>
+
+<div class="why">
+<b>為什麼 μ 可以大於 1（μ = 1.4 甚至更高）</b><br>
+物理課的摩擦係數上限直覺在這裡不適用，因為這個 \(\mu\) <b>不是真的摩擦係數</b>，
+而是把「摩擦 + 凹凸咬合 + 鋼筋銷栓」三件事全部包進去的<b>等效係數</b>。<br>
+
+<table>
+<thead><tr><th>介面條件</th><th>\(\mu\)</th><th>為什麼</th></tr></thead>
+<tbody>
+<tr><td>整體澆置的單體混凝土</td><td>1.4</td><td>凹凸咬合最強（等於沒有真正的介面）</td></tr>
+<tr><td>已粗糙化的硬固混凝土（凹凸 ≥ 6 mm）</td><td><b>1.0</b></td><td>有咬合但不連續</td></tr>
+<tr><td>未粗糙化的硬固混凝土</td><td>0.6</td><td>只剩真正的摩擦</td></tr>
+<tr><td>混凝土對鋼板</td><td>0.7</td><td>靠剪力釘</td></tr>
+</tbody>
+</table>
+
+<b>推論：粗糙化處理是「免費」把 \(\mu\) 從 0.6 提到 1.0 的手段</b>（所需鋼筋量直接少 40%）——
+所以實務上一定做，考題也一定會提「已粗糙化」這句話。
+</div>
+
+<div class="box">
+<b>手算：<a href="problems-view/RC-2017-2.html" class="qlink">RC-2017-2</a>（2017，加大柱的植筋設計）</b><br>
+加大後柱 40×70 cm，兩側各新增 15×40 cm 的新混凝土，介面已粗糙化；\(f'_c = 210\)、\(f_y = 4200\) kgf/cm²，植筋 D19（\(A_b = 3.871\) cm²）。
+
+<h4>① 介面要傳多少剪力？（本題最關鍵的一步）</h4>
+<b>介面剪力 = 新混凝土翼板承受的壓力</b> —— 這股力必須全部通過介面傳進舊柱，否則翼板「各自為政」。
+$$f_c = 0.8f'_c = 168\ \text{kgf/cm}^2;\qquad A_{\text{wing}} = 15\times40 = 600\ \text{cm}^2$$
+$$V_u = 168\times600 = 100{,}800\ \text{kgf} = \mathbf{100.8\ tf}\ \text{（每一側介面）}$$
+
+<h4>② 摩擦剪力法</h4>
+$$\phi V_n = \phi\,\mu\,A_{vf}\,f_y \geq V_u,\qquad \phi = 0.75,\ \mu = 1.0\ (\text{已粗糙化})$$
+$$A_{vf} \geq \frac{100{,}800}{0.75\times1.0\times4200} = \mathbf{32.0\ cm^2}$$
+
+<h4>③ 換算支數</h4>
+$$n = \frac{32.0}{3.871} = 8.27 \;\Rightarrow\; \textbf{每側 9 支 D19}$$
+
+<b>兩個自我檢查：</b><br>
+① 介面剪力 100.8 tf 是<b>柱的軸力量級</b>（不是梁的剪力量級）——
+因為它傳的是「翼板分擔的整個軸壓」。若你算出只有幾 tf，八成是把它當成梁的剪力算了。<br>
+② \(\mu\) 若誤用 0.6（未粗糙化），\(A_{vf}\) 會變成 53.3 cm² → 需 14 支。
+<b>題目寫「已進行表面粗糙化處理」就是在給你 \(\mu = 1.0\)</b>，這句話不是背景說明。
+</div>
+</section>
+
+<section id="s7">
+<h2>§7 剪力與扭力共存：先問「可不可以忽略」</h2>
+
+<div class="lead">
+<b>本節主張：</b>偏心載重同時產生剪力與扭矩。設計流程的<b>第一步不是算扭力鋼筋，是判斷扭力能不能忽略</b> ——
+因為門檻以下的扭矩，混凝土開裂後會自動<b>重分配</b>到其他傳力路徑，不需要設計。
+</div>
+
+$$T_u \leq \phi T_{th} = \phi\,\frac{\sqrt{f'_c}}{12}\cdot\frac{A_{cp}^2}{p_{cp}}\ \text{(MPa 制)} \;\Rightarrow\; \text{扭力可忽略}$$
+
+<div class="why">
+<b>門檻的意義是「開裂扭矩的 1/4」</b><br>
+素混凝土的開裂扭矩約 \(T_{cr} \approx \dfrac{\sqrt{f'_c}}{3}\cdot\dfrac{A_{cp}^2}{p_{cp}}\)（MPa 制）。
+規範的忽略門檻 \(T_{th} = \dfrac{\sqrt{f'_c}}{12}\cdot\dfrac{A_{cp}^2}{p_{cp}}\) 恰好是它的 <b>1/4</b>。<br>
+理由：低於 \(T_{cr}/4\) 時，扭矩造成的斜裂縫不會顯著降低斷面的其他強度，
+且對<b>相容扭矩</b>（compatibility torsion，如邊梁被樓板扭）而言，開裂後勁度大幅下降、
+扭矩會自動卸載到別的路徑。<br>
+<b>但注意：平衡扭矩</b>（equilibrium torsion，如懸臂雨遮，沒有替代路徑）<b>不論多小都必須設計</b> ——
+判斷是哪一種，比記門檻公式更重要。
+</div>
+
+<div class="box">
+<b>手算：<a href="problems-view/RC-2023-3.html" class="qlink">RC-2023-3</a>（2023，反算最大偏心量）</b><br>
+懸臂矩形梁 \(b=35\)、\(h=60\)、\(d=53\) cm，懸臂長 3.5 m，偏心均佈載重 \(W_u = 2.5\) tf/m，
+\(f'_c = 280\) kgf/cm²，\(\phi = 0.75\)。求最大偏心量 \(e\)，使扭力仍可忽略。
+
+<h4>① 臨界斷面剪力</h4>
+$$V_u = W_u(L-d) = 2.5\times(3.5-0.53) = \mathbf{7.425\ tf}$$
+（順帶驗：\(\phi V_c = 0.75\times0.53\sqrt{280}\times35\times53 = 12.34\) tf \(> V_u\) →
+混凝土自己就夠，D13 箍筋是<b>最小鋼筋量</b>要求，不是為了扭力。）
+
+<h4>② 扭力忽略門檻</h4>
+$$A_{cp} = 35\times60 = 2100\ \text{cm}^2;\qquad p_{cp} = 2(35+60) = 190\ \text{cm}$$
+換算成 MPa 制代入後：\(T_{th} = 103{,}262\) kgf·cm，
+$$\phi T_{th} = 0.75\times103{,}262 = 77{,}447\ \text{kgf·cm} = 7.74\ \text{tf·m}$$
+
+<h4>③ 反算偏心量</h4>
+$$T_u = V_u \cdot e \leq \phi T_{th} \;\Rightarrow\; e \leq \frac{77{,}447}{7{,}425} = \mathbf{10.4\ cm}$$
+
+<b>自我檢查：</b>\(e_{\max} = 10.4\) cm 約為梁寬 35 cm 的<b>0.3 倍</b>，是合理的量級
+（偏心若接近或超過梁寬，扭力一定不能忽略）。算出 100 cm 或 1 cm 都要回頭檢查單位。
+</div>
+
+<div class="trap">
+<b>陷阱：A<sub>cp</sub> 與 A<sub>oh</sub> 搞混</b><br>
+\(A_{cp}\) 是<b>斷面全外緣</b>圍成的面積（含保護層），用於<b>忽略門檻</b>；
+\(A_{oh}\) 是<b>閉合箍筋中心線</b>圍成的面積，用於<b>扭力鋼筋設計</b>（\(A_o \approx 0.85A_{oh}\)）。
+兩者差一整圈保護層，數值可差 20~30%。判斷門檻用 \(A_{cp}\)，設計用 \(A_{oh}\) —— 這是 RC-U2-2 的主場。
+</div>
+</section>
+<section id="s8">
+<h2>§8 解題決策流程</h2>
+
+<div class="lead">
+<b>本節主張：</b>本單元最容易整題錯的不是計算，是<b>一開始選錯機制</b>。
+三個判斷（是不是介面？是不是 D 區？臨界斷面能不能折減？）做完，剩下的都是代數。
+</div>
+
+<div class="fig">
+<!--FIG:flow-->
+<svg viewBox="0 0 900 860" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC 剪力題解題決策流程">
+  <rect x="150" y="20" width="360" height="40" rx="7" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.7"/>
+  <text x="330" y="44" font-size="11.5" text-anchor="middle" fill="#0d47a1" font-weight="700">讀題：認出構件、載重路徑、單位制</text>
+  <line x1="330" y1="60" x2="330" y2="75.6" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="330,82 326.4,74 333.6,74" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <polygon points="130,122 330,82 530,122 330,162" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.7"/>
+  <text x="330" y="118" font-size="11.5" text-anchor="middle" fill="#e65100" font-weight="700">是新舊混凝土介面／</text>
+  <text x="330" y="134" font-size="11.5" text-anchor="middle" fill="#e65100" font-weight="700">既有裂縫面嗎？</text>
+  <rect x="615" y="80" width="260" height="84" rx="7" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.7"/>
+  <text x="745" y="97.5" font-size="11.5" text-anchor="middle" fill="#1b5e20" font-weight="700">摩擦剪力法（§6）</text>
+  <text x="745" y="116.5" font-size="10.5" text-anchor="middle" fill="#1b5e20">Vu = 介面必須傳遞的力</text>
+  <text x="745" y="135.5" font-size="10.5" text-anchor="middle" fill="#1b5e20">Vn = μ·Avf·fy，φ = 0.75</text>
+  <text x="745" y="154.5" font-size="10.5" text-anchor="middle" fill="#1b5e20">μ = 1.4／1.0／0.6</text>
+  <line x1="530" y1="122" x2="608.6" y2="122" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="615,122 607,125.6 607,118.4" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <text x="540" y="114" font-size="11.5" fill="#546e7a" font-weight="700">是</text>
+  <line x1="330" y1="162" x2="330" y2="183.6" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="330,190 326.4,182 333.6,182" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <text x="338" y="182" font-size="11.5" fill="#546e7a" font-weight="700">否</text>
+  <polygon points="130,232 330,190 530,232 330,274" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.7"/>
+  <text x="330" y="228" font-size="11.5" text-anchor="middle" fill="#e65100" font-weight="700">集中載重距支承 ≤ 2h</text>
+  <text x="330" y="244" font-size="11.5" text-anchor="middle" fill="#e65100" font-weight="700">或淨跨 ln ≤ 4h？</text>
+  <rect x="615" y="180" width="260" height="104" rx="7" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.7"/>
+  <text x="745" y="198" font-size="11.5" text-anchor="middle" fill="#1b5e20" font-weight="700">D 區 → 壓拉桿模式 STM（§5）</text>
+  <text x="745" y="217" font-size="10.5" text-anchor="middle" fill="#1b5e20">建壓桿・拉桿・節點；驗 θ ≥ 25°</text>
+  <text x="745" y="236" font-size="10.5" text-anchor="middle" fill="#1b5e20">βs = 1.0／0.75／0.60</text>
+  <text x="745" y="255" font-size="10.5" text-anchor="middle" fill="#1b5e20">βn = 1.0（CCC）／0.80（CCT）</text>
+  <text x="745" y="274" font-size="11.5" text-anchor="middle" fill="#1b5e20" font-weight="700">各項取最小 → 判破壞模式</text>
+  <line x1="530" y1="232" x2="608.6" y2="232" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="615,232 607,235.6 607,228.4" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <text x="540" y="224" font-size="11.5" fill="#546e7a" font-weight="700">是</text>
+  <line x1="330" y1="274" x2="330" y2="295.6" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="330,302 326.4,294 333.6,294" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <text x="338" y="294" font-size="11.5" fill="#546e7a" font-weight="700">否</text>
+  <polygon points="150,346 330,302 510,346 330,390" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.7"/>
+  <text x="330" y="342" font-size="11.5" text-anchor="middle" fill="#e65100" font-weight="700">臨界斷面可取距支承面 d 處？</text>
+  <text x="330" y="358" font-size="11.5" text-anchor="middle" fill="#e65100" font-weight="700">（(a)(b)(c) 三條件，§4）</text>
+  <polyline points="150,346 125,346" fill="none" stroke="#546e7a" stroke-width="1.6" stroke-linejoin="round"/>
+  <line x1="125" y1="346" x2="125" y2="403.6" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="125,410 121.4,402 128.6,402" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <polyline points="510,346 535,346" fill="none" stroke="#546e7a" stroke-width="1.6" stroke-linejoin="round"/>
+  <line x1="535" y1="346" x2="535" y2="403.6" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="535,410 531.4,402 538.6,402" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <text x="133" y="388" font-size="11.5" fill="#546e7a" font-weight="700">三者皆成立</text>
+  <text x="527" y="388" font-size="11.5" text-anchor="end" fill="#546e7a" font-weight="700">任一不成立</text>
+  <rect x="10" y="410" width="230" height="48" rx="7" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.7"/>
+  <text x="125" y="428.5" font-size="11.5" text-anchor="middle" fill="#0d47a1" font-weight="700">Vu 取距支承面 d 處</text>
+  <text x="125" y="447.5" font-size="10.5" text-anchor="middle" fill="#0d47a1">反力壓住端區＋載重在頂面</text>
+  <rect x="410" y="410" width="250" height="48" rx="7" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.7"/>
+  <text x="535" y="428.5" font-size="11.5" text-anchor="middle" fill="#0d47a1" font-weight="700">Vu 取支承面</text>
+  <text x="535" y="447.5" font-size="10.5" text-anchor="middle" fill="#0d47a1">吊掛／下翼載重／d 內集中載重</text>
+  <polyline points="125,458 125,476 535,476 535,458" fill="none" stroke="#546e7a" stroke-width="1.6" stroke-linejoin="round"/>
+  <line x1="330" y1="476" x2="330" y2="487.6" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="330,494 326.4,486 333.6,486" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <rect x="95" y="494" width="470" height="92" rx="7" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.7"/>
+  <text x="330" y="515.5" font-size="11.5" text-anchor="middle" fill="#0d47a1" font-weight="700">算 Vc（四張臉擇一，§2）</text>
+  <text x="330" y="534.5" font-size="10.5" text-anchor="middle" fill="#0d47a1">簡化 0.53√f'c bw d ｜ 詳細式（上限 0.93√f'c bw d）</text>
+  <text x="330" y="553.5" font-size="10.5" text-anchor="middle" fill="#0d47a1">軸壓 ×(1 + Nu/140Ag)；軸拉 ×(1 + Nu/35Ag)</text>
+  <text x="330" y="572.5" font-size="11.5" text-anchor="middle" fill="#0d47a1" font-weight="700">耐震塑鉸區 → Vc = 0</text>
+  <line x1="330" y1="586" x2="330" y2="599.6" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="330,606 326.4,598 333.6,598" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <rect x="180" y="606" width="300" height="40" rx="7" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.7"/>
+  <text x="330" y="630" font-size="11.5" text-anchor="middle" fill="#0d47a1" font-weight="700">Vs = Vu/φ − Vc</text>
+  <polyline points="330,646 330,660 150,660" fill="none" stroke="#546e7a" stroke-width="1.6" stroke-linejoin="round"/>
+  <line x1="150" y1="660" x2="150" y2="667.6" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="150,674 146.4,666 153.6,666" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <polygon points="30,704 150,674 270,704 150,734" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.7"/>
+  <text x="150" y="708" font-size="11.5" text-anchor="middle" fill="#e65100" font-weight="700">Vs ≤ 2Vc ？</text>
+  <polygon points="320,704 440,674 560,704 440,734" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.7"/>
+  <text x="440" y="708" font-size="11.5" text-anchor="middle" fill="#e65100" font-weight="700">Vs ≤ 4Vc ？</text>
+  <line x1="270" y1="704" x2="313.6" y2="704" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="320,704 312,707.6 312,700.4" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <text x="278" y="696" font-size="11.5" fill="#546e7a" font-weight="700">否</text>
+  <polyline points="560,704 745,704" fill="none" stroke="#546e7a" stroke-width="1.6" stroke-linejoin="round"/>
+  <line x1="745" y1="704" x2="745" y2="737.6" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="745,744 741.4,736 748.6,736" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <text x="568" y="696" font-size="11.5" fill="#546e7a" font-weight="700">否</text>
+  <line x1="150" y1="734" x2="150" y2="737.6" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="150,744 146.4,736 153.6,736" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <text x="140" y="744" font-size="11.5" text-anchor="end" fill="#546e7a" font-weight="700">是</text>
+  <line x1="440" y1="734" x2="440" y2="737.6" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="440,744 436.4,736 443.6,736" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <text x="430" y="744" font-size="11.5" text-anchor="end" fill="#546e7a" font-weight="700">是</text>
+  <rect x="25" y="744" width="250" height="48" rx="7" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.7"/>
+  <text x="150" y="762.5" font-size="11.5" text-anchor="middle" fill="#1b5e20" font-weight="700">smax = min(d/2, 60 cm)</text>
+  <text x="150" y="781.5" font-size="10.5" text-anchor="middle" fill="#1b5e20">裂縫還不密</text>
+  <rect x="315" y="744" width="250" height="48" rx="7" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.7"/>
+  <text x="440" y="762.5" font-size="11.5" text-anchor="middle" fill="#e65100" font-weight="700">smax = min(d/4, 30 cm)</text>
+  <text x="440" y="781.5" font-size="10.5" text-anchor="middle" fill="#e65100">裂縫變密 → 間距減半</text>
+  <rect x="620" y="744" width="250" height="48" rx="7" fill="#ffebee" stroke="#c62828" stroke-width="1.7"/>
+  <text x="745" y="762.5" font-size="11.5" text-anchor="middle" fill="#b71c1c" font-weight="700">斷面不足 → 加大斷面</text>
+  <text x="745" y="781.5" font-size="10.5" text-anchor="middle" fill="#b71c1c">斜壓桿要壓碎，加箍筋無用</text>
+  <polyline points="150,792 150,806" fill="none" stroke="#546e7a" stroke-width="1.6" stroke-linejoin="round"/>
+  <polyline points="440,792 440,806" fill="none" stroke="#546e7a" stroke-width="1.6" stroke-linejoin="round"/>
+  <polyline points="150,806 440,806" fill="none" stroke="#546e7a" stroke-width="1.6" stroke-linejoin="round"/>
+  <line x1="295" y1="806" x2="295" y2="811.6" stroke="#546e7a" stroke-width="1.6"/>
+  <polygon points="295,818 291.4,810 298.6,810" fill="#546e7a" stroke="none" stroke-width="1.2"/>
+  <rect x="15" y="818" width="560" height="40" rx="7" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.7"/>
+  <text x="295" y="842" font-size="11.5" text-anchor="middle" fill="#4a148c" font-weight="700">三道關卡取最小 s：① 強度 s = Av·fyt·d/Vs　② smax　③ Av,min（Vu &gt; 0.5φVc 時）</text>
+</svg>
+<!--/FIG:flow-->
+<div class="cap">
+三個判斷菱形（介面？D 區？d 偏移？）決定用哪套工具；
+下方兩個菱形（\(2V_c\)、\(4V_c\)）決定間距上限。
+注意最右邊的紅框是<b>死路</b> —— 它不接到最後的箍筋設計，因為問題根本不在箍筋。
+</div>
+</div>
+</section>
+
+<section id="s9">
+<h2>§9 歷屆題 × 觀念對照表</h2>
+
+<h3>9.1 主分類（primaryTopicId = RC-U2-1，共 7 題）</h3>
+
+<table>
+<thead><tr><th>題號</th><th>考年</th><th>機制</th><th>核心考點</th><th>對應本講義</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="problems-view/RC-2006-1.html">RC-2006-1</a></td><td>2006</td><td>A</td><td>懸臂雙筋梁，由撓曲強度反推設計剪力，最大箍筋間距</td><td>§3、§4</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2009-3.html">RC-2009-3</a></td><td>2009</td><td>B</td><td>深梁 STM：βs、βn、CCT/CCC 節點分面驗核、破壞模式判斷</td><td>§5.1</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2010-3.html">RC-2010-3</a></td><td>2010</td><td>A</td><td>軸力對開裂強度與<b>裂縫形態</b>的影響（論述）＋簡化式三案例</td><td>§0、§2.3</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2014-3.html">RC-2014-3</a></td><td>2014</td><td>A</td><td>詳細式 Vc、等效彎矩 Mm、Mm &lt; 0 取上限</td><td>§2.2、§2.3</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2017-2.html">RC-2017-2</a></td><td>2017</td><td>C</td><td>加大柱介面剪力、摩擦剪力法、植筋支數</td><td>§6</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2020-2.html">RC-2020-2</a></td><td>2020</td><td>A</td><td>倒 T 梁 d 偏移的判斷理由、箍筋間距、最大設計剪力 5φVc</td><td>§3.2、§4</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2023-3.html">RC-2023-3</a></td><td>2023</td><td>A</td><td>懸臂梁臨界斷面、扭力忽略門檻、反算最大偏心量</td><td>§4.1、§7</td></tr>
+</tbody>
+</table>
+
+<h3>9.2 副分類（RC-U2-1 為 secondaryTopicId，共 9 題）</h3>
+
+<table>
+<thead><tr><th>題號</th><th>考年</th><th>主分類</th><th>與本子項的關聯</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="problems-view/RC-2003-3.html">RC-2003-3</a></td><td>2003</td><td>RC-U3-3</td><td>梁柱接頭剪力 —— 接頭是典型 D 區（§5）</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2003-4.html">RC-2003-4</a></td><td>2003</td><td>RC-U3-3</td><td>剪力牆水平／垂直剪力筋、φ=0.6 —— 牆的桁架機制</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2011-4.html">RC-2011-4</a></td><td>2011</td><td>RC-U2-2</td><td>扭矩剪力組合、空間桁架類比、斷面適當性（§7）</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2012-3.html">RC-2012-3</a></td><td>2012</td><td>RC-U3-3</td><td>柱設計剪力由 Mpr 反推、Vc=0 軸力條件（§2.4）</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2016-2.html">RC-2016-2</a></td><td>2016</td><td>RC-U3-3</td><td>耐震梁 Ve 與 Vc=0、密箍區間距（§2.4、§3）</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2018-1.html">RC-2018-1</a></td><td>2018</td><td>RC-U2-2</td><td>扭矩剪力組合、Aoh、poh/8 最大間距（§7）</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2021-1.html">RC-2021-1</a></td><td>2021</td><td>RC-U1-1</td><td>T 形梁附帶剪力設計：Vc 簡化式、最大肋筋間距、臨界斷面</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2022-3.html">RC-2022-3</a></td><td>2022</td><td>RC-U4-4</td><td>預力梁腹剪裂縫 Vcw —— 預力軸壓提高 Vc 的極致（§0、§2.3）</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2025-2.html">RC-2025-2</a></td><td>2025</td><td>RC-U3-3</td><td>耐震梁剪力筋設計全流程（§2.4、§3）</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>從這張表可以讀出命題規律</b><br>
+・<b>主分類只有 7 題，但副分類有 9 題</b> —— 剪力是「配角常駐」的考點：
+耐震題（4 題）、扭力題（2 題）、撓曲題（1 題）、預力題（1 題）幾乎都會附帶要你設計箍筋。
+<b>所以本單元的實際投資報酬率高於 7 題所暗示的。</b><br>
+・七題主分類<b>幾乎沒有重複</b>（STM 一題、摩擦剪力一題、軸力兩題、臨界斷面兩題、扭力交互一題）——
+與 RC-U3-3、RC-U4-1 大量同型題的情況完全不同。<b>本單元必須廣度優先</b>，不能只練一種。<br>
+・<b>軸力影響考過兩次（2010、2014）且一次簡化式、一次詳細式</b>，是唯一重複的考點群，優先準備。<br>
+・2010-3 有 5 分是<b>純論述</b>（裂縫形態），是本單元最好賺的分數 —— 只要理解 §0 的莫爾圓就能寫滿。
+</div>
+</section>
+
+<section id="s10">
+<h2>§10 陷阱總表（考前十分鐘掃完）</h2>
+
+<table>
+<thead><tr><th>#</th><th>觸發信號</th><th>錯誤思維</th><th>正確認知</th><th>出處</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>公式帶 √f'c 的係數</td><td>抄到不同單位制的數字</td><td>kgf/cm² 0.53／1.06／2.12；MPa 1/6／1/3／2/3；psi 2／4／8</td><td>§2.1</td></tr>
+<tr><td>2</td><td>詳細式的 175ρw 項</td><td>用 √f'c 型的換算係數（×0.265）</td><td>它是<b>直接應力</b>項：2500 psi ×0.0703 = 175 kgf/cm²，換算係數不同</td><td>§2.1</td></tr>
+<tr><td>3</td><td>題目問「最大 Vc」</td><td>用簡化式</td><td>要用<b>詳細式</b>（含 ρw 項，結果較大），並驗上限 0.93√f'c bw d</td><td><a class="qlink" href="problems-view/RC-2014-3.html">RC-2014-3</a></td></tr>
+<tr><td>4</td><td>詳細式算出 Mm ≤ 0</td><td>繼續代入（得到負值或荒謬大值）</td><td>公式失效 → 直接取上限 0.93√f'c bw d</td><td><a class="qlink" href="problems-view/RC-2014-3.html">RC-2014-3</a></td></tr>
+<tr><td>5</td><td>有軸力</td><td>壓拉修正用同一個分母</td><td>壓用 140Ag、拉用 35Ag（差 4 倍）；拉力 Nu 取<b>負值</b></td><td><a class="qlink" href="problems-view/RC-2010-3.html">RC-2010-3</a></td></tr>
+<tr><td>6</td><td>軸拉很大</td><td>算出負的 Vc 照寫</td><td>修正係數 ≤ 0 時取 Vc = 0（N/Ag 達 −35 就歸零）</td><td><a class="qlink" href="problems-view/RC-2010-3.html">RC-2010-3</a></td></tr>
+<tr><td>7</td><td>臨界斷面</td><td>一律取距支承面 d 處</td><td>要先確認「支承反力向上 + 載重在頂面」；懸臂／吊掛／集中載重近支承要個別判斷</td><td><a class="qlink" href="problems-view/RC-2020-2.html">RC-2020-2</a></td></tr>
+<tr><td>8</td><td>臨界斷面</td><td>從支承<b>中心</b>起算 d</td><td>從<b>支承面</b>起算</td><td><a class="qlink" href="problems-view/RC-2014-3.html">RC-2014-3</a></td></tr>
+<tr><td>9</td><td>倒 T 型梁</td><td>背「倒 T 一律不能折減」</td><td>判準是<b>載重是否從拉力側吊入</b>，不是斷面形狀（RC-2020-2 判定可用）</td><td>§4</td></tr>
+<tr><td>10</td><td>問箍筋間距</td><td>只算強度需求 s = Av fyt d/Vs</td><td><b>三道關卡取最小</b>：強度、smax、最小鋼筋量</td><td><a class="qlink" href="problems-view/RC-2020-2.html">RC-2020-2</a></td></tr>
+<tr><td>11</td><td>決定 smax</td><td>直接寫 d/2</td><td>先判斷 Vs 是否超過 2Vc（＝1.06√f'c bw d），超過才減半為 d/4</td><td><a class="qlink" href="problems-view/RC-2020-2.html">RC-2020-2</a></td></tr>
+<tr><td>12</td><td>Vs 算出來很大</td><td>拼命加箍筋／縮小間距</td><td>Vs &gt; 4Vc（＝2.12√f'c bw d）時<b>換了破壞機制</b>（斜壓桿壓碎），必須加大斷面</td><td>§3.1</td></tr>
+<tr><td>13</td><td>問「斷面最大設計剪力」</td><td>不知從何算起</td><td>Vu,max = φ(Vc + 4Vc) = <b>5φVc</b>（用簡化式 Vc 時）</td><td><a class="qlink" href="problems-view/RC-2020-2.html">RC-2020-2</a></td></tr>
+<tr><td>14</td><td>Vu 很小</td><td>不配箍筋</td><td>Vu &gt; 0.5φVc 就需要最小箍筋量（脆性保護）</td><td><a class="qlink" href="problems-view/RC-2023-3.html">RC-2023-3</a></td></tr>
+<tr><td>15</td><td>深梁、集中載重靠支承</td><td>硬套 Vc + Vs</td><td>a/d ≤ 2 是 D 區 → 改用 STM，桁架類比會嚴重低估</td><td><a class="qlink" href="problems-view/RC-2009-3.html">RC-2009-3</a></td></tr>
+<tr><td>16</td><td>STM 的 βs</td><td>一律 0.75</td><td>稜柱形 1.0、瓶形有腹筋 0.75、瓶形無腹筋 0.60 —— 依桿件形狀</td><td><a class="qlink" href="problems-view/RC-2009-3.html">RC-2009-3</a></td></tr>
+<tr><td>17</td><td>STM 的 βn</td><td>CCT 與 CCC 用反</td><td>CCC（全壓）1.0 最強；每接一支拉桿就削弱：CCT 0.80、CTT 0.60</td><td><a class="qlink" href="problems-view/RC-2009-3.html">RC-2009-3</a></td></tr>
+<tr><td>18</td><td>STM 算完就交卷</td><td>沒驗 θ、沒判破壞模式</td><td>θ ≥ 25° 必驗；控制項是拉桿→延性，是節點／壓桿→脆性</td><td><a class="qlink" href="problems-view/RC-2009-3.html">RC-2009-3</a></td></tr>
+<tr><td>19</td><td>新舊混凝土介面</td><td>用 Vc + Vs</td><td>介面沒有斜壓桿 → 用摩擦剪力 Vn = μ Avf fy</td><td><a class="qlink" href="problems-view/RC-2017-2.html">RC-2017-2</a></td></tr>
+<tr><td>20</td><td>摩擦剪力的 μ</td><td>以為 μ ≤ 1</td><td>μ 是等效係數（含咬合與銷栓）：單體 1.4、粗糙 1.0、未粗糙 0.6</td><td><a class="qlink" href="problems-view/RC-2017-2.html">RC-2017-2</a></td></tr>
+<tr><td>21</td><td>介面剪力設計值</td><td>不知道 Vu 從哪來</td><td>Vu = <b>該側新混凝土分擔的壓力</b>，量級是軸力等級而非梁剪力等級</td><td><a class="qlink" href="problems-view/RC-2017-2.html">RC-2017-2</a></td></tr>
+<tr><td>22</td><td>偏心載重</td><td>直接算扭力鋼筋</td><td>先判斷 Tu ≤ φTth 能否忽略（門檻＝開裂扭矩的 1/4）</td><td><a class="qlink" href="problems-view/RC-2023-3.html">RC-2023-3</a></td></tr>
+<tr><td>23</td><td>扭力門檻的斷面性質</td><td>用 Aoh</td><td>門檻用 <b>Acp</b>（全外緣）；設計扭力鋼筋才用 Aoh（箍筋中心線）</td><td>§7</td></tr>
+<tr><td>24</td><td>相容扭矩 vs 平衡扭矩</td><td>都套忽略門檻</td><td>平衡扭矩（無替代路徑，如懸臂雨遮）不論多小都要設計</td><td>§7</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="s11">
+<h2>§11 自我檢測：12 個「為什麼」</h2>
+
+<p>不用紙筆，用嘴巴回答。答不出來的，回去讀對應章節。</p>
+
+<details><summary>1. 為什麼 V<sub>c</sub> 正比於 √f'c 而不是 f'c？</summary>
+<p>因為剪力破壞的本質是<b>斜向主拉應力把混凝土拉裂</b>，控制它的是抗拉強度 \(f_t\)，
+而 \(f_t\) 的經驗式正比於 \(\sqrt{f'_c}\)（與破裂模數 \(f_r = 2\sqrt{f'_c}\) 同源）。
+若剪力真的是「剪斷」，公式就會正比於 \(f'_c\) 了。（§0）</p></details>
+
+<details><summary>2. 用一個式子說明軸壓提高 V<sub>c</sub>、軸拉降低 V<sub>c</sub>。</summary>
+<p>\(\sigma_1 = \dfrac{\sigma_x}{2} + \sqrt{\left(\dfrac{\sigma_x}{2}\right)^2+\tau^2}\)。
+軸壓 \(\sigma_x<0\) 使 \(\sigma_1\) 變小 → 需更大 \(\tau\) 才開裂；軸拉反之。
+同時 σ<sub>1</sub> 方向改變 → 裂縫角度也變（壓→較平、較窄；拉→較陡、較寬，趨近垂直）。（§0 圖）</p></details>
+
+<details><summary>3. 為什麼軸拉的傷害是軸壓幫助的 4 倍？</summary>
+<p>修正式的分母基準不同：軸壓用 \(140A_g\)、軸拉用 \(35A_g\)（kgf/cm² 制），
+比值 \(140/35 = 4\)。這兩個數字其實是 14 MPa 與 3.5 MPa 換算來的。
+物理上就是「混凝土怕拉不怕壓」。（§2.3）</p></details>
+
+<details><summary>4. V<sub>s</sub> = A<sub>v</sub>f<sub>yt</sub>d/s 怎麼推出來？</summary>
+<p>畫一條 45° 斜裂縫，它的水平投影是 \(d\)；箍筋間距 \(s\) → 跨越 \(n = d/s\) 支；
+每支降伏力 \(A_v f_{yt}\) → \(V_s = (d/s)A_v f_{yt}\)。<b>數出來的，不用背。</b>
+若裂縫角度為 \(\theta\)，投影變 \(d\cot\theta\)，就得到扭力設計用的變角度桁架公式。（§1.2）</p></details>
+
+<details><summary>5. s<sub>max</sub> = d/2 的物理理由是什麼？</summary>
+<p>從 §1.2 的圖：若 \(s > d\)，可能出現「一條 45° 斜裂縫一支箍筋都沒跨到」的情況，
+箍筋形同虛設。取 \(d/2\) 是確保至少跨到一支且留餘裕。（§1.2、§3.1）</p></details>
+
+<details><summary>6. 為什麼 V<sub>s</sub> 超過 4V<sub>c</sub> 之後加箍筋沒用？</summary>
+<p>因為換了破壞機制。箍筋只能加強桁架的<b>拉力繫桿</b>；但剪力同時在壓混凝土<b>斜壓桿</b>。
+\(V_s > 4V_c\) 時斜壓桿先被壓碎（脆性、無預警），只能加大斷面來降低斜壓桿應力。（§3.1）</p></details>
+
+<details><summary>7. 為什麼斷面能承受的最大設計剪力恰好是 5φV<sub>c</sub>？</summary>
+<p>\(V_{s,\max} = 2.12\sqrt{f'_c}b_wd = 4\times0.53\sqrt{f'_c}b_wd = 4V_c\)，
+所以 \(V_{u,\max} = \phi(V_c + 4V_c) = 5\phi V_c\)。
+注意這個簡潔關係只在 \(V_c\) 用<b>簡化式</b>時成立。（§3.1）</p></details>
+
+<details><summary>8. 「臨界斷面取距支承面 d 處」的唯一理由是什麼？</summary>
+<p>從支承面出發的 45° 斜裂縫，要到 \(d\) 處才穿到梁頂；
+所以 \(d\) 以內的剪力是靠斜壓桿<b>直接</b>傳進支承，不需要箍筋。
+前提是支承反力向上（提供壓縮）且載重在頂面 —— 破壞前提就取消優惠。（§4）</p></details>
+
+<details><summary>9. 倒 T 型梁一定不能用 d 偏移嗎？</summary>
+<p>不是。判準是<b>載重是否從拉力側吊入</b>，不是斷面形狀。
+倒 T 梁常被列為例外，是因為它典型用途是承接兩側樓板（載重從下翼板進來）。
+RC-2020-2 因載重在頂面而判定<b>可用</b>。作答務必寫出判斷理由。（§4）</p></details>
+
+<details><summary>10. β<sub>s</sub> 和 β<sub>n</sub> 在補償同一件事嗎？</summary>
+<p>是。兩者都在回答「這塊混凝土被多少<b>拉力</b>干擾」。
+瓶形壓桿因壓力擴散產生側向拉應力 → \(\beta_s\) 降到 0.75/0.60；
+節點每多接一支拉桿就多一個方向的拉應變 → \(\beta_n\) 從 1.0 降到 0.80、0.60。
+這與 §0「剪力是拉力問題」一致。（§5.1）</p></details>
+
+<details><summary>11. 摩擦剪力的夾緊力是誰施加的？為什麼 μ 可以是 1.4？</summary>
+<p>不是外加的。粗糙介面滑動時<b>必然同時張開</b>（dilatancy），把穿越介面的鋼筋拉長到降伏，
+鋼筋的反作用力就是夾緊力 \(A_{vf}f_y\)。而 \(\mu\) 不是真的摩擦係數，
+是把「摩擦＋凹凸咬合＋銷栓」包起來的等效係數，所以可以大於 1。（§6）</p></details>
+
+<details><summary>12. 扭力忽略門檻 φT<sub>th</sub> 的數字是怎麼來的？</summary>
+<p>它是素混凝土開裂扭矩 \(T_{cr}\) 的 <b>1/4</b>（\(\sqrt{f'_c}/12\) vs \(\sqrt{f'_c}/3\)）。
+低於此值時斜裂縫不顯著影響其他強度，且<b>相容扭矩</b>會在開裂後自動重分配。
+但<b>平衡扭矩</b>（無替代路徑）不論多小都必須設計。（§7）</p></details>
+</section>
+<section id="s12">
+<h2>★ 精選 5 題：時間只夠練五題就練這五題</h2>
+
+<div class="lead">
+選題邏輯與其他單元<b>不同</b>：本單元 7 題主分類幾乎沒有重複題型，
+所以不是「挑一題代表一群」，而是<b>三種傳力機制各佔一席，再補上兩個最高頻的判斷</b>
+（臨界斷面、軸力修正）。五題合起來就是 §8 流程圖的完整走一遍。
+</div>
+
+<h3>① <a href="problems-view/RC-2020-2.html" class="qlink">RC-2020-2</a>（2020，25 分）— B 區梁的公版全流程</h3>
+<div class="box">
+<b>為什麼選它：</b>三小題剛好對應本單元三個核心判斷 ——
+(一) d 偏移能不能用（<b>論述題</b>，5 分，考的是理由不是結論）、
+(二) 箍筋間距（含 \(2V_c\) 門檻判斷）、(三) 最大設計剪力（\(5\phi V_c\)）。
+一題把 §3 與 §4 走完，RC-2021-1、RC-2006-1 都是它的子集。<br>
+<b>先讀：</b>§1.2、§3.1、§3.2、§4<br>
+<b>做完要能回答：</b>①d 偏移的唯一理由是什麼？②為什麼要先比 \(V_s\) 與 \(2V_c\) 才能決定 \(s_{\max}\)？
+③\(5\phi V_c\) 這個關係在什麼情況下不成立？
+</div>
+
+<h3>② <a href="problems-view/RC-2014-3.html" class="qlink">RC-2014-3</a>（2014，25 分）— 詳細式與軸力，一題三案例</h3>
+<div class="box">
+<b>為什麼選它：</b>本單元唯一重複考過的考點群（軸力，2010＋2014），
+而這一題用<b>詳細式</b>、三種軸力對照，還藏了 \(M_m < 0\) 的邊界處理。
+練完它，RC-2010-3 的簡化式版本只要換公式就會。
+<b>三個答案必須單調（拉 &lt; 無 &lt; 壓）是內建的自我檢查</b>。<br>
+<b>先讀：</b>§0、§2.1、§2.2、§2.3<br>
+<b>做完要能回答：</b>①\(M_m\) 的物理意義是什麼？②\(M_m<0\) 代表什麼狀態、為什麼要取上限？
+③詳細式為什麼通常比簡化式大？
+</div>
+
+<h3>③ <a href="problems-view/RC-2009-3.html" class="qlink">RC-2009-3</a>（2009，25 分）— 唯一的 D 區題</h3>
+<div class="box">
+<b>為什麼選它：</b>STM 是<b>別題完全練不到</b>的技能，而且它訓練的是「自己建模型」——
+要先決定力臂 \(z\)、算角度、寫平衡、再逐項驗強度。
+最後還要判斷<b>破壞模式</b>（控制項是拉桿＝延性、是節點／壓桿＝脆性），
+這是能力設計法思維在剪力題的體現。<br>
+<b>先讀：</b>§5、§5.1<br>
+<b>做完要能回答：</b>①為什麼支承節點是 CCT 而載重點是 CCC？
+②\(\beta_s = 0.75\) 的「瓶形」是什麼意思？③控制項落在節點承壓，代表破壞是延性還是脆性？
+</div>
+
+<h3>④ <a href="problems-view/RC-2017-2.html" class="qlink">RC-2017-2</a>（2017，25 分）— 第三種機制，計算量最小</h3>
+<div class="box">
+<b>為什麼選它：</b>摩擦剪力法本身只有一個公式，但這一題真正的考點是
+「<b>介面剪力設計值 Vu 從哪來</b>」—— 要能想通「新混凝土翼板分擔的壓力必須全部通過介面」。
+這是純觀念鏈，計算三行做完，投報率極高；且補強／加固是實務與考題的成長題型。<br>
+<b>先讀：</b>§6<br>
+<b>做完要能回答：</b>①夾緊力是誰施加的？②為什麼 μ 可以大於 1？
+③若題目沒說「已粗糙化」，答案會差多少？
+</div>
+
+<h3>⑤ <a href="problems-view/RC-2023-3.html" class="qlink">RC-2023-3</a>（2023，25 分）— 近年題，剪力與扭力的交界</h3>
+<div class="box">
+<b>為什麼選它：</b>最新年份，且是<b>反算題型</b>（給門檻反推偏心量），
+同時串起 §4（懸臂梁臨界斷面）與 §7（扭力忽略門檻）。
+它還有一個容易被忽略的漂亮細節：驗算後發現 \(\phi V_c > V_u\)，
+所以 D13 箍筋是<b>最小鋼筋量</b>要求而非扭力需要 —— 會不會注意到這件事，就是有沒有讀懂題目。<br>
+<b>先讀：</b>§4.1、§7<br>
+<b>做完要能回答：</b>①門檻公式的 \(A_{cp}\) 為什麼不是 \(A_{oh}\)？
+②門檻為什麼取開裂扭矩的 1/4？③若這是平衡扭矩（無替代路徑），還能忽略嗎？
+</div>
+
+<h3>練這五題的正確方法</h3>
+<ol>
+<li><b>動筆前先用 §8 的三個判斷定位。</b>「這是介面嗎？是 D 區嗎？臨界斷面能折減嗎？」
+本單元最大的失分不是算錯，是<b>整題用錯機制</b>（把深梁當一般梁、把介面當梁腹）。</li>
+<li><b>每題第一行寫下單位制。</b>本單元 \(\sqrt{f'_c}\) 型與直接應力型的換算係數<b>不一樣</b>
+（0.265 vs 0.0703），同一條詳細式裡兩項各用一種 —— 這是最隱蔽的錯誤。</li>
+<li><b>所有 min／max 的候選全部寫出來。</b>\(s_{\max}\) 三道關卡、STM 四項限制、\(b_j\) 候選……
+本單元過程分佔比高，只寫結果會損失一半分數。</li>
+<li><b>②和④各算兩遍。</b>②把軸壓改成 40 tf 看 \(M_m\) 是否更負、\(V_c\) 是否仍取上限；
+④把 μ 改成 0.6 看植筋支數怎麼跳。<b>會判斷方向比會算數字更能應付變形題。</b></li>
+<li><b>量級檢查表：</b>一般梁 \(V_c \approx 0.53\sqrt{f'_c}b_wd\)（\(f'_c=280\) 時約 8.9 kgf/cm² × \(b_wd\)）；
+\(V_s\) 上限 = \(4V_c\)；接頭／深梁的力比一般梁大一個量級；
+介面剪力是軸力等級。出範圍就停下找錯。</li>
+</ol>
+
+<div class="trap">
+<b>誠實說明：這五題沒有涵蓋以下考點群</b><br>
+① <b>裂縫形態的論述</b>（<a href="problems-view/RC-2010-3.html" class="qlink">RC-2010-3</a> 第一小題，5 分）——
+本講義 §0 有完整說明，但沒有練習。<b>這是本單元最好賺的 5 分</b>（只要會畫莫爾圓推理），
+強烈建議把該題第一小題單獨寫一次。<br>
+② <b>由撓曲強度反推設計剪力</b>（RC-2006-1）—— 懸臂雙筋梁，先求 \(\phi M_n\) 再反推 \(V_u\)，
+是「剪力題其實在考撓曲」的題型。<br>
+③ <b>預力梁的腹剪 V<sub>cw</sub></b>（RC-2022-3）—— 預力軸壓提高 \(V_c\) 的極致應用，屬 RC-U4-4。<br>
+④ <b>扭力鋼筋的完整設計</b>（RC-2011-4、RC-2018-1）—— 本講義 §7 只到「能不能忽略」，
+後續的 \(A_{oh}\)、\(A_t/s\)、\(A_l\) 屬 RC-U2-2 主場。<br>
+⑤ <b>接頭與剪力牆的剪力</b>（RC-2003-3、RC-2003-4）—— 已在
+<a href="lecture-RC-U3-3.html" class="qlink">RC-U3-3 觀念講義</a> §6、§7.1 涵蓋。<br>
+<b>候補兩題：</b><a href="problems-view/RC-2010-3.html" class="qlink">RC-2010-3</a>（論述＋簡化式，性價比最高）、
+<a href="problems-view/RC-2006-1.html" class="qlink">RC-2006-1</a>（撓曲控制的設計剪力）。
+</div>
+</section>
+
+<section id="s13">
+<h2>§13 因果鏈總表：能用嘴巴講出來才算懂</h2>
+
+<p>每一條都應該可以在 20 秒內不看講義講完。講不出來的，回去讀括號裡的節。</p>
+
+<div class="box">
+<b>鏈 1：為什麼 V<sub>c</sub> 長那個樣子（§0、§2）</b><br>
+剪應力在 45° 方向轉成主拉應力 → 混凝土被<b>拉裂</b>而非剪斷 →
+控制量是抗拉強度 \(f_t \propto \sqrt{f'_c}\) → \(V_c \propto \sqrt{f'_c}b_wd\) →
+凡是改變主應力狀態的東西都改變 \(V_c\)：軸壓↑、軸拉↓、預力↑、既有貫穿裂縫→0。
+</div>
+
+<div class="box">
+<b>鏈 2：軸力修正的兩個分母（§2.3）</b><br>
+軸壓把主拉應力壓下去 → \(V_c\) 提高，基準 14 MPa（＝140 kgf/cm²）→
+軸拉把主拉應力拉上來，而<b>混凝土怕拉不怕壓</b> → 基準只有 3.5 MPa（＝35）→
+斜率差 4 倍 → 同樣的 \(N/A_g\)，軸拉的傷害是軸壓幫助的四倍；\(N/A_g\) 到 −35 時 \(V_c\) 歸零。
+</div>
+
+<div class="box">
+<b>鏈 3：V<sub>s</sub> 公式是數出來的（§1.2）</b><br>
+畫 45° 斜裂縫 → 水平投影 = \(d\) → 跨越 \(n = d/s\) 支箍筋 →
+每支降伏力 \(A_v f_{yt}\) → \(V_s = A_v f_{yt} d/s\) →
+若 \(s > d\) 會有裂縫跨不到箍筋 → 所以 \(s_{\max} \leq d/2\)（留一倍餘裕）→
+角度換成 \(\theta\) 就得到扭力用的變角度桁架公式。
+</div>
+
+<div class="box">
+<b>鏈 4：兩個門檻與一條死路（§3.1）</b><br>
+\(1.06\sqrt{f'_c}b_wd = 2V_c\)、\(2.12\sqrt{f'_c}b_wd = 4V_c\) →
+\(V_s \leq 2V_c\)：裂縫還不密，\(s_{\max}=d/2\) →
+\(2V_c < V_s \leq 4V_c\)：裂縫變密，\(s_{\max}\) 減半為 \(d/4\) →
+\(V_s > 4V_c\)：<b>換機制</b>（斜壓桿壓碎，脆性）→ 加箍筋無效，必須加大斷面 →
+推論 \(V_{u,\max} = 5\phi V_c\)。
+</div>
+
+<div class="box">
+<b>鏈 5：d 偏移的成立與取消（§4）</b><br>
+支承面出發的 45° 斜裂縫要到 \(d\) 處才穿到梁頂 → \(d\) 以內的剪力靠斜壓桿直達支承 →
+不需要箍筋 → 可取 \(d\) 處的較小 \(V_u\) →
+但前提是「支承反力向上提供壓縮」且「載重不從拉力側吊入」→
+端部由拉力構件支承、載重從下翼進來（倒 T 托承）、集中載重在 \(d\) 內，任一成立就取消優惠（懸臂梁本身不在其列）。
+</div>
+
+<div class="box">
+<b>鏈 6：a/d 決定用哪套模型（§5）</b><br>
+\(a/d\) 越小，載重越傾向沿<b>一根斜壓桿直達支承</b>（拱作用）→ 強度急遽上升 →
+桁架類比會嚴重低估 → \(a/d \lesssim 2\) 改用 STM →
+STM 要求 \(\theta \ge 25°\) → \(a/d \lesssim 1.8\) 才建得出直接壓桿 → 超過即回到桁架類比，這正是 \(V_c\) 公式不含 \(a/d\) 的原因。
+</div>
+
+<div class="box">
+<b>鏈 7：β<sub>s</sub>、β<sub>n</sub> 都是「拉力干擾」的度量（§5.1）</b><br>
+瓶形壓桿的壓力向外擴散 → 側向產生拉應力 → 撐裂壓桿 → \(\beta_s\) 由 1.0 降到 0.75／0.60 →
+節點每接一支拉桿就多一個方向的拉應變 → \(\beta_n\) 由 1.0（CCC）降到 0.80（CCT）、0.60（CTT）→
+兩者都在回答「這塊混凝土被多少拉力干擾」，與鏈 1 同源。
+</div>
+
+<div class="box">
+<b>鏈 8：摩擦剪力是自我加強的機制（§6）</b><br>
+粗糙介面不可能純滑動 → 滑動必然伴隨<b>張開</b>（dilatancy）→
+穿越介面的鋼筋被拉長至降伏 → 反作用產生夾緊力 \(A_{vf}f_y\) →
+摩擦 \(= \mu \times\) 夾緊力 → 所以鋼筋<b>兩側都要錨定</b>，否則機制不啟動；
+而 \(\mu\) 是含咬合與銷栓的<b>等效</b>係數，可以大於 1（單體 1.4、粗糙 1.0、未粗糙 0.6）。
+</div>
+
+<div class="box">
+<b>鏈 9：扭力忽略門檻（§7）</b><br>
+門檻 \(\sqrt{f'_c}/12 \cdot A_{cp}^2/p_{cp}\) ＝ 開裂扭矩的 <b>1/4</b> →
+低於此值時斜裂縫不顯著影響其他強度 → 且<b>相容扭矩</b>開裂後勁度大降、自動卸載到別的路徑 →
+可忽略 → <b>但平衡扭矩（無替代路徑）不論多小都必須設計</b>；
+判斷門檻用 \(A_{cp}\)（全外緣），設計鋼筋才用 \(A_{oh}\)（箍筋中心線）。
+</div>
+</section>
+
+</main>
+<footer>
+RC-U2-1 觀念講義｜exam-wiki-RC 知識庫｜由 unit-lecture skill 產生<br>
+資料來源：raw/json/question_index.json、archive/wiki/concepts/、archive/wiki/traps/、archive/wiki/code-ref/、archive/wiki/failure-modes/
+</footer>
+</body>
+</html>

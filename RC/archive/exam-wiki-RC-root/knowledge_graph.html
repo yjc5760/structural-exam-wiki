@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RC 知識庫｜知識圖譜</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+<style>
+  :root{
+    --c-topic:#EC4899; --c-problem:#3B82F6; --c-concept:#10B981; --c-method:#8B5CF6;
+    --c-philosophy:#F97316; --c-diagnosis:#06B6D4; --c-trap:#EF4444; --c-coderef:#6B7280;
+    --c-failuremode:#9F1239; --c-material:#92400E;
+    --bg:#0f1420; --panel:#161d2e; --panel2:#1d2740; --text:#e6ebf5; --muted:#93a0c2; --line:#2a3654;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI","Noto Sans TC",sans-serif;}
+  #app{display:flex;height:100vh;width:100vw;overflow:hidden;}
+  #sidebar{width:340px;min-width:340px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden;}
+  #cy{flex:1;position:relative;background:radial-gradient(ellipse at 30% 20%, #131a2b 0%, #0b0f18 70%);}
+  .sb-section{padding:14px 16px;border-bottom:1px solid var(--line);}
+  h1{font-size:16px;margin:0 0 2px;font-weight:700;}
+  .sub{color:var(--muted);font-size:11.5px;margin:0 0 10px;}
+  input#search{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:13px;}
+  input#search:focus{outline:2px solid #3b82f680;}
+  .legend-item{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12.5px;cursor:pointer;user-select:none;}
+  .legend-item:hover{color:#fff;}
+  .dot{width:11px;height:11px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 2px rgba(255,255,255,.08);}
+  .legend-item.off{opacity:.35;}
+  .legend-item .cnt{margin-left:auto;color:var(--muted);font-size:11px;}
+  .edge-toggle{display:flex;align-items:center;gap:7px;padding:4px 0;font-size:12px;color:var(--muted);cursor:pointer;}
+  .edge-toggle input{accent-color:#3b82f6;}
+  #detail{flex:1;overflow-y:auto;padding:14px 16px;}
+  #detail.empty{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12.5px;text-align:center;}
+  .d-type{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:20px;color:#0b0f18;font-weight:700;margin-bottom:8px;}
+  .d-title{font-size:15px;font-weight:700;margin:0 0 6px;line-height:1.4;}
+  .d-meta{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.7;}
+  .d-meta b{color:var(--text);font-weight:600;}
+  .tag{display:inline-block;background:var(--panel2);border:1px solid var(--line);color:var(--muted);font-size:11px;padding:2px 7px;border-radius:5px;margin:0 4px 4px 0;}
+  .d-link{display:inline-block;margin-top:10px;padding:8px 12px;background:#3b82f6;color:#fff;text-decoration:none;font-size:12.5px;border-radius:7px;font-weight:600;}
+  .d-link:hover{background:#2563eb;}
+  .d-rel-h{font-size:11.5px;color:var(--muted);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.04em;}
+  .d-rel{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);color:var(--text);padding:7px 9px;border-radius:6px;font-size:12px;margin-bottom:5px;cursor:pointer;}
+  .d-rel:hover{border-color:#3b82f6;}
+  .d-rel .rt{color:var(--muted);font-size:10.5px;margin-left:6px;}
+  #topbar{position:absolute;top:12px;left:12px;right:12px;display:flex;gap:8px;z-index:5;pointer-events:none;}
+  #topbar>*{pointer-events:auto;}
+  .btn{background:var(--panel);border:1px solid var(--line);color:var(--text);padding:7px 12px;border-radius:8px;font-size:12.5px;cursor:pointer;}
+  .btn:hover{border-color:#3b82f6;}
+  #stats{margin-left:auto;color:var(--muted);font-size:11.5px;background:var(--panel);border:1px solid var(--line);padding:7px 12px;border-radius:8px;}
+  #hint{position:absolute;bottom:12px;left:12px;font-size:11px;color:var(--muted);background:rgba(22,29,46,.85);padding:6px 10px;border-radius:6px;z-index:5;}
+  ::-webkit-scrollbar{width:8px;}
+  ::-webkit-scrollbar-thumb{background:#2a3654;border-radius:4px;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="sidebar">
+    <div class="sb-section">
+      <h1>RC 知識庫｜知識圖譜</h1>
+      <p class="sub">鋼筋混凝土設計與預力 · 考題 / 概念 / 方法 / 診斷全景圖</p>
+      <input id="search" placeholder="搜尋題號、概念、標籤…" autocomplete="off">
+    </div>
+    <div class="sb-section" id="legendBox">
+      <div class="d-rel-h" style="margin-top:0">節點類型（點擊切換顯示）</div>
+      <div id="legend"></div>
+    </div>
+    <div class="sb-section">
+      <div class="d-rel-h" style="margin-top:0">連結類型</div>
+      <div id="edgeToggles"></div>
+    </div>
+    <div id="detail" class="empty">點選一個節點查看詳情</div>
+  </div>
+  <div id="cy">
+    <div id="topbar">
+      <button class="btn" id="btnFit">重置視圖</button>
+      <button class="btn" id="btnLayout">重新排版</button>
+      <div id="stats"></div>
+    </div>
+    <div id="hint">滾輪縮放 · 拖曳平移 · 點節點看詳情 · 點空白處清除選取</div>
+  </div>
+</div>
+
+<script>
+/* ===================== 資料層 ===================== */
+const TOPICS = [
+  ["RC-U1-1","RC 梁彎矩強度分析與設計"],
+  ["RC-U1-2","RC 柱強度分析與設計"],
+  ["RC-U1-3","細長柱"],
+  ["RC-U1-4","柱設計圖之應用"],
+  ["RC-U2-1","RC 剪力強度分析與設計"],
+  ["RC-U2-2","RC 扭力強度設計"],
+  ["RC-U2-3","鋼筋錨定長度與斷點計算"],
+  ["RC-U3-1","梁工作性要求（含撓度、裂縫）"],
+  ["RC-U3-2","樓版與基腳設計"],
+  ["RC-U3-3","韌性要求與耐震設計"],
+  ["RC-U4-1","預力梁斷面應力分析"],
+  ["RC-U4-2","預力量與偏心量設計"],
+  ["RC-U4-3","預力損失"],
+  ["RC-U4-4","預力梁剪力分析與設計"]
+];
+
+function p(id,y,pt,st,dm,tags){return {id,y,pt,st,dm,tags};}
+const PROBLEMS = [
+p("RC-2015-1",2015,"RC-U1-2",[],"USD",["方形柱","P-M互制","平衡點","最大彎矩","對稱配筋","雙排鋼筋","壓力控制過渡區","拉力控制界限","設計強度峰值"]),
+p("RC-2015-2",2015,"RC-U1-1",[],"USD",["雙筋梁","最大設計彎矩","拉力控制界限","折點極大值","曲率韌性","εt=0.004限制","最小配筋率","φu/φy","轉換斷面法","壓力鋼筋落入拉力區"]),
+p("RC-2015-3",2015,"RC-U1-1",[],"USD",["T型梁","負彎矩","雙筋梁","腹板矩形等效","壓縮區在腹板","εt=0.004限制","分步設計法"]),
+p("RC-2015-4",2015,"RC-U4-2",["RC-U4-1"],"WSD",["後拉法","拋物線腱","端部無偏心","四控制條件","容許應力設計","最大活載重","簡支預力梁","核心距"]),
+p("RC-2016-4",2016,"RC-U4-3",["RC-U4-1"],"WSD",["先拉法","彈性縮短損失","初施預力","斷面應力分析","裂縫判斷","壓應力檢核","矩形斷面","n值計算"]),
+p("RC-2016-2",2016,"RC-U3-3",["RC-U2-1"],"USD",["特殊矩形框架梁","塑性鉸區","可能彎矩強度Mpr","密箍區間距","耐震箍筋設計","Vc判斷","強度設計剪力Ve"]),
+p("RC-2016-1",2016,"RC-U1-1",["RC-U3-3"],"USD",["兩端固定梁","地震彎矩組合","雙曲度彎矩","固端彎矩","頂底筋設計","單筋矩形梁","ACI載重組合"]),
+p("RC-2018-1",2018,"RC-U2-2",["RC-U2-1"],"USD",["矩形梁","扭矩剪力組合","空間桁架類比","塑性理念","閉合箍筋","poh/8最大間距","Aoh計算","縱向扭力筋"]),
+p("RC-2018-2",2018,"RC-U3-3",["RC-U1-1"],"USD",["角柱接頭","接頭剪力","梁柱接頭","拉力控制","剪力強度檢核","γ係數","Whitney應力塊","耐震設計"]),
+p("RC-2018-3",2018,"RC-U3-1",[],"USD",["T形梁","負彎矩","裂縫控制","主筋分布寬度","拉力翼板","側面縱向表層鋼筋","ln/10限制","skin reinforcement"]),
+p("RC-2018-4",2018,"RC-U4-1",[],"WSD",["後拉法","有黏結腱","開裂彎矩","極限彎矩","fps公式選擇","β1折減","鋼鍵拉斷檢核","Whitney應力塊"]),
+p("RC-2019-4",2019,"RC-U4-3",["RC-U4-1"],"WSD",["後拉法","摩擦損失","拋物線腱","雙腱施拉","矢高計算","角度改變量","起始預力","非張拉端"]),
+p("RC-2019-3",2019,"RC-U3-3",["RC-U3-2"],"USD",["橫膈版","地震剪力","抗剪鋼筋","雙向版","ρt計算","撓曲控制間距","最終設計比較","SD280"]),
+p("RC-2019-2",2019,"RC-U1-2",[],"USD",["矩形柱","P-M互制","壓力控制斷面","拉力鋼筋未降伏","二次方程求中性軸","每側5-#8","偏心受壓"]),
+p("RC-2019-1",2019,"RC-U1-1",[],"USD",["單筋梁","過渡區φ值","Whitney應力塊","矩形斷面","二次方程求As","應變相容","φ=0.65~0.9"]),
+p("RC-2021-1",2021,"RC-U1-1",["RC-U2-1"],"USD",["T形梁","最小撓曲鋼筋","中性軸在翼板","剪力設計","最大肋筋間距","D10肋筋","Vc簡化公式","臨界斷面"]),
+p("RC-2021-2",2021,"RC-U1-2",[],"USD",["偏心距求解","P-M互制","中性軸已知逆推","壓縮區鋼筋淨力","大偏心","拉力控制","3+2+3配筋"]),
+p("RC-2021-3",2021,"RC-U3-2",[],"USD",["樁帽設計","偏心載重","基樁軸力","最大偏心距","剛性樁帽","雙向剪力","角隅基樁穿孔","壓力控制"]),
+p("RC-2021-4",2021,"RC-U4-1",[],"WSD",["預力T型梁","組合斷面","有效翼板寬","容許應力設計","最大活載重","底纖維拉力控制","後拉法","服務載重分析"]),
+p("RC-2022-1",2022,"RC-U1-1",[],"USD",["雙筋梁","壓力筋未降伏","有效深度","Whitney應力塊","φMn","拉力控制","雙層拉力筋","二次方程"]),
+p("RC-2022-2",2022,"RC-U1-1",[],"USD",["梁設計","最經濟材料","D25","四組合比較","fy影響","f'c影響","鋼筋用量評論","低配筋率"]),
+p("RC-2022-3",2022,"RC-U4-4",["RC-U2-1"],"USD",["預力梁","腹剪裂縫","Vcw","PCI形梁","垂直地震力","肋筋間距","fpc","有效深度dp"]),
+p("RC-2022-4",2022,"RC-U3-3",["RC-U1-2"],"概念題",["曲率韌性","轉角韌性","位移韌性","彎矩塑鉸","線性內插","塑鉸長度Lp","公路橋梁耐震規範","單曲率柱","需求vs容量"]),
+p("RC-2023-1",2023,"RC-U1-1",[],"USD",["曲率延展比","降伏曲率","極限曲率","中性軸","轉換斷面法","Whitney應力塊","延性設計"]),
+p("RC-2023-2",2023,"RC-U1-1",[],"USD",["T形梁","雙筋梁","壓力鋼筋未降伏","應變相容","雙排配筋","有效深度計算","Whitney應力塊","翼板內中性軸","鋼筋間距檢核","題目條件互相矛盾"]),
+p("RC-2023-3",2023,"RC-U2-1",["RC-U2-2"],"USD",["懸臂梁","臨界斷面","扭力忽略門檻","偏心載重","Acp","pcp","φTth","剪力需求","題意歧義","單位換算"]),
+p("RC-2023-4",2023,"RC-U4-1",[],"USD",["後拉法","無握裹鋼絞線","fps公式","L/dp比值","單向版","有效預力","撓曲強度","β₁折減"]),
+p("RC-2024-1",2024,"RC-U1-1",[],"USD",["T形梁","最大鋼筋量","最小鋼筋量","平衡鋼筋量","Whitney應力塊","β1係數","延性控制","高強度鋼筋"]),
+p("RC-2024-2",2024,"RC-U1-1",[],"USD",["雙筋梁","壓力鋼筋未降伏","應變相容","懸臂梁","因數化均佈載重","標稱彎矩強度","二次方程求中性軸"]),
+p("RC-2024-3",2024,"RC-U1-2",[],"USD",["方形柱","P-M互制","拉力鋼筋應變為零","應變相容","壓力鋼筋未降伏","軸力彎矩組合","壓力控制區"]),
+p("RC-2024-4",2024,"RC-U4-2",["RC-U4-1"],"WSD",["等效載重法","拋物線腱","次彎矩","C線","壓力線","超靜定預力梁","一致腱","propped cantilever"]),
+p("RC-2025-1",2025,"RC-U3-2",[],"USD",["獨立基腳","穿孔剪力","彎矩強度","雙向剪力","基腳設計","衝剪"]),
+p("RC-2025-2",2025,"RC-U3-3",["RC-U2-1"],"USD",["耐震梁","特殊矩形框架梁","可能彎矩強度Mpr","Vc=0條件","密箍區","剪力包絡線","第一支箍筋5cm","剪力筋設計","閉合箍筋"]),
+p("RC-2025-3",2025,"RC-U2-2",[],"USD",["扭矩強度","空間桁架類比","Tn","閉合箍筋","縱向鋼筋驗核","Aoh","矩形梁扭力"]),
+p("RC-2025-4",2025,"RC-U4-2",["RC-U4-1"],"WSD",["偏心距限制","傳遞階段","使用階段","簡支預力梁","核心距","容許應力","四控制條件"]),
+p("RC-2020-1",2020,"RC-U1-1",[],"USD",["T形梁","有效翼板寬","中性軸在翼板","最少鋼筋量","Whitney應力塊","正彎矩設計"]),
+p("RC-2020-2",2020,"RC-U2-1",[],"USD",["倒T型梁","臨界斷面","d偏移規則","懸吊式載重","下翼板載重","不可d偏移","最大肋筋間距","最大設計剪力","Vc簡化公式","懸吊鋼筋"]),
+p("RC-2020-3",2020,"RC-U3-2",[],"USD",["無梁版","穿孔剪力","雙向剪力","內柱","剪力鋼筋設計","三公式控制"]),
+p("RC-2020-4",2020,"RC-U4-2",["RC-U4-1"],"WSD",["預力連續梁","一致腱","二次彎矩","等效載重法","均勻軸壓條件","偏心量設計","C線"]),
+p("RC-2014-1",2014,"RC-U1-1",[],"USD",["單筋矩形梁","過筋梁","應變相容","壓力控制斷面","組合斷面加寬","雙f'c複合斷面","Whitney應力塊","β₁係數"]),
+p("RC-2014-2",2014,"RC-U1-1",["RC-U3-1"],"USD",["彎矩曲率分析","開裂彎矩","比例限度應變","曲率韌性","轉換斷面法","三階段分析","Whitney應力塊","曲率延展比"]),
+p("RC-2014-3",2014,"RC-U2-1",[],"USD",["臨界斷面","Vc最大混凝土剪力強度","軸力影響","等效彎矩Mm","詳細公式","軸壓梁","軸拉梁","軸壓Vc上限加強","軸拉專用式","規範分流"]),
+p("RC-2014-4",2014,"RC-U4-1",[],"WSD",["預力梁斷面應力","兩階段分析","施加預力階段","服務載重階段","對稱I形斷面","容許應力檢核","底纖維拉應力超限","WSD彈性法"]),
+p("RC-2013-1",2013,"RC-U3-2",[],"USD",["單向版","多跨連續版","最小版厚","ACI彎矩係數法","溫度收縮鋼筋","外支承負彎矩","撓度控制","版厚設計"]),
+p("RC-2013-2",2013,"RC-U3-3",["RC-U1-2"],"USD",["特殊矩形柱","耐震圍束箍筋","密箍區","Ash公式","D13箍筋","crossties繫筋","密箍區外間距","方形柱","16根D32"]),
+p("RC-2013-3",2013,"RC-U2-2",[],"USD",["扭矩強度","閉合箍筋","空間桁架類比","Ao計算","ph最大間距","縱向扭力筋Al","斷面壓碎驗算","D10箍筋"]),
+p("RC-2012-1",2012,"RC-U4-1",[],"WSD",["後拉法","有黏裹腱","懸臂梁","初始階段應力","偏心方向判斷","容許應力檢核","底纖維拉應力超限","補救措施"]),
+p("RC-2012-2",2012,"RC-U3-3",["RC-U1-1"],"USD",["耐震梁","特殊矩形框架梁","可能彎矩強度Mpr","地震彎矩","梁端強度","強柱弱梁","1.25fy"]),
+p("RC-2012-3",2012,"RC-U3-3",["RC-U2-1"],"USD",["強柱弱梁","塑鉸機構","柱塑鉸區","接頭彎矩分擔","柱地震設計剪力","圍束箍筋","Ash","特殊矩形框架柱","耐震箍筋設計","Vc=0條件","lo"]),
+p("RC-2012-4",2012,"RC-U3-3",[],"USD",["梁柱外接頭","接頭剪力","角隅邊柱","外接頭","Vjh","Aj接頭有效面積","γ係數3.2","強柱弱梁","特殊矩形框架接頭","接頭彎矩分擔","Vcol反推","1.25fy","φ0.85接頭","屋頂層接頭折減"]),
+p("RC-2009-4",2009,"RC-U4-1",["RC-U3-1"],"混合",["預力RC拉力桿","混合斷面","裂縫寬度wmax","張力硬化","有效預力","去壓載重","15φ預力棒","D29鋼筋","Scanlon-Murray","預力棒降伏"]),
+p("RC-2009-3",2009,"RC-U2-1",[],"USD",["壓拉桿模式","STM","深梁","兩點載重","拉力桿","壓力桿","節點強度","CCT節點","CCC節點","βs","βn","瓶形壓桿","破壞模式","尺寸鏈判讀","45度壓桿"]),
+p("RC-2009-2",2009,"RC-U3-1",[],"USD",["懸臂梁","即時撓度","降伏彎矩","裂縫斷面慣性矩Icr","開裂彎矩Mcr","轉換斷面法","曲率積分","雙段EI法","kd中性軸"]),
+p("RC-2009-1",2009,"RC-U3-3",["RC-U2-1"],"概念題",["耐震柱","橫向鋼筋","密箍區lo","圍束箍筋","Ash公式","Vc=0條件","Nu小於0.05Agfc","Mpr設計剪力","特殊矩形框架柱"]),
+p("RC-2010-4",2010,"RC-U4-2",["RC-U4-1"],"WSD",["簡支預力梁","偏心距限制","四控制條件","曲線型鋼腱","直線型鋼腱","等效載重法","傳遞階段","使用階段","容許應力設計","矩形斷面"]),
+p("RC-2010-3",2010,"RC-U2-1",[],"USD",["軸力影響","剪力開裂強度","裂縫形態","簡化式Vc","軸壓修正係數140","軸拉修正係數35","三種軸力比較","φVc計算"]),
+p("RC-2010-2",2010,"RC-U3-3",["RC-U2-3"],"概念題",["耐震柱","縱向搭接","Class B搭接","拉力搭接","搭接位置中段1/2","50%面積限制","橫向鋼筋","D29搭接","ld計算","Ktr圍束"]),
+p("RC-2010-1",2010,"RC-U1-2",[],"USD",["圓形螺旋柱","降伏軸力","極限軸力","螺旋筋圍束","f'cc圍束強度","fL側向壓力","ρs最小值","Pu≥Py檢核","12根主筋"]),
+p("RC-2011-5",2011,"RC-U4-1",[],"WSD",["後拉法","有黏結腱","合成斷面","三斷面分析","淨斷面","變換斷面","鋼腱應力","上下緣應力","施預力階段","全載重階段","n值相容性"]),
+p("RC-2011-4",2011,"RC-U2-2",["RC-U2-1"],"USD",["矩形梁","開裂扭矩","扭矩剪力組合","斷面適當性檢核","空間桁架類比","Aoh計算","閉合箍筋","Tu=Tcr條件"]),
+p("RC-2011-3",2011,"RC-U1-2",[],"USD",["矩形柱","P-M互制","三排配筋","中排鋼筋在形心","過渡區φ值","斷面韌性容量","柱曲率延展比","彈性中性軸","載重係數γ"]),
+p("RC-2011-2",2011,"RC-U1-1",[],"USD",["T形梁","平衡鋼筋量","NA在腹板","過渡區φ值","斷面韌性容量","曲率延展比","降伏曲率","極限曲率","彈性中性軸","As=0.9Asb","超筋斷面","εt<0.004","圖面尺寸歧義"]),
+p("RC-2011-1",2011,"RC-U1-2",[],"概念題",["P-M互制圖","求算步驟","平衡點","應變相容","φ值分區","純軸壓","純彎","壓力控制"]),
+p("RC-2006-4",2006,"RC-U4-1",[],"WSD",["後拉法","組合T型斷面","兩階段應力疊加","非組合梁承受DL","組合梁承受LL","上緣壓力","下緣拉力","不同f'c轉換"]),
+p("RC-2006-3",2006,"RC-U3-1",[],"USD",["簡支梁","即時撓度增量","有效慣性矩Ie","開裂彎矩Mcr","轉換斷面法","集中活載重","忽略壓力筋"]),
+p("RC-2006-2",2006,"RC-U1-3",["RC-U1-2"],"USD",["無側移柱","彎矩放大法","細長柱","Cm係數","單曲率","δns放大係數","臨界挫屈載重Pc"]),
+p("RC-2006-1",2006,"RC-U2-1",["RC-U1-1"],"USD",["懸臂梁","雙筋梁","壓力鋼筋未降伏","剪力設計","最大箍筋間距","撓曲強度控制設計剪力","#3箍筋"]),
+p("RC-2007-4",2007,"RC-U4-1",[],"WSD",["I形橋梁","組合T型斷面","兩階段應力疊加","底纖維拉力控制","集中活載重","不同f'c轉換","容許應力設計","內梁"]),
+p("RC-2007-3",2007,"RC-U3-2",[],"USD",["獨立基腳","正方形基腳","因數化土壓","彎矩檢核","單向剪力","穿孔剪力","雙向剪力","安全餘裕"]),
+p("RC-2007-2",2007,"RC-U3-1",[],"USD",["雙筋梁","即時撓度","長期撓度","有效慣性矩Ie","開裂彎矩Mcr","λ長期修正係數","五小題撓度","20%持續活載重"]),
+p("RC-2007-1",2007,"RC-U1-1",[],"USD",["T形梁設計","有效翼板寬","中性軸在翼板","D29鋼筋","兩排配筋","最小最大間距","單筋梁"]),
+p("RC-2008-4",2008,"RC-U4-1",[],"WSD",["後拉法","組合T型斷面","兩階段應力疊加","非組合梁承受DL","組合梁承受LL","底纖維拉力控制","容許應力設計","不同f'c轉換"]),
+p("RC-2008-3",2008,"RC-U2-2",[],"USD",["矩形梁","純扭矩","斷面適當性","空間桁架類比","閉合箍筋","Aoh計算","poh最大間距","縱向扭力筋"]),
+p("RC-2008-2",2008,"RC-U1-2",[],"USD",["矩形柱","P-M互制","拉力鋼筋應變為零","應變相容","中排鋼筋在壓力區","三排配筋","壓力控制","偏心受壓"]),
+p("RC-2008-1",2008,"RC-U3-1",[],"USD",["懸臂梁","雙筋梁","長期撓度","有效慣性矩Ie","開裂彎矩Mcr","λ長期修正係數","轉換斷面法"]),
+p("RC-2013-4",2013,"RC-U4-1",[],"混合",["先拉法","有黏結腱","開裂彎矩","鋼腱極限應變","fps公式","矩形斷面","Whitney應力塊","β₁折減","應變相容"]),
+p("RC-2005-1",2005,"RC-U1-2",[],"USD",["矩形柱","P-M互制","曲率延展比","壓縮區鋼筋未降伏","彎矩曲率","8-#8對稱配筋","偏心受壓","三排配筋"]),
+p("RC-2005-2",2005,"RC-U1-1",[],"USD",["T形梁","最大拉力筋量","0.75ρb","T型梁平衡鋼筋","NA在翼板","活載重反推","設計彎矩","ACI載重組合"]),
+p("RC-2005-3",2005,"RC-U3-3",["RC-U1-1"],"USD",["角柱接頭","接頭剪力","梁柱接頭","外接頭","Vjh","γ係數3.2","Aj接頭有效面積","Vcol反推","1.25fy","屋頂層接頭折減","Whitney應力塊"]),
+p("RC-2005-4",2005,"RC-U3-1",[],"概念題",["潛變","潛變係數Cc","長期變形","彈性縮短","軸向變形","混凝土時間相依行為","純壓柱變形","Ec計算"]),
+p("RC-2005-5",2005,"RC-U4-3",["RC-U4-2"],"概念題",["直線型鋼腱","曲線型鋼腱","等效載重法","載重能力比較","摩擦損失","非預期彎曲係數K","Wobble","角度變化α","後拉法"]),
+p("RC-2004-1",2004,"RC-U3-3",["RC-U2-3"],"概念題",["混凝土品質判定","圓柱試體","統計驗收","耐震搭接","受撓搭接","橫向鋼筋間距","Class B搭接","ACI規範"]),
+p("RC-2004-2",2004,"RC-U1-1",[],"USD",["外伸梁","懸臂梁","D點跨中彎矩","單筋梁","Whitney應力塊","D32鋼筋","雙排配筋","過渡區φ值","ACI載重組合"]),
+p("RC-2004-3",2004,"RC-U3-3",["RC-U1-2"],"USD",["耐震柱","Ash公式","圍束箍筋","繫筋","密箍區間距","特殊矩形框架柱","D13箍筋","8-D25"]),
+p("RC-2004-4",2004,"RC-U1-3",["RC-U1-2"],"USD",["雙軸彎矩","細長柱","彎矩放大法","δns放大係數","無側移構架","ACI載重組合","雙曲度","M1M2比值","迴轉半徑"]),
+p("RC-2004-5",2004,"RC-U4-1",[],"混合",["先拉法","有黏結腱","開裂彎矩Mcr","fps公式","Whitney應力塊","β₁折減","矩形斷面","有效預力","ωp延性驗核"]),
+p("RC-2003-1",2003,"RC-U4-1",[],"混合",["部分預力梁","應變相容法","非預力鋼絞線","雙線性應力應變","標稱彎矩強度","fps精確法","β₁折減"]),
+p("RC-2003-2",2003,"RC-U2-3",["RC-U3-3"],"USD",["耐震柱","搭接長度","詳細計算法","c值計算","Ktr橫向鋼筋指標","Class B搭接","中段1/2限制","方形柱16-#9"]),
+p("RC-2003-3",2003,"RC-U3-3",[],"USD",["梁柱接頭","內部接頭","水平剪力Vjh","有效接頭寬度bj","接頭剪力強度","γ係數","T_top+T_bot-Vcol","中間層內跨"]),
+p("RC-2003-4",2003,"RC-U3-3",["RC-U2-1"],"USD",["剪力牆","邊界構材","水平剪力筋","垂直剪力筋","覆沒力矩","αc係數","φ=0.6","單層配筋","彎鉤錨定","兩層樓高"]),
+p("RC-2002-1",2002,"RC-U3-2",[],"概念題",["雙向版","角隅配筋","邊梁","角隅翹起效應","ℓn/5延伸範圍","上下層均配筋","概念繪圖","ACI 13.3.6"]),
+p("RC-2002-2",2002,"RC-U1-2",[],"USD",["偏心受壓","P-M互制","6-#9","e=10cm","壓力控制","中排鋼筋力矩臂為零","應變相容","壓力筋降伏邊界"]),
+p("RC-2002-3",2002,"RC-U2-2",[],"USD",["扭力忽略門檻","偏心均佈載重","最大偏心量e","單端拘束一端自由","Tu=tu×L","x²y舊版公式","e_max=8.31cm","ACI 318-89"]),
+p("RC-2002-4",2002,"RC-U1-1",[],"USD",["雙筋梁","壓力筋恰好降伏邊界","β₁=0.80高強混凝土","應變相容","Whitney應力塊","Mn=108.2tf·m","Cs扣0.85f'c","延性驗核"]),
+p("RC-2002-5",2002,"RC-U4-3",[],"WSD",["後拉法","摩擦損失","連續梁","兩端張拉","α=L/R圓弧法","直線段不增角變","AE損失19.2%","各點應力0.940~0.808"]),
+p("RC-2016-3",2016,"RC-U1-3",["RC-U1-2"],"USD",["細長柱","無側移構架","放大彎矩法","Cm係數","雙曲度","臨界載重Pc","δns計算"]),
+p("RC-2017-1",2017,"RC-U1-2",[],"USD",["加大柱","組合截面","軸壓強度","雙折線應力應變","最大可用軸力","締箍柱","新舊混凝土"]),
+p("RC-2017-2",2017,"RC-U2-1",["RC-U1-2"],"USD",["加大柱","介面剪力","摩擦剪力法","植筋設計","新舊混凝土結合","複合截面","Shear Friction","粗糙面","雙折線積分","介面應力上限","彎矩反向"]),
+p("RC-2017-3",2017,"RC-U3-2",[],"USD",["方形基腳","底版鋼筋設計","穿孔剪力","單向剪力","地基承載力驗核","倒置懸臂梁","淨因數土壓力"]),
+p("RC-2017-4",2017,"RC-U4-3",["RC-U4-1"],"WSD",["論述題","先拉法","後拉法","即時損失","時間相關損失","摩擦損失","彈性縮短","潛變","乾縮","鬆弛"])
+];
+
+function c(id,name,cls,rel,formula,desc){return {id,name,cls,rel,formula,desc};}
+const CONCEPTS = [
+c("BALANCED-REINFORCEMENT-RATIO","平衡鋼筋比 ρb","RC-U1-1",["WHITNEY-STRESS-BLOCK","DUCTILE-FAILURE"],"ρb = 0.85·β1·f'c/fy · 6120/(6120+fy)","使混凝土壓碎與鋼筋降伏同時發生的鋼筋比，為延性設計的關鍵參考值"),
+c("WHITNEY-STRESS-BLOCK","Whitney 等值矩形應力塊","RC-U1-1",["BALANCED-REINFORCEMENT-RATIO","BETA1-FACTOR"],"a = As·fy/(0.85·f'c·b)；Mn = As·fy·(d - a/2)","以等效矩形應力分布取代混凝土非線性應力分布，是 USD 法的基礎工具"),
+c("BETA1-FACTOR","β1 係數（應力塊深度折減）","RC-U1-1",["WHITNEY-STRESS-BLOCK"],"f'c≤280 → β1=0.85；每增加70 kgf/cm² 減0.05，最小0.65","將等值矩形應力塊深度 a 與中性軸深度 c 聯繫的折減係數"),
+c("PM-INTERACTION-DIAGRAM","P-M 互制圖","RC-U1-2",["BALANCED-POINT","LONG-COLUMN-MOMENT-MAGNIFIER"],"各控制點（純壓/平衡點/純彎）連線構成互制曲線","柱設計核心工具，顯示軸力與彎矩的組合容量，判斷設計點是否在安全範圍內"),
+c("BALANCED-POINT","平衡點（柱 P-M 圖）","RC-U1-2",["PM-INTERACTION-DIAGRAM","BALANCED-REINFORCEMENT-RATIO"],"cb = 6120/(6120+fy)·d；Pb = 0.85f'c·β1·cb·b + Cs - T","P-M 互制圖上拉力鋼筋恰好達到降伏應變的點，是壓力/拉力控制區域的分界"),
+c("EFFECTIVE-MOMENT-OF-INERTIA","有效慣性矩 Ie（ACI 方法）","RC-U3-1",["CRACKING-MOMENT","LONG-TERM-DEFLECTION"],"Ie = (Mcr/Ma)³·Ig + [1-(Mcr/Ma)³]·Icr ≤ Ig","考慮混凝土開裂後剛度折減的等效慣性矩，用於計算服務載重下的撓度"),
+c("CRACKING-MOMENT","開裂彎矩 Mcr","RC-U3-1",["EFFECTIVE-MOMENT-OF-INERTIA"],"Mcr = fr·Ig/yt；fr = 2√f'c（kgf/cm²）","混凝土拉力區開始開裂的彎矩值，低於此值可視為未開裂斷面"),
+c("PRESTRESS-LOSS","預力損失","RC-U4-3",["EFFECTIVE-PRESTRESS","CREEP-SHRINKAGE"],"總損失 = 彈性縮短 + 摩擦 + 錨定滑動 + 潛變 + 收縮 + 鬆弛","預力混凝土中從初始預力到有效預力之間的損失，分立即損失與長期損失兩類"),
+c("EFFECTIVE-PRESTRESS","有效預力 Pe","RC-U4-1",["PRESTRESS-LOSS"],"Pe = Pi × (1 - 損失率)；使用性驗算以 Pe 計算斷面應力","扣除所有損失後的實際預力，是預力混凝土使用性驗算的關鍵參數"),
+c("STRONG-COLUMN-WEAK-BEAM","強柱弱梁","RC-U3-3",["SPECIAL-MOMENT-FRAME-BEAM","SPECIAL-MOMENT-FRAME-COLUMN"],"ΣMnc ≥ (6/5)·ΣMnb","耐震設計哲學：確保塑鉸發生在梁端而非柱端，防止層崩塌機構"),
+c("SHEAR-STRENGTH","RC 剪力強度 Vc + Vs","RC-U2-1",["STIRRUP-DESIGN"],"Vc = (1/6)√f'c·bw·d；Vs = Av·fyt·d/s；φVn = φ(Vc+Vs) ≥ Vu","RC 梁剪力強度由混凝土貢獻 Vc 與箍筋貢獻 Vs 組成，是剪力設計的核心公式"),
+c("TORSION-DESIGN","RC 扭力強度設計（空間桁架類比）","RC-U2-2",["SHEAR-STRENGTH"],"At/s = Tu/(2φAo·fyt)；Al = (At/s)·poh·cot²θ","以空間桁架模型（塑性理念）設計扭力箍筋與縱向鋼筋，Ao ≈ 0.85Aoh"),
+c("PUNCHING-SHEAR","衝剪（雙向剪力）","RC-U3-2",["SHEAR-STRENGTH"],"φVc = min(φ·(1/6)(1+2/βc)√f'c·bo·d, φ·(1/3)√f'c·bo·d)","板柱接合處的雙向剪力破壞，臨界截面位於柱面外 d/2 處，是樓版設計的控制項目"),
+c("SEISMIC-DESIGN","耐震設計（能力設計法）","RC-U3-3",["STRONG-COLUMN-WEAK-BEAM","SPECIAL-MOMENT-FRAME-BEAM","SPECIAL-MOMENT-FRAME-COLUMN"],"Ve = (Mpr,l + Mpr,r)/ln ± wu·ln/2；Mpr 以 1.25fy 計算","以可能彎矩強度 Mpr 計算梁/柱的設計剪力，確保剪力破壞不先於彎曲破壞"),
+c("DEVELOPMENT-LENGTH","鋼筋錨定長度 ld","RC-U2-3",[],"ld = (fy·ψt·ψe·ψs)/(1.1·λ·√f'c·(cb+Ktr)/db)·db","確保鋼筋充分錨定於混凝土中，在達到降伏強度前不發生拔出破壞"),
+c("DEFLECTION-CONTROL","撓度控制（容許撓度）","RC-U3-1",["EFFECTIVE-MOMENT-OF-INERTIA","LONG-TERM-DEFLECTION"],"δ_allow = L/360（活載重）或 L/480（長期+活載重）","ACI 318 規定的撓度上限，以避免對非結構構件造成損壞"),
+c("CRACK-WIDTH","裂縫寬度控制","RC-U3-1",["EFFECTIVE-MOMENT-OF-INERTIA"],"s ≤ min(380(280/fs) - 2.5cc, 300(280/fs))；fs ≈ (2/3)fy","ACI 318 以主筋最大間距 s 間接控制裂縫寬度，避免過寬裂縫影響耐久性"),
+c("STIRRUP-DESIGN","箍筋設計（剪力筋）","RC-U2-1",["SHEAR-STRENGTH"],"s = Av·fyt·d/Vs；smax = min(d/2, 600mm)","RC 梁剪力筋配置設計，包含需要量、最大間距限制與最小配筋量"),
+c("DUCTILE-FAILURE","延性破壞（拉力控制破壞）","RC-U1-1",["BALANCED-REINFORCEMENT-RATIO","WHITNEY-STRESS-BLOCK"],"延性條件：εt ≥ 0.004（ACI 318-02+）","拉力鋼筋先達降伏應變，混凝土壓碎前鋼筋已有足夠變形的破壞模式"),
+c("LONG-COLUMN-MOMENT-MAGNIFIER","長柱彎矩放大法（δns）","RC-U1-3",["PM-INTERACTION-DIAGRAM"],"δns = Cm / (1 - Pu/(0.75Pc)) ≥ 1.0","無側移構架中細長柱因二次效應需放大設計彎矩"),
+c("LONG-TERM-DEFLECTION","長期撓度（潛變收縮修正）","RC-U3-1",["EFFECTIVE-MOMENT-OF-INERTIA","CREEP-SHRINKAGE"],"δlong = λΔ · δi(sustained)；λΔ = ξ/(1+50ρ')","持續載重下因潛變與收縮引起的長期撓度增量"),
+c("CREEP-SHRINKAGE","潛變與收縮","RC-U3-1",["PRESTRESS-LOSS","LONG-TERM-DEFLECTION"],"潛變：εcr = Cc·εi；收縮：εsh（終極值約 300–800×10⁻⁶）","混凝土時間相依變形，均影響長期撓度與預力損失"),
+c("SPECIAL-MOMENT-FRAME-BEAM","特殊矩形框架梁（耐震梁）","RC-U3-3",["SEISMIC-DESIGN","STRONG-COLUMN-WEAK-BEAM"],"Ve = (Mpr,l + Mpr,r)/ln ± wu·ln/2；Vc=0（Nu<0.05Agf'c）","耐震特殊矩形框架梁設計要求：Mpr 控制設計剪力、密箍區配置、Vc=0 條件"),
+c("SPECIAL-MOMENT-FRAME-COLUMN","特殊矩形框架柱（耐震柱）","RC-U3-3",["SEISMIC-DESIGN","STRONG-COLUMN-WEAK-BEAM"],"Ash ≥ max(0.3·s·hc·f'c/fyt·(Ag/Ach-1), 0.09·s·hc·f'c/fyt)","耐震特殊矩形框架柱設計要求：圍束箍筋 Ash、密箍區長度 lo、強柱弱梁驗核")
+];
+const CONCEPT_PROBLEMS = {
+"BALANCED-REINFORCEMENT-RATIO":["RC-2005-2","RC-2011-2","RC-2024-1"],
+"CRACK-WIDTH":["RC-2018-3"],
+"BALANCED-POINT":["RC-2002-2","RC-2011-1","RC-2015-1"],
+"BETA1-FACTOR":["RC-2002-4","RC-2013-4","RC-2024-1"],
+"CREEP-SHRINKAGE":["RC-2005-4","RC-2017-4"],
+"DEFLECTION-CONTROL":["RC-2006-3","RC-2007-2","RC-2013-1"],
+"DEVELOPMENT-LENGTH":["RC-2003-2","RC-2010-2"],
+"CRACKING-MOMENT":["RC-2006-3","RC-2007-2","RC-2014-2","RC-2018-4"],
+"EFFECTIVE-MOMENT-OF-INERTIA":["RC-2006-3","RC-2007-2","RC-2008-1","RC-2009-2"],
+"DUCTILE-FAILURE":["RC-2002-4","RC-2015-2","RC-2023-1"],
+"EFFECTIVE-PRESTRESS":["RC-2006-4","RC-2008-4","RC-2014-4","RC-2021-4"],
+"LONG-COLUMN-MOMENT-MAGNIFIER":["RC-2004-4","RC-2006-2","RC-2016-3"],
+"LONG-TERM-DEFLECTION":["RC-2007-2","RC-2008-1"],
+"PM-INTERACTION-DIAGRAM":["RC-2002-2","RC-2005-1","RC-2008-2","RC-2011-1","RC-2015-1","RC-2019-2","RC-2021-2","RC-2024-3"],
+"PRESTRESS-LOSS":["RC-2002-5","RC-2005-5","RC-2016-4","RC-2017-4","RC-2019-4"],
+"PUNCHING-SHEAR":["RC-2007-3","RC-2017-3","RC-2020-3","RC-2021-3","RC-2025-1"],
+"SEISMIC-DESIGN":["RC-2009-1","RC-2012-2","RC-2016-2","RC-2025-2"],
+"SHEAR-STRENGTH":["RC-2006-1","RC-2009-3","RC-2010-3","RC-2014-3","RC-2020-2","RC-2023-3"],
+"SPECIAL-MOMENT-FRAME-BEAM":["RC-2012-2","RC-2016-2","RC-2025-2"],
+"SPECIAL-MOMENT-FRAME-COLUMN":["RC-2004-3","RC-2009-1","RC-2012-3","RC-2013-2"],
+"STIRRUP-DESIGN":["RC-2006-1","RC-2020-2","RC-2021-1"],
+"STRONG-COLUMN-WEAK-BEAM":["RC-2003-3","RC-2012-2","RC-2012-3"],
+"TORSION-DESIGN":["RC-2002-3","RC-2008-3","RC-2011-4","RC-2013-3","RC-2018-1","RC-2025-3"],
+"WHITNEY-STRESS-BLOCK":["RC-2002-4","RC-2007-1","RC-2019-1","RC-2022-1","RC-2024-2"]
+};
+
+function m(id,name,topics,problems,concepts){return {id,name,topics,problems,concepts};}
+const METHODS = [
+m("effective-inertia-deflection","有效慣性矩撓度計算法",["RC-U3-1"],["RC-2006-3","RC-2007-2","RC-2008-1","RC-2009-2","RC-2014-2"],["EFFECTIVE-MOMENT-OF-INERTIA"]),
+m("FRICTION-LOSS-METHOD","摩擦損失計算法（後拉法）",["RC-U4-3"],["RC-2002-5","RC-2005-5","RC-2017-4","RC-2019-4"],["PRESTRESS-LOSS"]),
+m("moment-magnifier-method","長柱放大彎矩法（δns / δs）",["RC-U1-3"],["RC-2004-4","RC-2006-2","RC-2016-3"],["LONG-COLUMN-MOMENT-MAGNIFIER"]),
+m("PM-INTERACTION-DIAGRAM","P-M 互制圖計算法",["RC-U1-2","RC-U1-4"],["RC-2002-2","RC-2004-4","RC-2005-1","RC-2008-2","RC-2010-1","RC-2011-1","RC-2011-3","RC-2015-1","RC-2017-1","RC-2019-2","RC-2021-2","RC-2024-3"],["PM-INTERACTION-DIAGRAM"]),
+m("prestress-loss-calculation","預力損失計算流程",["RC-U4-3"],["RC-2002-5","RC-2004-5","RC-2005-5","RC-2011-5","RC-2016-4","RC-2017-4","RC-2018-4","RC-2019-4"],["PRESTRESS-LOSS"]),
+m("SEISMIC-CAPACITY-METHOD","耐震能力設計法",["RC-U3-3"],["RC-2003-3","RC-2004-3","RC-2005-3","RC-2009-1","RC-2012-2","RC-2012-3","RC-2012-4","RC-2013-2","RC-2016-2","RC-2018-2","RC-2019-3","RC-2022-4","RC-2025-2"],["SEISMIC-DESIGN","STRONG-COLUMN-WEAK-BEAM"]),
+m("T-BEAM-ANALYSIS","T 形梁彎矩強度分析法",["RC-U1-1"],["RC-2005-2","RC-2007-1","RC-2011-2","RC-2015-3","RC-2020-1","RC-2021-1","RC-2023-2","RC-2024-1"],["WHITNEY-STRESS-BLOCK"]),
+m("WHITNEY-STRESS-BLOCK-METHOD","Whitney 等值矩形應力塊法",["RC-U1-1","RC-U1-2"],["RC-2002-4","RC-2004-2","RC-2007-1","RC-2014-1","RC-2015-2","RC-2016-1","RC-2019-1","RC-2022-1","RC-2022-2","RC-2023-1","RC-2023-2","RC-2024-1","RC-2024-2"],["WHITNEY-STRESS-BLOCK","BETA1-FACTOR"])
+];
+
+function ph(id,name,topics,problems,concepts,methods){return {id,name,topics,problems,concepts:concepts||[],methods:methods||[]};}
+const PHILOSOPHY = [
+ph("deflection-crack","使用性驗算哲學（撓度 + 裂縫）",["RC-U3-1"],["RC-2005-4","RC-2007-2","RC-2008-1","RC-2009-2","RC-2006-3","RC-2018-3"],["EFFECTIVE-MOMENT-OF-INERTIA","DEFLECTION-CONTROL"]),
+ph("prestress-philosophy","預力混凝土設計哲學",["RC-U4-1"],["RC-2014-4","RC-2016-4","RC-2015-4","RC-2018-4","RC-2021-4","RC-2020-4","RC-2024-4","RC-2023-4"],["PRESTRESS-LOSS","EFFECTIVE-PRESTRESS"]),
+ph("seismic-philosophy","耐震設計哲學（能力設計法）",["RC-U3-3"],["RC-2012-2","RC-2016-2","RC-2025-2","RC-2012-3","RC-2009-1","RC-2013-2","RC-2018-2","RC-2005-3","RC-2003-4"],["SEISMIC-DESIGN","STRONG-COLUMN-WEAK-BEAM"]),
+ph("t-beam-design","T 形梁設計哲學",["RC-U1-1"],["RC-2007-1","RC-2020-1","RC-2021-1","RC-2011-2","RC-2015-3","RC-2023-2","RC-2024-1"],[],["T-BEAM-ANALYSIS"]),
+ph("slender-column","長柱效應（細長柱放大彎矩法）",["RC-U1-3"],["RC-2006-2","RC-2016-3","RC-2004-4"],["LONG-COLUMN-MOMENT-MAGNIFIER"]),
+ph("usd-beam-flexure","USD 梁彎曲設計哲學",["RC-U1-1"],["RC-2015-2","RC-2014-2","RC-2023-1","RC-2022-4","RC-2002-4","RC-2014-1","RC-2022-1"],["DUCTILE-FAILURE","WHITNEY-STRESS-BLOCK"]),
+ph("usd-column-pm","RC 柱 P-M 互制設計哲學",["RC-U1-2"],["RC-2011-1","RC-2015-1","RC-2019-2","RC-2021-2","RC-2008-2","RC-2011-3","RC-2010-1","RC-2005-1"],["PM-INTERACTION-DIAGRAM","BALANCED-POINT"]),
+ph("usd-shear","RC 剪力設計哲學",["RC-U2-1"],["RC-2014-3","RC-2010-3","RC-2009-3","RC-2017-2","RC-2020-2","RC-2006-1","RC-2023-3"],["SHEAR-STRENGTH"])
+];
+
+function dg(id,name,topics,problems,concepts){return {id,name,topics,problems:problems||[],concepts:concepts||[]};}
+const DIAGNOSIS = [
+dg("beam-flexure","梁彎矩強度題型診斷",["RC-U1-1"]),
+dg("column-pm","柱 P-M 互制題型診斷",["RC-U1-2"]),
+dg("deflection-crack","撓度/裂縫題型診斷",["RC-U3-1"]),
+dg("development-length","題型診斷：鋼筋錨定長度與斷點計算",["RC-U2-3"],["RC-2003-2","RC-2010-2","RC-2004-1"],["DEVELOPMENT-LENGTH"]),
+dg("prestress","預力混凝土題型診斷",["RC-U4-1","RC-U4-2","RC-U4-3","RC-U4-4"]),
+dg("shear-torsion","剪力/扭力題型診斷",["RC-U2-1","RC-U2-2"]),
+dg("slab-footing","題型診斷：樓版與基腳設計",["RC-U3-2"],["RC-2025-1","RC-2021-3","RC-2020-3","RC-2019-3","RC-2017-3","RC-2013-1","RC-2007-3","RC-2002-1"],["PUNCHING-SHEAR","SHEAR-STRENGTH"]),
+dg("slender-column","題型診斷：細長柱",["RC-U1-3"],["RC-2006-2","RC-2016-3","RC-2004-4"],["LONG-COLUMN-MOMENT-MAGNIFIER","PM-INTERACTION-DIAGRAM"]),
+dg("seismic","題型診斷：韌性要求與耐震設計",["RC-U3-3"],["RC-2025-2","RC-2022-4","RC-2019-3","RC-2018-2","RC-2016-2","RC-2013-2","RC-2012-2","RC-2012-3","RC-2012-4","RC-2009-1","RC-2005-3","RC-2004-3","RC-2003-3","RC-2003-4"],["SEISMIC-DESIGN","STRONG-COLUMN-WEAK-BEAM","SHEAR-STRENGTH"])
+];
+
+const CODEREF = [
+{id:"ACI-318",name:"ACI 318 規範條文速查",topics:["RC-U1-1","RC-U1-2","RC-U1-3","RC-U2-1","RC-U2-2","RC-U2-3","RC-U3-1","RC-U3-2","RC-U3-3"]},
+{id:"CNS-1480",name:"CNS 1480 規範條文速查",topics:[]},
+{id:"seismic-code",name:"耐震規範條文速查",topics:["RC-U3-3"]}
+];
+
+const FAILUREMODES = [
+{id:"flexure",name:"彎曲失敗模式",topics:["RC-U1-1"],concepts:["WHITNEY-STRESS-BLOCK","DUCTILE-FAILURE"]},
+{id:"shear",name:"剪力失敗模式",topics:["RC-U2-1"],concepts:["SHEAR-STRENGTH","STIRRUP-DESIGN"]},
+{id:"deflection",name:"撓度失敗模式",topics:["RC-U3-1"],concepts:["EFFECTIVE-MOMENT-OF-INERTIA","DEFLECTION-CONTROL"]},
+{id:"cracking",name:"裂縫失敗模式",topics:["RC-U3-1"],concepts:["CRACK-WIDTH","CRACKING-MOMENT"]},
+{id:"crushing",name:"壓碎失敗模式",topics:["RC-U1-1"],concepts:["WHITNEY-STRESS-BLOCK","BALANCED-REINFORCEMENT-RATIO"]}
+];
+
+const MATERIALS = [
+{id:"concrete-stress-strain",name:"混凝土應力-應變行為",topics:["RC-U1-1"],concepts:["WHITNEY-STRESS-BLOCK"]},
+{id:"creep-shrinkage",name:"潛變與收縮",topics:["RC-U4-3"],concepts:["CREEP-SHRINKAGE"]},
+{id:"prestress-strand",name:"預力鋼絞線材料行為",topics:["RC-U4-1"],concepts:["EFFECTIVE-PRESTRESS","PRESTRESS-LOSS"]},
+{id:"steel-yielding",name:"鋼筋降伏行為",topics:["RC-U1-1"],concepts:["DUCTILE-FAILURE"]}
+];
+
+function tr(id,name,problems,concept,method){return {id,name,problems,concept:concept||null,method:method||null};}
+const TRAPS = [
+tr("BALANCED-RATIO-BOUNDARY","平衡鋼筋比邊界與最大配筋率陷阱",["RC-2005-2","RC-2011-2","RC-2015-2","RC-2024-1"],"BALANCED-REINFORCEMENT-RATIO"),
+tr("COMPRESSION-STEEL-YIELDING","壓力鋼筋未降伏判斷陷阱（雙筋梁）",["RC-2002-4","RC-2006-1","RC-2015-2","RC-2022-1","RC-2023-2","RC-2024-2"],"WHITNEY-STRESS-BLOCK"),
+tr("DEFLECTION-EFFECTIVE-INERTIA","有效慣性矩 Ie 計算陷阱",["RC-2006-3","RC-2007-2","RC-2008-1","RC-2009-2","RC-2018-3"],"EFFECTIVE-MOMENT-OF-INERTIA"),
+tr("JOINT-SHEAR-EFFECTIVE-AREA","梁柱接頭剪力有效面積計算陷阱",["RC-2003-3","RC-2005-3","RC-2012-4","RC-2018-2"],"SEISMIC-DESIGN"),
+tr("LONG-COLUMN-SLENDERNESS","細長柱判斷與放大彎矩法陷阱",["RC-2004-4","RC-2006-2","RC-2016-3"],"LONG-COLUMN-MOMENT-MAGNIFIER"),
+tr("PHI-FACTOR-TRANSITION","過渡區 φ 值計算陷阱",["RC-2011-2","RC-2011-3","RC-2014-1","RC-2015-2","RC-2019-1"],"DUCTILE-FAILURE"),
+tr("PRESTRESS-FPS-FORMULA","預力鋼腱極限應力 fps 公式選擇陷阱",["RC-2004-5","RC-2013-4","RC-2018-4","RC-2023-4"],"EFFECTIVE-PRESTRESS"),
+tr("PRESTRESS-LOSS-SEQUENCE","預力損失順序與分類陷阱",["RC-2002-5","RC-2016-4","RC-2017-4","RC-2019-4"],"PRESTRESS-LOSS"),
+tr("PUNCHING-SHEAR-CRITICAL","衝剪（雙向剪力）臨界斷面與公式陷阱",["RC-2007-3","RC-2017-3","RC-2020-3","RC-2021-3","RC-2025-1"],"PUNCHING-SHEAR"),
+tr("SEISMIC-BEAM-VE","耐震梁設計剪力 Ve 計算陷阱",["RC-2012-2","RC-2012-3","RC-2016-2","RC-2025-2"],"SPECIAL-MOMENT-FRAME-BEAM"),
+tr("SHEAR-CRITICAL-SECTION","剪力臨界斷面位置陷阱",["RC-2006-1","RC-2010-3","RC-2014-3","RC-2020-2"],"SHEAR-STRENGTH"),
+tr("T-BEAM-EFFECTIVE-WIDTH","T形梁有效翼板寬計算陷阱",["RC-2005-2","RC-2007-1","RC-2011-2","RC-2020-1","RC-2021-1","RC-2023-2","RC-2024-1"],null,"T-BEAM-ANALYSIS"),
+tr("TORSION-THRESHOLD","扭力忽略門檻陷阱",["RC-2002-3","RC-2011-4","RC-2013-3","RC-2018-1","RC-2023-3","RC-2025-3"],"TORSION-DESIGN")
+];
+
+/* ===================== 型別中繼資料 ===================== */
+const TYPE_META = {
+  topic:{color:"var(--c-topic)",label:"命題單元"},
+  problem:{color:"var(--c-problem)",label:"考題"},
+  concept:{color:"var(--c-concept)",label:"概念"},
+  method:{color:"var(--c-method)",label:"解題方法"},
+  philosophy:{color:"var(--c-philosophy)",label:"設計哲學"},
+  diagnosis:{color:"var(--c-diagnosis)",label:"題型診斷"},
+  trap:{color:"var(--c-trap)",label:"陷阱"},
+  coderef:{color:"var(--c-coderef)",label:"規範條文"},
+  failuremode:{color:"var(--c-failuremode)",label:"失敗模式"},
+  material:{color:"var(--c-material)",label:"材料行為"}
+};
+const FILE_DIR = {
+  problem:"wiki/problems", concept:"wiki/concepts", method:"wiki/methods",
+  philosophy:"wiki/philosophy", diagnosis:"wiki/diagnosis", coderef:"wiki/code-ref",
+  failuremode:"wiki/failure-modes", material:"wiki/materials", trap:"wiki/traps"
+};
+
+/* ===================== 組裝節點與邊 ===================== */
+const nodes = [];
+const edgeSet = new Map();
+function nid(type,id){return type+":"+id;}
+function addNode(type,id,label,extra){
+  nodes.push({data:Object.assign({id:nid(type,id),ntype:type,label:label,rawId:id,
+    file: type==="topic"?null: FILE_DIR[type]+"/"+id+".md"}, extra||{})});
+}
+function addEdge(sType,sId,tType,tId,kind){
+  const s=nid(sType,sId), t=nid(tType,tId);
+  const key=[s,t,kind].sort().join("|")+"|"+kind;
+  if(edgeSet.has(key))return;
+  edgeSet.set(key,{data:{id:"e"+edgeSet.size,source:s,target:t,kind:kind}});
+}
+
+// topics
+TOPICS.forEach(([id,name])=>addNode("topic",id,name,{}));
+
+// problems
+PROBLEMS.forEach(pr=>{
+  addNode("problem",pr.id,pr.id,{year:pr.y,pt:pr.pt,st:pr.st,dm:pr.dm,tags:pr.tags});
+  addEdge("problem",pr.id,"topic",pr.pt,"primary-topic");
+  pr.st.forEach(s=>addEdge("problem",pr.id,"topic",s,"secondary-topic"));
+});
+
+// concepts
+CONCEPTS.forEach(cn=>{
+  addNode("concept",cn.id,cn.name,{cls:cn.cls,formula:cn.formula,desc:cn.desc});
+  addEdge("concept",cn.id,"topic",cn.cls,"classification");
+  cn.rel.forEach(r=>addEdge("concept",cn.id,"concept",r,"concept-relation"));
+});
+Object.keys(CONCEPT_PROBLEMS).forEach(cid=>{
+  CONCEPT_PROBLEMS[cid].forEach(pid=>addEdge("concept",cid,"problem",pid,"appears-in"));
+});
+
+// methods
+METHODS.forEach(mt=>{
+  addNode("method",mt.id,mt.name,{});
+  mt.topics.forEach(t=>addEdge("method",mt.id,"topic",t,"applies-to"));
+  mt.problems.forEach(pid=>addEdge("method",mt.id,"problem",pid,"appears-in"));
+  mt.concepts.forEach(cid=>addEdge("method",mt.id,"concept",cid,"uses-concept"));
+});
+
+// philosophy
+PHILOSOPHY.forEach(phl=>{
+  addNode("philosophy",phl.id,phl.name,{});
+  phl.topics.forEach(t=>addEdge("philosophy",phl.id,"topic",t,"applies-to"));
+  phl.problems.forEach(pid=>addEdge("philosophy",phl.id,"problem",pid,"discusses"));
+  phl.concepts.forEach(cid=>addEdge("philosophy",phl.id,"concept",cid,"uses-concept"));
+  phl.methods.forEach(mid=>addEdge("philosophy",phl.id,"method",mid,"uses-method"));
+});
+
+// diagnosis
+DIAGNOSIS.forEach(dgn=>{
+  addNode("diagnosis",dgn.id,dgn.name,{});
+  dgn.topics.forEach(t=>addEdge("diagnosis",dgn.id,"topic",t,"covers"));
+  dgn.problems.forEach(pid=>addEdge("diagnosis",dgn.id,"problem",pid,"references"));
+  dgn.concepts.forEach(cid=>addEdge("diagnosis",dgn.id,"concept",cid,"uses-concept"));
+});
+
+// code-ref
+CODEREF.forEach(cr=>{
+  addNode("coderef",cr.id,cr.name,{});
+  cr.topics.forEach(t=>addEdge("coderef",cr.id,"topic",t,"covers"));
+});
+
+// failure-modes
+FAILUREMODES.forEach(fm=>{
+  addNode("failuremode",fm.id,fm.name,{});
+  fm.topics.forEach(t=>addEdge("failuremode",fm.id,"topic",t,"relates-to"));
+  fm.concepts.forEach(cid=>addEdge("failuremode",fm.id,"concept",cid,"relates-to"));
+});
+
+// materials
+MATERIALS.forEach(mat=>{
+  addNode("material",mat.id,mat.name,{});
+  mat.topics.forEach(t=>addEdge("material",mat.id,"topic",t,"relates-to"));
+  mat.concepts.forEach(cid=>addEdge("material",mat.id,"concept",cid,"relates-to"));
+});
+
+// traps
+TRAPS.forEach(t=>{
+  addNode("trap",t.id,t.name,{});
+  t.problems.forEach(pid=>addEdge("trap",t.id,"problem",pid,"trap-in"));
+  if(t.concept) addEdge("trap",t.id,"concept",t.concept,"relates-to");
+  if(t.method) addEdge("trap",t.id,"method",t.method,"relates-to");
+});
+
+const edges = Array.from(edgeSet.values());
+const elements = nodes.concat(edges);
+
+/* ===================== Cytoscape ===================== */
+const EDGE_KIND_META = {
+  "primary-topic":{label:"主分類 → 命題單元",color:"#3B82F680",width:2.4},
+  "secondary-topic":{label:"副分類 → 命題單元",color:"#3B82F640",width:1.2,dashed:true},
+  "classification":{label:"概念 → 命題單元",color:"#10B98180",width:1.6},
+  "concept-relation":{label:"概念關聯",color:"#10B98160",width:1.4,dashed:true},
+  "appears-in":{label:"出現於考題",color:"#93a0c260",width:1.2},
+  "applies-to":{label:"方法/哲學 → 命題單元",color:"#8B5CF680",width:1.6},
+  "discusses":{label:"哲學討論考題",color:"#F9731660",width:1.2},
+  "uses-concept":{label:"引用概念",color:"#10B98150",width:1,dashed:true},
+  "uses-method":{label:"引用方法",color:"#8B5CF650",width:1,dashed:true},
+  "covers":{label:"診斷/規範 → 命題單元",color:"#06B6D480",width:1.6},
+  "references":{label:"診斷引用考題",color:"#06B6D460",width:1.2},
+  "relates-to":{label:"主題關聯（推論）",color:"#93a0c240",width:1,dashed:true},
+  "trap-in":{label:"陷阱出現於考題",color:"#EF444470",width:1.3}
+};
+
+const cy = cytoscape({
+  container: document.getElementById('cy'),
+  elements: elements,
+  style: [
+    {selector:'node', style:{
+      'background-color': ele=>getComputedColor(ele.data('ntype')),
+      'label':'data(label)','color':'#e6ebf5','font-size':9,'text-wrap':'wrap','text-max-width':'90px',
+      'text-valign':'bottom','text-margin-y':4,'text-outline-width':2,'text-outline-color':'#0b0f18',
+      'width': ele=>nodeSize(ele), 'height': ele=>nodeSize(ele),
+      'border-width':1.5,'border-color':'rgba(255,255,255,.25)'
+    }},
+    {selector:'node[ntype="topic"]', style:{'font-size':11,'font-weight':700,'border-width':2.5,'border-color':'#fff','text-outline-width':3}},
+    {selector:'edge', style:{
+      'width': e=>(EDGE_KIND_META[e.data('kind')]||{}).width||1,
+      'line-color': e=>(EDGE_KIND_META[e.data('kind')]||{}).color||'#3a4666',
+      'curve-style':'haystack','haystack-radius':0.2,
+      'line-style': e=>(EDGE_KIND_META[e.data('kind')]||{}).dashed?'dashed':'solid',
+      'opacity':0.85
+    }},
+    {selector:'.faded', style:{'opacity':0.06}},
+    {selector:'.highlighted', style:{'opacity':1}},
+    {selector:'node.highlighted', style:{'border-width':3,'border-color':'#fff'}},
+    {selector:'node.selected', style:{'border-width':4,'border-color':'#fff','background-color':'#fff'}}
+  ],
+  layout:{name:'cose', animate:false, nodeRepulsion:9000, idealEdgeLength:70, nestingFactor:1.2, gravity:45, numIter:1200, componentSpacing:110}
+});
+function getComputedColor(t){
+  const v = getComputedStyle(document.documentElement).getPropertyValue('--c-'+t).trim();
+  return v || '#888';
+}
+function nodeSize(ele){
+  if(ele.data('ntype')==='topic') return 34;
+  const deg = ele.degree ? ele.degree() : 0;
+  return Math.max(10, Math.min(28, 8 + deg*1.6));
+}
+
+/* ===================== 互動：篩選 / 圖例 ===================== */
+const activeTypes = new Set(Object.keys(TYPE_META));
+const activeKinds = new Set(Object.keys(EDGE_KIND_META));
+
+function countByType(t){ return nodes.filter(n=>n.data.ntype===t).length; }
+
+function renderLegend(){
+  const box = document.getElementById('legend');
+  box.innerHTML='';
+  Object.keys(TYPE_META).forEach(t=>{
+    const meta = TYPE_META[t];
+    const div = document.createElement('div');
+    div.className='legend-item';
+    div.innerHTML = `<span class="dot" style="background:${meta.color}"></span><span>${meta.label}</span><span class="cnt">${countByType(t)}</span>`;
+    div.onclick = ()=>{
+      if(activeTypes.has(t)) activeTypes.delete(t); else activeTypes.add(t);
+      div.classList.toggle('off');
+      applyFilter();
+    };
+    box.appendChild(div);
+  });
+}
+function renderEdgeToggles(){
+  const box = document.getElementById('edgeToggles');
+  box.innerHTML='';
+  const seen = new Set();
+  edges.forEach(e=>seen.add(e.data.kind));
+  Array.from(seen).forEach(k=>{
+    const meta = EDGE_KIND_META[k]||{label:k};
+    const id='ek_'+k;
+    const div = document.createElement('label');
+    div.className='edge-toggle';
+    div.innerHTML = `<input type="checkbox" id="${id}" checked><span>${meta.label}</span>`;
+    div.querySelector('input').onchange = (ev)=>{
+      if(ev.target.checked) activeKinds.add(k); else activeKinds.delete(k);
+      applyFilter();
+    };
+    box.appendChild(div);
+  });
+}
+function applyFilter(){
+  cy.batch(()=>{
+    cy.nodes().forEach(n=>{
+      const show = activeTypes.has(n.data('ntype'));
+      n.style('display', show?'element':'none');
+    });
+    cy.edges().forEach(e=>{
+      const kindOk = activeKinds.has(e.data('kind'));
+      const endsOk = e.source().style('display')!=='none' && e.target().style('display')!=='none';
+      e.style('display', (kindOk && endsOk) ? 'element':'none');
+    });
+  });
+  document.getElementById('stats').textContent =
+    cy.nodes(':visible').length + ' 節點 · ' + cy.edges(':visible').length + ' 連結';
+}
+
+/* ===================== 詳情面板 ===================== */
+function fileTitleFor(type,id,label){ return label || id; }
+function openWiki(type,id,label){
+  const file = type==='topic'? null : FILE_DIR[type]+'/'+id+'.md';
+  if(!file) return;
+  window.open('index.html#md='+encodeURIComponent(file)+'&t='+encodeURIComponent(fileTitleFor(type,id,label)), '_blank');
+}
+function neighborsOf(ele){
+  const rel = [];
+  ele.connectedEdges().forEach(e=>{
+    const other = e.source().id()===ele.id()? e.target() : e.source();
+    rel.push({node:other, kind:e.data('kind')});
+  });
+  return rel;
+}
+function renderDetail(ele){
+  const d = ele.data();
+  const meta = TYPE_META[d.ntype];
+  const panel = document.getElementById('detail');
+  panel.classList.remove('empty');
+  let html = `<span class="d-type" style="background:${meta.color}">${meta.label}</span>`;
+  html += `<div class="d-title">${d.label}</div>`;
+  let metaLines = '';
+  if(d.ntype==='problem'){
+    metaLines += `<div><b>年度：</b>${d.year}</div><div><b>設計法：</b>${d.dm}</div>`;
+    if(d.tags && d.tags.length){
+      html += `<div style="margin:8px 0 4px">`+d.tags.map(t=>`<span class="tag">${t}</span>`).join('')+`</div>`;
+    }
+  }
+  if(d.ntype==='concept'){
+    if(d.formula) metaLines += `<div><b>公式：</b>${d.formula}</div>`;
+    if(d.desc) metaLines += `<div style="margin-top:6px">${d.desc}</div>`;
+  }
+  if(metaLines) html += `<div class="d-meta">${metaLines}</div>`;
+  if(d.file){
+    html += `<a class="d-link" href="javascript:void(0)" onclick='openWikiFromPanel("${d.ntype}","${d.rawId}")'>📖 在題庫中開啟原始頁面</a>`;
+  }
+  const rel = neighborsOf(ele);
+  if(rel.length){
+    html += `<div class="d-rel-h">關聯節點（${rel.length}）</div>`;
+    rel.sort((a,b)=> a.node.data('ntype').localeCompare(b.node.data('ntype')));
+    rel.forEach(r=>{
+      const rn = r.node.data();
+      const rm = TYPE_META[rn.ntype];
+      html += `<button class="d-rel" onclick='selectNodeById("${rn.id}")'><span class="dot" style="background:${rm.color};display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px"></span>${rn.label}<span class="rt">${rm.label}</span></button>`;
+    });
+  }
+  panel.innerHTML = html;
+}
+window.openWikiFromPanel = function(type,id){
+  const n = cy.getElementById(nid(type,id));
+  openWiki(type,id,n.data('label'));
+};
+window.selectNodeById = function(id){
+  const n = cy.getElementById(id);
+  if(n && n.length){
+    cy.elements().unselect();
+    n.select();
+    cy.animate({center:{eles:n}, duration:300});
+    highlightNeighborhood(n);
+    renderDetail(n);
+  }
+};
+
+function highlightNeighborhood(node){
+  cy.elements().removeClass('faded highlighted');
+  const neighborhood = node.closedNeighborhood();
+  cy.elements().difference(neighborhood).addClass('faded');
+  neighborhood.addClass('highlighted');
+}
+
+cy.on('tap','node', evt=>{
+  const n = evt.target;
+  cy.elements().unselect();
+  n.select();
+  highlightNeighborhood(n);
+  renderDetail(n);
+});
+cy.on('tap', evt=>{
+  if(evt.target === cy){
+    cy.elements().removeClass('faded highlighted').unselect();
+    document.getElementById('detail').className='empty';
+    document.getElementById('detail').textContent='點選一個節點查看詳情';
+  }
+});
+
+/* ===================== 搜尋 ===================== */
+document.getElementById('search').addEventListener('input', (e)=>{
+  const q = e.target.value.trim().toLowerCase();
+  cy.elements().removeClass('faded highlighted');
+  if(!q){ return; }
+  const matched = cy.nodes().filter(n=>{
+    const d = n.data();
+    if(d.label && d.label.toLowerCase().includes(q)) return true;
+    if(d.tags && d.tags.some(t=>t.toLowerCase().includes(q))) return true;
+    if(d.rawId && d.rawId.toLowerCase().includes(q)) return true;
+    return false;
+  });
+  if(matched.length===0) return;
+  const nb = matched.closedNeighborhood();
+  cy.elements().difference(nb).addClass('faded');
+  nb.addClass('highlighted');
+});
+
+/* ===================== 頂部工具列 ===================== */
+document.getElementById('btnFit').onclick = ()=>{ cy.fit(undefined, 40); };
+document.getElementById('btnLayout').onclick = ()=>{
+  cy.layout({name:'cose', animate:true, nodeRepulsion:9000, idealEdgeLength:70, gravity:45, numIter:1200, componentSpacing:110}).run();
+};
+
+renderLegend();
+renderEdgeToggles();
+applyFilter();
+setTimeout(()=>cy.fit(undefined,40), 300);
+</script>
+</body>
+</html>

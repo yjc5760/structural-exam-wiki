@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2007-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2007-1 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-1.html">&#128202; U1-1 單元總覽</a><a class="lect" href="../lecture-RC-U1-1.html">&#128218; U1-1 RC 梁彎矩強度分析與設計 講義</a></div></header>
+<main><h3>考題編號：RC-2007-1</h3>
+<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>T形梁設計</code> <code>有效翼板寬</code> <code>中性軸在翼板</code> <code>D29鋼筋</code> <code>兩排配筋</code> <code>最小最大間距</code> <code>單筋梁</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>一樓版系統，以<strong>單筋 T 形梁</strong>設計，指定使用 <strong>D29</strong> 鋼筋並依間距規定排列。</p>
+<p><strong>已知條件：</strong></p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>版厚 $h_f$</td>
+<td>12 cm</td>
+</tr>
+<tr>
+<td>梁腹寬 $b_w$</td>
+<td>30 cm</td>
+</tr>
+<tr>
+<td>梁全深 $h$（含版）</td>
+<td>60 cm</td>
+</tr>
+<tr>
+<td>有效深度 $d$（假定）</td>
+<td>53.5 cm</td>
+</tr>
+<tr>
+<td>梁間距 = 跨距 $L$</td>
+<td>6 m = 600 cm</td>
+</tr>
+<tr>
+<td>$M_D$</td>
+<td>12 tf·m</td>
+</tr>
+<tr>
+<td>$M_L$</td>
+<td>35 tf·m</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td>280 kgf/cm²</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td>4200 kgf/cm²</td>
+</tr>
+<tr>
+<td>D29 單根面積 $A_b$</td>
+<td>6.469 cm²</td>
+</tr>
+</tbody>
+</table>
+<p><strong>題目給定規範常數：</strong></p>
+<ul>
+<li>DL 因數 1.2，LL 因數 1.6</li>
+<li>$\phi = 0.9$（拉力控制，$\varepsilon_t &gt; 0.005$）；過渡區：$\phi = 0.483 + 83.3\varepsilon_t$</li>
+</ul>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong></p>
+<ol>
+<li>判斷 T 形梁有效翼板寬 → 確認中性軸在翼板內（等效矩形梁計算）</li>
+<li>由 $\phi M_n \geq M_u$ 反推 $A_s$ → 換算 D29 根數</li>
+<li><strong>鋼筋間距規定</strong>：最小淨間距 $\geq d_b$；若單排放不下則改兩排，並驗算實際 $d$ 仍足夠</li>
+</ol>
+<p><strong>出題者陷阱：</strong></p>
+<ul>
+<li>D29 根數需多行放置，放兩排後 $d_{actual} &lt; 53.5$ cm，需重新驗算 $\phi M_n \geq M_u$</li>
+</ul>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>工作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>因數化彎矩 $M_u$</td>
+</tr>
+<tr>
+<td>2</td>
+<td>計算 T 形梁有效翼板寬 $b$</td>
+</tr>
+<tr>
+<td>3</td>
+<td>假設 $a \leq h_f$，以矩形梁公式求 $A_s$</td>
+</tr>
+<tr>
+<td>4</td>
+<td>驗證假設 + 驗算 $\phi = 0.9$（$\varepsilon_t &gt; 0.005$）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>換算 D29 根數，檢核最小 + 最大間距</td>
+</tr>
+<tr>
+<td>6</td>
+<td>確認兩排放置後的 $d_{actual}$，重算 $\phi M_n \geq M_u$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>三大陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚠ 有效翼板寬選取</td>
+<td>須取 $L/4$、$b_w+16h_f$、梁間距 三者之<strong>最小值</strong></td>
+</tr>
+<tr>
+<td>⚠ D29 放兩排 → $d$ 降低</td>
+<td>兩排配置後實際 $d_{actual} &lt; 53.5$ cm，需重新驗算</td>
+</tr>
+<tr>
+<td>⚠ 最小間距 = $\max(d_b, 2.5 \text{ cm})$</td>
+<td>D29 的 $d_b = 2.87$ cm，故最小淨間距 = 2.87 cm</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>設計 T 形梁張力鋼筋量，換算 D29 根數並依間距規定排列，驗算 φMn ≥ Mu</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$\text{Step 1: } M_u = 1.2M_D + 1.6M_L$$</p>
+<p>$$\text{Step 2: } b = \min\!\left(\frac{L}{4},\ b_w+16h_f,\ \text{梁間距}\right)$$</p>
+<p>$$\text{Step 3: } a = \frac{A_s f_y}{0.85 f'_c \boxed{b}}, \quad \phi M_n = \phi A_s f_y\!\left(d - \frac{\boxed{a}}{2}\right) \geq M_u$$</p>
+<p>$$\text{Step 4: } \varepsilon_t = 0.003 \times \frac{d - \boxed{c}}{\boxed{c}}, \quad c = \frac{\boxed{a}}{\beta_1}$$</p>
+<p>$$\text{Step 5 (間距): } s_{clear} = \frac{b_w - 2c_{side} - n \cdot d_b}{n-1} \geq d_b$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$h_f$</td>
+<td>12 cm</td>
+<td>版厚（T 形梁翼板）</td>
+</tr>
+<tr>
+<td>$b_w$</td>
+<td>30 cm</td>
+<td>梁腹板寬</td>
+</tr>
+<tr>
+<td>$h$</td>
+<td>60 cm</td>
+<td>梁全深</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td>53.5 cm</td>
+<td>假定有效深度</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>600 cm</td>
+<td>跨距 = 梁間距</td>
+</tr>
+<tr>
+<td>$M_D, M_L$</td>
+<td>12, 35 tf·m</td>
+<td>靜、活載重彎矩</td>
+</tr>
+<tr>
+<td>$A_b$(D29)</td>
+<td>6.469 cm²</td>
+<td>單根面積</td>
+</tr>
+<tr>
+<td>$f'_c, f_y$</td>
+<td>280, 4200 kgf/cm²</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step 1：因數化彎矩</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_u$</td>
+<td>$1.2\times12+1.6\times35=70.4$ tf·m $= 7{,}040{,}000$ kgf·cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2：有效翼板寬</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$L/4$</td>
+<td>$600/4=150$ cm <strong>← 控制</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$b_w+16h_f$</td>
+<td>$30+16\times12=222$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>梁間距</td>
+<td>600 cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$b$</td>
+<td>$\min(150,222,600)=\boxed{150}$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3：求 As（假設 $a \leq h_f$）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_n=M_u/\phi$</td>
+<td>$7{,}040{,}000/0.9=7{,}822{,}222$ kgf·cm（先假設 $\phi=0.9$）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a$</td>
+<td>由二次方程求解 = 4.27 cm &lt; $h_f=12$ cm → <strong>翼板內</strong> ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$A_s$</td>
+<td>$=0.85f'_c\cdot a\cdot b/f_y=36.3$ cm²</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4：驗算 $\phi$</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$c$</td>
+<td>$a/\beta_1=4.27/0.85=5.02$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_t$</td>
+<td>$0.003\times(53.5-5.02)/5.02=0.029 &gt; 0.005$ → $\phi=0.9$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5：D29 根數與排列</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>需求根數</td>
+<td>$36.3/6.469=5.61\rightarrow$ <strong>6 根</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>能否單排</td>
+<td>$b_w-2c_{side}-6\times2.87=(20-17.22)/5=0.56$ cm &lt; $d_b$ ✗</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><strong>兩排 3+3</strong></td>
+<td>各排 3 根，淨間距 $=(20-3\times2.87)/2=5.70$ cm &gt; $d_b=2.87$ ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 6：實際 d 與驗算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$d_{actual}$</td>
+<td>兩排 3+3 → 重心在 9.31 cm 處 → $d=60-9.31=50.69$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi M_n$</td>
+<td>$7.10$ tf·m $&gt; M_u = 7.04$ tf·m ✓</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T 形梁有效寬三條件</td>
+<td>$L/4$、$b_w+16h_f$、梁間距，<strong>取最小</strong>（ACI 318-02）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>最小間距 = $\max(d_b, 25 \text{ mm})$</td>
+<td>D29 的 $d_b=2.87$ cm &gt; 2.5 cm，故最小淨間距 = $d_b$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>兩排後 d 降低</td>
+<td>需用加權平均求重心，再重算 $a, \phi M_n$，確認仍足夠</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：因數化彎矩</h3>
+<p>$$M_u = 1.2 M_D + 1.6 M_L = 1.2 \times 12 + 1.6 \times 35 = 14.4 + 56.0 = \boxed{70.4 \text{ tf·m} = 7{,}040{,}000 \text{ kgf·cm}}$$</p>
+<h3>Step 2：T 形梁有效翼板寬</h3>
+<p>$$b = \min\!\left(\frac{L}{4},\ b_w + 16h_f,\ \text{梁間距}\right) = \min\!\left(\frac{600}{4},\ 30+16\times12,\ 600\right) = \min(150,\ 222,\ 600) = \boxed{150 \text{ cm}}$$</p>
+<p><img alt="RC-2007-1 有效翼板寬三條件長條比較：L/4 = 150 cm 控制、bw+16hf = 222 cm、梁間距 = 600 cm" src="../../raw/solutions/RC-2007-1/figs/RC-2007-1-fig-1-flange-width.svg" /></p>
+<p><em>圖 1　有效翼板寬取三者最小。長條長度就是三個候選值的比例，一眼看出 $L/4$ 控制——這張圖攔下「取最大」或「漏掉某一條」，取錯會讓後面的 $a$ 與翼板判斷全部失真。</em></p>
+<h3>Step 3：假設中性軸在翼板（$a \leq h_f = 12$ cm），以矩形梁求 $A_s$</h3>
+<p>先假設 $\phi = 0.9$（拉力控制），則需求標稱彎矩：<br />
+$$M_n = \frac{M_u}{\phi} = \frac{7{,}040{,}000}{0.9} = 7{,}822{,}222 \text{ kgf·cm}$$</p>
+<p>令 $a = A_s f_y / (0.85 f'_c b) = A_s \times 4200 / (0.85 \times 280 \times 150) = A_s / 8.500$</p>
+<p>代入 $M_n = A_s f_y (d - a/2)$：</p>
+<p>$$7{,}822{,}222 = A_s \times 4200 \times \left(53.5 - \frac{A_s}{2 \times 8.500}\right)$$</p>
+<p>整理成二次方程：<br />
+$$A_s^2 - 909.4 A_s + 15{,}859 = 0$$</p>
+<p>$$A_s = \frac{909.4 - \sqrt{909.4^2 - 4 \times 15{,}859}}{2} = \frac{909.4 - \sqrt{826{,}808 - 63{,}436}}{2} = \frac{909.4 - 873.6}{2} = \frac{35.8}{2} \approx 36.3 \text{ cm}^2$$</p>
+<p>實際上更直接：先算 $a$ 再求 $A_s$：<br />
+$$M_n = 0.85 f'_c b a \left(d - \frac{a}{2}\right) \Rightarrow 7{,}822{,}222 = 35{,}700 \cdot a\left(53.5 - \frac{a}{2}\right)$$</p>
+<p>$$219.1 = 53.5a - \frac{a^2}{2} \Rightarrow a^2 - 107a + 438.2 = 0$$</p>
+<p>$$a = \frac{107 - \sqrt{11449 - 1753}}{2} = \frac{107 - 98.5}{2} = \boxed{4.27 \text{ cm}} \quad &lt; h_f = 12 \text{ cm} \quad \checkmark$$</p>
+<p>$$A_s = \frac{0.85 f'_c \cdot a \cdot b}{f_y} = \frac{0.85 \times 280 \times 4.27 \times 150}{4200} = \frac{152{,}439}{4200} = \boxed{36.3 \text{ cm}^2}$$</p>
+<h3>Step 4：驗算延性（$\phi$ 確認）</h3>
+<p>$$c = \frac{a}{\beta_1} = \frac{4.27}{0.85} = 5.02 \text{ cm}$$</p>
+<p>$$\varepsilon_t = 0.003 \times \frac{d - c}{c} = 0.003 \times \frac{53.5 - 5.02}{5.02} = 0.003 \times 9.66 = 0.0290 \gg 0.005$$</p>
+<p>→ 確認 $\phi = 0.9$ ✓（拉力控制斷面）</p>
+<h3>Step 5：D29 根數選定</h3>
+<p>$$n = \left\lceil \frac{36.3}{6.469} \right\rceil = \lceil 5.61 \rceil = \boxed{6 \text{ 根}} \quad \Rightarrow A_{s,prov} = 6 \times 6.469 = 38.81 \text{ cm}^2$$</p>
+<h3>Step 6：鋼筋間距驗算與排列</h3>
+<p><strong>D29 直徑：</strong><br />
+$$d_b = \sqrt{\frac{4 \times 6.469}{\pi}} = 2.87 \text{ cm}$$</p>
+<p><strong>最小淨間距：</strong> $\max(d_b, 2.5 \text{ cm}) = 2.87 \text{ cm}$</p>
+<p><strong>可用橫向寬度</strong>（假設保護層 4 cm、D10 箍筋 1 cm）：<br />
+$$b_{avail} = b_w - 2 \times (4+1) = 30 - 10 = 20 \text{ cm}$$</p>
+<p><strong>單排 6 根的淨間距：</strong><br />
+$$s_1 = \frac{20 - 6 \times 2.87}{5} = \frac{2.78}{5} = 0.56 \text{ cm} \ll 2.87 \text{ cm} \quad \Rightarrow \text{單排放不下！}$$</p>
+<p><strong>改用兩排，每排 3 根：</strong></p>
+<p>每排 3 根的淨間距：<br />
+$$s = \frac{20 - 3 \times 2.87}{2} = \frac{20 - 8.61}{2} = \frac{11.39}{2} = 5.70 \text{ cm} &gt; d_b = 2.87 \text{ cm} \quad \checkmark$$</p>
+<p><strong>排與排之間的淨間距：</strong> 規範下限為 <strong>2.5 cm</strong>（土木401 層間淨距）；<br />
+本解取較保守的 $d_b = 2.87$ cm，以下 $y_2$ 的計算即以 2.87 cm 代入 ✓<br />
+（若改用規範下限 2.5 cm，$d_{actual}$ 會升到 50.88 cm、$\phi M_n$ 升到 71.3 tf·m，更安全。）</p>
+<p><strong>各排鋼筋中心位置（從梁底量起）：</strong><br />
+$$y_1 = 4 + 1 + \frac{2.87}{2} = 6.44 \text{ cm} \quad (\text{第一排})$$<br />
+$$y_2 = 6.44 + 2.87 + 2.87 = 12.18 \text{ cm} \quad (\text{第二排})$$</p>
+<p><strong>實際有效深度（兩排 3+3 加權平均）：</strong><br />
+$$\bar{y}_{steel} = \frac{3 \times 6.44 + 3 \times 12.18}{6} = \frac{19.32 + 36.54}{6} = \frac{55.86}{6} = 9.31 \text{ cm}$$</p>
+<p>$$d_{actual} = h - \bar{y}_{steel} = 60 - 9.31 = \boxed{50.69 \text{ cm}}$$</p>
+<p><img alt="RC-2007-1 單排 6 根 D29 淨間距僅 0.56 cm 不合規，改兩排 3+3 後淨間距 5.70 cm 合規，實際有效深度由 53.5 降為 50.69 cm" src="../../raw/solutions/RC-2007-1/figs/RC-2007-1-fig-2-bar-layout.svg" /></p>
+<p><em>圖 2　排列決定有效深度。題給 $d = 53.5$ cm 是「假設單排」的估算起點，放兩排後降到 50.69 cm——這張圖攔下「拿題給的 $d$ 直接交卷、不回頭重驗 $\phi M_n$」。</em></p>
+<h3>Step 7：以實際 $d$ 重新驗算 $\phi M_n \geq M_u$</h3>
+<p>$$a = \frac{A_{s,prov} \times f_y}{0.85 f'_c \times b} = \frac{38.81 \times 4200}{0.85 \times 280 \times 150} = \frac{163{,}002}{35{,}700} = 4.566 \text{ cm}$$</p>
+<p>$$\phi M_n = \phi \times A_{s,prov} \times f_y \times \left(d_{actual} - \frac{a}{2}\right) = 0.9 \times 163{,}002 \times \left(50.69 - 2.28\right)$$</p>
+<p>$$= 0.9 \times 163{,}002 \times 48.41 = 0.9 \times 7{,}890{,}817 = 7{,}101{,}735 \text{ kgf·cm} = 71.0 \text{ tf·m}$$</p>
+<p>$$\phi M_n = 71.0 \text{ tf·m} &gt; M_u = 70.4 \text{ tf·m} \quad \boxed{\checkmark}$$</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<h3>本題設計成果彙總</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有效翼板寬 $b$</td>
+<td>150 cm</td>
+</tr>
+<tr>
+<td>壓力塊深 $a$</td>
+<td>4.57 cm（&lt; $h_f = 12$ cm，確在翼板內）</td>
+</tr>
+<tr>
+<td>設計 $A_s$</td>
+<td>36.3 cm²</td>
+</tr>
+<tr>
+<td>使用 D29</td>
+<td>6 根（$A_{s,prov} = 38.81$ cm²）</td>
+</tr>
+<tr>
+<td>排列</td>
+<td>2 排，每排 3 根；每排淨間距 5.70 cm</td>
+</tr>
+<tr>
+<td>實際 $d$</td>
+<td>50.69 cm</td>
+</tr>
+<tr>
+<td>$\phi M_n$</td>
+<td>71.0 tf·m &gt; $M_u$ = 70.4 tf·m ✓</td>
+</tr>
+</tbody>
+</table>
+<h3>爭議：為何題目給 $d = 53.5$ cm 而實際卻是 50.69 cm？</h3>
+<p>題目給定 $d = 53.5$ cm 用於初步設計（假設單排鋼筋：$60 - (4+1+2.87/2) = 53.56$ ✓），是估算 $A_s$ 的出發點。實際決定兩排配置後，$d_{actual}$ 略降。若 $\phi M_n \geq M_u$ 仍滿足（本題確認 71.0 &gt; 70.4），設計即可接受。</p>
+<p>若嚴格要求以 $d_{actual}$ 重新迭代計算 $A_s$，可再做一次循環，但差值通常很小（&lt; 1%），不影響根數選擇。</p>
+<h3>⚠ 餘裕只有 0.9%，值得在卷面說明</h3>
+<p>$$\frac{\phi M_n - M_u}{M_u} = \frac{71.03 - 70.4}{70.4} = 0.9\%$$</p>
+<p>這個設計<strong>壓得很緊</strong>，對 $d_{actual}$ 的假設非常敏感：</p>
+<table>
+<thead>
+<tr>
+<th>層間淨距假設</th>
+<th style="text-align: right;">$y_2$</th>
+<th style="text-align: right;">$\bar y_s$</th>
+<th style="text-align: right;">$d_{actual}$</th>
+<th style="text-align: right;">$\phi M_n$</th>
+<th style="text-align: right;">對 $M_u = 70.4$ 的餘裕</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.5 cm（規範下限）</td>
+<td style="text-align: right;">11.80</td>
+<td style="text-align: right;">9.12</td>
+<td style="text-align: right;">50.88 cm</td>
+<td style="text-align: right;">71.30 tf·m</td>
+<td style="text-align: right;">+1.3%</td>
+</tr>
+<tr>
+<td><strong>2.87 cm（本解，$= d_b$）</strong></td>
+<td style="text-align: right;"><strong>12.18</strong></td>
+<td style="text-align: right;"><strong>9.31</strong></td>
+<td style="text-align: right;"><strong>50.70 cm</strong></td>
+<td style="text-align: right;"><strong>71.03 tf·m</strong></td>
+<td style="text-align: right;"><strong>+0.9%</strong></td>
+</tr>
+<tr>
+<td>3.5 cm</td>
+<td style="text-align: right;">12.80</td>
+<td style="text-align: right;">9.62</td>
+<td style="text-align: right;">50.38 cm</td>
+<td style="text-align: right;">70.57 tf·m</td>
+<td style="text-align: right;">+0.2%</td>
+</tr>
+<tr>
+<td>4.0 cm</td>
+<td style="text-align: right;">13.30</td>
+<td style="text-align: right;">9.87</td>
+<td style="text-align: right;">50.13 cm</td>
+<td style="text-align: right;">70.20 tf·m</td>
+<td style="text-align: right;"><strong>−0.3% ✗ 不足</strong></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="RC-2007-1 φMn 對層間淨距假設的敏感度曲線：2.5 cm 得 71.30、2.87 cm 得 71.03、3.73 cm 以上就低於 Mu = 70.4 tf·m" src="../../raw/solutions/RC-2007-1/figs/RC-2007-1-fig-3-sensitivity.svg" /></p>
+<p><em>圖 3　0.9% 的餘裕有多脆弱。層間淨距只要從 2.87 放寬到 3.73 cm，6-D29 就不夠了——這張圖攔下「只算一個假設就宣告設計 OK」。</em></p>
+<p><strong>卷面建議：</strong> 把層間距的假設值<strong>明寫出來</strong>，並附上 $\phi M_n$ 與 $M_u$ 的比較。<br />
+若採更保守的 $d$（低於約 50.2 cm）則 6 根不足，須改配 <strong>7-D29</strong>：</p>
+<p>$$A_{s,prov} = 7 \times 6.469 = 45.28 \text{ cm}^2,\quad a = 5.33 \text{ cm}$$</p>
+<p>⚠ 7 根<strong>排不成 4+3</strong>：每排 4 根的淨間距 $=\dfrac{20 - 4(2.87)}{3} = 2.84$ cm $&lt; d_b = 2.87$ cm，差一點點但不合格。<br />
+須排成 <strong>3+3+1（三排）</strong>，$\bar y_s = 10.53$ cm、$d_{actual} = 49.47$ cm：</p>
+<p>$$\phi M_n = 0.9 \times 45.28 \times 4200 \times \left(49.47 - \frac{5.33}{2}\right) = 80.1 \text{ tf·m} &gt; 70.4 \quad \checkmark$$</p>
+<p>（強度跳很多是因為多一根就多 16% 鋼筋；若要更經濟應改為加深斷面而非加筋。）</p>
+<h3>最大鋼筋量驗算（延性確認）</h3>
+<p>$$c_{actual} = 4.566 / 0.85 = 5.37 \text{ cm}$$</p>
+<p>$$\varepsilon_t = 0.003 \times (50.69 - 5.37)/5.37 = 0.003 \times 8.44 = 0.0253 \gg 0.005 \quad \checkmark$$</p>
+<p>為拉力控制斷面，$\phi = 0.9$ 確認，且鋼筋量遠低於最大限制。</p>
+<hr />
+<p><em>圖解補繪：2026-08-31（向量圖 3 張，腳本 <code>figs/gen_RC-2007-1.py</code>，可重跑；腳本檔尾對 §4／§5 公佈值做 assert）</em></p></main>
+<footer>來源：raw/solutions/RC-2007-1/RC-2007-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2024-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+pre{background:#263238;color:#eceff1;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:.86em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2024-2 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-1.html">&#128202; U1-1 單元總覽</a><a class="lect" href="../lecture-RC-U1-1.html">&#128218; U1-1 RC 梁彎矩強度分析與設計 講義</a></div></header>
+<main><h1>考題編號：RC-2024-2</h1>
+<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>雙筋梁</code> <code>壓力鋼筋應力</code> <code>壓力鋼筋未降伏</code> <code>懸臂梁</code> <code>因數化均佈載重</code> <code>標稱彎矩強度</code> <code>應變相容</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>懸臂梁，採中強度鋼筋（$f_y = 4200\ \text{kgf/cm}^2$，$E_s = 2.04 \times 10^6\ \text{kgf/cm}^2$），斷面如圖 2a，混凝土 $f'_c = 210\ \text{kgf/cm}^2$，$\varepsilon_u = 0.003$。<strong>下方斷面為受壓力</strong>（懸臂梁固定端，頂部拉力、底部壓力）。</p>
+<p>鋼筋斷面積：#10 (D32) = 8.14 cm²；#3 (D10) = 0.71 cm²</p>
+<p><img alt="RC-2024-2 梁斷面示意圖：b=30cm，頂部3-#10拉力筋，底部2-#10壓力筋，#3@25箍筋，d=44cm，d'=8cm" src="../../raw/solutions/RC-2024-2/RC-2024-2-fig-1.png" /></p>
+<p><em>圖說：矩形梁斷面，$b = 30\ \text{cm}$，總深 $h \approx 52\ \text{cm}$。底部壓力區有 $A'_s = 2\text{-\#10} = 16.28\ \text{cm}^2$，$d' = 8\ \text{cm}$（壓力面至壓力鋼筋形心）；頂部拉力鋼筋 $A_s = 3\text{-\#10} = 24.42\ \text{cm}^2$，$d = 44\ \text{cm}$（壓力面至拉力筋形心）。箍筋 #3@25 cm。</em></p>
+<p><img alt="RC-2024-2 懸臂梁結構示意圖：固定端在左，懸臂長3m，承受因數化均佈載重ωu向下" src="../../raw/solutions/RC-2024-2/RC-2024-2-fig-2.png" /></p>
+<p><em>圖說：懸臂梁，固定端在左，自由端在右，梁長 $L = 3\ \text{m} = 300\ \text{cm}$，承受均佈因數化載重 $\omega_u$（包含自重、靜載重、活載重）向下作用。最大彎矩發生在固定端，$M_u = \omega_u L^2 / 2$。</em></p>
+<p><strong>【小題一】</strong> 考慮壓力鋼筋之貢獻，計算：</p>
+<ul>
+<li>(a) 斷面標稱彎矩強度 $\phi M_n$</li>
+<li>(b) 壓力鋼筋應力 $f'_s$</li>
+</ul>
+<p><strong>【小題二】</strong> 梁長 $L = 3\ \text{m}$，計算最大因數化均佈載重 $\omega_u$（含自重）。</p>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 雙筋梁分析，重點在<strong>壓力鋼筋是否降伏</strong>的判斷與迭代求解。</p>
+<p><strong>出題意圖：</strong></p>
+<ol>
+<li>測試是否能先假設壓力鋼筋降伏，再用應變相容驗證（本題壓力鋼筋<strong>不降伏</strong>）</li>
+<li>懸臂梁的方向感——底部壓力代表固定端的負彎矩區，d 與 d' 從壓力面量起</li>
+<li>由 $\phi M_n$ 推算最大因數化均佈載重（懸臂梁力矩公式）</li>
+</ol>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<pre><code>Step 1：假設壓力鋼筋降伏 → 求 a → 求 c → 檢核 ε's
+Step 2：ε's &lt; εy → 壓力鋼筋不降伏 → 列應變相容方程式
+Step 3：解二次方程求 c → 算 f's、a
+Step 4：驗算拉力鋼筋確實降伏 (εt &gt; εy)
+Step 5：算 Mn、φMn
+Step 6：懸臂梁 Mu = ωu × L²/2 → 求 ωu
+</code></pre>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>陷阱</th>
+<th>正確做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>假設壓力鋼筋降伏，c = 7.52 cm &lt; d' = 8 cm → 矛盾</td>
+<td>先驗算 $c$ 與 $d'$ 大小，矛盾則重解（應變相容法）</td>
+</tr>
+<tr>
+<td>②</td>
+<td>懸臂梁力矩公式搞錯：Mu = ωuL（點載）vs $\omega_u L^2/2$（均佈）</td>
+<td>均佈：$M_u = \omega_u L^2/2$</td>
+</tr>
+<tr>
+<td>③</td>
+<td>忘記壓力面在「底部」，d 從底部量 = 44 cm</td>
+<td>方向正確：$d = 44\ \text{cm}$，$d' = 8\ \text{cm}$ 均自底部（壓力面）量</td>
+</tr>
+<tr>
+<td>④</td>
+<td>φ 值用錯（應查 εt 確認拉力控制）</td>
+<td>$\varepsilon_t = 0.0067 &gt; 0.005$ → 拉力控制 → $\phi = 0.90$</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p><code>求斷面 φMn 與壓力鋼筋應力 f's → 推導最大因數化均佈載重 ωu</code></p>
+<h3>本題關鍵公式鏈</h3>
+<p>$$\text{Step 1（假設降伏驗算）：} a_0 = \frac{(A_s - A'_s)f_y}{0.85 f'_c b} \rightarrow c_0 = \frac{a_0}{\beta_1} \xrightarrow{\text{若 }c_0 &lt; d'} \text{壓力筋未進入壓力區 → 應變相容}$$</p>
+<p>$$\text{Step 2（應變相容）：} 0.85f'_c b \beta_1 c + A'_s E_s \varepsilon_u \frac{c-d'}{c} = A_s f_y \Rightarrow \boxed{c}$$</p>
+<p>$$\text{Step 3：} f'_s = E_s \varepsilon_u \frac{\boxed{c}-d'}{c},\quad M_n = 0.85f'_c b \boxed{a}\left(d-\frac{\boxed{a}}{2}\right) + A'_s \boxed{f'_s}(d - d')$$</p>
+<p>$$\text{Step 4：} \phi M_n \geq M_u = \omega_u \frac{L^2}{2} \Rightarrow \omega_{u,\max} = \frac{2\phi M_n}{L^2}$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th style="text-align: center;">數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$b$</td>
+<td style="text-align: center;">30 cm</td>
+<td>梁寬</td>
+</tr>
+<tr>
+<td>$d$</td>
+<td style="text-align: center;">44 cm</td>
+<td>壓力面（底）→ 拉力筋（頂）距離</td>
+</tr>
+<tr>
+<td>$d'$</td>
+<td style="text-align: center;">8 cm</td>
+<td>壓力面（底）→ 壓力筋（底部鋼筋）距離</td>
+</tr>
+<tr>
+<td>$A_s$</td>
+<td style="text-align: center;">3×8.14 = 24.42 cm²</td>
+<td>頂部拉力鋼筋（3-#10）</td>
+</tr>
+<tr>
+<td>$A'_s$</td>
+<td style="text-align: center;">2×8.14 = 16.28 cm²</td>
+<td>底部壓力鋼筋（2-#10）</td>
+</tr>
+<tr>
+<td>$f'_c$</td>
+<td style="text-align: center;">210 kgf/cm²</td>
+<td>混凝土抗壓強度</td>
+</tr>
+<tr>
+<td>$f_y$</td>
+<td style="text-align: center;">4200 kgf/cm²</td>
+<td>鋼筋降伏強度</td>
+</tr>
+<tr>
+<td>$E_s$</td>
+<td style="text-align: center;">2.04×10⁶ kgf/cm²</td>
+<td>鋼筋彈性模數</td>
+</tr>
+<tr>
+<td>$\varepsilon_u$</td>
+<td style="text-align: center;">0.003</td>
+<td>混凝土極限壓應變</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td style="text-align: center;">300 cm</td>
+<td>懸臂梁長度</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Step A：先假設壓力鋼筋降伏（快速檢核）</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\beta_1$</td>
+<td>$f'_c=210 &lt; 280 \Rightarrow \beta_1=0.85$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a_0$（試算）</td>
+<td>$(A_s - A'_s)f_y / (0.85f'_c b) = 8.14\times4200/(0.85\times210\times30)=6.39\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$c_0$（試算）</td>
+<td>$a_0/\beta_1 = 6.39/0.85 = 7.52\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>判斷</td>
+<td>$c_0 = 7.52 &lt; d' = 8\ \text{cm}$ → <strong>壓力筋在拉力區，假設錯誤</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step B：應變相容求 c</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方程式</td>
+<td>$4551.75c^2 - 2930.4c - 797{,}069 = 0$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$c$</td>
+<td>正根：$c = 13.56\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$a$</td>
+<td>$\beta_1 \cdot c = 0.85 \times 13.56 = 11.53\ \text{cm}$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step C：壓力鋼筋應力與強度驗算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f'_s$</td>
+<td>$E_s \varepsilon_u (c-d')/c = 6120\times5.56/13.56 = 2{,}509\ \text{kgf/cm}^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>驗算</td>
+<td>$f'_s = 2509 &lt; f_y = 4200$ ✓（假設不降伏正確）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\varepsilon_t$</td>
+<td>$0.003\times(44-13.56)/13.56 = 0.00673 &gt; 0.005$ → $\phi=0.90$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step D：標稱彎矩與因數化載重</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式/來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$M_n$</td>
+<td>$C_c(d-a/2) + C'_s(d-d')$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\phi M_n$</td>
+<td>$0.90 \times M_n$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\omega_{u,\max}$</td>
+<td>$2\phi M_n / L^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>壓力鋼筋降伏判斷流程</td>
+<td>先假設降伏求 $c_0$，若 $c_0 &lt; d'$ 則不在壓力區，必須用應變相容迭代</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>壓力鋼筋不降伏的應變公式</td>
+<td>$\varepsilon'_s = \varepsilon_u(c-d')/c$，正值 = 壓縮，負值 = 受拉</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>懸臂梁的 d 定義方向</td>
+<td>底部受壓時 $d$ 從底部量起（與一般梁相反），錯方向會得到錯誤的 $M_n$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>應變相容二次方程的來源</td>
+<td>把 $a = \beta_1 c$、$f'_s = E_s \varepsilon_u (c-d')/c$ 代入力平衡方程，得到 $c$ 的二次式</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>前置：斷面確認</h3>
+<p>$$b = 30\ \text{cm},\quad d = 44\ \text{cm},\quad d' = 8\ \text{cm}$$<br />
+$$A_s = 3 \times 8.14 = 24.42\ \text{cm}^2 \text{（頂部，拉力）}$$<br />
+$$A'_s = 2 \times 8.14 = 16.28\ \text{cm}^2 \text{（底部，壓力）}$$<br />
+$$\beta_1 = 0.85\ (f'_c = 210 &lt; 280\ \text{kgf/cm}^2)$$</p>
+<hr />
+<h3>Step 1：先假設壓力鋼筋降伏（$f'_s = f_y$）</h3>
+<p>若壓力鋼筋降伏，由力平衡：</p>
+<p>$$0.85 f'_c b a + A'_s f_y = A_s f_y$$</p>
+<p>$$a_0 = \frac{(A_s - A'_s)f_y}{0.85 f'_c b} = \frac{(24.42 - 16.28) \times 4200}{0.85 \times 210 \times 30} = \frac{8.14 \times 4200}{5355} = \frac{34{,}188}{5355} = 6.39\ \text{cm}$$</p>
+<p>$$c_0 = \frac{a_0}{\beta_1} = \frac{6.39}{0.85} = 7.52\ \text{cm}$$</p>
+<p><strong>檢核：</strong> $c_0 = 7.52\ \text{cm} &lt; d' = 8\ \text{cm}$ → <strong>壓力鋼筋在中性軸以上（拉力側），假設矛盾！</strong></p>
+<p>→ 壓力鋼筋<strong>不降伏</strong>，需用應變相容法。</p>
+<hr />
+<h3>Step 2：應變相容法（壓力鋼筋未降伏）</h3>
+<p>壓力鋼筋應力（以 $c$ 為未知數）：</p>
+<p>$$f'_s = E_s \varepsilon_u \frac{c - d'}{c} = 2.04 \times 10^6 \times 0.003 \times \frac{c-8}{c} = 6120 \cdot \frac{c-8}{c}\ [\text{kgf/cm}^2]$$</p>
+<p>力平衡（壓 = 拉）：</p>
+<p>$$0.85 f'_c \cdot b \cdot \beta_1 c + A'_s \cdot f'_s = A_s \cdot f_y$$</p>
+<p>$$0.85 \times 210 \times 30 \times 0.85 \cdot c + 16.28 \times 6120 \cdot \frac{c-8}{c} = 24.42 \times 4200$$</p>
+<p>$$4551.75c + 99{,}634 \cdot \frac{c-8}{c} = 102{,}564$$</p>
+<p>兩邊乘以 $c$：</p>
+<p>$$4551.75c^2 + 99{,}634c - 797{,}072 = 102{,}564c$$</p>
+<p>$$\boxed{4551.75c^2 - 2930c - 797{,}072 = 0}$$</p>
+<p>解二次方程（取正根）：</p>
+<p>$$c = \frac{2930 + \sqrt{2930^2 + 4 \times 4551.75 \times 797{,}072}}{2 \times 4551.75}$$</p>
+<p>$$= \frac{2930 + \sqrt{8{,}584{,}900 + 14{,}512{,}153{,}200}}{9103.5}$$</p>
+<p>$$= \frac{2930 + \sqrt{14{,}520{,}738{,}100}}{9103.5} = \frac{2930 + 120{,}503}{9103.5}$$</p>
+<p>$$\boxed{c = \frac{123{,}433}{9103.5} \approx 13.56\ \text{cm}}$$</p>
+<p>$$a = \beta_1 \cdot c = 0.85 \times 13.56 = \mathbf{11.53\ \text{cm}}$$</p>
+<hr />
+<h3>Step 3：壓力鋼筋應力</h3>
+<p>$$f'_s = 6120 \times \frac{13.56 - 8}{13.56} = 6120 \times \frac{5.56}{13.56} = 6120 \times 0.410 = \boxed{2{,}509\ \text{kgf/cm}^2}$$</p>
+<p><strong>驗算：</strong> $f'_s = 2509 &lt; f_y = 4200\ \text{kgf/cm}^2$ ✓（壓力鋼筋不降伏，假設正確）</p>
+<hr />
+<h3>Step 4：驗算拉力鋼筋降伏與 φ 值</h3>
+<p>$$\varepsilon_t = \varepsilon_u \times \frac{d - c}{c} = 0.003 \times \frac{44 - 13.56}{13.56} = 0.003 \times 2.244 = 0.00673$$</p>
+<p>$$\varepsilon_y = \frac{f_y}{E_s} = \frac{4200}{2{,}040{,}000} = 0.00206$$</p>
+<p>$\varepsilon_t = 0.00673 &gt; \varepsilon_y = 0.00206$ → 拉力鋼筋<strong>降伏</strong> ✓</p>
+<p>$\varepsilon_t = 0.00673 &gt; 0.005$ → <strong>拉力控制斷面</strong> → $\phi = 0.90$</p>
+<hr />
+<h3>Step 5：計算內力與 $\phi M_n$</h3>
+<p>$$C_c = 0.85 f'_c \cdot b \cdot a = 0.85 \times 210 \times 30 \times 11.53 = 5355 \times 11.53 = 61{,}744\ \text{kgf}$$</p>
+<p>$$C'_s = A'_s \cdot f'_s = 16.28 \times 2509 = 40{,}847\ \text{kgf}$$</p>
+<p>$$T = A_s \cdot f_y = 24.42 \times 4200 = 102{,}564\ \text{kgf}$$</p>
+<p><strong>平衡驗算：</strong> $C_c + C'_s = 61{,}744 + 40{,}847 = 102{,}591 \approx T = 102{,}564\ \text{kgf}$ ✓</p>
+<p><strong>取矩於拉力鋼筋 $A_s$：</strong></p>
+<p>$$M_n = C_c \left(d - \frac{a}{2}\right) + C'_s (d - d')$$</p>
+<p>$$= 61{,}744 \times \left(44 - \frac{11.53}{2}\right) + 40{,}847 \times (44 - 8)$$</p>
+<p>$$= 61{,}744 \times 38.235 + 40{,}847 \times 36$$</p>
+<p>$$= 2{,}360{,}804 + 1{,}470{,}492$$</p>
+<p>$$= 3{,}831{,}296\ \text{kgf-cm}$$</p>
+<p>$$\boxed{\phi M_n = 0.90 \times 3{,}831{,}296 = 3{,}448{,}166\ \text{kgf-cm} \approx 34{,}482\ \text{kgf-m} \approx 34.5\ \text{tf-m}}$$</p>
+<hr />
+<h3>Step 6：最大因數化均佈載重 $\omega_u$</h3>
+<p>懸臂梁固定端彎矩（均佈載重）：</p>
+<p>$$M_u = \frac{\omega_u L^2}{2}$$</p>
+<p>令 $M_u = \phi M_n$：</p>
+<p>$$\omega_u = \frac{2\phi M_n}{L^2} = \frac{2 \times 3{,}448{,}166}{300^2} = \frac{6{,}896{,}332}{90{,}000} = 76.6\ \text{kgf/cm}$$</p>
+<p>$$\boxed{\omega_{u,\max} = 76.6\ \text{kgf/cm} = 7{,}660\ \text{kgf/m} \approx 7.66\ \text{tf/m}}$$</p>
+<hr />
+<h3>結果彙整</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>壓力鋼筋應力 $f'_s$</td>
+<td><strong>2,509 kgf/cm²</strong>（未降伏，$&lt; f_y = 4200$）</td>
+</tr>
+<tr>
+<td>設計彎矩強度 $\phi M_n$</td>
+<td><strong>34.5 tf-m</strong>（= 3,448,166 kgf-cm）</td>
+</tr>
+<tr>
+<td>最大因數化均佈載重 $\omega_{u,\max}$</td>
+<td><strong>7,660 kgf/m = 7.66 tf/m</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>爭議點 1：壓力鋼筋降伏判斷為何用「試誤法」？</strong></p>
+<p>若先假設降伏並得到 $c_0 &lt; d'$，表示假設的壓力合力過大（多算了 $A'_s f_y$），導致所需混凝土壓力不足，NA 位置偏淺。正確做法是讓 $f'_s$ 隨應變線性變化，列方程求真實 $c$。考場上若無法快速解二次方程，可用迭代法（猜 $c$ → 算 $f'_s$ → 驗平衡）。</p>
+<p><strong>爭議點 2：d 與 d' 的量測方向</strong></p>
+<p>本題底部受壓，所有「有效深度」均從<strong>底部</strong>量起：</p>
+<ul>
+<li>$d = 44\ \text{cm}$（底→頂拉力鋼筋形心）</li>
+<li>$d' = 8\ \text{cm}$（底→底壓力鋼筋形心）</li>
+</ul>
+<p>若誤從頂部量起，方向矛盾，整題計算錯誤。</p>
+<p><strong>進階：φ 值選取</strong></p>
+<p>$\varepsilon_t = 0.0067 &gt; 0.005$ → 拉力控制 → $\phi = 0.90$。若 $\varepsilon_t$ 在過渡區（0.004–0.005），需線性內插：<br />
+$$\phi = 0.65 + (\varepsilon_t - 0.002) \times \frac{0.25}{0.003}\ \ (\text{箍筋柱型式})$$<br />
+$$\text{或}\ \phi = 0.75 + (\varepsilon_t - 0.002) \times \frac{0.15}{0.003}\ \ (\text{梁型式，取決於規範版本})$$<br />
+本題 $\varepsilon_t$ 遠超臨界值，不需內插。</p></main>
+<footer>來源：raw/solutions/RC-2024-2/RC-2024-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>

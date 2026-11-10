@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC-2009-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .navbtns{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+header .navbtns a{display:inline-block;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+header .navbtns a:hover{background:rgba(255,255,255,.32)}
+header .back{display:inline-block;margin-top:10px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>RC-2009-1 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U3-3.html">&#128202; U3-3 單元總覽</a><a class="lect" href="../lecture-RC-U3-3.html">&#128218; U3-3 韌性要求與耐震設計 講義</a></div></header>
+<main><h1>考題編號：RC-2009-1</h1>
+<p><strong>主分類：</strong> <code>RC-U3-3</code> 韌性要求與耐震設計<br />
+<strong>副分類：</strong> <code>RC-U2-1</code> RC 剪力強度分析與設計<br />
+<strong>設計法：</strong> 概念題（USD 耐震設計）<br />
+<strong>標籤：</strong> <code>耐震柱</code> <code>橫向鋼筋</code> <code>密箍區lo</code> <code>圍束箍筋</code> <code>Ash公式</code> <code>Vc=0條件</code> <code>特殊矩形框架柱</code> <code>剪力設計</code> <code>Mpr</code> <code>Nu小於0.05Agfc</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>試說明 RC 柱耐震設計中，如何配置柱之<strong>橫向鋼筋</strong>？<br />
+假設地震效應之設計軸壓力<strong>小於 $0.05\,A_g f'_c$</strong>（$A_g$ 為柱總斷面積），必要時請繪圖說明。（25 分）</p>
+<blockquote>
+<p>本題為概念說明題，無題目附圖，無截圖需求。</p>
+</blockquote>
+<hr />
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p><strong>核心觀念：</strong> 特殊矩形框架柱（SMRF）橫向鋼筋同時承擔三個任務：</p>
+<ol>
+<li><strong>圍束（Confinement）</strong>：提升核心混凝土延性</li>
+<li><strong>剪力抵抗（Shear）</strong>：在塑性鉸區抵抗地震剪力</li>
+<li><strong>縱筋防挫屈（Buckling prevention）</strong>：防止縱向鋼筋在反覆載重下挫屈</li>
+</ol>
+<p><strong>出題重點：</strong> 當 $N_u &lt; 0.05A_gf'_c$ 時，混凝土剪力貢獻 $V_c = 0$，<strong>所有剪力由橫向鋼筋承擔</strong>，此時剪力設計更嚴格。</p>
+<hr />
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>說明耐震柱橫向鋼筋的三大目的</li>
+<li>定義密箍區（$l_o$）位置與長度</li>
+<li>說明密箍區間距 $s_o$ 規定</li>
+<li>推導圍束箍筋面積 $A_{sh}$ 兩公式</li>
+<li>說明柱剪力設計（$V_e$）及 $N_u &lt; 0.05A_gf'_c$ 時 $V_c = 0$ 的影響</li>
+<li>說明非密箍區的橫向鋼筋要求</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>說明</th>
+<th>應對</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❶ $N_u &lt; 0.05A_gf'_c$ → $V_c = 0$</td>
+<td>軸力小時混凝土無剪力貢獻，箍筋須全額承擔</td>
+<td>$V_s = V_e$（無 $V_c$ 分攤）</td>
+</tr>
+<tr>
+<td>❷ $A_{sh}$ 兩公式須取大值</td>
+<td>兩個圍束條件均須滿足</td>
+<td>均算後取較大者</td>
+</tr>
+<tr>
+<td>❸ $l_o$ 的三個取法取最大</td>
+<td>$l_o = \max(h_n/6, h_{max}, 45cm)$</td>
+<td>不得省略任何一項</td>
+</tr>
+<tr>
+<td>❹ 密箍區 vs. 非密箍區間距不同</td>
+<td>非密箍區間距較寬鬆</td>
+<td>分區說明</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>完整說明耐震柱橫向鋼筋的配置規定，並特別指出 $N_u &lt; 0.05A_gf'_c$ 的影響。</p>
+<h3>關鍵公式（依設計順序）</h3>
+<p>$$l_o \ge \max\!\left(\frac{h_n}{6},\ h_{\max},\ 45\text{ cm}\right)$$</p>
+<p>$$s_o \le \min\!\left(\frac{b_{\min}}{4},\ 6d_b,\ 15\text{ cm}\right)$$</p>
+<p>$$A_{sh} \ge \max\!\left(0.09\,s\,h_c\,\frac{f'_c}{f_{yh}},\quad 0.3\,s\,h_c\!\left(\frac{A_g}{A_{ch}}-1\right)\!\frac{f'_c}{f_{yh}}\right)$$</p>
+<p>$$V_e = \frac{M_{pr,1}+M_{pr,2}}{h_n}\ (\text{加計重力剪力})$$</p>
+<p>$$\text{若 }N_u &lt; 0.05A_gf'_c:\quad V_c = 0,\quad V_s = \frac{V_e}{\phi} = \frac{A_v f_{yh} d}{s}$$</p>
+<h3>L1：規範直接規定（不需推導）</h3>
+<table>
+<thead>
+<tr>
+<th>規定項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$l_o$ 計算方式</td>
+<td>三值取大</td>
+</tr>
+<tr>
+<td>$s_o$ 計算方式</td>
+<td>三值取小</td>
+</tr>
+<tr>
+<td>$A_{sh}$ 計算方式</td>
+<td>兩公式取大</td>
+</tr>
+<tr>
+<td>$N_u &lt; 0.05A_gf'_c$ 時 $V_c$</td>
+<td>必須取 0</td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>為何小軸力時 $V_c = 0$</td>
+<td>軸壓增加 $V_c$；軸力小甚至無法提供圍束效果，保守取 $V_c = 0$</td>
+<td></td>
+</tr>
+<tr>
+<td>$A_{sh}$ 第一公式（0.09）來源</td>
+<td>由 $f'_{cc} = f'_c + 4.1f_L$ 推導：圍束力需補充蓋層脫落的強度損失</td>
+<td></td>
+</tr>
+<tr>
+<td>$A_{sh}$ 第二公式（0.3）來源</td>
+<td>直接由 $P_u \ge P_y$ 條件推導：圍束後核心強度 ≥ 蓋層破壞前全斷面強度</td>
+<td></td>
+</tr>
+<tr>
+<td>$M_{pr}$ 的定義</td>
+<td>可能彎矩強度：$M_{pr} = A_s \times 1.25f_y \times$ 力臂（用 $\alpha=1.25$ 考慮應變硬化）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p>本題為概念說明題，以條列式配合圖說明橫向鋼筋配置。</p>
+<hr />
+<h3>一、耐震柱橫向鋼筋的三大目的</h3>
+<table>
+<thead>
+<tr>
+<th>目的</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 圍束核心混凝土</td>
+<td>提升混凝土延性，使塑性鉸能承受大變形而不脆斷</td>
+</tr>
+<tr>
+<td>② 抵抗剪力</td>
+<td>柱端塑性鉸區承受大剪力，需足夠箍筋作為 truss 機構</td>
+</tr>
+<tr>
+<td>③ 防止縱筋挫屈</td>
+<td>反覆壓縮下縱筋可能挫屈，橫向鋼筋提供側向支撐</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>二、密箍區（$l_o$）的設置</h3>
+<p>特殊矩形框架柱在<strong>柱端</strong>必須設置密箍區，以容納塑性鉸形成。</p>
+<p>$$\boxed{l_o \ge \max\!\left(\frac{h_n}{6},\quad h_{\max,\text{dim}},\quad 45\text{ cm}\right)}$$</p>
+<ul>
+<li>$h_n$ = 柱淨高</li>
+<li>$h_{\max,\text{dim}}$ = 柱斷面最大邊長</li>
+<li>45 cm = 絕對最小值</li>
+</ul>
+<p><strong>密箍區位置：</strong> 柱<strong>兩端</strong>（上端及下端），各取 $l_o$；接頭（joint）內全長也需配置（見下圖說明）。</p>
+<pre><code>┌─────────────────────────────────────────┐
+│ 上柱端 ← lo →                           │
+│ ┌──────────────────────────────────────┐ │
+│ │    密箍區（so間距）                   │ │
+│ ├──────────────────────────────────────┤ │
+│ │                                      │ │
+│ │    非密箍區（較寬間距）               │ │
+│ │                                      │ │
+│ ├──────────────────────────────────────┤ │
+│ │    密箍區（so間距）                   │ │
+│ └──────────────────────────────────────┘ │
+│              ← lo →  下柱端              │
+└─────────────────────────────────────────┘
+</code></pre>
+<hr />
+<h3>三、密箍區橫向鋼筋間距（$s_o$）</h3>
+<p>$$\boxed{s_o \le \min\!\left(\frac{b_{\min}}{4},\quad 6d_b,\quad 15\text{ cm}\right)}$$</p>
+<ul>
+<li>$b_{\min}$ = 柱斷面最小邊長</li>
+<li>$d_b$ = 縱向鋼筋直徑</li>
+<li>15 cm = 絕對最大間距</li>
+</ul>
+<hr />
+<h3>四、密箍區圍束箍筋面積（$A_{sh}$）</h3>
+<p>在密箍區內，每個方向均需滿足：</p>
+<p>$$\boxed{A_{sh} \ge \max\!\left(\underbrace{0.09\,s\,h_c\,\frac{f'_c}{f_{yh}}}_{\text{公式①}},\quad \underbrace{0.3\,s\,h_c\!\left(\frac{A_g}{A_{ch}}-1\right)\!\frac{f'_c}{f_{yh}}}_{\text{公式②}}\right)}$$</p>
+<ul>
+<li>$s$ = 箍筋間距</li>
+<li>$h_c$ = 被圍束方向的核心尺寸，量到箍筋<strong>外緣</strong>（現行規範寫作 $b_c$）</li>
+<li>$A_g$ = 全斷面積</li>
+<li>$A_{ch}$ = 核心面積（同樣量到箍筋外緣，故方形柱 $A_{ch} = h_c^2$）</li>
+</ul>
+<blockquote>
+<p><strong>量法一致性（2026-08-21 統一）：</strong> 本庫 $h_c$ 與 $A_{ch}$ 一律量到箍筋<strong>外緣</strong>。<br />
+舊版 ACI 318-99 的 $h_c$ 是箍筋<strong>中心至中心</strong>（比外緣值小一個 $d_{tie}$），而 $A_{ch}$ 仍量到外緣——<br />
+那套定義下 $A_{ch} \ne h_c^2$，且算出的間距上限會放寬約 3%。兩套不可混用，詳見 <span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RC-2004-3</span> §4①。</p>
+</blockquote>
+<ul>
+<li>$f_{yh}$ = 箍筋降伏強度</li>
+</ul>
+<p><strong>公式①（0.09）</strong> 來自圍束強度需補充因蓋層剝落造成的強度損失。<br />
+<strong>公式②（0.3）</strong> 直接確保 $P_u$ （圍束後） $\ge P_y$ （蓋層破壞前），取<strong>兩式較大值</strong>。</p>
+<hr />
+<h3>五、柱剪力設計及 $N_u &lt; 0.05A_gf'_c$ 的影響</h3>
+<p><strong>設計剪力 $V_e$（考量強柱弱梁的實際剪力）：</strong></p>
+<p>$$V_e = \frac{M_{pr,\text{top}} + M_{pr,\text{bot}}}{h_n} + V_{\text{gravity}}$$</p>
+<ul>
+<li>$M_{pr}$ = 可能彎矩強度（以 $1.25f_y$ 計算，考量應變硬化）</li>
+<li>此 $V_e$ 為最大可能剪力（不折減，考慮超強）</li>
+</ul>
+<p><strong>$N_u &lt; 0.05A_gf'_c$ 時：</strong></p>
+<blockquote>
+<p><strong>規範規定：</strong> 當設計軸壓力小於 $0.05A_gf'_c$ 時，<strong>混凝土剪力貢獻 $V_c = 0$</strong>，剪力全由橫向鋼筋承擔。</p>
+</blockquote>
+<p>物理原因：軸壓力小代表混凝土在反覆地震力下更容易開裂，無法提供穩定的骨料咬合剪力。</p>
+<p>$$V_c = 0 \Rightarrow V_e \le \phi V_s = \phi\cdot\frac{A_v\,f_{yh}\,d}{s}$$</p>
+<p>所需箍筋間距（由剪力控制）：</p>
+<p>$$s \le \frac{A_v\,f_{yh}\,d}{\phi^{-1}V_e}$$</p>
+<p>配置時取：$s = \min(s_{\text{剪力}},\ s_o)$（取剪力與圍束條件的更嚴格者）</p>
+<hr />
+<h3>六、非密箍區橫向鋼筋</h3>
+<p>在柱中段（非密箍區），橫向鋼筋間距放寬：</p>
+<p>$$s_{\text{non-lo}} \le \min(6d_b,\ 15\text{ cm})$$</p>
+<p>仍須提供足夠 $A_{sh}$（可用較大間距但需驗核）。</p>
+<hr />
+<h3>七、橫向鋼筋型式</h3>
+<ul>
+<li><strong>閉合箍筋（Closed Hoops）</strong>：圍繞全部縱筋的封閉矩形箍</li>
+<li><strong>繫筋（Crossties）</strong>：連接對角縱筋，每端 135° 彎鉤，兩端交替配置</li>
+<li><strong>矩形箍筋組合</strong>：多個矩形箍疊套，確保每個縱筋均受橫向支撐</li>
+</ul>
+<p>每根縱向鋼筋在密箍區內間距不得超過 35 cm（防止縱筋挫屈）。</p>
+<hr />
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p><strong>① 為何 $0.05A_gf'_c$ 是分界點？</strong></p>
+<p>ACI 318 以此值作為「顯著軸壓」的最低門檻。低於此值：</p>
+<ul>
+<li>柱可能在地震下承受淨拉力（雙軸地震時）</li>
+<li>混凝土開裂廣泛，骨料咬合喪失</li>
+<li>$V_c$ 的前提（軸壓克制對角拉力）不成立</li>
+</ul>
+<p>因此規範保守地取 $V_c = 0$，確保箍筋能完全承擔剪力。</p>
+<p><strong>② 密箍區範圍延伸規定（柱上方）</strong></p>
+<p>若上方連接梁不能充分限制柱端旋轉（即梁剛度不足），$l_o$ 需從柱端延伸至梁端的塑性鉸外。</p>
+<p><strong>③ 考場繪圖建議</strong></p>
+<p>25 分題強調「必要時請繪圖」，建議繪：</p>
+<ul>
+<li>柱立面圖（標示密箍區 $l_o$、非密箍區、箍筋間距 $s_o$）</li>
+<li>柱斷面圖（標示箍筋 + 繫筋配置方式、$h_c$ 量法）</li>
+</ul></main>
+<footer>來源：raw/solutions/RC-2009-1/RC-2009-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
+</footer>
+<script>
+/* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
+   把頁首兩顆按鈕改指向來源單元。無 JS 或無 referrer 時，靜態 href 保底。 */
+(function(){
+  try{
+    var m = (document.referrer||"").match(/(?:unit|study|lecture|formula-given)-(RC-U\d+-\d+)\.html/);
+    if(!m) return;
+    var u = m[1];
+    var q = document.querySelector('header a.quick');
+    var l = document.querySelector('header a.lect');
+    if(q) q.setAttribute('href','../unit-'+u+'.html');
+    if(l) l.setAttribute('href','../lecture-'+u+'.html');
+  }catch(e){}
+})();
+</script>
+</body></html>
