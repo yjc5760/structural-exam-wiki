@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SD-U1-2 運動方程式推導｜命題分析</title>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#78909c;--bd:#e0e6ea;--warn:#c62828}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:28px 24px}
+header h1{margin:0 0 6px;font-size:1.5em}header p{margin:0;opacity:.85;font-size:.92em}
+nav{position:sticky;top:0;z-index:9;background:#fff;border-bottom:2px solid var(--bd);padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{text-decoration:none;color:var(--ac);font-size:.88em;padding:5px 10px;border-radius:16px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+section{margin-bottom:34px}
+h2{font-size:1.25em;border-left:5px solid var(--ac);padding-left:10px;margin:26px 0 14px}
+h3{font-size:1.05em;margin:30px 0 10px;padding-bottom:5px;border-bottom:2px solid var(--ac2)}
+.role{background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:8px;padding:12px 16px;font-size:.88em;margin-bottom:6px}
+.role b{color:#e65100}
+.btnbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.btnbar a{padding:5px 14px;border-radius:6px;font-size:.9em;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi .n{font-size:1.9em;font-weight:700;color:var(--ac)}.kpi .l{font-size:.82em;color:var(--mut)}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:14px}
+.cat{background:var(--card);border:1px solid var(--bd);border-left:6px solid;border-radius:10px;padding:12px 14px;cursor:pointer;transition:.15s}
+.cat:hover{transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.cat h3{margin:0 0 4px;font-size:1em;border:none;padding:0}.cat p{margin:0;font-size:.82em;color:var(--mut)}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:760px){.charts{grid-template-columns:1fr}}
+.chartbox{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px}
+.chartbox h4{margin:0 0 8px;font-size:.95em;color:var(--mut)}
+canvas{width:100%;height:auto}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:middle}
+th{background:var(--ac2)}
+td.num{text-align:center;font-variant-numeric:tabular-nums}
+.bar{display:inline-block;height:12px;border-radius:3px;vertical-align:middle}
+.up{color:#2e7d32;font-weight:700}.down{color:var(--warn);font-weight:700}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.fbtn{border:1px solid var(--bd);background:#fff;border-radius:18px;padding:6px 14px;cursor:pointer;font-size:.88em;font-family:inherit}
+.fbtn.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.qrow{background:var(--card);border:1px solid var(--bd);border-left:6px solid;border-radius:8px;padding:10px 14px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.qrow.sec{background:#fafafa;border-style:dashed}
+.qrow a{font-weight:700;text-decoration:none;color:var(--ac);min-width:92px}
+.qrow a:hover{text-decoration:underline}
+.qrow .sum{flex:1;min-width:200px;font-size:.92em}
+.qrow .tags{font-size:.75em;color:var(--mut)}
+.qrow .meta{font-size:.72em;white-space:nowrap;color:#fff;border-radius:10px;padding:1px 8px}
+.note{font-size:.85em;color:var(--mut);background:#fff;border:1px dashed var(--bd);border-radius:8px;padding:10px 14px;margin-top:12px}
+.risk-hi{background:#ffebee}.risk-md{background:#fff8e1}.risk-lo{background:#f1f8e9}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:20px}
+</style>
+</head>
+<body>
+<header>
+<h1>SD-U1-2 運動方程式推導 — 命題分析</h1>
+<p>結構技師「結構動力分析與耐震設計」子項命題情報頁｜資料來源：raw/json/question_index.json（2002–2025，24 個考年、99 題）｜更新日期 2026-08-09</p>
+</header>
+<nav>
+<a href="#b1">出題概況</a><a href="#b2">考點結構</a><a href="#b3">考點漂移</a>
+<a href="#b4">題型走向</a><a href="#b5">考題清單</a><a href="#b6">命題風險</a>
+</nav>
+<main>
+
+<section id="s1">
+<h2>命題分析</h2>
+
+<div class="role">
+📚 <b>本頁只回答一件事：這個子項「考什麼」。</b>
+原理與圖解看 <b>觀念講義</b>、公式要不要背看 <b>給／背分界</b>，本頁提供的是可從 <code>question_index.json</code> 重生的命題事實：頻率、結構、漂移、題型、清單、風險。<br>
+建議順序：<b style="color:#6a1b9a;">觀念講義</b>（練題前建立直覺）→ <b style="color:var(--warn);">給／背分界</b>（決定記憶投資）→ <b>本頁</b>（決定練題順序與押題）。
+</div>
+<div class="btnbar">
+  <a href="lecture-SD-U1-2.html" title="原理圖解、公式來源、自我檢測、精選必練 5 題" style="background:#6a1b9a;color:#fff;">觀念講義 📘</a>
+  <a href="lecture-SD-U1-2.pdf" target="_blank" style="background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8;">講義 PDF 🖨️</a>
+  <a href="formula-given-SD-U1-2.html" title="逐條公式 × 24 年考卷證據：哪些會印給你、哪些必須自己背" style="background:#c62828;color:#fff;">給／背分界 🎯</a>
+  <a href="formula-given-SD-U1-2.pdf" target="_blank" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;">分界 PDF 🖨️</a>
+</div>
+
+<h3 id="b1">出題概況</h3>
+<div class="kpis">
+<div class="kpi"><div class="n">10</div><div class="l">主考點題數（另有 18 題副考點）</div></div>
+<div class="kpi"><div class="n">10.1%</div><div class="l">佔全科比例（10／99）</div></div>
+<div class="kpi"><div class="n">#4</div><div class="l">全科出題排名（第三名 U3-2 13 題、第五名 U3-1 9 題）</div></div>
+<div class="kpi"><div class="n">2/6</div><div class="l">近 6 考年出題年數（2020–2025 共 2 題）</div></div>
+</div>
+<div class="charts">
+<div class="chartbox"><h4>年度分布（依考點群堆疊，主考點 10 題）</h4><canvas id="cvBar" width="520" height="260"></canvas></div>
+<div class="chartbox"><h4>考點群比例（主考點 10 題）</h4><canvas id="cvPie" width="520" height="260"></canvas></div>
+</div>
+<div class="note">📌 <b>三個要記住的數字</b>：① 主考點只有 10 題（10.1%）排全科第四，但<b>副考點 18 題是主考點的近兩倍</b>——幾乎每一道 MDOF 題的第一小題都在考它；② 24 個考年只出現 <b>8 年</b>，空窗年段多達四段（2002–03、2005–08、2012–15、2018–22），是本科最零散的單元；③ 近 6 考年只有 2/6 年出題共 2 題（112-1、113-2），<b>但 113 年一年就出兩題（113-1 副、113-2 主）</b>。</div>
+
+<h3 id="b2">考點結構（點卡片可篩選下方考題清單）</h3>
+<div class="cats"><div class="cat" style="border-left-color:#00838f" onclick="filterQ('N')"><h3>🧭 三條建立路線（7 題，主 2）</h3><p>牛頓／D'Alembert、虛功原理、Lagrange 方程、自由體圖</p></div><div class="cat" style="border-left-color:#1565c0" onclick="filterQ('M')"><h3>🧮 矩陣組立（10 題，主 3）</h3><p>質量矩陣（動能對照）、直接勁度法、轉動慣量、靜態凝縮、影響向量</p></div><div class="cat" style="border-left-color:#8e24aa" onclick="filterQ('G')"><h3>📐 廣義座標與化約法（5 題，主 3）</h3><p>m*／k*／p*、形函數、幾何勁度、Rayleigh 商、Ritz 法</p></div><div class="cat" style="border-left-color:#f57c00" onclick="filterQ('C')"><h3>🌊 連續體與特殊系統（6 題，主 2）</h3><p>Euler–Bernoulli PDE、等效彈簧、串聯並聯、基礎運動座標、Ramp 激振</p></div></div>
+
+<h3 id="b3">考點漂移：前段 5 題 vs. 後段 5 題</h3><p style="font-size:.9em;margin:0 0 10px;color:var(--mut)">把主考點依題號排序後對切：前段 2004–2011 共 5 題、後段 2016–2024 共 5 題。<b>樣本只有 10 題，對切後每邊 5 題，統計意義有限</b>，以下解讀僅供參考，不要當成強趨勢。</p><table><thead><tr><th>考點群</th><th class="num">2004–2011</th><th class="num">2016–2024</th><th class="num">變化</th><th>解讀</th></tr></thead><tbody><tr><td><span class="bar" style="width:12px;background:#00838f"></span> 三條建立路線</td><td class="num">1</td><td class="num">1</td><td class="num ">－ 0</td><td>前後各 1 題，但性質不同：前段 99-1 是倒擺（Lagrange 入門），後段 113-2 是吊橋斷面 2DOF（Lagrange 進階，還要先做工程判斷）</td></tr><tr><td><span class="bar" style="width:12px;background:#1565c0"></span> 矩陣組立</td><td class="num">1</td><td class="num">2</td><td class="num up">▲ +1</td><td><b>從 1 題增為 2 題</b>。93-4 是質量矩陣＋影響向量，後段 105-2、106-2 轉向剛性桿轉動慣量與直接勁度法</td></tr><tr><td><span class="bar" style="width:12px;background:#8e24aa"></span> 廣義座標與化約法</td><td class="num">2</td><td class="num">1</td><td class="num down">▼ -1</td><td>從 2 題減為 1 題。93-3、98-1 兩次要求 m*／k*／p*，後段只剩 106-4（給振態求頻率）。<b>但四次考都直接給形函數</b></td></tr><tr><td><span class="bar" style="width:12px;background:#f57c00"></span> 連續體與特殊系統</td><td class="num">1</td><td class="num">1</td><td class="num ">－ 0</td><td>前後各 1 題：100-3（Ramp 激振）與 112-1（連續梁 PDE）。兩者都是「非標準激振／非離散系統」，屬冷門但一出就是整題</td></tr></tbody></table><div class="note">📌 <b>一句話</b>：這個單元的重心從「<b>把連續體壓成 SDOF</b>」漂到「<b>把離散系統的矩陣組對</b>」。不過真正該注意的不是漂移，而是<b>主／副的落差</b>：主考點 10 題看起來冷門，但 18 題副考點分佈在 17 個年份——若因為「主考點才 10 題」而跳過這個單元，等於放棄每年 MDOF 題的第一小題（通常 3–10 分）。</div>
+
+<h3 id="b4">題型走向：推導題的大本營</h3>
+<p style="font-size:.9em;margin:0 0 10px;color:var(--mut)">本科 <code>question_index.json</code> 沒有 <code>designMethod</code> 欄位，改以 <code>analysisMethod</code> 歸出的題型當軸線：含「規範論述」→ 論述題、含「概念題」→ 概念題、含「推導」→ 推導題，其餘為計算題。</p>
+<table>
+<thead><tr><th>期間</th><th class="num">計算題</th><th class="num">推導題</th><th class="num">概念題</th><th class="num">論述題</th><th>觀察</th></tr></thead>
+<tbody><tr><td>2004–2011（前段）</td><td class="num">5</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td>計算題為主，但每題都以「建立運動方程式」開頭</td></tr><tr><td>2016–2024（後段）</td><td class="num">3</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td>推導題出現（112-1 的 PDE、113-2 的 Lagrange）</td></tr><tr style="background:#fff8e1"><td>近 6 考年 2020–2025</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td></td></tr></tbody>
+</table>
+<div class="note">📌 <b>對複習的直接影響</b>：這個單元的分數在<b>過程</b>不在答案——112-1㈠「推導運動方程式」8 分、113-2「推導其運動方程式」15 分，抄結果拿不到分。而且考卷從來不給式子：17 個有題年裡 10 年零公式，有給的 7 年裡有 4 次給的只是<b>形函數</b>、3 次給的是<b>方程式的架子</b>，見 <a href="formula-given-SD-U1-2.html">給／背分界</a>。</div>
+
+<h3 id="b5">考題清單（共 28 題，點題號開啟解析）</h3>
+<div class="filters"><button class="fbtn on" onclick="filterQ('ALL',this)">全部（28）</button><button class="fbtn" onclick="filterQ('N',this)">三條建立路線（7）</button><button class="fbtn" onclick="filterQ('M',this)">矩陣組立（10）</button><button class="fbtn" onclick="filterQ('G',this)">廣義座標與化約法（5）</button><button class="fbtn" onclick="filterQ('C',this)">連續體與特殊系統（6）</button><button class="fbtn" onclick="filterQ('PRI',this)">僅主考點（10）</button><button class="fbtn" onclick="filterQ('SEC',this)">僅副考點（18）</button></div>
+<div id="qlist"></div>
+<div class="note">虛線灰底＝副考點（主考點在別的子項，但第一步都要先建立運動方程式）。色籤為題型（計算／推導／概念／論述），由 <code>analysisMethod</code> 歸出。📄＝有 .md 解析、📊＝有互動圖、✅＝已驗證。</div>
+
+<h3 id="b6">命題風險排序（下一次最可能考什麼）</h3>
+<p style="font-size:.9em;margin:0 0 10px;color:var(--mut)">依「歷史頻率 × 空窗年數 × 近年趨勢」排序。<b>這是推測而非預言</b>，用途是決定<b>練題順序</b>，不是叫你 all-in 單一考點。</p>
+<table>
+<thead><tr><th>風險</th><th>考點</th><th class="num">歷史題數</th><th>最後出現</th><th class="num">空窗</th><th>理由</th></tr></thead>
+<tbody><tr class="risk-hi"><td><b>高</b></td><td>剛性桿／剛性梁系統的矩陣組立（含轉動慣量）</td><td class="num">3</td><td>SD-2024-2</td><td class="num">1 年</td><td>105-2、108-1、113-2 三次，間隔越來越短。108-1 刻意分「總質量＝0」與「＝m」兩個對照小題（10 分 vs 15 分），配分本身就在說重點是 \(I_G=mL^2/12\)</td></tr><tr class="risk-hi"><td><b>高</b></td><td>直接勁度法建立 [K] ＋ 靜態凝縮</td><td class="num">2</td><td>SD-2022-1</td><td class="num">3 年</td><td>106-2、111-1 兩次都明講方法名稱卻不給式子。MDOF 題只要出現「沒有質量的旋轉自由度」就會用到，是最容易被包進大題的技能</td></tr><tr class="risk-md"><td><b>中高</b></td><td>廣義座標法：m*／k*／p* 與幾何勁度</td><td class="num">3</td><td>SD-2017-4</td><td class="num">8 年</td><td>91-2、93-3、98-1 三次完整考，102-3、106-4 兩次以副考點出現。<b>主考點空窗 8 年</b>，而四次考都直接給形函數（等於送分一半），是投報率高的空窗題型</td></tr><tr class="risk-md"><td><b>中高</b></td><td>Lagrange 法（含幾何負勁度／穩定條件）</td><td class="num">2</td><td>SD-2024-2</td><td class="num">1 年</td><td>99-1、113-2 兩次。113-2 剛考完，但兩題型態差很多（倒擺 vs 吊橋顫振），且用牛頓法解會被約束反力纏死——屬於「會就快、不會就卡死」的分水嶺</td></tr><tr class="risk-lo"><td><b>中</b></td><td>連續體 PDE 與分離變數</td><td class="num">1</td><td>SD-2023-1</td><td class="num">2 年</td><td>112-1 是 24 年唯一一題完整的連續體推導（25 分），113-4 隔年就以橋梁規範對照的形式再出現。剛考過，短期重複機率中等</td></tr><tr class="risk-lo"><td><b>低</b></td><td>非標準激振（Ramp／等速基礎運動）</td><td class="num">1</td><td>SD-2011-3</td><td class="num">14 年</td><td>100-3 是唯一一題，已空窗 14 年。特解要用待定係數法猜一次式，屬於冷門技巧，但同年 100-2 的路面激振是同一類座標處理</td></tr></tbody>
+</table>
+<div class="note">📌 <b>若只剩三天</b>：先把「剛性桿轉動慣量 → 動能對照法組 [M] → 直接勁度法組 [K] → 靜態凝縮」這條組矩陣的流程練熟（涵蓋 M 群 10 題，是本單元最大群），再補 Lagrange 的三項偏微分。廣義座標法排第三——它空窗 8 年、且考卷會給形函數，適合當「有餘力再拿」的題型。逐題練習順序見 <a href="lecture-SD-U1-2.html#s12">觀念講義 §12「精選 5 題」</a>。</div>
+
+</section>
+
+<footer>study SD-U1-2 命題分析｜exam-wiki-SD 知識庫｜統計基準 raw/json/question_index.json（99 題 / 24 考年）｜題號連結指向 study/problems-view/</footer>
+</main>
+
+<script>
+const CATC={"N": "#00838f", "M": "#1565c0", "G": "#8e24aa", "C": "#f57c00"};
+const CATN={"N": "三條建立路線", "M": "矩陣組立", "G": "廣義座標與化約法", "C": "連續體與特殊系統"};
+const MC={"計算題": "#1565c0", "推導題": "#6a1b9a", "概念題": "#546e7a", "論述題": "#f57c00"};
+// [題號, 考點群, 摘要, 標籤, 有viz, 題型, 主(1)/副(0), 副考點的主分類]
+const Q=[
+["SD-2002-1", "M", "柔性基座 SSI 二自由度特徵值與振態", ["柔性基座", "土壤結構互制", "SSI", "旋轉彈簧"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2002-2", "G", "軸壓簡支梁廣義質量勁度與 Ncr", ["Rayleigh法", "廣義質量", "廣義勁度", "幾何勁度"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2003-4", "M", "剛性樓版 3DOF 勁度矩陣與 e 向量", ["3DOF", "剛性樓版", "勁度矩陣", "質量矩陣"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2004-2", "C", "隔震 2DOF 化簡為 SDOF 求週期", ["基礎隔震", "2DOF", "SDOF化簡", "運動方程式"], 0, "推導題", 0, "U3-2 隔減震原理"],
+["SD-2004-3", "G", "Ritz 法求複合系統廣義質量與勁度", ["廣義質量", "廣義勁度", "Ritz法", "廣義座標"], 0, "計算題", 1, ""],
+["SD-2004-4", "M", "L 形構架質量矩陣與地震影響向量", ["MDOF", "L形構架", "質量矩陣", "影響向量"], 0, "計算題", 1, ""],
+["SD-2007-2", "N", "兩自由度系統列運動方程式與共振", ["MDOF", "兩自由度", "運動方程式", "模態頻率"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2007-3", "N", "由轉換函數與位移上限設計勁度 k", ["SDOF", "轉換函數", "頻率響應函數", "勁度設計"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2008-1", "M", "由實測週期反推 k 與阻尼係數矩陣", ["MDOF", "2自由度", "剪力建築", "特徵值問題"], 1, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2009-1", "G", "懸臂梁廣義質量勁度與廣義荷重", ["廣義質量", "廣義勁度", "廣義荷重", "連續體梁"], 0, "計算題", 1, ""],
+["SD-2010-1", "N", "倒擺穩定條件與 Lagrange 建運動式", ["倒擺", "SDOF", "穩定條件", "運動方程式"], 0, "計算題", 1, ""],
+["SD-2010-2", "C", "自由落體衝擊懸臂梁的最大振幅", ["SDOF", "懸臂梁", "點質量衝擊", "自由落體"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2011-2", "C", "路面激振建方程式與共振車速", ["SDOF", "基礎激振", "路面激振", "汽車動力學"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2011-3", "C", "電梯等速上升的 Ramp 激振全解", ["SDOF", "懸吊系統", "電梯動力學", "等速上升"], 0, "計算題", 1, ""],
+["SD-2013-3", "G", "集中＋分佈質量的 Rayleigh 法頻率", ["Rayleigh法", "懸臂梁", "分佈質量", "集中質量"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2013-4", "M", "塔台集中質量均分與模態疊加", ["MDOF", "3自由度", "火箭塔台", "集中質量"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2015-2", "M", "兩層剛體梁結構的頻率與振態", ["MDOF", "剪力屋架", "質量矩陣", "勁度矩陣"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2016-1", "N", "2DOF 運動方程組與解耦後單自由度式", ["MDOF", "2自由度", "剪力屋架", "運動方程式"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2016-2", "M", "剛性梁旋轉自由度的質量勁度矩陣", ["MDOF", "2自由度", "剛性梁", "旋轉DOF"], 1, "計算題", 1, ""],
+["SD-2017-2", "M", "三自由度門形構架直接勁度法建式", ["MDOF", "3自由度", "門形框架", "直接勁度法"], 0, "計算題", 1, ""],
+["SD-2017-4", "G", "給定振態求橋柱頻率（Rayleigh 商）", ["連續體", "懸臂橋柱", "Rayleigh法", "Rayleigh商"], 0, "概念題", 1, ""],
+["SD-2019-1", "M", "剛性梁等效勁度與運動方程式", ["剛性梁", "MDOF", "等效勁度", "質量矩陣"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2019-2", "N", "雙層屋架運動方程式與自由振動解", ["剪力屋架", "MDOF", "運動方程式", "特徵方程式"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2021-1", "C", "剛架基礎激振建式與絕對速度", ["SDOF", "基礎激振", "框架位移", "運動方程式"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2022-1", "M", "直接勁度法建式＋靜態濃縮為 2DOF", ["MDOF", "直接勁度法", "靜態濃縮", "運動方程式"], 0, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2023-1", "C", "簡支梁 PDE 推導與分離變數模態", ["連續體梁", "Euler-Bernoulli梁", "簡支梁", "運動方程式"], 1, "計算題", 1, ""],
+["SD-2024-1", "N", "3DOF 剪力屋架推導運動方程式", ["MDOF", "3自由度", "剪力屋架", "特徵值問題"], 1, "計算題", 0, "U1-3 單自由度、多自由度系統之動態分析及應用"],
+["SD-2024-2", "N", "吊橋斷面 2DOF 的 Lagrange 推導", ["渦激振動", "VIV", "氣動力彈性", "顫振"], 0, "推導題", 1, ""]
+];
+function renderQ(cat){
+  const box=document.getElementById('qlist');box.innerHTML='';
+  const sel=Q.filter(q=>{
+    if(cat==='ALL')return true;
+    if(cat==='PRI')return q[6]===1;
+    if(cat==='SEC')return q[6]===0;
+    return q[1]===cat;});
+  sel.sort((a,b)=>a[0].localeCompare(b[0])).forEach(q=>{
+    const d=document.createElement('div');
+    d.className='qrow'+(q[6]?'':' sec');d.style.borderLeftColor=CATC[q[1]];
+    d.innerHTML=`<a href="problems-view/${q[0]}.html" target="_blank">${q[0]}</a>
+    <span class="meta" style="background:${MC[q[5]]}">${q[5]}</span>
+    ${q[6]?'':`<span class="meta" style="background:#90a4ae">副・${q[7]}</span>`}
+    <span class="sum">${q[2]}</span><span class="tags">${q[3].join('・')}</span>
+    <span class="ico" title="解析／已驗證">📄 ✅</span>`;
+    box.appendChild(d);});
+}
+function filterQ(cat,btn){renderQ(cat);
+  const order=["ALL", "N", "M", "G", "C", "PRI", "SEC"];
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  const idx=order.indexOf(cat);if(idx>=0)document.querySelectorAll('.fbtn')[idx].classList.add('on');
+  if(!btn)document.getElementById('b5').scrollIntoView({behavior:'smooth'});
+}
+renderQ('ALL');
+const PQ=Q.filter(q=>q[6]===1);
+const CKEYS=Object.keys(CATC);
+const byYear={};PQ.forEach(q=>{const y=q[0].split('-')[1];
+  if(!byYear[y]){byYear[y]={};CKEYS.forEach(c=>byYear[y][c]=0);}byYear[y][q[1]]++;});
+function drawBar(){
+  const cv=document.getElementById('cvBar'),ctx=cv.getContext('2d');
+  const years=Object.keys(byYear).sort(),W=cv.width,H=cv.height,bw=(W-60)/years.length;
+  const max=Math.max(...years.map(y=>Object.values(byYear[y]).reduce((a,b)=>a+b,0)));
+  ctx.font='10px sans-serif';ctx.fillStyle='#78909c';
+  for(let i=0;i<=max;i++){const yy=H-30-(H-60)*i/max;ctx.fillStyle='#78909c';ctx.fillText(i,8,yy+3);
+    ctx.strokeStyle='#eceff1';ctx.beginPath();ctx.moveTo(24,yy);ctx.lineTo(W-10,yy);ctx.stroke();}
+  years.forEach((y,i)=>{let acc=0;
+    CKEYS.forEach(c=>{const v=byYear[y][c];if(!v)return;
+      const h=(H-60)*v/max;ctx.fillStyle=CATC[c];
+      ctx.fillRect(30+i*bw,H-30-acc-h,Math.max(bw*0.7,3),h);acc+=h;});
+    ctx.fillStyle='#78909c';ctx.save();ctx.translate(30+i*bw+bw*0.35,H-18);ctx.rotate(-0.7);ctx.fillText(y.slice(2),0,0);ctx.restore();});
+}
+function drawPie(){
+  const cv=document.getElementById('cvPie'),ctx=cv.getContext('2d');
+  const cnt={};CKEYS.forEach(c=>cnt[c]=0);PQ.forEach(q=>cnt[q[1]]++);
+  const tot=PQ.length,cx=cv.width*0.30,cy=cv.height/2,r=Math.min(cx,cy)-16;let a=-Math.PI/2;
+  CKEYS.forEach(c=>{if(!cnt[c])return;const frac=cnt[c]/tot,a2=a+frac*2*Math.PI;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,a,a2);ctx.closePath();ctx.fillStyle=CATC[c];ctx.fill();a=a2;});
+  ctx.font='12px sans-serif';let ly=32;
+  CKEYS.forEach(c=>{ctx.fillStyle=CATC[c];ctx.fillRect(cv.width*0.60,ly-9,12,12);
+    ctx.fillStyle='#263238';ctx.fillText(`${CATN[c]}：${cnt[c]} 題（${Math.round(cnt[c]/tot*100)}%）`,cv.width*0.60+18,ly);ly+=24;});
+}
+drawBar();drawPie();
+</script>
+</body>
+</html>

@@ -88,9 +88,11 @@ def main():
                 iss[qid].append((lab, f"主分類 {h['主分類']} ≠ 索引 {p}"))
             if h["副分類"] is not None and sorted(h["副分類"]) != sorted(sec):
                 iss[qid].append((lab, f"副分類 {h['副分類']} ≠ 索引 {sorted(sec)}"))
-            if h["設計法"] and method(x) and len(norm(method(x))) <= 8 and norm(h["設計法"]).split("（")[0] != norm(method(x)):
-                if norm(method(x)) not in norm(h["設計法"]):
-                    iss[qid].append((lab, f"設計法「{h['設計法']}」≠ 索引「{method(x)}」"))
+            # 索引同時有 designMethod（固定分類）與 analysisMethod（長描述）時，標頭對照長描述（SD，2026-11-11）
+            hm = x["analysisMethod"] if "designMethod" in x and "analysisMethod" in x else method(x)
+            if h["設計法"] and hm and len(norm(hm)) <= 8 and norm(h["設計法"]).split("（")[0] != norm(hm):
+                if norm(hm) not in norm(h["設計法"]):
+                    iss[qid].append((lab, f"設計法「{h['設計法']}」≠ 索引「{hm}」"))
 
     for d in sorted((root / "raw/solutions").glob(f"{S}-*")):
         if d.is_dir() and re.fullmatch(rf"{S}-\d{{4}}-\d+", d.name) and d.name not in qs:
