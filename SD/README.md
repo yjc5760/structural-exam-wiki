@@ -38,7 +38,6 @@
 | 子項命題分析（這個單元考什麼） | `study/study-SD-UN-n.html`（U1-1、U1-2、U1-3、U2-2、U3-2） |
 | 公式給／背分界 | `study/formula-given-SD-UN-n.html`（+ 同名 `.pdf`；同上 5 個子項） |
 | 單元觀念講義 | `study/lecture-SD-UN-n.html`（+ 同名 `.pdf`；同上 5 個子項） |
-| 記憶片（舊教材） | `study/recall-decks/`（pptx＋PDF＋旁白稿） |
 | 全科出題頻率熱圖 | `study/frequency-SD.html` |
 | 影片講義 | `影片講義/`（5 個子項，HTML＋`video/*.mp4`） |
 | 稽核報告 | `wiki/queries/`（目錄 `index.md`） |
@@ -65,7 +64,6 @@ SD/
 │   ├── study-*.html   ← 命題分析（舊式，unit-exam-intel 產出）
 │   ├── formula-given-*.html ← 公式給／背分界 + .pdf（舊式）
 │   ├── lecture-*.html ← 觀念講義 + .pdf（unit-lecture）
-│   ├── recall-decks/  ← 記憶片（舊式）
 │   ├── frequency-SD.html ← 全科出題頻率熱圖（v1.1）
 │   ├── problems-view/ ← 題目渲染頁
 │   └── assets/katex/  ← 本機 KaTeX（勿刪）

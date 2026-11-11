@@ -319,6 +319,7 @@ CQC 組合：X_total = √[ΣΣρᵢⱼ·Xᵢ·Xⱼ]
 | 2026-11-11 | 共用腳本相容性檢查（不重產）：`render_problem_view.py` 抽 `SD-2016-4`、`SD-2003-2` 重產後比對——SD-2016-4 完全相同；SD-2003-2 只差兩處「文字後緊接清單」由 `<br />` 純文字改為真正的 `<ul>`（SA 搬入時併入的改進）；比對後還原原頁，99 頁維持原 repo 版。`build_frequency.py --check` 對帳通過（99 題）；`xcheck.py SD` A=0、B=0、C=0（根目錄版未掃封存區，見 §10）；站內相對連結 121 頁 2 處失效（原 repo 即缺圖，見 §10）；根目錄 `index.html` 五科入口讀得到 SD 99 題 | 根目錄 v1.2 頻率熱圖只認單元總覽 `unit-*.html`，SD 尚無，現在重產會拿掉「命題分析／講義／給背／記憶片」教材連結（見 §10） |
 | 2026-11-11 | 分類稽核（`audit_classification.py SD SD`）：0 題指向他科；15 題 22 筆其他不一致（索引 `primaryTopicName` 舊名 7 筆、解析標頭主分類只寫到單元層級 13 份、缺主分類 2 份），未改，列 §10 | 主副分類全部是 SD 子項，無須改歸 |
 | 2026-11-11 | **分類軸定案（使用者決定）**：99 題歸併為四值寫入 `question_index.json` 新欄位 `designMethod`（動力分析 58、概念題 22、混合 10、規範計算 9；判準與邊界題見 §3），`analysisMethod` 長描述保留；`scripts/subject_profiles.json` 的 SD `methodNotes` 同步改為判準全文；根目錄 `audit_classification.py` 改為索引兩欄都有時標頭對照 `analysisMethod`（其餘四科稽核結果逐字不變） | 單元總覽、共用樣板儀表板、稽核都要固定的分類軸；原 75 種自由文字無法篩選。保留長描述是因為解析標頭、原 repo 儀表板、命題分析頁都依它 |
+| 2026-11-11 | **移除已停用的記憶片教材（`study/recall-decks/` 5 組 pptx＋PDF＋旁白稿）**：比照 SS 清理已停用 skill 產出物；同步更新 `README.md`、`檔案架構索引表.md`、`知識庫使用說明書.md` 與 §10 單元教材說明 | 停用教材已無維護價值，清理以精簡專案體積（~40 MB） |
 
 ### 獨立 repo 時期的變更紀錄（2026-10-29～11-11，原 exam-wiki-SD/CLAUDE.md CHANGELOG，原樣保留）
 
@@ -345,7 +346,7 @@ CQC 組合：X_total = √[ΣΣρᵢⱼ·Xᵢ·Xⱼ]
 | 分類稽核遺留 | 索引名稱＝大綱名稱；解析標頭主分類寫到子項 | 索引 `primaryTopicName` 7 筆是舊名（SD-2003-2～2003-5、2005-1、2005-2、2005-4，例「多自由度系統之動態分析及應用」≠ 大綱名）——屬索引欄位，**待使用者確認**後可直接改成大綱名；解析標頭只寫到單元層級 13 份（SD-2002-1～2005-4）、缺主分類 2 份（SD-2016-4、2016-5）——屬受保護的解析正本，等勘誤或補題目正本時一併處理 |
 | 缺圖 | — | 解析引用但資料夾沒有：`SD-2008-3-chart-1.png`、`SD-2017-4-fig-1.png`（原 repo 即缺）；補圖時用 `scripts/extract_figure.py` 從考卷擷取 |
 | 題目正本 | 解題前先寫 `-problem.md`、確認後凍結 | **待辦**：SD 99 題都還沒有題目正本；要補時用 exam-problem-split |
-| 單元教材 | 單元總覽 `unit-SD-Un-m.html`（unit-overview） | **待使用者決定**：SD 仍是舊式——命題分析 `study-SD-*.html` 5 頁、給／背 `formula-given-SD-*.html` 5 頁（＋PDF）、觀念講義 `lecture-SD-*.html` 5 份（＋PDF），子項 U1-1、U1-2、U1-3、U2-2、U3-2；另有已停用 skill 產出的記憶片 `study/recall-decks/`（5 組 pptx＋PDF＋旁白稿）。要改成單元總覽時，逐子項建 `study/data/unit-SD-*.json` 後產生 |
+| 單元教材 | 單元總覽 `unit-SD-Un-m.html`（unit-overview） | **待使用者決定**：SD 仍是舊式——命題分析 `study-SD-*.html` 5 頁、給／背 `formula-given-SD-*.html` 5 頁（＋PDF）、觀念講義 `lecture-SD-*.html` 5 份（＋PDF），子項 U1-1、U1-2、U1-3、U2-2、U3-2；原已停用 skill 產出的記憶片 `study/recall-decks/` 5 組已於同日清理移除。要改成單元總覽時，逐子項建 `study/data/unit-SD-*.json` 後產生 |
 | 頻率熱圖 | `build_frequency.py` v1.2（教材欄只認 `unit-*.html`） | 保留原 repo v1.1 頁（教材欄列命題分析／講義／給背／記憶片；記憶片偵測 `recall-decks/` 是原 repo 在地修改）。改成單元總覽**之前不要重產** `frequency-SD.html`；`--check` 可照常跑 |
 | 題目瀏覽頁 | `render_problem_view.py` 由正本產生 | 99 頁保留原 repo 版（11-01 同一管線重生）。根目錄腳本已抽查相容（見 §9），勘誤後重產單題沒問題 |
 | xcheck 封存區 | 根目錄 `scripts/xcheck.py` 註解說「舊目錄不存在時改掃封存處」，但判斷以執行目錄（根目錄）為準，五科在合併後**實際都沒掃到** `XX/archive/wiki/` | 原 repo 版（`archive/exam-wiki-SD-root/xcheck.py`）以科目資料夾為準，實測 SD A=3、SM A=2、SA A=7、RC A=23、SS A=0。**待使用者決定（五科通用）**：要不要掃已凍結的封存區；要掃就把 SD 版那三行併入根目錄，不掃就把根目錄註解改正 |
