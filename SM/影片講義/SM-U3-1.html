@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SM-U3-1 側向土壓力理論｜影片講義</title>
+<link rel="stylesheet" href="../study/assets/katex/katex.min.css">
+<script defer src="../study/assets/katex/katex.min.js"></script>
+<script defer src="../study/assets/katex/auto-render.min.js"></script>
+<style>
+:root{
+  --paper:#faf7f0; --ink:#22281f; --muted:#5f665a; --board:#1f3a2e; --board2:#2c4a3c;
+  --chalk:#f3efe2; --gold:#c99a1e; --line:#ddd6c4;
+  --act:#2f8f4e; --pas:#c4483e; --rest:#2f74a8;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.8;font-size:16.5px}
+main{max-width:860px;margin:0 auto;padding:28px 18px 60px}
+.cover{background:var(--board);color:var(--chalk);border-radius:14px;padding:30px 30px 26px;
+  background-image:radial-gradient(ellipse at 30% 20%,var(--board2),transparent 70%)}
+.cover .tag{font-size:13.5px;letter-spacing:.08em;color:#d8cf9f}
+.cover h1{margin:8px 0 6px;font-size:32px;line-height:1.3;color:#f6d77a;font-weight:700}
+.cover .meta{font-size:14px;color:#c9d2c4}
+.cover .core{margin-top:18px;border:2px solid #e3c05a;border-radius:8px;padding:10px 16px;font-size:19px;color:#fff3c4}
+h2{font-size:22px;color:var(--board);border-bottom:3px solid var(--board);padding-bottom:4px;margin:44px 0 14px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+h2 .no{color:var(--gold)}
+.seek{font:inherit;font-size:13px;background:var(--board);color:var(--chalk);border:0;border-radius:20px;
+  padding:3px 12px;cursor:pointer;margin-left:auto}
+.seek:hover{background:#2f5745}
+nav.toc{margin:22px 0;border:1px solid var(--line);border-radius:10px;padding:14px 18px;background:#fff}
+nav.toc b{color:var(--board)}
+nav.toc ol{columns:2;column-gap:26px;margin:8px 0 0;padding-left:22px}
+nav.toc li{break-inside:avoid;font-size:15px}
+nav.toc a{color:var(--ink);text-decoration:none}
+nav.toc a:hover{text-decoration:underline}
+nav.toc .t{color:var(--muted);font-size:13px;margin-left:6px;font-variant-numeric:tabular-nums}
+.vid{margin:18px 0 8px}
+.vid video{width:100%;border-radius:10px;background:#000;display:block}
+.vid p{font-size:13px;color:var(--muted);margin:6px 0 0}
+figure{margin:18px 0;break-inside:avoid}
+figure img{width:100%;border-radius:8px;display:block;border:1px solid #2a3d33}
+figcaption{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;color:var(--muted);margin-top:5px}
+figcaption .tm{white-space:nowrap;font-variant-numeric:tabular-nums}
+p{margin:10px 0}
+.eq{overflow-x:auto;margin:8px 0}
+.warn,.ok,.key{border-radius:8px;padding:10px 16px;margin:14px 0;break-inside:avoid;line-height:1.85}
+.warn>b:first-child,.ok>b:first-child,.key>b:first-child{display:block;margin-bottom:2px}
+.warn{border:2px solid var(--pas);background:#fbecea}
+.warn>b:first-child{color:var(--pas)}
+.ok{border:2px solid var(--act);background:#eaf5ec}
+.ok>b:first-child{color:var(--act)}
+.key{border:2px solid var(--gold);background:#fbf3d9}
+.key>b:first-child{color:#8a6a0d}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:15px;background:#fff;break-inside:avoid}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:#eef1ea;color:var(--board)}
+td:first-child,th:first-child{white-space:nowrap}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.c-act{color:var(--act);font-weight:600}.c-pas{color:var(--pas);font-weight:600}.c-rest{color:var(--rest);font-weight:600}
+.legend{font-size:13.5px;color:var(--muted)}
+footer{margin-top:50px;border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--muted)}
+@media (max-width:640px){
+  nav.toc ol{columns:1}
+  .cover h1{font-size:26px}
+  body{font-size:16px}
+  figcaption{flex-direction:column;gap:0}
+}
+@media print{
+  @page{size:A4;margin:14mm}
+  body{background:#fff;font-size:11pt}
+  main{max-width:none;padding:0}
+  .vid,.seek{display:none!important}
+  .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  h2{break-after:avoid;margin-top:28px}
+  figure,.warn,.ok,.key,table,.eq{break-inside:avoid}
+  nav.toc{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<main>
+
+<section class="cover">
+  <div class="tag">結構學與土壤力學 SM ・ 命題大綱 SM-U3-1 ・ 影片講義</div>
+  <h1>側向土壓力理論<br>單元觀念總整理</h1>
+  <div class="meta">影片長度 9:25 ・ 12 章 ・ 26 段旁白 ・ 18 張黑板圖</div>
+  <div class="core">土壓力不是荷重，是「變形的結果」——先看牆，再選 \(K\)。</div>
+</section>
+
+<nav class="toc">
+  <b>目錄</b>（點章名跳到該章；章名旁按鈕可直接跳到影片時間）
+  <ol>
+    <li><a href="#c0">土壓力是變形的結果</a><span class="t">0:00</span></li>
+    <li><a href="#c1">莫爾圓撞出 Ka 與 Kp</a><span class="t">0:41</span></li>
+    <li><a href="#c2">乾砂：為什麼是三角形</a><span class="t">1:24</span></li>
+    <li><a href="#c3">黏土：張力裂縫</a><span class="t">2:07</span></li>
+    <li><a href="#c4">地下水：土乘 K，水不乘</a><span class="t">2:50</span></li>
+    <li><a href="#c5">分層：交界面算兩次</a><span class="t">3:52</span></li>
+    <li><a href="#c6">切方塊＋對牆底取矩</a><span class="t">4:35</span></li>
+    <li><a href="#c7">超載怎麼進來</a><span class="t">5:46</span></li>
+    <li><a href="#c8">什麼時候用 K0</a><span class="t">6:27</span></li>
+    <li><a href="#c9">Rankine vs Coulomb</a><span class="t">7:14</span></li>
+    <li><a href="#c10">被動土壓力</a><span class="t">7:53</span></li>
+    <li><a href="#c11">總結</a><span class="t">8:40</span></li>
+  </ol>
+</nav>
+
+<div class="vid">
+  <video id="v" controls preload="metadata" src="video/SM-U3-1.mp4"></video>
+  <p>黑板用色：<span class="c-act">綠＝主動 \(K_a\)</span>、<span class="c-rest">藍＝靜止 \(K_0\)／水壓</span>、<span class="c-pas">紅＝被動 \(K_p\)／錯誤做法</span>、黃框＝結論。講義公式沿用同色。</p>
+</div>
+
+<!-- c0 -->
+<section id="c0">
+<h2><span class="no">0</span>土壓力是變形的結果 <button class="seek" data-t="0">▶ 0:00</button></h2>
+<figure><img src="img/SM-U3-1/s01.jpg" alt="標題板：土壓力不是荷重，是變形的結果">
+<figcaption><span>本單元的底層只有一句話</span><span class="tm">影片 0:17</span></figcaption></figure>
+<p>側向土壓力這個單元，公式看起來很多，底層只有一句話：<b>土壓力不是荷重，是變形的結果。</b>同一堆土，牆往哪個方向動、動了多少，決定了係數 \(K\)，也就決定了土壓力是大是小。</p>
+<figure><img src="img/SM-U3-1/s02.jpg" alt="K–牆位移曲線與主動、靜止、被動三張卡片">
+<figcaption><span>K–牆位移曲線：左綠主動、中靜止、右紅被動</span><span class="tm">影片 0:41</span></figcaption></figure>
+<table>
+<tr><th>狀態</th><th>牆的位移</th><th>土體反應</th><th>所需位移量</th></tr>
+<tr><td class="c-act">主動 \(K_a\)</td><td>牆離開填土</td><td>土體伸張，自己撐住一部分 → 壓力最小</td><td>約牆高的 0.001</td></tr>
+<tr><td class="c-rest">靜止 \(K_0\)</td><td>牆完全不動</td><td>—</td><td>\(\Delta = 0\)</td></tr>
+<tr><td class="c-pas">被動 \(K_p\)</td><td>牆推向填土</td><td>要把土壓破 → 壓力最大</td><td>牆高的 2～5% 才發揮得出來</td></tr>
+</table>
+</section>
+
+<!-- c1 -->
+<section id="c1">
+<h2><span class="no">1</span>莫爾圓撞出 Ka 與 Kp <button class="seek" data-t="41.77">▶ 0:41</button></h2>
+<figure><img src="img/SM-U3-1/s04.jpg" alt="莫爾圓：σv' 固定，圓往左長碰包絡線為主動、往右長為被動；右側 Ka、Kp 公式">
+<figcaption><span>σv′ 固定：圓往左長＝主動，往右長＝被動；虛線 K0 圓不碰包絡線</span><span class="tm">影片 1:23</span></figcaption></figure>
+<p>\(K\) 從哪裡來？看莫爾圓。垂直有效應力 \(\sigma_v'\) 固定不動。水平應力變小，圓往左長，碰到破壞包絡線 \(\tau=\sigma'\tan\phi\)，就是<span class="c-act">主動</span>；水平應力變大，圓往右長，碰到包絡線，就是<span class="c-pas">被動</span>。</p>
+<p>主動時，\(\sigma_v'\) 是大主應力；被動時它變成小主應力，\(K_p\) 剛好是 \(K_a\) 的倒數：</p>
+<div class="eq">$$\color{#2f8f4e}{K_a=\frac{\sigma_3}{\sigma_v'}=\frac{1-\sin\phi}{1+\sin\phi}}\qquad\qquad \color{#c4483e}{K_p=\frac{1+\sin\phi}{1-\sin\phi}=\frac{1}{K_a}}$$</div>
+<div class="key"><b>數字感</b>\(\phi=30^\circ\)：\(K_a=\tfrac13\)、\(K_p=3\)，差 9 倍。</div>
+<p><span class="c-rest">\(K_0\)</span> 的圓沒碰到包絡線（未破壞），所以不能用強度公式推。</p>
+</section>
+
+<!-- c2 -->
+<section id="c2">
+<h2><span class="no">2</span>乾砂：為什麼是三角形 <button class="seek" data-t="84.1">▶ 1:24</button></h2>
+<figure><img src="img/SM-U3-1/s06.jpg" alt="乾砂三角形分布，Pa 作用在 H/3；紅框 H/3 只在這張圖成立">
+<figcaption><span>乾砂三角形分布與「H/3 只在這張圖成立」</span><span class="tm">影片 2:07</span></figcaption></figure>
+<p>先看最單純的乾砂。垂直有效應力等於 \(\gamma z\)，乘上定值 \(K_a\)，側壓力隨深度線性增加，所以分布一定是三角形。三角形面積就是合力；形心就是作用點，在牆底以上 \(H/3\)。</p>
+<div class="eq">$$\sigma_v'=\gamma z\;\Rightarrow\;\sigma_a'=K_a\gamma z\;\Rightarrow\;P_a=\tfrac12K_a\gamma H^2,\qquad \bar y=\frac H3$$</div>
+<div class="warn"><b>H/3 只在這張圖成立</b>單一乾砂層、沒水、沒超載。只要出現地下水、超載、分層或張力裂縫，分布就不再是單一三角形，作用點必須另外算（切方塊取矩）。</div>
+<p>被動側同理，合力是 \(P_p=\tfrac12K_p\gamma H^2\)。</p>
+</section>
+
+<!-- c3 -->
+<section id="c3">
+<h2><span class="no">3</span>黏土：張力裂縫 <button class="seek" data-t="127.54">▶ 2:07</button></h2>
+<figure><img src="img/SM-U3-1/s07.jpg" alt="黏土公式分布：上方紅色負三角張力區、下方綠三角；zc 公式">
+<figcaption><span>① 公式算出來的分布（含負值）</span><span class="tm">影片 2:26</span></figcaption></figure>
+<p>換成黏土，公式多一項：減 \(2c\sqrt{K_a}\)。凝聚力代表土自己撐得住，把整條壓力線往左平移，地表附近算出來變成負值，也就是張力區。張力區的深度 \(z_c\)：</p>
+<div class="eq">$$\sigma_a'=K_a\sigma_v'-2c\sqrt{K_a},\qquad z_c=\frac{2c}{\gamma\sqrt{K_a}}$$</div>
+<figure><img src="img/SM-U3-1/s08.jpg" alt="負三角打叉不能相減；實際採用張力區歸零，Pa 作用在 (H−zc)/3；Hc=2zc">
+<figcaption><span>② 實際採用：張力區歸零，只算 zc 以下三角形</span><span class="tm">影片 2:50</span></figcaption></figure>
+<p>土不能受拉，張力區會裂開，壓力一律歸零。</p>
+<div class="warn"><b>最常見的錯</b>拿負面積去抵銷正面積。</div>
+<p>正確做法只算 \(z_c\) 以下的三角形，作用點上移到 \((H-z_c)/3\)。裂縫積水更危險；而兩倍 \(z_c\)，就是能暫時直立的臨界深度 \(H_c\)：</p>
+<div class="eq">$$H_c=2z_c=\frac{4c}{\gamma\sqrt{K_a}}$$</div>
+</section>
+
+<!-- c4 -->
+<section id="c4">
+<h2><span class="no">4</span>地下水：土乘 K，水不乘 <button class="seek" data-t="170.53">▶ 2:50</button></h2>
+<p>地下水位以下，記住三個動作：</p>
+<div class="key"><b>水位以下：三個動作</b>
+① 垂直應力改用浮單位重 \(\gamma'=\gamma_{sat}-\gamma_w\)<br>
+② <span class="c-act">土壓只乘有效應力 \(K_a\sigma_v'\)</span><br>
+③ <span class="c-rest">水壓全額另外加上 \(u=\gamma_w h_w\)，不乘 \(K\)</span></div>
+<figure><img src="img/SM-U3-1/s10.jpg" alt="範例：上 3 m γ17、水位下 5 m γsat20 φ32°；土壓 31.3 加水壓 49.1 等於 80.4 kPa">
+<figcaption><span>範例：綠＝土壓 31.3，藍＝水壓 49.1</span><span class="tm">影片 3:29</span></figcaption></figure>
+<p>看範例：上層 3 m，\(\gamma=17\)；水位以下 5 m，\(\gamma_{sat}=20\)，\(\phi=32^\circ\)，\(K_a=0.307\)。牆底有效應力 102，乘 \(K_a\) 得 31.3；水壓 \(9.81\times5\)，49.1；合計 80.4 kPa。</p>
+<div class="eq">$$\sigma_v'=17(3)+10.19(5)=102.0,\quad \color{#2f8f4e}{K_a\sigma_v'=0.307\times102.0=31.3},\quad \color{#2f74a8}{u=9.81\times5=49.1}$$
+$$\sigma_a=31.3+49.1=80.4\ \text{kPa}$$</div>
+<figure><img src="img/SM-U3-1/s11.jpg" alt="三種做法比較表與「為什麼水不乘 K」">
+<figcaption><span>三種做法的牆底側壓比較</span><span class="tm">影片 3:51</span></figcaption></figure>
+<table>
+<tr><th>做法</th><th>牆底側壓</th><th>誤差</th></tr>
+<tr><td class="c-act">正確（有效應力法）</td><td class="num">80.4 kPa</td><td>—</td></tr>
+<tr><td class="c-pas">總應力直接乘 \(K_a\)</td><td class="num">46.4 kPa</td><td>低估 42%</td></tr>
+<tr><td class="c-pas">忘了加水壓 \(u\)</td><td class="num">31.3 kPa</td><td>低估 61%</td></tr>
+</table>
+<div class="key"><b>為什麼水不乘 K？</b>水沒有剪力強度，各方向壓力都一樣，\(K=1\)。這題水壓甚至比土壓還大，擋土設計要先想怎麼處理水。</div>
+</section>
+
+<!-- c5 -->
+<section id="c5">
+<h2><span class="no">5</span>分層：交界面算兩次 <button class="seek" data-t="232.27">▶ 3:52</button></h2>
+<figure><img src="img/SM-U3-1/s13.jpg" alt="左：砂疊砂界面 17.0/13.2 跳動；右：砂疊黏土界面 37.7（含 u）/14.0（不含 u）">
+<figcaption><span>① 砂／砂：Ka 突變　② 砂／黏土：總應力法</span><span class="tm">影片 4:34</span></figcaption></figure>
+<p>分層土，交界面一定要算兩次。</p>
+<p><b>① 砂疊砂</b>：界面處垂直有效應力都是 51，上層 \(K_a=0.333\)，得 17.0；下層 \(K_a=0.26\)，得 13.2。同一深度兩個值，壓力圖在界面斷開，不要硬連成一條斜線。</p>
+<div class="eq">$$\sigma_v'=51:\quad 51\times0.333=17.0\ (\text{上層}),\qquad 51\times0.26=13.2\ (\text{下層})$$</div>
+<p><b>② 砂疊黏土</b>更明顯。黏土短期 \(\phi=0\)，用總應力法，側壓等於 \(\sigma_v-2c_u\)，水壓已經包含在總應力裡。界面上方含水壓 37.7，下方只有 14.0，大幅掉下來是正常的。</p>
+<div class="eq">$$\sigma_a=\sigma_v-2c_u\qquad(K=1)$$</div>
+<div class="warn"><b>千萬不要再加 u</b>黏土用總應力法時，水壓已含在總應力裡。</div>
+</section>
+
+<!-- c6 -->
+<section id="c6">
+<h2><span class="no">6</span>切方塊＋對牆底取矩 <button class="seek" data-t="275.13">▶ 4:35</button></h2>
+<figure><img src="img/SM-U3-1/s14.jpg" alt="作用點的通用算法四步驟卡">
+<figcaption><span>作用點的通用算法：切方塊＋對牆底取矩</span><span class="tm">影片 5:00</span></figcaption></figure>
+<p>所以作用點的通用算法只有一個：切方塊，對牆底取矩。四步驟：</p>
+<table>
+<tr><th>步驟</th><th>內容</th></tr>
+<tr><td>① 判斷 \(K\) 的種類</td><td>牆動得了 → \(K_a\)；被夾住 → \(K_0\)</td></tr>
+<tr><td>② 列出所有轉折深度</td><td>地表、裂縫、水位、界面（算兩次）、牆底</td></tr>
+<tr><td>③ 逐點算側壓力</td><td>標在圖上，畫出分布</td></tr>
+<tr><td>④ 切成矩形＋三角形</td><td>各塊面積 \(P_i\)、形心高度 \(y_i\)</td></tr>
+</table>
+<div class="eq">$$P=\sum P_i,\qquad \bar y=\frac{\sum P_i\,y_i}{P}$$</div>
+<figure><img src="img/SM-U3-1/s16.jpg" alt="q=20 kPa 分層範例切 A–D 四塊，ȳ=2.76 m，H/3=2.33 m 打叉">
+<figcaption><span>範例：A–D 四塊，ȳ = 2.76 m vs. H/3 = 2.33 m</span><span class="tm">影片 5:46</span></figcaption></figure>
+<p>看範例：地表超載 20 kPa，上層 3 m、\(K_a=\tfrac13\)，下層 4 m、\(K_a=0.26\)。轉折值是 6.67、23.67、18.43、38.16。切成 A 到 D 四塊：</p>
+<table>
+<tr><th>方塊</th><th>面積算式</th><th>\(P\)（kN/m）</th><th>\(y\)（m）</th></tr>
+<tr><td>A</td><td>\(6.67\times3\)</td><td class="num">20.0</td><td class="num">5.50</td></tr>
+<tr><td>B</td><td>\(\tfrac12\times17.00\times3\)</td><td class="num">25.5</td><td class="num">5.00</td></tr>
+<tr><td>C</td><td>\(18.43\times4\)</td><td class="num">73.7</td><td class="num">2.00</td></tr>
+<tr><td>D</td><td>\(\tfrac12\times19.73\times4\)</td><td class="num">39.5</td><td class="num">1.33</td></tr>
+<tr><td>Σ</td><td></td><td class="num"><b>158.7</b></td><td></td></tr>
+</table>
+<p>各塊乘上形心高度再加總，437.6，除以 158.7：</p>
+<div class="eq">$$\bar y=\frac{\sum P_i y_i}{\sum P_i}=\frac{437.6}{158.7}=2.76\ \text{m}$$</div>
+<div class="warn"><b>反射性寫 H/3 的代價</b>\(H/3=7/3=2.33\) m，低估 0.43 m，傾覆力矩少算約 16%。</div>
+</section>
+
+<!-- c7 -->
+<section id="c7">
+<h2><span class="no">7</span>超載怎麼進來 <button class="seek" data-t="346.87">▶ 5:46</button></h2>
+<figure><img src="img/SM-U3-1/s18.jpg" alt="均布超載矩形、線荷重鐘形分布、點荷重分布與判斷法">
+<figcaption><span>均布 q（矩形）、線荷重 ql、點荷重 Q</span><span class="tm">影片 6:27</span></figcaption></figure>
+<p>超載怎麼進來？整片的均布超載 \(q\)，等於每個深度都多了 \(q\) 的垂直應力，乘 \(K_a\) 變成一個矩形，合力作用在 \(H/2\)（矩形形心）：</p>
+<div class="eq">$$P_q=K_a\,q\,H,\qquad \bar y_q=\frac H2$$</div>
+<p>它要和土壓三角形分開算，再一起取矩，別把矩形也用 \(H/3\)。</p>
+<p>如果是線荷重或點荷重，屬於局部集中加載，壓力分布中間凸出、有峰值，要用 Boussinesq 彈性解，不要乘 \(K_a\)。載重離牆越遠，峰值越小也越深。</p>
+<div class="key"><b>判斷法</b>整片加載 → 乘 \(K_a\)；局部／集中加載 → 查彈性解，不乘 \(K_a\)。</div>
+</section>
+
+<!-- c8 -->
+<section id="c8">
+<h2><span class="no">8</span>什麼時候用 K0 <button class="seek" data-t="387.9">▶ 6:27</button></h2>
+<figure><img src="img/SM-U3-1/s20.jpg" alt="左：擋土牆可外傾用 Ka；中：地下室外牆被樓版夾住用 K0；右：K0 公式與 φ=30° 的三個 K">
+<figcaption><span>擋土牆（可外傾）vs. 地下室外牆（樓版夾住）</span><span class="tm">影片 7:13</span></figcaption></figure>
+<p>什麼時候不能用 \(K_a\)？結構動不了的時候。擋土牆頂部可以外傾，位移足夠，土壓鬆弛到最小，用 <span class="c-act">\(K_a\)</span>。地下室外牆被樓版夾住，無法位移，壓力留在原地，要用靜止土壓力 <span class="c-rest">\(K_0\)</span>。先問一句：<b>這面牆動得了嗎？</b></p>
+<p>\(K_0\) 怎麼取？正常壓密土用 Jaky 公式；過壓密土再乘 OCR 的 \(\sin\phi'\) 次方，甚至可能大於 1：</p>
+<div class="eq">$$\color{#2f74a8}{K_0=1-\sin\phi'}\ (\text{Jaky}),\qquad \color{#2f74a8}{K_{0,OC}=(1-\sin\phi')\,OCR^{\sin\phi'}}$$</div>
+<div class="warn"><b>用錯就低估三成三</b>\(\phi=30^\circ\) 時，\(K_0=0.5\)，是 \(K_a\)（0.333）的 1.5 倍；誤用 \(K_a\) 低估 33%。</div>
+<p>箱涵、沉箱、剛性橋台也都用 \(K_0\)。</p>
+</section>
+
+<!-- c9 -->
+<section id="c9">
+<h2><span class="no">9</span>Rankine vs Coulomb <button class="seek" data-t="434.2">▶ 7:14</button></h2>
+<figure><img src="img/SM-U3-1/s22.jpg" alt="左：Rankine 垂直光滑牆與 45°+φ/2 破壞線；右：Coulomb 斜牆背斜填土破壞楔體">
+<figcaption><span>Rankine（應力法）vs. Coulomb（楔體力平衡）</span><span class="tm">影片 7:52</span></figcaption></figure>
+<p>Rankine 和 Coulomb，差在牆背怎麼看。</p>
+<table>
+<tr><th></th><th>Rankine（應力法）</th><th>Coulomb（楔體力平衡）</th></tr>
+<tr><td>假設</td><td>牆背垂直、完全光滑（\(\delta=0\)）、填土水平</td><td>承認牆背摩擦角 \(\delta\)；允許牆背傾斜 \(\theta\)、填土傾斜 \(\beta\)</td></tr>
+<tr><td>推導</td><td>從土體內部的應力狀態推導</td><td>取最危險的楔體做力平衡</td></tr>
+<tr><td>破壞面</td><td>傾角 \(45^\circ+\phi/2\)</td><td>最危險楔體</td></tr>
+<tr><td>合力方向</td><td>平行填土面</td><td>和牆背法線夾 \(\delta\)</td></tr>
+<tr><td>結果</td><td>偏保守</td><td>\(\delta\) 越大，主動土壓越小</td></tr>
+</table>
+<div class="key"><b>考題判斷</b>出現斜牆背、斜填土，就只能用 Coulomb。</div>
+</section>
+
+<!-- c10 -->
+<section id="c10">
+<h2><span class="no">10</span>被動土壓力 <button class="seek" data-t="473.1">▶ 7:53</button></h2>
+<figure><img src="img/SM-U3-1/s23.jpg" alt="左：擋土牆趾前被動區；右：Kp 與 Ka 對 φ 的曲線，30° 3.00、40° 4.60">
+<figcaption><span>被動土壓出現的位置；Kp 對 φ 極度敏感</span><span class="tm">影片 8:15</span></figcaption></figure>
+<p>被動土壓力，<b>算得出來，不一定用得到。</b>它出現在擋土牆趾前的埋置深度 \(D_f\)，以及板樁開挖面以下的貫入段。</p>
+<p>\(K_p\) 對 \(\phi\) 極度敏感：\(\phi\) 從 30° 高估到 40°，\(K_p\) 從 3 變成 4.60，多了 53%；同樣的誤差，\(K_a\) 只差 0.12。</p>
+<figure><img src="img/SM-U3-1/s24.jpg" alt="設計三原則卡">
+<figcaption><span>被動土壓設計三原則</span><span class="tm">影片 8:40</span></figcaption></figure>
+<div class="key"><b>設計三原則</b>
+① 位移不足時被動土壓要打折，常取 1/2～1/3。<br>
+② 開挖面附近的被動土可能被移除或擾動，保守忽略。<br>
+③ 有水時被動側同樣要扣水壓。</div>
+<p>另外，Coulomb 求 \(K_p\) 會高估，\(\delta\) 大時尤其明顯。</p>
+</section>
+
+<!-- c11 -->
+<section id="c11">
+<h2><span class="no">11</span>總結 <button class="seek" data-t="520.93">▶ 8:40</button></h2>
+<figure><img src="img/SM-U3-1/s25.jpg" alt="考場三大陷阱">
+<figcaption><span>考場三大陷阱</span><span class="tm">影片 9:01</span></figcaption></figure>
+<div class="warn"><b>考場三大陷阱</b>
+① 地下室外牆、箱涵誤用 \(K_a\) → 結構動不了，應該用 \(K_0\)。<br>
+② 砂土切換到黏土總應力法時，又把水壓加一次 → 水壓已含在總應力裡。<br>
+③ 剖面有水、超載、分層或裂縫，還反射性寫 \(H/3\) → 切方塊，對牆底取矩。</div>
+<figure><img src="img/SM-U3-1/s26.jpg" alt="總結三步驟與「先看牆，再選 K」">
+<figcaption><span>總結流程</span><span class="tm">影片 9:24</span></figcaption></figure>
+<div class="ok"><b>最後總結</b>
+① 先問牆動不動、往哪動，決定 \(K\)（\(K_a\)／\(K_0\)／\(K_p\)）。<br>
+② 再列轉折深度：界面算兩次、裂縫歸零、土乘 \(K\)、水不乘。<br>
+③ 最後切方塊、對牆底取矩。</div>
+<div class="key"><b>一句話</b>土壓力是變形的結果：先看牆，再選 \(K\)。</div>
+</section>
+
+<footer>
+來源：<code>解題過程影片/SM-U3-1/video/</code> 的 SM-U3-1.mp4（黑板截圖，取各段結束前 0.5 秒）、segments.py（逐字旁白）、SM-U3-1.srt（時間軸）；例題數值與 HANDOFF.md 驗算結果一致。本講義只整理影片內容，未新增觀念。
+</footer>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  if(window.renderMathInElement){
+    renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+  }
+  var v=document.getElementById('v');
+  document.querySelectorAll('.seek').forEach(function(b){
+    b.addEventListener('click',function(){
+      v.currentTime=parseFloat(b.dataset.t);v.scrollIntoView({behavior:'smooth',block:'center'});
+      var p=v.play(); if(p&&p.catch)p.catch(function(){});
+    });
+  });
+});
+</script>
+</body>
+</html>

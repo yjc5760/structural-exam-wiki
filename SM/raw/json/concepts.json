@@ -1,3 +1,197 @@
 {
-  "concepts": []
+  "description": "SM 科目核心概念定義。供 compile-all 生成 wiki/concepts/ 頁面。以下 24 個為建庫時預先建立的種子概念，涵蓋三單元核心知識；後續可用 add concept 指令持續擴充。",
+  "concepts": [
+    {
+      "concept_id": "PHASE-RELATIONSHIP",
+      "concept_name": "土壤三相關係",
+      "classification": "SM-U1-1",
+      "related_concept_ids": ["USCS-CLASSIFICATION", "EFFECTIVE-STRESS-PRINCIPLE"],
+      "key_formula": "e = Vv/Vs；n = e/(1+e)；γ = (Gs+Se)/(1+e)·γw",
+      "description": "以土粒-水-空氣三相圖描述孔隙比、孔隙率、含水量、飽和度、單位重之間的相互換算關係，是所有土力計算的基礎"
+    },
+    {
+      "concept_id": "ATTERBERG-LIMITS",
+      "concept_name": "阿太堡限度",
+      "classification": "SM-U1-1",
+      "related_concept_ids": ["USCS-CLASSIFICATION"],
+      "key_formula": "PI = LL - PL；LI = (w-PL)/PI",
+      "description": "液性限度LL、塑性限度PL界定細粒土由固態轉塑態、塑態轉液態的含水量門檻，塑性指數PI與液性指數LI用以判斷土壤稠度與分類"
+    },
+    {
+      "concept_id": "USCS-CLASSIFICATION",
+      "concept_name": "統一土壤分類系統",
+      "classification": "SM-U1-1",
+      "related_concept_ids": ["ATTERBERG-LIMITS", "PHASE-RELATIONSHIP"],
+      "key_formula": "Cu = D60/D10；Cc = D30²/(D10·D60)",
+      "description": "依過篩#200比例區分粗粒土（礫石G/砂S）與細粒土（粉土M/黏土C），粗粒土依級配係數判斷良好級配與否，細粒土依塑性圖（A-line）分類"
+    },
+    {
+      "concept_id": "DARCYS-LAW",
+      "concept_name": "達西定律",
+      "classification": "SM-U1-2",
+      "related_concept_ids": ["FLOW-NET"],
+      "key_formula": "v = ki；q = kiA",
+      "description": "描述水在飽和土壤中層流滲透時，滲流速度與水力坡降成正比的基本定律，是所有滲透計算的出發點"
+    },
+    {
+      "concept_id": "FLOW-NET",
+      "concept_name": "流網分析",
+      "classification": "SM-U1-2",
+      "related_concept_ids": ["DARCYS-LAW", "EXCAVATION-STABILITY"],
+      "key_formula": "q = k·H·(Nf/Nd)；icr = (Gs-1)/(1+e)",
+      "description": "由流線與等勢線構成的正方形網格，用以求算二維滲流量與任一點孔隙水壓；臨界水力坡降用於判斷砂湧（boiling）風險"
+    },
+    {
+      "concept_id": "COMPACTION-CURVE",
+      "concept_name": "夯實曲線",
+      "classification": "SM-U1-3",
+      "related_concept_ids": ["PHASE-RELATIONSHIP"],
+      "key_formula": "γzav = Gs·γw/(1+w·Gs)",
+      "description": "夯實功固定下，乾密度與含水量呈鐘形曲線關係，峰值即最佳含水量wopt與最大乾密度γd,max，零氣孔曲線為理論上限"
+    },
+    {
+      "concept_id": "CONSOLIDATION-THEORY",
+      "concept_name": "Terzaghi 一維壓密理論",
+      "classification": "SM-U1-3",
+      "related_concept_ids": ["COEFFICIENT-OF-CONSOLIDATION", "PRECONSOLIDATION-PRESSURE", "EFFECTIVE-STRESS-PRINCIPLE"],
+      "key_formula": "Sc = Cc·H/(1+e0)·log[(p0'+Δp)/p0']",
+      "description": "描述飽和黏土在附加應力下，孔隙水隨時間排出、有效應力隨之增加而產生沉陷的過程，是計算長期沉陷量的核心理論"
+    },
+    {
+      "concept_id": "PRECONSOLIDATION-PRESSURE",
+      "concept_name": "過壓密應力與超壓密比",
+      "classification": "SM-U1-3",
+      "related_concept_ids": ["CONSOLIDATION-THEORY"],
+      "key_formula": "OCR = pc'/p0'",
+      "description": "土層歷史上曾承受過的最大有效應力稱為過壓密應力pc'，OCR>1者為過壓密土，沉陷計算須分段使用Cr與Cc"
+    },
+    {
+      "concept_id": "COEFFICIENT-OF-CONSOLIDATION",
+      "concept_name": "壓密係數與時間因數",
+      "classification": "SM-U1-3",
+      "related_concept_ids": ["CONSOLIDATION-THEORY"],
+      "key_formula": "Tv = Cv·t/Hdr²",
+      "description": "壓密係數Cv反映壓密速率，配合排水路徑長Hdr與時間因數Tv可推算任一時刻的平均壓密度與所需時間"
+    },
+    {
+      "concept_id": "EFFECTIVE-STRESS-PRINCIPLE",
+      "concept_name": "有效應力原理",
+      "classification": "SM-U1-4",
+      "related_concept_ids": ["BOUSSINESQ-STRESS-INCREASE", "MOHR-COULOMB-FAILURE-CRITERION", "BEARING-CAPACITY-THEORY"],
+      "key_formula": "σ' = σ - u",
+      "description": "土壤的強度與壓縮性由骨架承擔的有效應力控制而非總應力，是貫穿土壤力學所有分析（承載力、土壓力、邊坡穩定、壓密）的根本原理"
+    },
+    {
+      "concept_id": "BOUSSINESQ-STRESS-INCREASE",
+      "concept_name": "Boussinesq 應力增量理論",
+      "classification": "SM-U1-4",
+      "related_concept_ids": ["EFFECTIVE-STRESS-PRINCIPLE", "SETTLEMENT-COMPONENTS"],
+      "key_formula": "Δσz = 3Q/(2πz²)·[1/(1+(r/z)²)]^(5/2)",
+      "description": "彈性半無限體理論下，點載重、條形載重、矩形載重在土體內任一深度造成的垂直應力增量，用以推估附加應力分布與沉陷量"
+    },
+    {
+      "concept_id": "MOHR-COULOMB-FAILURE-CRITERION",
+      "concept_name": "Mohr-Coulomb 破壞準則",
+      "classification": "SM-U1-5",
+      "related_concept_ids": ["EFFECTIVE-STRESS-PRINCIPLE", "TRIAXIAL-TEST-TYPES", "UNDRAINED-SHEAR-STRENGTH"],
+      "key_formula": "τf = c' + σ'·tanφ'",
+      "description": "土壤剪力強度隨作用面法向有效應力線性增加的破壞準則，破壞面與大主應力面夾角為45°+φ/2，是所有強度分析的基礎"
+    },
+    {
+      "concept_id": "UNDRAINED-SHEAR-STRENGTH",
+      "concept_name": "不排水剪力強度",
+      "classification": "SM-U1-5",
+      "related_concept_ids": ["MOHR-COULOMB-FAILURE-CRITERION", "TRIAXIAL-TEST-TYPES"],
+      "key_formula": "Su = qu/2（無圍壓縮試驗）",
+      "description": "飽和黏土在快速施工（不排水）條件下以φ=0分析，強度僅取決於Su，適用短期施工穩定性分析（如開挖基盤隆起、快速填築邊坡）"
+    },
+    {
+      "concept_id": "TRIAXIAL-TEST-TYPES",
+      "concept_name": "三軸試驗分類",
+      "classification": "SM-U1-5",
+      "related_concept_ids": ["MOHR-COULOMB-FAILURE-CRITERION", "UNDRAINED-SHEAR-STRENGTH"],
+      "key_formula": "UU（總應力法φ=0）／CU（有效應力c'φ'）／CD（有效應力c'φ'）",
+      "description": "依壓密與排水條件分為UU、CU、CD三種試驗，對應不同的工程分析情境（施工期不排水 vs 長期排水穩定）"
+    },
+    {
+      "concept_id": "BEARING-CAPACITY-THEORY",
+      "concept_name": "淺基礎承載力理論",
+      "classification": "SM-U2-1",
+      "related_concept_ids": ["EFFECTIVE-STRESS-PRINCIPLE", "SETTLEMENT-COMPONENTS", "MOHR-COULOMB-FAILURE-CRITERION"],
+      "key_formula": "qu = cNc + qNq + 0.5γBNγ",
+      "description": "Terzaghi/Meyerhof承載力公式以凝聚力項、上覆應力項、土重項疊加求極限承載力，再除以安全係數得容許承載力，是淺基礎設計的核心方法"
+    },
+    {
+      "concept_id": "SETTLEMENT-COMPONENTS",
+      "concept_name": "瞬時沉陷與壓密沉陷",
+      "classification": "SM-U2-1",
+      "related_concept_ids": ["CONSOLIDATION-THEORY", "BOUSSINESQ-STRESS-INCREASE", "BEARING-CAPACITY-THEORY"],
+      "key_formula": "S = Si + Sc + Ss",
+      "description": "基礎總沉陷量由瞬時沉陷（彈性變形）、壓密沉陷（孔隙水排出）、次壓縮沉陷（壓密完成後持續蠕變）組成，需分別估算並檢核差異沉陷"
+    },
+    {
+      "concept_id": "PILE-CAPACITY-COMPONENTS",
+      "concept_name": "樁基承載力組成",
+      "classification": "SM-U2-2",
+      "related_concept_ids": ["BEARING-CAPACITY-THEORY", "PILE-GROUP-EFFICIENCY"],
+      "key_formula": "Qu = Qp + Qs",
+      "description": "樁基極限承載力由樁端承載力Qp與樁身摩擦力Qs組成，黏土摩擦力常用α法、砂土常用β法估算，是深基礎設計的核心觀念"
+    },
+    {
+      "concept_id": "PILE-GROUP-EFFICIENCY",
+      "concept_name": "群樁效應",
+      "classification": "SM-U2-2",
+      "related_concept_ids": ["PILE-CAPACITY-COMPONENTS"],
+      "key_formula": "Eg = Qg(group)/(n·Qu(single))",
+      "description": "群樁因應力重疊使承載力與沉陷行為不同於單樁簡單疊加，黏土群樁常需檢核塊體破壞模式與遠大於單樁的群樁沉陷"
+    },
+    {
+      "concept_id": "EXCAVATION-STABILITY",
+      "concept_name": "開挖穩定性",
+      "classification": "SM-U2-3",
+      "related_concept_ids": ["FLOW-NET", "UNDRAINED-SHEAR-STRENGTH", "RANKINE-EARTH-PRESSURE"],
+      "key_formula": "FS(basal heave) = Nc·Su/(γH)；FS(boiling) = icr/iexit",
+      "description": "深開挖須同時檢核擋土結構本身強度、基盤隆起（軟弱黏土常見破壞模式）與滲流引致的砂湧、管湧風險"
+    },
+    {
+      "concept_id": "GROUND-IMPROVEMENT-METHODS",
+      "concept_name": "地層改良方法",
+      "classification": "SM-U2-5",
+      "related_concept_ids": ["CONSOLIDATION-THEORY"],
+      "key_formula": "—（依方法分類，非單一公式）",
+      "description": "依改良目的分為夯實類（動力夯實）、排水固結類（預壓+砂井）、灌漿類、置換類、化學攪拌類，用於改善原地層強度、壓縮性或滲透性"
+    },
+    {
+      "concept_id": "RANKINE-EARTH-PRESSURE",
+      "concept_name": "Rankine 土壓力理論",
+      "classification": "SM-U3-1",
+      "related_concept_ids": ["COULOMB-EARTH-PRESSURE", "RETAINING-WALL-STABILITY", "EFFECTIVE-STRESS-PRINCIPLE"],
+      "key_formula": "Ka = tan²(45°-φ/2)；Kp = tan²(45°+φ/2)",
+      "description": "假設牆背垂直光滑、填土水平的極限平衡理論，用以計算主動與被動側向土壓力係數及其分布，是最基本的側向土壓力計算方法"
+    },
+    {
+      "concept_id": "COULOMB-EARTH-PRESSURE",
+      "concept_name": "Coulomb 土壓力理論",
+      "classification": "SM-U3-1",
+      "related_concept_ids": ["RANKINE-EARTH-PRESSURE"],
+      "key_formula": "Ka、Kp 依牆背傾角、填土坡度、牆土摩擦角δ之三角函數式求得",
+      "description": "較Rankine理論更一般化，可考慮牆背傾斜、填土坡度與牆土摩擦角，適用實際擋土結構的土壓力計算"
+    },
+    {
+      "concept_id": "RETAINING-WALL-STABILITY",
+      "concept_name": "擋土結構穩定分析",
+      "classification": "SM-U3-2",
+      "related_concept_ids": ["RANKINE-EARTH-PRESSURE", "BEARING-CAPACITY-THEORY", "SLOPE-STABILITY-ANALYSIS"],
+      "key_formula": "FSsliding、FSoverturning、e≤B/6、FSglobal 四項獨立檢核",
+      "description": "擋土牆設計須同時通過抗滑動、抗傾覆、承載力（偏心距）、整體穩定四項檢核，缺一不可"
+    },
+    {
+      "concept_id": "SLOPE-STABILITY-ANALYSIS",
+      "concept_name": "邊坡穩定分析",
+      "classification": "SM-U3-3",
+      "related_concept_ids": ["MOHR-COULOMB-FAILURE-CRITERION", "UNDRAINED-SHEAR-STRENGTH", "RETAINING-WALL-STABILITY"],
+      "key_formula": "FS = Σ抵抗力矩/Σ驅動力矩（Fellenius 法、Bishop 簡化法）",
+      "description": "以瑞典圓弧法或Bishop簡化法沿假設滑動面計算安全係數，需搜尋臨界滑動面（FS最小者），是坡地工程設計的核心方法"
+    }
+  ]
 }

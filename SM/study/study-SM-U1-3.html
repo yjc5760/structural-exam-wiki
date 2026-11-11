@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-U1-3 土壤夯實及壓密｜命題分析</title>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#78909c;--bd:#e0e6ea;--warn:#c62828}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:28px 24px}
+header h1{margin:0 0 6px;font-size:1.5em}header p{margin:0;opacity:.85;font-size:.92em}
+nav{position:sticky;top:0;z-index:9;background:#fff;border-bottom:2px solid var(--bd);padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{text-decoration:none;color:var(--ac);font-size:.88em;padding:5px 10px;border-radius:16px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+section{margin-bottom:34px}
+h2{font-size:1.25em;border-left:5px solid var(--ac);padding-left:10px;margin:26px 0 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+h3{font-size:1.05em;margin:30px 0 10px;padding-bottom:5px;border-bottom:2px solid var(--ac2)}
+.role{background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:8px;padding:12px 16px;font-size:.88em;margin-bottom:8px}
+.role b{color:#e65100}
+.btnbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.btnbar a{padding:5px 14px;border-radius:6px;font-size:.9em;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi .n{font-size:1.9em;font-weight:700;color:var(--ac)}.kpi .l{font-size:.82em;color:var(--mut)}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
+.cat{background:var(--card);border:1px solid var(--bd);border-left:6px solid;border-radius:10px;padding:12px 14px;cursor:pointer;transition:.15s}
+.cat:hover{transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.cat h3{margin:0 0 4px;font-size:1em;border:none;padding:0}.cat p{margin:0;font-size:.82em;color:var(--mut)}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:760px){.charts{grid-template-columns:1fr}}
+.chartbox{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px}
+.chartbox h4{margin:0 0 8px;font-size:.95em;color:var(--mut)}
+canvas{width:100%;height:auto}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:middle}
+th{background:var(--ac2)}
+td.num{text-align:center;font-variant-numeric:tabular-nums}
+.bar{display:inline-block;height:12px;border-radius:3px;vertical-align:middle}
+.up{color:#2e7d32;font-weight:700;text-align:center}.down{color:var(--warn);font-weight:700;text-align:center}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.fbtn{border:1px solid var(--bd);background:#fff;border-radius:18px;padding:6px 14px;cursor:pointer;font-size:.88em;font-family:inherit}
+.fbtn.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.qrow{background:var(--card);border:1px solid var(--bd);border-left:6px solid;border-radius:8px;padding:10px 14px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.qrow.sec{background:#fafafa;border-style:dashed}
+.qrow a{font-weight:700;text-decoration:none;color:var(--ac);min-width:92px}
+.qrow a:hover{text-decoration:underline}
+.qrow .sum{flex:1;min-width:200px;font-size:.92em}
+.qrow .tags{font-size:.75em;color:var(--mut)}
+.qrow .meta{font-size:.72em;white-space:nowrap;color:#fff;border-radius:10px;padding:1px 8px}
+.note{font-size:.85em;color:var(--mut);background:#fff;border:1px dashed var(--bd);border-radius:8px;padding:10px 14px;margin-top:12px}
+.risk-hi{background:#ffebee}.risk-md{background:#fff8e1}.risk-lo{background:#f1f8e9}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:20px}
+</style>
+</head>
+<body>
+<header>
+<h1>SM-U1-3 土壤夯實及壓密 — 命題分析</h1>
+<p>結構技師「土壤力學與基礎設計」子項命題情報頁｜資料來源：raw/json/question_index.json（2002–2025，24 個考年、96 題）｜更新日期 2026-08-14</p>
+</header>
+<nav>
+<a href="#b1">出題概況</a><a href="#b2">考點結構</a><a href="#b3">考點漂移</a>
+<a href="#b4">分析法走向</a><a href="#b5">考題清單</a><a href="#b6">命題風險</a>
+</nav>
+<main>
+
+<section id="s1">
+<h2><span>命題分析</span></h2>
+
+<div class="role">
+📚 <b>本頁只回答一件事：這個子項「考什麼」。</b>
+原理與圖解看 <b>觀念講義</b>、公式要不要背看 <b>給／背分界</b>；本頁提供的是可從 <code>question_index.json</code> 重生的命題事實：頻率、結構、漂移、方法別、清單、風險。<br>
+建議順序：<b style="color:#6a1b9a;">觀念講義</b>（練題前建立直覺）→ <b style="color:var(--warn);">給／背分界</b>（決定記憶投資）→ <b>本頁</b>（決定練題順序與押題）。
+</div>
+<div class="btnbar">
+  <a href="lecture-SM-U1-3.html" title="原理圖解、公式來源、精選必練題" style="background:#6a1b9a;color:#fff;">觀念講義 📘</a>
+  <a href="lecture-SM-U1-3.pdf" target="_blank" style="background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8;">講義 PDF 🖨️</a>
+  <a href="formula-given-SM-U1-3.html" title="主要公式 × 24 年考卷證據：哪些會印給你、哪些必須自己背" style="background:#c62828;color:#fff;">給／背分界 🎯</a>
+  <a href="formula-given-SM-U1-3.pdf" target="_blank" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;">分界 PDF 🖨️</a>
+</div>
+
+<h3 id="b1">出題概況</h3>
+<div class="kpis">
+<div class="kpi"><div class="n">22</div><div class="l">主考點題數（另有 8 題副考點）</div></div>
+<div class="kpi"><div class="n">22.9%</div><div class="l">佔全科比例（22／96）</div></div>
+<div class="kpi"><div class="n">#1</div><div class="l">全科出題排名（第二名 U1-5 與 U2-3 並列 12 題）</div></div>
+<div class="kpi"><div class="n">4/6</div><div class="l">近 6 考年出題年數（2020–25 共 4 題）</div></div>
+</div>
+<div class="charts">
+<div class="chartbox"><h4>年度分布（依考點分群堆疊，主考點 22 題）</h4><canvas id="cvBar" width="520" height="260"></canvas></div>
+<div class="chartbox"><h4>考點結構比例（主考點 22 題）</h4><canvas id="cvPie" width="520" height="260"></canvas></div>
+</div>
+<div class="note">
+📌 <b>三個要記住的數字</b>：① 全科第一大單元，每 4.4 題就有一題出自這裡，領先並列第二的 U1-5 與 U2-3（各 12 題）足足 10 題；② 24 個考年裡 18 年出現過，唯一的連續空窗是 2007–2008 兩年，此外 2004、2010、2020、2023 都只是孤立單年；③ 近 6 考年 4 題（2021-2、2022-1、2024-3、2025-1），密度低於長期平均——它仍是最大單元，只是不再「每年必兩題」。<br>
+<b>空窗年段（連續兩年以上未出題）：</b>2007–2008。空窗不代表退場——本科 24 個考年裡，每個子項都出現過「空窗數年後回歸」的情形。
+</div>
+
+<h3 id="b2">考點結構（點卡片可篩選下方考題清單）</h3>
+<div class="cats">
+<div class="cat" style="border-left-color:#f57c00" onclick="filterQ('C')"><h3>🔨 夯實與工地品管（主 8 題）</h3><p>夯實曲線・最佳含水量・相對夯實度・現地密度試驗</p></div>
+<div class="cat" style="border-left-color:#8e24aa" onclick="filterQ('E')"><h3>🔬 壓密試驗與參數判定（主 3 題）</h3><p>Casagrande 定 pc′・Cc／Cs／mv・e-log p'曲線・取樣擾動</p></div>
+<div class="cat" style="border-left-color:#2e7d32" onclick="filterQ('S')"><h3>📉 壓密沉陷量計算（主 3 題）</h3><p>Δe/(1+e₀)H・跨 pc′ 的過壓密黏土・2:1 應力分布</p></div>
+<div class="cat" style="border-left-color:#1565c0" onclick="filterQ('T')"><h3>⏱️ 壓密時間率（主 8 題）</h3><p>Terzaghi 壓密理論・Tv–U–t・單／雙面排水・預壓法</p></div>
+</div>
+<div class="note">分群依「考生實際的解題套路」切，不是照標籤字面切；<b>每題只歸一群</b>，所以上面各群題數加總等於主考點 22 題，圓餅圖不會重複計數。</div>
+
+<h3 id="b3">考點漂移：前段 2002–2015 vs. 後段 2015–2025</h3>
+<p style="font-size:.9em;margin:0 0 10px;color:var(--mut)">把 22 題主考點依題號排序後對切：前段 11 題（2002–2015）、後段 11 題（2015–2025）。副考點不列入本表。</p>
+<table>
+<thead><tr><th>考點分群</th><th class="num">前段</th><th class="num">後段</th><th class="num">變化</th><th>解讀</th></tr></thead>
+<tbody>
+<tr><td><span class="bar" style="width:12px;background:#f57c00"></span> 夯實與工地品管</td><td class="num">4</td><td class="num">4</td><td class="num">－</td><td>前後各 4 題，是本單元起伏最小的一群；但形式從「說明怎麼控制夯實」（2002-3、2006-4）轉為「給數據自己畫曲線」（2013-2、2017-2、2022-1）</td></tr>
+<tr><td><span class="bar" style="width:12px;background:#8e24aa"></span> 壓密試驗與參數判定</td><td class="num">3</td><td class="num">0</td><td class="num down">▼ -3</td><td>前段 3 題（2002-1、2005-3、2012-2）、後段 <b>0 題</b>：Casagrande 定 pc′ 與 mv–Cc 關係已空窗 13 年</td></tr>
+<tr><td><span class="bar" style="width:12px;background:#2e7d32"></span> 壓密沉陷量計算</td><td class="num">2</td><td class="num">1</td><td class="num down">▼ -1</td><td>2003-2、2011-3 兩題經典「基腳＋雙層土」在前段，後段只剩 2024-3（改用水位下降當載體）；純基腳型已空窗 14 年</td></tr>
+<tr><td><span class="bar" style="width:12px;background:#1565c0"></span> 壓密時間率</td><td class="num">2</td><td class="num">6</td><td class="num up">▲ +4</td><td>由 2 題增為 6 題，2015 之後每 1–3 年就出一次（2015-4、2016-1、2018-1、2019-2、2021-2、2025-1），是現在的主戰場</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>一句話</b>：這個單元的重心從「<b>怎麼判讀壓密試驗曲線</b>」漂到「<b>怎麼算壓密要多久</b>」。壓密試驗與參數判定前段 3 題、後段 <b>0 題</b>，最後一次是 2012-2，已空窗 13 年；同期時間率由 2 題增為 6 題，占後段 11 題的一半以上。若你依「歷史總題數」分配時間，會低估 Tv–U–Hdr 這組換算——它是近 11 年出現最多次的單一計算核心。
+</div>
+
+<h3 id="b4">分析法走向</h3>
+<table>
+<thead><tr><th>期間</th><th class="num">有效應力法</th><th class="num">混合</th><th class="num">概念題</th><th>觀察</th></tr></thead>
+<tbody>
+<tr><td>前段 2002–2015（11 題）</td><td class="num">5</td><td class="num">1</td><td class="num">5</td><td>概念題 5 題，占前段近一半</td></tr>
+<tr><td>後段 2015–2025（11 題）</td><td class="num">7</td><td class="num">3</td><td class="num">1</td><td>概念題只剩 2017-1 一題，計算題化明顯</td></tr>
+<tr style="background:#fff8e1"><td><b>近 6 考年 2020–2025</b></td><td class="num">3</td><td class="num">1</td><td class="num">0</td><td><b>概念題 0 題</b>，四題全為計算</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>對複習的直接影響</b>：本單元 <b>沒有一題用總應力法</b>：壓密的本質就是有效應力隨時間轉移，所以計算題一律走有效應力法，「混合」則<b>清一色是夯實題</b>（2013-2、2017-2、2019-3、2022-1）附帶單位重／體積換算。（2026-08-29 更新：2011-3 原標「混合」，但該題是標準的 2:1 應力分布＋壓密沉陷，已改為有效應力法，前段因此由「有效 4／混合 2」變成「有效 5／混合 1」。）真正的訊號是概念題由前段 5 題掉到後段 1 題、近 6 考年 <b>0 題</b>——「請說明夯實原理」這種純文字題已經改成「給你數據自己畫曲線」。哪些公式考卷會印給你，見 <a href="formula-given-SM-U1-3.html">給／背分界</a>。
+</div>
+
+<h3 id="b5">考題清單（主 22 ＋ 副 8 ＝ 30 題，點題號開啟渲染後的解析頁）</h3>
+<div class="filters">
+<button class="fbtn on" onclick="filterQ('ALL',this)">全部（30）</button>
+<button class="fbtn" onclick="filterQ('C',this)">夯實與工地品管（12）</button>
+<button class="fbtn" onclick="filterQ('E',this)">壓密試驗與參數判定（6）</button>
+<button class="fbtn" onclick="filterQ('S',this)">壓密沉陷量計算（3）</button>
+<button class="fbtn" onclick="filterQ('T',this)">壓密時間率（9）</button>
+<button class="fbtn" onclick="filterQ('PRI',this)">僅主考點（22）</button>
+<button class="fbtn" onclick="filterQ('SEC',this)">僅副考點（8）</button>
+</div>
+<div id="qlist"></div>
+<div class="note">虛線灰底＝副考點（該題的主考點在別的子項，但解題會用到本子項的知識）。色籤為 <code>designMethod</code>：有效應力法／總應力法／混合／概念題／彈性理論。圖示：📄 有解析、📊 有互動圖；末位為驗算狀態——✅ 已人工驗算／⏳ 尚未驗算／⚠️ 發現錯誤待修正（直接讀 <code>question_index.json</code> 的 <code>verificationStatus</code>，不是寫死的）。</div>
+
+<h3 id="b6">命題風險排序（下一次最可能考什麼）</h3>
+<p style="font-size:.9em;margin:0 0 10px;color:var(--mut)"><b>這是推測而不是預言。</b>依「歷史頻率 × 空窗年數 × 近年趨勢」排序，用途是決定<b>練題順序</b>，不是叫你 all-in 單一考點。</p>
+<table>
+<thead><tr><th>風險</th><th>考點</th><th class="num">歷史題數</th><th>最後出現</th><th class="num">空窗</th><th>理由</th></tr></thead>
+<tbody>
+<tr class="risk-hi"><td><b>高</b></td><td>壓密時間率：Tv–U–t–H<sub>dr</sub> 換算</td><td class="num">8</td><td>2025-1</td><td class="num">0 年</td><td>近 11 年 6 題全落在這一群（2015-4、2016-1、2018-1、2019-2、2021-2、2025-1）；且 2025-1 只問時間、不問沉陷量，題型正在單純化，最容易重複</td></tr>
+<tr class="risk-hi"><td><b>高</b></td><td>標準夯實曲線繪製求 γ<sub>d(max)</sub>、ω<sub>OMC</sub></td><td class="num">8</td><td>2022-1</td><td class="num">3 年</td><td>夯實群 22 題中占 8 題；2013-2、2017-2、2022-1 三次都是「給數據畫曲線」同一題型，間隔 4–5 年，2022 後已隔 3 年</td></tr>
+<tr class="risk-md"><td><b>中高</b></td><td>跨 p<sub>c</sub>′ 的過壓密黏土沉陷量</td><td class="num">3</td><td>2024-3</td><td class="num">1 年</td><td>2003-2、2011-3 是經典雙層土載體，2024-3 換成「水位下降」載體但計算核心相同；同一核心換載體正是本科近年的出題手法</td></tr>
+<tr class="risk-md"><td><b>中</b></td><td>單面 vs 雙面排水的排水路徑判定</td><td class="num">5</td><td>2025-1</td><td class="num">0 年</td><td>2014-4（單面）、2015-1（雙面）、2016-1（單面）、2021-2（雙面）、2025-1（雙→單）五度出現；判錯 H<sub>dr</sub> 時間直接差四倍，是本群最穩定的鑑別點</td></tr>
+<tr class="risk-lo"><td><b>中低</b></td><td>壓密試驗參數判定（Casagrande 定 p<sub>c</sub>′、m<sub>v</sub>、擾動修正）</td><td class="num">3</td><td>2012-2</td><td class="num">13 年</td><td>前段 3 題、後段 0 題，已空窗 13 年。屬說明題型，在考卷計算題化後被擠壓，但它是唯一能同時考「試驗＋物理意義」的題型，回鍋不意外</td></tr>
+<tr class="risk-lo"><td><b>低</b></td><td>乾側／濕側夯實的工程性質（滲透係數、土壤結構）</td><td class="num">2</td><td>2017-1</td><td class="num">8 年</td><td>2009-1、2017-1 兩次都以純文字概念題出現，而近 6 考年 4 題 <b>全為計算題</b></td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>若只剩三天</b>：先把「<b>Tv–U–Hdr 換算</b>」與「<b>標準夯實曲線判讀</b>」練到能默寫流程——這兩群佔後段 11 題的十分之九；第三天再回頭補「跨 p<sub>c</sub>′ 的沉陷量」，它是四群裡唯一每隔幾年就換載體回鍋的計算核心。
+逐題原理與精選必練題見 <a href="lecture-SM-U1-3.html">觀念講義</a>。
+</div>
+
+</section>
+
+<footer>study SM-U1-3 命題分析｜exam-wiki-SM 知識庫｜統計基準 raw/json/question_index.json（96 題／24 考年）｜可用 <code>scripts/stats.py SM-U1-3</code> 複算全部數字</footer>
+</main>
+
+<script>
+const CATC={C:'#f57c00',E:'#8e24aa',S:'#2e7d32',T:'#1565c0'};
+const CATN={C:'夯實與工地品管',E:'壓密試驗與參數判定',S:'壓密沉陷量計算',T:'壓密時間率'};
+const MC={"有效應力法": "#1565c0", "總應力法": "#f57c00", "混合": "#6a1b9a", "概念題": "#546e7a", "彈性理論": "#00838f"};
+const VI={verified:'✅',unverified:'⏳','needs-review':'⚠️'};
+const VT={verified:'已人工驗算',unverified:'尚未驗算','needs-review':'發現錯誤，待修正'};
+// [題號, 分群, 摘要, 標籤, 有viz, 分析法, 主(1)/副(0), 副考點的所屬單元, 驗算狀態]
+const Q=[
+["SM-2002-1", "E", "由 e-log p′ 曲線修正壓密沉陷高估的原因", ["壓密沉陷", "e-log p'曲線", "取樣擾動", "Schmertmann修正法", "過壓密", "預壓密應力"], 0, "概念題", 1, "", "unverified"],
+["SM-2002-3", "C", "山坡地填方：夯實試驗設計與滾壓控制", ["夯實曲線", "最佳含水量", "相對夯實度", "現地密度試驗", "改良式夯實試驗", "分層夯實"], 0, "概念題", 1, "", "unverified"],
+["SM-2003-2", "S", "方形基腳下過壓密黏土的壓密沉陷量", ["壓密沉陷", "應力增量", "過壓密", "預壓密應力", "壓縮指數", "回脹指數"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2004-4", "T", "軟弱地盤儲油槽：預壓法、調查項目與監測配置", ["預壓法", "基地調查", "監測儀器配置", "壓密沉陷", "差異沉陷", "液化評估", "承載力檢核"], 0, "概念題", 0, "U2-4 基礎型式之選擇與評估", "unverified"],
+["SM-2005-2", "C", "工地密度試驗扣除過大顆粒後的細料乾密度", ["三相關係", "工地密度試驗", "過大顆粒修正", "乾密度", "比重", "含水量"], 0, "混合", 0, "U1-1 土壤基本性質", "unverified"],
+["SM-2005-3", "E", "體積變化係數 mv 與 Cc 之關係及分段沉陷", ["體積變化係數", "壓縮指數", "壓密沉陷", "分段計算", "有效應力原理"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2006-1", "E", "極限平衡應力狀態、十字片剪試驗與 OCR", ["Mohr-Coulomb破壞準則", "極限平衡", "十字片剪試驗", "不排水剪力強度", "OCR", "過壓密"], 0, "概念題", 0, "U1-5 土壤強度特性與變形性", "unverified"],
+["SM-2006-4", "C", "回填夯實：室內試驗、施工控制、完工檢驗", ["夯實曲線", "最佳含水量", "現地密度試驗", "相對夯實度", "Atterberg限度", "USCS分類"], 0, "概念題", 1, "", "unverified"],
+["SM-2008-1", "C", "兩借土區依體積比混合後的乾土重與加水量", ["三相關係", "乾單位重", "含水量", "乾土重守恆", "體積比", "加水量", "夯實"], 0, "混合", 0, "U1-1 土壤基本性質", "unverified"],
+["SM-2009-1", "C", "夯實能量提高而含水量不變對滲透係數的影響", ["夯實曲線", "夯實能量", "最佳含水量", "相對夯實度", "滲透係數", "絮狀與分散結構"], 0, "概念題", 1, "", "unverified"],
+["SM-2011-1", "C", "零空氣孔隙曲線、應力路徑、靈敏度等名詞", ["零空氣孔隙曲線", "夯實曲線", "應力路徑", "靈敏度", "流黏土", "角變位", "臨界水力坡降"], 0, "概念題", 0, "U1-5 土壤強度特性與變形性", "unverified"],
+["SM-2011-3", "S", "方形基礎下跨 pc′ 的過壓密黏土沉陷量", ["壓密沉陷", "2:1應力分布", "應力增量", "過壓密", "OCR", "e-log p'曲線", "回脹指數Cs", "飽和度"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2012-2", "E", "Casagrande 作圖定 pc′ 與沉陷量誤差來源", ["單向度壓密試驗", "e-log p'曲線", "預壓密應力", "Casagrande作圖法", "壓密沉陷", "取樣擾動", "次壓縮"], 0, "概念題", 1, "", "unverified"],
+["SM-2013-2", "C", "單點夯實法＋曲線族法推最大乾單位重", ["夯實曲線", "標準夯實試驗", "單點夯實法", "曲線族法", "最大乾單位重", "相對夯實度", "最佳含水量"], 0, "混合", 1, "", "unverified"],
+["SM-2014-4", "T", "由孔隙比變化反推 Δσ 並求單面排水歷時", ["壓密沉陷", "壓密度", "時間因數", "單面排水", "正常壓密", "壓縮指數Cc", "孔隙比"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2015-1", "T", "預壓法下壓密達 80% 的沉陷量與所需時間", ["壓密沉陷", "預壓法", "壓密度", "時間因數", "雙面排水", "壓縮指數Cc", "正常壓密"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2015-4", "T", "抽水降階引致的孔隙水壓變化與壓密沉陷", ["抽水降階", "Darcy定律", "穩定滲流", "孔隙水壓", "有效應力原理", "壓密沉陷", "壓縮指數Cc"], 1, "有效應力法", 1, "", "unverified"],
+["SM-2016-1", "T", "由 e-log p′ 曲線求 OCR、沉陷量與超額孔隙水壓", ["e-log p'曲線", "OCR", "過壓密", "回脹指數Cs", "壓密沉陷", "超額孔隙水壓", "壓密度", "單面排水"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2016-2", "C", "現地密度試驗求比重、乾單位重與土粒重不變", ["三相關係", "比重", "孔隙比", "含水量", "現地密度試驗", "土粒重不變原則", "最佳含水量"], 0, "混合", 0, "U1-1 土壤基本性質", "unverified"],
+["SM-2017-1", "C", "乾側／濕側夯實特性與工地密度規範之訂定", ["夯實曲線", "最佳含水量", "乾側與濕側夯實", "夯實能量", "自癒性", "相對夯實度"], 0, "概念題", 1, "", "unverified"],
+["SM-2017-2", "C", "由夯實數據繪曲線求 γd(max)、ωOMC 與 CBR", ["夯實曲線", "最佳含水量", "最大乾土單位重", "相對夯實度", "CBR承載比", "內插法"], 0, "混合", 1, "", "unverified"],
+["SM-2018-1", "T", "由 200 天達 30% 壓密推 1、2 年後的沉陷量", ["Terzaghi壓密理論", "時間因數Tv", "壓密度", "壓密係數Cv", "壓密沉陷"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2019-1", "E", "含水量、OCR、紅土化、群樁效率等名詞", ["含水量", "OCR", "Mohr-Coulomb破壞準則", "紅土化", "群樁效應", "液性指數"], 0, "概念題", 0, "U1-1 土壤基本性質", "unverified"],
+["SM-2019-2", "T", "正常壓密黏土預壓：主要壓密沉陷量與歷時", ["Terzaghi壓密理論", "壓密沉陷", "壓縮指數Cc", "壓密係數Cv", "時間因數Tv", "預壓法", "正常壓密"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2019-3", "C", "相對密度夯實至相對夯實度 95% 的體積變化", ["相對夯實度", "相對密度", "孔隙比", "三相關係", "乾土單位重", "體積變化"], 0, "混合", 1, "", "unverified"],
+["SM-2021-2", "T", "正常壓密黏土均佈載重的沉陷量與雙面排水歷時", ["Terzaghi壓密理論", "正常壓密", "壓密沉陷", "壓密係數Cv", "時間因數", "雙面排水"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2022-1", "C", "夯實原理＋標準夯實曲線求 γd(max)、ωOMC", ["夯實試驗", "最佳含水量", "最大乾單位重", "夯實能量", "夯實曲線"], 0, "混合", 1, "", "unverified"],
+["SM-2023-1", "E", "塑性指數、有效粒徑、相對密度、壓縮指數", ["名詞解釋", "塑性指數", "有效粒徑", "相對密度", "曲率係數", "壓縮指數"], 0, "概念題", 0, "U1-1 土壤基本性質", "unverified"],
+["SM-2024-3", "S", "地下水位下降使有效應力增加所致壓密沉陷", ["地下水位下降", "有效應力原理", "正常壓密", "過壓密", "壓密沉陷", "Casagrande法", "e-log p'曲線"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2025-1", "T", "雙面排水試驗換算單面排水現地的壓密歷時", ["Terzaghi壓密理論", "一維壓密", "壓密度", "壓密係數Cv", "排水路徑", "時間因素"], 0, "有效應力法", 1, "", "unverified"]
+];
+function renderQ(cat){
+  const box=document.getElementById('qlist');box.innerHTML='';
+  const sel=Q.filter(q=>{
+    if(cat==='ALL')return true;
+    if(cat==='PRI')return q[6]===1;
+    if(cat==='SEC')return q[6]===0;
+    return q[1]===cat;});
+  sel.sort((a,b)=>a[0].localeCompare(b[0])).forEach(q=>{
+    const d=document.createElement('div');
+    d.className='qrow'+(q[6]?'':' sec');d.style.borderLeftColor=CATC[q[1]];
+    d.innerHTML=`<a href="problems-view/${q[0]}.html" target="_blank">${q[0]}</a>
+    <span class="meta" style="background:${MC[q[5]]||'#90a4ae'}">${q[5]}</span>
+    ${q[6]?'':`<span class="meta" style="background:#90a4ae">副・${q[7]}</span>`}
+    <span class="sum">${q[2]}</span><span class="tags">${q[3].join('・')}</span>
+    <span class="ico" title="${VT[q[8]]||q[8]}">📄 ${VI[q[8]]||'❓'}</span>`;
+    box.appendChild(d);});
+}
+function filterQ(cat,btn){renderQ(cat);
+  const order=["ALL", "C", "E", "S", "T", "PRI", "SEC"];
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  const idx=order.indexOf(cat);if(idx>=0)document.querySelectorAll('.fbtn')[idx].classList.add('on');
+  if(!btn)document.getElementById('b5').scrollIntoView({behavior:'smooth'});
+}
+renderQ('ALL');
+const CODES=["C", "E", "S", "T"];
+const PQ=Q.filter(q=>q[6]===1);
+const byYear={};PQ.forEach(q=>{const y=q[0].split('-')[1];
+  if(!byYear[y]){byYear[y]={C:0,E:0,S:0,T:0};}byYear[y][q[1]]++;});
+function drawBar(){
+  const cv=document.getElementById('cvBar'),ctx=cv.getContext('2d');
+  const years=Object.keys(byYear).sort(),W=cv.width,H=cv.height,bw=(W-60)/years.length;
+  const max=Math.max(...years.map(y=>Object.values(byYear[y]).reduce((a,b)=>a+b,0)));
+  ctx.font='10px sans-serif';ctx.fillStyle='#78909c';
+  for(let i=0;i<=max;i++){const yy=H-30-(H-60)*i/max;ctx.fillStyle='#78909c';ctx.fillText(i,8,yy+3);ctx.strokeStyle='#eceff1';ctx.beginPath();ctx.moveTo(24,yy);ctx.lineTo(W-10,yy);ctx.stroke();}
+  years.forEach((y,i)=>{let acc=0;
+    CODES.forEach(c=>{const v=byYear[y][c];if(!v)return;
+      const h=(H-60)*v/max;ctx.fillStyle=CATC[c];
+      ctx.fillRect(30+i*bw,H-30-acc-h,Math.max(bw*0.7,4),h);acc+=h;});
+    ctx.fillStyle='#78909c';ctx.save();ctx.translate(30+i*bw+bw*0.35,H-18);ctx.rotate(-0.7);ctx.fillText(y.slice(2),0,0);ctx.restore();});
+}
+function drawPie(){
+  const cv=document.getElementById('cvPie'),ctx=cv.getContext('2d');
+  const cnt={};CODES.forEach(c=>cnt[c]=0);PQ.forEach(q=>cnt[q[1]]++);
+  const tot=PQ.length,cx=cv.width*0.28,cy=cv.height/2,r=Math.min(cx,cy)-16;let a=-Math.PI/2;
+  CODES.forEach(c=>{const frac=cnt[c]/tot,a2=a+frac*2*Math.PI;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,a,a2);ctx.closePath();ctx.fillStyle=CATC[c];ctx.fill();a=a2;});
+  ctx.font='12px sans-serif';let ly=40;
+  CODES.forEach(c=>{ctx.fillStyle=CATC[c];ctx.fillRect(cv.width*0.56,ly-9,12,12);
+    ctx.fillStyle='#263238';ctx.fillText(`${CATN[c]}：${cnt[c]} 題（${Math.round(cnt[c]/tot*100)}%）`,cv.width*0.56+18,ly);ly+=26;});
+}
+drawBar();drawPie();
+</script>
+</body>
+</html>

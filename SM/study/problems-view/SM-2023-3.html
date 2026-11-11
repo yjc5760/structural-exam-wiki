@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2023-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2023-3 題目解析</h1><a class="back quick" href="../study-SM-U2-2.html">&#128269; U2-2 命題分析</a>
+<a class="back lect" href="../lecture-SM-U2-2.html">&#128218; U2-2 深基礎之支承力與沉陷量 講義</a></header>
+<main><h1>考題編號：SM-2023-3</h1>
+<p><strong>主分類：</strong> <code>SM-U2-2</code> 深基礎之支承力與沉陷量<br />
+<strong>副分類：</strong> 無<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>打入樁</code> <code>臨界深度</code> <code>摩擦力</code> <code>端點承載力</code> <code>樁基承載力</code> <code>β法</code> <code>有效應力原理</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>臺灣中南部某工業建築物基礎採用打入式鋼筋混凝土預鑄樁，樁徑為 50 公分、樁長 25 公尺。基地的地下水位在深度 10 公尺處，地層資料如下表。請參照建築物基礎構造設計規範並考慮臨界深度分析：<br />
+(一) 樁身極限摩擦力（15 分）<br />
+(二) 樁底極限支承力（10 分）</p>
+<p><img alt="SM-2023-3 題目附圖：土層參數表" src="../../raw/solutions/SM-2023-3/SM-2023-3-fig-1.png" /><br />
+<em>圖說：深度 0-5m 為粉土質砂 (SM)，Dr=40%，N=12，γ=18 kN/m³；深度 5-15m 為砂質粉土 (ML)，Dr=50%，N=15，γ=20 kN/m³；深度 15-30m 為級配良好砂 (SW)，Dr=62%，N=30，γ=20 kN/m³。地下水位在 10m 處。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<ul>
+<li><strong>臨界深度觀念（Critical Depth）</strong>：深基礎在砂土中，有效覆土壓力 $\sigma_v'$ 無法隨深度無限增加，在達到臨界深度 $Z_c$（約 $15D \sim 20D$）後，計算摩擦力與端承力所用之 $\sigma_v'$ 即視為常數。</li>
+<li><strong>參數轉換能力</strong>：給定 SPT-N 值與相對密度 $D_r$，需具備估算土壤內摩擦角 $\phi$ 的能力。</li>
+<li><strong>地下水位影響</strong>：精確計算地下水位上下的有效應力，特別是水位恰好在臨界深度時的應力分布。</li>
+</ul>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<ul>
+<li><strong>步驟 1：決定臨界深度 $Z_c$</strong>。規範對砂土打入樁常取 $Z_c = 20D$。本題樁徑 $D=0.5$m，故 $Z_c = 10$m。</li>
+<li><strong>步驟 2：計算有效覆土壓力 $\sigma_v'$ 分布</strong>。</li>
+<li>【陷阱 1】深度 10m 以下雖然有浮力，但因已達臨界深度，用於計算承載力的 $\sigma_v'$ 必須<strong>維持 190 kN/m² 不變</strong>，不可繼續隨深度增減！</li>
+<li>【陷阱 2】地下水位在 10m，10m 以上土壤為濕單位重，10m 以下為飽和單位重（本題給定單一 γ 值，故 10m 以上視為 $\gamma_t$，10m 以下計算若未達臨界深度才需扣除水重，但本題 10m 剛好為臨界深度，因此 10m 以下的承載力有效應力就是 10m 處的有效應力）。</li>
+<li><strong>步驟 3：估算內摩擦角 $\phi$ 與介面參數</strong>。採用 $\phi = 27^\circ + 0.3 N_{60}$ 估算各層 $\phi$。設定側壓係數 $K=1.0$ 與摩擦角 $\delta = \phi$。</li>
+<li><strong>步驟 4：分層計算樁身摩擦力 $Q_s$</strong>。因 5~15m 層跨越臨界深度，必須分為 5~10m（應力遞增）與 10~15m（應力常數）兩段計算。</li>
+<li><strong>步驟 5：計算樁底支承力 $Q_p$</strong>。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求出該打入樁在考慮臨界深度限制下之總樁身極限摩擦力 $Q_s$ 與樁底極限支承力 $Q_p$。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>判定臨界深度：$Z_c = 20D$</li>
+<li>估算土壤內摩擦角：$\phi = 27^\circ + 0.3 N_{60}$</li>
+<li>計算極限摩擦力：$Q_s = \sum \left( K \cdot \boxed{\bar{\sigma}_v'} \cdot \tan \delta \cdot A_s \right)$</li>
+<li>計算極限端承力：$Q_p = \boxed{\sigma_{vc}'} N_q \cdot A_p$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$D$</td>
+<td>0.5 m</td>
+<td>樁徑</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>25 m</td>
+<td>樁長</td>
+</tr>
+<tr>
+<td>$Z_w$</td>
+<td>10 m</td>
+<td>地下水位深度</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>臨界深度與應力</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $Z_c$ | $Z_c = 20D$ | |<br />
+| $\sigma_{vc}'$ | 臨界深度處之有效覆土壓力 | |</p>
+<p><strong>土壤與介面參數</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\phi_i$ | $\phi = 27^\circ + 0.3 N_{60}$ | |<br />
+| $K$ | 假設打入樁 $K = 1.0$ | |<br />
+| $\delta_i$ | 假設混凝土樁 $\delta = \phi$ | |</p>
+<p><strong>樁基礎承載力</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $Q_s$ | $Q_s = \sum f_{si} A_{si}$ | |<br />
+| $Q_p$ | $Q_p = q_p A_p = \sigma_{vc}' N_q A_p$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>臨界深度 $\sigma_v'$ 截斷</td>
+<td>深度 $&gt; Z_c$ 後，計算摩擦力與端承力所用之有效應力不再增加，維持 $\sigma_{vc}'$。</td>
+<td></td>
+</tr>
+<tr>
+<td>跨臨界深度分段</td>
+<td>若某土層跨越 $Z_c$，必須將該層切分為「應力遞增區」與「應力常數區」分別計算摩擦力。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1: 判定臨界深度與有效覆土壓力分布</h3>
+<p>依據基礎工程學理與規範，砂土打入樁之臨界深度 $Z_c$ 約為 $15D \sim 20D$。本題取常見之 $Z_c = 20D$：<br />
+$Z_c = 20 \times 0.5 = 10 \text{ m}$</p>
+<p>計算各深度之有效覆土壓力 $\sigma_v'$（用於計算樁承載力）：</p>
+<ul>
+<li><strong>$z = 0 \text{ m}$</strong>：$\sigma_v' = 0$</li>
+<li><strong>$z = 5 \text{ m}$</strong>：$\sigma_v' = 18 \times 5 = 90 \text{ kN/m}^2$</li>
+<li><strong>$z = 10 \text{ m}$ (臨界深度 &amp; 水位)</strong>：$\sigma_v' = 90 + 20 \times 5 = 190 \text{ kN/m}^2$</li>
+<li><strong>$z \ge 10 \text{ m}$</strong>：因已達臨界深度，計算承載力所用之有效應力達上限，維持 $\sigma_{vc}' = 190 \text{ kN/m}^2$。</li>
+</ul>
+<h3>Step 2: 估算各層土壤摩擦角 $\phi$ 與介面參數</h3>
+<p>利用經驗公式 $\phi = 27^\circ + 0.3 N_{60}$ 估算：</p>
+<ul>
+<li><strong>層1 (0~5m, SM)</strong>：$N=12 \implies \phi_1 = 27 + 0.3(12) = 30.6^\circ$</li>
+<li><strong>層2 (5~15m, ML)</strong>：$N=15 \implies \phi_2 = 27 + 0.3(15) = 31.5^\circ$</li>
+<li><strong>層3 (15~30m, SW)</strong>：$N=30 \implies \phi_3 = 27 + 0.3(30) = 36.0^\circ$</li>
+</ul>
+<p>依據規範，打入樁之側向土壓力係數 $K$ 可取 $1.0 \sim 2.0$。此處保守取 $K = 1.0$；樁與土壤間摩擦角 $\delta$ 對混凝土預鑄樁可取 $\delta = \phi$。</p>
+<h3>Step 3: 計算 (一) 樁身極限摩擦力 $Q_s$</h3>
+<p>極限摩擦力公式：$f_s = K \sigma_v' \tan \delta$<br />
+因 5~15m 跨越臨界深度 10m，需分為 2a 與 2b 兩段計算：</p>
+<p><strong>1. 深度 0~5m (層1)</strong></p>
+<ul>
+<li>應力範圍：0 ~ 90，平均 $\bar{\sigma}_v' = 45 \text{ kN/m}^2$</li>
+<li>$f_{s1} = 1.0 \times 45 \times \tan(30.6^\circ) = 45 \times 0.5914 = 26.61 \text{ kN/m}^2$</li>
+<li>表面積 $A_{s1} = \pi D L_1 = \pi \times 0.5 \times 5 = 7.854 \text{ m}^2$</li>
+<li>$Q_{s1} = 26.61 \times 7.854 = 209.0 \text{ kN}$</li>
+</ul>
+<p><strong>2a. 深度 5~10m (層2 上半，應力遞增)</strong></p>
+<ul>
+<li>應力範圍：90 ~ 190，平均 $\bar{\sigma}_v' = 140 \text{ kN/m}^2$</li>
+<li>$f_{s2a} = 1.0 \times 140 \times \tan(31.5^\circ) = 140 \times 0.6128 = 85.79 \text{ kN/m}^2$</li>
+<li>表面積 $A_{s2a} = \pi \times 0.5 \times 5 = 7.854 \text{ m}^2$</li>
+<li>$Q_{s2a} = 85.79 \times 7.854 = 673.8 \text{ kN}$</li>
+</ul>
+<p><strong>2b. 深度 10~15m (層2 下半，應力常數)</strong></p>
+<ul>
+<li>有效應力維持上限：$\bar{\sigma}_v' = 190 \text{ kN/m}^2$</li>
+<li>$f_{s2b} = 1.0 \times 190 \times \tan(31.5^\circ) = 190 \times 0.6128 = 116.43 \text{ kN/m}^2$</li>
+<li>表面積 $A_{s2b} = \pi \times 0.5 \times 5 = 7.854 \text{ m}^2$</li>
+<li>$Q_{s2b} = 116.43 \times 7.854 = 914.4 \text{ kN}$</li>
+</ul>
+<p><strong>3. 深度 15~25m (層3)</strong></p>
+<ul>
+<li>有效應力維持上限：$\bar{\sigma}_v' = 190 \text{ kN/m}^2$</li>
+<li>$f_{s3} = 1.0 \times 190 \times \tan(36.0^\circ) = 190 \times 0.7265 = 138.04 \text{ kN/m}^2$</li>
+<li>表面積 $A_{s3} = \pi \times 0.5 \times 10 = 15.708 \text{ m}^2$</li>
+<li>$Q_{s3} = 138.04 \times 15.708 = 2168.3 \text{ kN}$</li>
+</ul>
+<p><strong>總樁身極限摩擦力：</strong><br />
+$Q_s = 209.0 + 673.8 + 914.4 + 2168.3 = \boxed{3965.5 \text{ kN}}$</p>
+<p><em>(註：若依某些習慣取 K=1.5，則 Q_s = 5948.3 kN)</em></p>
+<h3>Step 4: 計算 (二) 樁底極限支承力 $Q_p$</h3>
+<p>樁底位於深度 25m 處 (SW 層)，土壤摩擦角 $\phi_3 = 36^\circ$。<br />
+計算端承力之有效覆土壓力為 $\sigma_{vc}' = 190 \text{ kN/m}^2$。<br />
+公式：$q_p = \sigma_{vc}' N_q$<br />
+因題目未附 Berezantzev 等深基礎承載力因素圖表，此處採用一般淺基礎之承載力公式作為推估基準（或可直接依圖表記憶值帶入）：<br />
+$N_q = e^{\pi \tan \phi} \tan^2(45^\circ + \phi/2)$<br />
+$N_q = e^{\pi \tan 36^\circ} \tan^2(45^\circ + 18^\circ) = 9.796 \times 3.852 = 37.73$<br />
+（若依據 Berezantzev 曲線，深基礎 $\phi=36^\circ$ 時 $N_q \approx 45 \sim 50$）</p>
+<p>$q_p = 190 \times 37.73 = 7168.7 \text{ kN/m}^2$<br />
+樁底面積 $A_p = \frac{\pi}{4} D^2 = 0.19635 \text{ m}^2$<br />
+<strong>總樁底極限支承力：</strong><br />
+$Q_p = q_p \cdot A_p = 7168.7 \times 0.19635 = \boxed{1407.6 \text{ kN}}$</p>
+<p><em>(註：若取 N_q=45，則 Q_p = 1678.8 kN)</em></p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ol>
+<li><strong>臨界深度選取</strong>：規範對於砂土之臨界深度 $Z_c$ 並無絕對定值，多建議取 $15D \sim 20D$。本題故意將地下水位設於 10m，恰好為 $20D$，暗示採用 $Z_c = 20D$ 能簡化水下浮單位重的扣減，是極佳的切入點。</li>
+<li><strong>經驗參數 K 與 $\delta$ 的假設</strong>：規範僅給予範圍（$K=1.0 \sim 2.0$），未給定標準值。在國家考試中，只要有明確宣告假設條件（如本題假設 $K=1.0, \delta=\phi$），計算過程邏輯正確皆可獲得滿分。</li>
+<li><strong>承載力因素 $N_q$</strong>：Meyerhof 或 Berezantzev 的 $N_q$ 曲線隨 $\phi$ 變化極為劇烈。考場若未附表，寫出通用公式 $N_q = e^{\pi \tan \phi} \tan^2(45+\phi/2)$ 計算，或自行假設一個合理範圍內的值（如 40~50）並註明來源，是保障拿分的最佳策略。</li>
+</ol></main>
+<footer>來源：raw/solutions/SM-2023-3/SM-2023-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

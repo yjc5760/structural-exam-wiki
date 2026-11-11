@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2020-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2020-4 題目解析</h1><a class="back quick" href="../study-SM-U2-1.html">&#128269; U2-1 命題分析</a>
+<a class="back lect" href="../lecture-SM-U2-1.html">&#128218; U2-1 淺基礎之支承力與沉陷量 講義</a></header>
+<main><h1>考題編號：SM-2020-4</h1>
+<p><strong>主分類：</strong> <code>SM-U2-1</code> 淺基礎之支承力與沉陷量<br />
+<strong>副分類：</strong> 無<br />
+<strong>分析法：</strong> 總應力法<br />
+<strong>標籤：</strong> <code>Terzaghi承載力公式</code> <code>承載力因數</code> <code>不排水剪力強度</code> <code>容許承載力</code> <code>條形基礎</code> <code>淨承載力</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>一面牆將建構在一狹長的淺基礎上（基礎長遠大於 10 倍基礎寬），此基礎寬度為 1.25 公尺，厚度為 0.5 公尺厚且其底部置於地表下 0.5 公尺處。現地之土壤為粉土質黏土，其無圍壓縮強度為 100 kPa，此土壤之單位重為 18.8 $\text{kN/m}^3$，地下水位在地表處。請以計算說明該基礎能否安全地承載 120 kN/m 之荷重？（25 分）</p>
+<p><em>(本題無附圖，為純文字描述題)</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題旨在測驗考生對於<strong>飽和黏性土中淺基礎短期承載力</strong>的分析能力，出題者意圖包含以下幾個核心層面：</p>
+<ol>
+<li><strong>強度參數的轉換</strong>：從無圍壓縮試驗（Unconfined Compression Test）的結果 $q_u$，判斷並求取黏土在不排水條件下的未壓密不排水剪力強度 $S_u$（或 $c_u$）。</li>
+<li><strong>分析方法的選擇</strong>：地下水位在地表，且為粉土質黏土，短期承載力由不排水狀態（$\phi_u = 0$）控制，需使用總應力法進行分析。</li>
+<li><strong>承載力公式的應用</strong>：辨識「狹長淺基礎」（條形基礎）幾何條件，選擇適當的承載力公式（如 Terzaghi 條形基礎公式），並理解在 $\phi = 0$ 時承載力係數的對應值（$N_c = 5.7$、$N_q = 1.0$、$N_\gamma = 0$）。</li>
+<li><strong>淨載重與淨承載力的比較</strong>：了解實際加諸於基礎底面的載重（考量外加載重與基礎自重）與基礎容許承載力的比較邏輯，利用「淨（net）」的概念評估安全性。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>依據無圍壓縮強度 $q_u$，推算土壤的不排水剪力強度 $S_u = q_u / 2$。</li>
+<li>採用 Terzaghi 條形基礎極限承載力公式，計算總極限承載力 $q_{ult}$ 或淨極限承載力 $q_{ult,net}$。</li>
+<li>採用適當的基礎設計安全係數（一般取 $FS = 3.0$），求得容許淨承載力 $q_{a,net}$。</li>
+<li>計算實際施加於地基的淨載重強度 $q_{app,net}$（外加牆荷重除以基礎寬度，並斟酌是否計入混凝土與原土壤的單位重差異）。</li>
+<li>比較 $q_{app,net}$ 與 $q_{a,net}$，判斷是否安全。</li>
+</ol>
+<p><strong>陷阱分析：</strong></p>
+<ul>
+<li><strong>陷阱一：水位的影響（總應力 vs 有效應力）</strong><br />
+  許多考生看到「地下水位在地表處」，會直覺將載重項或土重項扣除水浮力。但在 $\phi_u = 0$ 的不排水分析（總應力法）中，承載力的抵抗來自於 $S_u$，且 $N_\gamma = 0$，上覆土重 $q$ 提供的是絕對總應力，不需轉為有效應力（若比較淨承載力，上覆水壓力項相互抵銷）。</li>
+<li><strong>陷阱二：忽略基礎自重與開挖土重的差異</strong><br />
+  題目敘述基礎厚度為 0.5m，底部置於地表下 0.5m，表示基礎頂齊平地表。牆荷重 120 kN/m 直接作用於基礎上，計算傳遞至基礎底部的淨壓力時，嚴格來說需計入混凝土（$\approx 24 \text{kN/m}^3$）取代原地表土（$18.8 \text{kN/m}^3$）所增加的額外載重。</li>
+<li><strong>陷阱三：安全係數的設定</strong><br />
+  題目未明示安全係數。在淺基礎設計中，常規安全係數必須由考生自行給定並說明（合理假設 $FS = 3.0$），這是驗證基礎是否「安全」的判斷基準。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>計算淺基礎之容許承載力與實際施加壓力，並判斷基礎是否安全。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li><strong>Step 1：不排水剪力強度</strong> <br />
+  $$ S_u = \frac{q_u}{2} $$</li>
+<li><strong>Step 2：淨極限承載力 (Terzaghi 條形基礎)</strong> <br />
+  $$ q_{ult,net} = \boxed{S_u} N_c $$</li>
+<li><strong>Step 3：容許淨承載力</strong> <br />
+  $$ q_{a,net} = \frac{\boxed{q_{ult,net}}}{FS} $$</li>
+<li><strong>Step 4：實際淨載重強度</strong> <br />
+  $$ q_{app,net} = \frac{Q}{B} + (\gamma_c - \gamma_{sat}) D_f $$</li>
+<li><strong>Step 5：安全性檢核</strong> <br />
+  $$ \text{Check: } \boxed{q_{app,net}} \le \boxed{q_{a,net}} $$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$B$</td>
+<td>1.25 m</td>
+<td>基礎寬度</td>
+</tr>
+<tr>
+<td>$L/B$</td>
+<td>$\to \infty$</td>
+<td>狹長淺基礎（條形基礎）</td>
+</tr>
+<tr>
+<td>$D_f$</td>
+<td>0.5 m</td>
+<td>基礎埋置深度</td>
+</tr>
+<tr>
+<td>$t$</td>
+<td>0.5 m</td>
+<td>基礎厚度</td>
+</tr>
+<tr>
+<td>$q_u$</td>
+<td>100 kPa</td>
+<td>粉土質黏土無圍壓縮強度</td>
+</tr>
+<tr>
+<td>$\gamma_{sat}$</td>
+<td>18.8 $\text{kN/m}^3$</td>
+<td>飽和土壤單位重</td>
+</tr>
+<tr>
+<td>$D_w$</td>
+<td>0 m</td>
+<td>地下水位深度</td>
+</tr>
+<tr>
+<td>$Q$</td>
+<td>120 kN/m</td>
+<td>牆身傳遞之每單位長度荷重</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>承載力計算與檢核</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+| --- | --- | --- |<br />
+| $S_u$ | $S_u = q_u / 2$ | |<br />
+| $N_c$ | $N_c = 5.7$ (Terzaghi 條形基礎, $\phi=0$) | |<br />
+| $q_{ult,net}$ | $q_{ult,net} = c N_c = S_u N_c$ | |<br />
+| $q_{a,net}$ | $q_{a,net} = q_{ult,net} / FS$ (假設 FS=3.0) | |<br />
+| $q_{app,net}$ | $q_{app,net} = Q/B + (\gamma_c - \gamma_{sat})D_f$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\phi_u=0$ 分析</td>
+<td>飽和黏土在短期載重下屬不排水狀態，內摩擦角視為零，此時 $N_q=1$、$N_\gamma=0$。</td>
+<td></td>
+</tr>
+<tr>
+<td>淨承載力概念</td>
+<td>淨極限承載力去除了開挖土重的影響（$q_{ult,net} = q_{ult} - q$），能直接對應結構物外加淨載重。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p><strong>Step 1：推算土壤的不排水剪力強度</strong><br />
+現地為粉土質黏土，且地下水位在地表，土壤呈飽和狀態。<br />
+在快速加載的短期條件下，應採不排水總應力分析（$\phi_u = 0$ 狀態）。<br />
+由無圍壓縮強度 $q_u$ 計算不排水剪力強度 $S_u$（即凝聚力 $c_u$）：<br />
+$$
+S_u = c_u = \frac{q_u}{2} = \frac{100 \text{ kPa}}{2} = 50 \text{ kPa}
+$$</p>
+<p><strong>Step 2：計算基礎之淨極限承載力</strong><br />
+基礎為狹長淺基礎（條形基礎），採用 Terzaghi 承載力公式。<br />
+對於 $\phi_u = 0^\circ$ 的飽和黏土，Terzaghi 承載力係數為：<br />
+$$ N_c = 5.7, \quad N_q = 1.0, \quad N_\gamma = 0 $$<br />
+極限承載力 $q_{ult}$ 計算公式為：<br />
+$$
+q_{ult} = c_u N_c + q N_q + 0.5 \gamma B N_\gamma
+$$<br />
+由於 $N_q = 1.0, N_\gamma = 0$，且上覆總壓力 $q = \gamma_{sat} D_f$：<br />
+$$
+q_{ult} = c_u N_c + \gamma_{sat} D_f
+$$<br />
+基礎底面之「淨極限承載力（Net Ultimate Bearing Capacity）」$q_{ult,net}$ 為：<br />
+$$
+q_{ult,net} = q_{ult} - q = c_u N_c
+$$<br />
+代入數值：<br />
+$$
+q_{ult,net} = 50 \times 5.7 = 285 \text{ kPa}
+$$</p>
+<p><strong>Step 3：決定容許淨承載力</strong><br />
+基礎設計一般要求之安全係數為 $FS \ge 3.0$。<br />
+計算容許淨承載力 $q_{a,net}$：<br />
+$$
+q_{a,net} = \frac{q_{ult,net}}{FS} = \frac{285}{3.0} = 95 \text{ kPa}
+$$</p>
+<p><strong>Step 4：計算實際施加於地基之淨載重強度</strong><br />
+牆體帶來之外加荷重為 $Q = 120 \text{ kN/m}$，平均分布於基礎寬度 $B = 1.25 \text{ m}$，此外加應力為：<br />
+$$
+q_{wall} = \frac{Q}{B} = \frac{120}{1.25} = 96 \text{ kPa}
+$$<br />
+基礎厚度與埋置深度均為 0.5 m，意味著原有的土壤被混凝土基礎所取代。<br />
+假設混凝土單位重 $\gamma_c \approx 24 \text{ kN/m}^3$：<br />
+由基礎結構自重取代原土壤所造成的額外淨壓力增量 $\Delta q_{base}$ 為：<br />
+$$
+\Delta q_{base} = (\gamma_c - \gamma_{sat}) \times D_f = (24.0 - 18.8) \times 0.5 = 5.2 \times 0.5 = 2.6 \text{ kPa}
+$$<br />
+總實際淨載重強度 $q_{app,net}$：<br />
+$$
+q_{app,net} = q_{wall} + \Delta q_{base} = 96 + 2.6 = 98.6 \text{ kPa}
+$$<br />
+<em>(註：即便為簡化計算而不計入混凝土與土壤單位重的差異，即假設 $\Delta q_{base} = 0$，實際淨載重強度 $q_{app,net} = 96 \text{ kPa}$)</em></p>
+<p><strong>Step 5：安全性檢核與結論</strong><br />
+比較實際淨載重強度與容許淨承載力：<br />
+$$
+\boxed{q_{app,net} = 98.6 \text{ kPa} \quad (若簡化為 96 \text{ kPa}) &gt; q_{a,net} = 95 \text{ kPa}}
+$$<br />
+由於實際載重強度大於容許淨承載力（即實際安全係數 $FS \approx 2.89 &lt; 3.0$），因此：<br />
+$$
+\text{\textbf{結論：該基礎無法安全地承載 120 kN/m 之荷重。}}
+$$</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ol>
+<li><strong>安全係數 (FS) 的選擇</strong><br />
+   本題未給定要求之安全係數，實務上淺基礎設計皆取 $FS = 3.0$。將本題的安全係數回推：$FS_{actual} = \frac{q_{ult,net}}{q_{app,net}} = \frac{285}{98.6} \approx 2.89$（若不計混凝土重差異則為 $285 / 96 \approx 2.97$）。兩者均小於 3.0，因此認定為不安全。作答時必須明確寫出「假設容許安全係數 $FS=3.0$」作為判斷的依據。</li>
+<li><strong>承載力公式的選用（Terzaghi vs Meyerhof）</strong></li>
+<li>若採用 <strong>Terzaghi</strong> 公式，如上述計算 $N_c = 5.7$，容許淨承載力為 95 kPa，結論為「不安全」。</li>
+<li>若採用 <strong>Meyerhof</strong> 或 <strong>Hansen</strong> 等一般承載力公式，條形基礎之 $N_c = 5.14$，並需考慮深度修正因子 $d_c$。以 Meyerhof 為例：<br />
+     $$ d_c = 1 + 0.2 \frac{D_f}{B} = 1 + 0.2 \left( \frac{0.5}{1.25} \right) = 1.08 $$<br />
+     $$ q_{ult,net} = c_u N_c d_c = 50 \times 5.14 \times 1.08 \approx 277.56 \text{ kPa} $$<br />
+     $$ q_{a,net} = \frac{277.56}{3} \approx 92.52 \text{ kPa} $$<br />
+     比較結果為 $96 \text{ kPa} &gt; 92.52 \text{ kPa}$，結論依然是「不安全」。</li>
+<li><strong>實務建議</strong>：在國家考試中，針對「狹長淺基礎」且未特別指明時，直接選用 Terzaghi 條形基礎公式（$N_c=5.7$）最簡明且被廣泛接受；若能在計算後加註 Meyerhof 方法亦不安全，更能展現觀念的全面性。</li>
+<li><strong>淨承載力 (Net) 與總承載力 (Gross) 觀念的區辨</strong><br />
+   基礎承載力的比較必須在相同的基準面上。本解答使用「淨載重」與「容許淨承載力」作比較，排除了「開挖前後地層本身土重 ($q$)」的相互抵銷干擾，這是最不容易出錯且觀念最清晰的標準作法。</li>
+</ol></main>
+<footer>來源：raw/solutions/SM-2020-4/SM-2020-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

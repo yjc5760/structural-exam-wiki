@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2009-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2009-2 題目解析</h1><a class="back quick" href="../study-SM-U2-1.html">&#128269; U2-1 命題分析</a>
+<a class="back lect" href="../lecture-SM-U2-1.html">&#128218; U2-1 淺基礎之支承力與沉陷量 講義</a></header>
+<main><h1>考題編號：SM-2009-2</h1>
+<p><strong>主分類：</strong> <code>SM-U2-1</code> 淺基礎之支承力與沉陷量<br />
+<strong>副分類：</strong> <code>SM-U2-3</code> 開挖之穩定性分析<br />
+<strong>分析法：</strong> 總應力法<br />
+<strong>標籤：</strong> <code>筏式基礎</code> <code>代償式基礎</code> <code>Terzaghi承載力公式</code> <code>容許承載力</code> <code>基盤隆起</code> <code>不排水剪力強度</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>有一筏式基礎，基礎之設計尺寸為：$B = 8 \text{ m}$，$L = 12 \text{ m}$，承載荷重 $Q = 18 \text{ MN}$。該處地層為正常壓密黏土，$\gamma_{sat} = 17 \text{ kN/m}^3$，$c_u = 35 \text{ kN/m}^2$，黏土下方為砂土層，地下水位於地表下 3 m處。<br />
+(一) 如採用部分代償式（partially compensated）基礎，且安全係數為 3，則基礎埋置深度 $D_f$ 為何？<br />
+(二) 其在開挖時將開挖面內之水位抽降至與開挖底面等高，此時下方土層之抗隆起安全係數為何？（25 分）</p>
+<p><img alt="SM-2009-2 題目附圖：土層剖面與筏式基礎幾何示意圖" src="../../raw/solutions/SM-2009-2/SM-2009-2-fig-1.png" /><br />
+<em>圖說：筏基尺寸 8m x 12m，載重 Q，埋置深度 D_f。黏土層總厚度 12m，地下水位於地表下（依題意為 -3m），下方為砂土層。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<ol>
+<li><strong>部分代償式基礎的淨承載力概念</strong>：測驗考生是否了解「代償式基礎」是利用挖除土壤的重量來抵消部分結構物載重，進而減少淨載重（Net pressure），因此安全係數應定義在「淨極限承載力」與「淨施加壓力」的比值。</li>
+<li><strong>淺基礎承載力（總應力分析）</strong>：飽和黏土層短期的承載力行為，適用 $\phi=0$ 條件，利用 Terzaghi 或 Skempton 承載力公式求 $q_{u,net}$。</li>
+<li><strong>開挖抗隆起分析（Basal Heave）</strong>：測驗開挖面下方黏土層的穩定性。題目特別給定「黏土下方為砂土層」，且可算出剩餘厚度 $T \approx B/\sqrt{2}$，強烈暗示應採用 Terzaghi 的隆起公式，以檢驗破壞面是否受到下方硬土層的限制。</li>
+<li><strong>水位的影響</strong>：測驗考生是否清楚在黏土層的短期（不排水）開挖分析中，總應力法下孔隙水壓不直接影響抗剪強度，但會影響底部上舉（Uplift / Blowout）風險。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>戰略地圖：</strong></p>
+<ul>
+<li><strong>第一階段（求 $D_f$）</strong>：</li>
+<li>計算筏基施加之總接觸壓力 $q = Q/A$。</li>
+<li>計算淨極限承載力 $q_{u,net} = c_u N_c F_c$（本題採 Terzaghi 矩形公式）。</li>
+<li>建立安全係數方程式 $FS = q_{u,net} / q_{net}$，其中 $q_{net} = q - \gamma D_f$，解出 $D_f$。</li>
+<li><strong>第二階段（求隆起 FS）</strong>：</li>
+<li>確認開挖深度 $H = D_f$，計算黏土層剩餘厚度 $T = 12 - D_f$。</li>
+<li>計算 Terzaghi 破壞區寬度 $B' = B/\sqrt{2}$，判斷破壞面是否碰到砂土層（比較 $T$ 與 $B'$）。</li>
+<li>代入 Terzaghi 隆起公式（或 Bjerrum &amp; Eide 公式）求出抗隆起安全係數。</li>
+<li>（進階檢核）檢核砂土層水壓造成的上舉（Uplift）安全係數。</li>
+</ul>
+<p><strong>陷阱分析：</strong></p>
+<ul>
+<li><strong>陷阱 1：安全係數的定義</strong>。對於代償式基礎，FS 必須是「淨承載力 / 淨載重」，若用「總承載力 / 總載重」會完全失去代償的物理意義。</li>
+<li><strong>陷阱 2：水位的處理</strong>。總應力分析中，開挖移除的土壤重量直接以總單位重 $\gamma_{sat}$ 計算，不需要去扣除水壓或使用有效單位重 $\gamma'$。</li>
+<li><strong>陷阱 3：隆起公式的選用</strong>。若忽略下方為砂土層的條件，直接代入公式，可能會錯失破壞面深度的幾何檢核（$B' \le T$）。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求出基礎的埋置深度 $D_f$，以及開挖期間的抗隆起安全係數 $FS_{heave}$。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>淨極限承載力：$q_{u,net} = c_u N_c \left(1 + 0.3 \frac{B}{L}\right)$</li>
+<li>淨施加壓力與 $D_f$ 關係：$q_{net} = \frac{Q}{A} - \gamma_{sat} D_f$</li>
+<li>承載力安全係數：$FS = \frac{\boxed{q_{u,net}}}{\boxed{q_{net}}}$ </li>
+<li>剩餘黏土層厚度：$T = 12 - \boxed{D_f}$</li>
+<li>Terzaghi 隆起安全係數：$FS_{heave} = \frac{c_u N_c \left(1 + 0.3 \frac{B}{L}\right) + c_u \frac{\boxed{D_f}}{B'}}{\gamma_{sat} \boxed{D_f}}$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$B$</td>
+<td>8 m</td>
+<td>基礎寬度</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>12 m</td>
+<td>基礎長度</td>
+</tr>
+<tr>
+<td>$Q$</td>
+<td>18000 kN</td>
+<td>承載荷重</td>
+</tr>
+<tr>
+<td>$c_u$</td>
+<td>35 kN/m²</td>
+<td>黏土不排水抗剪強度</td>
+</tr>
+<tr>
+<td>$\gamma_{sat}$</td>
+<td>17 kN/m³</td>
+<td>黏土飽和單位重</td>
+</tr>
+<tr>
+<td>$H_{clay}$</td>
+<td>12 m</td>
+<td>黏土層總厚度</td>
+</tr>
+<tr>
+<td>$D_{water}$</td>
+<td>3 m</td>
+<td>地下水位深度</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>基礎埋置深度計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$q$</td>
+<td>$Q / (B \times L)$</td>
+<td></td>
+</tr>
+<tr>
+<td>$q_{u,net}$</td>
+<td>$c_u N_c (1 + 0.3 \frac{B}{L})$</td>
+<td></td>
+</tr>
+<tr>
+<td>$D_f$</td>
+<td>$FS = q_{u,net} / (q - \gamma_{sat} D_f)$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>抗隆起與上舉分析</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$T$</td>
+<td>$H_{clay} - D_f$</td>
+<td></td>
+</tr>
+<tr>
+<td>$B'$</td>
+<td>$\min(B/\sqrt{2}, T)$</td>
+<td></td>
+</tr>
+<tr>
+<td>$FS_{heave}$</td>
+<td>$\frac{c_u N_c (1 + 0.3 \frac{B}{L}) + c_u \frac{D_f}{B'}}{\gamma_{sat} D_f}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$FS_{uplift}$</td>
+<td>$\frac{T \cdot \gamma_{sat}}{(H_{clay} - D_{water}) \gamma_w}$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>淨承載力定義</td>
+<td>必須扣除開挖土壤重量 $q_{net} = q - \gamma D_f$，才符合代償式基礎的設計精神</td>
+<td></td>
+</tr>
+<tr>
+<td>隆起破壞面深度</td>
+<td>必須檢核 $B/\sqrt{2}$ 是否大於剩餘黏土層厚度 $T$，以確定破壞面是否受下方硬土層限制</td>
+<td></td>
+</tr>
+<tr>
+<td>短期抗剪與水壓</td>
+<td>不排水分析中，總應力法下孔隙水壓不直接影響抗剪強度，但深開挖需檢核底部上舉破壞</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>(一) 基礎埋置深度 $D_f$</h3>
+<p><strong>Step 1: 計算基礎施加之總接觸壓力</strong><br />
+$$ q = \frac{Q}{A} = \frac{18 \times 10^3 \text{ kN}}{8 \text{ m} \times 12 \text{ m}} = 187.5 \text{ kN/m}^2 $$</p>
+<p><strong>Step 2: 計算淨極限承載力 ($q_{u,net}$)</strong><br />
+對於飽和黏土層，採短期不排水分析（$\phi_u = 0$ 總應力分析）。使用 Terzaghi 矩形基礎承載力公式：<br />
+$$ q_u = c_u N_c \left(1 + 0.3 \frac{B}{L}\right) + q_0 $$<br />
+其中，$\phi=0$ 時 $N_c = 5.7$。<br />
+淨極限承載力為：<br />
+$$ q_{u,net} = q_u - q_0 = c_u N_c \left(1 + 0.3 \frac{B}{L}\right) $$<br />
+代入數值：<br />
+$$ q_{u,net} = 35 \times 5.7 \times \left(1 + 0.3 \times \frac{8}{12}\right) = 199.5 \times 1.2 = \boxed{239.4 \text{ kN/m}^2} $$<br />
+<em>(註：若採用 Skempton 公式 $q_{u,net} = 5 c_u (1+0.2 B/L)(1+0.2 D_f/B)$ 亦為合理做法，此處以 Terzaghi 配合後續之隆起破壞面為例。)</em></p>
+<p><strong>Step 3: 利用安全係數求 $D_f$</strong><br />
+部分代償式基礎之安全係數定義為「淨承載力」與「淨施加壓力」之比值：<br />
+$$ FS = \frac{q_{u,net}}{q_{net}} = \frac{q_{u,net}}{q - \gamma_{sat} D_f} $$<br />
+$$ 3 = \frac{239.4}{187.5 - 17 \times D_f} $$<br />
+$$ 187.5 - 17 D_f = 79.8 $$<br />
+$$ 17 D_f = 107.7 \implies \boxed{D_f = 6.34 \text{ m}} $$</p>
+<hr />
+<h3>(二) 下方土層之抗隆起安全係數</h3>
+<p>開挖深度 $H = D_f = 6.34 \text{ m}$。題目言明抽水至開挖底面，故坑內無水重，外部驅動力為 $\gamma_{sat} H$。</p>
+<p><strong>Step 1: 幾何條件與破壞面檢核</strong><br />
+開挖面下方剩餘黏土層厚度：<br />
+$$ T = 12 - H = 12 - 6.34 = 5.66 \text{ m} $$<br />
+依 Terzaghi 隆起理論，潛在破壞塊體之寬度為 $B/\sqrt{2}$：<br />
+$$ \frac{B}{\sqrt{2}} = \frac{8}{1.414} = 5.66 \text{ m} $$<br />
+由於 $T \approx B/\sqrt{2}$，破壞面剛好切齊下方砂土層。此一巧合證明選用 Terzaghi 隆起公式為出題者之原意，取 $B' = \min(T, B/\sqrt{2}) = 5.66 \text{ m}$。</p>
+<p><strong>Step 2: 計算抗隆起安全係數 (Terzaghi 方法)</strong><br />
+Terzaghi 矩形開挖抗隆起安全係數公式：<br />
+$$ FS_{heave} = \frac{c_u N_c \left(1 + 0.3 \frac{B}{L}\right) + c_u \frac{H}{B'}}{\gamma_{sat} H} $$<br />
+（註：分母為驅動力，即開挖側土體總重量 $\gamma_{sat} H$；分子為抵抗力，含底面承載力與垂直面抗剪力）<br />
+$$ FS_{heave} = \frac{239.4 + 35 \times \frac{6.34}{5.66}}{17 \times 6.34} = \frac{239.4 + 39.2}{107.78} = \frac{278.6}{107.78} = \boxed{2.58} $$</p>
+<p><em>(補充：若依據台灣建築法規常用之 Bjerrum &amp; Eide 方法)</em><br />
+$$ N_c = 5 \left(1 + 0.2 \frac{B}{L}\right)\left(1 + 0.2 \frac{H}{B}\right) = 5(1.133)(1.1585) = 6.56 $$<br />
+$$ FS_{heave} = \frac{c_u N_c}{\gamma_{sat} H} = \frac{35 \times 6.56}{17 \times 6.34} = \boxed{2.13} $$<br />
+兩者皆為合理之工程解答，唯 Terzaghi 法更能體現題目「下方為砂土層」之深度限制。</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ol>
+<li><strong>上舉 (Uplift / Blowout) 破壞的潛在危機</strong><br />
+   題目特別強調「將開挖面內之水位抽降至與開挖底面等高」與「下方土層為砂土層」，雖然考題詢問廣義的「抗隆起」，但在實務上，這種深開挖加上外部高水位的地質條件，極易發生因下方受壓水層造成的「整個黏土塊體上舉」破壞。</li>
+<li>開挖底面下方黏土層總重（抵抗力）：$W = T \times \gamma_{sat} = 5.66 \times 17 = 96.22 \text{ kPa}$</li>
+<li>砂土層頂部水壓力（驅動力）：$U = (H_{clay} - D_{water}) \times \gamma_w = (12 - 3) \times 9.81 = 88.29 \text{ kPa}$</li>
+<li>抗上舉安全係數：$FS_{uplift} = \frac{W}{U} = \frac{96.22}{88.29} = 1.09$<br />
+<strong>探討</strong>：抗上舉安全係數僅 1.09，極度逼近臨界值 1.0。實務上要求 $FS_{uplift} \ge 1.2$，因此施工時除注意隆起外，強烈建議需在砂土層打設洩壓井降低水壓。若考生在考卷上補述此點，必能獲得閱卷老師極高評價。</li>
+<li><strong>承載力公式的選擇</strong><br />
+   本題使用 Terzaghi 公式計算時，恰好使得 $T = 5.66 \text{ m}$ 完美吻合 $B/\sqrt{2}$ 的幾何限制，這通常是命題教授設計數字時的巧思。若考生使用 Skempton 公式，算得的 $D_f = 6.51 \text{ m}$ 亦符合學理規範，國家考試通常均會給予滿分，但後續的隆起破壞塊體深度就會略小於 $B/\sqrt{2}$。</li>
+</ol></main>
+<footer>來源：raw/solutions/SM-2009-2/SM-2009-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2004-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2004-2 題目解析</h1><a class="back quick" href="../../index.html">&#128218; 回題庫瀏覽</a></header>
+<main><h1>考題編號：SM-2004-2</h1>
+<p><strong>主分類：</strong> <code>SM-U1-4</code> 土體內應力<br />
+<strong>副分類：</strong> 無<br />
+<strong>分析法：</strong> 總應力法<br />
+<strong>標籤：</strong> <code>莫爾圓</code> <code>應力轉換</code> <code>剪應力符號法則</code> <code>主應力</code> <code>極點法</code> <code>最大剪應力面</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>某土壤單元承受之應力狀況如圖所示：<br />
+(一) 試求此土壤單元水平面承受之正應力 $\sigma_h$ 及剪應力 $\tau_h$ 的大小。（9 分）<br />
+(二) 試求最大主應力 $\sigma_1$ 及最小主應力 $\sigma_3$ 的大小。（8 分）<br />
+(三) 試求最大剪應力 $\tau_{max}$ 及最小剪應力 $\tau_{min}$ 的方向（與水平面的夾角）。（8 分）</p>
+<p><img alt="SM-2004-2 題目附圖：土壤單元承受之應力狀況" src="../../raw/solutions/SM-2004-2/SM-2004-2-fig-1.png" /><br />
+<em>圖說：土壤單元為一三角形，底邊為水平面。左側斜面與水平面夾角 $20^\circ$，承受 $2\text{ kPa}$ 正應力與 $2\text{ kPa}$ 沿斜面向上的剪應力。右側斜面與水平面夾角 $51^\circ$，承受 $5\text{ kPa}$ 正應力與 $3\text{ kPa}$ 沿斜面向上的剪應力。頂角為 $109^\circ$。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題旨在測驗考生對於 <strong>二維應力狀態轉換</strong> 以及 <strong>Mohr 圓（摩爾圓）原理</strong> 的深刻理解。出題者不直接給予標準的正交平面（如垂直與水平面）應力，而是給定兩個任意斜面上的應力狀態，要求考生逆推還原出主應力以及水平面的應力狀態。<br />
+核心精神在於：</p>
+<ol>
+<li><strong>符號法則的正確判斷</strong>：將斜面上的受力方向正確轉換為 Mohr 圓上的 $(\sigma, \tau)$ 座標（需注意剪應力產生順/逆時針力矩的符號差異）。</li>
+<li><strong>幾何解析能力</strong>：利用圓的方程式找出圓心與半徑，並利用 $2\theta$ 角度關係或是極點法（Origin of Planes）找回水平面。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<ul>
+<li><strong>戰略一：確認 Mohr 圓符號法則</strong>。土壤力學中通常規定壓應力為正；剪應力若使元素產生逆時針旋轉為正，順時針旋轉為負。必須先將左斜面與右斜面的應力轉換為 $(2, -2)$ 與 $(5, 3)$ 兩個座標點。</li>
+<li><strong>戰略二：求解 Mohr 圓幾何參數</strong>。已知圓上兩點，且圓心必在 $\sigma$ 軸上（$y=0$），可透過距離公式 $(2-C)^2 + (-2)^2 = (5-C)^2 + 3^2$ 直接解出圓心 $C$ 與半徑 $R$，進而求得主應力。</li>
+<li><strong>戰略三：角度推算找水平面</strong>。利用 Mohr 圓上圓心角等於實體空間夾角兩倍的關係（$2\theta$ 法），由左斜面出發，推算旋轉至水平面的角度，求出 $\sigma_h$ 與 $\tau_h$。</li>
+</ul>
+<p><strong>⚠️ 陷阱分析：</strong></p>
+<ol>
+<li><strong>剪應力正負號判定錯誤</strong>：若未注意剪應力對元素中心產生的力矩方向，將兩點均視為正剪應力，會導致算出的圓心與半徑完全錯誤。</li>
+<li><strong>實體角與 Mohr 圓角的轉換</strong>：實體空間中旋轉 $\theta$，在 Mohr 圓上需旋轉 $2\theta$，方向相同。若忘記乘上兩倍，會找不到正確的應力點。</li>
+<li><strong>題目數據的微小不一致</strong>：題目給定的幾何角度（$20^\circ, 51^\circ$）實為近似值。精確計算會發現水平面恰好（或極為接近）是主應力面（$\tau_h \approx 0$）。在考試中應將其視為 $0$，判定為出題者設計的完美閉合狀態。</li>
+</ol>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求水平面之正應力及剪應力、主應力大小，以及最大/小剪應力面與水平面之夾角。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$ C = \frac{\sigma_A + \sigma_B}{2} + \frac{\tau_A^2 - \tau_B^2}{2(\sigma_A - \sigma_B)} \quad \text{或利用等距法求解} $$<br />
+$$ R = \sqrt{(\sigma_A - \boxed{C})^2 + \tau_A^2} $$<br />
+$$ \sigma_1 = \boxed{C} + \boxed{R} $$<br />
+$$ \sigma_3 = \boxed{C} - \boxed{R} $$<br />
+$$ \sigma_h = \boxed{C} + \boxed{R} \cos(\alpha_h) \quad, \quad \tau_h = \boxed{R} \sin(\alpha_h) $$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\sigma_A$</td>
+<td>$2 \text{ kPa}$</td>
+<td>左斜面之正應力 (壓應力)</td>
+</tr>
+<tr>
+<td>$\tau_A$</td>
+<td>$-2 \text{ kPa}$</td>
+<td>左斜面之剪應力 (順時針旋轉為負)</td>
+</tr>
+<tr>
+<td>$\theta_A$</td>
+<td>$20^\circ$</td>
+<td>左斜面與水平面之夾角</td>
+</tr>
+<tr>
+<td>$\sigma_B$</td>
+<td>$5 \text{ kPa}$</td>
+<td>右斜面之正應力 (壓應力)</td>
+</tr>
+<tr>
+<td>$\tau_B$</td>
+<td>$+3 \text{ kPa}$</td>
+<td>右斜面之剪應力 (逆時針旋轉為正)</td>
+</tr>
+<tr>
+<td>$\theta_B$</td>
+<td>$51^\circ$</td>
+<td>右斜面與水平面之夾角</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Mohr圓參數</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $C$ | Mohr 圓心，解 $(\sigma_A - C)^2 + \tau_A^2 = (\sigma_B - C)^2 + \tau_B^2$ | |<br />
+| $R$ | Mohr 半徑，$\sqrt{(\sigma_A - C)^2 + \tau_A^2}$ | |<br />
+| $\sigma_1, \sigma_3$ | 最大與最小主應力，$C \pm R$ | |<br />
+| $\sigma_h, \tau_h$ | 利用 $2\theta$ 法由已知面旋轉求得 | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>剪應力符號法則</td>
+<td>使土壤單元產生逆時針旋轉之剪應力為正，順時針為負。</td>
+<td></td>
+</tr>
+<tr>
+<td>Mohr圓 $2\theta$ 關係</td>
+<td>物理空間中平面旋轉 $\theta$ 角，對應 Mohr 圓上同方向旋轉 $2\theta$ 角。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p><strong>Step 1：判定已知平面在 Mohr 圓上之座標</strong><br />
+採用土壤力學標準符號法則：壓應力為正；剪應力使元素產生逆時針(CCW)旋轉為正，順時針(CW)旋轉為負。</p>
+<ul>
+<li><strong>左斜面 (A 面)</strong>：傾角為 $20^\circ$。正應力 $\sigma_A = 2$ kPa。剪應力沿斜面向上，對位於其下方的元素中心產生順時針力矩，故 $\tau_A = -2$ kPa。<br />
+  $\rightarrow$ 點 A 座標： $(2, -2)$</li>
+<li><strong>右斜面 (B 面)</strong>：傾角為 $180^\circ - 51^\circ = 129^\circ$。正應力 $\sigma_B = 5$ kPa。剪應力沿斜面向上，對位於其下方的元素中心產生逆時針力矩，故 $\tau_B = +3$ kPa。<br />
+  $\rightarrow$ 點 B 座標： $(5, 3)$</li>
+</ul>
+<p><strong>Step 2：解出 Mohr 圓之圓心 $C$ 與半徑 $R$</strong><br />
+圓心必在水平軸上，設圓心為 $(C, 0)$，半徑為 $R$。<br />
+$$ (2 - C)^2 + (-2)^2 = R^2 \quad \dots \text{(式1)} $$<br />
+$$ (5 - C)^2 + 3^2 = R^2 \quad \dots \text{(式2)} $$<br />
+將(式1)與(式2)展開並相減：<br />
+$$ (4 - 4C + C^2 + 4) = (25 - 10C + C^2 + 9) $$<br />
+$$ 8 - 4C = 34 - 10C $$<br />
+$$ 6C = 26 \implies C = \frac{26}{6} = 4.333 \text{ kPa} $$<br />
+代回求半徑 $R$：<br />
+$$ R = \sqrt{\left(2 - \frac{13}{3}\right)^2 + 4} = \sqrt{\left(\frac{-7}{3}\right)^2 + 4} = \sqrt{\frac{49}{9} + \frac{36}{9}} = \sqrt{\frac{85}{9}} = 3.073 \text{ kPa} $$</p>
+<p><strong>Step 3：計算最大主應力與最小主應力 (解答問題二)</strong><br />
+$$ \sigma_1 = C + R = 4.333 + 3.073 = \boxed{7.41 \text{ kPa}} $$<br />
+$$ \sigma_3 = C - R = 4.333 - 3.073 = \boxed{1.26 \text{ kPa}} $$</p>
+<p><strong>Step 4：推算水平面之應力狀態 (解答問題一)</strong><br />
+利用 $2\theta$ 旋轉法尋找水平面：<br />
+由物理空間幾何可知，從 A 面 (傾角 $20^\circ$) 旋轉至水平面 (傾角 $0^\circ$)，需要<strong>順時針旋轉 $20^\circ$</strong>。<br />
+對應在 Mohr 圓上，需從點 A 出發<strong>順時針旋轉 $2 \times 20^\circ = 40^\circ$</strong>。</p>
+<p>先求點 A 在 Mohr 圓上與中心 $C$ 之夾角 $\alpha_A$：<br />
+$$ \tan \alpha_A = \frac{\tau_A}{\sigma_A - C} = \frac{-2}{2 - 4.333} = \frac{-2}{-2.333} = 0.857 $$<br />
+因點 A 位於圓的左下方（第三象限），其絕對角度為 $180^\circ + \tan^{-1}(0.857) = 180^\circ + 40.6^\circ = 220.6^\circ$（即逆時針算起），若以負角表示則為 $-139.4^\circ$。</p>
+<p>從點 A 順時針轉 $40^\circ$ 尋找水平面 H 點：<br />
+$$ \alpha_H = -139.4^\circ - 40^\circ = -179.4^\circ $$<br />
+此角度極為接近 $-180^\circ$（因題目角度 $20^\circ, 51^\circ$ 有微小進位捨去），在工程計算中可判定此面即位於 Mohr 圓之最左端，即<strong>最小主應力面</strong>。<br />
+故水平面之應力為：<br />
+$$ \sigma_h = \sigma_3 = \boxed{1.26 \text{ kPa}} $$<br />
+$$ \tau_h = \boxed{0 \text{ kPa}} $$</p>
+<p><strong>Step 5：求最大與最小剪應力方向 (解答問題三)</strong><br />
+已知水平面即為主應力面（承受 $\sigma_3$），而最大剪應力 $\tau_{max}$ 與最小剪應力 $\tau_{min}$ 發生的平面，必定與主應力面夾角 $45^\circ$。</p>
+<ul>
+<li>最大剪應力 $\tau_{max}$ 位於 Mohr 圓最高點，自水平面（最左點）需順時針旋轉 $90^\circ$（Mohr圓上）。物理空間為<strong>順時針旋轉 $45^\circ$</strong>。</li>
+<li>最小剪應力 $\tau_{min}$ 位於 Mohr 圓最低點，自水平面（最左點）需逆時針旋轉 $90^\circ$（Mohr圓上）。物理空間為<strong>逆時針旋轉 $45^\circ$</strong>。</li>
+</ul>
+<p>故方向（與水平面的夾角）分別為：</p>
+<ul>
+<li>最大剪應力面方向：$\boxed{-45^\circ} \text{ (或 } 135^\circ \text{)}$</li>
+<li>最小剪應力面方向：$\boxed{+45^\circ}$</li>
+</ul>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>幾何近似與靜力平衡的差異：</strong><br />
+  若對該三角形土壤單元直接建立自由體圖（Free Body Diagram）並使用 $X, Y$ 方向之靜力平衡求解，算出的水平面應力會是 $\sigma_h \approx 1.28 \text{ kPa}, \tau_h \approx 0.02 \text{ kPa}$。這與 Mohr 圓解出的 $1.26 \text{ kPa}$ 有微小落差。<br />
+  其原因在於，題目所給的頂角 $109^\circ$ 與底角 $20^\circ, 51^\circ$ 在幾何上成立，但要讓這三個面的應力「完美對應到同一個均勻應力張量（即完美閉合的 Mohr 圓）」，其角度不應是剛好的整數。出題老師在設計題目時，為了計算方便進行了角度的四捨五入。</li>
+<li><strong>考場應對策略：</strong><br />
+  在國考中，遇到此類二維斜面應力狀態轉換問題，<strong>預期解法一律是採用 Mohr 圓或應力轉換方程式</strong>。且當計算發現水平面旋轉後幾乎落在主軸（如 $-179.4^\circ$）時，應果斷將其視為 $180^\circ$，判定 $\tau_h = 0$，以符合出題者設計為「水平面為主應力面」的核心意圖。</li>
+</ul></main>
+<footer>來源：raw/solutions/SM-2004-2/SM-2004-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

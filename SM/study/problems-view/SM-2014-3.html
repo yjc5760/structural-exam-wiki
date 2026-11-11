@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2014-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2014-3 題目解析</h1><a class="back quick" href="../study-SM-U2-3.html">&#128269; U2-3 命題分析</a>
+<a class="back lect" href="../lecture-SM-U2-3.html">&#128218; U2-3 開挖之穩定性分析 講義</a></header>
+<main><h1>考題編號：SM-2014-3</h1>
+<p><strong>主分類：</strong> <code>SM-U2-3</code> 開挖之穩定性分析<br />
+<strong>副分類：</strong> <code>SM-U3-1</code> 側向土壓力理論<br />
+<strong>分析法：</strong> 混合<br />
+<strong>標籤：</strong> <code>開挖穩定性</code> <code>板樁</code> <code>自由端支持法</code> <code>貫入深度</code> <code>地錨預力</code> <code>Rankine主動土壓力</code> <code>不排水剪力強度</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>有一 4.5 m 深基地開挖如圖三所示，地表至開挖面為砂土，$\phi=30^\circ$、$c=0$，地下水位於地表下方 2.1 m，地下水位以下與上方之砂土單位重分別為 $18.51 \text{ kN/m}^3$ 與 $16.2 \text{ kN/m}^3$，地錨施設於開挖面頂部下方 1 m 處，開挖面底部為黏土，$\phi=0$ 、不排水剪力強度 $S_u=50 \text{ kPa}$，單位重為 $19.11 \text{ kN/m}^3$，另外為施工考量，開挖面內部水位降至開挖面位置，為穩定該開挖面，試求鈑樁理論貫入深度與地錨預力。（25 分）</p>
+<p><img alt="SM-2014-3 題目附圖：地錨鈑樁開挖剖面圖" src="../../raw/solutions/SM-2014-3/SM-2014-3-fig-1.png" /></p>
+<p><em>圖說：開挖總深度 4.5 m。擋土牆上方 1 m 處設有地錨。地表至 4.5 m 為砂土（$\phi=30^\circ$, $c=0$），地下水位於 2.1 m 處，其上 $\gamma = 16.2 \text{ kN/m}^3$，其下 $\gamma_{sat} = 18.51 \text{ kN/m}^3$。開挖面（4.5 m）以下為黏土（$\phi=0$, $S_u=50 \text{ kPa}$, $\gamma_{sat} = 19.11 \text{ kN/m}^3$）。開挖側內部水位與開挖面齊平。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題考查<strong>地錨鈑樁牆（Anchored Sheet Pile Wall）</strong>在<strong>黏土層（$\phi=0$）</strong>的貫入深度及地錨力量計算，使用<strong>自由端支持法（Free Earth Support Method）</strong>。<br />
+出題者意圖測驗：</p>
+<ol>
+<li><strong>多層土與地下水位水壓力</strong>：開挖面以上為砂土，需分層計算有效應力，並正確加上孔隙水壓力。</li>
+<li><strong>開挖面以下的淨土壓力（Net Pressure）</strong>：在 $\phi=0$ 之黏土層，了解如何結合上覆土重（$q$）與不排水剪力強度（$S_u$），應用總應力法計算常數之淨側向土壓力 $p_{net} = 4S_u - q$。</li>
+<li><strong>力矩與力平衡</strong>：對地錨點取力矩平衡求出理論貫入深度 $D$，再由水平力平衡求出地錨預力。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li><strong>計算開挖面以上之主動土壓力與水壓力</strong>：</li>
+<li>砂土主動土壓力係數 $K_a = \tan^2(45^\circ - 30^\circ/2) = 1/3$。</li>
+<li>計算 $z=0, 2.1, 4.5$ 處的有效垂直應力，乘以 $K_a$ 得到主動土壓力。</li>
+<li>計算 $z=2.1$ 至 $z=4.5$ 的靜水壓力。</li>
+<li>將土壓力與水壓力分成幾個簡單幾何形狀（三角形、矩形），計算作用力及其相對於地錨點的力臂與力矩。</li>
+<li><strong>計算開挖面以下之淨土壓力</strong>：</li>
+<li>計算開挖面上方之總覆土壓力 $q$。</li>
+<li>應用公式 $p_{net} = 4S_u - q$ 得到開挖面以下的淨側向力均勻分布。</li>
+<li><strong>力矩平衡求 $D$</strong>：</li>
+<li>列出開挖面以下淨土壓力相對於地錨點的抵抗力矩（含 $D$ 的函數）。</li>
+<li>令主動力矩與抵抗力矩相等，解一元二次方程式得 $D$。</li>
+<li><strong>水平力平衡求地錨預力 $T$</strong>：</li>
+<li>由 $\Sigma F_x = 0$，得 $T = P_A - P_R$。</li>
+</ol>
+<p><strong>陷阱分析：</strong></p>
+<ul>
+<li><strong>陷阱 1：水壓力漏算或重複計算</strong>。在有效應力法中，開挖面上方擋土側需加上孔隙水壓力。而在開挖面下黏土層，若使用總應力法推導之 $p_{net} = 4S_u - q$ 公式，已內含了水壓力的平衡，不需再外加水壓力，否則會重複計算。</li>
+<li><strong>陷阱 2：地錨位置未正確扣除</strong>。所有力矩必須對「地錨點」取矩（本題為 $z=1$ m），若誤對頂部或底部取矩會導致極大誤差。</li>
+<li><strong>陷阱 3：黏土層單位重誤用</strong>。開挖面下黏土的單位重為 $19.11 \text{ kN/m}^3$，但在計算 $p_{net} = 4S_u - q$ 時，黏土層的自重在主動與被動側相互抵消，故實際上不影響淨土壓力，若誤用會導致公式錯誤。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求出鈑樁在黏土層的理論貫入深度 $D$，以及維持平衡所需的地錨預力 $T$。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>砂土主動土壓力係數：$K_a = \tan^2(45^\circ - \phi/2)$</li>
+<li>有效主動土壓力：$\sigma_a' = K_a \sigma_v'$</li>
+<li>黏土層淨被動土壓力：$p_{net} = 4S_u - \boxed{q}$</li>
+<li>力矩平衡：$\Sigma M_{anchor} = M_{OT} - M_R = 0$</li>
+<li>水平力平衡：$\Sigma F_x = \boxed{P_A} - \boxed{P_R} - T = 0$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H$</td>
+<td>4.5 m</td>
+<td>開挖深度</td>
+</tr>
+<tr>
+<td>$z_w$</td>
+<td>2.1 m</td>
+<td>地下水位深度（擋土側）</td>
+</tr>
+<tr>
+<td>$z_a$</td>
+<td>1.0 m</td>
+<td>地錨深度</td>
+</tr>
+<tr>
+<td>$\gamma_{sand}$</td>
+<td>16.2 $\text{kN/m}^3$</td>
+<td>水位上砂土單位重</td>
+</tr>
+<tr>
+<td>$\gamma_{sat, sand}$</td>
+<td>18.51 $\text{kN/m}^3$</td>
+<td>水位下砂土飽和單位重</td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td>$30^\circ$</td>
+<td>砂土內摩擦角</td>
+</tr>
+<tr>
+<td>$S_u$</td>
+<td>50 kPa</td>
+<td>黏土不排水剪力強度</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>開挖面以上土壓與水壓</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+| --- | --- | --- |<br />
+| $K_a$ | $\tan^2(45^\circ - \phi/2)$ | |<br />
+| $\gamma'$ | $\gamma_{sat, sand} - \gamma_w$ | |<br />
+| $\sigma_{v1}'$ | $z_w \cdot \gamma_{sand}$ | |<br />
+| $\sigma_{v2}'$ | $\sigma_{v1}' + (H - z_w) \cdot \gamma'$ | |</p>
+<p><strong>開挖面以下淨土壓力</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+| --- | --- | --- |<br />
+| $q$ | $z_w \gamma_{sand} + (H - z_w) \gamma_{sat, sand}$ | |<br />
+| $p_{net}$ | $4S_u - q$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>黏土層淨土壓力公式 $p_{net} = 4S_u - q$</td>
+<td>對於 $\phi=0$ 之黏土層，其主動側總應力 $\sigma_a = (\gamma z + q) - 2S_u$，被動側 $\sigma_p = \gamma z + 2S_u$。淨應力 $p_{net} = \sigma_p - \sigma_a = 4S_u - q$，此為均勻分布且與深度無關。</td>
+<td></td>
+</tr>
+<tr>
+<td>自由端支持法 (Free Earth Support)</td>
+<td>假設鈑樁底端有足夠剛度但不產生反向彎矩，力矩平衡直接對地錨點取矩 $\Sigma M = 0$，解出貫入深度 $D$ 即可，無需考慮基底反曲點。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p><strong>Step 1：開挖面上方（$0 \sim 4.5$ m）之主動土壓力與水壓力計算</strong><br />
+砂土之主動土壓力係數：<br />
+$$ K_a = \tan^2\left(45^\circ - \frac{30^\circ}{2}\right) = \frac{1}{3} $$</p>
+<p>水位以上砂土 $\gamma = 16.2 \text{ kN/m}^3$，水位以下砂土有效單位重 $\gamma' = 18.51 - 9.81 = 8.7 \text{ kN/m}^3$。</p>
+<p>各深度之有效垂直應力 $\sigma_v'$、主動土壓力 $\sigma_a'$ 與水壓力 $u$：</p>
+<ul>
+<li><strong>深度 $z = 0$ m</strong>：<br />
+  $$ \sigma_v' = 0 \text{ kPa} \implies \sigma_a' = 0 \text{ kPa} $$</li>
+<li><strong>深度 $z = 2.1$ m</strong>（地下水位）：<br />
+  $$ \sigma_v' = 16.2 \times 2.1 = 34.02 \text{ kPa} $$<br />
+  $$ \sigma_a' = 34.02 \times \frac{1}{3} = 11.34 \text{ kPa} $$<br />
+  $$ u = 0 \text{ kPa} $$</li>
+<li><strong>深度 $z = 4.5$ m</strong>（開挖面）：<br />
+  $$ \sigma_v' = 34.02 + 8.7 \times (4.5 - 2.1) = 34.02 + 8.7 \times 2.4 = 54.9 \text{ kPa} $$<br />
+  $$ \sigma_a' = 54.9 \times \frac{1}{3} = 18.3 \text{ kPa} $$<br />
+  $$ u = 9.81 \times 2.4 = 23.544 \text{ kPa} $$</li>
+</ul>
+<p><strong>Step 2：主動土壓力與水壓力之受力及對地錨（$z=1$ m）之力矩</strong><br />
+將作用力分解為四個區塊，並計算對地錨點之距離（力臂）與力矩：</p>
+<ol>
+<li>
+<p><strong>$P_1$（$0 \sim 2.1$ m 之三角形土壓力）</strong>：<br />
+   $$ P_1 = \frac{1}{2} \times 11.34 \times 2.1 = 11.907 \text{ kN/m} $$<br />
+   作用點深度 $z = 2.1 \times \frac{2}{3} = 1.4$ m<br />
+   對地錨力臂 $= 1.4 - 1.0 = 0.4$ m<br />
+   $$ M_{OT,1} = 11.907 \times 0.4 = 4.7628 \text{ kN-m/m} $$</p>
+</li>
+<li>
+<p><strong>$P_2$（$2.1 \sim 4.5$ m 之矩形土壓力）</strong>：<br />
+   $$ P_2 = 11.34 \times 2.4 = 27.216 \text{ kN/m} $$<br />
+   作用點深度 $z = 2.1 + \frac{2.4}{2} = 3.3$ m<br />
+   對地錨力臂 $= 3.3 - 1.0 = 2.3$ m<br />
+   $$ M_{OT,2} = 27.216 \times 2.3 = 62.5968 \text{ kN-m/m} $$</p>
+</li>
+<li>
+<p><strong>$P_3$（$2.1 \sim 4.5$ m 之三角形土壓力增量）</strong>：<br />
+   $$ P_3 = \frac{1}{2} \times (18.3 - 11.34) \times 2.4 = \frac{1}{2} \times 6.96 \times 2.4 = 8.352 \text{ kN/m} $$<br />
+   作用點深度 $z = 2.1 + 2.4 \times \frac{2}{3} = 3.7$ m<br />
+   對地錨力臂 $= 3.7 - 1.0 = 2.7$ m<br />
+   $$ M_{OT,3} = 8.352 \times 2.7 = 22.5504 \text{ kN-m/m} $$</p>
+</li>
+<li>
+<p><strong>$P_4$（$2.1 \sim 4.5$ m 之三角形水壓力）</strong>：<br />
+   $$ P_4 = \frac{1}{2} \times 23.544 \times 2.4 = 28.2528 \text{ kN/m} $$<br />
+   作用點深度 $z = 2.1 + 2.4 \times \frac{2}{3} = 3.7$ m<br />
+   對地錨力臂 $= 3.7 - 1.0 = 2.7$ m<br />
+   $$ M_{OT,4} = 28.2528 \times 2.7 = 76.28256 \text{ kN-m/m} $$</p>
+</li>
+</ol>
+<p><strong>開挖面上方總水平力與總傾覆力矩</strong>：<br />
+$$ P_A = P_1 + P_2 + P_3 + P_4 = 11.907 + 27.216 + 8.352 + 28.2528 = 75.7278 \text{ kN/m} $$<br />
+$$ M_{OT} = 4.7628 + 62.5968 + 22.5504 + 76.28256 = 166.19256 \text{ kN-m/m} $$</p>
+<p><strong>Step 3：開挖面以下（黏土層）淨側向土壓力計算</strong><br />
+開挖面（$z = 4.5$ m）上方之總覆土壓力 $q$：<br />
+$$ q = \gamma_{sand} \times 2.1 + \gamma_{sat, sand} \times 2.4 = 16.2 \times 2.1 + 18.51 \times 2.4 = 34.02 + 44.424 = 78.444 \text{ kPa} $$</p>
+<p>由於黏土層 $\phi=0$，使用總應力法計算其淨被動側向壓力 $p_{net}$（此力為常數，作用方向向開挖側）：<br />
+$$ p_{net} = 4S_u - q = 4(50) - 78.444 = 200 - 78.444 = 121.556 \text{ kPa} $$</p>
+<p>假設理論貫入深度為 $D$。淨抵抗力為一矩形分布：<br />
+$$ P_R = p_{net} \times D = 121.556 D $$<br />
+作用點位於開挖面以下 $D/2$ 處，相對於地錨之距離為 $(4.5 - 1.0) + D/2 = 3.5 + 0.5D$。<br />
+$$ M_R = P_R \times (3.5 + 0.5D) = 121.556 D (3.5 + 0.5D) = 425.446 D + 60.778 D^2 $$</p>
+<p><strong>Step 4：對地錨點取力矩平衡，求解貫入深度 $D$</strong><br />
+$$ \Sigma M_{anchor} = 0 \implies M_R = M_{OT} $$<br />
+$$ 60.778 D^2 + 425.446 D = 166.19256 $$<br />
+同除以 $60.778$ 可簡化為：<br />
+$$ D^2 + 7.000 D - 2.7344 = 0 $$<br />
+代入公式解：<br />
+$$ D = \frac{-7 + \sqrt{7^2 - 4(1)(-2.7344)}}{2} = \frac{-7 + \sqrt{49 + 10.9376}}{2} = \frac{-7 + 7.7419}{2} = 0.371 \text{ m} $$<br />
+$$ \boxed{D = 0.371 \text{ m}} $$</p>
+<p><strong>Step 5：水平力平衡，求解地錨預力 $T$</strong><br />
+$$ \Sigma F_x = 0 \implies T + P_R = P_A $$<br />
+$$ T = P_A - P_R = 75.7278 - 121.556 \times 0.37097 $$<br />
+$$ T = 75.7278 - 45.093 = 30.635 \text{ kN/m} $$<br />
+$$ \boxed{T = 30.63 \text{ kN/m}} $$</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>理論貫入深度與實際貫入深度</strong>：題目要求「理論貫入深度」，故上述所求出之 $D=0.371\text{ m}$ 即可。在工程實務中，通常會將此深度乘以一個安全係數（如增加 $20\% \sim 30\%$），或於被動土壓力上先除以安全係數後再計算，以決定實際貫入深度。</li>
+<li><strong>孔隙水壓力處理方式</strong>：在推導 $\phi=0$ 的淨土壓力 $p_{net} = 4S_u - q$ 時，所使用的 $q$ 是<strong>總覆土應力</strong>，而擋土與開挖兩側的水壓力已隱含在總應力差值中相互抵消。因此在計算 $p_{net}$ 時不可再額外扣除有效水壓，否則將導致重複計算錯誤。這是 $\phi=0$ 總應力分析法的標準特性。</li>
+</ul></main>
+<footer>來源：raw/solutions/SM-2014-3/SM-2014-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

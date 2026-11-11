@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SM-U1-5 土壤強度特性與變形性｜主要公式 給／背分界</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[
+    {left:'$$',right:'$$',display:true},
+    {left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--must:#c62828;--half:#ef6c00;--give:#2e7d32;--nav:#1565c0;--ink:#263238;--mut:#78909c;--line:#e0e6ea;--bg:#f5f7f9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.75;
+ font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;font-size:15px}
+main{max-width:1080px;margin:0 auto;padding:0 18px 60px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:30px 24px;border-radius:0 0 18px 18px;margin-bottom:8px}
+header h1{margin:0 0 8px;font-size:1.55rem;line-height:1.4}
+header p{margin:0;opacity:.93;font-size:.92rem;line-height:1.65}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);
+ display:flex;flex-wrap:wrap;gap:6px;padding:9px 12px;margin-bottom:18px;border-radius:0 0 10px 10px}
+nav a{font-size:.8rem;text-decoration:none;color:var(--nav);background:#e3f2fd;
+ padding:5px 11px;border-radius:14px;white-space:nowrap}
+nav a:hover{background:var(--nav);color:#fff}
+section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:20px}
+h2{font-size:1.18rem;color:var(--nav);border-left:5px solid var(--nav);padding-left:11px;margin:0 0 14px}
+h3{font-size:1rem;margin:18px 0 8px;color:#37474f}
+h3.grph{background:#eceff1;border-left:5px solid var(--nav);padding:6px 12px;border-radius:6px;color:var(--nav)}
+p.lead{font-size:.95rem;color:#455a64}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:11px;margin:14px 0}
+.kpi{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:13px;text-align:center}
+.kpi .n{font-size:1.7rem;font-weight:800;color:var(--nav);line-height:1.15}
+.kpi .l{font-size:.74rem;color:var(--mut);margin-top:3px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:11px;margin:14px 0}
+.lg{border:1px solid var(--line);border-left-width:5px;border-radius:9px;padding:11px 14px;background:#fff}
+.lg.must{border-left-color:var(--must)}.lg.half{border-left-color:var(--half)}.lg.give{border-left-color:var(--give)}
+.lg h4{margin:0 0 4px;font-size:.95rem}
+.lg.must h4{color:var(--must)}.lg.half h4{color:var(--half)}.lg.give h4{color:var(--give)}
+.lg p{margin:0;font-size:.82rem;color:#546e7a;line-height:1.6}
+.note{background:#e8f4fd;border-left:5px solid var(--nav);border-radius:0 8px 8px 0;padding:11px 15px;margin:13px 0;font-size:.9rem}
+.warn{background:#fff4e5;border-left:5px solid var(--half);border-radius:0 8px 8px 0;padding:11px 15px;margin:13px 0;font-size:.9rem}
+blockquote{margin:12px 0;padding:11px 16px;background:#fafafa;border-left:4px solid #b0bec5;
+ color:#455a64;font-size:.89rem;border-radius:0 8px 8px 0}
+.filters{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 16px;align-items:center}
+.filters .fl{font-size:.76rem;color:var(--mut);margin-right:2px}
+.filters button{font-size:.79rem;border:1px solid var(--line);background:#fff;color:#455a64;
+ padding:5px 12px;border-radius:15px;cursor:pointer}
+.filters button.on{background:var(--nav);border-color:var(--nav);color:#fff}
+.cards{display:flex;flex-direction:column;gap:12px}
+.fc{border:1px solid var(--line);border-left-width:5px;border-radius:10px;padding:13px 16px;background:#fff}
+.fc.must{border-left-color:var(--must)}.fc.half{border-left-color:var(--half)}.fc.give{border-left-color:var(--give)}
+.fc .top{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:5px}
+.fc .nm{font-weight:700;font-size:1.02rem}
+.tag{font-size:.72rem;padding:2px 10px;border-radius:12px;color:#fff;white-space:nowrap}
+.tag.must{background:var(--must)}.tag.half{background:var(--half)}.tag.give{background:var(--give)}
+.fc .eq{background:#f7f9fa;border-radius:7px;padding:6px 12px;margin:6px 0;overflow-x:auto}
+.fc .meta{margin:6px 0 0;font-size:.89rem;color:#455a64;line-height:1.72}
+.fc .ev{margin-top:9px;padding-top:8px;border-top:1px dashed var(--line);font-size:.79rem;color:#546e7a}
+.yr{display:inline-block;padding:1px 6px;margin:1px 3px 1px 0;border-radius:4px;font-size:.75rem}
+.yr.ok{background:#e8f5e9;color:#1b5e20;border:1px solid #c8e6c9}
+.yr.no{background:#ffebee;color:#b71c1c;border:1px solid #ffcdd2}
+.never{color:var(--must);font-weight:700}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:9px;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:940px;font-size:.79rem}
+th,td{padding:5px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#eceff1;position:sticky;top:0;font-size:.74rem;text-align:center;line-height:1.35}
+th:first-child,th:last-child{text-align:left}
+td.c{text-align:center}
+td .y{color:var(--give);font-weight:800}
+td .n{color:#cfd8dc}
+tr.hl{background:#f2f7fc}
+td.qq{font-size:.76rem;color:#37474f}
+td.rm{font-size:.76rem;color:#546e7a;line-height:1.5}
+.ynote{font-size:.72rem;color:var(--mut)}
+footer{color:var(--mut);font-size:.79rem;padding:14px 4px;border-top:1px solid var(--line);margin-top:8px}
+ul,ol{padding-left:22px}li{margin:5px 0}
+/* WeasyPrint（列印）不支援 grid、flex 分頁也不穩，改回 block/table 佈局 */
+@media print{
+ .cards{display:block!important}
+ .fc{margin-bottom:9px}
+ .kpis{display:table!important;table-layout:fixed;width:100%;border-spacing:5px 0}
+ .kpi{display:table-cell!important;vertical-align:middle}
+ .legend{display:table!important;table-layout:fixed;width:100%;border-spacing:6px 0}
+ .lg{display:table-cell!important;vertical-align:top}
+ .filters{display:none!important}
+ .tw{overflow:visible!important}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>SM-U1-5　土壤強度特性與變形性<br>主要公式：考卷會給 vs. 必須自己背</h1>
+<p>12 題歷屆考題 × 24 份考卷原文逐年比對。結論先講：本單元 11 個有題年份裡，<b>只有 114 年（2025）印過一條公式</b>——而且是最基本的那條 Mohr–Coulomb 主應力關係。</p>
+</header>
+<main>
+<nav>
+<a href="#how">判定方法</a>
+<a href="#cards">公式清單</a>
+<a href="#matrix">逐年證據表</a>
+<a href="#strategy">背誦策略</a>
+<a href="lecture-SM-U1-5.html">▶ U1-5 觀念講義</a>
+<a href="study-SM-U1-5.html">▶ U1-5 命題分析</a>
+<a href="formula-given-SM-U1-3.html">▶ U1-3 給／背分界</a>
+<a href="formula-given-SM-U2-1.html">▶ U2-1 給／背分界</a>
+<a href="formula-given-SM-U2-2.html">▶ U2-2 給／背分界</a>
+<a href="formula-given-SM-U2-3.html">▶ U2-3 給／背分界</a>
+<a href="formula-given-SM-U1-1.html">▶ U1-1 給／背分界</a>
+<a href="formula-given-SM-U3-1.html">▶ U3-1 給／背分界</a>
+<a href="formula-given-SM-U1-5.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+
+<section id="how">
+<h2>一、我怎麼判定的</h2>
+<p class="lead">本頁只回答一件事：<b>SM-U1-5 的公式，哪些考卷會幫你印出來，哪些不背就整題卡死。</b>判定一律以 <code>raw/exams/</code> 2002–2025 全 24 份考卷原文為準；文字抽取有斷裂或疑似圖片公式的頁面一律轉圖目視確認（114 年整份逐頁看過）。本單元是五個單元中<b>供給最少</b>的一個。</p>
+<div class="kpis"><div class="kpi"><div class="n">17</div><div class="l">條主要公式</div></div><div class="kpi"><div class="n">15</div><div class="l">必背</div></div><div class="kpi"><div class="n">2</div><div class="l">別賭</div></div><div class="kpi"><div class="n">0</div><div class="l">通常會給</div></div><div class="kpi"><div class="n">12</div><div class="l">歷屆題數</div></div><div class="kpi"><div class="n">10</div><div class="l">零供給年</div></div></div>
+<h3>考卷把公式印出來的三種擺法（三種都算「有給」）</h3>
+<ul>
+<li><b>(a) 集中式</b>—— 全卷共用的「※參考公式／參考資料」區塊。SM 只有 <b>105 年（2016）</b>與 <b>114 年（2025）</b>用過這種擺法。</li>
+<li><b>(b) 隨題式</b>—— 「註：」跟在該題題目正下方。近年主流，103（2014）、110（2021）、111（2022）、113（2024）都是。</li>
+<li><b>(c) 內文式</b>—— 直接寫在題目敘述裡當已知條件。例如 96 年（2007）在題幹中給 <span class="mji">\(K=1.8(1-\sin\phi)\)</span>、99 年（2010）在提示欄給 <span class="mji">\(F_{sc}=1+0.2(B/L)\)</span>。</li>
+</ul>
+<h3>考卷的免責聲明（本科最關鍵的一句話）</h3>
+<p>SM 從未出現「公式僅供參考、請自行檢查勘誤」這類話。它寫的是<b>相反的方向</b>——96～102 年連續七年，注意事項欄都寫著：</p>
+<blockquote>「本試題之相關符號、公式、物理常數及設計參數<b>未提及時，請依規範自行合理推斷或假設</b>。」（100 年，2011）<br>
+「下列問題之相關公式、物理常數、符號意義及設計參數未提及時，請自行依規範作合理之推斷與假設。」（98 年，2009）<br>
+「下列各題若有所需參數或公式不足時，請自行合理假設或推知。」（99 年，2010）</blockquote>
+<p>這句話 103 年（2014）起消失，取而代之的是逐題「註：」給公式。<b>但它從沒被換成「公式僅供參考」</b>——
+意思是命題委員的預設立場始終是：<b>公式本來就該由你帶進考場</b>，給你是恩典不是義務。這是 SM 與 SS 最大的差別，也是本頁把標準訂得比 SS 更嚴的原因。</p>
+<h3>三級圖例</h3>
+<div class="legend">
+<div class="lg must"><h4>🔴 必背</h4><p>從未印過，或曾出現「考了卻沒給」且沒給的年份佔多數。<b>自己要寫得出來。</b></p></div>
+<div class="lg half"><h4>🟠 別賭</h4><p>多數年份有給，但有明確沒給的先例；或同一條式子有新舊／不同係數版本，給哪一版要自己認得。<b>仍建議背。</b></p></div>
+<div class="lg give"><h4>🟢 通常會給</h4><p>凡考該題型幾乎必印，且無「考了卻沒給」的先例。<b>背概念與用法即可。</b></p></div>
+</div>
+
+<div class="warn"><b>本單元的處境比 U1-3 更極端：24 年只給過一條公式。</b>
+114 年（2025-2）在題目正下方印出 \(\sigma_1'=\sigma_3'\tan^2(45^\circ+\phi'/2)+2c'\tan(45^\circ+\phi'/2)\)，
+這是全 24 年<b>唯一一次</b>本單元拿到公式。其餘 10 個有題年份——包括 91、92、95、96、97、99、101、102、107、113——
+一條都沒有。原因不難理解：這個單元考的是「你會不會讀莫爾圓」，
+而莫爾圓的每一條關係式都可以從圖上量出來，命題委員預設你自己畫得出那張圖。</div>
+
+</section>
+
+<section id="cards">
+<h2>二、公式逐條分界</h2>
+<div class="filters">
+<span class="fl">級別</span>
+<button class="lvf on" data-lv="all">全部</button>
+<button class="lvf" data-lv="must">必背</button>
+<button class="lvf" data-lv="half">別賭</button>
+<button class="lvf" data-lv="give">通常會給</button>
+<span class="fl" style="margin-left:10px">主題</span>
+<span id="gbtns"></span>
+</div>
+<div class="cards" id="cards"></div>
+</section>
+
+<section id="matrix">
+<h2>三、逐年證據表</h2>
+<p class="lead">24 個年份 × 10 條代表性公式。<b>✔</b>＝該年考卷印出此式（含集中式／隨題式／內文式）；
+<b>·</b>＝沒印。底色標示的列代表該年有本單元的題目（共 11 個年份）。</p>
+<div class="tw"><table id="mx">
+<thead><tr><th>考卷年</th><th>單元題號</th><th class="c">主應力式</th><th class="c">M-C 準則</th><th class="c">sinφ′ 捷徑</th><th class="c">θf</th><th class="c">σn、τ</th><th class="c">Su 量法</th><th class="c">Skempton</th><th class="c">Af</th><th class="c">應力路徑</th><th class="c">K₀</th><th>備註</th></tr></thead>
+<tbody></tbody>
+</table></div>
+</section>
+
+<section id="strategy">
+<h2>四、背誦策略</h2>
+
+<h3>4-1　先看這三個數字</h3>
+<ul>
+<li><b>11 個有題年份，只有 1 年印過公式。</b>供給率 9%，是五個單元裡最低的。</li>
+<li><b>107（2018-2）與 113（2024-1）各 25 分、四個小題，全程零公式。</b>
+這兩題是本單元最完整的「莫爾圓總複習」，也證明命題委員的預設：這些式子你必須有。</li>
+<li><b>Skempton \(\Delta u=B[\Delta\sigma_3+A(\Delta\sigma_1-\Delta\sigma_3)]\) 四度需要、零次供給。</b>
+而且每次題目都把 \(A_f\)、\(B\) 的值給你——擺明就是在等你寫式子。</li>
+</ul>
+
+<h3>4-2　如果只背五條</h3>
+<ol>
+<li><b>\(\sigma_1'=\sigma_3'\tan^2(45^\circ+\phi'/2)+2c'\tan(45^\circ+\phi'/2)\)</b>——
+一給五不給，而且要能<b>反解 \(\phi'\)</b>（113 年就是給 \(c\) 求 \(\phi\)）。</li>
+<li><b>\(\sin\phi'=(\sigma_1'-\sigma_3')/(\sigma_1'+\sigma_3')\)</b>——
+NC 黏土 \(c'=0\) 的捷徑，三題直接受惠，零供給。</li>
+<li><b>Skempton 孔壓參數式與 \(A_f\) 的定義</b>——四題要用，零供給，且 \(A_f\) 的正負號是 OC/NC 的判別式。</li>
+<li><b>\(S_u=(\sigma_1-\sigma_3)_f/2=q_u/2\)</b>——
+最基本但最致命：109 年給 \(q_u=100\) kPa，忘了除以 2 整題 25 分報廢。</li>
+<li><b>\(\theta_f=45^\circ+\phi/2\) 及其證明</b>——113 年直接叫你證明。
+背結論只值一半分數，要能講出「切點 → 圓心角 \(2\theta_f=90^\circ+\phi\)」。</li>
+</ol>
+
+<div class="note"><b>比背公式更划算的投資：把莫爾圓畫熟。</b>
+本單元幾乎所有關係式——主應力關係、\(\sin\phi'\)、\(\theta_f\)、\(\sigma_n\) 與 \(\tau\)、
+甚至 \(K_f\) 線斜率——都可以從一張畫對的莫爾圓上量出來或推出來。
+與其記七八條式子，不如練到「給圍壓與軸差應力就能在 30 秒內畫出正確的圓與包絡線」。
+113 年（2024-1）四個小題就是同一張圖的四種問法。</div>
+
+<h3>4-3　三個「沒有公式但一定考」的觀念</h3>
+<ul>
+<li><b>\(\phi_{cu}\) 不是土壤的性質。</b>101 年給 \(\phi'=32^\circ\) 與 \(\phi_{cu}=22^\circ\) 並存，
+107 年要你同時算出兩個角度。要能說出：兩者的差距就是 \(\Delta u\) 把總應力路徑往右推的距離。</li>
+<li><b>飽和 UU 的 \(\phi_u=0\) 是「圍壓全被水擋掉」的結果，不是土壤沒有摩擦。</b>
+96 年 12 分、99 年 12 分都在問這件事。</li>
+<li><b>試驗壓密壓力必須涵蓋現地有效覆土壓。</b>91 年整題 25 分。
+拿到任何三軸數據，第一個反射動作是算 \(\sigma_{v0}'\) 和試驗壓力比一比。</li>
+</ul>
+
+<h3>4-4　考場上的檢查動作</h3>
+<ol>
+<li><b>題目給「無圍壓縮強度 \(q_u\)」時，先寫下 \(S_u=q_u/2\)。</b>
+這一步值 25 分（109 年），而且錯了完全看不出來。</li>
+<li><b>畫應力路徑前，先在圖旁標明採用 MIT 或 Cambridge 定義。</b>
+考卷從不指定，標了就不會被當成寫錯。</li>
+<li><b>看到 \(A_f\) 是負值，立刻想到「重度過壓密／膨脹傾向」</b>——
+102 年的 LE 試驗那一小題就是靠這個判斷孔壓曲線的走向。</li>
+</ol>
+
+</section>
+
+<footer>exam-wiki-SM｜SM-U1-5 土壤強度特性與變形性｜證據來源：raw/exams/ 全 24 份考卷原文（2002–2025），逐年文字抽取＋影像頁目視判讀。
+三級判定採保守標準：拿不準往上歸。</footer>
+</main>
+
+<script>
+const F = [
+ {
+  "g": "莫爾圓幾何與破壞準則",
+  "lv": "must",
+  "nm": "Mohr–Coulomb 破壞準則",
+  "eq": "$$\\tau_f=c'+\\sigma'\\tan\\phi'\\qquad\n  \\tau_f=c_u\\;\\;(\\phi_u=0,\\text{ 飽和 UU})$$",
+  "meta": "<b>24 年零供給。</b>95（2006-1）第一小題「試說明 \\(c-\\phi\\) 土壤元素達極限平衡之應力狀態」（10 分）、108（2019-1）第三小題「摩爾-庫倫破壞準則」（5 分）都是直接把它當名詞解釋考——<b>公式就是答案，當然不會印。</b>要能同時說出兩件事：破壞包絡線是<b>莫爾圓的切線</b>（不是通過圓頂點），以及 \\(\\phi=0\\) 時它退化成一條水平線（所有 UU 圓直徑相同）。",
+  "ok": [],
+  "no": [
+   2006,
+   2019,
+   2024,
+   2025
+  ]
+ },
+ {
+  "g": "莫爾圓幾何與破壞準則",
+  "lv": "must",
+  "nm": "Mohr–Coulomb 主應力關係式",
+  "eq": "$$\\sigma_1'=\\sigma_3'\\tan^{2}\\!\\Bigl(45^\\circ+\\frac{\\phi'}{2}\\Bigr)\n  +2c'\\tan\\!\\Bigl(45^\\circ+\\frac{\\phi'}{2}\\Bigr)$$",
+  "meta": "<b>全 24 年唯一給過的一條，只在 114 年（2025-2）。</b>那年給它是有原因的：該題要你用試體一、二的 CU 結果反求 \\(c'\\)、\\(\\phi'\\)，再預測試體三（CD）破壞時的 \\(\\Delta\\sigma\\)，不給這條就得畫兩次莫爾圓解聯立。但 113（2024-1）給圍壓 100、\\(\\Delta\\sigma_f=240\\)、\\(c=25\\) 要你求 \\(\\phi\\)，107（2018-2）由圍壓 100／軸差 85／孔壓 67 求兩個摩擦角，101（2012-1）、99（2010-1）、92（2003-4）——<b>五個年份都沒印</b>。一給五不給，這條必須背到能反解 \\(\\phi'\\)。",
+  "ok": [
+   2025
+  ],
+  "no": [
+   2003,
+   2010,
+   2012,
+   2018,
+   2024
+  ]
+ },
+ {
+  "g": "莫爾圓幾何與破壞準則",
+  "lv": "must",
+  "nm": "c'=0 的 sinφ' 捷徑",
+  "eq": "$$\\sin\\phi'=\\frac{\\sigma_1'-\\sigma_3'}{\\sigma_1'+\\sigma_3'}\n  =\\frac{\\Delta\\sigma_f}{\\sigma_1'+\\sigma_3'}\\qquad(c'=0)$$",
+  "meta": "正常壓密黏土 \\(c'=0\\) 是本科最常用的特權，這條是它打開的第一條捷徑。107（2018-2）NC 黏土求 \\(\\phi_{cu}\\) 與 \\(\\phi'\\)、101（2012-1）NC 黏土給 \\(\\phi'=32^\\circ\\) 反推現地深度、92（2003-4）NC 黏土 \\(\\phi'=30^\\circ\\) 求 UU 強度，三題都靠它秒殺。<b>零供給。</b>注意 114 年給的那條完整式在 \\(c'=0\\) 時會退化成這條，但退化這一步要自己做——考卷不會替你化簡。",
+  "ok": [],
+  "no": [
+   2003,
+   2012,
+   2018
+  ]
+ },
+ {
+  "g": "莫爾圓幾何與破壞準則",
+  "lv": "must",
+  "nm": "破壞面傾角 θf",
+  "eq": "$$\\theta_f=45^\\circ+\\frac{\\phi}{2}\\quad(\\text{與最大主應力面之夾角})$$",
+  "meta": "113 年（2024-1）第二小題直接寫「<b>請證明</b>土壤試體破壞面與最大主應力面的夾角為 \\(45^\\circ+\\phi/2\\)」（5 分）——式子印在題目裡，但那是<b>要你證明的結論</b>，不是給你用的工具。107（2018-2）第三小題「試體破壞面與水平面的夾角」（5 分）、102（2013-3）「破壞面角度」（併在 9 分內）都要你自己寫出來。證明的關鍵一句：破壞面是莫爾圓與包絡線的<b>切點</b>，圓心角 \\(2\\theta_f=90^\\circ+\\phi\\)。",
+  "ok": [],
+  "no": [
+   2013,
+   2018,
+   2024
+  ]
+ },
+ {
+  "g": "莫爾圓幾何與破壞準則",
+  "lv": "must",
+  "nm": "破壞面上的正應力與剪應力",
+  "eq": "$$\\sigma_n=\\frac{\\sigma_1+\\sigma_3}{2}+\\frac{\\sigma_1-\\sigma_3}{2}\\cos2\\theta\n  \\qquad\n  \\tau=\\frac{\\sigma_1-\\sigma_3}{2}\\sin2\\theta$$",
+  "meta": "113 年（2024-1）第三小題「破壞面上的正向應力與剪應力」10 分，零供給。93 年（2004-2）雖歸 U1-4，但同一組式子考了 25 分（求 \\(\\sigma_h\\)、\\(\\tau_h\\)、\\(\\sigma_1\\)、\\(\\sigma_3\\)、\\(\\tau_{\\max}\\) 方向）。這一組式子的變形很多（\\(\\tau_{\\max}=(\\sigma_1-\\sigma_3)/2\\)、極點法、\\(2\\theta\\) 的正負號），建議直接背<b>莫爾圓的畫法</b>而不是背式子。",
+  "ok": [],
+  "no": [
+   2024
+  ]
+ },
+ {
+  "g": "不排水剪力強度",
+  "lv": "must",
+  "nm": "不排水剪力強度 Su 的量法",
+  "eq": "$$S_u=\\frac{(\\sigma_1-\\sigma_3)_f}{2}=\\frac{q_u}{2}\n  \\qquad(\\phi_u=0)$$",
+  "meta": "<b>零供給，但這是本單元最基本的一步。</b>92（2003-4）「不排水（UU 三軸）剪力強度為何」、99（2010-1）「由 UU 試驗所測得之 \\(S_u\\)」都要它；109 年（2020-4，歸 U2-1）給「無圍壓縮強度 100 kPa」，<b>要自己知道 \\(S_u=q_u/2=50\\) kPa</b>——直接把 100 拿去算承載力就整題報廢。這是全科最常見的一個「一步之差全盤皆錯」。",
+  "ok": [],
+  "no": [
+   2003,
+   2010,
+   2020
+  ]
+ },
+ {
+  "g": "不排水剪力強度",
+  "lv": "must",
+  "nm": "UU 試驗抗剪角的判定（飽和 vs 不飽和）",
+  "eq": "$$S=100\\%\\;\\Rightarrow\\;\\phi_{uu}=0\n  \\qquad S<100\\%\\;\\Rightarrow\\;\\phi_{uu}>0$$",
+  "meta": "96 年（2007-2）第二小題整整 12 分就在問：「飽和不壓密不排水（SUU）與不飽和（UUU）三軸壓縮試驗之抗剪角各為幾度？試解釋其原因，並繪圖說明。」——<b>沒有公式，只有機制</b>。答案骨幹：飽和土 \\(B=1\\)，圍壓全由孔隙水承擔，\\(\\sigma'\\) 不變 → 各圓直徑相同 → 包絡線水平；不飽和土氣泡可壓縮，\\(B<1\\)，圍壓有一部分轉成有效應力 → 圓愈來愈大 → 包絡線上彎。99 年（2010-1）第二小題「施加圍壓 \\(\\sigma_3=50\\) kPa、試體仍飽和，孔隙水壓為何」就是同一觀念的計算版（答案 50 kPa）。",
+  "ok": [],
+  "no": [
+   2007,
+   2010
+  ]
+ },
+ {
+  "g": "不排水剪力強度",
+  "lv": "must",
+  "nm": "NC 黏土的 Su / σv0′ 關係（SHANSEP）",
+  "eq": "$$\\frac{S_u}{\\sigma_{v0}'}=S\\cdot OCR^{\\,m}\n  \\qquad \\text{NC 時 }\\;\\frac{S_u}{\\sigma_{v0}'}=S\\approx0.22\\text{–}0.25$$",
+  "meta": "91 年（2002-4）整題就在問「三軸 CU 試驗結果用於基礎設計是否適用？如需重作應如何規劃？」——答案的核心正是 SHANSEP：試驗的三個壓密壓力（49、73.5、147 kN/m²）必須<b>涵蓋並超過現地有效覆土壓</b>，否則量到的是擾動後的強度。92（2003-4）NC 黏土給 \\(\\phi'=30^\\circ\\) 求 UU 強度也是同一條路。<b>從未印過</b>，且 \\(S\\)、\\(m\\) 的數值範圍要自己記（\\(m\\approx0.8\\)）。",
+  "ok": [],
+  "no": [
+   2002,
+   2003
+  ]
+ },
+ {
+  "g": "不排水剪力強度",
+  "lv": "must",
+  "nm": "十字片剪試驗 Su",
+  "eq": "$$S_u=\\frac{T}{\\pi\\Bigl(\\dfrac{d^2h}{2}+\\dfrac{d^3}{6}\\Bigr)}\n  \\qquad S_{u(\\text{設計})}=\\mu\\,S_{u(\\text{vane})}$$",
+  "meta": "95 年（2006-1）第二小題「試說明十字片剪試驗方法與土壤強度決定方法」10 分，零供給。除了式子本身，更常被扣分的是<b>修正係數 \\(\\mu\\)</b>（Bjerrum 修正，隨 PI 增加而下降）——現場十字片剪會高估軟弱黏土的強度，設計時必須折減。答題時把「原理→式子→修正→適用限制（僅適用飽和軟弱黏土）」四層都寫到才拿得滿。",
+  "ok": [],
+  "no": [
+   2006
+  ]
+ },
+ {
+  "g": "孔隙水壓參數與應力路徑",
+  "lv": "must",
+  "nm": "Skempton 孔隙水壓參數式",
+  "eq": "$$\\Delta u=B\\bigl[\\Delta\\sigma_3+A(\\Delta\\sigma_1-\\Delta\\sigma_3)\\bigr]\n  \\qquad(\\text{飽和土 }B=1)$$",
+  "meta": "<b>零供給，四個年份要用。</b>97 年（2008-2）最典型：給 \\(A_f=0.7\\)、\\(K_0=0.5\\)、\\(1.5\\Delta\\sigma_v=3\\Delta\\sigma_h=\\Delta q\\)，問水位升到多高時 A 點破壞——<b>參數全給、式子不給</b>。102（2013-3）、107（2018-2）、92（2003-4）也都要它。注意 \\(A\\) 不是常數：NC 黏土 \\(A_f\\approx0.5\\!-\\!1.0\\)（正值，體積想縮），重度 OC 黏土 \\(A_f\\) 可為<b>負值</b>（想膨脹）——這正是 102 年 LE 試驗那一小題的考點。",
+  "ok": [],
+  "no": [
+   2003,
+   2008,
+   2013,
+   2018
+  ]
+ },
+ {
+  "g": "孔隙水壓參數與應力路徑",
+  "lv": "must",
+  "nm": "破壞時孔壓參數 Af",
+  "eq": "$$A_f=\\frac{\\Delta u_f}{(\\Delta\\sigma_1-\\Delta\\sigma_3)_f}$$",
+  "meta": "107 年（2018-2）第四小題「黏土破壞時之水壓參數 \\(A_f\\)」5 分、102 年（2013-3）第三小題要你比較 AC 與 LE 兩種試驗的 \\(A_f\\)（併在 9 分內）。兩年都沒印。常見錯誤：把 \\(\\Delta u_f\\) 直接當成量到的孔隙水壓——若試驗前已有背壓或初始孔壓（102 年明寫「假設初始孔隙水壓為零」就是在排除這個），必須先扣掉。107 年那題 \\(u_f=67\\)、\\(\\Delta\\sigma=85\\)，\\(A_f=67/85\\)。",
+  "ok": [],
+  "no": [
+   2013,
+   2018
+  ]
+ },
+ {
+  "g": "孔隙水壓參數與應力路徑",
+  "lv": "half",
+  "nm": "應力路徑座標 p–q（兩種定義）",
+  "eq": "$$\\text{MIT}:\\;p=\\frac{\\sigma_1+\\sigma_3}{2},\\;\\;q=\\frac{\\sigma_1-\\sigma_3}{2}$$\n  $$\\text{Cambridge}:\\;p'=\\frac{\\sigma_1'+2\\sigma_3'}{3},\\;\\;q=\\sigma_1-\\sigma_3$$",
+  "meta": "<b>兩套定義並存，考卷從未指定用哪一套。</b>100 年（2011-1）第二小題直接考「應力路徑」的名詞解釋（5 分）；102 年（2013-3）第一小題「試繪出 AC 與 LE 試驗之總應力與有效應力路徑」8 分。兩年都沒印座標定義。實務上台灣考題以 <b>MIT 版（\\(p\\text{-}q\\) 圖）</b>為主，因為它的 \\(K_f\\) 線斜率 \\(\\tan\\alpha=\\sin\\phi'\\) 好換算。答題時<b>務必在圖上標明你用的是哪一套</b>——標了就不會被扣分。",
+  "ok": [],
+  "no": [
+   2011,
+   2013
+  ]
+ },
+ {
+  "g": "孔隙水壓參數與應力路徑",
+  "lv": "must",
+  "nm": "Kf 線與 Mohr 包絡線的換算",
+  "eq": "$$\\tan\\alpha=\\sin\\phi'\\qquad a=c'\\cos\\phi'$$",
+  "meta": "102 年（2013-3）要你從應力路徑圖決定 \\(\\phi'\\) 與 \\(\\phi\\)（總應力抗剪角），沒有這兩條就只能在圖上硬量。零供給。這也是「\\(\\phi_{cu}\\) 為什麼不是土壤性質」的數學根源：總應力路徑與有效應力路徑的水平距離就是 \\(\\Delta u\\)，而 \\(\\Delta u\\) 隨試驗型式改變，所以 \\(\\phi_{cu}\\) 也跟著變。101 年（2012-1）給 \\(\\phi'=32^\\circ\\) 與 \\(\\phi_{cu}=22^\\circ\\) 並存，就是這個現象。",
+  "ok": [],
+  "no": [
+   2012,
+   2013
+  ]
+ },
+ {
+  "g": "孔隙水壓參數與應力路徑",
+  "lv": "half",
+  "nm": "靜止土壓力係數 K₀（Jaky）",
+  "eq": "$$K_0=1-\\sin\\phi'\\qquad K_{0(OC)}=K_{0(NC)}\\cdot OCR^{\\,0.5}$$",
+  "meta": "<b>值常給、式子不給。</b>97（2008-2）直接給 \\(K_0=0.5\\)、102（2013-3）直接給 \\(K_0=0.7\\)（並由此定出 \\(\\sigma_{cell}=280\\)、\\(\\sigma_v=400\\)）、110（2021-3，U2-2）寫「\\(K=1.4K_0\\)」卻不定義 \\(K_0\\)。換句話說：只要題目講到 \\(K_0\\)，通常會附值；但 110 年那種「用了卻不定義」的寫法出現過，所以仍歸「別賭」。過壓密土的 \\(K_0\\) 可以大於 1，這點常被忽略。",
+  "ok": [],
+  "no": [
+   2021
+  ]
+ },
+ {
+  "g": "試驗選型與規劃（流程骨架）",
+  "lv": "must",
+  "nm": "三軸試驗選型判定（UU / CU / CD）",
+  "eq": "$$\\text{短期／快速施載}\\to UU\\;;\\quad\n  \\text{施工期已壓密再加載}\\to CU\\;;\\quad\n  \\text{長期／砂土}\\to CD$$",
+  "meta": "<b>沒有數學符號，但它決定你整題用總應力法還是有效應力法。</b>91（2002-4）問 CU 結果是否適用於基礎設計、96（2007-2）問 SUU 與 UUU 的差異、113（2024-1）指定 CD、114（2025-2）同時出現 CU 與 CD，101（2012-1）更是把 CU 與 UU 放在同一題比較。一句話決策：<b>看現場排水速度相對於施載速度</b>——黏土＋快速施載＝來不及排水＝UU（總應力法，\\(\\phi=0\\)）；砂土或緩慢施載＝隨時排水＝CD（有效應力法）。",
+  "ok": [],
+  "no": [
+   2002,
+   2007,
+   2012,
+   2024,
+   2025
+  ]
+ },
+ {
+  "g": "試驗選型與規劃（流程骨架）",
+  "lv": "must",
+  "nm": "有效應力原理 σ′ = σ − u",
+  "eq": "$$\\sigma'=\\sigma-u$$",
+  "meta": "整個單元的地基，<b>24 年零供給</b>（連 114 年那次集中式也沒附）。96（2007-2）流砂與液化的異同、97（2008-2）水位上升導致 A 點破壞、99（2010-1）UU 試驗中孔壓的變化，全部從這一條長出來。要能立刻回答：<b>UU 試驗改變圍壓時 \\(\\sigma'\\) 不變</b>（所以強度不變），這是 \\(\\phi_u=0\\) 的全部理由。",
+  "ok": [],
+  "no": [
+   2007,
+   2008,
+   2010,
+   2012,
+   2018
+  ]
+ },
+ {
+  "g": "試驗選型與規劃（流程骨架）",
+  "lv": "must",
+  "nm": "取樣擾動與現地應力還原",
+  "eq": "$$\\sigma_{\\text{壓密壓力}}\\ge\\sigma_{v0}'\\;\\text{（現地有效覆土壓）}$$",
+  "meta": "91 年（2002-4）整題 25 分的答案：試體取自地表下 20 m，\\(\\gamma_{sat}=19.8\\)，現地 \\(\\sigma_{v0}'\\approx(19.8-9.81)\\times20\\approx200\\) kN/m²，而三組壓密壓力只有 49／73.5／147——<b>全部低於現地應力</b>，量到的 \\(c'=15\\) kN/m² 是擾動假象（NC 黏土 \\(c'\\) 應為 0）。92 年（2003-1）「不擾動土樣之取樣應如何配置及所需進行之工程性質實驗」也是同一路。沒有公式可給，但這個「拿現地應力去檢查試驗壓力」的動作要變成反射。",
+  "ok": [],
+  "no": [
+   2002,
+   2003
+  ]
+ }
+];
+const MX = [[2002, 91, "四", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "整題在問「CU 試驗結果是否適用於基礎設計」——SHANSEP 與取樣擾動的觀念題，零公式。"], [2003, 92, "一（副）、四", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "NC 黏土 \\(\\phi'=30^\\circ\\) 求 UU 強度，主應力關係、\\(\\sin\\phi'\\) 捷徑、Skempton 全部要自己來。"], [2004, 93, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。第二題（U1-4）的莫爾圓 25 分同樣零公式。"], [2005, 94, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2006, 95, "一（副）", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "第一題三個小題全是本單元的名詞解釋（極限平衡應力狀態、十字片剪、OCR），公式即答案。"], [2007, 96, "二", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "「SUU 與 UUU 抗剪角各為幾度、繪圖說明」12 分。注意事項只寫「若條件不足，請自行作合理假設」。"], [2008, 97, "二", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "給 \\(A_f=0.7\\)、\\(K_0=0.5\\)、應力增量比，<b>Skempton 式子完全沒印</b>。"], [2009, 98, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。注意事項：「相關公式…未提及時，請自行依規範作合理之推斷與假設。」"], [2010, 99, "一", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "UU 試驗求 \\(S_u\\) 與孔隙水壓，零公式。注意事項：「所需參數或公式不足時，請自行合理假設或推知。」"], [2011, 100, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題，但第一題名詞解釋含「應力路徑」與「流黏土」。"], [2012, 101, "一", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "CU 與 UU 並置比較，要由 \\(\\phi'=32^\\circ\\)、\\(\\phi_{cu}=22^\\circ\\)、\\(S_u=50\\) 反推現地深度與 \\(\\Delta u_f\\)。零公式。"], [2013, 102, "三", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "\\(K_0\\) 不等向壓密 AC／LE 應力路徑，給圖二兩張曲線但<b>不給 \\(p\\text{-}q\\) 座標定義</b>，也不給 \\(A_f\\)、\\(K_f\\) 線關係。"], [2014, 103, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2015, 104, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2016, 105, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。第四頁的「參考資料」集中區是承載力與土壓力，與本單元無關。"], [2017, 106, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。第四題印出 \\(S_u=10N/16\\)（Terzaghi & Peck），屬 U2-1／U3-3 範圍。"], [2018, 107, "二", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "CU 三軸四小題（軸差應力、\\(\\phi_{cu}\\) 與 \\(\\phi'\\)、破壞面角度、\\(A_f\\））25 分，<b>一條公式都沒有</b>。"], [2019, 108, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。第一題名詞解釋含「摩爾-庫倫破壞準則」與「液性指數」。"], [2020, 109, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。但第四題（U2-1）給「無圍壓縮強度 100 kPa」，要自己換成 \\(S_u=50\\) kPa。"], [2021, 110, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。第三題寫「\\(K=1.4K_0\\)」卻不定義 \\(K_0\\)——「用了卻不定義」的典型。"], [2022, 111, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2023, 112, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2024, 113, "一", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "CD 三軸四小題（畫莫爾圓求 \\(\\phi\\)、<b>證明</b> \\(45^\\circ+\\phi/2\\)、破壞面 \\(\\sigma_n\\) 與 \\(\\tau\\)、換圍壓求軸差應力）25 分，零公式。"], [2025, 114, "二", 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "★ <b>24 年唯一一次</b>：題目正下方印出 \\(\\sigma_1'=\\sigma_3'\\tan^2(45^\\circ+\\phi'/2)+2c'\\tan(45^\\circ+\\phi'/2)\\)。已轉圖確認。但 Skempton、\\(A_f\\)、\\(\\sin\\phi'\\) 捷徑仍全靠自己。"]];
+/* ---------- 渲染 ---------- */
+const LVN={'must':'必背','half':'別賭','give':'通常會給'};
+const groups=[...new Set(F.map(f=>f.g))];
+let curLv='all', curG='all';
+const gb=document.getElementById('gbtns');
+gb.innerHTML='<button class="gf on" data-g="all">全部</button>'+
+  groups.map(g=>'<button class="gf" data-g="'+g+'">'+g+'</button>').join('');
+function yrs(a,c){return a.map(y=>'<span class="yr '+c+'">'+(y-1911)+'年</span>').join('');}
+function draw(){
+  const box=document.getElementById('cards');
+  let html='';
+  groups.forEach((g,i)=>{
+    if(curG!=='all'&&curG!==g) return;
+    const list=F.filter(f=>f.g===g&&(curLv==='all'||f.lv===curLv));
+    if(!list.length) return;
+    html+='<h3 class="grph">2-'+(i+1)+'　'+g+'</h3>';
+    list.forEach(f=>{
+      let ev=f.ok.length?'<b>考卷給過：</b>'+yrs(f.ok,'ok')
+                        :'<b>考卷給過：</b><span class="never">從未</span>';
+      if(f.no.length) ev+='　｜　<b>考了卻沒給：</b>'+yrs(f.no,'no');
+      html+='<div class="fc '+f.lv+'"><div class="top"><span class="nm">'+f.nm+'</span>'+
+            '<span class="tag '+f.lv+'">'+LVN[f.lv]+'</span></div>'+
+            '<div class="eq">'+f.eq+'</div><p class="meta">'+f.meta+'</p>'+
+            '<div class="ev">'+ev+'</div></div>';
+    });
+  });
+  box.innerHTML=html||'<p class="lead">此組合沒有公式。</p>';
+  if(window.renderMathInElement) renderMathInElement(box,{delimiters:[
+    {left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+}
+function drawMX(){
+  const N=MX[0].length-4;
+  document.querySelector('#mx tbody').innerHTML=MX.map(r=>{
+    const has=r[2]!=='(—)';
+    const cells=r.slice(3,3+N).map(v=>'<td class="c">'+(v?'<span class="y">✔</span>':'<span class="n">·</span>')+'</td>').join('');
+    return '<tr class="'+(has?'hl':'')+'"><td><b>'+r[0]+'</b><br><span class="ynote">'+r[1]+'年</span></td>'+
+           '<td class="qq">'+r[2]+'</td>'+cells+'<td class="rm">'+r[r.length-1]+'</td></tr>';
+  }).join('');
+}
+document.addEventListener('click',e=>{
+  if(e.target.classList.contains('lvf')){
+    document.querySelectorAll('.lvf').forEach(b=>b.classList.remove('on'));
+    e.target.classList.add('on'); curLv=e.target.dataset.lv; draw();
+  }
+  if(e.target.classList.contains('gf')){
+    document.querySelectorAll('.gf').forEach(b=>b.classList.remove('on'));
+    e.target.classList.add('on'); curG=e.target.dataset.g; draw();
+  }
+});
+drawMX(); draw();
+</script>
+</body></html>

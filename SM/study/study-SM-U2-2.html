@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-U2-2 深基礎之支承力與沉陷量｜命題分析</title>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#78909c;--bd:#e0e6ea;--warn:#c62828}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:28px 24px}
+header h1{margin:0 0 6px;font-size:1.5em}header p{margin:0;opacity:.85;font-size:.92em}
+nav{position:sticky;top:0;z-index:9;background:#fff;border-bottom:2px solid var(--bd);padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{text-decoration:none;color:var(--ac);font-size:.88em;padding:5px 10px;border-radius:16px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+section{margin-bottom:34px}
+h2{font-size:1.25em;border-left:5px solid var(--ac);padding-left:10px;margin:26px 0 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+h3{font-size:1.05em;margin:30px 0 10px;padding-bottom:5px;border-bottom:2px solid var(--ac2)}
+.role{background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:8px;padding:12px 16px;font-size:.88em;margin-bottom:8px}
+.role b{color:#e65100}
+.btnbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.btnbar a{padding:5px 14px;border-radius:6px;font-size:.9em;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi .n{font-size:1.9em;font-weight:700;color:var(--ac)}.kpi .l{font-size:.82em;color:var(--mut)}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
+.cat{background:var(--card);border:1px solid var(--bd);border-left:6px solid;border-radius:10px;padding:12px 14px;cursor:pointer;transition:.15s}
+.cat:hover{transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.cat h3{margin:0 0 4px;font-size:1em;border:none;padding:0}.cat p{margin:0;font-size:.82em;color:var(--mut)}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:760px){.charts{grid-template-columns:1fr}}
+.chartbox{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px}
+.chartbox h4{margin:0 0 8px;font-size:.95em;color:var(--mut)}
+canvas{width:100%;height:auto}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:middle}
+th{background:var(--ac2)}
+td.num{text-align:center;font-variant-numeric:tabular-nums}
+.bar{display:inline-block;height:12px;border-radius:3px;vertical-align:middle}
+.up{color:#2e7d32;font-weight:700;text-align:center}.down{color:var(--warn);font-weight:700;text-align:center}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.fbtn{border:1px solid var(--bd);background:#fff;border-radius:18px;padding:6px 14px;cursor:pointer;font-size:.88em;font-family:inherit}
+.fbtn.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.qrow{background:var(--card);border:1px solid var(--bd);border-left:6px solid;border-radius:8px;padding:10px 14px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.qrow.sec{background:#fafafa;border-style:dashed}
+.qrow a{font-weight:700;text-decoration:none;color:var(--ac);min-width:92px}
+.qrow a:hover{text-decoration:underline}
+.qrow .sum{flex:1;min-width:200px;font-size:.92em}
+.qrow .tags{font-size:.75em;color:var(--mut)}
+.qrow .meta{font-size:.72em;white-space:nowrap;color:#fff;border-radius:10px;padding:1px 8px}
+.note{font-size:.85em;color:var(--mut);background:#fff;border:1px dashed var(--bd);border-radius:8px;padding:10px 14px;margin-top:12px}
+.risk-hi{background:#ffebee}.risk-md{background:#fff8e1}.risk-lo{background:#f1f8e9}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:20px}
+</style>
+</head>
+<body>
+<header>
+<h1>SM-U2-2 深基礎之支承力與沉陷量 — 命題分析</h1>
+<p>結構技師「土壤力學與基礎設計」子項命題情報頁｜資料來源：raw/json/question_index.json（2002–2025，24 個考年、96 題）｜更新日期 2026-08-14</p>
+</header>
+<nav>
+<a href="#b1">出題概況</a><a href="#b2">考點結構</a><a href="#b3">考點漂移</a>
+<a href="#b4">分析法走向</a><a href="#b5">考題清單</a><a href="#b6">命題風險</a>
+</nav>
+<main>
+
+<section id="s1">
+<h2><span>命題分析</span></h2>
+
+<div class="role">
+📚 <b>本頁只回答一件事：這個子項「考什麼」。</b>
+原理與圖解看 <b>觀念講義</b>、公式要不要背看 <b>給／背分界</b>；本頁提供的是可從 <code>question_index.json</code> 重生的命題事實：頻率、結構、漂移、方法別、清單、風險。<br>
+建議順序：<b style="color:#6a1b9a;">觀念講義</b>（練題前建立直覺）→ <b style="color:var(--warn);">給／背分界</b>（決定記憶投資）→ <b>本頁</b>（決定練題順序與押題）。
+</div>
+<div class="btnbar">
+  <a href="lecture-SM-U2-2.html" title="原理圖解、公式來源、精選必練題" style="background:#6a1b9a;color:#fff;">觀念講義 📘</a>
+  <a href="lecture-SM-U2-2.pdf" target="_blank" style="background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8;">講義 PDF 🖨️</a>
+  <a href="formula-given-SM-U2-2.html" title="主要公式 × 24 年考卷證據：哪些會印給你、哪些必須自己背" style="background:#c62828;color:#fff;">給／背分界 🎯</a>
+  <a href="formula-given-SM-U2-2.pdf" target="_blank" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;">分界 PDF 🖨️</a>
+</div>
+
+<h3 id="b1">出題概況</h3>
+<div class="kpis">
+<div class="kpi"><div class="n">8</div><div class="l">主考點題數（另有 3 題副考點）</div></div>
+<div class="kpi"><div class="n">8.3%</div><div class="l">佔全科比例（8／96）</div></div>
+<div class="kpi"><div class="n">#4</div><div class="l">全科出題排名（第一名 U1-3 22 題）</div></div>
+<div class="kpi"><div class="n">3/6</div><div class="l">近 6 考年出題年數（2020–25 共 3 題）</div></div>
+</div>
+<div class="charts">
+<div class="chartbox"><h4>年度分布（依考點分群堆疊，主考點 8 題）</h4><canvas id="cvBar" width="520" height="260"></canvas></div>
+<div class="chartbox"><h4>考點結構比例（主考點 8 題）</h4><canvas id="cvPie" width="520" height="260"></canvas></div>
+</div>
+<div class="note">
+📌 <b>三個要記住的數字</b>：① 8 題全科第四（稽核後由 10 題減為 8 題，SM-2002-2 改列 U2-5 地層改良、SM-2013-4 改列 U2-4 基礎型式選擇）；② 24 個考年命中 8 年，空窗很集中：2008–2011 四年、<b>2015–2020 六年</b>；③ 六年空窗後 <b>2021 起四個考年出三題</b>（2021-3、2023-3、2024-4），是全科回歸最猛的一個——而且三題全走「建築物基礎構造設計規範＋臨界深度」同一條路線。<br>
+<b>空窗年段（連續兩年以上未出題）：</b>2002–2004、2008–2011、2015–2020。空窗不代表退場——本科 24 個考年裡，每個子項都出現過「空窗數年後回歸」的情形。
+</div>
+
+<h3 id="b2">考點結構（點卡片可篩選下方考題清單）</h3>
+<div class="cats">
+<div class="cat" style="border-left-color:#1565c0" onclick="filterQ('Q')"><h3>⚓ 單樁極限承載力（主 4 題）</h3><p>臨界深度・Q_p+Q_s・β 法・基礎構造設計規範</p></div>
+<div class="cat" style="border-left-color:#f57c00" onclick="filterQ('A')"><h3>🪢 抗拔與側摩擦 α 法（主 1 題）</h3><p>附著因數 α・抗拔力・不排水剪力強度・群樁</p></div>
+<div class="cat" style="border-left-color:#8e24aa" onclick="filterQ('E')"><h3>📊 載重傳遞與樁的變形（主 3 題）</h3><p>樁頭勁度・彈性沉陷・τ_s–s 與 q_p–d 曲線</p></div>
+</div>
+<div class="note">分群依「考生實際的解題套路」切，不是照標籤字面切；<b>每題只歸一群</b>，所以上面各群題數加總等於主考點 8 題，圓餅圖不會重複計數。</div>
+
+<h3 id="b3">考點漂移：前段 2005–2012 vs. 後段 2014–2024</h3>
+<p style="font-size:.9em;margin:0 0 10px;color:var(--mut)">把 8 題主考點依題號排序後對切：前段 4 題（2005–2012）、後段 4 題（2014–2024）。副考點不列入本表。</p>
+<table>
+<thead><tr><th>考點分群</th><th class="num">前段</th><th class="num">後段</th><th class="num">變化</th><th>解讀</th></tr></thead>
+<tbody>
+<tr><td><span class="bar" style="width:12px;background:#1565c0"></span> 單樁極限承載力</td><td class="num">1</td><td class="num">3</td><td class="num up">▲ +2</td><td>由 1 題（2007-3）增為 3 題，且後段 3 題全部集中在近 4 個考年（2021-3、2023-3、2024-4），路線統一為「規範法＋臨界深度」</td></tr>
+<tr><td><span class="bar" style="width:12px;background:#f57c00"></span> 抗拔與側摩擦 α 法</td><td class="num">1</td><td class="num">0</td><td class="num down">▼ -1</td><td>前段 1 題（2012-3）、後段 <b>0 題</b>；α 法抗拔主考型已空窗 13 年，但抗拔檢核在 2021-3 仍以子問題出現</td></tr>
+<tr><td><span class="bar" style="width:12px;background:#8e24aa"></span> 載重傳遞與樁的變形</td><td class="num">2</td><td class="num">1</td><td class="num down">▼ -1</td><td>由 2 題減為 1 題，最後一次是 2014-2，已空窗 11 年；其中 2006-2 的微分方程推導型 24 年僅出現過一次</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>一句話</b>：這個單元的重心從「<b>樁怎麼變形</b>」漂到「<b>樁能撐多少</b>」。載重傳遞與變形群前段 2 題、後段 1 題，最後一次是 2014-2，已空窗 11 年；同期單樁承載力由 1 題增為 3 題，且三題全在近 4 個考年。若你依「歷史總題數」平均分配，會高估推導型題目——近 4 年沒有任何一題要你推導微分方程，全部是查規範表、算臨界深度、加總 Q_p+Q_s。
+</div>
+
+<h3 id="b4">分析法走向</h3>
+<table>
+<thead><tr><th>期間</th><th class="num">有效應力法</th><th class="num">總應力法</th><th class="num">混合</th><th class="num">概念題</th><th>觀察</th></tr></thead>
+<tbody>
+<tr><td>前段 2005–2012（4 題）</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td>四類分析法各出現一題，是全科方法別最分散的一段</td></tr>
+<tr><td>後段 2014–2024（4 題）</td><td class="num">1</td><td class="num">1</td><td class="num">2</td><td class="num">0</td><td>總應力法 1 題（2014-2，樁的彈性沉陷，全程總應力）</td></tr>
+<tr style="background:#fff8e1"><td><b>近 6 考年 2020–2025</b></td><td class="num">1</td><td class="num">0</td><td class="num">2</td><td class="num">0</td><td>2021-3、2024-4（混合）與 2023-3（有效應力法）全是規範法承載力計算</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>對複習的直接影響</b>：本單元原有 2 題標成規格不允許的「彈性理論」，稽核後已改為合法值——SM-2006-2（純符號推導）→ 概念題、SM-2014-2（樁身彈性壓縮＋端點與側摩擦彈性沉陷，全程總應力、無孔隙水壓）→ 總應力法。真正的走向是<b>「承載力」與「沉陷」兩條線並行</b>：承載力題（2012-3 的 α 法、2021-3／2024-4 的雙層土、2023-3）逐年往有效應力法與混合集中，而唯一一題純沉陷計算（2014-2）落在總應力法。也就是說，看到題目給 E<sub>s</sub>、μ<sub>s</sub>、I<sub>wp</sub> 就知道這題不需要孔隙水壓；看到 c<sub>u</sub>、α、K、δ′ 才是承載力那條線。<br><span style="color:var(--mut)">（2026-08-29 更新：2014-2 原標「有效應力法」，但該題全題沒有任何有效應力或孔隙水壓運算，已改為總應力法；後段因此由「有效 2／總 0」變成「有效 1／總 1」。）</span>哪些承載力因數與規範表考卷會印給你，見 <a href="formula-given-SM-U2-2.html">給／背分界</a>。
+</div>
+
+<h3 id="b5">考題清單（主 8 ＋ 副 3 ＝ 11 題，點題號開啟渲染後的解析頁）</h3>
+<div class="filters">
+<button class="fbtn on" onclick="filterQ('ALL',this)">全部（11）</button>
+<button class="fbtn" onclick="filterQ('Q',this)">單樁極限承載力（5）</button>
+<button class="fbtn" onclick="filterQ('A',this)">抗拔與側摩擦 α 法（2）</button>
+<button class="fbtn" onclick="filterQ('E',this)">載重傳遞與樁的變形（4）</button>
+<button class="fbtn" onclick="filterQ('PRI',this)">僅主考點（8）</button>
+<button class="fbtn" onclick="filterQ('SEC',this)">僅副考點（3）</button>
+</div>
+<div id="qlist"></div>
+<div class="note">虛線灰底＝副考點（該題的主考點在別的子項，但解題會用到本子項的知識）。色籤為 <code>designMethod</code>：有效應力法／總應力法／混合／概念題／彈性理論。圖示：📄 有解析、📊 有互動圖；末位為驗算狀態——✅ 已人工驗算／⏳ 尚未驗算／⚠️ 發現錯誤待修正（直接讀 <code>question_index.json</code> 的 <code>verificationStatus</code>，不是寫死的）。</div>
+
+<h3 id="b6">命題風險排序（下一次最可能考什麼）</h3>
+<p style="font-size:.9em;margin:0 0 10px;color:var(--mut)"><b>這是推測而不是預言。</b>依「歷史頻率 × 空窗年數 × 近年趨勢」排序，用途是決定<b>練題順序</b>，不是叫你 all-in 單一考點。</p>
+<table>
+<thead><tr><th>風險</th><th>考點</th><th class="num">歷史題數</th><th>最後出現</th><th class="num">空窗</th><th>理由</th></tr></thead>
+<tbody>
+<tr class="risk-hi"><td><b>高</b></td><td>單樁極限支承力＋臨界深度（規範法）</td><td class="num">4</td><td>2024-4</td><td class="num">1 年</td><td>2007-3、2021-3、2023-3、2024-4 四題全走「建築物基礎構造設計規範＋臨界深度」；近 4 個考年就出了 3 題，是目前全科最熱的單一題型</td></tr>
+<tr class="risk-hi"><td><b>高</b></td><td>由安全係數反求設計樁長並繪樁身阻抗圖</td><td class="num">1</td><td>2024-4</td><td class="num">1 年</td><td>僅 2024-4 一次，但把「給樁長算 Q_u」倒過來問，正是近年翻新舊題型的典型手法；且它要求繪圖，與 2020-2（U2-3）的畫圖題走向一致</td></tr>
+<tr class="risk-md"><td><b>中高</b></td><td>α 法抗拔力（黏土、附著因數）</td><td class="num">1</td><td>2012-3</td><td class="num">13 年</td><td>主考型已空窗 13 年，2021-3 僅以拉拔力子問題出現；總應力法在後段主考點已 0 題，但抗拔檢核是規範必要項目，屬「被低估」的題型</td></tr>
+<tr class="risk-md"><td><b>中</b></td><td>樁的彈性沉陷與載重傳遞（τ_s–s、q_p–d）</td><td class="num">3</td><td>2014-2</td><td class="num">11 年</td><td>2005-4、2006-2、2014-2 三題集中在 2005–2014，之後空窗 11 年；其中應變相容型（2005-4）需要讀圖迭代，是本單元計算量最大的題型</td></tr>
+<tr class="risk-lo"><td><b>中低</b></td><td>樁頭勁度的微分方程推導</td><td class="num">1</td><td>2006-2</td><td class="num">19 年</td><td>24 年僅一次（2006-2）。純符號推導、無數值，在近年考卷全面計算題化的走向下復出機率低</td></tr>
+<tr class="risk-lo"><td><b>低</b></td><td>群樁效率與群樁沉陷</td><td class="num">0</td><td>僅名詞題 2019-1</td><td class="num">從未主考</td><td>24 個考年 <b>0 題主考</b>，只在 2019-1 名詞解釋中出現過一次。教科書把群樁列為重點，本考科從未整題考過，在時間有限時應排在最後</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>若只剩三天</b>：先把「<b>臨界深度＋Q_p+Q_s 規範法</b>」練熟——近 4 個考年出了 3 題，是全科目前最熱的題型；第二天練 2024-4 那種「<b>由 FS 反求樁長＋繪阻抗圖</b>」的倒問法；第三天補「<b>α 法抗拔</b>」，它是規範必檢項目卻已空窗 13 年。
+逐題原理與精選必練題見 <a href="lecture-SM-U2-2.html">觀念講義</a>。
+</div>
+
+</section>
+
+<footer>study SM-U2-2 命題分析｜exam-wiki-SM 知識庫｜統計基準 raw/json/question_index.json（96 題／24 考年）｜可用 <code>scripts/stats.py SM-U2-2</code> 複算全部數字</footer>
+</main>
+
+<script>
+const CATC={Q:'#1565c0',A:'#f57c00',E:'#8e24aa'};
+const CATN={Q:'單樁極限承載力',A:'抗拔與側摩擦 α 法',E:'載重傳遞與樁的變形'};
+const MC={"有效應力法": "#1565c0", "總應力法": "#f57c00", "混合": "#6a1b9a", "概念題": "#546e7a", "彈性理論": "#00838f"};
+const VI={verified:'✅',unverified:'⏳','needs-review':'⚠️'};
+const VT={verified:'已人工驗算',unverified:'尚未驗算','needs-review':'發現錯誤，待修正'};
+// [題號, 分群, 摘要, 標籤, 有viz, 分析法, 主(1)/副(0), 副考點的所屬單元, 驗算狀態]
+const Q=[
+["SM-2005-4", "E", "墩基以極限法與位移限制法求工作荷重", ["墩基", "樁基承載力", "端點承載力", "摩擦力", "極限載重", "位移限制", "變形相容"], 0, "混合", 1, "", "unverified"],
+["SM-2006-2", "E", "摩擦樁樁頭勁度微分方程與半無限長樁推導", ["摩擦樁", "樁頭勁度", "Winkler地盤模型", "微分方程", "彈簧係數", "半無限長樁"], 0, "概念題", 1, "", "unverified"],
+["SM-2007-3", "Q", "預鑄樁砂土臨界深度、極限支承力與容許載重", ["樁基承載力", "端點承載力", "摩擦力", "臨界深度", "β法", "容許承載力"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2012-3", "A", "雙層黏土基樁抗拔力與附著因數 α 法", ["樁基承載力", "抗拔力", "α法", "摩擦力", "附著因數", "不排水剪力強度"], 0, "總應力法", 1, "", "unverified"],
+["SM-2013-1", "E", "波動方程式估樁承載力等四個觀念名詞", ["加勁擋土結構", "整體穩定", "Rankine主動土壓力", "Coulomb土壓力", "波動方程式", "樁基承載力", "順向坡", "殘餘強度"], 0, "概念題", 0, "U3-2 擋土結構物穩定分析", "unverified"],
+["SM-2013-4", "Q", "液化區基礎型式選擇、負摩擦力與地層改良", ["土壤液化", "基礎型式選擇", "深基礎", "負摩擦力", "地層改良", "震動置換碎石樁", "動力夯實", "擠壓砂樁"], 0, "概念題", 0, "U2-4 基礎型式之選擇與評估", "unverified"],
+["SM-2014-2", "E", "由 f_s(z) 分布求樁三成分彈性沉陷量", ["樁沉陷", "彈性沉陷", "樁身彈性壓縮", "端點承載力", "摩擦力", "摩擦應力分布"], 0, "總應力法", 1, "", "unverified"],
+["SM-2019-1", "A", "含水量、OCR、紅土化、群樁效率等名詞", ["含水量", "OCR", "Mohr-Coulomb破壞準則", "紅土化", "群樁效應", "液性指數"], 0, "概念題", 0, "U1-1 土壤基本性質", "unverified"],
+["SM-2021-3", "Q", "砂＋黏土雙層預鑄樁的垂直支承力與拉拔力", ["樁基承載力", "α法", "β法", "端點承載力", "摩擦力", "抗拔力"], 0, "混合", 1, "", "unverified"],
+["SM-2023-3", "Q", "打入樁臨界深度下的樁身摩擦力與樁底承載力", ["打入樁", "臨界深度", "摩擦力", "端點承載力", "樁基承載力", "β法", "有效應力原理"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2024-4", "Q", "由 FS=2.5 反求設計樁長並繪樁身阻抗分布圖", ["樁基承載力", "α法", "臨界深度", "端點承載力", "摩擦力", "三相關係", "安全係數"], 0, "混合", 1, "", "unverified"]
+];
+function renderQ(cat){
+  const box=document.getElementById('qlist');box.innerHTML='';
+  const sel=Q.filter(q=>{
+    if(cat==='ALL')return true;
+    if(cat==='PRI')return q[6]===1;
+    if(cat==='SEC')return q[6]===0;
+    return q[1]===cat;});
+  sel.sort((a,b)=>a[0].localeCompare(b[0])).forEach(q=>{
+    const d=document.createElement('div');
+    d.className='qrow'+(q[6]?'':' sec');d.style.borderLeftColor=CATC[q[1]];
+    d.innerHTML=`<a href="problems-view/${q[0]}.html" target="_blank">${q[0]}</a>
+    <span class="meta" style="background:${MC[q[5]]||'#90a4ae'}">${q[5]}</span>
+    ${q[6]?'':`<span class="meta" style="background:#90a4ae">副・${q[7]}</span>`}
+    <span class="sum">${q[2]}</span><span class="tags">${q[3].join('・')}</span>
+    <span class="ico" title="${VT[q[8]]||q[8]}">📄 ${VI[q[8]]||'❓'}</span>`;
+    box.appendChild(d);});
+}
+function filterQ(cat,btn){renderQ(cat);
+  const order=["ALL", "Q", "A", "E", "PRI", "SEC"];
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  const idx=order.indexOf(cat);if(idx>=0)document.querySelectorAll('.fbtn')[idx].classList.add('on');
+  if(!btn)document.getElementById('b5').scrollIntoView({behavior:'smooth'});
+}
+renderQ('ALL');
+const CODES=["Q", "A", "E"];
+const PQ=Q.filter(q=>q[6]===1);
+const byYear={};PQ.forEach(q=>{const y=q[0].split('-')[1];
+  if(!byYear[y]){byYear[y]={Q:0,A:0,E:0};}byYear[y][q[1]]++;});
+function drawBar(){
+  const cv=document.getElementById('cvBar'),ctx=cv.getContext('2d');
+  const years=Object.keys(byYear).sort(),W=cv.width,H=cv.height,bw=(W-60)/years.length;
+  const max=Math.max(...years.map(y=>Object.values(byYear[y]).reduce((a,b)=>a+b,0)));
+  ctx.font='10px sans-serif';ctx.fillStyle='#78909c';
+  for(let i=0;i<=max;i++){const yy=H-30-(H-60)*i/max;ctx.fillStyle='#78909c';ctx.fillText(i,8,yy+3);ctx.strokeStyle='#eceff1';ctx.beginPath();ctx.moveTo(24,yy);ctx.lineTo(W-10,yy);ctx.stroke();}
+  years.forEach((y,i)=>{let acc=0;
+    CODES.forEach(c=>{const v=byYear[y][c];if(!v)return;
+      const h=(H-60)*v/max;ctx.fillStyle=CATC[c];
+      ctx.fillRect(30+i*bw,H-30-acc-h,Math.max(bw*0.7,4),h);acc+=h;});
+    ctx.fillStyle='#78909c';ctx.save();ctx.translate(30+i*bw+bw*0.35,H-18);ctx.rotate(-0.7);ctx.fillText(y.slice(2),0,0);ctx.restore();});
+}
+function drawPie(){
+  const cv=document.getElementById('cvPie'),ctx=cv.getContext('2d');
+  const cnt={};CODES.forEach(c=>cnt[c]=0);PQ.forEach(q=>cnt[q[1]]++);
+  const tot=PQ.length,cx=cv.width*0.28,cy=cv.height/2,r=Math.min(cx,cy)-16;let a=-Math.PI/2;
+  CODES.forEach(c=>{const frac=cnt[c]/tot,a2=a+frac*2*Math.PI;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,a,a2);ctx.closePath();ctx.fillStyle=CATC[c];ctx.fill();a=a2;});
+  ctx.font='12px sans-serif';let ly=40;
+  CODES.forEach(c=>{ctx.fillStyle=CATC[c];ctx.fillRect(cv.width*0.56,ly-9,12,12);
+    ctx.fillStyle='#263238';ctx.fillText(`${CATN[c]}：${cnt[c]} 題（${Math.round(cnt[c]/tot*100)}%）`,cv.width*0.56+18,ly);ly+=26;});
+}
+drawBar();drawPie();
+</script>
+</body>
+</html>

@@ -15,7 +15,7 @@ from pathlib import Path
 
 UID = re.compile(r"\b([A-Z]{2}-U\d+-\d+)\b")
 UNIT = re.compile(r"\b([A-Z]{2}-U\d+)\b(?!-)")
-ALIAS = {"主分類": "主分類|科目分類", "副分類": "副分類", "設計法": "設計法|分析方法"}
+ALIAS = {"主分類": "主分類|科目分類", "副分類": "副分類", "設計法": "設計法|分析方法|分析法"}
 HDR = {k: re.compile(rf"(?m)^(?:\*\*(?:{a})[：:]\*\*|(?:{a})\s*[:：]|\|\s*(?:{a})\s*\|)\s*(.+)") for k, a in ALIAS.items()}
 
 

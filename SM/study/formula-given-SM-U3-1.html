@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SM-U3-1 側向土壓力理論｜主要公式 給／背分界</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[
+    {left:'$$',right:'$$',display:true},
+    {left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--must:#c62828;--half:#ef6c00;--give:#2e7d32;--nav:#1565c0;--ink:#263238;--mut:#78909c;--line:#e0e6ea;--bg:#f5f7f9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.75;
+ font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;font-size:15px}
+main{max-width:1080px;margin:0 auto;padding:0 18px 60px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:30px 24px;border-radius:0 0 18px 18px;margin-bottom:8px}
+header h1{margin:0 0 8px;font-size:1.55rem;line-height:1.4}
+header p{margin:0;opacity:.93;font-size:.92rem;line-height:1.65}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);
+ display:flex;flex-wrap:wrap;gap:6px;padding:9px 12px;margin-bottom:18px;border-radius:0 0 10px 10px}
+nav a{font-size:.8rem;text-decoration:none;color:var(--nav);background:#e3f2fd;
+ padding:5px 11px;border-radius:14px;white-space:nowrap}
+nav a:hover{background:var(--nav);color:#fff}
+section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:20px}
+h2{font-size:1.18rem;color:var(--nav);border-left:5px solid var(--nav);padding-left:11px;margin:0 0 14px}
+h3{font-size:1rem;margin:18px 0 8px;color:#37474f}
+h3.grph{background:#eceff1;border-left:5px solid var(--nav);padding:6px 12px;border-radius:6px;color:var(--nav)}
+p.lead{font-size:.95rem;color:#455a64}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:11px;margin:14px 0}
+.kpi{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:13px;text-align:center}
+.kpi .n{font-size:1.7rem;font-weight:800;color:var(--nav);line-height:1.15}
+.kpi .l{font-size:.74rem;color:var(--mut);margin-top:3px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:11px;margin:14px 0}
+.lg{border:1px solid var(--line);border-left-width:5px;border-radius:9px;padding:11px 14px;background:#fff}
+.lg.must{border-left-color:var(--must)}.lg.half{border-left-color:var(--half)}.lg.give{border-left-color:var(--give)}
+.lg h4{margin:0 0 4px;font-size:.95rem}
+.lg.must h4{color:var(--must)}.lg.half h4{color:var(--half)}.lg.give h4{color:var(--give)}
+.lg p{margin:0;font-size:.82rem;color:#546e7a;line-height:1.6}
+.note{background:#e8f4fd;border-left:5px solid var(--nav);border-radius:0 8px 8px 0;padding:11px 15px;margin:13px 0;font-size:.9rem}
+.warn{background:#fff4e5;border-left:5px solid var(--half);border-radius:0 8px 8px 0;padding:11px 15px;margin:13px 0;font-size:.9rem}
+blockquote{margin:12px 0;padding:11px 16px;background:#fafafa;border-left:4px solid #b0bec5;
+ color:#455a64;font-size:.89rem;border-radius:0 8px 8px 0}
+.filters{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 16px;align-items:center}
+.filters .fl{font-size:.76rem;color:var(--mut);margin-right:2px}
+.filters button{font-size:.79rem;border:1px solid var(--line);background:#fff;color:#455a64;
+ padding:5px 12px;border-radius:15px;cursor:pointer}
+.filters button.on{background:var(--nav);border-color:var(--nav);color:#fff}
+.cards{display:flex;flex-direction:column;gap:12px}
+.fc{border:1px solid var(--line);border-left-width:5px;border-radius:10px;padding:13px 16px;background:#fff}
+.fc.must{border-left-color:var(--must)}.fc.half{border-left-color:var(--half)}.fc.give{border-left-color:var(--give)}
+.fc .top{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:5px}
+.fc .nm{font-weight:700;font-size:1.02rem}
+.tag{font-size:.72rem;padding:2px 10px;border-radius:12px;color:#fff;white-space:nowrap}
+.tag.must{background:var(--must)}.tag.half{background:var(--half)}.tag.give{background:var(--give)}
+.fc .eq{background:#f7f9fa;border-radius:7px;padding:6px 12px;margin:6px 0;overflow-x:auto}
+.fc .meta{margin:6px 0 0;font-size:.89rem;color:#455a64;line-height:1.72}
+.fc .ev{margin-top:9px;padding-top:8px;border-top:1px dashed var(--line);font-size:.79rem;color:#546e7a}
+.yr{display:inline-block;padding:1px 6px;margin:1px 3px 1px 0;border-radius:4px;font-size:.75rem}
+.yr.ok{background:#e8f5e9;color:#1b5e20;border:1px solid #c8e6c9}
+.yr.no{background:#ffebee;color:#b71c1c;border:1px solid #ffcdd2}
+.never{color:var(--must);font-weight:700}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:9px;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:940px;font-size:.79rem}
+th,td{padding:5px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#eceff1;position:sticky;top:0;font-size:.74rem;text-align:center;line-height:1.35}
+th:first-child,th:last-child{text-align:left}
+td.c{text-align:center}
+td .y{color:var(--give);font-weight:800}
+td .n{color:#cfd8dc}
+tr.hl{background:#f2f7fc}
+td.qq{font-size:.76rem;color:#37474f}
+td.rm{font-size:.76rem;color:#546e7a;line-height:1.5}
+.ynote{font-size:.72rem;color:var(--mut)}
+footer{color:var(--mut);font-size:.79rem;padding:14px 4px;border-top:1px solid var(--line);margin-top:8px}
+ul,ol{padding-left:22px}li{margin:5px 0}
+@media print{
+ .cards{display:block!important}
+ .fc{margin-bottom:9px}
+ .kpis{display:table!important;table-layout:fixed;width:100%;border-spacing:5px 0}
+ .kpi{display:table-cell!important;vertical-align:middle}
+ .legend{display:table!important;table-layout:fixed;width:100%;border-spacing:6px 0}
+ .lg{display:table-cell!important;vertical-align:top}
+ .filters{display:none!important}
+ .tw{overflow:visible!important}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>SM-U3-1　側向土壓力理論<br>主要公式：考卷會給 vs. 必須自己背</h1>
+<p>17 題歷屆考題（主分類 4＋副分類 13）× 24 份考卷原文逐年比對。結論先講：<b>主分類那 4 題（93、99、104、108 年）100% 零供給</b>；四次供給（105 庫倫＋M-O、107 傾斜 Rankine、111 與 114 的 \(K_a\)）全部落在副分類年份。而 107 年那條是<b>以影像嵌在圖上</b>，只做文字抽取會整個判錯。</p>
+</header>
+<main>
+<nav>
+<a href="#how">判定方法</a>
+<a href="#cards">公式清單</a>
+<a href="#matrix">逐年證據表</a>
+<a href="#strategy">背誦策略</a>
+<a href="lecture-SM-U3-1.html">▶ U3-1 觀念講義</a>
+<a href="study-SM-U3-1.html">▶ U3-1 命題分析</a>
+<a href="formula-given-SM-U1-1.html">▶ U1-1 給／背分界</a>
+<a href="formula-given-SM-U1-3.html">▶ U1-3 給／背分界</a>
+<a href="formula-given-SM-U1-5.html">▶ U1-5 給／背分界</a>
+<a href="formula-given-SM-U2-1.html">▶ U2-1 給／背分界</a>
+<a href="formula-given-SM-U2-2.html">▶ U2-2 給／背分界</a>
+<a href="formula-given-SM-U2-3.html">▶ U2-3 給／背分界</a>
+<a href="formula-given-SM-U3-1.pdf">🖨️ 本頁 PDF</a>
+
+</nav>
+
+<section id="how">
+<h2>一、我怎麼判定的</h2>
+<p class="lead">本頁只回答一件事：<b>SM-U3-1 的公式，哪些考卷會幫你印出來，哪些不背就整題卡死。</b>
+判定一律以 <code>raw/exams/</code> 2002–2025 全 24 份考卷原文為準。
+全部 24 份先做 <code>pdftotext -layout</code> 抽取（含 <code>poppler-data</code> 中文字型包，否則中文抽不出來），
+再對<b>含嵌入影像的 20 份</b>逐頁清點，並把有本單元題目的可疑頁轉圖用肉眼判讀。</p>
+<div class="kpis"><div class="kpi"><div class="n">19</div><div class="l">條主要公式</div></div><div class="kpi"><div class="n">14</div><div class="l">必背</div></div><div class="kpi"><div class="n">4</div><div class="l">別賭</div></div><div class="kpi"><div class="n">1</div><div class="l">通常會給</div></div><div class="kpi"><div class="n">17</div><div class="l">歷屆題數</div></div><div class="kpi"><div class="n">12</div><div class="l">零供給年</div></div></div>
+<h3>考卷把公式印出來的三種擺法（三種都算「有給」）</h3>
+<ul>
+<li><b>(a) 集中式</b>—— 全卷共用的「※參考公式／參考資料」區塊。SM 24 年<b>只有兩次</b>：
+105 年（2016）第四頁的承載力修正因數表＋庫倫 \(K_a\)＋Mononobe–Okabe \(K_{ae}\)；
+114 年（2025）第一題的 \(T_v\) 三式。</li>
+<li><b>(b) 隨題式</b>—— 「註：」或「相關公式：」跟在該題正下方。103 年（2014）起成為主流：
+110（2021）\(T_v\) 與樁參數、111（2022）版樁四次方程全組、113（2024）樁公式與 \(\alpha\) 值表、114（2025）\(K_A\)。</li>
+<li><b>(c) 內文式</b>—— 直接寫在題目敘述裡當已知條件。已核對到的例子：
+96 年（2007-3）題幹給 \(K=1.8(1-\sin\phi)\)、\(\delta=0.5\phi\)、臨界深度 \(20D\)；
+97 年（2008-1）給 \(K_0=0.5\)、\(A_f=0.7\)；102 年（2013-3）給 \(K_0=0.7\)；
+110 年（2021-3）給 \(K=1.4K_0\)、\(\delta=0.8\phi\)、\(\alpha=0.65\)、\(N_c^*=9\)。</li>
+</ul>
+<div class="warn"><b>只靠文字抽取會判錯。</b>本輪就抓到一個實例：
+<b>107 年（2018-4）的傾斜填土 Rankine \(K_a\) 全式是以影像嵌在圖上方</b>，
+<code>pdftotext</code> 完全抽不到，只看文字會誤判成「該年沒給」。
+本頁對 20 份含影像的考卷都做過頁面清點，並把 93、100、101、103、104、105、107、108、109 共 9 個年份的關鍵頁轉圖親眼確認過。</div>
+<h3>考卷的免責聲明（本科最關鍵的一句話）</h3>
+<p>SM 從未出現「公式僅供參考、請自行檢查勘誤」這類話。它寫的是<b>相反的方向</b>——
+96～102 年（2007–2013）連續七年，注意事項欄都寫著：</p>
+<blockquote>
+「※若條件不足，請自行作合理假設！」（96 年，2007）<br>
+「倘若條件不足，請自行合理假設。」（97 年，2008）<br>
+「下列問題之相關公式、物理常數、符號意義及設計參數未提及時，請自行依規範作合理之推斷與假設。」（98 年，2009）<br>
+「下列各題若有所需參數或公式不足時，請自行合理假設或推知。」（99 年，2010）<br>
+「本試題之相關符號、公式、物理常數及設計參數<b>未提及時，請依規範自行合理推斷或假設</b>。」（100 年，2011）<br>
+「本試題之相關公式、物理常數及設計參數未提及時，請自行合理推斷與假設。」（101、102 年，2012–2013）
+</blockquote>
+<p>這句話 103 年（2014）起消失，取而代之的是逐題「註：」給公式，以及「本科目除專門名詞或數理公式外，應使用本國文字作答」。
+<b>但它從沒被換成「公式僅供參考」</b>——意思是命題委員的預設立場始終是：
+<b>公式本來就該由你帶進考場，給你是恩典不是義務。</b>這是 SM 與 SS 最大的差別，也是本頁把標準訂得比 SS 更嚴的原因。</p>
+<h3>三級圖例</h3>
+<div class="legend">
+<div class="lg must"><h4>🔴 必背</h4><p>從未印過，或曾出現「考了卻沒給」且沒給的年份佔多數。<b>自己要寫得出來。</b></p></div>
+<div class="lg half"><h4>🟠 別賭</h4><p>多數年份有給，但有明確沒給的先例；或同一條式子有不同版本／間接形式，給哪一版要自己認得。<b>仍建議背。</b></p></div>
+<div class="lg give"><h4>🟢 通常會給</h4><p>凡考該題型幾乎必印，且無「考了卻沒給」的先例。<b>背概念與用法即可。</b></p></div>
+</div>
+
+<div class="note"><b>本單元的主副比是全科最懸殊的：主分類只有 4 題，副分類有 13 題。</b>
+意思是<b>側向土壓力幾乎不會單獨出題</b>，它是開挖（<a href="formula-given-SM-U2-3.html">SM-U2-3</a>）
+與擋土結構穩定（SM-U3-2）的必經入口。
+本頁的判定同時服務那兩個單元——把這裡讀熟的報酬，有四分之三會在別的單元兌現。</div>
+<div class="warn"><b>供給的規律很清楚：委員只在「題目變複雜」時才給。</b>
+105 年（2016-4）牆背傾斜＋牆土摩擦＋地震 ⇒ 給庫倫 \(K_a\) 與 M-O \(K_{ae}\)；
+107 年（2018-4）背填土傾斜 12° ⇒ 給傾斜版 Rankine \(K_a\)；
+111 年（2022-4）懸臂樁四次方程 ⇒ 順手給 \(K_a\)、\(K_p\)。
+反過來，<b>只考最基本的水平填土 Rankine 時，四題（93、99、104、108）一次都沒給。</b>
+「越基本越不給」是本單元最該記住的一句話。</div>
+
+</section>
+
+<section id="cards">
+<h2>二、公式逐條分界</h2>
+<div class="filters">
+<span class="fl">級別</span>
+<button class="lvf on" data-lv="all">全部</button>
+<button class="lvf" data-lv="must">必背</button>
+<button class="lvf" data-lv="half">別賭</button>
+<button class="lvf" data-lv="give">通常會給</button>
+<span class="fl" style="margin-left:10px">主題</span>
+<span id="gbtns"></span>
+</div>
+<div class="cards" id="cards"></div>
+</section>
+
+<section id="matrix">
+<h2>三、逐年證據表</h2>
+<p class="lead">24 個年份 × 10 條代表性公式。<b>✔</b>＝該年考卷印出此式（含集中式／隨題式／內文式）；
+<b>·</b>＝沒印。底色標示的列代表該年有本單元的題目（共 16 個年份）。</p>
+<div class="tw"><table id="mx">
+<thead><tr><th>考卷年</th><th>單元題號</th><th class="c">Ka、Kp 水平</th><th class="c">2c√Ka</th><th class="c">張力裂縫 zc</th><th class="c">K0</th><th class="c">庫倫 Ka</th><th class="c">Rankine 傾斜</th><th class="c">M-O Kae</th><th class="c">水壓處理</th><th class="c">合力作用點</th><th class="c">抗滑／揚壓</th><th>備註</th></tr></thead>
+<tbody></tbody>
+</table></div>
+</section>
+
+<section id="strategy">
+<h2>四、背誦策略</h2>
+
+<h3>4-1　先看這三個數字</h3>
+<ul>
+<li><b>主分類 4 題（93、99、104、108 年），供給率 0%。</b>
+四次供給全部落在副分類年份，而且都是因為<b>題目本身變複雜</b>（傾斜、牆土摩擦、地震、四次方程）才附帶給的。
+<b>「越基本越不給」是本單元最該記住的一句話。</b></li>
+<li><b>16 個有題年份、12 年零供給。</b>但真正的重點不是這個比例，而是
+<b>主副比 4:13——本單元四分之三的題目是別的單元的入口。</b>
+把這裡讀熟，報酬會在 SM-U2-3 與 SM-U3-2 那 20 多題上兌現。</li>
+<li><b>107 年（2018-4）的傾斜填土 \(K_a\) 全式是以影像嵌在圖上方，文字抽取完全看不到。</b>
+如果你用搜尋 PDF 的方式自己盤點，一定會把那年判成「沒給」——這也提醒你：
+<b>考場上公式可能出現在圖裡，不要只看題幹。</b></li>
+</ul>
+
+<h3>4-2　如果只背五條</h3>
+<ol>
+<li><b>\(K_a=\dfrac{1-\sin\phi}{1+\sin\phi}\)、\(K_p=1/K_a\)</b>——
+九個年份要用、只給過兩次，而且沒給的那九年包含全部四題主分類。
+記住 \(\phi=30^\circ\Rightarrow 1/3\) 與 \(3\)（差九倍）這組數。</li>
+<li><b>\(\sigma_a'=\sigma_v'K_a-2c\sqrt{K_a}\) 與 \(z_c=\dfrac{2c}{\gamma\sqrt{K_a}}\)</b>——
+104、108 兩年直接考，零供給。附帶兩條規則：負值歸零、作用點上移到 \((H-z_c)/3\)。</li>
+<li><b>水位以下「土壓乘 \(\gamma'\)、水壓全額另加」，淨增 \(\gamma_w(1-K_a)\) 每公尺</b>——
+四個年份要用，零供給。93 年整題 25 分就是這條結論的反算。</li>
+<li><b>切方塊、對牆底取矩求 \(\bar y\)</b>——
+99、104 兩年明白要求「合力及作用位置」。<b>不要反射性寫 \(H/3\)。</b></li>
+<li><b>庫倫的三步流程</b>（假設破壞面 → 力多邊形閉合 → 對 \(\beta\) 取極大）——
+108 年整題 25 分就是考這個，而且不要求任何數字。
+式子可以不背，<b>流程與 \(\delta\) 的方向一定要能講出來</b>。</li>
+</ol>
+
+<div class="note"><b>可以省下的：庫倫 \(K_a\) 與 M-O \(K_{ae}\) 的完整三角函數式。</b>
+兩者都長到不可能默寫，而 105 年（2016-4）唯一考到時<b>整組印在參考資料裡</b>。
+要背的是它們的<b>角度定義</b>（\(\beta\) 牆背傾角、\(\alpha\) 填土坡角、\(\delta_B\) 牆土摩擦角）
+與 <b>M-O 就是「重力場旋轉 \(\theta'=\tan^{-1}\frac{K_h}{1-K_v}\) 之後的庫倫」</b>這句話——
+認得符號才代得進去。<br>
+<b>但 M-O 的作用點規則要背</b>：靜態部分 \(H/3\)、動態增量 \(0.6H\)，105 年問了「位置」卻沒給。</div>
+
+<h3>4-3　三個「給了入場券、不給出口」的實例</h3>
+<ul>
+<li><b>105 年（2016-4）</b>：給了 \(K_{ae}\) 全式，卻沒給動態增量的作用點——而題目問的正是「大小、方向<b>與位置</b>」。</li>
+<li><b>107 年（2018-4）</b>：給了傾斜填土 \(K_a\)，卻沒給<b>虛擬牆背</b>的建立規則
+（\(H'\) 要量到基礎版底、牆踵上方土重要計入 \(W\)）——那才是這題真正的關卡。</li>
+<li><b>114 年（2025-3）</b>：給了 \(K_A\)，卻沒告訴你<b>基礎是黏土時抗滑力 \(=S_uB\)、與牆重無關</b>——
+而那是整題唯一的陷阱。</li>
+</ul>
+<p>三次都是同一個模式：<b>印出來的是「大家都會的那一條」，真正的分水嶺從不印。</b></p>
+
+<h3>4-4　考場上的三個檢查動作</h3>
+<ol>
+<li><b>先問這面牆往哪動。</b>被樓版夾住 ⇒ \(K_0\)；離開填土 ⇒ \(K_a\)；推向填土 ⇒ \(K_p\)（並折減）。
+同一根版樁的背側與貫入段可以處於不同狀態。</li>
+<li><b>再問 Rankine 三條件（牆背垂直、光滑、填土水平）成立嗎。</b>
+任一條不成立就改庫倫；但懸臂式有例外——先建虛擬牆背，Rankine 就重新可用。</li>
+<li><b>最後數轉折點：</b>地表、超載、水位、層界（算兩次）、\(z_c\)、牆底。
+漏一個，合力與作用點就全錯。收尾檢查 \(K_a<1<K_p\)、\(\bar y\) 落在 \(0.25H\sim0.40H\)。</li>
+</ol>
+
+</section>
+
+<footer>exam-wiki-SM｜SM-U3-1 側向土壓力理論｜證據來源：raw/exams/ 全 24 份考卷原文（2002–2025），
+逐年 <code>pdftotext -layout</code> 文字抽取＋可疑頁 <code>pdftoppm</code> 轉圖目視判讀。
+三級判定採保守標準：拿不準往上歸。</footer>
+</main>
+
+<script>
+const F = [
+ {
+  "g": "三個係數與位移",
+  "lv": "half",
+  "nm": "Rankine 主動／被動係數（水平填土）",
+  "eq": "$$K_a=\\tan^{2}\\!\\Bigl(45^\\circ-\\frac{\\phi}{2}\\Bigr)=\\frac{1-\\sin\\phi}{1+\\sin\\phi},\\qquad K_p=\\frac{1}{K_a}$$",
+  "meta": "111 年（2022-4）與 114 年（2025-3）都印出來了——<b>114 年還是用「附註」直接寫在題目下方</b>，看起來像是近年會給。但 93（2004-3）、94（2005-1）、95（2006-3）、96（2007-4）、97（2008-3）、99（2010-2）、103（2014-3）、104（2015-2）、109（2020-2）<b>九個年份都要用、都沒印</b>。兩給九不給，而且沒給的那九年裡包含<b>全部四題主分類</b>。<br>\\(\\phi=30^\\circ\\Rightarrow K_a=1/3,K_p=3\\)（差九倍）是最該記住的一組數；用 \\((1-\\sin\\phi)/(1+\\sin\\phi)\\) 算比按 \\(\\tan^2\\) 不容易按錯。驗算：\\(K_a<1<K_p\\) 恆成立（\\(\\phi=0\\) 時兩者皆為 1）。",
+  "ok": [
+   2022,
+   2025
+  ],
+  "no": [
+   2004,
+   2005,
+   2006,
+   2007,
+   2008,
+   2010,
+   2014,
+   2015,
+   2020
+  ]
+ },
+ {
+  "g": "三個係數與位移",
+  "lv": "must",
+  "nm": "靜止土壓力係數 K0",
+  "eq": "$$K_0=1-\\sin\\phi'\\quad(\\text{正常壓密});\\qquad K_{0,OC}=K_{0,NC}\\sqrt{OCR}$$",
+  "meta": "<b>考卷給值、不給式。</b>97 年（2008-1）在題幹寫「靜止土壓力係數 \\(K_0=0.5\\)」、102 年（2013-3）寫「\\(K_0=0.7\\)」、110 年（2021-3）寫「\\(K=1.4K_0\\)」——三次都是<b>內文式給數值</b>，24 年從沒印出 \\(1-\\sin\\phi'\\) 這條定義。如果哪一年改問「地下室外牆該用哪個係數」，就得自己寫得出來。<br>觀念陷阱：被樓版夾住的地下室外牆、剛性箱涵<b>幾乎不能移動</b>，停在 \\(K_0\\)（砂約 0.5，是 \\(K_a\\) 的 1.5 倍）；用 \\(K_a\\) 設計會低估約 50% 的側向力。",
+  "ok": [],
+  "no": [
+   2008,
+   2013
+  ]
+ },
+ {
+  "g": "三個係數與位移",
+  "lv": "must",
+  "nm": "位移門檻與被動側折減",
+  "eq": "$$K_a\\ \\text{達成需}\\ \\Delta\\approx0.1\\!\\sim\\!0.4\\%H;\\qquad K_p\\ \\text{達成需}\\ \\Delta\\approx2\\!\\sim\\!5\\%H$$",
+  "meta": "零供給，而且是解釋「為什麼規範折減 \\(K_p\\) 卻不折減 \\(K_a\\)」的唯一根據。牆只要動 0.1～0.4% 高度（8 m 牆＝8～32 mm）土壓力就掉到 \\(K_a\\)；要漲到 \\(K_p\\) 卻要 2～5%（160～400 mm，牆早就不能用了）。<b>折減不是保守，是承認被動側根本還沒出力。</b><br>幾何理由：被動楔的傾角是 \\(45^\\circ-\\phi/2\\)（比主動楔緩），要動員的土體大好幾倍，而且是「把土往上推」（對抗重力）而非「土自己滑下去」。94（2005-1）、97（2008-3）、109（2020-2）、111（2022-4）都用得到這個判斷。",
+  "ok": [],
+  "no": [
+   2005,
+   2008,
+   2020,
+   2022
+  ]
+ },
+ {
+  "g": "c–φ 土與張力裂縫",
+  "lv": "half",
+  "nm": "帶凝聚力的 Rankine 主動／被動應力",
+  "eq": "$$\\sigma_a'=\\sigma_v'K_a-2c\\sqrt{K_a},\\qquad \\sigma_p'=\\sigma_v'K_p+2c\\sqrt{K_p}$$",
+  "meta": "<b>只以「間接形式」被印過一次。</b>114 年（2025-2，土壤強度題）印出 \\(\\sigma_1=\\sigma_3\\tan^2(45^\\circ+\\phi/2)+2c\\tan(45^\\circ+\\phi/2)\\)——那就是本式的被動形式，只要把 \\(\\sigma_1,\\sigma_3\\) 角色對調就得到主動式。但它掛在別題底下，而且是 24 年唯一一次；99（2010-2）、104（2015-2）、108（2019-4）三題真正要用時完全沒給。歸「別賭」。<br>因式分解看物理：\\(\\sigma_a'=K_a\\bigl(\\sigma_v'-2c/\\sqrt{K_a}\\bigr)\\)，括號裡就是無圍壓抗壓強度的一般化（\\(\\phi=0\\) 時退化成 \\(q_u=2c_u\\)）——<b>土要先被壓到超過自己的無圍壓強度，才會開始推牆。</b>",
+  "ok": [
+   2025
+  ],
+  "no": [
+   2010,
+   2015,
+   2019
+  ]
+ },
+ {
+  "g": "c–φ 土與張力裂縫",
+  "lv": "must",
+  "nm": "張力裂縫深度 zc",
+  "eq": "$$z_c=\\frac{2c}{\\gamma\\sqrt{K_a}}\\qquad(\\phi=0:\\ z_c=\\frac{2c_u}{\\gamma})$$",
+  "meta": "<b>零供給，兩題直接考。</b>108 年（2019-4）第一小題就是「試求張力裂縫的最大深度 \\(Z_t\\)」（5 分）；104 年（2015-2）黏土背填 \\(c=20\\) kN/m²、\\(\\phi=20^\\circ\\)，算出 \\(z_c=3.27\\) m——<b>佔 4 m 厚黏土層的 82%，整層幾乎不推牆</b>。<br>兩個連帶規則也零供給：①\\(0\\sim z_c\\) 的負值要<b>直接歸零</b>，不能拿去抵銷下面的正值；②合力作用點跟著上移到 \\((H-z_c)/3\\)，<b>不是 \\(H/3\\)</b>——104 年特別要求「合力作用位置」就是在測這個。",
+  "ok": [],
+  "no": [
+   2015,
+   2019
+  ]
+ },
+ {
+  "g": "c–φ 土與張力裂縫",
+  "lv": "must",
+  "nm": "裂縫積水的附加水壓",
+  "eq": "$$P_w=\\tfrac12\\gamma_w z_c^{\\,2}\\qquad(\\text{裂縫灌滿水時額外加上})$$",
+  "meta": "零供給。108 年（2019-4）題目特別註明「<b>但縫內無水</b>」——這句話就是在提醒你知不知道有這一項。以 104 年的 \\(z_c=3.27\\) m 計算，積水後附加 \\(\\tfrac12(9.81)(3.27)^2=52.4\\) kN/m，<b>往往超過被歸零那段所省下的好處數倍</b>——裂縫積水比不裂還危險。這也是規範不建議用黏土當回填料的理由：短期強度是假的。",
+  "ok": [],
+  "no": [
+   2019
+  ]
+ },
+ {
+  "g": "水與分層",
+  "lv": "must",
+  "nm": "水位以下：K 只乘有效應力",
+  "eq": "$$\\sigma_a=K_a\\,\\gamma' z+\\gamma_w z_w\\qquad(\\text{水壓全額另加，}K_w=1)$$$$\\text{淨增量}=\\gamma_w(1-K_a)\\ \\text{每公尺}$$",
+  "meta": "<b>零供給，四個年份都要用，而且是本單元最貴的錯誤。</b>93（2004-3）、99（2010-2）、104（2015-2）、109（2020-2）都有水位。<br>「一減一加」的淨效果：土壓力少掉 \\(\\tfrac12K_a\\gamma_wx^2\\)、水壓多出 \\(\\tfrac12\\gamma_wx^2\\)，淨增 \\(\\tfrac12\\gamma_w(1-K_a)x^2\\)。<b>\\(K_a\\) 越小（土越好），淨增反而越多。</b>93 年（2004-3）整題 25 分就是反算「水位升到多高才滑動」，係數 \\(3.576=\\tfrac12(9.81)(1-0.271)\\) 正是這條結論——寫得出來就不必拆梯形。<br>反向陷阱：黏土用 \\(\\phi_u=0\\) 總應力法時 \\(u\\) 已內含在 \\(\\sigma_v\\) 裡，<b>不可再加一次</b>。",
+  "ok": [],
+  "no": [
+   2004,
+   2010,
+   2015,
+   2020
+  ]
+ },
+ {
+  "g": "水與分層",
+  "lv": "must",
+  "nm": "分層與超載的轉折點清單",
+  "eq": "$$\\text{轉折：地表}\\to q\\to\\text{水位}\\to\\text{層界（算兩次）}\\to z_c\\to\\text{牆底};\\qquad \\Delta\\sigma_a=qK_a\\ (\\text{矩形})$$",
+  "meta": "零供給。99 年（2010-2）是最完整的一題：兩層土、水位在中間、下層還從砂（有效應力）切換到黏土（總應力），一共五個轉折、六個方塊。<b>層界一定要算兩次</b>（上層底、下層頂），因為 \\(K_a\\) 與 \\(c\\) 都變了——該年 4 m 處的壓力從砂底 36.41 kPa 掉到黏土頂 10.00 kPa，那不是算錯，是分析方法切換造成的正常不連續。",
+  "ok": [],
+  "no": [
+   2010,
+   2015
+  ]
+ },
+ {
+  "g": "水與分層",
+  "lv": "must",
+  "nm": "合力與作用點：切方塊、對牆底取矩",
+  "eq": "$$P=\\sum P_i,\\qquad \\bar y=\\frac{\\sum P_i y_i}{P}\\qquad(\\text{一律對牆底取矩，不換基準})$$",
+  "meta": "<b>99 與 104 兩年都明白要求「合力及作用位置」，零供給。</b>\\(H/3\\) 只在<b>單一均質土、無水、無超載、無凝聚力</b>時成立。99 年（2010-2）算出 \\(\\bar y=2.40\\) m，明顯低於 \\(H/3=2.67\\) m（被下層黏土的大三角形拉低）。<br>方向規則：<b>超載把作用點推高、水壓把它拉低、張力裂縫把它推高</b>。檢查：\\(\\bar y\\) 通常落在 \\(0.25H\\sim0.40H\\)，超出這個範圍多半是漏了一塊或換了取矩基準。作用點錯了，後面的抗傾覆檢核全錯——這是本單元連到 SM-U3-2 的關鍵接口。",
+  "ok": [],
+  "no": [
+   2010,
+   2015
+  ]
+ },
+ {
+  "g": "庫倫法與傾斜、虛擬牆背",
+  "lv": "half",
+  "nm": "庫倫主動土壓力係數（一般化）",
+  "eq": "$$K_a=\\frac{\\sin^2(\\beta+\\phi')}{\\sin^2\\beta\\,\\sin(\\beta-\\delta_B)\\Bigl[1+\\sqrt{\\dfrac{\\sin(\\phi'+\\delta_B)\\sin(\\phi'-\\alpha)}{\\sin(\\beta-\\delta_B)\\sin(\\alpha+\\beta)}}\\Bigr]^2}$$",
+  "meta": "105 年（2016-4）在第四頁的<b>集中式「參考資料」</b>把全式印出來（本科 24 年只有兩次集中式供給，這是其中一次）。但 108 年（2019-4）要你用庫倫法求主動推力時<b>什麼都沒給</b>——那題連 \\(K_a\\) 都不要，直接考推導過程。一給一不給，加上式子長到不可能默寫，歸「別賭」：<b>要背的不是這條式子，是它的三個角度定義與 \\(\\delta\\) 的方向</b>。<br>\\(\\delta\\) 方向由土相對牆的移動決定：主動時土往下滑 ⇒ \\(P_a\\) 對牆向下傾；被動時相反。方向設反，垂直分量的符號就錯，抗滑動與抗傾覆一起錯。<b>另外：被動側 \\(\\delta>\\phi/3\\) 時庫倫會嚴重高估 \\(K_p\\)</b>（實際破壞面是對數螺線，不是平面），這是規範等級的常識。",
+  "ok": [
+   2016
+  ],
+  "no": [
+   2019
+  ]
+ },
+ {
+  "g": "庫倫法與傾斜、虛擬牆背",
+  "lv": "must",
+  "nm": "庫倫試驗楔法：力多邊形與極值原理",
+  "eq": "$$W,\\;R\\,(\\text{與破壞面法線夾}\\phi),\\;P_a\\,(\\text{與牆背法線夾}\\delta)\\ \\text{三力閉合}\\;\\Rightarrow\\;P_a(\\beta)$$$$\\text{主動：對}\\ \\beta\\ \\text{取極大};\\qquad \\text{被動：取極小}$$",
+  "meta": "<b>108 年（2019-4）整題 25 分就是考這個流程，零數字、零公式供給。</b>第二小題 15 分：「畫出以庫倫法求解主動狀態時作用於破壞土楔的力多邊形，答案需描述各已知力的計算及各力與水平或鉛直線的夾角」——考的完全是<b>你懂不懂庫倫是什麼</b>。已轉圖確認該頁只有幾何圖，沒有任何公式。<br>取<b>極大</b>的理由：土會自己找最容易滑的面，對牆而言就是推力最大的那個。另外要記得庫倫是<b>剛體極限平衡</b>，只給合力與方向，<b>沒有分布資訊</b>——要畫分布圖必須另外假設三角形。這是它與 Rankine 最本質的差別。",
+  "ok": [],
+  "no": [
+   2019
+  ]
+ },
+ {
+  "g": "庫倫法與傾斜、虛擬牆背",
+  "lv": "half",
+  "nm": "Rankine 傾斜填土 Ka",
+  "eq": "$$K_a=\\cos\\alpha\\cdot\\frac{\\cos\\alpha-\\sqrt{\\cos^2\\alpha-\\cos^2\\phi'}}{\\cos\\alpha+\\sqrt{\\cos^2\\alpha-\\cos^2\\phi'}}\\qquad(P_a\\ \\text{平行填土面})$$",
+  "meta": "<b>本輪最重要的一個發現：107 年（2018-4）確實印出了這條全式，但它是以「影像」嵌在圖的正上方，<code>pdftotext</code> 完全抽不到。</b>只做文字抽取會誤判成「該年沒給」——本頁是轉圖親眼看到的。但 98 年（2009-4）背填土傾角 20° 時就沒給。一給一不給。<br><b>極限檢查</b>：\\(\\alpha=0\\Rightarrow\\sqrt{1-\\cos^2\\phi}=\\sin\\phi\\)，退化成 \\((1-\\sin\\phi)/(1+\\sin\\phi)\\) ✓；\\(\\alpha\\to\\phi\\Rightarrow K_a\\to\\cos\\alpha\\)（達自然安息角）；\\(\\alpha>\\phi\\) 時根號變虛數 ⇒ <b>無解，代表這個坡本身就站不住</b>，要先做邊坡穩定。記不住式子時這三個端點就能判斷答案方向。",
+  "ok": [
+   2018
+  ],
+  "no": [
+   2009
+  ]
+ },
+ {
+  "g": "庫倫法與傾斜、虛擬牆背",
+  "lv": "must",
+  "nm": "懸臂式擋土牆的虛擬牆背",
+  "eq": "$$\\text{從牆踵垂直向上作虛擬牆背，}H'\\ \\text{量到基礎版底};\\qquad W\\ \\text{須含牆踵上方土重}$$",
+  "meta": "零供給。107 年（2018-4）牆高 7.5 m、踵部伸出 3.5 m、背填傾角 12°，是標準題。虛擬牆背的價值是<b>讓 Rankine 的 \\(\\delta=0\\)（光滑）假設變成真的</b>——這個面是「土對土」，本來就沒有牆土摩擦問題。代價是必須把牆踵上方那塊土算進牆重 \\(W\\)。<b>兩個最常漏的地方</b>：①\\(H'\\) 要量到<b>基礎版底</b>不是莖部頂；②傾斜填土還要加上坡度造成的高度增量。漏掉 ⇒ \\(W\\) 與 \\(P_a\\) 同時低估 ⇒ 安全係數虛高。",
+  "ok": [],
+  "no": [
+   2018
+  ]
+ },
+ {
+  "g": "地震土壓力",
+  "lv": "give",
+  "nm": "Mononobe–Okabe 動態土壓力係數",
+  "eq": "$$K_{ae}=\\frac{\\sin^2(\\phi'+\\beta-\\theta')}{\\cos\\theta'\\sin^2\\beta\\,\\sin(\\beta-\\delta_B-\\theta')\\Bigl[1+\\sqrt{\\dfrac{\\sin(\\phi'+\\delta_B)\\sin(\\phi'-\\alpha-\\theta')}{\\sin(\\beta-\\delta_B-\\theta')\\sin(\\alpha+\\beta)}}\\Bigr]^2}$$$$\\theta'=\\tan^{-1}\\frac{K_h}{1-K_v}$$",
+  "meta": "105 年（2016-4）把 \\(K_{ae}\\) 全式<b>連 \\(\\theta'\\) 的定義一起</b>印在第四頁參考資料裡。24 年只考過這一次、也給了這一次，無「考了卻沒給」的先例，故歸「通常會給」。式子長到不可能默寫，命題委員也知道。<br><b>但要背的是它的來歷</b>：M-O 就是把重力場「旋轉」\\(\\theta'\\) 角之後的庫倫——認得這件事，看到式子才知道每個符號代表什麼、才有辦法正確代入。",
+  "ok": [
+   2016
+  ],
+  "no": []
+ },
+ {
+  "g": "地震土壓力",
+  "lv": "must",
+  "nm": "M-O 動態增量的作用點",
+  "eq": "$$P_{ae}=P_a+\\Delta P_{ae};\\qquad P_a\\ \\text{作用於}\\ H/3,\\quad \\Delta P_{ae}\\ \\text{作用於}\\ 0.6H$$",
+  "meta": "<b>「給了式子卻少給關鍵一步」的典型。</b>105 年（2016-4）印了 \\(K_{ae}\\) 全式，題目卻問「主動土壓力 \\(P_{ae}\\) 的大小、<b>方向與位置</b>為何」——而作用點規則完全沒給。零供給。<br>整個 \\(P_{ae}\\) 都放在 \\(H/3\\) 會<b>低估傾覆力矩</b>；正解要拆成靜態部分（\\(H/3\\)）與動態增量（\\(0.6H\\)，因為地震慣性力在上部較大），再對牆底取矩求合成作用點。配分只有 5 分，但這是唯一考過地震土壓力的一次。",
+  "ok": [],
+  "no": [
+   2016
+  ]
+ },
+ {
+  "g": "接到擋土牆穩定的介面",
+  "lv": "must",
+  "nm": "被動土壓力與 δ 的方向",
+  "eq": "$$\\sigma_p'=\\sigma_v'K_p+2c\\sqrt{K_p};\\qquad \\text{主動}\\ \\delta\\ \\text{向下傾，被動}\\ \\delta\\ \\text{向上傾}$$",
+  "meta": "零供給。94（2005-1）版樁貫入段、95（2006-3）邊坡側向滑動、109（2020-2）與 111（2022-4）懸臂樁都要用被動側。\\(\\delta\\) 的方向由土相對牆的移動決定，畫錯方向 ⇒ 垂直分量符號反 ⇒ 抗滑、抗傾覆全錯。另外注意 <b>\\(2c\\sqrt{K_p}\\) 這一項在被動側是「加」</b>——凝聚力兩邊都幫你，因為它兩邊都是在抵抗剪動。",
+  "ok": [],
+  "no": [
+   2005,
+   2006,
+   2020,
+   2022
+  ]
+ },
+ {
+  "g": "接到擋土牆穩定的介面",
+  "lv": "must",
+  "nm": "φ=0 基礎的抗滑動（與牆重無關）",
+  "eq": "$$F_R=c_a\\,B\\quad(\\phi=0\\ \\text{黏土基礎})\\qquad\\text{vs.}\\qquad F_R=W'\\tan\\delta\\quad(\\text{砂質基礎})$$",
+  "meta": "<b>114 年（2025-3）的核心陷阱，零供給。</b>該年背填是砂（用 \\(K_A\\)，考卷有印），但<b>基礎土是黏土 \\(S_u=30\\) kPa</b> ⇒ 抗滑抵抗力變成 \\(S_u\\times B\\)，<b>與牆重完全無關</b>。這與所有人習慣的 \\(W\\tan\\delta\\) 直覺相反，是最容易整題答錯的地方。<br>推論題：安全係數不足時，<b>加重牆體沒有用，加寬底版才有用</b>——看抵抗力的式子裡有沒有 \\(W\\)，就知道該動哪個變數。考卷給了 \\(K_A\\) 卻沒給這一條，是典型的「給你入場券、不給你出口」。",
+  "ok": [],
+  "no": [
+   2025
+  ]
+ },
+ {
+  "g": "接到擋土牆穩定的介面",
+  "lv": "must",
+  "nm": "牆底揚水壓與有效自重",
+  "eq": "$$U=\\frac{u_{\\text{踵}}+u_{\\text{趾}}}{2}\\,B,\\qquad W'=W-U,\\qquad F_r=W'\\tan\\delta$$",
+  "meta": "零供給，而且極容易整項漏掉。104 年（2015-2）第二小題檢核抗滑動時，主動側水位在 4 m、被動側只有 1 m，牆底產生漸變揚水壓 \\(U=73.6\\) kN/m——<b>佔牆重 368 kN/m 的 20%</b>，漏掉的話摩擦抵抗力會高估兩成。水位以下的擋土牆，先扣 \\(U\\) 再乘 \\(\\tan\\delta\\)，順序不能反。",
+  "ok": [],
+  "no": [
+   2015
+  ]
+ },
+ {
+  "g": "接到擋土牆穩定的介面",
+  "lv": "must",
+  "nm": "開題三十秒：三個判斷動作",
+  "eq": "$$\\text{①這面牆往哪動？（}K_0/K_a/K_p\\text{）}\\;\\to\\;\\text{②Rankine 三條件成立嗎？}\\;\\to\\;\\text{③有幾個轉折？}$$",
+  "meta": "沒有數學符號，但它決定整題方法。①牆被樓版夾住 ⇒ \\(K_0\\)；離開填土 ⇒ \\(K_a\\)；推向填土 ⇒ \\(K_p\\) 並折減。②Rankine 三條件＝牆背垂直、牆背光滑、填土水平；任一條不成立就要改庫倫，<b>但懸臂式有例外處理（虛擬牆背）</b>。③轉折點漏一個，合力與作用點就全錯。<br>多數失分不在第一個問題，而在第三個——99（2010-2）與 104（2015-2）都是靠轉折點清單決勝負。",
+  "ok": [],
+  "no": [
+   2010,
+   2015,
+   2018,
+   2025
+  ]
+ }
+];
+const MX = [[2002, 91, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2003, 92, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2004, 93, "三", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "<b>主分類。</b>6 m 重力式擋土牆，反算「地下水位升至何高度 \\(x\\) 時發生滑移」。已轉圖確認全頁無公式——\\(K_a\\)、水壓疊加、淨增係數全部自理。"], [2005, 94, "一", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "錨定式版樁自由端支撐（副考點），砂上黏下。\\(K_a\\) 與黏土淨被動壓力零供給。全卷零嵌入影像。"], [2006, 95, "三", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "島式開挖邊坡側向滑動（副考點），要用主動、被動土壓力與張力裂縫。全卷零嵌入影像，零公式。"], [2007, 96, "四", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "錨定式版樁固定端支撐（副考點）。同卷第三題（樁）給了 \\(K=1.8(1-\\sin\\phi)\\)、\\(\\delta=0.5\\phi\\)——<b>給樁不給牆</b>。"], [2008, 97, "三", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "連續壁貫入（副考點）。第一題內文給 \\(K_0=0.5\\) 的<b>數值</b>，但 \\(K_0=1-\\sin\\phi'\\) 的定義式從未印過。全卷零嵌入影像。"], [2009, 98, "四", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "重力式擋土牆，<b>背填土傾角 20°</b>，求底寬、抗滑、抗傾覆。傾斜版 Rankine \\(K_a\\) 零供給——而 107 年同類題就給了。"], [2010, 99, "二", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "<b>主分類。</b>兩層土（砂上黏下）＋水位在 2 m，用 Rankine 畫土壓力分布、求合力與作用位置。全卷零嵌入影像，<b>確定零公式</b>。"], [2011, 100, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2012, 101, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2013, 102, "一", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "名詞題比較「藍金（Rankine）與庫倫（Coulomb）兩種側向土壓力理論」（副考點）。第三題內文給 \\(K_0=0.7\\) 的數值。零公式。"], [2014, 103, "三", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "板樁自由端支撐（副考點），有水位且坑內降至開挖面。已轉圖確認圖中只有幾何與參數。"], [2015, 104, "二", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "<b>主分類。</b>雙層土、\\(c=20\\) kPa 黏土背填，要畫土壓力分布、求合力<b>與作用位置</b>、檢核抗滑動。已轉圖確認整頁無公式——\\(z_c\\)、\\(2c\\sqrt{K_a}\\)、揚水壓全部自理。"], [2016, 105, "三、四", 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, "★ <b>24 年僅有的兩次集中式供給之一。</b>第四頁「參考資料」印出承載力修正因數表、<b>庫倫 \\(K_a\\) 全式</b>與 <b>M-O \\(K_{ae}\\) 全式＋\\(\\theta'\\) 定義</b>。但第三小題問 \\(P_{ae}\\) 的「位置」，作用點規則沒給。"], [2017, 106, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2018, 107, "四", 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, "★ 懸臂式擋土牆、背填傾角 12°。<b>傾斜填土 Rankine \\(K_a\\) 全式印在圖的正上方——但它是影像，<code>pdftotext</code> 抽不到</b>，本頁轉圖確認。虛擬牆背與抗滑抗傾覆流程則零供給。"], [2019, 108, "四", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "<b>主分類。</b>庫倫試驗楔法：求 \\(Z_t\\)、畫力多邊形、說明如何求主動推力。已轉圖確認只有幾何圖。<b>全題零數字、零公式，純觀念。</b>"], [2020, 109, "二", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "懸臂版樁（副考點），要畫兩側土壓力圖與淨水壓圖。已轉圖確認 \\(K_a\\)、\\(K_p\\) 零供給。"], [2021, 110, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。該年給了 \\(T_v\\)、樁參數、普通切片法——供給變多但沒輪到本單元。"], [2022, 111, "四", 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "懸臂鋼板樁淨壓力法（副考點）。以「相關公式：」印出 \\(K_a\\)、\\(K_p\\) 與四次方程全組——<b>給複雜式子時順手把簡單的一起給</b>。"], [2023, 112, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2024, 113, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2025, 114, "三", 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, "重力式擋土牆抗滑動（副考點）。附註直接印出 \\(K_A=\\tan^2(45^\\circ-\\phi/2)\\)；同卷第二題印出 \\(\\sigma_1=\\sigma_3\\tan^2(45^\\circ+\\phi/2)+2c\\tan(\\cdot)\\)（帶凝聚力的間接形式）。<b>但基礎是黏土、抗滑要用 \\(S_uB\\) 這一條沒給</b>。"]];
+/* ---------- 渲染 ---------- */
+const LVN={'must':'必背','half':'別賭','give':'通常會給'};
+const groups=[...new Set(F.map(f=>f.g))];
+let curLv='all', curG='all';
+const gb=document.getElementById('gbtns');
+gb.innerHTML='<button class="gf on" data-g="all">全部</button>'+
+  groups.map(g=>'<button class="gf" data-g="'+g+'">'+g+'</button>').join('');
+function yrs(a,c){return a.map(y=>'<span class="yr '+c+'">'+(y-1911)+'年</span>').join('');}
+function draw(){
+  const box=document.getElementById('cards');
+  let html='';
+  groups.forEach((g,i)=>{
+    if(curG!=='all'&&curG!==g) return;
+    const list=F.filter(f=>f.g===g&&(curLv==='all'||f.lv===curLv));
+    if(!list.length) return;
+    html+='<h3 class="grph">2-'+(i+1)+'　'+g+'</h3>';
+    list.forEach(f=>{
+      let ev=f.ok.length?'<b>考卷給過：</b>'+yrs(f.ok,'ok')
+                        :'<b>考卷給過：</b><span class="never">從未</span>';
+      if(f.no.length) ev+='　｜　<b>考了卻沒給：</b>'+yrs(f.no,'no');
+      html+='<div class="fc '+f.lv+'"><div class="top"><span class="nm">'+f.nm+'</span>'+
+            '<span class="tag '+f.lv+'">'+LVN[f.lv]+'</span></div>'+
+            '<div class="eq">'+f.eq+'</div><p class="meta">'+f.meta+'</p>'+
+            '<div class="ev">'+ev+'</div></div>';
+    });
+  });
+  box.innerHTML=html||'<p class="lead">此組合沒有公式。</p>';
+  if(window.renderMathInElement) renderMathInElement(box,{delimiters:[
+    {left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+}
+function drawMX(){
+  const N=MX[0].length-4;
+  document.querySelector('#mx tbody').innerHTML=MX.map(r=>{
+    const has=r[2]!=='(—)';
+    const cells=r.slice(3,3+N).map(v=>'<td class="c">'+(v?'<span class="y">✔</span>':'<span class="n">·</span>')+'</td>').join('');
+    return '<tr class="'+(has?'hl':'')+'"><td><b>'+r[0]+'</b><br><span class="ynote">'+r[1]+'年</span></td>'+
+           '<td class="qq">'+r[2]+'</td>'+cells+'<td class="rm">'+r[r.length-1]+'</td></tr>';
+  }).join('');
+}
+document.addEventListener('click',e=>{
+  if(e.target.classList.contains('lvf')){
+    document.querySelectorAll('.lvf').forEach(b=>b.classList.remove('on'));
+    e.target.classList.add('on'); curLv=e.target.dataset.lv; draw();
+  }
+  if(e.target.classList.contains('gf')){
+    document.querySelectorAll('.gf').forEach(b=>b.classList.remove('on'));
+    e.target.classList.add('on'); curG=e.target.dataset.g; draw();
+  }
+});
+drawMX(); draw();
+</script>
+</body></html>

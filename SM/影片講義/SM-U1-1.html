@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SM-U1-1 三相關係推導鏈｜影片講義</title>
+<link rel="stylesheet" href="../study/assets/katex/katex.min.css">
+<script defer src="../study/assets/katex/katex.min.js"></script>
+<script defer src="../study/assets/katex/auto-render.min.js"></script>
+<style>
+:root{--paper:#f7f4ec;--ink:#22302a;--board:#24402f;--board2:#2f5240;--chalk:#f3efe0;--muted:#6b7468;--line:#d9d3c2;
+--yellow:#e8c95a;--red:#c0392b;--green:#2f7d4a;--soil:#8a6d45;--void:#7b5fb0;--water:#2c7fa8;--weight:#c2507a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;line-height:1.75;font-size:16.5px}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 48px}
+.cover{background:linear-gradient(160deg,var(--board),var(--board2));color:var(--chalk);border-radius:10px;padding:28px 28px 24px;margin-bottom:22px}
+.cover .tag{font-size:13px;letter-spacing:.08em;color:var(--yellow)}
+.cover h1{margin:6px 0 4px;font-size:32px;line-height:1.3}
+.cover .meta{font-size:14px;opacity:.85}
+.cover .core{margin-top:16px;border:1.5px solid var(--yellow);border-radius:6px;padding:10px 14px;font-size:17px}
+h2{font-size:22px;border-bottom:2px solid var(--board);padding-bottom:4px;margin:38px 0 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h2 .no{color:var(--board2)}
+.seek{font:inherit;font-size:13px;background:var(--board);color:var(--chalk);border:0;border-radius:4px;padding:2px 10px;cursor:pointer}
+.seek:hover{background:var(--board2)}
+.toc{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 18px;margin-bottom:18px}
+.toc a{color:var(--ink);text-decoration:none;display:flex;justify-content:space-between;border-bottom:1px dotted var(--line)}
+.toc a span{color:var(--muted);font-variant-numeric:tabular-nums}
+video{width:100%;border-radius:8px;background:#000;display:block}
+.vidbox{position:sticky;top:0;z-index:5;background:var(--paper);padding:6px 0}
+figure{margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px;break-inside:avoid}
+figure img{width:100%;display:block;border-radius:4px}
+figcaption{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;color:var(--muted);padding:6px 4px 0}
+figcaption .t{white-space:nowrap}
+p{margin:10px 0}
+.box{border-radius:6px;padding:10px 14px;margin:14px 0;break-inside:avoid}
+.key{background:#fdf6d8;border-left:5px solid var(--yellow)}
+.warn{background:#fbe9e7;border-left:5px solid var(--red)}
+.ok{background:#e6f3ea;border-left:5px solid var(--green)}
+.box b:first-child{display:block;margin-bottom:2px}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff;font-size:15px;break-inside:avoid}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:center}
+th{background:#eae5d6}
+td:first-child,th:first-child{white-space:nowrap}
+.katex-display{margin:.6em 0;overflow-x:auto;overflow-y:hidden}
+.legend{font-size:13.5px;color:var(--muted)}
+footer{margin-top:40px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+@media (max-width:600px){.toc{grid-template-columns:1fr}.cover h1{font-size:26px}}
+@media print{
+ @page{size:A4;margin:14mm}
+ body{font-size:12.5px;background:#fff}
+ .vidbox,video,.seek{display:none!important}
+ .wrap{max-width:none;padding:0}
+ h2{break-after:avoid}
+ figure,.box,table{break-inside:avoid}
+ figure img{max-height:95mm;width:auto;max-width:100%;margin:0 auto}
+ .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <div class="tag">土壤力學（SM）・命題大綱 SM-U1-1・影片講義</div>
+  <h1>三相關係推導鏈</h1>
+  <div class="meta">影片 7:36・6 章・20 段</div>
+  <div class="core">只記三個定義（\(e,\ S,\ w\)）＋ 一張圖（令 \(V_s=1\) 的三相圖）——其他公式全部從圖讀出來。</div>
+</header>
+
+<nav class="toc">
+  <a href="#c0">開場 <span>0:00</span></a>
+  <a href="#c1">① 物理定義 <span>0:43</span></a>
+  <a href="#c2">② 令 Vs＝1 立錨點 <span>1:41</span></a>
+  <a href="#c3">③ 從圖讀出公式 <span>3:04</span></a>
+  <a href="#c4">④ 驗算與陷阱 <span>5:01</span></a>
+  <a href="#c5">總結 <span>7:04</span></a>
+</nav>
+
+<div class="vidbox"><video id="vid" controls preload="metadata" src="video/SM-U1-1.mp4"></video></div>
+
+<!-- c0 -->
+<section id="c0">
+<h2><span class="no">開場</span><button class="seek" data-t="0">▶ 0:00</button></h2>
+<p>土壤三相關係的換算式，課本上列了一大串：孔隙比、孔隙率、飽和度、含水量，再加上四種單位重。硬背很容易背錯。這支影片換個方法：<b>只記三個定義，其他全部從一張圖讀出來。</b></p>
+<figure><img src="img/SM-U1-1/s01.jpg" alt="3 個定義 + 1 張圖"><figcaption><span>標題與核心：3 個定義＋1 張圖</span><span class="t">影片 0:20</span></figcaption></figure>
+<p>整條路線分四步：</p>
+<table>
+<tr><th>步驟</th><th>內容</th></tr>
+<tr><td>① 物理定義</td><td>寫下三個物理定義</td></tr>
+<tr><td>② 令 \(V_s=1\)</td><td>令土粒體積 \(V_s=1\)，當作錨點</td></tr>
+<tr><td>③ 填滿六格</td><td>把三相圖的六格填滿</td></tr>
+<tr><td>④ 讀出公式</td><td>從圖上讀出所有公式</td></tr>
+</table>
+<p>最後再教一個交卷前十秒的驗算。</p>
+<figure><img src="img/SM-U1-1/s02.jpg" alt="四步流程"><figcaption><span>四步流程＋交卷前 10 秒大小驗算</span><span class="t">影片 0:42</span></figcaption></figure>
+</section>
+
+<!-- c1 -->
+<section id="c1">
+<h2><span class="no">① 物理定義</span><button class="seek" data-t="43.18">▶ 0:43</button></h2>
+<p class="legend">黑板配色：<span style="color:var(--void)">紫＝孔隙</span>、<span style="color:var(--soil)">土色＝土粒</span>、<span style="color:var(--water)">藍＝水</span>；公式中同色對應。</p>
+<p><b>第一個定義，孔隙比 \(e\)</b>，等於孔隙體積 \(V_v\) 除以土粒體積 \(V_s\)：</p>
+$$e=\frac{\color{#7b5fb0}V_v}{\color{#8a6d45}V_s}$$
+<div class="box key"><b>注意分母是土粒</b>不管土被壓密還是夯實，土粒體積都不變，所以 \(e\) 最適合拿來追蹤體積的變化。</div>
+<p><b>第二個，飽和度 \(S\)</b>，等於水的體積 \(V_w\) 除以孔隙體積 \(V_v\)，也就是孔隙裡有幾成裝了水。乾土是 0，完全飽和是 1。</p>
+$$S=\frac{\color{#2c7fa8}V_w}{\color{#7b5fb0}V_v},\qquad 0\le S\le 1$$
+<p><b>第三個，含水量 \(w\)</b>，等於水重 \(W_w\) 除以土粒乾重 \(W_s\)。它是唯一的重量比，在實驗室秤一次濕重、烘乾再秤一次就能得到。</p>
+$$w=\frac{W_w}{W_s}$$
+<table>
+<tr><th>定義</th><th>式子</th><th>世界</th></tr>
+<tr><td>孔隙比</td><td>\(e=V_v/V_s\)</td><td>體積</td></tr>
+<tr><td>飽和度</td><td>\(S=V_w/V_v\)</td><td>體積</td></tr>
+<tr><td>含水量</td><td>\(w=W_w/W_s\)</td><td>重量</td></tr>
+</table>
+<p>所以三個定義裡，兩個在體積世界，一個在重量世界。</p>
+<figure><img src="img/SM-U1-1/s05.jpg" alt="三個定義並列"><figcaption><span>三個定義並列：\(e\)、\(S\) 屬體積，\(w\) 屬重量；右為三相柱</span><span class="t">影片 1:41</span></figcaption></figure>
+</section>
+
+<!-- c2 -->
+<section id="c2">
+<h2><span class="no">② 令 Vs＝1 立錨點</span><button class="seek" data-t="101.77">▶ 1:41</button></h2>
+<p>土粒體積不管壓密、夯實還是搬運都守恆，所以就令它等於一。</p>
+<div class="box key"><b>為什麼可以令 \(V_s=1\)？</b>這不會失去一般性，因為三相關係全部是比值，取多少土來算，結果都一樣。</div>
+<figure><img src="img/SM-U1-1/s06.jpg" alt="令 Vs=1"><figcaption><span>令 \(V_s=1\)：土粒體積守恆、三相關係全是比值</span><span class="t">影片 1:58</span></figcaption></figure>
+<p><b>先填左邊的體積軸</b>：\(V_s=1\)；由孔隙比的定義，孔隙 \(V_v=e\)；由飽和度，水的體積 \(V_w=Se\)；剩下的空氣是 \(e-Se\)；總體積是 \(1+e\)。</p>
+<p><b>再填右邊的重量軸</b>，這裡借土粒比重 \(G_s\) 當橋樑：土粒重等於體積 1，乘 \(G_s\)，再乘 \(\gamma_w\)，也就是 \(G_s\gamma_w\)。水重是 \(Se\gamma_w\)，空氣的重量忽略。總重就是 \((G_s+Se)\gamma_w\)。</p>
+<table>
+<tr><th>相</th><th>體積</th><th>重量</th></tr>
+<tr><td>空氣</td><td>\(e-Se\)</td><td>\(0\)</td></tr>
+<tr><td>水</td><td>\(Se\)</td><td>\(Se\gamma_w\)</td></tr>
+<tr><td>土粒</td><td>\(1\)</td><td>\(G_s\gamma_w\)</td></tr>
+<tr><td>合計</td><td>\(V=1+e\)</td><td>\(W=(G_s+Se)\gamma_w\)</td></tr>
+</table>
+<p class="legend">黑板右上角的橋樑：\(G_s=\dfrac{W_s}{V_s\gamma_w}\)。</p>
+<div class="box key"><b>填完只剩四個符號</b>整張圖只剩 \(e\)、\(S\)、\(G_s\) 和 \(\gamma_w\)。接下來所有的公式，都只是把圖上的格子，代回剛才的定義而已。</div>
+<figure><img src="img/SM-U1-1/s09.jpg" alt="三相圖六格填滿"><figcaption><span>六格填滿：左體積、右重量；底部「只剩 \(e,S,G_s,\gamma_w\)」</span><span class="t">影片 3:04</span></figcaption></figure>
+</section>
+
+<!-- c3 -->
+<section id="c3">
+<h2><span class="no">③ 從圖讀出公式</span><button class="seek" data-t="184.67">▶ 3:04</button></h2>
+<p><b>第一條</b>，把重量代進含水量的定義，\(\gamma_w\) 上下約掉，移項：</p>
+$$w=\frac{W_w}{W_s}=\frac{Se\,\cancel{\gamma_w}}{G_s\,\cancel{\gamma_w}}\quad\Longrightarrow\quad \boxed{Se=wG_s}$$
+<div class="box key"><b>唯一的橋樑</b>\(Se=wG_s\) 是唯一把重量世界的 \(w\)，接到體積世界 \(e\) 和 \(S\) 的橋樑。</div>
+<figure><img src="img/SM-U1-1/s10.jpg" alt="Se = wGs"><figcaption><span>\(\gamma_w\) 約掉 → \(Se=wG_s\)；重量 \(w\) ⟺ 體積 \(e,S\)</span><span class="t">影片 3:30</span></figcaption></figure>
+<p><b>第二條</b>，孔隙率 \(n\) 等於孔隙除以總體積。圖上孔隙是 \(e\)，總體積是 \(1+e\)：</p>
+$$n=\frac{V_v}{V}=\frac{e}{1+e}\qquad\Longleftrightarrow\qquad e=\frac{n}{1-n}$$
+<div class="box key"><b>\(e\) 和 \(n\) 的差別</b>分母一個是土粒（\(e\)）、一個是總體積（\(n\)）。</div>
+<figure><img src="img/SM-U1-1/s11.jpg" alt="n 與 e"><figcaption><span>\(n=e/(1+e)\)、\(e=n/(1-n)\)；分母差別</span><span class="t">影片 3:54</span></figcaption></figure>
+<p><b>第三組是單位重</b>，定義永遠是總重除以總體積。圖上總重是 \((G_s+Se)\gamma_w\)，總體積是 \(1+e\)，這就是濕單位重 \(\gamma_t\) 的<b>母式</b>：</p>
+$$\gamma=\frac{W}{V}\qquad \boxed{\gamma_t=\frac{(G_s+Se)\gamma_w}{1+e}}$$
+<p>其他三個，都是這條母式的特例。</p>
+<p><b>乾單位重</b>：孔隙裡沒有水，\(S=0\)，分子的 \(Se\) 消失。另外，總重本來就是土粒重乘上 \(1+w\)，所以 \(\gamma_d\) 也等於 \(\gamma_t\) 除以 \(1+w\)：</p>
+$$\gamma_d=\frac{G_s\gamma_w}{1+e}=\frac{\gamma_t}{1+w}\qquad\bigl(W=W_s(1+w)\bigr)$$
+<figure><img src="img/SM-U1-1/s13.jpg" alt="母式與乾單位重"><figcaption><span>母式 \(\gamma_t\)；\(S=0\) → \(\gamma_d\)，旁註 \(W=W_s(1+w)\)（下一段擦掉）</span><span class="t">影片 4:39</span></figcaption></figure>
+<p><b>飽和單位重</b>：孔隙灌滿水，\(S=1\)，分子變成 \(G_s+e\)。<b>浮單位重 \(\gamma'\)</b>，是水位以下扣掉浮力，也就是飽和單位重減 \(\gamma_w\)；通分之後，分子剛好變成 \(G_s-1\)。</p>
+$$\gamma_{sat}=\frac{(G_s+e)\gamma_w}{1+e}\qquad \gamma'=\gamma_{sat}-\gamma_w=\frac{(G_s-1)\gamma_w}{1+e}$$
+<table>
+<tr><th>單位重</th><th>條件</th><th>公式</th></tr>
+<tr><td>\(\gamma_t\)（母式）</td><td>一般</td><td>\(\dfrac{(G_s+Se)\gamma_w}{1+e}\)</td></tr>
+<tr><td>\(\gamma_d\)</td><td>\(S=0\)</td><td>\(\dfrac{G_s\gamma_w}{1+e}=\dfrac{\gamma_t}{1+w}\)</td></tr>
+<tr><td>\(\gamma_{sat}\)</td><td>\(S=1\)</td><td>\(\dfrac{(G_s+e)\gamma_w}{1+e}\)</td></tr>
+<tr><td>\(\gamma'\)</td><td>扣浮力</td><td>\(\gamma_{sat}-\gamma_w=\dfrac{(G_s-1)\gamma_w}{1+e}\)</td></tr>
+</table>
+<figure><img src="img/SM-U1-1/s14.jpg" alt="三個特例"><figcaption><span>母式＋三個特例：\(S=0\)、\(S=1\)、浮力</span><span class="t">影片 5:01</span></figcaption></figure>
+</section>
+
+<!-- c4 -->
+<section id="c4">
+<h2><span class="no">④ 驗算與陷阱</span><button class="seek" data-t="301.65">▶ 5:01</button></h2>
+<div class="box ok"><b>交卷前 10 秒大小檢查</b>浮單位重最小，接著是乾、濕、飽和，最大也不會超過 \(G_s\gamma_w\)：
+$$\gamma'\lt\gamma_d\lt\gamma_t\lt\gamma_{sat}\lt G_s\gamma_w$$</div>
+<p>拿 \(G_s=2.7\)、\(e=0.8\)、\(S=0.5\) 來試（單位 kN/m³）：</p>
+<table>
+<tr><th>\(\gamma'\)</th><th>\(\gamma_d\)</th><th>\(\gamma_t\)</th><th>\(\gamma_{sat}\)</th><th>\(G_s\gamma_w\)</th></tr>
+<tr><td>9.27</td><td>14.72</td><td>16.90</td><td>19.08</td><td>26.49</td></tr>
+</table>
+<p>都小於 26.49。</p>
+<figure><img src="img/SM-U1-1/s15.jpg" alt="大小順序數值"><figcaption><span>不等式鏈與示範數值長條</span><span class="t">影片 5:29</span></figcaption></figure>
+<p>這個順序從圖上就看得出來（各項分子皆 \(\times\gamma_w\)，分母皆為 \(1+e\)）：</p>
+<table>
+<tr><th>單位重</th><td>\(\gamma'\)</td><td>\(\gamma_d\)</td><td>\(\gamma_t\)</td><td>\(\gamma_{sat}\)</td><td>\(G_s\gamma_w\)</td></tr>
+<tr><th>分子</th><td>\(G_s-1\)</td><td>\(G_s\)</td><td>\(G_s+Se\)</td><td>\(G_s+e\)</td><td>\(G_s\)（不除）</td></tr>
+</table>
+<p>浮單位重的分子是 \(G_s-1\)，比乾的 \(G_s\) 少；濕的分子多了 \(Se\)；\(S=1\) 時最大。嚴格說，\(S=0\) 或 \(1\) 時會取等號：</p>
+$$S=0\Rightarrow\gamma_d=\gamma_t,\qquad S=1\Rightarrow\gamma_t=\gamma_{sat}$$
+<p>而 \(G_s>1\)，土粒比水重，所以 \(\dfrac{G_s+e}{1+e}\lt G_s\)，飽和單位重追不上 \(G_s\gamma_w\)。</p>
+<figure><img src="img/SM-U1-1/s16.jpg" alt="分子並列"><figcaption><span>分子並列看出順序；\(S=0\)、\(S=1\) 取等號</span><span class="t">影片 5:57</span></figcaption></figure>
+
+<div class="box warn"><b>陷阱一：\(\gamma_d\) 寫成 \(\gamma_t(1-w)\)</b>
+同一組數字會算出 14.39，正確是
+$$\gamma_d=\frac{\gamma_t}{1+w}=\frac{16.90}{1.148}=14.72$$
+只差 2%，大小順序也還對，<b>驗算抓不到</b>。所以要從圖上記：總重是乾重乘 \(1+w\)，只能用除的：
+$$W=W_s(1+w)\ \Rightarrow\ W_s=\frac{W}{1+w}$$</div>
+<figure><img src="img/SM-U1-1/s17.jpg" alt="陷阱一"><figcaption><span>陷阱一：\(\gamma_t(1-w)=14.39\) ✗ → \(\gamma_t/(1+w)=14.72\) ✓</span><span class="t">影片 6:23</span></figcaption></figure>
+
+<div class="box warn"><b>陷阱二：\(e\) 和 \(n\) 搞混</b>
+題目給孔隙率 \(n=0.444\)，直接當成 \(e\) 代進乾單位重：
+$$\gamma_d=\frac{2.7\times9.81}{1+0.444}=18.34\quad\text{✗（大了兩成五）}$$
+看到 \(n\)，先換回 \(e\)：
+$$e=\frac{n}{1-n}=\frac{0.444}{0.556}=0.80,\qquad \gamma_d=\frac{2.7\times9.81}{1+0.80}=14.72\ \text{✓}$$</div>
+<figure><img src="img/SM-U1-1/s18.jpg" alt="陷阱二"><figcaption><span>陷阱二：\(n\) 誤當 \(e\) → 18.34 ✗；先換 \(e=0.80\) → 14.72 ✓</span><span class="t">影片 6:49</span></figcaption></figure>
+
+<div class="box warn"><b>陷阱三：水位以下</b>
+水位以下算有效應力，要用浮單位重 \(\gamma'=9.27\)，不是飽和單位重 \(\gamma_{sat}=19.08\)。用錯的話：
+$$\frac{19.08}{9.27}\approx2.06$$
+有效應力會多算一倍以上。</div>
+<figure><img src="img/SM-U1-1/s19.jpg" alt="陷阱三"><figcaption><span>陷阱三：水位下用 \(\gamma'\) ✓，不是 \(\gamma_{sat}\) ✗</span><span class="t">影片 7:04</span></figcaption></figure>
+</section>
+
+<!-- c5 -->
+<section id="c5">
+<h2><span class="no">總結</span><button class="seek" data-t="424.62">▶ 7:04</button></h2>
+<div class="box key"><b>重點整理</b>
+① 只背三個定義：\(e=\dfrac{V_v}{V_s}\)、\(S=\dfrac{V_w}{V_v}\)、\(w=\dfrac{W_w}{W_s}\)。<br>
+② 令 \(V_s=1\)，填滿三相圖六格。<br>
+③ 從圖讀出 \(Se=wG_s\)、\(n=\dfrac{e}{1+e}\)，以及單位重的母式 \(\gamma_t\) 和三個特例。<br>
+④ 交卷前檢查大小順序 \(\gamma'\lt\gamma_d\lt\gamma_t\lt\gamma_{sat}\lt G_s\gamma_w\)。</div>
+<p>下一支影片，就用這條推導鏈來解 SM-2016-2 的借土場計算。</p>
+<figure><img src="img/SM-U1-1/s20.jpg" alt="重點整理"><figcaption><span>四條重點；下一支：SM-2016-2 借土場計算</span><span class="t">影片 7:35</span></figcaption></figure>
+</section>
+
+<footer>
+來源：解題過程影片/SM-U1-1/video/SM-U1-1-Phase.mp4（7:36）、segments.py（旁白逐字稿）、SM-U1-1-Phase.srt、timeline.json。示範數值（\(G_s=2.70,\ e=0.80,\ S=0.50,\ \gamma_w=9.81\)）已複算核對。
+</footer>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+  var v=document.getElementById('vid');
+  document.querySelectorAll('.seek').forEach(function(b){b.addEventListener('click',function(){
+    v.currentTime=parseFloat(b.dataset.t);v.play();v.scrollIntoView({behavior:'smooth',block:'nearest'});});});
+});
+</script>
+</body>
+</html>

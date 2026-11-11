@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2011-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2011-4 題目解析</h1><a class="back quick" href="../study-SM-U2-3.html">&#128269; U2-3 命題分析</a>
+<a class="back lect" href="../lecture-SM-U2-3.html">&#128218; U2-3 開挖之穩定性分析 講義</a></header>
+<main><h1>考題編號：SM-2011-4</h1>
+<p><strong>主分類：</strong> <code>SM-U2-3</code> 開挖之穩定性分析<br />
+<strong>副分類：</strong> <code>SM-U1-1</code> 土壤基本性質<br />
+<strong>分析法：</strong> 總應力法<br />
+<strong>標籤：</strong> <code>開挖穩定性</code> <code>視土壓力</code> <code>Peck包絡線</code> <code>支撐系統</code> <code>板樁</code> <code>鉸接法</code> <code>截面模數</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>某工地在中等堅硬（medium stiff）之黏土層作鋼鈑樁支撐開挖，已知參數如下：</p>
+<ul>
+<li><strong>土層參數</strong>：孔隙比 $e = 0.617$、比重 $G_s = 2.70$、飽和度 $S_r = 30\%$。</li>
+<li><strong>強度參數</strong>：依圖示 $c = 30 \text{ kN/m}^2$, $\phi = 0$。</li>
+<li><strong>幾何條件</strong>：開挖總寬度 $6\text{ m}$，開挖總深度 $H = 1 + 3 + 2 + 1 = 7\text{ m}$。</li>
+<li><strong>支撐位置</strong>：A 支撐位於地表下 $1\text{ m}$，B 支撐位於 $4\text{ m}$，C 支撐位於 $6\text{ m}$。支撐水平間距 $s = 5\text{ m}$。</li>
+<li><strong>鋼鈑樁允許應力</strong>：$\sigma_{all} = 170 \text{ MN/m}^2$。</li>
+</ul>
+<p><strong>求解問題</strong>：<br />
+(一) 繪出作用於擋土鋼鈑樁之土壓力。<br />
+(二) 計算作用於 A、B、C 支撐之作用力各為若干（kN）？<br />
+(三) 計算鋼鈑樁所需之截面模數 $S$（$\text{m}^3\text{/m}$）？</p>
+<p><img alt="SM-2011-4 題目附圖：開挖剖面與土層參數" src="../../raw/solutions/SM-2011-4/SM-2011-4-fig-1.png" /><br />
+<em>圖說：開挖深度 7m，設有三階支撐 A(1m)、B(4m)、C(6m)。土層為黏土，$G_s=2.70, e=0.617, S_r=30\%, c=30 \text{ kN/m}^2, \phi=0$。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<ul>
+<li><strong>單位重基本關係</strong>：測驗從基本物理量（$G_s, e, S_r$）推算土壤濕單位重 $\gamma_t$。</li>
+<li><strong>Peck 視在土壓力包絡線</strong>：測驗如何利用穩定數 $N_c$ 判斷黏土類別，並畫出對應的經驗土壓力分佈。</li>
+<li><strong>支撐載重計算</strong>：測驗利用「鉸接假設（Hinge Method）」將連續的擋土壁拆解為靜定結構，以計算各階支撐反力。</li>
+<li><strong>鋼鈑樁設計</strong>：尋找剪力為零之處求得最大彎矩，並依據材料力學公式 $S = M_{\text{max}} / \sigma_{all}$ 決定截面模數。</li>
+</ul>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<ol>
+<li><strong>單位重陷阱</strong>：題目給定飽和度 $S_r=30\%$，代表土壤未飽和，不可直接使用 $\gamma_{sat}$ 公式，必須使用 $\gamma_t = \frac{G_s + S_r e}{1+e}\gamma_w$。</li>
+<li><strong>包絡線判斷陷阱</strong>：題幹雖稱「中等堅硬（medium stiff）」，但計算穩定數 $N_c = \gamma H / c = 4.08 &gt; 4$，且 $S_u = 30 \text{ kPa} &lt; 50 \text{ kPa}$，依據 Peck (1969) 規範，此土層應判定為「軟弱至中等黏土 (Soft to Medium Clay)」。若誤用「堅硬黏土 (Stiff Clay)」包絡線，將導致 C 支撐載重嚴重低估。</li>
+<li><strong>下限值陷阱</strong>：軟弱至中等黏土之最大壓力 $p_a = \gamma H (1 - \frac{4c}{\gamma H})$ 計算值可能極小，必須套用 $p_a \ge 0.3 \gamma H$ 之下限規定。</li>
+<li><strong>最大彎矩尋找</strong>：不可僅計算支撐點處的彎矩，第一段（0~4m）跨距最大，通常最大正彎矩發生在 A 與 B 之間的「剪力為零」處。</li>
+</ol>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>計算出作用於擋土鋼鈑樁之土壓力、A/B/C支撐作用力，以及鋼鈑樁所需之截面模數 $S$。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>濕單位重：$\gamma_t = \frac{G_s + S_r e}{1 + e} \gamma_w$</li>
+<li>穩定數：$N_c = \frac{\boxed{\gamma_t} H}{c}$</li>
+<li>視在土壓力（軟弱至中等黏土）：$p_a = \max\left( \boxed{\gamma_t} H \left(1 - \frac{4c}{\boxed{\gamma_t} H}\right), 0.3 \boxed{\gamma_t} H \right)$</li>
+<li>支撐載重：$P = R \times s$ （$R$為鉸接假設下之支承反力）</li>
+<li>截面模數：$S = \frac{M_{\text{max}}}{\sigma_{all}}$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$G_s$</td>
+<td>2.70</td>
+<td>土壤比重</td>
+</tr>
+<tr>
+<td>$e$</td>
+<td>0.617</td>
+<td>孔隙比</td>
+</tr>
+<tr>
+<td>$S_r$</td>
+<td>30%</td>
+<td>飽和度</td>
+</tr>
+<tr>
+<td>$c$</td>
+<td>30 kN/m²</td>
+<td>黏聚力 (不排水剪力強度 $S_u$)</td>
+</tr>
+<tr>
+<td>$H$</td>
+<td>7 m</td>
+<td>總開挖深度</td>
+</tr>
+<tr>
+<td>$s$</td>
+<td>5 m</td>
+<td>支撐水平間距</td>
+</tr>
+<tr>
+<td>$\sigma_{all}$</td>
+<td>170 MN/m²</td>
+<td>鋼鈑樁允許應力</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>1. 土壤單位重與穩定數</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\gamma_t$ | $\gamma_t = \frac{G_s + S_r e}{1 + e} \gamma_w$ | |<br />
+| $N_c$ | $N_c = \frac{\gamma_t H}{c}$ | |</p>
+<p><strong>2. Peck 視在土壓力</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $p_a$ | $\max\left( \gamma_t H \left(1 - \frac{4c}{\gamma_t H}\right), 0.3 \gamma_t H \right)$ | |</p>
+<p><strong>3. 支撐作用力與最大彎矩</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $P_A, P_B, P_C$ | 鉸接連續梁法求得各支承反力 $\times s$ | |<br />
+| $M_{\text{max}}$ | 求剪力零點處之彎矩 | |<br />
+| $S$ | $S = M_{\text{max}} / \sigma_{all}$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>視在土壓力包絡線選定</td>
+<td>$N_c &gt; 4$ 時應選用軟弱至中等黏土包絡線，且須注意 $0.3\gamma H$ 的下限值。</td>
+<td></td>
+</tr>
+<tr>
+<td>支撐反力鉸接假設</td>
+<td>分析支撐載重時，必須假設鈑樁在各內部支撐處與開挖底面為鉸接，分段靜定計算反力。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>(一) 繪出作用於擋土鋼鈑樁之土壓力</h3>
+<p><strong>Step 1：計算黏土層之濕單位重 $\gamma_t$</strong><br />
+假設水的單位重 $\gamma_w = 9.81 \text{ kN/m}^3$：<br />
+$$ \gamma_t = \frac{G_s + S_r e}{1 + e} \gamma_w = \frac{2.70 + 0.30 \times 0.617}{1 + 0.617} \times 9.81 = \frac{2.8851}{1.617} \times 9.81 = 17.50 \text{ kN/m}^3 $$</p>
+<p><strong>Step 2：計算穩定數 $N_c$ 並判定土壓力包絡線</strong><br />
+$$ N_c = \frac{\gamma_t H}{c} = \frac{17.50 \times 7}{30} = 4.083 $$<br />
+因為 $N_c &gt; 4$ (且 $S_u = 30 \text{ kPa}$ 小於 $50 \text{ kPa}$)，依據 Peck (1969) 規範，應採用<strong>「軟弱至中等黏土 (Soft to Medium Clay)」</strong>之視在土壓力包絡線。</p>
+<p>計算理論最大壓力值 $p_a$：<br />
+$$ p_a = \gamma_t H \left( 1 - m\frac{4c}{\gamma_t H} \right) $$<br />
+取 $m = 1.0$，則：<br />
+$$ p_a = 122.5 \left( 1 - \frac{4 \times 30}{122.5} \right) = 122.5 \times 0.0204 = 2.5 \text{ kN/m}^2 $$<br />
+依據規範，軟弱至中等黏土之 $p_a$ 不得小於 $0.3 \gamma_t H$：<br />
+$$ 0.3 \gamma_t H = 0.3 \times 17.50 \times 7 = \boxed{36.75 \text{ kN/m}^2} $$<br />
+因此，採用 $p_a = 36.75 \text{ kN/m}^2$。</p>
+<p><strong>Step 3：繪製土壓力分佈</strong></p>
+<ul>
+<li>深度 $0$ 至 $0.25H = 1.75\text{ m}$：土壓力由 $0$ 線性遞增至 $36.75 \text{ kN/m}^2$。</li>
+<li>深度 $1.75\text{ m}$ 至開挖底面 $H = 7\text{ m}$：土壓力維持均勻分佈 $36.75 \text{ kN/m}^2$。<br />
+<em>(作答時請依此數值繪製出梯形加矩形的土壓力包絡線圖)</em></li>
+</ul>
+<h3>(二) 計算作用於 A、B、C 支撐之作用力</h3>
+<p>採用鉸接假設法（Hinge Method），假設擋土壁於各內部支撐（B、C）及開挖底面皆存在塑性鉸，將擋土壁分為三段靜定梁進行計算：</p>
+<p><strong>第一段 (深度 0m ~ 4m)：由 A(1m) 與 B(4m) 支承</strong><br />
+作用於此段之土壓力分為三角形 $F_1$ 與矩形 $F_2$：</p>
+<ul>
+<li>$F_1$ (0~1.75m): $\frac{1}{2} \times 1.75 \times 36.75 = 32.156 \text{ kN/m}$，作用點距 B 鉸 $4 - (\frac{2}{3}\times 1.75) = 2.833 \text{ m}$。</li>
+<li>$F_2$ (1.75~4m): $2.25 \times 36.75 = 82.688 \text{ kN/m}$，作用點距 B 鉸 $\frac{2.25}{2} = 1.125 \text{ m}$。<br />
+對 B 點取彎矩 $\Sigma M_B = 0$：<br />
+$$ R_A \times (4 - 1) = 32.156 \times 2.833 + 82.688 \times 1.125 $$<br />
+$$ 3 R_A = 91.108 + 93.024 = 184.132 \implies R_A = 61.377 \text{ kN/m} $$<br />
+由水平力平衡 $\Sigma F_x = 0$ 得到第一段傳遞至 B 支撐的反力 $R_{B1}$：<br />
+$$ R_{B1} = F_1 + F_2 - R_A = 32.156 + 82.688 - 61.377 = 53.467 \text{ kN/m} $$</li>
+</ul>
+<p><strong>第二段 (深度 4m ~ 6m)：由 B(4m) 與 C(6m) 支承</strong><br />
+此段承受均佈載重 $q = 36.75 \text{ kN/m}^2$：<br />
+$$ R_{B2} = R_{C1} = \frac{36.75 \times 2}{2} = 36.75 \text{ kN/m} $$</p>
+<p><strong>第三段 (深度 6m ~ 7m)：由 C(6m) 與開挖底面(7m) 支承</strong><br />
+此段亦承受均佈載重 $q = 36.75 \text{ kN/m}^2$：<br />
+$$ R_{C2} = R_D = \frac{36.75 \times 1}{2} = 18.375 \text{ kN/m} $$</p>
+<p><strong>計算總支撐作用力 ($s = 5\text{ m}$)</strong></p>
+<ul>
+<li>A 支撐：$P_A = R_A \times 5 = 61.377 \times 5 = \boxed{306.9 \text{ kN}}$</li>
+<li>B 支撐：$P_B = (R_{B1} + R_{B2}) \times 5 = (53.467 + 36.75) \times 5 = 90.217 \times 5 = \boxed{451.1 \text{ kN}}$</li>
+<li>C 支撐：$P_C = (R_{C1} + R_{C2}) \times 5 = (36.75 + 18.375) \times 5 = 55.125 \times 5 = \boxed{275.6 \text{ kN}}$</li>
+</ul>
+<h3>(三) 計算鋼鈑樁所需之截面模數 $S$</h3>
+<p>找出擋土壁所受之最大彎矩 $M_{\text{max}}$：</p>
+<ul>
+<li>第二段 (4~6m) 最大彎矩：$M_2 = \frac{ql^2}{8} = \frac{36.75 \times 2^2}{8} = 18.38 \text{ kN-m/m}$</li>
+<li>第一段 (0~4m) 最大彎矩發生在剪力 $V = 0$ 處。<br />
+  設距地表 $z$ 處 ($z &gt; 1.75\text{m}$) 剪力為 0：<br />
+  $$ V(z) = (\text{0~1.75m 總載重}) + (\text{1.75~z 均佈載重}) - R_A = 0 $$<br />
+  $$ 32.156 + 36.75(z - 1.75) - 61.377 = 0 $$<br />
+  $$ 36.75(z - 1.75) = 29.221 \implies z - 1.75 = 0.795 \text{ m} \implies z = 2.545 \text{ m} $$<br />
+  計算 $z = 2.545\text{ m}$ 處的彎矩：<br />
+  $$ M_{\text{max}} = R_A(2.545 - 1) - M_{\text{load, 0~1.75}} - M_{\text{load, 1.75~2.545}} $$<br />
+  $$ M_{\text{max}} = 61.377 \times 1.545 - \left[ 32.156 \times (2.545 - 1.167) + 36.75 \times \frac{0.795^2}{2} \right] $$<br />
+  $$ M_{\text{max}} = 94.83 - [44.31 + 11.61] = 94.83 - 55.92 = 38.91 \text{ kN-m/m} $$<br />
+故整支鋼鈑樁之絕對最大彎矩為 $\boxed{38.91 \text{ kN-m/m}}$。</li>
+</ul>
+<p>計算所需截面模數 $S$：<br />
+已知 $\sigma_{all} = 170 \text{ MN/m}^2 = 170,000 \text{ kN/m}^2$<br />
+$$ S = \frac{M_{\text{max}}}{\sigma_{all}} = \frac{38.91}{170,000} = 2.289 \times 10^{-4} \text{ m}^3\text{/m} = \boxed{228.9 \text{ cm}^3\text{/m}} $$</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>「中等堅硬」字眼的詮釋歧義</strong>：題幹雖明示為「中等堅硬 (medium stiff)」，但在 Peck 經驗土壓力的標準定義中，$N_c \le 4$ 始可稱為「堅硬黏土 (Stiff Clay)」，而本題 $N_c = 4.08 &gt; 4$，故嚴謹做法是選用「軟弱至中等黏土 (Soft to Medium Clay)」包絡線。</li>
+<li><strong>若誤用 Stiff Clay 包絡線的影響</strong>：若考生直觀認定其為堅硬黏土，下半部（5.25m~7.0m）的土壓力會遞減至 0。這會使 C 支撐的載重顯著下降（約變為 192.9 kN）。然而，對於第一段 (0~4m) 的剪力與彎矩分佈，兩種包絡線的圖形完全一致，因此<strong>A/B支撐載重與最大彎矩 $M_{\text{max}}$ 的計算結果會是相同的</strong>，顯示出題者可能刻意將關鍵設計值（如鋼鈑樁斷面需求）設計為不受此歧義影響。</li>
+</ul></main>
+<footer>來源：raw/solutions/SM-2011-4/SM-2011-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

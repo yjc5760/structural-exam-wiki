@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-U2-1 淺基礎承載力・沉陷量・與土中的水 — 觀念講義</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--tension:#2e7d32;--tension2:#e8f5e9;
+--comp:#c62828;--comp2:#ffebee;--warn:#ef6c00;--warn2:#fff3e0;
+--key:#6a1b9a;--key2:#f3e5f5;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:34px 26px}
+header h1{margin:0 0 8px;font-size:1.6em}header .sub{opacity:.9;font-size:.93em;margin:0}
+header .meta{margin-top:12px;font-size:.82em;opacity:.8}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);
+padding:9px 14px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+nav a{text-decoration:none;color:var(--ac);font-size:.85em;padding:4px 11px;border-radius:14px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:980px;margin:0 auto;padding:24px 18px 80px}
+section{margin-bottom:46px}
+h2{font-size:1.32em;border-left:6px solid var(--ac);padding-left:12px;margin:44px 0 18px;line-height:1.4}
+h3{font-size:1.08em;margin:30px 0 10px;color:#0d47a1}
+h4{font-size:.99em;margin:20px 0 8px;color:#37474f}
+.lead{font-size:1.03em;background:#fff;border:1px solid var(--bd);border-left:5px solid var(--ac);
+border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:16px 18px;margin:16px 0}
+.why{background:var(--key2);border:1px solid #ce93d8;border-left:5px solid var(--key);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.why b:first-child{color:var(--key)}
+.trap{background:var(--warn2);border:1px solid #ffcc80;border-left:5px solid var(--warn);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.trap b:first-child{color:#e65100}
+.tens{background:var(--tension2);border:1px solid #a5d6a7;border-left:5px solid var(--tension);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.comp{background:var(--comp2);border:1px solid #ef9a9a;border-left:5px solid var(--comp);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.fig{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 14px 10px;margin:20px 0;overflow-x:auto}
+.fig svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig .cap{font-size:.85em;color:var(--mut);text-align:center;margin-top:10px;line-height:1.6}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9em;background:#fff}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}li{margin:5px 0}
+.pill{display:inline-block;font-size:.76em;padding:2px 8px;border-radius:10px;margin-right:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+details{background:#fff;border:1px solid var(--bd);border-radius:9px;padding:10px 14px;margin:12px 0}
+summary{cursor:pointer;font-weight:600;color:var(--ac)}
+details p{border-left:3px solid #e0e0e0;padding-left:12px;margin:8px 0;color:#37474f}
+.qlink{color:#1565c0;text-decoration:none;border-bottom:1px dotted #90caf9;font-weight:600}
+.katex-display{margin:14px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+<h1>SM-U2-1　淺基礎承載力・沉陷量・與土中的水</h1>
+<p class="sub">本講義涵蓋 10 題：4 題淺基礎承載力與沉陷、6 題滲流與降水。2026-08-14 全庫稽核後，那 6 題已歸位到 SM-U1-2 土壤滲透與 SM-U1-4 土體內應力，SM-U2-1 子項本身僅剩 4 題 —— 本講義兩者兼收，並說明它們為何是同一件事</p>
+<p class="meta">土壤力學與基礎設計 · 命題大綱第二單元第 1 子項 · 觀念講義（練題前讀）· 子項現有主考點 4 題（本講義涵蓋 10 題），佔全科 4.2%，命題排名第 10</p>
+</header>
+
+<nav>
+<a href="#s0">§0 全景</a>
+<a href="#s1">§1 承載力公式</a>
+<a href="#s2">§2 淨 vs 總</a>
+<a href="#s3">§3 沉陷量</a>
+<a href="#s4">§4 水頭與孔隙水壓</a>
+<a href="#s5">§5 滲流計算</a>
+<a href="#s6">§6 抽水的連鎖後果</a>
+<a href="#s7">§7 決策流程</a>
+<a href="#s8">§8 考點對照</a>
+<a href="#s9">§9 陷阱總表</a>
+<a href="#s10">§10 自我檢測</a>
+<a href="#s10b">§10.5 因果鏈</a>
+<a href="#s11">★ 精選 6 題</a>
+<span style="flex:1"></span>
+<a href="formula-given-SM-U2-1.html" style="background:#fde7e9;color:#b71c1c">🔴 U2-1 給／背分界</a>
+
+<a href="study-SM-U2-1.html" style="background:#eceff1;color:#455a64">📊 U2-1 命題分析</a>
+<a href="lecture-SM-U2-1.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+
+<main>
+<section id="s0">
+<h2>§0　全景：這 10 題只是同一條式子的兩端</h2>
+
+<div class="lead">
+乍看之下這個子項很分裂：4 題問淺基礎的承載力與沉陷，6 題問流網、水頭、抽水降階。
+但它們其實是<b>同一條式子的左右兩端</b> —— \(\sigma'=\sigma-u\)。
+土壤的<b>強度</b>與<b>體積變化</b>都只受 \(\sigma'\) 控制（左端），而 \(\sigma'\) 能不能算得出來，
+完全取決於你會不會算 \(u\)（右端）。
+承載力題假設你已經知道 \(u\)；滲流題就是在教你 \(u\) 怎麼來。<b>把這條式子放在中間，10 題就串成一條線。</b>
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
+  <text x="450" y="18" font-size="14" fill="#607d8b" text-anchor="middle">土壤只認得這一件事</text>
+  <rect x="330" y="26" width="240" height="62" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="2.5"/>
+  <text x="450" y="68" font-size="27" font-weight="bold" fill="#0d47a1" text-anchor="middle">σ′ = σ − u</text>
+
+  <path d="M370 88 L180 138" stroke="#455a64" stroke-width="2.5" marker-end="url(#e0)"/>
+  <path d="M530 88 L720 138" stroke="#455a64" stroke-width="2.5" marker-end="url(#e0)"/>
+
+  <!-- LEFT -->
+  <text x="24" y="160" font-size="15" font-weight="bold" fill="#c62828">左端：σ′ 決定土壤「能做什麼」</text>
+  <rect x="20" y="172" width="320" height="96" rx="10" fill="#ffebee" stroke="#ef9a9a" stroke-width="1.6"/>
+  <text x="34" y="196" font-size="13.5" font-weight="bold" fill="#c62828">① 強度 → 承載力</text>
+  <text x="34" y="218" font-size="13" fill="#37474f">τf = c′ + σ′ tanφ′</text>
+  <text x="34" y="238" font-size="13" fill="#37474f">qu = c Nc + q Nq + 0.5 γ B Nγ</text>
+  <text x="34" y="258" font-size="12" fill="#607d8b">§1 §2　SM-2020-4 · 2010-4 · 2009-2</text>
+
+  <rect x="20" y="280" width="320" height="96" rx="10" fill="#ffebee" stroke="#ef9a9a" stroke-width="1.6"/>
+  <text x="34" y="304" font-size="13.5" font-weight="bold" fill="#c62828">② 體積 → 沉陷量</text>
+  <text x="34" y="326" font-size="13" fill="#37474f">砂土：瞬時彈性壓縮（受尺寸效應控制）</text>
+  <text x="34" y="346" font-size="13" fill="#37474f">黏土：Sc ∝ log(σ′f / σ′0)</text>
+  <text x="34" y="366" font-size="12" fill="#607d8b">§3　SM-2017-3 · 2015-4</text>
+
+  <!-- RIGHT -->
+  <text x="562" y="160" font-size="15" font-weight="bold" fill="#00838f">右端：u 由「水的狀態」決定</text>
+  <rect x="560" y="172" width="320" height="62" rx="10" fill="#e0f7fa" stroke="#80deea" stroke-width="1.6"/>
+  <text x="574" y="194" font-size="13.5" font-weight="bold" fill="#00838f">① 靜水（無滲流）</text>
+  <text x="574" y="216" font-size="13" fill="#37474f">u = γw · zw　　最單純，但只是特例</text>
+
+  <rect x="560" y="244" width="320" height="76" rx="10" fill="#e0f7fa" stroke="#80deea" stroke-width="1.6"/>
+  <text x="574" y="266" font-size="13.5" font-weight="bold" fill="#00838f">② 穩定滲流</text>
+  <text x="574" y="288" font-size="13" fill="#37474f">u = (h − z) · γw，h 由流網或串聯阻力算</text>
+  <text x="574" y="308" font-size="12" fill="#607d8b">§4 §5　SM-2022-3 · 2018-3 · 2011-2 · 2010-3</text>
+
+  <rect x="560" y="330" width="320" height="76" rx="10" fill="#e0f7fa" stroke="#80deea" stroke-width="1.6"/>
+  <text x="574" y="352" font-size="13.5" font-weight="bold" fill="#00838f">③ 受壓／湧泉</text>
+  <text x="574" y="374" font-size="13" fill="#37474f">u = hp · γw，豎管水位直接讀出</text>
+  <text x="574" y="394" font-size="12" fill="#607d8b">§4　SM-2021-1 · 2015-4 · 2009-2</text>
+
+  <rect x="20" y="422" width="860" height="50" rx="10" fill="#f3e5f5" stroke="#ce93d8" stroke-width="1.6"/>
+  <text x="34" y="444" font-size="14" font-weight="bold" fill="#6a1b9a">結論：滲流題不是離題，它是承載力與沉陷題裡「u 從哪來」的那一半</text>
+  <text x="34" y="464" font-size="12.5" fill="#455a64">最完整的示範是 SM-2015-4：抽水 → 改變 u（右端）→ 改變 σ′ → 產生壓密沉陷（左端），一題走完全程</text>
+
+  <defs><marker id="e0" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker></defs>
+</svg>
+<div class="cap">左端是「土能做什麼」，右端是「水在做什麼」。本單元的每一題都可以先問：這題是在給我 \(u\)（右端已知，往左算），還是在要我求 \(u\)（右端未知）？</div>
+</div>
+
+<h3>把 10 題放到這條線上</h3>
+
+<table>
+<thead><tr><th style="width:18%">端</th><th style="width:26%">子問題</th><th>題目</th></tr></thead>
+<tbody>
+<tr><td rowspan="2"><b style="color:#c62828">左端（4 題）</b><br>σ′ 拿去做什麼</td>
+<td>承載力：\(q_u\)、\(q_a\)、安全性判定</td><td>SM-2020-4、SM-2010-4、SM-2009-2</td></tr>
+<tr><td>沉陷量：彈性沉陷、壓密沉陷</td><td>SM-2017-3、（SM-2015-4 的後半）</td></tr>
+<tr><td rowspan="3"><b style="color:#00838f">右端（6 題）</b><br>u 從哪裡來</td>
+<td>一維滲流：串聯阻力、水頭損失分配</td><td>SM-2022-3、SM-2011-2</td></tr>
+<tr><td>二維滲流：流網、\(N_f/N_d\)、上揚壓力</td><td>SM-2018-3</td></tr>
+<tr><td>應力剖面與滲流力：\(\sigma\)／\(u\)／\(\sigma'\)、砂湧管湧</td><td>SM-2021-1、SM-2010-3、SM-2015-4</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>分類落差要先知道。</b>本子項官方名稱是「淺基礎之支承力與沉陷量」，但知識庫索引把 6 題滲流題歸在這裡，
+而命題大綱裡真正的「SM-U1-2 土壤滲透」目前掛 0 題。
+所以<b>複習這個子項時不能只準備承載力公式</b> —— 依歷屆分布，滲流題的出現機率反而更高（6/10）。
+本講義依實際題型收錄兩者。
+</div>
+
+<div class="why">
+<b>兩端的難度不對稱，要分配對時間。</b>
+左端（承載力）的公式其實只有一條，難的是<b>定義</b>：淨還是總、短期還是長期、水位在哪裡（§1、§2）。
+右端（滲流）的公式也很少（\(v=ki\)、\(q=kH\frac{N_f}{N_d}\)），難的是<b>幾何</b>：基準面設在哪、流徑多長、截面積要不要投影（§4、§5）。
+<b>兩端的失分都不在公式，在讀題與定義。</b>這正是這個子項容易「會做卻拿不到分」的原因。
+</div>
+</section>
+<section id="s1">
+<h2>§1　承載力公式：三項疊加不是湊出來的</h2>
+
+<div class="lead">
+承載力公式 \(q_u=cN_c+qN_q+0.5\gamma BN_\gamma\) 常被當成三個要背的係數。
+它其實是<b>一個破壞機構、三種抵抗來源</b>的分解：基礎壓下去時土體沿一個固定形狀的破壞面被擠出來，
+而阻止它被擠出來的力只有三個 —— <b>破壞面上的凝聚力</b>、<b>旁邊覆土往下壓</b>、<b>被擠動土體本身的重量</b>。
+三項就是這三件事，各自乘上一個只跟 \(\phi\) 有關的幾何因數。
+</div>
+
+<h3>1.1　三項各自在抵抗什麼</h3>
+
+<div class="fig">
+<svg viewBox="0 0 880 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- soil -->
+  <rect x="40" y="70" width="800" height="230" fill="#f5f5f5" stroke="none"/>
+  <line x1="40" y1="70" x2="840" y2="70" stroke="#455a64" stroke-width="2"/>
+  <!-- footing -->
+  <rect x="380" y="106" width="120" height="16" fill="#37474f"/>
+  <line x1="380" y1="70" x2="380" y2="106" stroke="#90a4ae" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <line x1="500" y1="70" x2="500" y2="106" stroke="#90a4ae" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="404" y="96" font-size="13" font-weight="bold" fill="#37474f">B</text>
+  <line x1="340" y1="70" x2="340" y2="122" stroke="#607d8b" stroke-width="1.2"/>
+  <text x="300" y="100" font-size="12.5" fill="#607d8b">Df</text>
+  <!-- load -->
+  <path d="M440 30 L440 100" stroke="#c62828" stroke-width="4" marker-end="url(#b1)"/>
+  <text x="452" y="46" font-size="14" font-weight="bold" fill="#c62828">Q</text>
+  <!-- failure body -->
+  <path d="M240 122 Q 300 216 440 228 Q 580 216 640 122 L 500 122 L 440 228 L 380 122 Z"
+        fill="#ffe0b2" stroke="#ef6c00" stroke-width="2"/>
+  <path d="M380 122 L440 228 L500 122" fill="#ffcdd2" stroke="#c62828" stroke-width="1.8"/>
+  <text x="424" y="160" font-size="13" font-weight="bold" fill="#c62828">Ⅰ</text>
+  <text x="322" y="176" font-size="13" font-weight="bold" fill="#e65100">Ⅱ</text>
+  <text x="546" y="176" font-size="13" font-weight="bold" fill="#e65100">Ⅱ</text>
+  <text x="268" y="140" font-size="13" font-weight="bold" fill="#ef6c00">Ⅲ</text>
+  <text x="600" y="140" font-size="13" font-weight="bold" fill="#ef6c00">Ⅲ</text>
+  <!-- surcharge arrows -->
+  <path d="M270 84 L270 118" stroke="#1565c0" stroke-width="2.6" marker-end="url(#b2)"/>
+  <path d="M310 84 L310 118" stroke="#1565c0" stroke-width="2.6" marker-end="url(#b2)"/>
+  <path d="M570 84 L570 118" stroke="#1565c0" stroke-width="2.6" marker-end="url(#b2)"/>
+  <path d="M610 84 L610 118" stroke="#1565c0" stroke-width="2.6" marker-end="url(#b2)"/>
+  <!-- cohesion ticks along surface -->
+  <g stroke="#2e7d32" stroke-width="2">
+    <line x1="262" y1="140" x2="278" y2="150"/><line x1="290" y1="170" x2="306" y2="178"/>
+    <line x1="330" y1="196" x2="346" y2="202"/><line x1="380" y1="216" x2="396" y2="220"/>
+    <line x1="618" y1="140" x2="602" y2="150"/><line x1="590" y1="170" x2="574" y2="178"/>
+    <line x1="550" y1="196" x2="534" y2="202"/><line x1="500" y1="216" x2="484" y2="220"/>
+  </g>
+
+  <!-- legend -->
+  <rect x="40" y="258" width="256" height="128" rx="9" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1.5"/>
+  <text x="52" y="280" font-size="13.5" font-weight="bold" fill="#2e7d32">① 沿破壞面的凝聚力</text>
+  <text x="52" y="302" font-size="13" fill="#37474f">綠色短斜線＝c 的抵抗</text>
+  <text x="52" y="326" font-size="16" font-weight="bold" fill="#2e7d32">→ c Nc</text>
+  <text x="52" y="350" font-size="12" fill="#607d8b">φ=0 的黏土只有這一項</text>
+  <text x="52" y="372" font-size="12" fill="#607d8b">與 B 無關 → 尺寸不影響承載力</text>
+
+  <rect x="308" y="258" width="256" height="128" rx="9" fill="#e3f2fd" stroke="#90caf9" stroke-width="1.5"/>
+  <text x="320" y="280" font-size="13.5" font-weight="bold" fill="#1565c0">② 旁邊覆土往下壓</text>
+  <text x="320" y="302" font-size="13" fill="#37474f">藍色箭頭＝q = γ·Df</text>
+  <text x="320" y="326" font-size="16" font-weight="bold" fill="#1565c0">→ q Nq</text>
+  <text x="320" y="350" font-size="12" fill="#607d8b">土要被擠出來就得先把旁邊</text>
+  <text x="320" y="372" font-size="12" fill="#607d8b">的覆土頂起來 → 埋深有利</text>
+
+  <rect x="576" y="258" width="264" height="128" rx="9" fill="#fff3e0" stroke="#ffcc80" stroke-width="1.5"/>
+  <text x="588" y="280" font-size="13.5" font-weight="bold" fill="#e65100">③ 破壞土體自身的重量</text>
+  <text x="588" y="302" font-size="13" fill="#37474f">橘色區塊的體積 ∝ B²</text>
+  <text x="588" y="326" font-size="16" font-weight="bold" fill="#e65100">→ 0.5 γ B Nγ</text>
+  <text x="588" y="350" font-size="12" fill="#607d8b">除以底面積 B 後剩下一次方</text>
+  <text x="588" y="372" font-size="12" fill="#607d8b">→ 砂土 qu ∝ B（尺寸效應來源）</text>
+
+  <defs>
+    <marker id="b1" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker>
+    <marker id="b2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#1565c0"/></marker>
+  </defs>
+</svg>
+<div class="cap">Ⅰ＝基礎正下方的主動楔（跟著基礎往下走）；Ⅱ＝對數螺線輻射剪力區；Ⅲ＝被動區（被往上擠出）。三項抵抗互相獨立，所以可以直接相加 —— 這是「疊加」的正當性來源，不是湊的。</div>
+</div>
+
+<div class="why">
+<b>為什麼第三項會出現 \(\tfrac12\)？</b>
+橘色破壞土體的截面積正比於 \(B^2\)（形狀固定、只是等比放大），乘上 \(\gamma\) 得到重量 \(\propto\gamma B^2\)；
+再除以基礎底面積 \(B\)，就剩 \(\gamma B\) 的一次方。那個 \(\tfrac12\) 是三角形面積的一半，被併進係數定義裡。
+<b>這也直接解釋了「砂土的極限承載力與 \(B\) 成正比」</b> —— 砂土 \(c=0\)、\(D_f\) 常很淺，
+所以 \(q_u\) 幾乎全由第三項貢獻。<a class="qlink" href="problems-view/SM-2017-3.html" target="_blank">SM-2017-3</a> 的平鈑試驗放大就是靠這條。
+</div>
+
+<h3>1.2　\(\phi=0\) 的退化：本單元最常用的情況</h3>
+
+<p>飽和黏土的短期（不排水）行為 \(\phi_u=0\)。把 \(\phi=0\) 代進承載力因數的定義式：</p>
+
+$$N_q=e^{\pi\tan\phi}\tan^2\!\left(45^\circ+\tfrac{\phi}{2}\right)\ \xrightarrow{\ \phi\to0\ }\ 1,
+\qquad N_\gamma\approx2(N_q+1)\tan\phi\ \xrightarrow{\ \phi\to0\ }\ 0$$
+$$N_c=(N_q-1)\cot\phi\ \xrightarrow{\ \phi\to0\ }\ \pi+2=5.14$$
+
+<div class="why">
+<b>三個極限值都能自己檢查。</b>
+\(N_q\to1\)：沒有摩擦時，旁邊的覆土壓多少就只能還你多少，不會被放大。
+\(N_\gamma\to0\)：沒有摩擦時，破壞土體的自重完全不提供抗剪力，這一項消失 ——
+<b>所以 \(\phi=0\) 的黏土承載力與基礎寬度 \(B\) 無關</b>，這是黏土與砂土最根本的差異。
+\(N_c\to\pi+2\)：\((N_q-1)\cot\phi\) 是 \(0\times\infty\) 型，取極限得 \(\pi+2\approx5.14\)（Prandtl 值）。
+</div>
+
+<table>
+<thead><tr><th style="width:20%">\(N_c\) 版本</th><th style="width:14%">數值</th><th>什麼時候用</th></tr></thead>
+<tbody>
+<tr><td>Prandtl / Meyerhof</td><td>\(\pi+2=5.14\)</td><td>題目給了 \(F_{cs}\)、\(F_{cd}\) 之類的修正係數 → 一定是 Meyerhof 一般式，用 5.14（<a class="qlink" href="problems-view/SM-2010-4.html" target="_blank">SM-2010-4</a>）</td></tr>
+<tr><td>Terzaghi 條形</td><td>5.7</td><td>題目只說「條形／狹長基礎」且未給修正係數（<a class="qlink" href="problems-view/SM-2020-4.html" target="_blank">SM-2020-4</a>、<a class="qlink" href="problems-view/SM-2009-2.html" target="_blank">SM-2009-2</a>）</td></tr>
+<tr><td>Skempton（含深寬比）</td><td>\(5\left(1+0.2\tfrac{B}{L}\right)\left(1+0.2\tfrac{D_f}{B}\right)\)<br>上限 \(7.5\left(1+0.2\tfrac{B}{L}\right)\)</td><td>要同時反映平面形狀與埋深；也是抗隆起分析用的 Bjerrum &amp; Eide 公式</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>\(N_c\) 選 5.14 還是 5.7，答案會差 11%，但結論通常不變。</b>
+<a class="qlink" href="problems-view/SM-2020-4.html" target="_blank">SM-2020-4</a> 用 Terzaghi 5.7 得 \(q_{a,net}=95\) kPa、用 Meyerhof 5.14 加深度修正得 92.5 kPa，
+兩者都小於施加的 96 kPa，結論都是「不安全」。
+<b>作答策略：選一個版本、寫明依據、算到底；行有餘力在討論欄補上另一版本也不安全，反而加分。</b>
+</div>
+
+<h3>1.3　形狀與深度修正：兩個都是「1＋」</h3>
+
+$$q_u=cN_cF_{cs}F_{cd}+qN_qF_{qs}F_{qd}+0.5\gamma BN_\gamma F_{\gamma s}F_{\gamma d}$$
+
+<p>\(\phi=0\) 時只剩第一、二項，而題目常直接給你：\(F_{cs}=1+0.2\frac{B}{L}\)、\(F_{cd}=1+0.2\frac{D_f}{B}\)。</p>
+
+<div class="why">
+<b>兩個修正係數的方向都是「變大」，理由和抗隆起的 Skempton \(N_c\) 完全相同。</b>
+形狀：\(B/L\to0\)（無限長條形）→ \(F_{cs}\to1\)，這是<b>最不利</b>的情況，因為破壞可以沿整條長度同時發生；
+方形 \(B/L=1\) → \(F_{cs}=1.2\)，四周都有土箍著，難破壞。
+深度：埋得愈深（\(D_f/B\) 愈大）→ 破壞面愈長、要推開的土愈多。
+<b>極限檢查：\(D_f=0\) 的地表基礎 \(F_{cd}=1\)。</b>合理。
+</div>
+
+<h3>1.4　地下水位：唯一會讓你整題全錯的細節</h3>
+
+<div class="fig">
+<svg viewBox="0 0 880 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- three panels -->
+  <g>
+    <text x="20" y="24" font-size="14" font-weight="bold" fill="#c62828">情況 A：水位在基礎面以上</text>
+    <rect x="20" y="40" width="250" height="180" fill="#f5f5f5"/>
+    <line x1="20" y1="40" x2="270" y2="40" stroke="#455a64" stroke-width="1.8"/>
+    <rect x="110" y="86" width="80" height="12" fill="#37474f"/>
+    <line x1="20" y1="64" x2="270" y2="64" stroke="#1565c0" stroke-width="1.8" stroke-dasharray="6 4"/>
+    <text x="24" y="60" font-size="11.5" fill="#1565c0">GWT</text>
+    <line x1="20" y1="98" x2="270" y2="98" stroke="#90a4ae" stroke-width="1" stroke-dasharray="3 3"/>
+    <text x="196" y="82" font-size="11.5" fill="#607d8b">基礎面</text>
+    <rect x="20" y="98" width="250" height="80" fill="#e3f2fd" opacity=".55"/>
+    <text x="24" y="240" font-size="12.5" fill="#37474f">q 項：水位以下用 γ′ 累積</text>
+    <text x="24" y="260" font-size="12.5" fill="#37474f">Nγ 項：用 γ′</text>
+    <text x="24" y="284" font-size="12" fill="#c62828">承載力最低的情況</text>
+  </g>
+  <g>
+    <text x="310" y="24" font-size="14" font-weight="bold" fill="#ef6c00">情況 B：水位在基礎面下、深度未達 B</text>
+    <rect x="310" y="40" width="250" height="180" fill="#f5f5f5"/>
+    <line x1="310" y1="40" x2="560" y2="40" stroke="#455a64" stroke-width="1.8"/>
+    <rect x="400" y="86" width="80" height="12" fill="#37474f"/>
+    <line x1="310" y1="132" x2="560" y2="132" stroke="#1565c0" stroke-width="1.8" stroke-dasharray="6 4"/>
+    <text x="314" y="128" font-size="11.5" fill="#1565c0">GWT</text>
+    <line x1="310" y1="98" x2="560" y2="98" stroke="#90a4ae" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="310" y1="178" x2="560" y2="178" stroke="#ef6c00" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="486" y="174" font-size="11.5" fill="#ef6c00">基礎面下 B</text>
+    <rect x="310" y="132" width="250" height="46" fill="#e3f2fd" opacity=".55"/>
+    <text x="314" y="240" font-size="12.5" fill="#37474f">q 項：不受影響（全用 γ）</text>
+    <text x="314" y="260" font-size="12.5" fill="#37474f">Nγ 項：用加權平均單位重</text>
+    <text x="314" y="284" font-size="12" fill="#ef6c00">只有第三項要改</text>
+  </g>
+  <g>
+    <text x="600" y="24" font-size="14" font-weight="bold" fill="#2e7d32">情況 C：水位在基礎面下超過 B</text>
+    <rect x="600" y="40" width="250" height="180" fill="#f5f5f5"/>
+    <line x1="600" y1="40" x2="850" y2="40" stroke="#455a64" stroke-width="1.8"/>
+    <rect x="690" y="86" width="80" height="12" fill="#37474f"/>
+    <line x1="600" y1="196" x2="850" y2="196" stroke="#1565c0" stroke-width="1.8" stroke-dasharray="6 4"/>
+    <text x="604" y="192" font-size="11.5" fill="#1565c0">GWT</text>
+    <line x1="600" y1="98" x2="850" y2="98" stroke="#90a4ae" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="600" y1="178" x2="850" y2="178" stroke="#2e7d32" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="776" y="174" font-size="11.5" fill="#2e7d32">基礎面下 B</text>
+    <rect x="600" y="196" width="250" height="24" fill="#e3f2fd" opacity=".55"/>
+    <text x="604" y="240" font-size="12.5" fill="#37474f">q 項與 Nγ 項都不受影響</text>
+    <text x="604" y="260" font-size="12.5" fill="#37474f">全用 γ 計算</text>
+    <text x="604" y="284" font-size="12" fill="#2e7d32">水位在破壞區之外</text>
+  </g>
+</svg>
+<div class="cap">分界線是「基礎面」與「基礎面以下 \(B\)」兩條。<b>因為破壞土體的深度大約就是 \(B\)</b> —— 水位若在這個範圍外，就影響不到破壞機構。記住這個物理判準，就不必背三條規則。</div>
+</div>
+
+<div class="why">
+<b>\(\phi=0\) 時可以少擔心一半。</b>因為 \(N_\gamma=0\)，第三項根本不存在，
+<b>水位在基礎面以下怎麼變動都與短期承載力無關</b>。
+這正是 <a class="qlink" href="problems-view/SM-2010-4.html" target="_blank">SM-2010-4</a> 整題的核心：水位下降 4 m，短期承載力<b>完全不變</b>；
+但長期（排水）時 \(\phi'>0\)、\(N_\gamma\neq0\)，有效應力上升使強度增加，承載力<b>提高</b>。
+一個「不變」、一個「增加」，理由都在同一條公式的第三項。
+</div>
+
+<h3>1.5　手算範例：SM-2020-4 完整流程</h3>
+
+<div class="box">
+<b>條件</b>：條形基礎 \(B=1.25\) m、\(D_f=0.5\) m、厚 0.5 m；粉土質黏土 \(q_u=100\) kPa、\(\gamma_{sat}=18.8\) kN/m³；地下水位在地表；牆載重 120 kN/m。
+
+<p><b>① 從無圍壓縮強度取 \(S_u\)</b> —— 單軸試驗側壓為零，Mohr 圓直徑就是 \(q_u\)，半徑即最大剪應力：</p>
+$$S_u=\frac{q_u}{2}=\frac{100}{2}=50\ \text{kPa}$$
+
+<p><b>② 淨極限承載力</b>（Terzaghi 條形，\(\phi=0\)：\(N_c=5.7,\ N_q=1,\ N_\gamma=0\)）</p>
+$$q_{ult}=S_uN_c+\gamma_{sat}D_f\ \Rightarrow\ q_{ult,net}=q_{ult}-q=S_uN_c=50\times5.7=285\ \text{kPa}$$
+
+<p><b>③ 容許淨承載力</b>（題目未給 FS，須自行假設並寫明）</p>
+$$q_{a,net}=\frac{285}{3.0}=95\ \text{kPa}$$
+
+<p><b>④ 實際淨載重</b>（基礎混凝土取代了原本的土，只有<b>差額</b>算新增載重）</p>
+$$q_{app,net}=\frac{120}{1.25}+(\gamma_c-\gamma_{sat})D_f=96+(24-18.8)(0.5)=96+2.6=98.6\ \text{kPa}$$
+
+<p><b>⑤ 判定</b>：\(98.6>95\)，實際 \(FS=285/98.6=2.89<3.0\) → <b>不安全</b>。</p>
+
+<p><b>自我檢查</b>：邊際只差 3.8%，所以要特別小心方法一致性。改用 Meyerhof（\(N_c=5.14\)、\(F_{cd}=1+0.2\frac{0.5}{1.25}=1.08\)）：
+\(q_{a,net}=50(5.14)(1.08)/3=92.5\) kPa，仍小於 96 kPa。<b>兩種方法同結論，答案才站得住。</b></p>
+</div>
+
+<div class="trap">
+<b>「地下水位在地表」在這題是不需要處理的。</b>因為 \(\phi=0\)：\(N_\gamma=0\) 所以不涉及基礎下方單位重；
+而 \(q\) 項用<b>總</b>應力 \(\gamma_{sat}D_f\)，在算<b>淨</b>承載力時又被減掉。
+看到水位就反射性改 \(\gamma'\)，反而會算錯。<b>先問「這一項有沒有用到單位重」，再決定要不要改。</b>
+</div>
+</section>
+<section id="s2">
+<h2>§2　淨 vs 總：這個子項最會扣分的地方</h2>
+
+<div class="lead">
+基礎蓋下去之前，那塊土本來就承受著上覆壓力 \(q=\gamma D_f\)，而它並沒有破壞。
+所以真正在「挑戰」地層極限的，是結構物<b>額外</b>加上去的那一份 —— 也就是<b>淨</b>載重。
+把安全係數只施加在淨的部分，是觀念上比較正確的做法；
+而如果題目講到「代償式基礎」，<b>就非用淨的定義不可</b>，否則整個設計概念會消失。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg">
+  <!-- LEFT: gross -->
+  <text x="30" y="24" font-size="15" font-weight="bold" fill="#607d8b">總（gross）觀點：整根柱子除以 FS</text>
+  <line x1="120" y1="290" x2="360" y2="290" stroke="#455a64" stroke-width="1.6"/>
+  <rect x="130" y="273" width="70" height="17" fill="#cfd8dc" stroke="#90a4ae"/>
+  <rect x="130" y="60" width="70" height="213" fill="#bbdefb" stroke="#1565c0"/>
+  <text x="208" y="284" font-size="12" fill="#607d8b">q = γDf = 32</text>
+  <text x="208" y="66" font-size="12.5" font-weight="bold" fill="#1565c0">q_ult = 439.1</text>
+  <line x1="120" y1="213" x2="290" y2="213" stroke="#c62828" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="294" y="210" font-size="12.5" font-weight="bold" fill="#c62828">q_all = 146.4</text>
+  <path d="M112 60 L112 213" stroke="#c62828" stroke-width="2" marker-end="url(#g1)"/>
+  <text x="52" y="140" font-size="13" font-weight="bold" fill="#c62828">÷ FS</text>
+  <text x="30" y="318" font-size="13" fill="#37474f">q_all = q_ult / FS</text>
+  <text x="30" y="340" font-size="12" fill="#607d8b">把原本就存在、不會造成破壞的 q 也打了三折</text>
+
+  <!-- RIGHT: net -->
+  <text x="470" y="24" font-size="15" font-weight="bold" fill="#2e7d32">淨（net）觀點：只有多出來的部分除以 FS</text>
+  <line x1="560" y1="290" x2="820" y2="290" stroke="#455a64" stroke-width="1.6"/>
+  <rect x="570" y="273" width="70" height="17" fill="#cfd8dc" stroke="#90a4ae"/>
+  <rect x="570" y="60" width="70" height="213" fill="#c8e6c9" stroke="#2e7d32"/>
+  <text x="648" y="284" font-size="12" fill="#607d8b">q = 32（原本就有，不動）</text>
+  <text x="648" y="66" font-size="12.5" font-weight="bold" fill="#2e7d32">q_ult,net = 407.1</text>
+  <line x1="560" y1="202" x2="740" y2="202" stroke="#c62828" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="744" y="199" font-size="12.5" font-weight="bold" fill="#c62828">q_all = 167.7</text>
+  <path d="M552 60 L552 202" stroke="#c62828" stroke-width="2" marker-end="url(#g1)"/>
+  <text x="492" y="136" font-size="13" font-weight="bold" fill="#c62828">÷ FS</text>
+  <line x1="544" y1="273" x2="560" y2="273" stroke="#2e7d32" stroke-width="2"/>
+  <text x="470" y="318" font-size="13" fill="#37474f">q_all = (q_ult − q) / FS + q</text>
+  <text x="470" y="340" font-size="12" fill="#607d8b">q 原封不動加回來 → 容許值較高、觀念較嚴謹</text>
+
+  <defs><marker id="g1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#c62828"/></marker></defs>
+</svg>
+<div class="cap">數字取自 <a class="qlink" href="problems-view/SM-2010-4.html" target="_blank">SM-2010-4</a>：同一題、同一組參數，兩種定義得到 146.4 與 167.7 kPa，差 15%。<b>兩者在國考都被接受，但必須寫出你用的定義。</b></div>
+</div>
+
+<div class="why">
+<b>什麼時候差別會變得很大？</b>當 \(q=\gamma D_f\) 相對於 \(q_{ult}\) 很大的時候 —— 也就是<b>埋得深</b>的基礎。
+上面的例子 \(D_f=2\) m，\(q\) 只佔 \(q_{ult}\) 的 7%，兩種定義差 15%；
+若是埋深 6 m 的筏基，\(q\) 可能佔到一半，兩種定義的答案會差到數倍。
+<b>所以「深」基礎（筏基、代償式）一定要用淨的定義。</b>
+</div>
+
+<h3>2.1　代償式基礎：把土挖走當成一種「減重」</h3>
+
+<p>挖掉深度 \(D_f\) 的土，等於把 \(\gamma D_f\) 這麼多的既有壓力先<b>卸掉</b>；蓋上去的結構物再把載重加回來。地層真正感受到的變化只有兩者的差：</p>
+
+$$q_{net}=\frac{Q}{A}-\gamma D_f$$
+
+<ul>
+<li><b>全代償（fully compensated）</b>：\(q_{net}=0\)，挖掉的土重恰好等於結構物重 —— 理論上地層完全沒有新增應力，沉陷極小。</li>
+<li><b>部分代償（partially compensated）</b>：\(q_{net}>0\)，仍有淨增量，需檢核 \(FS=q_{ult,net}/q_{net}\)。</li>
+<li><b>超代償（over-compensated）</b>：\(q_{net}<0\)，結構比挖掉的土還輕 —— 地層反而會<b>回脹</b>。</li>
+</ul>
+
+<div class="trap">
+<b>陷阱：代償式基礎若用「總／總」定義，設計概念直接消失。</b>
+因為 \(FS=\dfrac{q_{ult}}{Q/A}\) 完全看不出「挖深有什麼好處」——
+挖愈深 \(q_{ult}\) 只微幅上升，但你根本沒把卸載的效益算進去。
+<b>只有 \(FS=\dfrac{q_{ult,net}}{q_{net}}\) 才會呈現「\(D_f\) 愈深、分母愈小、FS 愈大」的正確趨勢。</b>
+<a class="qlink" href="problems-view/SM-2009-2.html" target="_blank">SM-2009-2</a> 就是用這條反推所需的 \(D_f\)。
+</div>
+
+<h3>2.2　手算範例：SM-2009-2 反算埋置深度</h3>
+
+<div class="box">
+<b>條件</b>：筏基 \(B=8\)、\(L=12\) m，\(Q=18\) MN；正常壓密黏土 \(\gamma_{sat}=17\) kN/m³、\(c_u=35\) kPa；黏土層厚 12 m，下方為砂土層；地下水位 GL−3 m。要求部分代償、\(FS=3\)。
+
+<p><b>① 總接觸壓力</b></p>
+$$q=\frac{Q}{A}=\frac{18000}{8\times12}=187.5\ \text{kPa}$$
+
+<p><b>② 淨極限承載力</b>（Terzaghi 矩形，\(\phi=0\)，\(N_c=5.7\)）</p>
+$$q_{ult,net}=c_uN_c\left(1+0.3\tfrac{B}{L}\right)=35\times5.7\times\left(1+0.3\times\tfrac{8}{12}\right)=199.5\times1.2=239.4\ \text{kPa}$$
+
+<p><b>③ 由 FS 反推 \(D_f\)</b></p>
+$$3=\frac{239.4}{187.5-17D_f}\ \Rightarrow\ 187.5-17D_f=79.8\ \Rightarrow\ \boxed{D_f=6.34\ \text{m}}$$
+
+<p><b>④ 開挖期間的抗隆起檢核</b>　剩餘黏土層 \(T=12-6.34=5.66\) m，而 Terzaghi 破壞塊寬 \(B/\sqrt2=8/1.414=5.66\) m —— <b>兩者恰好相等</b>，這是出題者設計數字的暗示：破壞面剛好切齊下方砂層。</p>
+$$FS_{heave}=\frac{c_uN_c\left(1+0.3\frac{B}{L}\right)+c_u\frac{H}{B'}}{\gamma_{sat}H}
+=\frac{239.4+35\times\frac{6.34}{5.66}}{17\times6.34}=\frac{278.6}{107.8}=\boxed{2.58}$$
+
+<p><b>⑤ 但真正危險的是上舉</b>（下方砂層水頭仍在 GL−3 m）</p>
+$$W'=T\gamma_{sat}=5.66\times17=96.2\ \text{kPa},\qquad U=(12-3)\times9.81=88.3\ \text{kPa}$$
+$$FS_{uplift}=\frac{96.2}{88.3}=\boxed{1.09}$$
+<b>抗隆起 2.58 看起來很安全，抗上舉卻只有 1.09。</b>這一步是本題的分水嶺 ——
+題目特意寫「黏土下方為砂土層」「抽降至開挖底面」，就是在請你檢核上舉。實務要求 \(FS_{uplift}\ge1.2\)，必須在砂層打設洩壓井。
+</div>
+
+<div class="why">
+<b>為什麼上舉遠比隆起危險？</b>隆起靠的是黏土的<b>剪力強度</b>，抵抗量隨破壞面長度成長；
+上舉靠的是剩餘土層的<b>重量</b>，而挖愈深剩餘愈薄 —— 抵抗力線性下降，驅動的水壓卻完全不變。
+所以「挖深」對隆起只是漸進不利，對上舉是急劇不利。
+<b>只要題目同時出現「深開挖」與「下方有透水層／受壓水頭」，就一定要另外算上舉。</b>
+（延伸見 <a href="lecture-SM-U2-3.html">SM-U2-3 講義</a> §5.1）
+</div>
+</section>
+<section id="s3">
+<h2>§3　沉陷量：砂土與黏土是兩種完全不同的問題</h2>
+
+<div class="lead">
+承載力回答「會不會垮」，沉陷量回答「能不能用」。
+兩者常常<b>不是同一個條件在控制</b> —— 而且在砂土裡，控制設計的幾乎永遠是沉陷量。
+把砂土與黏土並排放，它們的沉陷機制、時間尺度、計算方法沒有一項相同。
+</div>
+
+<div class="grid2">
+<div class="tens">
+<b>砂土：瞬時、彈性、幾秒鐘結束</b><br>
+排水快 → 加載當下就沉完，沒有時間效應。<br>
+沉陷來自顆粒重排與彈性壓縮。<br>
+計算靠<b>現地試驗</b>（平鈑載重、SPT、CPT）＋ 經驗尺寸修正，而非實驗室參數。<br>
+<b>承載力 \(q_u\propto B\)，但沉陷量也隨 \(B\) 增加</b> → 加大基礎救得了承載力，救不了沉陷。
+</div>
+<div class="comp">
+<b>黏土：漸進、壓密、可能拖幾十年</b><br>
+排水慢 → 孔隙水要慢慢擠出去，沉陷隨時間發展。<br>
+沉陷量由 \(\sigma'\) 的<b>對數變化</b>決定。<br>
+計算靠<b>室內壓密試驗</b>參數 \(C_c\)、\(e_0\)、\(\sigma_p'\)。<br>
+\(\phi=0\) 時承載力與 \(B\) 無關，但沉陷量仍隨受壓範圍加深而變大。
+</div>
+</div>
+
+<h3>3.1　砂土：平鈑載重試驗與兩條不同的尺寸修正</h3>
+
+<p>平鈑只有 0.3 m 見方，實際基腳可能 2 m。從平鈑推到基腳要用<b>兩條不同的公式</b>，而且很容易互相混用：</p>
+
+$$\text{承載力：}\quad q_{ult(F)}=q_{ult(P)}\cdot\frac{B_F}{B_P}
+\qquad\qquad
+\text{沉陷量：}\quad S_F=S_P\left(\frac{2B_F}{B_F+B_P}\right)^2$$
+
+<div class="why">
+<b>兩條公式為什麼形狀完全不同？</b><br>
+<b>承載力</b>那條來自 §1.1 的第三項：砂土 \(c=0\)，\(q_u\) 幾乎全由 \(0.5\gamma BN_\gamma\) 貢獻，所以與 \(B\) 成<b>正比</b>。<br>
+<b>沉陷量</b>那條（Terzaghi &amp; Peck）是經驗式，反映的是「應力影響深度隨 \(B\) 加深，但土的勁度也隨深度增加」的競爭結果。
+極限檢查：\(B_F=B_P\) 時 \(\left(\frac{2B}{2B}\right)^2=1\) ✓；\(B_F\to\infty\) 時上限為 \(2^2=4\) ——
+<b>沉陷量最多只放大到 4 倍，不會無限成長</b>，這是這條經驗式最重要的性質。
+</div>
+
+<div class="trap">
+<b>陷阱：把黏土的規則套到砂土。</b>黏土 \(\phi=0\) 時 \(q_u=c_uN_c\) 與 \(B\) 無關，
+所以平鈑與足尺基腳的<b>承載力相同</b>；砂土則差了 \(B_F/B_P\) 倍。
+<a class="qlink" href="problems-view/SM-2017-3.html" target="_blank">SM-2017-3</a> 的 \(B_F/B_P=2.0/0.3=6.67\) 倍，
+若誤以為兩者相同，\(Q_a\) 會少算到剩 1/6.67。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 380" xmlns="http://www.w3.org/2000/svg">
+  <!-- axes -->
+  <text x="60" y="24" font-size="14" font-weight="bold" fill="#0d47a1">平鈑載重曲線（0.3 m × 0.3 m）</text>
+  <line x1="80" y1="60" x2="420" y2="60" stroke="#455a64" stroke-width="1.8"/>
+  <line x1="80" y1="60" x2="80" y2="300" stroke="#455a64" stroke-width="1.8"/>
+  <text x="330" y="50" font-size="12" fill="#607d8b">q (kN/m²) →</text>
+  <text x="16" y="190" font-size="12" fill="#607d8b">ΔH (cm)</text>
+  <text x="24" y="206" font-size="12" fill="#607d8b">↓</text>
+  <!-- ticks -->
+  <line x1="217" y1="56" x2="217" y2="64" stroke="#455a64"/><text x="203" y="48" font-size="11" fill="#607d8b">150</text>
+  <line x1="354" y1="56" x2="354" y2="64" stroke="#455a64"/><text x="340" y="48" font-size="11" fill="#607d8b">300</text>
+  <line x1="76" y1="97" x2="84" y2="97" stroke="#455a64"/><text x="60" y="101" font-size="11" fill="#607d8b">1</text>
+  <line x1="76" y1="153" x2="84" y2="153" stroke="#455a64"/><text x="46" y="157" font-size="11" fill="#607d8b">2.54</text>
+  <line x1="76" y1="207" x2="84" y2="207" stroke="#455a64"/><text x="60" y="211" font-size="11" fill="#607d8b">4</text>
+  <!-- curve -->
+  <polyline points="80,60 126,64 171,76 217,97 263,125 298,153 320,171 354,207 400,259"
+            fill="none" stroke="#1565c0" stroke-width="2.6"/>
+  <!-- markers -->
+  <circle cx="217" cy="97" r="4.5" fill="#1565c0"/><text x="224" y="94" font-size="11.5" fill="#1565c0">(150, 1.0)</text>
+  <circle cx="354" cy="207" r="4.5" fill="#1565c0"/><text x="300" y="228" font-size="11.5" fill="#1565c0">(300, 4.0)</text>
+  <line x1="80" y1="153" x2="298" y2="153" stroke="#c62828" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <line x1="298" y1="60" x2="298" y2="153" stroke="#c62828" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <circle cx="298" cy="153" r="5" fill="#c62828"/>
+  <text x="228" y="146" font-size="12" font-weight="bold" fill="#c62828">q_ult(P) = 239.1</text>
+  <text x="88" y="322" font-size="12.5" fill="#37474f">曲線為完美拋物線：ΔH = (q / 150)²</text>
+  <text x="88" y="344" font-size="12" fill="#607d8b">無明顯破壞點時，以 ΔH = 2.54 cm（1 吋）定義極限承載力</text>
+  <text x="88" y="364" font-size="12" fill="#607d8b">先讀出兩個控制點建立方程式，比肉眼讀圖精確得多</text>
+
+  <!-- outcomes -->
+  <text x="470" y="24" font-size="14" font-weight="bold" fill="#0d47a1">兩種設計哲學，差 9 倍</text>
+  <rect x="466" y="40" width="400" height="130" rx="10" fill="#ffebee" stroke="#ef9a9a" stroke-width="1.6"/>
+  <text x="480" y="64" font-size="13.5" font-weight="bold" fill="#c62828">(一) 承載力控制（FS = 2）</text>
+  <text x="480" y="88" font-size="13" fill="#37474f">q_ult(F) = 239.1 × (2.0/0.3) = 1594 kN/m²</text>
+  <text x="480" y="110" font-size="13" fill="#37474f">Q_a = (1594 − 18)/2 × 4 = 3152 kN</text>
+  <text x="480" y="134" font-size="14" font-weight="bold" fill="#c62828">→ 對應沉陷量 ΔH = 83.5 cm</text>
+  <text x="480" y="156" font-size="12.5" fill="#c62828">精密廠房完全不能接受 ✗</text>
+
+  <rect x="466" y="184" width="400" height="130" rx="10" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1.6"/>
+  <text x="480" y="208" font-size="13.5" font-weight="bold" fill="#2e7d32">(二) 沉陷量控制（ΔH = 1 cm）</text>
+  <text x="480" y="232" font-size="13" fill="#37474f">ΔH_P = 1.0 / (4/2.3)² = 0.331 cm</text>
+  <text x="480" y="254" font-size="13" fill="#37474f">q_net,a = 150 √0.331 = 86.25 kN/m²</text>
+  <text x="480" y="278" font-size="14" font-weight="bold" fill="#2e7d32">→ Q_a = 86.25 × 4 = 345 kN</text>
+  <text x="480" y="300" font-size="12.5" fill="#2e7d32">符合精密廠房需求 ✓</text>
+
+  <text x="466" y="344" font-size="13" font-weight="bold" fill="#e65100">砂土淺基礎的設計，幾乎總是被沉陷量綁住，不是被承載力綁住</text>
+</svg>
+<div class="cap">同一組試驗資料、同一個基腳，兩種設計準則得到 3152 kN 與 345 kN —— 相差 9 倍。<b>「承載力足夠」不代表「可以用」</b>，這是 <a class="qlink" href="problems-view/SM-2017-3.html" target="_blank">SM-2017-3</a> 要教的事。</div>
+</div>
+
+<div class="why">
+<b>怎麼一眼看出「這題會被沉陷控制」？</b>把承載力控制算出的 \(q_{net,a}=788\) kN/m² 拿去和平鈑試驗的<b>最大試驗載重</b>（約 300 kN/m²）比 ——
+設計壓力遠超出曲線量測範圍，代表你把土壤推到了試驗根本沒驗證過的區域。
+<b>只要設計壓力落在試驗曲線之外，答案幾乎一定是「沉陷量不可接受」。</b>這個檢查只要三秒鐘。
+</div>
+
+<h3>3.2　黏土：壓密沉陷與 \(C_c\) 的來源</h3>
+
+$$S_c=\frac{C_cH}{1+e_0}\log\frac{\sigma_{vf}'}{\sigma_{v0}'}\qquad\text{（正常壓密黏土）}$$
+
+<p>題目若沒給 \(C_c\) 卻給了液性限度 \(LL\)，就是要你用 Skempton 經驗式：</p>
+
+$$C_c=0.009\,(LL-10)$$
+
+<div class="why">
+<b>公式裡每一項都對應一個物理量，可以逐項檢查方向。</b><br>
+\(C_c\)：\(e\)–\(\log\sigma'\) 曲線的斜率 → 土愈「軟、可壓縮」愈大。\(LL\) 愈高代表黏土礦物含量高、可壓縮性大，所以 Skempton 式是遞增的。<br>
+\(H/(1+e_0)\)：把「孔隙比的變化」換算成「厚度的變化」—— \(\Delta H/H=\Delta e/(1+e_0)\)。<br>
+\(\log(\sigma_f'/\sigma_0')\)：沉陷只看<b>應力比</b>，不看應力差。所以同樣增加 20 kPa，
+在淺層（\(\sigma_0'\) 小）造成的沉陷遠大於深層。<b>這解釋了為什麼淺層軟土最麻煩。</b>
+</div>
+
+<div class="trap">
+<b>陷阱：正常壓密（NC）與過壓密（OC）用不同公式。</b>
+題目寫「正常壓密黏土」才能直接用上式；若是過壓密且 \(\sigma_f'<\sigma_p'\)，
+應改用回脹指數 \(C_s\)（約 \(C_c/5\sim C_c/10\)），沉陷量會小一個數量級。
+<a class="qlink" href="problems-view/SM-2015-4.html" target="_blank">SM-2015-4</a> 明寫「正常壓密」，可直接用 \(C_c\)；
+<a class="qlink" href="problems-view/SM-2010-4.html" target="_blank">SM-2010-4</a> 寫「過壓密黏土」，若要它算沉陷就得換公式。
+</div>
+
+<div class="trap">
+<b>陷阱：\(C_c\) 是<b>常用對數</b>（底數 10），不是自然對數。</b>
+用 \(\ln\) 會讓答案放大 2.303 倍。手算時可用「\(\log 2\approx0.301\)、\(\log 1.1\approx0.041\)」做量級檢查 ——
+一般建築物的壓密沉陷落在數公分到十幾公分，若算出零點幾公分或一公尺，多半是這裡出錯。
+</div>
+</section>
+<section id="s4">
+<h2>§4　水頭三兄弟：右端的全部基礎</h2>
+
+<div class="lead">
+6 題滲流題，全部建立在同一條恆等式上：
+$$h\ (\text{總水頭})=z\ (\text{位置水頭})+h_p\ (\text{壓力水頭}),\qquad u=h_p\gamma_w=(h-z)\gamma_w$$
+會不會算滲流，就是會不會在每一個點正確填出這三個數字。
+<b>沒有滲流時 \(h\) 處處相同（靜水），有滲流時 \(h\) 沿流向下降 —— 差別僅此而已。</b>
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 420" xmlns="http://www.w3.org/2000/svg">
+  <!-- elevation scale -->
+  <text x="10" y="86" font-size="11" fill="#607d8b">+1</text>
+  <text x="14" y="107" font-size="11" fill="#607d8b">0</text>
+  <text x="10" y="172" font-size="11" fill="#607d8b">−3</text>
+  <text x="10" y="236" font-size="11" fill="#607d8b">−6</text>
+  <text x="10" y="301" font-size="11" fill="#607d8b">−9</text>
+  <line x1="36" y1="70" x2="36" y2="345" stroke="#b0bec5" stroke-width="1.2"/>
+
+  <!-- layers -->
+  <rect x="50" y="103" width="310" height="22" fill="#fff9c4"/>
+  <rect x="50" y="125" width="310" height="43" fill="#ffe082"/>
+  <rect x="50" y="168" width="310" height="128" fill="#c5cae9"/>
+  <rect x="50" y="296" width="310" height="44" fill="#ffe082"/>
+  <line x1="50" y1="103" x2="360" y2="103" stroke="#455a64" stroke-width="2"/>
+  <text x="56" y="119" font-size="11" fill="#795548">乾砂 γd=18</text>
+  <text x="56" y="152" font-size="11" fill="#795548">飽和砂 γsat=20</text>
+  <text x="56" y="226" font-size="11" fill="#283593">飽和黏土 γsat=19</text>
+  <text x="56" y="246" font-size="11" fill="#283593">k = 5×10⁻⁷ cm/s</text>
+  <text x="56" y="322" font-size="11" fill="#795548">飽和砂（有湧泉壓力）</text>
+  <line x1="50" y1="125" x2="360" y2="125" stroke="#1565c0" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="252" y="121" font-size="10.5" fill="#1565c0">水位 −1 m</text>
+
+  <!-- datum -->
+  <line x1="36" y1="103" x2="600" y2="103" stroke="#6a1b9a" stroke-width="1.3" stroke-dasharray="3 4"/>
+  <text x="366" y="99" font-size="11" font-weight="bold" fill="#6a1b9a">基準面 z = 0（地表）</text>
+
+  <!-- points -->
+  <circle cx="200" cy="168" r="5" fill="#c62828"/><text x="208" y="164" font-size="13" font-weight="bold" fill="#c62828">A</text>
+  <circle cx="200" cy="232" r="5" fill="#c62828"/><text x="208" y="228" font-size="13" font-weight="bold" fill="#c62828">B</text>
+  <circle cx="200" cy="296" r="5" fill="#c62828"/><text x="208" y="292" font-size="13" font-weight="bold" fill="#c62828">C</text>
+
+  <!-- flow arrow inside clay -->
+  <path d="M300 282 L300 196" stroke="#00838f" stroke-width="2" marker-end="url(#h1)"/>
+  <text x="306" y="244" font-size="11" fill="#00838f">向上滲流</text>
+
+  <!-- piezometer A -->
+  <line x1="200" y1="168" x2="404" y2="168" stroke="#90a4ae" stroke-width="1.1" stroke-dasharray="4 3"/>
+  <rect x="404" y="125" width="12" height="43" fill="#bbdefb" stroke="#1565c0" stroke-width="1.3"/>
+  <line x1="390" y1="125" x2="430" y2="125" stroke="#1565c0" stroke-width="1.6"/>
+  <text x="386" y="118" font-size="11" fill="#1565c0">A 豎管：h = −1</text>
+
+  <!-- piezometer C -->
+  <line x1="200" y1="296" x2="494" y2="296" stroke="#90a4ae" stroke-width="1.1" stroke-dasharray="4 3"/>
+  <rect x="494" y="82" width="12" height="214" fill="#bbdefb" stroke="#1565c0" stroke-width="1.3"/>
+  <line x1="480" y1="82" x2="520" y2="82" stroke="#1565c0" stroke-width="1.6"/>
+  <text x="440" y="75" font-size="11" fill="#1565c0">C 豎管：h = +1（高於地表 1 m）</text>
+
+  <!-- head line -->
+  <line x1="410" y1="125" x2="500" y2="82" stroke="#c62828" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <text x="404" y="152" font-size="10.5" font-weight="bold" fill="#c62828">總水頭線（層內線性）</text>
+
+  <!-- table -->
+  <rect x="600" y="112" width="272" height="212" rx="9" fill="#fff" stroke="#dfe6ea" stroke-width="1.4"/>
+  <text x="614" y="136" font-size="13" font-weight="bold" fill="#0d47a1">三兄弟怎麼填</text>
+  <text x="614" y="162" font-size="12.5" fill="#c62828">A：z = −3，hp = 2，h = −1</text>
+  <text x="614" y="184" font-size="12" fill="#607d8b">　u = 2 × 9.81 = 19.6 kPa</text>
+  <text x="614" y="212" font-size="12.5" fill="#c62828">C：z = −9，hp = 10，h = +1</text>
+  <text x="614" y="234" font-size="12" fill="#607d8b">　u = 10 × 9.81 = 98.1 kPa</text>
+  <text x="614" y="262" font-size="12.5" fill="#2e7d32">B（中點）：h 線性內插</text>
+  <text x="614" y="284" font-size="12" fill="#607d8b">　u = (19.6+98.1)/2 = 58.9 kPa</text>
+  <text x="614" y="312" font-size="12.5" font-weight="bold" fill="#00838f">h_C &gt; h_A → 水由下往上</text>
+
+  <text x="40" y="376" font-size="12.5" fill="#37474f">位置水頭 z 由基準面量起（向上為正）；壓力水頭 hp 就是豎管內的水柱長度</text>
+  <text x="40" y="398" font-size="12.5" font-weight="bold" fill="#0d47a1">總水頭 h 就是豎管水面的高程 —— 這是最快的讀法</text>
+
+  <defs><marker id="h1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#00838f"/></marker></defs>
+</svg>
+<div class="cap">數據取自 <a class="qlink" href="problems-view/SM-2021-1.html" target="_blank">SM-2021-1</a>。<b>豎管水面的高程就是該點的總水頭</b> —— 記住這一句，「湧泉壓力使水上升到高於地表 1 m」就直接翻譯成 \(h_C=+1\) m，不必再繞。</div>
+</div>
+
+<div class="why">
+<b>基準面設在哪裡都可以，但三個原則不能違反。</b>
+① 全題只能有一個基準面；② 位置水頭有正負，地表以下為負（若基準面設在地表）；③ 最後算出的 \(u\) 與流向<b>不會因基準面而改變</b>（因為 \(u\) 只看 \(h-z\)，兩者同時平移會抵消）。
+<b>檢查法：把基準面往下移 5 m，重算一次 \(u\)，答案應該一模一樣。</b>不一樣就是某一項忘了跟著平移。
+</div>
+
+<div class="trap">
+<b>陷阱一：以為孔隙水壓永遠是 \(\gamma_w z_w\)。</b>
+靜水壓只是「上下邊界水頭相同」的特例。
+<a class="qlink" href="problems-view/SM-2021-1.html" target="_blank">SM-2021-1</a> 的黏土層上下邊界水頭差 2 m，層內 \(u\) 必須用線性內插；
+若硬套靜水壓，B 點會算成 \((6-1)\times9.81=49.1\) kPa 而非正確的 58.9 kPa，有效應力連帶全錯。<br>
+<b>判準：只要題目出現「穩定滲流」「湧泉」「抽降」「水頭差」，靜水壓假設就作廢。</b>
+</div>
+
+<div class="trap">
+<b>陷阱二：「速率」不是「流量」。</b>
+題目問滲流「速率」就是 \(v=ki\)（單位 m/s 或 cm/s），不必乘面積；
+問「滲流量」才要 \(q=kiA\)。SM-2021-1 問速率，答案是 \(1.67\times10^{-7}\) cm/s；
+多乘一個面積就答錯了。<b>看單位：要求 m³/s 才是流量。</b>
+</div>
+
+<h3>4.1　手算範例：SM-2021-1 的應力剖面</h3>
+
+<div class="box">
+<b>總應力</b>（由上而下逐層累加，用<b>總</b>單位重）
+$$\sigma_A=1(18)+2(20)=58,\quad \sigma_B=58+3(19)=115,\quad \sigma_C=58+6(19)=172\ \text{kPa}$$
+
+<b>孔隙水壓</b>（A 在靜水區、C 由豎管讀出、B 線性內插）
+$$u_A=2(9.81)=19.62,\quad u_C=10(9.81)=98.1,\quad u_B=\tfrac{19.62+98.1}{2}=58.86\ \text{kPa}$$
+
+<b>有效應力</b>
+$$\sigma_A'=38.38,\quad \sigma_B'=56.14,\quad \sigma_C'=73.90\ \text{kPa}$$
+
+<b>滲流方向與速率</b>
+$$H_A=-3+2=-1\ \text{m},\qquad H_C=-9+10=+1\ \text{m}\ \Rightarrow\ H_C>H_A\ \text{，水由下往上}$$
+$$i=\frac{\Delta H}{L}=\frac{2}{6}=\frac13,\qquad v=ki=5\times10^{-7}\times\tfrac13=1.67\times10^{-7}\ \text{cm/s}$$
+
+<b>自我檢查（兩個都要做）</b><br>
+① \(\sigma'\) 必須全程遞增 —— 38.4 → 56.1 → 73.9 ✓。若中間出現下降，通常是 \(u\) 算錯。<br>
+② 向上滲流會降低有效應力，所以 \(\sigma_B'\) 應該<b>小於</b>靜水壓假設下的值。
+靜水假設會得 \(115-49.1=65.9\) kPa，實際 56.1 kPa，確實較小 ✓ —— 方向對了，數字才可信。
+</div>
+</section>
+<section id="s5">
+<h2>§5　滲流計算：一維串聯與二維流網</h2>
+
+<h3>5.1　一維串聯：完全就是電阻串聯</h3>
+
+<div class="lead">
+水由上而下流過疊在一起的三層土。連續方程式要求<b>每一層的流速 \(v\) 都相同</b>（沒有水憑空消失），
+於是 \(v=k_i\dfrac{\Delta h_i}{H_i}\) 對每一層都成立 ——
+移項得 \(\Delta h_i\propto \dfrac{H_i}{k_i}\)。
+<b>把 \(H_i/k_i\) 當成「滲透阻力」，這就是電阻串聯：電流相同、電壓依電阻分配。</b>
+</div>
+
+$$R_i=\frac{H_i}{k_i},\qquad \Delta h_i=\Delta h\cdot\frac{R_i}{\sum R},\qquad
+k_{eq}=\frac{\sum H_i}{\sum \frac{H_i}{k_i}}\ \text{（調和平均）}$$
+
+<div class="why">
+<b>調和平均意味著「最不透水的那一層說了算」。</b>
+串聯電阻中最大的那一顆主宰總電阻；同理，\(k\) 最小的那一層吃掉絕大部分水頭。
+<a class="qlink" href="problems-view/SM-2022-3.html" target="_blank">SM-2022-3</a> 中 C 層的 \(k\) 只有 B 層的 1%，
+於是它一層就吃掉 <b>89%</b> 的總水頭差。<br>
+<b>極限檢查：若某層 \(k\to0\)（完全不透水），\(k_{eq}\to0\)、該層 \(\Delta h_i\to\Delta h\)。</b>
+這也解釋了 <a class="qlink" href="problems-view/SM-2010-3.html" target="_blank">SM-2010-3</a> 為什麼可以「忽略黏土層、只算砂土層的流徑」——
+不是黏土不重要，而是它幾乎不導水，水繞著它走。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 340" xmlns="http://www.w3.org/2000/svg">
+  <!-- column -->
+  <text x="60" y="26" font-size="14" font-weight="bold" fill="#0d47a1">三層串聯（水由上往下）</text>
+  <rect x="90" y="40" width="90" height="20" fill="#bbdefb" stroke="#1565c0"/>
+  <text x="188" y="54" font-size="11.5" fill="#1565c0">上水位面</text>
+  <rect x="90" y="60" width="90" height="55" fill="#ffe0b2" stroke="#ef6c00" stroke-width="1.5"/>
+  <rect x="90" y="115" width="90" height="110" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <rect x="90" y="225" width="90" height="55" fill="#ef9a9a" stroke="#c62828" stroke-width="1.5"/>
+  <text x="112" y="93" font-size="12" fill="#e65100">A</text>
+  <text x="112" y="175" font-size="12" fill="#2e7d32">B</text>
+  <text x="112" y="257" font-size="12" fill="#c62828">C</text>
+  <text x="188" y="66" font-size="11" fill="#607d8b">a</text>
+  <text x="188" y="120" font-size="11" fill="#607d8b">b</text>
+  <text x="188" y="230" font-size="11" fill="#607d8b">c</text>
+  <text x="188" y="285" font-size="11" fill="#607d8b">d（基準）</text>
+  <text x="20" y="93" font-size="10.5" fill="#607d8b">50mm</text>
+  <text x="16" y="175" font-size="10.5" fill="#607d8b">100mm</text>
+  <text x="20" y="257" font-size="10.5" fill="#607d8b">50mm</text>
+  <text x="60" y="308" font-size="12" fill="#37474f">kA=10⁻², kB=10⁻¹, kC=10⁻³ cm/s</text>
+  <text x="60" y="328" font-size="12" fill="#e65100">R = H/k：5000 / 1000 / 50000</text>
+
+  <!-- head profile -->
+  <text x="330" y="26" font-size="14" font-weight="bold" fill="#0d47a1">總水頭沿深度的變化</text>
+  <line x1="300" y1="290" x2="740" y2="290" stroke="#455a64" stroke-width="1.6"/>
+  <line x1="300" y1="40" x2="300" y2="290" stroke="#455a64" stroke-width="1.6"/>
+  <text x="612" y="308" font-size="11.5" fill="#607d8b">總水頭 h (mm) →</text>
+  <text x="308" y="52" font-size="11" fill="#607d8b">0</text>
+  <line x1="700" y1="286" x2="700" y2="294" stroke="#455a64"/><text x="686" y="308" font-size="11" fill="#607d8b">600</text>
+  <line x1="657" y1="286" x2="657" y2="294" stroke="#455a64"/>
+  <!-- profile polyline -->
+  <polyline points="700,60 664,115 657,225 300,280" fill="none" stroke="#1565c0" stroke-width="3"/>
+  <circle cx="700" cy="60" r="4.5" fill="#1565c0"/><text x="708" y="58" font-size="11.5" fill="#1565c0">ha = 600</text>
+  <circle cx="664" cy="115" r="4.5" fill="#1565c0"/><text x="674" y="112" font-size="11.5" fill="#1565c0">hb = 546.4</text>
+  <circle cx="657" cy="225" r="4.5" fill="#1565c0"/><text x="668" y="222" font-size="11.5" fill="#1565c0">hc = 535.7</text>
+  <circle cx="300" cy="280" r="4.5" fill="#1565c0"/><text x="308" y="276" font-size="11.5" fill="#1565c0">hd = 0</text>
+  <line x1="664" y1="60" x2="664" y2="115" stroke="#ef6c00" stroke-width="2"/>
+  <text x="576" y="86" font-size="11.5" font-weight="bold" fill="#ef6c00">ΔhA = 53.6</text>
+  <line x1="657" y1="115" x2="657" y2="225" stroke="#2e7d32" stroke-width="2"/>
+  <text x="566" y="172" font-size="11.5" font-weight="bold" fill="#2e7d32">ΔhB = 10.7</text>
+  <text x="330" y="252" font-size="12.5" font-weight="bold" fill="#c62828">ΔhC = 535.7（佔 89%）</text>
+  <text x="330" y="330" font-size="12" fill="#37474f">最不透水的 C 層幾乎吃掉全部水頭 —— 水頭線在該層近乎水平地掃過去</text>
+</svg>
+<div class="cap">水頭線的<b>斜率</b>就是水力坡降。C 層的坡降是 \(535.7/50=10.7\)，A 層只有 \(53.6/50=1.07\)，B 層 \(0.107\)。<b>同一股水流通過不同的 \(k\)，用不同的坡降「換」出相同的流速。</b></div>
+</div>
+
+<div class="box">
+<b>手算：SM-2022-3 的 5 小時總流量</b><br>
+用任何一層都可以算 \(v\)（三層相同）。取 A 層，長度統一為 cm：
+$$v=k_A\frac{\Delta h_A}{H_A}=10^{-2}\times\frac{5.357\ \text{cm}}{5\ \text{cm}}=1.071\times10^{-2}\ \text{cm/s}$$
+$$q=vA=1.071\times10^{-2}\times(5\times5)=0.2679\ \text{cm}^3/\text{s}$$
+$$Q=q\,t=0.2679\times(5\times3600)=4821\ \text{cm}^3=\boxed{4.82\times10^{-3}\ \text{m}^3}$$
+<b>自我檢查（一定要做）</b>：換用 C 層重算 \(v=10^{-3}\times\frac{53.57}{5}=1.071\times10^{-2}\) cm/s ——
+<b>兩層算出同一個 \(v\)，才證明水頭分配沒錯。</b>這是這類題最有效的驗算。
+</div>
+
+<div class="trap">
+<b>陷阱：單位。</b>本題 \(k\) 用 cm/s、尺寸用 mm、答案要 m³ —— 三種單位。
+安全作法：<b>算「比例」時單位可以不統一（\(R_i\) 只比大小），算「數值」時一律先換成 cm。</b>
+最後 \(1\ \text{m}^3=10^6\ \text{cm}^3\)。若答案落在 \(10^{-3}\) m³ 量級才合理；出現 1 m³ 或 \(10^{-9}\) m³ 就是差了 \(10^3\) 倍。
+</div>
+
+<h3>5.2　斜向滲流：流徑與截面積都要投影</h3>
+
+<div class="trap">
+<b>兩個投影，方向相反，很容易只做一半。</b><br>
+① <b>流徑長度</b>：沿流線量，不是垂直高差 → \(L=\Delta Z/\sin\theta\)（<b>除以</b> \(\sin\theta\)，變<b>長</b>）。<br>
+② <b>截面積</b>：達西定律的 \(A\) 必須<b>垂直於流向</b> → \(A_\perp=A_{\text{水平}}\sin\theta\)（<b>乘以</b> \(\sin\theta\)，變<b>小</b>）。<br>
+<a class="qlink" href="problems-view/SM-2011-2.html" target="_blank">SM-2011-2</a>（\(\theta=53^\circ\)，\(\sin\theta=0.8\)）：
+\(L=5/0.8=6.25\) m、\(A_\perp=4\times0.8=3.2\) m²。
+只做流徑不做面積，流量會多算 25%。
+</div>
+
+<div class="why">
+<b>驗算法：換一條路走。</b>SM-2011-2 也可以用「垂直方向的流速分量 × 水平面積」計算：
+\(v_z=(ki)\sin\theta=1.92\times10^{-5}\) m/s，\(Q=v_z\times4=7.68\times10^{-5}\) m³/s ——
+與 \(kiA_\perp\) 完全一致。<b>兩條路殊途同歸，就代表兩個投影都做對了。</b>
+</div>
+
+<h3>5.3　二維流網：只要數兩個數字</h3>
+
+$$q=kH\frac{N_f}{N_d},\qquad \Delta h=\frac{H}{N_d},\qquad h_i=H_{up}-n_i\Delta h,\qquad u_i=(h_i-z_i)\gamma_w$$
+
+<div class="fig">
+<svg viewBox="0 0 880 420" xmlns="http://www.w3.org/2000/svg">
+  <!-- soil -->
+  <rect x="30" y="150" width="820" height="150" fill="#f5f5f5"/>
+  <rect x="30" y="300" width="820" height="24" fill="#cfd8dc"/>
+  <text x="40" y="317" font-size="11.5" fill="#455a64">不透水層</text>
+  <!-- upstream water -->
+  <rect x="30" y="72" width="290" height="78" fill="#bbdefb" opacity=".7"/>
+  <line x1="30" y1="72" x2="320" y2="72" stroke="#1565c0" stroke-width="2"/>
+  <text x="40" y="66" font-size="11.5" fill="#1565c0">上游水面</text>
+  <line x1="30" y1="150" x2="320" y2="150" stroke="#455a64" stroke-width="1.8"/>
+  <text x="40" y="145" font-size="11" fill="#607d8b">上游海床</text>
+  <!-- dam -->
+  <polygon points="320,60 620,60 620,180 320,180" fill="#90a4ae" stroke="#455a64" stroke-width="1.8"/>
+  <text x="440" y="120" font-size="15" font-weight="bold" fill="#263238">混凝土壩</text>
+  <!-- downstream -->
+  <line x1="620" y1="180" x2="850" y2="180" stroke="#455a64" stroke-width="1.8"/>
+  <text x="760" y="174" font-size="11.5" fill="#1565c0">下游水面＝海床</text>
+  <!-- cutoff wall -->
+  <rect x="352" y="180" width="9" height="78" fill="#37474f"/>
+  <text x="286" y="248" font-size="11.5" fill="#37474f">截水牆</text>
+  <!-- flow lines -->
+  <path d="M200 152 Q 300 200 357 262 Q 430 300 700 182" fill="none" stroke="#00838f" stroke-width="1.8"/>
+  <path d="M170 152 Q 280 220 357 276 Q 440 316 700 182" fill="none" stroke="#00838f" stroke-width="1.5" opacity=".75"/>
+  <path d="M140 152 Q 260 240 357 288 Q 450 324 700 182" fill="none" stroke="#00838f" stroke-width="1.5" opacity=".55"/>
+  <!-- equipotentials (schematic ticks) -->
+  <g stroke="#c62828" stroke-width="1.3" opacity=".8">
+    <line x1="250" y1="158" x2="228" y2="206"/><line x1="300" y1="176" x2="272" y2="228"/>
+    <line x1="340" y1="200" x2="308" y2="250"/><line x1="356" y1="240" x2="330" y2="286"/>
+    <line x1="386" y1="248" x2="404" y2="298"/><line x1="430" y1="230" x2="452" y2="292"/>
+    <line x1="490" y1="212" x2="512" y2="282"/><line x1="556" y1="198" x2="576" y2="268"/>
+    <line x1="628" y1="190" x2="646" y2="250"/>
+  </g>
+  <text x="40" y="352" font-size="12" font-weight="bold" fill="#c62828">Nd = 10 個等勢降（紅線之間的「格」）</text>
+  <text x="40" y="374" font-size="12" font-weight="bold" fill="#00838f">Nf = 4 個流槽（青線之間的「道」）</text>
+  <!-- points -->
+  <g fill="#6a1b9a">
+    <circle cx="376" cy="180" r="4.5"/><circle cx="436" cy="180" r="4.5"/><circle cx="496" cy="180" r="4.5"/>
+    <circle cx="556" cy="180" r="4.5"/><circle cx="616" cy="180" r="4.5"/>
+  </g>
+  <text x="372" y="172" font-size="12" font-weight="bold" fill="#6a1b9a">a</text>
+  <text x="432" y="172" font-size="12" font-weight="bold" fill="#6a1b9a">b</text>
+  <text x="492" y="172" font-size="12" font-weight="bold" fill="#6a1b9a">c</text>
+  <text x="552" y="172" font-size="12" font-weight="bold" fill="#6a1b9a">d</text>
+  <text x="612" y="172" font-size="12" font-weight="bold" fill="#6a1b9a">e</text>
+  <!-- dims -->
+  <line x1="20" y1="72" x2="20" y2="150" stroke="#607d8b" stroke-width="1.2"/>
+  <text x="24" y="112" font-size="11" fill="#607d8b">6.3</text>
+  <line x1="20" y1="150" x2="20" y2="180" stroke="#607d8b" stroke-width="1.2"/>
+  <text x="24" y="170" font-size="11" fill="#607d8b">1.6</text>
+  <rect x="440" y="336" width="412" height="76" rx="9" fill="#fff3e0" stroke="#ffcc80" stroke-width="1.5"/>
+  <text x="452" y="358" font-size="12.5" font-weight="bold" fill="#e65100">總水頭差不是圖上最大的那個數字</text>
+  <text x="452" y="380" font-size="12" fill="#37474f">ΔH = 6.3（上游水深）+ 1.6（壩底埋深）= 7.9 m</text>
+  <text x="452" y="400" font-size="12" fill="#607d8b">因為下游水面比上游海床還低 1.6 m</text>
+</svg>
+<div class="cap">流網示意（依 <a class="qlink" href="problems-view/SM-2018-3.html" target="_blank">SM-2018-3</a>）。青色為流線、紅色為等勢線。<b>\(N_f\) 數「流線之間的通道」，\(N_d\) 數「等勢線之間的間隔」</b> —— 都是數「格子」不是數「線」，這是最常見的差一錯誤。</div>
+</div>
+
+<div class="box">
+<b>手算：SM-2018-3</b>（\(k=3.5\times10^{-6}\) m/s，\(N_f=4\)，\(N_d=10\)）
+$$\Delta H=6.3+1.6=7.9\ \text{m},\qquad \Delta h=\frac{7.9}{10}=0.79\ \text{m}$$
+$$q=kH\frac{N_f}{N_d}=3.5\times10^{-6}\times7.9\times\frac{4}{10}=\boxed{1.106\times10^{-5}\ \text{m}^3/\text{s/m}}$$
+以壩底為基準面（各點 \(z=0\)，故 \(u_i=h_i\gamma_w\)），從上游算起累積降數：
+
+<table>
+<thead><tr><th>點</th><th>累積降數 \(n\)</th><th>\(h=7.9-0.79n\) (m)</th><th>\(u=h\gamma_w\) (kPa)</th></tr></thead>
+<tbody>
+<tr><td>a</td><td>6</td><td>3.16</td><td>31.00</td></tr>
+<tr><td>b</td><td>7</td><td>2.37</td><td>23.25</td></tr>
+<tr><td>c</td><td>8</td><td>1.58</td><td>15.50</td></tr>
+<tr><td>d</td><td>9</td><td>0.79</td><td>7.75</td></tr>
+<tr><td>e</td><td>10</td><td>0</td><td>0</td></tr>
+</tbody>
+</table>
+<b>自我檢查</b>：① e 點是下游出口，總水頭必須為 0、上揚壓力必須為 0 ✓；
+② 相鄰兩點差恰好 \(0.79\times9.81=7.75\) kPa，等差 ✓。<b>只要末點歸零、間距等差，這一整組數字就不會錯。</b>
+</div>
+
+<div class="trap">
+<b>陷阱：總水頭差要從圖面幾何推，不能照抄標註。</b>
+SM-2018-3 圖上印了 6.3、1.6、9.4、17.2 四個數字。
+驗證方法：截水牆長 \(9.4-1.6=7.8\) m、牆底至不透水層 \(17.2-9.4=7.8\) m —— <b>兩者相等，證明所有尺寸都自上游海床起算</b>。
+因此 \(\Delta H=6.3+1.6=7.9\) m，而非 6.3 m。<b>看到一組尺寸，先找「能互相驗證」的那兩個。</b>
+</div>
+</section>
+<section id="s6">
+<h2>§6　抽水的連鎖後果：本單元兩端唯一的交會點</h2>
+
+<div class="lead">
+抽水看起來只是「把水位降下來」，實際上<b>同時做了三件事</b>：
+① 上下層產生水頭差 → 誘發滲流；
+② 原本在水面下的土變成水面上 → <b>總應力 \(\sigma\) 下降</b>；
+③ 孔隙水壓 \(u\) 下降的幅度<b>大於</b>總應力下降的幅度 → \(\sigma'\) 淨增加 → 壓密沉陷。
+第 ② 點最反直覺，也最常被漏掉。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 350" xmlns="http://www.w3.org/2000/svg">
+  <text x="30" y="24" font-size="14" font-weight="bold" fill="#0d47a1">抽水前後（黏土層中央點，地表下 13 m）</text>
+  <line x1="60" y1="280" x2="840" y2="280" stroke="#455a64" stroke-width="1.6"/>
+
+  <!-- sigma -->
+  <rect x="100" y="99" width="44" height="181" fill="#cfd8dc" stroke="#78909c" stroke-width="1.4"/>
+  <rect x="152" y="107" width="44" height="173" fill="#90a4ae" stroke="#546e7a" stroke-width="1.4"/>
+  <text x="102" y="92" font-size="12" fill="#546e7a">226</text>
+  <text x="154" y="100" font-size="12" fill="#37474f">216</text>
+  <text x="86" y="300" font-size="13.5" font-weight="bold" fill="#455a64">總應力 σ</text>
+  <text x="76" y="320" font-size="12" fill="#c62828">↓ 下降 10 kPa（反直覺！）</text>
+  <text x="72" y="338" font-size="11.5" fill="#607d8b">3~8 m 的砂由 γsat=18 變 γdry=16</text>
+
+  <!-- u -->
+  <rect x="360" y="202" width="44" height="78" fill="#bbdefb" stroke="#42a5f5" stroke-width="1.4"/>
+  <rect x="412" y="221" width="44" height="59" fill="#64b5f6" stroke="#1565c0" stroke-width="1.4"/>
+  <text x="360" y="195" font-size="12" fill="#1565c0">98.1</text>
+  <text x="414" y="214" font-size="12" fill="#0d47a1">73.6</text>
+  <text x="344" y="300" font-size="13.5" font-weight="bold" fill="#1565c0">孔隙水壓 u</text>
+  <text x="334" y="320" font-size="12" font-weight="bold" fill="#c62828">↓ 下降 24.5 kPa（幅度更大）</text>
+  <text x="330" y="338" font-size="11.5" fill="#607d8b">而且已非靜水壓，須用滲流水頭算</text>
+
+  <!-- sigma' -->
+  <rect x="620" y="178" width="44" height="102" fill="#c8e6c9" stroke="#66bb6a" stroke-width="1.4"/>
+  <rect x="672" y="166" width="44" height="114" fill="#43a047" stroke="#2e7d32" stroke-width="1.4"/>
+  <text x="618" y="171" font-size="12" fill="#2e7d32">127.9</text>
+  <text x="672" y="159" font-size="12" fill="#1b5e20">142.4</text>
+  <text x="600" y="300" font-size="13.5" font-weight="bold" fill="#2e7d32">有效應力 σ′</text>
+  <text x="596" y="320" font-size="12" font-weight="bold" fill="#2e7d32">↑ 上升 14.5 kPa → 壓密</text>
+  <text x="588" y="338" font-size="11.5" fill="#607d8b">σ′ = σ − u：小減大 = 淨增</text>
+
+  <!-- legend -->
+  <rect x="716" y="40" width="140" height="52" rx="8" fill="#fff" stroke="#dfe6ea"/>
+  <rect x="726" y="52" width="18" height="12" fill="#cfd8dc" stroke="#78909c"/>
+  <text x="750" y="62" font-size="11.5" fill="#607d8b">抽水前</text>
+  <rect x="726" y="72" width="18" height="12" fill="#90a4ae" stroke="#546e7a"/>
+  <text x="750" y="82" font-size="11.5" fill="#607d8b">抽水後</text>
+</svg>
+<div class="cap">數據取自 <a class="qlink" href="problems-view/SM-2015-4.html" target="_blank">SM-2015-4</a>。<b>\(\sigma\) 與 \(u\) 都下降，但 \(u\) 降得更多，所以 \(\sigma'\) 反而上升</b> —— 這就是抽水造成地層下陷的完整機制。</div>
+</div>
+
+<div class="why">
+<b>為什麼總應力會下降？</b>因為水也有重量。原本 3～8 m 那段砂土是飽和的（\(\gamma_{sat}=18\)），
+抽乾之後孔隙裡的水跑掉了，剩下 \(\gamma_{dry}=16\) —— 每公尺少了 2 kN/m³，5 公尺就少了 10 kPa。
+<b>下方黏土承受的「總」重量確實變輕了。</b><br>
+但孔隙水壓降得更多：水頭降 5 m 就是 \(5\times9.81=49\) kPa 的量級（本題因黏土層內是線性滲流，中央點只降 24.5 kPa）。
+<b>一個降 10、一個降 24.5，相減淨增 14.5 —— 這 14.5 kPa 就是壓密的驅動力。</b>
+</div>
+
+<div class="box">
+<b>手算：SM-2015-4 全程</b>（砂土 0～9 m、黏土 9～17 m 厚 8 m、原水位 GL−3 m、砂層水頭抽降 5 m）
+
+<p><b>① 滲流（右端）</b>　黏土層上邊界水頭降 5 m、下邊界不變 → 產生<b>向上</b>滲流</p>
+$$i=\frac{\Delta h}{H_c}=\frac{5}{8}=0.625,\qquad \frac{q}{A}=v=ki=10^{-7}\times0.625=\boxed{6.25\times10^{-8}\ \text{m/s}}$$
+
+<p><b>② 抽水前的應力</b>（中央點，地表下 13 m；水位 GL−3）</p>
+$$\sigma_{v0}=3(16)+6(18)+4(17.5)=226,\quad u_0=10(9.81)=98.1\ \Rightarrow\ \sigma_{v0}'=127.9\ \text{kPa}$$
+
+<p><b>③ 抽水後的應力</b>（等效水位降至 GL−8；\(u\) 用<b>滲流水頭</b>，不是靜水壓）</p>
+$$\sigma_{vf}=8(16)+1(18)+4(17.5)=216\ \text{kPa}$$
+$$h_{mid}=\frac{h_{top}+h_{bot}}{2}=\frac{9+14}{2}=11.5\ \text{m}\ \Rightarrow\ h_p=11.5-4=7.5\ \text{m},\quad u_f=73.6\ \text{kPa}$$
+$$\sigma_{vf}'=216-73.6=142.4\ \text{kPa}$$
+
+<p><b>④ 壓密沉陷（左端）</b>　題目給 \(LL=50\) 而未給 \(C_c\) → 用 Skempton</p>
+$$C_c=0.009(50-10)=0.36$$
+$$S_c=\frac{0.36\times8}{1+0.9}\log\frac{142.4}{127.9}=1.516\times0.0467=\boxed{7.08\ \text{cm}}$$
+
+<p><b>自我檢查</b>：\(\sigma'\) 只增加 11.4%（\(\log 1.114=0.047\)），所以沉陷量應該是「數公分」等級。
+若算出 70 cm 或 0.7 cm，去檢查是不是用了 \(\ln\) 或把 \(H\) 的單位弄錯。</p>
+</div>
+
+<div class="trap">
+<b>陷阱：\(u_f\) 不能用「新水位」直接算靜水壓。</b>
+抽水後黏土層內是<b>穩定滲流</b>，\(u\) 由總水頭線性內插而來（\(u_f=73.6\)）。
+若誤用靜水壓（水位 GL−8，中央點 13 m → \(5\times9.81=49.1\) kPa），\(\sigma_{vf}'\) 會變成 166.9 kPa，
+沉陷量算成 \(1.516\times\log(166.9/127.9)=17.5\) cm —— <b>誇大 2.5 倍</b>。
+</div>
+
+<h3>6.1　滲流力：另一種看同一件事的方式</h3>
+
+$$j=i\,\gamma_w\quad[\text{kN/m}^3]\qquad\text{（體積力，方向與水流一致）}$$
+
+<div class="why">
+<b>滲流力與有效應力是同一件事的兩種記帳法。</b>
+「向上滲流使 \(\sigma'\) 下降」和「向上的滲流力 \(j\) 抵銷土的有效重 \(\gamma'\)」講的是同一回事。
+當 \(j=\gamma'\)（即 \(i=i_{cr}=\gamma'/\gamma_w\)）時 \(\sigma'\) 歸零 → 砂湧。
+<b>兩套記法只能擇一，混用會重複計算。</b>
+</div>
+
+<div class="box">
+<b>手算：SM-2010-3</b>（黏土 0～2 m、砂 2～8 m、水位 GL−1、開挖至 GL−4、擋土壁貫入至 GL−5）
+$$\Delta h=4.0-1.0=3.0\ \text{m}$$
+<b>流徑只算砂土層</b>（黏土幾乎不導水，見 §5.1 的極限檢查）：
+$$L=\underbrace{(5-2)}_{\text{外側}}+\underbrace{(5-4)}_{\text{內側}}=4.0\ \text{m}\ \Rightarrow\ i=\frac{3.0}{4.0}=0.75$$
+$$j=i\gamma_w=0.75\times9.81=\boxed{7.36\ \text{kN/m}^3\ (\text{向上})}$$
+$$i_{cr}=\frac{18-9.81}{9.81}=0.835\ \Rightarrow\ FS=\frac{0.835}{0.75}=\boxed{1.11}$$
+<b>結論的寫法很重要</b>：\(FS=1.11>1.0\) 理論上不會管湧，<b>但規範要求 \(1.5\sim2.0\)，實務上極度危險</b>，
+應加深貫入或坑外降水。只寫「大於 1，安全」會失分。
+</div>
+
+<div class="trap">
+<b>陷阱：流徑要不要含黏土層？</b>
+本題把黏土層排除在流徑之外（\(L=4\) m 而非 \(L=6\) m）。理由是 \(k_{clay}\ll k_{sand}\)，
+水繞著黏土走、水頭幾乎全消耗在砂層。若把黏土厚度也算進 \(L\)，坡降會被<b>低估</b>、\(FS\) 被<b>高估</b>，偏於不安全。
+<b>判準：外側的滲流路徑，只從「透水層頂面」起算。</b>
+</div>
+</section>
+<section id="s7">
+<h2>§7　解題決策流程</h2>
+
+<h3>7.1　左端：承載力與沉陷量</h3>
+
+<div class="fig">
+<svg viewBox="0 0 900 470" xmlns="http://www.w3.org/2000/svg">
+  <rect x="335" y="16" width="230" height="44" rx="9" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+  <text x="450" y="44" font-size="14.5" font-weight="bold" fill="#c62828" text-anchor="middle">要的答案是「土能做什麼」</text>
+  <line x1="450" y1="60" x2="450" y2="76" stroke="#455a64" stroke-width="2" marker-end="url(#p1)"/>
+
+  <polygon points="450,78 625,120 450,162 275,120" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+  <text x="450" y="117" font-size="14.5" font-weight="bold" fill="#e65100" text-anchor="middle">問承載力，還是沉陷量？</text>
+  <text x="450" y="137" font-size="11.5" fill="#8d6e63" text-anchor="middle">看要求的單位：kPa/kN 還是 cm</text>
+
+  <path d="M275 120 L215 120 L215 189" fill="none" stroke="#455a64" stroke-width="2" marker-end="url(#p1)"/>
+  <text x="222" y="114" font-size="12.5" font-weight="bold" fill="#c62828">承載力</text>
+  <path d="M625 120 L690 120 L690 189" fill="none" stroke="#455a64" stroke-width="2" marker-end="url(#p1)"/>
+  <text x="642" y="114" font-size="12.5" font-weight="bold" fill="#2e7d32">沉陷量</text>
+
+  <polygon points="215,191 410,235 215,279 20,235" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+  <text x="215" y="231" font-size="13.5" font-weight="bold" fill="#e65100" text-anchor="middle">飽和黏土的短期行為？</text>
+  <text x="215" y="250" font-size="11.5" fill="#8d6e63" text-anchor="middle">線索：給 Su 或 qu，沒給 φ′</text>
+
+  <polygon points="690,191 865,235 690,279 515,235" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+  <text x="690" y="231" font-size="13.5" font-weight="bold" fill="#e65100" text-anchor="middle">砂土還是黏土？</text>
+  <text x="690" y="250" font-size="11.5" fill="#8d6e63" text-anchor="middle">排水快慢決定機制</text>
+
+  <path d="M215 279 L117 298" fill="none" stroke="#455a64" stroke-width="2" marker-end="url(#p1)"/>
+  <text x="112" y="292" font-size="12" font-weight="bold" fill="#2e7d32">是</text>
+  <path d="M215 279 L322 298" fill="none" stroke="#455a64" stroke-width="2" marker-end="url(#p1)"/>
+  <text x="324" y="292" font-size="12" font-weight="bold" fill="#c62828">否</text>
+  <path d="M690 279 L595 298" fill="none" stroke="#455a64" stroke-width="2" marker-end="url(#p1)"/>
+  <path d="M690 279 L785 298" fill="none" stroke="#455a64" stroke-width="2" marker-end="url(#p1)"/>
+
+  <rect x="20" y="300" width="195" height="112" rx="9" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1.5"/>
+  <text x="30" y="322" font-size="12.5" font-weight="bold" fill="#2e7d32">φ = 0 退化</text>
+  <text x="30" y="342" font-size="11.5" fill="#37474f">Nc = 5.14 或 5.7</text>
+  <text x="30" y="360" font-size="11.5" fill="#37474f">Nq = 1，Nγ = 0</text>
+  <text x="30" y="378" font-size="11.5" fill="#37474f">qu,net = Su·Nc·Fcs·Fcd</text>
+  <text x="30" y="398" font-size="11" fill="#607d8b">水位在基礎面下 → 不影響</text>
+
+  <rect x="225" y="300" width="195" height="112" rx="9" fill="#ffebee" stroke="#ef9a9a" stroke-width="1.5"/>
+  <text x="235" y="322" font-size="12.5" font-weight="bold" fill="#c62828">完整三項</text>
+  <text x="235" y="342" font-size="11.5" fill="#37474f">c′Nc + qNq + 0.5γBNγ</text>
+  <text x="235" y="360" font-size="11.5" fill="#37474f">形狀、深度修正都乘上</text>
+  <text x="235" y="378" font-size="11.5" fill="#e65100">水位三情形要判（§1.4）</text>
+  <text x="235" y="398" font-size="11" fill="#607d8b">砂土 qu ∝ B</text>
+
+  <rect x="505" y="300" width="180" height="112" rx="9" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1.5"/>
+  <text x="515" y="322" font-size="12.5" font-weight="bold" fill="#2e7d32">砂土：瞬時沉陷</text>
+  <text x="515" y="342" font-size="11.5" fill="#37474f">平鈑載重試驗為依據</text>
+  <text x="515" y="360" font-size="11.5" fill="#37474f">承載力 ×(BF/BP)</text>
+  <text x="515" y="378" font-size="11.5" fill="#37474f">沉陷 ×[2BF/(BF+BP)]²</text>
+  <text x="515" y="398" font-size="11" fill="#c62828">多半由沉陷控制設計</text>
+
+  <rect x="695" y="300" width="180" height="112" rx="9" fill="#e3f2fd" stroke="#90caf9" stroke-width="1.5"/>
+  <text x="705" y="322" font-size="12.5" font-weight="bold" fill="#1565c0">黏土：壓密沉陷</text>
+  <text x="705" y="342" font-size="11.5" fill="#37474f">Sc = CcH/(1+e0)·log(σf′/σ0′)</text>
+  <text x="705" y="360" font-size="11.5" fill="#37474f">沒給 Cc → Skempton</text>
+  <text x="705" y="378" font-size="11.5" fill="#e65100">先判 NC 還是 OC</text>
+  <text x="705" y="398" font-size="11" fill="#607d8b">σ′ 要先由 §4 §5 算出</text>
+
+  <rect x="20" y="424" width="855" height="42" rx="9" fill="#f3e5f5" stroke="#ce93d8" stroke-width="1.4"/>
+  <text x="34" y="442" font-size="12.5" font-weight="bold" fill="#6a1b9a">最後一步（承載力側）：淨還是總？</text>
+  <text x="34" y="460" font-size="12" fill="#455a64">題目出現「代償式」「筏式」「埋深大」→ 一定用淨：FS = qu,net / (Q/A − γDf)；其餘擇一並在卷面寫明定義</text>
+
+  <defs><marker id="p1" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker></defs>
+</svg>
+<div class="cap">左端的分岔只有兩層：先分「強度／變形」，再分「短期／長期」或「砂土／黏土」。<b>公式其實只有兩條，難的是把題目歸到正確的格子。</b></div>
+</div>
+
+<h3>7.2　右端：水頭與滲流</h3>
+
+<div class="fig">
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
+  <rect x="320" y="16" width="260" height="44" rx="9" fill="#e0f7fa" stroke="#00838f" stroke-width="1.8"/>
+  <text x="450" y="44" font-size="14.5" font-weight="bold" fill="#00838f" text-anchor="middle">要的答案是「水在做什麼」</text>
+  <line x1="450" y1="60" x2="450" y2="76" stroke="#455a64" stroke-width="2" marker-end="url(#p2)"/>
+
+  <polygon points="450,78 660,122 450,166 240,122" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+  <text x="450" y="118" font-size="14" font-weight="bold" fill="#e65100" text-anchor="middle">先設基準面，再問：滲流是幾維？</text>
+  <text x="450" y="138" font-size="11.5" fill="#8d6e63" text-anchor="middle">基準面全題只能有一個</text>
+
+  <path d="M240 122 L150 122 L150 186" fill="none" stroke="#455a64" stroke-width="2" marker-end="url(#p2)"/>
+  <text x="60" y="116" font-size="12" font-weight="bold" fill="#1565c0">層狀垂直流</text>
+  <line x1="450" y1="166" x2="450" y2="186" stroke="#455a64" stroke-width="2" marker-end="url(#p2)"/>
+  <text x="360" y="182" font-size="12" font-weight="bold" fill="#2e7d32">單向但傾斜</text>
+  <path d="M660 122 L750 122 L750 186" fill="none" stroke="#455a64" stroke-width="2" marker-end="url(#p2)"/>
+  <text x="672" y="116" font-size="12" font-weight="bold" fill="#6a1b9a">繞過結構物</text>
+
+  <rect x="20" y="188" width="260" height="128" rx="9" fill="#e3f2fd" stroke="#90caf9" stroke-width="1.5"/>
+  <text x="32" y="210" font-size="13" font-weight="bold" fill="#1565c0">一維串聯（電阻類比）</text>
+  <text x="32" y="232" font-size="12" fill="#37474f">R i = H i / k i</text>
+  <text x="32" y="252" font-size="12" fill="#37474f">Δh i = Δh · R i / ΣR</text>
+  <text x="32" y="272" font-size="12" fill="#37474f">keq = ΣH / Σ(H/k)</text>
+  <text x="32" y="294" font-size="11.5" fill="#c62828">驗算：換一層重算 v，須相同</text>
+  <text x="32" y="312" font-size="11" fill="#607d8b">SM-2022-3</text>
+
+  <rect x="320" y="188" width="260" height="128" rx="9" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1.5"/>
+  <text x="332" y="210" font-size="13" font-weight="bold" fill="#2e7d32">斜向：兩個投影</text>
+  <text x="332" y="232" font-size="12" fill="#37474f">流徑 L = ΔZ / sinθ（變長）</text>
+  <text x="332" y="252" font-size="12" fill="#37474f">面積 A⊥ = A水平 · sinθ（變小）</text>
+  <text x="332" y="274" font-size="11.5" fill="#c62828">只做一個 → 流量錯 25%</text>
+  <text x="332" y="294" font-size="11.5" fill="#607d8b">驗算：改用 vz × A水平，須相同</text>
+  <text x="332" y="312" font-size="11" fill="#607d8b">SM-2011-2</text>
+
+  <rect x="620" y="188" width="260" height="128" rx="9" fill="#f3e5f5" stroke="#ce93d8" stroke-width="1.5"/>
+  <text x="632" y="210" font-size="13" font-weight="bold" fill="#6a1b9a">二維流網</text>
+  <text x="632" y="232" font-size="12" fill="#37474f">q = k · ΔH · Nf / Nd</text>
+  <text x="632" y="252" font-size="12" fill="#37474f">Δh = ΔH / Nd</text>
+  <text x="632" y="272" font-size="12" fill="#37474f">h i = Hup − n i · Δh</text>
+  <text x="632" y="294" font-size="11.5" fill="#c62828">ΔH 要由圖面幾何推，勿照抄</text>
+  <text x="632" y="312" font-size="11" fill="#607d8b">SM-2018-3；無流網時用最短流徑</text>
+
+  <line x1="150" y1="316" x2="150" y2="344" stroke="#455a64" stroke-width="2" marker-end="url(#p2)"/>
+  <line x1="450" y1="316" x2="450" y2="344" stroke="#455a64" stroke-width="2" marker-end="url(#p2)"/>
+  <line x1="750" y1="316" x2="750" y2="344" stroke="#455a64" stroke-width="2" marker-end="url(#p2)"/>
+
+  <rect x="20" y="346" width="860" height="72" rx="9" fill="#e0f7fa" stroke="#80deea" stroke-width="1.6"/>
+  <text x="34" y="368" font-size="13.5" font-weight="bold" fill="#00838f">共同終點：拿到總水頭 h 之後</text>
+  <text x="34" y="390" font-size="12.5" fill="#37474f">u = (h − z)·γw　→　σ′ = σ − u　→　回到左端：算承載力、算壓密沉陷</text>
+  <text x="34" y="410" font-size="12.5" fill="#37474f">若問穩定性 → 滲流力 j = i·γw；砂湧 FS = icr / iexit，icr = γ′/γw ≈ 0.9~1.0</text>
+
+  <rect x="20" y="430" width="860" height="42" rx="9" fill="#fff3e0" stroke="#ffcc80" stroke-width="1.4"/>
+  <text x="34" y="448" font-size="12.5" font-weight="bold" fill="#e65100">交卷前三個免費檢查</text>
+  <text x="34" y="466" font-size="12" fill="#455a64">① 出口點的總水頭與上揚壓力是否為 0　② σ′ 沿深度是否遞增　③ 把基準面平移，u 是否不變</text>
+
+  <defs><marker id="p2" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker></defs>
+</svg>
+<div class="cap">右端的三條路只差在「幾何」，公式其實共用。<b>每一條路都附一個驗算法</b> —— 滲流題的數字沒有直覺可依賴，驗算是唯一能自救的手段。</div>
+</div>
+</section>
+<section id="s8">
+<h2>§8　歷屆題 × 觀念對照表</h2>
+
+<p>主分類 10 題，橫跨 2009～2022。近 6 年（2017～2022）出題 3 次。另有 3 題以本子項為<b>副</b>分類（列於表末）。</p>
+
+<table>
+<thead><tr><th style="width:11%">題號</th><th style="width:7%">考年</th><th style="width:9%">端</th><th style="width:28%">核心模型／公式</th><th>本講義對應節次</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="problems-view/SM-2009-2.html" target="_blank">SM-2009-2</a></td><td>2009</td><td style="color:#c62828">左端</td><td>部分代償式筏基、淨承載力反推 \(D_f\)、Terzaghi 抗隆起、上舉檢核</td><td>§1.2、§2.1、§2.2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2010-3.html" target="_blank">SM-2010-3</a></td><td>2010</td><td style="color:#00838f">右端</td><td>最短流徑、滲流力 \(j=i\gamma_w\)、管湧 \(FS=i_{cr}/i\)</td><td>§5.1、§6.1</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2010-4.html" target="_blank">SM-2010-4</a></td><td>2010</td><td style="color:#c62828">左端</td><td>\(\phi=0\) 承載力、淨容許承載力、水位下降對長短期的影響</td><td>§1.2、§1.4、§2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2011-2.html" target="_blank">SM-2011-2</a></td><td>2011</td><td style="color:#00838f">右端</td><td>斜向滲流、水頭三兄弟、流徑與截面積兩個投影</td><td>§4、§5.2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2015-4.html" target="_blank">SM-2015-4</a></td><td>2015</td><td>兩端</td><td>抽水 → 滲流＋總應力下降 → \(\sigma'\) 增加 → 壓密沉陷；Skempton \(C_c\)</td><td>§3.2、§6</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2017-3.html" target="_blank">SM-2017-3</a></td><td>2017</td><td style="color:#c62828">左端</td><td>平鈑載重試驗、砂土尺寸效應（承載力與沉陷兩條不同公式）、承載力控制 vs 沉陷量控制</td><td>§1.1、§3.1</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2018-3.html" target="_blank">SM-2018-3</a></td><td>2018</td><td style="color:#00838f">右端</td><td>流網 \(N_f/N_d\)、上揚壓力、由圖面幾何推總水頭差</td><td>§5.3</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2020-4.html" target="_blank">SM-2020-4</a></td><td>2020</td><td style="color:#c62828">左端</td><td>\(S_u=q_u/2\)、Terzaghi 條形 \(N_c=5.7\)、淨載重比較、自行假設 FS</td><td>§1.2、§1.5、§2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2021-1.html" target="_blank">SM-2021-1</a></td><td>2021</td><td style="color:#00838f">右端</td><td>水頭三兄弟、湧泉壓力、\(\sigma/u/\sigma'\) 剖面、滲流方向與速率</td><td>§4、§4.1</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2022-3.html" target="_blank">SM-2022-3</a></td><td>2022</td><td style="color:#00838f">右端</td><td>層狀垂直滲流串聯、水頭損失依 \(H/k\) 分配、單位換算</td><td>§5.1</td></tr>
+<tr style="background:#f5f5f5"><td colspan="5"><b>副分類（主戰場在別的子項，可當延伸閱讀）</b>：
+SM-2004-4（軟弱地盤儲油槽、預壓工法、現地調查與監測項目）、
+SM-2006-1（十字片剪試驗、過壓密比、極限平衡）、
+SM-2007-2（流砂 vs 土壤液化的區辨、UU/CU 試驗）</td></tr>
+</tbody>
+</table>
+
+<h3>考點群出現次數</h3>
+
+<table>
+<thead><tr><th style="width:34%">考點群</th><th style="width:12%">題數</th><th>代表題</th></tr></thead>
+<tbody>
+<tr><td>水頭、孔隙水壓與應力剖面</td><td><b>4</b></td><td>SM-2021-1、SM-2011-2、SM-2015-4、SM-2010-3</td></tr>
+<tr><td>承載力公式與容許承載力</td><td><b>3</b></td><td>SM-2020-4、SM-2010-4、SM-2009-2</td></tr>
+<tr><td>滲流量計算（一維／二維）</td><td><b>3</b></td><td>SM-2022-3、SM-2011-2、SM-2018-3</td></tr>
+<tr><td>淨 vs 總、代償式基礎</td><td><b>3</b></td><td>SM-2009-2、SM-2010-4、SM-2020-4</td></tr>
+<tr><td>沉陷量（彈性／壓密）</td><td>2</td><td>SM-2017-3、SM-2015-4</td></tr>
+<tr><td>滲流破壞（管湧、上舉）</td><td>2</td><td>SM-2010-3、SM-2009-2（另見 SM-U2-3 講義）</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="s9">
+<h2>§9　陷阱總表（考前十分鐘掃這一頁）</h2>
+
+<table>
+<thead><tr><th style="width:5%">#</th><th style="width:26%">觸發信號</th><th style="width:30%">錯誤思維</th><th>正確認知</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>大綱名稱「淺基礎之支承力與沉陷量」</td><td>只準備承載力公式</td><td>10 題中 6 題是滲流；依歷屆分布滲流反而更常出</td></tr>
+<tr><td>2</td><td>題目給了 \(F_{cs}\)、\(F_{cd}\)</td><td>隨手用 \(N_c=5.7\)</td><td>給修正係數＝Meyerhof 一般式，\(\phi=0\) 取 \(N_c=5.14\)。<span style="color:#c62828">SM-2010-4</span></td></tr>
+<tr><td>3</td><td>「狹長基礎」「條形基礎」且未給修正係數</td><td>用 5.14 再乘形狀係數</td><td>Terzaghi 條形 \(N_c=5.7\)；兩版本擇一並寫明。<span style="color:#c62828">SM-2020-4</span></td></tr>
+<tr><td>4</td><td>看到「地下水位」</td><td>反射性把單位重改成 \(\gamma'\)</td><td>先問「這一項有沒有用到單位重」。\(\phi=0\) 時 \(N_\gamma=0\)，水位在基礎面下完全不影響</td></tr>
+<tr><td>5</td><td>水位在基礎面以下</td><td>一律不管</td><td>要看是否在<b>基礎面下 \(B\) 以內</b>；在範圍內時 \(N_\gamma\) 項要用加權單位重（§1.4）</td></tr>
+<tr><td>6</td><td>「代償式」「筏式基礎」</td><td>用 \(FS=q_{ult}/(Q/A)\)</td><td>必用淨：\(FS=q_{ult,net}/(Q/A-\gamma D_f)\)，否則代償的效益完全反映不出來。<span style="color:#c62828">SM-2009-2</span></td></tr>
+<tr><td>7</td><td>求容許承載力</td><td>沒寫用哪個定義</td><td>\(q_u/FS\) 與 \((q_u-q)/FS+q\) 差 15%；<b>兩者都給分，但一定要寫明</b>。<span style="color:#c62828">SM-2010-4</span></td></tr>
+<tr><td>8</td><td>題目沒給安全係數</td><td>直接比較 \(q_{ult}\) 與載重</td><td>淺基礎自行假設 \(FS=3.0\) 並在卷面寫出，這是判定「安全與否」的依據。<span style="color:#c62828">SM-2020-4</span></td></tr>
+<tr><td>9</td><td>基礎混凝土厚度與埋深相同</td><td>只算牆載重 \(Q/B\)</td><td>混凝土取代了原土，額外淨壓力為 \((\gamma_c-\gamma_{soil})D_f\)。<span style="color:#c62828">SM-2020-4</span></td></tr>
+<tr><td>10</td><td>平鈑載重試驗推到足尺基腳（砂土）</td><td>令 \(q_{ult(F)}=q_{ult(P)}\)</td><td>那是黏土的性質。砂土 \(q_u\propto B\)，要乘 \(B_F/B_P\)。<span style="color:#c62828">SM-2017-3</span></td></tr>
+<tr><td>11</td><td>同一題要換算沉陷量</td><td>沉陷量也按 \(B_F/B_P\) 線性放大</td><td>用 Terzaghi &amp; Peck：\(S_F=S_P[2B_F/(B_F+B_P)]^2\)，上限只放大 4 倍</td></tr>
+<tr><td>12</td><td>算出承載力控制的 \(Q_a\) 很大</td><td>直接建議採用</td><td>回頭算對應沉陷量。SM-2017-3 的 3152 kN 對應 83.5 cm，完全不可用</td></tr>
+<tr><td>13</td><td>「正常壓密／過壓密」字樣</td><td>一律用 \(C_c\)</td><td>OC 且 \(\sigma_f'<\sigma_p'\) 要用回脹指數 \(C_s\approx C_c/5\sim C_c/10\)，沉陷小一個數量級</td></tr>
+<tr><td>14</td><td>給了 \(LL\) 卻沒給 \(C_c\)</td><td>卡住不會做</td><td>Skempton：\(C_c=0.009(LL-10)\)。<span style="color:#c62828">SM-2015-4</span></td></tr>
+<tr><td>15</td><td>壓密沉陷公式的 log</td><td>用自然對數 \(\ln\)</td><td>是常用對數（底 10），用 \(\ln\) 會放大 2.303 倍</td></tr>
+<tr><td>16</td><td>要求算孔隙水壓</td><td>一律 \(u=\gamma_w z_w\)</td><td>靜水壓只是「上下水頭相同」的特例。有滲流時 \(u=(h-z)\gamma_w\)。<span style="color:#c62828">SM-2021-1、SM-2015-4</span></td></tr>
+<tr><td>17</td><td>「湧泉壓力使水上升至高於地表 1 m」</td><td>不知道怎麼轉成數字</td><td><b>豎管水面高程＝該點總水頭</b>。\(h_C=+1\) m，\(h_p=1+9=10\) m</td></tr>
+<tr><td>18</td><td>題目問滲流「速率」</td><td>算 \(q=kiA\)</td><td>速率是 \(v=ki\)（m/s），流量才乘面積。看要求的單位</td></tr>
+<tr><td>19</td><td>斜向滲流</td><td>流徑用垂直高差</td><td>\(L=\Delta Z/\sin\theta\)（變長）。<span style="color:#c62828">SM-2011-2</span></td></tr>
+<tr><td>20</td><td>同上，算流量</td><td>截面積用水平投影面積</td><td>\(A_\perp=A_{\text{水平}}\sin\theta\)（變小）。兩個投影都要做，只做一個會錯 25%</td></tr>
+<tr><td>21</td><td>層狀垂直滲流</td><td>用算術平均求 \(k_{eq}\)</td><td>垂直流是<b>串聯</b>，用調和平均 \(k_{eq}=\sum H/\sum(H/k)\)，由最不透水層主宰</td></tr>
+<tr><td>22</td><td>流網數 \(N_f\)、\(N_d\)</td><td>數「線」的條數</td><td>數的是<b>格子（間隔）</b>：流線之間的通道、等勢線之間的降數</td></tr>
+<tr><td>23</td><td>圖面標了好幾個尺寸</td><td>把最大的水深當總水頭差</td><td>要找能互相驗證的尺寸推基準。SM-2018-3 是 \(6.3+1.6=7.9\) m 不是 6.3 m</td></tr>
+<tr><td>24</td><td>開挖外側有黏土蓋在砂層上</td><td>流徑把黏土厚度也算進去</td><td>黏土幾乎不導水，流徑<b>只從透水層頂面起算</b>；含進去會高估 FS。<span style="color:#c62828">SM-2010-3</span></td></tr>
+<tr><td>25</td><td>抽水降低水位</td><td>以為總應力不變</td><td>飽和變乾燥 → \(\gamma_{sat}\to\gamma_{dry}\) → <b>總應力也會下降</b>；但 \(u\) 降更多，\(\sigma'\) 仍淨增。<span style="color:#c62828">SM-2015-4</span></td></tr>
+<tr><td>26</td><td>算出 \(FS_{piping}=1.11\)</td><td>寫「大於 1，安全」</td><td>規範要求 \(1.5\sim2.0\)，應寫「理論上不破壞但實務極危險」並提對策。<span style="color:#c62828">SM-2010-3</span></td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="s10">
+<h2>§10　自我檢測：能回答才算讀懂</h2>
+
+<details><summary>1　承載力公式的三項為什麼可以直接相加？</summary>
+<p>因為它們是同一個破壞機構中三種<b>互相獨立</b>的抵抗來源：破壞面上的凝聚力、旁邊覆土往下壓、被擠動土體本身的重量。疊加不是湊出來的近似，而是把同一個力平衡拆成三塊分別計算再合起來（嚴格說 Terzaghi 的疊加是一個保守近似，因為三者的破壞面略有差異，但方向偏安全）。（§1.1）</p></details>
+
+<details><summary>2　為什麼砂土的 \(q_u\) 與 \(B\) 成正比，黏土卻與 \(B\) 無關？</summary>
+<p>砂土 \(c=0\)、埋深常很淺，\(q_u\) 幾乎全由第三項 \(0.5\gamma BN_\gamma\) 貢獻 → 正比於 \(B\)。飽和黏土短期 \(\phi=0\) 時 \(N_\gamma=0\)，第三項消失，只剩 \(c_uN_c\)，完全不含 \(B\)。這直接決定了平鈑載重試驗的兩種放大規則。（§1.1、§1.2、§3.1）</p></details>
+
+<details><summary>3　\(N_q\to1\)、\(N_\gamma\to0\)、\(N_c\to\pi+2\) 三個極限各代表什麼？</summary>
+<p>\(N_q\to1\)：沒有摩擦時旁邊的覆土壓多少就還你多少，不放大。\(N_\gamma\to0\)：沒有摩擦時破壞土體自重不提供抗剪力，這一項消失。\(N_c\to\pi+2=5.14\)：\((N_q-1)\cot\phi\) 的 \(0\times\infty\) 極限，即 Prandtl 的理論解。三者都能在忘記公式時當作檢查。（§1.2）</p></details>
+
+<details><summary>4　為什麼代償式基礎非用「淨」的定義不可？</summary>
+<p>因為代償的效益就藏在 \(q_{net}=Q/A-\gamma D_f\) 這個減號裡。用總／總的定義，分母是 \(Q/A\)，完全看不出挖深有什麼好處，\(FS\) 幾乎不隨 \(D_f\) 變化；用淨／淨，挖愈深分母愈小、\(FS\) 愈大，才呈現正確的物理趨勢。（§2.1）</p></details>
+
+<details><summary>5　地下水位在「基礎面以下但不到 \(B\)」時為什麼還要修正？</summary>
+<p>因為承載力破壞的土體深度大約就是 \(B\)。水位若落在這個範圍內，破壞區有一部分在水下、單位重要用 \(\gamma'\)，所以第三項要用加權平均單位重。水位超過基礎面下 \(B\) 就在破壞區之外，完全不影響。記住這個物理判準就不用背三條規則。（§1.4）</p></details>
+
+<details><summary>6　為什麼砂土淺基礎「幾乎總是被沉陷量控制」？</summary>
+<p>砂土的極限承載力隨 \(B\) 線性成長，所以大基礎的 \(q_{ult}\) 很大、承載力幾乎不會不夠；但沉陷量同樣隨 \(B\) 增加（Terzaghi &amp; Peck 上限 4 倍），而結構物對沉陷的容忍度是固定的幾公分。兩條曲線一升一定，於是沉陷先觸頂。SM-2017-3 的 3152 kN vs 345 kN 就是量化的證據。（§3.1）</p></details>
+
+<details><summary>7　Terzaghi &amp; Peck 沉陷修正式為什麼有上限 4 倍？</summary>
+<p>\(\left(\frac{2B_F}{B_F+B_P}\right)^2\) 在 \(B_F\to\infty\) 時趨近 \(2^2=4\)。物理意義是：基礎加大會讓應力影響到更深的地層（沉陷變大），但更深的地層本身也更緊密、勁度更高（沉陷變小），兩個效應競爭的結果使放大倍數收斂。極限檢查：\(B_F=B_P\) 時比值為 1。（§3.1）</p></details>
+
+<details><summary>8　「豎管水位」到底對應三兄弟中的哪一個？</summary>
+<p>豎管<b>水面的高程</b>＝該點的總水頭 \(h\)；豎管內<b>水柱的長度</b>＝壓力水頭 \(h_p\)；兩者差 \(z\)。所以「水上升到高於地表 1 m」直接翻譯成 \(h=+1\) m（以地表為基準面），再由 \(h_p=h-z=1-(-9)=10\) m 得 \(u=98.1\) kPa。（§4）</p></details>
+
+<details><summary>9　基準面設在哪裡會不會影響答案？怎麼驗證？</summary>
+<p>不會。因為 \(u=(h-z)\gamma_w\)，平移基準面會讓 \(h\) 與 \(z\) 同時平移相同的量，相減後抵消。驗證法：把基準面往下移 5 m，重算一次 \(u\)，答案應完全相同；若不同，代表有某一項忘了跟著平移。（§4）</p></details>
+
+<details><summary>10　層狀垂直滲流為什麼用調和平均而不是算術平均？</summary>
+<p>因為垂直流是<b>串聯</b>：流速相同、水頭損失依阻力 \(H_i/k_i\) 分配，就像串聯電阻分壓。調和平均由最小的 \(k\) 主宰。（水平向的層狀滲流才是並聯，用加權算術平均。）SM-2022-3 中 C 層 \(k\) 最小，一層吃掉 89% 的水頭。（§5.1）</p></details>
+
+<details><summary>11　斜向滲流的兩個投影，為什麼一個乘 \(\sin\theta\) 一個除 \(\sin\theta\)？</summary>
+<p>流徑是沿流線量的<b>斜邊</b>，比垂直高差長，所以 \(L=\Delta Z/\sin\theta\)；截面積必須<b>垂直於流速向量</b>，水平面積投影過去會變小，所以 \(A_\perp=A_{\text{水平}}\sin\theta\)。驗算：改用「垂直流速分量 × 水平面積」應得到相同流量。（§5.2）</p></details>
+
+<details><summary>12　抽水明明把水抽掉了，為什麼總應力會「下降」？</summary>
+<p>因為水也有重量。原本飽和的那段土 \(\gamma_{sat}\)，抽乾後孔隙水跑掉、剩下 \(\gamma_{dry}\)，每公尺少了約 2 kN/m³。下方土層承受的總重量確實變輕。但孔隙水壓下降得更多，所以 \(\sigma'=\sigma-u\) 仍然淨增 —— 這就是抽水導致地層下陷的完整機制。（§6）</p></details>
+
+<details><summary>13　水位下降對承載力是好事還是壞事？</summary>
+<p>對<b>承載力</b>是好事：短期（\(\phi=0\)）不變，長期因有效應力上升而增加。對<b>沉陷</b>是壞事：有效應力增加必然伴隨壓密沉陷。所以 SM-2010-4 若追問「設計上要注意什麼」，答案是「承載力無虞，但必須檢核壓密沉陷是否超過容許值」。（§1.4、§6）</p></details>
+
+<details><summary>14　開挖外側蓋著黏土時，滲流路徑要不要含黏土層厚度？</summary>
+<p>不要。\(k_{clay}\ll k_{sand}\)，水繞著黏土走、水頭幾乎全消耗在砂層。把黏土厚度算進 \(L\) 會使坡降被低估、\(FS\) 被高估，偏於不安全。判準：外側流徑只從「透水層頂面」起算。（§5.1、§6.1）</p></details>
+</section>
+
+<section id="s10b">
+<h2>§10.5　因果鏈重列</h2>
+
+<div class="lead">四條鏈，考前唸過一遍比重看公式有效。</div>
+
+<div class="why"><b>① 承載力公式為什麼是三項</b><br>
+基礎壓下去 → 土體沿固定形狀的破壞面被擠出 → 阻止它的只有三件事：破壞面上的凝聚力、旁邊覆土往下壓、被擠動土體的自重 → 三項各乘一個只與 \(\phi\) 有關的幾何因數 → \(q_u=cN_c+qN_q+0.5\gamma BN_\gamma\)。</div>
+
+<div class="why"><b>② 為什麼砂土基礎由沉陷控制</b><br>
+砂土 \(c=0\) → \(q_u\) 由第三項主導 → \(q_u\propto B\)，加大基礎承載力線性成長 → 但沉陷量也隨 \(B\) 增加（上限 4 倍）→ 而結構物容許沉陷是固定的幾公分 → 沉陷先觸頂 → 設計值由沉陷準則決定，往往只有承載力準則的 1/10。</div>
+
+<div class="why"><b>③ 抽水為什麼造成地層下陷</b><br>
+抽降水頭 → 上下層產生水頭差 → 誘發滲流，\(u\) 不再是靜水壓 → 同時水位以下的土變乾，總應力 \(\sigma\) 下降 → 但 \(u\) 下降幅度更大 → \(\sigma'=\sigma-u\) 淨增 → 黏土沿 \(e\)–\(\log\sigma'\) 曲線壓縮 → 壓密沉陷（且需要數年至數十年才發展完成）。</div>
+
+<div class="why"><b>④ 向上滲流為什麼會砂湧</b><br>
+水由下往上流 → 對土粒施加向上的滲流力 \(j=i\gamma_w\) → 抵銷土的有效重 \(\gamma'\) → 有效應力下降 → 當 \(i=i_{cr}=\gamma'/\gamma_w\) 時 \(\sigma'=0\) → 土粒間失去接觸力、抗剪強度歸零 → 流砂／砂湧。同一件事也可以說成「\(u\) 上升把 \(\sigma'\) 吃光」—— 兩種記帳法擇一，不可混用。</div>
+</section>
+<section id="s11">
+<h2>★ §11　精選 6 題：兩端各三題</h2>
+
+<div class="lead">
+貪婪最大覆蓋演算法給出的一組是 SM-2010-3／SM-2010-4／SM-2021-1／SM-2011-2／SM-2022-3／SM-2020-4（標籤覆蓋 75%），
+但那一組<b>完全沒有沉陷量題</b> —— 而「沉陷量」四個字就寫在本子項的名稱裡，且它是砂土淺基礎設計的真正控制條件。
+下面這一組覆蓋 69%，但兩端各三題、承載力與沉陷都練到，考點群完整得多。
+</div>
+
+<h3>左端（承載力與沉陷量）</h3>
+
+<h4>① <a class="qlink" href="problems-view/SM-2017-3.html" target="_blank">SM-2017-3</a>（2017）— 兩種設計哲學的正面對決</h4>
+<div class="box">
+<b>為什麼選它</b>：本子項唯一同時練到「承載力控制」與「沉陷量控制」的題目，而且要<b>自己從圖上的曲線建立數學模型</b>
+（讀出 (150,1)、(300,4) 兩點看出 \(\Delta H=(q/150)^2\)）—— 這種「題目不給參數、要自己造」的能力別題完全練不到。
+還一次考了砂土的兩條尺寸修正（承載力 \(\times B_F/B_P\)、沉陷 \(\times[2B_F/(B_F+B_P)]^2\)）。<br>
+<b>先讀</b>：§1.1（為什麼砂土 \(q_u\propto B\)）、§3.1（兩條尺寸修正）<br>
+<b>做完要能回答</b>：① 為什麼承載力與沉陷量的放大公式形狀完全不同？② \(q_{net,a}=788\) kN/m² 為什麼一看就知道不可行？③ 為什麼要用淨容許承載力乘面積而不是總的？
+</div>
+
+<h4>② <a class="qlink" href="problems-view/SM-2009-2.html" target="_blank">SM-2009-2</a>（2009）— 一題練到四種檢核</h4>
+<div class="box">
+<b>為什麼選它</b>：淨承載力定義 → 反推埋置深度 → Terzaghi 抗隆起 → 上舉檢核，四個獨立技能。
+而且它是「<b>反算</b>」題型（給 FS 求 \(D_f\)），與正算的思路相反、特別容易卡。
+最有價值的是最後那步：抗隆起 \(FS=2.58\) 看似安全，抗上舉卻只有 1.09 —— <b>學會「算完不要急著收尾，先問還有沒有別的破壞模式」</b>。<br>
+<b>先讀</b>：§2.1（代償式基礎）、§2.2（完整手算）<br>
+<b>做完要能回答</b>：① 為什麼 \(T=5.66\) 恰好等於 \(B/\sqrt2\) 是出題者的提示？② 上舉的抵抗力為什麼用 \(\gamma_{sat}\) 而不是 \(\gamma'\)？③ 若改用 Skempton 公式算 \(q_{ult,net}\)，\(D_f\) 會變成多少？
+</div>
+
+<h4>③ <a class="qlink" href="problems-view/SM-2010-4.html" target="_blank">SM-2010-4</a>（2010）— 計算量最小、觀念密度最高</h4>
+<div class="box">
+<b>為什麼選它</b>：典型的<b>觀念鏈題</b> —— 前半只是一次承載力計算，後半的「水位下降 4 m 對長短期承載力與安全係數的影響」
+把 §1.2（\(\phi=0\) 退化）、§1.4（水位修正）、§2（淨 vs 總）、§6（有效應力與壓密）全部串起來，
+而且答案是<b>文字論述</b>，寫得清楚就拿分。投報率是六題裡最高的。<br>
+<b>先讀</b>：§1.2、§1.4、§2<br>
+<b>做完要能回答</b>：① 短期承載力為什麼「完全不變」？（要說得出 \(N_\gamma=0\) 與 \(q\) 不變兩個理由）② 長期為什麼「增加」？③ 承載力變好了，設計上還有什麼要擔心？
+</div>
+
+<h3>右端（水頭與滲流）</h3>
+
+<h4>④ <a class="qlink" href="problems-view/SM-2015-4.html" target="_blank">SM-2015-4</a>（2015）— 唯一走完全程的一題</h4>
+<div class="box">
+<b>為什麼選它</b>：本子項唯一把「右端 → 左端」整條路走完的題目：抽水 → 滲流量 → \(u\) 改用滲流水頭 → 總應力也下降 → \(\sigma'\) 淨增 → 壓密沉陷。
+還附帶 Skempton \(C_c\) 經驗式。<b>如果只做一題，做這題。</b><br>
+<b>先讀</b>：§3.2（壓密沉陷）、§6（抽水的三重後果）<br>
+<b>做完要能回答</b>：① 為什麼總應力會從 226 降到 216？② 為什麼 \(u_f\) 不能用「新水位算靜水壓」？（誤用會誇大 2.5 倍）③ 為什麼題目給 \(LL\) 而不給 \(C_c\)？
+</div>
+
+<h4>⑤ <a class="qlink" href="problems-view/SM-2021-1.html" target="_blank">SM-2021-1</a>（2021）— 水頭三兄弟的標準題</h4>
+<div class="box">
+<b>為什麼選它</b>：把 \(h=z+h_p\)、\(u=(h-z)\gamma_w\)、\(\sigma'=\sigma-u\) 三條式子練到滾瓜爛熟的最佳題目。
+「湧泉壓力使水上升至高於地表 1 m」是最經典的豎管讀法訓練。
+最後還要判滲流方向並算<b>速率</b>（不是流量）—— 一個很好的讀題陷阱。<br>
+<b>先讀</b>：§4（水頭三兄弟）、§4.1<br>
+<b>做完要能回答</b>：① 為什麼 A 點可以用靜水壓、B 點不行？② 把基準面改設在黏土層底，三個點的 \(u\) 會不會變？③ 若題目改問「單位面積滲流量」，要多做什麼？
+</div>
+
+<h4>⑥ <a class="qlink" href="problems-view/SM-2018-3.html" target="_blank">SM-2018-3</a>（2018）— 流網與工程識圖</h4>
+<div class="box">
+<b>為什麼選它</b>：本子項唯一的二維流網題，\(q=kH\frac{N_f}{N_d}\) 與上揚壓力的標準訓練。
+更重要的是<b>總水頭差要自己從圖面幾何推出來</b>（用「截水牆長 7.8 m ＝ 牆底至不透水層 7.8 m」的對稱性驗證基準面），
+這種「圖上數字不能照抄」的識圖能力，是高分與中等分的分水嶺。<br>
+<b>先讀</b>：§5.3（流網）<br>
+<b>做完要能回答</b>：① \(N_f\)、\(N_d\) 各在數什麼？（不是數線）② 為什麼 \(\Delta H=7.9\) 而不是 6.3？③ e 點的上揚壓力為什麼一定是 0？
+</div>
+
+<h3>考點群涵蓋度（誠實版）</h3>
+
+<table>
+<thead><tr><th style="width:34%">考點群</th><th style="width:14%">是否涵蓋</th><th>說明</th></tr></thead>
+<tbody>
+<tr><td>承載力公式（\(\phi=0\)）</td><td style="color:#2e7d32"><b>✔</b></td><td>②③</td></tr>
+<tr><td>淨 vs 總、代償式基礎</td><td style="color:#2e7d32"><b>✔</b></td><td>②③</td></tr>
+<tr><td>地下水位對承載力的影響</td><td style="color:#2e7d32"><b>✔</b></td><td>③（論述題形式）</td></tr>
+<tr><td>砂土彈性沉陷與尺寸效應</td><td style="color:#2e7d32"><b>✔</b></td><td>①</td></tr>
+<tr><td>黏土壓密沉陷、Skempton \(C_c\)</td><td style="color:#2e7d32"><b>✔</b></td><td>④</td></tr>
+<tr><td>水頭三兄弟、非靜水壓 \(u\)</td><td style="color:#2e7d32"><b>✔</b></td><td>④⑤</td></tr>
+<tr><td>二維流網 \(N_f/N_d\)、上揚壓力</td><td style="color:#2e7d32"><b>✔</b></td><td>⑥</td></tr>
+<tr><td>抗隆起與上舉檢核</td><td style="color:#2e7d32"><b>✔</b></td><td>②（深入版在 SM-U2-3 講義 §4、§5.1）</td></tr>
+<tr><td>一維層狀串聯、\(k_{eq}\) 調和平均</td><td style="color:#e65100"><b>△</b></td><td>六題都沒有 → 補候補 1（約 20 分鐘，計算單純但很會考單位）</td></tr>
+<tr><td>斜向滲流的兩個投影</td><td style="color:#e65100"><b>△</b></td><td>六題都沒有 → 補候補 2</td></tr>
+<tr><td>滲流力 \(j\)、管湧 \(FS=i_{cr}/i\)</td><td style="color:#e65100"><b>△</b></td><td>只在 §6.1 講解未實作 → 補候補 3；另 SM-U2-3 講義 §5.2 有完整訓練</td></tr>
+<tr><td>基本承載力完整流程（含自設 FS）</td><td style="color:#c62828"><b>✘</b></td><td>三題左端都偏進階 → <b>若承載力公式還不熟，先做 SM-2020-4 當暖身</b></td></tr>
+</tbody>
+</table>
+
+<h3>候補題（依序加，每題約 20～25 分鐘）</h3>
+<ol>
+<li><a class="qlink" href="problems-view/SM-2022-3.html" target="_blank">SM-2022-3</a> — 一維串聯、水頭損失分配、三種單位混用。計算最單純，但最會考細心度。</li>
+<li><a class="qlink" href="problems-view/SM-2011-2.html" target="_blank">SM-2011-2</a> — 斜向滲流的兩個投影，補齊上表第 10 列。</li>
+<li><a class="qlink" href="problems-view/SM-2010-3.html" target="_blank">SM-2010-3</a> — 滲流力與管湧檢核，並學會「\(FS>1\) 但仍不合規範」的結論寫法。</li>
+<li><a class="qlink" href="problems-view/SM-2020-4.html" target="_blank">SM-2020-4</a> — <b>暖身題</b>：\(S_u=q_u/2\) → \(N_c\) 選版 → 淨載重比較 → 自設 FS 判定。承載力生疏者應該先做這題再回頭做 ②③。</li>
+</ol>
+
+<h3>練這六題的正確方法</h3>
+<ol>
+<li><b>先分端，再列式。</b>每個小題先標「左端／右端」，寫出要用哪條公式、基準面設在哪、用淨還是總。這一步花 10 分鐘，做對就贏了七成。</li>
+<li><b>每個中間量都做量級檢查。</b>\(N_c\) 在 5～7；\(i_{cr}\) 接近 1.0；壓密沉陷數公分；承載力 FS 在 2～4。<b>錯誤要在中途抓到。</b></li>
+<li><b>右端的題一定要用第二條路驗算。</b>換一層算 \(v\)、換一種方式算 \(Q\)、把基準面平移 —— §7.2 每條路都附了對應的驗算法，不要跳過。</li>
+<li><b>回到 §9 陷阱總表圈選。</b>六題做完應該圈掉 15 條以上；沒圈到的那幾條要另外找題目補（多半落在候補題裡）。</li>
+</ol>
+</section>
+</main>
+
+<footer>
+exam-wiki-SM · unit-lecture 產出 · 資料來源：raw/solutions/（解題內容唯一正本）＋ raw/json/question_index.json
+</footer>
+</body>
+</html>

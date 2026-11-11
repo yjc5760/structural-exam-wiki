@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SM-U2-3 開挖之穩定性分析｜影片講義</title>
+<link rel="stylesheet" href="../study/assets/katex/katex.min.css">
+<script defer src="../study/assets/katex/katex.min.js"></script>
+<script defer src="../study/assets/katex/auto-render.min.js"></script>
+<style>
+:root{
+  --paper:#f7f3ea; --ink:#26302b; --muted:#5d6a63; --board:#1f3a2e; --board2:#2c4d3e;
+  --chalk:#f3efe2; --gold:#c99a2e; --line:#d8d0bd;
+  --warn-bg:#fdecea; --warn:#b3362c; --ok-bg:#e8f4ea; --ok:#2e7d46; --key-bg:#fff6d6; --key:#a0780c;
+  --orange:#d9772b; --blue:#3b7bb5; --green:#2e8b57; --red:#c0392b;
+}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;line-height:1.75;font-size:16.5px}
+main{max-width:860px;margin:0 auto;padding:24px 16px 60px}
+.cover{background:var(--board);color:var(--chalk);border-radius:14px;padding:28px 28px 24px;margin-bottom:22px;box-shadow:inset 0 0 60px rgba(0,0,0,.25)}
+.cover .tag{font-size:13px;letter-spacing:.08em;color:#cfe3d6;opacity:.9}
+.cover h1{margin:6px 0 4px;font-size:30px;line-height:1.3;color:#f5d77a;font-weight:700}
+.cover .meta{font-size:14px;color:#cfe3d6}
+.cover .core{margin-top:16px;padding:12px 16px;border:1.5px solid #f5d77a;border-radius:10px;font-size:18px;color:#fff6d0}
+nav.toc{border:1px solid var(--line);border-radius:12px;padding:14px 18px;background:#fffdf7;margin-bottom:22px}
+nav.toc h2{margin:0 0 8px;font-size:17px;color:var(--board)}
+nav.toc ol{margin:0;padding-left:0;list-style:none;columns:2;column-gap:28px}
+nav.toc li{break-inside:avoid;padding:2px 0;font-size:15px}
+nav.toc a{color:var(--ink);text-decoration:none}
+nav.toc a:hover{color:var(--green);text-decoration:underline}
+nav.toc .t{display:inline-block;min-width:3.2em;color:var(--muted);font-variant-numeric:tabular-nums}
+.vwrap{position:sticky;top:0;z-index:5;background:var(--paper);padding:6px 0 10px;margin-bottom:10px}
+video{width:100%;border-radius:10px;background:#000;display:block;max-height:52vh}
+section{margin-top:34px}
+h2.ch{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:22px;color:var(--board);border-bottom:2px solid var(--board);padding-bottom:4px;margin:0 0 14px}
+h2.ch .no{font-size:14px;background:var(--board);color:var(--chalk);border-radius:6px;padding:1px 8px}
+button.seek{margin-left:auto;font:inherit;font-size:13px;border:1px solid var(--board);background:#fff;color:var(--board);border-radius:999px;padding:2px 12px;cursor:pointer}
+button.seek:hover{background:var(--board);color:#fff}
+figure{margin:16px 0;break-inside:avoid}
+figure img{width:100%;display:block;border-radius:8px;border:1px solid #c9c1ad}
+figcaption{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;color:var(--muted);margin-top:5px}
+figcaption .ts{white-space:nowrap;font-variant-numeric:tabular-nums}
+p{margin:10px 0}
+.eq{overflow-x:auto;overflow-y:hidden;padding:4px 0;position:relative}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:15px;background:#fffdf7}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:#ebe5d6;color:var(--board)}
+td:first-child,th:first-child{white-space:nowrap}
+.box{border-radius:10px;padding:10px 14px;margin:14px 0;break-inside:avoid;border-left:5px solid}
+.box b.h{display:block;margin-bottom:2px}
+.warn{background:var(--warn-bg);border-color:var(--warn)} .warn b.h{color:var(--warn)}
+.ok{background:var(--ok-bg);border-color:var(--ok)} .ok b.h{color:var(--ok)}
+.key{background:var(--key-bg);border-color:var(--key)} .key b.h{color:var(--key)}
+.box ol,.box ul{margin:4px 0;padding-left:1.4em}
+.o{color:var(--orange);font-weight:600}.b{color:var(--blue);font-weight:600}.g{color:var(--green);font-weight:600}.r{color:var(--red);font-weight:600}
+footer{margin-top:40px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+@media (max-width:600px){table{display:block;overflow-x:auto;font-size:14px}th,td{padding:5px 7px}nav.toc ol{columns:1}.cover h1{font-size:24px}h2.ch{font-size:19px}body{font-size:16px}}
+@media print{
+  @page{size:A4;margin:14mm}
+  .vwrap,button.seek{display:none!important}
+  main{max-width:none;padding:0}
+  body{font-size:11.5pt}
+  section{margin-top:18px}
+  h2.ch{break-after:avoid}
+  figure,.box,table{break-inside:avoid}
+  .cover{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<main>
+
+<header class="cover">
+  <div class="tag">土壤力學（SM）・命題大綱 SM-U2-3・影片講義</div>
+  <h1>開挖之穩定性分析</h1>
+  <div class="meta">影片 8:13 ・ 13 章 ・ 26 段 ・ 單元觀念總整理</div>
+  <div class="core">一個開挖，兩個獨立的敵人：結構撐不撐得住（力與力矩平衡）、地層會不會動（安全係數＝抵抗÷驅動）。看準敵人，再選公式。</div>
+</header>
+
+<nav class="toc">
+  <h2>目錄</h2>
+  <ol>
+    <li><a href="#c0"><span class="t">0:00</span>一個開挖，兩個敵人</a></li>
+    <li><a href="#c1"><span class="t">0:41</span>土壓力：土水分離</a></li>
+    <li><a href="#c2"><span class="t">1:19</span>淨抵抗　砂土 vs 黏土</a></li>
+    <li><a href="#c3"><span class="t">1:53</span>靈魂指標　穩定數 Ns</a></li>
+    <li><a href="#c4"><span class="t">2:46</span>30 秒讀題</a></li>
+    <li><a href="#c5"><span class="t">3:08</span>0 根橫桿　懸臂式</a></li>
+    <li><a href="#c6"><span class="t">3:43</span>1 根橫桿　自由端 vs 固定端</a></li>
+    <li><a href="#c7"><span class="t">4:19</span>多階支撐　Peck 包絡線</a></li>
+    <li><a href="#c8"><span class="t">5:18</span>基盤隆起</a></li>
+    <li><a href="#c9"><span class="t">5:55</span>受壓水上舉</a></li>
+    <li><a href="#c10"><span class="t">6:33</span>砂湧</a></li>
+    <li><a href="#c11"><span class="t">7:12</span>對策題怎麼答</a></li>
+    <li><a href="#c12"><span class="t">7:49</span>總結</a></li>
+  </ol>
+</nav>
+
+<div class="vwrap">
+  <video id="v" controls preload="metadata" src="video/SM-U2-3.mp4"></video>
+</div>
+
+<!-- c0 -->
+<section id="c0">
+  <h2 class="ch"><span class="no">0</span>一個開挖，兩個敵人<button class="seek" data-t="0">▶ 0:00</button></h2>
+  <p>開挖穩定這個單元，公式一大堆，底層只有一句話：<b>一個開挖，兩個獨立的敵人。</b></p>
+  <figure><img src="img/SM-U2-3/s02.jpg" alt="開挖剖面與兩個敵人">
+    <figcaption><span>左：開挖剖面（主動側橘、被動側藍）；右：敵人①結構問題、敵人②地層問題</span><span class="ts">影片 0:41</span></figcaption></figure>
+  <table>
+    <tr><th></th><th>問的是</th><th>工具</th><th>求／檢核</th></tr>
+    <tr><td><span class="o">敵人① 結構問題</span></td><td>擋土結構撐不撐得住</td><td>力與力矩平衡 \(\Sigma F=0,\ \Sigma M=0\)</td><td>貫入深度 \(D\)、支撐力 \(T\)、牆體最大彎矩 \(M_{max}\)</td></tr>
+    <tr><td><span class="g">敵人② 地層問題</span></td><td>地層自己會不會動</td><td>比值 \(FS=\)抵抗 ÷ 驅動</td><td>基盤隆起、受壓水上舉、砂湧</td></tr>
+  </table>
+  <p>牆打得再深，受壓水層照樣把坑底頂起來；地層再好，支撐算錯一樣會垮。</p>
+  <div class="box key"><b class="h">讀題第一步</b>先分清楚考的是「結構」還是「地層」。</div>
+</section>
+
+<!-- c1 -->
+<section id="c1">
+  <h2 class="ch"><span class="no">1</span>土壓力：土水分離<button class="seek" data-t="41.97">▶ 0:41</button></h2>
+  <p>先講土壓力的基本功。砂土透水快，用<b>有效應力</b>。土壓力只用有效單位重乘 \(K_a\)；水壓力另外全額加上，等於 \(\gamma_w z\)，\(K=1\)，一分都不能打折。</p>
+  <div class="eq">$$\sigma_h={\color{#d9772b}K_a\,\gamma' z}\;+\;{\color{#3b7bb5}\gamma_w z}\qquad(\text{水：}K=1)$$</div>
+  <figure><img src="img/SM-U2-3/s04.jpg" alt="土水分離數值對照">
+    <figcaption><span>橘三角＝土（只用有效重）＋藍三角＝水（K＝1）；右：z＝6 m 正誤對照</span><span class="ts">影片 1:18</span></figcaption></figure>
+  <p>以 6 m 深為例（\(\gamma_{sat}=19,\ \gamma'=9.19,\ K_a=\tfrac13\)）：</p>
+  <table>
+    <tr><th></th><th>算式</th><th>結果</th></tr>
+    <tr><td><span class="g">正確</span></td><td>\(0.333\times9.19\times6+9.81\times6=18.4+58.9\)</td><td>\(77.2\ \text{kPa}\)</td></tr>
+    <tr><td><span class="r">錯誤</span></td><td>\(K_a\gamma_{sat}z=0.333\times19\times6\)</td><td>\(38.0\ \text{kPa}\)</td></tr>
+  </table>
+  <div class="box warn"><b class="h">考場最貴的錯</b>把 \(\gamma_{sat}\) 直接乘 \(K_a\)——側向力低估了五成（黑板：低估 51%）。</div>
+</section>
+
+<!-- c2 -->
+<section id="c2">
+  <h2 class="ch"><span class="no">2</span>淨抵抗　砂土 vs 黏土<button class="seek" data-t="79.13">▶ 1:19</button></h2>
+  <p>開挖面以下的淨抵抗，砂土和黏土完全不同。</p>
+  <figure><img src="img/SM-U2-3/s06.jpg" alt="砂土與黏土淨抵抗">
+    <figcaption><span>左：砂土三角形分布；右：黏土矩形分布與「插再深也沒用」紅框</span><span class="ts">影片 1:53</span></figcaption></figure>
+  <table>
+    <tr><th></th><th>淨被動壓力</th><th>形狀</th><th>加深貫入</th></tr>
+    <tr><td>砂土（有效應力，\(\phi'\) 控制）</td><td>\(p_{net}=(K_p-K_a)\gamma' z\)</td><td>隨深度線性成長（三角形）</td><td><span class="g">有用</span>：抵抗面積 \(\propto D^2\)</td></tr>
+    <tr><td>黏土（短期不排水，\(\phi=0\)）</td><td>\(p_{net}=4c_u-\gamma H\)</td><td>與深度無關（矩形）</td><td>視 \(4c_u\) 與 \(\gamma H\) 大小</td></tr>
+  </table>
+  <div class="box warn"><b class="h">黏土陷阱</b>如果 \(4c_u\le\gamma H\)，淨抵抗歸零（\(p_{net}\le0\)），鋼板樁插得再深也完全沒用。</div>
+</section>
+
+<!-- c3 -->
+<section id="c3">
+  <h2 class="ch"><span class="no">3</span>靈魂指標　穩定數 Ns<button class="seek" data-t="113.87">▶ 1:53</button></h2>
+  <p>把黏土淨抵抗的式子除以 \(c_u\)，就得到貫穿整個單元的靈魂指標——<b>穩定數</b>：</p>
+  <div class="eq">$$N_s=\frac{\gamma H}{c_u}\qquad\frac{p_{net}}{c_u}=4-N_s$$</div>
+  <p>所以 \(N_s=4\) 就是抵抗歸零的臨界點。</p>
+  <figure><img src="img/SM-U2-3/s09.jpg" alt="穩定數 Ns 分區">
+    <figcaption><span>左：\(p_{net}/c_u\)–\(N_s\) 直線，4 為臨界點；右：三區；左下：臨界開挖深度</span><span class="ts">影片 2:46</span></figcaption></figure>
+  <p>一個數字同時決定三件事：</p>
+  <table>
+    <tr><th>\(N_s\)</th><th>狀態</th><th>意義</th></tr>
+    <tr><td><span class="g">\(N_s&lt;4\)</span></td><td>淨抵抗為正</td><td>由擋土結構計算控制</td></tr>
+    <tr><td><span class="o">\(4\sim6\)</span></td><td>淨抵抗歸零</td><td>插深失效</td></tr>
+    <tr><td><span class="r">\(N_s&gt;6\)</span></td><td>基盤隆起、大變形高風險</td><td>要地盤改良或分階開挖</td></tr>
+  </table>
+  <p>順帶記住臨界開挖深度：</p>
+  <div class="eq">$$H_c=\frac{N_c\,c_u}{\gamma},\qquad N_c\approx5.14\sim5.7$$</div>
+  <p>換算過來就是 \(N_s\) 的上限。</p>
+  <div class="box key"><b class="h">一句話</b>\(N_s\) 大，代表這個開挖對這種黏土來說，太深了。</div>
+</section>
+
+<!-- c4 -->
+<section id="c4">
+  <h2 class="ch"><span class="no">4</span>30 秒讀題<button class="seek" data-t="166.77">▶ 2:46</button></h2>
+  <figure><img src="img/SM-U2-3/s10.jpg" alt="30 秒讀題三步">
+    <figcaption><span>看到剖面圖：30 秒三個動作</span><span class="ts">影片 3:07</span></figcaption></figure>
+  <table>
+    <tr><th>動作</th><th>看什麼</th><th>決定什麼</th></tr>
+    <tr><td>① 數橫桿</td><td>0 根、1 根還是多階</td><td><span class="o">結構側用哪套解法</span></td></tr>
+    <tr><td>② 看開挖面以下</td><td>砂土還是黏土</td><td><span class="b">黏土先算 \(N_s\)</span></td></tr>
+    <tr><td>③ 看地下水位</td><td>水位條件</td><td><span class="g">要檢核哪一種水的破壞</span></td></tr>
+  </table>
+</section>
+
+<!-- c5 -->
+<section id="c5">
+  <h2 class="ch"><span class="no">5</span>0 根橫桿　懸臂式<button class="seek" data-t="188.4">▶ 3:08</button></h2>
+  <p>零根橫桿，是懸臂式擋土壁。沒有支撐，整支樁繞著樁底附近某個點旋轉，旋轉點以下，主動和被動左右互換。只剩土壓力自己對自己取矩這一條方程式 \(\Sigma M=0\)。</p>
+  <figure><img src="img/SM-U2-3/s12.jpg" alt="懸臂式擋土壁簡化法">
+    <figcaption><span>左：懸臂樁變形與旋轉點 O（O 以下左右互換）；右：簡化法</span><span class="ts">影片 3:43</span></figcaption></figure>
+  <p>簡化法把樁底反力 \(R\) 併入，只對樁底取矩：</p>
+  <div class="eq">$$K_p\,D^3=K_a\,(H+D)^3\quad\Rightarrow\quad\frac{D}{H+D}=\left(\frac{K_a}{K_p}\right)^{1/3}$$</div>
+  <p>開三次方就得臨界深度。</p>
+  <div class="box warn"><b class="h">不能直接交卷</b>算出的 \(D_L\) 是 \(FS=1\) 的臨界值，設計還要乘 1.2～1.3：\(D_{design}=(1.2\sim1.3)\,D_L\)。</div>
+</section>
+
+<!-- c6 -->
+<section id="c6">
+  <h2 class="ch"><span class="no">6</span>1 根橫桿　自由端 vs 固定端<button class="seek" data-t="223.9">▶ 3:43</button></h2>
+  <p>一根橫桿，是單支撐或地錨。看的是<b>樁尖能不能轉</b>。</p>
+  <figure><img src="img/SM-U2-3/s14.jpg" alt="自由端法與固定端法">
+    <figcaption><span>左：自由端（全段正彎矩）；右：固定端（反曲點、負彎矩）</span><span class="ts">影片 4:19</span></figcaption></figure>
+  <table>
+    <tr><th></th><th>自由端法</th><th>固定端法</th></tr>
+    <tr><td>適用</td><td>貫入淺、插在軟弱層，樁尖可以轉</td><td>貫入夠深，把樁尖夾住</td></tr>
+    <tr><td>解法</td><td>對支撐點取矩 \(\Sigma M_T=0\) 求 \(D\)；水平力平衡 \(\Sigma F=0\) 求 \(T\)</td><td>Blum 等值梁法：在反曲點切開分段求解</td></tr>
+    <tr><td>彎矩</td><td>全段正彎矩，\(M_{max}\) 較大</td><td>出現負彎矩和反曲點，彎矩較小、斷面省</td></tr>
+    <tr><td>貫入深度</td><td>\(D\) 小</td><td>\(D\) 大約多 20～30%</td></tr>
+  </table>
+</section>
+
+<!-- c7 -->
+<section id="c7">
+  <h2 class="ch"><span class="no">7</span>多階支撐　Peck 包絡線<button class="seek" data-t="259.8">▶ 4:19</button></h2>
+  <p>多階支撐為什麼不用三角形？因為頂部先撐住、變形小，中下部才變形，壓力被<b>拱效應</b>往上重分配。</p>
+  <figure><img src="img/SM-U2-3/s15.jpg" alt="拱效應與 Peck 包絡線定義">
+    <figcaption><span>多階支撐牆與拱效應；Peck 視土壓力包絡線的定義</span><span class="ts">影片 4:37</span></figcaption></figure>
+  <p>所以改用 Peck 包絡線——它是<b>歷次實測支撐力的外包線</b>，不是真實的土壓力分布。</p>
+  <figure><img src="img/SM-U2-3/s16.jpg" alt="Peck 包絡線三種型式">
+    <figcaption><span>三種型式：砂土矩形、軟～中黏土（上 0.25H 漸增）、硬黏土（上下各 0.25H 收斂）</span><span class="ts">影片 4:59</span></figcaption></figure>
+  <table>
+    <tr><th>土層</th><th>適用</th><th>形狀</th><th>壓力值（黑板）</th></tr>
+    <tr><td>砂土</td><td>—</td><td>整段矩形</td><td>\(0.65\,\gamma H K_a\)</td></tr>
+    <tr><td>軟～中等黏土</td><td>\(N_s&gt;4\)</td><td>上方 \(0.25H\) 漸增的梯形</td><td>\(\gamma H\!\left(1-\dfrac{4c_u}{\gamma H}\right)\ge0.3\gamma H\)</td></tr>
+    <tr><td>硬黏土</td><td>\(N_s\le4\)</td><td>上下各 \(0.25H\) 收斂到零</td><td>中段 \((0.2\sim0.4)\,\gamma H\)</td></tr>
+  </table>
+  <figure><img src="img/SM-U2-3/s17.jpg" alt="包絡線三條紅線">
+    <figcaption><span>包絡線的三條紅線</span><span class="ts">影片 5:18</span></figcaption></figure>
+  <div class="box warn"><b class="h">包絡線三條紅線</b><ol>
+    <li>只能算<b>支撐軸力</b>，絕不能拿來算牆體彎矩或貫入深度。</li>
+    <li>算出的每延米荷重，一定要再乘<b>支撐水平間距 \(s\)</b>。</li>
+    <li>型式由 \(N_s\) 決定，砂土一律矩形。</li></ol></div>
+</section>
+
+<!-- c8 -->
+<section id="c8">
+  <h2 class="ch"><span class="no">8</span>基盤隆起<button class="seek" data-t="318.57">▶ 5:18</button></h2>
+  <p>接著換敵人二。基盤隆起，是一個<b>倒過來的承載力破壞</b>：牆背土柱的重量當載重，坑底黏土的剪力強度當承載力。</p>
+  <div class="eq">$$FS=\frac{N_c\,c_u}{\gamma H+q}$$</div>
+  <figure><img src="img/SM-U2-3/s19.jpg" alt="基盤隆起">
+    <figcaption><span>牆背 \(\gamma H+q\) 為驅動（紅），坑底圓弧破壞面（綠虛線）；黑板另註 \(N_c\)：長條形坑 5.14～5.7、方形／圓形 6.2～9</span><span class="ts">影片 5:54</span></figcaption></figure>
+  <div class="box warn"><b class="h">拿錯層＝最常見失分點</b>分子的 \(c_u\) 要取<b>開挖面以下</b>、破壞面所在土層；分母的 \(\gamma H\) 才是<b>開挖面以上</b>的土重。</div>
+  <p>破壞面繞過壁底整體滑動，插深幫助有限；有效對策是地盤改良（↑\(c_u\)），或分階開挖降低 \(H\) 和 \(q\)。</p>
+</section>
+
+<!-- c9 -->
+<section id="c9">
+  <h2 class="ch"><span class="no">9</span>受壓水上舉<button class="seek" data-t="355.4">▶ 5:55</button></h2>
+  <p>受壓水上舉，是坑底剩下的不透水層，被下方受壓水層的水壓整片頂起來。</p>
+  <div class="eq">$$FS=\frac{\gamma_t\,t}{\gamma_w\,h_w}\;\ge\;1.1\sim1.2$$</div>
+  <p>分子是坑底殘留黏土的自重，分母是受壓水層的靜水壓，通常要求 1.1～1.2。</p>
+  <figure><img src="img/SM-U2-3/s21.jpg" alt="受壓水上舉">
+    <figcaption><span>坑底黏土厚 \(t\)、下方受壓砂層、測壓管 \(h_w\) 從砂層頂量起；右：三個常錯</span><span class="ts">影片 6:33</span></figcaption></figure>
+  <div class="box warn"><b class="h">三個常錯的地方</b><ol>
+    <li>\(h_w\) 要從<b>砂層頂面</b>量到測壓管水位，不是從地表。</li>
+    <li>這題跟滲流、流網無關，不用算坡降。</li>
+    <li>加長貫入、加支撐都無效。</li></ol></div>
+  <div class="box ok"><b class="h">唯一有效</b>深井抽水降低 \(h_w\)，才真正有用。</div>
+</section>
+
+<!-- c10 -->
+<section id="c10">
+  <h2 class="ch"><span class="no">10</span>砂湧<button class="seek" data-t="393.6">▶ 6:33</button></h2>
+  <p>砂湧是向上滲流把有效應力沖成零。</p>
+  <div class="eq">$$i_{cr}=\frac{\gamma'}{\gamma_w}\approx0.8\sim1.0\qquad i_{exit}=\frac{\Delta h}{L}\qquad FS=\frac{i_{cr}}{i_{exit}}$$</div>
+  <p>這一種插深真的有用，因為拉長了滲流路徑：插深 \(D\uparrow\Rightarrow L\uparrow\Rightarrow i_{exit}\downarrow\)。</p>
+  <figure><img src="img/SM-U2-3/s23.jpg" alt="砂湧與範例">
+    <figcaption><span>板樁、坑內外水位差 \(\Delta h\)、U 形流線、出口（紅圈）；右下：範例</span><span class="ts">影片 7:11</span></figcaption></figure>
+  <table>
+    <tr><th>範例</th><th>數值</th></tr>
+    <tr><td>單位重</td><td>\(\gamma_{sat}=19.62\Rightarrow\gamma'=9.81\Rightarrow i_{cr}=1.0\)</td></tr>
+    <tr><td>滲流路徑</td><td>\(\Delta h=6\ \text{m},\ D=6\ \text{m}\Rightarrow L\approx2D=12\ \text{m}\)</td></tr>
+    <tr><td>出口坡降</td><td>\(i_{exit}=6/12=0.5\)</td></tr>
+  </table>
+  <div class="box ok"><b class="h">檢核</b>\(FS=1.0/0.5=2.0\)，OK。</div>
+</section>
+
+<!-- c11 -->
+<section id="c11">
+  <h2 class="ch"><span class="no">11</span>對策題怎麼答<button class="seek" data-t="432.43">▶ 7:12</button></h2>
+  <figure><img src="img/SM-U2-3/s25.jpg" alt="加深貫入有效性與作答順序">
+    <figcaption><span>左：「加深貫入」的有效性；右：作答順序（成本由低到高）</span><span class="ts">影片 7:48</span></figcaption></figure>
+  <p>先看<b>插深有沒有用</b>：</p>
+  <table>
+    <tr><th>破壞型式</th><th>加深貫入</th><th>理由（黑板）</th></tr>
+    <tr><td><span class="g">砂湧／管湧</span></td><td>有效</td><td>拉長滲流路徑 \(L\)</td></tr>
+    <tr><td><span class="b">擋土結構穩定</span></td><td>有效</td><td>但黏土 \(N_s&gt;4\) 除外</td></tr>
+    <tr><td><span class="o">基盤隆起</span></td><td>幾乎無效</td><td>破壞面繞過壁底</td></tr>
+    <tr><td><span class="r">受壓水上舉</span></td><td>完全無效</td><td>改變不了 \(h_w\)</td></tr>
+  </table>
+  <div class="box key"><b class="h">同一句「加深連續壁」，分數完全不同</b></div>
+  <p>再照<b>成本由低到高</b>排序：</p>
+  <table>
+    <tr><th>順序</th><th>方向</th><th>對策</th></tr>
+    <tr><td>① 降水</td><td>降驅動</td><td>深井、點井降 \(h_w\)、\(\Delta h\)</td></tr>
+    <tr><td>② 卸載</td><td>降驅動</td><td>坑外禁止堆載、分階開挖</td></tr>
+    <tr><td>③ 幾何</td><td>升抵抗</td><td>加深貫入、加設支撐（黑板另列：縮小 \(B\)）</td></tr>
+    <tr><td>④ 改良</td><td>升抵抗</td><td>地盤改良提高 \(c_u\)</td></tr>
+  </table>
+  <p>最後補一句監測，和回填、加撐的緊急應變。</p>
+</section>
+
+<!-- c12 -->
+<section id="c12">
+  <h2 class="ch"><span class="no">12</span>總結<button class="seek" data-t="469.23">▶ 7:49</button></h2>
+  <figure><img src="img/SM-U2-3/s26.jpg" alt="總結">
+    <figcaption><span>解題先在試卷寫兩行；三種地層破壞一句話</span><span class="ts">影片 8:12</span></figcaption></figure>
+  <div class="box key"><b class="h">解題先在試卷寫兩行</b>
+    本題檢核：結構／地層<br>開挖面以下：砂土／黏土</div>
+  <table>
+    <tr><th>破壞</th><th>本質</th><th>靠什麼</th></tr>
+    <tr><td><span class="o">基盤隆起</span></td><td>土在剪</td><td>靠強度</td></tr>
+    <tr><td><span class="b">受壓水上舉</span></td><td>水在頂</td><td>靠重量</td></tr>
+    <tr><td><span class="g">砂湧</span></td><td>水在流</td><td>靠路徑</td></tr>
+  </table>
+  <div class="box ok"><b class="h">看準敵人，再選公式。</b></div>
+</section>
+
+<footer>
+  來源：解題過程影片／SM-U2-3／video／SM-U2-3.mp4（8:13）、segments.py（旁白逐字稿）、SM-U2-3.srt（時間軸）、HANDOFF.md（數值驗算）。<br>
+  文字取自影片旁白，圖片為各段結束時的黑板畫面；未新增影片以外的內容。
+</footer>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  if(window.renderMathInElement){
+    renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+  }
+  var v=document.getElementById('v');
+  document.querySelectorAll('button.seek').forEach(function(b){
+    b.addEventListener('click',function(){
+      v.currentTime=parseFloat(b.dataset.t);
+      var p=v.play(); if(p&&p.catch)p.catch(function(){});
+      v.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2003-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2003-3 題目解析</h1><a class="back quick" href="../study-SM-U2-3.html">&#128269; U2-3 命題分析</a>
+<a class="back lect" href="../lecture-SM-U2-3.html">&#128218; U2-3 開挖之穩定性分析 講義</a></header>
+<main><h1>考題編號：SM-2003-3</h1>
+<p><strong>主分類：</strong> <code>SM-U2-3</code> 開挖之穩定性分析<br />
+<strong>副分類：</strong> <code>SM-U1-4</code> 土體內應力<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>開挖穩定性</code> <code>基盤隆起</code> <code>上舉破壞</code> <code>受壓含水層</code> <code>有效應力原理</code> <code>孔隙水壓</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>三、有一黏土層厚 10 m，飽和單位重 $\gamma_{sat} = 17.5 \text{ kN/m}^3$，下方為受壓含水砂土層，壓力水頭為 7 m，砂土之飽和單位重 $\gamma_{sat} = 18 \text{ kN/m}^3$；現欲在黏土層內進行開挖，其開挖深度可達多少而不致引起隆起？此時開挖面下方兩土層界面處之有效應力為何？（25 分）</p>
+<p><em>(無附圖)</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題旨在測驗考生對於<strong>深開挖底部隆起（Blowout / Boiling）破壞機制</strong>及<strong>有效應力原理</strong>的理解。<br />
+當不透水層（黏土層）下方存在受壓含水層（砂土層）時，黏土層猶如一個塞子，壓制住下方的受壓地下水。隨著開挖深度的增加，黏土層的剩餘厚度減少，其所能提供的向下總應力（自重）也隨之降低。<br />
+出題者意圖測驗：</p>
+<ol>
+<li>是否能將「壓力水頭 7 m」正確轉換為交界面處的孔隙水壓。</li>
+<li>是否理解防止隆起的臨界條件為：剩餘土層的總向下應力等於向上的孔隙水壓（即有效應力降為零）。</li>
+<li>強調臨界破壞瞬間的力學狀態（有效應力為何）。</li>
+<li>能否辨識並忽略無用的干擾資訊（砂土單位重）。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li><strong>計算向上水壓力</strong>：利用砂土層的壓力水頭，求得黏土與砂土交界面處的孔隙水壓 $u$。</li>
+<li><strong>建立抗隆起平衡方程式</strong>：寫出開挖至深度 $D$ 時，交界面處的總覆土壓力 $\sigma_v$ 函數。</li>
+<li><strong>求解臨界開挖深度</strong>：令 $\sigma_v = u$（即 FS=1 的臨界狀態），解出未知數 $D$。</li>
+<li><strong>驗證有效應力</strong>：依據 $\sigma_v' = \sigma_v - u$，說明在隆起臨界狀態時交界面處的有效應力值。</li>
+</ol>
+<p><strong>陷阱分析：</strong></p>
+<ul>
+<li><strong>陷阱 1：對「壓力水頭」的誤解</strong>：誤以為壓力水頭 7 m 是指地下水位高出地表 7 m，而錯誤加上原本的 10 m 厚度。實際上，受壓水層的壓力水頭代表該位置的孔隙水壓除以 $\gamma_w$。</li>
+<li><strong>陷阱 2：使用錯誤的單位重</strong>：在計算黏土層總應力時，應直接使用黏土的飽和單位重 $\gamma_{sat}$ 計算總應力，不可誤用有效單位重 $\gamma'$，因為在計算抵抗向上的水壓力時，是由土層「總重量」來壓制。</li>
+<li><strong>陷阱 3：$\gamma_w$ 的取值差異</strong>：一般工程計算取 $\gamma_w = 9.81 \text{ kN/m}^3$。若為了計算方便取 10，結果會有小幅差異。建議以 9.81 計算，並於結論說明不同 $\gamma_w$ 取值的差異。</li>
+<li><strong>陷阱 4：多餘的干擾資訊</strong>：題目給定了砂土的飽和單位重 $\gamma_{sat} = 18 \text{ kN/m}^3$。由於破壞面發生在兩層交界處，水壓力也已透過壓力水頭給定，因此砂土的單位重在解答過程中完全用不到，為考驗考生觀念清晰度的干擾資訊。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>計算不致引起黏土層底部隆起的最大開挖深度 $D$，以及達到該深度時，黏土與砂土界面處之有效應力 $\sigma_v'$。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$u = h_p \cdot \gamma_w$$<br />
+(求出砂土層頂部，即兩層界面處的孔隙水壓)</p>
+<p>$$\sigma_v = (H_c - D) \cdot \gamma_{sat,c}$$<br />
+(求出開挖後，界面處的總覆土壓力)</p>
+<p>$$\sigma_v' = \boxed{\sigma_v} - \boxed{u} \ge 0$$<br />
+(隆起臨界條件：有效應力降至零)</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H_c$</td>
+<td>10 m</td>
+<td>原有黏土層厚度</td>
+</tr>
+<tr>
+<td>$\gamma_{sat,c}$</td>
+<td>17.5 kN/m³</td>
+<td>黏土飽和單位重</td>
+</tr>
+<tr>
+<td>$h_p$</td>
+<td>7 m</td>
+<td>砂土層壓力水頭</td>
+</tr>
+<tr>
+<td>$\gamma_{sat,s}$</td>
+<td>18 kN/m³</td>
+<td>砂土飽和單位重（干擾資訊）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>界面水壓力</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $u$ | $h_p \cdot \gamma_w$ | |</p>
+<p><strong>臨界總應力與開挖深</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $D$ | $\sigma_v = u \Rightarrow (H_c - D)\cdot \gamma_{sat,c} = u$ | |</p>
+<p><strong>界面有效應力</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\sigma_v'$ | $\sigma_v - u = 0$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>受壓含水層的隆起破壞條件</td>
+<td>底部不透水層的剩餘覆土總應力，必須大於或等於下方的上揚水壓力。臨界狀態到達時，界面處有效應力降為零。</td>
+<td></td>
+</tr>
+<tr>
+<td>壓力水頭的物理意義</td>
+<td>「壓力水頭為 7 m」代表在該位置的孔隙水壓等於 $7 \times \gamma_w$。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p><strong>Step 1：計算兩土層交界面之孔隙水壓 ($u$)</strong><br />
+砂土層位於黏土層下方，為受壓含水層。題目給定該處（交界面）之壓力水頭 $h_p = 7 \text{ m}$。<br />
+（計算採用水之單位重 $\gamma_w = 9.81 \text{ kN/m}^3$）<br />
+$$u = h_p \times \gamma_w = 7 \text{ m} \times 9.81 \text{ kN/m}^3 = 68.67 \text{ kN/m}^2$$</p>
+<blockquote>
+<p><em>策略註解：受壓水層的水壓力是由下往上頂升黏土層的主要驅動力。此處砂土的飽和單位重 18 kN/m³ 為干擾資訊，無需使用。</em></p>
+</blockquote>
+<p><strong>Step 2：計算開挖面下方剩餘黏土層之總應力 ($\sigma_v$)</strong><br />
+假設最大開挖深度為 $D$ (m)，則開挖後剩餘之黏土層厚度為 $(10 - D)$ m。<br />
+剩餘黏土層在交界面處產生之向下總垂直應力為：<br />
+$$\sigma_v = \gamma_{sat,c} \times (10 - D) = 17.5 \times (10 - D) \text{ kN/m}^2$$</p>
+<p><strong>Step 3：建立臨界隆起平衡條件，求解最大開挖深度 ($D$)</strong><br />
+為避免底面產生隆起 (Blowout)，剩餘黏土層向下的總應力必須大於或等於向上的孔隙水壓，即：<br />
+$$\sigma_v \ge u$$<br />
+當處於即將隆起的臨界狀態時，等號成立 ($\sigma_v = u$)：<br />
+$$17.5 \times (10 - D) = 68.67$$<br />
+$$10 - D = \frac{68.67}{17.5} = 3.924 \text{ m}$$<br />
+$$D = 10 - 3.924 = 6.076 \text{ m}$$</p>
+<p>最大開挖深度可達 $\boxed{6.076 \text{ m}}$。</p>
+<blockquote>
+<p><em>策略註解：若考場上習慣取 $\gamma_w = 10 \text{ kN/m}^3$，則 $u = 70 \text{ kN/m}^2$，$10 - D = 4 \text{ m}$，求得 $D = 6.0 \text{ m}$。計算過程同樣正確，只需清楚標示所採用之水單位重。</em></p>
+</blockquote>
+<p><strong>Step 4：計算臨界狀態下，交界面處之有效應力 ($\sigma_v'$)</strong><br />
+根據有效應力原理，總應力等於有效應力與孔隙水壓之和 ($\sigma_v = \sigma_v' + u$)。<br />
+在達到最大開挖深度而處於即將隆起的臨界狀態時，總應力剛好被孔隙水壓抵銷 ($\sigma_v = u = 68.67 \text{ kN/m}^2$)：<br />
+$$\sigma_v' = \sigma_v - u = 68.67 - 68.67 = 0 \text{ kN/m}^2$$</p>
+<p>開挖面下方兩土層界面處之有效應力為 $\boxed{0 \text{ kN/m}^2}$。</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ol>
+<li><strong>破壞機制之名詞釋義 (Heave vs. Blowout)</strong><br />
+   工程實務上，深開挖底部的破壞模式有幾種差異：</li>
+<li><strong>基底隆起 (Basal Heave)</strong>：常發生於軟弱黏土層，是由於開挖面內外側土體重量形成的總應力差過大，導致黏土發生塑性剪力破壞而向開挖區內擠入（可用 Terzaghi 或 Bjerrum-Eide 法檢核）。</li>
+<li>
+<p><strong>砂湧或隆起 (Boiling / Blowout)</strong>：即本題探討之狀況，起因於開挖底面下方有受壓含水層。當覆土總重量不足以抵抗水壓力時，會如同瓶塞被拔開般，整個不透水層被向上頂破。<br />
+   此題雖用中文「隆起」一詞，但透過「受壓含水砂土層」的線索，明確指向 Blowout 破壞，考生必須敏銳辨識此機制，而非套用 $N_c \cdot S_u$ 的公式。</p>
+</li>
+<li>
+<p><strong>安全係數 (Factor of Safety)</strong><br />
+   本題求的是「不致引起隆起」的最大深度，即對應安全係數 $FS = 1.0$ 的極限狀態。<br />
+   實務上，為確保開挖安全，通常會要求抗隆起安全係數 $FS = \frac{\sigma_v}{u} \ge 1.2 \sim 1.5$。因此實際容許的開挖深度將小於本題計算出的 6.076 m。若要加深開挖，可採用抽水井降低下方的水壓力（降水工法）來提高安全係數。</p>
+</li>
+</ol></main>
+<footer>來源：raw/solutions/SM-2003-3/SM-2003-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

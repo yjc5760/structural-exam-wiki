@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2019-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2019-3 題目解析</h1><a class="back quick" href="../study-SM-U1-3.html">&#128269; U1-3 命題分析</a>
+<a class="back lect" href="../lecture-SM-U1-3.html">&#128218; U1-3 土壤夯實及壓密 講義</a></header>
+<main><h1>考題編號：SM-2019-3</h1>
+<p><strong>主分類：</strong> <code>SM-U1-3</code> 土壤夯實及壓密<br />
+<strong>副分類：</strong> <code>SM-U1-1</code> 土壤基本性質<br />
+<strong>分析法：</strong> 混合<br />
+<strong>標籤：</strong> <code>相對夯實度</code> <code>相對密度</code> <code>孔隙比</code> <code>三相關係</code> <code>乾土單位重</code> <code>體積變化</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>三、某施工場址於回填 2 m 厚的砂質土壤後進行夯實，夯實前回填土之相對密度為 50%。該回填土壤於實驗室試驗獲得最大孔隙比 0.95，最小孔隙比 0.55，土壤顆粒比重 2.65。施工規範要求回填土壤的夯實需達到相對夯實度（relative compaction）95%，試求：<br />
+(一)夯實前、後回填土的乾土單位重（kN/m³）。（15 分）<br />
+(二)夯實後回填土減低多少高度（m）。（10 分）</p>
+<p>（註：假設 $\gamma_w = 9.81 \text{ kN/m}^3$）</p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題主要測驗考生對於<strong>土壤基本物理性質</strong>與<strong>夯實度指標</strong>之間關係的理解。<br />
+核心觀念包含：</p>
+<ol>
+<li><strong>相對密度（Relative Density, $D_r$）</strong>與孔隙比的關係。</li>
+<li><strong>相對夯實度（Relative Compaction, $R_c$）</strong>的定義，以及其與乾單位重的關係。</li>
+<li><strong>夯實前後的體積變化（Settlement）</strong>計算，利用「固體顆粒體積不變」的原理，透過孔隙比變化推求沉陷量或高度減少量。<br />
+出題者意圖確保考生能精準區分「相對密度」與「相對夯實度」，並能靈活運用三相圖公式進行體積與孔隙比之換算。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>戰略地圖：</strong></p>
+<ol>
+<li>藉由初始相對密度 $D_{r0}$ 與極值孔隙比（$e_{max}, e_{min}$），求出夯實前之初始孔隙比 $e_0$。</li>
+<li>根據 $e_0$ 結合比重 $G_s$，算出夯實前初始乾單位重 $\gamma_{d0}$。</li>
+<li>利用最小孔隙比 $e_{min}$ 算出土壤的最大乾單位重 $\gamma_{d,max}$。</li>
+<li>依據相對夯實度 $R_c = 95\%$ 要求，求出夯實後之乾單位重 $\gamma_{df}$。</li>
+<li>由 $\gamma_{df}$ 回推夯實後之孔隙比 $e_f$。</li>
+<li>運用一維體積應變公式（$\Delta H / H_0 = \Delta e / (1+e_0)$）求出減少的高度 $\Delta H$。</li>
+</ol>
+<p><strong>陷阱分析：</strong></p>
+<ol>
+<li><strong>相對密度（$D_r$）與相對夯實度（$R_c$）的混淆</strong>：</li>
+<li>相對密度是基於「孔隙比」定義：$D_r = (e_{max} - e)/(e_{max} - e_{min})$。</li>
+<li>相對夯實度是基於「乾單位重」定義：$R_c = \gamma_d / \gamma_{d,max}$。若將兩者公式搞混，將導致整題算錯。</li>
+<li><strong>沉陷量公式的分母</strong>：</li>
+<li>減少高度 $\Delta H = H_0 \cdot \frac{e_0 - e_f}{1 + e_0}$，分母必須是初始狀態的 $1 + e_0$，若誤用 $1 + e_f$ 會導致計算錯誤。</li>
+<li><strong>$\gamma_{d,max}$ 的對應孔隙比</strong>：</li>
+<li>最大乾單位重對應的是「最小孔隙比 $e_{min}$」，非最大孔隙比，須注意帶入正確數值。</li>
+</ol>
+<p><img alt="孔隙比軸與兩把刻度尺對照圖：主軸為孔隙比 e，自左至右由 e_max = 0.95（最鬆）遞減至 e_min = 0.55（最緊），其上標出 e_0 = 0.75 與 e_f = 0.632；下方第一把尺為相對密度 D_r，對 e 線性、兩端為 0% 與 100%；第二把尺為相對夯實度 R_c，對 γ_d 線性故對 e 非線性，左端為 79.5% 而非 0" src="../../raw/solutions/SM-2019-3/figs/SM-2019-3-fig-1-two-rulers.svg" /></p>
+<p><em>圖 1　$D_r$ 與 $R_c$ 是同一根 $e$ 軸上的兩把不同的尺。它攔的是本題最致命的混淆：同一個夯實後狀態，$D_r = 79.6\%$ 而 $R_c = 95.0\%$，兩個數字都對但意義不同；若把題目要求的 $R_c = 95\%$ 誤讀成 $D_r = 95\%$，會得 $e_f = 0.570$、$\Delta H = 0.206$ m，比正解多 52%。</em></p>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求出夯實前、後的乾單位重（$\gamma_{d0}, \gamma_{df}$）以及回填土夯實後減少的高度（$\Delta H$）。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>Step 1: 由相對密度求初始孔隙比<br />
+$e_0 = e_{max} - D_{r0}(e_{max} - e_{min})$</p>
+<p>Step 2: 初始乾單位重<br />
+$\gamma_{d0} = \frac{G_s \gamma_w}{1 + \boxed{e_0}}$</p>
+<p>Step 3: 最大乾單位重<br />
+$\gamma_{d,max} = \frac{G_s \gamma_w}{1 + e_{min}}$</p>
+<p>Step 4: 夯實後乾單位重<br />
+$\gamma_{df} = R_c \cdot \boxed{\gamma_{d,max}}$</p>
+<p>Step 5: 夯實後孔隙比<br />
+$e_f = \frac{G_s \gamma_w}{\boxed{\gamma_{df}}} - 1$</p>
+<p>Step 6: 夯實減少高度<br />
+$\Delta H = H_0 \frac{\boxed{e_0} - \boxed{e_f}}{1 + \boxed{e_0}}$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H_0$</td>
+<td>$2 \text{ m}$</td>
+<td>夯實前土壤厚度</td>
+</tr>
+<tr>
+<td>$D_{r0}$</td>
+<td>$0.50$ (50%)</td>
+<td>夯實前相對密度</td>
+</tr>
+<tr>
+<td>$e_{max}$</td>
+<td>$0.95$</td>
+<td>最大孔隙比</td>
+</tr>
+<tr>
+<td>$e_{min}$</td>
+<td>$0.55$</td>
+<td>最小孔隙比</td>
+</tr>
+<tr>
+<td>$G_s$</td>
+<td>$2.65$</td>
+<td>固體顆粒比重</td>
+</tr>
+<tr>
+<td>$R_c$</td>
+<td>$0.95$ (95%)</td>
+<td>要求之相對夯實度</td>
+</tr>
+<tr>
+<td>$\gamma_w$</td>
+<td>$9.81 \text{ kN/m}^3$</td>
+<td>水的單位重</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>夯實前狀態計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $e_0$ | $D_r = \frac{e_{max} - e}{e_{max} - e_{min}}$ | |<br />
+| $\gamma_{d0}$ | $\gamma_d = \frac{G_s \gamma_w}{1+e}$ | |</p>
+<p><strong>夯實後狀態計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\gamma_{d,max}$ | $\gamma_{d,max} = \frac{G_s \gamma_w}{1+e_{min}}$ | |<br />
+| $\gamma_{df}$ | $R_c = \frac{\gamma_{d}}{\gamma_{d,max}}$ | |<br />
+| $e_f$ | $e = \frac{G_s \gamma_w}{\gamma_{d}} - 1$ | |</p>
+<p><strong>沉陷量計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\Delta H$ | $\frac{\Delta H}{H_0} = \frac{\Delta e}{1+e_0}$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>相對密度與孔隙比的關係</td>
+<td>定義為 $D_r = \frac{e_{max} - e}{e_{max} - e_{min}}$，衡量孔隙比在極值間的相對位置。</td>
+<td></td>
+</tr>
+<tr>
+<td>相對夯實度定義</td>
+<td>工程上定義為現場乾土單位重與<strong>室內標準夯實（Proctor）試驗</strong>最大乾土單位重之比值：$R_c = \frac{\gamma_d}{\gamma_{d,max}}$。</td>
+<td></td>
+</tr>
+<tr>
+<td>$\gamma_{d,max}$ 的代用</td>
+<td>本題未給 Proctor 試驗結果，只給 $e_{min}$，故以<strong>最緊密狀態</strong>（$e = e_{min}$）之 $\gamma_d$ 代替 Proctor $\gamma_{d,max}$。這是題目條件所迫的代用，不是定義本身，詳見 §5。</td>
+<td></td>
+</tr>
+<tr>
+<td>一維體積應變推導</td>
+<td>土壤受到一維壓縮時，固體顆粒體積 $V_s$ 不變，故總體積變化比等於孔隙比變化比：$\frac{\Delta V}{V} = \frac{\Delta H}{H_0} = \frac{\Delta e}{1+e_0}$。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>(一) 夯實前、後回填土的乾土單位重</h3>
+<p><strong>Step 1: 計算夯實前初始孔隙比 $e_0$</strong><br />
+依據相對密度（$D_r$）的定義：<br />
+$$ D_{r0} = \frac{e_{max} - e_0}{e_{max} - e_{min}} $$<br />
+帶入數值：<br />
+$$ 0.50 = \frac{0.95 - e_0}{0.95 - 0.55} = \frac{0.95 - e_0}{0.40} $$<br />
+$$ e_0 = 0.95 - 0.50 \times 0.40 = 0.75 $$</p>
+<p><strong>Step 2: 計算夯實前之乾土單位重 $\gamma_{d0}$</strong><br />
+利用土壤三相圖公式計算乾土單位重：<br />
+$$ \gamma_{d0} = \frac{G_s \gamma_w}{1 + e_0} = \frac{2.65 \times 9.81}{1 + 0.75} = \frac{25.9965}{1.75} = 14.855 \text{ kN/m}^3 $$</p>
+<blockquote>
+<p>策略註解：求出現場原狀（或初始狀態）的乾單位重，此即為「夯實前乾土單位重」。</p>
+</blockquote>
+<p><strong>Step 3: 計算最大乾土單位重 $\gamma_{d,max}$</strong><br />
+最大乾單位重對應於最小孔隙比 $e_{min}$ 的狀態：<br />
+$$ \gamma_{d,max} = \frac{G_s \gamma_w}{1 + e_{min}} = \frac{2.65 \times 9.81}{1 + 0.55} = \frac{25.9965}{1.55} = 16.772 \text{ kN/m}^3 $$</p>
+<p><strong>Step 4: 計算夯實後之乾土單位重 $\gamma_{df}$</strong><br />
+依據相對夯實度（$R_c$）的要求：<br />
+$$ R_c = \frac{\gamma_{df}}{\gamma_{d,max}} = 95\% = 0.95 $$<br />
+$$ \gamma_{df} = 0.95 \times 16.772 = 15.933 \text{ kN/m}^3 $$</p>
+<p><strong>第一小題答案：</strong><br />
+$$ \text{夯實前乾土單位重 } \gamma_{d0} = \boxed{14.86 \text{ kN/m}^3} $$<br />
+$$ \text{夯實後乾土單位重 } \gamma_{df} = \boxed{15.93 \text{ kN/m}^3} $$</p>
+<hr />
+<h3>(二) 夯實後回填土減低多少高度</h3>
+<p><strong>Step 5: 計算夯實後之孔隙比 $e_f$</strong><br />
+由夯實後乾土單位重回推：<br />
+$$ \gamma_{df} = \frac{G_s \gamma_w}{1 + e_f} $$<br />
+$$ 15.933 = \frac{25.9965}{1 + e_f} $$<br />
+$$ 1 + e_f = \frac{25.9965}{15.933} = 1.6316 $$<br />
+$$ e_f = 0.6316 $$<br />
+<em>(亦可由相對夯實度公式直接推導：$R_c = \frac{1+e_{min}}{1+e_f} \Rightarrow 1+e_f = \frac{1.55}{0.95} = 1.6316$)</em></p>
+<p><strong>Step 6: 計算減低的高度 $\Delta H$</strong><br />
+利用固體顆粒體積不變原理，高度變化量與孔隙比變化量成正比：<br />
+$$ \frac{\Delta H}{H_0} = \frac{\Delta e}{1 + e_0} = \frac{e_0 - e_f}{1 + e_0} $$<br />
+$$ \Delta H = 2.0 \times \frac{0.75 - 0.6316}{1 + 0.75} = 2.0 \times \frac{0.1184}{1.75} = 0.1353 \text{ m} $$</p>
+<blockquote>
+<p>策略註解：公式分母必須使用「初始狀態」的 $(1 + e_0)$。</p>
+</blockquote>
+<p><strong>第二小題答案：</strong><br />
+$$ \text{夯實後減低高度 } \Delta H = \boxed{0.135 \text{ m}} \text{ (約 13.5 cm)} $$</p>
+<p><img alt="三相體積柱狀對照圖：左柱為夯實前，下段土粒 V_s = 1、上段孔隙 V_v = e = 0.750，總高對應 H_0 = 2.000 m；右柱為夯實後，土粒段高度不變、孔隙段縮為 V_v = 0.632，總高對應 H = 1.865 m；兩柱土粒段頂面以水平虛線對齊，右側標出 Δe = 0.1184 與 ΔH = 0.135 m" src="../../raw/solutions/SM-2019-3/figs/SM-2019-3-fig-2-phase-columns.svg" /></p>
+<p><em>圖 2　高度只隨孔隙變，土粒那一格從頭到尾不動。它攔的是分母取錯：因為變的是 $\Delta e$ 而基準是「初始」總體積 $1+e_0$，分母若誤用 $1+e_f = 1.632$ 會得 $\Delta H = 0.1452$ m，高估 7.3%。</em></p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>相對密度與相對夯實度之經驗轉換</strong>：<br />
+  工程上常用 Lee &amp; Singh (1971) 提出的經驗公式 $R_c \approx 80 + 0.2 D_r$ 進行概估。若代入本題夯實後計算得到的相對密度：<br />
+  $D_{rf} = \frac{0.95 - 0.6316}{0.95 - 0.55} = \frac{0.3184}{0.40} = 79.6\%$<br />
+  使用經驗公式預估 $R_c \approx 80 + 0.2(79.6) = 95.92\%$，與題目要求之 $95\%$ 相近。但考場上<strong>必須</strong>依據基本定義公式從頭推導精確數值，切勿直接使用該經驗公式計算，否則不予計分。</li>
+<li><strong>本題的 $\gamma_{d,max}$ 並不是 Proctor 的 $\gamma_{d,max}$</strong>：<br />
+  相對夯實度 $R_c$ 的標準定義中，分母是<strong>標準夯實試驗</strong>（ASTM D698／CNS 11777）求得的最大乾單位重；<br />
+  而本題只給了相對密度試驗的 $e_{max}$、$e_{min}$，因此 Step 3 用的是 $e_{min}$ 對應的<br />
+<strong>最緊密狀態乾單位重</strong> $\dfrac{G_s\gamma_w}{1+e_{min}} = 16.77 \text{ kN/m}^3$。<br />
+  兩者在物理上不同：$e_{min}$ 來自振動台／夯搗的乾砂最緊密堆積，Proctor 則是含水量最佳時的動力夯實，<br />
+  砂質土的 Proctor $\gamma_{d,max}$ 通常<strong>略低於</strong> $e_{min}$ 對應值。<br />
+  題目既然只給這組參數，用 $e_{min}$ 是唯一可行且閱卷預期的作法，<br />
+  但作答時宜寫一句「因題目未提供標準夯實試驗結果，以 $e_{min}$ 對應之最大乾單位重代之」，<br />
+  以示觀念清楚——這句話不寫不會扣分，寫了是加分項。</li>
+<li><strong>計算精度控制</strong>：<br />
+  此類三相圖推演題型，中間過程（例如 $\gamma_{d,max}, e_f$ 等）建議至少保留小數點後 3 到 4 位，到最後一步再四捨五入至小數點後第 2 或第 3 位，避免累積的捨入誤差（round-off error）造成最後答案偏差。</li>
+</ul>
+<hr />
+<p><em>解析日期：見 <code>wiki/log.md</code>　｜　圖解補繪：2026-08-28（向量 SVG，程式繪製，腳本 <code>gen_SM-2019-3.py</code> 可重跑；同名 2× PNG 供簡報／影片管線使用）</em></p></main>
+<footer>來源：raw/solutions/SM-2019-3/SM-2019-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

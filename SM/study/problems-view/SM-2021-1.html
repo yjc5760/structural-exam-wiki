@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2021-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2021-1 題目解析</h1><a class="back quick" href="../../index.html">&#128218; 回題庫瀏覽</a></header>
+<main><h1>考題編號：SM-2021-1</h1>
+<p><strong>主分類：</strong> <code>SM-U1-4</code> 土體內應力<br />
+<strong>副分類：</strong> <code>SM-U1-2</code> 土壤滲透<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>有效應力原理</code> <code>總應力</code> <code>孔隙水壓</code> <code>Darcy定律</code> <code>總水頭</code> <code>湧泉壓力</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>有一土壤剖面及穩定滲流狀況如下圖所示，黏土層下方之砂土層內已觀察到湧泉壓力，可使開口豎管內的水上升到高於地表面 $1\text{ m}$：（25 分）<br />
+(一) 計算 A 點、B 點、C 點之總應力、孔隙水壓及有效應力；<br />
+(二) 估計黏土層中滲流之方向及速率。</p>
+<p><img alt="SM-2021-1 題目附圖：包含地下水位、三層土層(乾砂、飽和砂、飽和黏土、底層飽和砂)與滲流開口豎管的土壤剖面圖" src="../../raw/solutions/SM-2021-1/SM-2021-1-fig-1.png" /></p>
+<p><em>圖說：地表至 $1\text{ m}$ 深度為乾砂層（$\gamma_d = 18\text{ kN/m}^3$）；$1\text{ m}$ 至 $3\text{ m}$ 深度為飽和砂層（$\gamma_{sat} = 20\text{ kN/m}^3$），地下水位位於深度 $1\text{ m}$ 處；$3\text{ m}$ 至 $9\text{ m}$ 深度為厚度 $6\text{ m}$ 之飽和黏土層（$\gamma_{sat} = 19\text{ kN/m}^3$，$k = 5 \times 10^{-7}\text{ cm/sec}$）；$9\text{ m}$ 至 $11\text{ m}$ 為底層飽和砂層（$\gamma_{sat} = 20\text{ kN/m}^3$）。開口豎管自底部砂土層接出，水位高出地表 $1\text{ m}$。點 A 位於深度 $3\text{ m}$，點 B 位於深度 $6\text{ m}$，點 C 位於深度 $9\text{ m}$。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題旨在測驗考生對於<strong>一維穩定滲流（Steady-state seepage）</strong>狀態下，總水頭、孔隙水壓及有效應力的計算能力。<br />
+核心考點包含：</p>
+<ol>
+<li><strong>水頭的定義與計算</strong>：能正確判斷出不同深度的總水頭、位置水頭與壓力水頭（即孔隙水壓）。尤其是下方砂土層具有受壓地下水（Artesian pressure）時，豎管水位的物理意義。</li>
+<li><strong>穩定滲流下的水壓分布</strong>：理解在均質土層中發生穩定滲流時，總水頭及孔隙水壓會呈線性分布。</li>
+<li><strong>滲流方向及速率判斷</strong>：應用達西定律（Darcy's Law），由總水頭差決定水流方向，並由水力坡降求得滲流速率（流速）。</li>
+<li><strong>有效應力原理</strong>：熟練應用 $\sigma' = \sigma - u$ 計算各點之有效應力。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li><strong>設定基準面</strong>：以地表面為高程基準面（$z=0$），向下深度為正，高程為負。</li>
+<li><strong>計算各點總應力 ($\sigma$)</strong>：由上而下，依各土層之單位重（$\gamma_d, \gamma_{sat}$）乘上厚度累加。</li>
+<li><strong>計算各點總水頭 ($H$) 與孔隙水壓 ($u$)</strong>：</li>
+<li>A 點：上層砂土無滲流（靜水壓狀態），水位於深度 $1\text{ m}$，故 A 點水壓為深度 $1\text{ m}$ 至 $3\text{ m}$ 的靜水壓。</li>
+<li>C 點：豎管水位高出地表 $1\text{ m}$，可直接求出 C 點壓力水頭及水壓。</li>
+<li>B 點：為 A、C 間黏土層中點，由於發生穩定滲流，孔隙水壓隨深度線性變化，可藉由內插法或水力坡降求出。</li>
+<li><strong>計算各點有效應力 ($\sigma'$)</strong>：直接相減 $\sigma' = \sigma - u$。</li>
+<li><strong>判斷滲流方向與速率</strong>：</li>
+<li>比較 A 點與 C 點之總水頭（$H_A$ 與 $H_C$），水流由總水頭高處流向低處。</li>
+<li>計算水力坡降 $i = \Delta H / L$。</li>
+<li>代入達西定律 $v = k \cdot i$ 計算滲流速率。</li>
+</ol>
+<p><strong>陷阱分析：</strong></p>
+<ul>
+<li><strong>陷阱 1（孔隙水壓分佈誤判）</strong>：誤以為全深度皆為靜水壓（Hydrostatic pressure）分佈。必須認知到黏土層上下邊界的水頭不一致，因此黏土層內有滲流發生，孔隙水壓不再是單純的 $\gamma_w \cdot z_w$。</li>
+<li><strong>陷阱 2（豎管水位的解讀）</strong>：未能將「豎管水上升至高於地表 $1\text{ m}$」轉換為 C 點的壓力水頭（$h_p = 10\text{ m}$）。</li>
+<li><strong>陷阱 3（滲流速率與流量的混淆）</strong>：題目要求估計「速率（velocity）」，即計算滲流流速 $v = ki$ 即可，無需計算流量 $Q$。單位應注意與滲透係數保持一致（例如 $\text{cm/sec}$）。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>計算土壤剖面中 A、B、C 三點之總應力、孔隙水壓、有效應力，並評估黏土層之滲流方向及速率。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ol>
+<li>
+<p>總應力計算：<br />
+$$ \sigma = \sum \gamma_i \cdot \Delta z_i $$</p>
+</li>
+<li>
+<p>總水頭、位置水頭與壓力水頭（孔隙水壓）關係式：<br />
+$$ H = z + \frac{u}{\gamma_w} \implies u = (H - z) \gamma_w $$</p>
+</li>
+<li>
+<p>有效應力原理：<br />
+$$ \sigma' = \boxed{\sigma} - \boxed{u} $$</p>
+</li>
+<li>
+<p>水力坡降：<br />
+$$ i = \frac{\Delta H}{L} = \frac{H_C - H_A}{L} $$</p>
+</li>
+<li>
+<p>達西定律（滲流流速）：<br />
+$$ v = k \cdot \boxed{i} $$</p>
+</li>
+</ol>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\gamma_{d,sand}$</td>
+<td>$18\text{ kN/m}^3$</td>
+<td>表層乾砂單位重</td>
+</tr>
+<tr>
+<td>$\gamma_{sat,sand}$</td>
+<td>$20\text{ kN/m}^3$</td>
+<td>飽和砂層單位重（上下層皆同）</td>
+</tr>
+<tr>
+<td>$\gamma_{sat,clay}$</td>
+<td>$19\text{ kN/m}^3$</td>
+<td>飽和黏土層單位重</td>
+</tr>
+<tr>
+<td>$k_{clay}$</td>
+<td>$5 \times 10^{-7}\text{ cm/sec}$</td>
+<td>黏土層滲透係數</td>
+</tr>
+<tr>
+<td>$z_A$</td>
+<td>$3\text{ m}$</td>
+<td>A點深度</td>
+</tr>
+<tr>
+<td>$z_B$</td>
+<td>$6\text{ m}$</td>
+<td>B點深度</td>
+</tr>
+<tr>
+<td>$z_C$</td>
+<td>$9\text{ m}$</td>
+<td>C點深度</td>
+</tr>
+<tr>
+<td>$h_{pipe}$</td>
+<td>$+1\text{ m}$</td>
+<td>豎管水位於地表以上之高度</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>孔隙水壓與水頭</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $u_A$ | $u_A = (z_A - z_w) \cdot \gamma_w$ | |<br />
+| $u_C$ | $u_C = (z_C + h_{pipe}) \cdot \gamma_w$ | |<br />
+| $u_B$ | 依線性內插：$u_B = \frac{u_A + u_C}{2}$ （因 B 為中點） | |</p>
+<p><strong>有效應力與滲流計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\sigma'_i$ | $\sigma'_i = \sigma_i - u_i$ | |<br />
+| $i$ | $i = \frac{(u_C/\gamma_w - z_C) - (u_A/\gamma_w - z_A)}{z_C - z_A}$ | |<br />
+| $v$ | $v = k \cdot i$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>壓力水頭的幾何意義</strong></td>
+<td>開口豎管（Piezometer）的水位高度即為該量測點之「壓力水頭（Pressure head）」。由地表量起，深度 $9\text{ m}$ 的點，豎管水位在地表上 $1\text{ m}$，代表壓力水頭為 $10\text{ m}$。</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>穩態滲流下的線性壓降</strong></td>
+<td>在均質土層中發生一維穩定滲流時，總水頭隨流程呈現線性折減，因此孔隙水壓變化曲線亦為兩點間的直線。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p>為方便計算與符合常規，取水之單位重 $\gamma_w = 9.81\text{ kN/m}^3$。<br />
+定義地表面高程為基準面（即高程 $Elev. = 0\text{ m}$），向下深度 $z$ 為正，對應高程則為 $-z$。</p>
+<h3>(一) 計算 A、B、C 點之總應力、孔隙水壓及有效應力</h3>
+<p><strong>1. 總應力 ($\sigma$) 計算：</strong></p>
+<ul>
+<li><strong>A 點</strong> (深度 $z=3\text{ m}$，含 $1\text{ m}$ 乾砂 + $2\text{ m}$ 飽和砂)：<br />
+  $$ \sigma_A = 1\text{ m} \times 18\text{ kN/m}^3 + 2\text{ m} \times 20\text{ kN/m}^3 = 18 + 40 = \boxed{58\text{ kPa}} $$</li>
+<li><strong>B 點</strong> (深度 $z=6\text{ m}$，A 點再往下 $3\text{ m}$ 飽和黏土)：<br />
+  $$ \sigma_B = 58 + 3\text{ m} \times 19\text{ kN/m}^3 = 58 + 57 = \boxed{115\text{ kPa}} $$</li>
+<li><strong>C 點</strong> (深度 $z=9\text{ m}$，A 點再往下 $6\text{ m}$ 飽和黏土)：<br />
+  $$ \sigma_C = 58 + 6\text{ m} \times 19\text{ kN/m}^3 = 58 + 114 = \boxed{172\text{ kPa}} $$</li>
+</ul>
+<p><strong>2. 孔隙水壓 ($u$) 計算：</strong></p>
+<ul>
+<li><strong>A 點</strong>：<br />
+  上層砂土處於靜水壓狀態，地下水位在地表下 $1\text{ m}$ 處，故 A 點承受之壓力水頭為 $3\text{ m} - 1\text{ m} = 2\text{ m}$。<br />
+  $$ u_A = 2\text{ m} \times 9.81\text{ kN/m}^3 = \boxed{19.62\text{ kPa}} $$</li>
+<li><strong>C 點</strong>：<br />
+  C 點接有開口豎管，水位高於地表 $1\text{ m}$。C 點距地表深 $9\text{ m}$，故水柱總高度（壓力水頭）為 $1\text{ m} + 9\text{ m} = 10\text{ m}$。<br />
+  $$ u_C = 10\text{ m} \times 9.81\text{ kN/m}^3 = \boxed{98.1\text{ kPa}} $$</li>
+<li><strong>B 點</strong>：<br />
+  黏土層內發生穩定滲流，因土層均質，總水頭隨深度線性變化，進而孔隙水壓與深度亦呈線性關係。B 點剛好位於 A 點 ($z=3$) 與 C 點 ($z=9$) 之正中點 ($z=6$)。<br />
+  依線性內插：<br />
+  $$ u_B = \frac{u_A + u_C}{2} = \frac{19.62 + 98.1}{2} = \frac{117.72}{2} = \boxed{58.86\text{ kPa}} $$</li>
+</ul>
+<p><strong>3. 有效應力 ($\sigma'$) 計算：</strong><br />
+根據有效應力原理 $\sigma' = \sigma - u$：</p>
+<ul>
+<li><strong>A 點</strong>：<br />
+  $$ \sigma'_A = 58 - 19.62 = \boxed{38.38\text{ kPa}} $$</li>
+<li><strong>B 點</strong>：<br />
+  $$ \sigma'_B = 115 - 58.86 = \boxed{56.14\text{ kPa}} $$</li>
+<li><strong>C 點</strong>：<br />
+  $$ \sigma'_C = 172 - 98.1 = \boxed{73.9\text{ kPa}} $$</li>
+</ul>
+<p><em>(註：若依部分實務與考場常見簡化取 $\gamma_w = 10\text{ kN/m}^3$ 計算，則 $\sigma'_A = 38\text{ kPa}$, $\sigma'_B = 55\text{ kPa}$, $\sigma'_C = 72\text{ kPa}$。)</em></p>
+<h3>(二) 估計黏土層中滲流之方向及速率</h3>
+<p><strong>1. 判斷滲流方向：</strong><br />
+計算 A、C 兩點之總水頭（$H = \text{高程水頭 } h_e + \text{壓力水頭 } h_p$）。令地表為高程 $0\text{ m}$，向上為正。</p>
+<ul>
+<li><strong>A 點總水頭</strong>：<br />
+  高程水頭 $h_{e,A} = -3\text{ m}$<br />
+  壓力水頭 $h_{p,A} = 2\text{ m}$<br />
+  $$ H_A = -3 + 2 = -1\text{ m} $$</li>
+<li><strong>C 點總水頭</strong>：<br />
+  高程水頭 $h_{e,C} = -9\text{ m}$<br />
+  壓力水頭 $h_{p,C} = 10\text{ m}$ （依題意豎管水位高程即為總水頭 $H_C = +1\text{ m}$）<br />
+  $$ H_C = -9 + 10 = +1\text{ m} $$</li>
+</ul>
+<p>因為 $H_C (+1\text{ m}) &gt; H_A (-1\text{ m})$，水流由高水頭流向低水頭。<br />
+<strong>滲流方向：由下往上（向上滲流，Upward Seepage）</strong>。</p>
+<p><strong>2. 計算滲流速率（流速 $v$）：</strong></p>
+<ul>
+<li><strong>水力坡降 ($i$)</strong>：<br />
+  流徑長度 $L = z_C - z_A = 9\text{ m} - 3\text{ m} = 6\text{ m}$<br />
+  總水頭差 $\Delta H = H_C - H_A = 1 - (-1) = 2\text{ m}$<br />
+  $$ i = \frac{\Delta H}{L} = \frac{2}{6} = \frac{1}{3} $$</li>
+<li><strong>滲流速率 ($v$)</strong>：<br />
+  根據達西定律 $v = k \cdot i$：<br />
+  $$ v = (5 \times 10^{-7}\text{ cm/sec}) \times \frac{1}{3} = \frac{5}{3} \times 10^{-7}\text{ cm/sec} \approx \boxed{1.667 \times 10^{-7}\text{ cm/sec}} $$</li>
+</ul>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ol>
+<li><strong>水單位重的取用</strong>：國家考試中未特別指定 $\gamma_w$ 時，使用精確值 $9.81\text{ kN/m}^3$ 計算能展現觀念清晰度。然而，使用 $10\text{ kN/m}^3$ 在計算上會大幅減少計算錯誤的風險，通常閱卷委員兩者皆會給分。本題解中提供以 $9.81\text{ kN/m}^3$ 計算之嚴謹結果。</li>
+<li><strong>臨界水力坡降與砂湧檢核</strong>：本題為向上滲流，實務上需注意是否會造成上方土層發生砂湧（Boiling）。但由於本題向上滲流水頭差主要消耗於滲透性低的黏土層內，且未問及穩定性，故毋需額外計算砂湧安全係數。</li>
+</ol></main>
+<footer>來源：raw/solutions/SM-2021-1/SM-2021-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

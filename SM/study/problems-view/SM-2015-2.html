@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2015-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2015-2 題目解析</h1><a class="back quick" href="../study-SM-U3-1.html">&#128269; U3-1 命題分析</a>
+<a class="back lect" href="../lecture-SM-U3-1.html">&#128218; U3-1 側向土壓力理論 講義</a></header>
+<main><h1>考題編號：SM-2015-2</h1>
+<p><strong>主分類：</strong> <code>SM-U3-1</code> 側向土壓力理論<br />
+<strong>副分類：</strong> <code>SM-U3-2</code> 擋土結構物穩定分析<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>Rankine主動土壓力</code> <code>張力裂縫</code> <code>土壓力合力作用點</code> <code>孔隙水壓</code> <code>抗滑動</code> <code>安全係數</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>有一正常壓密黏土厚 4.0 m，其 $\gamma_{dry} = 17.5 \text{ kN/m}^3$，摩擦角 $\phi = 20^\circ$，凝聚力 $c = 20 \text{ kN/m}^2$，下方為砂土層 $\gamma_{sat} = 18.5 \text{ kN/m}^3$，摩擦角 $\phi = 30^\circ$，該土層之地下水位面位於地表以下 4.0 m。現擬建一 8.0 m 高之擋土牆，其牆背為垂直。<br />
+(一) 利用倫金理論（Rankine）計算並繪出牆背所受土壓力分布，並計算其合力及合力作用位置。（15 分）<br />
+(二) 檢核擋土牆之抗滑動安全係數是否恰當。（10 分）</p>
+<p><img alt="SM-2015-2 題目附圖：包含雙層土層剖面、地下水位、牆體幾何及混凝土單位重" src="../../raw/solutions/SM-2015-2/SM-2015-2-fig-1.png" /><br />
+<em>圖說：牆體高度 8.0 m，頂寬 1.0 m，底寬 3.0 m。前趾覆土深度 1.0 m。牆體為混凝土，單位重 $\gamma_{concrete} = 23 \text{ kN/m}^3$。第一層黏土 0~4.0 m，第二層砂土 4.0~8.0 m，地下水位在 4.0 m 深處。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<ol>
+<li><strong>Rankine 側向土壓力分布與張力裂縫</strong>：測驗考生是否知道黏土層頂部會產生張力裂縫，且在計算合力時需忽略張力區（深度 $z_c$ 以內）之負值土壓力。</li>
+<li><strong>多層土與地下水位之有效應力分析</strong>：測驗在地下水位面以下需切換為有效單位重 $\gamma'$ 及計算水壓力，且水壓力應與土壓力疊加。</li>
+<li><strong>擋土牆抗滑動穩定分析</strong>：測驗對驅動力與抵抗力的全面考量。驅動力包含牆背的總側向推力（土壓力加水壓力）；抵抗力包含牆底摩擦力與牆前被動土壓力。其中，牆底揚水壓（Uplift pressure）是否考慮、以及摩擦角 $\delta$ 的選取，是鑑別程度的關鍵。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>步驟化戰略：</strong></p>
+<ol>
+<li><strong>求出各土層參數與 $K_a$、$K_p$</strong>：黏土層與砂土層之主動土壓力係數。</li>
+<li><strong>計算有效應力與主動土壓力分布</strong>：分層求出 $z=0, 4, 8\text{ m}$ 的 $\sigma_v'$ 與 $\sigma_a'$。特別求出黏土層的張力裂縫深度 $z_c$。</li>
+<li><strong>計算合力與作用點</strong>：將有效土壓力分布切分為三角形與矩形，計算各自面積與力臂，並加上水壓力分布，求得總合力與合力作用點高度。</li>
+<li><strong>計算牆身自重與揚水壓</strong>：依牆體幾何求出自重 $W$，假設被動側水位於地表（$z=7\text{ m}$），計算底面揚水壓 $U$，得有效自重 $W'$。</li>
+<li><strong>檢核抗滑動安全係數</strong>：求出底面抗滑摩擦力 $F_r$ 與被動土壓力 $P_p$，並與總驅動力對比，判斷 $FS \ge 1.5$ 是否成立。</li>
+</ol>
+<p><strong>陷阱分析：</strong></p>
+<ol>
+<li>⚠ <strong>張力裂縫處理</strong>：若直接將 $z=0$ 到 $z=4$ 積分，會誤將負土壓力（拉力）納入抵抗推力，導致不保守。必須求出 $z_c$，僅計算正土壓力區域。</li>
+<li>⚠ <strong>水壓力之遺漏</strong>：Rankine 公式只計算「有效土壓力」，若忘記加上水壓力 $P_w$，會大幅低估總推力。</li>
+<li>⚠ <strong>底部揚水壓與摩擦角假設</strong>：滑動分析時，牆底往往存在揚水壓力（Uplift），會減少有效正向力，進而降低摩擦力。此外，若題目未給定底面摩擦角 $\delta$，依慣例常取 $\delta = \frac{2}{3}\phi_2$（或保守取值），需於計算中清楚標示假設。</li>
+</ol>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>計算牆背土壓力合力與作用點，並檢核擋土牆抗滑動安全係數（FS）。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ol>
+<li>主動土壓力係數：$K_a = \tan^2(45^\circ - \frac{\phi}{2})$</li>
+<li>主動土壓力：$\sigma_a' = \sigma_v' \cdot \boxed{K_a} - 2c\sqrt{\boxed{K_a}}$</li>
+<li>張力裂縫深度：$z_c = \frac{2c}{\gamma \sqrt{\boxed{K_a}}}$</li>
+<li>主動土壓力合力與水壓力：$P = \frac{1}{2}\sigma_{a,bottom}' H_{eff}$, $P_w = \frac{1}{2}\gamma_w H_w^2$</li>
+<li>總驅動力與總抵抗力：$\Sigma F_D = \Sigma \boxed{P} + \boxed{P_{w,a}}$，$\Sigma F_R = W'\tan\delta + P_p$</li>
+<li>抗滑安全係數：$FS = \frac{\Sigma \boxed{F_R}}{\Sigma \boxed{F_D}}$</li>
+</ol>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H$</td>
+<td>8.0 m</td>
+<td>擋土牆總高度</td>
+</tr>
+<tr>
+<td>$\gamma_{dry}$</td>
+<td>17.5 kN/m³</td>
+<td>第一層（黏土）乾燥單位重</td>
+</tr>
+<tr>
+<td>$c_1, \phi_1$</td>
+<td>20 kN/m², 20°</td>
+<td>第一層（黏土）凝聚力與摩擦角</td>
+</tr>
+<tr>
+<td>$\gamma_{sat}$</td>
+<td>18.5 kN/m³</td>
+<td>第二層（砂土）飽和單位重</td>
+</tr>
+<tr>
+<td>$c_2, \phi_2$</td>
+<td>0, 30°</td>
+<td>第二層（砂土）凝聚力與摩擦角</td>
+</tr>
+<tr>
+<td>$\gamma_{conc}$</td>
+<td>23 kN/m³</td>
+<td>混凝土單位重</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>土壓力與水壓力分布</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $K_{a1}, K_{a2}$ | $\tan^2(45^\circ - \phi/2)$ | |<br />
+| $z_c$ | $2c / (\gamma \sqrt{K_a})$ | |<br />
+| $\gamma'$ | $\gamma_{sat} - \gamma_w$ | |<br />
+| $P_w$ | $0.5 \cdot \gamma_w \cdot h_w^2$ | |</p>
+<p><strong>抗滑穩定檢核</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $W$ | $Area \cdot \gamma_{conc}$ | |<br />
+| $U$ | 牆底揚水壓（假設分佈面積積） | |<br />
+| $F_r$ | $(W - U) \cdot \tan\delta$ | |<br />
+| $FS$ | $(\Sigma F_R) / (\Sigma F_D)$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>張力裂縫</td>
+<td>黏土層上部受拉，與牆面脫離不計土壓力，受力起點為 $z_c$</td>
+<td></td>
+</tr>
+<tr>
+<td>揚水壓力(Uplift)</td>
+<td>滑動檢核中，底面水壓會降低有效自重，若忽略不計則偏於不安全</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>(一) 牆背土壓力分布、合力及作用位置</h3>
+<p><strong>Step 1：各土層參數與 $K_a$ 計算</strong></p>
+<ul>
+<li>假設水單位重 $\gamma_w = 9.81 \text{ kN/m}^3$。</li>
+<li>第一層黏土 (0~4.0 m)：$c_1 = 20 \text{ kN/m}^2$, $\phi_1 = 20^\circ$<br />
+  $$K_{a1} = \tan^2\left(45^\circ - \frac{20^\circ}{2}\right) = \tan^2(35^\circ) = 0.4903$$</li>
+<li>第二層砂土 (4.0~8.0 m)：$c_2 = 0$, $\phi_2 = 30^\circ$, $\gamma' = 18.5 - 9.81 = 8.69 \text{ kN/m}^3$<br />
+  $$K_{a2} = \tan^2\left(45^\circ - \frac{30^\circ}{2}\right) = \tan^2(30^\circ) = 0.3333$$</li>
+</ul>
+<p><strong>Step 2：計算各深度之有效垂直應力與有效主動土壓力</strong><br />
+使用公式：$\sigma_a' = \sigma_v' \cdot K_a - 2c\sqrt{K_a}$</p>
+<ul>
+<li>
+<p><strong>深度 $z=0 \text{ m}$ (牆頂)</strong>：<br />
+  $\sigma_v' = 0$<br />
+  $\sigma_{a1}' = 0 - 2(20)\sqrt{0.4903} = -28.01 \text{ kN/m}^2$ (張力)<br />
+  張力裂縫深度 $z_c$：<br />
+  $$z_c = \frac{2c_1}{\gamma_{dry}\sqrt{K_{a1}}} = \frac{2(20)}{17.5 \times 0.70021} = \frac{40}{12.2536} = 3.264 \text{ m}$$<br />
+  （在 $z \le 3.264 \text{ m}$ 範圍內，土壓力視為 0）</p>
+</li>
+<li>
+<p><strong>深度 $z=4.0 \text{ m}$ (黏土層底部)</strong>：<br />
+  $\sigma_v' = 17.5 \times 4.0 = 70.0 \text{ kN/m}^2$<br />
+  $\sigma_{a1}' = 70.0 \times 0.4903 - 28.01 = 34.32 - 28.01 = 6.31 \text{ kN/m}^2$</p>
+</li>
+<li>
+<p><strong>深度 $z=4.0 \text{ m}$ (砂土層頂部)</strong>：<br />
+  $\sigma_v' = 70.0 \text{ kN/m}^2$<br />
+  $\sigma_{a2}' = 70.0 \times 0.3333 = 23.33 \text{ kN/m}^2$</p>
+</li>
+<li>
+<p><strong>深度 $z=8.0 \text{ m}$ (砂土層底部)</strong>：<br />
+  $\sigma_v' = 70.0 + 8.69 \times 4.0 = 70.0 + 34.76 = 104.76 \text{ kN/m}^2$<br />
+  $\sigma_{a2}' = 104.76 \times 0.3333 = 34.92 \text{ kN/m}^2$<br />
+  水壓力：$u = 9.81 \times 4.0 = 39.24 \text{ kN/m}^2$</p>
+</li>
+</ul>
+<p><strong>土壓力分布圖繪製說明</strong>：</p>
+<ul>
+<li>$0 \sim 3.264 \text{ m}$：土壓力為 $0$。</li>
+<li>$3.264 \sim 4.0 \text{ m}$：有效土壓力由 $0$ 增加至 $6.31 \text{ kN/m}^2$。</li>
+<li>$4.0 \sim 8.0 \text{ m}$：有效土壓力由 $23.33 \text{ kN/m}^2$ 梯形增加至 $34.92 \text{ kN/m}^2$。</li>
+<li>$4.0 \sim 8.0 \text{ m}$ 水壓力：由 $0$ 三角形增加至 $39.24 \text{ kN/m}^2$。</li>
+</ul>
+<p><strong>Step 3：計算合力及其作用位置 (對牆底 $z=8 \text{ m}$ 取矩)</strong><br />
+將受力圖分割為簡單幾何圖形：</p>
+<ul>
+<li>
+<p><strong>$P_1$ (黏土層三角形有效土壓力)</strong>：<br />
+  $P_1 = \frac{1}{2} \times 6.31 \times (4.0 - 3.264) = 2.32 \text{ kN/m}$<br />
+  力臂 $y_1 = 4.0 + \frac{0.736}{3} = 4.245 \text{ m}$<br />
+  力矩 $M_1 = 2.32 \times 4.245 = 9.85 \text{ kN-m/m}$</p>
+</li>
+<li>
+<p><strong>$P_2$ (砂土層矩形有效土壓力)</strong>：<br />
+  $P_2 = 23.33 \times 4.0 = 93.32 \text{ kN/m}$<br />
+  力臂 $y_2 = \frac{4.0}{2} = 2.0 \text{ m}$<br />
+  力矩 $M_2 = 93.32 \times 2.0 = 186.64 \text{ kN-m/m}$</p>
+</li>
+<li>
+<p><strong>$P_3$ (砂土層三角形有效土壓力)</strong>：<br />
+  $P_3 = \frac{1}{2} \times (34.92 - 23.33) \times 4.0 = \frac{1}{2} \times 11.59 \times 4.0 = 23.18 \text{ kN/m}$<br />
+  力臂 $y_3 = \frac{4.0}{3} = 1.333 \text{ m}$<br />
+  力矩 $M_3 = 23.18 \times 1.333 = 30.90 \text{ kN-m/m}$</p>
+</li>
+<li>
+<p><strong>$P_w$ (水壓力)</strong>：<br />
+  $P_w = \frac{1}{2} \times 39.24 \times 4.0 = 78.48 \text{ kN/m}$<br />
+  力臂 $y_w = \frac{4.0}{3} = 1.333 \text{ m}$<br />
+  力矩 $M_w = 78.48 \times 1.333 = 104.64 \text{ kN-m/m}$</p>
+</li>
+</ul>
+<p><strong>總合力計算：</strong></p>
+<blockquote>
+<p>註：一般題目「牆背所受土壓力合力」泛指側向總推力，故包含水壓力。<br />
+總側向推力 $P_{total} = P_1 + P_2 + P_3 + P_w$<br />
+$P_{total} = 2.32 + 93.32 + 23.18 + 78.48 = \boxed{197.30 \text{ kN/m}}$</p>
+</blockquote>
+<p><em>(若僅計算有效土壓力合力，則為 $P_a = 2.32 + 93.32 + 23.18 = 118.82 \text{ kN/m}$)</em></p>
+<p><strong>合力作用位置（距牆底）：</strong><br />
+總力矩 $\Sigma M_{base} = 9.85 + 186.64 + 30.90 + 104.64 = 332.03 \text{ kN-m/m}$<br />
+作用高度 $\bar{y} = \frac{\Sigma M_{base}}{P_{total}} = \frac{332.03}{197.30} = \boxed{1.683 \text{ m}}$</p>
+<p><img alt="SM-2015-2 牆背壓力分布圖：0–3.264 m 為張力裂縫區土壓力歸零；3.264–4 m 黏土有效土壓由 0 升至 6.31；z=4 m 跳躍至砂土的 23.33，再增至牆底 34.92；4–8 m 另疊加水壓三角 0 → 39.24，牆底總側壓 74.16；標出四個分塊與合力 197.31 kN/m、作用點距牆底 1.683 m" src="../../raw/solutions/SM-2015-2/figs/SM-2015-2-fig-1-pressure.svg" /></p>
+<p><em>圖 1　(一) 的壓力分布與合力。攔的是「把張力區的負值積分進去」——圖上 $0 \sim z_c$ 一段完全空白；若從 $z = 0$ 積到 $z = 4$，負土壓會抵掉一部分推力，$P_{total}$ 被低估、結論反而偏不安全。</em></p>
+<h3>(二) 檢核擋土牆之抗滑動安全係數是否恰當</h3>
+<p><strong>Step 1：牆體自重 ($W$) 與驅動力 ($\Sigma F_D$)</strong></p>
+<ul>
+<li>牆體截面積 $A = \frac{1.0 + 3.0}{2} \times 8.0 = 16.0 \text{ m}^2$</li>
+<li>牆體自重 $W = 16.0 \times 23 = 368.0 \text{ kN/m}$</li>
+<li>總驅動力為牆背總合力：$\Sigma F_D = 197.30 \text{ kN/m}$</li>
+</ul>
+<p><strong>Step 2：牆底揚水壓 ($U$) 與有效自重 ($W'$)</strong><br />
+考量主動側水位在 $z=4.0\text{ m}$ (距底 $4\text{ m}$)，若假設被動側無積水、水位位於地表 $z=7.0\text{ m}$ (距底 $1\text{ m}$)，牆底會產生漸變揚水壓力。</p>
+<ul>
+<li>牆跟 (Heel) 水壓：$u_1 = 4.0 \times 9.81 = 39.24 \text{ kN/m}^2$</li>
+<li>牆趾 (Toe) 水壓：$u_2 = 1.0 \times 9.81 = 9.81 \text{ kN/m}^2$</li>
+<li>揚水壓力合力 $U = \frac{39.24 + 9.81}{2} \times 3.0 = 73.58 \text{ kN/m}$</li>
+<li>有效自重 $W' = W - U = 368.0 - 73.58 = 294.42 \text{ kN/m}$</li>
+</ul>
+<p><strong>Step 3：抗滑抵抗力 ($\Sigma F_R$)</strong><br />
+抵抗力包含底部摩擦力與牆前被動土壓力。</p>
+<ul>
+<li>假設牆底摩擦角 $\delta = \frac{2}{3}\phi_2 = \frac{2}{3}(30^\circ) = 20^\circ$<br />
+  底部摩擦抵抗力 $F_r = W' \tan\delta = 294.42 \times \tan(20^\circ) = 294.42 \times 0.3640 = 107.17 \text{ kN/m}$</li>
+<li>被動土壓力 $P_p$ (前趾覆土深度 $1.0\text{ m}$，砂土 $\gamma'=8.69$, $c=0$)：<br />
+  $K_p = \tan^2(45^\circ + \frac{30^\circ}{2}) = 3.0$<br />
+  $P_p = \frac{1}{2} K_p \gamma' H_{toe}^2 = \frac{1}{2} \times 3.0 \times 8.69 \times (1.0)^2 = 13.04 \text{ kN/m}$</li>
+<li>被動側水壓力 $P_{wp}$ (深度 $1.0\text{ m}$)：<br />
+  $P_{wp} = \frac{1}{2} \times 9.81 \times (1.0)^2 = 4.91 \text{ kN/m}$</li>
+<li>總抵抗力 $\Sigma F_R = F_r + P_p + P_{wp} = 107.17 + 13.04 + 4.91 = 125.12 \text{ kN/m}$</li>
+</ul>
+<p><strong>Step 4：安全係數 ($FS$)</strong><br />
+$$FS = \frac{\Sigma F_R}{\Sigma F_D} = \frac{125.12}{197.30} = 0.63$$<br />
+因為 $FS = 0.63 &lt; 1.5$，故擋土牆之抗滑動安全係數 <strong>\boxed{不恰當}</strong>。</p>
+<p><img alt="SM-2015-2 抗滑動自由體圖與敏感度：左圖為牆體自重 368、驅動力 197.31、底面梯形揚水壓 9.81→39.24（合力 73.58）、底面摩擦 107.16、前趾被動 13.03+4.91；右圖並列四種假設下的抵抗力與驅動力長條與對應 FS（0.634 / 0.770 / 1.168 / 0.501）" src="../../raw/solutions/SM-2015-2/figs/SM-2015-2-fig-2-sliding.svg" /></p>
+<p><em>圖 2　(二) 的自由體圖與四種假設的敏感度。攔的是「漏掉水」——驅動側若忘記 $P_w = 78.48$、抵抗側若忘記揚水壓 $U = 73.58$，$FS$ 會被墊高到 $1.1$ 以上而誤判為「接近合格」。四根長條顯示：即使取最寬鬆的 $\delta = \phi = 30^\circ$ 且不計揚水壓，$FS$ 仍只有 $1.17$。</em></p>
+<p><em>(註：若完全忽略底部揚水壓力 $U=0$，則 $F_r = 368 \times \tan 20^\circ = 133.94 \text{ kN/m}$，總抵抗力約 $151.89 \text{ kN/m}$，$FS = 0.77 &lt; 1.5$，結論仍為不恰當。)</em></p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ol>
+<li><strong>牆底揚水壓力 (Uplift pressure) 的取捨</strong>：<br />
+   在很多簡化考題中，如果沒有特別提示，有些考生會忽略揚水壓。然而，實務上若水位差存在且無排水設施，揚水壓必然發生。本題不管是否計入揚水壓，FS 均大幅小於 1.5 的規範要求，故不會改變結論，但列出揚水壓力計算能顯示考生更完整的工程觀念。</li>
+<li><strong>牆底摩擦角 $\delta$ 的假設</strong>：<br />
+   題目未給定牆底摩擦角，根據工程慣例，混凝土與土壤間的摩擦角通常取基底土壤內摩擦角的 $2/3 \sim 1$ 倍（即 $20^\circ \sim 30^\circ$）。若取極限值 $\delta = \phi = 30^\circ$ 且不計揚水壓力，其摩擦抵抗力約為 $212.5 \text{ kN/m}$，$FS \approx 1.17$，依然不滿足 $FS \ge 1.5$ 的安全標準，故結論明確。</li>
+<li><strong>⚠ 張力裂縫若積水，FS 還會再掉一半</strong>：<br />
+   本題的裂縫深度 $z_c = 3.264 \text{ m}$ 完全落在地下水位（$4.0 \text{ m}$）之上，<br />
+   平時是乾的；但裂縫是<strong>地表開口</strong>，一場雨就會灌滿。裂縫充水後在牆背額外產生<br />
+   $$P_{w,crack} = \tfrac{1}{2}\gamma_w z_c^2 = \tfrac{1}{2}(9.81)(3.264)^2 = 52.27 \text{ kN/m}$$<br />
+   作用點距牆底 $8 - 3.264 + \frac{3.264}{3} = 5.824 \text{ m}$。<br />
+   總驅動力升至 $197.30 + 52.27 = 249.57 \text{ kN/m}$，$FS$ 由 $0.63$ 掉到 $\frac{125.12}{249.57} = 0.50$。<br />
+   這正是實務上要求「回填土表面必須做不透水封層＋洩水孔」的原因——<br />
+   考場上就算不計算，也應在答案中寫出這一句。</li>
+<li><strong>同時給 $c$ 與 $\phi$ 的「正常壓密黏土」該怎麼看</strong>：<br />
+   NC 黏土的<strong>有效</strong>凝聚力理論上為零（$c' \approx 0$），題目卻同時給 $c = 20$、$\phi = 20^\circ$，<br />
+   這是一組偏向壓密不排水（CU）的總應力參數。本解析依題目給值直接代入 Rankine 有效應力式，<br />
+   是考場上唯一可行的做法；但若把 $c$ 視為 $0$（純 NC 有效應力），裂縫深度 $z_c$ 歸零、<br />
+   $z=4 \text{ m}$ 處的黏土主動壓力由 $6.31$ 升為 $34.32 \text{ kN/m}^2$，總推力大幅增加，<br />
+   結論（$FS \ll 1.5$）只會更不安全。答題時點出這個方向性即可，不必兩套都算。</li>
+<li><strong>前趾被動土壓力之可靠性</strong>：<br />
+   實務設計時，因牆前覆土可能遭開挖或沖刷，常會忽略被動土壓力的貢獻或將其除以更高的安全係數。本題即使計入被動側所有抗力，整體滑動仍不安全，顯示此牆體幾何（底寬不足）或重量不足以抵抗深達 4m 的水壓力與土壓力。</li>
+</ol>
+<hr />
+<p><em>解析日期：見 <code>wiki/log.md</code>　｜　圖解補繪：2026-08-29（向量 SVG，程式繪製，腳本 <code>gen_SM-2015-2.py</code> 可重跑；同名 2× PNG 供簡報／影片管線使用）</em></p></main>
+<footer>來源：raw/solutions/SM-2015-2/SM-2015-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

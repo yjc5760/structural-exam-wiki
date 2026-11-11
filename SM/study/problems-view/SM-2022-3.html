@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2022-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2022-3 題目解析</h1><a class="back quick" href="../../index.html">&#128218; 回題庫瀏覽</a></header>
+<main><h1>考題編號：SM-2022-3</h1>
+<p><strong>主分類：</strong> <code>SM-U1-2</code> 土壤滲透<br />
+<strong>副分類：</strong> 無<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>Darcy定律</code> <code>滲透係數</code> <code>等效滲透係數</code> <code>水頭損失</code> <code>總水頭</code> <code>層狀土壤滲流</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>如下圖上、下水位面水頭差 600 mm，流經 A、B、C 三種土壤（斷面 50 mm × 50 mm，高度分別為 $H_A = 50\text{ mm}$、$H_B = 100\text{ mm}$、$H_C = 50\text{ mm}$），滲透係數分別為 $10^{-2}\text{ cm/sec}$、$10^{-1}\text{ cm/sec}$、$10^{-3}\text{ cm/sec}$，若以下水位面處為基準，請問 a、b、c、d 四個位置的水頭高各是多少 mm？（15 分）並計算 5 小時後的總流量 Q 是多少立方公尺？（10 分）</p>
+<p><img alt="SM-2022-3 題目附圖：垂直層狀滲流試驗裝置立體圖，方形斷面柱體由上而下依序為自由水（上水位面）、土壤 A、土壤 B、土壤 C，柱底以 U 型管接至右側低水位溢流槽（下水位面），a/b/c/d 四點分別標於水土交界面、A-B 交界、B-C 交界與 C 層底部" src="../../raw/solutions/SM-2022-3/SM-2022-3-fig-1.png" /></p>
+<p><em>圖說：垂直向下滲流的層狀土壤試驗裝置。方形柱斷面 50 mm × 50 mm。由上而下：</em><br />
+<em>・柱頂為自由水面，標註「上水位面」；</em><br />
+<em>・</em><em>a 點</em><em>＝自由水與土壤 A 的交界面（土柱頂面）；</em><br />
+<em>・</em><em>土壤 A</em><em>：$H_A = 50$ mm、$k_A = 10^{-2}$ cm/sec；</em><br />
+<em>・</em><em>b 點</em><em>＝A 與 B 的交界面；</em><br />
+<em>・</em><em>土壤 B</em><em>：$H_B = 100$ mm、$k_B = 10^{-1}$ cm/sec；</em><br />
+<em>・</em><em>c 點</em><em>＝B 與 C 的交界面；</em><br />
+<em>・</em><em>土壤 C</em><em>：$H_C = 50$ mm、$k_C = 10^{-3}$ cm/sec；</em><br />
+<em>・</em><em>d 點</em><em>＝土壤 C 的底面，柱底以 U 型管連通至右側溢流槽，該槽水面標註「下水位面」並與 d 點切齊。</em></p>
+<p><em>圖上以一支貫穿全高的尺寸線標註 $h = 600$ mm，為上、下水位面之間的</em><em>總水頭差</em><em>。圖下另有兩行原圖註記：「$H_A$、$H_B$ 及 $H_C$ 分別為土體長度」「$h$ 為上下水位面水頭差」。</em></p>
+<p><em>因此：水流由上往下（a → d），d 點為基準面（總水頭 = 0），三層土為</em><em>串聯</em><em>（同一流量、水頭損失分配於三層），土體總長 $L = 50+100+50 = 200$ mm。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題測驗層狀土壤（垂直滲流）的等效滲透特性與水頭變化。出題者的意圖在於確認考生是否理解：</p>
+<ol>
+<li><strong>連續方程式（達西定律）</strong>：在垂直層狀系統中，流經各土層的流速 $v$ 或流量 $q$ 均為定值。</li>
+<li><strong>水頭分布計算</strong>：總水頭損失 $\Delta h$ 會依據各土層的「滲透阻力（厚度除以滲透係數，即 $H_i/k_i$）」成正比分配。</li>
+<li><strong>單位換算與細心度</strong>：各土層滲透係數單位為 cm/s，長度單位為 mm，總流量要求為 $\text{m}^3$，考驗計算時單位的統一與轉換。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<ul>
+<li><strong>第一步：統一單位</strong><br />
+  將長度統一轉換為 cm 或 mm，此處建議將滲透阻力分析的比值以相同的數量級表示，最後將流速或總流量轉為最終要求的單位（$\text{m}^3$）。</li>
+<li><strong>第二步：分配水頭損失</strong><br />
+  因為 $v = k_i \cdot (\Delta h_i / H_i)$ 為定值，可得 $\Delta h_i \propto H_i / k_i$。<br />
+  計算 $H_A/k_A$、$H_B/k_B$、$H_C/k_C$ 的比例關係，並將總水頭差 $600\text{ mm}$ 依比例分配給 A、B、C 三層，求出各層的水頭損失。</li>
+<li><strong>第三步：計算各點水頭</strong><br />
+  設定基準面為 d 點（下水位面），所以 $h_d = 0\text{ mm}$。<br />
+  逆推上去或從頂部 $h_a = 600\text{ mm}$ 往下扣除各層水頭損失，求出 $h_c$、$h_b$、$h_a$。</li>
+<li><strong>第四步：計算總流量</strong><br />
+  先求出系統等效流速 $v$，或直接用任一土層的公式 $v = k_A \cdot i_A$。再乘上截面積 $A$ 得到單位時間流量 $q$。<br />
+  最後將 $q$ 乘上 5 小時（轉為秒），並將體積換算成 $\text{m}^3$。</li>
+</ul>
+<p><strong>陷阱分析</strong>：</p>
+<ul>
+<li><strong>單位錯亂</strong>：滲透係數使用 cm/sec，長寬、水頭使用 mm，最後要求 $\text{m}^3$，稍有不慎極易計算錯誤。</li>
+<li><strong>水頭定義</strong>：水頭高通常指「總水頭（Total Head）」。需注意計算基準為 d 點。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>計算層狀土壤系統中各介面的總水頭大小，以及歷時 5 小時的總滲流量。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$ k_{eq} = \frac{H_{total}}{\sum \frac{H_i}{k_i}} $$<br />
+$$ i = \frac{\Delta h}{H_{total}} $$<br />
+$$ v = \boxed{k_{eq}} \cdot \boxed{i} $$<br />
+$$ \Delta h_i = \frac{\boxed{v} \cdot H_i}{k_i} $$<br />
+$$ h_j = h_{j-1} - \boxed{\Delta h_{i-1}} $$<br />
+$$ Q = \boxed{v} \cdot A \cdot t $$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\Delta h$</td>
+<td>$600\text{ mm}$</td>
+<td>總水頭差</td>
+</tr>
+<tr>
+<td>$H_A$</td>
+<td>$50\text{ mm}$</td>
+<td>A層土壤厚度</td>
+</tr>
+<tr>
+<td>$H_B$</td>
+<td>$100\text{ mm}$</td>
+<td>B層土壤厚度</td>
+</tr>
+<tr>
+<td>$H_C$</td>
+<td>$50\text{ mm}$</td>
+<td>C層土壤厚度</td>
+</tr>
+<tr>
+<td>$k_A$</td>
+<td>$10^{-2}\text{ cm/s}$</td>
+<td>A層滲透係數</td>
+</tr>
+<tr>
+<td>$k_B$</td>
+<td>$10^{-1}\text{ cm/s}$</td>
+<td>B層滲透係數</td>
+</tr>
+<tr>
+<td>$k_C$</td>
+<td>$10^{-3}\text{ cm/s}$</td>
+<td>C層滲透係數</td>
+</tr>
+<tr>
+<td>$A$</td>
+<td>$50 \times 50\text{ mm}^2$</td>
+<td>土壤斷面積</td>
+</tr>
+<tr>
+<td>$t$</td>
+<td>$5\text{ hours}$</td>
+<td>滲流時間</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>水頭損失與總水頭分布</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\Delta h_i$ | $\Delta h \times \frac{H_i/k_i}{\sum (H/k)}$ | |<br />
+| $h_i$ | 由基準點向上疊加或向下扣減 | |</p>
+<p><strong>等效流速與總滲流量</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $v$ | $k_i \cdot \frac{\Delta h_i}{H_i}$ | |<br />
+| $q$ | $v \cdot A$ | |<br />
+| $Q$ | $q \cdot t$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>垂直層狀滲流特性</td>
+<td>連續方程式：通過各土層之流速 $v$ 及流量 $q$ 均相同。</td>
+<td></td>
+</tr>
+<tr>
+<td>單位換算</td>
+<td>$1\text{ cm}^3 = 10^{-6}\text{ m}^3$；$1\text{ hour} = 3600\text{ s}$。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1: 分析各土層滲透阻力與水頭損失比例</h3>
+<p>因流速 $v$ 在垂直系統中為常數，根據達西定律 $v = k_i \cdot i_i = k_i \cdot \frac{\Delta h_i}{H_i}$，可推導出各層的水頭損失 $\Delta h_i$ 與 $\frac{H_i}{k_i}$ 成正比。<br />
+為了避免單位混淆，計算 $\frac{H_i}{k_i}$ 時，將 $H_i$ 代入 $\text{mm}$，$k_i$ 代入 $\text{cm/s}$，雖單位不一致但比例關係不變：</p>
+<ul>
+<li>A 層：$R_A = \frac{H_A}{k_A} = \frac{50}{10^{-2}} = 5000$</li>
+<li>B 層：$R_B = \frac{H_B}{k_B} = \frac{100}{10^{-1}} = 1000$</li>
+<li>C 層：$R_C = \frac{H_C}{k_C} = \frac{50}{10^{-3}} = 50000$</li>
+</ul>
+<p>阻力總和 $\Sigma R = R_A + R_B + R_C = 5000 + 1000 + 50000 = 56000$</p>
+<h3>Step 2: 計算各土層之水頭損失</h3>
+<p>總水頭差 $\Delta h = 600\text{ mm}$。依比例分配水頭損失：</p>
+<ul>
+<li>$\Delta h_A = \Delta h \times \frac{R_A}{\Sigma R} = 600 \times \frac{5000}{56000} = 600 \times \frac{5}{56} = \frac{3000}{56} = \frac{375}{7} \approx 53.57\text{ mm}$</li>
+<li>$\Delta h_B = \Delta h \times \frac{R_B}{\Sigma R} = 600 \times \frac{1000}{56000} = 600 \times \frac{1}{56} = \frac{600}{56} = \frac{75}{7} \approx 10.71\text{ mm}$</li>
+<li>$\Delta h_C = \Delta h \times \frac{R_C}{\Sigma R} = 600 \times \frac{50000}{56000} = 600 \times \frac{50}{56} = \frac{30000}{56} = \frac{3750}{7} \approx 535.71\text{ mm}$</li>
+</ul>
+<p><em>(驗算：$\Delta h_A + \Delta h_B + \Delta h_C = \frac{375}{7} + \frac{75}{7} + \frac{3750}{7} = \frac{4200}{7} = 600\text{ mm}$)</em></p>
+<h3>Step 3: 計算 a、b、c、d 各點總水頭</h3>
+<p>依題目「以下水位面處為基準」，下水位與 d 點切齊，故 d 點之總水頭為 0。<br />
+水流由 a 流向 d，因此：</p>
+<ul>
+<li>$h_d = \boxed{0\text{ mm}}$</li>
+<li>$h_c = h_d + \Delta h_C = 0 + \frac{3750}{7} = \boxed{\frac{3750}{7}\text{ mm} \approx 535.71\text{ mm}}$</li>
+<li>$h_b = h_c + \Delta h_B = \frac{3750}{7} + \frac{75}{7} = \frac{3825}{7} = \boxed{\frac{3825}{7}\text{ mm} \approx 546.43\text{ mm}}$</li>
+<li>$h_a = h_b + \Delta h_A = \frac{3825}{7} + \frac{375}{7} = \frac{4200}{7} = \boxed{600\text{ mm}}$</li>
+</ul>
+<p><em>(此結果亦符合「上水位面與 d 點之水頭差為 600 mm」之題意)</em></p>
+<h3>Step 4: 計算歷時 5 小時後的總流量 Q</h3>
+<p>先求取流速 $v$。利用 A 層的水頭損失與參數（將長度單位統一為 cm）：</p>
+<ul>
+<li>$H_A = 50\text{ mm} = 5\text{ cm}$</li>
+<li>$\Delta h_A = \frac{375}{7}\text{ mm} = \frac{37.5}{7}\text{ cm} = \frac{75}{14}\text{ cm}$</li>
+<li>$v = k_A \cdot \frac{\Delta h_A}{H_A} = 10^{-2} \times \frac{75/14}{5} = 10^{-2} \times \frac{15}{14} = \frac{15}{1400} = \frac{3}{280} \text{ cm/s}$</li>
+</ul>
+<p>計算斷面積 $A$：</p>
+<ul>
+<li>$A = 50\text{ mm} \times 50\text{ mm} = 5\text{ cm} \times 5\text{ cm} = 25\text{ cm}^2$</li>
+</ul>
+<p>計算單位時間流量 $q$：</p>
+<ul>
+<li>$q = v \cdot A = \frac{3}{280} \times 25 = \frac{75}{280} = \frac{15}{56} \text{ cm}^3/\text{s}$</li>
+</ul>
+<p>計算 5 小時總流量 $Q$：</p>
+<ul>
+<li>$t = 5\text{ hours} = 5 \times 3600 = 18000\text{ s}$</li>
+<li>$Q = q \cdot t = \frac{15}{56} \times 18000 = \frac{270000}{56} = \frac{33750}{7} \text{ cm}^3 \approx 4821.43\text{ cm}^3$</li>
+</ul>
+<p>將單位換算為立方公尺 ($\text{m}^3$)：</p>
+<ul>
+<li>$1\text{ m}^3 = 10^6\text{ cm}^3$</li>
+<li>$Q = \frac{33750 / 7}{10^6}\text{ m}^3 = \frac{3375}{700000}\text{ m}^3 = \frac{27}{5600}\text{ m}^3 = \boxed{0.0048214\text{ m}^3}$</li>
+</ul>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>水頭之定義與呈現</strong>：土壤力學中考量滲透時，未指明「水頭」通常即指「總水頭 (Total Head)」。在此系統中，若進一步分析位置水頭 ($z$) 與壓力水頭 ($h_p$)：</li>
+<li>$z_d = 0\text{ mm}, h_p = 0\text{ mm} \implies h_d = 0\text{ mm}$</li>
+<li>$z_c = 50\text{ mm}, h_p = 535.71 - 50 = 485.71\text{ mm} \implies h_c = 535.71\text{ mm}$</li>
+<li>$z_b = 150\text{ mm}, h_p = 546.43 - 150 = 396.43\text{ mm} \implies h_b = 546.43\text{ mm}$</li>
+<li>$z_a = 200\text{ mm}, h_p = 600 - 200 = 400\text{ mm} \implies h_a = 600\text{ mm}$<br />
+  答題時回答「總水頭」即已滿足題意要求。</li>
+<li><strong>作答精度建議</strong>：對於無法除盡的分數，建議在計算過程中保留分數型態，至最後一步再取至小數點後第 2~4 位，可避免捨入誤差累積。</li>
+</ul></main>
+<footer>來源：raw/solutions/SM-2022-3/SM-2022-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

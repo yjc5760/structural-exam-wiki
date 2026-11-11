@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-U2-3　開挖之穩定性分析｜觀念講義</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--tension:#2e7d32;--tension2:#e8f5e9;
+--comp:#c62828;--comp2:#ffebee;--warn:#ef6c00;--warn2:#fff3e0;
+--key:#6a1b9a;--key2:#f3e5f5;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:34px 26px}
+header h1{margin:0 0 8px;font-size:1.6em}header .sub{opacity:.9;font-size:.93em;margin:0}
+header .meta{margin-top:12px;font-size:.82em;opacity:.8}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);
+padding:9px 14px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+nav a{text-decoration:none;color:var(--ac);font-size:.85em;padding:4px 11px;border-radius:14px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:980px;margin:0 auto;padding:24px 18px 80px}
+section{margin-bottom:46px}
+h2{font-size:1.32em;border-left:6px solid var(--ac);padding-left:12px;margin:44px 0 18px;line-height:1.4}
+h3{font-size:1.08em;margin:30px 0 10px;color:#0d47a1}
+h4{font-size:.99em;margin:20px 0 8px;color:#37474f}
+.lead{font-size:1.03em;background:#fff;border:1px solid var(--bd);border-left:5px solid var(--ac);
+border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:16px 18px;margin:16px 0}
+.why{background:var(--key2);border:1px solid #ce93d8;border-left:5px solid var(--key);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.why b:first-child{color:var(--key)}
+.trap{background:var(--warn2);border:1px solid #ffcc80;border-left:5px solid var(--warn);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.trap b:first-child{color:#e65100}
+.tens{background:var(--tension2);border:1px solid #a5d6a7;border-left:5px solid var(--tension);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.comp{background:var(--comp2);border:1px solid #ef9a9a;border-left:5px solid var(--comp);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.fig{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 14px 10px;margin:20px 0;overflow-x:auto}
+.fig svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig .cap{font-size:.85em;color:var(--mut);text-align:center;margin-top:10px;line-height:1.6}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9em;background:#fff}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}li{margin:5px 0}
+.pill{display:inline-block;font-size:.76em;padding:2px 8px;border-radius:10px;margin-right:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+details{background:#fff;border:1px solid var(--bd);border-radius:9px;padding:10px 14px;margin:12px 0}
+summary{cursor:pointer;font-weight:600;color:var(--ac)}
+details p{border-left:3px solid #e0e0e0;padding-left:12px;margin:8px 0;color:#37474f}
+.qlink{color:#1565c0;text-decoration:none;border-bottom:1px dotted #90caf9;font-weight:600}
+.katex-display{margin:14px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-top:1px solid var(--bd)}
+@media print{.grid2{display:block!important}nav{display:none}.fig{break-inside:avoid;page-break-inside:avoid;overflow:visible}.fig svg{max-width:100%}h2,h3{break-after:avoid}}
+</style>
+</head>
+<body>
+<header>
+<h1>SM-U2-3　開挖之穩定性分析</h1>
+<p class="sub">觀念講義：擋土結構撐不撐得住、地層自己會不會動 —— 兩個獨立的敵人</p>
+<p class="meta">土壤力學與基礎設計｜第二單元 子項 3｜主分類 12 題、副分類 5 題（2002–2025）｜觀念＋手算範例版｜圖解精確化：手算範例與歷屆題皆依比例重繪（12 幅 SVG）</p>
+</header>
+<nav>
+<a href="#s0">§0 全景</a>
+<a href="#s1">§1 土壓力</a>
+<a href="#s2">§2 懸臂式</a>
+<a href="#s3">§3 單支撐</a>
+<a href="#s4">§4 多階支撐</a>
+<a href="#s5">§5 基盤隆起</a>
+<a href="#s6">§6 水的三種攻擊</a>
+<a href="#s7">§7 對策</a>
+<a href="#s8">§8 決策流程</a>
+<a href="#s9">§9 考點對照</a>
+<a href="#s10">§10 陷阱總表</a>
+<a href="#s11">§11 自我檢測</a>
+<a href="#s11b">§11.5 因果鏈</a>
+<a href="#s12">★ 精選 5 題</a>
+<span style="flex:1"></span>
+<a href="study-SM-U2-3.html" title="命題分析：出題頻率、考點結構、考題清單、命題風險" style="background:#e3f2fd;color:#1565c0">📊 命題分析</a>
+<a href="formula-given-SM-U2-3.html" title="哪些公式考卷會給、哪些必須自己背" style="background:#ffebee;color:#c62828">🎯 給／背分界</a>
+<a href="lecture-SM-U2-3.pdf" target="_blank" title="本講義的列印版" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+<main>
+<section id="s0">
+<h2>§0　全景：一個開挖，兩個彼此獨立的敵人</h2>
+
+<p class="lead">開挖做的事只有一件：<b>把一大塊土移走</b>。土一走，三件事同時開始 —— 旁邊的土要往裡面倒、水要往裡面湧、底下的土要往上頂。</p>
+
+<div class="why">
+<b>核心對立｜「擋土結構撐不撐得住」對上「地層自己會不會動」。</b><br>
+<b>結構問題</b>用<u>力與力矩</u>算：土壓力多大、樁要插多深、支撐承受多少、斷面夠不夠。<br>
+<b>地層問題</b>用<u>重量、強度與水壓</u>算：底下的土會不會被擠上來（隆起）、會不會被水頂起來（上舉）、會不會失去有效應力（砂湧）。<br>
+兩者<b>互相獨立</b>：一根插得很深、彎矩很夠的連續壁，照樣可能因為底下有受壓水層而整片浮起來
+（<a class="qlink" href="problems-view/SM-2003-3.html" target="_blank">SM-2003-3</a>、<a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a>）；反過來，地層再好，支撐算錯一樣會垮（<a class="qlink" href="problems-view/SM-2023-4.html" target="_blank">SM-2023-4</a>）。<br>
+<b>本單元主分類 12 題裡，7 題只考其中一邊（結構 6、地層 1）、4 題兩邊都考、1 題是綜合研判；另有 5 題副分類。看到題目第一件事就是分邊。</b>
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 920 400" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+  <defs><marker id="a1" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker>
+  <marker id="a2" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1565c0"/></marker>
+  <marker id="a3" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2e7d32"/></marker></defs>
+  <line x1="460" y1="16" x2="460" y2="376" stroke="#b0bec5" stroke-width="2" stroke-dasharray="7,5"/>
+  <text x="230" y="32" font-size="16" font-weight="700" fill="#c62828" text-anchor="middle">敵人一：擋土結構（力與力矩）</text>
+  <text x="690" y="32" font-size="16" font-weight="700" fill="#1565c0" text-anchor="middle">敵人二：地層本身（重量與水壓）</text>
+
+  <!-- LEFT：背填土全深度、開挖面(y=200)以下兩側都有土 -->
+  <rect x="40" y="60" width="180" height="280" fill="#efebe9" stroke="#8d6e63"/>
+  <rect x="220" y="200" width="180" height="140" fill="#efebe9" stroke="#8d6e63"/>
+  <rect x="220" y="60" width="180" height="140" fill="#fafafa" stroke="#bdbdbd" stroke-dasharray="4,3"/>
+  <line x1="220" y1="60" x2="220" y2="322" stroke="#37474f" stroke-width="6"/>
+  <text x="130" y="88" font-size="12.5" fill="#5d4037" text-anchor="middle">背填側土層</text>
+  <text x="330" y="170" font-size="12.5" fill="#757575" text-anchor="middle">已開挖</text>
+  <text x="394" y="194" font-size="11.5" fill="#8d6e63" text-anchor="end">開挖面</text>
+  <g stroke="#c62828" stroke-width="2.4" fill="none">
+    <line x1="186" y1="110" x2="214" y2="110" marker-end="url(#a1)"/>
+    <line x1="172" y1="160" x2="214" y2="160" marker-end="url(#a1)"/>
+    <line x1="158" y1="210" x2="214" y2="210" marker-end="url(#a1)"/>
+    <line x1="146" y1="260" x2="214" y2="260" marker-end="url(#a1)"/>
+  </g>
+  <g stroke="#2e7d32" stroke-width="2.4" fill="none">
+    <line x1="252" y1="250" x2="228" y2="250" marker-end="url(#a3)"/>
+    <line x1="270" y1="295" x2="228" y2="295" marker-end="url(#a3)"/>
+  </g>
+  <text x="120" y="300" font-size="12.5" fill="#c62828" text-anchor="middle">主動土壓力 Pa</text>
+  <text x="330" y="276" font-size="12.5" fill="#2e7d32" text-anchor="middle">被動土壓力 Pp</text>
+  <line x1="226" y1="112" x2="330" y2="112" stroke="#0d47a1" stroke-width="5"/>
+  <text x="300" y="104" font-size="12" fill="#0d47a1" text-anchor="middle">支撐</text>
+  <text x="230" y="362" font-size="13" fill="#b71c1c" text-anchor="middle">問：D 多深？T 多大？S 多少？</text>
+  <text x="230" y="384" font-size="12.5" fill="#455a64" text-anchor="middle">解法：ΣM = 0、ΣF = 0</text>
+
+  <!-- RIGHT：開挖面(y=200)與受壓砂層之間夾一層不透水黏土盤 -->
+  <rect x="500" y="60" width="170" height="140" fill="#efebe9" stroke="#8d6e63"/>
+  <rect x="670" y="60" width="170" height="140" fill="#fafafa" stroke="#bdbdbd" stroke-dasharray="4,3"/>
+  <rect x="500" y="200" width="340" height="90" fill="#d7ccc8" stroke="#8d6e63"/>
+  <rect x="500" y="290" width="340" height="46" fill="#b3e5fc" stroke="#0288d1"/>
+  <line x1="670" y1="60" x2="670" y2="250" stroke="#37474f" stroke-width="6"/>
+  <text x="506" y="282" font-size="11.5" fill="#5d4037">不透水黏土盤</text>
+  <text x="670" y="318" font-size="12.5" fill="#01579b" text-anchor="middle">受壓砂層（承壓水頭）</text>
+  <path d="M740 200 Q758 180 776 200" fill="none" stroke="#1565c0" stroke-width="2"/>
+  <g stroke="#1565c0" stroke-width="2.4" fill="none">
+    <line x1="758" y1="286" x2="758" y2="210" marker-end="url(#a2)"/>
+    <line x1="810" y1="286" x2="810" y2="210" marker-end="url(#a2)"/>
+  </g>
+  <line x1="673" y1="112" x2="840" y2="112" stroke="#0288d1" stroke-width="1.6" stroke-dasharray="6,4"/>
+  <polygon points="700,112 693,103 707,103" fill="#0288d1"/>
+  <text x="712" y="106" font-size="11" fill="#0288d1">受壓水頭面（可高過坑底）</text>
+  <g stroke="#455a64" stroke-width="1"><line x1="856" y1="112" x2="856" y2="290"/><line x1="851" y1="112" x2="861" y2="112"/><line x1="851" y1="290" x2="861" y2="290"/>
+  <line x1="878" y1="200" x2="878" y2="290"/><line x1="873" y1="200" x2="883" y2="200"/><line x1="873" y1="290" x2="883" y2="290"/></g>
+  <text x="862" y="160" font-size="12" fill="#0288d1" font-style="italic">h<tspan dy="0.32em" font-size="72%">w</tspan></text>
+  <text x="884" y="250" font-size="12" fill="#5d4037" font-style="italic">t</text>
+  <path d="M560 150 Q580 285 680 272 Q722 266 730 200" fill="none" stroke="#6a1b9a" stroke-width="2.4" stroke-dasharray="6,4"/>
+  <text x="560" y="130" font-size="12.5" fill="#6a1b9a" text-anchor="middle">土被擠向開挖側（隆起）</text>
+  <text x="790" y="180" font-size="12.5" fill="#1565c0" text-anchor="middle">水往上頂（上舉）</text>
+  <text x="690" y="362" font-size="13" fill="#0d47a1" text-anchor="middle">問：FS(隆起)？FS(上舉)？FS(砂湧)？</text>
+  <text x="690" y="384" font-size="12.5" fill="#455a64" text-anchor="middle">解法：抵抗 ÷ 驅動（重量、強度 vs 水壓）</text>
+</svg>
+<div class="cap">圖 0-1｜左邊算的是<b>結構的平衡</b>（力與力矩），右邊算的是<b>地層的比值</b>（抵抗除以驅動）。右圖的上舉只看兩個長度：土塞厚 \(t\) 與受壓水頭 \(h_w\)（\(FS=\gamma t/\gamma_w h_w\)），牆插多深都不在式子裡。兩張圖畫的是同一個工地，但用的方程式完全不同 —— 這就是為什麼「插深一點」不能解決上舉問題（水壓不會因為樁長而改變），也是為什麼「降水」不能解決支撐斷面不足的問題。</div>
+</div>
+
+<h3>本講義的路線</h3>
+<p>§1 建立共用燃料（土壓力）；§2–§4 走結構這一邊（懸臂 → 單支撐 → 多階支撐），主分類有 <b>10 題</b>涉及；§5–§6 走地層那一邊（隆起、上舉、砂湧、管湧），主分類有 <b>6 題</b>涉及，另加 3 題副分類；§7 把公式反過來當對策用；§8 之後是流程、對照、陷阱與精選題。</p>
+</section>
+
+<section id="s1">
+<h2>§1　土壓力：所有開挖題共用的燃料</h2>
+
+<p class="lead">這一節在怕什麼：<b>怕你把土壓力當成「查 \(K_a\) 表」的動作。</b>開挖題的土壓力有三個和擋土牆題不同的地方：兩側都有土、黏土用總應力、水要單獨畫。</p>
+
+<h3>1.1　三個係數，一句話</h3>
+
+$$K_a=\tan^2\!\left(45^\circ-\frac{\phi}{2}\right),\qquad K_p=\tan^2\!\left(45^\circ+\frac{\phi}{2}\right)=\frac{1}{K_a}$$
+
+<p>牆往開挖側移動 → 背填側土體伸張、卸壓 → <b>主動 \(K_a\)</b>（最小值）；牆推向土體 → 土體壓縮 → <b>被動 \(K_p\)</b>（最大值）。詳細推導與位移量級見 <a class="qlink" href="lecture-SM-U3-1.html">SM-U3-1 側向土壓力理論</a>；本節只取結論。</p>
+
+<div class="why">
+<b>為什麼開挖題永遠是「被動側不夠用」？</b><br>
+因為 \(K_p/K_a=1/K_a^2\)：\(\phi=30^\circ\) 時 \(K_a=1/3\)、\(K_p=3\)，比值是 <b>9 倍</b>。
+看起來被動側佔盡便宜，但被動側只有<b>開挖面以下那一小段</b>有土，主動側卻是<b>全深度</b>。
+所以貫入深度 \(D\) 的物理意義就是：<b>你在買被動土壓力的長度</b>。買夠了才平衡得了。<br>
+另一個關鍵：被動土壓力要<b>發揮到滿</b>，需要的位移量是主動側的 5–10 倍（砂約 \(0.5\%H\) vs \(0.1\%H\)）。
+這就是為什麼許多題目與規範對 \(K_p\) 打折（除以 FS = 1.5～2），而 \(K_a\) 不打折 —— <b>不是保守，是因為它根本還沒出力</b>。
+</div>
+
+<h3>1.2　黏土：\(\phi=0\) 分析與「淨被動土壓力」</h3>
+
+<p>不排水條件下 \(\phi_u=0\)、\(K_a=K_p=1\)，土壓力變成總應力減／加 \(2c\)：</p>
+$$p_a=\sigma_v-2c_u,\qquad p_p=\sigma_v+2c_u$$
+
+<p>開挖面以下，同一深度<b>兩側都有土</b>，相減之後那個「\(\sigma_v\) 隨深度增加」的部分完全抵銷，只剩一個常數：</p>
+
+<div class="box" style="border-left:5px solid #6a1b9a">
+$$p_{net}=p_p-p_a=(\gamma_c z'+2c_u)-(\gamma_s H+\gamma_c z'-2c_u)=\boxed{4c_u-\gamma H}$$
+<b>這是本單元最重要的一條式子。</b>它說：黏土層裡的淨被動土壓力<b>與深度無關</b>（矩形分布），
+而且如果 \(4c_u\le\gamma H\)，<b>插再深都沒有用</b> —— 因為每多插一公尺，得到的抵抗是 0 甚至是負的。
+</div>
+
+<div class="why">
+<b>\(4c_u-\gamma H\) 換個寫法就是穩定數</b><br>
+\(4c_u-\gamma H&gt;0 \iff \dfrac{\gamma H}{c_u}&lt;4\)。這個 \(N_s=\gamma H/c_u\) 就是 §4 判斷 Peck 包絡線型式、
+以及 §5 判斷基盤隆起風險用的<b>同一個穩定數</b>。<br>
+換句話說：<b>\(N_s=4\) 同時是「黏土裡插深有沒有用」與「Peck 包絡線改用軟黏土型（支撐荷重跳升）」的分界</b>，也是基盤隆起開始值得警戒的訊號。但要分清楚：隆起的 \(FS\approx N_c/N_s\)，<b>要 \(N_s\) 大過 \(N_c\)（約 5.14～5.7，三維可到 9）FS 才會小於 1</b> —— 範例 B 的 \(N_s=5.58\)，隆起 FS 仍有 1.50。
+這條因果鏈是本單元的骨幹，看到軟弱黏土先算 \(N_s\)。
+</div>
+
+<div class="trap">
+<b>陷阱｜黏土層用有效應力參數</b><br>
+<b>觸發信號：</b>開挖面以下是黏土，題目給 \(S_u\) 或寫 \(\phi=0\)。<br>
+<b>錯誤思維：</b>套 \(K_a=\tan^2(45-\phi'/2)\) 或去找 \(c'\)、\(\phi'\)。<br>
+<b>正確認知：</b>開挖是<b>快速卸載</b>，黏土來不及排水，短期用<b>總應力法（\(\phi=0\)、\(S_u\)）</b>控制；
+長期才用有效應力。台灣考題的開挖穩定幾乎全部考短期。
+砂土則相反：透水快，一律用有效應力（\(\phi'\)）＋<b>單獨畫水壓</b>。
+</div>
+
+<h3>1.3　水：土壓力乘有效應力，水壓全額另加</h3>
+
+<p>砂土層透水快，一律走有效應力路線：側向土壓力 \(=K_a\gamma' z\)，孔隙水壓 \(u=\gamma_w z_w\) <b>另外畫一張圖疊上去</b>。開挖題還有一個擋土牆題沒有的狀況：<b>坑內外水位不同</b>（常見「坑內降至開挖面」），此時兩側水壓不相消，要畫<b>淨水壓圖</b>，而且會產生滲流（連到 §6）。</p>
+
+<div class="trap">
+<b>陷阱｜水壓不能乘 \(K\)</b><br>
+<b>觸發信號：</b>剖面有地下水位，土層是砂。<br>
+<b>錯誤思維：</b>把 \(\gamma_{sat}\) 直接乘 \(K_a\)。<br>
+<b>正確認知：</b>土壓力作用在<b>有效應力</b>上（用 \(\gamma'\) 乘 \(K_a\)），水壓<b>全額</b>另外畫一個三角形疊上去。
+\(K_a\approx1/3\) 而水的「\(K\)」是 1，混在一起等於把水壓也打了三折 —— <b>水壓那部分被低估三分之二</b>，總側向力約只剩正解的一半（\(\gamma_{sat}=20\)、\(\gamma'=10\)、\(\gamma_w\approx10\) 時：\(6.7z\) 對 \(13.3z\)）。
+<a class="qlink" href="problems-view/SM-2020-2.html" target="_blank">SM-2020-2</a> 特別要求「土壓力圖」與「淨水壓力圖」分開畫，就是在測這件事。
+</div>
+</section>
+<section id="s2">
+<h2>§2　懸臂式版樁：一根沒有支撐的樁，靠什麼站著</h2>
+
+<p class="lead">這一節在怕什麼：<b>怕你不知道那個四次方程式是從哪裡冒出來的。</b>它不是規範給的公式，它是「淨壓力圖的面積與力矩同時為零」這兩個條件解出來的。</p>
+
+<h3>2.1　懸臂樁的力學：一個沒有支點的翹翹板</h3>
+
+<p>懸臂樁沒有支撐，全靠<b>樁自己在土裡轉</b>來平衡。轉動中心 O 落在樁下段某一點：O 以上樁往開挖側倒（背填側主動、開挖側被動）；O 以下樁尾往背填側踢（<b>兩側角色互換</b>）。這就是為什麼淨壓力圖在樁底附近會反向。</p>
+
+<div class="fig">
+<svg viewBox="0 0 880 470" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+  <text x="440" y="24" font-size="15.5" font-weight="700" fill="#0d47a1" text-anchor="middle">懸臂式版樁的淨土壓力分布（淨壓力法，Das）</text>
+  <!-- 剖面：背填土全深度，開挖側在開挖面 D 以下有土 -->
+  <rect x="40" y="50" width="306" height="310" fill="#efebe9" stroke="#8d6e63"/>
+  <rect x="354" y="200" width="186" height="160" fill="#efebe9" stroke="#8d6e63"/>
+  <rect x="354" y="50" width="186" height="150" fill="#fafafa" stroke="#bdbdbd" stroke-dasharray="4,3"/>
+  <line x1="350" y1="50" x2="350" y2="360" stroke="#37474f" stroke-width="7"/>
+  <line x1="40" y1="98" x2="346" y2="98" stroke="#0288d1" stroke-width="1.6"/>
+  <polygon points="52,98 60,90 44,90" fill="#0288d1"/>
+  <text x="68" y="92" font-size="11.5" fill="#0288d1">地下水位</text>
+  <text x="200" y="72" font-size="12" fill="#5d4037" text-anchor="middle">A（樁頂／地表）</text>
+  <text x="200" y="116" font-size="12" fill="#0288d1" text-anchor="middle">C（水位）</text>
+  <text x="447" y="130" font-size="12" fill="#757575" text-anchor="middle">開挖側</text>
+  <text x="447" y="194" font-size="12" fill="#5d4037" text-anchor="middle">D（開挖面）</text>
+  <text x="200" y="378" font-size="12" fill="#37474f" text-anchor="middle">B（樁底）</text>
+  <line x1="354" y1="250" x2="540" y2="250" stroke="#6a1b9a" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="447" y="244" font-size="11.5" fill="#6a1b9a" text-anchor="middle">E（零淨壓力點）</text>
+  <!-- 變位：樁頂倒向開挖側、樁尖踢向背填側 -->
+  <path d="M384 52 Q364 236 350 338.6 Q348 350 343 360" fill="none" stroke="#c62828" stroke-width="1.8" stroke-dasharray="6,4"/>
+  <text x="384" y="66" font-size="11" fill="#c62828">樁頂倒向開挖側</text>
+  <circle cx="350" cy="338.6" r="6" fill="#6a1b9a"/>
+  <text x="338" y="343" font-size="12" fill="#6a1b9a" text-anchor="end">轉動中心 O</text>
+  <line x1="356" y1="338.6" x2="680" y2="338.6" stroke="#6a1b9a" stroke-width="0.8" stroke-dasharray="2,3"/>
+  <path d="M372 314 A 28 28 0 0 1 372 364" fill="none" stroke="#6a1b9a" stroke-width="2" stroke-dasharray="5,3"/>
+
+  <!-- 淨壓力圖：右側＝推向開挖側（淨主動），左側＝推向背填側（淨被動） -->
+  <line x1="680" y1="50" x2="680" y2="360" stroke="#90a4ae" stroke-width="1.4"/>
+  <text x="690" y="46" font-size="10.5" fill="#c62828">推向開挖側 →</text>
+  <text x="670" y="46" font-size="10.5" fill="#2e7d32" text-anchor="end">← 推向背填側</text>
+  <line x1="557" y1="360" x2="790" y2="360" stroke="#90a4ae" stroke-width="1"/>
+  <path d="M680 50 L692 98 L736 200 L680 250 Z" fill="#ffcdd2" stroke="#c62828" stroke-width="1.8"/>
+  <path d="M680 250 L602 320 L680 338.6 Z" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.8"/>
+  <path d="M680 338.6 L770 360 L680 360 Z" fill="#ffe0b2" stroke="#ef6c00" stroke-width="1.8"/>
+  <line x1="602" y1="320" x2="557" y2="360" stroke="#2e7d32" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <g stroke-width="1" stroke-dasharray="3,3">
+    <line x1="660" y1="98" x2="700" y2="98" stroke="#0288d1"/>
+    <line x1="660" y1="200" x2="750" y2="200" stroke="#8d6e63"/>
+    <line x1="590" y1="320" x2="800" y2="320" stroke="#607d8b"/>
+  </g>
+  <text x="742" y="196" font-size="12" fill="#c62828">σ2′</text>
+  <text x="698" y="94" font-size="11.5" fill="#c62828">σ1′</text>
+  <text x="726" y="150" font-size="12" fill="#c62828">淨主動 P</text>
+  <text x="700" y="262" font-size="11.5" fill="#6a1b9a">E</text>
+  <text x="620" y="298" font-size="11.5" fill="#2e7d32" text-anchor="end">淨被動</text>
+  <text x="557" y="376" font-size="11.5" fill="#2e7d32" text-anchor="middle">σ3′</text>
+  <text x="742" y="380" font-size="11.5" fill="#ef6c00" text-anchor="middle">σ4′（樁尖反向）</text>
+  <!-- 尺寸線 -->
+  <g stroke="#455a64" stroke-width="1">
+    <line x1="836" y1="50" x2="836" y2="360"/>
+    <line x1="830" y1="50" x2="842" y2="50"/><line x1="830" y1="98" x2="842" y2="98"/>
+    <line x1="830" y1="200" x2="842" y2="200"/><line x1="830" y1="250" x2="842" y2="250"/>
+    <line x1="830" y1="360" x2="842" y2="360"/>
+    <line x1="806" y1="320" x2="806" y2="360"/>
+    <line x1="800" y1="360" x2="812" y2="360"/>
+  </g>
+  <g font-size="11.5" fill="#263238">
+    <text x="846" y="78">L1</text><text x="846" y="153">L2</text>
+    <text x="846" y="229">L3</text><text x="846" y="309">L4</text>
+    <text x="812" y="344">L5</text>
+  </g>
+  <text x="440" y="424" font-size="12.5" fill="#455a64" text-anchor="middle">L3 由零淨壓力條件直接求得：L3 = σ2′ / [γ′(Kp − Ka)]</text>
+  <text x="440" y="446" font-size="12.5" fill="#455a64" text-anchor="middle">兩個未知數 L4、L5 ＋ 兩個方程式 ΣF = 0、ΣM = 0（對樁底取矩）→ 消去 L5 得 L4 的四次方程式</text>
+</svg>
+<div class="cap">圖 2-1｜四次方程式不是天上掉下來的：\(L_3\)（開挖面到零淨壓力點 E）由 \(\sigma_2'=(K_p-K_a)\gamma'L_3\) 直接求得，不是未知數；真正的兩個未知數是 E 以下的 \(L_4\) 與樁尖反向區高度 \(L_5\)。<b>兩個平衡條件（\(\Sigma F=0\)、對樁底 \(\Sigma M=0\)）消去 \(L_5\) 之後，\(L_4\) 就滿足一條四次式</b>。樁頂倒向開挖側、樁尖踢向背填側，所以淨壓力在 E 以下先換到被動側（綠），到樁尖附近又反向（橙，\(\sigma_4'\)）—— <b>淨壓力換號的那一點就是轉動中心 O</b>（圖中紫色細虛線把兩者對齊）。考卷（如 <a class="qlink" href="problems-view/SM-2022-4.html" target="_blank">SM-2022-4</a>）會直接把 \(A_1\sim A_4\) 給你，但你必須知道它們是誰。</div>
+</div>
+
+<div class="box">
+<b>零淨壓力點 E 在哪？</b>在開挖面以下深度 \(L_3\) 處，主動與被動剛好抵銷：
+$$\sigma_2'=(K_p-K_a)\gamma' L_3\;\Rightarrow\;L_3=\frac{\sigma_2'}{\gamma'(K_p-K_a)}$$
+<b>極限檢查：</b>\(\phi\) 越大 → \(K_p-K_a\) 越大 → \(L_3\) 越短 → 需要的貫入深度越淺。符合直覺（好土不用插那麼深）。
+</div>
+
+<div class="trap">
+<b>陷阱｜懸臂樁的設計貫入深度</b><br>
+<b>觸發信號：</b>題目算出 \(D_L\)（\(FS=1\) 的臨界深度）後就收筆。<br>
+<b>錯誤思維：</b>把 \(D_L\) 當成設計值。<br>
+<b>正確認知：</b>實務上要<b>加長 20–30%</b>（\(D=1.2\sim1.3D_L\)），或改用「\(K_p\) 除以 FS」重算。
+兩種安全係數施加方式<b>不可混用</b>：<a class="qlink" href="problems-view/SM-2022-4.html" target="_blank">SM-2022-4</a> 明講 \(FS=1\)，就是要你只交臨界值；
+<a class="qlink" href="problems-view/SM-2007-4.html" target="_blank">SM-2007-4</a> 則說「安全係數採用 1.5」，那是打在 \(K_p\) 上。看清楚題目要哪一種。
+</div>
+</section>
+
+<section id="s3">
+<h2>§3　單支撐／錨定式版樁：自由端 vs 固定端</h2>
+
+<p class="lead">這一節在怕什麼：<b>怕你不知道「自由端」與「固定端」差在哪，只好背兩套公式。</b>它們的差別只有一句話：<b>樁尖能不能轉。</b></p>
+
+<div class="fig">
+<svg viewBox="0 0 940 500" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="f31r" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker><marker id="f31g" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#2e7d32"/></marker><marker id="f31b" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#1565c0"/></marker><marker id="f31k" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#455a64"/></marker><marker id="f31o" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#ef6c00"/></marker><marker id="f31p" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#6a1b9a"/></marker><marker id="f31w" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#0288d1"/></marker></defs>
+<line x1="470.0" y1="14.0" x2="470.0" y2="486.0" stroke="#b0bec5" stroke-width="2" stroke-dasharray="7,5"/>
+<text x="235.0" y="30.0" font-size="15" fill="#2e7d32" text-anchor="middle" font-weight="700">自由端支撐法（free earth support）</text>
+<text x="80.0" y="56.0" font-size="11.5" fill="#455a64" text-anchor="middle" font-weight="700">① 剖面與變位</text>
+<text x="235.0" y="56.0" font-size="11.5" fill="#455a64" text-anchor="middle" font-weight="700">② 淨土壓力</text>
+<text x="380.0" y="56.0" font-size="11.5" fill="#455a64" text-anchor="middle" font-weight="700">③ 彎矩圖</text>
+<rect x="20.0" y="78.0" width="57.0" height="267.2" rx="0" fill="#efebe9" stroke="none" stroke-width="1"/>
+<rect x="83.0" y="258.0" width="57.0" height="87.2" rx="0" fill="#efebe9" stroke="none" stroke-width="1"/>
+<line x1="83.0" y1="258.0" x2="140.0" y2="258.0" stroke="#8d6e63" stroke-width="1.6"/>
+<text x="138.0" y="253.0" font-size="10.5" fill="#8d6e63" text-anchor="end">開挖面</text>
+<line x1="80.0" y1="78.0" x2="80.0" y2="327.2" stroke="#37474f" stroke-width="6"/>
+<line x1="28.0" y1="108.0" x2="77.0" y2="108.0" stroke="#1565c0" stroke-width="4"/>
+<circle cx="80.0" cy="108.0" r="4.5" fill="#1565c0" stroke="none"/>
+<text x="24.0" y="112.0" font-size="11" fill="#1565c0" text-anchor="end">地錨</text>
+<polyline points="67.6,78.0 68.6,80.5 69.7,83.0 70.7,85.5 71.7,88.0 72.8,90.5 73.8,93.0 74.8,95.4 75.8,97.9 76.9,100.4 77.9,102.9 78.9,105.4 80.0,107.9 81.0,110.4 82.0,112.9 83.0,115.4 84.1,117.9 85.1,120.4 86.1,122.9 87.1,125.3 88.1,127.8 89.0,130.3 90.0,132.8 91.0,135.3 91.9,137.8 92.8,140.3 93.7,142.8 94.5,145.3 95.4,147.8 96.2,150.3 97.0,152.8 97.8,155.3 98.5,157.7 99.2,160.2 99.9,162.7 100.6,165.2 101.2,167.7 101.8,170.2 102.3,172.7 102.8,175.2 103.3,177.7 103.8,180.2 104.2,182.7 104.5,185.2 104.9,187.6 105.1,190.1 105.4,192.6 105.6,195.1 105.8,197.6 105.9,200.1 106.0,202.6 106.0,205.1 106.0,207.6 105.9,210.1 105.8,212.6 105.7,215.1 105.5,217.6 105.3,220.0 105.0,222.5 104.7,225.0 104.4,227.5 104.0,230.0 103.5,232.5 103.0,235.0 102.5,237.5 101.9,240.0 101.3,242.5 100.7,245.0 100.0,247.5 99.3,250.0 98.5,252.4 97.7,254.9 96.9,257.4 96.0,259.9 95.1,262.4 94.2,264.9 93.2,267.4 92.2,269.9 91.2,272.4 90.2,274.9 89.1,277.4 88.0,279.9 86.9,282.3 85.8,284.8 84.7,287.3 83.5,289.8 82.3,292.3 81.1,294.8 79.9,297.3 78.7,299.8 77.5,302.3 76.3,304.8 75.1,307.3 73.8,309.8 72.6,312.3 71.4,314.7 70.1,317.2 68.9,319.7 67.7,322.2 66.4,324.7 65.2,327.2" fill="none" stroke="#2e7d32" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6,4"/>
+<circle cx="65.2" cy="327.2" r="4.5" fill="#2e7d32" stroke="none"/>
+<text x="73.2" y="343.2" font-size="11" fill="#2e7d32" text-anchor="start">樁尖可轉動</text>
+<line x1="235.0" y1="78.0" x2="235.0" y2="327.2" stroke="#90a4ae" stroke-width="1.2"/>
+<polygon points="235.0,78.0 235.0,78.0 235.2,79.2 235.3,80.5 235.5,81.7 235.6,83.0 235.8,84.2 235.9,85.5 236.1,86.7 236.2,88.0 236.4,89.2 236.5,90.5 236.7,91.7 236.9,93.0 237.0,94.2 237.2,95.4 237.3,96.7 237.5,97.9 237.6,99.2 237.8,100.4 237.9,101.7 238.1,102.9 238.2,104.2 238.4,105.4 238.6,106.7 238.7,107.9 238.9,109.2 239.0,110.4 239.2,111.6 239.3,112.9 239.5,114.1 239.6,115.4 239.8,116.6 239.9,117.9 240.1,119.1 240.3,120.4 240.4,121.6 240.6,122.9 240.7,124.1 240.9,125.3 241.0,126.6 241.2,127.8 241.3,129.1 241.5,130.3 241.6,131.6 241.8,132.8 242.0,134.1 242.1,135.3 242.3,136.6 242.4,137.8 242.6,139.1 242.7,140.3 242.9,141.5 243.0,142.8 243.2,144.0 243.3,145.3 243.5,146.5 243.7,147.8 243.8,149.0 244.0,150.3 244.1,151.5 244.3,152.8 244.4,154.0 244.6,155.3 244.7,156.5 244.9,157.7 245.0,159.0 245.2,160.2 245.4,161.5 245.5,162.7 245.7,164.0 245.8,165.2 246.0,166.5 246.1,167.7 246.3,169.0 246.4,170.2 246.6,171.5 246.7,172.7 246.9,173.9 247.1,175.2 247.2,176.4 247.4,177.7 247.5,178.9 247.7,180.2 247.8,181.4 248.0,182.7 248.1,183.9 248.3,185.2 248.4,186.4 248.6,187.6 248.8,188.9 248.9,190.1 249.1,191.4 249.2,192.6 249.4,193.9 249.5,195.1 249.7,196.4 249.8,197.6 250.0,198.9 250.1,200.1 250.3,201.4 250.5,202.6 250.6,203.8 250.8,205.1 250.9,206.3 251.1,207.6 251.2,208.8 251.4,210.1 251.5,211.3 251.7,212.6 251.8,213.8 252.0,215.1 252.2,216.3 252.3,217.6 252.5,218.8 252.6,220.0 252.8,221.3 252.9,222.5 253.1,223.8 253.2,225.0 253.4,226.3 253.5,227.5 253.7,228.8 253.8,230.0 254.0,231.3 254.2,232.5 254.3,233.8 254.5,235.0 254.6,236.2 254.8,237.5 254.9,238.7 255.1,240.0 255.2,241.2 255.4,242.5 255.5,243.7 255.7,245.0 255.9,246.2 256.0,247.5 256.2,248.7 256.3,250.0 256.5,251.2 256.6,252.4 256.8,253.7 256.9,254.9 257.1,256.2 257.2,257.4 256.7,258.7 255.4,259.9 254.2,261.2 252.9,262.4 251.7,263.7 250.5,264.9 249.2,266.1 248.0,267.4 246.8,268.6 245.5,269.9 244.3,271.1 243.1,272.4 241.8,273.6 240.6,274.9 239.3,276.1 238.1,277.4 236.9,278.6 235.6,279.9 235.0,281.1 235.0,282.3 235.0,283.6 235.0,284.8 235.0,286.1 235.0,287.3 235.0,288.6 235.0,289.8 235.0,291.1 235.0,292.3 235.0,293.6 235.0,294.8 235.0,296.1 235.0,297.3 235.0,298.5 235.0,299.8 235.0,301.0 235.0,302.3 235.0,303.5 235.0,304.8 235.0,306.0 235.0,307.3 235.0,308.5 235.0,309.8 235.0,311.0 235.0,312.3 235.0,313.5 235.0,314.7 235.0,316.0 235.0,317.2 235.0,318.5 235.0,319.7 235.0,321.0 235.0,322.2 235.0,323.5 235.0,324.7 235.0,326.0 235.0,327.2 235.0,280.5" fill="#ffcdd2" stroke="#c62828" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="235.0,280.5 235.0,280.5 233.7,281.8 232.5,283.0 231.3,284.3 230.0,285.5 228.8,286.8 227.5,288.0 226.3,289.3 225.1,290.5 223.8,291.8 222.6,293.0 221.4,294.2 220.1,295.5 218.9,296.7 217.7,298.0 216.4,299.2 215.2,300.5 213.9,301.7 212.7,303.0 211.5,304.2 210.2,305.5 209.0,306.7 207.8,308.0 206.5,309.2 205.3,310.4 204.1,311.7 202.8,312.9 201.6,314.2 200.4,315.4 199.1,316.7 197.9,317.9 196.6,319.2 195.4,320.4 194.2,321.7 192.9,322.9 191.7,324.2 190.5,325.4 189.2,326.6 188.7,327.2 235.0,327.2" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="261.3" y="262.0" font-size="10.5" fill="#c62828" text-anchor="start">K<tspan dy="0.32em" font-size="72%">a</tspan><tspan dy="-0.32em">​</tspan>γH</text>
+<text x="241.0" y="180.0" font-size="10.5" fill="#c62828" text-anchor="start">推向開挖側</text>
+<text x="229.0" y="317.2" font-size="10.5" fill="#2e7d32" text-anchor="end">淨被動</text>
+<line x1="195.0" y1="280.5" x2="261.0" y2="280.5" stroke="#6a1b9a" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="263.0" y="284.5" font-size="11" fill="#6a1b9a" text-anchor="start">E</text>
+<line x1="189.0" y1="108.0" x2="231.0" y2="108.0" stroke="#1565c0" stroke-width="2.4" marker-end="url(#f31b)"/>
+<text x="189.0" y="102.0" font-size="11.5" fill="#1565c0" text-anchor="start" font-weight="700">T</text>
+<line x1="380.0" y1="78.0" x2="380.0" y2="327.2" stroke="#90a4ae" stroke-width="1.2"/>
+<polygon points="380.0,78.0 380.0,78.0 380.0,79.2 380.0,80.5 380.0,81.7 380.0,83.0 380.0,84.2 380.0,85.5 380.0,86.7 380.0,88.0 380.0,89.2 380.0,90.5 380.0,91.7 379.9,93.0 379.9,94.2 379.9,95.4 379.9,96.7 379.9,97.9 379.8,99.2 379.8,100.4 379.8,101.7 379.7,102.9 379.7,104.2 379.6,105.4 379.6,106.7 379.5,107.9 380.7,109.2 381.9,110.4 383.2,111.6 384.4,112.9 385.6,114.1 386.8,115.4 388.1,116.6 389.3,117.9 390.5,119.1 391.7,120.4 392.8,121.6 394.0,122.9 395.2,124.1 396.4,125.3 397.5,126.6 398.7,127.8 399.8,129.1 400.9,130.3 402.0,131.6 403.1,132.8 404.2,134.1 405.3,135.3 406.4,136.6 407.5,137.8 408.5,139.1 409.6,140.3 410.6,141.5 411.7,142.8 412.7,144.0 413.7,145.3 414.7,146.5 415.7,147.8 416.6,149.0 417.6,150.3 418.5,151.5 419.5,152.8 420.4,154.0 421.3,155.3 422.2,156.5 423.1,157.7 423.9,159.0 424.8,160.2 425.6,161.5 426.4,162.7 427.3,164.0 428.0,165.2 428.8,166.5 429.6,167.7 430.3,169.0 431.1,170.2 431.8,171.5 432.5,172.7 433.2,173.9 433.8,175.2 434.5,176.4 435.1,177.7 435.7,178.9 436.3,180.2 436.9,181.4 437.5,182.7 438.0,183.9 438.6,185.2 439.1,186.4 439.6,187.6 440.0,188.9 440.5,190.1 440.9,191.4 441.3,192.6 441.7,193.9 442.1,195.1 442.4,196.4 442.8,197.6 443.1,198.9 443.4,200.1 443.6,201.4 443.9,202.6 444.1,203.8 444.3,205.1 444.5,206.3 444.7,207.6 444.8,208.8 444.9,210.1 445.0,211.3 445.1,212.6 445.1,213.8 445.2,215.1 445.2,216.3 445.1,217.6 445.1,218.8 445.0,220.0 444.9,221.3 444.8,222.5 444.7,223.8 444.5,225.0 444.3,226.3 444.1,227.5 443.8,228.8 443.5,230.0 443.2,231.3 442.9,232.5 442.6,233.8 442.2,235.0 441.8,236.2 441.3,237.5 440.9,238.7 440.4,240.0 439.9,241.2 439.3,242.5 438.7,243.7 438.1,245.0 437.5,246.2 436.8,247.5 436.2,248.7 435.4,250.0 434.7,251.2 433.9,252.4 433.1,253.7 432.3,254.9 431.4,256.2 430.5,257.4 429.6,258.7 428.6,259.9 427.6,261.2 426.6,262.4 425.5,263.7 424.5,264.9 423.4,266.1 422.3,267.4 421.2,268.6 420.0,269.9 418.9,271.1 417.7,272.4 416.5,273.6 415.3,274.9 414.1,276.1 412.9,277.4 411.7,278.6 410.5,279.9 409.3,281.1 408.1,282.3 406.9,283.6 405.7,284.8 404.5,286.1 403.3,287.3 402.1,288.6 401.0,289.8 399.8,291.1 398.7,292.3 397.6,293.6 396.4,294.8 395.4,296.1 394.3,297.3 393.3,298.5 392.2,299.8 391.3,301.0 390.3,302.3 389.4,303.5 388.5,304.8 387.6,306.0 386.8,307.3 386.0,308.5 385.2,309.8 384.5,311.0 383.8,312.3 383.2,313.5 382.6,314.7 382.1,316.0 381.6,317.2 381.2,318.5 380.8,319.7 380.5,321.0 380.2,322.2 380.0,323.5 379.8,324.7 379.7,326.0 379.7,327.2 380.0,327.2" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5" stroke-linejoin="round" opacity="0.9"/>
+<line x1="380.0" y1="215.7" x2="445.2" y2="215.7" stroke="#2e7d32" stroke-width="1" stroke-dasharray="2,2"/>
+<text x="374.0" y="211.7" font-size="11" fill="#2e7d32" text-anchor="end" font-weight="700">M<tspan dy="0.32em" font-size="72%">max</tspan><tspan dy="-0.32em">​</tspan></text>
+<text x="374.0" y="226.7" font-size="11" fill="#2e7d32" text-anchor="end" font-weight="700">= 130</text>
+<text x="235.0" y="452.0" font-size="12" fill="#1b5e20" text-anchor="middle">入土 D = 2.31 m，樁長 8.31 m</text>
+<text x="235.0" y="474.0" font-size="12.5" fill="#1b5e20" text-anchor="middle" font-weight="700">解法：對地錨取 ΣM = 0 解 D，再 ΣF = 0 解 T</text>
+<text x="705.0" y="30.0" font-size="15" fill="#c62828" text-anchor="middle" font-weight="700">固定端支撐法（fixed earth support）</text>
+<text x="550.0" y="56.0" font-size="11.5" fill="#455a64" text-anchor="middle" font-weight="700">① 剖面與變位</text>
+<text x="705.0" y="56.0" font-size="11.5" fill="#455a64" text-anchor="middle" font-weight="700">② 淨土壓力</text>
+<text x="850.0" y="56.0" font-size="11.5" fill="#455a64" text-anchor="middle" font-weight="700">③ 彎矩圖</text>
+<rect x="490.0" y="78.0" width="57.0" height="326.0" rx="0" fill="#efebe9" stroke="none" stroke-width="1"/>
+<rect x="553.0" y="258.0" width="57.0" height="146.0" rx="0" fill="#efebe9" stroke="none" stroke-width="1"/>
+<line x1="553.0" y1="258.0" x2="610.0" y2="258.0" stroke="#8d6e63" stroke-width="1.6"/>
+<text x="608.0" y="253.0" font-size="10.5" fill="#8d6e63" text-anchor="end">開挖面</text>
+<line x1="550.0" y1="78.0" x2="550.0" y2="386.0" stroke="#37474f" stroke-width="6"/>
+<line x1="498.0" y1="108.0" x2="547.0" y2="108.0" stroke="#1565c0" stroke-width="4"/>
+<circle cx="550.0" cy="108.0" r="4.5" fill="#1565c0" stroke="none"/>
+<text x="494.0" y="112.0" font-size="11" fill="#1565c0" text-anchor="end">地錨</text>
+<polyline points="537.8,78.0 539.0,80.9 540.2,83.8 541.3,86.7 542.5,89.6 543.7,92.5 544.9,95.4 546.1,98.3 547.2,101.2 548.4,104.1 549.6,107.0 550.8,109.9 552.0,112.8 553.1,115.8 554.3,118.7 555.5,121.6 556.6,124.5 557.8,127.4 558.9,130.3 560.0,133.2 561.1,136.1 562.1,139.0 563.1,141.9 564.1,144.8 565.1,147.7 566.1,150.6 567.0,153.5 567.8,156.4 568.7,159.3 569.5,162.2 570.2,165.1 571.0,168.0 571.6,170.9 572.3,173.8 572.8,176.7 573.4,179.6 573.9,182.5 574.3,185.4 574.7,188.4 575.0,191.3 575.3,194.2 575.6,197.1 575.8,200.0 575.9,202.9 576.0,205.8 576.0,208.7 576.0,211.6 575.9,214.5 575.8,217.4 575.6,220.3 575.4,223.2 575.1,226.1 574.8,229.0 574.4,231.9 574.0,234.8 573.6,237.7 573.1,240.6 572.5,243.5 571.9,246.4 571.3,249.3 570.7,252.2 570.0,255.1 569.3,258.0 568.5,260.9 567.8,263.9 567.0,266.8 566.2,269.7 565.4,272.6 564.6,275.5 563.8,278.4 562.9,281.3 562.1,284.2 561.3,287.1 560.5,290.0 559.7,292.9 558.9,295.8 558.1,298.7 557.4,301.6 556.7,304.5 556.0,307.4 555.3,310.3 554.7,313.2 554.1,316.1 553.6,319.0 553.0,321.9 552.6,324.8 552.1,327.7 551.7,330.6 551.4,333.5 551.1,336.5 550.8,339.4 550.6,342.3 550.4,345.2 550.3,348.1 550.2,351.0 550.1,353.9 550.0,356.8 550.0,359.7 550.0,362.6 550.0,365.5 550.0,368.4" fill="none" stroke="#c62828" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6,4"/>
+<line x1="550.0" y1="368.4" x2="550.0" y2="386.0" stroke="#c62828" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="538.0" y1="393.0" x2="546.0" y2="385.0" stroke="#c62828" stroke-width="1.2"/>
+<line x1="547.0" y1="393.0" x2="555.0" y2="385.0" stroke="#c62828" stroke-width="1.2"/>
+<line x1="556.0" y1="393.0" x2="564.0" y2="385.0" stroke="#c62828" stroke-width="1.2"/>
+<line x1="536.0" y1="386.0" x2="564.0" y2="386.0" stroke="#c62828" stroke-width="1.4"/>
+<text x="540.0" y="408.0" font-size="11" fill="#c62828" text-anchor="middle">樁尖被夾住</text>
+<line x1="705.0" y1="78.0" x2="705.0" y2="386.0" stroke="#90a4ae" stroke-width="1.2"/>
+<polygon points="705.0,78.0 705.0,78.0 705.2,79.5 705.4,80.9 705.5,82.4 705.7,83.8 705.9,85.3 706.1,86.7 706.3,88.2 706.4,89.6 706.6,91.1 706.8,92.5 707.0,94.0 707.2,95.4 707.3,96.9 707.5,98.3 707.7,99.8 707.9,101.2 708.1,102.7 708.2,104.1 708.4,105.6 708.6,107.0 708.8,108.5 709.0,109.9 709.1,111.4 709.3,112.8 709.5,114.3 709.7,115.8 709.9,117.2 710.0,118.7 710.2,120.1 710.4,121.6 710.6,123.0 710.8,124.5 710.9,125.9 711.1,127.4 711.3,128.8 711.5,130.3 711.7,131.7 711.8,133.2 712.0,134.6 712.2,136.1 712.4,137.5 712.6,139.0 712.7,140.4 712.9,141.9 713.1,143.3 713.3,144.8 713.5,146.2 713.6,147.7 713.8,149.1 714.0,150.6 714.2,152.1 714.4,153.5 714.5,155.0 714.7,156.4 714.9,157.9 715.1,159.3 715.3,160.8 715.4,162.2 715.6,163.7 715.8,165.1 716.0,166.6 716.2,168.0 716.3,169.5 716.5,170.9 716.7,172.4 716.9,173.8 717.1,175.3 717.2,176.7 717.4,178.2 717.6,179.6 717.8,181.1 718.0,182.5 718.1,184.0 718.3,185.4 718.5,186.9 718.7,188.4 718.9,189.8 719.0,191.3 719.2,192.7 719.4,194.2 719.6,195.6 719.8,197.1 719.9,198.5 720.1,200.0 720.3,201.4 720.5,202.9 720.7,204.3 720.8,205.8 721.0,207.2 721.2,208.7 721.4,210.1 721.6,211.6 721.7,213.0 721.9,214.5 722.1,215.9 722.3,217.4 722.5,218.8 722.6,220.3 722.8,221.7 723.0,223.2 723.2,224.7 723.4,226.1 723.5,227.6 723.7,229.0 723.9,230.5 724.1,231.9 724.3,233.4 724.4,234.8 724.6,236.3 724.8,237.7 725.0,239.2 725.2,240.6 725.3,242.1 725.5,243.5 725.7,245.0 725.9,246.4 726.1,247.9 726.2,249.3 726.4,250.8 726.6,252.2 726.8,253.7 727.0,255.1 727.1,256.6 727.3,258.0 725.8,259.5 724.4,260.9 723.0,262.4 721.5,263.9 720.1,265.3 718.6,266.8 717.2,268.2 715.8,269.7 714.3,271.1 712.9,272.6 711.4,274.0 710.0,275.5 708.5,276.9 707.1,278.4 705.7,279.8 705.0,281.3 705.0,282.7 705.0,284.2 705.0,285.6 705.0,287.1 705.0,288.5 705.0,290.0 705.0,291.4 705.0,292.9 705.0,294.3 705.0,295.8 705.0,297.2 705.0,298.7 705.0,300.2 705.0,301.6 705.0,303.1 705.0,304.5 705.0,306.0 705.0,307.4 705.0,308.9 705.0,310.3 705.0,311.8 705.0,313.2 705.0,314.7 705.0,316.1 705.0,317.6 705.0,319.0 705.0,320.5 705.0,321.9 705.0,323.4 705.0,324.8 705.0,326.3 705.0,327.7 705.0,329.2 705.0,330.6 705.0,332.1 705.0,333.5 705.0,335.0 705.0,336.5 705.0,337.9 705.0,339.4 705.0,340.8 705.0,342.3 705.0,343.7 705.0,345.2 705.0,346.6 705.0,348.1 705.0,349.5 705.0,351.0 705.0,352.4 705.0,353.9 705.0,355.3 705.0,356.8 705.0,358.2 705.0,359.7 705.0,361.1 705.0,362.6 705.0,364.0 705.0,365.5 705.0,366.9 705.0,368.4 705.0,280.5" fill="#ffcdd2" stroke="#c62828" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="705.0,280.6 704.9,280.6 703.5,282.0 702.1,283.5 700.6,284.9 699.2,286.4 697.7,287.8 696.3,289.3 694.9,290.7 693.4,292.2 692.0,293.6 690.5,295.1 689.1,296.5 687.7,298.0 686.2,299.4 684.8,300.9 683.3,302.3 681.9,303.8 680.5,305.2 679.0,306.7 677.6,308.1 676.1,309.6 674.7,311.0 673.3,312.5 671.8,313.9 670.4,315.4 668.9,316.9 667.5,318.3 666.1,319.8 664.6,321.2 663.2,322.7 661.7,324.1 660.3,325.6 658.9,327.0 657.4,328.5 656.0,329.9 654.5,331.4 653.1,332.8 651.7,334.3 650.2,335.7 648.8,337.2 647.3,338.6 645.9,340.1 644.5,341.5 643.0,343.0 641.6,344.4 640.1,345.9 638.7,347.3 637.3,348.8 635.8,350.2 634.4,351.7 632.9,353.2 631.5,354.6 630.0,356.1 628.6,357.5 627.2,359.0 625.7,360.4 624.3,361.9 622.8,363.3 621.4,364.8 620.0,366.2 618.5,367.7 617.8,368.4 705.0,368.4" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="731.3" y="262.0" font-size="10.5" fill="#c62828" text-anchor="start">K<tspan dy="0.32em" font-size="72%">a</tspan><tspan dy="-0.32em">​</tspan>γH</text>
+<text x="711.0" y="180.0" font-size="10.5" fill="#c62828" text-anchor="start">推向開挖側</text>
+<text x="699.0" y="358.4" font-size="10.5" fill="#2e7d32" text-anchor="end">淨被動</text>
+<line x1="665.0" y1="280.5" x2="731.0" y2="280.5" stroke="#6a1b9a" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="733.0" y="284.5" font-size="11" fill="#6a1b9a" text-anchor="start">E</text>
+<line x1="659.0" y1="108.0" x2="701.0" y2="108.0" stroke="#1565c0" stroke-width="2.4" marker-end="url(#f31b)"/>
+<text x="659.0" y="102.0" font-size="11.5" fill="#1565c0" text-anchor="start" font-weight="700">T</text>
+<line x1="665.0" y1="368.4" x2="701.0" y2="368.4" stroke="#ef6c00" stroke-width="2.6" marker-end="url(#f31o)"/>
+<text x="663.0" y="386.4" font-size="10.5" fill="#ef6c00" text-anchor="start">Blum 集中力 C</text>
+<line x1="655.0" y1="368.4" x2="745.0" y2="368.4" stroke="#ef6c00" stroke-width="0.8" stroke-dasharray="2,2"/>
+<line x1="655.0" y1="386.0" x2="745.0" y2="386.0" stroke="#90a4ae" stroke-width="0.8" stroke-dasharray="2,2"/>
+<text x="747.0" y="390.0" font-size="10" fill="#607d8b" text-anchor="start">+20%</text>
+<line x1="850.0" y1="78.0" x2="850.0" y2="386.0" stroke="#90a4ae" stroke-width="1.2"/>
+<polygon points="850.0,78.0 850.0,78.0 850.0,79.5 850.0,80.9 850.0,82.4 850.0,83.8 850.0,85.3 850.0,86.7 850.0,88.2 850.0,89.6 850.0,91.1 849.9,92.5 849.9,94.0 849.9,95.4 849.9,96.9 849.8,98.3 849.8,99.8 849.8,101.2 849.7,102.7 849.7,104.1 849.6,105.6 849.5,107.0 849.9,108.5 851.1,109.9 852.3,111.4 853.5,112.8 854.7,114.3 855.8,115.8 857.0,117.2 858.1,118.7 859.3,120.1 860.4,121.6 861.5,123.0 862.6,124.5 863.7,125.9 864.8,127.4 865.9,128.8 867.0,130.3 868.0,131.7 869.1,133.2 870.1,134.6 871.1,136.1 872.1,137.5 873.1,139.0 874.0,140.4 875.0,141.9 875.9,143.3 876.9,144.8 877.8,146.2 878.7,147.7 879.6,149.1 880.4,150.6 881.3,152.1 882.1,153.5 882.9,155.0 883.7,156.4 884.5,157.9 885.2,159.3 885.9,160.8 886.7,162.2 887.4,163.7 888.0,165.1 888.7,166.6 889.3,168.0 889.9,169.5 890.5,170.9 891.1,172.4 891.6,173.8 892.2,175.3 892.7,176.7 893.1,178.2 893.6,179.6 894.0,181.1 894.4,182.5 894.8,184.0 895.2,185.4 895.5,186.9 895.8,188.4 896.1,189.8 896.4,191.3 896.6,192.7 896.8,194.2 897.0,195.6 897.1,197.1 897.2,198.5 897.3,200.0 897.4,201.4 897.4,202.9 897.4,204.3 897.4,205.8 897.3,207.2 897.3,208.7 897.1,210.1 897.0,211.6 896.8,213.0 896.6,214.5 896.4,215.9 896.1,217.4 895.8,218.8 895.4,220.3 895.1,221.7 894.7,223.2 894.2,224.7 893.7,226.1 893.2,227.6 892.7,229.0 892.1,230.5 891.5,231.9 890.8,233.4 890.2,234.8 889.4,236.3 888.7,237.7 887.9,239.2 887.0,240.6 886.2,242.1 885.2,243.5 884.3,245.0 883.3,246.4 882.3,247.9 881.2,249.3 880.1,250.8 878.9,252.2 877.7,253.7 876.5,255.1 875.2,256.6 873.9,258.0 872.5,259.5 871.1,260.9 869.7,262.4 868.2,263.9 866.7,265.3 865.2,266.8 863.7,268.2 862.1,269.7 860.5,271.1 858.9,272.6 857.2,274.0 855.6,275.5 854.0,276.9 852.3,278.4 850.6,279.8 849.0,281.3 847.3,282.7 845.7,284.2 844.0,285.6 842.4,287.1 840.7,288.5 839.1,290.0 837.5,291.4 836.0,292.9 834.4,294.3 832.9,295.8 831.4,297.2 829.9,298.7 828.5,300.2 827.1,301.6 825.8,303.1 824.5,304.5 823.2,306.0 822.0,307.4 820.8,308.9 819.7,310.3 818.6,311.8 817.6,313.2 816.7,314.7 815.8,316.1 815.0,317.6 814.3,319.0 813.6,320.5 813.0,321.9 812.5,323.4 812.1,324.8 811.7,326.3 811.5,327.7 811.3,329.2 811.2,330.6 811.2,332.1 811.4,333.5 811.6,335.0 811.9,336.5 812.3,337.9 812.8,339.4 813.5,340.8 814.2,342.3 815.1,343.7 816.0,345.2 817.2,346.6 818.4,348.1 819.7,349.5 821.2,351.0 822.8,352.4 824.6,353.9 826.5,355.3 828.5,356.8 830.7,358.2 833.0,359.7 835.5,361.1 838.1,362.6 840.9,364.0 843.8,365.5 846.9,366.9 850.1,368.4 850.0,368.4" fill="#ffcdd2" stroke="#c62828" stroke-width="1.5" stroke-linejoin="round" opacity="0.9"/>
+<line x1="850.0" y1="203.8" x2="897.4" y2="203.8" stroke="#c62828" stroke-width="1" stroke-dasharray="2,2"/>
+<text x="844.0" y="199.8" font-size="11" fill="#c62828" text-anchor="end" font-weight="700">M<tspan dy="0.32em" font-size="72%">max</tspan><tspan dy="-0.32em">​</tspan></text>
+<text x="844.0" y="214.8" font-size="11" fill="#c62828" text-anchor="end" font-weight="700">= 95</text>
+<text x="807.2" y="335.2" font-size="10.5" fill="#c62828" text-anchor="end" font-weight="700">−78（負彎矩）</text>
+<circle cx="850.0" cy="280.3" r="4.5" fill="#6a1b9a" stroke="none"/>
+<text x="858.0" y="284.3" font-size="10.5" fill="#6a1b9a" text-anchor="start">反曲點 ≈ E</text>
+<circle cx="563.2" cy="280.3" r="4" fill="#6a1b9a" stroke="none"/>
+<text x="705.0" y="452.0" font-size="12" fill="#b71c1c" text-anchor="middle">入土 D = 4.27 m（含 +20%），樁長 10.27 m</text>
+<text x="705.0" y="474.0" font-size="12.5" fill="#b71c1c" text-anchor="middle" font-weight="700">解法：Blum 等值梁 —— 在 E（反曲點）切成上下兩根簡支梁</text>
+</svg>
+<div class="cap">圖 3-1｜<b>兩邊用同一組參數算出來、同一個比例尺畫</b>（砂 \(\gamma=18\)、\(\phi=30^\circ\)：\(K_a=1/3\)、\(K_p=3\)；\(H=6\) m、地錨在樁頂下 1 m），所以長度與彎矩可以直接用眼睛比。
+固定端插得深，樁尖被土夾住不能轉，於是產生<b>負彎矩</b>與反曲點 —— 就像簡支梁變成一端固定的梁：跨間彎矩由 130 降到 95 kN·m/m（0.73 倍），代價是入土深度由 2.31 m 增為 4.27 m。
+Blum 法的關鍵假設是「<b>反曲點 ≈ 零淨壓力點 E</b>」：在 E 切開，上段是「地錨＋E」的簡支梁，下段用對樁尖取矩求長度 \(x\)，最後把樁尖以下反向區那一段用集中力 \(C\) 代替、再加長 20%。
+自由端則相反：短、省料，但斷面要更大 —— 「材料花在長度上還是花在斷面上」的取捨。</div>
+</div>
+
+<table>
+<thead><tr><th></th><th>自由端支撐法</th><th>固定端支撐法</th></tr></thead>
+<tbody>
+<tr><td>樁尖假設</td><td>可自由轉動（插入淺）</td><td>被土夾住不能轉（插入深）</td></tr>
+<tr><td>未知數</td><td>\(D\)、\(T\) 兩個</td><td>\(D\)、\(T\)、樁尖反力 三個</td></tr>
+<tr><td>解法</td><td>對地錨 \(\Sigma M=0\) 解 \(D\)，再 \(\Sigma F=0\) 解 \(T\)</td><td>Blum 等值梁法：在反曲點切開成兩根簡支梁</td></tr>
+<tr><td>\(M_{max}\)</td><td>較大</td><td>較小（教科書常見 0.6–0.75 倍；圖 3-1 算例為 0.73 倍），另有負彎矩</td></tr>
+<tr><td>入土深度／樁長</td><td>短</td><td>長（圖 3-1 算例：入土 1.85 倍、總樁長 1.24 倍）</td></tr>
+<tr><td>考過</td><td><a class="qlink" href="problems-view/SM-2005-1.html" target="_blank">SM-2005-1</a>、<a class="qlink" href="problems-view/SM-2014-3.html" target="_blank">SM-2014-3</a></td><td><a class="qlink" href="problems-view/SM-2007-4.html" target="_blank">SM-2007-4</a></td></tr>
+</tbody>
+</table>
+
+<div class="box">
+<b>手算範例 A｜自由端支撐法＋黏土淨被動壓力（<a class="qlink" href="problems-view/SM-2005-1.html" target="_blank">SM-2005-1</a>，2005）</b><br>
+開挖 \(H=9\) m，背填砂 \(\gamma_s=18\) kN/m³、\(\phi_s=32^\circ\)；開挖面以下黏土 \(\gamma_c=20\)、\(\phi=0\)、\(c_c=45\) kPa；地錨在樁頂下 1.5 m。<br><br>
+<b>Step 1　主動側（砂）</b>：\(K_a=\tan^2(45^\circ-16^\circ)=\tan^2 29^\circ=0.3073\)；
+開挖面處 \(p_a=18\times9\times0.3073=49.78\) kPa（三角形）。
+$$P_a=\tfrac12(49.78)(9)=224.0\ \mathrm{kN/m},\quad \text{作用點在開挖面上 }3\ \mathrm{m}$$
+<b>Step 2　被動側（黏土）</b>：用 §1.2 的結論，
+$$p_{net}=4c_c-\gamma_s H=4(45)-18(9)=180-162=\mathbf{18\ kPa}\ (&gt;0,\ \text{可行})$$
+矩形分布，合力 \(P_{net}=18D\)，作用點在貫入段中點。<br>
+<b>Step 3　對地錨取力矩</b>（自由端法的唯一方程式）：\(P_a\) 力臂 \(=\frac23(9)-1.5=4.5\) m；\(P_{net}\) 力臂 \(=(9-1.5)+0.5D\)。
+$$18D(7.5+0.5D)=224.0(4.5)\;\Rightarrow\;D^2+15D-112.0=0\;\Rightarrow\;\boxed{D=5.47\ \mathrm{m}}$$
+<b>Step 4　水平力平衡求地錨預力</b>：\(T=P_a-18D=224.0-98.5=\boxed{125.5\ \mathrm{kN/m}}\)。<br><br>
+<b>自我檢查：</b>① \(T\) 必須小於 \(P_a\)（樁尖也分擔了一部分）✓；
+② 若把 \(c_c\) 降到 40 kPa，\(p_{net}=160-162&lt;0\) → <b>方程式無解，樁插再深都撐不住</b>，
+此時只剩「地盤改良提高 \(c_u\)」或「降低 \(H\)」兩條路。（<a class="qlink" href="problems-view/SM-2008-3.html" target="_blank">SM-2008-3</a> 第二小題考的是同方向的反算：被動側改良後 \(q_u\) 要多少才能讓貫入 FS ≥ 1.5；但該題 \(S_u\) 隨深度增加、以最下階支撐取力矩，不是常數型 \(4c-\gamma H\) 的情境。）
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 960 560" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="f32r" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker><marker id="f32g" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#2e7d32"/></marker><marker id="f32b" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#1565c0"/></marker><marker id="f32k" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#455a64"/></marker><marker id="f32o" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#ef6c00"/></marker><marker id="f32p" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#6a1b9a"/></marker><marker id="f32w" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#0288d1"/></marker></defs>
+<text x="480.0" y="24.0" font-size="15" fill="#0d47a1" text-anchor="middle" font-weight="700">SM-2005-1 依比例重繪：自由端錨定版樁的荷重、剪力、彎矩（每公尺牆寬）</text>
+<rect x="110.0" y="62.0" width="177.0" height="243.0" rx="0" fill="#f5e9c8" stroke="#c8a951" stroke-width="0.8"/>
+<rect x="110.0" y="305.0" width="360.0" height="169.3" rx="0" fill="#d7ccc8" stroke="#8d6e63" stroke-width="0.8"/>
+<rect x="293.0" y="62.0" width="177.0" height="243.0" rx="0" fill="#fafafa" stroke="#bdbdbd" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="118.0" y="148.4" font-size="11.5" fill="#6d4c41" text-anchor="start">砂 γ<tspan dy="0.32em" font-size="72%">s</tspan><tspan dy="-0.32em">​</tspan>=18, φ=32°</text>
+<text x="118.0" y="442.7" font-size="11.5" fill="#4e342e" text-anchor="start">黏土 γ<tspan dy="0.32em" font-size="72%">c</tspan><tspan dy="-0.32em">​</tspan>=20, φ=0, c=45 kPa</text>
+<text x="380.0" y="183.5" font-size="12" fill="#757575" text-anchor="middle">開挖側</text>
+<line x1="290.0" y1="62.0" x2="290.0" y2="452.7" stroke="#37474f" stroke-width="6"/>
+<polygon points="287.0,62.0 187.4,305.0 287.0,305.0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.6" stroke-linejoin="round" fill-opacity="0.75"/>
+<text x="183.4" y="320.0" font-size="11.5" fill="#c62828" text-anchor="start" font-weight="700">p<tspan dy="0.32em" font-size="72%">a</tspan><tspan dy="-0.32em">​</tspan> = 49.78 kPa</text>
+<rect x="293.0" y="305.0" width="36.0" height="147.7" rx="0" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.6"/>
+<text x="335.0" y="322.0" font-size="11.5" fill="#2e7d32" text-anchor="start" font-weight="700">p<tspan dy="0.32em" font-size="72%">net</tspan><tspan dy="-0.32em">​</tspan> = 4c − γ<tspan dy="0.32em" font-size="72%">s</tspan><tspan dy="-0.32em">​</tspan>H = 18 kPa</text>
+<text x="335.0" y="337.0" font-size="10.5" fill="#2e7d32" text-anchor="start">（矩形，與深度無關）</text>
+<line x1="172.0" y1="224.0" x2="282.0" y2="224.0" stroke="#c62828" stroke-width="2.6" marker-end="url(#f32r)"/>
+<text x="170.0" y="218.0" font-size="12" fill="#c62828" text-anchor="start" font-weight="700">P<tspan dy="0.32em" font-size="72%">a</tspan><tspan dy="-0.32em">​</tspan> = 224.0</text>
+<line x1="402.0" y1="378.9" x2="298.0" y2="378.9" stroke="#2e7d32" stroke-width="2.6" marker-end="url(#f32g)"/>
+<text x="406.0" y="382.9" font-size="12" fill="#2e7d32" text-anchor="start" font-weight="700">18D = 98.5</text>
+<line x1="284.0" y1="102.5" x2="180.0" y2="102.5" stroke="#1565c0" stroke-width="2.8" marker-end="url(#f32b)"/>
+<circle cx="290.0" cy="102.5" r="4.5" fill="#1565c0" stroke="none"/>
+<text x="178.0" y="96.5" font-size="12" fill="#1565c0" text-anchor="start" font-weight="700">T = 125.5</text>
+<line x1="92.0" y1="62.0" x2="92.0" y2="102.5" stroke="#455a64" stroke-width="1"/>
+<line x1="87.0" y1="62.0" x2="97.0" y2="62.0" stroke="#455a64" stroke-width="1"/>
+<line x1="87.0" y1="102.5" x2="97.0" y2="102.5" stroke="#455a64" stroke-width="1"/>
+<text x="85.0" y="86.2" font-size="10.5" fill="#455a64" text-anchor="end">1.5</text>
+<line x1="92.0" y1="102.5" x2="92.0" y2="305.0" stroke="#455a64" stroke-width="1"/>
+<line x1="87.0" y1="102.5" x2="97.0" y2="102.5" stroke="#455a64" stroke-width="1"/>
+<line x1="87.0" y1="305.0" x2="97.0" y2="305.0" stroke="#455a64" stroke-width="1"/>
+<line x1="66.0" y1="62.0" x2="66.0" y2="305.0" stroke="#455a64" stroke-width="1"/>
+<line x1="61.0" y1="62.0" x2="71.0" y2="62.0" stroke="#455a64" stroke-width="1"/>
+<line x1="61.0" y1="305.0" x2="71.0" y2="305.0" stroke="#455a64" stroke-width="1"/>
+<text x="59.0" y="187.5" font-size="11.5" fill="#455a64" text-anchor="end">H=9</text>
+<line x1="66.0" y1="305.0" x2="66.0" y2="452.7" stroke="#b71c1c" stroke-width="1"/>
+<line x1="61.0" y1="305.0" x2="71.0" y2="305.0" stroke="#b71c1c" stroke-width="1"/>
+<line x1="61.0" y1="452.7" x2="71.0" y2="452.7" stroke="#b71c1c" stroke-width="1"/>
+<text x="59.0" y="382.9" font-size="12" fill="#b71c1c" text-anchor="end">D=5.47</text>
+<line x1="296.0" y1="102.5" x2="460.0" y2="102.5" stroke="#1565c0" stroke-width="0.8" stroke-dasharray="3,3"/>
+<line x1="440.0" y1="102.5" x2="440.0" y2="224.0" stroke="#c62828" stroke-width="1"/>
+<line x1="435.0" y1="102.5" x2="445.0" y2="102.5" stroke="#c62828" stroke-width="1"/>
+<line x1="435.0" y1="224.0" x2="445.0" y2="224.0" stroke="#c62828" stroke-width="1"/>
+<text x="447.0" y="167.2" font-size="11.5" fill="#c62828" text-anchor="start">4.5</text>
+<line x1="478.0" y1="102.5" x2="478.0" y2="378.9" stroke="#2e7d32" stroke-width="1"/>
+<line x1="473.0" y1="102.5" x2="483.0" y2="102.5" stroke="#2e7d32" stroke-width="1"/>
+<line x1="473.0" y1="378.9" x2="483.0" y2="378.9" stroke="#2e7d32" stroke-width="1"/>
+<text x="485.0" y="244.7" font-size="11.5" fill="#2e7d32" text-anchor="start">7.5+0.5D</text>
+<line x1="293.0" y1="305.0" x2="470.0" y2="305.0" stroke="#8d6e63" stroke-width="1.6"/>
+<text x="468.0" y="300.0" font-size="10.5" fill="#8d6e63" text-anchor="end">開挖面</text>
+<text x="290.0" y="470.7" font-size="11" fill="#263238" text-anchor="middle">樁尖</text>
+<rect x="90.0" y="488.0" width="400.0" height="58.0" rx="7" fill="#fff8e1" stroke="#ffa000" stroke-width="1.2"/>
+<text x="290.0" y="510.0" font-size="12.5" fill="#e65100" text-anchor="middle" font-weight="700">ΣM<tspan dy="0.32em" font-size="72%">anchor</tspan><tspan dy="-0.32em">​</tspan>=0：18D(7.5+0.5D) = 224.0×4.5</text>
+<text x="290.0" y="532.0" font-size="12" fill="#5d4037" text-anchor="middle">→ D²+15D−112=0 → D = 5.47 m；T = 224.0 − 98.5 = 125.5</text>
+<text x="632.0" y="52.0" font-size="12.5" fill="#1565c0" text-anchor="middle" font-weight="700">剪力 V（kN/m）</text>
+<line x1="632.0" y1="62.0" x2="632.0" y2="452.7" stroke="#90a4ae" stroke-width="1.2"/>
+<polygon points="632.0,62.0 632.0,62.0 632.0,62.7 632.0,63.3 632.0,64.0 632.0,64.6 632.0,65.3 632.0,65.9 632.0,66.6 632.1,67.2 632.1,67.9 632.1,68.5 632.1,69.2 632.1,69.8 632.2,70.5 632.2,71.1 632.2,71.8 632.2,72.4 632.3,73.1 632.3,73.7 632.3,74.4 632.4,75.0 632.4,75.7 632.4,76.3 632.5,77.0 632.5,77.6 632.6,78.3 632.6,78.9 632.6,79.6 632.7,80.2 632.7,80.9 632.8,81.5 632.9,82.2 632.9,82.8 633.0,83.5 633.0,84.1 633.1,84.8 633.1,85.4 633.2,86.1 633.3,86.7 633.3,87.4 633.4,88.0 633.5,88.7 633.6,89.4 633.6,90.0 633.7,90.7 633.8,91.3 633.9,92.0 634.0,92.6 634.0,93.3 634.1,93.9 634.2,94.6 634.3,95.2 634.4,95.9 634.5,96.5 634.6,97.2 634.7,97.8 634.8,98.5 634.9,99.1 635.0,99.8 635.1,100.4 635.2,101.1 635.3,101.7 635.4,102.4 566.5,103.0 566.6,103.7 566.7,104.3 566.8,105.0 566.9,105.6 567.1,106.3 567.2,106.9 567.3,107.6 567.4,108.2 567.6,108.9 567.7,109.5 567.8,110.2 568.0,110.8 568.1,111.5 568.2,112.1 568.4,112.8 568.5,113.4 568.6,114.1 568.8,114.7 568.9,115.4 569.1,116.0 569.2,116.7 569.4,117.4 569.5,118.0 569.7,118.7 569.8,119.3 570.0,120.0 570.1,120.6 570.3,121.3 570.5,121.9 570.6,122.6 570.8,123.2 571.0,123.9 571.1,124.5 571.3,125.2 571.5,125.8 571.6,126.5 571.8,127.1 572.0,127.8 572.2,128.4 572.4,129.1 572.5,129.7 572.7,130.4 572.9,131.0 573.1,131.7 573.3,132.3 573.5,133.0 573.7,133.6 573.9,134.3 574.1,134.9 574.3,135.6 574.5,136.2 574.7,136.9 574.9,137.5 575.1,138.2 575.3,138.8 575.5,139.5 575.7,140.1 575.9,140.8 576.1,141.4 576.4,142.1 576.6,142.7 576.8,143.4 577.0,144.1 577.2,144.7 577.5,145.4 577.7,146.0 577.9,146.7 578.2,147.3 578.4,148.0 578.6,148.6 578.9,149.3 579.1,149.9 579.3,150.6 579.6,151.2 579.8,151.9 580.1,152.5 580.3,153.2 580.6,153.8 580.8,154.5 581.1,155.1 581.3,155.8 581.6,156.4 581.8,157.1 582.1,157.7 582.4,158.4 582.6,159.0 582.9,159.7 583.2,160.3 583.4,161.0 583.7,161.6 584.0,162.3 584.2,162.9 584.5,163.6 584.8,164.2 585.1,164.9 585.3,165.5 585.6,166.2 585.9,166.8 586.2,167.5 586.5,168.1 586.8,168.8 587.1,169.4 587.4,170.1 587.7,170.7 588.0,171.4 588.3,172.1 588.6,172.7 588.9,173.4 589.2,174.0 589.5,174.7 589.8,175.3 590.1,176.0 590.4,176.6 590.7,177.3 591.0,177.9 591.3,178.6 591.6,179.2 592.0,179.9 592.3,180.5 592.6,181.2 592.9,181.8 593.3,182.5 593.6,183.1 593.9,183.8 594.3,184.4 594.6,185.1 594.9,185.7 595.3,186.4 595.6,187.0 595.9,187.7 596.3,188.3 596.6,189.0 597.0,189.6 597.3,190.3 597.7,190.9 598.0,191.6 598.4,192.2 598.7,192.9 599.1,193.5 599.4,194.2 599.8,194.8 600.2,195.5 600.5,196.1 600.9,196.8 601.3,197.4 601.6,198.1 602.0,198.8 602.4,199.4 602.7,200.1 603.1,200.7 603.5,201.4 603.9,202.0 604.3,202.7 604.6,203.3 605.0,204.0 605.4,204.6 605.8,205.3 606.2,205.9 606.6,206.6 607.0,207.2 607.4,207.9 607.8,208.5 608.2,209.2 608.6,209.8 609.0,210.5 609.4,211.1 609.8,211.8 610.2,212.4 610.6,213.1 611.0,213.7 611.4,214.4 611.8,215.0 612.3,215.7 612.7,216.3 613.1,217.0 613.5,217.6 613.9,218.3 614.4,218.9 614.8,219.6 615.2,220.2 615.7,220.9 616.1,221.5 616.5,222.2 617.0,222.8 617.4,223.5 617.8,224.1 618.3,224.8 618.7,225.4 619.2,226.1 619.6,226.8 620.1,227.4 620.5,228.1 621.0,228.7 621.4,229.4 621.9,230.0 622.3,230.7 622.8,231.3 623.3,232.0 623.7,232.6 624.2,233.3 624.7,233.9 625.1,234.6 625.6,235.2 626.1,235.9 626.5,236.5 627.0,237.2 627.5,237.8 628.0,238.5 628.4,239.1 628.9,239.8 629.4,240.4 629.9,241.1 630.4,241.7 630.9,242.4 631.4,243.0 631.9,243.7 632.4,244.3 632.8,245.0 633.3,245.6 633.8,246.3 634.3,246.9 634.9,247.6 635.4,248.2 635.9,248.9 636.4,249.5 636.9,250.2 637.4,250.8 637.9,251.5 638.4,252.1 638.9,252.8 639.5,253.5 640.0,254.1 640.5,254.8 641.0,255.4 641.6,256.1 642.1,256.7 642.6,257.4 643.1,258.0 643.7,258.7 644.2,259.3 644.8,260.0 645.3,260.6 645.8,261.3 646.4,261.9 646.9,262.6 647.5,263.2 648.0,263.9 648.6,264.5 649.1,265.2 649.7,265.8 650.2,266.5 650.8,267.1 651.3,267.8 651.9,268.4 652.5,269.1 653.0,269.7 653.6,270.4 654.2,271.0 654.7,271.7 655.3,272.3 655.9,273.0 656.4,273.6 657.0,274.3 657.6,274.9 658.2,275.6 658.8,276.2 659.3,276.9 659.9,277.5 660.5,278.2 661.1,278.8 661.7,279.5 662.3,280.1 662.9,280.8 663.5,281.5 664.1,282.1 664.7,282.8 665.3,283.4 665.9,284.1 666.5,284.7 667.1,285.4 667.7,286.0 668.3,286.7 668.9,287.3 669.5,288.0 670.1,288.6 670.8,289.3 671.4,289.9 672.0,290.6 672.6,291.2 673.2,291.9 673.9,292.5 674.5,293.2 675.1,293.8 675.8,294.5 676.4,295.1 677.0,295.8 677.7,296.4 678.3,297.1 678.9,297.7 679.6,298.4 680.2,299.0 680.9,299.7 681.5,300.3 682.2,301.0 682.8,301.6 683.5,302.3 684.1,302.9 684.8,303.6 685.4,304.2 686.1,304.9 685.9,305.5 685.7,306.2 685.5,306.8 685.2,307.5 685.0,308.2 684.7,308.8 684.5,309.5 684.3,310.1 684.0,310.8 683.8,311.4 683.6,312.1 683.3,312.7 683.1,313.4 682.8,314.0 682.6,314.7 682.4,315.3 682.1,316.0 681.9,316.6 681.6,317.3 681.4,317.9 681.2,318.6 680.9,319.2 680.7,319.9 680.4,320.5 680.2,321.2 680.0,321.8 679.7,322.5 679.5,323.1 679.3,323.8 679.0,324.4 678.8,325.1 678.5,325.7 678.3,326.4 678.1,327.0 677.8,327.7 677.6,328.3 677.3,329.0 677.1,329.6 676.9,330.3 676.6,330.9 676.4,331.6 676.2,332.2 675.9,332.9 675.7,333.5 675.4,334.2 675.2,334.8 675.0,335.5 674.7,336.2 674.5,336.8 674.2,337.5 674.0,338.1 673.8,338.8 673.5,339.4 673.3,340.1 673.0,340.7 672.8,341.4 672.6,342.0 672.3,342.7 672.1,343.3 671.9,344.0 671.6,344.6 671.4,345.3 671.1,345.9 670.9,346.6 670.7,347.2 670.4,347.9 670.2,348.5 669.9,349.2 669.7,349.8 669.5,350.5 669.2,351.1 669.0,351.8 668.7,352.4 668.5,353.1 668.3,353.7 668.0,354.4 667.8,355.0 667.6,355.7 667.3,356.3 667.1,357.0 666.8,357.6 666.6,358.3 666.4,358.9 666.1,359.6 665.9,360.2 665.6,360.9 665.4,361.5 665.2,362.2 664.9,362.9 664.7,363.5 664.5,364.2 664.2,364.8 664.0,365.5 663.7,366.1 663.5,366.8 663.3,367.4 663.0,368.1 662.8,368.7 662.5,369.4 662.3,370.0 662.1,370.7 661.8,371.3 661.6,372.0 661.3,372.6 661.1,373.3 660.9,373.9 660.6,374.6 660.4,375.2 660.2,375.9 659.9,376.5 659.7,377.2 659.4,377.8 659.2,378.5 659.0,379.1 658.7,379.8 658.5,380.4 658.2,381.1 658.0,381.7 657.8,382.4 657.5,383.0 657.3,383.7 657.0,384.3 656.8,385.0 656.6,385.6 656.3,386.3 656.1,386.9 655.9,387.6 655.6,388.2 655.4,388.9 655.1,389.6 654.9,390.2 654.7,390.9 654.4,391.5 654.2,392.2 653.9,392.8 653.7,393.5 653.5,394.1 653.2,394.8 653.0,395.4 652.8,396.1 652.5,396.7 652.3,397.4 652.0,398.0 651.8,398.7 651.6,399.3 651.3,400.0 651.1,400.6 650.8,401.3 650.6,401.9 650.4,402.6 650.1,403.2 649.9,403.9 649.6,404.5 649.4,405.2 649.2,405.8 648.9,406.5 648.7,407.1 648.5,407.8 648.2,408.4 648.0,409.1 647.7,409.7 647.5,410.4 647.3,411.0 647.0,411.7 646.8,412.3 646.5,413.0 646.3,413.6 646.1,414.3 645.8,414.9 645.6,415.6 645.3,416.2 645.1,416.9 644.9,417.6 644.6,418.2 644.4,418.9 644.2,419.5 643.9,420.2 643.7,420.8 643.4,421.5 643.2,422.1 643.0,422.8 642.7,423.4 642.5,424.1 642.2,424.7 642.0,425.4 641.8,426.0 641.5,426.7 641.3,427.3 641.1,428.0 640.8,428.6 640.6,429.3 640.3,429.9 640.1,430.6 639.9,431.2 639.6,431.9 639.4,432.5 639.1,433.2 638.9,433.8 638.7,434.5 638.4,435.1 638.2,435.8 637.9,436.4 637.7,437.1 637.5,437.7 637.2,438.4 637.0,439.0 636.8,439.7 636.5,440.3 636.3,441.0 636.0,441.6 635.8,442.3 635.6,442.9 635.3,443.6 635.1,444.3 634.8,444.9 634.6,445.6 634.4,446.2 634.1,446.9 633.9,447.5 633.6,448.2 633.4,448.8 633.2,449.5 632.9,450.1 632.7,450.8 632.5,451.4 632.2,452.1 632.0,452.7 632.0,452.7" fill="#1565c033" stroke="#1565c0" stroke-width="1.6" stroke-linejoin="round"/>
+<line x1="562.0" y1="102.5" x2="742.0" y2="102.5" stroke="#cfd8dc" stroke-width="0.8" stroke-dasharray="3,3"/>
+<line x1="562.0" y1="305.0" x2="742.0" y2="305.0" stroke="#cfd8dc" stroke-width="0.8" stroke-dasharray="3,3"/>
+<text x="790.0" y="52.0" font-size="12.5" fill="#6a1b9a" text-anchor="middle" font-weight="700">彎矩 M（kN·m/m）</text>
+<line x1="790.0" y1="62.0" x2="790.0" y2="452.7" stroke="#90a4ae" stroke-width="1.2"/>
+<polygon points="790.0,62.0 790.0,62.0 790.0,62.7 790.0,63.3 790.0,64.0 790.0,64.6 790.0,65.3 790.0,65.9 790.0,66.6 790.0,67.2 790.0,67.9 790.0,68.5 790.0,69.2 790.0,69.8 790.0,70.5 790.0,71.1 790.0,71.8 790.0,72.4 790.0,73.1 790.0,73.7 790.0,74.4 790.0,75.0 790.0,75.7 790.0,76.3 790.0,77.0 789.9,77.6 789.9,78.3 789.9,78.9 789.9,79.6 789.9,80.2 789.9,80.9 789.9,81.5 789.9,82.2 789.9,82.8 789.9,83.5 789.8,84.1 789.8,84.8 789.8,85.4 789.8,86.1 789.8,86.7 789.8,87.4 789.7,88.0 789.7,88.7 789.7,89.4 789.7,90.0 789.7,90.7 789.6,91.3 789.6,92.0 789.6,92.6 789.6,93.3 789.5,93.9 789.5,94.6 789.5,95.2 789.5,95.9 789.4,96.5 789.4,97.2 789.4,97.8 789.3,98.5 789.3,99.1 789.2,99.8 789.2,100.4 789.2,101.1 789.1,101.7 789.1,102.4 789.8,103.0 790.7,103.7 791.6,104.3 792.4,105.0 793.3,105.6 794.1,106.3 795.0,106.9 795.8,107.6 796.7,108.2 797.5,108.9 798.4,109.5 799.2,110.2 800.1,110.8 800.9,111.5 801.8,112.1 802.6,112.8 803.4,113.4 804.3,114.1 805.1,114.7 805.9,115.4 806.8,116.0 807.6,116.7 808.4,117.4 809.2,118.0 810.0,118.7 810.9,119.3 811.7,120.0 812.5,120.6 813.3,121.3 814.1,121.9 814.9,122.6 815.7,123.2 816.5,123.9 817.3,124.5 818.1,125.2 818.9,125.8 819.7,126.5 820.5,127.1 821.3,127.8 822.1,128.4 822.9,129.1 823.7,129.7 824.5,130.4 825.2,131.0 826.0,131.7 826.8,132.3 827.6,133.0 828.3,133.6 829.1,134.3 829.9,134.9 830.6,135.6 831.4,136.2 832.1,136.9 832.9,137.5 833.6,138.2 834.4,138.8 835.1,139.5 835.9,140.1 836.6,140.8 837.3,141.4 838.1,142.1 838.8,142.7 839.5,143.4 840.3,144.1 841.0,144.7 841.7,145.4 842.4,146.0 843.1,146.7 843.8,147.3 844.5,148.0 845.2,148.6 845.9,149.3 846.6,149.9 847.3,150.6 848.0,151.2 848.7,151.9 849.4,152.5 850.1,153.2 850.8,153.8 851.4,154.5 852.1,155.1 852.8,155.8 853.4,156.4 854.1,157.1 854.8,157.7 855.4,158.4 856.1,159.0 856.7,159.7 857.4,160.3 858.0,161.0 858.6,161.6 859.3,162.3 859.9,162.9 860.5,163.6 861.1,164.2 861.8,164.9 862.4,165.5 863.0,166.2 863.6,166.8 864.2,167.5 864.8,168.1 865.4,168.8 866.0,169.4 866.6,170.1 867.2,170.7 867.7,171.4 868.3,172.1 868.9,172.7 869.5,173.4 870.0,174.0 870.6,174.7 871.1,175.3 871.7,176.0 872.3,176.6 872.8,177.3 873.3,177.9 873.9,178.6 874.4,179.2 874.9,179.9 875.5,180.5 876.0,181.2 876.5,181.8 877.0,182.5 877.5,183.1 878.0,183.8 878.5,184.4 879.0,185.1 879.5,185.7 880.0,186.4 880.5,187.0 880.9,187.7 881.4,188.3 881.9,189.0 882.3,189.6 882.8,190.3 883.3,190.9 883.7,191.6 884.2,192.2 884.6,192.9 885.0,193.5 885.5,194.2 885.9,194.8 886.3,195.5 886.7,196.1 887.1,196.8 887.5,197.4 887.9,198.1 888.3,198.8 888.7,199.4 889.1,200.1 889.5,200.7 889.9,201.4 890.2,202.0 890.6,202.7 891.0,203.3 891.3,204.0 891.7,204.6 892.0,205.3 892.4,205.9 892.7,206.6 893.0,207.2 893.4,207.9 893.7,208.5 894.0,209.2 894.3,209.8 894.6,210.5 894.9,211.1 895.2,211.8 895.5,212.4 895.8,213.1 896.1,213.7 896.3,214.4 896.6,215.0 896.9,215.7 897.1,216.3 897.4,217.0 897.6,217.6 897.9,218.3 898.1,218.9 898.3,219.6 898.5,220.2 898.8,220.9 899.0,221.5 899.2,222.2 899.4,222.8 899.6,223.5 899.8,224.1 900.0,224.8 900.1,225.4 900.3,226.1 900.5,226.8 900.6,227.4 900.8,228.1 900.9,228.7 901.1,229.4 901.2,230.0 901.3,230.7 901.5,231.3 901.6,232.0 901.7,232.6 901.8,233.3 901.9,233.9 902.0,234.6 902.1,235.2 902.2,235.9 902.2,236.5 902.3,237.2 902.4,237.8 902.4,238.5 902.5,239.1 902.5,239.8 902.5,240.4 902.6,241.1 902.6,241.7 902.6,242.4 902.6,243.0 902.6,243.7 902.6,244.3 902.6,245.0 902.6,245.6 902.6,246.3 902.6,246.9 902.5,247.6 902.5,248.2 902.4,248.9 902.4,249.5 902.3,250.2 902.3,250.8 902.2,251.5 902.1,252.1 902.0,252.8 901.9,253.5 901.8,254.1 901.7,254.8 901.6,255.4 901.5,256.1 901.3,256.7 901.2,257.4 901.1,258.0 900.9,258.7 900.7,259.3 900.6,260.0 900.4,260.6 900.2,261.3 900.0,261.9 899.9,262.6 899.7,263.2 899.4,263.9 899.2,264.5 899.0,265.2 898.8,265.8 898.5,266.5 898.3,267.1 898.0,267.8 897.8,268.4 897.5,269.1 897.2,269.7 897.0,270.4 896.7,271.0 896.4,271.7 896.1,272.3 895.8,273.0 895.5,273.6 895.1,274.3 894.8,274.9 894.5,275.6 894.1,276.2 893.7,276.9 893.4,277.5 893.0,278.2 892.6,278.8 892.2,279.5 891.9,280.1 891.4,280.8 891.0,281.5 890.6,282.1 890.2,282.8 889.8,283.4 889.3,284.1 888.9,284.7 888.4,285.4 887.9,286.0 887.5,286.7 887.0,287.3 886.5,288.0 886.0,288.6 885.5,289.3 885.0,289.9 884.5,290.6 883.9,291.2 883.4,291.9 882.8,292.5 882.3,293.2 881.7,293.8 881.1,294.5 880.6,295.1 880.0,295.8 879.4,296.4 878.8,297.1 878.2,297.7 877.5,298.4 876.9,299.0 876.3,299.7 875.6,300.3 875.0,301.0 874.3,301.6 873.6,302.3 872.9,302.9 872.3,303.6 871.6,304.2 870.9,304.9 870.1,305.5 869.4,306.2 868.7,306.8 868.0,307.5 867.3,308.2 866.6,308.8 865.9,309.5 865.3,310.1 864.6,310.8 863.9,311.4 863.2,312.1 862.5,312.7 861.9,313.4 861.2,314.0 860.5,314.7 859.9,315.3 859.2,316.0 858.5,316.6 857.9,317.3 857.2,317.9 856.6,318.6 855.9,319.2 855.3,319.9 854.7,320.5 854.0,321.2 853.4,321.8 852.8,322.5 852.1,323.1 851.5,323.8 850.9,324.4 850.3,325.1 849.7,325.7 849.0,326.4 848.4,327.0 847.8,327.7 847.2,328.3 846.6,329.0 846.0,329.6 845.5,330.3 844.9,330.9 844.3,331.6 843.7,332.2 843.1,332.9 842.5,333.5 842.0,334.2 841.4,334.8 840.8,335.5 840.3,336.2 839.7,336.8 839.1,337.5 838.6,338.1 838.0,338.8 837.5,339.4 837.0,340.1 836.4,340.7 835.9,341.4 835.3,342.0 834.8,342.7 834.3,343.3 833.8,344.0 833.2,344.6 832.7,345.3 832.2,345.9 831.7,346.6 831.2,347.2 830.7,347.9 830.2,348.5 829.7,349.2 829.2,349.8 828.7,350.5 828.2,351.1 827.7,351.8 827.2,352.4 826.7,353.1 826.2,353.7 825.8,354.4 825.3,355.0 824.8,355.7 824.4,356.3 823.9,357.0 823.4,357.6 823.0,358.3 822.5,358.9 822.1,359.6 821.6,360.2 821.2,360.9 820.7,361.5 820.3,362.2 819.9,362.9 819.4,363.5 819.0,364.2 818.6,364.8 818.2,365.5 817.7,366.1 817.3,366.8 816.9,367.4 816.5,368.1 816.1,368.7 815.7,369.4 815.3,370.0 814.9,370.7 814.5,371.3 814.1,372.0 813.7,372.6 813.3,373.3 813.0,373.9 812.6,374.6 812.2,375.2 811.8,375.9 811.5,376.5 811.1,377.2 810.7,377.8 810.4,378.5 810.0,379.1 809.7,379.8 809.3,380.4 809.0,381.1 808.6,381.7 808.3,382.4 808.0,383.0 807.6,383.7 807.3,384.3 807.0,385.0 806.6,385.6 806.3,386.3 806.0,386.9 805.7,387.6 805.4,388.2 805.1,388.9 804.8,389.6 804.5,390.2 804.2,390.9 803.9,391.5 803.6,392.2 803.3,392.8 803.0,393.5 802.7,394.1 802.4,394.8 802.1,395.4 801.9,396.1 801.6,396.7 801.3,397.4 801.1,398.0 800.8,398.7 800.5,399.3 800.3,400.0 800.0,400.6 799.8,401.3 799.5,401.9 799.3,402.6 799.1,403.2 798.8,403.9 798.6,404.5 798.4,405.2 798.1,405.8 797.9,406.5 797.7,407.1 797.5,407.8 797.3,408.4 797.0,409.1 796.8,409.7 796.6,410.4 796.4,411.0 796.2,411.7 796.0,412.3 795.8,413.0 795.7,413.6 795.5,414.3 795.3,414.9 795.1,415.6 794.9,416.2 794.8,416.9 794.6,417.6 794.4,418.2 794.2,418.9 794.1,419.5 793.9,420.2 793.8,420.8 793.6,421.5 793.5,422.1 793.3,422.8 793.2,423.4 793.0,424.1 792.9,424.7 792.8,425.4 792.6,426.0 792.5,426.7 792.4,427.3 792.3,428.0 792.2,428.6 792.0,429.3 791.9,429.9 791.8,430.6 791.7,431.2 791.6,431.9 791.5,432.5 791.4,433.2 791.3,433.8 791.2,434.5 791.2,435.1 791.1,435.8 791.0,436.4 790.9,437.1 790.8,437.7 790.8,438.4 790.7,439.0 790.6,439.7 790.6,440.3 790.5,441.0 790.5,441.6 790.4,442.3 790.4,442.9 790.3,443.6 790.3,444.3 790.2,444.9 790.2,445.6 790.2,446.2 790.1,446.9 790.1,447.5 790.1,448.2 790.1,448.8 790.1,449.5 790.0,450.1 790.0,450.8 790.0,451.4 790.0,452.1 790.0,452.7 790.0,452.7" fill="#6a1b9a33" stroke="#6a1b9a" stroke-width="1.6" stroke-linejoin="round"/>
+<line x1="720.0" y1="102.5" x2="900.0" y2="102.5" stroke="#cfd8dc" stroke-width="0.8" stroke-dasharray="3,3"/>
+<line x1="720.0" y1="305.0" x2="900.0" y2="305.0" stroke="#cfd8dc" stroke-width="0.8" stroke-dasharray="3,3"/>
+<text x="638.0" y="97.5" font-size="10.5" fill="#1565c0" text-anchor="start">+6.2</text>
+<text x="562.4" y="115.5" font-size="10.5" fill="#1565c0" text-anchor="end">-119.3</text>
+<text x="690.2" y="309.0" font-size="10.5" fill="#1565c0" text-anchor="start">+98.5</text>
+<text x="628.0" y="132.5" font-size="10" fill="#1565c0" text-anchor="end">地錨處跳 T</text>
+<circle cx="632.0" cy="243.9" r="3.5" fill="#1565c0" stroke="none"/>
+<text x="638.0" y="239.9" font-size="10.5" fill="#1565c0" text-anchor="start">V=0 @ z=6.74 m</text>
+<line x1="790.0" y1="243.8" x2="902.6" y2="243.8" stroke="#6a1b9a" stroke-width="1" stroke-dasharray="2,2"/>
+<text x="784.0" y="217.9" font-size="11.5" fill="#6a1b9a" text-anchor="end" font-weight="700">M<tspan dy="0.32em" font-size="72%">max</tspan><tspan dy="-0.32em">​</tspan>=375.5</text>
+<text x="784.0" y="232.9" font-size="10.5" fill="#6a1b9a" text-anchor="end">@ z = 6.74 m</text>
+<text x="875.7" y="319.0" font-size="10.5" fill="#6a1b9a" text-anchor="start">269.1</text>
+<text x="794.0" y="446.7" font-size="10.5" fill="#6a1b9a" text-anchor="start">0（樁尖 M=0 ✓）</text>
+<text x="632.0" y="470.7" font-size="10.5" fill="#1565c0" text-anchor="middle">樁尖 V=0 ✓</text>
+<text x="700.0" y="520.0" font-size="12" fill="#455a64" text-anchor="middle">剪力為零處（開挖面以上 2.27 m）就是 M<tspan dy="0.32em" font-size="72%">max</tspan><tspan dy="-0.32em">​</tspan> 位置</text>
+<text x="700.0" y="540.0" font-size="12" fill="#455a64" text-anchor="middle">→ 鋼板樁所需斷面模數 S = M<tspan dy="0.32em" font-size="72%">max</tspan><tspan dy="-0.32em">​</tspan> / σ<tspan dy="0.32em" font-size="72%">allow</tspan><tspan dy="-0.32em">​</tspan></text>
+</svg>
+<div class="cap">圖 3-2｜範例 A 依比例重繪（kN、m，每公尺牆寬）。左：<b>主動側是砂的三角形，被動側是黏土的矩形</b> —— 這就是 \(4c-\gamma_sH\) 的長相；兩個合力對地錨的力臂 4.5 m 與 \(7.5+0.5D\) m 直接標在圖上。中、右：用同一組荷重積分出剪力與彎矩，<b>樁尖處 V 與 M 同時回到 0</b>，就是 \(\Sigma F=0\)、\(\Sigma M=0\) 兩個平衡條件被滿足的圖像化驗算。最大彎矩 375.5 kN·m/m 出現在剪力為零的 \(z=\sqrt{18T/p_a}=6.74\) m（仍在開挖面以上的砂層內），題目若再問斷面模數就是 \(S=M_{max}/\sigma_{allow}\)。</div>
+</div>
+
+<div class="why">
+<b>把 \(4c_u-\gamma H\) 讀成一句工程話</b><br>
+「黏土能給你的淨抵抗，是一個<b>固定的常數</b>，不隨深度成長。」<br>
+砂土的淨被動壓力隨深度<b>線性成長</b>（\((K_p-K_a)\gamma' z\)），所以砂裡插深有效；
+黏土裡插深只是把同一個常數乘上更長的長度，效率低得多，而且一旦 \(N_s&gt;4\) 就完全失效。
+<b>這解釋了為什麼台灣軟弱黏土區的深開挖不靠「插深」，而靠「地盤改良 ＋ 多階支撐 ＋ 降水」。</b>
+</div>
+</section>
+<section id="s4">
+<h2>§4　多階支撐：視土壓力為什麼「不是真的土壓力」</h2>
+
+<p class="lead">這一節在怕什麼：<b>怕你用 Rankine 三角形去算支撐荷重。</b>那會把上排支撐算得太小、下排算得太大 —— 而實際垮掉的往往是上排。</p>
+
+<h3>4.1　視土壓力的來歷</h3>
+
+<p>Rankine 三角形分布成立的前提是「牆繞底部轉動、位移由上而下遞增」。多階支撐開挖<b>完全不是這樣</b>：<b>先撐上面、再挖下面</b>，所以頂部一裝好支撐就幾乎不動了，變形集中在下部。土壓力於是往「位移小」的頂部<b>重分配</b>（拱效應），實測結果不再是「上窄下寬」的三角形，而是<b>上半部很快就達到最大值、之後大致維持定值</b>的形狀。</p>
+
+<div class="why">
+<b>Peck 包絡線是「包絡線」，不是「分布」。</b><br>
+它是 Peck (1969) 把柏林、芝加哥、奧斯陸的實測支撐荷重<b>反推回去、再取外包</b>得到的圖形。
+它的用途只有一個：<b>算每一排支撐的荷重</b>。<br>
+它<b>不能</b>拿來算牆的彎矩（會高估）、<b>不能</b>拿來算牆的變形、<b>不能</b>用在單支撐或懸臂樁上。
+考題若問「支撐反力」就用它，問「貫入深度／彎矩」就回去用 §2、§3 的真實土壓力。<br>
+這也解釋了為什麼它的公式看起來這麼「不物理」（0.65、0.2～0.4 這些係數）—— <b>它本來就是迴歸出來的經驗外包線</b>。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 920 380" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="f41r" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker><marker id="f41g" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#2e7d32"/></marker><marker id="f41b" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#1565c0"/></marker><marker id="f41k" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#455a64"/></marker><marker id="f41o" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#ef6c00"/></marker><marker id="f41p" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#6a1b9a"/></marker><marker id="f41w" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#0288d1"/></marker></defs>
+<text x="460.0" y="24.0" font-size="15" fill="#0d47a1" text-anchor="middle" font-weight="700">Peck (1969) 三種視土壓力包絡線（左側橫桿 = 支撐；砂土虛線 = Rankine 三角形，對照用）</text>
+<line x1="70.0" y1="74.0" x2="70.0" y2="288.0" stroke="#37474f" stroke-width="5"/>
+<line x1="36.0" y1="99.7" x2="67.0" y2="99.7" stroke="#1565c0" stroke-width="3.2"/>
+<line x1="36.0" y1="163.9" x2="67.0" y2="163.9" stroke="#1565c0" stroke-width="3.2"/>
+<line x1="36.0" y1="228.1" x2="67.0" y2="228.1" stroke="#1565c0" stroke-width="3.2"/>
+<line x1="30.0" y1="288.0" x2="67.0" y2="288.0" stroke="#8d6e63" stroke-width="1.6"/>
+<text x="30.0" y="302.0" font-size="10" fill="#8d6e63" text-anchor="start">坑底</text>
+<polygon points="73.0,74.0 183.0,74.0 183.0,288.0 73.0,288.0" fill="#ffe0b2" stroke="#ef6c00" stroke-width="1.8" stroke-linejoin="round"/>
+<polyline points="73.0,74.0 242.2,288.0 73.0,288.0" fill="none" stroke="#78909c" stroke-width="1.3" stroke-linejoin="round" stroke-dasharray="5,4"/>
+<text x="128.0" y="185.0" font-size="11" fill="#ef6c00" text-anchor="middle">面積 0.65</text>
+<text x="128.0" y="201.0" font-size="11" fill="#78909c" text-anchor="middle">vs 三角形 0.5</text>
+<text x="246.2" y="284.0" font-size="10.5" fill="#78909c" text-anchor="start">K<tspan dy="0.32em" font-size="72%">a</tspan><tspan dy="-0.32em">​</tspan>γH</text>
+<text x="128.0" y="191.7" font-size="12" fill="#ef6c00" text-anchor="start"></text>
+<text x="128.0" y="66.0" font-size="11" fill="#ef6c00" text-anchor="middle" font-weight="700">0.65 K<tspan dy="0.32em" font-size="72%">a</tspan><tspan dy="-0.32em">​</tspan>γH</text>
+<text x="26.0" y="84.0" font-size="10.5" fill="#455a64" text-anchor="start">0</text>
+<text x="26.0" y="292.0" font-size="10.5" fill="#455a64" text-anchor="start">H</text>
+<text x="130.0" y="322.0" font-size="13.5" fill="#ef6c00" text-anchor="middle" font-weight="700">砂土</text>
+<text x="130.0" y="342.0" font-size="12" fill="#5d4037" text-anchor="middle">σ = 0.65 γH K<tspan dy="0.32em" font-size="72%">a</tspan><tspan dy="-0.32em">​</tspan></text>
+<text x="130.0" y="361.0" font-size="11" fill="#78909c" text-anchor="middle">全深度等值，頂部即滿值</text>
+<line x1="380.0" y1="74.0" x2="380.0" y2="288.0" stroke="#37474f" stroke-width="5"/>
+<line x1="346.0" y1="99.7" x2="377.0" y2="99.7" stroke="#1565c0" stroke-width="3.2"/>
+<line x1="346.0" y1="163.9" x2="377.0" y2="163.9" stroke="#1565c0" stroke-width="3.2"/>
+<line x1="346.0" y1="228.1" x2="377.0" y2="228.1" stroke="#1565c0" stroke-width="3.2"/>
+<line x1="340.0" y1="288.0" x2="377.0" y2="288.0" stroke="#8d6e63" stroke-width="1.6"/>
+<text x="340.0" y="302.0" font-size="10" fill="#8d6e63" text-anchor="start">坑底</text>
+<polygon points="383.0,74.0 383.0,74.0 493.0,127.5 493.0,288.0 383.0,288.0" fill="#ffebee" stroke="#c62828" stroke-width="1.8" stroke-linejoin="round"/>
+<text x="438.0" y="185.0" font-size="12" fill="#c62828" text-anchor="start"></text>
+<text x="438.0" y="66.0" font-size="11" fill="#c62828" text-anchor="middle" font-weight="700">γH − 4c（≥0.3γH）</text>
+<text x="336.0" y="84.0" font-size="10.5" fill="#455a64" text-anchor="start">0</text>
+<line x1="383.0" y1="127.5" x2="504.0" y2="127.5" stroke="#c62828" stroke-width="0.8" stroke-dasharray="3,3"/>
+<text x="506.0" y="131.5" font-size="10.5" fill="#c62828" text-anchor="start">0.25H</text>
+<text x="336.0" y="292.0" font-size="10.5" fill="#455a64" text-anchor="start">H</text>
+<text x="440.0" y="322.0" font-size="13.5" fill="#c62828" text-anchor="middle" font-weight="700">軟弱～中等黏土（N<tspan dy="0.32em" font-size="72%">s</tspan><tspan dy="-0.32em">​</tspan> &gt; 4）</text>
+<text x="440.0" y="342.0" font-size="12" fill="#5d4037" text-anchor="middle">σ = γH − 4c 與 0.3γH 取大者</text>
+<text x="440.0" y="361.0" font-size="11" fill="#78909c" text-anchor="middle">0→0.25H 斜升，以下滿載到坑底</text>
+<line x1="680.0" y1="74.0" x2="680.0" y2="288.0" stroke="#37474f" stroke-width="5"/>
+<line x1="646.0" y1="99.7" x2="677.0" y2="99.7" stroke="#1565c0" stroke-width="3.2"/>
+<line x1="646.0" y1="163.9" x2="677.0" y2="163.9" stroke="#1565c0" stroke-width="3.2"/>
+<line x1="646.0" y1="228.1" x2="677.0" y2="228.1" stroke="#1565c0" stroke-width="3.2"/>
+<line x1="640.0" y1="288.0" x2="677.0" y2="288.0" stroke="#8d6e63" stroke-width="1.6"/>
+<text x="640.0" y="302.0" font-size="10" fill="#8d6e63" text-anchor="start">坑底</text>
+<polygon points="683.0,74.0 683.0,74.0 793.0,127.5 793.0,234.5 683.0,288.0 683.0,288.0" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.8" stroke-linejoin="round"/>
+<text x="738.0" y="185.0" font-size="12" fill="#2e7d32" text-anchor="start"></text>
+<text x="738.0" y="66.0" font-size="11" fill="#2e7d32" text-anchor="middle" font-weight="700">0.2～0.4γH</text>
+<text x="636.0" y="84.0" font-size="10.5" fill="#455a64" text-anchor="start">0</text>
+<line x1="683.0" y1="127.5" x2="804.0" y2="127.5" stroke="#2e7d32" stroke-width="0.8" stroke-dasharray="3,3"/>
+<text x="806.0" y="131.5" font-size="10.5" fill="#2e7d32" text-anchor="start">0.25H</text>
+<line x1="683.0" y1="234.5" x2="804.0" y2="234.5" stroke="#2e7d32" stroke-width="0.8" stroke-dasharray="3,3"/>
+<text x="806.0" y="238.5" font-size="10.5" fill="#2e7d32" text-anchor="start">0.75H</text>
+<text x="636.0" y="292.0" font-size="10.5" fill="#455a64" text-anchor="start">H</text>
+<text x="740.0" y="322.0" font-size="13.5" fill="#2e7d32" text-anchor="middle" font-weight="700">硬黏土（N<tspan dy="0.32em" font-size="72%">s</tspan><tspan dy="-0.32em">​</tspan> ≤ 4）</text>
+<text x="740.0" y="342.0" font-size="12" fill="#5d4037" text-anchor="middle">σ = 0.2～0.4 γH（常取 0.3）</text>
+<text x="740.0" y="361.0" font-size="11" fill="#78909c" text-anchor="middle">頂、底各 0.25H 斜升／斜降</text>
+</svg>
+<div class="cap">圖 4-1｜三張圖的共同點：<b>都不是 Rankine 三角形</b>（砂土那張把 Rankine 三角形 \(K_a\gamma H\) 疊上去對照：包絡線面積 \(0.65K_a\gamma H^2\) 比三角形的 \(0.5K_a\gamma H^2\) 大 30%，而且大部分搬到上半部 —— 上排支撐就是被它算大的）——最大值出現在上部並一路維持，而不是在底部才達到最大。只有砂土的矩形頂部就是滿值；兩種黏土都從頂部 0 斜升，到 \(0.25H\) 達最大值，硬黏土在底部 \(0.25H\) 再斜降回 0（SM-2011-4、SM-2015-3 的解析都照此畫）。黏土軟硬用穩定數 \(N_s=\gamma H/c_u\) 以 4 為界判斷，判錯型式整題支撐荷重全錯。</div>
+</div>
+
+<h3>4.2　從包絡線到支撐荷重：鉸接法</h3>
+
+<p>把牆想成一根<b>在每個支撐處都有鉸的連續梁</b>（實際上牆在支撐處會產生較大轉角，接近鉸接）。每排支撐承擔的是它<b>上下各一半跨距</b>那塊面積：</p>
+
+<ul>
+<li><b>最上排</b>：從牆頂到第 1、2 排的中點（含支撐以上的懸臂段；荷重大小視支撐配置而定，<b>不一定最大</b> —— <a class="qlink" href="problems-view/SM-2011-4.html" target="_blank">SM-2011-4</a> 最大的是 B 支撐 451 kN，A 支撐只有 307 kN）。</li>
+<li><b>中間排</b>：上下兩個中點之間。</li>
+<li><b>最下排</b>：從上一個中點到<b>「最下排與開挖面之間的中點」</b>。開挖面本身也當成一個支點（下方有被動土承接），最下排只分到該跨的一半 —— <a class="qlink" href="problems-view/SM-2011-4.html" target="_blank">SM-2011-4</a> 的 C 支撐就是這樣算（最下跨 1 m，C 與開挖面各分 \(36.75\times1/2\)）。</li>
+</ul>
+
+<p>算出的是每公尺牆寬的荷重 \(\;\bar{P}\;\)（kN/m），再乘上支撐<b>水平間距 \(s\)</b> 才是單根支撐的軸力。</p>
+
+<div class="fig">
+<svg viewBox="0 0 920 480" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="f51r" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker><marker id="f51g" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#2e7d32"/></marker><marker id="f51b" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#1565c0"/></marker><marker id="f51k" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#455a64"/></marker><marker id="f51o" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#ef6c00"/></marker><marker id="f51p" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#6a1b9a"/></marker><marker id="f51w" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#0288d1"/></marker></defs>
+<text x="460.0" y="24.0" font-size="15" fill="#0d47a1" text-anchor="middle" font-weight="700">基盤隆起（Terzaghi 機制）：寬 0.7B 的牆背土柱 = 一個「倒過來的基礎」</text>
+<rect x="40.0" y="100.0" width="337.0" height="170.0" rx="0" fill="#efebe9" stroke="#8d6e63" stroke-width="0.8"/>
+<rect x="643.0" y="100.0" width="237.0" height="170.0" rx="0" fill="#efebe9" stroke="#8d6e63" stroke-width="0.8"/>
+<rect x="40.0" y="270.0" width="840.0" height="146.0" rx="0" fill="#d7ccc8" stroke="#8d6e63" stroke-width="0.8"/>
+<rect x="383.0" y="100.0" width="254.0" height="170.0" rx="0" fill="#fafafa" stroke="#bdbdbd" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="510.0" y="170.0" font-size="12.5" fill="#757575" text-anchor="middle">開挖區</text>
+<rect x="195.0" y="100.0" width="182.0" height="170.0" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.6" stroke-dasharray="6,3" fill-opacity="0.45"/>
+<line x1="380.0" y1="100.0" x2="380.0" y2="310.0" stroke="#37474f" stroke-width="6"/>
+<line x1="640.0" y1="100.0" x2="640.0" y2="310.0" stroke="#37474f" stroke-width="6"/>
+<line x1="383.0" y1="270.0" x2="637.0" y2="270.0" stroke="#8d6e63" stroke-width="1.8"/>
+<line x1="205.0" y1="78.0" x2="205.0" y2="97.0" stroke="#c62828" stroke-width="1.6" marker-end="url(#f51r)"/>
+<line x1="237.2" y1="78.0" x2="237.2" y2="97.0" stroke="#c62828" stroke-width="1.6" marker-end="url(#f51r)"/>
+<line x1="269.4" y1="78.0" x2="269.4" y2="97.0" stroke="#c62828" stroke-width="1.6" marker-end="url(#f51r)"/>
+<line x1="301.6" y1="78.0" x2="301.6" y2="97.0" stroke="#c62828" stroke-width="1.6" marker-end="url(#f51r)"/>
+<line x1="333.8" y1="78.0" x2="333.8" y2="97.0" stroke="#c62828" stroke-width="1.6" marker-end="url(#f51r)"/>
+<line x1="366.0" y1="78.0" x2="366.0" y2="97.0" stroke="#c62828" stroke-width="1.6" marker-end="url(#f51r)"/>
+<line x1="195.0" y1="78.0" x2="374.0" y2="78.0" stroke="#c62828" stroke-width="1.2"/>
+<text x="189.0" y="86.0" font-size="13" fill="#c62828" text-anchor="end" font-weight="700">q</text>
+<line x1="286.0" y1="140.0" x2="286.0" y2="256.0" stroke="#c62828" stroke-width="3" marker-end="url(#f51r)"/>
+<text x="294.0" y="170.0" font-size="12.5" fill="#c62828" text-anchor="start" font-weight="700">W = γH·B<tspan dy="0.32em" font-size="72%">1</tspan><tspan dy="-0.32em">​</tspan></text>
+<line x1="186.0" y1="151.0" x2="186.0" y2="123.0" stroke="#2e7d32" stroke-width="2" marker-end="url(#f51g)"/>
+<line x1="186.0" y1="201.0" x2="186.0" y2="173.0" stroke="#2e7d32" stroke-width="2" marker-end="url(#f51g)"/>
+<line x1="186.0" y1="251.0" x2="186.0" y2="223.0" stroke="#2e7d32" stroke-width="2" marker-end="url(#f51g)"/>
+<text x="179.0" y="176.0" font-size="11.5" fill="#2e7d32" text-anchor="end" font-weight="700">側面剪力</text>
+<text x="179.0" y="192.0" font-size="11.5" fill="#2e7d32" text-anchor="end">S<tspan dy="0.32em" font-size="72%">u</tspan><tspan dy="-0.32em">​</tspan>·H（向上抵抗）</text>
+<line x1="207.0" y1="288.0" x2="207.0" y2="273.0" stroke="#2e7d32" stroke-width="1.8" marker-end="url(#f51g)"/>
+<line x1="246.2" y1="288.0" x2="246.2" y2="273.0" stroke="#2e7d32" stroke-width="1.8" marker-end="url(#f51g)"/>
+<line x1="285.5" y1="288.0" x2="285.5" y2="273.0" stroke="#2e7d32" stroke-width="1.8" marker-end="url(#f51g)"/>
+<line x1="324.8" y1="288.0" x2="324.8" y2="273.0" stroke="#2e7d32" stroke-width="1.8" marker-end="url(#f51g)"/>
+<line x1="364.0" y1="288.0" x2="364.0" y2="273.0" stroke="#2e7d32" stroke-width="1.8" marker-end="url(#f51g)"/>
+<text x="286.0" y="304.0" font-size="11.5" fill="#2e7d32" text-anchor="middle" font-weight="700">底部承載力 N<tspan dy="0.32em" font-size="72%">c</tspan><tspan dy="-0.32em">​</tspan>S<tspan dy="0.32em" font-size="72%">u</tspan><tspan dy="-0.32em">​</tspan>·B<tspan dy="0.32em" font-size="72%">1</tspan><tspan dy="-0.32em">​</tspan></text>
+<path d="M195.0 270.0 Q 201.0 398.0 380.0 396.0 Q 504.0 392.0 555.9 270.0" fill="none" stroke="#6a1b9a" stroke-width="2.6" stroke-dasharray="7,4"/>
+<text x="420.0" y="410.0" font-size="12" fill="#6a1b9a" text-anchor="start" font-weight="700">滑動面（繞過牆趾）</text>
+<line x1="440.0" y1="268.0" x2="440.0" y2="240.0" stroke="#6a1b9a" stroke-width="2.2" marker-end="url(#f51p)"/>
+<line x1="500.0" y1="268.0" x2="500.0" y2="240.0" stroke="#6a1b9a" stroke-width="2.2" marker-end="url(#f51p)"/>
+<text x="472.0" y="234.0" font-size="12" fill="#6a1b9a" text-anchor="middle" font-weight="700">坑底鼓起</text>
+<line x1="195.0" y1="64.0" x2="377.0" y2="64.0" stroke="#c62828" stroke-width="1"/>
+<line x1="195.0" y1="59.0" x2="195.0" y2="69.0" stroke="#c62828" stroke-width="1"/>
+<line x1="377.0" y1="59.0" x2="377.0" y2="69.0" stroke="#c62828" stroke-width="1"/>
+<text x="286.0" y="59.0" font-size="11.5" fill="#c62828" text-anchor="middle">B<tspan dy="0.32em" font-size="72%">1</tspan><tspan dy="-0.32em">​</tspan> = 0.7B</text>
+<line x1="383.0" y1="64.0" x2="637.0" y2="64.0" stroke="#455a64" stroke-width="1"/>
+<line x1="383.0" y1="59.0" x2="383.0" y2="69.0" stroke="#455a64" stroke-width="1"/>
+<line x1="637.0" y1="59.0" x2="637.0" y2="69.0" stroke="#455a64" stroke-width="1"/>
+<text x="510.0" y="59.0" font-size="11.5" fill="#455a64" text-anchor="middle">B（開挖寬）</text>
+<line x1="662.0" y1="100.0" x2="662.0" y2="270.0" stroke="#455a64" stroke-width="1"/>
+<line x1="657.0" y1="100.0" x2="667.0" y2="100.0" stroke="#455a64" stroke-width="1"/>
+<line x1="657.0" y1="270.0" x2="667.0" y2="270.0" stroke="#455a64" stroke-width="1"/>
+<text x="669.0" y="189.0" font-size="11.5" fill="#455a64" text-anchor="start">H</text>
+<text x="680.0" y="320.0" font-size="11" fill="#607d8b" text-anchor="start">右側同理（對稱）</text>
+<rect x="110.0" y="426.0" width="700.0" height="44.0" rx="8" fill="#fff8e1" stroke="#ffa000" stroke-width="1.2"/>
+<text x="460.0" y="444.0" font-size="13" fill="#e65100" text-anchor="middle" font-weight="700">土柱底部的垂直平衡（除以 B<tspan dy="0.32em" font-size="72%">1</tspan><tspan dy="-0.32em">​</tspan>）：FS = N<tspan dy="0.32em" font-size="72%">c</tspan><tspan dy="-0.32em">​</tspan>S<tspan dy="0.32em" font-size="72%">u</tspan><tspan dy="-0.32em">​</tspan> ÷ [ γH + q − S<tspan dy="0.32em" font-size="72%">u</tspan><tspan dy="-0.32em">​</tspan>H / (0.7B) ]</text>
+<text x="460.0" y="462.0" font-size="11.5" fill="#5d4037" text-anchor="middle">忽略側面剪力（保守，或 B 很大時）→ FS = N<tspan dy="0.32em" font-size="72%">c</tspan><tspan dy="-0.32em">​</tspan>S<tspan dy="0.32em" font-size="72%">u</tspan><tspan dy="-0.32em">​</tspan> / (γH + q)；B、L 都給時改用 Bjerrum–Eide 的三維 N<tspan dy="0.32em" font-size="72%">c</tspan><tspan dy="-0.32em">​</tspan></text>
+</svg>
+<div class="cap">圖 4-2｜<a class="qlink" href="problems-view/SM-2011-4.html" target="_blank">SM-2011-4</a> 依比例重繪。左：\(N_s=4.08>4\) 用軟～中等黏土型，\(\gamma H-4c=2.5\) 小於下限 \(0.3\gamma H=36.75\) kPa，所以由下限控制。中：鉸接法把牆在 B、C、坑底「切斷」，得到三根靜定梁，每根各自用 \(\Sigma M=0\)、\(\Sigma F=0\) 求兩端反力；<b>同一支撐分到上下兩段的反力要相加</b>（B = 53.47 + 36.75）。右：彎矩在每個鉸處為 0；最大值 38.89 kN·m/m 出現在第一段剪力為零的 \(z=2.545\) m，比中段的 \(pl^2/8=18.38\) 大一倍 —— 所以斷面模數 \(S=M_{max}/\sigma_{all}\) 要看第一段（解析寫 38.91 是中間值四捨五入的差異）。</div>
+</div>
+
+
+<div class="trap">
+<b>陷阱｜忘了乘水平間距</b><br>
+<b>觸發信號：</b>題目給「支撐水平間距 \(s=5\) m」。<br>
+<b>錯誤思維：</b>把面積算出來就當答案（單位 kN/m）。<br>
+<b>正確認知：</b>面積是<b>每延米牆</b>的荷重；單根支撐軸力 \(=\bar{P}\times s\)。
+<a class="qlink" href="problems-view/SM-2011-4.html" target="_blank">SM-2011-4</a> 給了 \(s=5\) m 又問「作用於 A、B、C 支撐之作用力（kN）」，單位就是提示。
+</div>
+
+<div class="box">
+<b>手算範例 B｜視土壓力＋抗隆起（<a class="qlink" href="problems-view/SM-2015-3.html" target="_blank">SM-2015-3</a>，2015）</b><br>
+\(H=8\) m；上層砂 3 m（\(\gamma_s=16.5\)、\(\phi_s=32^\circ\)），下層黏土 5 m（\(\gamma_c=17.5\)、\(C_u=30\)）；\(B=6\) m、\(L=15\) m。<br><br>
+<b>Step 1　等值單位重</b>（混合層要先均勻化）：
+$$\bar\gamma=\frac{16.5(3)+17.5(5)}{8}=\frac{137}{8}=17.125\ \mathrm{kN/m^3},\qquad \bar\gamma H=137\ \mathrm{kPa}$$
+<b>Step 2　等值不排水強度</b>：砂層折算成等值 \(C_u\)（Peck 建議，\(K_s=1.0\)）：
+$$C_{u,s}=\tfrac12\gamma_s H_s K_s\tan\phi_s=\tfrac12(16.5)(3)(1.0)(0.6249)=15.47\ \mathrm{kPa}$$
+$$\bar C_u=\frac{15.47(3)+30(5)}{8}=24.55\ \mathrm{kPa}$$
+<b>Step 3　判型</b>：\(N_s=\dfrac{137}{24.55}=5.58&gt;4\) → <b>軟弱～中等黏土型梯形</b>。<br>
+<b>Step 4　最大視土壓力</b>（兩式取大者）：
+$$p_{a1}=\bar\gamma H-4\bar C_u=137-98.2=38.8\ \mathrm{kPa};\qquad p_{a2}=0.3\bar\gamma H=41.1\ \mathrm{kPa}$$
+$$\Rightarrow p_a=\mathbf{41.1\ kPa};\ \text{分布：}0\!\sim\!2\,\mathrm{m}\ \text{斜升}，2\!\sim\!8\,\mathrm{m}\ \text{維持}\ 41.1\ \text{直到坑底}$$<div style="font-size:.92em;color:#b71c1c;margin:6px 0">⚠ <b>底部不回收</b>：軟弱至中等黏土的 Peck 包絡線在 \(0.25H\) 以下維持定值到坑底；誤畫成硬黏土的梯形（\(6\!\sim\!8\) m 斜降回 0）會把總推力由 \(P=287.70\) 低估成 \(246.60\) kN/m（低估 14.3%），形心也由 4.476 上移到 4.000 m。</div>$$P=\tfrac12(2)(41.1)+6(41.1)=41.10+246.60=\mathbf{287.70\ kN/m};\quad \bar z=4.476\ \mathrm{m}$$
+<div class="fig">
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="f43r" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker><marker id="f43g" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#2e7d32"/></marker><marker id="f43b" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#1565c0"/></marker><marker id="f43k" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#455a64"/></marker><marker id="f43o" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#ef6c00"/></marker><marker id="f43p" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#6a1b9a"/></marker><marker id="f43w" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#0288d1"/></marker></defs>
+<text x="380.0" y="22.0" font-size="14" fill="#0d47a1" text-anchor="middle" font-weight="700">SM-2015-3：軟～中等黏土型（正確）vs 誤用硬黏土梯形</text>
+<line x1="150.0" y1="50.0" x2="150.0" y2="290.0" stroke="#37474f" stroke-width="5"/>
+<polygon points="153.0,50.0 284.5,110.0 284.5,290.0 153.0,290.0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.8" stroke-linejoin="round"/>
+<polygon points="284.5,230.0 284.5,290.0 153.0,290.0" fill="#ffffff" fill-opacity="0.55" stroke="none"/>
+<polyline points="284.5,230.0 153.0,290.0" fill="none" stroke="#2e7d32" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6,4"/>
+<text x="290.5" y="269.0" font-size="11" fill="#2e7d32" text-anchor="start" font-weight="700">被「省掉」的 41.1 kN/m</text>
+<text x="290.5" y="284.0" font-size="10.5" fill="#2e7d32" text-anchor="start">（低估 14.3%）</text>
+<line x1="144.0" y1="50.0" x2="288.5" y2="50.0" stroke="#b0bec5" stroke-width="0.7" stroke-dasharray="3,3"/>
+<text x="142.0" y="54.0" font-size="10.5" fill="#455a64" text-anchor="end">0</text>
+<line x1="144.0" y1="110.0" x2="288.5" y2="110.0" stroke="#b0bec5" stroke-width="0.7" stroke-dasharray="3,3"/>
+<text x="142.0" y="114.0" font-size="10.5" fill="#455a64" text-anchor="end">2 m (0.25H)</text>
+<line x1="144.0" y1="230.0" x2="288.5" y2="230.0" stroke="#b0bec5" stroke-width="0.7" stroke-dasharray="3,3"/>
+<text x="142.0" y="234.0" font-size="10.5" fill="#455a64" text-anchor="end">6 m (0.75H)</text>
+<line x1="144.0" y1="290.0" x2="288.5" y2="290.0" stroke="#b0bec5" stroke-width="0.7" stroke-dasharray="3,3"/>
+<text x="142.0" y="294.0" font-size="10.5" fill="#455a64" text-anchor="end">8 m = H</text>
+<text x="218.8" y="42.5" font-size="11.5" fill="#c62828" text-anchor="middle" font-weight="700">p<tspan dy="0.32em" font-size="72%">a</tspan><tspan dy="-0.32em">​</tspan> = 41.1 kPa</text>
+<line x1="384.5" y1="184.3" x2="158.0" y2="184.3" stroke="#c62828" stroke-width="2.2" marker-end="url(#f43r)"/>
+<circle cx="384.5" cy="184.3" r="3" fill="#c62828" stroke="none"/>
+<line x1="384.5" y1="170.0" x2="158.0" y2="170.0" stroke="#2e7d32" stroke-width="2.2" marker-end="url(#f43g)"/>
+<circle cx="384.5" cy="170.0" r="3" fill="#2e7d32" stroke="none"/>
+<text x="393.5" y="200.3" font-size="12" fill="#c62828" text-anchor="start" font-weight="700">正確：P = 287.70 kN/m，z̄ = 4.476 m</text>
+<text x="393.5" y="164.0" font-size="12" fill="#2e7d32" text-anchor="start" font-weight="700">誤用：P = 246.60 kN/m，z̄ = 4.000 m</text>
+<text x="380.0" y="316.0" font-size="12" fill="#455a64" text-anchor="middle">N<tspan dy="0.32em" font-size="72%">s</tspan><tspan dy="-0.32em">​</tspan> = 5.58 &gt; 4 → 底部「不回收」；面積 = ½(2)(41.1) + 6(41.1) = 41.10 + 246.60</text>
+</svg>
+<div class="cap">圖 4-3｜範例 B 的兩種畫法依比例並排：差別只在 6～8 m 那個三角形（41.1 kN/m），但合力少 14.3%、作用點上移 0.48 m，後面每一排支撐荷重都會跟著錯。</div>
+</div>
+
+<b>Step 5　抗隆起（Bjerrum &amp; Eide 三維）</b>：
+$$N_c=5\left(1+0.2\frac{B}{L}\right)\left(1+0.2\frac{D}{B}\right)=5(1.08)(1.2667)=6.84\ (\le 7.5\times1.08=8.1\ \text{上限})$$
+$$FS=\frac{N_c C_u}{\bar\gamma H}=\frac{6.84\times30}{137}=\mathbf{1.50}$$
+<b>自我檢查：</b>① \(p_{a1}\) 與 \(p_{a2}\) 只差 2.3 kPa：兩式相等發生在 \(N_s=4/0.7\approx5.71\)，本題 5.58 就在這點附近，
+所以 \(\bar C_u\) 只要低估約 2.5%，控制式就會由 \(0.3\bar\gamma H\) 換成 \(\bar\gamma H-4\bar C_u\)（最大值變動不大）。至於「軟／硬」型式要翻盤，必須 \(N_s\le4\)，也就是 \(\bar C_u\ge34.3\) kPa、高出約 40% —— 型式判斷其實相當穩，Step 2 真正影響的是用哪一條式子。<br>
+② \(FS=1.50\) 剛好卡在規範門檻（一般要求 1.2～1.5），答案要註明「勉強符合、建議加深貫入或改良」才完整。
+</div>
+
+<div class="why">
+<b>為什麼三維 \(N_c\) 要看 \(B/L\) 與 \(D/B\)？</b><br>
+基盤隆起本質上是<b>一個倒過來的承載力破壞</b>：開挖面像一塊被「卸載」的基礎，四周的土往裡面擠。
+\(B/L\) 修正代表<b>短邊方向有側向拘束</b>（狹長開挖比方形開挖容易隆起，因為端部貢獻少）；
+\(D/B\) 修正代表<b>破壞面被埋得越深，要推開的土越多</b>。
+兩個修正都是把 Skempton 的淺基礎 \(N_c\)（平面應變 5.14 → 方形 6.2 → 深埋可到 9）搬過來用。
+所以記不住係數時，記住：<b>\(N_c\) 落在 5～9 之間，方形且深埋取大值。</b>
+</div>
+
+<div class="trap">
+<b>陷阱｜隆起 FS 的分母要不要含超載</b><br>
+<b>觸發信號：</b>題目給地表超載 \(q\)。<br>
+<b>錯誤思維：</b>只寫 \(FS=N_cC_u/(\gamma H)\)。<br>
+<b>正確認知：</b>超載是<b>驅動力</b>，要放進分母：\(FS=\dfrac{N_cC_u}{\gamma H+q}\)。
+<a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a> 給 \(q=1\) tf/m² 並直接把公式印出來，就是要看你有沒有把 \(q\) 加進去。
+</div>
+</section>
+<section id="s5">
+<h2>§5　基盤隆起：一個倒過來的承載力破壞</h2>
+
+<p class="lead">這一節在怕什麼：<b>怕你把隆起當成「底板被頂起來」。</b>它不是水頂的（那是上舉，§6），它是<b>牆背的土重把開挖面下方的土擠出來</b> —— 驅動力是土自己的重量。</p>
+
+<div class="fig">
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+  <defs><marker id="b1" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker>
+  <marker id="b2" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2e7d32"/></marker></defs>
+  <text x="450" y="24" font-size="15.5" font-weight="700" fill="#0d47a1" text-anchor="middle">基盤隆起：牆背土柱下壓 → 底部土被擠向開挖側 → 開挖面鼓起</text>
+
+  <rect x="70" y="52" width="230" height="180" fill="#efebe9" stroke="#8d6e63"/>
+  <rect x="600" y="52" width="230" height="180" fill="#efebe9" stroke="#8d6e63"/>
+  <rect x="70" y="232" width="760" height="96" fill="#e0d5cc" stroke="#8d6e63"/>
+  <rect x="300" y="232" width="300" height="0" fill="none"/>
+  <rect x="303" y="52" width="294" height="180" fill="#fafafa" stroke="#bdbdbd" stroke-dasharray="4,3"/>
+  <line x1="300" y1="52" x2="300" y2="286" stroke="#37474f" stroke-width="6"/>
+  <line x1="600" y1="52" x2="600" y2="286" stroke="#37474f" stroke-width="6"/>
+  <text x="450" y="186" font-size="12.5" fill="#757575" text-anchor="middle">開挖區</text>
+  <text x="592" y="226" font-size="11.5" fill="#8d6e63" text-anchor="end">開挖面(H)</text>
+
+  <g stroke="#c62828" stroke-width="2.4" marker-end="url(#b1)">
+    <line x1="150" y1="70" x2="150" y2="222"/><line x1="230" y1="70" x2="230" y2="222"/>
+    <line x1="670" y1="70" x2="670" y2="222"/><line x1="750" y1="70" x2="750" y2="222"/>
+  </g>
+  <text x="190" y="112" font-size="12.5" font-weight="700" fill="#c62828" text-anchor="middle">γH + q</text>
+  <text x="190" y="132" font-size="11.5" fill="#c62828" text-anchor="middle">（驅動力）</text>
+
+  <path d="M230 232 Q240 310 330 302 Q410 296 440 232" fill="none" stroke="#6a1b9a" stroke-width="2.6" stroke-dasharray="7,4"/>
+  <path d="M670 232 Q660 310 570 302 Q490 296 460 232" fill="none" stroke="#6a1b9a" stroke-width="2.6" stroke-dasharray="7,4"/>
+  <g stroke="#2e7d32" stroke-width="2.2" marker-end="url(#b2)">
+    <line x1="400" y1="272" x2="400" y2="214"/><line x1="500" y1="272" x2="500" y2="214"/>
+  </g>
+  <text x="450" y="322" font-size="12.5" fill="#6a1b9a" text-anchor="middle">滑動面（承載力破壞面）</text>
+  <text x="450" y="206" font-size="12.5" font-weight="700" fill="#2e7d32" text-anchor="middle">開挖面鼓起</text>
+
+  <text x="150" y="264" font-size="12.5" fill="#455a64" text-anchor="middle">抵抗＝沿滑動面的 Su</text>
+  <text x="150" y="286" font-size="12.5" fill="#455a64" text-anchor="middle">整理後寫成 Nc·Su</text>
+  <text x="752" y="264" font-size="12.5" fill="#455a64" text-anchor="middle">插深只能延長滑動面</text>
+  <text x="752" y="286" font-size="12.5" fill="#455a64" text-anchor="middle">不能改變 γH（驅動力）</text>
+
+  <rect x="250" y="342" width="400" height="30" rx="8" fill="#fff8e1" stroke="#ffa000"/>
+  <text x="450" y="362" font-size="13" font-weight="700" fill="#e65100" text-anchor="middle">FS = Nc·Su / (γH + q)</text>
+</svg>
+<div class="cap">圖 5-1｜Terzaghi 把牆背寬 \(B_1=0.7B\)（嚴格是 \(B/\sqrt2\)）的土柱當成一個「基礎」：向下的是土柱重 \(\gamma HB_1\) 與超載 \(qB_1\)；向上的是土柱外側面的剪力 \(S_uH\)，以及土柱底面能提供的承載力 \(N_cS_uB_1\)。
+滑動面從土柱底面外緣出發、<b>繞過牆趾</b>、從坑底冒出來。三個力除以 \(B_1\) 就是 §5.1 表中 Terzaghi 那條式子，分母裡的 \(-S_uH/0.7B\) 就是側面剪力。
+驅動力是<b>牆背那根土柱的重量 \(\gamma H+q\)</b>，抵抗是<b>底部土的不排水強度沿滑動面積分</b>（整理成 \(N_cS_u\)）。注意右半邊：<b>把牆插深只是把滑動面推遠一點，分子略增、分母不變</b> —— 所以插深對隆起的幫助有限，真正有效的是提高 \(S_u\)（改良）或降低 \(H\)（分階開挖）。</div>
+</div>
+
+<h3>5.1　兩個版本，什麼時候用哪個</h3>
+
+<table>
+<thead><tr><th></th><th>Terzaghi（二維、條形）</th><th>Bjerrum &amp; Eide（三維、Skempton \(N_c\)）</th></tr></thead>
+<tbody>
+<tr><td>形式</td><td>\(FS=\dfrac{N_cS_u}{\gamma H+q-\dfrac{S_u H}{0.7B}}\)（含牆背摩擦折減）</td><td>\(FS=\dfrac{N_cS_u}{\gamma H+q}\)，\(N_c=5\!\left(1+0.2\frac{B}{L}\right)\!\left(1+0.2\frac{D}{B}\right)\)</td></tr>
+<tr><td>何時用</td><td>開挖很長（\(L\gg B\)）、題目沒給長度</td><td><b>題目給了 \(B\) 與 \(L\)</b> → 這就是提示</td></tr>
+<tr><td>\(N_c\)</td><td>約 5.14～5.7</td><td>5～9（上限 \(7.5(1+0.2B/L)\)）</td></tr>
+<tr><td>考過</td><td><a class="qlink" href="problems-view/SM-2012-4.html" target="_blank">SM-2012-4</a>、<a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a>（用 \(\pi+2\)）</td><td><a class="qlink" href="problems-view/SM-2015-3.html" target="_blank">SM-2015-3</a></td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>陷阱｜\(S_u\) 取哪一層的</b><br>
+<b>觸發信號：</b>開挖面上下是不同的土層。<br>
+<b>錯誤思維：</b>用開挖面<b>以上</b>土層的 \(S_u\)。<br>
+<b>正確認知：</b>分子的 \(S_u\) 是<b>破壞面所在（開挖面以下）</b>的強度；分母的 \(\gamma H\) 才是開挖面<b>以上</b>的覆土壓力。
+一上一下，最容易搞混。<a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a> 甚至要你把開挖面以下 6 m 的 N 值加權平均才得到 \(S_u\)。
+</div>
+</section>
+
+<section id="s6">
+<h2>§6　水的三種攻擊：上舉、砂湧、管湧</h2>
+
+<p class="lead">這一節在怕什麼：<b>怕你把三個名詞混在一起。</b>它們的驅動力來源、檢核面位置、公式形式全部不同，而 SM 幾乎每隔幾年就考一次。</p>
+
+<div class="fig">
+<svg viewBox="0 0 920 370" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+  <defs><marker id="d1" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker>
+  <marker id="d2" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ef6c00"/></marker>
+  <marker id="d3" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1565c0"/></marker></defs>
+  <text x="460" y="22" font-size="15.5" font-weight="700" fill="#0d47a1" text-anchor="middle">同樣是水，三種完全不同的破壞</text>
+  <line x1="308" y1="36" x2="308" y2="350" stroke="#cfd8dc" stroke-width="1.5"/>
+  <line x1="614" y1="36" x2="614" y2="350" stroke="#cfd8dc" stroke-width="1.5"/>
+
+  <!-- uplift -->
+  <text x="152" y="56" font-size="14" font-weight="700" fill="#c62828" text-anchor="middle">上舉（土湧 / blowout）</text>
+  <rect x="40" y="70" width="100" height="110" fill="#efebe9" stroke="#8d6e63"/>
+  <rect x="146" y="70" width="122" height="110" fill="#fafafa" stroke="#bdbdbd" stroke-dasharray="3,3"/>
+  <rect x="40" y="180" width="228" height="40" fill="#d7ccc8" stroke="#8d6e63"/>
+  <rect x="40" y="220" width="228" height="50" fill="#b3e5fc" stroke="#0288d1"/>
+  <line x1="143" y1="70" x2="143" y2="250" stroke="#37474f" stroke-width="5"/>
+  <text x="90" y="205" font-size="11" fill="#5d4037" text-anchor="middle">不透水黏土盤</text>
+  <text x="90" y="250" font-size="11" fill="#01579b" text-anchor="middle">受壓砂層</text>
+  <line x1="146" y1="104" x2="268" y2="104" stroke="#0288d1" stroke-width="1.6" stroke-dasharray="6,4"/>
+  <polygon points="180,104 173,95 187,95" fill="#0288d1"/>
+  <text x="264" y="98" font-size="10.5" fill="#0288d1" text-anchor="end">受壓水頭面</text>
+  <g stroke="#455a64" stroke-width="1"><line x1="258" y1="104" x2="258" y2="220"/><line x1="253" y1="104" x2="263" y2="104"/><line x1="253" y1="220" x2="263" y2="220"/>
+  <line x1="152" y1="180" x2="152" y2="220"/><line x1="148" y1="180" x2="156" y2="180"/><line x1="148" y1="220" x2="156" y2="220"/></g>
+  <text x="252" y="150" font-size="11.5" fill="#0288d1" text-anchor="end" font-style="italic">h<tspan dy="0.32em" font-size="72%">w</tspan></text>
+  <text x="158" y="204" font-size="11" fill="#5d4037" font-style="italic">t</text>
+  <line x1="206" y1="184" x2="206" y2="214" stroke="#5d4037" stroke-width="2.4" marker-end="url(#d1)"/>
+  <text x="212" y="198" font-size="10.5" fill="#5d4037">W=γt</text>
+  <g stroke="#1565c0" stroke-width="2.2"><line x1="182" y1="252" x2="182" y2="226" marker-end="url(#d3)"/>
+  <line x1="232" y1="252" x2="232" y2="226" marker-end="url(#d3)"/></g>
+  <text x="240" y="262" font-size="10.5" fill="#1565c0">U=γ<tspan dy="0.32em" font-size="72%">w</tspan><tspan dy="-0.32em">h</tspan><tspan dy="0.32em" font-size="72%">w</tspan></text>
+  <text x="152" y="300" font-size="12" fill="#455a64" text-anchor="middle">整塊土盤被水壓頂起</text>
+  <text x="152" y="322" font-size="12.5" font-weight="700" fill="#c62828" text-anchor="middle">FS = γ·t / (γw·hw)</text>
+  <text x="152" y="344" font-size="11.5" fill="#78909c" text-anchor="middle">重量比水壓，與滲流無關</text>
+
+  <!-- boiling -->
+  <text x="460" y="56" font-size="14" font-weight="700" fill="#ef6c00" text-anchor="middle">砂湧（boiling / quick sand）</text>
+  <rect x="346" y="70" width="100" height="145" fill="#f5e9c8" stroke="#c8a951"/>
+  <rect x="452" y="70" width="122" height="145" fill="#fafafa" stroke="#bdbdbd" stroke-dasharray="3,3"/>
+  <rect x="346" y="215" width="228" height="70" fill="#f0e2b6" stroke="#c8a951"/>
+  <line x1="449" y1="70" x2="449" y2="250" stroke="#37474f" stroke-width="5"/>
+  <line x1="346" y1="92" x2="446" y2="92" stroke="#0288d1" stroke-width="1.6"/>
+  <polygon points="356,92 363,85 349,85" fill="#0288d1"/>
+  <line x1="452" y1="92" x2="562" y2="92" stroke="#0288d1" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="452" y1="213" x2="574" y2="213" stroke="#0288d1" stroke-width="1.6"/>
+  <line x1="556" y1="94" x2="556" y2="211" stroke="#0288d1" stroke-width="1"/>
+  <text x="548" y="158" font-size="12" fill="#0288d1" text-anchor="end">ΔH</text>
+  <path d="M432 100 Q436 252 452 258 Q472 264 480 216 M398 100 Q402 276 452 278 Q504 280 514 216" fill="none" stroke="#0288d1" stroke-width="1.6"/>
+  <g stroke="#ef6c00" stroke-width="2.2"><line x1="480" y1="212" x2="480" y2="192" marker-end="url(#d2)"/>
+  <line x1="514" y1="212" x2="514" y2="192" marker-end="url(#d2)"/></g>
+  <text x="460" y="300" font-size="12" fill="#455a64" text-anchor="middle">向上滲流使出口 σ′ = 0，砂失重</text>
+  <text x="460" y="322" font-size="12.5" font-weight="700" fill="#ef6c00" text-anchor="middle">FS = icr / iexit，icr = γ′/γw</text>
+  <text x="460" y="344" font-size="11.5" fill="#78909c" text-anchor="middle">看的是坡降，不是水壓值</text>
+
+  <!-- piping -->
+  <text x="766" y="56" font-size="14" font-weight="700" fill="#6a1b9a" text-anchor="middle">管湧（piping）</text>
+  <rect x="652" y="70" width="100" height="145" fill="#f5e9c8" stroke="#c8a951"/>
+  <rect x="758" y="70" width="122" height="145" fill="#fafafa" stroke="#bdbdbd" stroke-dasharray="3,3"/>
+  <rect x="652" y="215" width="228" height="70" fill="#f0e2b6" stroke="#c8a951"/>
+  <line x1="755" y1="70" x2="755" y2="250" stroke="#37474f" stroke-width="5"/>
+  <line x1="652" y1="92" x2="752" y2="92" stroke="#0288d1" stroke-width="1.6"/>
+  <polygon points="662,92 669,85 655,85" fill="#0288d1"/>
+  <line x1="758" y1="213" x2="880" y2="213" stroke="#0288d1" stroke-width="1.6"/>
+  <path d="M708 100 Q716 266 757 270 Q800 274 812 218" fill="none" stroke="#6a1b9a" stroke-width="3.2"/>
+  <ellipse cx="812" cy="213" rx="12" ry="5" fill="#6a1b9a" opacity="0.45"/>
+  <text x="836" y="204" font-size="11" fill="#6a1b9a">湧砂孔</text>
+  <text x="766" y="300" font-size="12" fill="#455a64" text-anchor="middle">細粒沿路徑被沖走，通道逐漸擴大</text>
+  <text x="766" y="322" font-size="12.5" font-weight="700" fill="#6a1b9a" text-anchor="middle">漸進式、有前兆（濁水、局部湧水）</text>
+  <text x="766" y="344" font-size="11.5" fill="#78909c" text-anchor="middle">要靠濾層與級配防治</text>
+</svg>
+<div class="cap">圖 6-1｜三者的<b>檢核對象</b>不同：上舉檢核「一整塊不透水盤的重量」（\(W=\gamma t\) 向下對 \(U=\gamma_wh_w\) 向上，\(h_w\) 從交界面量到受壓水頭面）、砂湧檢核「出口處的水力坡降」、管湧檢核「滲流路徑會不會被侵蝕」。<b>上舉可以發生在完全不透水的黏土裡（沒有滲流也會發生）</b>，砂湧與管湧則必須有滲流。這是最常混淆的一點。</div>
+</div>
+
+<table>
+<thead><tr><th></th><th>上舉（土湧）</th><th>砂湧（boiling）</th><th>管湧（piping）</th></tr></thead>
+<tbody>
+<tr><td>發生土層</td><td>不透水層下方有<b>受壓透水層</b></td><td>透水砂層，開挖面附近</td><td>級配不良、有細粒可流失的土</td></tr>
+<tr><td>驅動</td><td>受壓水頭（<b>靜態水壓</b>）</td><td>向上<b>滲流</b>的坡降</td><td>滲流的<b>侵蝕</b>作用</td></tr>
+<tr><td>檢核面</td><td>不透水層與透水層<b>交界面</b></td><td>開挖面<b>出口處</b></td><td>整條滲流路徑</td></tr>
+<tr><td>公式</td><td>\(FS=\dfrac{\gamma\,t}{\gamma_w h_w}\)（重量 ÷ 上揚力）</td><td>\(FS=\dfrac{i_{cr}}{i_{exit}},\ i_{cr}=\dfrac{\gamma'}{\gamma_w}=\dfrac{G_s-1}{1+e}\)</td><td>理論上無單一公式（侵蝕現象）；但台灣規範與考卷常把「最高流線 \(i/i_{cr}\)」稱為管湧檢核（<a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a>），題目這樣問就照題目算</td></tr>
+<tr><td>對策</td><td><b>降低受壓水頭</b>（深井抽水）；加厚覆土</td><td><b>加深貫入</b>（拉長滲流路徑）、降水、加壓重</td><td>逆濾層、灌漿、改善級配</td></tr>
+<tr><td>插深有沒有用</td><td><b>沒有</b>（水壓不因樁長改變）</td><td><b>有</b>（路徑變長 → \(i\) 變小）</td><td>有（路徑變長）</td></tr>
+<tr><td>考過</td><td><a class="qlink" href="problems-view/SM-2003-3.html" target="_blank">SM-2003-3</a>、<a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a></td><td><a class="qlink" href="problems-view/SM-2020-2.html" target="_blank">SM-2020-2</a>、<a class="qlink" href="problems-view/SM-2010-3.html" target="_blank">SM-2010-3</a></td><td><a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a>、<a class="qlink" href="problems-view/SM-2010-3.html" target="_blank">SM-2010-3</a></td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>為什麼 \(i_{cr}=\gamma'/\gamma_w\)？</b><br>
+向上滲流會在土骨架上施加滲流力 \(j=i\gamma_w\)（每單位體積）。土的有效重量是 \(\gamma'\)。
+當 \(i\gamma_w=\gamma'\) 時，兩者抵銷 → <b>有效應力歸零</b> → 砂粒之間不再有接觸力 → 剪力強度 \(\tau=\sigma'\tan\phi=0\)。
+所以 \(i_{cr}=\gamma'/\gamma_w=\dfrac{G_s-1}{1+e}\)，典型值 <b>0.8～1.0</b>。<br>
+<b>極限檢查：</b>\(e\to0\)（實心）\(\Rightarrow i_{cr}\to G_s-1\approx1.65\)；\(e\) 很大（極鬆）\(\Rightarrow i_{cr}\) 變小 → 越鬆的砂越容易砂湧。符合直覺。
+</div>
+
+<div class="box">
+<b>手算範例 C｜上舉的臨界開挖深度（<a class="qlink" href="problems-view/SM-2003-3.html" target="_blank">SM-2003-3</a>，2003）</b><br>
+黏土層厚 10 m、\(\gamma_{sat}=17.5\)；其下為受壓砂層，壓力水頭 7 m。問開挖多深不會隆起？<br><br>
+上揚力（作用在兩層交界面）：\(u=7\times9.81=68.67\) kPa。<br>
+抵抗（剩餘黏土的重量）：\(\sigma_v=17.5(10-D)\)。<br>
+臨界（\(FS=1\)）：
+$$17.5(10-D)=68.67\;\Rightarrow\;10-D=3.924\;\Rightarrow\;\boxed{D=6.08\ \mathrm{m}}$$
+此時交界面有效應力 \(\sigma'=\sigma_v-u=0\)。<br><br>
+<div class="fig">
+<svg viewBox="0 0 790 330" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="f63r" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker><marker id="f63g" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#2e7d32"/></marker><marker id="f63b" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#1565c0"/></marker><marker id="f63k" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#455a64"/></marker><marker id="f63o" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#ef6c00"/></marker><marker id="f63p" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#6a1b9a"/></marker><marker id="f63w" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#0288d1"/></marker></defs>
+<text x="395.0" y="22.0" font-size="14" fill="#0d47a1" text-anchor="middle" font-weight="700">SM-2003-3：交界面的「土重」與「水壓」隨開挖深度 D 的變化</text>
+<line x1="90.0" y1="280.0" x2="560.0" y2="280.0" stroke="#eceff1" stroke-width="1"/>
+<text x="84.0" y="284.0" font-size="10.5" fill="#78909c" text-anchor="end">0</text>
+<line x1="90.0" y1="241.7" x2="560.0" y2="241.7" stroke="#eceff1" stroke-width="1"/>
+<text x="84.0" y="245.7" font-size="10.5" fill="#78909c" text-anchor="end">30</text>
+<line x1="90.0" y1="203.3" x2="560.0" y2="203.3" stroke="#eceff1" stroke-width="1"/>
+<text x="84.0" y="207.3" font-size="10.5" fill="#78909c" text-anchor="end">60</text>
+<line x1="90.0" y1="165.0" x2="560.0" y2="165.0" stroke="#eceff1" stroke-width="1"/>
+<text x="84.0" y="169.0" font-size="10.5" fill="#78909c" text-anchor="end">90</text>
+<line x1="90.0" y1="126.7" x2="560.0" y2="126.7" stroke="#eceff1" stroke-width="1"/>
+<text x="84.0" y="130.7" font-size="10.5" fill="#78909c" text-anchor="end">120</text>
+<line x1="90.0" y1="88.3" x2="560.0" y2="88.3" stroke="#eceff1" stroke-width="1"/>
+<text x="84.0" y="92.3" font-size="10.5" fill="#78909c" text-anchor="end">150</text>
+<line x1="90.0" y1="50.0" x2="560.0" y2="50.0" stroke="#eceff1" stroke-width="1"/>
+<text x="84.0" y="54.0" font-size="10.5" fill="#78909c" text-anchor="end">180</text>
+<text x="90.0" y="296.0" font-size="10.5" fill="#78909c" text-anchor="middle">0</text>
+<text x="184.0" y="296.0" font-size="10.5" fill="#78909c" text-anchor="middle">2</text>
+<text x="278.0" y="296.0" font-size="10.5" fill="#78909c" text-anchor="middle">4</text>
+<text x="372.0" y="296.0" font-size="10.5" fill="#78909c" text-anchor="middle">6</text>
+<text x="466.0" y="296.0" font-size="10.5" fill="#78909c" text-anchor="middle">8</text>
+<text x="560.0" y="296.0" font-size="10.5" fill="#78909c" text-anchor="middle">10</text>
+<line x1="90.0" y1="280.0" x2="560.0" y2="280.0" stroke="#455a64" stroke-width="1.2"/>
+<line x1="90.0" y1="280.0" x2="90.0" y2="50.0" stroke="#455a64" stroke-width="1.2"/>
+<text x="325.0" y="314.0" font-size="11.5" fill="#455a64" text-anchor="middle">開挖深度 D（m）</text>
+<text x="50.0" y="40.0" font-size="11" fill="#455a64" text-anchor="start">kPa</text>
+<polygon points="90.0,56.4 338.7,174.7 338.7,192.3 90.0,192.3" fill="#c8e6c9" fill-opacity="0.5"/>
+<polyline points="90.0,56.4 560.0,280.0" fill="none" stroke="#8d6e63" stroke-width="2.6" stroke-linejoin="round"/>
+<text x="146.4" y="75.2" font-size="11.5" fill="#6d4c41" text-anchor="start" font-weight="700">σ<tspan dy="0.32em" font-size="72%">v</tspan><tspan dy="-0.32em">​</tspan> = 17.5(10 − D)（抵抗）</text>
+<line x1="90.0" y1="192.3" x2="560.0" y2="192.3" stroke="#1565c0" stroke-width="2.6"/>
+<text x="101.8" y="185.3" font-size="11.5" fill="#1565c0" text-anchor="start" font-weight="700">u = 7×9.81 = 68.67（驅動，與 D 無關）</text>
+<line x1="90.0" y1="174.7" x2="560.0" y2="174.7" stroke="#ef6c00" stroke-width="1.2" stroke-dasharray="5,4"/>
+<text x="433.1" y="168.7" font-size="10.5" fill="#ef6c00" text-anchor="start">1.2u（FS=1.2）</text>
+<circle cx="375.6" cy="192.3" r="5" fill="#c62828" stroke="none"/>
+<line x1="375.6" y1="192.3" x2="375.6" y2="280.0" stroke="#c62828" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="381.6" y="272.0" font-size="11" fill="#c62828" text-anchor="start" font-weight="700">D<tspan dy="0.32em" font-size="72%">cr</tspan><tspan dy="-0.32em">​</tspan>=6.08（σ′=0）</text>
+<circle cx="338.7" cy="174.7" r="4.5" fill="#ef6c00" stroke="none"/>
+<line x1="338.7" y1="174.7" x2="338.7" y2="280.0" stroke="#ef6c00" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="332.7" y="254.0" font-size="11" fill="#ef6c00" text-anchor="end" font-weight="700">FS=1.2 → D≈5.3</text>
+<text x="137.0" y="129.2" font-size="12" fill="#2e7d32" text-anchor="start" font-weight="700">安全區</text>
+<rect x="600.0" y="70.0" width="100.0" height="100.0" rx="0" fill="#d7ccc8" stroke="#8d6e63" stroke-width="0.8"/>
+<rect x="600.0" y="170.0" width="100.0" height="40.0" rx="0" fill="#b3e5fc" stroke="#0288d1" stroke-width="0.8"/>
+<rect x="650.0" y="70.0" width="50.0" height="60.0" rx="0" fill="#fafafa" stroke="#bdbdbd" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="625.0" y="100.0" font-size="10.5" fill="#4e342e" text-anchor="middle">黏土</text>
+<text x="650.0" y="195.0" font-size="10.5" fill="#01579b" text-anchor="middle">受壓砂層</text>
+<line x1="712.0" y1="130.0" x2="712.0" y2="170.0" stroke="#c62828" stroke-width="1"/>
+<line x1="707.0" y1="130.0" x2="717.0" y2="130.0" stroke="#c62828" stroke-width="1"/>
+<line x1="707.0" y1="170.0" x2="717.0" y2="170.0" stroke="#c62828" stroke-width="1"/>
+<text x="719.0" y="154.0" font-size="10.5" fill="#c62828" text-anchor="start">10−D</text>
+<line x1="590.0" y1="70.0" x2="590.0" y2="170.0" stroke="#455a64" stroke-width="1"/>
+<line x1="585.0" y1="70.0" x2="595.0" y2="70.0" stroke="#455a64" stroke-width="1"/>
+<line x1="585.0" y1="170.0" x2="595.0" y2="170.0" stroke="#455a64" stroke-width="1"/>
+<text x="583.0" y="124.0" font-size="10.5" fill="#455a64" text-anchor="end">10 m</text>
+<line x1="652.0" y1="100.0" x2="698.0" y2="100.0" stroke="#0288d1" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="675.0" y="96.0" font-size="9.5" fill="#0288d1" text-anchor="middle">水頭 7 m</text>
+<line x1="690.0" y1="100.0" x2="690.0" y2="170.0" stroke="#0288d1" stroke-width="1"/>
+<line x1="685.0" y1="100.0" x2="695.0" y2="100.0" stroke="#0288d1" stroke-width="1"/>
+<line x1="685.0" y1="170.0" x2="695.0" y2="170.0" stroke="#0288d1" stroke-width="1"/>
+<line x1="675.0" y1="205.0" x2="675.0" y2="174.0" stroke="#1565c0" stroke-width="2" marker-end="url(#f63b)"/>
+</svg>
+<div class="cap">圖 6-2｜範例 C 畫成兩條線：抵抗（交界面上方剩餘黏土重）隨 D 線性下降，驅動（受壓水壓）<b>與 D 無關是一條水平線</b>。兩線交點就是 \(\sigma'=0\) 的臨界深度 6.08 m；要求 \(FS=1.2\) 就是把水平線抬高 1.2 倍，交點左移到 5.29 m。砂層的 \(\gamma_{sat}\) 不在任何一條線裡 —— 這就是它是干擾項的原因。</div>
+</div>
+<b>自我檢查與觀察：</b>
+① 題目給的<b>砂層 \(\gamma_{sat}=18\) 完全用不到</b> —— 因為上舉檢核只看「交界面上方的重量」與「交界面的水壓」，砂層自己的重量不參與。這是標準干擾項。<br>
+② \(\sigma'=0\) 這個答案本身就是驗算：臨界狀態的定義就是有效應力歸零。<br>
+③ 若考場取 \(\gamma_w=10\)，得 \(D=6.00\) m，同樣正確 —— <b>但必須寫出你用了哪個 \(\gamma_w\)</b>。<br>
+④ 設計時要求 \(FS=1.1\sim1.5\)，故實際可開挖深度只有 \(10-1.2\times3.924\approx5.3\) m。只交 6.08 m 而不提 FS，答案不完整。
+</div>
+
+<div class="box">
+<b>手算範例 D｜一題三種水（<a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a>，2017）</b><br>
+擋土壁打至 GL−14.0 m，開挖 GL−8.0 m，外側水位 GL−1.0 m，超載 \(q=1\) tf/m²。<br>
+<div class="fig">
+<svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="f62r" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker><marker id="f62g" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#2e7d32"/></marker><marker id="f62b" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#1565c0"/></marker><marker id="f62k" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#455a64"/></marker><marker id="f62o" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#ef6c00"/></marker><marker id="f62p" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#6a1b9a"/></marker><marker id="f62w" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L8,3 z" fill="#0288d1"/></marker></defs>
+<text x="480.0" y="24.0" font-size="15" fill="#0d47a1" text-anchor="middle" font-weight="700">SM-2017-4 依比例重繪：同一個剖面，三種水／土的檢核（單位 tf、m）</text>
+<rect x="60.0" y="56.0" width="237.0" height="309.6" rx="0" fill="#d7ccc8" stroke="#8d6e63" stroke-width="0.8"/>
+<rect x="303.0" y="296.0" width="257.0" height="69.6" rx="0" fill="#d7ccc8" stroke="#8d6e63" stroke-width="0.8"/>
+<rect x="60.0" y="365.6" width="500.0" height="155.4" rx="0" fill="#f5e9c8" stroke="#c8a951" stroke-width="0.8"/>
+<rect x="303.0" y="56.0" width="257.0" height="240.0" rx="0" fill="#fafafa" stroke="#bdbdbd" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="78.0" y="212.0" font-size="11.5" fill="#4e342e" text-anchor="start">ML / CL（N = 1～4）</text>
+<text x="78.0" y="228.0" font-size="11" fill="#4e342e" text-anchor="start">γ<tspan dy="0.32em" font-size="72%">t</tspan><tspan dy="-0.32em">​</tspan> ≈ 1.86 tf/m³</text>
+<text x="78.0" y="434.0" font-size="11.5" fill="#6d4c41" text-anchor="start">SM（N = 14），與外側水位連通</text>
+<line x1="300.0" y1="56.0" x2="300.0" y2="476.0" stroke="#37474f" stroke-width="6"/>
+<line x1="90.0" y1="38.0" x2="90.0" y2="53.0" stroke="#c62828" stroke-width="1.5" marker-end="url(#f62r)"/>
+<line x1="120.0" y1="38.0" x2="120.0" y2="53.0" stroke="#c62828" stroke-width="1.5" marker-end="url(#f62r)"/>
+<line x1="150.0" y1="38.0" x2="150.0" y2="53.0" stroke="#c62828" stroke-width="1.5" marker-end="url(#f62r)"/>
+<line x1="180.0" y1="38.0" x2="180.0" y2="53.0" stroke="#c62828" stroke-width="1.5" marker-end="url(#f62r)"/>
+<line x1="210.0" y1="38.0" x2="210.0" y2="53.0" stroke="#c62828" stroke-width="1.5" marker-end="url(#f62r)"/>
+<line x1="240.0" y1="38.0" x2="240.0" y2="53.0" stroke="#c62828" stroke-width="1.5" marker-end="url(#f62r)"/>
+<line x1="270.0" y1="38.0" x2="270.0" y2="53.0" stroke="#c62828" stroke-width="1.5" marker-end="url(#f62r)"/>
+<text x="70.0" y="34.0" font-size="11" fill="#c62828" text-anchor="start">q = 1 tf/m²</text>
+<line x1="60.0" y1="86.0" x2="297.0" y2="86.0" stroke="#0288d1" stroke-width="1.6"/>
+<polygon points="80.0,86.0 73.0,77.0 87.0,77.0" fill="#0288d1" stroke="none" stroke-width="1.6" stroke-linejoin="round"/>
+<text x="96.0" y="82.0" font-size="11" fill="#0288d1" text-anchor="start">WL  GL−1.0</text>
+<line x1="303.0" y1="296.0" x2="560.0" y2="296.0" stroke="#0288d1" stroke-width="1.6"/>
+<polygon points="530.0,296.0 523.0,287.0 537.0,287.0" fill="#0288d1" stroke="none" stroke-width="1.6" stroke-linejoin="round"/>
+<text x="556.0" y="257.0" font-size="10.5" fill="#0288d1" text-anchor="end">坑內水位 GL−8.0（降至開挖面）</text>
+<line x1="303.0" y1="86.0" x2="560.0" y2="86.0" stroke="#0288d1" stroke-width="1.2" stroke-dasharray="6,4"/>
+<text x="556.0" y="81.0" font-size="10.5" fill="#0288d1" text-anchor="end">SM 層受壓水頭面 GL−1.0</text>
+<line x1="303.0" y1="300.8" x2="560.0" y2="300.8" stroke="#ef6c00" stroke-width="1.6" stroke-dasharray="6,3"/>
+<text x="556.0" y="278.0" font-size="10.5" fill="#ef6c00" text-anchor="end" font-weight="700">橙虛線：FS=2 時 SM 水頭需降到 GL−8.16</text>
+<polyline points="288.0,86.0 288.0,480.0 300.0,488.0 312.0,480.0 312.0,302.0" fill="none" stroke="#1565c0" stroke-width="2.4" stroke-linejoin="round" marker-end="url(#f62b)"/>
+<text x="282.0" y="281.0" font-size="11.5" fill="#1565c0" text-anchor="end" font-weight="700">13 m</text>
+<text x="318.0" y="401.0" font-size="11.5" fill="#1565c0" text-anchor="start" font-weight="700">6 m</text>
+<text x="300.0" y="506.0" font-size="11.5" fill="#1565c0" text-anchor="middle" font-weight="700">最高流線 L = 13 + 6 = 19 m</text>
+<rect x="330.0" y="296.0" width="110.0" height="69.6" rx="0" fill="none" stroke="#c62828" stroke-width="1.8" stroke-dasharray="5,3"/>
+<line x1="385.0" y1="304.0" x2="385.0" y2="361.6" stroke="#c62828" stroke-width="2.6" marker-end="url(#f62r)"/>
+<text x="448.0" y="326.0" font-size="10.5" fill="#c62828" text-anchor="start" font-weight="700">W = 1.86×2.32</text>
+<text x="448.0" y="340.0" font-size="10.5" fill="#c62828" text-anchor="start">= 4.315 tf/m²</text>
+<line x1="350.0" y1="399.6" x2="350.0" y2="369.6" stroke="#1565c0" stroke-width="2.4" marker-end="url(#f62b)"/>
+<line x1="385.0" y1="399.6" x2="385.0" y2="369.6" stroke="#1565c0" stroke-width="2.4" marker-end="url(#f62b)"/>
+<line x1="420.0" y1="399.6" x2="420.0" y2="369.6" stroke="#1565c0" stroke-width="2.4" marker-end="url(#f62b)"/>
+<text x="336.0" y="415.6" font-size="11" fill="#1565c0" text-anchor="start" font-weight="700">U = 1.0×(10.32−1.0) = 9.32 tf/m²</text>
+<line x1="570.0" y1="296.0" x2="570.0" y2="365.6" stroke="#c62828" stroke-width="1"/>
+<line x1="565.0" y1="296.0" x2="575.0" y2="296.0" stroke="#c62828" stroke-width="1"/>
+<line x1="565.0" y1="365.6" x2="575.0" y2="365.6" stroke="#c62828" stroke-width="1"/>
+<text x="577.0" y="334.8" font-size="10.5" fill="#c62828" text-anchor="start">t=2.32</text>
+<line x1="36.0" y1="56.0" x2="56.0" y2="56.0" stroke="#455a64" stroke-width="1"/>
+<text x="34.0" y="60.0" font-size="10.5" fill="#455a64" text-anchor="end">GL</text>
+<line x1="36.0" y1="86.0" x2="56.0" y2="86.0" stroke="#455a64" stroke-width="1"/>
+<text x="34.0" y="90.0" font-size="10.5" fill="#455a64" text-anchor="end">−1</text>
+<line x1="36.0" y1="296.0" x2="56.0" y2="296.0" stroke="#455a64" stroke-width="1"/>
+<text x="34.0" y="300.0" font-size="10.5" fill="#455a64" text-anchor="end">−8</text>
+<line x1="36.0" y1="365.6" x2="56.0" y2="365.6" stroke="#455a64" stroke-width="1"/>
+<text x="34.0" y="369.6" font-size="10.5" fill="#455a64" text-anchor="end">−10.32</text>
+<line x1="36.0" y1="476.0" x2="56.0" y2="476.0" stroke="#455a64" stroke-width="1"/>
+<text x="34.0" y="480.0" font-size="10.5" fill="#455a64" text-anchor="end">−14</text>
+<rect x="618.0" y="60.0" width="330.0" height="80.0" rx="8" fill="#ffffff" stroke="#1565c0" stroke-width="1.6"/>
+<text x="630.0" y="79.0" font-size="12.5" fill="#1565c0" text-anchor="start" font-weight="700">① 管湧（最高流線）</text>
+<text x="634.0" y="98.0" font-size="11.5" fill="#37474f" text-anchor="start">i = ΔH/L = 7/19 = 0.368</text>
+<text x="634.0" y="116.0" font-size="11.5" fill="#37474f" text-anchor="start">i<tspan dy="0.32em" font-size="72%">cr</tspan><tspan dy="-0.32em">​</tspan> = (1.86−1)/1 = 0.86</text>
+<text x="634.0" y="134.0" font-size="11.5" fill="#37474f" text-anchor="start" font-weight="700">FS = 0.86/0.368 = 2.33 ✓</text>
+<rect x="618.0" y="152.0" width="330.0" height="80.0" rx="8" fill="#ffffff" stroke="#c62828" stroke-width="1.6"/>
+<text x="630.0" y="171.0" font-size="12.5" fill="#c62828" text-anchor="start" font-weight="700">② 上舉（土塞 2.32 m）</text>
+<text x="634.0" y="190.0" font-size="11.5" fill="#37474f" text-anchor="start" font-weight="700">FS = W/U = 4.315/9.32 = 0.46 ✗</text>
+<text x="634.0" y="208.0" font-size="11.5" fill="#37474f" text-anchor="start">FS=2 → U ≤ 2.158 → 水頭面</text>
+<text x="634.0" y="226.0" font-size="11.5" fill="#37474f" text-anchor="start">降到 GL−(10.32−2.16) = GL−8.16</text>
+<rect x="618.0" y="244.0" width="330.0" height="98.0" rx="8" fill="#ffffff" stroke="#6a1b9a" stroke-width="1.6"/>
+<text x="630.0" y="263.0" font-size="12.5" fill="#6a1b9a" text-anchor="start" font-weight="700">③ 隆起（Terzaghi，π+2）</text>
+<text x="634.0" y="282.0" font-size="11.5" fill="#37474f" text-anchor="start">γH = 14.392，q = 1</text>
+<text x="634.0" y="300.0" font-size="11.5" fill="#37474f" text-anchor="start">S<tspan dy="0.32em" font-size="72%">u</tspan><tspan dy="-0.32em">​</tspan> 取 6 m 加權 N=9.72 → 6.078</text>
+<text x="634.0" y="318.0" font-size="11.5" fill="#37474f" text-anchor="start">FS = 6.078×5.142/15.392 = 2.03</text>
+<text x="634.0" y="336.0" font-size="11.5" fill="#37474f" text-anchor="start">若只取 CL（N=4）：S<tspan dy="0.32em" font-size="72%">u</tspan><tspan dy="-0.32em">​</tspan>=2.50 → 0.84</text>
+<rect x="618.0" y="354.0" width="330.0" height="66.0" rx="8" fill="#fff8e1" stroke="#ffa000" stroke-width="1.2"/>
+<text x="783.0" y="374.0" font-size="12.5" fill="#e65100" text-anchor="middle" font-weight="700">插深救不了 ②：</text>
+<text x="783.0" y="393.0" font-size="11.5" fill="#5d4037" text-anchor="middle">U 只跟 SM 層的水頭有關，與樁長無關</text>
+<text x="783.0" y="410.0" font-size="11.5" fill="#5d4037" text-anchor="middle" font-weight="700">→ 唯一解：深井降低 SM 層受壓水頭</text>
+</svg>
+<div class="cap">圖 6-3｜<a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a> 依比例重繪（GL 刻度為真實深度）。藍線是貼牆的最高流線：外側 13 m 下行＋內側 6 m 上行；紅虛框是 GL−8.0～−10.32 m 的 2.32 m 土塞，它的重量 4.315 要扛住 SM 層從 GL−1.0 水頭傳來的 9.32 tf/m²。橙虛線是 FS = 2 所需的 SM 受壓水頭面 GL−8.16 —— 比坑底還低 0.16 m，代表<b>必須抽 SM 層的水</b>，坑內排水救不了上舉。</div>
+</div>
+
+<b>(1) 管湧（最高流線法）</b>：路徑 \(L=(14-1)+(14-8)=13+6=19\) m；水頭差 \(\Delta H=8-1=7\) m。
+$$i=\frac{7}{19}=0.3684;\quad i_{cr}=\frac{\gamma_{sub}}{\gamma_w}=\frac{1.86-1.0}{1.0}=0.86\;\Rightarrow\;FS=\frac{0.86}{0.3684}=\mathbf{2.33}\ \checkmark$$
+<b>(2) 上舉</b>：受壓面在 GL−10.32 m（CL/SM 交界）。土塞厚 \(t=10.32-8.0=2.32\) m。
+$$W=1.86\times2.32=4.315\ \mathrm{tf/m^2};\quad U=1.0\times(10.32-1.0)=9.32\ \mathrm{tf/m^2}$$
+$$FS=\frac{4.315}{9.32}=\mathbf{0.46}\ \text{（早就破壞了）}$$
+要達 \(FS=2\)：容許上揚力 \(=4.315/2=2.158\) tf/m² → 水頭降到 2.158 m → 水位降至 GL−\((10.32-2.16)=\mathbf{GL-8.16\ m}\)。<br>
+<b>(3) 隆起</b>：\(\gamma H=14.392\) tf/m²（分層累加）。開挖面以下 GL−8.0~−14.0 m 依厚度加權：CL 2.32 m 取 \(N=4\)、SM 3.68 m 取三個試驗值平均 \(N=(14+12+14)/3=13.333\)，\(N_{avg}=9.724\Rightarrow S_u=10N/16=6.078\) tf/m²。
+$$FS=\frac{S_u(\pi+2)}{\gamma H+q}=\frac{6.078\times5.1416}{14.392+1}=\mathbf{2.03}\ \checkmark$$<div style="font-size:.92em;color:#b71c1c;margin:6px 0">⚠ 但 \(S_u\) 的<b>取用範圍</b>才是真正會翻盤的爭議：若破壞面被局限在開挖面正下方 2.32 m 厚的 CL（\(N=4\)）內，\(S_u=2.50\)、\(FS=\mathbf{0.84}\)，結論相反。作答時兩個數字都要列出並說明取用理由。</div>
+<b>這題的教學價值：三個 FS 只有一個不及格，而且不及格的那個「插深」救不了。</b>
+管湧 2.33、隆起 2.03 都很安全，但上舉 0.46 —— 因為 GL−10.32 m 以下是 SM 層，它與外界水位連通，
+水壓只有 2.32 m 厚的黏土在扛。<b>唯一解是抽水降低受壓水頭。</b>
+</div>
+
+<div class="trap">
+<b>陷阱｜「最高流線」的路徑長度</b><br>
+<b>觸發信號：</b>題目說「以擋土壁最高流線分析」。<br>
+<b>錯誤思維：</b>只算內側上行段 6 m，或只算牆的總長 14 m。<br>
+<b>正確認知：</b>最高流線＝<b>緊貼牆面的那條最短路徑</b>＝外側下行 ＋ 內側上行 \(=(14-1)+(14-8)=19\) m。
+它是最保守的估計（路徑最短 → \(i\) 最大）。用流網法會得到略大的 \(L\)。
+</div>
+</section>
+<section id="s7">
+<h2>§7　對策：把公式反過來用</h2>
+
+<p class="lead">近年考題（<a class="qlink" href="problems-view/SM-2023-4.html" target="_blank">SM-2023-4</a>、<a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a>、<a class="qlink" href="problems-view/SM-2008-3.html" target="_blank">SM-2008-3</a>）都不只要 FS，還要「不足時怎麼辦」。答這種題只有一個方法：<b>盯著公式看，哪個符號能動就動哪個。</b></p>
+
+<table>
+<thead><tr><th>破壞模式</th><th>公式</th><th>能動的符號</th><th>對應工法</th></tr></thead>
+<tbody>
+<tr><td>貫入不足（砂）</td><td>\(\Sigma M=0\)，被動合力 \(\propto(K_p-K_a)\gamma'D^2\)（力矩 \(\propto D^3\)）</td><td>\(D\)（力 \(D^2\)、力矩 \(D^3\)，最有效）</td><td>加長版樁；改用連續壁</td></tr>
+<tr><td>貫入不足（黏土）</td><td>\(p_{net}=4c_u-\gamma H\)</td><td><b>\(c_u\)</b>（\(D\) 幾乎無效）</td><td>被動側地盤改良（深層攪拌、JSG）—— <a class="qlink" href="problems-view/SM-2008-3.html" target="_blank">SM-2008-3</a> 就是求改良後 \(q_u\)</td></tr>
+<tr><td>支撐荷重過大</td><td>荷重 \(\propto\) 包絡線面積 × 跨距 × \(s\)</td><td>跨距、\(s\)</td><td>加密支撐階數、縮小水平間距、預壓千斤頂</td></tr>
+<tr><td>基盤隆起</td><td>\(FS=\dfrac{N_cS_u}{\gamma H+q}\)</td><td>\(S_u\)、\(q\)、\(H\)</td><td>底部地改提高 \(S_u\)；卸除地表超載；<b>分段分區開挖降低有效 \(H\)</b>；設中間柱</td></tr>
+<tr><td>上舉</td><td>\(FS=\dfrac{\gamma t}{\gamma_w h_w}\)</td><td><b>\(h_w\)</b>（唯一有效）</td><td>深井抽水降低受壓水頭；壓重；（插深<b>無效</b>）</td></tr>
+<tr><td>砂湧</td><td>\(FS=\dfrac{i_{cr}}{i_{exit}}\)</td><td>\(i_{exit}\)（＝\(\Delta H/L\)）</td><td>加深貫入拉長 \(L\)；坑內外降水縮小 \(\Delta H\)；坑底壓重</td></tr>
+<tr><td>管湧</td><td>侵蝕條件</td><td>級配、濾層</td><td>逆濾層、灌漿止水、地下連續壁切斷路徑</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>一條貫穿全部的判準：先問「驅動力能不能降」，再問「抵抗能不能升」。</b><br>
+驅動力（\(\gamma H\)、\(q\)、\(h_w\)、\(\Delta H\)）通常<b>比較便宜</b>：卸載、抽水、分區開挖都不用改變結構。
+抵抗（\(S_u\)、\(D\)、斷面）通常<b>比較貴</b>：地改與加長版樁都是大筆錢。
+考題要你「建議改善措施」時，把兩類分開講並說明優先順序，比列一堆工法名稱得分高。
+</div>
+
+<div class="trap">
+<b>陷阱｜降水是萬靈丹？</b><br>
+<b>觸發信號：</b>看到任何水的問題就答「抽水降水」。<br>
+<b>錯誤思維：</b>抽水只有好處。<br>
+<b>正確認知：</b>坑外降水會使<b>周邊有效應力上升 → 壓密沉陷 → 損鄰</b>，這正是台灣深開挖損鄰的主因之一。
+正解要補一句「坑內降水為主、坑外設回灌井、並密集監測鄰房沉陷」。
+<a class="qlink" href="problems-view/SM-2023-4.html" target="_blank">SM-2023-4</a> 問的就是這種綜合研判。
+</div>
+</section>
+
+<section id="s8">
+<h2>§8　解題決策流程</h2>
+
+<div class="fig">
+<svg viewBox="0 0 960 670" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+  <defs><marker id="c1" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#455a64"/></marker></defs>
+  <g stroke="#455a64" stroke-width="1.6" fill="none" marker-end="url(#c1)">
+    <line x1="480" y1="60" x2="480" y2="74"/>
+    <polyline points="320,116 200,116 200,144"/>
+    <polyline points="640,116 770,116 770,144"/>
+    <line x1="200" y1="226" x2="200" y2="250"/>
+    <line x1="770" y1="226" x2="770" y2="250"/>
+    <polyline points="110,288 70,288 70,340"/>
+    <line x1="200" y1="324" x2="200" y2="340"/>
+    <polyline points="290,288 330,288 330,340"/>
+    <polyline points="680,288 675,288 675,340"/>
+    <polyline points="860,288 865,288 865,340"/>
+    <line x1="200" y1="438" x2="200" y2="450"/>
+    <line x1="770" y1="438" x2="770" y2="450"/>
+    <line x1="480" y1="540" x2="480" y2="560"/>
+  </g>
+  <g stroke="#455a64" stroke-width="1.6" fill="none">
+    <line x1="70" y1="422" x2="70" y2="438"/><line x1="200" y1="422" x2="200" y2="438"/><line x1="330" y1="422" x2="330" y2="438"/>
+    <line x1="70" y1="438" x2="330" y2="438"/>
+    <line x1="675" y1="422" x2="675" y2="438"/><line x1="865" y1="422" x2="865" y2="438"/>
+    <line x1="675" y1="438" x2="865" y2="438"/>
+    <line x1="200" y1="512" x2="200" y2="540"/><line x1="770" y1="512" x2="770" y2="540"/>
+    <line x1="200" y1="540" x2="770" y2="540"/>
+  </g>
+  <text x="262" y="108" font-size="12" font-weight="700" fill="#b71c1c" text-anchor="middle">是</text>
+  <text x="705" y="108" font-size="12" font-weight="700" fill="#0d47a1" text-anchor="middle">否</text>
+
+  <rect x="330" y="30" width="300" height="30" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.6"/>
+  <text x="480" y="50" font-size="14" font-weight="700" fill="#0d47a1" text-anchor="middle">讀題：這題在檢核「結構」還是「地層」？</text>
+
+  <polygon points="480,76 640,116 480,156 320,116" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.8"/>
+  <text x="480" y="112" font-size="12.5" fill="#e65100" text-anchor="middle">題目問的是 D、T、M、S 嗎？</text>
+  <text x="480" y="130" font-size="11" fill="#8d6e63" text-anchor="middle">（貫入深度、地錨力、彎矩、斷面）</text>
+
+  <polygon points="200,146 336,186 200,226 64,186" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+  <text x="200" y="182" font-size="12.5" fill="#b71c1c" text-anchor="middle">結構側：有幾道支撐？</text>
+  <text x="200" y="200" font-size="11" fill="#8d6e63" text-anchor="middle">（看剖面圖上的橫桿）</text>
+
+  <polygon points="770,146 916,186 770,226 624,186" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.8"/>
+  <text x="770" y="182" font-size="12.5" fill="#0d47a1" text-anchor="middle">地層側：驅動力是土還是水？</text>
+  <text x="770" y="200" font-size="11" fill="#607d8b" text-anchor="middle">（給 Su 還是給水位／水頭）</text>
+
+  <polygon points="200,252 290,288 200,324 110,288" fill="#ffebee" stroke="#c62828" stroke-width="1.6"/>
+  <text x="200" y="292" font-size="12" fill="#b71c1c" text-anchor="middle">0 / 1 / 多</text>
+
+  <polygon points="770,252 860,288 770,324 680,288" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.6"/>
+  <text x="770" y="292" font-size="12" fill="#0d47a1" text-anchor="middle">土 / 水</text>
+
+  <rect x="8" y="342" width="124" height="80" rx="8" fill="#fff" stroke="#90a4ae" stroke-width="1.4"/>
+  <text x="70" y="364" font-size="12" font-weight="700" fill="#b71c1c" text-anchor="middle">0 道：懸臂式</text>
+  <text x="70" y="384" font-size="11" fill="#37474f" text-anchor="middle">淨壓力法</text>
+  <text x="70" y="402" font-size="11" fill="#37474f" text-anchor="middle">→ 四次方程式（§2）</text>
+
+  <rect x="138" y="342" width="124" height="80" rx="8" fill="#fff" stroke="#90a4ae" stroke-width="1.4"/>
+  <text x="200" y="364" font-size="12" font-weight="700" fill="#b71c1c" text-anchor="middle">1 道：錨定式</text>
+  <text x="200" y="384" font-size="11" fill="#37474f" text-anchor="middle">樁尖能轉→自由端</text>
+  <text x="200" y="402" font-size="11" fill="#37474f" text-anchor="middle">不能轉→固定端（§3）</text>
+
+  <rect x="268" y="342" width="124" height="80" rx="8" fill="#fff" stroke="#90a4ae" stroke-width="1.4"/>
+  <text x="330" y="364" font-size="12" font-weight="700" fill="#b71c1c" text-anchor="middle">多道：視土壓力</text>
+  <text x="330" y="384" font-size="11" fill="#37474f" text-anchor="middle">先算 Ns 判包絡線</text>
+  <text x="330" y="402" font-size="11" fill="#37474f" text-anchor="middle">→ 鉸接法（§4）</text>
+
+  <rect x="600" y="342" width="150" height="80" rx="8" fill="#fff" stroke="#90a4ae" stroke-width="1.4"/>
+  <text x="675" y="364" font-size="12" font-weight="700" fill="#0d47a1" text-anchor="middle">土：基盤隆起</text>
+  <text x="675" y="384" font-size="11" fill="#37474f" text-anchor="middle">給 B、L → Bjerrum-Eide</text>
+  <text x="675" y="402" font-size="11" fill="#37474f" text-anchor="middle">沒給 → Terzaghi（§5）</text>
+
+  <rect x="790" y="342" width="150" height="80" rx="8" fill="#fff" stroke="#90a4ae" stroke-width="1.4"/>
+  <text x="865" y="364" font-size="12" font-weight="700" fill="#0d47a1" text-anchor="middle">水：分三種</text>
+  <text x="865" y="384" font-size="11" fill="#37474f" text-anchor="middle">受壓層→上舉</text>
+  <text x="865" y="402" font-size="11" fill="#37474f" text-anchor="middle">滲流→砂湧/管湧（§6）</text>
+
+  <rect x="80" y="452" width="240" height="60" rx="8" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.5"/>
+  <text x="200" y="474" font-size="12" fill="#4a148c" text-anchor="middle">砂：有效應力 γ′ ＋ 水壓另畫</text>
+  <text x="200" y="494" font-size="12" fill="#4a148c" text-anchor="middle">黏土：總應力 φ=0，用 4cu − γH</text>
+
+  <rect x="650" y="452" width="240" height="60" rx="8" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.5"/>
+  <text x="770" y="474" font-size="12" fill="#4a148c" text-anchor="middle">分子＝抵抗（重量或強度）</text>
+  <text x="770" y="494" font-size="12" fill="#4a148c" text-anchor="middle">分母＝驅動（γH＋q 或 水壓）</text>
+
+  <rect x="310" y="562" width="340" height="84" rx="8" fill="#fff8e1" stroke="#ffa000" stroke-width="1.8"/>
+  <text x="480" y="584" font-size="13" font-weight="700" fill="#e65100" text-anchor="middle">收尾：三件事一定要寫</text>
+  <text x="480" y="604" font-size="11.5" fill="#5d4037" text-anchor="middle">① 標明用的 γw、安全係數施加在哪一項</text>
+  <text x="480" y="622" font-size="11.5" fill="#5d4037" text-anchor="middle">② FS 與規範門檻比較（隆起 1.2~1.5、砂湧 1.5~2.0）</text>
+  <text x="480" y="640" font-size="11.5" fill="#5d4037" text-anchor="middle">③ 不足時的對策（先降驅動、再升抵抗）</text>
+</svg>
+<div class="cap">圖 8-1｜第一個菱形決定走哪一邊，第二個菱形（<b>幾道支撐</b>／<b>驅動力是土還是水</b>）決定用哪一套公式。<b>「數剖面圖上有幾根橫桿」是本單元最有效率的第一個動作</b> —— 0 根、1 根、多根對應三套完全不同的方法。</div>
+</div>
+</section>
+<section id="s9">
+<h2>§9　歷屆題 × 觀念對照表</h2>
+
+<h3>9.1　主分類（本單元為主考點，12 題）</h3>
+<table>
+<thead><tr><th>題號</th><th>年度</th><th>考的是哪一邊</th><th>核心考點</th><th>對應本講義</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="problems-view/SM-2003-3.html" target="_blank">SM-2003-3</a></td><td>2003</td><td>地層</td><td>上舉、受壓含水層、臨界開挖深度、\(\sigma'=0\)</td><td>§6（範例 C）</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2005-1.html" target="_blank">SM-2005-1</a></td><td>2005</td><td>結構</td><td>錨定式、自由端支撐、黏土淨被動壓力 \(4c-\gamma H\)</td><td>§1.2、§3（範例 A）</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2007-4.html" target="_blank">SM-2007-4</a></td><td>2007</td><td>結構</td><td>錨定式、<b>固定端</b>、Blum 等值梁法、地錨有效距離</td><td>§3</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2008-3.html" target="_blank">SM-2008-3</a></td><td>2008</td><td>結構</td><td>連續壁貫入 FS；<b>反算改良後所需 \(q_u\)</b></td><td>§3、§7</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2011-4.html" target="_blank">SM-2011-4</a></td><td>2011</td><td>結構</td><td>視土壓力、三階支撐反力、鋼鈑樁<b>截面模數</b></td><td>§4</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2012-4.html" target="_blank">SM-2012-4</a></td><td>2012</td><td>兩邊</td><td>視土壓力（砂＋黏土等值參數）＋抗隆起 FS</td><td>§4、§5</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2014-3.html" target="_blank">SM-2014-3</a></td><td>2014</td><td>結構</td><td>自由端支撐、有水位、坑內降至開挖面、地錨預力</td><td>§1.3、§3</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2015-3.html" target="_blank">SM-2015-3</a></td><td>2015</td><td>兩邊</td><td>Peck 包絡線 ＋ Bjerrum-Eide 三維 \(N_c\)</td><td>§4（範例 B）、§5</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a></td><td>2017</td><td>兩邊</td><td>打樁振動損鄰 ＋ 管湧 ＋ 上舉降水 ＋ 隆起（四合一）</td><td>§5、§6（範例 D）、§7</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2020-2.html" target="_blank">SM-2020-2</a></td><td>2020</td><td>兩邊</td><td>懸臂樁土壓力／淨水壓分開畫、對 O 點取矩、抗砂湧</td><td>§1.3、§2、§6</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2022-4.html" target="_blank">SM-2022-4</a></td><td>2022</td><td>結構</td><td>懸臂樁淨壓力法、四次方程式、\(FS=1\) 臨界貫入深度</td><td>§2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2023-4.html" target="_blank">SM-2023-4</a></td><td>2023</td><td>綜合研判</td><td>由鑽探資料研判支撐系統失敗原因與防治對策</td><td>§5、§7</td></tr>
+</tbody>
+</table>
+
+<h3>9.2　副分類（本單元為配角，5 題）</h3>
+<table>
+<thead><tr><th>題號</th><th>年度</th><th>本單元在該題扮演什麼</th><th>主戰場</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="problems-view/SM-2003-1.html" target="_blank">SM-2003-1</a></td><td>2003</td><td>鑽探深度與取樣策略是「開挖設計參數從哪來」的前一步</td><td>基地調查</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2006-3.html" target="_blank">SM-2006-3</a></td><td>2006</td><td>島式開挖邊坡的側向滑動；用到主／被動土壓力與 \(S_u\)</td><td>SM-U3-4 邊坡</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2009-2.html" target="_blank">SM-2009-2</a></td><td>2009</td><td>代償式基礎的「基盤隆起」檢核與開挖同一套公式</td><td>SM-U2-1 淺基礎</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2010-3.html" target="_blank">SM-2010-3</a></td><td>2010</td><td>滲流力、臨界水力坡降、抽水降水 → 砂湧與管湧</td><td>SM-U1-2 滲透</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2011-2.html" target="_blank">SM-2011-2</a></td><td>2011</td><td>圍堰開挖的流網 → 求 \(i_{exit}\) 的正規方法</td><td>SM-U1-2 滲透</td></tr>
+</tbody>
+</table>
+
+<div class="lead"><b>讀這張表的方式：</b>結構側 6 題、地層側 1 題、兩邊都考 4 題、綜合研判 1 題。
+<b>2015 以後的五題裡有四題是「兩邊都考」或「綜合研判」</b>（唯一例外是 <a class="qlink" href="problems-view/SM-2022-4.html" target="_blank">SM-2022-4</a>，只考懸臂樁）—— 命題趨勢很明確：
+不再單獨問一個公式，而是要你在同一個剖面上把三、四個 FS 都算出來，再判斷哪一個控制。</div>
+</section>
+
+<section id="s10">
+<h2>§10　陷阱總表（考前十分鐘掃這一頁）</h2>
+
+<table>
+<thead><tr><th>#</th><th>觸發信號</th><th>錯誤思維</th><th>正確認知</th><th>出處</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>開挖面以下是黏土、給 \(S_u\)</td><td>用 \(\phi'\) 算 \(K_a, K_p\)</td><td>短期用總應力 \(\phi=0\)，淨被動壓力 \(=4c_u-\gamma H\)（常數）</td><td><a class="qlink" href="problems-view/SM-2005-1.html" target="_blank">SM-2005-1</a></td></tr>
+<tr><td>2</td><td>\(4c_u\le\gamma H\)</td><td>繼續解方程式</td><td>無解！插深無效，只能地改或降 \(H\)</td><td>範例 A 延伸（\(c_c=40\)）</td></tr>
+<tr><td>3</td><td>砂土＋地下水位</td><td>\(\gamma_{sat}\times K_a\)</td><td>土壓用 \(\gamma'\times K_a\)，水壓<b>全額另畫</b></td><td><a class="qlink" href="problems-view/SM-2020-2.html" target="_blank">SM-2020-2</a></td></tr>
+<tr><td>4</td><td>多階支撐</td><td>用 Rankine 三角形算支撐力</td><td>用 Peck 視土壓力包絡線（砂土全深度矩形；黏土自頂部 0 斜升，0.25H 以下維持定值，硬黏土底部 0.25H 再收回 0）</td><td>SM-2011-4、SM-2015-3</td></tr>
+<tr><td>5</td><td>視土壓力題有砂有黏土</td><td>分層各畫一個包絡線</td><td>先算<b>等值 \(\bar\gamma\)、\(\bar C_u\)</b> 均勻化，再判型</td><td>SM-2012-4、SM-2015-3</td></tr>
+<tr><td>6</td><td>給支撐水平間距 \(s\)</td><td>交出 kN/m 就收筆</td><td>單根軸力 \(=\bar P\times s\)</td><td><a class="qlink" href="problems-view/SM-2011-4.html" target="_blank">SM-2011-4</a></td></tr>
+<tr><td>7</td><td>隆起 FS 分子的 \(S_u\)</td><td>用開挖面以上的 \(S_u\)</td><td>分子用<b>開挖面以下</b>破壞面的 \(S_u\)；分母才是以上的 \(\gamma H\)</td><td><a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a></td></tr>
+<tr><td>8</td><td>題目給了 \(B\) 與 \(L\)</td><td>用二維 Terzaghi</td><td>給長寬就是要你用 Bjerrum-Eide 三維 \(N_c\)</td><td><a class="qlink" href="problems-view/SM-2015-3.html" target="_blank">SM-2015-3</a></td></tr>
+<tr><td>9</td><td>地表有超載 \(q\)</td><td>隆起 FS 分母只寫 \(\gamma H\)</td><td>\(q\) 是驅動力，要加進分母</td><td><a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a></td></tr>
+<tr><td>10</td><td>看到「水」就想插深</td><td>用加深貫入解上舉</td><td>上舉與滲流路徑無關，<b>插深完全無效</b>，只能降受壓水頭</td><td>SM-2003-3、SM-2017-4</td></tr>
+<tr><td>11</td><td>混用砂湧與管湧</td><td>兩者當同義詞</td><td>砂湧＝出口整片失重（看 \(i\)）；管湧＝沿路徑侵蝕掏空（看級配與濾層）</td><td><a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a></td></tr>
+<tr><td>12</td><td>「最高流線」</td><td>只算單側路徑</td><td>\(L=\)外側下行＋內側上行；是最短、最保守的路徑</td><td><a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a></td></tr>
+<tr><td>13</td><td>懸臂樁算出 \(D_L\)</td><td>當設計值交卷</td><td>設計要 \(1.2\sim1.3D_L\)，或改把 FS 打在 \(K_p\)；<b>兩種不可混用</b></td><td>SM-2022-4、SM-2007-4</td></tr>
+<tr><td>14</td><td>被動側土壓力</td><td>直接用滿 \(K_p\)</td><td>被動要 5–10 倍位移才發揮；規範多要求折減</td><td>通用</td></tr>
+<tr><td>15</td><td>題目給「坑內水位降至開挖面」</td><td>兩側水壓照對稱畫</td><td>兩側水位不同 → 有<b>淨水壓</b>，且產生滲流；要單獨畫淨水壓圖</td><td>SM-2014-3、SM-2020-2</td></tr>
+<tr><td>16</td><td>問「改善措施」</td><td>列一堆工法名稱</td><td>先分「降驅動」與「升抵抗」兩類，說明優先序與副作用</td><td>SM-2023-4、SM-2008-3</td></tr>
+<tr><td>17</td><td>答「抽水降水」</td><td>當成沒有代價</td><td>坑外降水 → 有效應力上升 → 壓密沉陷 → 損鄰。要補回灌與監測</td><td><a class="qlink" href="problems-view/SM-2023-4.html" target="_blank">SM-2023-4</a></td></tr>
+<tr><td>18</td><td>鑽探表 N=1、\(w&gt;LL\)</td><td>當一般軟弱土</td><td>\(LI&gt;1\) 的高敏感黏土，擾動即流動；打擊式工法要改靜壓</td><td>SM-2023-4、SM-2017-4</td></tr>
+<tr><td>19</td><td>\(\gamma_w\) 取 9.81 還是 10</td><td>不寫、混用</td><td>任選其一但<b>必須標明</b>；同一題內不可換</td><td>通用</td></tr>
+<tr><td>20</td><td>算完 FS 就收筆</td><td>不比規範門檻</td><td>要寫「\(FS=1.50\)，規範要求 1.2～1.5，勉強符合，建議…」</td><td>通用</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="s11">
+<h2>§11　自我檢測：能回答才算讀懂</h2>
+
+<details><summary>1. 為什麼「插得更深」對基盤隆起與上舉幾乎沒有幫助，對砂湧卻有？</summary>
+<p>隆起的驅動力是 \(\gamma H+q\)（牆背土柱重量），插深不改變它，只是把滑動面推遠一點；上舉的驅動力是受壓水頭 \(\gamma_wh_w\)，與樁長完全無關。砂湧的驅動力是水力坡降 \(i=\Delta H/L\)，而 \(L\) 正是滲流路徑長度 —— 插深直接把 \(L\) 拉長，\(i\) 就下降。</p></details>
+
+<details><summary>2. \(4c_u-\gamma H&gt;0\) 與 \(N_s&lt;4\) 是同一件事嗎？它還連到什麼？</summary>
+<p>是。\(4c_u&gt;\gamma H \iff \gamma H/c_u&lt;4\)。同一個 \(N_s=4\) 同時是：（一）黏土裡插深有沒有用的分界；（二）Peck 包絡線選「硬黏土型」或「軟中黏土型」的分界；（三）基盤隆起風險的警戒訊號 —— 但只是警戒：隆起 \(FS\approx N_c/N_s\)，要 \(N_s\) 超過 \(N_c\)（約 5.14～5.7）才會小於 1。</p></details>
+
+<details><summary>3. 視土壓力為什麼不是 Rankine 三角形？</summary>
+<p>因為施工順序是「先撐上面、再挖下面」，頂部一撐住就幾乎不再變形，位移集中在下部。土壓力會往變形小的地方重分配（拱效應），使上半部承受的壓力遠高於 Rankine 三角形的預測值：砂土的包絡線頂部就是滿值（矩形），黏土則在 \(0.25H\) 內就升到最大值。Peck 的包絡線就是實測支撐荷重反推出來的外包線。</p></details>
+
+<details><summary>4. Peck 包絡線可以拿來算牆的最大彎矩嗎？</summary>
+<p>不可以。它是為了<b>算支撐荷重</b>而設計的外包線，把各階段最不利值疊在一起，用來算彎矩會顯著高估。牆的彎矩要回到真實土壓力（Rankine／淨壓力法）並考慮施工階段分析。</p></details>
+
+<details><summary>5. 自由端與固定端支撐法，差別的物理本質是什麼？各自的代價是？</summary>
+<p>差別只在<b>樁尖能不能轉</b>。自由端假設樁尖自由轉動，靜定，一個力矩方程式就解出 \(D\)；插得淺、省鋼板樁，但 \(M_{max}\) 大、斷面要厚。固定端假設樁尖被土夾住不能轉，產生負彎矩與反曲點，\(M_{max}\) 降三到四成；但樁要長 30–50%，且需用 Blum 等值梁法在反曲點切開才解得動。</p></details>
+
+<details><summary>6. 為什麼被動土壓力常被打折，主動不打？</summary>
+<p>因為兩者「發揮到滿」需要的位移量差 5–10 倍。牆一動，主動側立刻降到 \(K_a\)（土在卸壓，很容易）；被動側要把土推到破壞才給 \(K_p\)（土在受壓，需要很大位移）。在容許變形的設計中，被動側根本沒有出到滿力，所以要折減。這不是保守，是實際。</p></details>
+
+<details><summary>7. 上舉與砂湧最根本的差別在哪？</summary>
+<p>上舉是<b>靜水壓頂起一整塊不透水盤</b>，不需要滲流，甚至可以發生在完全不透水的黏土層（水在下面、土在上面）；砂湧是<b>向上滲流</b>使出口處有效應力歸零，必須有滲流才會發生，且只發生在透水土。檢核面也不同：上舉在不透水／透水交界面，砂湧在開挖面出口。</p></details>
+
+<details><summary>8. 為什麼 \(i_{cr}\) 幾乎總是落在 0.8～1.0？</summary>
+<p>\(i_{cr}=\dfrac{G_s-1}{1+e}\)。\(G_s\) 對絕大多數土壤在 2.65–2.75，分子固定在 1.65–1.75；\(e\) 對砂常在 0.6–1.0，分母 1.6–2.0。兩者相除自然落在 0.83–1.09。所以看到算出的 \(i_{cr}=2.5\) 或 0.3，先回頭檢查 \(e\)。</p></details>
+
+<details><summary>9. 隆起 FS 的三維 \(N_c\) 為什麼要看 \(B/L\) 與 \(D/B\)？</summary>
+<p>因為隆起本質是倒過來的承載力破壞。\(B/L\) 反映端部拘束（方形開挖比狹長開挖不易隆起）；\(D/B\) 反映破壞面被埋深，越深要推開的土越多。兩個修正都是把 Skempton 淺基礎 \(N_c\) 從 5.14（平面應變）推到最大 9（方形深埋）。</p></details>
+
+<details><summary>10. 同一個剖面算出四個 FS，怎麼判斷哪一個控制設計？</summary>
+<p>取最小的那一個，並檢查它的對策是否與其他項衝突。例如 SM-2017-4 的上舉 FS=0.46 最小，對策是抽水降低受壓水頭；但抽水會使坑外有效應力上升、鄰房沉陷 —— 所以正解不是「抽就對了」，而是「坑內降水為主、坑外回灌、密集監測」。</p></details>
+
+<details><summary>11. 為什麼台灣軟弱黏土區的深開挖不靠「插深」？</summary>
+<p>因為黏土的淨被動壓力 \(4c_u-\gamma H\) 是常數，不隨深度成長；而且當 \(N_s&gt;4\) 時它直接變成負值，插深毫無意義。剩下的手段只有：提高 \(c_u\)（被動側地盤改良）、降低有效 \(H\)（分區分階開挖、逆打）、增加支撐勁度與階數、以及降低驅動水頭。</p></details>
+
+<details><summary>12. 如果考卷只給你剖面圖沒給任何要求，你的前三個動作是什麼？</summary>
+<p>①<b>數橫桿</b>（0 / 1 / 多 → 決定結構側用哪套方法）；②<b>看開挖面以下是砂還是黏土</b>（決定有效應力還是總應力、決定 \(N_s\) 要不要算）；③<b>找水位線與有沒有受壓層</b>（決定要不要檢核上舉與砂湧）。三個動作三十秒，方法就定了。</p></details>
+</section>
+
+<section id="s11b">
+<h2>§11.5　因果鏈重列：能用嘴巴講出來才算會</h2>
+
+<div class="box">
+<b>鏈 1（結構側主幹）</b>：挖土 → 背填側卸壓成主動 \(K_a\) → 樁受推 → 靠開挖面以下的被動 \(K_p\) 平衡 → 買不夠就加支撐 → 支撐分掉主動力 → 剩下的由貫入段承擔 → \(\Sigma M=0\) 解 \(D\)、\(\Sigma F=0\) 解 \(T\)。
+</div>
+<div class="box">
+<b>鏈 2（黏土的死結）</b>：黏土 \(\phi=0\) → 兩側 \(\sigma_v\) 相消 → 淨被動壓力 \(=4c_u-\gamma H\) 為常數 → 若 \(N_s=\gamma H/c_u&gt;4\) 則為負 → 插深無效 → 同時 Peck 轉軟黏土型（支撐荷重跳升）、隆起 \(FS\approx N_c/N_s\) 逼近 1（\(N_s\) 再大到超過 \(N_c\approx5.14\sim5.7\) 就 &lt; 1） → 只剩地改／降 \(H\)／加撐三條路。
+</div>
+<div class="box">
+<b>鏈 3（施工順序決定土壓力）</b>：先撐後挖 → 頂部先鎖住、下部才變形 → 位移不是三角形 → 土壓力向頂部重分配（拱效應）→ 實測支撐荷重在上半部就達到最大值 → Peck 把它外包成設計包絡線 → <b>只能用來算支撐力</b>。
+</div>
+<div class="box">
+<b>鏈 4（隆起）</b>：牆背土柱重 \(\gamma H+q\) 下壓 → 底部土被擠向開挖側 → 沿滑動面用 \(S_u\) 抵抗 → 整理成 \(N_cS_u\) → \(FS=N_cS_u/(\gamma H+q)\) → 插深只延長滑動面、幫助有限 → 有效手段是提高 \(S_u\) 或降低 \(H\)、\(q\)。
+</div>
+<div class="box">
+<b>鏈 5（水）</b>：坑內外水位差 → ①若下方有受壓層：靜水壓直接頂不透水盤 → 上舉（與滲流無關，插深無效，只能降水頭）；②若土層透水：產生滲流 → 出口坡降 \(i=\Delta H/L\) → \(i\to i_{cr}=\gamma'/\gamma_w\) 時 \(\sigma'=0\) → 砂湧（插深拉長 \(L\) 有效）；③若級配可流失：細粒被沖走 → 管湧（靠濾層）。
+</div>
+<div class="box">
+<b>鏈 6（對策的一般式）</b>：任何 FS 不足 → 先看分母（驅動：\(\gamma H\)、\(q\)、\(h_w\)、\(\Delta H\)）能不能降，因為便宜 → 再看分子（抵抗：\(S_u\)、\(D\)、斷面）能不能升，因為貴 → 最後檢查對策的副作用（降水 → 沉陷損鄰）。
+</div>
+</section>
+
+<section id="s12">
+<h2>★ §12　精選 5 題：時間只夠練五題就練這五題</h2>
+
+<p class="lead">貪婪覆蓋率演算法的前六名裡有三題（SM-2011-2、SM-2006-3、SM-2003-1）重心不在本單元，已用判斷剔除。以下五題的原則是：<b>結構側 2 題（2005-1、2022-4）、兩邊都考 2 題（2017-4 偏地層、2015-3 結構＋地層各半）、綜合研判 1 題（2023-4），彼此技能不重疊。</b></p>
+
+<h3>① <a class="qlink" href="problems-view/SM-2017-4.html" target="_blank">SM-2017-4</a>（2017）— 一題把地層側全部考完</h3>
+<div class="box">
+<b>為什麼選它：</b>管湧、上舉、隆起三個 FS 一次到齊，還多一小題施工損鄰研判。更關鍵的是它示範了<b>「三個 FS 只有一個不及格，而且該項插深救不了」</b>這種真實工程判斷。考卷把公式都印出來了，所以測的完全是<b>觀念與參數選取</b>。<br>
+<b>先讀：</b>§5、§6（範例 D）、§7<br>
+<b>做完要能回答：</b>為什麼上舉的檢核面在 GL−10.32 m 而不是開挖面？為什麼管湧的路徑長度是 19 m？隆起的 \(S_u\) 為什麼要用開挖面以下的加權 N 值？
+</div>
+
+<h3>② <a class="qlink" href="problems-view/SM-2015-3.html" target="_blank">SM-2015-3</a>（2015）— 視土壓力＋三維隆起，最標準的雙檢核題</h3>
+<div class="box">
+<b>為什麼選它：</b>它逼你做兩次「等值化」：砂＋黏土先均勻化成 \(\bar\gamma,\bar C_u\)，再用 \(N_s\) 判包絡線型式；接著給了 \(B\) 與 \(L\)，測你知不知道要換三維 \(N_c\)。而且答案 \(FS=1.50\) 剛好卡在規範門檻上，逼你寫出工程判斷而非只交數字。<br>
+<b>先讀：</b>§4（範例 B）、§5<br>
+<b>做完要能回答：</b>\(N_s=5.58\) 若算成 3.9 會發生什麼事？\(N_c\) 的兩個修正項各在修正什麼？\(FS=1.50\) 你會簽字放行嗎？
+</div>
+
+<h3>③ <a class="qlink" href="problems-view/SM-2005-1.html" target="_blank">SM-2005-1</a>（2005）— 黏土淨被動壓力的原型題</h3>
+<div class="box">
+<b>為什麼選它：</b>\(4c_u-\gamma H=18\) kPa —— <b>只差一點就變負的</b>。這題是理解「黏土裡插深為什麼沒用」最好的載體，而且自由端支撐法的兩個方程式在這裡最乾淨（一個二次式解 \(D\)、一個力平衡解 \(T\)）。計算量小、觀念鏈長。<br>
+<b>先讀：</b>§1.2、§3（範例 A）<br>
+<b>做完要能回答：</b>若 \(c_c\) 降到 40 kPa 會怎樣？若把黏土換成 \(\phi=32^\circ\) 的砂，方程式的形式會怎麼改變（提示：從常數變成隨深度成長）？
+</div>
+
+<h3>④ <a class="qlink" href="problems-view/SM-2022-4.html" target="_blank">SM-2022-4</a>（2022）— 懸臂樁淨壓力法，唯一的四次方程式題</h3>
+<div class="box">
+<b>為什麼選它：</b>本單元 24 年只出過這一次完整的懸臂樁淨壓力法，而且考卷把 \(A_1\sim A_4\) 全部給你 —— 代表<b>測的是「你知不知道這些符號的幾何意義」</b>，不是計算力。同時它是唯一明講 \(FS=1\) 的題目，訓練你分辨「臨界值」與「設計值」。<br>
+<b>先讀：</b>§2<br>
+<b>做完要能回答：</b>零淨壓力點 E 的物理意義是什麼？為什麼樁底附近壓力會反向？如果要交設計值，你會怎麼處理 \(D_L\)？
+</div>
+
+<h3>⑤ <a class="qlink" href="problems-view/SM-2023-4.html" target="_blank">SM-2023-4</a>（2023）— 從鑽探表讀出災因，計算量為零</h3>
+<div class="box">
+<b>為什麼選它：</b>近年命題明顯往「工程判斷」偏移，而這題是純研判：CL 從 6 m 一路延伸到鑽孔底 30 m，其中 6–24 m 的 N 值全為 1；6–20 m 的含水量 \(w\approx36\sim45\%\) 普遍高於 \(LL\approx32\sim40\%\)（<b>\(LI&gt;1\)</b>）。開挖 11.95 m、連續壁 24 m。你要能一眼算出 \(N_s\) 遠大於 4、判斷這是典型的軟弱黏土隆起與支撐系統失敗，並提出分區開挖、地改、監測、逆打等對策。<b>25 分、零計算，投報率極高。</b><br>
+<b>先讀：</b>§5、§7，以及 <a class="qlink" href="lecture-SM-U1-1.html">SM-U1-1</a> §5（\(LI\) 的判讀）<br>
+<b>做完要能回答：</b>連續壁 24 m 已經是開挖深度的兩倍，為什麼還是垮了？如果你是設計者，會先動哪三個變數？
+</div>
+
+<h3>練這五題的正確方法</h3>
+<ol>
+<li><b>每題開頭先寫兩行</b>：「本題檢核：結構／地層／兩者」與「開挖面以下：砂／黏土」。方法就由這兩行決定。</li>
+<li><b>畫圖佔一半分數。</b>土壓力分布圖、淨水壓圖、包絡線圖都要標<b>轉折點深度與數值</b>。SM 的閱卷對圖給分很大方，對只有數字的答案很吝嗇。</li>
+<li><b>每個 FS 都要跟門檻比。</b>隆起 1.2～1.5、砂湧／上舉 1.5～2.0、貫入 1.2～1.5。算完不比，等於沒答完。</li>
+<li><b>最後一定寫對策。</b>近十年幾乎每題都問，而且答案有固定結構：先降驅動、再升抵抗、最後講副作用與監測。</li>
+</ol>
+
+<h3>候補兩題</h3>
+<ul>
+<li><a class="qlink" href="problems-view/SM-2011-4.html" target="_blank">SM-2011-4</a>（2011）— 視土壓力 ＋ 三階支撐反力 ＋ <b>截面模數</b>。若你想練「從土壓力一路算到鋼板樁選型」的完整鏈，這題是唯一的。它還要求先用 \(e,G_s,S_r\) 反推 \(\gamma\)（連到 SM-U1-1）。</li>
+<li><a class="qlink" href="problems-view/SM-2008-3.html" target="_blank">SM-2008-3</a>（2008）— <b>反算</b>地盤改良後所需的 \(q_u\)。把 §7 的「升抵抗」變成計算題，是本單元唯一的反算題型。</li>
+</ul>
+
+<div class="trap">
+<b>誠實說明：這五題沒有涵蓋到什麼</b>
+<ul>
+<li><b>固定端支撐法與 Blum 等值梁法</b>（<a class="qlink" href="problems-view/SM-2007-4.html" target="_blank">SM-2007-4</a>，2007 年唯一一次）—— §3 有說明但精選題沒收。若你要押冷門題型，這是最可能重出的一個。</li>
+<li><b>流網法求 \(i_{exit}\) 的正規做法</b>（SM-2011-2、SM-2010-3）—— 本講義 §6 只用「最高流線法」這個簡化路徑。完整流網屬 <b>SM-U1-2 土壤滲透</b>。</li>
+<li><b>截面模數與鋼板樁選型</b>（SM-2011-4）—— 屬結構設計的界面，本講義只在 §4 提到「乘水平間距」為止。</li>
+<li><b>地錨有效距離 \(x\)</b>（SM-2007-4）—— 需畫主動楔與被動楔的幾何，本講義未展開。</li>
+<li><b>島式開挖與邊坡型開挖</b>（SM-2006-3）—— 那題實際上要用邊坡滑動分析，主場在 <b>SM-U3-4</b>。</li>
+<li><b>基地調查與取樣</b>（SM-2003-1）—— 是開挖參數的上游，但不屬本子項。</li>
+</ul>
+</div>
+</section>
+
+</main>
+<footer>
+exam-wiki-SM｜study/lecture-SM-U2-3.html｜觀念講義（練題前讀）
+</footer>
+</body>
+</html>

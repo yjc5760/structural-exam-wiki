@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2020-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2020-2 題目解析</h1><a class="back quick" href="../study-SM-U2-3.html">&#128269; U2-3 命題分析</a>
+<a class="back lect" href="../lecture-SM-U2-3.html">&#128218; U2-3 開挖之穩定性分析 講義</a></header>
+<main><h1>考題編號：SM-2020-2</h1>
+<p><strong>主分類：</strong> <code>SM-U2-3</code> 開挖之穩定性分析<br />
+<strong>副分類：</strong> <code>SM-U3-1</code> 側向土壓力理論、<code>SM-U1-2</code> 土壤滲透<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>板樁</code> <code>開挖穩定性</code> <code>砂湧</code> <code>臨界水力坡降</code> <code>Rankine主動土壓力</code> <code>Rankine被動土壓力</code> <code>穩定滲流</code> <code>安全係數</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>二、某共同管溝工程採用明挖覆蓋工法，基地地層主要層為砂土，如下圖所示。開挖深度為 4 m，設計長度 10 m 之懸臂式版樁作為開挖之擋土設施。請繪製作用於版樁兩側之土壓力隨深度變化圖及淨水壓力隨深度變化圖，並在相關深度標示數值？請以簡化法（以土壓力對 O 點之力矩值）估算此擋土壁之破壞安全係數？請估算此開挖擋土設施之抗砂湧安全係數，並請依據「建築物基礎構造設計規範」之規定說明此項安全係數是否符合規範需求？（25 分）</p>
+<p><img alt="SM-2020-2 題目附圖：共同管溝明挖覆蓋版樁擋土幾何與土層參數" src="../../raw/solutions/SM-2020-2/SM-2020-2-fig-1.png" /></p>
+<p><em>圖說：本題為懸臂式版樁擋土設施。版樁總長度 10.0 m，開挖深度 4.0 m（版樁尖端為 O 點）。主動側地下水位位於地表下 0.5 m 處。被動側（開挖面）地下水位位於開挖面。土層包含兩層：Sand 1（深度 0~4.0 m）為 $\gamma = 16.0 \text{ kN/m}^3$、$\gamma_{sat} = 18.8 \text{ kN/m}^3$、$\phi' = 26^\circ$；Sand 2（深度 4.0~10.0 m）為 $\gamma_{sat} = 19.6 \text{ kN/m}^3$、$\phi' = 30^\circ$。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<ol>
+<li><strong>滲流對土壓力與水壓力的影響：</strong> 本題主被動側水位不同（水頭差 $\Delta H = 3.5\text{ m}$），水流將由主動側往下繞過樁尖流向被動側。出題者刻意要求繪製「淨水壓力圖」與「土壓力圖」，並詢問「抗砂湧安全係數」，強烈暗示必須考慮<strong>穩定滲流（Steady Seepage）</strong>對有效單位重與水壓力分布的修正。</li>
+<li><strong>懸臂式版樁的簡化法穩定檢核：</strong> 測驗考生是否熟悉擋土壁破壞安全係數的定義（$FS = M_R / M_O$），並能正確計算各分層土壓力的合力與對樁尖 O 點之力臂。</li>
+<li><strong>規範標準的熟稔度：</strong> 測驗考生是否知悉《建築物基礎構造設計規範》中，抗砂湧（Boiling）的安全係數要求為 $FS \ge 1.5$。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>戰略地圖：</strong></p>
+<ol>
+<li><strong>滲流分析：</strong> 建立近似流線，計算平均水力坡降 $i$。</li>
+<li><strong>修正單位重：</strong> 主動側水流向下（增加有效單位重），被動側水流向上（減小有效單位重）。</li>
+<li><strong>計算側向壓力：</strong> 分段計算各深度之有效覆土壓力 $\sigma_v'$、主動/被動土壓力 $p_a$、$p_p$ 及淨水壓力 $u_{net}$。</li>
+<li><strong>力矩計算：</strong> 以 O 點為支點，計算主動側推覆力矩 $M_O$ 與被動側抵抗力矩 $M_R$，求出 $FS = M_R / M_O$。</li>
+<li><strong>砂湧檢核：</strong> 以臨界水力坡降 $i_{cr}$ 與最大出口坡降 $i_{exit}$ 計算 $FS_{boiling}$ 並與規範比對。</li>
+</ol>
+<p><strong>陷阱分析：</strong></p>
+<ul>
+<li><strong>陷阱 1：忽略滲流效應直接用靜水壓力。</strong> 若將淨水壓力算成常數，不但無法反映繞流現象，在計算被動側土壤有效應力時也會高估抵抗力矩，導致不保守。</li>
+<li><strong>陷阱 2：土層與水位交界的分段錯誤。</strong> Sand 1 的下邊界剛好在開挖面（深度 4.0 m），計算深度 4.0 m 的土壓力時，需區分 $4.0^-$（Sand 1, $K_{a1}$）與 $4.0^+$（Sand 2, $K_{a2}$）。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p><code>繪製淨水壓力與土壓力分布圖，計算對 O 點力矩的破壞安全係數，並檢核抗砂湧安全係數是否合規。</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ol>
+<li>平均水力坡降：$i = \frac{\Delta H}{L_{flow}}$</li>
+<li>滲流修正之有效單位重：$\gamma'_{A} = \gamma_{sub} + \boxed{i}\gamma_w$（主動側向下）、$\gamma'_{P} = \gamma_{sub} - \boxed{i}\gamma_w$（被動側向上）</li>
+<li>側向土壓力：$p_a = K_a \boxed{\sigma_v'}$、$p_p = K_p \boxed{\sigma_v'}$</li>
+<li>淨水壓力：$u_{net} = u_A - u_P = \gamma_w z_{wA}(1-\boxed{i}) - \gamma_w z_{wP}(1+\boxed{i})$</li>
+<li>破壞安全係數：$FS_{wall} = \frac{\sum M_R}{\sum M_O}$</li>
+<li>抗砂湧安全係數：$FS_{boiling} = \frac{i_{cr}}{\boxed{i_{max}}}$</li>
+</ol>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H$</td>
+<td>$4.0 \text{ m}$</td>
+<td>開挖深度</td>
+</tr>
+<tr>
+<td>$D$</td>
+<td>$6.0 \text{ m}$</td>
+<td>版樁貫入深度（總長 10 m - 開挖 4 m）</td>
+</tr>
+<tr>
+<td>$\Delta H$</td>
+<td>$3.5 \text{ m}$</td>
+<td>主被動側水位落差（4.0 m - 0.5 m）</td>
+</tr>
+<tr>
+<td>$\gamma_{w}$</td>
+<td>$9.81 \text{ kN/m}^3$</td>
+<td>水的單位重</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>Phase 1: 滲流與單位重修正</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $i$ | $i = \Delta H / (H_{wA} + 2D)$（簡化平均坡降） | |<br />
+| $\gamma'_{A}$ | $\gamma_{sat} - \gamma_w + i\gamma_w$ | |<br />
+| $\gamma'_{P}$ | $\gamma_{sat} - \gamma_w - i\gamma_w$ | |</p>
+<p><strong>Phase 2: 土壓力與淨水壓力</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $K_a$ | $\tan^2(45^\circ - \phi'/2)$ | |<br />
+| $K_p$ | $\tan^2(45^\circ + \phi'/2)$ | |<br />
+| $u_{net}$ | 主動側與被動側水壓力之差 | |</p>
+<p><strong>Phase 3: 穩定分析</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $FS_{wall}$ | $M_R / M_O$（對 O 點取矩） | |<br />
+| $FS_{boiling}$ | $i_{cr} / i_{avg}$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>滲流方向對有效應力之影響</td>
+<td>水流向下會產生向下之滲流力，增加土體有效單位重；反之則減輕。</td>
+<td></td>
+</tr>
+<tr>
+<td>版樁淨水壓力簡化分布</td>
+<td>考慮滲流時，淨水壓力在開挖面達最大，並在樁尖處降至 0。</td>
+<td></td>
+</tr>
+<tr>
+<td>《建築物基礎構造設計規範》</td>
+<td>砂湧安全係數要求 $FS \ge 1.5$。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1：滲流分析與水力坡降計算</h3>
+<p>主動側水深 $H_{wA} = 4.0 - 0.5 = 3.5 \text{ m}$<br />
+版樁貫入深度 $D = 10.0 - 4.0 = 6.0 \text{ m}$<br />
+總水頭差 $\Delta H = 3.5 \text{ m}$<br />
+依據簡化穩定滲流分析，水流沿版樁兩側繞行，總流徑 $L \approx H_{wA} + D + D = 3.5 + 6.0 \times 2 = 15.5 \text{ m}$<br />
+平均水力坡降：<br />
+$$ i = \frac{\Delta H}{L} = \frac{3.5}{15.5} = 0.2258 $$</p>
+<h3>Step 2：修正有效單位重與土壓力係數</h3>
+<p>水的單位重取 $\gamma_w = 9.81 \text{ kN/m}^3$。滲流力 $i\gamma_w = 0.2258 \times 9.81 = 2.215 \text{ kN/m}^3$。</p>
+<p><strong>Sand 1 (深度 0 ~ 4.0 m)：</strong></p>
+<ul>
+<li>$\phi' = 26^\circ \implies K_{a1} = \tan^2(45^\circ - 26^\circ/2) = 0.390$</li>
+<li>深度 0 ~ 0.5 m (乾土)：$\gamma = 16.0 \text{ kN/m}^3$</li>
+<li>深度 0.5 ~ 4.0 m (主動側水下，水流向下)：<br />
+  $$ \gamma'_{A1} = (\gamma_{sat1} - \gamma_w) + i\gamma_w = (18.8 - 9.81) + 2.215 = 11.205 \text{ kN/m}^3 $$</li>
+</ul>
+<p><strong>Sand 2 (深度 4.0 ~ 10.0 m)：</strong></p>
+<ul>
+<li>$\phi' = 30^\circ \implies K_{a2} = \tan^2(45^\circ - 30^\circ/2) = 0.333$</li>
+<li>$\phi' = 30^\circ \implies K_{p2} = \tan^2(45^\circ + 30^\circ/2) = 3.0$</li>
+<li>主動側水下 (水流向下)：<br />
+  $$ \gamma'_{A2} = (\gamma_{sat2} - \gamma_w) + i\gamma_w = (19.6 - 9.81) + 2.215 = 12.005 \text{ kN/m}^3 $$</li>
+<li>被動側水下 (水流向上)：<br />
+  $$ \gamma'_{P2} = (\gamma_{sat2} - \gamma_w) - i\gamma_w = (19.6 - 9.81) - 2.215 = 7.575 \text{ kN/m}^3 $$</li>
+</ul>
+<h3>Step 3：各深度之應力與壓力值計算</h3>
+<p><strong>A. 有效垂直應力 $\sigma_v'$</strong></p>
+<ul>
+<li>$z = 0 \text{ m}$：$0$</li>
+<li>$z = 0.5 \text{ m}$：$16.0 \times 0.5 = 8.0 \text{ kPa}$</li>
+<li>$z = 4.0 \text{ m}$ (主動側)：$8.0 + 3.5 \times 11.205 = 47.218 \text{ kPa}$</li>
+<li>$z = 10.0 \text{ m}$ (主動側)：$47.218 + 6.0 \times 12.005 = 119.248 \text{ kPa}$</li>
+<li>$z = 10.0 \text{ m}$ (被動側)：開挖面起算，$6.0 \times 7.575 = 45.450 \text{ kPa}$</li>
+</ul>
+<p><strong>B. 側向土壓力 ($p_a, p_p$)</strong></p>
+<ul>
+<li><strong>主動側 $p_a$：</strong></li>
+<li>$z = 0.5 \text{ m}$：$p_a = 0.390 \times 8.0 = 3.12 \text{ kPa}$</li>
+<li>$z = 4.0 \text{ m}$ (Sand 1)：$p_a = 0.390 \times 47.218 = 18.41 \text{ kPa}$</li>
+<li>$z = 4.0 \text{ m}$ (Sand 2)：$p_a = 0.333 \times 47.218 = 15.74 \text{ kPa}$</li>
+<li>$z = 10.0 \text{ m}$：$p_a = 0.333 \times 119.248 = 39.75 \text{ kPa}$</li>
+<li><strong>被動側 $p_p$：</strong></li>
+<li>$z = 4.0 \text{ m}$：$0$</li>
+<li>$z = 10.0 \text{ m}$：$p_p = 3.0 \times 45.450 = 136.35 \text{ kPa}$</li>
+</ul>
+<p><strong>C. 淨水壓力 $u_{net}$</strong></p>
+<ul>
+<li>水壓公式：$u_A = \gamma_w z_{wA}(1-i)$、$u_P = \gamma_w z_{wP}(1+i)$</li>
+<li>$z = 0.5 \text{ m}$：$u_A = 0 \implies u_{net} = 0$</li>
+<li>$z = 4.0 \text{ m}$：$u_A = 9.81 \times 3.5 \times (1 - 0.2258) = 26.58 \text{ kPa}$，$u_P = 0 \implies u_{net} = 26.58 \text{ kPa}$</li>
+<li>$z = 10.0 \text{ m}$：$u_A = 9.81 \times 9.5 \times 0.7742 = 72.15 \text{ kPa}$，$u_P = 9.81 \times 6.0 \times 1.2258 = 72.15 \text{ kPa} \implies u_{net} = 0$</li>
+</ul>
+<blockquote>
+<p><strong>作圖回答：</strong><br />
+1. 主動土壓力由 0 (z=0) 增至 3.12 (z=0.5)，再增至 18.41 (z=4.0 上)，突降至 15.74 (z=4.0 下)，再增至 39.75 (z=10.0)。<br />
+2. 被動土壓力由 0 (z=4.0) 增至 136.35 (z=10.0)。<br />
+3. 淨水壓力由 0 (z=0.5) 增至 26.58 (z=4.0)，再線性遞減至 0 (z=10.0)。</p>
+</blockquote>
+<h3>Step 4：對 O 點取矩求破壞安全係數</h3>
+<p>將土壓力及水壓力分布拆解為三角形與矩形，計算合力 ($P$) 及對 O 點的力臂 ($y$)：</p>
+<p><strong>推覆力矩 $M_O$ (主動側)：</strong></p>
+<ol>
+<li>$z = 0 \sim 0.5$ (土, 三角)：$P = 0.5 \times 0.5 \times 3.12 = 0.78 \text{ kN/m}$，$y = 9.833 \text{ m}$，$M = 7.67 \text{ kN-m/m}$</li>
+<li>$z = 0.5 \sim 4.0$ (土, 矩)：$P = 3.5 \times 3.12 = 10.92 \text{ kN/m}$，$y = 7.75 \text{ m}$，$M = 84.63 \text{ kN-m/m}$</li>
+<li>$z = 0.5 \sim 4.0$ (土, 三角)：$P = 0.5 \times 3.5 \times (18.41 - 3.12) = 26.76 \text{ kN/m}$，$y = 7.167 \text{ m}$，$M = 191.83 \text{ kN-m/m}$</li>
+<li>$z = 4.0 \sim 10.0$ (土, 矩)：$P = 6.0 \times 15.74 = 94.44 \text{ kN/m}$，$y = 3.0 \text{ m}$，$M = 283.32 \text{ kN-m/m}$</li>
+<li>$z = 4.0 \sim 10.0$ (土, 三角)：$P = 0.5 \times 6.0 \times (39.75 - 15.74) = 72.03 \text{ kN/m}$，$y = 2.0 \text{ m}$，$M = 144.06 \text{ kN-m/m}$</li>
+<li>$z = 0.5 \sim 4.0$ (淨水, 三角)：$P = 0.5 \times 3.5 \times 26.58 = 46.52 \text{ kN/m}$，$y = 7.167 \text{ m}$，$M = 333.41 \text{ kN-m/m}$</li>
+<li>$z = 4.0 \sim 10.0$ (淨水, 三角)：$P = 0.5 \times 6.0 \times 26.58 = 79.74 \text{ kN/m}$，$y = 4.0 \text{ m}$，$M = 318.96 \text{ kN-m/m}$</li>
+<li><strong>總推覆力矩 $\sum M_O = 1363.88 \text{ kN-m/m}$</strong></li>
+</ol>
+<p><strong>抵抗力矩 $M_R$ (被動側)：</strong></p>
+<ol>
+<li>$z = 4.0 \sim 10.0$ (土, 三角)：$P = 0.5 \times 6.0 \times 136.35 = 409.05 \text{ kN/m}$，$y = 2.0 \text{ m}$</li>
+<li><strong>總抵抗力矩 $\sum M_R = 818.10 \text{ kN-m/m}$</strong></li>
+</ol>
+<p><strong>破壞安全係數：</strong><br />
+$$ \boxed{FS_{wall} = \frac{\sum M_R}{\sum M_O} = \frac{818.10}{1363.88} = 0.60} $$</p>
+<h3>Step 5：抗砂湧安全係數與規範檢核</h3>
+<p>砂土層（Sand 2）之臨界水力坡降：<br />
+$$ i_{cr} = \frac{\gamma_{sub2}}{\gamma_w} = \frac{19.6 - 9.81}{9.81} = 0.998 $$<br />
+版樁旁被動側之平均向上出口水力坡降即為 $i = 0.2258$：<br />
+$$ \boxed{FS_{boiling} = \frac{i_{cr}}{i} = \frac{0.998}{0.2258} = 4.42} $$<br />
+依據《建築物基礎構造設計規範》第 5.3.3 節規定，防止砂湧發生之安全係數應大於或等於 1.5。<br />
+<strong>結論：</strong> $\boxed{4.42 \ge 1.5 \text{，故符合規範需求。}}$</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ol>
+<li><strong>靜水壓力 vs. 滲流壓力：</strong> 在部分簡化考題中，考生可能會忽略滲流效應而採用「靜水壓力」假定。若採用靜水壓力，開挖面以下的淨水壓力將呈現 $3.5\gamma_w$ 的常數分布（矩形）。但本題明確在後續子題詢問「砂湧」，證明土體中必然存在水頭差造成的滲流網，因此採用繞流折減水壓與修正有效單位重是嚴謹且被期望的解法。</li>
+<li><strong>破壞安全係數偏低：</strong> 本題計算所得 $FS \approx 0.60 &lt; 1.0$，代表懸臂式版樁在此開挖條件下是不穩定的。實務上在砂土中開挖 4 m 深度，懸臂式擋土的變形量過大且極易產生傾覆破壞，通常需設置內支撐（Strut）或地錨（Anchor）才能確保穩定。此計算結果反映了工程實務的限制。</li>
+</ol></main>
+<footer>來源：raw/solutions/SM-2020-2/SM-2020-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

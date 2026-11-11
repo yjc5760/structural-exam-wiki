@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2004-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2004-3 題目解析</h1><a class="back quick" href="../study-SM-U3-1.html">&#128269; U3-1 命題分析</a>
+<a class="back lect" href="../lecture-SM-U3-1.html">&#128218; U3-1 側向土壓力理論 講義</a></header>
+<main><h1>考題編號：SM-2004-3</h1>
+<p><strong>主分類：</strong> <code>SM-U3-1</code> 側向土壓力理論<br />
+<strong>副分類：</strong> <code>SM-U3-2</code> 擋土結構物穩定分析<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>Rankine主動土壓力</code> <code>孔隙水壓</code> <code>水中單位重</code> <code>地下水位影響</code> <code>抗滑動</code> <code>重力式擋土牆</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>右圖所示 6.0 m 高之重力式擋土牆被設計為可以抵抗 146 kN/m 之水平推力。牆後非凝聚性回填土之飽和單位重及濕土單位重皆為 19.2 kN/m³，而內摩擦角為 35°。假設忽略牆摩擦角及毛細現象，試求地下水位（G.W.T.）上升至何高度 $x$ 時？此擋土牆將發生滑移（sliding）現象。（25 分）</p>
+<p><img alt="SM-2004-3 題目附圖：重力式擋土牆，牆高 6m，牆後回填土水平，地下水位位於牆底上方 x 處" src="../../raw/solutions/SM-2004-3/SM-2004-3-fig-1.png" /></p>
+<p><em>圖說：重力式擋土牆高度 $H = 6\text{ m}$，牆後填土水平，地下水位（G.W.T.）自底部算起高度為 $x$。土壤參數未在圖上標示，由題幹給定為 $\gamma_t = \gamma_{sat} = 19.2\text{ kN/m}^3$，$\phi = 35^\circ$。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題旨在測驗考生對於<strong>地下水位變化如何影響側向土壓力及總水平推力</strong>的觀念。<br />
+出題者意圖包含：</p>
+<ol>
+<li>忽略牆摩擦角（$\delta = 0^\circ$）及背填土表面水平，暗示應採用 Rankine 主動土壓力理論。</li>
+<li>了解地下水位的存在會使水位以下的土壤單位重由飽和單位重降為有效單位重（水下單位重），從而減少該部分的有效側向土壓力。</li>
+<li>但同時必須額外加上孔隙水壓力，總水平推力將因此顯著增加。考生需具備分別計算「有效主動土壓力」與「水壓力」，並將兩者疊加求取總推力的能力。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>計算 Rankine 主動土壓力係數 $K_a$。</li>
+<li>以 $x$（水位高度）為未知數，計算總有效主動土壓力 $P_a$。這裡可以利用一個計算技巧：無水時的總土壓力，扣除水位以下因浮力失去的有效土壓力。</li>
+<li>計算水壓力 $P_w$。</li>
+<li>將總水平推力 $P_h = P_a + P_w$ 等於設計抵抗力 146 kN/m，解一元二次方程式求出 $x$。</li>
+</ol>
+<p><strong>陷阱分析：</strong></p>
+<ul>
+<li><strong>陷阱一：漏加水壓力。</strong> 考生可能只記得將水位以下的單位重改為有效單位重 $\gamma'$，卻忘記要將孔隙水壓力 $u$ 加上去。</li>
+<li><strong>陷阱二：有效應力的面積計算錯誤。</strong> 由於有效應力圖形在水位下轉折，分解梯形與三角形面積時若未小心處理，容易在以 $x$ 為變數展開時發生代數錯誤。建議採用「全斷面視為無水，再扣除水浮力減少之有效應力」的觀念來計算，可大幅減少代數複雜度。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p><code>求出使總水平推力達到 146 kN/m 的地下水位高度 x。</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>步驟 1：求 Rankine 主動土壓力係數<br />
+  $$K_a = \tan^2\left(45^\circ - \frac{\phi}{2}\right)$$</li>
+<li>步驟 2：建立包含水位高度 $x$ 的總水平推力方程式<br />
+  $$P_h = P_a + P_w = \left[ \frac{1}{2} \boxed{K_a} \gamma_t H^2 - \frac{1}{2} \boxed{K_a} \gamma_w x^2 \right] + \frac{1}{2} \gamma_w x^2$$</li>
+<li>步驟 3：令推力等於設計抵抗力解 $x$<br />
+  $$x = \sqrt{\frac{P_{design} - \frac{1}{2} \boxed{K_a} \gamma_t H^2}{\frac{1}{2}\gamma_w (1 - \boxed{K_a})}}$$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<p><em>看到題目就能讀出的數字，不需要任何公式。</em></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\gamma_t$</td>
+<td>$19.2 \text{ kN/m}^3$</td>
+<td>牆後非凝聚性回填土濕單位重</td>
+</tr>
+<tr>
+<td>$\gamma_{sat}$</td>
+<td>$19.2 \text{ kN/m}^3$</td>
+<td>牆後非凝聚性回填土飽和單位重（與 $\gamma_t$ 同值）</td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td>$35^\circ$</td>
+<td>內摩擦角</td>
+</tr>
+<tr>
+<td>$c$</td>
+<td>$0$</td>
+<td>非凝聚性回填土</td>
+</tr>
+<tr>
+<td>$H$</td>
+<td>$6.0 \text{ m}$</td>
+<td>擋土牆高度</td>
+</tr>
+<tr>
+<td>$P_{design}$</td>
+<td>$146 \text{ kN/m}$</td>
+<td>擋土牆設計可抵抗之水平推力（滑移臨界推力）</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><em>需要知道公式名稱與適用條件，套入 L1 即可算出。</em></p>
+<p><strong>主動土壓力與水壓力計算</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$K_a$</td>
+<td>$\tan^2(45^\circ - \phi/2)$（Rankine，$\delta = 0$、地表水平）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\gamma_w$</td>
+<td>$9.81 \text{ kN/m}^3$（水的單位重，常數）</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\gamma'$</td>
+<td>$\gamma_{sat} - \gamma_w$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_a(x)$</td>
+<td>$\frac{1}{2}K_a\gamma_t H^2 - \frac{1}{2}K_a\gamma_w x^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_w(x)$</td>
+<td>$\frac{1}{2}\gamma_w x^2$</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$P_h(x)$</td>
+<td>$P_a(x) + P_w(x)$，令其 $= P_{design}$ 解 $x$</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<p><em>L2 中某些公式本身需要背景概念才能正確應用的知識點。</em></p>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th style="text-align: center;">卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>水位以上與水位以下之有效應力計算技巧</td>
+<td>若將全域先視為 $\gamma_t$，則水位以下因浮力減少的土壓力剛好為負的 $\frac{1}{2}K_a\gamma_w x^2$，加上水壓力 $\frac{1}{2}\gamma_w x^2$ 後可得到簡潔的二次式，避免繁雜的代數運算。</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>水位上升為何反而使推力增加</td>
+<td>有效土壓力只掉 $K_a$ 倍（$\times 0.271$），水壓力卻是滿額 $1.0$ 倍，兩者淨效應為 $\frac{1}{2}\gamma_w(1-K_a)x^2 &gt; 0$，故必然遞增。</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>「忽略毛細現象」的意思</td>
+<td>水位以上不產生負孔隙水壓（吸力），故該段仍以 $\gamma_t$ 與 $u=0$ 計算，不得再加上毛細帶來的額外有效應力。</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p><strong>Step 1：計算 Rankine 主動土壓力係數</strong><br />
+因忽略牆摩擦角（$\delta=0$），且背填土表面為水平，故採用 Rankine 理論：<br />
+$$K_a = \tan^2\left(45^\circ - \frac{\phi}{2}\right) = \tan^2\left(45^\circ - \frac{35^\circ}{2}\right) = \tan^2(27.5^\circ) \approx 0.271$$</p>
+<p><strong>Step 2：計算水平總推力 $P_h$ (含 $x$ 變數)</strong><br />
+假設水的單位重 $\gamma_w = 9.81 \text{ kN/m}^3$。<br />
+擋土牆總高 $H = 6\text{ m}$，地下水位距底部為 $x$（m）。</p>
+<blockquote>
+<p><strong>策略註解：</strong><br />
+為了避免繁瑣的梯形面積拆解，我們可想像若全斷面皆無地下水（皆為 $\gamma_t$），總有效主動土壓力為 $\frac{1}{2} K_a \gamma_t H^2$。<br />
+由於底部高度 $x$ 範圍內充滿地下水，土壤單位重由 $\gamma_{sat}$ 變為有效單位重 $\gamma' = \gamma_{sat} - \gamma_w$。<br />
+此變化相當於在高度 $x$ 的範圍內，減去了一個「以 $\gamma_w$ 遞增」的土壓力，即 $-\frac{1}{2} K_a \gamma_w x^2$。<br />
+接著，再補上孔隙水壓力 $P_w = \frac{1}{2} \gamma_w x^2$ 即可得總推力。</p>
+</blockquote>
+<p>有效主動土壓力 $P_a$：<br />
+$$P_a = \frac{1}{2} K_a \gamma_t H^2 - \frac{1}{2} K_a \gamma_w x^2$$<br />
+$$P_a = \frac{1}{2} \times 0.271 \times 19.2 \times 6^2 - \frac{1}{2} \times 0.271 \times 9.81 \times x^2$$<br />
+$$P_a = 93.658 - 1.329 x^2 \quad (\text{kN/m})$$</p>
+<p>水壓力 $P_w$：<br />
+$$P_w = \frac{1}{2} \gamma_w x^2 = \frac{1}{2} \times 9.81 \times x^2 = 4.905 x^2 \quad (\text{kN/m})$$</p>
+<p>總水平推力 $P_h$：<br />
+$$P_h = P_a + P_w = (93.658 - 1.329 x^2) + 4.905 x^2$$<br />
+$$P_h = 93.658 + 3.576 x^2 \quad (\text{kN/m})$$</p>
+<p><img alt="SM-2004-3 剖面與壓力分布：左圖為 6 m 高重力式擋土牆、水位自牆底起算高度 x、水位以下改用 γ'=9.39；右圖為臨界狀態 x=3.826 m 的牆背壓力分布，有效土壓由 0 經 11.31（水位處）增至牆底 21.05，水壓由 0 增至 37.53，合計 58.58，並與無水時的 31.22 虛線對照" src="../../raw/solutions/SM-2004-3/figs/SM-2004-3-fig-1-pressure.svg" /></p>
+<p><em>圖 1　水位上升後牆背壓力的重組。攔的是「只把 $\gamma$ 換成 $\gamma'$ 卻忘了加水壓」——圖上虛線（無水）在牆底只有 $31.22$，而有水時土壓反而降到 $21.05$，看起來「變小了」；真正的變化是右邊多出一整塊 $37.53$ 的水壓三角，總值反而升到 $58.58$。</em></p>
+<p><strong>Step 3：解臨界水位高度 $x$</strong><br />
+依題意，當總水平推力達到 146 kN/m 時發生滑移：<br />
+$$P_h = 146$$<br />
+$$93.658 + 3.576 x^2 = 146$$<br />
+$$3.576 x^2 = 146 - 93.658 = 52.342$$<br />
+$$x^2 = \frac{52.342}{3.576} = 14.637$$<br />
+$$x = \sqrt{14.637} = 3.826 \text{ m}$$</p>
+<p>（若取 $K_a = 0.27099$ 精確值計算，結果亦為 3.826 m）</p>
+<p>$$\boxed{x = 3.83 \text{ m}}$$</p>
+<p><img alt="SM-2004-3 總推力對水位高度的曲線：P_h(x) 為向上開口的二次曲線，自 x=0 的 93.65 升到 x=6 的 222.4；另以虛線畫出遞減的有效土壓分量 P_a 與遞增的水壓分量 P_w；水平虛線為設計抵抗力 146 kN/m，與 P_h 交於 x=3.826 m" src="../../raw/solutions/SM-2004-3/figs/SM-2004-3-fig-2-thrust-curve.svg" /></p>
+<p><em>圖 2　$P_h(x)$ 與臨界水位。攔的是「以為水位上升會讓推力下降」——橘色虛線（有效土壓）確實一路遞減，但藍色虛線（水壓）以 $\tfrac{1}{2}\gamma_w x^2$ 上升，淨效應 $\tfrac{1}{2}\gamma_w(1-K_a)x^2$ 恆為正，紅線只會往上。</em></p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>水對擋土牆穩定的雙重危害</strong>：由本題計算結果可知，地下水位上升會造成「有效土壓力的微幅減少（減去 $1.329 x^2$）」，但卻帶來「水壓力的巨幅增加（增加 $4.905 x^2$）」。整體而言，水位上升必然導致總推力呈現二次曲線快速上升。因此，在擋土牆背面設置良好的排水系統（如地工織物、碎石級配排水層、洩水孔）以防止地下水位異常升高，是實務設計上最經濟且最重要的防範措施。</li>
+<li><strong>推力的組成：水佔了幾乎一半</strong></li>
+<li>臨界狀態（$x = 3.826 \text{ m}$）下拆開來看：<ul>
+<li>有效土壓力 $P_a = 93.658 - 1.329(14.638) = 74.20 \text{ kN/m}$（$50.8\%$）</li>
+<li>孔隙水壓力 $P_w = 4.905(14.638) = 71.80 \text{ kN/m}$（$49.2\%$）</li>
+</ul>
+</li>
+<li>也就是說，<strong>只佔牆高 64\% 的下段積水，就貢獻了將近一半的總推力</strong>。<br />
+    這個比例是本題最值得記住的量級感——水從來不是配角。</li>
+<li><strong>邊界檢核：$x$ 必須落在 $0 \sim H$ 之間</strong></li>
+<li>解出 $x = 3.826 \text{ m} &lt; H = 6 \text{ m}$，答案有效。</li>
+<li>若水位一路升到地表（$x = 6$）：$P_h = 93.658 + 3.576(36) = 222.4 \text{ kN/m}$，<br />
+    是無水時（$93.66$）的 $2.37$ 倍、是設計抵抗力（$146$）的 $1.52$ 倍。</li>
+<li>反過來說，若代入 $x = H$ 仍解不到 $P_{design}$，就代表這面牆在任何水位下都不會滑動，<br />
+    答案應寫「不會發生滑移」而不是硬解出一個大於 $H$ 的 $x$。</li>
+<li><strong>$\gamma_w$ 的選取</strong>：一般考試若未特別聲明，習慣取 $\gamma_w = 9.81 \text{ kN/m}^3$ 進行精確計算。部分考生若取 $\gamma_w = 10 \text{ kN/m}^3$，解出的 $x$ 則約為 $3.79 \text{ m}$，這在國家考試的閱卷標準中通常也屬於可接受的合理誤差範圍。</li>
+</ul>
+<hr />
+<p><em>解析日期：見 <code>wiki/log.md</code>　｜　圖解補繪：2026-08-29（向量 SVG，程式繪製，腳本 <code>gen_SM-2004-3.py</code> 可重跑；同名 2× PNG 供簡報／影片管線使用）</em></p></main>
+<footer>來源：raw/solutions/SM-2004-3/SM-2004-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

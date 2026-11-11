@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2017-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2017-3 題目解析</h1><a class="back quick" href="../study-SM-U2-1.html">&#128269; U2-1 命題分析</a>
+<a class="back lect" href="../lecture-SM-U2-1.html">&#128218; U2-1 淺基礎之支承力與沉陷量 講義</a></header>
+<main><h1>考題編號：SM-2017-3</h1>
+<p><strong>主分類：</strong> <code>SM-U2-1</code> 淺基礎之支承力與沉陷量<br />
+<strong>副分類：</strong> 無<br />
+<strong>分析法：</strong> 混合<br />
+<strong>標籤：</strong> <code>平鈑載重試驗</code> <code>容許承載力</code> <code>沉陷量控制</code> <code>尺寸效應</code> <code>Terzaghi-Peck沉陷公式</code> <code>安全係數</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>某電子公司基地，欲建造精密廠房，經委由某試驗公司進行 $0.3\text{m} \times 0.3\text{m}$ 平鈑載重試驗，得平鈑載重曲線（圖 3-1）。精密廠房之基腳採用 $2\text{m} \times 2\text{m}$ 獨立基腳（圖 3-2），試以平鈑載重試驗曲線設計基礎承載力：<br />
+(一) 承載力控制設計，在 $FS=2$ 之下，廠房單柱之容許承載力 $Q_a$ ？與對應之沉陷量 $\Delta H$ ？<br />
+(二) 沉陷量控制設計，在沉陷量 $\Delta H=1\text{cm}$ 下，廠房之柱容許承載力 $Q_a$ ？<br />
+(三) 請製作比較表以供電子公司選擇。</p>
+<p><img alt="SM-2017-3 題目附圖：平鈑載重曲線與基腳示意圖" src="../../raw/solutions/SM-2017-3/SM-2017-3-fig-1.png" /></p>
+<p><em>圖說：左圖為 0.3m×0.3m 平鈑之載重-沉陷量曲線（橫軸載重 $q$，縱軸沉陷量 $\Delta H$），圖中註記若無貫入穿孔曲線則以 $\Delta H = 2.54\text{cm}$ 對應之 $q$ 為 $q_{ult}$；右圖為 2m×2m 獨立基腳立面圖，基礎埋置深度 $D_f=1.0\text{m}$，回填土單位重 $\gamma_m=18.0\text{ kN/m}^3$，並附有極限承載力與容許承載力之計算邏輯圖。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題主要測驗考生能否正確運用「平鈑載重試驗 (PLT)」之結果，推算實際尺寸基腳在砂土層中之承載力與沉陷量。出題者刻意將設計分為「承載力控制」與「沉陷量控制」兩種情況，意在引導考生發現：在砂土中，較大尺寸之淺基礎通常受限於「沉陷量」而非「剪力破壞」。此外，給定了一張拋物線型的載重-沉陷量曲線，考驗考生準確讀圖與建立數學模型的能力。</p>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li><strong>解析平鈑載重曲線：</strong> 觀察圖表特徵點，找出數學方程式 $\Delta H_P = (q/150)^2$，以便精確求得對應數值（考場上亦可直接精確讀圖並線性內外插，但推導方程式最嚴謹）。</li>
+<li><strong>承載力控制 (Part 1)：</strong> 利用 $\Delta H_P = 2.54\text{cm}$ 求出平鈑極限承載力 $q_{ult(P)}$，依砂土承載力與寬度成正比的特性求出基腳 $q_{ult(F)}$，再依圖示扣除 $q_0$ 並除以 FS 得到 $q_{net,a}$ 及單柱荷重 $Q_a$；最後回推基腳在此淨載重下的極大沉陷量 $\Delta H_F$。</li>
+<li><strong>沉陷量控制 (Part 2)：</strong> 由基腳容許沉陷量 $\Delta H_F = 1.0\text{cm}$，利用 Terzaghi &amp; Peck 沉陷量轉換公式回推平鈑對應之沉陷量 $\Delta H_P$，再由曲線方程式得出 $q_{net,a}$ 與 $Q_a$。</li>
+</ol>
+<p><strong>關鍵陷阱：</strong></p>
+<ul>
+<li><strong>陷阱 1：砂土承載力尺寸效應。</strong> 砂土之極限承載力 $q_{ult} \propto B$，不可直接令 $q_{ult(F)} = q_{ult(P)}$（此為黏土行為）。</li>
+<li><strong>陷阱 2：砂土沉陷量尺寸效應。</strong> 不可使用線性比例，必須使用 Terzaghi &amp; Peck 經驗公式 $S_F = S_P [2B_F / (B_F + B_P)]^2$。</li>
+<li><strong>陷阱 3：圖示中 $q_0$ 的處理。</strong> 題目右下角明確定義 $q_a = (q_{ult} - q_0)/FS + q_0$，在求單柱容許荷重 $Q_a$ 時，應使用「淨容許承載力」 $q_{net,a}$ 乘上基腳面積。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p><code>分別依承載力及沉陷量控制，求出廠房單柱容許承載力 Qa 及對應沉陷量 ΔH</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>平鈑載重曲線方程式：$q = 150 \sqrt{\Delta H_P}$</li>
+<li>基腳極限承載力（砂土）：$q_{ult(F)} = \boxed{q_{ult(P)}} \left(\frac{B_F}{B_P}\right)$</li>
+<li>淨容許承載力（依題意圖示）：$q_{net,a} = \frac{\boxed{q_{ult(F)}} - q_0}{FS}$</li>
+<li>廠房單柱容許承載力：$Q_a = \boxed{q_{net,a}} \times A$</li>
+<li>砂土沉陷量尺寸修正（Terzaghi &amp; Peck）：$\Delta H_F = \boxed{\Delta H_P} \left( \frac{2 B_F}{B_F + B_P} \right)^2$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$B_P$</td>
+<td>$0.3\text{ m}$</td>
+<td>平鈑寬度</td>
+</tr>
+<tr>
+<td>$B_F$</td>
+<td>$2.0\text{ m}$</td>
+<td>基腳寬度</td>
+</tr>
+<tr>
+<td>$D_f$</td>
+<td>$1.0\text{ m}$</td>
+<td>基礎埋置深度</td>
+</tr>
+<tr>
+<td>$\gamma_m$</td>
+<td>$18.0\text{ kN/m}^3$</td>
+<td>回填土單位重</td>
+</tr>
+<tr>
+<td>$FS$</td>
+<td>$2$</td>
+<td>安全係數</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>承載力控制推導</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $q_0$ | $q_0 = \gamma_m D_f$ | |<br />
+| $q_{ult(P)}$ | 曲線方程式代入 $\Delta H_P = 2.54\text{ cm}$ | |<br />
+| $q_{ult(F)}$ | $q_{ult(F)} = q_{ult(P)} (B_F/B_P)$ | |</p>
+<p><strong>沉陷量控制推導</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\Delta H_P$ | $\Delta H_P = \Delta H_F / [2B_F / (B_F + B_P)]^2$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>砂土承載力尺寸效應</td>
+<td>砂土之 $c=0$，承載力主要由 $0.5 \gamma B N_\gamma$ 控制，故極限承載力與寬度 $B$ 呈正比</td>
+<td></td>
+</tr>
+<tr>
+<td>砂土沉陷量尺寸效應</td>
+<td>Terzaghi &amp; Peck 針對同等淨壓力 $q$ 下之沉陷量經驗轉換公式</td>
+<td></td>
+</tr>
+<tr>
+<td>曲線方程式建模</td>
+<td>精確讀取圖表特徵點 $(150, 1)$ 與 $(300, 4)$ 並建立拋物線模型，可大幅提高計算精確度</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1: 建立平鈑載重曲線數學模型</h3>
+<p>觀察圖 3-1 曲線，讀取特徵點：</p>
+<ul>
+<li>$q = 0\text{ kN/m}^2$, $\Delta H_P = 0\text{ cm}$</li>
+<li>$q = 150\text{ kN/m}^2$, $\Delta H_P = 1.0\text{ cm}$</li>
+<li>$q = 300\text{ kN/m}^2$, $\Delta H_P = 4.0\text{ cm}$</li>
+</ul>
+<p>由此可看出曲線為一完美拋物線，方程式為：<br />
+$$ \Delta H_P = \left(\frac{q}{150}\right)^2 \quad \text{或} \quad q = 150 \sqrt{\Delta H_P} $$<br />
+（其中 $q$ 單位為 $\text{kN/m}^2$，$\Delta H_P$ 單位為 $\text{cm}$）</p>
+<p>基腳底面之回填土覆土壓力為：<br />
+$$ q_0 = \gamma_m \cdot D_f = 18.0 \times 1.0 = 18.0 \text{ kN/m}^2 $$</p>
+<hr />
+<h3>Step 2: (一) 承載力控制設計</h3>
+<p>依據題意圖 3-1 註記，若無明顯破壞，平鈑極限承載力取 $\Delta H_P = 2.54\text{ cm}$ 對應之載重：<br />
+$$ q_{ult(P)} = 150 \sqrt{2.54} = 150 \times 1.5937 = 239.1 \text{ kN/m}^2 $$</p>
+<p>對於砂土，承載力與基礎寬度成正比，故基腳之極限承載力為：<br />
+$$ q_{ult(F)} = q_{ult(P)} \times \left( \frac{B_F}{B_P} \right) = 239.1 \times \left( \frac{2.0}{0.3} \right) = 1594.0 \text{ kN/m}^2 $$</p>
+<p>依圖 3-2 給定之容許承載力邏輯，淨極限承載力為 $q_{ult(F)} - q_0$：<br />
+$$ q_{net,a} = \frac{q_{ult(F)} - q_0}{FS} = \frac{1594.0 - 18.0}{2} = 788.0 \text{ kN/m}^2 $$</p>
+<p>廠房單柱容許承載力 $Q_a$（即基腳承擔之淨載重）：<br />
+$$ \boxed{ Q_a = q_{net,a} \times A = 788.0 \times (2.0 \times 2.0) = 3152.0 \text{ kN} } $$</p>
+<blockquote>
+<p><strong>策略註解</strong>：此壓力 $q_{net,a} = 788.0\text{ kN/m}^2$ 遠高於平鈑試驗之最大載重，基腳將產生巨大沉陷。</p>
+</blockquote>
+<p>求對應之基腳沉陷量 $\Delta H_F$：<br />
+先求平鈑在 $q = 788.0\text{ kN/m}^2$ 時之理論沉陷量 $\Delta H_P$：<br />
+$$ \Delta H_P = \left(\frac{788.0}{150}\right)^2 = 27.60 \text{ cm} $$<br />
+再依 Terzaghi &amp; Peck 砂土沉陷量公式轉換至基腳：<br />
+$$ \Delta H_F = \Delta H_P \left( \frac{2 B_F}{B_F + B_P} \right)^2 = 27.60 \times \left( \frac{2 \times 2.0}{2.0 + 0.3} \right)^2 = 27.60 \times \left( \frac{4}{2.3} \right)^2 $$<br />
+$$ \boxed{ \Delta H_F = 27.60 \times 3.0246 = 83.5 \text{ cm} } $$</p>
+<hr />
+<h3>Step 3: (二) 沉陷量控制設計</h3>
+<p>已知基腳容許沉陷量為 $\Delta H_F = 1.0\text{ cm}$。<br />
+利用 Terzaghi &amp; Peck 公式逆推平鈑在同等淨壓力下之沉陷量 $\Delta H_P$：<br />
+$$ 1.0 = \Delta H_P \left( \frac{4}{2.3} \right)^2 \implies \Delta H_P = 1.0 \times \left( \frac{2.3}{4} \right)^2 = 0.3306 \text{ cm} $$</p>
+<p>將 $\Delta H_P = 0.3306\text{ cm}$ 代入平鈑載重曲線方程式求淨壓力 $q_{net,a}$：<br />
+$$ q_{net,a} = 150 \sqrt{0.3306} = 150 \times 0.575 = 86.25 \text{ kN/m}^2 $$</p>
+<p>廠房單柱容許承載力 $Q_a$：<br />
+$$ \boxed{ Q_a = q_{net,a} \times A = 86.25 \times 4.0 = 345.0 \text{ kN} } $$</p>
+<hr />
+<h3>Step 4: (三) 製作比較表供電子公司選擇</h3>
+<p>根據上述計算結果製作比較表 3-1：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">比較項目</th>
+<th style="text-align: left;">(一) 承載力控制設計</th>
+<th style="text-align: left;">(二) 沉陷量控制設計</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>容許承載力 $Q_a$</strong></td>
+<td style="text-align: left;">$\boxed{3152 \text{ kN}}$</td>
+<td style="text-align: left;">$\boxed{345 \text{ kN}}$</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>預期沉陷量 $\Delta H_F$</strong></td>
+<td style="text-align: left;">$\boxed{83.5 \text{ cm}}$</td>
+<td style="text-align: left;">$\boxed{1.0 \text{ cm}}$</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>工程評估建議</strong></td>
+<td style="text-align: left;">沉陷量達 83.5cm，遠超一般精密廠房容許值，將導致結構嚴重破壞，<strong>不可採用</strong>。</td>
+<td style="text-align: left;">沉陷量控制在 1cm 安全範圍內，符合精密廠房需求，<strong>建議採用</strong>。</td>
+</tr>
+</tbody>
+</table>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>圖表讀取的精確度爭議</strong>：考場上若未能看出曲線為 $\Delta H = (q/150)^2$ 的拋物線，而直接用肉眼讀圖，可能會讀得 $q_{ult(P)} \approx 240\sim 250\text{ kN/m}^2$，導致 $Q_a$ 落在 $3100\sim 3300\text{ kN}$ 之間；而對於超出圖表範圍的沉陷量，若採線性外插亦會得到數十公分的結果。只要觀念正確（承載力按 $B$ 放大，沉陷量按 Terzaghi &amp; Peck 公式轉換），即使數值因讀圖誤差或外插假設不同而略有差異，通常仍可獲得大部分分數。</li>
+<li><strong>砂土設計的本質</strong>：本題完美示範了大地工程在砂土淺基礎設計中的核心觀念：<strong>「砂土基礎的設計幾乎總是受限於沉陷量，而非承載力破壞」</strong>。承載力控制給出的 $Q_a$ 雖大，但其伴隨的沉陷量是不切實際的。</li>
+</ul></main>
+<footer>來源：raw/solutions/SM-2017-3/SM-2017-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

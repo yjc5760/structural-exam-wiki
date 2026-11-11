@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2010-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2010-2 題目解析</h1><a class="back quick" href="../study-SM-U3-1.html">&#128269; U3-1 命題分析</a>
+<a class="back lect" href="../lecture-SM-U3-1.html">&#128218; U3-1 側向土壓力理論 講義</a></header>
+<main><h1>考題編號：SM-2010-2</h1>
+<p><strong>主分類：</strong> <code>SM-U3-1</code> 側向土壓力理論<br />
+<strong>副分類：</strong> <code>SM-U1-4</code> 土體內應力<br />
+<strong>分析法：</strong> 混合<br />
+<strong>標籤：</strong> <code>Rankine主動土壓力</code> <code>土壓力分布圖</code> <code>水中單位重</code> <code>孔隙水壓</code> <code>總應力</code> <code>張力裂縫</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<ul>
+<li>擋土牆高 $8 \text{ m}$，牆背垂直。</li>
+<li>地層分為兩層：</li>
+<li><strong>頂層（砂土）</strong>：厚度 $4 \text{ m}$。$\gamma_{dry} = 17 \text{ kN/m}^3$、$\gamma_{sat} = 18 \text{ kN/m}^3$、$\phi = 30^\circ$、$c = 0$。</li>
+<li><strong>底層（黏土）</strong>：厚度 $10 \text{ m}$（牆體深入此層 $4 \text{ m}$）。$\gamma_{sat} = 17.5 \text{ kN/m}^3$、$c = 30 \text{ kN/m}^2$。</li>
+<li><strong>地下水位</strong>：位於地表以下 $2 \text{ m}$。</li>
+<li><strong>要求</strong>：利用 Rankine 理論計算牆背所受主動土壓力，繪出牆背所受各項壓力分佈圖並計算所有合力及作用位置。</li>
+</ul>
+<p>（考卷本題<strong>無附圖</strong>，題目條件全以文字給定；下圖為依題幹重繪的剖面與應力對照表。）</p>
+<p><img alt="SM-2010-2 剖面向量重繪：上層砂土 4 m（γ_dry=17、γ_sat=18、φ=30°），下層黏土 10 m（γ_sat=17.5、c=30、未給 φ），地下水位在地表下 2 m，牆高 8 m 入土 4 m；並附 z=0/2/4/8 四個深度的 σ_v、u、σ_v'、σ_a 對照表" src="../../raw/solutions/SM-2010-2/figs/SM-2010-2-fig-1-profile.svg" /></p>
+<p><em>圖 1　題目剖面與各深度的應力狀態。攔的是「$\gamma$ 選錯」與「兩種分析法混用」——$z = 4 \text{ m}$ 在表上有</em><em>兩列</em><em>：砂土交出的是「有效土壓＋水壓」（$16.79 + 19.62 = 36.41$），黏土接手的是「總側壓」（$\sigma_v - 2c = 10.00$），兩者是不同的東西，不可相加。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<ul>
+<li><strong>核心精神</strong>：考驗考生對「雙層地層（砂土與黏土）」及「地下水位」影響下，主動側向土壓力分佈的計算能力。</li>
+<li><strong>出題者意圖</strong>：</li>
+<li>測驗地下水位以上與以下土層應力參數的正確選用（乾單位重 vs. 水下有效單位重）。</li>
+<li>測驗砂土層與黏土層的力學狀態判斷：砂土透水性佳，採用有效應力法（$c'=0$、$\phi'=30^\circ$）；黏土僅給定凝聚力 $c$ 而無摩擦角，暗示短期不排水狀態，應採用總應力法（$\phi_u=0$、$c_u=30 \text{ kN/m}^2$）。</li>
+<li>測驗黏土層總應力法中，是否能正確理解總應力已包含孔隙水壓，不需再疊加獨立的水壓力分佈。</li>
+</ul>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<ul>
+<li><strong>第一步：砂土層（$0 \sim 4 \text{ m}$）分析</strong></li>
+<li>分為水位上（$0 \sim 2 \text{ m}$）與水位下（$2 \sim 4 \text{ m}$）兩段。</li>
+<li>計算砂土主動土壓力係數 $K_{a,sand}$。</li>
+<li>分別計算各深度的有效垂直應力 $\sigma_v'$，求出砂土層有效主動土壓力 $\sigma_a'$，水位下需額外疊加孔隙水壓力 $u$。</li>
+<li><strong>第二步：黏土層（$4 \sim 8 \text{ m}$）分析</strong></li>
+<li>黏土未給定內摩擦角，判斷為 $\phi_u=0$ 的短期不排水狀況。</li>
+<li>黏土主動土壓力係數 $K_{a,clay} = 1$。</li>
+<li>採用總應力分析，計算各深度的總垂直應力 $\sigma_v$。</li>
+<li>計算總主動土壓力 $\sigma_a = \sigma_v - 2c$。</li>
+<li><strong>第三步：合力與作用位置</strong></li>
+<li>將壓力分佈圖切割為多個三角形與矩形。</li>
+<li>
+<p>分別計算各區塊的合力及其相對於牆底的力臂，力矩加總後除以總合力求得合力作用點位置。</p>
+</li>
+<li>
+<p><strong>關鍵陷阱</strong>：</p>
+</li>
+<li><strong>黏土層的水壓力重複計算</strong>：在 $\phi=0$ 的總應力分析中，$\sigma_a$ 已經是牆背受到的總側向壓力，若誤將砂土層的水壓力向下延伸並額外疊加至黏土層，會導致嚴重的錯誤。</li>
+<li><strong>應力轉換交界面</strong>：在 $z = 4 \text{ m}$ 處，從砂土轉換為黏土，側壓力分佈會發生突變（由有效側向土壓力加水壓，突變為黏土的總側向壓力）。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p><code>求出擋土牆牆背的 Rankine 主動土壓力分佈圖、總合力大小，及其距牆底的作用位置。</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>砂土層主動土壓力係數：<br />
+  $$K_{a,sand} = \tan^2\left(45^\circ - \frac{\phi}{2}\right)$$</li>
+<li>砂土層（有效應力法）總主動土壓力：<br />
+  $$\sigma_{a,sand} = \sigma_a' + u = \sigma_v' \boxed{K_{a,sand}} + u$$</li>
+<li>黏土層（總應力法，$\phi_u = 0$）主動土壓力係數：<br />
+  $$K_{a,clay} = \tan^2(45^\circ - 0^\circ) = 1$$</li>
+<li>黏土層（總應力法）總主動土壓力：<br />
+  $$\sigma_{a,clay} = \sigma_v \boxed{K_{a,clay}} - 2c\sqrt{\boxed{K_{a,clay}}} = \sigma_v - 2c$$</li>
+<li>總合力與作用位置：<br />
+  $$P_A = \sum P_i$$<br />
+  $$\bar{y} = \frac{\sum (P_i \cdot y_i)}{\boxed{P_A}}$$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H$</td>
+<td>$8 \text{ m}$</td>
+<td>擋土牆受力段高度</td>
+</tr>
+<tr>
+<td>$H_{sand}$</td>
+<td>$4 \text{ m}$</td>
+<td>砂土層厚度</td>
+</tr>
+<tr>
+<td>$\gamma_{dry(sand)}$</td>
+<td>$17 \text{ kN/m}^3$</td>
+<td>砂土乾單位重（$0 \sim 2\text{ m}$）</td>
+</tr>
+<tr>
+<td>$\gamma_{sat(sand)}$</td>
+<td>$18 \text{ kN/m}^3$</td>
+<td>砂土飽和單位重（$2 \sim 4\text{ m}$）</td>
+</tr>
+<tr>
+<td>$\phi_{sand}$</td>
+<td>$30^\circ$</td>
+<td>砂土內摩擦角</td>
+</tr>
+<tr>
+<td>$\gamma_{sat(clay)}$</td>
+<td>$17.5 \text{ kN/m}^3$</td>
+<td>黏土飽和單位重</td>
+</tr>
+<tr>
+<td>$c_{clay}$</td>
+<td>$30 \text{ kN/m}^2$</td>
+<td>黏土凝聚力</td>
+</tr>
+<tr>
+<td>$H_w$</td>
+<td>$2 \text{ m}$</td>
+<td>地下水位深度</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>砂土層應力參數計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $K_{a,sand}$ | $\tan^2(45^\circ - 30^\circ / 2)$ | |<br />
+| $\gamma_{sand}'$ | $\gamma_{sat(sand)} - \gamma_w$ | |<br />
+| $\sigma_v'$ | 依深度計算上覆有效重量 | |<br />
+| $u$ | 依水位下深度計算靜水壓力 | |</p>
+<p><strong>黏土層應力參數計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $K_{a,clay}$ | $\tan^2(45^\circ - 0^\circ / 2) = 1$ | |<br />
+| $\sigma_{v}$ | 上方土層總重 + 黏土層總重 | |</p>
+<p><strong>合力與力矩計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $P_i$ | 各壓力區塊（三角形、矩形）面積 | |<br />
+| $y_i$ | 各區塊形心距牆底高度 | |<br />
+| $\bar{y}$ | $\sum(P_i y_i) / \sum P_i$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>黏土 $\phi=0$ 總應力法</td>
+<td>題目未給黏土摩擦角，暗示為不排水狀態（$\phi_u=0$）。此時側向主動土壓力公式為 $\sigma_a = \sigma_v - 2c$，<strong>不可再額外加上孔隙水壓力</strong>。</td>
+<td></td>
+</tr>
+<tr>
+<td>有效與總應力切換</td>
+<td>砂土透水佳用有效應力（需加水壓）；黏土短期不排水用總應力（水壓已包含在內）。交界面處側土壓力會產生明顯跳躍。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p><strong>計算約定：</strong> 採用水的單位重 $\gamma_w = 9.81 \text{ kN/m}^3$。（若考場習慣採用 $10 \text{ kN/m}^3$ 計算過程亦相同，僅數值微調）</p>
+<h3>Step 1: 主動土壓力係數計算</h3>
+<p>砂土層（$c=0, \phi=30^\circ$）：<br />
+$$K_{a1} = \tan^2\left(45^\circ - \frac{30^\circ}{2}\right) = \frac{1}{3}$$<br />
+黏土層（$c=30 \text{ kN/m}^2, \phi_u=0^\circ$）：<br />
+$$K_{a2} = \tan^2\left(45^\circ - \frac{0^\circ}{2}\right) = 1$$</p>
+<h3>Step 2: 牆背各深度土壓力計算</h3>
+<p><strong>1. 深度 $z = 0 \text{ m}$ (地表)</strong></p>
+<ul>
+<li>有效垂直應力：$\sigma_v' = 0$</li>
+<li>孔隙水壓力：$u = 0$</li>
+<li>總主動土壓力：$\sigma_a = 0 \times \frac{1}{3} + 0 = 0 \text{ kN/m}^2$</li>
+</ul>
+<p><strong>2. 深度 $z = 2 \text{ m}$ (地下水位面)</strong></p>
+<ul>
+<li>有效垂直應力：$\sigma_v' = 17 \times 2 = 34.00 \text{ kN/m}^2$</li>
+<li>孔隙水壓力：$u = 0$</li>
+<li>總主動土壓力：$\sigma_a = \sigma_v' K_{a1} + u = 34 \times \frac{1}{3} + 0 = 11.33 \text{ kN/m}^2$</li>
+</ul>
+<p><strong>3. 深度 $z = 4 \text{ m}$ (砂土層底部)</strong></p>
+<ul>
+<li>砂土有效單位重：$\gamma_{sand}' = 18 - 9.81 = 8.19 \text{ kN/m}^3$</li>
+<li>有效垂直應力：$\sigma_v' = 34 + 8.19 \times 2 = 50.38 \text{ kN/m}^2$</li>
+<li>孔隙水壓力：$u = 9.81 \times 2 = 19.62 \text{ kN/m}^2$</li>
+<li>砂土有效主動壓力：$\sigma_a' = 50.38 \times \frac{1}{3} = 16.79 \text{ kN/m}^2$</li>
+<li>總主動土壓力：$\sigma_a = \sigma_a' + u = 16.79 + 19.62 = 36.41 \text{ kN/m}^2$</li>
+</ul>
+<blockquote>
+<p><em>策略註解：在 $z=4\text{ m}$ 處，土層交界會產生土壓力突變。下層為不排水黏土層，需切換為總應力法重新計算此深度之總應力。</em></p>
+</blockquote>
+<p><strong>4. 深度 $z = 4 \text{ m}$ (黏土層頂部)</strong></p>
+<ul>
+<li>總垂直應力：<br />
+  $$\sigma_v = 17 \times 2 + 18 \times 2 = 34 + 36 = 70.00 \text{ kN/m}^2$$</li>
+<li>總主動土壓力：<br />
+  $$\sigma_a = \sigma_v K_{a2} - 2c\sqrt{K_{a2}} = 70 \times 1 - 2 \times 30 = 10.00 \text{ kN/m}^2$$<br />
+<em>(備註：因 $\sigma_a &gt; 0$，此處無張力裂縫。)</em></li>
+</ul>
+<p><strong>5. 深度 $z = 8 \text{ m}$ (牆底，黏土層中)</strong></p>
+<ul>
+<li>總垂直應力：<br />
+  $$\sigma_v = 70 + 17.5 \times 4 = 140.00 \text{ kN/m}^2$$</li>
+<li>總主動土壓力：<br />
+  $$\sigma_a = \sigma_v K_{a2} - 2c\sqrt{K_{a2}} = 140 \times 1 - 2 \times 30 = 80.00 \text{ kN/m}^2$$</li>
+</ul>
+<hr />
+<h3>Step 3: 各項合力與作用位置計算</h3>
+<p>將壓力分佈圖切割為 6 個簡單幾何區塊，統一對牆底（$z=8\text{ m}$）取力臂 $y_i$。</p>
+<table>
+<thead>
+<tr>
+<th>區塊</th>
+<th>說明</th>
+<th>深度區間</th>
+<th>面積大小 $P_i$ ($\text{kN/m}$)</th>
+<th>力臂 $y_i$ ($\text{m}$)</th>
+<th>力矩 $M_i = P_i \cdot y_i$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$P_1$</td>
+<td>砂土上層(三角形)</td>
+<td>0~2m 砂有效壓力</td>
+<td>$\frac{1}{2} \times 2 \times 11.33 = 11.33$</td>
+<td>$6 + \frac{2}{3} = 6.667$</td>
+<td>$75.53$</td>
+</tr>
+<tr>
+<td>$P_2$</td>
+<td>砂土下層(矩形)</td>
+<td>2~4m 砂有效壓力</td>
+<td>$2 \times 11.33 = 22.66$</td>
+<td>$4 + 1 = 5.000$</td>
+<td>$113.30$</td>
+</tr>
+<tr>
+<td>$P_3$</td>
+<td>砂土下層(三角形)</td>
+<td>2~4m 砂有效增量</td>
+<td>$\frac{1}{2} \times 2 \times (16.79-11.33) = 5.46$</td>
+<td>$4 + \frac{2}{3} = 4.667$</td>
+<td>$25.48$</td>
+</tr>
+<tr>
+<td>$P_4$</td>
+<td>砂土下層(三角形)</td>
+<td>2~4m 水壓力</td>
+<td>$\frac{1}{2} \times 2 \times 19.62 = 19.62$</td>
+<td>$4 + \frac{2}{3} = 4.667$</td>
+<td>$91.57$</td>
+</tr>
+<tr>
+<td>$P_5$</td>
+<td>黏土層(矩形)</td>
+<td>4~8m 黏土總壓力</td>
+<td>$4 \times 10 = 40.00$</td>
+<td>$2.000$</td>
+<td>$80.00$</td>
+</tr>
+<tr>
+<td>$P_6$</td>
+<td>黏土層(三角形)</td>
+<td>4~8m 黏土增量</td>
+<td>$\frac{1}{2} \times 4 \times (80-10) = 140.00$</td>
+<td>$\frac{4}{3} = 1.333$</td>
+<td>$186.67$</td>
+</tr>
+</tbody>
+</table>
+<p>計算總和：</p>
+<ul>
+<li>總合力：$P_A = 11.33 + 22.66 + 5.46 + 19.62 + 40.00 + 140.00 = \boxed{239.07 \text{ kN/m}}$</li>
+<li>總力矩：$\sum M = 75.53 + 113.30 + 25.48 + 91.57 + 80.00 + 186.67 = 572.55 \text{ kN-m/m}$</li>
+</ul>
+<p>計算合力作用點（距牆底）：<br />
+$$ \bar{y} = \frac{\sum M}{P_A} = \frac{572.55}{239.07} = \boxed{2.395 \text{ m}} $$</p>
+<p><img alt="SM-2010-2 牆背壓力分布圖：0–4 m 為砂土有效主動土壓（0 → 11.33 → 16.79），2–4 m 疊加水壓三角（0 → 19.62），z=4 m 處由 36.41 突降為黏土總側壓 10.00，再線性增至牆底 80.00；圖上標出六個分塊、合力 239.08 kN/m 與作用點 2.395 m" src="../../raw/solutions/SM-2010-2/figs/SM-2010-2-fig-2-pressure.svg" /></p>
+<p><em>圖 2　題目明文要求的「各項壓力分佈圖」與合力。攔的是黏土層重複疊加水壓——圖上黏土段只有一塊灰色的總側壓，右側沒有第二個水壓三角；若把砂層的水壓三角延伸到牆底，$P_A$ 會多算 $80 \text{ kN/m}$ 以上。</em></p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>水壓力是否獨立於黏土層中計算？</strong></li>
+<li>當黏土僅提供總應力參數（凝聚力 $c$，且未給定 $\phi'$，慣例視為 $\phi_u=0$ 之短期狀態）時，必須採用「總應力分析」。此時求得之 $\sigma_a$ 已經是包含孔隙水壓在內的<strong>總側向壓力</strong>。</li>
+<li>若在此段額外加上靜水壓力，則犯了將水壓力重複計算的錯誤。</li>
+<li><strong>⚠ 黏土層頂部：牆背可能與土體脫開並充水（本題最深的爭議點）</strong></li>
+<li>在 $z = 4 \sim 5.25 \text{ m}$ 的範圍內，黏土層的<strong>總</strong>側向壓力小於同深度的靜水壓力：<br />
+    $$\sigma_{a}(z) = 10 + 17.5(z-4), \qquad u(z) = 9.81(z-2)$$<br />
+    兩者在 $z = 4 \text{ m}$ 為 $10.00$ 與 $19.62$、在 $z = 5.251 \text{ m}$ 相等（$\sigma_a = u = 31.89$）。</li>
+<li>這代表該段的<strong>有效</strong>水平應力為負（$z=4$ 時 $\sigma_h' = 10 - 19.62 = -9.62 \text{ kN/m}^2$）。<br />
+    土壤不能對牆面施加拉力，故理論上牆背與黏土在此段會<strong>脫開</strong>；<br />
+    上方砂土層的地下水一旦沿縫隙灌入，牆面實際承受的就是靜水壓 $u$ 而非 $\sigma_a$。</li>
+<li>保守修正做法：該段取 $\max(\sigma_a,\; u)$。此時 $4 \sim 5.251 \text{ m}$ 改用水壓三角形，<br />
+    合力與作用點都會略增（$P_A$ 增加約 $6.0 \text{ kN/m}$，即該段三角形 $\tfrac{1}{2}(19.62-10.00)(5.251-4) = 6.02$）。</li>
+<li><strong>考場建議：</strong> 主答仍寫本解析的 $\phi_u = 0$ 總應力分布（這是本題預期的標準解），<br />
+    但在答案末尾補上這一段檢核，可明確區隔出「只會套公式」與「知道公式邊界」的考生。</li>
+</ul>
+<p><img alt="SM-2010-2 黏土段檢核圖：σ_a = σ_v − 2c 由 z=4 m 的 10.00 線性升至 z=8 m 的 80.00；靜水壓 u = γ_w(z−2) 由 19.62 升至 58.86；兩線在 z=5.251 m、31.89 kN/m² 交會，交會點以上 σ_a 小於 u 的區間以紅色填色標出" src="../../raw/solutions/SM-2010-2/figs/SM-2010-2-fig-3-crack-check.svg" /></p>
+<p><em>圖 3　$\phi_u = 0$ 總側壓與靜水壓的比較。攔的是「算完就交卷」——紅色區間內牆背的有效水平應力為負，土壤不能承拉，理論上會脫開並充水。這張圖不改主答，但能看出標準解在 $z = 4 \sim 5.25 \text{ m}$ 之間偏不保守。</em></p>
+<ul>
+<li><strong>單位水重的選用差異</strong></li>
+<li>本解析採用精確的單位水重 $\gamma_w = 9.81 \text{ kN/m}^3$。若習慣上採用 $\gamma_w = 10 \text{ kN/m}^3$ 進行計算：<ul>
+<li>$z=4\text{ m}$ 處 $\gamma' = 8 \text{ kN/m}^3$、$\sigma_v' = 50 \text{ kN/m}^2$、$\sigma_a' = 16.667 \text{ kN/m}^2$、$u = 20 \text{ kN/m}^2$、總壓力為 $36.667 \text{ kN/m}^2$。</li>
+<li>六個區塊改為 $11.333 / 22.667 / 5.333 / 20.000 / 40.000 / 140.000$，總合力 $P_A = 239.33 \text{ kN/m}$、總力矩 $573.78 \text{ kN-m/m}$、作用點 $\bar{y} = 2.397 \text{ m}$。</li>
+<li>與 $\gamma_w = 9.81$ 的結果（$239.07$、$2.395$）相差不到 $0.11\%$，兩種常數選用考選部閱卷均可接受，唯建議於計算起始清楚註明。</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><em>解析日期：見 <code>wiki/log.md</code>　｜　圖解補繪：2026-08-29（向量 SVG，程式繪製，腳本 <code>gen_SM-2010-2.py</code> 可重跑；同名 2× PNG 供簡報／影片管線使用）</em></p></main>
+<footer>來源：raw/solutions/SM-2010-2/SM-2010-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

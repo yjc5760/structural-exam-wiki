@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2025-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2025-4 題目解析</h1><a class="back quick" href="../../index.html">&#128218; 回題庫瀏覽</a></header>
+<main><h1>考題編號：SM-2025-4</h1>
+<p><strong>主分類：</strong> <code>SM-U1-4</code> 土體內應力<br />
+<strong>副分類：</strong> 無<br />
+<strong>分析法：</strong> 總應力法<br />
+<strong>標籤：</strong> <code>Boussinesq理論</code> <code>應力增量</code> <code>角隅公式</code> <code>疊加原理</code> <code>Newmark影響圖</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>一均布荷重 200 kPa 透過 T 形鐵板作用在地面，如下圖所示。請估算在 A 點下方 40 m 處所受之應力增量。（25 分）<br />
+幾何特徵如下：</p>
+<ul>
+<li>總底部寬度為 120 m，底部長方形（底版）高度為 40 m。</li>
+<li>頂部凸出長方形（牆身）高度為 40 m。</li>
+<li>頂部左右兩側的缺口寬度各為 40 m（亦即凸出長方形的寬度為 $120 - 40 - 40 = 40$ m）。</li>
+<li>A 點位於左側內角隅處（即左側缺口與凸出長方形交界點）。</li>
+<li>附圖另提供一張 Newmark 影響圖（Influence value = 0.005，比例尺 "1 Unit"）。</li>
+</ul>
+<p><img alt="SM-2025-4 題目附圖：倒 T 形載重與 Newmark 影響圖" src="../../raw/solutions/SM-2025-4/SM-2025-4-fig-1.png" /></p>
+<p><em>圖說：地面受倒 T 形均布載重 200 kPa 作用，總底寬 120m，底版與凸出部高度皆為 40m，兩側缺口各 40m 寬。求 A 點角隅下方 40m 處之垂直應力增量。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題測驗 Boussinesq 彈性理論中計算矩形面載重引起的垂直應力增量。出題者刻意提供 Newmark 影響圖，但也給了非常整齊的幾何尺寸（全是 40m 的倍數，正好與深度 $z=40$m 相同），意在測試考生是否具備「疊加原理」與「圖形拆解」的能力。考生可選擇透過角隅公式精確計算，或者利用影響圖繪圖並數格子，兩條路徑皆能抵達相同的解答。</p>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>戰略地圖：</strong></p>
+<ul>
+<li><strong>Step 1:</strong> 將複雜的倒 T 形拆解成數個以 A 點為角隅的矩形。<br />
+  根據相對 A 點的位置，載重面積可拆解為三個部分：</li>
+<li>上方矩形（凸出部）：寬 $40\text{m}$，高 $40\text{m}$。</li>
+<li>左下矩形（左側底版）：寬 $40\text{m}$，高 $40\text{m}$。</li>
+<li>右下矩形（中間與右側底版合計）：寬 $120 - 40 = 80\text{m}$，高 $40\text{m}$。</li>
+<li><strong>Step 2:</strong> 計算各矩形的無因次幾何參數 $m = B/z$ 與 $n = L/z$（給定深度 $z=40\text{m}$）。</li>
+<li><strong>Step 3:</strong> 利用 Fadum 角隅解公式（或查表、或對應 Newmark 圖）求出三個矩形的影響係數 $I_1, I_2, I_3$。</li>
+<li><strong>Step 4:</strong> 將三個影響係數相加，乘上均布載重 $q=200\text{ kPa}$，求得總應力增量 $\Delta\sigma_z$。</li>
+</ul>
+<p><strong>陷阱分析：</strong></p>
+<ol>
+<li><strong>形狀解讀錯誤：</strong> 圖示的標示方式（頂部左右箭頭 40m，底部 120m）容易讓人誤解為十字形或正T形。必須仔細看懂標線的對齊位置：左右的 40m 代表缺口的寬度，因此中央凸出部分的寬度恰好也是 $120-40-40=40$m。</li>
+<li><strong>角隅點 A 的相對位置：</strong> 疊加原理必須將每一個矩形的角隅置於目標點的「正上方」。A 點是內角隅，因此可以直接劃分成三個相鄰但不重疊的矩形，將影響係數相加即可，不需要進行大面積減小面積的相減操作。</li>
+<li><strong>查表或公式解的迷思：</strong> 題目附有 Newmark 影響圖，考生可能以為「必須」用數格子的方法。但實際上尺寸全為 $z$ 的整數倍，使用角隅公式或熟記的特定影響值（如 $m=1, n=1$）會比用肉眼數格子快且精準得多。</li>
+</ol>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p><code>計算倒 T 形均布載重在特定內角隅點 A 下方 40m 處造成的垂直應力增量。</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$ m = \frac{B}{z}, \quad n = \frac{L}{z} $$<br />
+$$ I = f(m,n) \text{ (Fadum 影響係數)} $$<br />
+$$ I_{total} = I_1 + I_2 + I_3 $$<br />
+$$ \Delta\sigma_z = q \times \boxed{I_{total}} $$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$q$</td>
+<td>200 kPa</td>
+<td>表面均布荷重</td>
+</tr>
+<tr>
+<td>$z$</td>
+<td>40 m</td>
+<td>目標點深度</td>
+</tr>
+<tr>
+<td>幾何</td>
+<td>圖示</td>
+<td>T形幾何各部位尺寸均為 40m 或 120m</td>
+</tr>
+<tr>
+<td>$I_{unit}$</td>
+<td>0.005</td>
+<td>Newmark圖單元影響值 (若採數格子法)</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>第一階段：矩形區塊拆解與 $m,n$ 計算</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>矩形 1 (上方)</td>
+<td>$B=40, L=40 \Rightarrow m=1, n=1$</td>
+<td></td>
+</tr>
+<tr>
+<td>矩形 2 (左下)</td>
+<td>$B=40, L=40 \Rightarrow m=1, n=1$</td>
+<td></td>
+</tr>
+<tr>
+<td>矩形 3 (右下)</td>
+<td>$B=80, L=40 \Rightarrow m=2, n=1$</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>第二階段：計算或查得影響係數 $I$</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$I_1$</td>
+<td>角隅公式解 $f(1,1)$</td>
+<td></td>
+</tr>
+<tr>
+<td>$I_2$</td>
+<td>角隅公式解 $f(1,1)$</td>
+<td></td>
+</tr>
+<tr>
+<td>$I_3$</td>
+<td>角隅公式解 $f(2,1)$</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>第三階段：計算應力增量 $\Delta\sigma_z$</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$I_{total}$</td>
+<td>$I_1 + I_2 + I_3$</td>
+<td></td>
+</tr>
+<tr>
+<td>$\Delta\sigma_z$</td>
+<td>$q \times I_{total}$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>角隅重疊原理</td>
+<td>載重區塊必須分割或補齊成若干矩形，且<strong>所有矩形的角隅必須切齊目標點的垂直投影位置</strong>。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p><strong>Step 1：依據 A 點拆解載重面積</strong><br />
+目標點位於 A 點下方 $z = 40 \text{ m}$ 處。由於 A 點是圖形的左側內角隅，我們可以將整個倒 T 形載重面積以 A 點為頂點，分割為三個獨立且不重疊的矩形：</p>
+<ul>
+<li><strong>矩形 1（上方凸出部）：</strong> 寬度為 $120 - 40 - 40 = 40 \text{ m}$，高度為 $40 \text{ m}$。此為 $40\text{m} \times 40\text{m}$ 矩形，以 A 為左下角隅。</li>
+<li><strong>矩形 2（左側底版）：</strong> 寬度為 $40 \text{ m}$，高度為 $40 \text{ m}$。此為 $40\text{m} \times 40\text{m}$ 矩形，以 A 為右上角隅。</li>
+<li><strong>矩形 3（中間至右側底版）：</strong> 寬度包含中央凸出版的正下方與右側延伸部分，總寬為 $120 - 40 \text{ (左側)} = 80 \text{ m}$，高度為 $40 \text{ m}$。此為 $80\text{m} \times 40\text{m}$ 矩形，以 A 為左上角隅。</li>
+</ul>
+<p><strong>Step 2：計算各矩形的影響係數</strong><br />
+對於每個矩形，我們計算無因次參數 $m = B/z$ 與 $n = L/z$（目標深度 $z = 40 \text{ m}$），並代入 Fadum 角隅解公式（或查表）。</p>
+<ul>
+<li><strong>矩形 1：</strong> $m = \frac{40}{40} = 1$，$n = \frac{40}{40} = 1$。<br />
+  當 $m=1, n=1$ 時，精確影響係數為 $I_1 = 0.1752$。</li>
+<li><strong>矩形 2：</strong> $m = \frac{40}{40} = 1$，$n = \frac{40}{40} = 1$。<br />
+  同理，影響係數 $I_2 = 0.1752$。</li>
+<li><strong>矩形 3：</strong> 取短邊為 $B=40$，長邊為 $L=80$。$m = \frac{40}{40} = 1$，$n = \frac{80}{40} = 2$。<br />
+  當 $m=1, n=2$ 時，精確影響係數為 $I_3 = 0.1999$。</li>
+</ul>
+<p><strong>Step 3：疊加總影響係數與計算應力增量</strong><br />
+總影響係數 $I_{total}$ 為三個矩形影響係數之總和：<br />
+$$ I_{total} = I_1 + I_2 + I_3 = 0.1752 + 0.1752 + 0.1999 = 0.5503 $$</p>
+<p>給定均布荷重 $q = 200 \text{ kPa}$，垂直應力增量為：<br />
+$$ \Delta\sigma_z = q \times I_{total} = 200 \times 0.5503 = 110.06 \text{ kPa} $$</p>
+<p>$$ \boxed{ \Delta\sigma_z = 110.06 \text{ kPa} } $$</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p>考卷中附了一張 Newmark 影響圖，比例尺標示 <code>1 Unit</code>，這對應深度 $z$。若以圖解法數格子來驗證：<br />
+每個 $40\text{m} \times 40\text{m}$ ($1z \times 1z$) 的矩形，若畫在影響圖上約會覆蓋 $0.1752 / 0.005 \approx 35$ 個影響區塊。<br />
+而 $80\text{m} \times 40\text{m}$ ($2z \times 1z$) 的矩形，約會覆蓋 $0.1999 / 0.005 \approx 40$ 個影響區塊。<br />
+因此三個矩形總計約覆蓋 $35 + 35 + 40 = 110$ 個區塊。<br />
+根據圖表公式推算：$\Delta\sigma_z = 110 \text{ (blocks)} \times 0.005 \times 200 \text{ kPa} = 110 \text{ kPa}$。<br />
+這證實了利用數學公式解與查表（或數格子）得到的結果是完全一致的。在考場上，建議直接將圖形畫在試卷的影響圖上，並輔以數格子說明，再寫出精確的影響係數值，不僅展現計算實力，更能博得閱卷者青睞。</p></main>
+<footer>來源：raw/solutions/SM-2025-4/SM-2025-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

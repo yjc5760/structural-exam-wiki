@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2023-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2023-2 題目解析</h1><a class="back quick" href="../../index.html">&#128218; 回題庫瀏覽</a></header>
+<main><h1>考題編號：SM-2023-2</h1>
+<p><strong>主分類：</strong> <code>SM-U3-3</code> 坡地工程<br />
+<strong>副分類：</strong> 無<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>邊坡穩定</code> <code>平面滑動</code> <code>安全係數</code> <code>Mohr-Coulomb破壞準則</code> <code>凝聚力折減</code> <code>雨水入滲</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>二、如下圖所示邊坡之高 H=8 m，土壤單位重 $\gamma$ = 20 $\text{kN/m}^3$，<br />
+(一) 請問假設破壞面 AB 之土壤強度參數 $c$ = 50（kPa）及 $\phi$ = 36° 條件下之抗滑安全係數為何？（15 分）<br />
+(二) 若考慮雨水入滲而降低假設破壞面之土壤強度參數 $c$ = 5（kPa），但 $\phi$ 仍然維持 36°，則其抗滑安全係數為何？（10 分）</p>
+<p><img alt="SM-2023-2 題目附圖：邊坡幾何及破壞面示意圖" src="../../raw/solutions/SM-2023-2/SM-2023-2-fig-1.png" /></p>
+<p><em>圖說：邊坡高度 H=8m，坡面傾角 $\alpha$ = 60°，破壞面 AB 傾角 $\theta$ = 45°。滑動土體為一楔形體。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<ul>
+<li><strong>平面滑動分析 (Planar Failure Analysis)</strong>：評估楔形破壞土體的自重、滑動力與抗滑力。</li>
+<li><strong>抗滑安全係數定義</strong>：理解安全係數 $FS = \frac{\text{抗滑力 (Resisting Force)}}{\text{驅動力 (Driving Force)}}$。</li>
+<li><strong>降雨對邊坡穩定之影響</strong>：測驗考生是否了解雨水入滲會弱化土壤（特別是表觀凝聚力 $c$ 的喪失或降低），並評估此強烈弱化效應對安全係數的直接影響。</li>
+</ul>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<ol>
+<li><strong>幾何計算</strong>：先計算滑動土體（楔形體）的面積與重量 $W$，以及破壞面長度 $L$。需注意坡面角與破壞面角的幾何關係。</li>
+<li><strong>力學分解</strong>：將土體重量 $W$ 分解為平行於破壞面的滑動力（驅動力 $T_d$）與垂直於破壞面的正向力 $N$。</li>
+<li><strong>抗滑力計算</strong>：運用庫倫破壞準則，抗滑力 $T_r = cL + N\tan\phi$。</li>
+<li><strong>安全係數計算</strong>：分別代入兩種情況的土壤參數求出 $FS$。</li>
+</ol>
+<p><strong>陷阱分析</strong>：</p>
+<ul>
+<li><strong>陷阱一</strong>：幾何面積計算錯誤。楔形體頂部寬度應為水平投影距離之差，即 $H\cot(45^\circ) - H\cot(60^\circ)$。</li>
+<li><strong>陷阱二</strong>：題意解讀偏差。第 (二) 小題提到「雨水入滲」，實務上雨水入滲會產生孔隙水壓，導致有效正向力降低。但題目已明確指示「降低假設破壞面之土壤強度參數 $c=5 \text{ kPa}$」，且未給定地下水位或滲流條件。因此依題意直接使用新的 $c$ 值計算即可，不宜過度臆測孔隙水壓而導致無法計算。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p><code>求出在原條件與雨水入滲導致凝聚力降低兩種情況下，破壞面之抗滑安全係數 FS</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ol>
+<li>滑動楔形體面積：$A = \frac{1}{2} H (H\cot\theta - H\cot\alpha)$</li>
+<li>滑動體總重：$W = \boxed{A} \cdot \gamma$</li>
+<li>破壞面長度：$L = \frac{H}{\sin\theta}$</li>
+<li>破壞面正向力與驅動力：$N = \boxed{W} \cos\theta, \quad T_d = \boxed{W} \sin\theta$</li>
+<li>抗滑力：$T_r = c \boxed{L} + \boxed{N} \tan\phi$</li>
+<li>安全係數：$FS = \frac{\boxed{T_r}}{\boxed{T_d}}$</li>
+</ol>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H$</td>
+<td>8 m</td>
+<td>邊坡高度</td>
+</tr>
+<tr>
+<td>$\gamma$</td>
+<td>20 $\text{kN/m}^3$</td>
+<td>土壤單位重</td>
+</tr>
+<tr>
+<td>$\alpha$</td>
+<td>60°</td>
+<td>坡面傾角</td>
+</tr>
+<tr>
+<td>$\theta$</td>
+<td>45°</td>
+<td>破壞面傾角</td>
+</tr>
+<tr>
+<td>$c_1, \phi_1$</td>
+<td>50 kPa, 36°</td>
+<td>情況(一)之強度參數</td>
+</tr>
+<tr>
+<td>$c_2, \phi_2$</td>
+<td>5 kPa, 36°</td>
+<td>情況(二)之強度參數</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>幾何與自重計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $A$ | $A = \frac{1}{2} H^2 (\cot\theta - \cot\alpha)$ | |<br />
+| $W$ | $W = A \cdot \gamma$ | |<br />
+| $L$ | $L = H / \sin\theta$ | |</p>
+<p><strong>力學分解與安全係數</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $N$ | $N = W \cos\theta$ | |<br />
+| $T_d$ | $T_d = W \sin\theta$ | |<br />
+| $T_r$ | $T_r = cL + N\tan\phi$ | |<br />
+| $FS$ | $FS = T_r / T_d$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>幾何關係</td>
+<td>楔形體的面積為上底乘高除二，上底等於兩斜面之水平投影距離差 $H\cot\theta - H\cot\alpha$。</td>
+<td></td>
+</tr>
+<tr>
+<td>抗滑力組成</td>
+<td>庫倫定律中凝聚力作用於整個破壞面上，故需乘上破壞面長度 $L$；摩擦力則由總正向力 $N$ 乘上 $\tan\phi$ 貢獻。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p><strong>Step 1：計算滑動楔形體幾何特徵與重量</strong></p>
+<ul>
+<li>坡高 $H = 8 \text{ m}$</li>
+<li>坡角 $\alpha = 60^\circ$</li>
+<li>破壞面角 $\theta = 45^\circ$</li>
+<li>破壞面長度 $L = \frac{H}{\sin\theta} = \frac{8}{\sin 45^\circ} = \frac{8}{0.7071} = 11.314 \text{ m}$</li>
+</ul>
+<p>滑動體上方寬度（水平距離差）：<br />
+$$ b = H\cot\theta - H\cot\alpha = 8\cot 45^\circ - 8\cot 60^\circ = 8(1) - 8\left(\frac{1}{\sqrt{3}}\right) = 8 - 4.619 = 3.381 \text{ m} $$<br />
+滑動體積（每單位寬度）：<br />
+$$ A = \frac{1}{2} \times b \times H = \frac{1}{2} \times 3.381 \times 8 = 13.525 \text{ m}^2 $$<br />
+滑動體總重 $W$：<br />
+$$ W = A \cdot \gamma = 13.525 \times 20 = 270.50 \text{ kN/m} $$</p>
+<p><strong>Step 2：力學分解 (求驅動力與正向力)</strong></p>
+<ul>
+<li>驅動力（平行破壞面分量）：<br />
+  $$ T_d = W \sin\theta = 270.50 \times \sin 45^\circ = 270.50 \times 0.7071 = 191.27 \text{ kN/m} $$</li>
+<li>正向力（垂直破壞面分量）：<br />
+  $$ N = W \cos\theta = 270.50 \times \cos 45^\circ = 270.50 \times 0.7071 = 191.27 \text{ kN/m} $$</li>
+</ul>
+<p><strong>Step 3：計算第(一)小題安全係數</strong><br />
+已知 $c = 50 \text{ kPa}$, $\phi = 36^\circ$</p>
+<ul>
+<li>抗滑力 $T_{r1}$：<br />
+  $$ T_{r1} = cL + N\tan\phi = 50 \times 11.314 + 191.27 \times \tan 36^\circ $$<br />
+  $$ T_{r1} = 565.70 + 191.27 \times 0.7265 = 565.70 + 138.97 = 704.67 \text{ kN/m} $$</li>
+<li>安全係數 $FS_1$：<br />
+  $$ FS_1 = \frac{T_{r1}}{T_d} = \frac{704.67}{191.27} = 3.684 $$<blockquote>
+<p>$\boxed{FS_1 = 3.68}$</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>Step 4：計算第(二)小題安全係數</strong><br />
+已知雨水入滲後 $c = 5 \text{ kPa}$, $\phi = 36^\circ$</p>
+<ul>
+<li>抗滑力 $T_{r2}$：<br />
+  $$ T_{r2} = cL + N\tan\phi = 5 \times 11.314 + 191.27 \times \tan 36^\circ $$<br />
+  $$ T_{r2} = 56.57 + 138.97 = 195.54 \text{ kN/m} $$</li>
+<li>安全係數 $FS_2$：<br />
+  $$ FS_2 = \frac{T_{r2}}{T_d} = \frac{195.54}{191.27} = 1.022 $$<blockquote>
+<p>$\boxed{FS_2 = 1.02}$</p>
+</blockquote>
+</li>
+</ul>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>雨水入滲對孔隙水壓之影響</strong>：實務上，雨水入滲除了弱化土壤結構導致有效凝聚力 $c'$ 下降外，最主要的力學影響是產生超額孔隙水壓或使水位上升，這會降低破壞面上的有效正向力 $N'$，進一步大幅降低抗滑力中摩擦力之貢獻（$N'\tan\phi'$）。本題並未給定地下水面條件或孔隙水壓參數，僅單純指示 $c$ 值降至 5 kPa，為避免假設過度而失分，依題意直接以降低後的 $c$ 值計算即可，符合多數國家考試此類題目的預期解答邏輯。</li>
+<li><strong>凝聚力對邊坡穩定之重要性</strong>：從計算結果可知，當 $c$ 由 50 kPa 降至 5 kPa，安全係數從 3.68 驟降至 1.02（瀕臨破壞狀態）。這凸顯了淺層邊坡或小型邊坡穩定度極度仰賴土壤的「表觀凝聚力」（常由基質吸力或植物根系提供），一旦暴雨導致飽和使表觀凝聚力消失，邊坡極易發生淺層滑動破壞。</li>
+</ul></main>
+<footer>來源：raw/solutions/SM-2023-2/SM-2023-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

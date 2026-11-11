@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2003-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2003-2 題目解析</h1><a class="back quick" href="../study-SM-U1-3.html">&#128269; U1-3 命題分析</a>
+<a class="back lect" href="../lecture-SM-U1-3.html">&#128218; U1-3 土壤夯實及壓密 講義</a></header>
+<main><h1>考題編號：SM-2003-2</h1>
+<p><strong>主分類：</strong> <code>SM-U1-3</code> 土壤夯實及壓密<br />
+<strong>副分類：</strong> <code>SM-U1-4</code> 土體內應力、<code>SM-U2-1</code> 淺基礎之支承力與沉陷量<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>壓密沉陷</code> <code>應力增量</code> <code>過壓密</code> <code>預壓密應力</code> <code>壓縮指數</code> <code>回脹指數</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>有一方形放腳基礎置於地表下 1.5 m 處，該處地層為厚度 5 m 之砂土層，下方為厚 6 m 之黏土層，地下水位於深度 1.5 m 處。<br />
+該基腳尺寸為 2 m × 2 m，荷重 $Q = 1200 \text{ kN}$；<br />
+砂土之單位重 $\gamma_{dry} = 18.5 \text{ kN/m}^3$，$\gamma_{sat} = 18.5 \text{ kN/m}^3$；<br />
+黏土飽和單位重 $\gamma_{sat} = 18 \text{ kN/m}^3$，初始孔隙比 $e_0 = 0.8$，壓縮指數 $C_c = 0.25$，回脹指數 $C_s = 0.06$，預壓密應力為 $90 \text{ kPa}$；<br />
+此時黏土層受荷重所產生之壓密沉陷量為何？（可用 2：1 法計算應力）（25 分）</p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<ul>
+<li><strong>有效應力計算與地層判定</strong>：測驗是否能正確處理地下水位以上/以下的單位重，並計算出黏土層中點的初始有效覆土應力。</li>
+<li><strong>過壓密狀態判定</strong>：給定預壓密應力 $p_c'$，需將計算出之初始有效應力 $p_0'$ 與 $p_c'$ 比較，判定土壤處於過壓密（OC）狀態。</li>
+<li><strong>2:1 應力分散法</strong>：測驗基礎外加荷重在深處地層之應力增量 $\Delta \sigma_z$ 計算。</li>
+<li><strong>雙段式壓密沉陷公式</strong>：外加載重後最終有效應力 $p_0' + \Delta \sigma_z$ 跨越 $p_c'$，因此沉陷量須分為回脹段（$C_s$）與正常壓密段（$C_c$）兩部分計算。</li>
+</ul>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<ul>
+<li><strong>步驟一：定位代表點與計算初始應力</strong><br />
+  取黏土層中央（地表下 $5 + 6/2 = 8 \text{ m}$ 處）為代表點，計算初始有效應力 $p_0'$。需注意砂土層在水位以上為 $\gamma_{dry}$，水位以下需用 $\gamma'$。</li>
+<li><strong>步驟二：判定壓密狀態</strong><br />
+  比較 $p_0'$ 與給定之 $p_c' = 90 \text{ kPa}$。確認 $OCR &gt; 1$，為過壓密黏土。</li>
+<li><strong>步驟三：計算應力增量</strong><br />
+  使用 2:1 法計算基礎荷重至黏土層中點的應力增量 $\Delta \sigma_z$。</li>
+<li><em>陷阱</em>：深度 $z$ 應為「基礎底面」至「黏土層中點」的距離，即 $8 - 1.5 = 6.5 \text{ m}$，不可誤用全深 $8 \text{ m}$。</li>
+<li><em>考量</em>：實務上外加載重應扣除開挖土壤重量（淨載重），但考量一般國考習慣與題目未特別指明，以總載重 $Q=1200 \text{ kN}$ 直接計算應力增量為主流作法，並於解答後方附加淨載重之計算作為補充。</li>
+<li><strong>步驟四：雙段式壓密沉陷計算</strong><br />
+  檢核 $p_0' + \Delta \sigma_z$ 是否大於 $p_c'$。若大於，則需拆分為 $p_0' \to p_c'$（使用 $C_s$）及 $p_c' \to p_0'+\Delta \sigma_z$（使用 $C_c$）兩段進行計算。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p><code>求出黏土層受基礎荷重影響產生之最終壓密沉陷量</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>黏土層中點初始有效應力：<br />
+  $$p_0' = \sum (\gamma \cdot H)_{dry} + \sum (\gamma_{sat} - \gamma_w) \cdot H_{sub}$$</li>
+<li>2:1 應力分散法計算應力增量：<br />
+  $$\Delta \sigma_z = \frac{Q}{(B+z')(L+z')}$$</li>
+<li>過壓密土壤沉陷量（當 $\boxed{p_0'} + \boxed{\Delta \sigma_z} &gt; p_c'$ 時）：<br />
+  $$S_c = \frac{C_s H}{1+e_0} \log \left(\frac{p_c'}{\boxed{p_0'}}\right) + \frac{C_c H}{1+e_0} \log \left(\frac{\boxed{p_0'} + \boxed{\Delta \sigma_z}}{p_c'}\right)$$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$B \times L$</td>
+<td>$2 \text{ m} \times 2 \text{ m}$</td>
+<td>基礎尺寸</td>
+</tr>
+<tr>
+<td>$D_f$</td>
+<td>$1.5 \text{ m}$</td>
+<td>基礎埋深（與地下水位同深）</td>
+</tr>
+<tr>
+<td>$Q$</td>
+<td>$1200 \text{ kN}$</td>
+<td>基礎荷重</td>
+</tr>
+<tr>
+<td>$H_{sand}$</td>
+<td>$5 \text{ m}$</td>
+<td>砂土層厚度</td>
+</tr>
+<tr>
+<td>$\gamma_{dry,sand}$</td>
+<td>$18.5 \text{ kN/m}^3$</td>
+<td>砂土乾單位重（$0 \sim 1.5 \text{ m}$）</td>
+</tr>
+<tr>
+<td>$\gamma_{sat,sand}$</td>
+<td>$18.5 \text{ kN/m}^3$</td>
+<td>砂土飽和單位重（$1.5 \sim 5 \text{ m}$）</td>
+</tr>
+<tr>
+<td>$H_{clay}$</td>
+<td>$6 \text{ m}$</td>
+<td>黏土層厚度</td>
+</tr>
+<tr>
+<td>$\gamma_{sat,clay}$</td>
+<td>$18 \text{ kN/m}^3$</td>
+<td>黏土飽和單位重（$5 \sim 11 \text{ m}$）</td>
+</tr>
+<tr>
+<td>$e_0$</td>
+<td>$0.8$</td>
+<td>黏土初始孔隙比</td>
+</tr>
+<tr>
+<td>$C_c$</td>
+<td>$0.25$</td>
+<td>黏土壓縮指數</td>
+</tr>
+<tr>
+<td>$C_s$</td>
+<td>$0.06$</td>
+<td>黏土回脹指數</td>
+</tr>
+<tr>
+<td>$p_c'$</td>
+<td>$90 \text{ kPa}$</td>
+<td>黏土預壓密應力</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>代表點幾何資訊</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $z_{mid}$ | 黏土層中點深度：$H_{sand} + H_{clay}/2$ | |<br />
+| $z'$ | 基礎面至黏土中點距離：$z_{mid} - D_f$ | |</p>
+<p><strong>有效應力與應力增量</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $p_0'$ | $\gamma_{dry} D_f + (\gamma_{sat,s}-\gamma_w)(H_s-D_f) + (\gamma_{sat,c}-\gamma_w)(H_c/2)$ | |<br />
+| $\Delta \sigma_z$ | $\frac{Q}{(B+z')(L+z')}$ | |</p>
+<p><strong>沉陷量計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $S_c$ | $\frac{C_s H}{1+e_0} \log \left(\frac{p_c'}{p_0'}\right) + \frac{C_c H}{1+e_0} \log \left(\frac{p_0' + \Delta \sigma_z}{p_c'}\right)$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>應力分散深度起算點</td>
+<td>2:1 分散法的深度 $z$ 是從「基礎底面」（載重施加處）開始起算，並非從地表起算。</td>
+<td></td>
+</tr>
+<tr>
+<td>跨越預壓密應力之沉陷</td>
+<td>當外加載重使得最終應力 $p_0' + \Delta \sigma_z$ 超過 $p_c'$ 時，前半段變形走 $C_s$ 曲線，後半段變形走 $C_c$ 曲線，不可直接全程使用 $C_c$。</td>
+<td></td>
+</tr>
+<tr>
+<td>淨載重與總載重之抉擇</td>
+<td>嚴格理論中應力增量應為淨載重（外加總重扣除開挖土壤重），但在無特別說明之考試中，常直接以給定總重計算，需具備依題意靈活處理的判斷力。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p><strong>Step 1：確定計算代表點位置</strong><br />
+黏土層位於地表下 $5 \text{ m}$ 至 $11 \text{ m}$。取黏土層中央為計算代表點：</p>
+<ul>
+<li>代表點距地表深度：$z_{mid} = 5 + \frac{6}{2} = 8 \text{ m}$</li>
+<li>基礎底面深度：$D_f = 1.5 \text{ m}$</li>
+<li>基礎底面至代表點之距離：$z' = 8 - 1.5 = 6.5 \text{ m}$</li>
+</ul>
+<p><strong>Step 2：計算代表點初始有效應力 ($p_0'$)</strong><br />
+地下水位於地表下 $1.5 \text{ m}$ 處，故 $0 \sim 1.5 \text{ m}$ 為乾砂， $1.5 \text{ m}$ 以下為飽和土層。（水的單位重取 $\gamma_w = 9.81 \text{ kN/m}^3$）<br />
+$$
+\begin{aligned}
+p_0' &amp;= \gamma_{dry,sand} \times 1.5 + (\gamma_{sat,sand} - \gamma_w) \times (5 - 1.5) + (\gamma_{sat,clay} - \gamma_w) \times (8 - 5) \\
+&amp;= 18.5 \times 1.5 + (18.5 - 9.81) \times 3.5 + (18 - 9.81) \times 3 \\
+&amp;= 27.75 + 8.69 \times 3.5 + 8.19 \times 3 \\
+&amp;= 27.75 + 30.415 + 24.57 \\
+&amp;= 82.735 \text{ kPa}
+\end{aligned}
+$$</p>
+<p><img alt="左格為地層剖面：地表至 1.5 m 為乾砂 γ = 18.5、1.5～5 m 為飽和砂 γ_sat = 18.5、5～11 m 為黏土 γ_sat = 18.0，地下水位在 GL−1.5 m，2 m×2 m 方形基腳埋深 1.5 m 承受 Q = 1200 kN，黏土層中點標於 z = 8 m；右格為同一深度範圍的垂直應力剖線，三條線分別為全應力 σ_v、孔隙水壓 u 與有效應力 σ'_v" src="../../raw/solutions/SM-2003-2/figs/SM-2003-2-fig-1-profile-stress.svg" /></p>
+<p><em>圖 1　初始有效應力 $p_0'$ 沿深度的疊加過程。它攔的是水位以下忘記扣孔隙水壓：三條線的水平間距就是 $u$，在 $z=8$ m 處 $u = 63.77$ kPa；若整層都用 $\gamma_{sat}$ 而不扣 $u$，$p_0'$ 會變成 146.5 kPa，已大於 $p_c' = 90$ kPa，整題會被誤判成正常壓密而全程走 $C_c$。</em></p>
+<p><strong>Step 3：判斷壓密狀態</strong><br />
+已知預壓密應力 $p_c' = 90 \text{ kPa}$。<br />
+因為 $p_0' = 82.735 \text{ kPa} &lt; p_c'$，所以該黏土層處於<strong>過壓密狀態 (Overconsolidated, OC)</strong>。</p>
+<p><strong>Step 4：計算應力增量 ($\Delta \sigma_z$)</strong><br />
+依題意採用 2:1 應力分散法：</p>
+<ul>
+<li>載重 $Q = 1200 \text{ kN}$</li>
+<li>作用面積 $B \times L = 2 \text{ m} \times 2 \text{ m}$</li>
+<li>分散深度 $z' = 6.5 \text{ m}$</li>
+</ul>
+<p>$$
+\Delta \sigma_z = \frac{Q}{(B + z')(L + z')} = \frac{1200}{(2 + 6.5)(2 + 6.5)} = \frac{1200}{8.5 \times 8.5} = \frac{1200}{72.25} = 16.609 \text{ kPa}
+$$</p>
+<p>計算最終有效應力：<br />
+$$p_f' = p_0' + \Delta \sigma_z = 82.735 + 16.609 = 99.344 \text{ kPa}$$</p>
+<p><img alt="2:1 應力分散示意圖：2 m 方形基腳位於地表下 1.5 m，載重以水平 1 比垂直 2 的斜率向下擴散成錐體；錐體在黏土層中點（基底下 6.5 m）處寬 8.5 m，該處 Δσ_z = 16.61 kPa；圖上另標黏土層頂 Δσ = 39.7 kPa 與黏土層底 Δσ = 9.1 kPa" src="../../raw/solutions/SM-2003-2/figs/SM-2003-2-fig-2-two-to-one.svg" /></p>
+<p><em>圖 2　2:1 分散法的深度 $z'$ 從基礎底面起算。它攔的是把 $z$ 誤取成地表起算的 8 m —— 那會得到 $(2+8)^2 = 100$ m²、$\Delta\sigma$ 只剩 12.00 kPa，少了 28%。圖上另可看出黏土層頂底的 $\Delta\sigma$ 相差約 4.4 倍，取中點代表全層只是考試簡化。</em></p>
+<p><strong>Step 5：計算壓密沉陷量 ($S_c$)</strong><br />
+由於 $p_0' &lt; p_c' &lt; p_f'$ ($82.735 &lt; 90 &lt; 99.344$)，沉陷曲線跨越了預壓密點，需分兩段計算：</p>
+<ul>
+<li>$p_0' \to p_c'$ 使用回脹指數 $C_s$</li>
+<li>$p_c' \to p_f'$ 使用壓縮指數 $C_c$</li>
+</ul>
+<p>$$
+\begin{aligned}
+S_c &amp;= \frac{C_s \cdot H}{1 + e_0} \log \left(\frac{p_c'}{p_0'}\right) + \frac{C_c \cdot H}{1 + e_0} \log \left(\frac{p_0' + \Delta \sigma_z}{p_c'}\right) \\
+&amp;= \frac{0.06 \times 6}{1 + 0.8} \log \left(\frac{90}{82.735}\right) + \frac{0.25 \times 6}{1 + 0.8} \log \left(\frac{99.344}{90}\right) \\
+&amp;= \frac{0.36}{1.8} \log (1.0878) + \frac{1.5}{1.8} \log (1.1038) \\
+&amp;= 0.2 \times 0.03655 + 0.8333 \times 0.04289 \\
+&amp;= 0.00731 + 0.03574 \\
+&amp;= 0.04305 \text{ m}
+\end{aligned}
+$$</p>
+<p>$$
+\boxed{S_c = 4.31 \text{ cm}}
+$$</p>
+<p><img alt="e–log p' 雙段壓密路徑圖：橫軸為有效應力對數刻度（72～118 kPa），縱軸為孔隙比（0.778～0.802）；由 p'_0 = 82.74 沿斜率 C_s = 0.06 的回脹線走到 p'_c = 90，再沿斜率 C_c = 0.25 的處女壓縮線走到 p'_f = 99.34；另以灰虛線畫出「全程用 C_c」的錯誤路徑" src="../../raw/solutions/SM-2003-2/figs/SM-2003-2-fig-3-e-logp.svg" /></p>
+<p><em>圖 3　最終應力跨過 $p_c'$ 時的兩段式路徑。它攔的是不分段：全程用 $C_c$ 會得 $S_c = 6.62$ cm（高估 54%），全程用 $C_s$ 只得 1.59 cm（低估 63%）——兩種錯的方向相反，故必須先比對 $p_0'$、$p_c'$、$p_f'$ 三者的大小關係再決定。</em><br />
+<em>(註：若使用 $\gamma_w = 9.8 \text{ kN/m}^3$，求得 $p_0' = 82.8 \text{ kPa}$，$S_c = 4.32 \text{ cm}$，結果差異甚微。)</em></p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ol>
+<li><strong>淨載重 (Net Load) vs 總載重 (Gross Load)</strong></li>
+<li><strong>學理上</strong>：基礎開挖會造成解壓（移去原土重），所以實際引發土壤額外壓密的應力增量應為「淨載重」。本題基礎埋深 $1.5 \text{ m}$，移去之原土體重量為 $W_{exc} = 18.5 \times 1.5 \times (2 \times 2) = 111 \text{ kN}$。淨載重應為 $Q_{net} = 1200 - 111 = 1089 \text{ kN}$。</li>
+<li><strong>考試實務</strong>：在多數國家考試中，若題目僅提供「荷重 $Q = 1200 \text{ kN}$」，未特別說明基礎自重或強調淨載重，閱卷通常預期考生直接使用 $Q$ 來進行計算（如同 Step 4 之作法）。</li>
+<li>
+<p>若採用淨載重計算：$\Delta \sigma_{z,net} = \frac{1089}{72.25} = 15.073 \text{ kPa}$，則 $p_f' = 82.735 + 15.073 = 97.808 \text{ kPa}$，計算出之 $S_c \approx 3.74 \text{ cm}$。建議在考場上依標準程序以總重計算，但可附註淨載重之概念以顯示觀念清晰。</p>
+</li>
+<li>
+<p><strong>厚黏土層之應力均值處理</strong></p>
+</li>
+<li>黏土層厚達 $6 \text{ m}$（為基礎寬度 $2 \text{ m}$ 的三倍），此時黏土層頂部與底部的應力增量差異極大（頂部約 $39.7 \text{ kPa}$，底部約 $9.1 \text{ kPa}$）。</li>
+<li>雖然以中點應力代表全層是考試中最常見的簡化算法，但更精確的作法是將黏土層細分為 2 至 3 個次圖層（Sub-layers）分別計算沉陷量後加總，或是使用辛普森法則（Simpson's Rule）求取平均應力增量 $\Delta \sigma_{avg} = \frac{1}{6}(\Delta \sigma_{top} + 4\Delta \sigma_{mid} + \Delta \sigma_{bot})$。但在有時間壓力的國考中，若無特別要求，取中點計算是合理且最有效率的給分標準做法。</li>
+</ol>
+<hr />
+<p><em>解析日期：見 <code>wiki/log.md</code>　｜　圖解補繪：2026-08-28（向量 SVG，程式繪製，腳本 <code>gen_SM-2003-2.py</code> 可重跑；同名 2× PNG 供簡報／影片管線使用）</em></p></main>
+<footer>來源：raw/solutions/SM-2003-2/SM-2003-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

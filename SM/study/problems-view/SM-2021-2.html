@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2021-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2021-2 題目解析</h1><a class="back quick" href="../study-SM-U1-3.html">&#128269; U1-3 命題分析</a>
+<a class="back lect" href="../lecture-SM-U1-3.html">&#128218; U1-3 土壤夯實及壓密 講義</a></header>
+<main><h1>考題編號：SM-2021-2</h1>
+<p><strong>主分類：</strong> <code>SM-U1-3</code> 土壤夯實及壓密<br />
+<strong>副分類：</strong> 無<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>Terzaghi壓密理論</code> <code>正常壓密</code> <code>壓密沉陷</code> <code>壓密係數Cv</code> <code>時間因數</code> <code>雙面排水</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>二、有一土壤剖面如下圖所示，由距離地表面 2 m 深度開始，有一厚度為 5 m 之黏土層，此黏土層為正常壓密黏土。現於地表面施加均勻分布的應力 $100 \text{ kN/m}^2$，請計算：（25 分）<br />
+(一) 黏土層之主要壓密沉陷量；<br />
+(二) 施加應力 1 個月後、2 個月後、3 個月後所得到之壓密沉陷量分別為何？<br />
+(三) 施加應力多少天後可以得到 50 cm 的壓密沉陷量？</p>
+<p><img alt="SM-2021-2 題目附圖：土壤剖面與參數表" src="../../raw/solutions/SM-2021-2/SM-2021-2-fig-1.png" /></p>
+<p><em>圖說：土壤剖面分為三層。第一層為乾砂（厚度 1m，$\gamma_d = 16.5 \text{ kN/m}^3$），其下為地下水位。第二層為飽和砂（厚度 1m，$\gamma_{sat} = 18.5 \text{ kN/m}^3$）。第三層為飽和黏土（厚度 5m，正常壓密黏土，$\gamma_{sat} = 20 \text{ kN/m}^3$, $e_0 = 0.9$, $C_c = 0.5$, $C_s = 0.1$, $c_v = 0.001 \text{ cm}^2/\text{sec}$）。黏土層下方為飽和砂層（$\gamma_{sat} = 18 \text{ kN/m}^3$）。地表面受有均布應力 $\Delta\sigma = 100 \text{ kN/m}^2$。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題核心測驗 Terzaghi 一維壓密理論（1-D Consolidation Theory）的完整應用。出題者的意圖在於評估考生是否具備以下能力：</p>
+<ol>
+<li>依據地層剖面正確計算中央深度的初始有效覆土應力 $\sigma_{v0}'$。</li>
+<li>針對「正常壓密黏土」正確選用對應之主要壓密沉陷量公式。</li>
+<li>判別雙面排水條件以正確決定排水路徑長度 $H_{dr}$。</li>
+<li>熟練轉換壓密度 $U$、時間因數 $T_v$ 與真實時間 $t$ 之間的數學關係，並能於 $U \le 60\%$ 及 $U &gt; 60\%$ 兩種情境下運用不同的近似經驗公式。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<ul>
+<li><strong>Step 1：計算初始有效應力</strong>。取黏土層中央深度計算初始有效應力 $\sigma_{v0}'$。</li>
+<li><strong>Step 2：計算最終主要壓密沉陷量</strong>。代入正常壓密（NC）黏土的壓密沉陷公式。</li>
+<li><strong>Step 3：計算指定時間之沉陷量</strong>。確認為雙面排水，計算 1、2、3 個月對應的 $T_v$，藉此求出壓密度 $U$ 並推算目前的沉陷量。</li>
+<li><strong>Step 4：計算達特定沉陷量之時間</strong>。由給定之 50 cm 反求壓密度 $U$，再套用對應的 $T_v$ 公式，最終轉為所需天數。</li>
+</ul>
+<p><strong>陷阱分析：</strong></p>
+<ol>
+<li><strong>排水路徑判斷（Drainage Path）</strong>：黏土層上方與下方均為砂土（高透水層），因此屬於「雙面排水」。排水路徑 $H_{dr}$ 必須取為厚度的一半（$2.5 \text{ m}$）。若誤以 $5 \text{ m}$ 帶入，會導致時間估算有 4 倍之巨大誤差。</li>
+<li><strong>單位一致性</strong>：題目給的壓密係數 $c_v$ 單位為 $\text{cm}^2/\text{sec}$，沉陷量單位也常以 $\text{cm}$ 表達；計算時間因素時，所有長度均須化為 $\text{cm}$，求出之時間單位為 $\text{sec}$，需再轉換為月或天。</li>
+<li><strong>水單位重的選用</strong>：計算 $\sigma_{v0}'$ 時需使用水單位重 $\gamma_w$。若未特殊規定，慣例取 $9.81 \text{ kN/m}^3$（此為標準作法），部分考生亦會採用 $10 \text{ kN/m}^3$ 簡化運算，實務上皆為閱卷所接受，本解析採用 $9.81 \text{ kN/m}^3$。</li>
+</ol>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求出該黏土層之最終壓密沉陷量、歷經特定時間後的沉陷量，以及達到目標沉陷量所需的天數。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>有效覆土應力：$\sigma_{v0}' = \sum (\gamma \cdot H) - \gamma_w z_w$</li>
+<li>最終壓密沉陷量：$S_c = \frac{C_c H_c}{1+e_0} \log \left( \frac{\boxed{\sigma_{v0}'} + \Delta\sigma}{\boxed{\sigma_{v0}'}} \right)$</li>
+<li>時間因數：$T_v = \frac{c_v t}{H_{dr}^2}$</li>
+<li>壓密度（$U \le 60\%$）：$U = \sqrt{\frac{4 \boxed{T_v}}{\pi}}$</li>
+<li>壓密度（$U &gt; 60\%$）：$\boxed{T_v} = 1.781 - 0.933 \log(100 - U\%)$</li>
+<li>特定時間之沉陷量：$S_t = \boxed{U} \cdot \boxed{S_c}$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H_c$</td>
+<td>$5 \text{ m} = 500 \text{ cm}$</td>
+<td>黏土層總厚度</td>
+</tr>
+<tr>
+<td>$H_{dr}$</td>
+<td>$2.5 \text{ m} = 250 \text{ cm}$</td>
+<td>排水路徑（雙面排水，取厚度一半）</td>
+</tr>
+<tr>
+<td>$\Delta\sigma$</td>
+<td>$100 \text{ kN/m}^2$</td>
+<td>地表新增均布載重</td>
+</tr>
+<tr>
+<td>$e_0$</td>
+<td>$0.9$</td>
+<td>黏土初始孔隙比</td>
+</tr>
+<tr>
+<td>$C_c$</td>
+<td>$0.5$</td>
+<td>壓縮指數</td>
+</tr>
+<tr>
+<td>$c_v$</td>
+<td>$0.001 \text{ cm}^2/\text{sec}$</td>
+<td>壓密係數</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>應力與最終沉陷量計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\sigma_{v0}'$ | $\sum \gamma H - u$ | |<br />
+| $S_c$ | $\frac{C_c H_c}{1+e_0} \log \left( \frac{\sigma_{v0}' + \Delta\sigma}{\sigma_{v0}'} \right)$ | |</p>
+<p><strong>時間與壓密度計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $T_v$ | $\frac{c_v t}{H_{dr}^2}$ | |<br />
+| $U$ | $U \le 60\%$ 用 $\sqrt{4 T_v / \pi}$；$U &gt; 60\%$ 用公式反推 | |<br />
+| $S_t$ | $U \times S_c$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>雙面排水路徑</td>
+<td>黏土層上下若均為透水層（如砂土），$H_{dr} = H/2$</td>
+<td></td>
+</tr>
+<tr>
+<td>單位統一</td>
+<td>$c_v$ 為 $\text{cm}^2/\text{sec}$，長度須代入 cm，時間基礎單位為 sec</td>
+<td></td>
+</tr>
+<tr>
+<td>時間因數分段公式</td>
+<td>以 $U=60\%$ 作為 $T_v$ 對應公式的分界點</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p><strong>Step 1：計算黏土層中央之初始有效應力</strong><br />
+取黏土層中央（深度 $z = 1 + 1 + 2.5 = 4.5 \text{ m}$）計算代表應力。<br />
+假設水單位重取 $\gamma_w = 9.81 \text{ kN/m}^3$。</p>
+<ul>
+<li>總應力 $\sigma_{v0}$：<br />
+  $$\sigma_{v0} = \gamma_d \times 1 + \gamma_{sat,砂} \times 1 + \gamma_{sat,黏} \times 2.5$$<br />
+  $$\sigma_{v0} = 16.5 \times 1 + 18.5 \times 1 + 20 \times 2.5 = 16.5 + 18.5 + 50 = 85 \text{ kN/m}^2$$</li>
+<li>孔隙水壓 $u$（水位位於深度 1 m 處）：<br />
+  $$u = \gamma_w \times (4.5 - 1) = 9.81 \times 3.5 = 34.335 \text{ kN/m}^2$$</li>
+<li>初始有效應力 $\sigma_{v0}'$：<br />
+  $$\sigma_{v0}' = \sigma_{v0} - u = 85 - 34.335 = 50.665 \text{ kN/m}^2$$<blockquote>
+<p><strong>策略註解</strong>：若採用 $\gamma_w = 10 \text{ kN/m}^3$，求得 $\sigma_{v0}' = 50 \text{ kN/m}^2$，也是考試可接受之常態作法，此處維持 $9.81$ 以求嚴謹。</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>Step 2：計算黏土層之主要壓密沉陷量 (一)</strong><br />
+該層為正常壓密黏土（Normally Consolidated），代入公式：<br />
+$$S_c = \frac{C_c H_c}{1+e_0} \log \left( \frac{\sigma_{v0}' + \Delta\sigma}{\sigma_{v0}'} \right)$$<br />
+$$S_c = \frac{0.5 \times 500}{1 + 0.9} \log \left( \frac{50.665 + 100}{50.665} \right) = \frac{250}{1.9} \log(2.9737)$$<br />
+$$S_c = 131.579 \times 0.4733 \approx 62.28 \text{ cm}$$</p>
+<p>$$\boxed{S_c = 62.28 \text{ cm}}$$</p>
+<p><strong>Step 3：計算 1, 2, 3 個月後之壓密沉陷量 (二)</strong><br />
+黏土層上下皆為砂層，屬雙面排水，排水路徑 $H_{dr} = \frac{500}{2} = 250 \text{ cm}$。<br />
+（假設 1 個月為 30 天計）</p>
+<p><strong>1 個月後：</strong><br />
+時間 $t_1 = 30 \times 24 \times 3600 = 2,592,000 \text{ sec}$<br />
+時間因數 $T_{v1} = \frac{c_v t_1}{H_{dr}^2} = \frac{0.001 \times 2,592,000}{250^2} = 0.04147$<br />
+因 $T_{v1} &lt; 0.286$（即 $U \le 60\%$），適用拋物線公式：<br />
+$$U_1 = \sqrt{\frac{4 T_{v1}}{\pi}} = \sqrt{\frac{4 \times 0.04147}{3.1416}} = \sqrt{0.0528} \approx 0.2298 \; (22.98\%)$$<br />
+沉陷量 $S_1 = U_1 \times S_c = 0.2298 \times 62.28 \approx 14.31 \text{ cm}$</p>
+<p><strong>2 個月後：</strong><br />
+時間 $t_2 = 60 \times 24 \times 3600 = 5,184,000 \text{ sec}$<br />
+時間因數 $T_{v2} = \frac{0.001 \times 5,184,000}{250^2} = 0.08294$<br />
+$$U_2 = \sqrt{\frac{4 \times 0.08294}{\pi}} = \sqrt{0.1056} \approx 0.3250 \; (32.50\%)$$<br />
+沉陷量 $S_2 = U_2 \times S_c = 0.3250 \times 62.28 \approx 20.24 \text{ cm}$</p>
+<p><strong>3 個月後：</strong><br />
+時間 $t_3 = 90 \times 24 \times 3600 = 7,776,000 \text{ sec}$<br />
+時間因數 $T_{v3} = \frac{0.001 \times 7,776,000}{250^2} = 0.1244$<br />
+$$U_3 = \sqrt{\frac{4 \times 0.1244}{\pi}} = \sqrt{0.1584} \approx 0.3980 \; (39.80\%)$$<br />
+沉陷量 $S_3 = U_3 \times S_c = 0.3980 \times 62.28 \approx 24.79 \text{ cm}$</p>
+<p>$$\boxed{\text{1個月後：} 14.31 \text{ cm}；\text{2個月後：} 20.24 \text{ cm}；\text{3個月後：} 24.79 \text{ cm}}$$</p>
+<p><strong>Step 4：計算得到 50 cm 沉陷量所需時間 (三)</strong><br />
+目標沉陷量對應的壓密度：<br />
+$$U = \frac{S_t}{S_c} = \frac{50}{62.28} \approx 0.8028 = 80.28\%$$<br />
+因 $U &gt; 60\%$，適用對數公式：<br />
+$$T_v = 1.781 - 0.933 \log(100 - U\%)$$<br />
+$$T_v = 1.781 - 0.933 \log(100 - 80.28) = 1.781 - 0.933 \log(19.72)$$<br />
+$$T_v = 1.781 - 0.933 \times 1.2949 = 1.781 - 1.2081 = 0.5729$$<br />
+求時間 $t$：<br />
+$$t = \frac{T_v \cdot H_{dr}^2}{c_v} = \frac{0.5729 \times 250^2}{0.001} = 35,806,250 \text{ sec}$$<br />
+換算為天數：<br />
+$$t_{\text{days}} = \frac{35,806,250}{24 \times 3600} \approx 414.4 \text{ 天}$$</p>
+<p>$$\boxed{\text{施加應力約 } 414.4 \text{ 天後可得到 50 cm 之壓密沉陷量}}$$</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>水單位重 $\gamma_w$ 的選取</strong>：此類題目若未明定 $\gamma_w = 10 \text{ kN/m}^3$，最標準作法為使用 $9.81 \text{ kN/m}^3$。若讀者習慣以 $10 \text{ kN/m}^3$ 求解，可得 $\sigma_{v0}' = 50 \text{ kN/m}^2$，$S_c = 62.78 \text{ cm}$，最終天數則約為 405 天，兩者皆屬於合理誤差，可獲滿分。</li>
+<li><strong>一個月的天數假設</strong>：在工程與考試計算中，若無特別指定日期區間，通常預設 1 個月等同於 30 天，建議在考卷上寫出「假設一個月為 30 天計」以防爭議。</li>
+<li><strong>時間因數公式的選用</strong>：雖然也有圖表法或完整級數解，但因國考未必提供 $T_v-U$ 完整對照表，故考生必須熟記 $U \le 60\%$ 的拋物線公式及 $U &gt; 60\%$ 的對數公式，兩者的分界點為 $U=0.6$ 或 $T_v=0.286$。</li>
+</ul></main>
+<footer>來源：raw/solutions/SM-2021-2/SM-2021-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

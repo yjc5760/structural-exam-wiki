@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2014-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2014-1 題目解析</h1><a class="back quick" href="../study-SM-U1-1.html">&#128269; U1-1 命題分析</a>
+<a class="back lect" href="../lecture-SM-U1-1.html">&#128218; U1-1 土壤基本性質 講義</a></header>
+<main><h1>考題編號：SM-2014-1</h1>
+<p><strong>主分類：</strong> <code>SM-U3-3</code> 坡地工程<br />
+<strong>副分類：</strong> <code>SM-U1-1</code> 土壤基本性質<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>無限邊坡分析</code> <code>安全係數</code> <code>平行滲流</code> <code>孔隙水壓</code> <code>三相關係</code> <code>Mohr-Coulomb破壞準則</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>一、二維度無限邊坡如圖一所示，崩積土層厚 6 m，地下水位於地表下方 1.5 m，其滲流平行於坡面，地下水位上下方崩積土有相同空隙比（void ratio, e）與比重 $G_s = 2.64$，地下水位以下與上方崩積土之含水量 $\omega$ 分別為 35% 與 24%，崩積土與下方岩層之介面摩擦角 $\phi$ 為 20°、凝聚力 $c$ 為 15 kPa，試求該無限邊坡之安全係數。（25 分）</p>
+<p><img alt="SM-2014-1 題目附圖：二維度無限邊坡剖面圖，邊坡傾角 15°，崩積土層厚度 6m，水位在 1.5m 深處，有平行滲流" src="../../raw/solutions/SM-2014-1/SM-2014-1-fig-1.png" /><br />
+<em>圖說：二維無限邊坡，邊坡傾角 $\beta = 15^\circ$，崩積土垂直總厚度 $H = 6\text{m}$，地下水位距地表垂直深度 $H_1 = 1.5\text{m}$。水位於土層中產生平行於坡面之滲流。土壤比重 $G_s = 2.64$，水位上方 $\omega_1 = 24\%$，水位下方 $\omega_2 = 35\%$。滑動面為土岩交界面，參數 $c = 15\text{ kPa}$、$\phi = 20^\circ$。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題主要測驗考生兩大核心觀念：</p>
+<ol>
+<li><strong>土壤基本物理性質的換算（三相圖）</strong>：利用地下水位以下為完全飽和（$S=1$）的隱藏條件，結合已知含水量推算整層共用的空隙比 $e$，進而求出水位上方的濕單位重與下方的飽和單位重。</li>
+<li><strong>無限邊坡之平行滲流分析</strong>：測驗考生是否清楚平行於坡面滲流時，等勢線應垂直於坡面，此時破壞面上的孔隙水壓為 $u = \gamma_w H_w \cos^2\beta$。同時測驗對於「垂直深度」轉換為滑動面上正向力與剪力的幾何關係（$\sigma_n = \sigma_v \cos^2\beta$ 及 $\tau = \sigma_v \sin\beta \cos\beta$）。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li><strong>求空隙比 $e$</strong>：由水位下方飽和狀態 ($S=1$) 及含水量 $\omega_2 = 35\%$，代入 $S \cdot e = \omega \cdot G_s$ 求解。</li>
+<li><strong>計算單位重</strong>：分別計算水位上方土層之濕單位重 $\gamma_t$ 與下方土層之飽和單位重 $\gamma_{sat}$。</li>
+<li><strong>計算應力與水壓</strong>：</li>
+<li>總垂直應力 $\sigma_v = \gamma_t H_1 + \gamma_{sat} H_2$</li>
+<li>孔隙水壓 $u = \gamma_w H_2 \cos^2\beta$（平行滲流條件）</li>
+<li>有效正向應力 $\sigma_n' = \sigma_v \cos^2\beta - u$</li>
+<li>剪應力（驅動力）$\tau = \sigma_v \sin\beta \cos\beta$</li>
+<li><strong>計算安全係數</strong>：代入 Mohr-Coulomb 破壞準則求抗剪強度 $\tau_f$，最後計算 $FS = \tau_f / \tau$。</li>
+</ol>
+<p><strong>陷阱分析：</strong></p>
+<ul>
+<li>⚠ <strong>陷阱 1：孔隙水壓計算錯誤</strong><br />
+  若誤用靜水壓力公式 $u = \gamma_w H_2$，將會高估孔隙水壓，導致有效應力與安全係數偏低。必須乘上 $\cos^2\beta$ 修正。</li>
+<li>⚠ <strong>陷阱 2：幾何尺寸的判讀</strong><br />
+  圖示中的尺寸線為鉛直方向，代表 $6\text{m}$ 與 $1.5\text{m}$ 為「鉛直厚度」$H$。若誤認為是垂直於坡面之厚度 $z$，則應力公式的轉換會完全不同（$\sigma_n = \Sigma \gamma z \cos\beta$），易造成計算錯誤。</li>
+<li>⚠ <strong>陷阱 3：水位上方土層單位重</strong><br />
+  水位上方並非乾燥狀態，亦不一定完全飽和。需帶入題目給定的含水量 $\omega_1 = 24\%$ 以及算出的空隙比 $e$ 來求取正確的濕單位重 $\gamma_t$。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求出該二維無限邊坡在平行滲流條件下之安全係數 (Factor of Safety, FS)</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>藉由飽和土層之含水量求空隙比：$e = \omega_{sat} G_s$</li>
+<li>地下水位上方之單位重：$\gamma_t = \frac{G_s(1+\omega_1)}{1+\boxed{e}}\gamma_w$</li>
+<li>地下水位下方之飽和單位重：$\gamma_{sat} = \frac{G_s(1+\omega_2)}{1+\boxed{e}}\gamma_w$</li>
+<li>滑動面上之總垂直應力：$\sigma_v = \boxed{\gamma_t} H_1 + \boxed{\gamma_{sat}} H_2$</li>
+<li>滑動面上之孔隙水壓：$u = \gamma_w H_2 \cos^2\beta$</li>
+<li>滑動面上之有效正向應力：$\sigma_n' = \boxed{\sigma_v} \cos^2\beta - \boxed{u}$</li>
+<li>滑動面上之剪應力（驅動力）：$\tau = \boxed{\sigma_v} \sin\beta \cos\beta$</li>
+<li>滑動面上之抗剪強度：$\tau_f = c' + \boxed{\sigma_n'} \tan\phi'$</li>
+<li>安全係數：$FS = \frac{\boxed{\tau_f}}{\boxed{\tau}}$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H$</td>
+<td>$6\text{ m}$</td>
+<td>崩積土層總垂直厚度</td>
+</tr>
+<tr>
+<td>$H_1$</td>
+<td>$1.5\text{ m}$</td>
+<td>地下水位上方垂直厚度</td>
+</tr>
+<tr>
+<td>$H_2$</td>
+<td>$4.5\text{ m}$</td>
+<td>地下水位下方垂直厚度 ($H - H_1$)</td>
+</tr>
+<tr>
+<td>$\beta$</td>
+<td>$15^\circ$</td>
+<td>邊坡傾角</td>
+</tr>
+<tr>
+<td>$G_s$</td>
+<td>$2.64$</td>
+<td>土壤比重</td>
+</tr>
+<tr>
+<td>$\omega_1$</td>
+<td>$24\%$</td>
+<td>水位上方含水量</td>
+</tr>
+<tr>
+<td>$\omega_2$</td>
+<td>$35\%$</td>
+<td>水位下方含水量</td>
+</tr>
+<tr>
+<td>$c'$</td>
+<td>$15\text{ kPa}$</td>
+<td>滑動介面凝聚力</td>
+</tr>
+<tr>
+<td>$\phi'$</td>
+<td>$20^\circ$</td>
+<td>滑動介面摩擦角</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>土壤物理性質計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|-----|-----|------|<br />
+| $e$ | $e = \omega_2 G_s$ | |<br />
+| $\gamma_t$ | $\gamma_t = \frac{G_s(1+\omega_1)}{1+e}\gamma_w$ | |<br />
+| $\gamma_{sat}$ | $\gamma_{sat} = \frac{G_s(1+\omega_2)}{1+e}\gamma_w$ | |</p>
+<p><strong>邊坡應力狀態計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|-----|-----|------|<br />
+| $\sigma_v$ | $\sigma_v = \gamma_t H_1 + \gamma_{sat} H_2$ | |<br />
+| $u$ | $u = \gamma_w H_2 \cos^2\beta$ | |<br />
+| $\sigma_n'$ | $\sigma_n' = \sigma_v \cos^2\beta - u$ | |<br />
+| $\tau$ | $\tau = \sigma_v \sin\beta \cos\beta$ | |</p>
+<p><strong>抗剪強度與安全係數</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|-----|-----|------|<br />
+| $\tau_f$ | $\tau_f = c' + \sigma_n' \tan\phi'$ | |<br />
+| $FS$ | $FS = \tau_f / \tau$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>孔隙水壓計算 (平行滲流)</td>
+<td>平行邊坡滲流時，等勢線垂直於坡面，水壓水頭等於等勢線上至水位的垂直距離乘上 $\cos^2\beta$。故 $u = \gamma_w H_2 \cos^2\beta$。</td>
+<td></td>
+</tr>
+<tr>
+<td>垂直厚度與應力關係</td>
+<td>題目給定的是「鉛直厚度」$H$。總垂直應力直接為 $\sigma_v = \Sigma \gamma H$。若誤認為垂直於坡面的厚度 $z$，則公式大不相同。</td>
+<td></td>
+</tr>
+<tr>
+<td>飽洪度與空隙比的關係</td>
+<td>地下水位以下預設為飽和狀態 ($S=1$)，利用 $\omega_2$ 即可求得全區共用的空隙比 $e = \omega_2 G_s$。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<blockquote>
+<p>💡 水單位重取 $\gamma_w = 9.81\text{ kN/m}^3$</p>
+</blockquote>
+<p><strong>Step 1：推導土壤共用空隙比 $e$</strong><br />
+地下水位下方土層視為完全飽和，飽和度 $S = 1$。<br />
+利用三相關係式 $S \cdot e = \omega \cdot G_s$：<br />
+$$1 \cdot e = \omega_2 \cdot G_s = 0.35 \times 2.64$$<br />
+$$e = 0.924$$<br />
+<em>(註：題目敘述「地下水位上下方崩積土有相同空隙比」，故整層土之 $e = 0.924$)</em></p>
+<p><strong>Step 2：計算各層土壤單位重</strong><br />
+水位上方之濕單位重 $\gamma_t$：<br />
+$$\gamma_t = \frac{G_s (1 + \omega_1)}{1 + e} \gamma_w = \frac{2.64 \times (1 + 0.24)}{1 + 0.924} \times 9.81 = \frac{3.2736}{1.924} \times 9.81 = 1.7015 \times 9.81 = 16.69\text{ kN/m}^3$$</p>
+<p>水位下方之飽和單位重 $\gamma_{sat}$：<br />
+$$\gamma_{sat} = \frac{G_s (1 + \omega_2)}{1 + e} \gamma_w = \frac{2.64 \times (1 + 0.35)}{1 + 0.924} \times 9.81 = \frac{3.564}{1.924} \times 9.81 = 1.8524 \times 9.81 = 18.17\text{ kN/m}^3$$</p>
+<p><strong>Step 3：計算滑動面上之應力與水壓</strong><br />
+滑動面位於地表下方垂直深度 $H = 6\text{m}$ 處，岩層與土層交界面。<br />
+水位上方垂直厚度 $H_1 = 1.5\text{m}$，水位下方垂直厚度 $H_2 = 6 - 1.5 = 4.5\text{m}$。</p>
+<p>滑動面上之<strong>總垂直應力 $\sigma_v$</strong>：<br />
+$$\sigma_v = \gamma_t H_1 + \gamma_{sat} H_2 = 16.69 \times 1.5 + 18.17 \times 4.5 = 25.035 + 81.765 = 106.80\text{ kPa}$$</p>
+<p>滑動面上之<strong>孔隙水壓 $u$</strong>（平行滲流條件）：<br />
+$$u = \gamma_w H_2 \cos^2\beta = 9.81 \times 4.5 \times \cos^2(15^\circ) = 44.145 \times 0.9330 = 41.19\text{ kPa}$$</p>
+<p>滑動面上之<strong>有效正向應力 $\sigma_n'$</strong>：<br />
+$$\sigma_n' = \sigma_v \cos^2\beta - u = 106.80 \times \cos^2(15^\circ) - 41.19 = 106.80 \times 0.9330 - 41.19 = 99.64 - 41.19 = 58.45\text{ kPa}$$<br />
+<em>(另解核對：$\sigma_n' = (\gamma_t H_1 + \gamma' H_2) \cos^2\beta = [16.69 \times 1.5 + (18.17 - 9.81) \times 4.5] \times 0.9330 = 62.655 \times 0.9330 = 58.46\text{ kPa}$)</em></p>
+<p>滑動面上之<strong>剪應力 $\tau$</strong>（即下滑驅動力）：<br />
+$$\tau = \sigma_v \sin\beta \cos\beta = 106.80 \times \sin(15^\circ) \cos(15^\circ) = 106.80 \times 0.2588 \times 0.9659 = 106.80 \times 0.25 = 26.70\text{ kPa}$$</p>
+<p><strong>Step 4：計算抗剪強度與安全係數</strong><br />
+滑動面上之<strong>抗剪強度 $\tau_f$</strong>：<br />
+$$\tau_f = c' + \sigma_n' \tan\phi' = 15 + 58.45 \times \tan(20^\circ) = 15 + 58.45 \times 0.3640 = 15 + 21.28 = 36.28\text{ kPa}$$</p>
+<p><strong>安全係數 $FS$</strong>：<br />
+$$FS = \frac{\tau_f}{\tau} = \frac{36.28}{26.70} = 1.3588 \approx 1.36$$</p>
+<p>$$\boxed{FS = 1.36}$$</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>垂直厚度 $H$ 與法向厚度 $z$ 的判讀</strong>：在無限邊坡分析中，常常會遇到題目給定的厚度到底是鉛直的還是垂直坡面的。本題圖示的尺寸線採用標準的鉛直繪製法（帶有水平引線），應解讀為鉛直厚度 $H$。倘若給定的是垂直坡面的厚度 $z$，則總法向應力會變為 $\sigma_n = \Sigma \gamma z \cos\beta$，剪應力為 $\tau = \Sigma \gamma z \sin\beta$。考場上須仔細辨別圖示標註方式。</li>
+<li><strong>單位重的精確度</strong>：在使用水單位重 $\gamma_w$ 時，採用 $9.81\text{ kN/m}^3$ 最為嚴謹，計算出的結果也最貼近標準答案。若習慣採用 $9.8\text{ kN/m}^3$ 或 $10\text{ kN/m}^3$，只要過程清楚列式，計算出的 FS 皆落於 1.36 上下（如用 9.8 算出約為 1.36），不會影響得分。</li>
+<li><strong>孔隙水壓公式推導提醒</strong>：平行滲流時，由於水流平行坡面，等勢線垂直坡面。從水面上某點垂直往下至滑動面長度為 $H_w$，對應的水壓水頭即為 $H_w \cos^2\beta$。此為國考無限邊坡考題中極高頻出現的考點，必須牢記。</li>
+</ul></main>
+<footer>來源：raw/solutions/SM-2014-1/SM-2014-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

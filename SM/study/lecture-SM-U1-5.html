@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-U1-5 土壤強度：一組真參數，無限多組表觀角度 — 觀念講義</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--tension:#2e7d32;--tension2:#e8f5e9;
+--comp:#c62828;--comp2:#ffebee;--warn:#ef6c00;--warn2:#fff3e0;
+--key:#6a1b9a;--key2:#f3e5f5;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:34px 26px}
+header h1{margin:0 0 8px;font-size:1.6em}header .sub{opacity:.9;font-size:.93em;margin:0}
+header .meta{margin-top:12px;font-size:.82em;opacity:.8}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);
+padding:9px 14px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+nav a{text-decoration:none;color:var(--ac);font-size:.85em;padding:4px 11px;border-radius:14px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:980px;margin:0 auto;padding:24px 18px 80px}
+section{margin-bottom:46px}
+h2{font-size:1.32em;border-left:6px solid var(--ac);padding-left:12px;margin:44px 0 18px;line-height:1.4}
+h3{font-size:1.08em;margin:30px 0 10px;color:#0d47a1}
+h4{font-size:.99em;margin:20px 0 8px;color:#37474f}
+.lead{font-size:1.03em;background:#fff;border:1px solid var(--bd);border-left:5px solid var(--ac);
+border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:16px 18px;margin:16px 0}
+.why{background:var(--key2);border:1px solid #ce93d8;border-left:5px solid var(--key);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.why b:first-child{color:var(--key)}
+.trap{background:var(--warn2);border:1px solid #ffcc80;border-left:5px solid var(--warn);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.trap b:first-child{color:#e65100}
+.tens{background:var(--tension2);border:1px solid #a5d6a7;border-left:5px solid var(--tension);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.comp{background:var(--comp2);border:1px solid #ef9a9a;border-left:5px solid var(--comp);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.fig{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 14px 10px;margin:20px 0;overflow-x:auto}
+.fig svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig .cap{font-size:.85em;color:var(--mut);text-align:center;margin-top:10px;line-height:1.6}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9em;background:#fff}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}li{margin:5px 0}
+.pill{display:inline-block;font-size:.76em;padding:2px 8px;border-radius:10px;margin-right:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+details{background:#fff;border:1px solid var(--bd);border-radius:9px;padding:10px 14px;margin:12px 0}
+summary{cursor:pointer;font-weight:600;color:var(--ac)}
+details p{border-left:3px solid #e0e0e0;padding-left:12px;margin:8px 0;color:#37474f}
+.qlink{color:#1565c0;text-decoration:none;border-bottom:1px dotted #90caf9;font-weight:600}
+.katex-display{margin:14px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+<h1>SM-U1-5　土壤強度：一組真參數，無限多組表觀角度</h1>
+<p class="sub">三軸試驗、Mohr 圓、孔隙水壓參數、應力路徑 —— 本講義涵蓋的 10 題全部圍繞同一個問題：你量到的角度，到底是土壤的性質還是試驗的性質？</p>
+<p class="meta">土壤力學與基礎設計 · 命題大綱第一單元第 5 子項 · 觀念講義（練題前讀）· 子項現有主考點 12 題（本講義涵蓋 10 題），佔全科 12.5%，命題排名第 2</p>
+</header>
+
+<nav>
+<a href="#s0">§0 全景</a>
+<a href="#s1">§1 Mohr 圓幾何</a>
+<a href="#s2">§2 三種試驗</a>
+<a href="#s3">§3 孔壓參數 A、B</a>
+<a href="#s4">§4 NC 黏土的特權</a>
+<a href="#s5">§5 應力路徑</a>
+<a href="#s6">§6 取樣與試驗規劃</a>
+<a href="#s7">§7 決策流程</a>
+<a href="#s8">§8 考點對照</a>
+<a href="#s9">§9 陷阱總表</a>
+<a href="#s10">§10 自我檢測</a>
+<a href="#s10b">§10.5 因果鏈</a>
+<a href="#s11">★ 精選 5 題</a>
+<span style="flex:1"></span>
+<a href="formula-given-SM-U1-5.html" style="background:#fde7e9;color:#b71c1c">🔴 U1-5 給／背分界</a>
+
+<a href="study-SM-U1-5.html" style="background:#eceff1;color:#455a64">📊 U1-5 命題分析</a>
+<a href="lecture-SM-U1-5.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+
+<main>
+<section id="s0">
+<h2>§0　全景：土壤只有一組真參數，你卻能量到無限多組角度</h2>
+
+<div class="lead">
+土壤的抗剪強度<b>只由有效應力決定</b>：\(\tau_f=c'+\sigma'\tan\phi'\)。
+所以一種土壤只有<b>一組</b>真實的強度參數 \((c',\phi')\)。
+但你在實驗室量到的是<b>總應力</b>，於是同一種土可以量出 \(\phi_u=0\)、\(\phi_{cu}=17^\circ\)、\(\phi_{AC}=19^\circ\)、\(\phi_{LE}=32^\circ\)……
+這些全都不是土壤的性質，而是<b>「試驗方法的性質」</b>。
+</div>
+
+<div class="lead" style="border-left-color:#6a1b9a">
+<b>而決定你會量到哪一組表觀角度的，只有兩個閥門</b> —— 壓密階段排不排水、剪切階段排不排水。
+兩個閥門的開關組合，就是 UU、CU、CD 三種試驗的全部差異。<b>本講義涵蓋的 10 題，全部長在這棵樹上。</b>
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
+  <!-- headers -->
+  <rect x="20" y="18" width="270" height="40" rx="9" fill="#ffebee" stroke="#c62828" stroke-width="1.8"/>
+  <text x="155" y="45" font-size="16" font-weight="bold" fill="#c62828" text-anchor="middle">UU（不壓密不排水）</text>
+  <rect x="315" y="18" width="270" height="40" rx="9" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.8"/>
+  <text x="450" y="45" font-size="16" font-weight="bold" fill="#e65100" text-anchor="middle">CU（壓密不排水）</text>
+  <rect x="610" y="18" width="270" height="40" rx="9" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.8"/>
+  <text x="745" y="45" font-size="16" font-weight="bold" fill="#2e7d32" text-anchor="middle">CD（壓密排水）</text>
+
+  <!-- valve 1 -->
+  <text x="24" y="86" font-size="12.5" fill="#607d8b">閥門①　壓密階段（施加圍壓時）</text>
+  <rect x="20" y="94" width="270" height="34" rx="7" fill="#ef9a9a"/>
+  <text x="155" y="117" font-size="14.5" font-weight="bold" fill="#7f0000" text-anchor="middle">關 — 不許排水，體積不變</text>
+  <rect x="315" y="94" width="270" height="34" rx="7" fill="#a5d6a7"/>
+  <text x="450" y="117" font-size="14.5" font-weight="bold" fill="#1b5e20" text-anchor="middle">開 — 壓密到 σc′</text>
+  <rect x="610" y="94" width="270" height="34" rx="7" fill="#a5d6a7"/>
+  <text x="745" y="117" font-size="14.5" font-weight="bold" fill="#1b5e20" text-anchor="middle">開 — 壓密到 σc′</text>
+
+  <!-- valve 2 -->
+  <text x="24" y="156" font-size="12.5" fill="#607d8b">閥門②　剪切階段（施加軸差應力時）</text>
+  <rect x="20" y="164" width="270" height="34" rx="7" fill="#ef9a9a"/>
+  <text x="155" y="187" font-size="14.5" font-weight="bold" fill="#7f0000" text-anchor="middle">關 — 產生 Δu，不量測</text>
+  <rect x="315" y="164" width="270" height="34" rx="7" fill="#ef9a9a"/>
+  <text x="450" y="187" font-size="14.5" font-weight="bold" fill="#7f0000" text-anchor="middle">關 — 產生 Δu，<tspan font-size="14.5" fill="#0d47a1">但量它</tspan></text>
+  <rect x="610" y="164" width="270" height="34" rx="7" fill="#a5d6a7"/>
+  <text x="745" y="187" font-size="14.5" font-weight="bold" fill="#1b5e20" text-anchor="middle">開 — Δu = 0（慢慢加）</text>
+
+  <!-- results -->
+  <rect x="20" y="216" width="270" height="112" rx="9" fill="#fff" stroke="#ef9a9a" stroke-width="1.6"/>
+  <text x="34" y="240" font-size="13" font-weight="bold" fill="#c62828">飽和時：圍壓全被水吃掉</text>
+  <text x="34" y="262" font-size="12.5" fill="#37474f">Δu = Δσ3（B = 1）→ σ′ 不變</text>
+  <text x="34" y="284" font-size="12.5" fill="#37474f">莫爾圓大小相同、水平平移</text>
+  <text x="34" y="308" font-size="15" font-weight="bold" fill="#c62828">φu = 0，只得到 Su</text>
+
+  <rect x="315" y="216" width="270" height="112" rx="9" fill="#fff" stroke="#ffcc80" stroke-width="1.6"/>
+  <text x="329" y="240" font-size="13" font-weight="bold" fill="#e65100">畫兩組莫爾圓</text>
+  <text x="329" y="262" font-size="12.5" fill="#37474f">總應力圓 → φcu（表觀）</text>
+  <text x="329" y="284" font-size="12.5" fill="#37474f">扣掉 u 後的有效圓 → φ′（真）</text>
+  <text x="329" y="308" font-size="15" font-weight="bold" fill="#e65100">兩者都拿得到</text>
+
+  <rect x="610" y="216" width="270" height="112" rx="9" fill="#fff" stroke="#a5d6a7" stroke-width="1.6"/>
+  <text x="624" y="240" font-size="13" font-weight="bold" fill="#2e7d32">總應力＝有效應力</text>
+  <text x="624" y="262" font-size="12.5" fill="#37474f">u = 0，不必轉換</text>
+  <text x="624" y="284" font-size="12.5" fill="#37474f">最直接、但耗時最久</text>
+  <text x="624" y="308" font-size="15" font-weight="bold" fill="#2e7d32">直接得到 c′、φ′</text>
+
+  <!-- punchline -->
+  <rect x="20" y="346" width="860" height="82" rx="10" fill="#f3e5f5" stroke="#ce93d8" stroke-width="1.8"/>
+  <text x="34" y="370" font-size="15" font-weight="bold" fill="#6a1b9a">唯一不變的是 φ′；φu 與 φcu 隨試驗方法而變</text>
+  <text x="34" y="394" font-size="13" fill="#37474f">SM-2013-3 的鐵證：同一塊土、同樣的壓密狀態，只因加載路徑不同（軸壓 vs 側向解壓），</text>
+  <text x="34" y="416" font-size="13" fill="#37474f">總應力角度 φcu 從 19.23° 變成 31.59°，而有效應力角度 φ′ 始終是 28.04°。</text>
+</svg>
+<div class="cap">兩個閥門的開關組合，決定了試驗過程中 \(u\) 怎麼變化，也就決定了你會量到哪一組表觀參數。<b>做題時第一件事：先認出是哪一種試驗，就知道 \(u\) 該怎麼處理。</b></div>
+</div>
+
+<h3>把 10 題放到這棵樹上</h3>
+
+<table>
+<thead><tr><th style="width:24%">主題</th><th style="width:30%">在問什麼</th><th>題目</th></tr></thead>
+<tbody>
+<tr><td><b>Mohr 圓幾何</b></td><td>由 \(\sigma_1,\sigma_3\) 求 \(\phi\)、破壞面角度、破壞面上的應力、外推其他圍壓</td><td>SM-2024-1、SM-2025-2</td></tr>
+<tr><td><b>CU 試驗雙參數</b></td><td>同時求 \(\phi_{cu}\) 與 \(\phi'\)，並判斷破壞面該用哪一個</td><td>SM-2018-2、SM-2012-1、SM-2013-3</td></tr>
+<tr><td><b>UU 與現地應力</b></td><td>由 \(\sigma_{v0}'\) 與 \(\phi'\) 反推 \(S_u\)；由 \(S_u\) 反推取樣深度</td><td>SM-2003-4、SM-2010-1、SM-2012-1</td></tr>
+<tr><td><b>孔壓參數 \(A\)、\(B\)</b></td><td>預測不排水加載會產生多少 \(\Delta u\)，再判斷會不會破壞</td><td>SM-2008-2、SM-2018-2、SM-2013-3</td></tr>
+<tr><td><b>應力路徑</b></td><td>TSP 與 ESP、ESP 唯一性、\(\phi_{cu}\) 為何不是土壤性質</td><td>SM-2013-3</td></tr>
+<tr><td><b>試驗規劃與概念</b></td><td>取樣擾動、壓密壓力該設多大、SUU vs UUU、流砂 vs 液化</td><td>SM-2002-4、SM-2007-2</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>為什麼這個子項的題目「看起來都很像」？</b>因為它們共用同一個幾何：一個莫爾圓、一條包絡線、一個切點。
+差別只在<b>題目給你哪兩個數字、要你求哪一個</b>。
+把 §1 的幾何吃透，剩下的 90% 都只是換位置代入 —— 這也是為什麼本單元<b>投資報酬率極高</b>：
+公式少、變化多，但變化都在同一張圖上。
+</div>
+
+<div class="trap">
+<b>本單元唯一的「大分類」判斷。</b>做每一題之前先問三個問題：<br>
+① 這是 UU、CU 還是 CD？（決定 \(u\) 怎麼處理）<br>
+② 是 NC 還是 OC？（決定 \(c'\) 是不是 0 —— 是 0 的話一堆捷徑就開了，見 §4）<br>
+③ 題目要的是<b>總</b>應力參數還是<b>有效</b>應力參數？（決定莫爾圓畫在哪裡）<br>
+這三問答完，解法就固定了。答錯任何一個，後面全錯。
+</div>
+</section>
+<section id="s1">
+<h2>§1　Mohr 圓幾何：一張圖撐起整個單元</h2>
+
+<div class="lead">
+莫爾圓不是一個公式，是一個<b>座標轉換的圖解</b>：圓上的每一個點，代表試體內某一個傾角的平面上的 \((\sigma,\tau)\)。
+土壤破壞，就是這個圓<b>長大到碰到破壞包絡線</b>為止 —— 而碰到的那一點，就是實際破壞面上的應力狀態。
+把「圓、線、切點」三件事的幾何關係吃透，本單元幾乎所有計算都是同一張圖換位置代入。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- axes -->
+  <line x1="80" y1="330" x2="600" y2="330" stroke="#455a64" stroke-width="1.8"/>
+  <line x1="80" y1="330" x2="80" y2="60" stroke="#455a64" stroke-width="1.8"/>
+  <text x="576" y="352" font-size="12.5" fill="#607d8b">σ (kPa)</text>
+  <text x="42" y="70" font-size="12.5" fill="#607d8b">τ (kPa)</text>
+
+  <!-- circle -->
+  <path d="M200 330 A144 144 0 0 1 488 330 Z" fill="#e3f2fd" stroke="#1565c0" stroke-width="2.2"/>
+  <!-- envelope -->
+  <line x1="80" y1="300" x2="560" y2="62" stroke="#c62828" stroke-width="2.4"/>
+  <text x="470" y="104" font-size="13" font-weight="bold" fill="#c62828">τ = c′ + σ tanφ′</text>
+  <!-- c intercept -->
+  <line x1="74" y1="300" x2="86" y2="300" stroke="#c62828" stroke-width="2"/>
+  <text x="34" y="296" font-size="12" font-weight="bold" fill="#c62828">c′=25</text>
+  <!-- phi arc -->
+  <line x1="80" y1="300" x2="165" y2="300" stroke="#c62828" stroke-width="1" stroke-dasharray="3 3"/>
+  <path d="M138 300 A 58 58 0 0 0 132 274" fill="none" stroke="#c62828" stroke-width="1.6"/>
+  <text x="144" y="294" font-size="12.5" font-weight="bold" fill="#c62828">φ′</text>
+
+  <!-- tangent point -->
+  <circle cx="280" cy="201" r="5.5" fill="#6a1b9a"/>
+  <line x1="344" y1="330" x2="280" y2="201" stroke="#6a1b9a" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="196" y="196" font-size="12.5" font-weight="bold" fill="#6a1b9a">切點 F</text>
+  <text x="188" y="214" font-size="11.5" fill="#6a1b9a">(σff, τff)</text>
+  <!-- projections -->
+  <line x1="280" y1="201" x2="280" y2="330" stroke="#90a4ae" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <line x1="80" y1="201" x2="280" y2="201" stroke="#90a4ae" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <text x="238" y="348" font-size="11.5" fill="#6a1b9a">166.8</text>
+  <text x="26" y="205" font-size="11.5" fill="#6a1b9a">107.5</text>
+
+  <!-- center, radius -->
+  <circle cx="344" cy="330" r="4" fill="#0d47a1"/>
+  <line x1="344" y1="330" x2="488" y2="330" stroke="#0d47a1" stroke-width="2"/>
+  <text x="392" y="350" font-size="12" font-weight="bold" fill="#0d47a1">R = 120</text>
+  <text x="318" y="368" font-size="12" font-weight="bold" fill="#0d47a1">C = 220</text>
+  <!-- sigma3 sigma1 -->
+  <circle cx="200" cy="330" r="4" fill="#2e7d32"/>
+  <circle cx="488" cy="330" r="4" fill="#c62828"/>
+  <text x="170" y="392" font-size="12.5" font-weight="bold" fill="#2e7d32">σ3′=100</text>
+  <text x="458" y="392" font-size="12.5" font-weight="bold" fill="#c62828">σ1′=340</text>
+  <line x1="200" y1="334" x2="200" y2="378" stroke="#2e7d32" stroke-width="1"/>
+  <line x1="488" y1="334" x2="488" y2="378" stroke="#c62828" stroke-width="1"/>
+  <!-- 2theta arc -->
+  <path d="M404 330 A 60 60 0 0 0 317 276" fill="none" stroke="#ef6c00" stroke-width="1.8"/>
+  <text x="352" y="300" font-size="12.5" font-weight="bold" fill="#e65100">2θ</text>
+  <text x="330" y="282" font-size="11" fill="#e65100">= 90°+φ′</text>
+
+  <!-- formula box -->
+  <rect x="620" y="130" width="250" height="200" rx="9" fill="#fff" stroke="#dfe6ea" stroke-width="1.4"/>
+  <text x="634" y="154" font-size="13" font-weight="bold" fill="#0d47a1">三條等價的破壞條件</text>
+  <text x="634" y="180" font-size="12" fill="#37474f">① σ1′ = σ3′ Kp + 2c′ √Kp</text>
+  <text x="646" y="198" font-size="11" fill="#607d8b">Kp = tan²(45°+φ′/2)</text>
+  <text x="634" y="222" font-size="12" fill="#37474f">② R = C sinφ′ + c′ cosφ′</text>
+  <text x="634" y="246" font-size="12" fill="#37474f">③ c′=0 時：sinφ′ = R / C</text>
+  <text x="646" y="264" font-size="11" fill="#607d8b">= (σ1′−σ3′)/(σ1′+σ3′)</text>
+  <text x="634" y="292" font-size="12" fill="#6a1b9a">切點：σff = C − R sinφ′</text>
+  <text x="634" y="312" font-size="12" fill="#6a1b9a">　　　τff = R cosφ′</text>
+</svg>
+<div class="cap">數值取自 <a class="qlink" href="problems-view/SM-2024-1.html" target="_blank">SM-2024-1</a>（\(\sigma_3'=100\)、\(\Delta\sigma_d=240\)、\(c'=25\)）。<b>圓心與半徑只跟主應力有關，包絡線只跟土壤有關，破壞就是兩者相切。</b>本單元所有題目都是在這張圖上找未知數。</div>
+</div>
+
+<h3>1.1　三條破壞條件式其實是同一條</h3>
+
+$$\text{①}\ \ \sigma_1'=\sigma_3'K_p+2c'\sqrt{K_p},\quad K_p=\tan^2\!\left(45^\circ+\tfrac{\phi'}{2}\right)$$
+$$\text{②}\ \ R=C\sin\phi'+c'\cos\phi'\qquad\qquad
+\text{③}\ \ \sin\phi'=\frac{R}{C}=\frac{\sigma_1'-\sigma_3'}{\sigma_1'+\sigma_3'}\ \ (c'=0)$$
+
+<div class="why">
+<b>怎麼選？看題目給你什麼。</b><br>
+・給 \(\sigma_1,\sigma_3\) 求 \(\phi\)，且 \(c'=0\) → 用 <b>③</b>，一步到位（<a class="qlink" href="problems-view/SM-2018-2.html" target="_blank">SM-2018-2</a>）。<br>
+・給 \(\sigma_1,\sigma_3,c'\) 求 \(\phi\) → 用 <b>①</b>，令 \(y=\sqrt{K_p}\) 解一元二次式（<a class="qlink" href="problems-view/SM-2024-1.html" target="_blank">SM-2024-1</a>）。<br>
+・給兩組試驗求 \(c',\phi'\) → 用 <b>①</b> 列聯立、相減消去 \(c'\) 項（<a class="qlink" href="problems-view/SM-2025-2.html" target="_blank">SM-2025-2</a>）。<br>
+・給 \(S_u\)（即 \(R\)）與 \(\phi\) 求圍壓 → 用 <b>③</b> 反解 \(C\)（<a class="qlink" href="problems-view/SM-2012-1.html" target="_blank">SM-2012-1</a>）。<br>
+<b>三條式子互相可推導，不需要背三次；記住 ③ 最短，其餘由圖上幾何現推。</b>
+</div>
+
+<div class="trap">
+<b>陷阱：軸差應力不是大主應力。</b>三軸試驗給的 \(\Delta\sigma_d\) 是 \(\sigma_1-\sigma_3\)，
+要加上圍壓才是 \(\sigma_1\)。SM-2024-1 的 240 kPa 是軸差應力，\(\sigma_1=100+240=340\) —— <b>若把 240 當 \(\sigma_1\)，全題皆錯。</b>
+記憶方式：三軸儀的活塞只能<b>額外</b>推，圍壓是本來就有的。
+</div>
+
+<h3>1.2　破壞面角度 \(45^\circ+\phi/2\)：兩行就能證完</h3>
+
+<div class="fig">
+<svg viewBox="0 0 880 380" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei,Noto Sans TC,sans-serif">
+  <text x="26" y="26" font-size="14" fill="#1565c0" font-weight="bold">實體試體（SM-2018-2）</text>
+  <rect x="96" y="78" width="120" height="200" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="2"/>
+  <line x1="121" y1="42" x2="121" y2="72" stroke="#c62828" stroke-width="3.2" marker-end="url(#arc62828)"/>
+  <line x1="156" y1="42" x2="156" y2="72" stroke="#c62828" stroke-width="3.2" marker-end="url(#arc62828)"/>
+  <line x1="191" y1="42" x2="191" y2="72" stroke="#c62828" stroke-width="3.2" marker-end="url(#arc62828)"/>
+  <text x="224" y="62" font-size="13" fill="#c62828" font-weight="bold">σ<tspan dy="3.9" font-size="9.6">1</tspan><tspan dy="-3.9">′ = 118</tspan></text>
+  <line x1="54" y1="178" x2="90" y2="178" stroke="#2e7d32" stroke-width="3" marker-end="url(#ar2e7d32)"/>
+  <line x1="258" y1="178" x2="222" y2="178" stroke="#2e7d32" stroke-width="3" marker-end="url(#ar2e7d32)"/>
+  <text x="230" y="200" font-size="13" fill="#2e7d32" font-weight="bold">σ<tspan dy="3.9" font-size="9.6">3</tspan><tspan dy="-3.9">′ = 33</tspan></text>
+  <line x1="103.1" y1="278" x2="208.9" y2="78" stroke="#6a1b9a" stroke-width="2.6" stroke-dasharray="8 4"/>
+  <line x1="103.1" y1="278" x2="173.1" y2="278" stroke="#90a4ae" stroke-width="1.3"/>
+  <path d="M133.1 278 A30 30 0 0 0 117.1 251.5" fill="none" stroke="#6a1b9a" stroke-width="1.6"/>
+  <text x="137.1" y="268" font-size="13" fill="#6a1b9a" font-weight="bold">θ</text>
+  <text x="20" y="312" font-size="12.5" fill="#37474f">θ ＝ 破壞面與大主應力作用面（水平面）的夾角</text>
+  <text x="20" y="334" font-size="13" fill="#6a1b9a" font-weight="bold">θ = 45° + φ′/2 = 45° + 34.26°/2 = 62.13°</text>
+  <text x="20" y="356" font-size="12.5" fill="#e65100" font-weight="bold">誤用 φ<tspan dy="3.8" font-size="9.2">cu</tspan><tspan dy="-3.8"> = 17.35° → 53.67°（少了 8.5°）</tspan></text>
+  <text x="410" y="26" font-size="14" fill="#1565c0" font-weight="bold">有效應力莫爾圓上的對應</text>
+  <line x1="410" y1="272" x2="858" y2="272" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <line x1="410" y1="272" x2="410" y2="41.6" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <text x="854" y="264" font-size="12.5" fill="#607d8b" text-anchor="end">σ′ (kPa)</text>
+  <text x="418" y="47.6" font-size="12.5" fill="#607d8b">τ (kPa)</text>
+  <path d="M515.6 272 A136 136 0 0 1 787.6 272 Z" fill="#e3f2fd" stroke="#1565c0" stroke-width="2.2"/>
+  <line x1="410" y1="272" x2="730" y2="54.1" stroke="#c62828" stroke-width="2.4"/>
+  <text x="726" y="46.1" font-size="12.5" fill="#c62828" font-weight="bold" text-anchor="end">τ = σ′ tanφ′，φ′ = 34.26°</text>
+  <path d="M452 272 A42 42 0 0 0 444.7 248.4" fill="none" stroke="#c62828" stroke-width="1.6"/>
+  <text x="456" y="264" font-size="12.5" fill="#c62828" font-weight="bold">φ′</text>
+  <line x1="651.6" y1="272" x2="575" y2="159.6" stroke="#6a1b9a" stroke-width="2"/>
+  <path d="M582.5 154.5 L587.5 162 L580.1 167" fill="none" stroke="#6a1b9a" stroke-width="1.4"/>
+  <circle cx="575" cy="159.6" r="5" fill="#6a1b9a"/>
+  <text x="563" y="147.6" font-size="13" fill="#6a1b9a" font-weight="bold" text-anchor="end">F</text>
+  <line x1="575" y1="159.6" x2="575" y2="272" stroke="#90a4ae" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <line x1="410" y1="159.6" x2="575" y2="159.6" stroke="#90a4ae" stroke-width="1.1" stroke-dasharray="3 3"/>
+  <text x="404" y="163.6" font-size="11.5" fill="#6a1b9a" text-anchor="end">35.1</text>
+  <text x="575" y="288" font-size="11.5" fill="#6a1b9a" text-anchor="middle">51.6</text>
+  <path d="M685.6 272 A34 34 0 0 0 632.5 243.9" fill="none" stroke="#e65100" stroke-width="1.8"/>
+  <text x="681.6" y="238" font-size="12.5" fill="#e65100" font-weight="bold">2θ = 90°+φ′</text>
+  <text x="681.6" y="254" font-size="12" fill="#e65100">= 124.26°</text>
+  <circle cx="515.6" cy="272" r="4" fill="#2e7d32"/>
+  <text x="515.6" y="304" font-size="11.5" fill="#2e7d32" font-weight="bold" text-anchor="middle">33</text>
+  <circle cx="651.6" cy="272" r="4" fill="#1565c0"/>
+  <text x="651.6" y="304" font-size="11.5" fill="#1565c0" font-weight="bold" text-anchor="middle">C=75.5</text>
+  <circle cx="787.6" cy="272" r="4" fill="#c62828"/>
+  <text x="787.6" y="304" font-size="11.5" fill="#c62828" font-weight="bold" text-anchor="middle">118</text>
+  <text x="410" y="344" font-size="12.5" fill="#37474f">① 相切 ⟹ 半徑 CF ⊥ 包絡線 ⟹ 圓心角 ∠σ<tspan dy="3.8" font-size="9.2">1</tspan><tspan dy="-3.8">CF = 90° + φ′</tspan></text>
+  <text x="410" y="366" font-size="12.5" fill="#37474f">② 圓上角度是實體夾角的兩倍 ⟹ 2θ = 90° + φ′ ⟹ θ = 45° + φ′/2</text>
+  <defs><marker id="arc62828" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#c62828"/></marker><marker id="ar2e7d32" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#2e7d32"/></marker><marker id="ar455a64" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#455a64"/></marker></defs>
+</svg>
+<div class="cap">數值取自 <a class="qlink" href="problems-view/SM-2018-2.html" target="_blank">SM-2018-2</a> 的有效應力圓（\(\sigma_3'=33\)、\(\sigma_1'=118\)），左右兩側的角度按同一個 \(\phi'=34.26^\circ\) 實際量畫：圓心角 \(124.26^\circ\)、試體上 \(62.13^\circ\)。關鍵只有兩步：① 相切 ⟹ 半徑垂直於包絡線 ⟹ 圓心角 \(=90^\circ+\phi'\)；② 莫爾圓上的角是實體夾角的<b>兩倍</b>。<b>切點 F 的座標 (51.6, 35.1) 就是破壞面上的 \((\sigma_{ff}',\tau_{ff})\)</b>，可用 \(35.1/51.6=\tan34.26^\circ\) 驗算。</div>
+</div>
+
+<div class="why">
+<b>「圓上的角是實體的兩倍」是莫爾圓的本質，不是巧合。</b>
+應力轉換公式 \(\sigma_\theta=\frac{\sigma_1+\sigma_3}{2}+\frac{\sigma_1-\sigma_3}{2}\cos2\theta\)、
+\(\tau_\theta=\frac{\sigma_1-\sigma_3}{2}\sin2\theta\) 裡的角度本來就是 \(2\theta\) ——
+莫爾圓只是把這兩條式子畫成參數式的圓。
+<b>所以「莫爾圓上量到 116°，實體上就是 58°」，是定義決定的。</b>
+</div>
+
+<div class="trap">
+<b>陷阱（本單元最高頻）：破壞面角度要用 \(\phi'\)，不是 \(\phi_{cu}\)。</b>
+土壤是靠顆粒之間的摩擦破壞的，摩擦由<b>有效應力</b>控制，所以實體破壞面永遠是 \(45^\circ+\phi'/2\)。
+<a class="qlink" href="problems-view/SM-2018-2.html" target="_blank">SM-2018-2</a>：用 \(\phi'=34.26^\circ\) 得 \(\theta=62.13^\circ\)；
+若誤用 \(\phi_{cu}=17.35^\circ\) 會得 \(53.7^\circ\)，差了 8 度多。
+<a class="qlink" href="problems-view/SM-2013-3.html" target="_blank">SM-2013-3</a> 更極端：\(\phi_{cu}\) 隨試驗方法在 \(19^\circ\sim32^\circ\) 之間跳動，
+但破壞面角度只有一個（\(59.02^\circ\)），因為 \(\phi'\) 只有一個。
+</div>
+
+<h3>1.3　破壞面上的應力：切點座標</h3>
+
+$$\sigma_{ff}=C+R\cos(90^\circ+\phi)=C-R\sin\phi,\qquad \tau_{ff}=R\sin(90^\circ+\phi)=R\cos\phi$$
+
+<div class="box">
+<b>手算：SM-2024-1 全套</b>（\(\sigma_3'=100\)、\(\Delta\sigma_d=240\)、\(c'=25\)）
+
+<p><b>① 建立圓</b></p>
+$$\sigma_1'=100+240=340,\qquad C=\frac{340+100}{2}=220,\qquad R=\frac{340-100}{2}=120$$
+
+<p><b>② 求 \(\phi'\)</b>（用條件式 ①，令 \(y=\sqrt{K_p}\)）</p>
+$$340=100y^2+50y\ \Rightarrow\ 10y^2+5y-34=0\ \Rightarrow\ y=\frac{-5+\sqrt{1385}}{20}=1.6108$$
+$$45^\circ+\tfrac{\phi'}{2}=\arctan 1.6108=58.17^\circ\ \Rightarrow\ \boxed{\phi'=26.34^\circ}$$
+
+<p><b>③ 破壞面上的應力</b></p>
+$$\sigma_{ff}=220-120\sin 26.34^\circ=220-53.24=\boxed{166.76\ \text{kPa}}$$
+$$\tau_{ff}=120\cos 26.34^\circ=\boxed{107.54\ \text{kPa}}$$
+
+<p><b>④ 免費驗算（一定要做）</b>：切點必須落在包絡線上</p>
+$$c'+\sigma_{ff}\tan\phi'=25+166.76\times0.4950=107.55\ \checkmark$$
+
+<p><b>⑤ 外推到 \(\sigma_3'=200\)</b></p>
+$$\sigma_1'=200(2.5946)+50(1.6108)=599.46\ \Rightarrow\ \Delta\sigma_d=\boxed{399.46\ \text{kPa}}$$
+</div>
+
+<div class="why">
+<b>外推有一個秒算法。</b>\(\sigma_1'=\sigma_3'K_p+\text{常數}\) 是<b>線性</b>的，所以 \(\sigma_3'\) 每增加 \(\Delta\)，\(\sigma_1'\) 就增加 \(K_p\Delta\)。
+本題 \(\sigma_3'\) 從 100 加到 200（\(+100\)），\(\sigma_1'\) 就是 \(340+100(2.5946)=599.46\) —— 三秒得到同一個答案，也是最好的驗算。
+<b>而且這個作法不必經過 \(\phi'\)，避開了角度四捨五入的誤差。</b>
+</div>
+
+<div class="trap">
+<b>計算精度的陷阱。</b>SM-2024-1 若先把 \(\phi'\) 四捨五入成 \(26.3^\circ\) 再回頭算 \(K_p\)，
+最後的 \(\Delta\sigma_d\) 會差好幾 kPa。<b>解出 \(y=\sqrt{K_p}\) 之後就直接留著它用</b>，
+需要報告 \(\phi'\) 時再單獨換算 —— \(y\) 才是計算主線，\(\phi'\) 只是報告值。
+</div>
+</section>
+<section id="s2">
+<h2>§2　三種試驗各給你什麼</h2>
+
+<h3>2.1　UU 試驗：為什麼飽和土的 \(\phi_u\) 恰好是 0</h3>
+
+<p>飽和土在不排水條件下加圍壓時，水不可壓縮，所以<b>增加的圍壓全部由孔隙水承擔</b>（Skempton \(B=1\)）：</p>
+
+$$\Delta u=B\,\Delta\sigma_3=\Delta\sigma_3\ \Longrightarrow\ \Delta\sigma_3'=\Delta\sigma_3-\Delta u=0$$
+
+<p>有效應力完全沒變 → 破壞時的抗剪強度也完全沒變 → 不同圍壓的莫爾圓<b>大小一模一樣、只是水平平移</b>。共同切線因此是水平的。</p>
+
+<div class="fig">
+<svg viewBox="0 0 880 262" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei,Noto Sans TC,sans-serif">
+  <text x="26" y="24" font-size="14" fill="#c62828" font-weight="bold">SUU：飽和不壓密不排水</text>
+  <text x="476" y="24" font-size="14" fill="#e65100" font-weight="bold">UUU：不飽和不壓密不排水</text>
+  <g transform="translate(0,-78)">
+  <line x1="56" y1="250" x2="440" y2="250" stroke="#455a64" stroke-width="1.6" marker-end="url(#ar455a64)"/>
+  <line x1="56" y1="250" x2="56" y2="120" stroke="#455a64" stroke-width="1.6" marker-end="url(#ar455a64)"/>
+  <text x="436" y="242" font-size="12.5" fill="#607d8b" text-anchor="end">σ</text>
+  <text x="64" y="130" font-size="12.5" fill="#607d8b">τ</text>
+  <path d="M94 250 A38 38 0 0 1 170 250 Z" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2.2"/>
+  <path d="M184 250 A38 38 0 0 1 260 250" fill="#ffebee" stroke="#c62828" stroke-width="1.9"/>
+  <path d="M266 250 A38 38 0 0 1 342 250" fill="#ffebee" stroke="#c62828" stroke-width="1.9"/>
+  <path d="M348 250 A38 38 0 0 1 424 250" fill="#ffebee" stroke="#c62828" stroke-width="1.9"/>
+  <line x1="56" y1="212" x2="434" y2="212" stroke="#37474f" stroke-width="2.4"/>
+  <text x="430" y="204" font-size="13" fill="#37474f" font-weight="bold" text-anchor="end">φ<tspan dy="3.9" font-size="9.6">u</tspan><tspan dy="-3.9"> = 0</tspan></text>
+  <line x1="50" y1="212" x2="62" y2="212" stroke="#37474f" stroke-width="2"/>
+  <text x="46" y="216" font-size="12" fill="#37474f" font-weight="bold" text-anchor="end">S<tspan dy="3.6" font-size="8.9">u</tspan></text>
+  <line x1="56" y1="250" x2="231" y2="149" stroke="#2e7d32" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <text x="235" y="153" font-size="12" fill="#2e7d32" font-weight="bold">φ′ 線</text>
+  <line x1="222" y1="264" x2="138" y2="264" stroke="#6a1b9a" stroke-width="1.8" marker-end="url(#ar6a1b9a)"/>
+  <text x="180" y="280" font-size="12" fill="#6a1b9a" font-weight="bold" text-anchor="middle">−u</text>
+  <text x="132" y="238" font-size="11.5" fill="#2e7d32" font-weight="bold" text-anchor="middle">有效圓</text>
+  <text x="26" y="300" font-size="12.5" fill="#37474f">三個總應力圓半徑相同（Δσ<tspan dy="3.8" font-size="9.2">3</tspan><tspan dy="-3.8"> 全被水吃掉）</tspan></text>
+  <text x="26" y="322" font-size="12" fill="#607d8b">扣掉各自的 u 後全部疊在同一個有效圓上 → 強度不變</text>
+  <line x1="500" y1="250" x2="864" y2="250" stroke="#455a64" stroke-width="1.6" marker-end="url(#ar455a64)"/>
+  <line x1="500" y1="250" x2="500" y2="120" stroke="#455a64" stroke-width="1.6" marker-end="url(#ar455a64)"/>
+  <text x="860" y="242" font-size="12.5" fill="#607d8b" text-anchor="end">σ</text>
+  <text x="508" y="130" font-size="12.5" fill="#607d8b">τ</text>
+  <path d="M534 250 A28 28 0 0 1 590 250 Z" fill="#fff3e0" stroke="#e65100" stroke-width="1.8"/>
+  <path d="M605 250 A45 45 0 0 1 695 250 Z" fill="#fff3e0" stroke="#e65100" stroke-width="1.8"/>
+  <path d="M706 250 A56 56 0 0 1 818 250 Z" fill="#fff3e0" stroke="#e65100" stroke-width="1.8"/>
+  <path d="M508 237.1 L641.3 210.8 Q701.5 199 762 199 L 860 199" fill="none" stroke="#37474f" stroke-width="2.4"/>
+  <text x="530" y="218" font-size="12.5" fill="#e65100" font-weight="bold">φ<tspan dy="3.8" font-size="9.2">u</tspan><tspan dy="-3.8"> > 0</tspan></text>
+  <text x="858" y="191" font-size="12.5" fill="#37474f" font-weight="bold" text-anchor="end">轉為 φ<tspan dy="3.8" font-size="9.2">u</tspan><tspan dy="-3.8"> = 0</tspan></text>
+  <line x1="700" y1="199" x2="700" y2="250" stroke="#90a4ae" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="700" y="266" font-size="11" fill="#607d8b" text-anchor="middle">≈ 飽和點</text>
+  <text x="476" y="300" font-size="12.5" fill="#37474f">低圍壓：B < 1，部分 Δσ<tspan dy="3.8" font-size="9.2">3</tspan><tspan dy="-3.8"> 變成有效應力 → 圓變大</tspan></text>
+  <text x="476" y="322" font-size="12" fill="#607d8b">空氣被壓縮溶解、B → 1 後 → 包絡線轉水平</text>
+  </g>
+  <defs><marker id="ar455a64" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#455a64"/></marker><marker id="ar6a1b9a" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#6a1b9a"/></marker></defs>
+</svg>
+<div class="cap">（示意圖）左圖的關鍵是那個綠色的<b>有效圓</b>：三次試驗的總應力圓各自扣掉自己的 \(u\) 之後，全部疊在同一個有效圓上 —— 這才是「強度不變」的真正原因，\(\phi_u=0\) 只是它在總應力座標上的投影。右圖差別只在<b>孔隙裡有沒有可壓縮的空氣</b>。有空氣 → \(B<1\) → 圍壓有一部分變成有效應力 → 強度上升；空氣壓完溶解後回到 \(B=1\)，包絡線轉水平。<a class="qlink" href="problems-view/SM-2007-2.html" target="_blank">SM-2007-2</a> 要求畫的就是這兩張圖。</div>
+</div>
+
+<div class="trap">
+<b>陷阱：「UU 試驗的 \(\phi_u\) 一定是 0」是錯的。</b>
+只有<b>完全飽和</b>時才是 0。夯實填土初期含氣，\(\phi_u>0\)。
+SM-2007-2 第二小題若只寫「UU 就是 \(\phi_u=0\)」，等於答錯一半；
+必須完整說出 UUU 包絡線的<b>雙段形狀</b>（先斜後平）以及轉折的原因。
+</div>
+
+<h3>2.2　CU 試驗：一次試驗，兩組莫爾圓</h3>
+
+<p>CU 試驗量測破壞時的孔隙水壓 \(u_f\)，於是同一次破壞可以畫出兩個圓：</p>
+
+$$\text{總應力圓：}(\sigma_3,\sigma_1)\qquad\qquad
+\text{有效應力圓：}(\sigma_3-u_f,\ \sigma_1-u_f)$$
+
+<div class="why">
+<b>兩個圓的半徑完全相同，只是整個左移 \(u_f\)。</b>
+因為 \(R=\frac{\sigma_1-\sigma_3}{2}=\frac{(\sigma_1-u)-(\sigma_3-u)}{2}\) —— \(u\) 在相減時抵消。
+<b>所以「扣孔隙水壓」在圖上就是「把圓往左推」，形狀不變。</b>
+圓左移但半徑不變 → 過原點的切線變陡 → 這就是為什麼 \(\phi'>\phi_{cu}\) 恆成立（對 NC 黏土）。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 350" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei,Noto Sans TC,sans-serif">
+  <line x1="70" y1="286" x2="633.2" y2="286" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <line x1="70" y1="286" x2="70" y2="46" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <text x="629.2" y="278" font-size="12.5" fill="#607d8b" text-anchor="end">σ, σ′ (kPa)</text>
+  <text x="78" y="52" font-size="12.5" fill="#607d8b">τ (kPa)</text>
+  <path d="M122.8 286 A68 68 0 0 1 258.8 286 Z" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2.2"/>
+  <path d="M230 286 A68 68 0 0 1 366 286" fill="none" stroke="#c62828" stroke-width="2.2" stroke-dasharray="7 4"/>
+  <line x1="70" y1="286" x2="614" y2="116" stroke="#c62828" stroke-width="2.2" stroke-dasharray="7 4"/>
+  <line x1="70" y1="286" x2="390" y2="68.1" stroke="#2e7d32" stroke-width="2.4"/>
+  <text x="614" y="106" font-size="12.5" fill="#c62828" font-weight="bold" text-anchor="end">總應力包絡線 φ<tspan dy="3.8" font-size="9.2">cu</tspan><tspan dy="-3.8"> = 17.35°</tspan></text>
+  <text x="396" y="80.1" font-size="12.5" fill="#2e7d32" font-weight="bold">有效應力包絡線 φ′ = 34.26°</text>
+  <line x1="298" y1="286" x2="277.7" y2="221.1" stroke="#c62828" stroke-width="1.3" stroke-dasharray="3 3"/>
+  <circle cx="277.7" cy="221.1" r="4.5" fill="#c62828"/>
+  <line x1="190.8" y1="286" x2="152.5" y2="229.8" stroke="#2e7d32" stroke-width="1.3" stroke-dasharray="3 3"/>
+  <circle cx="152.5" cy="229.8" r="4.5" fill="#2e7d32"/>
+  <text x="144.5" y="223.8" font-size="11.5" fill="#2e7d32" font-weight="bold" text-anchor="end" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">(51.6, 35.1)</text>
+  <text x="281.7" y="211.1" font-size="11.5" fill="#c62828" font-weight="bold" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">(129.8, 40.6)</text>
+  <circle cx="298" cy="286" r="3.5" fill="#c62828"/>
+  <circle cx="190.8" cy="286" r="3.5" fill="#2e7d32"/>
+  <line x1="298" y1="290" x2="298" y2="330" stroke="#90a4ae" stroke-width="1"/>
+  <line x1="190.8" y1="290" x2="190.8" y2="330" stroke="#90a4ae" stroke-width="1"/>
+  <line x1="298" y1="326" x2="192.8" y2="326" stroke="#6a1b9a" stroke-width="2.4" marker-end="url(#ar6a1b9a)"/>
+  <text x="244.4" y="344" font-size="12.5" fill="#6a1b9a" font-weight="bold" text-anchor="middle">整個圓左移 u<tspan dy="3.8" font-size="9.2">f</tspan><tspan dy="-3.8"> = 67 kPa（R = 42.5 不變）</tspan></text>
+  <circle cx="230" cy="286" r="3.5" fill="#c62828"/>
+  <circle cx="366" cy="286" r="3.5" fill="#c62828"/>
+  <circle cx="122.8" cy="286" r="3.5" fill="#2e7d32"/>
+  <circle cx="258.8" cy="286" r="3.5" fill="#2e7d32"/>
+  <text x="122.8" y="304" font-size="11.5" fill="#2e7d32" font-weight="bold" text-anchor="middle">33</text>
+  <text x="258.8" y="304" font-size="11.5" fill="#2e7d32" font-weight="bold" text-anchor="middle">118</text>
+  <text x="230" y="304" font-size="11.5" fill="#c62828" font-weight="bold" text-anchor="middle">100</text>
+  <text x="366" y="304" font-size="11.5" fill="#c62828" font-weight="bold" text-anchor="middle">185</text>
+  <rect x="644" y="30" width="230" height="150" rx="9" fill="#fff" stroke="#dfe6ea" stroke-width="1.4"/>
+  <text x="656" y="54" font-size="13" fill="#1565c0" font-weight="bold">NC 黏土 → 兩條線都過原點</text>
+  <text x="656" y="78" font-size="12" fill="#37474f">sinφ<tspan dy="3.6" font-size="8.9">cu</tspan><tspan dy="-3.6"> = (185−100)/(185+100)</tspan></text>
+  <text x="656" y="98" font-size="12" fill="#37474f">　　　= 85/285 → 17.35°</text>
+  <text x="656" y="122" font-size="12" fill="#37474f">sinφ′ = (118−33)/(118+33)</text>
+  <text x="656" y="142" font-size="12" fill="#37474f">　　　= 85/151 → 34.26°</text>
+  <text x="656" y="168" font-size="11.5" fill="#c62828">分子相同、分母變小 → φ′ > φ<tspan dy="3.4" font-size="8.5">cu</tspan></text>
+  <defs><marker id="ar455a64" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#455a64"/></marker><marker id="ar6a1b9a" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#6a1b9a"/></marker></defs>
+</svg>
+<div class="cap">數據取自 <a class="qlink" href="problems-view/SM-2018-2.html" target="_blank">SM-2018-2</a>，兩圓、兩線與左移箭頭皆按比例繪製（箭頭長度恰為 67 kPa）。兩個切點標出各自的「破壞面應力」—— 實際破壞面是綠色切點，紅色切點只是總應力座標下的表觀值。<b>\(\sin\phi=\frac{\sigma_1-\sigma_3}{\sigma_1+\sigma_3}\) 的分子（＝2R）不隨 \(u\) 改變，分母（＝2C）卻變小</b> —— 這就是 \(\phi'>\phi_{cu}\) 的一行證明。</div>
+</div>
+
+<h3>2.3　三種試驗對應到什麼工程情境</h3>
+
+<table>
+<thead><tr><th style="width:14%">試驗</th><th style="width:26%">得到的參數</th><th style="width:26%">對應的工程情境</th><th>本單元題目</th></tr></thead>
+<tbody>
+<tr><td><b style="color:#c62828">UU</b></td><td>\(S_u\)（\(\phi_u=0\)，飽和時）</td><td><b>短期</b>：快速加載、開挖初期、施工期穩定</td><td>SM-2003-4、SM-2010-1、SM-2012-1</td></tr>
+<tr><td><b style="color:#ef6c00">CU</b></td><td>\(\phi_{cu}\)（表觀）＋ \(c',\phi'\)（真）</td><td>先固結再快速加載（分期填築、水位驟降）；也是求 \(c',\phi'\) 最<b>經濟</b>的方式</td><td>SM-2018-2、SM-2012-1、SM-2013-3、SM-2025-2</td></tr>
+<tr><td><b style="color:#2e7d32">CD</b></td><td>\(c',\phi'\)（真）</td><td><b>長期</b>：完工多年後的邊坡、擋土牆、承載力</td><td>SM-2024-1、SM-2025-2</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>為什麼實務上很少做 CD？</b>因為黏土的滲透係數極低（約 \(10^{-8}\sim10^{-11}\) m/s），
+要讓孔隙水壓在剪切過程中始終保持為零，加載速率必須慢到<b>數天到一、兩週</b>。
+CU 試驗只要在剪切階段<b>量測</b> \(u\) 就能得到同樣的 \(c',\phi'\)，幾小時內完成 ——
+<a class="qlink" href="problems-view/SM-2025-2.html" target="_blank">SM-2025-2</a> 正是這個邏輯：<b>用 CU 的結果去預測 CD 會發生什麼</b>。
+</div>
+
+<div class="box">
+<b>手算：SM-2025-2 —— 用 CU 預測 CD</b><br>
+兩組 CU 試驗，先各自轉成有效應力（\(\sigma'=\sigma-u\)）：
+$$\text{試體一：}\ \sigma_3'=75-35=40,\quad \sigma_1'=115-35=80$$
+$$\text{試體二：}\ \sigma_3'=150-70=80,\quad \sigma_1'=220-70=150$$
+代入 \(\sigma_1'=\sigma_3'N_\phi+2c'\sqrt{N_\phi}\) 列聯立，<b>相減消去凝聚力項</b>：
+$$150-80=(80-40)N_\phi\ \Rightarrow\ N_\phi=\frac{70}{40}=1.75$$
+$$80=40(1.75)+2c'\sqrt{N_\phi}\ \Rightarrow\ 2c'\sqrt{N_\phi}=10$$
+CD 試驗 \(u=0\)，故 \(\sigma_3'=200\)：
+$$\sigma_1'=200(1.75)+10=360\ \Rightarrow\ \boxed{\Delta\sigma=360-200=160\ \text{kN/m}^2}$$
+<b>技巧</b>：全程不必解出 \(\phi'\) 與 \(c'\)（若要：\(\phi'=15.83^\circ\)、\(c'=3.78\) kPa），
+保留 \(N_\phi\) 與常數項 10 直接代入，數字乾淨且零進位誤差。<br>
+<b>自我檢查</b>：\(N_\phi=1.75\) 與常數 10 都是漂亮數字 —— <b>算出醜陋小數時，多半是忘了扣孔隙水壓。</b>
+</div>
+</section>
+<section id="s3">
+<h2>§3　孔隙水壓參數 \(A\)、\(B\)：把「土想變形」翻譯成「水壓變多少」</h2>
+
+<div class="lead">
+不排水加載時，土壤<b>想改變體積但不被允許</b>，這股被壓抑的體積變化傾向就轉成孔隙水壓。
+Skempton 用兩個係數把它量化：
+$$\Delta u=B\left[\Delta\sigma_3+A\left(\Delta\sigma_1-\Delta\sigma_3\right)\right]$$
+\(B\) 管的是<b>飽和度</b>（等向部分），\(A\) 管的是<b>剪切時的脹縮傾向</b>（偏差部分）。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- left: contractive -->
+  <rect x="20" y="20" width="410" height="280" rx="10" fill="#ffebee" stroke="#ef9a9a" stroke-width="1.6"/>
+  <text x="36" y="46" font-size="14.5" font-weight="bold" fill="#c62828">鬆散砂／正常壓密黏土（NC）</text>
+  <g fill="#bcaaa4" stroke="#795548" stroke-width="1.2">
+    <circle cx="80" cy="90" r="15"/><circle cx="120" cy="106" r="15"/><circle cx="160" cy="88" r="15"/>
+    <circle cx="96" cy="132" r="15"/><circle cx="142" cy="142" r="15"/><circle cx="72" cy="168" r="15"/>
+    <circle cx="126" cy="180" r="15"/><circle cx="168" cy="150" r="15"/>
+  </g>
+  <text x="60" y="212" font-size="12" fill="#795548">孔隙大、顆粒沒卡住</text>
+  <path d="M206 130 L246 130" stroke="#c62828" stroke-width="2.6" marker-end="url(#a1)"/>
+  <text x="204" y="120" font-size="11.5" fill="#c62828">剪切</text>
+  <g fill="#bcaaa4" stroke="#795548" stroke-width="1.2">
+    <circle cx="288" cy="100" r="15"/><circle cx="320" cy="112" r="15"/><circle cx="352" cy="100" r="15"/>
+    <circle cx="298" cy="132" r="15"/><circle cx="332" cy="142" r="15"/><circle cx="288" cy="164" r="15"/>
+    <circle cx="322" cy="174" r="15"/><circle cx="356" cy="132" r="15"/>
+  </g>
+  <text x="272" y="212" font-size="12" fill="#795548">顆粒滾進孔隙 → 體積想<tspan font-weight="bold">縮</tspan></text>
+  <text x="36" y="244" font-size="13.5" font-weight="bold" fill="#c62828">不排水 ⟹ 水被擠壓 ⟹ Δu &gt; 0</text>
+  <text x="36" y="268" font-size="15" font-weight="bold" fill="#c62828">A &gt; 0（NC 黏土 Af ≈ 0.5 ~ 1.0）</text>
+  <text x="36" y="290" font-size="12" fill="#607d8b">有效應力被吃掉 → 不排水強度低於排水強度</text>
+
+  <!-- right: dilative -->
+  <rect x="450" y="20" width="410" height="280" rx="10" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1.6"/>
+  <text x="466" y="46" font-size="14.5" font-weight="bold" fill="#2e7d32">緊密砂／過壓密黏土（OC）</text>
+  <g fill="#bcaaa4" stroke="#795548" stroke-width="1.2">
+    <circle cx="510" cy="98" r="15"/><circle cx="540" cy="98" r="15"/><circle cx="570" cy="98" r="15"/>
+    <circle cx="525" cy="126" r="15"/><circle cx="555" cy="126" r="15"/><circle cx="510" cy="154" r="15"/>
+    <circle cx="540" cy="154" r="15"/><circle cx="570" cy="154" r="15"/>
+  </g>
+  <text x="492" y="212" font-size="12" fill="#795548">排列緊密、互相咬住</text>
+  <path d="M614 130 L654 130" stroke="#2e7d32" stroke-width="2.6" marker-end="url(#a2)"/>
+  <text x="612" y="120" font-size="11.5" fill="#2e7d32">剪切</text>
+  <g fill="#bcaaa4" stroke="#795548" stroke-width="1.2">
+    <circle cx="696" cy="90" r="15"/><circle cx="732" cy="86" r="15"/><circle cx="768" cy="92" r="15"/>
+    <circle cx="712" cy="126" r="15"/><circle cx="752" cy="126" r="15"/><circle cx="694" cy="164" r="15"/>
+    <circle cx="732" cy="168" r="15"/><circle cx="772" cy="160" r="15"/>
+  </g>
+  <text x="674" y="212" font-size="12" fill="#795548">顆粒得爬過彼此 → 體積想<tspan font-weight="bold">脹</tspan></text>
+  <text x="466" y="244" font-size="13.5" font-weight="bold" fill="#2e7d32">不排水 ⟹ 水被吸住 ⟹ Δu &lt; 0</text>
+  <text x="466" y="268" font-size="15" font-weight="bold" fill="#2e7d32">A &lt; 0（重過壓密黏土 Af 可到 −0.5）</text>
+  <text x="466" y="290" font-size="12" fill="#607d8b">有效應力反被提高 → 不排水強度高於排水強度</text>
+
+  <defs>
+    <marker id="a1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#c62828"/></marker>
+    <marker id="a2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#2e7d32"/></marker>
+  </defs>
+</svg>
+<div class="cap">\(A\) 的正負完全由「剪切時土想脹還是想縮」決定。<b>想縮 → 擠水 → 正孔壓；想脹 → 吸水 → 負孔壓。</b>記住這句話，就不必背 \(A_f\) 的典型值表 —— 從土的鬆密狀態就能判斷正負。</div>
+</div>
+
+<h3>3.1　三軸剪切階段的簡化</h3>
+
+<p>常規三軸壓縮試驗在剪切階段<b>圍壓保持不變</b>（\(\Delta\sigma_3=0\)），飽和土 \(B=1\)，於是公式塌縮成一行：</p>
+
+$$\Delta u=A_f\,\Delta\sigma_d\ \Longrightarrow\ \boxed{A_f=\frac{u_f}{\Delta\sigma_d}}$$
+
+<table>
+<thead><tr><th style="width:22%">題目</th><th style="width:34%">計算</th><th>\(A_f\)</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="problems-view/SM-2018-2.html" target="_blank">SM-2018-2</a></td><td>\(67/85\)</td><td>0.788（NC，落在典型範圍）</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2013-3.html" target="_blank">SM-2013-3</a></td><td>\((125-0)/(155-0)\)</td><td>0.806</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2012-1.html" target="_blank">SM-2012-1</a></td><td>\(39.12/(2\times50)\)</td><td>0.391（偏低但仍合理）</td></tr>
+</tbody>
+</table>
+
+<div class="why">
+<b>\(A_f\) 是很好的答案檢查器。</b>NC 黏土的 \(A_f\) 典型落在 \(0.5\sim1.0\)。
+算完題目順手回推 \(A_f\)，若得到 3.5 或 \(-2\)，代表前面的 \(u_f\) 或 \(\Delta\sigma_d\) 有問題。
+SM-2012-1 的解析就用這招自我驗證（回推得 0.39，雖偏低但仍在合理範圍，故判定計算自洽）。
+<b>這是本單元少數能「事後檢查」的機會，不要放過。</b>
+</div>
+
+<div class="trap">
+<b>陷阱：\(\Delta\sigma_1\) 與 \(\Delta\sigma_3\) 的相減順序。</b>
+公式裡是 \(A(\Delta\sigma_1-\Delta\sigma_3)\)，\(\Delta\sigma_1\) 必須是<b>大</b>主應力增量。
+<a class="qlink" href="problems-view/SM-2008-2.html" target="_blank">SM-2008-2</a> 中 \(\Delta\sigma_v=\frac23\Delta q>\Delta\sigma_h=\frac13\Delta q\)，
+所以垂直向是大主應力方向；若顛倒，\(\Delta u\) 會算錯而整題翻盤。
+<b>判準：先比較兩個增量的大小，再決定誰是 \(\Delta\sigma_1\)。</b>
+</div>
+
+<h3>3.2　現地應用：預測不排水加載會不會破壞</h3>
+
+<p>三軸試驗以外，Skempton 公式真正的價值在於<b>預測現地的超額孔隙水壓</b>，
+再搭配有效應力破壞準則判斷安全性。這是 <a class="qlink" href="problems-view/SM-2008-2.html" target="_blank">SM-2008-2</a> 的全部內容。</p>
+
+<div class="box">
+<b>手算：SM-2008-2 —— 儲水槽的水可以蓄多高？</b>
+
+<p><b>① 初始有效應力</b>（A 點在地表下 5.5 m；砂土 \(S=50\%,e=0.7,G_s=2.66\)）</p>
+$$\gamma_{sand}=\frac{G_s+Se}{1+e}\gamma_w=\frac{2.66+0.35}{1.7}\times9.81=17.37\ \text{kN/m}^3$$
+$$\sigma_{v0}=17.37(2)+19(3.5)=101.24,\quad u_0=9.81(3.5)=34.34\ \Rightarrow\ \sigma_{v0}'=66.90\ \text{kPa}$$
+$$\sigma_{h0}'=K_0\sigma_{v0}'=0.5(66.90)=33.45\ \text{kPa}$$
+
+<p><b>② 加載造成的應力與孔壓增量</b>（題目給 \(\Delta\sigma_v=\frac23\Delta q\)、\(\Delta\sigma_h=\frac13\Delta q\)；飽和黏土 \(B=1\)）</p>
+$$\Delta u=\tfrac13\Delta q+0.7\left(\tfrac23\Delta q-\tfrac13\Delta q\right)=\tfrac{1.7}{3}\Delta q=0.567\Delta q$$
+
+<p><b>③ 破壞時的有效應力（皆為 \(\Delta q\) 的函數）</b></p>
+$$\sigma_{1f}'=66.90+\tfrac23\Delta q-\tfrac{1.7}{3}\Delta q=66.90+0.1\Delta q$$
+$$\sigma_{3f}'=33.45+\tfrac13\Delta q-\tfrac{1.7}{3}\Delta q=33.45-0.233\Delta q$$
+
+<p><b>④ 代入破壞準則</b>（\(c'=0,\phi'=30^\circ\Rightarrow K_p=3\)）</p>
+$$66.90+0.1\Delta q=3\left(33.45-0.233\Delta q\right)\ \Rightarrow\ 0.8\Delta q=33.45\ \Rightarrow\ \Delta q=41.81\ \text{kPa}$$
+$$H=\frac{\Delta q}{\gamma_w}=\frac{41.81}{9.81}=\boxed{4.26\ \text{m}}$$
+
+<p><b>⑤ 觀察一件事</b>：\(\sigma_{1f}'\) 的係數是 \(+0.1\)、\(\sigma_{3f}'\) 的係數是 \(-0.233\) ——
+<b>加載使大主應力有效值微幅上升，小主應力有效值卻下降</b>。莫爾圓一邊被推、一邊被拉，
+所以會迅速長大碰到包絡線。這就是「不排水快速加載最危險」的量化樣貌。</p>
+</div>
+
+<div class="trap">
+<b>陷阱：把 \(\Delta\sigma_v\) 直接當成有效應力增量。</b>
+不排水加載必須先扣掉 \(\Delta u\)。本題若忘記扣，\(\sigma_{1f}'=66.90+0.667\Delta q\)、\(\sigma_{3f}'=33.45+0.333\Delta q\)，
+兩者<b>同時變大</b>，而且增量比恰好 2:1、與初始的 \(66.90/33.45=2\) 相同，所以 \(\sigma_1'/\sigma_3'\) <b>永遠等於 2</b>，永遠到不了 \(K_p=3\) —— 會得到「水位蓄多高都不會破壞」的錯誤結論。
+</div>
+<div class="fig">
+<svg viewBox="0 0 880 380" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei,Noto Sans TC,sans-serif">
+  <line x1="60" y1="300" x2="611.2" y2="300" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <line x1="60" y1="300" x2="60" y2="29.6" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <text x="607.2" y="292" font-size="12.5" fill="#607d8b" text-anchor="end">σ′ (kPa)</text>
+  <text x="68" y="35.6" font-size="12.5" fill="#607d8b">τ (kPa)</text>
+  <line x1="60" y1="300" x2="486.4" y2="53.8" stroke="#c62828" stroke-width="2.4"/>
+  <text x="490.4" y="57.8" font-size="12.5" fill="#c62828" font-weight="bold">φ′ = 30°</text>
+  <line x1="60" y1="300" x2="600.8" y2="108.8" stroke="#1565c0" stroke-width="1.6" stroke-dasharray="6 4"/>
+  <text x="600.8" y="100.8" font-size="12" fill="#1565c0" font-weight="bold" text-anchor="end">σ<tspan dy="3.6" font-size="8.9">1</tspan><tspan dy="-3.6">′/σ</tspan><tspan dy="3.6" font-size="8.9">3</tspan><tspan dy="-3.6">′ = 2 的切線（19.47°）</tspan></text>
+  <path d="M233.9 300 A87 87 0 0 1 407.9 300 Z" fill="#eceff1" stroke="#90a4ae" stroke-width="1.8"/>
+  <path d="M306.4 300 A123.2 123.2 0 0 1 552.8 300" fill="none" stroke="#1565c0" stroke-width="2.0" stroke-dasharray="7 4"/>
+  <path d="M183.2 300 A123.2 123.2 0 0 1 429.6 300 Z" fill="#ffebee" stroke="#c62828" stroke-width="2.4" fill-opacity="0.55"/>
+  <circle cx="244.8" cy="193.3" r="5" fill="#c62828"/>
+  <text x="236.8" y="185.3" font-size="12" fill="#c62828" font-weight="bold" text-anchor="end" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">碰到包絡線</text>
+  <circle cx="183.2" cy="300" r="3.5" fill="#c62828"/>
+  <circle cx="233.9" cy="300" r="3.5" fill="#607d8b"/>
+  <circle cx="306.4" cy="300" r="3.5" fill="#1565c0"/>
+  <circle cx="407.9" cy="300" r="3.5" fill="#607d8b"/>
+  <circle cx="429.6" cy="300" r="3.5" fill="#c62828"/>
+  <circle cx="552.8" cy="300" r="3.5" fill="#1565c0"/>
+  <text x="183.2" y="318" font-size="11" fill="#c62828" font-weight="bold" text-anchor="end">23.7</text>
+  <text x="235.9" y="318" font-size="11" fill="#607d8b" font-weight="bold" text-anchor="start">33.45</text>
+  <text x="306.4" y="332" font-size="11" fill="#1565c0" font-weight="bold" text-anchor="middle">47.4</text>
+  <text x="405.9" y="318" font-size="11" fill="#607d8b" font-weight="bold" text-anchor="end">66.90</text>
+  <text x="431.6" y="318" font-size="11" fill="#c62828" font-weight="bold" text-anchor="start">71.1</text>
+  <text x="552.8" y="318" font-size="11" fill="#1565c0" font-weight="bold" text-anchor="middle">94.8</text>
+  <line x1="233.9" y1="346" x2="185.2" y2="346" stroke="#c62828" stroke-width="2.2" marker-end="url(#arc62828)"/>
+  <text x="208.6" y="362" font-size="11.5" fill="#c62828" font-weight="bold" text-anchor="middle">σ<tspan dy="3.4" font-size="8.5">3</tspan><tspan dy="-3.4">′ −9.76</tspan></text>
+  <line x1="407.9" y1="346" x2="427.6" y2="346" stroke="#c62828" stroke-width="2.2" marker-end="url(#arc62828)"/>
+  <text x="432.8" y="362" font-size="11.5" fill="#c62828" font-weight="bold" text-anchor="middle">σ<tspan dy="3.4" font-size="8.5">1</tspan><tspan dy="-3.4">′ +4.18</tspan></text>
+  <rect x="640" y="40" width="232" height="252" rx="9" fill="#fff" stroke="#dfe6ea" stroke-width="1.4"/>
+  <text x="654" y="64" font-size="12.5" fill="#1565c0" font-weight="bold">Δq = 41.81 kPa（H = 4.26 m）</text>
+  <line x1="654" y1="86" x2="680" y2="86" stroke="#90a4ae" stroke-width="3"/>
+  <text x="688" y="90" font-size="12" fill="#37474f">加載前 (33.45, 66.90)</text>
+  <line x1="654" y1="110" x2="680" y2="110" stroke="#c62828" stroke-width="3"/>
+  <text x="688" y="114" font-size="12" fill="#c62828" font-weight="bold">正確：扣 Δu = 23.69</text>
+  <text x="688" y="132" font-size="11.5" fill="#c62828">(23.69, 71.08) 剛好相切</text>
+  <line x1="654" y1="156" x2="680" y2="156" stroke="#1565c0" stroke-width="2.4" stroke-dasharray="7 4"/>
+  <text x="688" y="160" font-size="12" fill="#1565c0" font-weight="bold">忘了扣 Δu</text>
+  <text x="688" y="178" font-size="11.5" fill="#1565c0">(47.39, 94.78)</text>
+  <text x="654" y="206" font-size="12" fill="#37474f">初始比值 66.90/33.45 = 2</text>
+  <text x="654" y="226" font-size="12" fill="#37474f">增量比值 Δσ<tspan dy="3.6" font-size="8.9">v</tspan><tspan dy="-3.6">/Δσ</tspan><tspan dy="3.6" font-size="8.9">h</tspan><tspan dy="-3.6"> = 2</tspan></text>
+  <text x="654" y="250" font-size="12" fill="#1565c0" font-weight="bold">→ 不扣 Δu，σ<tspan dy="3.6" font-size="8.9">1</tspan><tspan dy="-3.6">′/σ</tspan><tspan dy="3.6" font-size="8.9">3</tspan><tspan dy="-3.6">′ 永遠 = 2</tspan></text>
+  <text x="654" y="272" font-size="12" fill="#1565c0" font-weight="bold">＜ K<tspan dy="3.6" font-size="8.9">p</tspan><tspan dy="-3.6"> = 3，永遠不會破壞</tspan></text>
+  <defs><marker id="ar455a64" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#455a64"/></marker><marker id="arc62828" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#c62828"/></marker></defs>
+</svg>
+<div class="cap">數值取自 <a class="qlink" href="problems-view/SM-2008-2.html" target="_blank">SM-2008-2</a>，三個圓都按比例繪製。灰圓是加載前、紅圓是 \(\Delta q=41.81\) 時扣掉 \(\Delta u=23.69\) 的正確狀態（左端退 9.76、右端只進 4.18，圓被「拉大」而剛好碰到 \(\phi'=30^\circ\)）。藍色虛線圓是同一個 \(\Delta q\) 但忘了扣 \(\Delta u\)：它和灰圓切在同一條 \(\sigma_1'/\sigma_3'=2\) 的線上，<b>不扣 \(\Delta u\) 的圓不管 \(\Delta q\) 多大都只會沿著這條線放大，永遠碰不到包絡線</b>。</div>
+</div>
+
+
+<div class="why">
+<b>為什麼題目給了直徑 \(D=10\) m 卻用不到？</b>
+因為題目已經直接給了 \(\Delta\sigma_v\)、\(\Delta\sigma_h\) 與 \(\Delta q\) 的換算關係 ——
+那正是圓形均布載重下方 Boussinesq 應力分佈的結果。
+題目替你查好了表，\(D\) 只是情境描述。<b>但若題目沒給這組關係，就得自己用 Boussinesq 公式算</b>，
+這時 \(D\) 與深度的比值就是關鍵。
+</div>
+</section>
+<section id="s4">
+<h2>§4　NC 黏土的特權：\(c'=0\) 打開的一整排捷徑</h2>
+
+<div class="lead">
+正常壓密黏土（NC）從未受過比現在更大的應力，所以它沒有「記憶」帶來的額外黏結力：
+<b>\(c'=0\)，而且總應力包絡線也過原點（\(c_{cu}=0\)）</b>。
+包絡線一旦過原點，\(\sin\phi=\dfrac{R}{C}\) 就直接成立 —— 這一個條件，讓本單元一半的題目變成兩行計算。
+</div>
+
+<h3>4.1　捷徑一：破壞應力與圍壓成正比</h3>
+
+<p>包絡線過原點 ⟹ 所有破壞莫爾圓<b>互為相似形</b>。所以對同一種 NC 黏土：</p>
+
+$$\frac{\Delta\sigma_d}{\sigma_3}=\text{定值}\qquad\Longrightarrow\qquad
+(\Delta\sigma_d)_2=(\sigma_3)_2\cdot\frac{(\Delta\sigma_d)_1}{(\sigma_3)_1}$$
+
+<div class="box">
+<b>SM-2018-2 第一小題秒解</b>：第一試體 \(\sigma_3=100,\Delta\sigma_d=85\)；第二試體 \(\sigma_3=250\)。
+$$(\Delta\sigma_d)_2=250\times\frac{85}{100}=\boxed{212.5\ \text{kPa}}$$
+<b>驗算（用 \(\phi_{cu}\) 繞遠路）</b>：\(\sigma_1=250\tan^2(45^\circ+8.68^\circ)=250(1.850)=462.5\)，
+\(\Delta\sigma_d=462.5-250=212.5\ \checkmark\)。兩法一致，但比例法只要三秒。
+</div>
+<div class="fig">
+<svg viewBox="0 0 880 262" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei,Noto Sans TC,sans-serif">
+  <line x1="50" y1="222" x2="590.8" y2="222" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <line x1="50" y1="222" x2="50" y2="45.2" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <text x="586.8" y="214" font-size="12.5" fill="#607d8b" text-anchor="end">σ (kPa)</text>
+  <text x="58" y="51.2" font-size="12.5" fill="#607d8b">τ (kPa)</text>
+  <line x1="50" y1="222" x2="575.2" y2="57.9" stroke="#c62828" stroke-width="2.4"/>
+  <text x="579.2" y="61.9" font-size="12.5" fill="#c62828" font-weight="bold">φ<tspan dy="3.8" font-size="9.2">cu</tspan><tspan dy="-3.8"> = 17.35°</tspan></text>
+  <path d="M154 222 A44.2 44.2 0 0 1 242.4 222 Z" fill="#e3f2fd" stroke="#1565c0" stroke-width="2.2"/>
+  <line x1="198.2" y1="222" x2="185" y2="179.8" stroke="#1565c0" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <circle cx="185" cy="179.8" r="4.5" fill="#1565c0"/>
+  <circle cx="198.2" cy="222" r="3.5" fill="#1565c0"/>
+  <text x="154" y="240" font-size="11.5" fill="#1565c0" font-weight="bold" text-anchor="middle">100</text>
+  <text x="242.4" y="240" font-size="11.5" fill="#1565c0" font-weight="bold" text-anchor="middle">185</text>
+  <text x="206.2" y="210" font-size="12" fill="#1565c0" font-weight="bold" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">試體一 R = 42.5</text>
+  <path d="M310 222 A110.5 110.5 0 0 1 531 222 Z" fill="#fff3e0" stroke="#e65100" stroke-width="2.2"/>
+  <line x1="420.5" y1="222" x2="387.5" y2="116.5" stroke="#e65100" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <circle cx="387.5" cy="116.5" r="4.5" fill="#e65100"/>
+  <circle cx="420.5" cy="222" r="3.5" fill="#e65100"/>
+  <text x="310" y="240" font-size="11.5" fill="#e65100" font-weight="bold" text-anchor="middle">250</text>
+  <text x="531" y="240" font-size="11.5" fill="#e65100" font-weight="bold" text-anchor="middle">462.5</text>
+  <text x="428.5" y="210" font-size="12" fill="#e65100" font-weight="bold" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">試體二 R = 106.25</text>
+  <rect x="612" y="100" width="260" height="134" rx="9" fill="#fff" stroke="#dfe6ea" stroke-width="1.4"/>
+  <text x="626" y="124" font-size="12.5" fill="#1565c0" font-weight="bold">同一條過原點直線切兩圓 → 相似</text>
+  <text x="626" y="148" font-size="12" fill="#37474f">R/C = 42.5/142.5 = 106.25/356.25</text>
+  <text x="626" y="168" font-size="12" fill="#37474f">　　= 0.2982 = sinφ<tspan dy="3.6" font-size="8.9">cu</tspan></text>
+  <text x="626" y="192" font-size="12" fill="#37474f">Δσ<tspan dy="3.6" font-size="8.9">d</tspan><tspan dy="-3.6">/σ</tspan><tspan dy="3.6" font-size="8.9">3</tspan><tspan dy="-3.6"> = 85/100 = 212.5/250</tspan></text>
+  <text x="626" y="214" font-size="12" fill="#e65100" font-weight="bold">放大倍率 250/100 = 2.5</text>
+  <defs><marker id="ar455a64" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#455a64"/></marker></defs>
+</svg>
+<div class="cap">數值取自 <a class="qlink" href="problems-view/SM-2018-2.html" target="_blank">SM-2018-2</a> 的兩個總應力圓（按比例繪製）。兩圓與同一條過原點直線相切，所以「原點—圓心—切點」構成兩個相似直角三角形，<b>整張圖以原點為中心放大 2.5 倍</b>就從試體一變成試體二 —— \(\Delta\sigma_d\) 自然也乘 2.5。若包絡線有截距（OC），放大中心不在原點，這個比例就不成立。</div>
+</div>
+
+
+<div class="trap">
+<b>比例性只對 NC 有效。</b>若是 OC 黏土（\(c'>0\)），包絡線不過原點，
+莫爾圓就<b>不再相似</b>，比例關係立刻失效，必須老實用 \(\sigma_1'=\sigma_3'K_p+2c'\sqrt{K_p}\)。
+<b>判準：題目有沒有寫「正常壓密」四個字。</b>沒寫就不能用捷徑。
+</div>
+
+<h3>4.2　捷徑二：\(S_u\) 與現地有效覆土壓的固定比值</h3>
+
+<p>一個完美取樣、未受解壓影響的 NC 黏土試體，做 UU 試驗時破壞的<b>有效</b>莫爾圓，其大主應力恰好回到現地值 \(\sigma_{v0}'\)（這對應 \(A_f=1\) 的假設）。於是：</p>
+
+<div class="fig">
+<svg viewBox="0 0 880 360" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei,Noto Sans TC,sans-serif">
+  <line x1="60" y1="292" x2="543.6" y2="292" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <line x1="60" y1="292" x2="60" y2="52.8" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <text x="539.6" y="284" font-size="12.5" fill="#607d8b" text-anchor="end">σ, σ′ (kPa)</text>
+  <text x="68" y="58.8" font-size="12.5" fill="#607d8b">τ (kPa)</text>
+  <line x1="60" y1="292" x2="450" y2="84.6" stroke="#c62828" stroke-width="2.4"/>
+  <text x="446" y="76.6" font-size="12.5" fill="#c62828" font-weight="bold" text-anchor="end">c′ = 0，φ′ = 28°</text>
+  <path d="M104 292 A44 44 0 0 0 98.8 271.3" fill="none" stroke="#c62828" stroke-width="1.6"/>
+  <text x="108" y="284" font-size="12.5" fill="#c62828" font-weight="bold">φ′</text>
+  <path d="M165 292 A93 93 0 0 1 350.9 292 Z" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2.4"/>
+  <path d="M190 292 A93 93 0 0 1 375.9 292" fill="none" stroke="#e65100" stroke-width="2.0" stroke-dasharray="7 4"/>
+  <line x1="60" y1="199" x2="528" y2="199" stroke="#e65100" stroke-width="1.6" stroke-dasharray="4 4"/>
+  <text x="528" y="193" font-size="12" fill="#e65100" font-weight="bold" text-anchor="end">總應力：φ<tspan dy="3.6" font-size="8.9">u</tspan><tspan dy="-3.6"> = 0，S</tspan><tspan dy="3.6" font-size="8.9">u</tspan><tspan dy="-3.6"> = 35.75</tspan></text>
+  <circle cx="214.4" cy="209.9" r="4.5" fill="#2e7d32"/>
+  <line x1="258" y1="292" x2="350.9" y2="292" stroke="#2e7d32" stroke-width="2.8"/>
+  <text x="280" y="282" font-size="12.5" fill="#2e7d32" font-weight="bold">R = S<tspan dy="3.8" font-size="9.2">u</tspan></text>
+  <circle cx="258" cy="292" r="3.5" fill="#2e7d32"/>
+  <circle cx="165" cy="292" r="4" fill="#2e7d32"/>
+  <line x1="165" y1="296" x2="165" y2="300" stroke="#2e7d32" stroke-width="1"/>
+  <text x="161" y="312" font-size="12" fill="#2e7d32" font-weight="bold" text-anchor="end">σ<tspan dy="3.6" font-size="8.9">3f</tspan><tspan dy="-3.6">′ = 40.40</tspan></text>
+  <circle cx="190" cy="292" r="4" fill="#e65100"/>
+  <line x1="190" y1="296" x2="190" y2="300" stroke="#e65100" stroke-width="1"/>
+  <text x="194" y="312" font-size="12" fill="#e65100" font-weight="bold" text-anchor="start">σ<tspan dy="3.6" font-size="8.9">3</tspan><tspan dy="-3.6"> = 50</tspan></text>
+  <circle cx="350.9" cy="292" r="4" fill="#2e7d32"/>
+  <line x1="350.9" y1="296" x2="350.9" y2="318" stroke="#2e7d32" stroke-width="1"/>
+  <text x="350.9" y="330" font-size="12" fill="#2e7d32" font-weight="bold" text-anchor="middle">σ<tspan dy="3.6" font-size="8.9">1f</tspan><tspan dy="-3.6">′ = σ</tspan><tspan dy="3.6" font-size="8.9">v0</tspan><tspan dy="-3.6">′ = 111.9</tspan></text>
+  <circle cx="375.9" cy="292" r="4" fill="#e65100"/>
+  <line x1="375.9" y1="296" x2="375.9" y2="300" stroke="#e65100" stroke-width="1"/>
+  <text x="379.9" y="312" font-size="12" fill="#e65100" font-weight="bold" text-anchor="start">σ<tspan dy="3.6" font-size="8.9">1</tspan><tspan dy="-3.6"> = 121.50</tspan></text>
+  <line x1="190" y1="262" x2="167" y2="262" stroke="#6a1b9a" stroke-width="2.2" marker-end="url(#ar6a1b9a)"/>
+  <text x="196" y="266" font-size="12" fill="#6a1b9a" font-weight="bold" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">u<tspan dy="3.6" font-size="8.9">f</tspan><tspan dy="-3.6"> = 9.60</tspan></text>
+  <rect x="586" y="120" width="286" height="170" rx="9" fill="#fff" stroke="#dfe6ea" stroke-width="1.4"/>
+  <text x="600" y="144" font-size="13" fill="#1565c0" font-weight="bold">兩行推導</text>
+  <text x="600" y="168" font-size="12.5" fill="#37474f">sinφ′ = R/C，且 σ<tspan dy="3.8" font-size="9.2">1</tspan><tspan dy="-3.8">′ = C + R = σ</tspan><tspan dy="3.8" font-size="9.2">v0</tspan><tspan dy="-3.8">′</tspan></text>
+  <text x="600" y="190" font-size="12.5" fill="#37474f">⟹ sinφ′ = S<tspan dy="3.8" font-size="9.2">u</tspan><tspan dy="-3.8"> / (σ</tspan><tspan dy="3.8" font-size="9.2">v0</tspan><tspan dy="-3.8">′ − S</tspan><tspan dy="3.8" font-size="9.2">u</tspan><tspan dy="-3.8">)</tspan></text>
+  <text x="600" y="216" font-size="13.5" fill="#2e7d32" font-weight="bold">S<tspan dy="4" font-size="10">u</tspan><tspan dy="-4"> = σ</tspan><tspan dy="4" font-size="10">v0</tspan><tspan dy="-4">′·sinφ′/(1+sinφ′)</tspan></text>
+  <text x="600" y="238" font-size="12" fill="#37474f">= 111.9 × 0.4695/1.4695 = 35.75</text>
+  <text x="600" y="262" font-size="12" fill="#607d8b">S<tspan dy="3.6" font-size="8.9">u</tspan><tspan dy="-3.6">/σ</tspan><tspan dy="3.6" font-size="8.9">v0</tspan><tspan dy="-3.6">′ = 0.319（φ′=30° 時 = 1/3）</tspan></text>
+  <text x="600" y="280" font-size="11.5" fill="#e65100">總應力圓＝有效圓右移 u<tspan dy="3.4" font-size="8.5">f</tspan><tspan dy="-3.4">，半徑不變</tspan></text>
+  <defs><marker id="ar455a64" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#455a64"/></marker><marker id="ar6a1b9a" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#6a1b9a"/></marker></defs>
+</svg>
+<div class="cap">關鍵假設是<b>圓的右緣鎖在 \(\sigma_{v0}'\)</b>（來自 \(A_f=1\)）。一旦鎖住，圓的大小就被包絡線唯一決定，\(S_u\) 也就被唯一決定。橘色虛線圓是第二小題施加 \(\sigma_3=50\) 時的<b>總應力圓</b>：與有效圓同半徑、右移 \(u_f=9.60\)，頂點落在 \(\phi_u=0\) 的水平線上。數值取自 <a class="qlink" href="problems-view/SM-2010-1.html" target="_blank">SM-2010-1</a>（\(\sigma_{v0}'=111.9\)、\(\phi'=28^\circ\)、\(S_u=35.75\)、\(\sigma_{3f}'=40.40\)），全圖按比例繪製。</div>
+</div>
+
+$$\boxed{\ \frac{S_u}{\sigma_{v0}'}=\frac{\sin\phi'}{1+\sin\phi'}\ }$$
+
+<div class="why">
+<b>這個比值是 SHANSEP 的理論雛形。</b>它說：NC 黏土的不排水強度<b>不是一個定值，而是隨深度線性成長</b>
+（因為 \(\sigma_{v0}'\) 隨深度線性成長）。
+典型值 \(S_u/\sigma_{v0}'\approx0.2\sim0.35\)，與 SHANSEP 的實測正規化強度比高度吻合。<br>
+<b>極限檢查</b>：\(\phi'\to0\) 時比值 \(\to0\)（無摩擦就無強度）；\(\phi'\to90^\circ\) 時比值 \(\to1/2\)。
+所以這個比值<b>永遠小於 0.5</b> —— 算出 0.8 就是錯的。
+</div>
+
+<div class="box">
+<b>手算：SM-2010-1</b>（\(\gamma_{sat}=17.5\)、\(\phi'=28^\circ\)、取樣深度 12 m、水位 GL−2 m）
+$$\sigma_{v0}=17.5(12)=210,\quad u_0=9.81(10)=98.1\ \Rightarrow\ \sigma_{v0}'=111.9\ \text{kPa}$$
+$$S_u=111.9\times\frac{\sin28^\circ}{1+\sin28^\circ}=111.9\times\frac{0.4695}{1.4695}=\boxed{35.75\ \text{kPa}}$$
+<b>第二小題：施加 \(\sigma_3=50\) kPa 時試體內的孔隙水壓</b>
+$$\sigma_{3f}'=\frac{\sigma_{1f}'}{K_p}=\frac{111.9}{\tan^2 59^\circ}=\frac{111.9}{2.7698}=40.40\ \text{kPa}$$
+$$u_f=\sigma_3-\sigma_{3f}'=50-40.40=\boxed{9.60\ \text{kPa}}$$
+<b>自我檢查</b>：\(S_u/\sigma_{v0}'=35.75/111.9=0.319\)，落在 \(0.2\sim0.35\) 的典型帶內 ✓
+</div>
+
+<div class="trap">
+<b>陷阱：水位以上的單位重。</b>SM-2010-1 只給 \(\gamma_{sat}\)，水位在 GL−2 m。
+標準處理是<b>假設水位以上的黏土因毛細作用仍近似飽和</b>，全段用 \(17.5\) kN/m³ 算總應力。
+SM-2012-1 也用同樣假設。<b>作答時必須把這個假設寫在卷面上</b> —— 沒寫可能被扣分，寫了即使數值不同也通常給分。
+</div>
+
+<h3>4.3　捷徑三：反過來，由 \(S_u\) 推回現地應力與取樣深度</h3>
+
+<div class="box">
+<b>手算：SM-2012-1</b>（NC 黏土，\(\gamma_{sat}=18\)、\(\phi'=32^\circ\)、\(\phi_{cu}=22^\circ\)、\(S_u=50\)、水位 GL−2 m）
+
+<p><b>① 由總應力圓反推壓密壓力（＝現地有效覆土壓）</b>。NC ⟹ \(c_{cu}=0\)，圓心 \(=\sigma_c'+S_u\)、半徑 \(=S_u\)：</p>
+$$\sin\phi_{cu}=\frac{S_u}{\sigma_{v0}'+S_u}\ \Rightarrow\ \sigma_{v0}'=\frac{50}{\sin22^\circ}-50=133.47-50=\boxed{83.47\ \text{kPa}}$$
+
+<p><b>② 由 \(\sigma_{v0}'\) 反推深度</b>（假設水位以上毛細飽和，\(\gamma_t=\gamma_{sat}=18\)）</p>
+$$83.47=18(2)+(18-9.81)(z-2)\ \Rightarrow\ z-2=5.80\ \Rightarrow\ \boxed{z=7.80\ \text{m}}$$
+
+<p><b>③ 用有效應力圓求破壞時的孔隙水壓</b>（半徑相同，圓心左移 \(\Delta u_f\)）</p>
+$$\sin\phi'=\frac{S_u}{\sigma_{v0}'+S_u-\Delta u_f}\ \Rightarrow\ 133.47-\Delta u_f=\frac{50}{\sin32^\circ}=94.35$$
+$$\Delta u_f=\boxed{39.12\ \text{kPa}}$$
+
+<p><b>④ 自我檢查</b>：\(A_f=\Delta u_f/\Delta\sigma_d=39.12/(2\times50)=0.39\)。
+NC 黏土典型 \(0.5\sim1.0\)，0.39 偏低但仍屬合理（對應塑性較低的材料）——
+<b>數學上完全自洽，可以放心交卷。</b></p>
+</div>
+
+<div class="why">
+<b>為什麼可以把 UU 量到的 \(S_u\) 直接放進 CU 的莫爾圓？</b>
+因為題目說「同一位置取得土樣」。NC 黏土若在 CU 試驗中壓密到現地應力 \(\sigma_{v0}'\)，
+它的不排水強度就<b>等於</b>現地那塊土的 \(S_u\) —— 兩者描述的是同一個應力狀態下的同一塊土。
+這個連結是 §4.2 與 §4.3 能互相反解的根據。
+</div>
+</section>
+<section id="s5">
+<h2>§5　應力路徑：\(\phi_{cu}\) 為什麼不是土壤的性質</h2>
+
+<div class="lead">
+莫爾圓一次只能畫一個瞬間，而<b>應力路徑把整個加載歷程畫成一條線</b>。
+方法是把每個圓用它的「圓心與半徑」代表：
+$$p=\frac{\sigma_1+\sigma_3}{2}\ (\text{圓心}),\qquad q=\frac{\sigma_1-\sigma_3}{2}\ (\text{半徑}),\qquad p'=p-u$$
+一個圓縮成一個點，整段試驗就變成 \(p\!-\!q\) 平面上的一條軌跡。
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 470" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei,Noto Sans TC,sans-serif">
+  <line x1="100" y1="404" x2="680" y2="404" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <line x1="100" y1="404" x2="100" y2="40" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <path d="M94 407 l6 -5 M100 407 l6 -5" fill="none" stroke="#455a64" stroke-width="1.4"/>
+  <text x="676" y="396" font-size="12.5" fill="#607d8b" text-anchor="end">p, p′ (kPa)</text>
+  <text x="108" y="50" font-size="12.5" fill="#607d8b">q (kPa)</text>
+  <line x1="144" y1="400" x2="144" y2="408" stroke="#455a64" stroke-width="1.2"/>
+  <text x="144" y="422" font-size="11" fill="#607d8b" text-anchor="middle">220</text>
+  <line x1="232" y1="400" x2="232" y2="408" stroke="#455a64" stroke-width="1.2"/>
+  <text x="232" y="422" font-size="11" fill="#607d8b" text-anchor="middle">260</text>
+  <line x1="320" y1="400" x2="320" y2="408" stroke="#455a64" stroke-width="1.2"/>
+  <text x="320" y="422" font-size="11" fill="#607d8b" text-anchor="middle">300</text>
+  <line x1="408" y1="400" x2="408" y2="408" stroke="#455a64" stroke-width="1.2"/>
+  <text x="408" y="422" font-size="11" fill="#607d8b" text-anchor="middle">340</text>
+  <line x1="496" y1="400" x2="496" y2="408" stroke="#455a64" stroke-width="1.2"/>
+  <text x="496" y="422" font-size="11" fill="#607d8b" text-anchor="middle">380</text>
+  <line x1="584" y1="400" x2="584" y2="408" stroke="#455a64" stroke-width="1.2"/>
+  <text x="584" y="422" font-size="11" fill="#607d8b" text-anchor="middle">420</text>
+  <line x1="96" y1="272" x2="104" y2="272" stroke="#455a64" stroke-width="1.2"/>
+  <text x="92" y="276" font-size="11" fill="#607d8b" text-anchor="end">60</text>
+  <line x1="96" y1="184" x2="104" y2="184" stroke="#455a64" stroke-width="1.2"/>
+  <text x="92" y="188" font-size="11" fill="#607d8b" text-anchor="end">100</text>
+  <line x1="96" y1="101.5" x2="104" y2="101.5" stroke="#455a64" stroke-width="1.2"/>
+  <text x="92" y="105.5" font-size="11" fill="#607d8b" text-anchor="end">137.5</text>
+  <line x1="144" y1="176.5" x2="362" y2="74" stroke="#2e7d32" stroke-width="2.2"/>
+  <text x="148.4" y="169.5" font-size="11.5" fill="#2e7d32" font-weight="bold" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">K<tspan dy="3.4" font-size="8.5">f</tspan><tspan dy="-3.4">′</tspan></text>
+  <line x1="144" y1="244.6" x2="662" y2="74" stroke="#c62828" stroke-width="1.6" stroke-dasharray="7 4"/>
+  <text x="148.4" y="237.6" font-size="11.5" fill="#c62828" font-weight="bold" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">AC 總</text>
+  <line x1="144" y1="150.5" x2="290" y2="74" stroke="#e65100" stroke-width="1.6" stroke-dasharray="7 4"/>
+  <text x="148.4" y="143.5" font-size="11.5" fill="#e65100" font-weight="bold" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">LE 總</text>
+  <line x1="408" y1="272" x2="578.5" y2="101.5" stroke="#c62828" stroke-width="3"/>
+  <line x1="408" y1="272" x2="237.5" y2="101.5" stroke="#e65100" stroke-width="3"/>
+  <text x="468.4" y="227.6" font-size="12.5" fill="#c62828" font-weight="bold">AC 的 TSP（+1）</text>
+  <text x="347.6" y="227.6" font-size="12.5" fill="#e65100" font-weight="bold" text-anchor="end">LE 的 TSP（−1）</text>
+  <path d="M408 272 C401.6 259.4, 384.5 217.7, 369.5 196.1 C354.5 174.5, 328.2 156.7, 317.8 142.2 C307.4 127.7, 309.2 116, 306.8 109.2 C304.4 102.4, 304.1 102.8, 303.5 101.5" fill="none" stroke="#6a1b9a" stroke-width="3.4"/>
+  <circle cx="369.5" cy="196.1" r="3.4" fill="#6a1b9a"/>
+  <text x="363.5" y="200.1" font-size="10.5" fill="#6a1b9a" font-weight="bold" text-anchor="end" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">0.25%</text>
+  <circle cx="317.8" cy="142.2" r="3.4" fill="#6a1b9a"/>
+  <text x="311.8" y="146.2" font-size="10.5" fill="#6a1b9a" font-weight="bold" text-anchor="end" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">0.5%</text>
+  <circle cx="306.8" cy="109.2" r="3.4" fill="#6a1b9a"/>
+  <text x="300.8" y="113.2" font-size="10.5" fill="#6a1b9a" font-weight="bold" text-anchor="end" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">0.75%</text>
+  <line x1="390" y1="177.4" x2="370.4" y2="184" stroke="#6a1b9a" stroke-width="1"/>
+  <text x="392" y="181.4" font-size="12.5" fill="#6a1b9a" font-weight="bold">ESP（兩者共用）</text>
+  <line x1="237.5" y1="94.5" x2="237.5" y2="47.5" stroke="#90a4ae" stroke-width="0.9" stroke-dasharray="2 3"/>
+  <line x1="303.5" y1="94.5" x2="303.5" y2="47.5" stroke="#90a4ae" stroke-width="0.9" stroke-dasharray="2 3"/>
+  <line x1="578.5" y1="94.5" x2="578.5" y2="47.5" stroke="#90a4ae" stroke-width="0.9" stroke-dasharray="2 3"/>
+  <line x1="303.5" y1="77.5" x2="576.5" y2="77.5" stroke="#c62828" stroke-width="1.8" marker-end="url(#arc62828)"/>
+  <text x="441" y="71.5" font-size="12" fill="#c62828" font-weight="bold" text-anchor="middle" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">u<tspan dy="3.6" font-size="8.9">AC,f</tspan><tspan dy="-3.6"> = +125</tspan></text>
+  <line x1="303.5" y1="51.5" x2="239.5" y2="51.5" stroke="#e65100" stroke-width="1.8" marker-end="url(#are65100)"/>
+  <text x="231.5" y="55.5" font-size="12" fill="#e65100" font-weight="bold" text-anchor="end" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">u<tspan dy="3.6" font-size="8.9">LE,f</tspan><tspan dy="-3.6"> = −30</tspan></text>
+  <line x1="237.5" y1="101.5" x2="578.5" y2="101.5" stroke="#90a4ae" stroke-width="1" stroke-dasharray="3 3"/>
+  <circle cx="408" cy="272" r="6" fill="#1565c0"/>
+  <text x="408" y="294" font-size="12" fill="#1565c0" font-weight="bold" text-anchor="middle">起點 (340, 60)</text>
+  <circle cx="578.5" cy="101.5" r="6" fill="#c62828"/>
+  <text x="588.5" y="105.5" font-size="11.5" fill="#c62828" font-weight="bold">(417.5, 137.5)</text>
+  <circle cx="237.5" cy="101.5" r="6" fill="#e65100"/>
+  <text x="227.5" y="105.5" font-size="11.5" fill="#e65100" font-weight="bold" text-anchor="end">(262.5, 137.5)</text>
+  <circle cx="303.5" cy="101.5" r="6.5" fill="#6a1b9a"/>
+  <text x="313.5" y="119.5" font-size="11.5" fill="#6a1b9a" font-weight="bold" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">(292.5, 137.5)</text>
+  <rect x="686" y="150" width="188" height="210" rx="9" fill="#fff" stroke="#dfe6ea" stroke-width="1.4"/>
+  <text x="698" y="174" font-size="12.5" fill="#1565c0" font-weight="bold">三個破壞點（ε≈0.9%）</text>
+  <text x="698" y="198" font-size="11.5" fill="#c62828">AC 總 (417.5, 137.5)</text>
+  <text x="708" y="216" font-size="11.5" fill="#c62828">→ φ<tspan dy="3.4" font-size="8.5">cu</tspan><tspan dy="-3.4"> = 19.23°</tspan></text>
+  <text x="698" y="238" font-size="11.5" fill="#e65100">LE 總 (262.5, 137.5)</text>
+  <text x="708" y="256" font-size="11.5" fill="#e65100">→ φ<tspan dy="3.4" font-size="8.5">cu</tspan><tspan dy="-3.4"> = 31.59°</tspan></text>
+  <text x="698" y="278" font-size="11.5" fill="#6a1b9a">有效 (292.5, 137.5)</text>
+  <text x="708" y="296" font-size="11.5" fill="#6a1b9a">→ φ′ = 28.04°</text>
+  <text x="698" y="320" font-size="11.5" fill="#37474f">q 相同（S<tspan dy="3.4" font-size="8.5">u</tspan><tspan dy="-3.4"> = 137.5）</tspan></text>
+  <text x="698" y="340" font-size="11.5" fill="#37474f" font-weight="bold">sinφ = q/p，只差在 p</text>
+  <text x="100" y="452" font-size="11.5" fill="#607d8b">註：p 軸自 200 起畫（軸上折線）；K<tspan dy="3.4" font-size="8.5">f</tspan><tspan dy="-3.4"> 線均過真原點，斜率 = sinφ。紫點旁為軸向應變 ε，取自解析逐點表。</tspan></text>
+  <defs><marker id="ar455a64" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#455a64"/></marker><marker id="arc62828" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#c62828"/></marker><marker id="are65100" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#e65100"/></marker></defs>
+</svg>
+<div class="cap">數據取自 <a class="qlink" href="problems-view/SM-2013-3.html" target="_blank">SM-2013-3</a>（破壞點於 \(\varepsilon\approx0.9\%\) 讀取：\((\sigma_1-\sigma_3)_f=275\)、\(u_{AC,f}=125\)）；紫色 ESP 通過解析逐點表的三個中間讀值。AC 是加軸壓（往右上走），LE 是減側壓（往左上走），<b>但兩者共用同一條有效應力路徑、破壞在同一點</b>。<b>同一高度上 TSP 與 ESP 的水平距離就是孔隙水壓</b>：\(417.5-292.5=+125\)、\(262.5-292.5=-30\)。差別只在總應力那一端 —— 於是同一塊土量出兩個完全不同的 \(\phi_{cu}\)。</div>
+</div>
+
+<h3>5.1　為什麼 ESP 是共用的</h3>
+
+<div class="why">
+<b>不排水試驗中，土的體積不能變。</b>體積不變 ⟹ 孔隙比不變 ⟹ 土骨架的狀態不變 ⟹
+在相同應變下，土骨架承受的<b>有效應力狀態必定相同</b>，與你從外面怎麼加載無關。<br>
+外部總應力多加了多少，孔隙水就自動吸收多少；少加了多少，孔隙水就自動吐出多少。
+<b>孔隙水扮演的是「差額調節者」，讓有效應力路徑保持唯一。</b><br>
+前提有兩個：① 同樣的初始壓密狀態；② 主應力方向不旋轉。SM-2013-3 兩者都滿足
+（LE 過程中垂直應力 400 始終大於側向應力，大主應力方向沒變）。
+</div>
+
+<h3>5.2　LE 試驗的孔隙水壓：兩行代數</h3>
+
+<p>由 \(\Delta u=\Delta\sigma_3+A(\Delta\sigma_1-\Delta\sigma_3)\)，且兩試驗在相同應變下 \(A\) 相同：</p>
+
+$$\text{AC：}\ \Delta\sigma_3=0\ \Rightarrow\ \Delta u_{AC}=A\cdot\Delta(\sigma_1-\sigma_3)$$
+$$\text{LE：}\ \Delta\sigma_1=0\ \Rightarrow\ \Delta\sigma_3=-\Delta(\sigma_1-\sigma_3)$$
+$$\Delta u_{LE}=-\Delta(\sigma_1-\sigma_3)+A\cdot\Delta(\sigma_1-\sigma_3)=\Delta u_{AC}-\Delta(\sigma_1-\sigma_3)$$
+
+<div class="box">
+<b>SM-2013-3 的 LE 孔壓表</b>（初始應力差 \(=400-280=120\) kPa）
+<table>
+<thead><tr><th>應變 (%)</th><th>\((\sigma_1-\sigma_3)\)</th><th>\(u_{AC}\)</th><th>\(u_{LE}=u_{AC}-(\sigma_1-\sigma_3)+120\)</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>120</td><td>0</td><td>0</td></tr>
+<tr><td>0.25</td><td>189</td><td>52</td><td>−17</td></tr>
+<tr><td>0.50</td><td>238</td><td>100</td><td>−18</td></tr>
+<tr><td>0.75</td><td>268</td><td>120</td><td>−28</td></tr>
+<tr><td>0.9（破壞）</td><td>275</td><td>125</td><td><b style="color:#c62828">−30</b></td></tr>
+</tbody>
+</table>
+<b>物理意義</b>：LE 是「把側壓抽掉」，等於把試體<b>卸載</b>。卸載時土想回彈膨脹，
+不排水又不許它膨脹，於是孔隙水被「吸住」而產生<b>負孔壓</b>。
+（精確地說：負值來自等向卸載項 \(\Delta\sigma_3<0\)；剪切項 \(A\,\Delta(\sigma_1-\sigma_3)\) 仍為正，LE 的 \(A\) 與 AC 相同，並非變成負值。）
+因為 \(u_{LE}=(A-1)\,\Delta(\sigma_1-\sigma_3)\)，而本土樣 \(A\approx0.74\sim0.85<1\)，<b>LE 的孔壓從第一步就是負的</b>，不會先升到正值再下降。<br>
+<b>檢查：LE 的孔壓一定比 AC 低，而且破壞時常為負值</b> —— 若你算出 LE 的孔壓比 AC 高，方向必定弄反了。
+</div>
+
+<h3>5.3　結論：哪些量是土壤的性質，哪些不是</h3>
+
+<table>
+<thead><tr><th style="width:26%">量</th><th style="width:20%">是土壤的性質嗎？</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td>\(c',\ \phi'\)</td><td style="color:#2e7d32"><b>是</b></td><td>由顆粒摩擦與膠結決定，與加載路徑無關（SM-2013-3 中恆為 \(28.04^\circ\)）</td></tr>
+<tr><td>破壞面角度 \(\theta\)</td><td style="color:#2e7d32"><b>是</b></td><td>\(=45^\circ+\phi'/2\)，由 \(\phi'\) 唯一決定（恆為 \(59.02^\circ\)）</td></tr>
+<tr><td>\(S_u\)（給定壓密狀態下）</td><td style="color:#ef6c00"><b>半是</b></td><td>對固定的 \(\sigma_c'\) 而言唯一，但它隨壓密應力改變（見 §4.2）</td></tr>
+<tr><td>\(\phi_{cu}\)</td><td style="color:#c62828"><b>否</b></td><td>SM-2013-3：AC 得 \(19.23^\circ\)、LE 得 \(31.59^\circ\)，同一塊土差 12.4 度</td></tr>
+<tr><td>\(\phi_u\)</td><td style="color:#c62828"><b>否</b></td><td>飽和時為 0、不飽和時大於 0，取決於試體狀態而非土質</td></tr>
+</tbody>
+</table>
+
+<div class="trap">
+<b>SM-2013-3 第三小題的作答策略。</b>題目問「總應力抗剪角 \(\phi\)」，
+嚴謹的答案是<b>分別</b>算 AC 與 LE 的 \(\phi_{cu}\)（過原點假設），並<b>明確指出兩者不同、故總應力參數非土壤基本性質</b>。
+另一個合理觀點是：兩個總應力圓半徑相同（\(S_u=137.5\)），共同水平切線對應 \(\phi=0^\circ,\ c_u=137.5\) kPa。
+<b>作答時把兩種觀點都寫出來並說明各自的假設，是這題拿高分的關鍵。</b>
+</div>
+</section>
+<section id="s6">
+<h2>§6　取樣擾動與試驗規劃：參數對不對，先看壓密壓力</h2>
+
+<div class="lead">
+把試體從地下 20 m 挖出來拿到地表，它經歷了一次<b>完全的應力解除</b>。
+如果實驗室再用<b>低於</b>現地應力的壓力去壓密它，試體就變成一個「人造的過壓密土」——
+量出來的包絡線會有虛擬凝聚力，而現場那塊土其實 \(c'=0\)。
+<b>這組參數不代表現地的 NC 土壤：\(c'\) 是虛擬值、\(\phi'\) 偏小 —— 在低應力區會高估強度，外插到高應力區（基礎加載後）又會低估，無論哪一種都不能拿去設計。</b>
+</div>
+
+<div class="fig">
+<svg viewBox="0 0 880 300" xmlns="http://www.w3.org/2000/svg">
+  <line x1="140" y1="40" x2="140" y2="250" stroke="#455a64" stroke-width="1.8"/>
+  <line x1="140" y1="250" x2="800" y2="250" stroke="#455a64" stroke-width="1.8"/>
+  <text x="700" y="272" font-size="12.5" fill="#607d8b">壓密壓力 (kN/m²)</text>
+
+  <rect x="140" y="56" width="118" height="26" fill="#ffcdd2" stroke="#c62828" stroke-width="1.4"/>
+  <text x="20" y="74" font-size="12.5" fill="#37474f">試驗 ①　49</text>
+  <rect x="140" y="94" width="176" height="26" fill="#ffcdd2" stroke="#c62828" stroke-width="1.4"/>
+  <text x="8" y="112" font-size="12.5" fill="#37474f">試驗 ②　73.5</text>
+  <rect x="140" y="132" width="353" height="26" fill="#ffcdd2" stroke="#c62828" stroke-width="1.4"/>
+  <text x="12" y="150" font-size="12.5" fill="#37474f">試驗 ③　147</text>
+
+  <rect x="140" y="182" width="480" height="30" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.8"/>
+  <text x="4" y="202" font-size="12.5" font-weight="bold" fill="#2e7d32">現地 σv0′　199.8</text>
+  <line x1="620" y1="40" x2="620" y2="250" stroke="#2e7d32" stroke-width="2" stroke-dasharray="7 4"/>
+  <text x="628" y="56" font-size="12.5" font-weight="bold" fill="#2e7d32">現地有效覆土壓</text>
+  <text x="628" y="76" font-size="11.5" fill="#607d8b">= (19.8 − 9.81) × 20</text>
+
+  <path d="M500 226 L152 226" stroke="#c62828" stroke-width="2" marker-end="url(#d6)"/>
+  <text x="200" y="244" font-size="12.5" font-weight="bold" fill="#c62828">三組全部落在現地應力「左邊」→ 試體形同過壓密</text>
+
+  <rect x="640" y="120" width="232" height="118" rx="9" fill="#fff3e0" stroke="#ffcc80" stroke-width="1.5"/>
+  <text x="652" y="144" font-size="12.5" font-weight="bold" fill="#e65100">結果：量到 c′ = 15 kN/m²</text>
+  <text x="652" y="168" font-size="12" fill="#37474f">但 NC 黏土的 c′ 應該是 0</text>
+  <text x="652" y="190" font-size="12" fill="#37474f">這 15 是「假的」凝聚力</text>
+  <text x="652" y="214" font-size="12" fill="#c62828">低應力區高估、高應力區低估</text>
+  <text x="652" y="232" font-size="12" fill="#c62828">→ 不代表現地，不可用於設計</text>
+
+  <defs><marker id="d6" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#c62828"/></marker></defs>
+</svg>
+<div class="cap">數據取自 <a class="qlink" href="problems-view/SM-2002-4.html" target="_blank">SM-2002-4</a>。<b>「量到 \(c'>0\) 卻宣稱是 NC 黏土」本身就是矛盾</b> —— 看到這個組合，就知道試驗規劃出了問題。</div>
+</div>
+
+<p>把量到的包絡線和現地 NC 土壤「應有」的包絡線疊在一起，lead 裡那句「低應力區高估、高應力區低估」就變成看得見的兩段落差：</p>
+
+<div class="fig">
+<svg viewBox="0 0 880 370" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei,Noto Sans TC,sans-serif">
+  <line x1="80" y1="316" x2="575" y2="316" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <line x1="80" y1="316" x2="80" y2="41" stroke="#455a64" stroke-width="1.8" marker-end="url(#ar455a64)"/>
+  <text x="571" y="308" font-size="12.5" fill="#607d8b" text-anchor="end">σ′ (kN/m²)</text>
+  <text x="88" y="47" font-size="12.5" fill="#607d8b">τ (kN/m²)</text>
+  <rect x="133.9" y="56.4" width="107.8" height="259.6" rx="0" fill="#ffcdd2" stroke="none" stroke-width="0" fill-opacity="0.45"/>
+  <rect x="299.8" y="56.4" width="220.2" height="259.6" rx="0" fill="#c8e6c9" stroke="none" stroke-width="0" fill-opacity="0.45"/>
+  <text x="187.8" y="72.4" font-size="11.5" fill="#c62828" font-weight="bold" text-anchor="middle">實驗室壓密 49～147</text>
+  <text x="410" y="72.4" font-size="11.5" fill="#2e7d32" font-weight="bold" text-anchor="middle">基礎加載後的設計範圍</text>
+  <line x1="80" y1="299.5" x2="542" y2="84.1" stroke="#e65100" stroke-width="2.4"/>
+  <line x1="80" y1="316" x2="542" y2="65.9" stroke="#2e7d32" stroke-width="2.4" stroke-dasharray="8 4"/>
+  <text x="388" y="137.3" font-size="12.5" fill="#2e7d32" font-weight="bold" text-anchor="end" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">現地 NC（推估）：c′ = 0，φ′ ≈ 28.4°</text>
+  <text x="398" y="177.9" font-size="12.5" fill="#e65100" font-weight="bold" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">量測：c′ = 15，φ′ = 25°</text>
+  <circle cx="299.8" cy="197" r="5" fill="#6a1b9a"/>
+  <line x1="299.8" y1="197" x2="299.8" y2="316" stroke="#6a1b9a" stroke-width="1.3" stroke-dasharray="3 3"/>
+  <text x="299.8" y="334" font-size="12" fill="#6a1b9a" font-weight="bold" text-anchor="middle">σ<tspan dy="3.6" font-size="8.9">v0</tspan><tspan dy="-3.6">′ = 199.8</tspan></text>
+  <text x="309.8" y="217" font-size="12" fill="#6a1b9a" font-weight="bold" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">兩線交於 σ<tspan dy="3.6" font-size="8.9">p</tspan><tspan dy="-3.6">′ ≈ σ</tspan><tspan dy="3.6" font-size="8.9">v0</tspan><tspan dy="-3.6">′</tspan></text>
+  <line x1="85" y1="316" x2="85" y2="299.5" stroke="#e65100" stroke-width="3"/>
+  <text x="74" y="311.8" font-size="11.5" fill="#e65100" font-weight="bold" text-anchor="end">假 c′=15</text>
+  <line x1="190" y1="256.4" x2="190" y2="248.2" stroke="#c62828" stroke-width="2.6"/>
+  <text x="184" y="244.2" font-size="11.5" fill="#c62828" font-weight="bold" text-anchor="end" stroke="#fff" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">高估 7.5</text>
+  <line x1="520" y1="77.8" x2="520" y2="94.3" stroke="#c62828" stroke-width="2.6"/>
+  <text x="528" y="90.1" font-size="11.5" fill="#c62828" font-weight="bold">低估 15.0</text>
+  <rect x="600" y="220" width="274" height="104" rx="9" fill="#fff" stroke="#dfe6ea" stroke-width="1.4"/>
+  <text x="614" y="242" font-size="12.5" fill="#1565c0" font-weight="bold">推估線怎麼來的（示意）</text>
+  <text x="614" y="264" font-size="12" fill="#37474f">OC 段包絡線在 σ<tspan dy="3.6" font-size="8.9">p</tspan><tspan dy="-3.6">′ 併入 NC 線；</tspan></text>
+  <text x="614" y="284" font-size="12" fill="#37474f">取 σ<tspan dy="3.6" font-size="8.9">p</tspan><tspan dy="-3.6">′ = σ</tspan><tspan dy="3.6" font-size="8.9">v0</tspan><tspan dy="-3.6">′ = 199.8 反推：</tspan></text>
+  <text x="614" y="306" font-size="12" fill="#37474f">tanφ′ = 15/199.8 + tan25° → 28.4°</text>
+  <defs><marker id="ar455a64" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 z" fill="#455a64"/></marker></defs>
+</svg>
+<div class="cap">量測線按考題數值（\(c'=15\)、\(\phi'=25^\circ\)）繪製；綠色虛線是<b>推估示意</b> —— 依「過壓密段包絡線在預壓密應力 \(\sigma_p'\) 處併入 NC 線」的標準觀念，取 \(\sigma_p'\approx\sigma_{v0}'=199.8\) 反推得 \(\phi'\approx28.4^\circ\)，題目並未給此值。兩線在 \(\sigma_{v0}'\) 交叉：<b>左邊（實驗室壓密的範圍）量測線偏高，右邊（基礎加載後的設計範圍）量測線偏低</b>，在 \(\sigma'=400\) 時已低估約 15 kN/m²。這就是為什麼重作試驗的壓密壓力必須 \(\ge\sigma_{v0}'\)。</div>
+</div>
+
+
+<h3>6.1　判斷與重作的標準流程</h3>
+
+<ol>
+<li><b>算現地有效覆土壓</b> \(\sigma_{v0}'=(\gamma_{sat}-\gamma_w)z\)（水位在地表時）。SM-2002-4：\((19.8-9.81)\times20=199.8\) kN/m²。</li>
+<li><b>逐一比對</b>試驗的壓密壓力：49、73.5、147 全部 \(<199.8\) → 試體在實驗室中處於 OC 狀態。</li>
+<li><b>交叉驗證</b>：測得 \(c'=15>0\)，與「NC 黏土 \(c'=0\)」矛盾 → 佐證判斷正確。</li>
+<li><b>重作規劃</b>：壓密壓力必須 \(\ge\sigma_{v0}'\)，且涵蓋基礎加載後的應力範圍。建議三組取約 200、300、400 kN/m²。</li>
+<li><b>預期結果</b>：新的包絡線應通過原點（\(c'\approx0\)），此時的 \(\phi'\) 才是可用於設計的參數。</li>
+</ol>
+
+<div class="why">
+<b>為什麼壓密壓力要「大於」而不只是「等於」現地應力？</b>
+因為取樣過程一定有擾動（管壁摩擦、卸載回彈、運送震動），試體的結構已經部分破壞。
+把它壓密到<b>超過</b>現地應力，可以把擾動造成的鬆弛「壓回去」，讓試體回到正常壓密線上。
+這正是 <b>SHANSEP</b> 法的做法：壓密到 \((1.5\sim4.0)\sigma_{v0}'\)，
+求出正規化強度比 \((S_u/\sigma_v')_{NC}\)，再乘回現地的 \(\sigma_{v0}'\) 推得未擾動強度。
+</div>
+
+<div class="trap">
+<b>觸發信號：題目同時出現「取樣深度」與「試驗壓密壓力」。</b>
+只要這兩個數字同時給你，就<b>一定</b>要先算 \(\sigma_{v0}'\) 並比對 ——
+出題者給深度不是為了好玩。SM-2002-4 若跳過這一步，直接拿 \(c'=15,\phi'=25^\circ\) 去套承載力公式，
+整題零分。
+</div>
+
+<h3>6.2　順帶一提：兩個常考的概念題</h3>
+
+<div class="grid2">
+<div class="tens">
+<b>流砂 vs 土壤液化（SM-2007-2）</b><br>
+<b>相同</b>：都發生在無凝聚性砂土；最終狀態都是 \(\sigma'=\sigma-u\to0\)，抗剪強度歸零。<br>
+<b>不同</b>：流砂是<b>靜態滲流</b>（\(i\ge i_{cr}\)）；液化是<b>動態循環載重</b>（地震使鬆砂想縮，不排水下累積超額孔壓）。<br>
+<b>對策也不同</b>：流砂 → 拉長滲流路徑、降水（治「水頭差」）；液化 → 夯實增密、礫石樁排水（治「土的鬆散」）。
+</div>
+<div class="comp">
+<b>SUU vs UUU（SM-2007-2）</b><br>
+飽和 \(B=1\) → \(\Delta\sigma_3\) 全被水吃 → \(\sigma'\) 不變 → 圓等大 → \(\phi_u=0\)。<br>
+不飽和 \(B<1\) → 空氣被壓縮 → 部分轉為有效應力 → 圓變大 → \(\phi_u>0\)。<br>
+<b>但高圍壓後空氣壓完溶解，回到 \(B=1\)</b> → 包絡線轉水平。<br>
+答題要畫出<b>雙段包絡線</b>並標出轉折點的意義，只寫 \(\phi_u>0\) 不完整。
+</div>
+</div>
+</section>
+
+<section id="s7">
+<h2>§7　解題決策流程</h2>
+
+<div class="fig">
+<svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
+  <rect x="320" y="14" width="260" height="42" rx="9" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.8"/>
+  <text x="450" y="41" font-size="14.5" font-weight="bold" fill="#0d47a1" text-anchor="middle">先問三件事，解法就固定了</text>
+  <line x1="450" y1="56" x2="450" y2="74" stroke="#455a64" stroke-width="2" marker-end="url(#q1)"/>
+
+  <polygon points="450,76 640,118 450,160 260,118" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+  <text x="450" y="114" font-size="14" font-weight="bold" fill="#e65100" text-anchor="middle">① 這是哪一種試驗？</text>
+  <text x="450" y="134" font-size="11.5" fill="#8d6e63" text-anchor="middle">看題目有沒有給 u、有沒有說「排水」</text>
+
+  <path d="M260 118 L140 118 L140 184" fill="none" stroke="#455a64" stroke-width="2" marker-end="url(#q1)"/>
+  <text x="66" y="112" font-size="12" font-weight="bold" fill="#c62828">UU（不給 u）</text>
+  <line x1="450" y1="160" x2="450" y2="184" stroke="#455a64" stroke-width="2" marker-end="url(#q1)"/>
+  <text x="444" y="180" font-size="12" font-weight="bold" fill="#ef6c00" text-anchor="end">CU（給 uf）</text>
+  <path d="M640 118 L760 118 L760 184" fill="none" stroke="#455a64" stroke-width="2" marker-end="url(#q1)"/>
+  <text x="700" y="112" font-size="12" font-weight="bold" fill="#2e7d32">CD（明說排水）</text>
+
+  <rect x="20" y="186" width="240" height="106" rx="9" fill="#ffebee" stroke="#ef9a9a" stroke-width="1.5"/>
+  <text x="32" y="208" font-size="12.5" font-weight="bold" fill="#c62828">飽和 → φu = 0，只有 Su</text>
+  <text x="32" y="230" font-size="11.5" fill="#37474f">要連到現地：先算 σv0′</text>
+  <text x="32" y="250" font-size="11.5" fill="#37474f">Su = σv0′ sinφ′/(1+sinφ′)</text>
+  <text x="32" y="270" font-size="11.5" fill="#607d8b">（隱含假設 Af = 1）</text>
+  <text x="32" y="288" font-size="11" fill="#607d8b">SM-2003-4 · SM-2010-1</text>
+
+  <rect x="330" y="186" width="240" height="106" rx="9" fill="#fff3e0" stroke="#ffcc80" stroke-width="1.5"/>
+  <text x="342" y="208" font-size="12.5" font-weight="bold" fill="#e65100">畫兩組圓</text>
+  <text x="342" y="230" font-size="11.5" fill="#37474f">總應力圓 → φcu</text>
+  <text x="342" y="250" font-size="11.5" fill="#37474f">整個左移 uf → φ′</text>
+  <text x="342" y="270" font-size="11.5" fill="#c62828">半徑不變是免費檢查</text>
+  <text x="342" y="288" font-size="11" fill="#607d8b">SM-2018-2 · SM-2012-1 · SM-2025-2</text>
+
+  <rect x="640" y="186" width="240" height="106" rx="9" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1.5"/>
+  <text x="652" y="208" font-size="12.5" font-weight="bold" fill="#2e7d32">u = 0，總應力＝有效應力</text>
+  <text x="652" y="230" font-size="11.5" fill="#37474f">直接畫一個圓即可</text>
+  <text x="652" y="250" font-size="11.5" fill="#37474f">σ1′ = σ3′Kp + 2c′√Kp</text>
+  <text x="652" y="270" font-size="11.5" fill="#607d8b">留著 √Kp 不要先轉成角度</text>
+  <text x="652" y="288" font-size="11" fill="#607d8b">SM-2024-1 · SM-2025-2</text>
+
+  <path d="M140 292 L140 304 L760 304 M760 292 L760 304" fill="none" stroke="#455a64" stroke-width="2"/>
+  <line x1="450" y1="292" x2="450" y2="316" stroke="#455a64" stroke-width="2" marker-end="url(#q1)"/>
+  <line x1="450" y1="398" x2="450" y2="414" stroke="#455a64" stroke-width="2" marker-end="url(#q1)"/>
+  <polygon points="450,318 630,358 450,398 270,358" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+  <text x="450" y="354" font-size="14" font-weight="bold" fill="#e65100" text-anchor="middle">② 是 NC 還是 OC？</text>
+  <text x="450" y="374" font-size="11.5" fill="#8d6e63" text-anchor="middle">題目有沒有寫「正常壓密」</text>
+
+  <path d="M270 358 L150 358 L150 414" fill="none" stroke="#455a64" stroke-width="2" marker-end="url(#q1)"/>
+  <text x="150" y="352" font-size="12" font-weight="bold" fill="#2e7d32">NC</text>
+  <path d="M630 358 L750 358 L750 414" fill="none" stroke="#455a64" stroke-width="2" marker-end="url(#q1)"/>
+  <text x="742" y="352" font-size="12" font-weight="bold" fill="#c62828">OC</text>
+
+  <rect x="20" y="416" width="260" height="94" rx="9" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1.5"/>
+  <text x="32" y="438" font-size="12.5" font-weight="bold" fill="#2e7d32">c′ = 0，捷徑全開</text>
+  <text x="32" y="460" font-size="11.5" fill="#37474f">sinφ = R / C 直接用</text>
+  <text x="32" y="480" font-size="11.5" fill="#37474f">Δσd 與 σ3 成正比</text>
+  <text x="32" y="500" font-size="11.5" fill="#37474f">Su/σv0′ 公式可用</text>
+
+  <rect x="620" y="416" width="260" height="94" rx="9" fill="#ffebee" stroke="#ef9a9a" stroke-width="1.5"/>
+  <text x="632" y="438" font-size="12.5" font-weight="bold" fill="#c62828">c′ ≠ 0，捷徑全關</text>
+  <text x="632" y="460" font-size="11.5" fill="#37474f">必須用 σ1′=σ3′Kp+2c′√Kp</text>
+  <text x="632" y="480" font-size="11.5" fill="#37474f">比例關係失效</text>
+  <text x="632" y="500" font-size="11.5" fill="#607d8b">兩組試驗才解得出兩個未知數</text>
+
+  <rect x="300" y="416" width="300" height="94" rx="9" fill="#f3e5f5" stroke="#ce93d8" stroke-width="1.6"/>
+  <text x="312" y="438" font-size="12.5" font-weight="bold" fill="#6a1b9a">③ 要總應力還是有效應力參數？</text>
+  <text x="312" y="460" font-size="11.5" fill="#37474f">問破壞面角度 → 一律用 φ′</text>
+  <text x="312" y="480" font-size="11.5" fill="#37474f">問短期穩定 → Su（總應力法）</text>
+  <text x="312" y="500" font-size="11.5" fill="#37474f">問長期穩定 → c′, φ′</text>
+
+  <rect x="20" y="526" width="860" height="28" rx="8" fill="#eceff1" stroke="#90a4ae" stroke-width="1.3"/>
+  <text x="34" y="545" font-size="12" fill="#455a64">交卷前：① 切點是否落在包絡線上（τff = c′+σff tanφ′）　② 回推 Af 是否落在 0.5~1.0　③ Su/σv0′ 是否小於 0.5</text>
+
+  <defs><marker id="q1" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker></defs>
+</svg>
+<div class="cap">三個判斷做完，題目就定型了。<b>本單元幾乎沒有「不會算」的情況，只有「判斷錯」的情況</b> —— 所以把時間花在前 30 秒的分類上，比花在計算上更值得。</div>
+</div>
+</section>
+<section id="s8">
+<h2>§8　歷屆題 × 觀念對照表</h2>
+
+<p>主分類 12 題（本講義精講其中 10 題），橫跨 2002～2025 共 24 年，近年（2024、2025）連兩年出題。另有 4 題以本子項為<b>副</b>分類。</p>
+
+<table>
+<thead><tr><th style="width:11%">題號</th><th style="width:7%">考年</th><th style="width:9%">試驗</th><th style="width:30%">核心模型／公式</th><th>本講義對應節次</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="problems-view/SM-2002-4.html" target="_blank">SM-2002-4</a></td><td>2002</td><td>CU</td><td>取樣擾動判定、壓密壓力 vs \(\sigma_{v0}'\)、SHANSEP 雛形（論述題）</td><td>§6、§6.1</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2003-4.html" target="_blank">SM-2003-4</a></td><td>2003</td><td>UU</td><td>\(S_u=\sigma_{v0}'\sin\phi'/(1+\sin\phi')\)、\(A_f=1\) 假設</td><td>§4.2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2007-2.html" target="_blank">SM-2007-2</a></td><td>2007</td><td>UU</td><td>流砂 vs 液化、SUU vs UUU 的 \(\phi_u\) 與雙段包絡線（論述題）</td><td>§2.1、§6.2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2008-2.html" target="_blank">SM-2008-2</a></td><td>2008</td><td>—</td><td>Skempton 預測現地 \(\Delta u\)＋有效應力破壞準則＋反算蓄水高度</td><td>§3.2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2010-1.html" target="_blank">SM-2010-1</a></td><td>2010</td><td>UU</td><td>\(S_u\) 公式＋由 \(\sigma_{3f}'\) 反推試驗中的 \(u_f\)</td><td>§4.2</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2012-1.html" target="_blank">SM-2012-1</a></td><td>2012</td><td>CU+UU</td><td>由 \(S_u\) 與 \(\phi_{cu}\) 反推 \(\sigma_{v0}'\) 與取樣深度；再由 \(\phi'\) 求 \(\Delta u_f\)</td><td>§4.3</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2013-3.html" target="_blank">SM-2013-3</a></td><td>2013</td><td>CU（AC/LE）</td><td>應力路徑 TSP/ESP、ESP 唯一性、\(\phi_{cu}\) 非土壤性質、\(A_f\)</td><td>§5 全節</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2018-2.html" target="_blank">SM-2018-2</a></td><td>2018</td><td>CU</td><td>\(\phi_{cu}\) 與 \(\phi'\) 雙參數、NC 比例性、破壞面角度、\(A_f\)</td><td>§1.2、§2.2、§3.1、§4.1</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2024-1.html" target="_blank">SM-2024-1</a></td><td>2024</td><td>CD</td><td>Mohr 圓幾何全套：求 \(\phi\)、證明 \(45^\circ+\phi/2\)、破壞面應力、外推</td><td>§1 全節</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2025-2.html" target="_blank">SM-2025-2</a></td><td>2025</td><td>CU→CD</td><td>兩組 CU 聯立求 \(N_\phi\) 與 \(2c'\sqrt{N_\phi}\)，預測 CD 的 \(\Delta\sigma\)</td><td>§2.3</td></tr>
+<tr style="background:#f5f5f5"><td colspan="5"><b>未精講的主分類</b>：SM-2006-1（十字片剪試驗、過壓密比、極限平衡）、SM-2011-1（應力路徑、靈敏度、流黏土等綜合題）<br><b>副分類</b>：SM-2003-1（土壤探勘、不擾動取樣、室內試驗規劃）、SM-2008-3、SM-2017-4（開挖穩定，用到不排水剪力強度）、SM-2019-1（Mohr-Coulomb、OCR）</td></tr>
+</tbody>
+</table>
+
+<h3>考點群出現次數</h3>
+
+<table>
+<thead><tr><th style="width:34%">考點群</th><th style="width:12%">題數</th><th>代表題</th></tr></thead>
+<tbody>
+<tr><td>Mohr 圓幾何與 \(\sigma_1\)–\(\sigma_3\) 關係式</td><td><b>4</b></td><td>SM-2024-1、SM-2025-2、SM-2018-2、SM-2012-1</td></tr>
+<tr><td>孔隙水壓參數 \(A\)、\(B\)</td><td><b>4</b></td><td>SM-2008-2、SM-2018-2、SM-2013-3、SM-2007-2</td></tr>
+<tr><td>UU 與現地 \(S_u\) 的連結</td><td><b>3</b></td><td>SM-2003-4、SM-2010-1、SM-2012-1</td></tr>
+<tr><td>NC 黏土的 \(c'=0\) 捷徑</td><td><b>5</b></td><td>SM-2018-2、SM-2012-1、SM-2010-1、SM-2003-4、SM-2002-4</td></tr>
+<tr><td>破壞面角度（必用 \(\phi'\)）</td><td><b>3</b></td><td>SM-2024-1、SM-2018-2、SM-2013-3</td></tr>
+<tr><td>應力路徑與參數的「非唯一性」</td><td>1</td><td>SM-2013-3</td></tr>
+<tr><td>試驗規劃與概念論述</td><td>2</td><td>SM-2002-4、SM-2007-2</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="s9">
+<h2>§9　陷阱總表（考前十分鐘掃這一頁）</h2>
+
+<table>
+<thead><tr><th style="width:5%">#</th><th style="width:26%">觸發信號</th><th style="width:30%">錯誤思維</th><th>正確認知</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>題目給「軸差應力 \(\Delta\sigma_d\)」</td><td>當成大主應力 \(\sigma_1\)</td><td>\(\sigma_1=\sigma_3+\Delta\sigma_d\)。三軸活塞只能<b>額外</b>推。<span style="color:#c62828">SM-2024-1</span></td></tr>
+<tr><td>2</td><td>問「破壞面與大主應力面的夾角」</td><td>用 \(\phi_{cu}\) 代入 \(45^\circ+\phi/2\)</td><td><b>一律用 \(\phi'\)</b>。摩擦由有效應力控制。<span style="color:#c62828">SM-2018-2、SM-2013-3</span></td></tr>
+<tr><td>3</td><td>莫爾圓上量到的角度</td><td>直接當成實體平面的夾角</td><td>圓上是 \(2\theta\)，實體是 \(\theta\)。這是應力轉換公式的定義決定的</td></tr>
+<tr><td>4</td><td>UU 試驗</td><td>一律 \(\phi_u=0\)</td><td>只有<b>完全飽和</b>才是 0。不飽和 \(B<1\) → \(\phi_u>0\)，且高圍壓後轉水平。<span style="color:#c62828">SM-2007-2</span></td></tr>
+<tr><td>5</td><td>CU 試驗給了 \(u_f\)</td><td>只畫總應力圓</td><td>要畫<b>兩組</b>圓；有效圓＝總應力圓整個左移 \(u_f\)，<b>半徑不變</b></td></tr>
+<tr><td>6</td><td>CD 試驗</td><td>還去找孔隙水壓</td><td>\(u=0\)，總應力即有效應力。卷面要寫出 \(\sigma_3'=\sigma_3-0\) 以示觀念清晰</td></tr>
+<tr><td>7</td><td>用 \(\sin\phi=R/C\)</td><td>不管 \(c'\) 是否為 0 就套</td><td>此式只在<b>包絡線過原點</b>（\(c'=0\)）時成立。有 \(c'\) 要用 \(R=C\sin\phi+c\cos\phi\)</td></tr>
+<tr><td>8</td><td>「正常壓密黏土」</td><td>還去找 \(c'\)</td><td>NC ⟹ \(c'=0\) 且 \(c_{cu}=0\)，兩條包絡線都過原點 —— 這是解單一試驗的唯一突破口</td></tr>
+<tr><td>9</td><td>OC 黏土用比例法</td><td>\(\Delta\sigma_d\propto\sigma_3\)</td><td>比例性<b>只對 NC 成立</b>（圓相似）。OC 的圓不相似，必須用完整關係式</td></tr>
+<tr><td>10</td><td>解出 \(\sqrt{K_p}\) 後</td><td>先轉成 \(\phi\)、再轉回 \(K_p\)</td><td>留著 \(\sqrt{K_p}\) 當計算主線；角度只是報告值。轉來轉去會累積進位誤差。<span style="color:#c62828">SM-2024-1</span></td></tr>
+<tr><td>11</td><td>兩組試驗求 \(c'\) 與 \(\phi'\)</td><td>硬解三角函數</td><td>令 \(N_\phi=K_p\) 列聯立<b>相減消去常數項</b>，數字會很乾淨。<span style="color:#c62828">SM-2025-2 得 \(N_\phi=1.75\)</span></td></tr>
+<tr><td>12</td><td>Skempton 公式</td><td>\(\Delta\sigma_1\)、\(\Delta\sigma_3\) 順序弄反</td><td>先比大小再代入。<span style="color:#c62828">SM-2008-2</span> 的 \(\Delta\sigma_v>\Delta\sigma_h\)，垂直向才是大主應力</td></tr>
+<tr><td>13</td><td>不排水快速加載</td><td>\(\Delta\sigma_v\) 直接當有效應力增量</td><td>必須扣 \(\Delta u\)。忘記扣會讓兩個主應力同時變大；SM-2008-2 的 \(\sigma_1'/\sigma_3'\) 更是恆為 2、永遠到不了 \(K_p=3\) → 得到「怎樣都安全」的錯誤結論</td></tr>
+<tr><td>14</td><td>\(A_f\) 的正負</td><td>以為一定是正的</td><td>想縮（鬆散/NC）→ \(A>0\)；想脹（緊密/OC）→ \(A<0\)。注意：LE 試驗的負孔壓來自 \(\Delta\sigma_3<0\) 的等向卸載，\(A_f\) 本身仍為正（SM-2013-3 約 0.81），兩件事別混為一談</td></tr>
+<tr><td>15</td><td>UU 題只給 \(\gamma_{sat}\) 與 \(\phi'\)</td><td>不知怎麼開始</td><td>用 \(A_f=1\)（完美取樣、NC）⟹ \(\sigma_{1f}'=\sigma_{v0}'\)，這是唯一突破口，且<b>要在卷面寫出這個假設</b></td></tr>
+<tr><td>16</td><td>水位在地表以下，只給 \(\gamma_{sat}\)</td><td>水位以上當乾土或亂猜</td><td>標準假設：黏土因毛細作用近似飽和，全段用 \(\gamma_{sat}\)。<b>假設必須寫在卷面上</b></td></tr>
+<tr><td>17</td><td>同時給「取樣深度」與「試驗壓密壓力」</td><td>直接用測得的 \(c',\phi'\)</td><td>先算 \(\sigma_{v0}'\) 比對！\(\sigma_c'<\sigma_{v0}'\) → 試體形同 OC → 參數不可用。<span style="color:#c62828">SM-2002-4</span></td></tr>
+<tr><td>18</td><td>NC 黏土卻量到 \(c'>0\)</td><td>接受這個結果</td><td>本身就是矛盾，代表試驗規劃或取樣有問題（虛擬凝聚力）</td></tr>
+<tr><td>19</td><td>問「總應力抗剪角」</td><td>以為是土壤的固定性質</td><td>\(\phi_{cu}\) 隨試驗路徑而變。<span style="color:#c62828">SM-2013-3</span>：AC \(19.23^\circ\) vs LE \(31.59^\circ\)，同一塊土</td></tr>
+<tr><td>20</td><td>LE（側向解壓）試驗的孔壓</td><td>比照 AC 取正值</td><td>卸載使土想膨脹 → 水被吸住 → <b>負孔壓</b>。SM-2013-3 破壞時為 \(-30\) kPa</td></tr>
+<tr><td>21</td><td>算完就交卷</td><td>不驗算</td><td>三個免費檢查：切點在包絡線上、\(A_f\in0.5\sim1.0\)、\(S_u/\sigma_{v0}'<0.5\)</td></tr>
+<tr><td>22</td><td>題目給了用不到的數字（如 \(D=10\) m）</td><td>硬要用上</td><td>先看題目有沒有已經給你換算關係。SM-2008-2 已給 \(\Delta\sigma_v\)、\(\Delta\sigma_h\) 與 \(\Delta q\) 的比例，\(D\) 只是情境</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="s10">
+<h2>§10　自我檢測：能回答才算讀懂</h2>
+
+<details><summary>1　為什麼飽和土做 UU 試驗會得到 \(\phi_u=0\)？</summary>
+<p>水不可壓縮，所以不排水時增加的圍壓全部由孔隙水承擔（\(B=1\)、\(\Delta u=\Delta\sigma_3\)），有效應力完全沒變。有效應力沒變 ⟹ 破壞時的強度沒變 ⟹ 不同圍壓的莫爾圓大小相同、只是水平平移 ⟹ 共同切線是水平的。<b>\(\phi_u=0\) 是「飽和 + 不排水」的結果，不是土壤的性質。</b>（§2.1）</p></details>
+
+<details><summary>2　同一次 CU 試驗，為什麼有效應力圓的半徑和總應力圓一樣？</summary>
+<p>因為 \(R=\frac{\sigma_1-\sigma_3}{2}=\frac{(\sigma_1-u)-(\sigma_3-u)}{2}\)，\(u\) 在相減時抵消。所以「扣孔隙水壓」在圖上就是把整個圓往左推 \(u\)，形狀完全不變。這也是最好的驗算：兩個圓半徑不同就一定算錯了。（§2.2）</p></details>
+
+<details><summary>3　為什麼對 NC 黏土恆有 \(\phi'>\phi_{cu}\)？</summary>
+<p>兩條包絡線都過原點，\(\sin\phi=\frac{\sigma_1-\sigma_3}{\sigma_1+\sigma_3}=\frac{R}{C}\)。扣掉 \(u\) 後分子（\(2R\)）不變、分母（\(2C\)）變小，所以 \(\sin\phi'\) 較大。SM-2018-2：\(85/285=0.298\) vs \(85/151=0.563\)。（§2.2）</p></details>
+
+<details><summary>4　\(45^\circ+\phi/2\) 怎麼來的？（要能兩行講完）</summary>
+<p>① 破壞時莫爾圓與包絡線相切 ⟹ 半徑垂直於包絡線 ⟹ 該半徑與 \(\sigma\) 軸的夾角為 \(90^\circ+\phi\)。② 莫爾圓上的圓心角是實體平面夾角的兩倍 ⟹ \(2\theta=90^\circ+\phi\) ⟹ \(\theta=45^\circ+\phi/2\)。（§1.2）</p></details>
+
+<details><summary>5　為什麼破壞面角度一定要用 \(\phi'\)？</summary>
+<p>破壞是土粒之間的摩擦滑動，摩擦力由顆粒接觸面的正向<b>有效</b>應力決定。總應力包絡線只是把有效應力的結果「投影」到總應力座標上的表觀產物。SM-2013-3 給了鐵證：\(\phi_{cu}\) 從 \(19.23^\circ\) 變到 \(31.59^\circ\)，但破壞面角度始終是 \(59.02^\circ\)。（§1.2、§5.3）</p></details>
+
+<details><summary>6　\(A_f\) 的正負由什麼決定？不查表怎麼判斷？</summary>
+<p>由剪切時土「想脹還是想縮」決定。鬆散砂／NC 黏土顆粒沒卡住，剪切時會滾進孔隙、體積想縮 → 不排水下水被擠 → \(\Delta u>0\) → \(A>0\)。緊密砂／OC 黏土顆粒互相咬住，剪切時得爬過彼此、體積想脹 → 水被吸 → \(\Delta u<0\) → \(A<0\)。（§3）</p></details>
+
+<details><summary>7　\(S_u=\sigma_{v0}'\frac{\sin\phi'}{1+\sin\phi'}\) 是怎麼推的？前提是什麼？</summary>
+<p>前提是完美取樣的 NC 黏土且 \(A_f=1\)，使破壞時的有效大主應力回到現地值 \(\sigma_{1f}'=\sigma_{v0}'\)。再由 \(c'=0\) 得 \(\sin\phi'=R/C\)，而 \(C=\sigma_1'-R=\sigma_{v0}'-S_u\)、\(R=S_u\)，代入整理即得。極限檢查：\(\phi'\to90^\circ\) 時比值 \(\to1/2\)，所以這個比值<b>永遠小於 0.5</b>。（§4.2）</p></details>
+
+<details><summary>8　為什麼 NC 黏土的破壞應力與圍壓成正比？</summary>
+<p>包絡線過原點 ⟹ 所有破壞莫爾圓都與同一條過原點的直線相切 ⟹ 彼此互為<b>相似形</b> ⟹ 對應的長度成固定比例。所以 \(\Delta\sigma_d/\sigma_3\) 是定值。OC 黏土的包絡線有截距，圓不相似，比例關係立刻失效。（§4.1）</p></details>
+
+<details><summary>9　為什麼不排水試驗的有效應力路徑是唯一的？</summary>
+<p>不排水 ⟹ 體積不變 ⟹ 孔隙比不變 ⟹ 在相同應變下土骨架的狀態相同 ⟹ 有效應力狀態必定相同，與外部加載方式無關。外部多加多少總應力，孔隙水就自動吸收多少。前提是相同初始壓密狀態且主應力方向不旋轉。（§5.1）</p></details>
+
+<details><summary>10　LE（側向解壓）試驗破壞時為什麼是負孔壓？</summary>
+<p>LE 是把圍壓抽掉，等於對試體<b>卸載</b>。卸載時土想回彈膨脹，不排水又不許它膨脹，於是孔隙水被「吸住」而產生負孔壓。由 \(\Delta u_{LE}=\Delta u_{AC}-\Delta(\sigma_1-\sigma_3)\)，破壞時（\(\varepsilon\approx0.9\%\)）得 \(125-275+120=-30\) kPa。（§5.2）</p></details>
+
+<details><summary>11　題目說「正常壓密黏土」，但試驗量到 \(c'=15\) kPa，該怎麼反應？</summary>
+<p>這是矛盾，代表試驗有問題。去算現地 \(\sigma_{v0}'\) 並和試驗的壓密壓力比對 —— 若壓密壓力低於 \(\sigma_{v0}'\)，試體在實驗室中形同過壓密，量到的是虛擬凝聚力。這組參數不代表現地 NC 土壤（低應力區高估、高應力區低估），不可用於設計；重作時壓密壓力須 \(\ge\sigma_{v0}'\)。（§6）</p></details>
+
+<details><summary>12　為什麼 SHANSEP 要把試體壓密到現地應力的 1.5～4 倍？</summary>
+<p>取樣一定有擾動（卸載回彈、管壁摩擦、運送震動），試體結構已部分破壞。壓到<b>超過</b>現地應力可以把擾動造成的鬆弛壓回去，讓試體回到正常壓密線上；再求出正規化強度比 \((S_u/\sigma_v')_{NC}\)，乘回現地 \(\sigma_{v0}'\) 即得未擾動強度。（§6.1）</p></details>
+
+<details><summary>13　流砂與土壤液化的機制差在哪？對策為何不同？</summary>
+<p>兩者最終狀態相同（\(\sigma'\to0\)），但觸發不同：流砂是<b>靜態向上滲流</b>（\(i\ge i_{cr}\)），液化是<b>動態循環載重</b>使鬆砂在不排水下累積超額孔壓。所以流砂治「水頭差」（加深擋土壁拉長滲流路徑、降水），液化治「土的鬆散」（夯實增密、礫石樁加速排水）。（§6.2）</p></details>
+</section>
+
+<section id="s10b">
+<h2>§10.5　因果鏈重列</h2>
+
+<div class="lead">四條鏈，能用嘴巴講出來才算會。</div>
+
+<div class="why"><b>① 為什麼飽和 UU 的 \(\phi_u\) 是 0</b><br>
+水不可壓縮 → 不排水加圍壓時 \(B=1\) → \(\Delta u=\Delta\sigma_3\) → 有效應力增量為零 → 土骨架狀態沒變 → 破壞強度沒變 → 莫爾圓等大平移 → 共同切線水平 → \(\phi_u=0\)。</div>
+
+<div class="why"><b>② 為什麼 \(\phi_{cu}\) 不是土壤的性質</b><br>
+破壞由有效應力控制 → 不排水時 ESP 唯一（體積不變 ⟹ 有效應力狀態唯一）→ 但 TSP 隨你怎麼加載而不同 → 總應力破壞點因此落在不同位置 → 過原點連線的斜率不同 → 量到不同的 \(\phi_{cu}\) → 但 \(\phi'\) 與破壞面角度始終不變。</div>
+
+<div class="why"><b>③ 為什麼 \(S_u\) 隨深度線性成長</b><br>
+NC 黏土 \(c'=0\) → 包絡線過原點 → 完美取樣＋\(A_f=1\) 使 \(\sigma_{1f}'=\sigma_{v0}'\) → 圓的右緣被鎖住 → 圓的大小被包絡線唯一決定 → \(S_u=\sigma_{v0}'\frac{\sin\phi'}{1+\sin\phi'}\) → 而 \(\sigma_{v0}'\) 隨深度線性成長 → \(S_u\) 也隨深度線性成長（正規化強度比為定值，即 SHANSEP）。</div>
+
+<div class="why"><b>④ 為什麼壓密壓力設太低會害你</b><br>
+試體從深處取出 → 應力完全解除 → 實驗室用低於 \(\sigma_{v0}'\) 的壓力壓密 → 試體相對於它「記得」的最大應力而言是過壓密 → 表現出 OC 行為 → 包絡線出現虛擬截距 \(c'>0\) → 與「NC 黏土 \(c'=0\)」矛盾 → 這條 OC 段包絡線（有截距、斜率較小）與現地 NC 包絡線（過原點、斜率較大）只在 \(\sigma_{v0}'\) 附近相交 → 低應力區高估強度、高應力區低估強度 → 參數不代表現地土壤 → 不可用於設計。</div>
+</section>
+
+<section id="s11">
+<h2>★ §11　精選 5 題</h2>
+
+<div class="lead">
+貪婪最大覆蓋演算法給的一組是 SM-2010-1／SM-2008-2／SM-2025-2／SM-2007-2／SM-2013-3（標籤覆蓋 80%），
+但那一組<b>完全沒有莫爾圓幾何的計算訓練</b>（沒有破壞面角度、沒有破壞面應力、沒有 \(\sigma_1\)–\(\sigma_3\) 外推），
+而且用一題純論述題（SM-2007-2）換掉了計算題。
+下面這組覆蓋 75%，但把「幾何基本功 → 雙參數 → 孔壓預測 → 應力路徑」的階梯排齊了。<br>
+<span style="color:#607d8b;font-size:.93em">（註：覆蓋率被同義標籤低估 —— SM-2018-2 標的是「CU三軸試驗」而非「CU試驗」，實際上它就是 CU 題。）</span>
+</div>
+
+<h4>① <a class="qlink" href="problems-view/SM-2024-1.html" target="_blank">SM-2024-1</a>（2024）— 先把幾何練到反射動作</h4>
+<div class="box">
+<b>為什麼選它</b>：一題涵蓋莫爾圓的<b>全部</b>基本操作 —— 建圓、求 \(\phi\)（含 \(c'\neq0\) 的一元二次式）、
+證明 \(45^\circ+\phi/2\)、求破壞面上的 \(\sigma_{ff}\) 與 \(\tau_{ff}\)、外推到另一個圍壓。
+後面四題全部建立在這些操作上。而且它是 CD 試驗，\(u=0\)，可以先不必操心孔隙水壓。<br>
+<b>先讀</b>：§1 全節<br>
+<b>做完要能回答</b>：① 為什麼是 \(\sigma_1=340\) 而不是 240？② 那個「\(2\theta\)」為什麼是 \(90^\circ+\phi\)？③ 用線性關係秒算第四小題（\(340+100K_p\)）要怎麼寫？④ 怎麼驗算切點？
+</div>
+
+<h4>② <a class="qlink" href="problems-view/SM-2018-2.html" target="_blank">SM-2018-2</a>（2018）— CU 試驗的標準四連問</h4>
+<div class="box">
+<b>為什麼選它</b>：一題四個小問、四種技能：NC 比例性秒解、\(\phi_{cu}\) 與 \(\phi'\) 雙參數、破壞面角度（必用 \(\phi'\) 的陷阱）、\(A_f\)。
+是本單元<b>最具代表性</b>的題型，也是最能檢查「總應力／有效應力有沒有分清楚」的題目。<br>
+<b>先讀</b>：§2.2（兩組圓）、§4.1（比例性）、§1.2（破壞面角度）、§3.1（\(A_f\)）<br>
+<b>做完要能回答</b>：① 為什麼可以用比例法秒解第一小題？換成 OC 黏土還能用嗎？② 破壞面角度用 \(\phi_{cu}\) 會差幾度？③ \(A_f=0.788\) 合理嗎？怎麼判斷？
+</div>
+
+<h4>③ <a class="qlink" href="problems-view/SM-2010-1.html" target="_blank">SM-2010-1</a>（2010）— UU 與現地應力的橋樑</h4>
+<div class="box">
+<b>為什麼選它</b>：本單元有 3 題走這條路（另有 SM-2003-4、SM-2012-1），而這題版本最完整：
+有地下水位分層、要用 \(A_f=1\) 的隱含假設、還要反推試驗中的 \(u_f\)。
+最重要的是它逼你面對一個「題目沒說但必須自己補」的假設 —— <b>這種題最容易在考場上卡死</b>，練過一次就不會了。<br>
+<b>先讀</b>：§4.2（\(S_u\) 公式的推導）<br>
+<b>做完要能回答</b>：① 為什麼水位以上也用 \(\gamma_{sat}\)？這個假設要寫在哪？② \(A_f=1\) 對應到圖上是什麼意思？③ \(S_u/\sigma_{v0}'=0.319\) 合理嗎？
+</div>
+
+<h4>④ <a class="qlink" href="problems-view/SM-2008-2.html" target="_blank">SM-2008-2</a>（2008）— 把試驗參數用到現地</h4>
+<div class="box">
+<b>為什麼選它</b>：唯一一題把 Skempton 公式用在<b>現地</b>而非試體上，而且是 \(\Delta\sigma_1\neq\Delta\sigma_3\) 的一般情況
+（試驗中 \(\Delta\sigma_3=0\) 讓公式塌縮，這題不會）。還要自己算不飽和砂的單位重、用 \(K_0\) 求初始水平應力、
+最後<b>反算</b>到蓄水高度。計算鏈最長，最能訓練「一路把未知數帶著走」的能力。<br>
+<b>先讀</b>：§3（\(A\)、\(B\) 的物理意義）、§3.2（完整手算）<br>
+<b>做完要能回答</b>：① 為什麼 \(\sigma_{3f}'\) 的係數是負的？物理上代表什麼？② 忘記扣 \(\Delta u\) 會得到什麼結論？③ 為什麼 \(D=10\) m 用不到？
+</div>
+
+<h4>⑤ <a class="qlink" href="problems-view/SM-2013-3.html" target="_blank">SM-2013-3</a>（2013）— 全庫最高階的觀念題</h4>
+<div class="box">
+<b>為什麼選它</b>：唯一的應力路徑題，也是唯一能證明「\(\phi_{cu}\) 不是土壤性質」的題目。
+計算量不大，但觀念密度最高：ESP 唯一性、TSP 斜率 \(\pm1\)、由 AC 的孔壓推 LE 的孔壓（含負孔壓）、
+以及最後那個「同一塊土量到兩個 \(\phi_{cu}\)」的震撼結論。<b>這題讀懂了，整個單元的骨架就立起來了。</b><br>
+<b>先讀</b>：§5 全節<br>
+<b>做完要能回答</b>：① ESP 為什麼共用？兩個前提是什麼？② LE 的孔壓為什麼是負的？③ 第三小題該怎麼寫才完整（兩種觀點都要提）？
+</div>
+
+<h3>考點群涵蓋度（誠實版）</h3>
+
+<table>
+<thead><tr><th style="width:34%">考點群</th><th style="width:14%">是否涵蓋</th><th>說明</th></tr></thead>
+<tbody>
+<tr><td>Mohr 圓幾何全套</td><td style="color:#2e7d32"><b>✔</b></td><td>①</td></tr>
+<tr><td>破壞面角度（必用 \(\phi'\)）</td><td style="color:#2e7d32"><b>✔</b></td><td>①②⑤</td></tr>
+<tr><td>CU 雙參數（\(\phi_{cu}\) 與 \(\phi'\)）</td><td style="color:#2e7d32"><b>✔</b></td><td>②⑤</td></tr>
+<tr><td>NC 黏土的 \(c'=0\) 捷徑</td><td style="color:#2e7d32"><b>✔</b></td><td>②③</td></tr>
+<tr><td>\(S_u\) 與現地應力的連結</td><td style="color:#2e7d32"><b>✔</b></td><td>③</td></tr>
+<tr><td>孔壓參數 \(A\)、\(B\) 與現地預測</td><td style="color:#2e7d32"><b>✔</b></td><td>②④⑤</td></tr>
+<tr><td>應力路徑、參數的非唯一性</td><td style="color:#2e7d32"><b>✔</b></td><td>⑤</td></tr>
+<tr><td>\(c'\neq0\) 的兩組試驗聯立</td><td style="color:#e65100"><b>△</b></td><td>①有一元二次式但只有一組試驗 → 補候補 1（SM-2025-2，10 分鐘）</td></tr>
+<tr><td>由 \(S_u\) 反推取樣深度</td><td style="color:#e65100"><b>△</b></td><td>③練到正向，反向未練 → 補候補 2（SM-2012-1）</td></tr>
+<tr><td>取樣擾動與試驗規劃</td><td style="color:#c62828"><b>✘</b></td><td>SM-2002-4 是論述題，建議<b>當閱讀材料</b>（§6 已整理完整流程）</td></tr>
+<tr><td>SUU/UUU、流砂 vs 液化</td><td style="color:#c62828"><b>✘</b></td><td>SM-2007-2 是論述題，同上（§6.2 已整理）</td></tr>
+</tbody>
+</table>
+
+<h3>候補題（依序加）</h3>
+<ol>
+<li><a class="qlink" href="problems-view/SM-2025-2.html" target="_blank">SM-2025-2</a> — <b>最新年度</b>。兩組 CU 聯立求 \(N_\phi\)，再預測 CD。教你「保留 \(N_\phi\) 不要轉角度」的代數技巧，10 分鐘可完成。</li>
+<li><a class="qlink" href="problems-view/SM-2012-1.html" target="_blank">SM-2012-1</a> — 由 \(S_u\) 與 \(\phi_{cu}\) 反推現地應力與<b>取樣深度</b>，把 §4.2 的公式反過來用。</li>
+<li><a class="qlink" href="problems-view/SM-2003-4.html" target="_blank">SM-2003-4</a> — ③ 的簡化版（水位在地表、\(\phi'=30^\circ\) 使 \(K_p=3\)）。若 ③ 做起來吃力，先做這題。</li>
+<li><a class="qlink" href="problems-view/SM-2002-4.html" target="_blank">SM-2002-4</a>、<a class="qlink" href="problems-view/SM-2007-2.html" target="_blank">SM-2007-2</a> — 兩題論述題，建議<b>讀解析</b>並自己默寫重點，不必動筆計算。</li>
+</ol>
+
+<h3>練這五題的正確方法</h3>
+<ol>
+<li><b>先做 §7 的三個判斷再動筆。</b>哪種試驗、NC 還是 OC、要總應力還是有效應力。本單元幾乎沒有「不會算」，只有「判斷錯」。</li>
+<li><b>每題都畫圖。</b>就算題目沒要求，也在草稿紙上畫出莫爾圓與包絡線 —— 幾何畫對了，代數就不會走錯方向；畫錯了，一眼就看得出來。</li>
+<li><b>解出 \(\sqrt{K_p}\) 或 \(N_\phi\) 就留著它。</b>不要先轉成角度再轉回去，那是進位誤差的主要來源。</li>
+<li><b>每題結束前做三個免費檢查</b>：切點在包絡線上（\(\tau_{ff}=c'+\sigma_{ff}\tan\phi'\)）、回推 \(A_f\) 是否在 \(0.5\sim1.0\)、\(S_u/\sigma_{v0}'\) 是否小於 0.5。</li>
+<li><b>最後回到 §9 圈選踩過的陷阱</b>。五題做完應圈掉 14 條以上；沒圈到的多半落在候補題裡。</li>
+</ol>
+</section>
+</main>
+
+<footer>
+exam-wiki-SM · unit-lecture 產出 · 資料來源：raw/solutions/（解題內容唯一正本）＋ raw/json/question_index.json
+</footer>
+</body>
+</html>

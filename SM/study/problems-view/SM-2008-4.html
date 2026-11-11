@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2008-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2008-4 題目解析</h1><a class="back quick" href="../../index.html">&#128218; 回題庫瀏覽</a></header>
+<main><h1>考題編號：SM-2008-4</h1>
+<p><strong>主分類：</strong> <code>SM-U3-3</code> 坡地工程<br />
+<strong>副分類：</strong> 無<br />
+<strong>分析法：</strong> 混合<br />
+<strong>標籤：</strong> <code>平面滑動分析</code> <code>岩石邊坡</code> <code>水平地震力</code> <code>地錨</code> <code>Mohr-Coulomb破壞準則</code> <code>安全係數</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>一岩石邊坡為砂岩含有一泥岩夾層，如圖三所示。已知砂岩之單位重 $\gamma = 20 \text{ kN/m}^3$，泥岩夾層之凝聚力 $c = 10 \text{ kN/m}^2$，摩擦角 $\phi = 28^\circ$，水平地震力係數 $k_h = 0.2$。（25 分）<br />
+(一) 試問於水平地震力 $k_hW$ 與滑動塊體 ABC 自重 $W$ 的作用下，此邊坡之安全係數 $FS$ ＝？（註：此時不考慮有地錨之情形）<br />
+(二) 同上題，若欲採用一排地錨，地錨垂直於滑動面 AC，地錨間距（指垂直紙面之間距）2 m，試問每支地錨荷重 $T$ 應為多大才能滿足於地震力作用下安全係數 $FS \ge 1.2$ 的規定。（註：假設地錨只增加正向力）</p>
+<p><img alt="SM-2008-4 題目附圖：砂岩邊坡包含泥岩夾層，邊坡幾何及地錨配置圖" src="../../raw/solutions/SM-2008-4/SM-2008-4-fig-1.png" /><br />
+<em>圖說：滑動塊體為 ABC。滑動面 AC 與水平面夾角 $40^\circ$。坡面 AB 與 AC 夾角 $30^\circ$。頂面 BC 與 AC 夾角 $35^\circ$。點 B 相對於底端 A 的垂直高度為 7.5m。地錨垂直於滑動面 AC 設置。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題測驗工程師對於<strong>岩坡平面滑動（Planar Failure）</strong>的剛體力學分析能力。出題者刻意給定各邊夾角與單一垂直高度，測驗考生利用正弦定理（Sine Rule）解構幾何並求取滑動塊體面積與重量的能力。同時，加入了水平地震力，測驗考生是否能正確將地震力分解至平行與垂直滑動面的方向（特別是地震力會<strong>減少正向力</strong>的陷阱）。最後，引入地錨設計，測驗考生將所需額外抗滑力反推為地錨荷重，並注意單位長度轉換至單支地錨間距的計算。</p>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<ol>
+<li><strong>解構幾何（最容易出錯的一步）</strong>：</li>
+<li>觀察 $\triangle ABC$。滑動面 AC 傾角為 $40^\circ$。坡面 AB 傾角為 $40^\circ + 30^\circ = 70^\circ$。</li>
+<li>利用點 B 垂直高度 7.5m，求出 AB 長度。</li>
+<li>根據三角形內角和求出 $\angle B = 180^\circ - 30^\circ - 35^\circ = 115^\circ$。</li>
+<li>運用正弦定理求出滑動面 AC 長度，接著計算 $\triangle ABC$ 面積及每公尺寬度的重量 $W$。</li>
+<li><strong>分析作用力與安全係數（無地錨時）</strong>：</li>
+<li>地震力 $F_h = k_h W$ 必須施加於<strong>最不利方向</strong>（水平向左外推）。</li>
+<li>將 $W$ 與 $F_h$ 投影至平行滑動面（驅動力）與垂直滑動面（正向力）。</li>
+<li><strong>陷阱</strong>：向左的地震力會產生遠離滑動面的垂直分力，因此會<strong>減小</strong>有效正向力，不可加錯符號。</li>
+<li>帶入 Mohr-Coulomb 準則計算抗滑力，求出初始 FS。</li>
+<li><strong>地錨設計</strong>：</li>
+<li>根據目標 $FS = 1.2$ 反推所需的總抗滑力。</li>
+<li>計算現有抗滑力與目標抗滑力之差額，此差額必須由地錨提供。</li>
+<li>因為地錨<strong>垂直</strong>於滑動面，其張力完全轉換為滑動面上的正向力增量 $\Delta N$。</li>
+<li>求出每公尺所需地錨張力 $P$，再乘上間距 2m，即為單支地錨荷重 $T$。</li>
+</ol>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p><code>求出滑動塊體自重、地震力作用下之抗滑安全係數，以及為達 FS=1.2 所需之單支地錨荷重 T。</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li><strong>幾何解算</strong>：$$L_{AB} = \frac{H}{\sin\beta}$$</li>
+<li><strong>滑動面長度</strong>：$$L_{AC} = \boxed{L_{AB}} \frac{\sin B}{\sin C}$$</li>
+<li><strong>塊體重量</strong>：$$W = \gamma \left( \frac{1}{2} \boxed{L_{AB}} \cdot \boxed{L_{AC}} \sin A \right)$$</li>
+<li><strong>滑動力與正向力</strong>：<br />
+  $$T_d = \boxed{W} \sin\alpha + k_h\boxed{W} \cos\alpha$$<br />
+  $$N = \boxed{W} \cos\alpha - k_h\boxed{W} \sin\alpha$$</li>
+<li><strong>初始安全係數</strong>：$$FS = \frac{c L_{AC} + \boxed{N} \tan\phi}{\boxed{T_d}}$$</li>
+<li><strong>地錨荷重需求</strong>：$$T = s \cdot \frac{FS_{req} \boxed{T_d} - \boxed{T_r}}{\tan\phi}$$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H$</td>
+<td>$7.5 \text{ m}$</td>
+<td>點 B 相對點 A 的垂直高度</td>
+</tr>
+<tr>
+<td>$\gamma$</td>
+<td>$20 \text{ kN/m}^3$</td>
+<td>砂岩單位重</td>
+</tr>
+<tr>
+<td>$c$</td>
+<td>$10 \text{ kN/m}^2$</td>
+<td>泥岩夾層凝聚力</td>
+</tr>
+<tr>
+<td>$\phi$</td>
+<td>$28^\circ$</td>
+<td>泥岩夾層摩擦角</td>
+</tr>
+<tr>
+<td>$k_h$</td>
+<td>$0.2$</td>
+<td>水平地震力係數</td>
+</tr>
+<tr>
+<td>$FS_{req}$</td>
+<td>$1.2$</td>
+<td>目標安全係數</td>
+</tr>
+<tr>
+<td>$s$</td>
+<td>$2 \text{ m}$</td>
+<td>地錨間距</td>
+</tr>
+<tr>
+<td>$\alpha$</td>
+<td>$40^\circ$</td>
+<td>滑動面 AC 傾角</td>
+</tr>
+<tr>
+<td>$\angle A$</td>
+<td>$30^\circ$</td>
+<td>$\triangle ABC$ 中，AB 與 AC 夾角</td>
+</tr>
+<tr>
+<td>$\angle C$</td>
+<td>$35^\circ$</td>
+<td>$\triangle ABC$ 中，BC 與 AC 夾角</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>幾何參數計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\beta$ | $\alpha + \angle A = 40^\circ + 30^\circ = 70^\circ$ (AB 傾角) | |<br />
+| $\angle B$ | $180^\circ - \angle A - \angle C = 115^\circ$ | |<br />
+| $L_{AB}$ | $H / \sin\beta$ | |<br />
+| $L_{AC}$ | $L_{AB} \cdot \sin B / \sin C$ (正弦定理) | |<br />
+| $A$ | $\frac{1}{2} L_{AB} L_{AC} \sin A$ (三角形面積) | |<br />
+| $W$ | $\gamma \times A$ | |</p>
+<p><strong>受力與穩定性分析</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $F_h$ | $k_h \cdot W$ (水平地震力) | |<br />
+| $T_d$ | $W \sin\alpha + F_h \cos\alpha$ | |<br />
+| $N$ | $W \cos\alpha - F_h \sin\alpha$ | |<br />
+| $T_r$ | $c L_{AC} + N \tan\phi$ | |<br />
+| $FS$ | $T_r / T_d$ | |<br />
+| $P$ | $(FS_{req} T_d - T_r) / \tan\phi$ (每公尺所需地錨力) | |<br />
+| $T$ | $P \times s$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>水平地震力方向判定</td>
+<td>地震力方向隨機，設計時取最危險方向（向左外推），此時會增加滑動力並<strong>減少正向力</strong>。</td>
+<td></td>
+</tr>
+<tr>
+<td>地錨力與正向力關係</td>
+<td>題目聲明「垂直滑動面 AC」，代表地錨張力只會產生垂直面的正向力 $\Delta N = P$，無平行滑動力分量。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>(一) 無地錨情形下之安全係數 FS</h3>
+<p><strong>Step 1：解算滑動塊體幾何</strong><br />
+觀察 $\triangle ABC$：</p>
+<ul>
+<li>滑動面 AC 傾角 $\alpha = 40^\circ$。</li>
+<li>坡面 AB 傾角 $\beta = 40^\circ + \angle BAC = 40^\circ + 30^\circ = 70^\circ$。</li>
+<li>$\triangle ABC$ 內角：$\angle A = 30^\circ$，$\angle C = 35^\circ$，推得 $\angle B = 180^\circ - 30^\circ - 35^\circ = 115^\circ$。</li>
+</ul>
+<p>利用垂直高度 $H = 7.5 \text{ m}$，求 AB 邊長：<br />
+$$L_{AB} = \frac{H}{\sin 70^\circ} = \frac{7.5}{0.9397} = 7.981 \text{ m}$$</p>
+<p>利用正弦定理求 AC 邊長（滑動面長度）：<br />
+$$\frac{L_{AC}}{\sin 115^\circ} = \frac{L_{AB}}{\sin 35^\circ}$$<br />
+$$L_{AC} = 7.981 \times \frac{\sin 115^\circ}{\sin 35^\circ} = 7.981 \times \frac{0.9063}{0.5736} = 12.610 \text{ m}$$</p>
+<p>計算 $\triangle ABC$ 面積：<br />
+$$Area = \frac{1}{2} L_{AB} \cdot L_{AC} \cdot \sin(\angle A) = \frac{1}{2} \times 7.981 \times 12.610 \times \sin 30^\circ = 25.162 \text{ m}^2$$</p>
+<p><strong>Step 2：計算單位寬度（每公尺）之作用力</strong><br />
+滑動塊體重量 $W$：<br />
+$$W = \gamma \times Area = 20 \times 25.162 = 503.24 \text{ kN/m}$$</p>
+<p>水平地震力 $F_h$（向左外推方向最為臨界）：<br />
+$$F_h = k_h \times W = 0.2 \times 503.24 = 100.65 \text{ kN/m}$$</p>
+<p><strong>Step 3：將力分解至平行與垂直滑動面 AC 方向</strong></p>
+<ul>
+<li>
+<p><strong>驅動力 $T_d$</strong>（平行滑動面向下）：<br />
+  $$T_d = W \sin 40^\circ + F_h \cos 40^\circ = 503.24 \times 0.6428 + 100.65 \times 0.7660$$<br />
+  $$T_d = 323.48 + 77.10 = 400.58 \text{ kN/m}$$</p>
+</li>
+<li>
+<p><strong>正向力 $N$</strong>（垂直滑動面壓緊）：<br />
+<em>(注意：向左之水平地震力會產生離開滑動面的分力，故為負號)</em><br />
+  $$N = W \cos 40^\circ - F_h \sin 40^\circ = 503.24 \times 0.7660 - 100.65 \times 0.6428$$<br />
+  $$N = 385.50 - 64.69 = 320.81 \text{ kN/m}$$</p>
+</li>
+</ul>
+<p><strong>Step 4：計算抗滑力與安全係數</strong><br />
+抗滑力 $T_r$：<br />
+$$T_r = c \cdot L_{AC} + N \tan \phi = 10 \times 12.610 + 320.81 \times \tan 28^\circ$$<br />
+$$T_r = 126.10 + 320.81 \times 0.5317 = 126.10 + 170.58 = 296.68 \text{ kN/m}$$</p>
+<p>初始安全係數 $FS$：<br />
+$$FS = \frac{T_r}{T_d} = \frac{296.68}{400.58} = 0.7406$$<br />
+$$\boxed{FS = 0.74}$$</p>
+<hr />
+<h3>(二) 滿足 FS ≥ 1.2 之地錨荷重 T</h3>
+<p><strong>Step 5：計算所需之額外正向力</strong><br />
+設每公尺寬度需施加之地錨張力為 $P$ (kN/m)。因地錨垂直於滑動面，其張力全數轉換為正向力增加量。<br />
+新的抗滑力 $T_r'$ 為：<br />
+$$T_r' = c \cdot L_{AC} + (N + P) \tan \phi = T_r + P \tan 28^\circ = 296.68 + 0.5317 P$$</p>
+<p>根據目標安全係數 $FS \ge 1.2$：<br />
+$$FS = \frac{T_r'}{T_d} = 1.2$$<br />
+$$296.68 + 0.5317 P = 1.2 \times 400.58 = 480.70 \text{ kN/m}$$<br />
+$$0.5317 P = 480.70 - 296.68 = 184.02 \text{ kN/m}$$<br />
+$$P = \frac{184.02}{0.5317} = 346.09 \text{ kN/m}$$</p>
+<p><strong>Step 6：計算單支地錨荷重</strong><br />
+由於地錨間距 $s = 2 \text{ m}$，每支地錨需負擔 2 公尺寬度之拉力：<br />
+$$T = P \times s = 346.09 \times 2 = 692.18 \text{ kN}$$<br />
+$$\boxed{T \ge 692.18 \text{ kN}}$$</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>地震力方向的雙面刃</strong>：地震力既增加了向下滑動的驅動力（$k_h W \cos\alpha$），也減小了將滑動塊體壓緊於滑動面的正向力（$k_h W \sin\alpha$）。在邊坡穩定分析中，這往往是決定破壞的關鍵，計算時正負號絕對不能弄錯。</li>
+<li><strong>地錨傾角的最佳化</strong>：本題為了簡化計算，設定地錨「垂直於滑動面」。然而在實務設計中，最佳的地錨傾角通常會稍微偏向下傾（即與滑動面法線有一夾角 $\theta$），使得地錨張力同時能提供直接的抗滑分力（平行於滑動面）。當 $\theta = \phi$ 時，地錨效率最高。</li>
+</ul></main>
+<footer>來源：raw/solutions/SM-2008-4/SM-2008-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

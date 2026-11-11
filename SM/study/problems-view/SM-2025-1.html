@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2025-1 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2025-1 題目解析</h1><a class="back quick" href="../study-SM-U1-3.html">&#128269; U1-3 命題分析</a>
+<a class="back lect" href="../lecture-SM-U1-3.html">&#128218; U1-3 土壤夯實及壓密 講義</a></header>
+<main><h1>考題編號：SM-2025-1</h1>
+<p><strong>主分類：</strong> <code>SM-U1-3</code> 土壤夯實及壓密<br />
+<strong>副分類：</strong> 無<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>Terzaghi壓密理論</code> <code>一維壓密</code> <code>壓密度</code> <code>壓密係數Cv</code> <code>排水路徑</code> <code>時間因素</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>從某 10 m 厚之黏土層取樣之原狀試體，進行單向度壓密試驗，試體之原始高度為 25.4 mm，可雙向排水。根據試驗結果顯示，試體費時 3 分鐘達到 50% 之平均壓密度。若現場之情況僅可單向排水，受到與實驗室相似之載重，請問：<br />
+(一) 該土層需歷時多久，可達到 90% 之平均壓密度？（15 分）<br />
+(二) 若該土層之主要壓密沉陷量為 20 cm，則需多少時間，該土層可達 9 cm 之沉陷量？（10 分）</p>
+<p><em>(註：本題為純文字描述幾何與土層條件，無附圖。考卷於題末印有下列</em><em>參考公式</em><em>，可直接引用，不必自行背誦：)</em></p>
+<p>$$\text{for } U \le 0.6,\quad T_v = \frac{\pi}{4}U^2
+\qquad\qquad
+\text{for } U &gt; 0.6,\quad T_v = -0.933\log(1-U) - 0.085$$</p>
+<p>$$T_v = \frac{c_v \cdot t}{H_{dr}^2}$$</p>
+<p><em>(以上三式逐字轉錄自 <code>raw/exams/SM-2025_土壤力學與基礎設計.pdf</code> 第 2-1 頁。</em><em>注意考卷未給 $H_{dr}$ 的判定規則</em><em>——單面／雙面排水要自己判斷，那正是本題的實際考點。)</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題主要測驗 Terzaghi 一維壓密理論中，時間因素 $T_v$、壓密度 $U$、時間 $t$ 與最大排水路徑 $H_{dr}$ 之間的關係。出題者刻意設計了實驗室的「雙向排水」與現場的「單向排水」情境，以測驗考生是否能正確判別並帶入正確的 $H_{dr}$。同時，第二小題要求考生認知壓密度 $U$ 的物理意義，即當下沉陷量與最終沉陷量的比值。</p>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>戰略地圖：</strong></p>
+<ul>
+<li><strong>Step 1:</strong> 利用實驗室的已知條件（$t_{lab}=3$ min, $U=50\%$, 雙向排水），計算土壤的壓密係數 $c_v$。</li>
+<li><strong>Step 2:</strong> 針對現場條件，確認其排水路徑 $H_{dr, field}$（單向排水）。</li>
+<li><strong>Step 3:</strong> 針對目標 $U=90\%$，選用大於 60% 的公式計算 $T_{v, 90}$，再由 $c_v$ 反推現場所需時間 $t_{90}$。</li>
+<li><strong>Step 4:</strong> 針對最終沉陷量 20 cm 與目標沉陷量 9 cm，計算壓密度 $U = 45\%$，選用小於 60% 的公式計算 $T_{v, 45}$，並求得所需時間 $t_{45}$。</li>
+</ul>
+<p><strong>陷阱分析：</strong></p>
+<ol>
+<li><strong>排水路徑選用陷阱：</strong> 實驗室為「雙向排水」，$H_{dr} = H/2$；現場為「單向排水」，$H_{dr} = H$。若未注意到此差異，算出的時間將相差整整 4 倍。</li>
+<li><strong>單位不一致陷阱：</strong> 試體高度為 mm，現場厚度為 m，若未於計算 $c_v$ 及 $t$ 時統一長度單位（例如全數轉為 cm），會造成極大的數量級錯誤。</li>
+<li><strong>公式誤用：</strong> 本題壓密度有 $50\% \le 0.6$、$90\% &gt; 0.6$ 與 $45\% \le 0.6$，需根據 $U$ 值正確選用相對應的 $T_v$ 參考公式。</li>
+</ol>
+<p><img alt="排水路徑對照圖：左格為實驗室試體，上下皆有透水石、水往兩側排出，中央面為不排水面，H_dr = H/2 = 12.7 mm；右格為現場黏土層，僅頂面為透水層、底面以斜線表示不透水，水只能向上排出，H_dr = H = 10 m" src="../../raw/solutions/SM-2025-1/figs/SM-2025-1-fig-1-drainage-path.svg" /></p>
+<p><em>圖 1　排水路徑 $H_{dr}$ 的判定。它攔的是本題唯一真正的陷阱：實驗室 $H_{dr}=1.27$ cm、現場 $H_{dr}=1000$ cm，$t \propto H_{dr}^2$ 故兩者相差約 62 萬倍；若把現場也當雙面排水，$t_{90}$ 會從 15.28 年掉成 3.82 年。</em></p>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p><code>利用實驗室求得的壓密係數，推估現場黏土層達到 90% 壓密度及 9 cm 沉陷量所需的時間。</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>$$ c_v = \frac{T_{v, lab} \cdot H_{dr, lab}^2}{t_{lab}} $$<br />
+$$ t_{field} = \frac{T_{v, field} \cdot H_{dr, field}^2}{\boxed{c_v}} $$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H_{lab}$</td>
+<td>25.4 mm</td>
+<td>實驗室試體原始高度</td>
+</tr>
+<tr>
+<td>$t_{lab}$</td>
+<td>3 min</td>
+<td>實驗室達 50% 壓密之時間</td>
+</tr>
+<tr>
+<td>$U_{lab}$</td>
+<td>50%</td>
+<td>實驗室已知壓密度</td>
+</tr>
+<tr>
+<td>$H_{field}$</td>
+<td>10 m</td>
+<td>現場黏土層總厚度</td>
+</tr>
+<tr>
+<td>$S_{max}$</td>
+<td>20 cm</td>
+<td>現場主要壓密總沉陷量</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>第一階段：求壓密係數 $c_v$</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$H_{dr, lab}$</td>
+<td>雙向排水 $\Rightarrow H_{lab} / 2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$T_{v, 50}$</td>
+<td>$U \le 0.6 \Rightarrow \frac{\pi}{4} U^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$c_v$</td>
+<td>$T_{v, 50} \cdot H_{dr, lab}^2 / t_{lab}$</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>第二階段：求現場 $t_{90}$</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$H_{dr, field}$</td>
+<td>單向排水 $\Rightarrow H_{field}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$T_{v, 90}$</td>
+<td>$U &gt; 0.6 \Rightarrow -0.933\log(1-U)-0.085$</td>
+<td></td>
+</tr>
+<tr>
+<td>$t_{90}$</td>
+<td>$T_{v, 90} \cdot H_{dr, field}^2 / c_v$</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>第三階段：求現場 $t_{45}$</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$U_{field}$</td>
+<td>$S(t) / S_{max}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$T_{v, 45}$</td>
+<td>$U \le 0.6 \Rightarrow \frac{\pi}{4} U^2$</td>
+<td></td>
+</tr>
+<tr>
+<td>$t_{45}$</td>
+<td>$T_{v, 45} \cdot H_{dr, field}^2 / c_v$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>L3：深層知識</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>排水路徑 $H_{dr}$ 判定</td>
+<td>單向排水 $H_{dr} = H$；雙向排水 $H_{dr} = H/2$</td>
+<td></td>
+</tr>
+<tr>
+<td>壓密度 $U$ 定義</td>
+<td>$U(t) = \frac{S(t)}{S_{max}}$，代表任一時間點沉陷量與最終沉陷量之比例</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<p><strong>Step 1：計算土壤壓密係數 $c_v$</strong><br />
+將單位統整為公分(cm)與分鐘(min)。<br />
+實驗室試體為雙向排水：<br />
+$$ H_{dr, lab} = \frac{H_{lab}}{2} = \frac{25.4 \text{ mm}}{2} = 12.7 \text{ mm} = 1.27 \text{ cm} $$<br />
+壓密度 $U_{lab} = 50\% = 0.5 \le 0.6$，代入參考公式：<br />
+$$ T_{v, 50} = \frac{\pi}{4} U^2 = \frac{\pi}{4} (0.5)^2 \approx 0.19635 $$<br />
+利用一維壓密時間因素公式 $T_v = \frac{c_v \cdot t}{H_{dr}^2}$，求得 $c_v$：<br />
+$$ c_v = \frac{T_{v, 50} \cdot H_{dr, lab}^2}{t_{lab}} = \frac{0.19635 \times (1.27)^2}{3} = \frac{0.19635 \times 1.6129}{3} \approx 0.10556 \text{ cm}^2/\text{min} $$<br />
+<em>(策略註解：保留 $c_v$ 至小數點後 5 位，或以分數代入後續計算避免進位誤差)</em></p>
+<p><strong>Step 2：計算現場達 90% 壓密度所需時間 $t_{90}$</strong><br />
+現場為單向排水：<br />
+$$ H_{dr, field} = 10 \text{ m} = 1000 \text{ cm} $$<br />
+壓密度 $U_{field} = 90\% = 0.9 &gt; 0.6$，代入參考公式：<br />
+$$ T_{v, 90} = -0.933\log(1-U) - 0.085 = -0.933\log(1 - 0.9) - 0.085 = -0.933(-1) - 0.085 = 0.848 $$<br />
+計算所需時間 $t_{90}$：<br />
+$$ t_{90} = \frac{T_{v, 90} \cdot H_{dr, field}^2}{c_v} = \frac{0.848 \times (1000)^2}{0.10556} \approx 8,033,346 \text{ min} $$<br />
+將分鐘換算為天數：$8033346 / (60 \times 24) = 5578.7 \text{ days}$ (約 15.28 年)。<br />
+$$ \boxed{ t_{90} \approx 8,033,346 \text{ 分鐘} \text{（約 5578.7 天或 15.28 年）} } $$</p>
+<p><strong>Step 3：計算現場沉陷量達 9 cm 所需時間 $t_{45}$</strong><br />
+現場達到 9 cm 時之平均壓密度為：<br />
+$$ U = \frac{S(t)}{S_{max}} = \frac{9}{20} = 45\% = 0.45 $$<br />
+因為 $0.45 \le 0.6$，代入對應參考公式：<br />
+$$ T_{v, 45} = \frac{\pi}{4} U^2 = \frac{\pi}{4} (0.45)^2 \approx 0.15904 $$<br />
+計算所需時間 $t_{45}$：<br />
+$$ t_{45} = \frac{T_{v, 45} \cdot H_{dr, field}^2}{c_v} = \frac{0.15904 \times (1000)^2}{0.10556} \approx 1,506,631 \text{ min} $$<br />
+將分鐘換算為天數：$1506631 / (60 \times 24) \approx 1046.3 \text{ days}$ (約 2.87 年)。<br />
+$$ \boxed{ t_{45} \approx 1,506,631 \text{ 分鐘} \text{（約 1046.3 天或 2.87 年）} } $$</p>
+<p><img alt="時間因素與平均壓密度關係圖：橫軸 T_v 由 0 至 1，縱軸平均壓密度 U 由 0 至 100% 向上遞增；U ≤ 60% 段為 π/4·U² 之曲線，U &gt; 60% 段為對數式曲線，兩段以 U = 60%（T_v = 0.283）分界；圖上標出三個工作點 U = 45%、50%、90%" src="../../raw/solutions/SM-2025-1/figs/SM-2025-1-fig-2-u-tv-branches.svg" /></p>
+<p><em>圖 2　考卷給的兩條參考公式各自負責哪一段。它攔的是「換式分界」：本題三個工作點分屬兩段，若一律用 $\frac{\pi}{4}U^2$ 去算 $U=90\%$，會得到 $T_v = 0.636$ 而非 $0.848$，$t_{90}$ 少估 25%。</em></p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<p>本題無特殊爭議點，為非常標準的單向度壓密沉陷速率計算題。唯一需要注意的是考試時要求填寫的「時間單位」。若考題未特別指明單位，建議寫出原始計算所得的分鐘數（min），並在旁標註換算成天數（days）或年數（years），以展現對工程數字直覺的掌握度，亦能確保閱卷老師容易對答案。</p>
+<hr />
+<p><em>解析日期：見 <code>wiki/log.md</code>　｜　圖解補繪：2026-08-28（向量 SVG，程式繪製，腳本 <code>gen_SM-2025-1.py</code> 可重跑；同名 2× PNG 供簡報／影片管線使用）</em></p></main>
+<footer>來源：raw/solutions/SM-2025-1/SM-2025-1.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

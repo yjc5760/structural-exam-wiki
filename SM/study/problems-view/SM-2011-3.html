@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2011-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2011-3 題目解析</h1><a class="back quick" href="../study-SM-U1-3.html">&#128269; U1-3 命題分析</a>
+<a class="back lect" href="../lecture-SM-U1-3.html">&#128218; U1-3 土壤夯實及壓密 講義</a></header>
+<main><h1>考題編號：SM-2011-3</h1>
+<p><strong>主分類：</strong> <code>SM-U1-3</code> 土壤夯實及壓密<br />
+<strong>副分類：</strong> <code>SM-U1-4</code> 土體內應力、<code>SM-U2-1</code> 淺基礎之支承力與沉陷量<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>壓密沉陷</code> <code>2:1應力分布</code> <code>應力增量</code> <code>過壓密</code> <code>OCR</code> <code>e-log p'曲線</code> <code>回脹指數Cs</code> <code>飽和度</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>如下圖所示之 1.8m×1.8m 正方基礎承受 Q 為 1 MN 之鉛垂向之正方柱載重，假設砂土層之孔隙比 $e$ 為 0.65，比重 $G_s$ 為 2.65，地下水位以上砂土之飽和度為 50%；黏土層之比重 $G_s$為 2.70，壓縮性指數 $C_c$為 0.25，回脹性指數 $C_s$為 0.06，最初孔隙比 $e_o$ 為 0.68。其他參數如圖中所標示。<br />
+(一)假設壓力以 2：1（V：H）分布方式向下傳遞，試計算基礎中心下方黏土層之平均新增鉛垂向應力為若干（kPa）？<br />
+(二)試計算黏土層之壓密沉陷量為若干（mm）？（25 分）</p>
+<p><img alt="SM-2011-3 題目附圖：1.8m×1.8m正方基礎、地下水位及雙層土層剖面與參數" src="../../raw/solutions/SM-2011-3/SM-2011-3-fig-1.png" /></p>
+<p><em>圖說：基礎底寬 1.8m×1.8m，埋置深度 1.5m，受載 1MN。地下水位位於基礎底面。地層剖面由上至下為：1.5m 砂土(水位上)、1.2m 砂土(水位下)、3m 黏土、底層岩盤。</em></p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題測驗考生對於淺基礎沉陷量計算之完整流程掌握度，主要核心意圖包含：</p>
+<ol>
+<li><strong>部分飽和土壤之單位重計算</strong>：水位以上的砂土層給定 $S=50\%$，需正確代入三相圖公式求取濕單位重 $\gamma_t$。</li>
+<li><strong>2:1 應力分布法之應用</strong>：測驗是否能正確計算深度 $z$ 處之新增應力，並理解「平均新增應力」在實務上的簡化取法（通常取黏土層中央深度）。</li>
+<li><strong>過壓密狀態 (OCR) 的判別與沉陷量計算</strong>：給定前期最大壓密應力 $p_c'=100 \text{ kPa}$，考生必須先計算初始有效覆土應力 $p_0'$ 並與 $p_c'$ 比較。本題設計 $p_0' + \Delta\sigma$ 剛好跨越 $p_c'$，因此必須分段使用回脹指數 $C_s$ 與壓縮指數 $C_c$ 計算沉陷量。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>解題步驟：</strong></p>
+<ol>
+<li><strong>求取各層單位重</strong>：分別計算水位上砂土 ($\gamma_t$)、水位下砂土 ($\gamma_{sat}$、$\gamma'$)、黏土 ($\gamma_{sat}$、$\gamma'$) 之單位重。</li>
+<li><strong>計算初始有效應力 $p_0'$</strong>：計算基礎中心下方、黏土層中央處之初始有效覆土應力。</li>
+<li><strong>計算平均新增應力 $\Delta\sigma_{avg}$</strong>：採用 2:1 應力分布法，計算黏土層中央深度之新增應力作為平均值。</li>
+<li><strong>判斷應力歷史並計算沉陷量 $S_c$</strong>：比較 $p_0'$、$p_c'$ 與 $p_0' + \Delta\sigma_{avg}$，代入過壓密雙段沉陷公式求解。</li>
+</ol>
+<p><strong>陷阱分析：</strong></p>
+<ul>
+<li><strong>陷阱一：忽略水位以上的飽和度</strong>。若直接將水位上砂土視為乾燥 ($S=0$) 或忽略不計，將導致 $p_0'$ 計算錯誤。</li>
+<li><strong>陷阱二：計算 $\Delta\sigma$ 的深度 $z$ 定義</strong>。2:1 應力分布法的深度 $z$ 必須由「基礎底面」起算，而非地表面。至黏土層中央之深度 $z = 1.2 + 3.0/2 = 2.7 \text{ m}$。</li>
+<li><strong>陷阱三：沉陷量公式錯用</strong>。若未檢查 $p_0' + \Delta\sigma_{avg}$ 是否大於 $p_c'$，可能只套用 $C_s$ 計算，忽略了跨越 $p_c'$ 後進入正常壓密線的 $C_c$ 貢獻段。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求出黏土層之平均新增應力 $\Delta\sigma_{avg}$ 與最終壓密沉陷量 $S_c$。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>土壤單位重推導：<br />
+  $$ \gamma = \frac{G_s + S \cdot e}{1+e}\gamma_w $$</li>
+<li>初始有效應力（黏土層中央）：<br />
+  $$ p_0' = \Sigma (\gamma_i \cdot H_i) - u $$</li>
+<li>2:1 應力分布（黏土層中央新增應力）：<br />
+  $$ \Delta\sigma_{avg} = \frac{Q}{(B+z_m)(L+z_m)} $$</li>
+<li>過壓密土壤沉陷量（當 $\boxed{p_0'} &lt; p_c' &lt; \boxed{p_0'} + \boxed{\Delta\sigma_{avg}}$）：<br />
+  $$ S_c = \frac{C_s H}{1+e_0}\log\left(\frac{p_c'}{\boxed{p_0'}}\right) + \frac{C_c H}{1+e_0}\log\left(\frac{\boxed{p_0'} + \boxed{\Delta\sigma_{avg}}}{p_c'}\right) $$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$B \times L$</td>
+<td>$1.8 \text{ m} \times 1.8 \text{ m}$</td>
+<td>基礎尺寸</td>
+</tr>
+<tr>
+<td>$Q$</td>
+<td>$1000 \text{ kN}$</td>
+<td>柱載重 ($1 \text{ MN}$)</td>
+</tr>
+<tr>
+<td>$e_{sand}$</td>
+<td>$0.65$</td>
+<td>砂土孔隙比</td>
+</tr>
+<tr>
+<td>$G_{s,sand}$</td>
+<td>$2.65$</td>
+<td>砂土比重</td>
+</tr>
+<tr>
+<td>$S_{top}$</td>
+<td>$50\%$</td>
+<td>水位以上砂土飽和度</td>
+</tr>
+<tr>
+<td>$e_0$</td>
+<td>$0.68$</td>
+<td>黏土初始孔隙比</td>
+</tr>
+<tr>
+<td>$G_{s,clay}$</td>
+<td>$2.70$</td>
+<td>黏土比重</td>
+</tr>
+<tr>
+<td>$C_c$</td>
+<td>$0.25$</td>
+<td>黏土壓縮指數</td>
+</tr>
+<tr>
+<td>$C_s$</td>
+<td>$0.06$</td>
+<td>黏土回脹指數</td>
+</tr>
+<tr>
+<td>$p_c'$</td>
+<td>$100 \text{ kPa}$</td>
+<td>黏土前期最大壓密應力</td>
+</tr>
+<tr>
+<td>$H_{clay}$</td>
+<td>$3.0 \text{ m}$</td>
+<td>黏土層厚度</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>土壤單位重</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\gamma_{t,sand}$ | $\frac{G_s + S \cdot e}{1+e}\gamma_w$ | |<br />
+| $\gamma_{sat,sand}$ | $\frac{G_s + e}{1+e}\gamma_w$ | |<br />
+| $\gamma_{sat,clay}$ | $\frac{G_s + e_0}{1+e_0}\gamma_w$ | |</p>
+<p><strong>應力與沉陷計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $p_0'$ | $\gamma_{t} H_1 + \gamma_{sand}' H_2 + \gamma_{clay}' (H_3/2)$ | |<br />
+| $\Delta\sigma_{avg}$ | $Q / [(B+z_m)(L+z_m)]$ | |<br />
+| $S_c$ | 雙段沉陷量公式加總 | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>平均應力選取法</strong></td>
+<td>實務上 2:1 法的「黏土層平均新增應力」多直接取中央深度 $z_m$ 計算。</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>OCR 沉陷段落判定</strong></td>
+<td>需清晰比較 $p_0'$、$p_c'$、$p_f'$ 才能決定公式，勿盲目套用單一公式。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>Step 1. 土壤各層單位重計算</h3>
+<p>假設水的單位重 $\gamma_w = 9.81 \text{ kN/m}^3$。</p>
+<ol>
+<li>
+<p><strong>地下水位以上砂土 ($1.5 \text{ m}$)</strong>：<br />
+   $$ \gamma_{t} = \frac{G_s + S \cdot e}{1+e}\gamma_w = \frac{2.65 + 0.5 \times 0.65}{1+0.65} \times 9.81 = \frac{2.975}{1.65} \times 9.81 = 17.69 \text{ kN/m}^3 $$</p>
+</li>
+<li>
+<p><strong>地下水位以下砂土 ($1.2 \text{ m}$)</strong>：<br />
+   $$ \gamma_{sat,sand} = \frac{G_s + e}{1+e}\gamma_w = \frac{2.65 + 1.0 \times 0.65}{1+0.65} \times 9.81 = \frac{3.30}{1.65} \times 9.81 = 19.62 \text{ kN/m}^3 $$<br />
+   有效單位重：$\gamma_{sand}' = 19.62 - 9.81 = 9.81 \text{ kN/m}^3$</p>
+</li>
+<li>
+<p><strong>黏土層 ($3.0 \text{ m}$)</strong>：<br />
+   $$ \gamma_{sat,clay} = \frac{G_s + e_0}{1+e_0}\gamma_w = \frac{2.70 + 0.68}{1+0.68} \times 9.81 = \frac{3.38}{1.68} \times 9.81 = 19.74 \text{ kN/m}^3 $$<br />
+   有效單位重：$\gamma_{clay}' = 19.74 - 9.81 = 9.93 \text{ kN/m}^3$</p>
+</li>
+</ol>
+<h3>Step 2. 黏土層中央之初始有效應力 ($p_0'$)</h3>
+<p>取黏土層中央深度，即基礎底面下方 $1.2 \text{ m} + \frac{3.0}{2} \text{ m} = 2.7 \text{ m}$，距離地表為 $1.5 + 2.7 = 4.2 \text{ m}$。<br />
+$$ p_0' = \Sigma (\gamma \cdot H) - u $$<br />
+$$ p_0' = 17.69 \times 1.5 + 9.81 \times 1.2 + 9.93 \times 1.5 $$<br />
+$$ p_0' = 26.54 + 11.77 + 14.90 = \mathbf{53.21 \text{ kPa}} $$</p>
+<p><em>(註：若精確計算，$26.535 + 11.772 + 14.895 = 53.20 \text{ kPa}$)</em></p>
+<h3>Step 3. 基礎中心下方黏土層之平均新增鉛垂向應力 ($\Delta\sigma_{avg}$)</h3>
+<blockquote>
+<p>💡 策略註解：使用 2:1 應力分布法，實務上通常將「黏土層中央處之新增應力」近似為整層之平均新增應力。</p>
+</blockquote>
+<p>載重 $Q = 1 \text{ MN} = 1000 \text{ kN}$，基礎尺寸 $B \times L = 1.8 \text{ m} \times 1.8 \text{ m}$。<br />
+自基礎底面至黏土層中央之深度 $z_m = 1.2 + \frac{3.0}{2} = 2.7 \text{ m}$。</p>
+<p>$$ \Delta\sigma_{avg} \approx \Delta\sigma_{z_m} = \frac{Q}{(B+z_m)(L+z_m)} $$<br />
+$$ \Delta\sigma_{avg} = \frac{1000}{(1.8 + 2.7)(1.8 + 2.7)} = \frac{1000}{(4.5)(4.5)} = \frac{1000}{20.25} = \mathbf{49.38 \text{ kPa}} $$</p>
+<p><strong>(一) 基礎中心下方黏土層之平均新增鉛垂向應力解答：</strong><br />
+$$ \boxed{\Delta\sigma_{avg} = 49.38 \text{ kPa}} $$</p>
+<h3>Step 4. 黏土層之壓密沉陷量計算 ($S_c$)</h3>
+<p>判斷應力歷史：</p>
+<ul>
+<li>初始有效應力：$p_0' = 53.20 \text{ kPa}$</li>
+<li>前期最大壓密應力：$p_c' = 100 \text{ kPa}$<br />
+由於 $p_0' &lt; p_c'$，此黏土層處於<strong>過壓密狀態 (Overconsolidated)</strong>。</li>
+</ul>
+<p>計算最終有效應力 $p_f'$：<br />
+$$ p_f' = p_0' + \Delta\sigma_{avg} = 53.20 + 49.38 = \mathbf{102.58 \text{ kPa}} $$</p>
+<p>因為 $p_0' &lt; p_c' &lt; p_f'$，沉陷量將分為兩段（回脹段 + 正常壓密段）：<br />
+$$ S_c = S_{c1} + S_{c2} = \frac{C_s H}{1+e_0}\log\left(\frac{p_c'}{p_0'}\right) + \frac{C_c H}{1+e_0}\log\left(\frac{p_f'}{p_c'}\right) $$</p>
+<ul>
+<li><strong>第一段 (回脹段, $p_0' \to p_c'$)</strong>：<br />
+  $$ S_{c1} = \frac{0.06 \times 3000 \text{ mm}}{1 + 0.68} \log\left(\frac{100}{53.20}\right) = 107.14 \times \log(1.8797) = 107.14 \times 0.2741 \approx 29.37 \text{ mm} $$</li>
+<li><strong>第二段 (正常壓密段, $p_c' \to p_f'$)</strong>：<br />
+  $$ S_{c2} = \frac{0.25 \times 3000 \text{ mm}}{1 + 0.68} \log\left(\frac{102.58}{100}\right) = 446.43 \times \log(1.0258) = 446.43 \times 0.01106 \approx 4.94 \text{ mm} $$</li>
+</ul>
+<p>總壓密沉陷量：<br />
+$$ S_c = 29.37 + 4.94 = \mathbf{34.31 \text{ mm}} $$</p>
+<p><strong>(二) 黏土層之壓密沉陷量解答：</strong><br />
+$$ \boxed{S_c = 34.31 \text{ mm}} $$</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ol>
+<li><strong>關於 2:1 法「平均應力」的三種解讀方式</strong>：<br />
+   在學理上，較厚土層（厚度 $H$ 較大時）的平均新增應力有以下幾種計算方式：</li>
+<li><strong>中央點法（本文採用）</strong>：直接取層厚中央之新增應力作為平均值。此法為多數國考參考書處理 2:1 分布時的預設做法，計算簡便（$\Delta\sigma = 49.38 \text{ kPa}$）。</li>
+<li><strong>辛普森法則 (Simpson's Rule)</strong>：$\Delta\sigma_{avg} = \frac{1}{6}(\Delta\sigma_t + 4\Delta\sigma_m + \Delta\sigma_b)$。本題中頂部 $\Delta\sigma_t=111.11 \text{ kPa}$，底部 $\Delta\sigma_b=27.78 \text{ kPa}$，帶入可得 $\Delta\sigma_{avg} = 56.07 \text{ kPa}$。此法常與 Boussinesq 公式搭配使用。</li>
+<li>
+<p><strong>嚴格積分法</strong>：對 2:1 公式沿深度進行積分求平均：<br />
+     $$ \Delta\sigma_{avg} = \frac{1}{H} \int_{z_t}^{z_b} \frac{Q}{(B+z)^2} dz = \frac{Q}{H} \left( \frac{1}{B+z_t} - \frac{1}{B+z_b} \right) $$<br />
+     代入數值可得 $\Delta\sigma_{avg} = 55.56 \text{ kPa}$。<br />
+<em>考場建議</em>：題意既指明使用 2:1 的近似解法，多數閱卷標準可接受「中央點法」。若時間充裕，以辛普森法則或積分法計算亦可，但應於考卷上明確註明使用何種方法。若以積分法 $\Delta\sigma_{avg} = 55.56 \text{ kPa}$ 計算，沉陷量 $S_c$ 約為 $45.6 \text{ mm}$。</p>
+</li>
+<li>
+<p><strong>基礎自重與開挖解壓的考量</strong>：<br />
+   本題敘述「基礎承受 Q 為 1 MN 之鉛垂向之正方柱載重」，並未提供基礎本身的厚度或混凝土單位重，故計算中將 $Q$ 視為淨載重 $\Delta P$。若實務題給定基礎版厚，則須計算<strong>淨外加載重 (Net applied load)</strong>：$\Delta P = Q + W_{foundation} - W_{soil\_excavated}$。</p>
+</li>
+</ol></main>
+<footer>來源：raw/solutions/SM-2011-3/SM-2011-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

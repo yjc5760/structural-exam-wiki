@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SM-U2-2 深基礎之支承力與沉陷量｜主要公式 給／背分界</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[
+    {left:'$$',right:'$$',display:true},
+    {left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--must:#c62828;--half:#ef6c00;--give:#2e7d32;--nav:#1565c0;--ink:#263238;--mut:#78909c;--line:#e0e6ea;--bg:#f5f7f9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.75;
+ font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;font-size:15px}
+main{max-width:1080px;margin:0 auto;padding:0 18px 60px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:30px 24px;border-radius:0 0 18px 18px;margin-bottom:8px}
+header h1{margin:0 0 8px;font-size:1.55rem;line-height:1.4}
+header p{margin:0;opacity:.93;font-size:.92rem;line-height:1.65}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);
+ display:flex;flex-wrap:wrap;gap:6px;padding:9px 12px;margin-bottom:18px;border-radius:0 0 10px 10px}
+nav a{font-size:.8rem;text-decoration:none;color:var(--nav);background:#e3f2fd;
+ padding:5px 11px;border-radius:14px;white-space:nowrap}
+nav a:hover{background:var(--nav);color:#fff}
+section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:20px}
+h2{font-size:1.18rem;color:var(--nav);border-left:5px solid var(--nav);padding-left:11px;margin:0 0 14px}
+h3{font-size:1rem;margin:18px 0 8px;color:#37474f}
+h3.grph{background:#eceff1;border-left:5px solid var(--nav);padding:6px 12px;border-radius:6px;color:var(--nav)}
+p.lead{font-size:.95rem;color:#455a64}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:11px;margin:14px 0}
+.kpi{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:13px;text-align:center}
+.kpi .n{font-size:1.7rem;font-weight:800;color:var(--nav);line-height:1.15}
+.kpi .l{font-size:.74rem;color:var(--mut);margin-top:3px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:11px;margin:14px 0}
+.lg{border:1px solid var(--line);border-left-width:5px;border-radius:9px;padding:11px 14px;background:#fff}
+.lg.must{border-left-color:var(--must)}.lg.half{border-left-color:var(--half)}.lg.give{border-left-color:var(--give)}
+.lg h4{margin:0 0 4px;font-size:.95rem}
+.lg.must h4{color:var(--must)}.lg.half h4{color:var(--half)}.lg.give h4{color:var(--give)}
+.lg p{margin:0;font-size:.82rem;color:#546e7a;line-height:1.6}
+.note{background:#e8f4fd;border-left:5px solid var(--nav);border-radius:0 8px 8px 0;padding:11px 15px;margin:13px 0;font-size:.9rem}
+.warn{background:#fff4e5;border-left:5px solid var(--half);border-radius:0 8px 8px 0;padding:11px 15px;margin:13px 0;font-size:.9rem}
+blockquote{margin:12px 0;padding:11px 16px;background:#fafafa;border-left:4px solid #b0bec5;
+ color:#455a64;font-size:.89rem;border-radius:0 8px 8px 0}
+.filters{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 16px;align-items:center}
+.filters .fl{font-size:.76rem;color:var(--mut);margin-right:2px}
+.filters button{font-size:.79rem;border:1px solid var(--line);background:#fff;color:#455a64;
+ padding:5px 12px;border-radius:15px;cursor:pointer}
+.filters button.on{background:var(--nav);border-color:var(--nav);color:#fff}
+.cards{display:flex;flex-direction:column;gap:12px}
+.fc{border:1px solid var(--line);border-left-width:5px;border-radius:10px;padding:13px 16px;background:#fff}
+.fc.must{border-left-color:var(--must)}.fc.half{border-left-color:var(--half)}.fc.give{border-left-color:var(--give)}
+.fc .top{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:5px}
+.fc .nm{font-weight:700;font-size:1.02rem}
+.tag{font-size:.72rem;padding:2px 10px;border-radius:12px;color:#fff;white-space:nowrap}
+.tag.must{background:var(--must)}.tag.half{background:var(--half)}.tag.give{background:var(--give)}
+.fc .eq{background:#f7f9fa;border-radius:7px;padding:6px 12px;margin:6px 0;overflow-x:auto}
+.fc .meta{margin:6px 0 0;font-size:.89rem;color:#455a64;line-height:1.72}
+.fc .ev{margin-top:9px;padding-top:8px;border-top:1px dashed var(--line);font-size:.79rem;color:#546e7a}
+.yr{display:inline-block;padding:1px 6px;margin:1px 3px 1px 0;border-radius:4px;font-size:.75rem}
+.yr.ok{background:#e8f5e9;color:#1b5e20;border:1px solid #c8e6c9}
+.yr.no{background:#ffebee;color:#b71c1c;border:1px solid #ffcdd2}
+.never{color:var(--must);font-weight:700}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:9px;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:940px;font-size:.79rem}
+th,td{padding:5px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#eceff1;position:sticky;top:0;font-size:.74rem;text-align:center;line-height:1.35}
+th:first-child,th:last-child{text-align:left}
+td.c{text-align:center}
+td .y{color:var(--give);font-weight:800}
+td .n{color:#cfd8dc}
+tr.hl{background:#f2f7fc}
+td.qq{font-size:.76rem;color:#37474f}
+td.rm{font-size:.76rem;color:#546e7a;line-height:1.5}
+.ynote{font-size:.72rem;color:var(--mut)}
+footer{color:var(--mut);font-size:.79rem;padding:14px 4px;border-top:1px solid var(--line);margin-top:8px}
+ul,ol{padding-left:22px}li{margin:5px 0}
+/* WeasyPrint（列印）不支援 grid、flex 分頁也不穩，改回 block/table 佈局 */
+@media print{
+ .cards{display:block!important}
+ .fc{margin-bottom:9px}
+ .kpis{display:table!important;table-layout:fixed;width:100%;border-spacing:5px 0}
+ .kpi{display:table-cell!important;vertical-align:middle}
+ .legend{display:table!important;table-layout:fixed;width:100%;border-spacing:6px 0}
+ .lg{display:table-cell!important;vertical-align:top}
+ .filters{display:none!important}
+ .tw{overflow:visible!important}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>SM-U2-2　深基礎之支承力與沉陷量<br>主要公式：考卷會給 vs. 必須自己背</h1>
+<p>11 題歷屆考題 × 24 份考卷原文逐年比對。結論先講：這是五個單元裡<b>供給最慷慨</b>的一個——但慷慨得很不穩定：臨界深度 96 年寫 <b>20D</b>、113 年寫 <b>15D</b>，\(\delta\) 從 \(0.5\phi\) 變成 \(0.8\phi\)。</p>
+</header>
+<main>
+<nav>
+<a href="#how">判定方法</a>
+<a href="#cards">公式清單</a>
+<a href="#matrix">逐年證據表</a>
+<a href="#strategy">背誦策略</a>
+<a href="lecture-SM-U2-2.html">▶ U2-2 觀念講義</a>
+<a href="study-SM-U2-2.html">▶ U2-2 命題分析</a>
+<a href="formula-given-SM-U1-3.html">▶ U1-3 給／背分界</a>
+<a href="formula-given-SM-U1-5.html">▶ U1-5 給／背分界</a>
+<a href="formula-given-SM-U2-1.html">▶ U2-1 給／背分界</a>
+<a href="formula-given-SM-U2-3.html">▶ U2-3 給／背分界</a>
+<a href="formula-given-SM-U1-1.html">▶ U1-1 給／背分界</a>
+<a href="formula-given-SM-U3-1.html">▶ U3-1 給／背分界</a>
+<a href="formula-given-SM-U2-2.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+
+<section id="how">
+<h2>一、我怎麼判定的</h2>
+<p class="lead">本頁只回答一件事：<b>SM-U2-2 的公式，哪些考卷會幫你印出來，哪些不背就整題卡死。</b>判定一律以 <code>raw/exams/</code> 2002–2025 全 24 份考卷原文為準；103 年（2014）與 113 年（2024）兩份的公式區已逐頁轉圖目視確認——<b>103 年那兩條沉陷式在文字抽取中整組消失</b>，只靠 pdftotext 會誤判成「沒給」。</p>
+<div class="kpis"><div class="kpi"><div class="n">17</div><div class="l">條主要公式</div></div><div class="kpi"><div class="n">12</div><div class="l">必背</div></div><div class="kpi"><div class="n">2</div><div class="l">別賭</div></div><div class="kpi"><div class="n">3</div><div class="l">通常會給</div></div><div class="kpi"><div class="n">11</div><div class="l">歷屆題數</div></div><div class="kpi"><div class="n">5</div><div class="l">零供給年</div></div></div>
+<h3>考卷把公式印出來的三種擺法（三種都算「有給」）</h3>
+<ul>
+<li><b>(a) 集中式</b>—— 全卷共用的「※參考公式／參考資料」區塊。SM 只有 <b>105 年（2016）</b>與 <b>114 年（2025）</b>用過這種擺法。</li>
+<li><b>(b) 隨題式</b>—— 「註：」跟在該題題目正下方。近年主流，103（2014）、110（2021）、111（2022）、113（2024）都是。</li>
+<li><b>(c) 內文式</b>—— 直接寫在題目敘述裡當已知條件。例如 96 年（2007）在題幹中給 <span class="mji">\(K=1.8(1-\sin\phi)\)</span>、99 年（2010）在提示欄給 <span class="mji">\(F_{sc}=1+0.2(B/L)\)</span>。</li>
+</ul>
+<h3>考卷的免責聲明（本科最關鍵的一句話）</h3>
+<p>SM 從未出現「公式僅供參考、請自行檢查勘誤」這類話。它寫的是<b>相反的方向</b>——96～102 年連續七年，注意事項欄都寫著：</p>
+<blockquote>「本試題之相關符號、公式、物理常數及設計參數<b>未提及時，請依規範自行合理推斷或假設</b>。」（100 年，2011）<br>
+「下列問題之相關公式、物理常數、符號意義及設計參數未提及時，請自行依規範作合理之推斷與假設。」（98 年，2009）<br>
+「下列各題若有所需參數或公式不足時，請自行合理假設或推知。」（99 年，2010）</blockquote>
+<p>這句話 103 年（2014）起消失，取而代之的是逐題「註：」給公式。<b>但它從沒被換成「公式僅供參考」</b>——
+意思是命題委員的預設立場始終是：<b>公式本來就該由你帶進考場</b>，給你是恩典不是義務。這是 SM 與 SS 最大的差別，也是本頁把標準訂得比 SS 更嚴的原因。</p>
+<h3>三級圖例</h3>
+<div class="legend">
+<div class="lg must"><h4>🔴 必背</h4><p>從未印過，或曾出現「考了卻沒給」且沒給的年份佔多數。<b>自己要寫得出來。</b></p></div>
+<div class="lg half"><h4>🟠 別賭</h4><p>多數年份有給，但有明確沒給的先例；或同一條式子有新舊／不同係數版本，給哪一版要自己認得。<b>仍建議背。</b></p></div>
+<div class="lg give"><h4>🟢 通常會給</h4><p>凡考該題型幾乎必印，且無「考了卻沒給」的先例。<b>背概念與用法即可。</b></p></div>
+</div>
+
+<div class="warn"><b>本單元的兩個「同式兩寫法」，是全五單元最嚴重的一組。</b><br>
+<b>① 臨界深度：</b>96 年（2007-3）寫「假設樁身摩擦阻力之臨界深度為 <b>20 倍樁徑</b>」，
+113 年（2024-4）寫「臨界深度 \(L_c=\mathbf{15D}\)（砂土）」。
+兩者相差 33%，直接決定側摩擦力積分到哪裡為止。112 年（2023-3）更狠——
+題目明寫「請參照建築物基礎構造設計規範並<b>考慮臨界深度</b>」，
+卻<b>連數值都不給</b>，等於在測你有沒有把規範值帶進考場。<br>
+<b>② 側向土壓力係數與界面摩擦角：</b>96 年給 \(K=1.8(1-\sin\phi)\)、\(\delta=0.5\phi\)；
+110 年（2021-3）給 \(K=1.4K_0\)、\(\delta=0.8\phi\)；113 年（2024-4）用 \(K_0\) 與 \(0.8\phi\) 但
+<b>不定義 \(K_0\) 是什麼</b>。三年三套。</div>
+
+</section>
+
+<section id="cards">
+<h2>二、公式逐條分界</h2>
+<div class="filters">
+<span class="fl">級別</span>
+<button class="lvf on" data-lv="all">全部</button>
+<button class="lvf" data-lv="must">必背</button>
+<button class="lvf" data-lv="half">別賭</button>
+<button class="lvf" data-lv="give">通常會給</button>
+<span class="fl" style="margin-left:10px">主題</span>
+<span id="gbtns"></span>
+</div>
+<div class="cards" id="cards"></div>
+</section>
+
+<section id="matrix">
+<h2>三、逐年證據表</h2>
+<p class="lead">24 個年份 × 10 條代表性公式。<b>✔</b>＝該年考卷印出此式（含集中式／隨題式／內文式）；
+<b>·</b>＝沒印。底色標示的列代表該年有本單元的題目（共 10 個年份）。</p>
+<div class="tw"><table id="mx">
+<thead><tr><th>考卷年</th><th>單元題號</th><th class="c">Qu 組成</th><th class="c">黏土 Qp</th><th class="c">α 法 Qs</th><th class="c">α 值</th><th class="c">砂土 Qp</th><th class="c">β 法 Qs</th><th class="c">臨界深度</th><th class="c">K、δ</th><th class="c">Se2、Se3</th><th class="c">抗拔力</th><th>備註</th></tr></thead>
+<tbody></tbody>
+</table></div>
+</section>
+
+<section id="strategy">
+<h2>四、背誦策略</h2>
+
+<h3>4-1　先看這三個數字</h3>
+<ul>
+<li><b>10 個有題年份裡，5 年有供給、5 年零供給。</b>是五個單元裡供給率最高的，
+但<b>供給的內容年年不同</b>，反而更難押。</li>
+<li><b>113 年（2024-4）一題就印了 8 條式子；112 年（2023-3）同樣是樁承載力題，一條都沒有。</b>
+相鄰兩年的落差就是這麼大。</li>
+<li><b>103 年（2014-2）印了 \(S_{e2}\)、\(S_{e3}\)，卻不印 \(S_{e1}\)，而題目問的是「總沉陷量」。</b>
+這是全五單元最漂亮的一個「少給關鍵一步」案例。</li>
+</ul>
+
+<h3>4-2　如果只背五條</h3>
+<ol>
+<li><b>\(Q_s=K\sigma_v'\tan\delta\cdot p\Delta L\)，且臨界深度以上要取 \(\frac12\)</b>——
+一給三不給，而那個 \(\frac12\) 是最常漏的一項。</li>
+<li><b>臨界深度 \(L_c\)（記 \(15D\!\sim\!20D\) 的範圍與「作答時註明採用值」的習慣）</b>——
+兩個版本都出現過，112 年還完全不給。</li>
+<li><b>\(K_0=1-\sin\phi'\)</b>——110、113 兩年都寫 \(K_0\) 卻不定義它，這是「用了卻不定義」的標準案例。</li>
+<li><b>\(S_{e1}=(Q_{wp}+\xi Q_{ws})L/(A_pE_c)\)</b>——
+103 年給了另外兩條就是不給它，而且把 \(E_c\) 大方放在題目裡當誘餌。</li>
+<li><b>抗拔力 \(Q_{up}=Q_s+W_{樁}\)（水下扣浮力、樁端不計）</b>——
+101、110 兩年都考、兩年都不給，而且兩年都把混凝土單位重放在題目裡。</li>
+</ol>
+
+<div class="note"><b>可以省下的：\(\alpha\) 值與 \(N_q^*\)、\(N_c^*\) 的數值。</b>
+\(\alpha\) 三年三次全給（101、110、113），\(N_c^*=9\) 兩次給、\(N_q^*\) 兩次給。
+這些是經驗值，沒有解析式，命題委員也知道你算不出來。
+你要記的是<b>趨勢與意義</b>：\(c_u\) 愈大 \(\alpha\) 愈小；
+\(N_c^*=9\) 是深基礎值（淺基礎是 5.14），兩者不可互換。</div>
+
+<h3>4-3　「兩種寫法」的三組，一定要各記一張卡</h3>
+<table style="min-width:auto;margin:10px 0">
+<thead><tr><th>項目</th><th>96 年（2007）版</th><th>110／113 年版</th></tr></thead>
+<tbody>
+<tr><td>臨界深度</td><td>20D</td><td>15D（113）</td></tr>
+<tr><td>側向土壓力係數</td><td>\(K=1.8(1-\sin\phi)\)</td><td>\(K=1.4K_0\)（110）</td></tr>
+<tr><td>界面摩擦角</td><td>\(\delta=0.5\phi\)</td><td>\(\delta=0.8\phi\)（110、113）</td></tr>
+</tbody></table>
+<p>三組都<b>不是「新舊版取代」，而是「不同規範／不同樁型的不同建議值」</b>。
+考場上的處理：題目給就用題目的；題目沒給（112 年那種）就寫出常見範圍、選一個值、
+並在旁邊註明依據。<b>只要有註明，改題者不會扣分；空著不寫才會。</b></p>
+
+<h3>4-4　考場上的三個檢查動作</h3>
+<ol>
+<li><b>題目問「總沉陷量」時，先數自己寫了幾個分量。</b>103 年那題就是三缺一。</li>
+<li><b>看到兩個安全係數，立刻在草稿紙上分開列 \(Q_p/FS_p\) 與 \(Q_s/FS_s\)。</b>
+96 年第三小題 5 分，先加後除就全錯。</li>
+<li><b>算砂土側摩擦力時，先在剖面圖上標出臨界深度線。</b>
+線以上是三角形（取平均值，要 \(\times\frac12\)），線以下是矩形（\(\sigma_v'\) 封頂不再增加）。
+畫了這條線就不會積錯。</li>
+</ol>
+
+</section>
+
+<footer>exam-wiki-SM｜SM-U2-2 深基礎之支承力與沉陷量｜證據來源：raw/exams/ 全 24 份考卷原文（2002–2025），逐年文字抽取＋影像頁目視判讀。
+三級判定採保守標準：拿不準往上歸。</footer>
+</main>
+
+<script>
+const F = [
+ {
+  "g": "側摩擦力（樁身阻抗）",
+  "lv": "must",
+  "nm": "單樁承載力的組成 Qu = Qp + Qs",
+  "eq": "$$Q_u=Q_p+Q_s=q_p A_p+\\sum f_{s,i}\\,p\\,\\Delta L_i\n  \\qquad Q_a=\\frac{Q_u}{FS}\\;\\;\\text{或}\\;\\;\\frac{Q_p}{FS_p}+\\frac{Q_s}{FS_s}$$",
+  "meta": "<b>骨架式，從未被完整印出。</b>113 年（2024-4）把 \\(Q_P\\) 與 \\(Q_s\\) 兩支分開印，卻沒印「兩者相加」這件事——當然這很直覺，真正的考點在後半段：<b>安全係數可以分開施加</b>。96 年（2007-3）明寫「樁底支承力及樁身摩擦阻力之安全係數分別為 4.0 及 3.0」，110（2021-3）與 113（2024-4）則是整體 \\(FS=3\\)、\\(2.5\\)。看到兩個 FS 就不能先加後除，這是常見的整題錯。",
+  "ok": [],
+  "no": [
+   2007,
+   2021,
+   2023,
+   2024
+  ]
+ },
+ {
+  "g": "側摩擦力（樁身阻抗）",
+  "lv": "half",
+  "nm": "黏土側摩擦力（α 法）",
+  "eq": "$$Q_s=\\sum \\alpha\\,c_u\\,p\\,\\Delta L$$",
+  "meta": "113 年（2024-4）以「註：」完整印出 \\(Q_s=p\\times L\\times\\alpha\\times c_u\\)。但 101 年（2012-3）只給「上層黏土之附著因數 \\(\\alpha=1\\)，下層 \\(\\alpha=0.75\\)」、110 年（2021-3）只給「考慮基樁表面附著力時，\\(\\alpha\\) 值假設為 0.65」——<b>兩年都只給值不給式</b>。一給兩不給，歸「別賭」。要留意 \\(c_u\\) 用的是<b>不排水強度</b>（總應力法），與砂土的 \\(\\beta\\) 法（有效應力法）不能在同一層土混用。",
+  "ok": [
+   2024
+  ],
+  "no": [
+   2012,
+   2021
+  ]
+ },
+ {
+  "g": "側摩擦力（樁身阻抗）",
+  "lv": "give",
+  "nm": "α 值（附著因數）",
+  "eq": "$$\\alpha=f\\!\\Bigl(\\frac{c_u}{p_a}\\Bigr)\\;\\;\n  \\text{（}c_u/p_a\\le0.1\\to\\alpha=1;\\;\\;c_u/p_a\\ge2\\to\\alpha\\approx0.35\\text{）}$$",
+  "meta": "<b>三年三次，次次都給。</b>101（2012-3）給 1 與 0.75、110（2021-3）給 0.65、113（2024-4）給了完整的 14 格對照表（\\(c_u/p_a\\) 從 ≤0.1 到 2.8）。這是本頁少數敢標「通常會給」的項目——因為 \\(\\alpha\\) 是經驗曲線，沒有解析式，不給就無從決定。但要記住趨勢：<b>\\(c_u\\) 愈大（愈硬的黏土），\\(\\alpha\\) 愈小</b>（硬黏土與樁表面的黏著效率低）。113 年那張表就是這條趨勢的數值化。",
+  "ok": [
+   2012,
+   2021,
+   2024
+  ],
+  "no": []
+ },
+ {
+  "g": "側摩擦力（樁身阻抗）",
+  "lv": "must",
+  "nm": "砂土側摩擦力（β 法）",
+  "eq": "$$f_s=K\\,\\sigma_v'\\tan\\delta\\qquad\n  Q_s=\\sum K\\,\\sigma_v'\\tan\\delta\\cdot p\\,\\Delta L$$\n  $$\\text{臨界深度以上（三角形分布）：}\\;Q_{s1}=\\tfrac12\\,p\\,L_c\\,K\\,\\sigma_{0}'\\tan\\delta$$",
+  "meta": "113 年（2024-4）把 \\(Q_{s1(0\\sim15D)}=\\frac12 p L_c K_0\\sigma_0'\\tan(0.8\\phi)\\) 與\\(Q_{s2(>15D)}=pLK_0\\sigma_0'\\tan(0.8\\phi)\\) 兩段完整印出——<b>連「臨界深度以上要取一半（三角形分布的平均）」都替你寫好了</b>。但 96（2007-3）、110（2021-3）、112（2023-3）三年只給係數不給式。一給三不給，歸「必背」。最常見的錯誤正是那個 \\(\\frac12\\)：\\(\\sigma_v'\\) 在臨界深度以上隨深度線性增加，積分後是平均值，忘了除以 2 就多算一倍。",
+  "ok": [
+   2024
+  ],
+  "no": [
+   2007,
+   2021,
+   2023
+  ]
+ },
+ {
+  "g": "側摩擦力（樁身阻抗）",
+  "lv": "must",
+  "nm": "側向土壓力係數 K 與界面摩擦角 δ",
+  "eq": "$$K=1.8(1-\\sin\\phi)\\;\\;(\\text{96 年版})\\qquad\n  K=1.4K_0=1.4(1-\\sin\\phi')\\;\\;(\\text{110 年版})$$\n  $$\\delta=0.5\\phi\\;\\;(\\text{96 年版})\\qquad \\delta=0.8\\phi\\;\\;(\\text{110、113 年版})$$",
+  "meta": "<b>三年三套，數值差很大。</b>96 年（2007-3）：\\(K=1.8(1-\\sin\\phi)\\)、\\(\\delta=0.5\\phi\\)；110 年（2021-3）：\\(K=1.4K_0\\)、\\(\\delta=0.8\\phi\\)（但 \\(K_0\\) 不定義）；113 年（2024-4）：用 \\(K_0\\) 與 \\(\\tan(0.8\\phi)\\)，同樣不定義 \\(K_0\\)。112 年（2023-3）<b>什麼都不給</b>，只說「請參照建築物基礎構造設計規範」。結論：<b>係數本身通常會給，但 \\(K_0=1-\\sin\\phi'\\) 這條「用了卻不定義」的式子必須自備</b>。這正好呼應 U1-5 那張 \\(K_0\\) 卡片。",
+  "ok": [
+   2007,
+   2021,
+   2024
+  ],
+  "no": [
+   2023
+  ]
+ },
+ {
+  "g": "側摩擦力（樁身阻抗）",
+  "lv": "must",
+  "nm": "臨界深度 Lc（15D / 20D 兩版）",
+  "eq": "$$L_c=15D\\;\\;(\\text{113 年版})\\qquad L_c=20D\\;\\;(\\text{96 年版})$$\n  $$z>L_c:\\quad \\sigma_v'\\;\\text{與}\\;f_s\\;\\text{不再隨深度增加（封頂）}$$",
+  "meta": "<b>本單元最需要警覺的一條。</b>96 年（2007-3）寫 20 倍樁徑、113 年（2024-4）寫 15D——<b>相差 33%，而它直接決定側摩擦力的積分上限</b>。112 年（2023-3）題目明寫「考慮臨界深度」卻連數值都不給，只叫你「參照建築物基礎構造設計規範」。實務常見範圍是 \\(10D\\sim20D\\)（隨相對密度增加）。<b>建議做法：記住「一般取 \\(15D\\sim20D\\)，密實砂取大值」，作答時明寫採用值與依據</b>；題目有給就用題目的。",
+  "ok": [
+   2007,
+   2024
+  ],
+  "no": [
+   2023
+  ]
+ },
+ {
+  "g": "端承力（樁底阻抗）",
+  "lv": "half",
+  "nm": "黏土樁端承載力 Qp（Nc* = 9）",
+  "eq": "$$Q_p=A_p\\,c_u\\,N_c^{*}\\qquad N_c^{*}=9\\;(\\phi=0)$$",
+  "meta": "110 年（2021-3）給「於 \\(\\phi=0\\) 時，假設基樁承載值因數 \\(N_C^*=9\\)」、113 年（2024-4）給完整式加 \\(N_c^*=9\\)。但 101 年（2012-3）——抗拔樁，只算側摩擦不需端承——沒給也不需要。真正要記的是 \\(N_c^*=9\\) 這個數字的來歷：<b>它是深基礎的值，比淺基礎的 5.14 大，因為樁底周圍有側向圍束</b>。兩者不可互換，這是本單元與 U2-1 最容易搞混的地方。",
+  "ok": [
+   2021,
+   2024
+  ],
+  "no": [
+   2012
+  ]
+ },
+ {
+  "g": "端承力（樁底阻抗）",
+  "lv": "must",
+  "nm": "砂土樁端承載力 Qp",
+  "eq": "$$Q_p=A_p\\,q'\\,N_q^{*}\\;\\le\\;A_p\\,q_l\n  \\qquad q_l=0.5\\,p_a\\,N_q^{*}\\tan\\phi\\;\\;(\\mathrm{kPa})$$",
+  "meta": "113 年（2024-4）不但印出 \\(Q_P=A_P\\times q'\\times N_q^*\\)，還附上<b>極限樁底阻抗 \\(q_l=0.5 p_a N_q^*\\tan\\phi\\)</b> 與 \\(p_a\\approx100\\) kPa 的定義——這是「封頂」規則的數值化，也是本科唯一一次印出它。但 96（2007-3）只給 \\(N_q=21\\)、110（2021-3）與 112（2023-3）什麼都沒給。一給三不給。<b>\\(q'\\) 用的是臨界深度處的有效覆土壓，不是樁底實際深度的</b>——這一步漏掉，深樁的端承力會被高估好幾倍。",
+  "ok": [
+   2024
+  ],
+  "no": [
+   2007,
+   2021,
+   2023
+  ]
+ },
+ {
+  "g": "抗拔力與容許載重",
+  "lv": "must",
+  "nm": "基樁抗拔力 Qup",
+  "eq": "$$Q_{up}=Q_s+W_{\\text{樁}}\\qquad\n  W_{\\text{樁}}=\\gamma_c A_p L\\;(\\text{水下需扣浮力})$$",
+  "meta": "<b>零供給，兩題直接考。</b>101 年（2012-3）：直徑 0.5 m 混凝土樁抗上浮，極限抗拉設計 1200 kN，給 \\(\\gamma_{concrete}=23\\) kN/m³ 要你反求貫入深度；110 年（2021-3）第二小題「請計算此基樁之容許拉拔力」，給 \\(\\gamma=24\\) kN/m³。<b>兩年都給了混凝土單位重卻不給式子——那個單位重就是提示</b>：抗拔時樁自重是幫手（要加），但地下水位以下必須扣浮力。另一個常錯：抗拔時<b>樁端承載力不能計入</b>（樁底是拉開的）。",
+  "ok": [],
+  "no": [
+   2012,
+   2021
+  ]
+ },
+ {
+  "g": "抗拔力與容許載重",
+  "lv": "must",
+  "nm": "安全係數的施加方式",
+  "eq": "$$Q_a=\\frac{Q_p}{FS_p}+\\frac{Q_s}{FS_s}\\;(\\text{分項})\n  \\qquad Q_a=\\frac{Q_p+Q_s}{FS}\\;(\\text{整體})$$",
+  "meta": "96 年（2007-3）第三小題明寫「若採樁底支承力及樁身摩擦阻力之安全係數<b>分別為 4.0 及 3.0</b>，試求此樁之容許載重 \\(Q_a\\)」（5 分）——值給了，但「要分開除」這件事沒有寫成式子。110（2021-3）用整體 \\(FS=3\\)、113（2024-4）用 \\(FS=2.5\\)。<b>看到兩個安全係數就絕對不能先加後除</b>，這是 5 分的送分題也是送死題。背後的道理：側摩擦力在小位移就發揮，端承力要大位移才動員，所以端承的不確定性較高、FS 較大。",
+  "ok": [],
+  "no": [
+   2007
+  ]
+ },
+ {
+  "g": "抗拔力與容許載重",
+  "lv": "must",
+  "nm": "負摩擦力（下拉力）的方向判定",
+  "eq": "$$\\text{土層沉陷} > \\text{樁沉陷}\\;\\Rightarrow\\;\n  Q_{neg}\\;\\text{向下}\\;\\Rightarrow\\;Q_a=\\frac{Q_p+Q_{s,\\text{有效段}}}{FS}-Q_{neg}$$",
+  "meta": "<b>沒有一年印過，也沒有一年單獨考——但它是所有「上方有新填土／水位下降」情境的隱藏考點。</b>102 年（2013-4）問臺中港液化區的基礎型式選擇與地層改良，91 年（2002-2）問抽砂回填地的液化改良工法——這兩題的正確答案都必須提到：<b>液化後或改良後的沉陷會對樁產生下拉力</b>。方向判定的口訣：<b>土比樁沉得多就是負摩擦，要從承載力扣掉而不是加上去</b>。這是本單元最常被寫反的觀念。",
+  "ok": [],
+  "no": [
+   2002,
+   2013
+  ]
+ },
+ {
+  "g": "變形行為（沉陷與勁度）",
+  "lv": "must",
+  "nm": "樁的總沉陷量三分量",
+  "eq": "$$S_e=S_{e1}+S_{e2}+S_{e3}$$\n  $$S_{e1}=\\frac{(Q_{wp}+\\xi Q_{ws})L}{A_p E_c}\\quad(\\text{樁身彈性壓縮，}\\xi\\approx0.5\\sim0.67)$$",
+  "meta": "★ <b>本單元最典型的「給了式子，少給關鍵一步」。</b>103 年（2014-2）把 \\(S_{e2}\\) 與 \\(S_{e3}\\) 兩條連同 \\(I_{wp}=0.85\\)、\\(I_{ws}=2+0.35\\sqrt{L/D}\\) 全部印出來（且是<b>圖片形式</b>，文字抽取會整組消失，本頁已轉圖確認），<b>卻完全沒有提到 \\(S_{e1}\\)</b>——而題目問的是「該樁之<b>總</b>沉陷量」。它甚至貼心地給了 \\(E_c=2.0\\times10^7\\) kPa（樁的楊氏模數）——<b>那個數字只有 \\(S_{e1}\\) 用得到</b>，等於是把鑰匙放在門口卻不告訴你有門。\\(\\xi\\) 的取值（摩擦力分布為三角形取 0.5、均勻取 0.67）也要自己決定。",
+  "ok": [],
+  "no": [
+   2014
+  ]
+ },
+ {
+  "g": "變形行為（沉陷與勁度）",
+  "lv": "give",
+  "nm": "樁的彈性沉陷 Se2、Se3",
+  "eq": "$$S_{e2}=\\frac{q_{wp}D}{E_s}(1-\\mu_s^{2})I_{wp}\\qquad(I_{wp}=0.85)$$\n  $$S_{e3}=\\Bigl(\\frac{Q_{ws}}{pL}\\Bigr)\\frac{D}{E_s}(1-\\mu_s^{2})I_{ws}\n  \\qquad I_{ws}=2+0.35\\sqrt{L/D}$$",
+  "meta": "103 年（2014-2）整組印在題幹裡，含 \\(I_{wp}\\)、\\(I_{ws}\\) 的定義。<b>只考過這一次，而且給了</b>，所以標「通常會給」——這類含經驗影響因數的半經驗式，不給確實無從算起。但請務必配合上一張卡片：<b>給了這兩條不代表可以不背 \\(S_{e1}\\)</b>。另注意 \\(q_{wp}\\) 是樁端單位面積承載應力、\\(Q_{ws}\\) 是側摩擦總力，兩者的單位不同，代錯會差好幾個數量級。",
+  "ok": [
+   2014
+  ],
+  "no": []
+ },
+ {
+  "g": "變形行為（沉陷與勁度）",
+  "lv": "give",
+  "nm": "樁頭軸向勁度（彈簧模型）",
+  "eq": "$$\\tau_s=k_s v,\\;\\;\\tau_t=k_t v\\;\\Rightarrow\\;\n  EA\\frac{d^{2}v}{dz^{2}}=k_s S\\,v$$\n  $$L\\to\\infty:\\quad K_{\\text{樁頭}}=\\sqrt{k_s S\\,EA}$$",
+  "meta": "95 年（2006-2）要你「推導樁頭軸向勁度表示式」，題目<b>把模型設定（\\(\\tau_s=k_s v\\)、\\(\\tau_t=k_t v\\)）與所有符號（\\(D,A,S,L,E\\)）都定義得一清二楚</b>——因為這是推導題，不給模型就無法作答。只考過這一次。要背的不是結果，而是<b>建立微分方程的流程</b>：取微小段 → 軸力平衡 → 代入虎克定律 → 得 \\(v''=\\lambda^2 v\\) → 由邊界條件定係數。半無限長時取衰減解（\\(e^{-\\lambda z}\\)），這是該題第二小題 10 分的關鍵。",
+  "ok": [
+   2006
+  ],
+  "no": []
+ },
+ {
+  "g": "變形行為（沉陷與勁度）",
+  "lv": "must",
+  "nm": "位移相容法求工作荷重",
+  "eq": "$$Q_{\\text{work}}(s)=\\tau_s(s)\\cdot p\\,L+q_p(s)\\cdot A_p\n  \\qquad\\text{（同一位移 }s\\text{ 下相加）}$$",
+  "meta": "94 年（2005-4）墩基題的核心：給 \\(\\tau_s\\!-\\!s\\) 與 \\(q_p\\!-\\!d\\) 兩條曲線，要你分別用「極限載重除以 FS」與「位移限制 1 cm／1.5 cm」求工作荷重，再<b>檢討兩種方法的適當性</b>（10 分）。零供給。關鍵觀念：<b>側摩擦在 \\(s\\approx0.5\\!\\sim\\!1\\) cm 就完全發揮，端承要 \\(d\\approx5\\%D\\) 才動員</b>——所以極限法會高估工作荷重下的可用抗力，位移法才是控制設計。這與 U2-1 的「承載力控制 vs 沉陷量控制」是同一個道理。",
+  "ok": [],
+  "no": [
+   2005
+  ]
+ },
+ {
+  "g": "群樁與液化地盤",
+  "lv": "must",
+  "nm": "群樁效率 Eg",
+  "eq": "$$E_g=\\frac{Q_{g(u)}}{n\\,Q_u}\\qquad\n  \\text{Converse–Labarre：}\\;E_g=1-\\frac{\\theta}{90}\\cdot\n  \\frac{(n_1-1)n_2+(n_2-1)n_1}{n_1 n_2}$$",
+  "meta": "108 年（2019-1）第五小題直接考「群樁效率（group efficiency）」的名詞解釋（5 分），零供給。雖然目前還沒出現群樁的計算題，但這是規範明列的檢核項目，而且與「樁距 \\(s\\ge3D\\) 時 \\(E_g\\approx1\\)」的實務規則綁在一起。答題要點：<b>黏土的群樁效率可能小於 1（重疊應力泡），砂土打入樁反而可能大於 1</b>（打樁使周圍砂土更密實）——這個反直覺的結論常是加分處。",
+  "ok": [],
+  "no": [
+   2019
+  ]
+ },
+ {
+  "g": "群樁與液化地盤",
+  "lv": "must",
+  "nm": "液化地盤的基礎型式決策",
+  "eq": "$$\\text{液化潛勢}\\;\\Rightarrow\\;\n  \\text{樁貫穿液化層達非液化層}\\;+\\;\\text{扣除液化層側摩擦}\\;+\\;\\text{檢核側向流動}$$",
+  "meta": "<b>流程骨架，兩題各佔 25 分與 13 分。</b>91 年（2002-2）問海邊抽砂回填地（細砂 SP）的震動揚實法是否理想；102 年（2013-4）問九二一後臺中港液化區的基礎型式選擇（13 分）與三種適合的地層改良方法及原理（12 分）。兩題都零公式，答案是知識清單而非計算。必備的三個決策點：① 淺基礎在液化層上不可行 → 改深基礎或地盤改良；② 樁必須穿透液化層，且<b>液化層的側摩擦力要歸零甚至計入負摩擦</b>；③ 改良工法要對應土質（砂土用震動擠壓／砂樁；細粒料多用固化）。",
+  "ok": [],
+  "no": [
+   2002,
+   2013
+  ]
+ }
+];
+const MX = [[2002, 91, "二", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "抽砂回填地液化改良（震動揚實法是否理想），概念題零公式。"], [2003, 92, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2004, 93, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2005, 94, "四", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "墩基：給 \\(\\tau_s\\!-\\!s\\) 與 \\(q_p\\!-\\!d\\) 兩條曲線，要用極限法與位移法各求工作荷重再比較，零公式。"], [2006, 95, "二", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "樁頭勁度推導題。題目給了彈簧模型 \\(\\tau_s=k_s v\\)、\\(\\tau_t=k_t v\\) 與全部符號定義——那是<b>推導題的必要設定</b>，不算給公式，但它讓這題成為本單元唯一「不背也能推」的一題。"], [2007, 96, "二（副）、三", 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, "★ 內文式給 \\(N_q=21\\)、\\(K=1.8(1-\\sin\\phi)\\)、\\(\\delta=0.5\\phi\\)、臨界深度 <b>20 倍樁徑</b>。題目寫「以我國建築物基礎構造設計規範所列之公式計算」——<b>叫你用規範公式，但規範公式不印</b>。"], [2008, 97, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2009, 98, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2010, 99, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2011, 100, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2012, 101, "三", 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, "抗拔樁反求貫入深度。只給 \\(\\alpha=1\\) 與 0.75 兩個附著因數值，\\(Q_s\\) 式、抗拔力組成（含樁自重）全部零供給。"], [2013, 102, "四", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "臺中港液化區的基礎型式選擇與三種地層改良方法，概念題零公式。"], [2014, 103, "二", 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, "★ 題幹以<b>圖片形式</b>印出 \\(S_{e2}\\)、\\(S_{e3}\\) 與 \\(I_{wp}=0.85\\)、\\(I_{ws}=2+0.35\\sqrt{L/D}\\)——<b>pdftotext 抽取時整組消失（只剩兩個空括號），本頁已轉圖確認</b>。但問的是「<b>總</b>沉陷量」，卻沒給 \\(S_{e1}\\)；同時大方給了 \\(E_c=2\\times10^7\\) kPa——那個數字只有 \\(S_{e1}\\) 用得到。"], [2015, 104, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2016, 105, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。第四頁「參考資料」的承載力因數表屬淺基礎（U2-1），與樁基的 \\(N_q^*\\)、\\(N_c^*\\) 是不同的東西。"], [2017, 106, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。第四題印出 \\(S_u=10N/16\\)，屬開挖穩定（U3-3）。"], [2018, 107, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2019, 108, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。第一題名詞解釋含「群樁效率」，零供給。"], [2020, 109, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2021, 110, "三", 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, "★ 以「註：」給 \\(K=1.4K_0\\)、\\(\\delta=0.8\\phi\\)、\\(\\alpha=0.65\\)、\\(N_C^*=9\\)、\\(\\gamma_{concrete}=24\\)。<b>但 \\(K_0\\) 是什麼沒有定義</b>，\\(Q_p\\)、\\(Q_s\\)、抗拔力的式子也全部沒印。"], [2022, 111, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2023, 112, "三", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "★ <b>零供給的極端案例</b>：明寫「請參照建築物基礎構造設計規範<b>並考慮臨界深度</b>」，卻連臨界深度是幾倍樁徑都不告訴你，也不給 \\(K\\)、\\(\\delta\\)、\\(N_q^*\\)。只給三層土的 \\(D_r\\)、\\(N_{60}\\)、\\(\\gamma\\)。"], [2024, 113, "四", 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, "★ <b>24 年供給最多的一題</b>：\\(Q_P\\)（黏土／砂土兩式）、\\(Q_s\\)（α 法）、\\(Q_{s1}\\)、\\(Q_{s2}\\)、\\(L_c=15D\\)、\\(q_l\\)、\\(N_q^*=20\\)、\\(N_c^*=9\\)、14 格 α 對照表全給。但 \\(K_0\\) 仍不定義，臨界深度也從 96 年的 20D 變成 <b>15D</b>。已轉圖確認。"], [2025, 114, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"]];
+/* ---------- 渲染 ---------- */
+const LVN={'must':'必背','half':'別賭','give':'通常會給'};
+const groups=[...new Set(F.map(f=>f.g))];
+let curLv='all', curG='all';
+const gb=document.getElementById('gbtns');
+gb.innerHTML='<button class="gf on" data-g="all">全部</button>'+
+  groups.map(g=>'<button class="gf" data-g="'+g+'">'+g+'</button>').join('');
+function yrs(a,c){return a.map(y=>'<span class="yr '+c+'">'+(y-1911)+'年</span>').join('');}
+function draw(){
+  const box=document.getElementById('cards');
+  let html='';
+  groups.forEach((g,i)=>{
+    if(curG!=='all'&&curG!==g) return;
+    const list=F.filter(f=>f.g===g&&(curLv==='all'||f.lv===curLv));
+    if(!list.length) return;
+    html+='<h3 class="grph">2-'+(i+1)+'　'+g+'</h3>';
+    list.forEach(f=>{
+      let ev=f.ok.length?'<b>考卷給過：</b>'+yrs(f.ok,'ok')
+                        :'<b>考卷給過：</b><span class="never">從未</span>';
+      if(f.no.length) ev+='　｜　<b>考了卻沒給：</b>'+yrs(f.no,'no');
+      html+='<div class="fc '+f.lv+'"><div class="top"><span class="nm">'+f.nm+'</span>'+
+            '<span class="tag '+f.lv+'">'+LVN[f.lv]+'</span></div>'+
+            '<div class="eq">'+f.eq+'</div><p class="meta">'+f.meta+'</p>'+
+            '<div class="ev">'+ev+'</div></div>';
+    });
+  });
+  box.innerHTML=html||'<p class="lead">此組合沒有公式。</p>';
+  if(window.renderMathInElement) renderMathInElement(box,{delimiters:[
+    {left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+}
+function drawMX(){
+  const N=MX[0].length-4;
+  document.querySelector('#mx tbody').innerHTML=MX.map(r=>{
+    const has=r[2]!=='(—)';
+    const cells=r.slice(3,3+N).map(v=>'<td class="c">'+(v?'<span class="y">✔</span>':'<span class="n">·</span>')+'</td>').join('');
+    return '<tr class="'+(has?'hl':'')+'"><td><b>'+r[0]+'</b><br><span class="ynote">'+r[1]+'年</span></td>'+
+           '<td class="qq">'+r[2]+'</td>'+cells+'<td class="rm">'+r[r.length-1]+'</td></tr>';
+  }).join('');
+}
+document.addEventListener('click',e=>{
+  if(e.target.classList.contains('lvf')){
+    document.querySelectorAll('.lvf').forEach(b=>b.classList.remove('on'));
+    e.target.classList.add('on'); curLv=e.target.dataset.lv; draw();
+  }
+  if(e.target.classList.contains('gf')){
+    document.querySelectorAll('.gf').forEach(b=>b.classList.remove('on'));
+    e.target.classList.add('on'); curG=e.target.dataset.g; draw();
+  }
+});
+drawMX(); draw();
+</script>
+</body></html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-U1-5 土壤強度特性與變形性｜命題分析</title>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#78909c;--bd:#e0e6ea;--warn:#c62828}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:28px 24px}
+header h1{margin:0 0 6px;font-size:1.5em}header p{margin:0;opacity:.85;font-size:.92em}
+nav{position:sticky;top:0;z-index:9;background:#fff;border-bottom:2px solid var(--bd);padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{text-decoration:none;color:var(--ac);font-size:.88em;padding:5px 10px;border-radius:16px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+section{margin-bottom:34px}
+h2{font-size:1.25em;border-left:5px solid var(--ac);padding-left:10px;margin:26px 0 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+h3{font-size:1.05em;margin:30px 0 10px;padding-bottom:5px;border-bottom:2px solid var(--ac2)}
+.role{background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:8px;padding:12px 16px;font-size:.88em;margin-bottom:8px}
+.role b{color:#e65100}
+.btnbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.btnbar a{padding:5px 14px;border-radius:6px;font-size:.9em;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.kpi .n{font-size:1.9em;font-weight:700;color:var(--ac)}.kpi .l{font-size:.82em;color:var(--mut)}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
+.cat{background:var(--card);border:1px solid var(--bd);border-left:6px solid;border-radius:10px;padding:12px 14px;cursor:pointer;transition:.15s}
+.cat:hover{transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.cat h3{margin:0 0 4px;font-size:1em;border:none;padding:0}.cat p{margin:0;font-size:.82em;color:var(--mut)}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:760px){.charts{grid-template-columns:1fr}}
+.chartbox{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px}
+.chartbox h4{margin:0 0 8px;font-size:.95em;color:var(--mut)}
+canvas{width:100%;height:auto}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:middle}
+th{background:var(--ac2)}
+td.num{text-align:center;font-variant-numeric:tabular-nums}
+.bar{display:inline-block;height:12px;border-radius:3px;vertical-align:middle}
+.up{color:#2e7d32;font-weight:700;text-align:center}.down{color:var(--warn);font-weight:700;text-align:center}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.fbtn{border:1px solid var(--bd);background:#fff;border-radius:18px;padding:6px 14px;cursor:pointer;font-size:.88em;font-family:inherit}
+.fbtn.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.qrow{background:var(--card);border:1px solid var(--bd);border-left:6px solid;border-radius:8px;padding:10px 14px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.qrow.sec{background:#fafafa;border-style:dashed}
+.qrow a{font-weight:700;text-decoration:none;color:var(--ac);min-width:92px}
+.qrow a:hover{text-decoration:underline}
+.qrow .sum{flex:1;min-width:200px;font-size:.92em}
+.qrow .tags{font-size:.75em;color:var(--mut)}
+.qrow .meta{font-size:.72em;white-space:nowrap;color:#fff;border-radius:10px;padding:1px 8px}
+.note{font-size:.85em;color:var(--mut);background:#fff;border:1px dashed var(--bd);border-radius:8px;padding:10px 14px;margin-top:12px}
+.risk-hi{background:#ffebee}.risk-md{background:#fff8e1}.risk-lo{background:#f1f8e9}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:20px}
+</style>
+</head>
+<body>
+<header>
+<h1>SM-U1-5 土壤強度特性與變形性 — 命題分析</h1>
+<p>結構技師「土壤力學與基礎設計」子項命題情報頁｜資料來源：raw/json/question_index.json（2002–2025，24 個考年、96 題）｜更新日期 2026-08-14</p>
+</header>
+<nav>
+<a href="#b1">出題概況</a><a href="#b2">考點結構</a><a href="#b3">考點漂移</a>
+<a href="#b4">分析法走向</a><a href="#b5">考題清單</a><a href="#b6">命題風險</a>
+</nav>
+<main>
+
+<section id="s1">
+<h2><span>命題分析</span></h2>
+
+<div class="role">
+📚 <b>本頁只回答一件事：這個子項「考什麼」。</b>
+原理與圖解看 <b>觀念講義</b>、公式要不要背看 <b>給／背分界</b>；本頁提供的是可從 <code>question_index.json</code> 重生的命題事實：頻率、結構、漂移、方法別、清單、風險。<br>
+建議順序：<b style="color:#6a1b9a;">觀念講義</b>（練題前建立直覺）→ <b style="color:var(--warn);">給／背分界</b>（決定記憶投資）→ <b>本頁</b>（決定練題順序與押題）。
+</div>
+<div class="btnbar">
+  <a href="lecture-SM-U1-5.html" title="原理圖解、公式來源、精選必練題" style="background:#6a1b9a;color:#fff;">觀念講義 📘</a>
+  <a href="lecture-SM-U1-5.pdf" target="_blank" style="background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8;">講義 PDF 🖨️</a>
+  <a href="formula-given-SM-U1-5.html" title="主要公式 × 24 年考卷證據：哪些會印給你、哪些必須自己背" style="background:#c62828;color:#fff;">給／背分界 🎯</a>
+  <a href="formula-given-SM-U1-5.pdf" target="_blank" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;">分界 PDF 🖨️</a>
+</div>
+
+<h3 id="b1">出題概況</h3>
+<div class="kpis">
+<div class="kpi"><div class="n">12</div><div class="l">主考點題數（另有 4 題副考點）</div></div>
+<div class="kpi"><div class="n">12.5%</div><div class="l">佔全科比例（12／96）</div></div>
+<div class="kpi"><div class="n">#2</div><div class="l">全科出題排名（第一名 U1-3 22 題，本子項與 U2-3 並列 12 題）</div></div>
+<div class="kpi"><div class="n">2/6</div><div class="l">近 6 考年出題年數（2020–25 共 2 題）</div></div>
+</div>
+<div class="charts">
+<div class="chartbox"><h4>年度分布（依考點分群堆疊，主考點 12 題）</h4><canvas id="cvBar" width="520" height="260"></canvas></div>
+<div class="chartbox"><h4>考點結構比例（主考點 12 題）</h4><canvas id="cvPie" width="520" height="260"></canvas></div>
+</div>
+<div class="note">
+📌 <b>三個要記住的數字</b>：① 12 題與 U2-3 並列全科第二，是「土壤力學」側除了壓密以外最大的一塊（稽核後由 10 題增為 12 題，SM-2006-1 與 SM-2011-1 改列本子項）；② 24 個考年命中 12 年，空窗年段 2004–2005、2014–2017、<b>2019–2023 五年</b>；③ 五年空窗後 <b>2024、2025 連兩年回歸</b>，且兩題都是三軸試驗判讀——這是全科「剛剛回鍋、且題型收斂」最明顯的一個。<br>
+<b>空窗年段（連續兩年以上未出題）：</b>2004–2005、2014–2017、2019–2023。空窗不代表退場——本科 24 個考年裡，每個子項都出現過「空窗數年後回歸」的情形。
+</div>
+
+<h3 id="b2">考點結構（點卡片可篩選下方考題清單）</h3>
+<div class="cats">
+<div class="cat" style="border-left-color:#1565c0" onclick="filterQ('X')"><h3>🔬 三軸試驗判讀與強度參數（主 5 題）</h3><p>CU／CD／UU・莫爾圓・c′ 與 φ′・破壞面角度</p></div>
+<div class="cat" style="border-left-color:#8e24aa" onclick="filterQ('P')"><h3>💧 孔隙水壓參數與應力路徑（主 3 題）</h3><p>Skempton A、B・K₀ 壓密・有效應力路徑・靈敏度</p></div>
+<div class="cat" style="border-left-color:#2e7d32" onclick="filterQ('N')"><h3>📐 正常壓密黏土強度推估（主 2 題）</h3><p>S_u/σ_v′ 正規化・SHANSEP・由 φ′ 推 S_u</p></div>
+<div class="cat" style="border-left-color:#546e7a" onclick="filterQ('G')"><h3>🧪 現地試驗與概念比較（主 2 題）</h3><p>十字片剪・取樣規劃・流砂 vs 液化・名詞比較</p></div>
+</div>
+<div class="note">分群依「考生實際的解題套路」切，不是照標籤字面切；<b>每題只歸一群</b>，所以上面各群題數加總等於主考點 12 題，圓餅圖不會重複計數。</div>
+
+<h3 id="b3">考點漂移：前段 2002–2010 vs. 後段 2011–2025</h3>
+<p style="font-size:.9em;margin:0 0 10px;color:var(--mut)">把 12 題主考點依題號排序後對切：前段 6 題（2002–2010）、後段 6 題（2011–2025）。副考點不列入本表。</p>
+<table>
+<thead><tr><th>考點分群</th><th class="num">前段</th><th class="num">後段</th><th class="num">變化</th><th>解讀</th></tr></thead>
+<tbody>
+<tr><td><span class="bar" style="width:12px;background:#1565c0"></span> 三軸試驗判讀與強度參數</td><td class="num">1</td><td class="num">4</td><td class="num up">▲ +3</td><td>前段 1 題（2010-1）、後段 4 題，是全科最乾淨的一次世代交替；2024-1、2025-2 連兩年，題型收斂為「給試體數據求 c′、φ′」</td></tr>
+<tr><td><span class="bar" style="width:12px;background:#8e24aa"></span> 孔隙水壓參數與應力路徑</td><td class="num">1</td><td class="num">2</td><td class="num up">▲ +1</td><td>前段 1 題（2008-2）、後段 2 題（2011-1、2013-3）；純計算的 Skempton 主考型自 2013-3 後空窗 12 年，但 A_f 在 2018-2 仍以子問題延續</td></tr>
+<tr><td><span class="bar" style="width:12px;background:#2e7d32"></span> 正常壓密黏土強度推估</td><td class="num">2</td><td class="num">0</td><td class="num down">▼ -2</td><td>前段 2 題（2002-4、2003-4）、後段 <b>0 題</b>：由 φ′ 推 S_u 與 SHANSEP 已空窗 22 年</td></tr>
+<tr><td><span class="bar" style="width:12px;background:#546e7a"></span> 現地試驗與概念比較</td><td class="num">2</td><td class="num">0</td><td class="num down">▼ -2</td><td>前段 2 題（2006-1、2007-2）、後段 <b>0 題</b>；純概念比較型已 18 年未再以主考點出現</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>一句話</b>：這個單元的重心從「<b>由現地條件推估強度</b>」漂到「<b>由試驗數據反算參數</b>」。NC 黏土強度推估（SHANSEP、由 φ′ 推 S_u）與概念比較型前段共 4 題、後段 <b>0 題</b>，最後一次分別是 2003-4（22 年）與 2007-2（18 年）；同期三軸判讀由 1 題增為 4 題。若你依「歷史總題數」分配時間，會把時間花在 SHANSEP 這類需要背經驗式的內容上，而近 15 年考的全是「給 σ₃、Δσ_f、u_f，自己畫摩爾圓求 c′、φ′」——後者不需要背任何經驗式。
+</div>
+
+<h3 id="b4">分析法走向</h3>
+<table>
+<thead><tr><th>期間</th><th class="num">有效應力法</th><th class="num">混合</th><th class="num">概念題</th><th>觀察</th></tr></thead>
+<tbody>
+<tr><td>前段 2002–2010（6 題）</td><td class="num">2</td><td class="num">1</td><td class="num">3</td><td>概念題 3 題（2002-4、2006-1、2007-2），占前段一半</td></tr>
+<tr><td>後段 2011–2025（6 題）</td><td class="num">5</td><td class="num">0</td><td class="num">1</td><td><b>6 題有 5 題為有效應力法</b>，僅剩 2011-1 一題純名詞解釋</td></tr>
+<tr style="background:#fff8e1"><td><b>近 6 考年 2020–2025</b></td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td>2024-1、2025-2 皆為有效應力法的三軸判讀</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>對複習的直接影響</b>：本單元的方法別走向極端：<b>後段 6 題有 5 題是有效應力法</b>，概念題只剩 2011-1 一題純名詞解釋，計算型的概念題（2002-4、2006-1、2007-2）全在前段。這反映的是同一件事——考卷不再問「請說明 CU 與 UU 的差異」，而是給你兩組試體數據，讓你自己畫出總應力與有效應力兩組摩爾圓來體現差異。哪些三軸關係式考卷會印給你，見 <a href="formula-given-SM-U1-5.html">給／背分界</a>。
+</div>
+
+<h3 id="b5">考題清單（主 12 ＋ 副 4 ＝ 16 題，點題號開啟渲染後的解析頁）</h3>
+<div class="filters">
+<button class="fbtn on" onclick="filterQ('ALL',this)">全部（16）</button>
+<button class="fbtn" onclick="filterQ('X',this)">三軸試驗判讀與強度參數（5）</button>
+<button class="fbtn" onclick="filterQ('P',this)">孔隙水壓參數與應力路徑（3）</button>
+<button class="fbtn" onclick="filterQ('N',this)">正常壓密黏土強度推估（4）</button>
+<button class="fbtn" onclick="filterQ('G',this)">現地試驗與概念比較（4）</button>
+<button class="fbtn" onclick="filterQ('PRI',this)">僅主考點（12）</button>
+<button class="fbtn" onclick="filterQ('SEC',this)">僅副考點（4）</button>
+</div>
+<div id="qlist"></div>
+<div class="note">虛線灰底＝副考點（該題的主考點在別的子項，但解題會用到本子項的知識）。色籤為 <code>designMethod</code>：有效應力法／總應力法／混合／概念題／彈性理論。圖示：📄 有解析、📊 有互動圖；末位為驗算狀態——✅ 已人工驗算／⏳ 尚未驗算／⚠️ 發現錯誤待修正（直接讀 <code>question_index.json</code> 的 <code>verificationStatus</code>，不是寫死的）。</div>
+
+<h3 id="b6">命題風險排序（下一次最可能考什麼）</h3>
+<p style="font-size:.9em;margin:0 0 10px;color:var(--mut)"><b>這是推測而不是預言。</b>依「歷史頻率 × 空窗年數 × 近年趨勢」排序，用途是決定<b>練題順序</b>，不是叫你 all-in 單一考點。</p>
+<table>
+<thead><tr><th>風險</th><th>考點</th><th class="num">歷史題數</th><th>最後出現</th><th class="num">空窗</th><th>理由</th></tr></thead>
+<tbody>
+<tr class="risk-hi"><td><b>高</b></td><td>CU／CD 三軸兩試體求 c′、φ′</td><td class="num">5</td><td>2025-2</td><td class="num">0 年</td><td>2024-1、2025-2 連兩年，後段 6 題有 4 題在此群；題型高度固定（給 σ₃、Δσ_f、u_f 求參數），是本單元最穩定的送分型</td></tr>
+<tr class="risk-hi"><td><b>高</b></td><td>摩爾圓作圖與破壞面角度 45°+φ/2 的證明</td><td class="num">2</td><td>2024-1</td><td class="num">1 年</td><td>2018-2、2024-1 都要求「繪圖並證明」，是三軸群裡最常被追加的小題；2024-1 已示範證明題寫法，短期內重複的門檻很低</td></tr>
+<tr class="risk-md"><td><b>中高</b></td><td>Skempton 孔隙水壓參數 A、B</td><td class="num">2</td><td>2013-3</td><td class="num">12 年</td><td>2008-2、2013-3 兩次都以「給應力增量求 Δu」形式出現，已空窗 12 年；但 A_f 在 2018-2 仍以子問題延續</td></tr>
+<tr class="risk-md"><td><b>中</b></td><td>由 φ′ 推 NC 黏土 S<sub>u</sub>（含 S<sub>u</sub>/σ<sub>v</sub>′ 正規化）</td><td class="num">2</td><td>2003-4</td><td class="num">22 年</td><td>主考點已空窗 22 年；但 S_u/σ_v0′ 這個關係在 2008-3、2017-4（U2-3）仍被反覆用到，觀念不能不會</td></tr>
+<tr class="risk-lo"><td><b>中低</b></td><td>K₀ 壓密應力路徑（AC／LE 試驗）</td><td class="num">1</td><td>2013-3</td><td class="num">12 年</td><td>24 年僅一次。計算冗長、需畫 p–q 路徑圖，屬低頻高難度，準備順序應排在三軸判讀之後</td></tr>
+<tr class="risk-lo"><td><b>低</b></td><td>流砂與液化的機制比較（純概念）</td><td class="num">1</td><td>2007-2</td><td class="num">18 年</td><td>18 年未再出現，且本單元後段幾乎全為計算題；這個考點更可能出現在 U1-2 滲透或 U2-4 基礎型式</td></tr>
+</tbody>
+</table>
+<div class="note">
+📌 <b>若只剩三天</b>：只練「<b>三軸兩試體求 c′、φ′</b>」這一件事就對了——它占後段 6 題的 4 題，且 2024、2025 連兩年出現；練到能在 10 分鐘內畫出總應力與有效應力兩組摩爾圓。有餘力再補「<b>破壞面 45°+φ/2 的證明</b>」，它是同一題常見的追加小題。
+逐題原理與精選必練題見 <a href="lecture-SM-U1-5.html">觀念講義</a>。
+</div>
+
+</section>
+
+<footer>study SM-U1-5 命題分析｜exam-wiki-SM 知識庫｜統計基準 raw/json/question_index.json（96 題／24 考年）｜可用 <code>scripts/stats.py SM-U1-5</code> 複算全部數字</footer>
+</main>
+
+<script>
+const CATC={X:'#1565c0',P:'#8e24aa',N:'#2e7d32',G:'#546e7a'};
+const CATN={X:'三軸試驗判讀與強度參數',P:'孔隙水壓參數與應力路徑',N:'正常壓密黏土強度推估',G:'現地試驗與概念比較'};
+const MC={"有效應力法": "#1565c0", "總應力法": "#f57c00", "混合": "#6a1b9a", "概念題": "#546e7a", "彈性理論": "#00838f"};
+const VI={verified:'✅',unverified:'⏳','needs-review':'⚠️'};
+const VT={verified:'已人工驗算',unverified:'尚未驗算','needs-review':'發現錯誤，待修正'};
+// [題號, 分群, 摘要, 標籤, 有viz, 分析法, 主(1)/副(0), 副考點的所屬單元, 驗算狀態]
+const Q=[
+["SM-2002-4", "N", "判斷 CU 試驗壓密壓力是否適用並規劃重作", ["正常壓密", "CU試驗", "取樣擾動", "有效應力原理", "預壓密應力", "SHANSEP正規化強度法"], 0, "概念題", 1, "", "unverified"],
+["SM-2003-1", "G", "深開挖基地的不擾動取樣配置與試驗項目規劃", ["基地調查", "鑽探深度", "不擾動土樣", "薄管取樣", "標準貫入試驗", "室內試驗", "壓密試驗"], 0, "概念題", 0, "U2-4 基礎型式之選擇與評估", "unverified"],
+["SM-2003-4", "N", "由 φ′ 與現地有效應力推算 NC 黏土的 S_u", ["正常壓密", "不排水剪力強度", "UU試驗", "Mohr-Coulomb破壞準則", "孔隙水壓參數", "有效應力原理"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2006-1", "G", "極限平衡應力狀態、十字片剪試驗與 OCR", ["Mohr-Coulomb破壞準則", "極限平衡", "十字片剪試驗", "不排水剪力強度", "OCR", "過壓密"], 0, "概念題", 1, "", "unverified"],
+["SM-2007-2", "G", "流砂與液化機制之異同及 SUU／UUU 抗剪角", ["流砂", "土壤液化", "臨界水力坡降", "有效應力原理", "UU試驗", "孔隙水壓參數B", "三軸試驗"], 0, "概念題", 1, "", "unverified"],
+["SM-2008-2", "P", "Skempton 孔隙水壓參數 A、B 與破壞判定", ["Skempton孔隙水壓參數", "Mohr-Coulomb破壞準則", "有效應力原理", "應力增量", "孔隙水壓", "靜止土壓力"], 0, "混合", 1, "", "unverified"],
+["SM-2008-3", "N", "以正規化 S_u/σ_v0′ 求連續壁貫入深度安全係數", ["開挖穩定性", "連續壁", "貫入深度", "不排水剪力強度", "被動土壓力", "地盤改良", "安全係數"], 1, "總應力法", 0, "U2-3 開挖之穩定性分析", "unverified"],
+["SM-2010-1", "X", "UU 試驗 S_u 與有效覆土壓的關係計算", ["UU試驗", "三軸試驗", "不排水剪力強度", "Skempton孔隙水壓參數", "有效應力原理", "正常壓密"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2011-1", "P", "零空氣孔隙曲線、應力路徑、靈敏度等名詞", ["零空氣孔隙曲線", "夯實曲線", "應力路徑", "靈敏度", "流黏土", "角變位", "臨界水力坡降"], 0, "概念題", 1, "", "unverified"],
+["SM-2012-1", "X", "由 CU 與 UU 摩爾圓反推取樣深度與破壞孔壓", ["三軸試驗", "CU試驗", "UU試驗", "正常壓密", "不排水剪力強度", "Mohr-Coulomb破壞準則", "有效應力原理", "孔隙水壓"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2013-3", "P", "K₀ 壓密 AC／LE 試驗的應力路徑與 A_f", ["三軸試驗", "應力路徑", "有效應力路徑", "孔隙水壓參數Af", "K0壓密", "不排水剪力強度", "破壞面角度"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2017-4", "N", "由 N 值換算 S_u 檢核開挖基盤隆起", ["開挖穩定性", "管湧", "臨界水力坡降", "上舉破壞", "基盤隆起", "板樁", "不排水剪力強度", "安全係數"], 1, "混合", 0, "U2-3 開挖之穩定性分析", "unverified"],
+["SM-2018-2", "X", "CU 三軸求 φ_cu、φ′、破壞面角與 A_f", ["CU試驗", "三軸試驗", "正常壓密", "有效應力內摩擦角", "Mohr-Coulomb破壞準則", "孔隙水壓參數Af", "破壞面傾角"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2019-1", "G", "含水量、OCR、紅土化、群樁效率等名詞", ["含水量", "OCR", "Mohr-Coulomb破壞準則", "紅土化", "群樁效應", "液性指數"], 0, "概念題", 0, "U1-1 土壤基本性質", "unverified"],
+["SM-2024-1", "X", "CD 三軸繪莫爾圓求 φ 並證明破壞面 45°+φ/2", ["三軸試驗", "CD試驗", "莫爾圓", "Mohr-Coulomb破壞準則", "破壞面", "摩擦角"], 0, "有效應力法", 1, "", "unverified"],
+["SM-2025-2", "X", "由 CU 試驗反算有效參數並預測 CD 破壞", ["三軸試驗", "CU試驗", "CD試驗", "Mohr-Coulomb破壞準則", "有效強度參數", "孔隙水壓"], 0, "有效應力法", 1, "", "unverified"]
+];
+function renderQ(cat){
+  const box=document.getElementById('qlist');box.innerHTML='';
+  const sel=Q.filter(q=>{
+    if(cat==='ALL')return true;
+    if(cat==='PRI')return q[6]===1;
+    if(cat==='SEC')return q[6]===0;
+    return q[1]===cat;});
+  sel.sort((a,b)=>a[0].localeCompare(b[0])).forEach(q=>{
+    const d=document.createElement('div');
+    d.className='qrow'+(q[6]?'':' sec');d.style.borderLeftColor=CATC[q[1]];
+    d.innerHTML=`<a href="problems-view/${q[0]}.html" target="_blank">${q[0]}</a>
+    <span class="meta" style="background:${MC[q[5]]||'#90a4ae'}">${q[5]}</span>
+    ${q[6]?'':`<span class="meta" style="background:#90a4ae">副・${q[7]}</span>`}
+    <span class="sum">${q[2]}</span><span class="tags">${q[3].join('・')}</span>
+    <span class="ico" title="${VT[q[8]]||q[8]}">📄 ${VI[q[8]]||'❓'}</span>`;
+    box.appendChild(d);});
+}
+function filterQ(cat,btn){renderQ(cat);
+  const order=["ALL", "X", "P", "N", "G", "PRI", "SEC"];
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  const idx=order.indexOf(cat);if(idx>=0)document.querySelectorAll('.fbtn')[idx].classList.add('on');
+  if(!btn)document.getElementById('b5').scrollIntoView({behavior:'smooth'});
+}
+renderQ('ALL');
+const CODES=["X", "P", "N", "G"];
+const PQ=Q.filter(q=>q[6]===1);
+const byYear={};PQ.forEach(q=>{const y=q[0].split('-')[1];
+  if(!byYear[y]){byYear[y]={X:0,P:0,N:0,G:0};}byYear[y][q[1]]++;});
+function drawBar(){
+  const cv=document.getElementById('cvBar'),ctx=cv.getContext('2d');
+  const years=Object.keys(byYear).sort(),W=cv.width,H=cv.height,bw=(W-60)/years.length;
+  const max=Math.max(...years.map(y=>Object.values(byYear[y]).reduce((a,b)=>a+b,0)));
+  ctx.font='10px sans-serif';ctx.fillStyle='#78909c';
+  for(let i=0;i<=max;i++){const yy=H-30-(H-60)*i/max;ctx.fillStyle='#78909c';ctx.fillText(i,8,yy+3);ctx.strokeStyle='#eceff1';ctx.beginPath();ctx.moveTo(24,yy);ctx.lineTo(W-10,yy);ctx.stroke();}
+  years.forEach((y,i)=>{let acc=0;
+    CODES.forEach(c=>{const v=byYear[y][c];if(!v)return;
+      const h=(H-60)*v/max;ctx.fillStyle=CATC[c];
+      ctx.fillRect(30+i*bw,H-30-acc-h,Math.max(bw*0.7,4),h);acc+=h;});
+    ctx.fillStyle='#78909c';ctx.save();ctx.translate(30+i*bw+bw*0.35,H-18);ctx.rotate(-0.7);ctx.fillText(y.slice(2),0,0);ctx.restore();});
+}
+function drawPie(){
+  const cv=document.getElementById('cvPie'),ctx=cv.getContext('2d');
+  const cnt={};CODES.forEach(c=>cnt[c]=0);PQ.forEach(q=>cnt[q[1]]++);
+  const tot=PQ.length,cx=cv.width*0.28,cy=cv.height/2,r=Math.min(cx,cy)-16;let a=-Math.PI/2;
+  CODES.forEach(c=>{const frac=cnt[c]/tot,a2=a+frac*2*Math.PI;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,a,a2);ctx.closePath();ctx.fillStyle=CATC[c];ctx.fill();a=a2;});
+  ctx.font='12px sans-serif';let ly=40;
+  CODES.forEach(c=>{ctx.fillStyle=CATC[c];ctx.fillRect(cv.width*0.56,ly-9,12,12);
+    ctx.fillStyle='#263238';ctx.fillText(`${CATN[c]}：${cnt[c]} 題（${Math.round(cnt[c]/tot*100)}%）`,cv.width*0.56+18,ly);ly+=26;});
+}
+drawBar();drawPie();
+</script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2011-2 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2011-2 題目解析</h1><a class="back quick" href="../study-SM-U2-3.html">&#128269; U2-3 命題分析</a>
+<a class="back lect" href="../lecture-SM-U2-3.html">&#128218; U2-3 開挖之穩定性分析 講義</a></header>
+<main><h1>考題編號：SM-2011-2</h1>
+<p><strong>主分類：</strong> <code>SM-U1-2</code> 土壤滲透<br />
+<strong>副分類：</strong> <code>SM-U2-3</code> 開挖之穩定性分析<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>流網</code> <code>Darcy定律</code> <code>滲透係數</code> <code>水頭計算</code> <code>水力坡降</code> <code>滲流量</code> <code>圍堰開挖</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>二、某工地因施工需要在複雜土層進行傾斜向開挖底面為 2 m×2 m 正方形之圍堰開挖，如下圖所示，開挖後水在圍堰內土層 B 之土壤中產生滲流，試求：<br />
+(一) a、b、c、d、e 各點之總水頭、高度水頭及壓力水頭各為若干（m）？<br />
+(二) 試繪流經此土壤之流網及計算流經此土壤之平均水力坡降 $i_{bd}$ 為若干？<br />
+(三) 若此土層 B 之土壤透水係數 $k = 0.005 \text{ cm/sec}$，試計算其滲流量為若干（$\text{m}^3\text{/day}$）？（25 分）</p>
+<p><img alt="SM-2011-2 題目附圖：複雜土層傾斜向開挖與滲流剖面圖" src="../../raw/solutions/SM-2011-2/SM-2011-2-fig-1.png" /></p>
+<p><em>圖說：本圖顯示一傾斜向圍堰開挖，邊界傾角為 4垂直:3水平（即 $\theta = 53^\circ$）。開挖底面為 2m × 2m 之正方形，位於高程 5m 處。透水層 B 位於不透水圍堰與不透水 A 土層之間，底部連接水頭高 8m 之砂土層。圖中標示 a、b、c、d、e 點，以供水頭計算。</em></p>
+<h2>2. 考題核心精神與出題者意圖</h2>
+<ul>
+<li>測驗考生對於一維與二維滲流中總水頭、高度水頭、壓力水頭關係的掌握度。</li>
+<li>測驗是否能正確認知「流徑長度」（需沿流線方向計算，而非垂直高差）。</li>
+<li>測驗流量計算中「垂直於流向之截面積」與「水平面積」的幾何轉換觀念。</li>
+</ul>
+<h2>3. 解題戰略地圖與陷阱分析</h2>
+<ul>
+<li><strong>步驟 1</strong>：定義基準面（reference level = 0m），找出各點之高程 $Z$。</li>
+<li><strong>步驟 2</strong>：確認邊界條件。底面連接之砂土層水頭為 8m（$h_b = 8\text{m}$）；頂部開挖底面自由滲水，壓力水頭為 0，總水頭等於其高程（$h_e = 5\text{m}$）。</li>
+<li><strong>步驟 3</strong>：利用流徑長度 $L = \Delta Z / \sin 53^\circ$，計算水力坡降 $i$。</li>
+<li><strong>步驟 4</strong>：根據 $h = h_b - i \cdot s$，求出各點總水頭，再推算壓力水頭。</li>
+<li><strong>陷阱 1</strong>：流徑長度誤用垂直高差。斜向滲流的流徑是沿著 53° 的斜線，必須除以 $\sin 53^\circ = 0.8$。</li>
+<li><strong>陷阱 2</strong>：計算流量時，截面積誤用 $2\text{m} \times 2\text{m}$。由於流向傾斜，垂直流向的截面積應為 $A_{\perp} = A_{\text{horiz}} \times \sin 53^\circ = 4 \times 0.8 = 3.2\text{m}^2$。</li>
+<li><strong>陷阱 3</strong>：流網邊界條件的認知。水平的開挖面為等位線，因此流線接近頂部時必須轉向為垂直進入開挖面，這點在手繪流網時需特別注意。</li>
+</ul>
+<h2>3.5 變數層次分析</h2>
+<h3>最終目標</h3>
+<p><code>求出各點水頭、水力坡降以及每日滲流量</code></p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<ul>
+<li>點 b 到點 e 之流徑長度：<br />
+  $$L = \frac{\Delta Z}{\sin\theta}$$</li>
+<li>平均水力坡降：<br />
+  $$\boxed{i} = \frac{\Delta h}{\boxed{L}}$$</li>
+<li>各點總水頭：<br />
+  $$h = h_b - \boxed{i} \cdot s$$</li>
+<li>壓力水頭：<br />
+  $$P = \boxed{h} - Z$$</li>
+<li>正交流面積：<br />
+  $$A_{\perp} = A_{\text{horiz}} \cdot \sin\theta$$</li>
+<li>滲流量：<br />
+  $$Q = k \cdot \boxed{i} \cdot \boxed{A_{\perp}}$$</li>
+</ul>
+<h3>L1：題目直接給定</h3>
+<ul>
+<li>符號 ∣ 數值 ∣ 說明</li>
+<li>$\theta$ ∣ $53^\circ$ ∣ 邊界傾角 (4:3，$\sin\theta = 0.8$)</li>
+<li>$h_b$ ∣ 8 m ∣ 底層砂土層之總水頭 (由水壓計a決定)</li>
+<li>$Z_e$ ∣ 5 m ∣ 開挖底面之高程 (由 e 點位置判斷)</li>
+<li>$A_{\text{horiz}}$ ∣ $4 \text{ m}^2$ ∣ 開挖底面水平面積 ($2\text{m} \times 2\text{m}$)</li>
+<li>$k$ ∣ $0.005 \text{ cm/s}$ ∣ 透水層 B 之透水係數</li>
+</ul>
+<h3>L2：需知識點推導</h3>
+<ul>
+<li>符號 ∣ 公式／來源 ∣ 卡關?</li>
+<li>$h_e$ ∣ 開挖底面壓力水頭為 0，故 $h_e = Z_e$ ∣</li>
+<li>$L_{be}$ ∣ $L_{be} = (Z_e - Z_b) / \sin\theta$ ∣</li>
+<li>$i$ ∣ $i = (h_b - h_e) / L_{be}$ ∣</li>
+<li>$A_{\perp}$ ∣ $A_{\perp} = A_{\text{horiz}} \cdot \sin\theta$ ∣</li>
+<li>$Q$ ∣ $Q = k \cdot i \cdot A_{\perp}$ ∣</li>
+</ul>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<ul>
+<li>知識點 ∣ 說明 ∣ 卡關?</li>
+<li>傾斜滲流流徑 ∣ 沿著邊界平行的斜線距離，並非垂直高程差。 ∣</li>
+<li>流量截面積 ∣ 達西定律 $Q=kiA$ 中的 $A$ 必須是「垂直於流向」的面積。 ∣</li>
+<li>流網正交性 ∣ 流網中的流線與等位線必須正交，接近水平自由邊界時流線需彎曲。 ∣</li>
+</ul>
+<h2>4. 步驟化詳細計算過程</h2>
+<p><strong>（一）a、b、c、d、e 各點之總水頭、高度水頭及壓力水頭計算</strong></p>
+<p><strong>Step 1：確定各點高程 (Elevation Head, Z)</strong><br />
+由圖中參考位置 (0m) 與標示尺寸可知：</p>
+<ul>
+<li>$Z_a = 8\text{m}$ (水壓計頂部)</li>
+<li>$Z_b = 0\text{m}$ (透水層底部)</li>
+<li>$Z_c = 2\text{m}$</li>
+<li>$Z_d = 3\text{m}$</li>
+<li>$Z_e = 5\text{m}$ (開挖底面)</li>
+</ul>
+<p><strong>Step 2：確定邊界水頭</strong></p>
+<ul>
+<li><strong>a 點</strong>：位於水壓計內水面，與大氣接觸，壓力水頭 $P_a = 0\text{m}$。<br />
+  總水頭 $h_a = Z_a + P_a = 8 + 0 = \boxed{8\text{m}}$。</li>
+<li><strong>b 點</strong>：連接至水壓計的砂土層為高透水層，內部水頭一致為 8m。<br />
+  總水頭 $h_b = \boxed{8\text{m}}$。壓力水頭 $P_b = h_b - Z_b = 8 - 0 = \boxed{8\text{m}}$。</li>
+<li><strong>e 點</strong>：位於開挖底面，水直接滲入開挖區。假設無積水，壓力水頭 $P_e = \boxed{0\text{m}}$。<br />
+  總水頭 $h_e = Z_e + P_e = 5 + 0 = \boxed{5\text{m}}$。</li>
+</ul>
+<p><strong>Step 3：計算水力坡降與中間點水頭</strong><br />
+由圖示斜率 $4:3$，可知傾角 $\theta = 53^\circ$，$\sin\theta = 0.8$。假設流線平行於不透水邊界：</p>
+<ul>
+<li>b 到 e 的流徑長度 $L_{be} = \frac{Z_e - Z_b}{\sin 53^\circ} = \frac{5 - 0}{0.8} = 6.25\text{m}$</li>
+<li>總水頭差 $\Delta h = h_b - h_e = 8 - 5 = 3\text{m}$</li>
+<li>滲流區段之水力坡降 $i = \frac{\Delta h}{L_{be}} = \frac{3}{6.25} = 0.48$</li>
+</ul>
+<p>各點沿流向距 b 點的流徑長度 $s$ 及水頭計算：</p>
+<ul>
+<li><strong>c 點</strong>：$s_c = \frac{Z_c - Z_b}{\sin 53^\circ} = \frac{2 - 0}{0.8} = 2.5\text{m}$<br />
+  總水頭 $h_c = h_b - i \cdot s_c = 8 - 0.48 \times 2.5 = \boxed{6.8\text{m}}$<br />
+  壓力水頭 $P_c = h_c - Z_c = 6.8 - 2 = \boxed{4.8\text{m}}$</li>
+<li><strong>d 點</strong>：$s_d = \frac{Z_d - Z_b}{\sin 53^\circ} = \frac{3 - 0}{0.8} = 3.75\text{m}$<br />
+  總水頭 $h_d = h_b - i \cdot s_d = 8 - 0.48 \times 3.75 = \boxed{6.2\text{m}}$<br />
+  壓力水頭 $P_d = h_d - Z_d = 6.2 - 3 = \boxed{3.2\text{m}}$</li>
+</ul>
+<p><strong>計算結果彙整表：</strong><br />
+| 點位 | 高度水頭 $Z$ (m) | 壓力水頭 $P$ (m) | 總水頭 $h$ (m) |<br />
+|:---:|:---:|:---:|:---:|<br />
+| <strong>a</strong> | 8.0 | 0.0 | 8.0 |<br />
+| <strong>b</strong> | 0.0 | 8.0 | 8.0 |<br />
+| <strong>c</strong> | 2.0 | 4.8 | 6.8 |<br />
+| <strong>d</strong> | 3.0 | 3.2 | 6.2 |<br />
+| <strong>e</strong> | 5.0 | 0.0 | 5.0 |</p>
+<p><strong>（二）試繪流經此土壤之流網及計算平均水力坡降 $i_{bd}$</strong></p>
+<p><strong>1. 計算平均水力坡降 $i_{bd}$</strong></p>
+<ul>
+<li>d 點的總水頭 $h_d = 6.2\text{m}$，b 點的總水頭 $h_b = 8\text{m}$。</li>
+<li>b 到 d 的流徑長度 $L_{bd} = \frac{Z_d - Z_b}{\sin 53^\circ} = \frac{3}{0.8} = 3.75\text{m}$。</li>
+<li>$i_{bd} = \frac{h_b - h_d}{L_{bd}} = \frac{8 - 6.2}{3.75} = \frac{1.8}{3.75} = \boxed{0.48}$</li>
+</ul>
+<p><strong>2. 流網繪製要點</strong></p>
+<ul>
+<li><strong>邊界條件</strong>：</li>
+<li>左側不透水圍堰與右側不透水 A 土層為<strong>流線</strong>。</li>
+<li>頂部開挖底面（水平線）與底部砂土層交界（水平線）為<strong>等位線</strong>。</li>
+<li><strong>網格特徵</strong>：</li>
+<li>在透水層 B 中段，流線應與兩側邊界平行（傾角 53°），而等位線與流線正交（傾角 37°）。</li>
+<li>由於通道正交寬度 $B_{\perp} = 2 \times \sin 53^\circ = 1.6\text{m}$，流徑總長 $L_{be} = 6.25\text{m}$。若取流槽數 $N_f = 1$，則等勢降數 $N_d = \frac{6.25}{1.6} \approx 4$。故流網中段可畫出近似正方形的網格。</li>
+<li><strong>細節注意</strong>：接近頂部與底部時，因邊界為水平等位線，為滿足正交條件，流線在此處會發生局部彎曲以 90° 進入水平面。</li>
+</ul>
+<p><em>(作答時建議手繪草圖：畫出兩條 53° 的平行線作為邊界流線，中間穿插 3 條與之垂直的直線作為等位線，並在上下兩端將流線稍作彎曲交於水平邊界。)</em></p>
+<p><strong>（三）計算滲流量 (m³/day)</strong></p>
+<ul>
+<li>透水係數 $k = 0.005\text{ cm/s} = 5 \times 10^{-5}\text{ m/s}$</li>
+<li>正交於流向的截面積 $A_{\perp}$：<br />
+  開挖底面為 $2\text{m} \times 2\text{m}$ 之水平面，其水平面積 $A_{\text{horiz}} = 4\text{m}^2$。<br />
+  $A_{\perp} = A_{\text{horiz}} \times \sin 53^\circ = 4 \times 0.8 = 3.2\text{m}^2$</li>
+<li>滲流量 $Q$ (使用達西定律)：<br />
+  $$Q = k \cdot i \cdot A_{\perp} = (5 \times 10^{-5}\text{ m/s}) \times 0.48 \times 3.2\text{ m}^2 = 7.68 \times 10^{-5}\text{ m}^3\text{/s}$$</li>
+<li>換算為每日滲流量：<br />
+  $$Q = 7.68 \times 10^{-5} \times (60 \times 60 \times 24) = 6.63552 \approx \boxed{6.64 \text{ m}^3\text{/day}}$$</li>
+</ul>
+<p><em>(註：若使用垂直流速法，垂直流速 $v_z = (ki) \times \sin 53^\circ = 1.92 \times 10^{-5}\text{ m/s}$，流量 $Q = v_z \times A_{\text{horiz}} = 1.92 \times 10^{-5} \times 4 = 7.68 \times 10^{-5}\text{ m}^3\text{/s}$，計算結果完全一致。)</em></p>
+<h2>5. 關鍵爭議點與進階探討</h2>
+<ul>
+<li><strong>一維線性假設的合理性</strong>：本題計算水頭時隱含了「流線處處與邊界平行」的一維滲流假設。實際上，因頂底邊界為水平面而非與斜率正交，流網在端點附近會產生二維畸變。然而，相較於整體的流徑長度，此一邊界效應影響有限。在考試中，採用沿中心線之一維線性內插來計算各點水頭，是標準且唯一的預期解法。</li>
+<li><strong>流量截面積的常見錯誤</strong>：達西定律 $Q=kiA$ 中的 $A$ 必須是與流速向量垂直的截面積。許多考生會直接帶入水平面積 $4\text{m}^2$，導致答案放大 $\frac{1}{0.8}=1.25$ 倍。透過幾何轉換 $A_{\perp} = A_{\text{horiz}} \cdot \sin 53^\circ$ 是本題拿滿分的關鍵。</li>
+</ul></main>
+<footer>來源：raw/solutions/SM-2011-2/SM-2011-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

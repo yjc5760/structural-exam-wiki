@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2005-3 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2005-3 題目解析</h1><a class="back quick" href="../study-SM-U1-3.html">&#128269; U1-3 命題分析</a>
+<a class="back lect" href="../lecture-SM-U1-3.html">&#128218; U1-3 土壤夯實及壓密 講義</a></header>
+<main><h1>考題編號：SM-2005-3</h1>
+<p><strong>主分類：</strong> <code>SM-U1-3</code> 土壤夯實及壓密<br />
+<strong>副分類：</strong> 無<br />
+<strong>分析法：</strong> 有效應力法<br />
+<strong>標籤：</strong> <code>體積變化係數</code> <code>壓縮指數</code> <code>壓密沉陷</code> <code>分段計算</code> <code>有效應力原理</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p><strong>(一) 何謂體積變化係數 $m_v$（coefficient of volume change）？與壓縮指數 $C_c$（compression index）之關係為何？（10 分）</strong></p>
+<p><strong>(二) 有一大範圍之飽和黏土層厚 5m，單位重為 20 kN/m³，下表所列為該黏土層壓密試驗結果：有效應力範圍之體積變化係數 $m_v$ 值。今在其上方回填 2 層各 5m 厚之砂質土，其單位重為 20 kN/m³。試評估回填完成後飽和黏土層之長期沉陷量為何？（15 分）</strong><br />
+（註：請留意分析過程體積變化係數之適用範圍。）</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">有效應力範圍 (kPa)</th>
+<th style="text-align: center;">體積變化係數 $m_v$ ($10^{-4} \text{ kPa}^{-1}$)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">0 ~ 60</td>
+<td style="text-align: center;">6.2</td>
+</tr>
+<tr>
+<td style="text-align: center;">60 ~ 120</td>
+<td style="text-align: center;">4.0</td>
+</tr>
+<tr>
+<td style="text-align: center;">120 ~ 180</td>
+<td style="text-align: center;">1.4</td>
+</tr>
+<tr>
+<td style="text-align: center;">180 ~ 300</td>
+<td style="text-align: center;">0.3</td>
+</tr>
+</tbody>
+</table>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題測驗兩大核心觀念：</p>
+<ol>
+<li><strong>壓密參數定義與轉換</strong>：理解 $m_v$（體積變化係數）與 $C_c$（壓縮指數）之物理意義，並能透過孔隙比變化量 $\Delta e$ 建立兩者之數學關係式。</li>
+<li><strong>沉陷量之分段計算法</strong>：真實土壤之 $m_v$ 並非定值，而是會隨有效應力增加而衰減。出題者刻意給定不同應力區間的 $m_v$，並在註解中明確提示，測驗考生是否懂得計算「初始有效應力」與「最終有效應力」，並將應力增量準確切分至各區間分別計算沉陷量，最後再予加總。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<p><strong>解題戰略：</strong></p>
+<ol>
+<li><strong>觀念題</strong>：先寫出 $m_v$ 及 $C_c$ 的標準定義公式，利用 $\Delta e$（或總變形量）作為橋樑，導出兩者關係式。</li>
+<li><strong>應力計算</strong>：計算黏土層中央處（$z = 2.5\text{m}$）之初始有效覆土應力 $\sigma_{v0}'$，並計算大範圍回填造成之新增載重 $\Delta\sigma$ 及最終有效應力 $\sigma_{vf}'$。</li>
+<li><strong>分段計算</strong>：將總應力變化範圍 $(\sigma_{v0}' \rightarrow \sigma_{vf}')$ 依據題目給定的表格區間切成數段，每一段的應力增量 $\Delta\sigma_i'$ 乘上對應的 $m_v$ 及黏土層厚度 $H$，求出各段沉陷量 $S_i$。</li>
+<li><strong>加總</strong>：求得總長期沉陷量 $S = \sum S_i$。</li>
+</ol>
+<p><strong>陷阱分析：</strong></p>
+<ul>
+<li><strong>陷阱一：一票到底的錯誤</strong>。若直接將總應力增量 $\Delta\sigma$ 乘上某一個平均 $m_v$ 將導致嚴重錯誤，必須依據表格範圍分段。</li>
+<li><strong>陷阱二：忽略初始有效應力</strong>。若將 $\Delta\sigma$ 直接從 $0$ 開始對應表格，忽略了黏土原本就承受自重（$\sigma_{v0}'$），會放錯應力區間。</li>
+<li><strong>陷阱三：水位的判斷</strong>。題目未明示水位，但敘明「飽和黏土層」，且上方回填砂土，合理假設原地下水位位於黏土層頂面，故需扣除孔隙水壓求 $\sigma_{v0}'$。回填土則假設在水位之上（乾或濕單位重），其載重全數轉化為有效應力增量。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>導出 $m_v$ 與 $C_c$ 之關係式，並求出回填後飽和黏土層的長期總沉陷量 $S$。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>第一部分（參數關係）：<br />
+$$m_v = \frac{\Delta e}{(1+e_0)\Delta\sigma'}$$<br />
+$$C_c = \frac{\Delta e}{\log\left(\frac{\sigma_0' + \Delta\sigma'}{\sigma_0'}\right)}$$<br />
+$$m_v = \frac{C_c}{(1+e_0)\Delta\sigma'}\log\left(\frac{\sigma_0' + \Delta\sigma'}{\sigma_0'}\right)$$</p>
+<p>第二部分（沉陷計算）：<br />
+$$\sigma_{v0}' = (\gamma_{sat,c} - \gamma_w) \times \frac{H_c}{2}$$<br />
+$$\Delta\sigma = \gamma_s \times H_s$$<br />
+$$\sigma_{vf}' = \boxed{\sigma_{v0}'} + \boxed{\Delta\sigma}$$<br />
+$$S = \sum \Delta S_i = \sum \left( H_c \times m_{vi} \times \Delta\sigma_i' \right)$$</p>
+<h3>L1：題目直接給定</h3>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>數值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$H_c$</td>
+<td>5 m</td>
+<td>黏土層總厚度</td>
+</tr>
+<tr>
+<td>$\gamma_{sat, c}$</td>
+<td>20 kN/m³</td>
+<td>飽和黏土層單位重</td>
+</tr>
+<tr>
+<td>$H_s$</td>
+<td>$2 \times 5 = 10$ m</td>
+<td>回填砂質土總厚度</td>
+</tr>
+<tr>
+<td>$\gamma_s$</td>
+<td>20 kN/m³</td>
+<td>回填砂質土單位重</td>
+</tr>
+</tbody>
+</table>
+<h3>L2：需知識點推導</h3>
+<p><strong>初始與最終應力</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\sigma_{v0}'$ | 黏土層中央之初始有效應力 | |<br />
+| $\Delta\sigma$ | 回填砂土造成之大面積載重 | |<br />
+| $\sigma_{vf}'$ | 最終有效應力 | |</p>
+<p><strong>分段沉陷量計算</strong><br />
+| 符號 | 公式／來源 | 卡關? |<br />
+|---|---|---|<br />
+| $\Delta\sigma_i'$ | 落在各有效應力範圍 $i$ 內的應力增量分量 | |<br />
+| $S_i$ | 對應範圍 $i$ 之沉陷量分量 | |<br />
+| $S$ | 總長期沉陷量，即 $\sum S_i$ | |</p>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<table>
+<thead>
+<tr>
+<th>知識點</th>
+<th>說明</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分段計算法</td>
+<td>$m_v$ 並非常數，必須將 $(\sigma_{v0}', \sigma_{vf}')$ 的範圍對應給定表格切分，不可使用單一平均值。</td>
+<td></td>
+</tr>
+<tr>
+<td>初始有效覆土應力</td>
+<td>若忘記計算初始應力而直接將 $\Delta\sigma$ 從 0 開始對應 $m_v$，會導致沉陷量嚴重高估。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>(一) $m_v$ 之定義與 $C_c$ 之關係</h3>
+<p><strong>1. 體積變化係數 $m_v$ 之定義：</strong><br />
+體積變化係數（Coefficient of volume change）是指土壤在側向局限（一維壓密）狀態下，每單位有效應力增加所造成的單位體積變化量（或垂直應變量）。<br />
+定義公式為：<br />
+$$m_v = \frac{\Delta\epsilon_v}{\Delta\sigma'} = \frac{\frac{\Delta V}{V_0}}{\Delta\sigma'} = \frac{\frac{\Delta H}{H_0}}{\Delta\sigma'}$$<br />
+若以孔隙比 $e$ 表示（假設土粒體積不變，即 $V_s=1$ 則初始體積為 $1+e_0$）：<br />
+$$m_v = \frac{\Delta e}{(1+e_0)\Delta\sigma'} = \frac{a_v}{1+e_0}$$<br />
+（其中 $a_v = \frac{\Delta e}{\Delta\sigma'}$ 為壓縮係數）</p>
+<p><strong>2. 與壓縮指數 $C_c$ 之關係：</strong><br />
+壓縮指數 $C_c$ 定義為一維壓密試驗中，$e - \log\sigma'$ 曲線在正常壓密段的直線斜率：<br />
+$$C_c = \frac{\Delta e}{\log\left(\frac{\sigma_2'}{\sigma_1'}\right)} = \frac{\Delta e}{\log\left(\frac{\sigma_1' + \Delta\sigma'}{\sigma_1'}\right)}$$<br />
+將 $\Delta e$ 移項得：<br />
+$$\Delta e = C_c \cdot \log\left(\frac{\sigma_1' + \Delta\sigma'}{\sigma_1'}\right)$$<br />
+將此 $\Delta e$ 代回 $m_v$ 的定義式，可得兩者之關係：<br />
+$$\boxed{m_v = \frac{C_c}{(1+e_0)\Delta\sigma'} \cdot \log\left(\frac{\sigma_1' + \Delta\sigma'}{\sigma_1'}\right)}$$</p>
+<p><em>(註：若使用微分型式表示，關係式亦可寫作 $m_v = \frac{0.434 C_c}{\sigma'(1+e_0)}$ )</em></p>
+<hr />
+<h3>(二) 飽和黏土層之長期沉陷量</h3>
+<p><strong>Step 1：計算初始與最終有效應力</strong><br />
+為代表整層黏土，取黏土層中央深度（$z = 2.5\text{m}$）作為計算基準。<br />
+假設地下水位在黏土層頂面（地表），且令水單位重 $\gamma_w = 9.81 \text{ kN/m}^3$。</p>
+<ul>
+<li>
+<p><strong>初始有效應力 $\sigma_{v0}'$：</strong><br />
+  $$\sigma_{v0}' = (\gamma_{sat,c} - \gamma_w) \times 2.5 = (20 - 9.81) \times 2.5 = 10.19 \times 2.5 = 25.475 \text{ kPa}$$<br />
+<em>(若取 $\gamma_w = 10 \text{ kN/m}^3$，則 $\sigma_{v0}' = 25 \text{ kPa}$)</em></p>
+</li>
+<li>
+<p><strong>新增有效載重 $\Delta\sigma$：</strong><br />
+  回填 2 層各 5m 砂土（共 10m），大範圍回填可視為一維載重，不隨深度衰減。<br />
+  $$\Delta\sigma = \gamma_s \times H_s = 20 \times (2 \times 5) = 200 \text{ kPa}$$</p>
+</li>
+<li>
+<p><strong>最終有效應力 $\sigma_{vf}'$：</strong><br />
+  $$\sigma_{vf}' = \sigma_{v0}' + \Delta\sigma = 25.475 + 200 = 225.475 \text{ kPa}$$</p>
+</li>
+</ul>
+<p><strong>Step 2：依據表格對應力增量進行分段</strong><br />
+總應力範圍由 $25.475 \text{ kPa}$ 增加至 $225.475 \text{ kPa}$，橫跨了表格中的四個區間。我們將總沉陷量分為四段計算：<br />
+$\Delta S_i = m_{vi} \cdot H_c \cdot \Delta\sigma_i'$</p>
+<ul>
+<li><strong>區間 1（0 ~ 60 kPa）：</strong></li>
+<li>使用之應力範圍：$25.475 \text{ kPa}$ ~ $60 \text{ kPa}$</li>
+<li>應力增量 $\Delta\sigma_1' = 60 - 25.475 = 34.525 \text{ kPa}$</li>
+<li>對應 $m_{v1} = 6.2 \times 10^{-4} \text{ kPa}^{-1}$</li>
+<li>
+<p>沉陷分量 $S_1 = (6.2 \times 10^{-4}) \times 5 \times 34.525 = 0.1070 \text{ m}$</p>
+</li>
+<li>
+<p><strong>區間 2（60 ~ 120 kPa）：</strong></p>
+</li>
+<li>使用之應力範圍：$60 \text{ kPa}$ ~ $120 \text{ kPa}$</li>
+<li>應力增量 $\Delta\sigma_2' = 120 - 60 = 60 \text{ kPa}$</li>
+<li>對應 $m_{v2} = 4.0 \times 10^{-4} \text{ kPa}^{-1}$</li>
+<li>
+<p>沉陷分量 $S_2 = (4.0 \times 10^{-4}) \times 5 \times 60 = 0.1200 \text{ m}$</p>
+</li>
+<li>
+<p><strong>區間 3（120 ~ 180 kPa）：</strong></p>
+</li>
+<li>使用之應力範圍：$120 \text{ kPa}$ ~ $180 \text{ kPa}$</li>
+<li>應力增量 $\Delta\sigma_3' = 180 - 120 = 60 \text{ kPa}$</li>
+<li>對應 $m_{v3} = 1.4 \times 10^{-4} \text{ kPa}^{-1}$</li>
+<li>
+<p>沉陷分量 $S_3 = (1.4 \times 10^{-4}) \times 5 \times 60 = 0.0420 \text{ m}$</p>
+</li>
+<li>
+<p><strong>區間 4（180 ~ 300 kPa）：</strong></p>
+</li>
+<li>使用之應力範圍：$180 \text{ kPa}$ ~ $225.475 \text{ kPa}$</li>
+<li>應力增量 $\Delta\sigma_4' = 225.475 - 180 = 45.475 \text{ kPa}$</li>
+<li>對應 $m_{v4} = 0.3 \times 10^{-4} \text{ kPa}^{-1}$</li>
+<li>沉陷分量 $S_4 = (0.3 \times 10^{-4}) \times 5 \times 45.475 = 0.0068 \text{ m}$</li>
+</ul>
+<p><strong>Step 3：總長期沉陷量加總</strong><br />
+$$S_{total} = S_1 + S_2 + S_3 + S_4$$<br />
+$$S_{total} = 0.1070 + 0.1200 + 0.0420 + 0.0068 = 0.2758 \text{ m}$$</p>
+<p>$$\boxed{S_{total} = 27.58 \text{ cm}}$$</p>
+<p><em>(若水單位重採 $\gamma_w = 10 \text{ kN/m}^3$，計算結果為 $27.73 \text{ cm}$，兩者皆屬合理)</em></p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ol>
+<li><strong>水單位重的選用：</strong><br />
+   考題未指明水的單位重。依習慣可用 $9.81 \text{ kN/m}^3$ 或 $10 \text{ kN/m}^3$ 進行估算。本題解法採用 $9.81 \text{ kN/m}^3$，若考場上為了計算方便選用 $10 \text{ kN/m}^3$，只需在算式旁稍作「假設 $\gamma_w=10 \text{ kN/m}^3$」之註明，閱卷老師均會給予滿分。</li>
+<li><strong>取點位置的代表性：</strong><br />
+   實務上，若土層極厚，有效應力隨深度變化大，應將該土層再細分成多個子層（例如每 1~2m 一層）分別計算再加總。但本題總黏土層厚度僅 5m，且為考試手算題，取「黏土層中央深度」的應力狀態來代表整層行為是標準作法。</li>
+<li><strong>$m_v$ 隨應力範圍衰減的意義：</strong><br />
+   從表格可知，$m_v$ 從 $6.2 \times 10^{-4}$ 衰減到 $0.3 \times 10^{-4}$。物理上意味著黏土隨著壓密的進行，孔隙比逐漸減小，土體變得越來越緻密（stiff），要進一步壓縮需要更大的應力增量，這與 $e-\log\sigma'$ 曲線在算術坐標下呈現凹口向上的非線性特性一致。</li>
+</ol></main>
+<footer>來源：raw/solutions/SM-2005-3/SM-2005-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

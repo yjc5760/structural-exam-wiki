@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-2012-4 — 題目解析</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<script defer src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},
+  {left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:22px 26px}
+header h1{margin:0;font-size:1.15em}
+header .back{display:inline-block;margin-top:10px;margin-right:8px;font-size:.82em;color:#fff;background:rgba(255,255,255,.18);
+  padding:4px 12px;border-radius:14px;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:26px 22px 70px}
+h1,h2,h3{color:#0d47a1} h2{font-size:1.2em;border-left:6px solid var(--ac);padding-left:12px;margin:34px 0 14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92em;background:#fff}
+th,td{border:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600} tbody tr:nth-child(even){background:#fafcfd}
+code{background:#eceff1;padding:1px 5px;border-radius:4px;font-size:.92em}
+img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);border-radius:8px}
+blockquote{border-left:4px solid #90caf9;background:#f4f9ff;margin:14px 0;padding:8px 16px;color:#37474f}
+.katex-display{margin:12px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
+</style></head><body>
+<header><h1>SM-2012-4 題目解析</h1><a class="back quick" href="../study-SM-U2-3.html">&#128269; U2-3 命題分析</a>
+<a class="back lect" href="../lecture-SM-U2-3.html">&#128218; U2-3 開挖之穩定性分析 講義</a></header>
+<main><h1>考題編號：SM-2012-4</h1>
+<p><strong>主分類：</strong> <code>SM-U2-3</code> 開挖之穩定性分析<br />
+<strong>副分類：</strong> 無<br />
+<strong>分析法：</strong> 混合<br />
+<strong>標籤：</strong> <code>開挖穩定性</code> <code>視土壓力</code> <code>Peck包絡線</code> <code>等值土壤參數</code> <code>支撐系統</code> <code>基盤隆起</code> <code>安全係數</code></p>
+<hr />
+<h2>1. 原始題目重述 (Problem Restatement)</h2>
+<p>一處工地擬進行建築物之地下開挖與支撐，該處地層上方為厚 5 m之砂土層，單位重為 16.5 kN/m³，摩擦角 $\phi = 30^\circ$。下方為黏土層，飽和單位重為 18.5 kN/m³，不排水剪力強度為 30 kPa，地下水面位於二土層之交界。開挖深度為 10 m，寬度為 6 m，擬採用參層支撐，分別位於地表下 1.5、4.5 及 7.5 m處。<br />
+(一) 畫出該開挖面之視土壓包絡線並計算各層支撐單位寬度所承受之荷重。（13 分）<br />
+(二) 此時開挖底面之抗隆起（heave）安全係數為何？（12 分）</p>
+<h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
+<p>本題主要測驗考生處理<strong>層狀土層（上砂下黏）</strong>開挖時的穩定性分析能力。</p>
+<ol>
+<li><strong>層狀土層之視土壓力</strong>：要求考生知道如何將上層砂土與下層黏土轉換為「等值黏土」參數（Peck 經驗法），進而繪製正確形狀的視土壓包絡線。</li>
+<li><strong>支撐荷重計算</strong>：測驗是否熟悉將土壓力分佈轉化為各層支撐載重的分析手法（鉸接法或影響面積法）。</li>
+<li><strong>抗隆起（Basal Heave）</strong>：針對黏土層基底開挖，要求熟用 Terzaghi 隆起安全係數公式，並且需正確計算滑動面上覆蓋砂土層所提供的抗剪力（$T_{sand}$）。</li>
+</ol>
+<h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
+<ul>
+<li><strong>戰略一（等值參數與包絡線）</strong>：採用 Peck (1943) 建議之等值參數法。先求全層等值單位重 $\gamma_{avg}$，再求等值不排水剪力強度 $c_{avg}$（需考慮上層砂土側向擠壓提供之等效強度）。計算穩定數 $N = \gamma_{avg}H / c_{avg}$ 判斷其屬於軟黏土。</li>
+<li><strong>戰略二（支撐載重）</strong>：畫出梯形視土壓力包絡線後，假設相鄰支撐間有鉸接點（彎矩為零），將連續壁視為數段簡支梁，利用靜力平衡求出各支撐點的反力。</li>
+<li><strong>戰略三（抗隆起）</strong>：利用 Terzaghi 基底隆起破壞模型，驅動應力包含上方總覆土重，抵抗力除了黏土層本身的承載力 $N_c S_u$ 外，還必須扣除沿垂直滑動面<strong>砂土層與黏土層所提供之總抗剪力 $T$</strong>。</li>
+<li><strong>⚠ 陷阱</strong>：</li>
+<li>砂土層的摩擦角 $\phi = 30^\circ$ 不可忽略，它在求等效 $c_{avg}$ 及抗隆起滑動面抗剪力時扮演關鍵角色。</li>
+<li>視土壓包絡線對於 $N &gt; 4$ 的軟弱黏土，其經驗公式為 $p_a = \gamma H - 4 m S_u$，若不使用等效 $c_{avg}$ 而直接平均 $S_u$，會導致土壓力被嚴重高估。</li>
+</ul>
+<h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
+<h3>最終目標</h3>
+<p>求出層狀土層開挖之等值視土壓力包絡線、三層支撐荷重，以及開挖底面的抗隆起安全係數。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<p>等值單位重：<br />
+$$ \gamma_{avg} = \frac{\sum \gamma_i H_i}{H} $$<br />
+等值凝聚力 (Peck, 1943)：<br />
+$$ c_{avg} = \frac{1}{H} \left( \frac{1}{2} \gamma_s H_s^2 K_s \tan\phi_s + S_u H_c \right) $$<br />
+穩定數與最大視土壓力：<br />
+$$ N = \frac{\boxed{\gamma_{avg}} H}{\boxed{c_{avg}}}, \quad p_a = \boxed{\gamma_{avg}} H \left( 1 - \frac{4 \boxed{c_{avg}}}{\boxed{\gamma_{avg}} H} \right) $$<br />
+支撐荷重 (對鉸接點取彎矩)：<br />
+$$ \Sigma M_{hinge} = 0 \implies R_i $$<br />
+抗隆起安全係數 (Terzaghi)：<br />
+$$ FS = \frac{N_c S_u}{\sum \gamma_i H_i - \frac{T}{B'}} \quad \text{其中 } T = \frac{1}{2} K_0 \gamma_s H_s^2 \tan\phi_s + S_u H_c $$</p>
+<h3>L1：題目直接給定</h3>
+<ul>
+<li><strong>符號 ∣ 數值 ∣ 說明</strong></li>
+<li>$H$ ∣ 10 m ∣ 開挖總深度</li>
+<li>$B$ ∣ 6 m ∣ 開挖寬度</li>
+<li>$H_s$ ∣ 5 m ∣ 上層砂土厚度</li>
+<li>$\gamma_s$ ∣ 16.5 kN/m³ ∣ 上層砂土單位重</li>
+<li>$\phi_s$ ∣ 30^\circ ∣ 上層砂土摩擦角</li>
+<li>$H_c$ ∣ 5 m ∣ 開挖面以上之下層黏土厚度</li>
+<li>$\gamma_c$ ∣ 18.5 kN/m³ ∣ 下層黏土飽和單位重</li>
+<li>$S_u$ ∣ 30 kPa ∣ 黏土不排水剪力強度</li>
+</ul>
+<h3>L2：需知識點推導</h3>
+<ul>
+<li><strong>符號 ∣ 公式／來源 ∣ 卡關?</strong></li>
+<li>$\gamma_{avg}$ ∣ $\frac{16.5 \times 5 + 18.5 \times 5}{10}$ ∣</li>
+<li>$c_{avg}$ ∣ $\frac{1}{H}(\frac{1}{2}\gamma_s H_s^2 K_s \tan\phi_s + S_u H_c)$ ∣</li>
+<li>$p_a$ ∣ $\gamma_{avg} H - 4 c_{avg}$ ∣</li>
+<li>$T_{sand}$ ∣ $\frac{1}{2} K_0 \gamma_s H_s^2 \tan\phi_s$ ∣</li>
+<li>$FS_{heave}$ ∣ $\frac{5.7 S_u}{\gamma_{avg} H - T/B'}$ ∣</li>
+</ul>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<ul>
+<li><strong>知識點 ∣ 說明 ∣ 卡關?</strong></li>
+<li><strong>Peck 等值參數法</strong> ∣ 層狀土層時，必須將砂土之抗剪力轉化為等值凝聚力貢獻，常取 $K_s \approx 1.0$。 ∣</li>
+<li><strong>鉸接點法 (Hinge Method)</strong> ∣ 計算支撐荷重時，視連續壁為多段梁，相鄰支撐處設有鉸接點 (彎矩=0) 進行靜力平衡。 ∣</li>
+<li><strong>Terzaghi 隆起模型之 $T$</strong> ∣ 開挖面以上的土層，沿兩側垂直滑動面皆會提供抗剪力 $T$，減輕驅動基底隆起之覆土重。 ∣</li>
+</ul>
+<h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
+<h3>(一) 視土壓包絡線與支撐荷重</h3>
+<p><strong>Step 1：計算等值土壤參數</strong><br />
+依據 Peck (1943) 建議，對於上層砂土下層黏土之層狀開挖，應計算等值單位重與等值凝聚力：<br />
+等值單位重：<br />
+$$ \gamma_{avg} = \frac{\gamma_s H_s + \gamma_c H_c}{H} = \frac{16.5 \times 5 + 18.5 \times 5}{10} = 17.5 \text{ kN/m}^3 $$<br />
+等值凝聚力：<br />
+$$ c_{avg} = \frac{1}{H} \left( \frac{1}{2} \gamma_s H_s^2 K_s \tan\phi_s + S_u H_c \right) $$<br />
+其中 $K_s$ 為砂土之側壓係數，經驗上常取 $K_s \approx 1.0$：<br />
+$$ c_{avg} = \frac{1}{10} \left( \frac{1}{2} \times 16.5 \times 5^2 \times 1.0 \times \tan 30^\circ + 30 \times 5 \right) $$<br />
+$$ c_{avg} = \frac{1}{10} ( 119.08 + 150 ) = \boxed{26.91 \text{ kPa}} $$</p>
+<p><strong>Step 2：判斷土壓包絡線形狀與最大壓力 $p_a$</strong><br />
+計算穩定數 $N$：<br />
+$$ N = \frac{\gamma_{avg} H}{c_{avg}} = \frac{17.5 \times 10}{26.91} = 6.50 &gt; 4 $$<br />
+因 $N &gt; 4$，該層狀系統之視土壓力依<strong>軟弱至中度堅硬黏土</strong> (Soft to medium clay) 之包絡線繪製：<br />
+$$ p_a = \gamma_{avg} H \left( 1 - \frac{4 c_{avg}}{\gamma_{avg} H} \right) = 17.5 \times 10 - 4 \times 26.91 = 175 - 107.64 = \boxed{67.36 \text{ kPa}} $$<br />
+（檢核下限：$0.3 \gamma_{avg} H = 52.5 \text{ kPa} &lt; 67.36 \text{ kPa}$，故取 $67.36 \text{ kPa}$，OK）</p>
+<p><strong>Step 3：繪製視土壓力包絡線</strong><br />
+依據 Peck 軟黏土經驗包絡線形狀：</p>
+<ul>
+<li>$0 \sim 0.25H$ (即 $0 \sim 2.5\text{m}$)：壓力由 0 漸增至 $67.36 \text{ kPa}$ (三角形)</li>
+<li>$0.25H \sim 0.75H$ (即 $2.5 \sim 7.5\text{m}$)：維持等壓 $67.36 \text{ kPa}$ (矩形)</li>
+<li>$0.75H \sim 1.0H$ (即 $7.5 \sim 10\text{m}$)：壓力由 $67.36 \text{ kPa}$ 漸減至 0 (三角形)</li>
+</ul>
+<p><strong>Step 4：計算各層支撐荷重 (採用鉸接點法)</strong><br />
+將連續壁視為於支撐處 (不含頂底) 具有鉸接點之多段簡支梁。設支撐分別為 A(1.5m), B(4.5m), C(7.5m)，基底為 D(10m)。鉸接點設於 B 與 C 點。</p>
+<blockquote>
+<p><strong>策略註解</strong>：採用鉸接法可精確滿足力矩平衡，是計算支撐載重的標準嚴謹作法。</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>梁1 (深度 0 ~ 4.5m)，支承於 A(1.5m) 與 B(4.5m)</strong>：<br />
+  土壓力分為兩部分：<br />
+  $F_{1a}$ (0~2.5m 三角形) = $0.5 \times 2.5 \times 67.36 = 84.2 \text{ kN/m}$，作用於 $z = \frac{2}{3}(2.5) = 1.667 \text{ m}$<br />
+  $F_{1b}$ (2.5~4.5m 矩形) = $2.0 \times 67.36 = 134.72 \text{ kN/m}$，作用於 $z = 3.5 \text{ m}$<br />
+  對 B 點(z=4.5m)取彎矩 $\Sigma M_B = 0$：<br />
+  $$ P_A \times (4.5 - 1.5) = 84.2 \times (4.5 - 1.667) + 134.72 \times (4.5 - 3.5) $$<br />
+  $$ 3 P_A = 84.2 \times 2.833 + 134.72 \times 1.0 = 238.54 + 134.72 = 373.26 \implies P_A = \boxed{124.4 \text{ kN/m}} $$<br />
+  由靜力平衡 $\Sigma F = 0$ 得 B 點上方反力 $R_{B1}$：<br />
+  $$ R_{B1} = (84.2 + 134.72) - 124.42 = 94.5 \text{ kN/m} $$</p>
+</li>
+<li>
+<p><strong>梁2 (深度 4.5 ~ 7.5m)，支承於 B(4.5m) 與 C(7.5m)</strong>：<br />
+  全段受均布壓力 67.36 kPa，跨距 3.0m，呈完全對稱。<br />
+  總力 $F_2 = 3.0 \times 67.36 = 202.08 \text{ kN/m}$<br />
+  $$ R_{B2} = R_{C1} = 202.08 / 2 = 101.0 \text{ kN/m} $$</p>
+</li>
+<li>
+<p><strong>梁3 (深度 7.5 ~ 10m)，支承於 C(7.5m) 與 D(10m)</strong>：<br />
+  土壓力為三角形：<br />
+  $F_3$ (7.5~10m) = $0.5 \times 2.5 \times 67.36 = 84.2 \text{ kN/m}$，作用於 $z = 7.5 + \frac{1}{3}(2.5) = 8.333 \text{ m}$<br />
+  對 D 點(z=10m)取彎矩 $\Sigma M_D = 0$：<br />
+  $$ R_{C2} \times (10 - 7.5) = 84.2 \times (10 - 8.333) $$<br />
+  $$ 2.5 R_{C2} = 84.2 \times 1.667 = 140.36 \implies R_{C2} = 56.1 \text{ kN/m} $$</p>
+</li>
+<li>
+<p><strong>總結各層支撐承受荷重</strong>：</p>
+</li>
+<li>第 1 層支撐 (1.5m)：$P_A = \boxed{124.4 \text{ kN/m}}$</li>
+<li>第 2 層支撐 (4.5m)：$P_B = R_{B1} + R_{B2} = 94.5 + 101.0 = \boxed{195.5 \text{ kN/m}}$</li>
+<li>第 3 層支撐 (7.5m)：$P_C = R_{C1} + R_{C2} = 101.0 + 56.1 = \boxed{157.1 \text{ kN/m}}$</li>
+</ul>
+<h3>(二) 抗隆起（heave）安全係數</h3>
+<p>採用 Terzaghi 隆起分析法。<br />
+由於未給定基底下方黏土層總厚度，為合理評估且偏向保守，假設黏土層深度足夠深 ($D \ge B/\sqrt{2}$)。<br />
+有效滑動土體寬度 $B' = \frac{B}{\sqrt{2}} = \frac{6}{\sqrt{2}} = 4.243 \text{ m}$</p>
+<p><strong>Step 1：計算開挖面以上總覆土壓力 $q$</strong><br />
+$$ q = \sum \gamma_i H_i = 16.5 \times 5 + 18.5 \times 5 = 175 \text{ kPa} $$</p>
+<p><strong>Step 2：計算垂直滑動面上之抗剪力 $T$</strong><br />
+滑動面上總抗剪力由上層砂土與下層黏土共同提供 ($T = T_{sand} + T_{clay}$)。<br />
+砂土層採用靜止土壓力係數 $K_0 = 1 - \sin 30^\circ = 0.5$：<br />
+$$ T_{sand} = \int_{0}^{5} K_0 (\gamma_s z) \tan\phi_s dz = \frac{1}{2} K_0 \gamma_s H_s^2 \tan\phi_s $$<br />
+$$ T_{sand} = 0.5 \times 0.5 \times 16.5 \times 5^2 \times \tan 30^\circ = 59.54 \text{ kN/m} $$<br />
+黏土層採不排水強度：<br />
+$$ T_{clay} = S_u H_c = 30 \times 5 = 150 \text{ kN/m} $$<br />
+$$ T = 59.54 + 150 = 209.54 \text{ kN/m} $$</p>
+<p><strong>Step 3：計算安全係數 $FS$</strong><br />
+對於條狀開挖，承載力因數 $N_c = 5.7$。<br />
+$$ FS = \frac{N_c S_u}{q - \frac{T}{B'}} = \frac{5.7 \times 30}{175 - \frac{209.54}{4.243}} = \frac{171}{175 - 49.38} = \frac{171}{125.62} = \boxed{1.36} $$</p>
+<h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
+<ul>
+<li><strong>砂土層等效側壓係數 ($K_s$) 之選用</strong>：在 Peck (1943) 的層狀土層等效凝聚力推導中，經驗上常將 $K_s$ 取為 1.0 以符合現地量測之支撐荷重結果。若考生取主動土壓係數 $K_a = 0.333$，則算出的 $c_{avg} = 18.97 \text{ kPa}$，進而導致更大的視土壓力 ($p_a \approx 99 \text{ kPa}$)。但在國家考試中，採用 $K_s = 1.0$ 最符合標準教材 (如施國欽著作) 之規範。</li>
+<li><strong>抗隆起公式的選擇</strong>：本題採用 Terzaghi 公式，其精神在於考慮開挖面兩側土體自重時，須扣除破壞面上的土體抗剪力。若改採 Bjerrum &amp; Eide (1956) 的無因次公式 $FS = N_c S_u / (\gamma H)$，並將 $N_c$ 依深度寬度比修正為 $6.85$ (即 $N_c = 5.14(1+0.2(10/6))$)，則算得 $FS = (6.85 \times 30) / 175 = 1.17$。兩者皆為學理所認可之解法，但 Terzaghi 法能夠明確反映題幹中給定的砂土層摩擦角 ($\phi=30^\circ$) 物理意義，故為最佳推薦解法。</li>
+</ul></main>
+<footer>來源：raw/solutions/SM-2012-4/SM-2012-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
+<script>
+/* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。
+   靜態 href 保底，本段只做覆寫；無 JS 或無 referrer 時仍可用。 */
+(function(){try{
+  var m=(document.referrer||'').match(/(?:study|lecture|formula-given)-(SM-U\d+-\d+)\.html/);
+  if(!m)return;var u=m[1],s=u.replace('SM-','');
+  var q=document.querySelector('a.quick'),l=document.querySelector('a.lect');
+  if(q){q.setAttribute('href','../study-'+u+'.html');q.innerHTML='\uD83D\uDD0D '+s+' \u547D\u984C\u5206\u6790';}
+  if(l){l.setAttribute('href','../lecture-'+u+'.html');l.innerHTML='\uD83D\uDCDA '+s+' \u8B1B\u7FA9';}
+}catch(e){}})();
+</script>
+</body></html>

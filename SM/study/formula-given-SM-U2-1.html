@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SM-U2-1 淺基礎之支承力與沉陷量｜主要公式 給／背分界</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[
+    {left:'$$',right:'$$',display:true},
+    {left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--must:#c62828;--half:#ef6c00;--give:#2e7d32;--nav:#1565c0;--ink:#263238;--mut:#78909c;--line:#e0e6ea;--bg:#f5f7f9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.75;
+ font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;font-size:15px}
+main{max-width:1080px;margin:0 auto;padding:0 18px 60px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:30px 24px;border-radius:0 0 18px 18px;margin-bottom:8px}
+header h1{margin:0 0 8px;font-size:1.55rem;line-height:1.4}
+header p{margin:0;opacity:.93;font-size:.92rem;line-height:1.65}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);
+ display:flex;flex-wrap:wrap;gap:6px;padding:9px 12px;margin-bottom:18px;border-radius:0 0 10px 10px}
+nav a{font-size:.8rem;text-decoration:none;color:var(--nav);background:#e3f2fd;
+ padding:5px 11px;border-radius:14px;white-space:nowrap}
+nav a:hover{background:var(--nav);color:#fff}
+section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:20px}
+h2{font-size:1.18rem;color:var(--nav);border-left:5px solid var(--nav);padding-left:11px;margin:0 0 14px}
+h3{font-size:1rem;margin:18px 0 8px;color:#37474f}
+h3.grph{background:#eceff1;border-left:5px solid var(--nav);padding:6px 12px;border-radius:6px;color:var(--nav)}
+p.lead{font-size:.95rem;color:#455a64}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:11px;margin:14px 0}
+.kpi{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:13px;text-align:center}
+.kpi .n{font-size:1.7rem;font-weight:800;color:var(--nav);line-height:1.15}
+.kpi .l{font-size:.74rem;color:var(--mut);margin-top:3px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:11px;margin:14px 0}
+.lg{border:1px solid var(--line);border-left-width:5px;border-radius:9px;padding:11px 14px;background:#fff}
+.lg.must{border-left-color:var(--must)}.lg.half{border-left-color:var(--half)}.lg.give{border-left-color:var(--give)}
+.lg h4{margin:0 0 4px;font-size:.95rem}
+.lg.must h4{color:var(--must)}.lg.half h4{color:var(--half)}.lg.give h4{color:var(--give)}
+.lg p{margin:0;font-size:.82rem;color:#546e7a;line-height:1.6}
+.note{background:#e8f4fd;border-left:5px solid var(--nav);border-radius:0 8px 8px 0;padding:11px 15px;margin:13px 0;font-size:.9rem}
+.warn{background:#fff4e5;border-left:5px solid var(--half);border-radius:0 8px 8px 0;padding:11px 15px;margin:13px 0;font-size:.9rem}
+blockquote{margin:12px 0;padding:11px 16px;background:#fafafa;border-left:4px solid #b0bec5;
+ color:#455a64;font-size:.89rem;border-radius:0 8px 8px 0}
+.filters{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 16px;align-items:center}
+.filters .fl{font-size:.76rem;color:var(--mut);margin-right:2px}
+.filters button{font-size:.79rem;border:1px solid var(--line);background:#fff;color:#455a64;
+ padding:5px 12px;border-radius:15px;cursor:pointer}
+.filters button.on{background:var(--nav);border-color:var(--nav);color:#fff}
+.cards{display:flex;flex-direction:column;gap:12px}
+.fc{border:1px solid var(--line);border-left-width:5px;border-radius:10px;padding:13px 16px;background:#fff}
+.fc.must{border-left-color:var(--must)}.fc.half{border-left-color:var(--half)}.fc.give{border-left-color:var(--give)}
+.fc .top{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:5px}
+.fc .nm{font-weight:700;font-size:1.02rem}
+.tag{font-size:.72rem;padding:2px 10px;border-radius:12px;color:#fff;white-space:nowrap}
+.tag.must{background:var(--must)}.tag.half{background:var(--half)}.tag.give{background:var(--give)}
+.fc .eq{background:#f7f9fa;border-radius:7px;padding:6px 12px;margin:6px 0;overflow-x:auto}
+.fc .meta{margin:6px 0 0;font-size:.89rem;color:#455a64;line-height:1.72}
+.fc .ev{margin-top:9px;padding-top:8px;border-top:1px dashed var(--line);font-size:.79rem;color:#546e7a}
+.yr{display:inline-block;padding:1px 6px;margin:1px 3px 1px 0;border-radius:4px;font-size:.75rem}
+.yr.ok{background:#e8f5e9;color:#1b5e20;border:1px solid #c8e6c9}
+.yr.no{background:#ffebee;color:#b71c1c;border:1px solid #ffcdd2}
+.never{color:var(--must);font-weight:700}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:9px;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:940px;font-size:.79rem}
+th,td{padding:5px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#eceff1;position:sticky;top:0;font-size:.74rem;text-align:center;line-height:1.35}
+th:first-child,th:last-child{text-align:left}
+td.c{text-align:center}
+td .y{color:var(--give);font-weight:800}
+td .n{color:#cfd8dc}
+tr.hl{background:#f2f7fc}
+td.qq{font-size:.76rem;color:#37474f}
+td.rm{font-size:.76rem;color:#546e7a;line-height:1.5}
+.ynote{font-size:.72rem;color:var(--mut)}
+footer{color:var(--mut);font-size:.79rem;padding:14px 4px;border-top:1px solid var(--line);margin-top:8px}
+ul,ol{padding-left:22px}li{margin:5px 0}
+/* WeasyPrint（列印）不支援 grid、flex 分頁也不穩，改回 block/table 佈局 */
+@media print{
+ .cards{display:block!important}
+ .fc{margin-bottom:9px}
+ .kpis{display:table!important;table-layout:fixed;width:100%;border-spacing:5px 0}
+ .kpi{display:table-cell!important;vertical-align:middle}
+ .legend{display:table!important;table-layout:fixed;width:100%;border-spacing:6px 0}
+ .lg{display:table-cell!important;vertical-align:top}
+ .filters{display:none!important}
+ .tw{overflow:visible!important}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>SM-U2-1　淺基礎之支承力與沉陷量<br>主要公式：考卷會給 vs. 必須自己背</h1>
+<p>13 題歷屆考題 × 24 份考卷原文逐年比對。結論先講：承載力三項疊加式 <b>24 年零供給</b>，但兩次印出了它的<b>修正因數表</b>——而且 99 年與 105 年給的是<b>不同版本</b>。</p>
+</header>
+<main>
+<nav>
+<a href="#how">判定方法</a>
+<a href="#cards">公式清單</a>
+<a href="#matrix">逐年證據表</a>
+<a href="#strategy">背誦策略</a>
+<a href="lecture-SM-U2-1.html">▶ U2-1 觀念講義</a>
+<a href="study-SM-U2-1.html">▶ U2-1 命題分析</a>
+<a href="formula-given-SM-U1-3.html">▶ U1-3 給／背分界</a>
+<a href="formula-given-SM-U1-5.html">▶ U1-5 給／背分界</a>
+<a href="formula-given-SM-U2-2.html">▶ U2-2 給／背分界</a>
+<a href="formula-given-SM-U2-3.html">▶ U2-3 給／背分界</a>
+<a href="formula-given-SM-U1-1.html">▶ U1-1 給／背分界</a>
+<a href="formula-given-SM-U3-1.html">▶ U3-1 給／背分界</a>
+<a href="formula-given-SM-U2-1.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+
+<section id="how">
+<h2>一、我怎麼判定的</h2>
+<p class="lead">本頁只回答一件事：<b>SM-U2-1 的公式，哪些考卷會幫你印出來，哪些不背就整題卡死。</b>判定一律以 <code>raw/exams/</code> 2002–2025 全 24 份考卷原文為準；106 年（2017）與 109 年（2020）兩份已逐頁轉圖目視確認。<b>注意：</b>本知識庫把本子項界定為「淺基礎承載力・沉陷量・與土中的水」，因此滲流／流網／管湧類題目也計入本單元（見 lecture-SM-U2-1 §4–§6）。</p>
+<div class="kpis"><div class="kpi"><div class="n">17</div><div class="l">條主要公式</div></div><div class="kpi"><div class="n">11</div><div class="l">必背</div></div><div class="kpi"><div class="n">4</div><div class="l">別賭</div></div><div class="kpi"><div class="n">2</div><div class="l">通常會給</div></div><div class="kpi"><div class="n">13</div><div class="l">歷屆題數</div></div><div class="kpi"><div class="n">9</div><div class="l">零供給年</div></div></div>
+<h3>考卷把公式印出來的三種擺法（三種都算「有給」）</h3>
+<ul>
+<li><b>(a) 集中式</b>—— 全卷共用的「※參考公式／參考資料」區塊。SM 只有 <b>105 年（2016）</b>與 <b>114 年（2025）</b>用過這種擺法。</li>
+<li><b>(b) 隨題式</b>—— 「註：」跟在該題題目正下方。近年主流，103（2014）、110（2021）、111（2022）、113（2024）都是。</li>
+<li><b>(c) 內文式</b>—— 直接寫在題目敘述裡當已知條件。例如 96 年（2007）在題幹中給 <span class="mji">\(K=1.8(1-\sin\phi)\)</span>、99 年（2010）在提示欄給 <span class="mji">\(F_{sc}=1+0.2(B/L)\)</span>。</li>
+</ul>
+<h3>考卷的免責聲明（本科最關鍵的一句話）</h3>
+<p>SM 從未出現「公式僅供參考、請自行檢查勘誤」這類話。它寫的是<b>相反的方向</b>——96～102 年連續七年，注意事項欄都寫著：</p>
+<blockquote>「本試題之相關符號、公式、物理常數及設計參數<b>未提及時，請依規範自行合理推斷或假設</b>。」（100 年，2011）<br>
+「下列問題之相關公式、物理常數、符號意義及設計參數未提及時，請自行依規範作合理之推斷與假設。」（98 年，2009）<br>
+「下列各題若有所需參數或公式不足時，請自行合理假設或推知。」（99 年，2010）</blockquote>
+<p>這句話 103 年（2014）起消失，取而代之的是逐題「註：」給公式。<b>但它從沒被換成「公式僅供參考」</b>——
+意思是命題委員的預設立場始終是：<b>公式本來就該由你帶進考場</b>，給你是恩典不是義務。這是 SM 與 SS 最大的差別，也是本頁把標準訂得比 SS 更嚴的原因。</p>
+<h3>三級圖例</h3>
+<div class="legend">
+<div class="lg must"><h4>🔴 必背</h4><p>從未印過，或曾出現「考了卻沒給」且沒給的年份佔多數。<b>自己要寫得出來。</b></p></div>
+<div class="lg half"><h4>🟠 別賭</h4><p>多數年份有給，但有明確沒給的先例；或同一條式子有新舊／不同係數版本，給哪一版要自己認得。<b>仍建議背。</b></p></div>
+<div class="lg give"><h4>🟢 通常會給</h4><p>凡考該題型幾乎必印，且無「考了卻沒給」的先例。<b>背概念與用法即可。</b></p></div>
+</div>
+
+<div class="warn"><b>本單元最容易踩的坑：同一組修正因數有兩個版本，兩個版本考卷都印過。</b>
+99 年（2010-4）在提示欄給 \(F_{sc}=1+0.2(B/L)\)、\(F_{dc}=1+0.2(D_f/B)\)（Terzaghi 系）；
+105 年（2016）第四頁「參考資料」給的卻是 \(F_{cs}=1+(B/L)(N_q/N_c)\)、
+\(F_{cd}=1+0.4(D_f/B)\)（Meyerhof / Das 系）。
+兩套<b>數值不同、不可混用</b>，而且都不是「你自己選喜歡的那套」——
+題目給哪套就用哪套，題目沒給時要能自己寫出<b>其中一套並註明出處</b>。
+109 年（2020-4）什麼都沒給，直接問「該基礎能否安全承載 120 kN/m」，
+就是在測你有沒有把整套帶進考場。</div>
+
+</section>
+
+<section id="cards">
+<h2>二、公式逐條分界</h2>
+<div class="filters">
+<span class="fl">級別</span>
+<button class="lvf on" data-lv="all">全部</button>
+<button class="lvf" data-lv="must">必背</button>
+<button class="lvf" data-lv="half">別賭</button>
+<button class="lvf" data-lv="give">通常會給</button>
+<span class="fl" style="margin-left:10px">主題</span>
+<span id="gbtns"></span>
+</div>
+<div class="cards" id="cards"></div>
+</section>
+
+<section id="matrix">
+<h2>三、逐年證據表</h2>
+<p class="lead">24 個年份 × 10 條代表性公式。<b>✔</b>＝該年考卷印出此式（含集中式／隨題式／內文式）；
+<b>·</b>＝沒印。底色標示的列代表該年有本單元的題目（共 12 個年份）。</p>
+<div class="tw"><table id="mx">
+<thead><tr><th>考卷年</th><th>單元題號</th><th class="c">qu 主式</th><th class="c">Nc=5.14</th><th class="c">形狀因數</th><th class="c">深度因數</th><th class="c">淨 vs 總</th><th class="c">平鈑換算</th><th class="c">抗隆起</th><th class="c">管湧 ic</th><th class="c">Darcy 流網</th><th class="c">等效 k</th><th>備註</th></tr></thead>
+<tbody></tbody>
+</table></div>
+</section>
+
+<section id="strategy">
+<h2>四、背誦策略</h2>
+
+<h3>4-1　先看這三個數字</h3>
+<ul>
+<li><b>承載力三項疊加主公式 24 年零供給。</b>但它的修正因數表被印過兩次——
+<b>給了配件不給引擎</b>，這是本單元最鮮明的特徵。</li>
+<li><b>12 個有題年份裡，9 年連一條代表性公式都沒印。</b>
+唯三有供給的年份是 99（2010）、106（2017）、111（2022）。</li>
+<li><b>水頭與滲流那一端，四年共 80 分以上，一條式子都沒印。</b>
+100、107、110、111 四年的計算全靠 \(h=h_z+h_p\)、\(u=\gamma_w h_p\)、\(q=kiA\) 這三條。</li>
+</ul>
+
+<h3>4-2　如果只背五條</h3>
+<ol>
+<li><b>\(q_u=cN_cF_{cs}F_{cd}+qN_qF_{qs}F_{qd}+\frac12\gamma BN_\gamma F_{\gamma s}F_{\gamma d}\)
+＋ \(\phi=0\) 時 \(N_c=5.14,\;N_q=1,\;N_\gamma=0\)</b>——
+主公式零供給，且 \(\phi=0\) 那組值是最常考的情況（黏土短期）。</li>
+<li><b>淨承載力 vs 總承載力的定義</b>——沒有符號、只有觀念，卻是本子項第一大扣分點。</li>
+<li><b>地下水位的三段修正判準</b>——99 年後半題整段在考它，109 年水位就在地表。</li>
+<li><b>\(h=h_z+h_p\)、\(u=\gamma_w h_p\)、\(q=kiA\)、\(q=kH(N_f/N_d)\)</b>——
+四條一組，滲流題全部從這裡出發，四年零供給。</li>
+<li><b>\(i_{cr}=\gamma'/\gamma_w=(G_s-1)/(1+e)\) 與 \(FS=i_{cr}/i\)</b>——
+106 年給了，99 年沒給；而且它與「有效應力歸零」是同一件事，理解了就不用死背。</li>
+</ol>
+
+<div class="note"><b>可以省下的：\(\phi\ne0\) 的 \(N_c\)、\(N_q\)、\(N_\gamma\) 數值。</b>
+105 年兩題都直接給了值（35.49 / 23.18 / 30.22 與 30.14 / 18.4 / 22.4），
+因為 \(e^{\pi\tan\phi}\) 手算不合理。
+你只需要記住 \(\phi=0\) 那組（5.14 / 1 / 0），以及「\(N_\gamma\) 有多個版本，作答時註明採用哪一版」。
+把時間花在因數表的<b>結構</b>（哪一項配哪一個因數）而不是數值上。</div>
+
+<h3>4-3　版本混用是本單元最大的隱形陷阱</h3>
+<p>99 年給的 \(F_{sc}=1+0.2(B/L)\) 與 105 年給的 \(F_{cs}=1+(B/L)(N_q/N_c)\)
+<b>是兩套不同體系的東西</b>。同理 \(N_c=5.7\)（Terzaghi）與 \(5.14\)（Meyerhof）也不能互換。
+考場上的處理原則：</p>
+<ol>
+<li><b>題目有給就用題目的</b>，不要換成你背的那套。</li>
+<li><b>題目沒給就寫出你會的那一套，並在旁邊註明體系</b>（例如「採 Meyerhof (1963) 修正因數」）。
+註明了就是有依據，改題者不會扣分。</li>
+<li><b>絕不混搭</b>——用了 5.14 就配 Meyerhof 的因數，用了 5.7 就配 Terzaghi 的 1.3 / 0.4 係數。</li>
+</ol>
+
+<h3>4-4　考場上的兩個檢查動作</h3>
+<ol>
+<li><b>看到「無圍壓縮強度 \(q_u\)」，先寫 \(S_u=q_u/2\)。</b>
+109 年（2020-4）給 100 kPa，直接拿去當 \(c\) 用的話整題 25 分歸零。</li>
+<li><b>算完 \(q_a\) 之後，回頭確認你算的是淨值還是總值，並與題目要求對齊。</b>
+這一步花 10 秒，救的是整題的分數。</li>
+</ol>
+
+</section>
+
+<footer>exam-wiki-SM｜SM-U2-1 淺基礎之支承力與沉陷量｜證據來源：raw/exams/ 全 24 份考卷原文（2002–2025），逐年文字抽取＋影像頁目視判讀。
+三級判定採保守標準：拿不準往上歸。</footer>
+</main>
+
+<script>
+const F = [
+ {
+  "g": "淺基礎承載力",
+  "lv": "must",
+  "nm": "承載力三項疊加主公式",
+  "eq": "$$q_u=c\\,N_c F_{cs}F_{cd}+q\\,N_q F_{qs}F_{qd}\n  +\\tfrac12\\,\\gamma B\\,N_\\gamma F_{\\gamma s}F_{\\gamma d}$$\n  $$\\text{Terzaghi 簡式：}\\;q_u=cN_c+qN_q+\\tfrac12\\gamma BN_\\gamma\n  \\quad(\\text{方形}\\;1.3cN_c+qN_q+0.4\\gamma BN_\\gamma)$$",
+  "meta": "<b>24 年零供給。</b>105 年（2016）印了它的修正因數表、99 年（2010-4）印了兩個因數，<b>但主公式本體從來沒出現過</b>——這是最典型的「給了配件，不給引擎」。109 年（2020-4）條形基礎 \\(B=1.25\\) m、\\(D_f=0.5\\) m、粉土質黏土 \\(q_u=100\\) kPa、水位在地表，問能否承載 120 kN/m——整題就是這條式子加地下水位修正，一個提示都沒有。",
+  "ok": [],
+  "no": [
+   2010,
+   2017,
+   2020
+  ]
+ },
+ {
+  "g": "淺基礎承載力",
+  "lv": "must",
+  "nm": "φ=0 黏土的 Nc（5.14 / 5.7 兩版）",
+  "eq": "$$\\phi=0:\\quad N_c=5.14\\;(\\text{Meyerhof, }\\pi+2)\\;\\;\\text{或}\\;\\;5.7\\;(\\text{Terzaghi}),\n  \\;\\;N_q=1,\\;\\;N_\\gamma=0$$",
+  "meta": "<b>兩個數字都對，但屬於不同體系，不能和修正因數混搭。</b>106 年（2017-4）的隆起式寫成 \\(FS=S_u(\\pi+2)/(\\gamma H+q)\\)——那個 \\(\\pi+2=5.14\\) 就是 Meyerhof 的 \\(N_c\\)，算是本科唯一一次把它印出來（且是隱含的）。98 年（2009-2）代償式基礎、109 年（2020-4）條形基礎都要它，兩年都沒印。規則：<b>用 5.14 就配 Meyerhof 的 \\(F_{cs}\\)、\\(F_{cd}\\)；用 5.7 就配 Terzaghi 的 1.3 / 0.4 係數。</b>",
+  "ok": [],
+  "no": [
+   2009,
+   2020
+  ]
+ },
+ {
+  "g": "淺基礎承載力",
+  "lv": "must",
+  "nm": "承載力因數 Nq、Nc、Nγ",
+  "eq": "$$N_q=e^{\\pi\\tan\\phi'}\\tan^{2}\\!\\Bigl(45^\\circ+\\frac{\\phi'}{2}\\Bigr)\n  \\qquad N_c=(N_q-1)\\cot\\phi'\n  \\qquad N_\\gamma=2(N_q+1)\\tan\\phi'$$",
+  "meta": "<b>式子從未印過，但值給過。</b>105 年（2016）第三題直接給 \\(N_c=35.49\\)、\\(N_q=23.18\\)、\\(N_\\gamma=30.22\\)，第四題給 \\(N_c=30.14\\)、\\(N_q=18.4\\)、\\(N_\\gamma=22.4\\)。這是命題委員的習慣：<b>只要 \\(\\phi\\ne0\\)，通常會給值</b>（因為手算 \\(e^{\\pi\\tan\\phi}\\) 不合理）。所以真正要背的是 \\(\\phi=0\\) 的那組（\\(N_c=5.14\\)、\\(N_q=1\\)、\\(N_\\gamma=0\\)），以及「\\(N_\\gamma\\) 有很多版本（Meyerhof / Hansen / Vesic），答題時註明採用哪一版」。",
+  "ok": [],
+  "no": [
+   2010,
+   2020
+  ]
+ },
+ {
+  "g": "淺基礎承載力",
+  "lv": "half",
+  "nm": "形狀修正因數 Fs（兩種版本）",
+  "eq": "$$\\text{Meyerhof/Das：}\\;F_{cs}=1+\\frac{B}{L}\\frac{N_q}{N_c},\\;\\;\n  F_{qs}=1+\\frac{B}{L}\\tan\\phi',\\;\\;F_{\\gamma s}=1-0.4\\frac{B}{L}$$\n  $$\\text{Terzaghi 系（99 年版）：}\\;F_{sc}=1+0.2\\frac{B}{L}$$",
+  "meta": "<b>兩度給過，但給的是兩個不同版本。</b>99 年（2010-4）在題目最後以「提示：\\(F_{sc}=1+0.2(B/L)\\)；\\(F_{dc}=1+0.2(D_f/B)\\)」給出；105 年（2016）以第四頁「參考資料」的完整表格給出 Meyerhof 系三組。109 年（2020-4）同樣是淺基礎承載力題，<b>什麼都沒給</b>。兩次給、一次沒給，加上版本不一致，所以歸「別賭」。\\(B/L\\to0\\)（條形）時兩版都退化成 1，這是檢查有沒有代錯的好方法。",
+  "ok": [
+   2010,
+   2016
+  ],
+  "no": [
+   2020
+  ]
+ },
+ {
+  "g": "淺基礎承載力",
+  "lv": "half",
+  "nm": "深度修正因數 Fd（兩種版本）",
+  "eq": "$$\\text{Meyerhof/Das：}\\;F_{cd}=1+0.4\\frac{D_f}{B},\\;\\;\n  F_{qd}=1+2\\tan\\phi'(1-\\sin\\phi')^{2}\\frac{D_f}{B},\\;\\;F_{\\gamma d}=1.0$$\n  $$\\text{Terzaghi 系（99 年版）：}\\;F_{dc}=1+0.2\\frac{D_f}{B}$$",
+  "meta": "與形狀因數同進退：99 年（2010-4）給 \\(1+0.2(D_f/B)\\)、105 年（2016）給 \\(1+0.4(D_f/B)\\)——<b>同一個位置的係數差了一倍</b>。兩者的適用條件也不同（Meyerhof 版限 \\(D_f/B\\le1\\)，超過要改用 \\(\\tan^{-1}\\) 形式）。105 年那張表還多給了「傾斜因數 \\(F_i=(1-\\theta/90^\\circ)^2\\)」——本單元題目沒用到，但那是傾斜載重（偏心基礎）的入場券。",
+  "ok": [
+   2010,
+   2016
+  ],
+  "no": [
+   2020
+  ]
+ },
+ {
+  "g": "淺基礎承載力",
+  "lv": "must",
+  "nm": "淨承載力與總承載力",
+  "eq": "$$q_{u(net)}=q_u-q\\qquad\n  q_{a(net)}=\\frac{q_u-q}{FS}\\qquad\n  q_{a(total)}=\\frac{q_u}{FS}$$",
+  "meta": "<b>本子項最會扣分的地方，零供給。</b>99 年（2010-4）要「容許承載力」、109 年（2020-4）要「能否安全承載 120 kN/m」、98 年（2009-2）要「部分代償式基礎的埋置深度」——三題的答案都取決於你用淨的還是總的。判斷原則：<b>基礎自重與回填土重與原本的覆土互相抵銷的部分要扣掉</b>，所以設計時看的是淨值；除非題目明說「總容許承載力」。106 年（2017-3）印出的 \\(FS=(q_{ult}-q_0)/(q_a-q_0)\\) 其實就是淨承載力的定義——那是全 24 年唯一一次把這個概念寫成式子。",
+  "ok": [],
+  "no": [
+   2009,
+   2010,
+   2020
+  ]
+ },
+ {
+  "g": "淺基礎承載力",
+  "lv": "must",
+  "nm": "地下水位對承載力的三段修正",
+  "eq": "$$D_w\\le D_f:\\;q=\\gamma D_w+\\gamma'(D_f-D_w),\\;\\;\\gamma\\to\\gamma'$$\n  $$D_f<D_w<D_f+B:\\;\\bar\\gamma=\\gamma'+\\frac{D_w-D_f}{B}(\\gamma-\\gamma')$$\n  $$D_w\\ge D_f+B:\\;\\text{不修正}$$",
+  "meta": "<b>流程骨架，零供給，卻是 99 年（2010-4）整題的後半段。</b>該題先在水位齊基腳底時算容許承載力，再問「地下水位下降 4 m 對長短期承載力及安全係數的影響」——短期（\\(\\phi=0\\)）\\(N_\\gamma=0\\)，水位對 \\(q_u\\) 幾乎沒影響，但 \\(q\\) 項變大；長期則兩項都變。109 年（2020-4）水位就在地表，\\(q\\) 與 \\(\\gamma\\) 都要用 \\(\\gamma'\\)。記住三段判準比背式子重要。",
+  "ok": [],
+  "no": [
+   2010,
+   2020
+  ]
+ },
+ {
+  "g": "沉陷量與載重試驗",
+  "lv": "give",
+  "nm": "平鈑載重試驗的尺寸換算",
+  "eq": "$$\\text{砂：}\\;q_a(\\text{基腳})=q_a(\\text{平鈑})\\frac{B}{B_p},\\quad\n  \\Delta H(\\text{基腳})=\\Delta H(\\text{平鈑})\\Bigl[\\frac{2B}{B+B_p}\\Bigr]^{2}$$\n  $$\\text{黏土：}\\;q_a(\\text{基腳})=q_a(\\text{平鈑}),\\quad\n  \\Delta H(\\text{基腳})=\\Delta H(\\text{平鈑})\\frac{B}{B_p}$$",
+  "meta": "<b>只考過一次（106 年，2017-3），而且四條全部印出來。</b>該題給 0.3 m×0.3 m 平鈑曲線與 2 m×2 m 基腳，要用承載力控制與沉陷量控制兩種方式設計，把黏土／砂土兩組換算式、\\(FS=(q_{ult}-q_0)/(q_a-q_0)\\)、甚至「若無貫入之穿孔曲線，則以 \\(\\Delta H=1.0\\) in (2.54 cm) 對應之 \\(q\\) 為 \\(q_{ult}\\)」這種操作定義都寫在圖上。<b>這是本頁唯一敢標「通常會給」的一組。</b>理由：這些換算式沒有物理直覺，純粹是經驗關係，不給就無從算起。但要留意——<b>兩組式子的黏土版與砂土版差異很大，選錯地盤類型等於全錯</b>。",
+  "ok": [
+   2017
+  ],
+  "no": []
+ },
+ {
+  "g": "沉陷量與載重試驗",
+  "lv": "must",
+  "nm": "承載力控制與沉陷量控制取小",
+  "eq": "$$Q_a=\\min\\bigl(Q_{a,\\text{承載力}},\\;Q_{a,\\text{沉陷量}}\\bigr)$$",
+  "meta": "106 年（2017-3）第三小題要你「製作比較表以供電子公司選擇」（5 分）——<b>整題的立意就是讓你發現砂土地盤通常由沉陷量控制</b>（精密廠房 \\(\\Delta H\\le1\\) cm 更是如此）。這條沒有數學符號，考卷不會印，但漏掉「取小」就等於漏掉答案。延伸：黏土短期由承載力控制、長期由壓密沉陷控制；砂土幾乎永遠由沉陷量控制。",
+  "ok": [],
+  "no": [
+   2017
+  ]
+ },
+ {
+  "g": "沉陷量與載重試驗",
+  "lv": "must",
+  "nm": "彈性（瞬時）沉陷量",
+  "eq": "$$S_e=q\\,B\\,\\frac{1-\\mu_s^{2}}{E_s}\\,I_s\\,I_f$$",
+  "meta": "<b>零供給。</b>本子項的「砂土沉陷」端，103 年（2014-2，歸 U2-2）的樁沉陷式是它的變體。106 年（2017-3）雖然用平鈑試驗繞過了它，但只要題目給 \\(E_s\\) 與 \\(\\mu_s\\) 就是要你用這條。100 年（2011-1）考「角變位」的名詞解釋，那是它的驗收標準：一般建築角變位不得超過 1/300～1/500，總沉陷量 2.5 cm（砂）／5 cm（黏土）。這些規範數值也沒有一年印過。",
+  "ok": [],
+  "no": [
+   2017
+  ]
+ },
+ {
+  "g": "沉陷量與載重試驗",
+  "lv": "must",
+  "nm": "代償式基礎的淨載重",
+  "eq": "$$q_{net}=\\frac{Q}{A}-\\gamma D_f\\qquad\n  \\text{全代償：}\\;\\frac{Q}{A}=\\gamma D_f\\;\\Rightarrow\\;q_{net}=0$$",
+  "meta": "98 年（2009-2）：筏基 8 m×12 m、\\(Q=18\\) MN、NC 黏土 \\(C_u=35\\) kN/m²、\\(FS=3\\)，求「部分代償式基礎的埋置深度 \\(D_f\\)」——<b>零公式</b>。這題的巧妙處在於它把承載力式反過來用：先由 \\(FS=3\\) 定出容許淨承載力，再解出需要多深的 \\(D_f\\) 才能把淨載重壓下來。第二小題還要接著算抗隆起安全係數，是兩個公式群的接點。",
+  "ok": [],
+  "no": [
+   2009
+  ]
+ },
+ {
+  "g": "水頭、滲流與破壞",
+  "lv": "must",
+  "nm": "Darcy 定律與流線網滲流量",
+  "eq": "$$q=k\\,i\\,A=k\\frac{\\Delta h}{L}A\n  \\qquad q=k\\,H\\,\\frac{N_f}{N_d}\\;(\\text{每單位寬度})$$",
+  "meta": "<b>零供給，四個年份要用。</b>100（2011-2）正方形圍堰求流網與滲流量（m³/day）、107（2018-3）混凝土壩下的流線網求滲流損失與五點上揚壓力、104（2015-4）黏土層單位面積最大滲流量、111（2022-3）三層土串聯求總流量——四題都只給 \\(k\\) 值與幾何，式子一律自理。常見錯誤：\\(N_f/N_d\\) 數錯（流槽數與等勢間隔數要從圖上正確數），以及忘了流網公式算的是<b>每單位垂直紙面寬度</b>的流量。",
+  "ok": [],
+  "no": [
+   2011,
+   2015,
+   2018,
+   2022
+  ]
+ },
+ {
+  "g": "水頭、滲流與破壞",
+  "lv": "must",
+  "nm": "總水頭三兄弟與上揚壓力",
+  "eq": "$$h_{\\text{總}}=h_{\\text{高程}}+h_{\\text{壓力}}\n  \\qquad u=\\gamma_w h_{\\text{壓力}}\n  \\qquad \\sigma'=\\sigma-u$$",
+  "meta": "<b>本子項右半邊的全部基礎，零供給。</b>100（2011-2）要 a～e 五點的總／高程／壓力水頭、107（2018-3）要 a～e 五點的上揚壓力（20 分）、110（2021-1）要 A、B、C 三點的總應力、孔隙水壓、有效應力並判斷滲流方向與速率、111（2022-3）要 a～d 四點的水頭高。<b>四年、共 80 分以上，一條式子都沒印。</b>關鍵是「參考位置（datum）自己訂，但全題必須一致」——100 年那題還特地在圖上標了「參考位置（reference level）」提醒你。",
+  "ok": [],
+  "no": [
+   2011,
+   2018,
+   2021,
+   2022
+  ]
+ },
+ {
+  "g": "水頭、滲流與破壞",
+  "lv": "half",
+  "nm": "管湧安全係數與臨界水力坡降",
+  "eq": "$$i_{cr}=\\frac{\\gamma'}{\\gamma_w}=\\frac{G_s-1}{1+e}\n  \\qquad FS=\\frac{i_{cr}}{i_{\\text{exit}}}$$",
+  "meta": "106 年（2017-4）把它印出來了：「\\(FS=i_c/i\\)、\\(i_c=\\gamma_{sub}/\\gamma_w\\)」，而且明講要「以擋土壁最高流線分析」。但 99 年（2010-3）「檢核此時開挖底面是否有管湧問題」——<b>那年零公式</b>。100 年（2011-1）第五小題還直接考「臨界水力坡降」的名詞解釋。一次給、一次沒給，歸「別賭」。要注意 \\(i_{cr}\\approx1.0\\) 只是常見值，題目給 \\(G_s\\) 與 \\(e\\) 時要老實算。",
+  "ok": [
+   2017
+  ],
+  "no": [
+   2010
+  ]
+ },
+ {
+  "g": "水頭、滲流與破壞",
+  "lv": "must",
+  "nm": "滲流力與有效應力的耦合",
+  "eq": "$$j=i\\,\\gamma_w\\;(\\text{每單位體積})\n  \\qquad \\sigma'_{\\text{向上滲流}}=\\gamma' z-j\\,z$$",
+  "meta": "99 年（2010-3）明確要求「計算位於開挖擋土壁內側 A 點所受之滲流力」——零供給。110 年（2021-1）第二小題「估計黏土層中滲流之方向及速率」也建立在同一組觀念上。這條的價值在於它把「水」與「土」串起來：<b>向上滲流會吃掉有效應力，有效應力歸零就是管湧</b>——\\(i=i_{cr}\\) 與 \\(\\sigma'=0\\) 是同一件事的兩種說法。96 年（2007-2）要你比較流砂與液化的異同，答案也從這裡出發。",
+  "ok": [],
+  "no": [
+   2007,
+   2010,
+   2021
+  ]
+ },
+ {
+  "g": "水頭、滲流與破壞",
+  "lv": "give",
+  "nm": "層狀土的等效滲透係數",
+  "eq": "$$k_{v(eq)}=\\frac{H}{\\sum\\limits_{i=1}^{n}\\dfrac{H_i}{k_i}}\n  \\qquad k_{h(eq)}=\\frac{\\sum k_i H_i}{H}$$",
+  "meta": "111 年（2022-3）以「相關公式：」把垂直向的那條完整印出來（含符號說明）。<b>只考過這一次，而且給了。</b>判定為「通常會給」，但務必記住兩件事：① 水平向那條（並聯，算術平均）<b>沒有給</b>，如果題目改問水平滲流就得自己寫；② 垂直串聯時<b>透水性最差的那層主導</b>——111 年那題 \\(k_B=10^{-1}\\)、\\(k_C=10^{-3}\\) 相差 100 倍，總水頭損失幾乎全落在 C 層，這是該題 15 分的重點。",
+  "ok": [
+   2022
+  ],
+  "no": []
+ },
+ {
+  "g": "水頭、滲流與破壞",
+  "lv": "half",
+  "nm": "開挖底面抗隆起 FS",
+  "eq": "$$FS=\\frac{N_c\\,S_u}{\\gamma H+q}\n  \\qquad(\\text{2017 年版：}N_c=\\pi+2=5.14)$$",
+  "meta": "106 年（2017-4）印出 \\(FS=S_u(\\pi+2)/(\\gamma H+q)\\)，並附 \\(S_u=10N/16\\) 讓你由 N 值換強度。<b>但那是最簡化的版本</b>——沒有考慮開挖寬度 \\(B\\)，也沒有 Terzaghi/Bjerrum 的深度修正。98（2009-2）、101（2012-4）、104（2015-3）三題都要抗隆起安全係數，而且 104 年還特別給了開挖面「寬 6 m、長 15 m」——<b>給尺寸就是要你用含 \\(B\\) 的完整式</b>，2017 年那條簡式會漏掉一整項。一給三不給，且給的是簡化版，歸「別賭」。",
+  "ok": [
+   2017
+  ],
+  "no": [
+   2009,
+   2012,
+   2015
+  ]
+ }
+];
+const MX = [[2002, 91, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2003, 92, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。第三題（U3-3）的抗隆起開挖深度同樣零公式。"], [2004, 93, "四（副）", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "大型儲油槽的大地工程問題與監測項目，概念題，零公式。"], [2005, 94, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2006, 95, "一（副）", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "第一題三小題名詞解釋（極限平衡、十字片剪、OCR），零公式。"], [2007, 96, "二（副）", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "流砂與液化的異同、SUU 與 UUU 抗剪角，零公式。注意事項：「若條件不足，請自行作合理假設！」"], [2008, 97, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2009, 98, "二", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "部分代償式筏基求 \\(D_f\\) ＋ 抗隆起 FS，<b>兩個公式群都要、一條都沒給</b>。注意事項明寫公式未提及時自行推斷。"], [2010, 99, "三、四", 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, "★ 第四題以「提示：\\(F_{sc}=1+0.2(B/L)\\)；\\(F_{dc}=1+0.2(D_f/B)\\)」給出<b>Terzaghi 系</b>兩個因數，但主公式、\\(N_c\\)、淨/總定義、水位修正全部沒給。第三題的滲流力與管湧檢核也零公式。"], [2011, 100, "二", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "圍堰流網、五點水頭、平均水力坡降、滲流量，25 分零公式。第一題另考「臨界水力坡降」名詞解釋。"], [2012, 101, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。第四題（U3-3）的抗隆起 FS 零公式。"], [2013, 102, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2014, 103, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2015, 104, "四", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "抽水降階 → 滲流量 ＋ 壓密沉陷，兩端一次考完，零公式。第三題的抗隆起（給了 6 m×15 m 尺寸）也沒給式。"], [2016, 105, "(—)", 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, "★ <b>本單元無題，但第四頁「參考資料」印出完整的形狀／深度／傾斜修正因數表（Meyerhof 系）</b>——與 99 年給的 Terzaghi 系是不同版本。第三、四題另直接給 \\(N_c\\)、\\(N_q\\)、\\(N_\\gamma\\) 的值。"], [2017, 106, "三", 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, "★ 本單元 24 年供給最多的一年：第三題印出平鈑載重四條換算式＋\\(FS=(q_{ult}-q_0)/(q_a-q_0)\\)；第四題印出 \\(FS=i_c/i\\)、\\(i_c=\\gamma_{sub}/\\gamma_w\\)、\\(S_u=10N/16\\)、隆起簡式。已轉圖逐頁確認。"], [2018, 107, "三", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "壩下流線網求滲流損失（5 分）與五點上揚壓力（20 分），零公式。"], [2019, 108, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2020, 109, "四", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "★ <b>零供給的極端案例</b>：條形基礎 \\(B=1.25\\) m、\\(D_f=0.5\\) m、\\(q_u=100\\) kPa、水位在地表，直接問「能否安全承載 120 kN/m」。主公式、\\(N_c\\)、\\(S_u=q_u/2\\)、水位修正、淨/總判斷全部自理。已轉圖確認。"], [2021, 110, "一", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "穩定滲流下三點的總應力／孔隙水壓／有效應力，並判斷滲流方向與速率，零公式。"], [2022, 111, "三", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, "以「相關公式：」印出 \\(k_{v(eq)}=H/\\sum(H_i/k_i)\\) 含符號說明，但 Darcy 與水頭定義仍要自己來。"], [2023, 112, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2024, 113, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。"], [2025, 114, "(—)", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "本單元無題。第四題（T 形鐵板下 40 m 的應力增量）屬 U1-4，同樣零公式。"]];
+/* ---------- 渲染 ---------- */
+const LVN={'must':'必背','half':'別賭','give':'通常會給'};
+const groups=[...new Set(F.map(f=>f.g))];
+let curLv='all', curG='all';
+const gb=document.getElementById('gbtns');
+gb.innerHTML='<button class="gf on" data-g="all">全部</button>'+
+  groups.map(g=>'<button class="gf" data-g="'+g+'">'+g+'</button>').join('');
+function yrs(a,c){return a.map(y=>'<span class="yr '+c+'">'+(y-1911)+'年</span>').join('');}
+function draw(){
+  const box=document.getElementById('cards');
+  let html='';
+  groups.forEach((g,i)=>{
+    if(curG!=='all'&&curG!==g) return;
+    const list=F.filter(f=>f.g===g&&(curLv==='all'||f.lv===curLv));
+    if(!list.length) return;
+    html+='<h3 class="grph">2-'+(i+1)+'　'+g+'</h3>';
+    list.forEach(f=>{
+      let ev=f.ok.length?'<b>考卷給過：</b>'+yrs(f.ok,'ok')
+                        :'<b>考卷給過：</b><span class="never">從未</span>';
+      if(f.no.length) ev+='　｜　<b>考了卻沒給：</b>'+yrs(f.no,'no');
+      html+='<div class="fc '+f.lv+'"><div class="top"><span class="nm">'+f.nm+'</span>'+
+            '<span class="tag '+f.lv+'">'+LVN[f.lv]+'</span></div>'+
+            '<div class="eq">'+f.eq+'</div><p class="meta">'+f.meta+'</p>'+
+            '<div class="ev">'+ev+'</div></div>';
+    });
+  });
+  box.innerHTML=html||'<p class="lead">此組合沒有公式。</p>';
+  if(window.renderMathInElement) renderMathInElement(box,{delimiters:[
+    {left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+}
+function drawMX(){
+  const N=MX[0].length-4;
+  document.querySelector('#mx tbody').innerHTML=MX.map(r=>{
+    const has=r[2]!=='(—)';
+    const cells=r.slice(3,3+N).map(v=>'<td class="c">'+(v?'<span class="y">✔</span>':'<span class="n">·</span>')+'</td>').join('');
+    return '<tr class="'+(has?'hl':'')+'"><td><b>'+r[0]+'</b><br><span class="ynote">'+r[1]+'年</span></td>'+
+           '<td class="qq">'+r[2]+'</td>'+cells+'<td class="rm">'+r[r.length-1]+'</td></tr>';
+  }).join('');
+}
+document.addEventListener('click',e=>{
+  if(e.target.classList.contains('lvf')){
+    document.querySelectorAll('.lvf').forEach(b=>b.classList.remove('on'));
+    e.target.classList.add('on'); curLv=e.target.dataset.lv; draw();
+  }
+  if(e.target.classList.contains('gf')){
+    document.querySelectorAll('.gf').forEach(b=>b.classList.remove('on'));
+    e.target.classList.add('on'); curG=e.target.dataset.g; draw();
+  }
+});
+drawMX(); draw();
+</script>
+</body></html>
