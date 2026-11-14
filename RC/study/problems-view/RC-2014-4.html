@@ -31,65 +31,170 @@ img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);bor
 footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
 </style></head><body>
 <header><h1>RC-2014-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U4-1.html">&#128202; U4-1 單元總覽</a><a class="lect" href="../lecture-RC-U4-1.html">&#128218; U4-1 預力梁斷面應力分析 講義</a></div></header>
-<main><h1>考題編號：RC-2014-4</h1>
-<p><strong>主分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
-<strong>副分類：</strong> （無）<br />
-<strong>設計法：</strong> WSD 工作應力法（彈性理論）<br />
-<strong>標籤：</strong> <code>預力梁斷面應力</code> <code>兩階段分析</code> <code>施加預力階段</code> <code>服務載重階段</code> <code>對稱I形斷面</code> <code>容許應力檢核</code> <code>簡支預力梁</code> <code>底纖維拉應力超限</code></p>
-<hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>一<strong>簡支對稱 I 形（U 類型）預力梁</strong>，跨距 $L = 12\ \text{m}$，斷面特性：</p>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>RC-2014-4 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>RC-2014-4.md</code>。<br />
+判讀清單已經使用者確認（凍結）；本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
 <table>
 <thead>
 <tr>
-<th>符號</th>
-<th>數值</th>
-<th>說明</th>
+<th>項目</th>
+<th>內容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>$I_c$</td>
-<td>$4.69\times10^5\ \text{cm}^4$</td>
-<td>斷面慣性矩</td>
+<td>考卷</td>
+<td><code>raw/exams/RC-2014_鋼筋混凝土設計與預力.pdf</code> 第 1 頁（全一頁），第四題</td>
 </tr>
 <tr>
-<td>$A_c$</td>
-<td>$1100\ \text{cm}^2$</td>
-<td>斷面面積</td>
+<td>考年</td>
+<td>民國 103 年（2014）</td>
 </tr>
 <tr>
-<td>$r^2 = I_c/A_c$</td>
-<td>$426\ \text{cm}^2$</td>
-<td>迴轉半徑平方</td>
+<td>配分</td>
+<td>25 分</td>
 </tr>
 <tr>
-<td>$c_1 = c_2$</td>
-<td>$30\ \text{cm}$</td>
-<td>形心至頂/底纖維距離（對稱斷面）</td>
+<td>附圖</td>
+<td>無（本題無附圖）</td>
 </tr>
 <tr>
-<td>$S = I_c/c$</td>
-<td>$15{,}633\ \text{cm}^3$</td>
-<td>斷面模數（$= 4.69\times10^5/30$）</td>
-</tr>
-<tr>
-<td>$e$</td>
-<td>$19.8\ \text{cm}$</td>
-<td>預力鋼腱偏心距（固定，於形心下方）</td>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-14 使用者確認；影響答案項目使用者選擇：#1 S 依 I_c/c 修正為 1.563×10⁴ cm³；#4 工作載重 1.1 tf/m 為自重以外的外加載重（合計 1.364 tf/m）；轉錄 2026-11-14；PyMuPDF 110 dpi 目視＋抽出文字核對，$S$ 的指數 300 dpi 放大確認；盲讀後才比對既有解析）</td>
 </tr>
 </tbody>
 </table>
+<h2>1. 考卷原文（逐字）</h2>
 <blockquote>
-<p><strong>說明</strong>：題目所列 $S = 15.63\times10^4\ \text{cm}^3$ 應為 $S = 1.563\times10^4\ \text{cm}^3 = 15{,}633\ \text{cm}^3$（依 $I_c/c_1$ 驗算確認，原題指數疑有誤植）。</p>
+<p>四、一簡支對稱 I 形、U 類型預力梁，跨距 12 $m$，$I_c$=4.69×10⁵ $cm^4$，$Ac$=1100 $cm^2$，$r^2$=426 $cm^2$，$S$=15.63×10⁴ $cm^3$，自重=0.264 $tf/m$，工作載重為 1.1 $tf/m$，偏心距固定且 $e$=19.8 $cm$，$c_1$=$c_2$=30 $cm$，施加預力 $P_i$=70 $tf$，預力損失後 $P_e$=60 $tf$，$f'_c$=420 $kgf/cm^2$，施加預力時 $f'_{ci}$=300 $kgf/cm^2$，試求在梁中點處於上述 2 階段之應力值並確認是否符合規範規定。（25 分）</p>
 </blockquote>
-<p>載重與材料：</p>
+<h2>2. 考卷給的公式、附表與參數</h2>
 <ul>
-<li>梁自重 $w_d = 0.264\ \text{tf/m}$，工作載重 $w_l = 1.1\ \text{tf/m}$</li>
-<li>施加預力時：$P_i = 70\ \text{tf}$，$f'_{ci} = 300\ \text{kgf/cm}^2$</li>
-<li>服務載重時（損失後）：$P_e = 60\ \text{tf}$，$f'_c = 420\ \text{kgf/cm}^2$</li>
+<li>題文數值：跨距 12 m；$I_c=4.69\times10^5$ cm⁴、$A_c=1{,}100$ cm²、$r^2=426$ cm²、$S=15.63\times10^4$ cm³（照錄）；自重 0.264 tf/m；工作載重 1.1 tf/m；$e=19.8$ cm（固定）；$c_1=c_2=30$ cm；$P_i=70$、$P_e=60$ tf；$f'_c=420$、$f'_{ci}=300$ kgf/cm²。</li>
+<li>卷首作答規範：「本科目試題之作答規範：中國土木水利工程學會『混凝土工程設計規範』（土木 401-100），未依規範作答，不予計分。」</li>
+<li>卷首「可能使用之公式，但不限於」：$\phi = 0.65+(\varepsilon_t-0.002)(0.25/0.003)$、$E_s=2.04\times10^6$、$E_c=15000\sqrt{f'_c}$、$V_c=0.53\sqrt{f'_c}b_wd$、$V_c=(0.50\sqrt{f'_c}+175\rho_w V_ud/M_u)b_wd \le 0.93\sqrt{f'_c}b_wd$、$M_m = M_u - N_u(4h-d)/8$、$\beta_1 = 0.85-0.05(f'_c-280)/70$ 且 $0.65 \le \beta_1 \le 0.85$（皆非本題專用）。</li>
+<li><strong>沒有給</strong>：容許應力數值（題目要求「確認是否符合規範規定」）、工作載重是否含自重、斷面各部尺寸。</li>
+<li>卷首注意事項：㈠可以使用電子計算器。㈡不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。</li>
 </ul>
-<p><strong>試求</strong>：梁中點處<strong>兩個階段</strong>之應力值，並確認是否符合規範。（25 分）</p>
+<h2>3. 附圖</h2>
+<p>本題無附圖。</p>
+<h2>4. 判讀清單</h2>
+<p>「把握」標<strong>不確定</strong>者請優先確認；解讀類項目（題目用字的意思）另標「解讀」。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>斷面模數 $S$ 的數量級</td>
+<td>考卷印 $S=15.63\times10^4$ cm³，但 $I_c/c = 4.69\times10^5/30 = 1.563\times10^4$ cm³，<strong>相差 10 倍</strong>；$r^2 = I_c/A_c = 426.4$ 與題給相符，故判斷 $S$ 為<strong>筆誤，應為 $15.63\times10^3$（即 $1.563\times10^4$）cm³</strong></td>
+<td>300 dpi 放大確認考卷印「15.63×10⁴」；程式驗算 $I/c$</td>
+<td>不確定（影響答案）；使用者確認（選擇見頭表判讀狀態）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>斷面</td>
+<td>對稱 I 形，$c_1=c_2=30$ → 全深 60 cm，上下 $S$ 相同</td>
+<td>題文「對稱」「$c_1=c_2$」</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>兩個階段</td>
+<td>① 施加預力時：$P_i$＋自重，$f'_{ci}=300$；② 預力損失後：$P_e$＋自重＋工作載重，$f'_c=420$</td>
+<td>題文「上述 2 階段」</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>工作載重是否含自重</td>
+<td>考卷寫「自重=0.264 tf/m，工作載重為 1.1 tf/m」並列，<strong>未說明</strong> 1.1 是否已含自重</td>
+<td>題文</td>
+<td>不確定（影響答案）；使用者確認（選擇見頭表判讀狀態）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>U 類</td>
+<td>規範的未開裂（U 類）預力構材，使用階段拉應力上限依 U 類</td>
+<td>題文「U 類型」</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>6</td>
+<td>容許應力</td>
+<td>考卷未給，題目要依規範自行查</td>
+<td>題文「確認是否符合規範規定」</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>7</td>
+<td>偏心</td>
+<td>全跨固定 $e=19.8$ cm（鋼腱在形心下方）</td>
+<td>題文「偏心距固定」</td>
+<td>確定（解讀）（方向未寫，簡支梁正彎矩區鋼腱在下方）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-14（RC-U4-1 題目正本推廣・批 1）</em></p>
+<p><em>確認：2026-11-14 使用者確認（RC-U4-1 題目正本推廣・批 1，關卡一）</em></p></details>
+<h1>考題編號：RC-2014-4</h1>
+<p><strong>主分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
+<strong>副分類：</strong> （無）<br />
+<strong>設計法：</strong> WSD 工作應力法（彈性理論）<br />
+<strong>標籤：</strong> <code>預力梁斷面應力</code> <code>兩階段分析</code> <code>施加預力階段</code> <code>服務載重階段</code> <code>對稱I形斷面</code> <code>容許應力檢核</code> <code>簡支預力梁</code> <code>U類未開裂</code></p>
+<hr />
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="RC-2014-4-problem.md"><code>RC-2014-4-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>斷面模數 $S$（#1）</td>
+<td>考卷印 $15.63\times10^4$，依 $I_c/c=4.69\times10^5/30$ 修正為 $1.563\times10^4=15{,}633$ cm³（使用者確認）</td>
+<td>照印值 156,300，彎曲應力小 10 倍</td>
+</tr>
+<tr>
+<td>工作載重（#4）</td>
+<td>1.1 tf/m 為自重以外的外加載重，使用階段合計 1.364 tf/m（使用者確認）</td>
+<td>1.1 已含自重</td>
+</tr>
+<tr>
+<td>兩個階段（#3）</td>
+<td>① $P_i$＋自重，用 $f'_{ci}=300$；② $P_e$＋自重＋工作載重，用 $f'_c=420$</td>
+<td>兩階段共用同一強度</td>
+</tr>
+<tr>
+<td>U 類（#5）</td>
+<td>使用階段拉應力依 U 類上限 $2.0\sqrt{f'_c}$ 檢核</td>
+<td>忽略分類</td>
+</tr>
+<tr>
+<td>容許拉應力的單位制</td>
+<td>kgf/cm² 制：傳遞 $0.8\sqrt{f'_{ci}}$、U 類 $2.0\sqrt{f'_c}$（SI 制 $0.25\sqrt{f'_{ci}}$、$0.62\sqrt{f'_c}$ 乘 $\sqrt{10.2}\approx3.19$）</td>
+<td>以 kgf/cm² 算應力卻套 SI（MPa）係數 $0.25\sqrt{\cdot}$、$0.5\sqrt{\cdot}$、$1.0\sqrt{\cdot}$，容許值小約 3 倍，誤判「不符合規範」</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> $c_1=c_2=30$ cm（全深 60 cm，對稱）；$r^2=I_c/A_c=426$ cm²；$e=19.8$ cm（形心下方，全跨固定）。容許應力考卷未給，依現行台灣規範（建築物混凝土結構設計規範 2023，kgf/cm² 制）。</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
 <p><strong>核心精神：</strong><br />
@@ -102,7 +207,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <p><strong>出題者意圖：</strong></p>
 <ol>
 <li>測試兩階段的正確「換料」（Stage 1 用 $P_i$、$f'_{ci}$；Stage 2 用 $P_e$、$f'_c$）</li>
-<li>驗算規範容許應力（尤其是 Stage 2 底纖維是否拉應力超限）</li>
+<li>驗算規範容許應力（尤其是 Stage 2 底纖維拉應力是否在 U 類上限內）</li>
 </ol>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
@@ -155,6 +260,11 @@ Stage 2（服務載重後）：P = Pe，M = MT（自重＋活載重）
 <td><strong>容許應力用錯</strong>：Stage 1 拿 $f'_c$ 當基準</td>
 <td>Stage 1 用 $f'_{ci} = 300$；Stage 2 用 $f'_c = 420$</td>
 </tr>
+<tr>
+<td>6</td>
+<td><strong>容許拉應力單位制混用</strong></td>
+<td>kgf/cm² 制係數為 $0.8$（傳遞）、$2.0$（U 類）；SI 係數要乘 $\sqrt{10.2}\approx3.19$</td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -175,7 +285,7 @@ f_{\text{bot},1} = \frac{P_i}{A_c} + \frac{P_i\,e}{\boxed{S}} - \frac{\boxed{M_d
 <p>$$\text{Step 3（Stage 2）:}\quad
 f_{\text{top},2} = \frac{P_e}{A_c} - \frac{P_e\,e}{\boxed{S}} + \frac{\boxed{M_T}}{\boxed{S}},\quad
 f_{\text{bot},2} = \frac{P_e}{A_c} + \frac{P_e\,e}{\boxed{S}} - \frac{\boxed{M_T}}{\boxed{S}}$$</p>
-<p>$$\text{Step 4:}\quad \text{與規範容許值比較（壓：}0.6f'_{ci}/0.45f'_c\text{；拉：}0.25\sqrt{f'_{ci}}/0.5\sqrt{f'_c}\text{）}$$</p>
+<p>$$\text{Step 4:}\quad \text{與規範容許值比較（壓：}0.6f'_{ci}/0.60f'_c\text{；拉：}0.8\sqrt{f'_{ci}}/2.0\sqrt{f'_c}\text{，kgf/cm}^2\text{ 制）}$$</p>
 <h3>L1：題目直接給定</h3>
 <table>
 <thead>
@@ -352,12 +462,12 @@ f_{\text{bot},2} = \frac{P_e}{A_c} + \frac{P_e\,e}{\boxed{S}} - \frac{\boxed{M_T
 </tr>
 <tr>
 <td><strong>容許拉應力限制的物理意義</strong></td>
-<td>混凝土開裂後預力設計假設失效；限制拉應力 ≤ 0.5√f'c 是維持「無裂縫」運行的最低門檻</td>
+<td>U 類上限 $2.0\sqrt{f'_c}$ 約等於開裂模數 $f_r$，在此之內斷面視為未開裂、可用全斷面彈性分析；超過即進入 T 類（$\le3.2\sqrt{f'_c}$，撓度要用開裂斷面）</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td><strong>Stage 2 底纖維超限的工程含義</strong></td>
-<td>預力不足 + 活載重彎矩過大 → 需增加 $P_e$ 或 $e$，或提高 $f'_c$，或增加斷面尺寸</td>
+<td><strong>單位制換算</strong></td>
+<td>$k\sqrt{f'_c}$ 型限值換單位時係數要乘 $\sqrt{10.2}\approx3.19$：SI $0.25\to0.8$、$0.5\to1.6$、$0.62\to2.0$</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -434,8 +544,8 @@ f_{\text{bot},2} = \frac{P_e}{A_c} + \frac{P_e\,e}{\boxed{S}} - \frac{\boxed{M_T
 <td style="text-align: center;">✅</td>
 </tr>
 <tr>
-<td>拉應力 ≤ $0.25\sqrt{f'_{ci}}$</td>
-<td style="text-align: center;">$0.25\times\sqrt{300} = 4.33\ \text{kgf/cm}^2$</td>
+<td>拉應力 ≤ $0.8\sqrt{f'_{ci}}$</td>
+<td style="text-align: center;">$0.8\times\sqrt{300} = 13.86\ \text{kgf/cm}^2$</td>
 <td style="text-align: center;">無拉應力</td>
 <td style="text-align: center;">無拉應力</td>
 <td style="text-align: center;">✅</td>
@@ -459,36 +569,71 @@ f_{\text{bot},2} = \frac{P_e}{A_c} + \frac{P_e\,e}{\boxed{S}} - \frac{\boxed{M_T
 </thead>
 <tbody>
 <tr>
-<td>壓應力 ≤ $0.45\,f'_c$（持續載重）</td>
-<td style="text-align: center;">$0.45\times420 = 189\ \text{kgf/cm}^2$</td>
-<td style="text-align: center;">$135.60 \leq 189$</td>
+<td>壓應力 ≤ $0.60\,f'_c$（有效預力＋全部載重）</td>
+<td style="text-align: center;">$0.60\times420 = 252\ \text{kgf/cm}^2$</td>
+<td style="text-align: center;">$135.60 \leq 252$</td>
 <td style="text-align: center;">—</td>
 <td style="text-align: center;">✅</td>
 </tr>
 <tr>
-<td>拉應力 ≤ $0.5\sqrt{f'_c}$（無黏結筋）</td>
-<td style="text-align: center;">$0.5\times20.49 = 10.25\ \text{kgf/cm}^2$</td>
+<td>壓應力 ≤ $0.45\,f'_c$（有效預力＋持續載重）</td>
+<td style="text-align: center;">$0.45\times420 = 189\ \text{kgf/cm}^2$</td>
+<td style="text-align: center;">持續載重（$P_e$＋自重）頂緣 $8.95$；即使全部載重視為持續，$135.60 \leq 189$</td>
 <td style="text-align: center;">—</td>
-<td style="text-align: center;">$26.50 &gt; 10.25$</td>
-<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
 </tr>
 <tr>
-<td>拉應力 ≤ $1.0\sqrt{f'_c}$（有黏結筋）</td>
-<td style="text-align: center;">$1.0\times20.49 = 20.49\ \text{kgf/cm}^2$</td>
+<td>拉應力 ≤ $2.0\sqrt{f'_c}$（U 類）</td>
+<td style="text-align: center;">$2.0\times20.49 = 40.99\ \text{kgf/cm}^2$</td>
 <td style="text-align: center;">—</td>
-<td style="text-align: center;">$26.50 &gt; 20.49$</td>
-<td style="text-align: center;">❌</td>
+<td style="text-align: center;">$26.50 \leq 40.99$</td>
+<td style="text-align: center;">✅</td>
 </tr>
 </tbody>
 </table>
-<p>$$\boxed{\text{Stage 2 底纖維拉應力 } 26.50\ \text{kgf/cm}^2 &gt; 1.0\sqrt{f'_c} = 20.49\ \text{kgf/cm}^2 \Rightarrow \textbf{不符合規範} ❌}$$</p>
+<p>$$\boxed{\text{Stage 2 底纖維拉應力 } 26.50\ \text{kgf/cm}^2 \le 2.0\sqrt{f'_c} = 40.99\ \text{kgf/cm}^2 \Rightarrow \textbf{符合規範（U 類）} ✅}$$</p>
+<p><strong>→ 兩階段上下纖維均符合現行規範（底纖維拉應力用掉 U 類上限的 65%）。</strong></p>
+<p><img alt="RC-2014-4 兩階段跨中應力分布：施加預力時頂 +5.4、底 +121.9 皆受壓；使用載重時頂 +135.6、底 −26.5，落在 U 類上限 2.0√f'c=40.99 之內；灰色虛線為誤套 SI 係數得到的 4.33 與 20.49" src="../../raw/solutions/RC-2014-4/figs/RC-2014-4-fig-1-stress.svg" /></p>
+<p><em>圖 1　兩階段應力分布與 kgf/cm² 制容許值。灰色虛線是以 kgf/cm² 算應力卻套 SI 係數得到的容許值——這張圖攔的是單位制混用：容許值小約 3.19 倍，會把 $-26.5$ 誤判為超限。</em></p>
 <hr />
 <h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
-<p><strong>① Stage 2 底纖維不符合規範的工程分析</strong></p>
-<p>底纖維拉應力不足（$-26.50\ \text{kgf/cm}^2$）的根本原因是：</p>
-<p>$$\frac{M_T}{S} = 157.05 \gg \frac{P_e}{A_c} + \frac{P_e\,e}{S} = 54.55 + 76.00 = 130.55\ \text{kgf/cm}^2$$</p>
-<p>外力彎矩項 $(M_T/S)$ 超過預力總效果 $(P_e/A_c + P_e\,e/S)$ 約 <strong>26.5 kgf/cm²</strong>，說明預力量或偏心距不足以抵抗服務載重。</p>
-<p><strong>補救方向（工程設計角度）：</strong></p>
+<p><strong>① Stage 2 底纖維受拉的工程分析（符合 U 類）</strong></p>
+<p>底纖維出現拉應力（$-26.50\ \text{kgf/cm}^2$）的原因是：</p>
+<p>$$\frac{M_T}{S} = 157.05 &gt; \frac{P_e}{A_c} + \frac{P_e\,e}{S} = 54.55 + 76.00 = 130.55\ \text{kgf/cm}^2$$</p>
+<p>外力彎矩項 $(M_T/S)$ 超過預力總效果約 <strong>26.5 kgf/cm²</strong>，但仍在 U 類上限 $2.0\sqrt{f'_c}=40.99$ 之內（題目稱「U 類型預力梁」即指此），斷面視為未開裂。</p>
+<p><strong>容許拉應力的單位制陷阱：</strong> 規範的 $k\sqrt{f'_c}$ 型限值，SI（MPa）與 kgf/cm² 制係數不同，換算要乘 $\sqrt{10.2}\approx3.19$：</p>
+<table>
+<thead>
+<tr>
+<th>限值</th>
+<th style="text-align: center;">SI（MPa）</th>
+<th style="text-align: center;">kgf/cm²</th>
+<th style="text-align: center;">本題值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>傳遞階段拉應力</td>
+<td style="text-align: center;">$0.25\sqrt{f'_{ci}}$</td>
+<td style="text-align: center;">$0.8\sqrt{f'_{ci}}$</td>
+<td style="text-align: center;">13.86</td>
+</tr>
+<tr>
+<td>U 類上限</td>
+<td style="text-align: center;">$0.62\sqrt{f'_c}$</td>
+<td style="text-align: center;">$2.0\sqrt{f'_c}$</td>
+<td style="text-align: center;">40.99</td>
+</tr>
+<tr>
+<td>T 類上限</td>
+<td style="text-align: center;">$1.0\sqrt{f'_c}$</td>
+<td style="text-align: center;">$3.2\sqrt{f'_c}$</td>
+<td style="text-align: center;">65.58</td>
+</tr>
+</tbody>
+</table>
+<p>若以 kgf/cm² 算應力卻套 SI 係數（如 $1.0\sqrt{f'_c}=20.49$），會把合格斷面誤判為超限。本題舊版解析即曾如此判「不符合規範」（2026-11-14 勘誤）。</p>
+<p><strong>若要增加餘裕（工程設計角度）：</strong></p>
 <table>
 <thead>
 <tr>
@@ -501,12 +646,12 @@ f_{\text{bot},2} = \frac{P_e}{A_c} + \frac{P_e\,e}{\boxed{S}} - \frac{\boxed{M_T
 <tr>
 <td>增加有效預力 $P_e$</td>
 <td>提升 $P_e/A_c$ 和 $P_e\,e/S$</td>
-<td>受鋼腱許可應力限制</td>
+<td>受鋼腱許可應力與傳遞階段頂纖維限制</td>
 </tr>
 <tr>
 <td>增加偏心距 $e$</td>
 <td>提升 $P_e\,e/S$</td>
-<td>受斷面幾何限制（$e &lt; c_2$）</td>
+<td>受斷面幾何與傳遞階段頂纖維限制</td>
 </tr>
 <tr>
 <td>增加斷面尺寸（增大 $S$）</td>
@@ -516,12 +661,7 @@ f_{\text{bot},2} = \frac{P_e}{A_c} + \frac{P_e\,e}{\boxed{S}} - \frac{\boxed{M_T
 <tr>
 <td>提高混凝土強度 $f'_c$</td>
 <td>放寬容許拉應力</td>
-<td>$0.5\sqrt{f'_c}$ 隨 $f'_c$ 增加</td>
-</tr>
-<tr>
-<td>配置黏結輔助鋼筋</td>
-<td>允許 $1.0\sqrt{f'_c}$ 的拉應力</td>
-<td>本題仍不足（26.5 &gt; 20.49）</td>
+<td>$2.0\sqrt{f'_c}$ 隨 $f'_c$ 增加</td>
 </tr>
 </tbody>
 </table>
@@ -531,7 +671,10 @@ f_{\text{bot},2} = \frac{P_e}{A_c} + \frac{P_e\,e}{\boxed{S}} - \frac{\boxed{M_T
 <p><strong>③ 兩階段預力損失的影響</strong></p>
 <p>預力從 $P_i = 70\ \text{tf}$ 損失至 $P_e = 60\ \text{tf}$（損失率 14.3%），應力影響：</p>
 <p>$$\Delta(P/A_c) = (63.64 - 54.55) = 9.09\ \text{kgf/cm}^2 \quad \Delta(Pe/S) = (88.66 - 76.00) = 12.66\ \text{kgf/cm}^2$$</p>
-<p>底纖維因預力損失，壓應力貢獻減少 $9.09 + 12.66 = 21.75\ \text{kgf/cm}^2$。搭配活載重引入的大量拉應力（$M_l/S = 1.1\times18\times10^5/15{,}633 = 126.65\ \text{kgf/cm}^2$），底纖維從 Stage 1 的 +121.9 kgf/cm² 壓應力「翻轉」至 Stage 2 的 -26.5 kgf/cm² 拉應力，反差達 <strong>148.4 kgf/cm²</strong>。</p></main>
+<p>底纖維因預力損失，壓應力貢獻減少 $9.09 + 12.66 = 21.75\ \text{kgf/cm}^2$。搭配活載重引入的大量拉應力（$M_l/S = 1.1\times18\times10^5/15{,}633 = 126.65\ \text{kgf/cm}^2$），底纖維從 Stage 1 的 +121.9 kgf/cm² 壓應力「翻轉」至 Stage 2 的 -26.5 kgf/cm² 拉應力，反差達 <strong>148.4 kgf/cm²</strong>。</p>
+<p><em>修正日期：2026-11-14（§1 改為指向題目正本（本題無附圖）；S 指數筆誤說明併入常見誤讀）</em></p>
+<p><em>修正日期：2026-11-14（解析勘誤：容許拉應力誤用 SI 制係數——傳遞 $0.25\sqrt{f'_{ci}}=4.33$ → $0.8\sqrt{f'_{ci}}=13.86$、使用 $1.0\sqrt{f'_c}=20.49$ → U 類 $2.0\sqrt{f'_c}=40.99$；使用階段壓應力改依現行規範 $0.60f'_c$（全部載重）／$0.45f'_c$（持續）；結論「Stage 2 底纖維超限、不符合規範」→「符合規範（U 類）」，應力值不變；依現行台灣規範（建築物混凝土結構設計規範 2023）；verify 腳本重算 MISMATCHES: 0）</em></p>
+<p><em>圖解補繪：2026-11-14（向量圖 1 張 <code>figs/RC-2014-4-fig-1-stress.svg</code>，腳本 <code>gen_RC-2014-4.py</code>，可重跑；腳本檔尾對 §4／§5 公佈值做 assert）</em></p></main>
 <footer>來源：raw/solutions/RC-2014-4/RC-2014-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
 </footer>
 <script>

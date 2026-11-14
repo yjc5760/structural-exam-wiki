@@ -464,12 +464,12 @@ def fig_phi():
     s.text(ax.X(0.0042), ax.Y(0.607), '過渡區（線性內插）', 12.5, ORG, 'middle', True)
     s.text(ax.X(0.006), ax.Y(0.607), '拉力控制', 12.5, GRN, 'middle', True)
     pts = [(ety, 0.65, PUR, '③ 平衡點：恰在轉角上，φ = 0.650', 'below'),
-           (0.002473, phi_of(0.002473, 4200), ORG, 'RC-2011-3：εt = 0.002473 → 0.685', 'above'),
+           (0.002606, phi_of(0.002606, 4200), ORG, f'RC-2011-3：εt = 0.002606 → {phi_of(0.002606, 4200):.3f}', 'above'),
            (0.005, 0.90, '#e65100', 'RC-2015-1 ★：εt = 0.005 → 0.90', 'above')]
     for x, y, col, t, pos in pts:
         s.circ(ax.X(x), ax.Y(y), 6, col, '#fff', 1.5)
     label_box(s, ax.X(ety) - 4, ax.Y(0.65) + 6, [(pts[0][3], True)], PUR, anchor='end', size=11.5)
-    label_box(s, ax.X(0.002473) + 10, ax.Y(0.685) - 6, [(pts[1][3], True)], ORG, size=11.5)
+    label_box(s, ax.X(0.002606) + 10, ax.Y(pts[1][1]) - 6, [(pts[1][3], True)], ORG, size=11.5)
     label_box(s, ax.X(0.005) - 8, ax.Y(0.90) - 34, [(pts[2][3], True)], '#e65100', anchor='end', size=11.5)
     s.line(ax.X(0), ax.Y(0.655), ax.X(ety), ax.Y(0.655), '#9e9e9e', 1, '2 2')
     s.text(ax.X(0.0001), ax.Y(0.655) - 4, '舊式在此給 0.655（本庫不用）', 10.5, '#757575')
@@ -530,7 +530,8 @@ def mander(eps, fcc, ecc, Ec):
 
 
 def fig_ss():
-    fc, fyt, rho = 350, 4200, 0.00747
+    fc, fyt, s_sp = 350, 4200, 8.0          # RC-2010-1：螺距考卷未給，取合規 s = 8 cm（2026-11-14 勘誤）
+    rho = round(4 * 1.27 / (68 * s_sp), 5)
     fL = rho * fyt / 2
     fcc = fc + 4.1 * fL
     eco = 0.002
@@ -567,7 +568,7 @@ def fig_ss():
     s.line(90, 368, 122, 368, RED, 3)
     s.text(128, 372, '無圍束 f′c = 350', 12)
     s.line(270, 368, 302, 368, GRN, 3.2)
-    s.text(308, 372, f'圍束（RC-2010-1：#4@10，ρs = {rho}）', 12)
+    s.text(308, 372, f'圍束（RC-2010-1：#4@{s_sp:.0f}，ρs = {rho}）', 12)
     s.text(575, 372, '曲線形狀：Mander (1988)', 11, MUT)
     return s.render()
 

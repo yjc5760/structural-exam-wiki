@@ -31,99 +31,187 @@ img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);bor
 footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
 </style></head><body>
 <header><h1>RC-2007-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U4-1.html">&#128202; U4-1 單元總覽</a><a class="lect" href="../lecture-RC-U4-1.html">&#128218; U4-1 預力梁斷面應力分析 講義</a></div></header>
-<main><h3>考題編號：RC-2007-4</h3>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>RC-2007-4 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>RC-2007-4.md</code>。<br />
+判讀清單已經使用者確認（凍結）；本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>考卷</td>
+<td><code>raw/exams/RC-2007_鋼筋混凝土設計與預力.pdf</code> 第 2 頁（背面），第四題；卷首常數見第 1 頁</td>
+</tr>
+<tr>
+<td>考年</td>
+<td>民國 96 年（2007）</td>
+</tr>
+<tr>
+<td>配分</td>
+<td>25 分</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td><code>RC-2007-4-fig-1.png</code>（I 形梁斷面與斷面性質，無圖號；考卷原為 1-bit 點陣）</td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-14 使用者確認；影響答案項目使用者選擇：#1 斷面性質照考卷數據，版置於 c_t＋c_b＝114.3 cm 頂面（與圖上總高 112.5 的矛盾於解析 §5 註明）；#7 澆版無支撐（版重由梁單獨承受）；轉錄 2026-11-14；PyMuPDF 110 dpi 全頁目視＋抽出文字核對；附圖以程式依圖上尺寸重算斷面性質核對；盲讀後才比對既有解析）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>四、一座跨距 20 公尺簡支 I 形預力梁橋，其梁與梁間距為 2.2 公尺，其斷面及數據如下圖所示，預力梁上之橋面版厚 20 公分，預力梁之混凝土抗壓強度為 350 $kgf/cm^2$，橋面版之混凝土抗壓強度為 280 $kgf/cm^2$，容許壓應力為 $0.4f'_c$，容許拉應力為 $3\sqrt{f'_c}$，預力鋼線容許應力為 13200 $kgf/cm^2$，預力鋼線總斷面積為 21.7 $cm^2$，假設預力損失 20%，鋼線中心離底部最小距離為 20 公分，除了梁及版自重外，還有其他靜載重為 750 $kgf/m$，混凝土單位重為 2,400 $kgf/m^3$，試計算出中間梁在跨距中央能承受之集中活載重。（25 分）</p>
+</blockquote>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>題文數值：跨距 20 m；梁距 2.2 m；橋面版厚 20 cm；梁 $f'_c=350$、版 $f'_c=280$；容許壓應力 $0.4f'_c$、容許拉應力 $3\sqrt{f'_c}$（照錄，未註明適用階段）；預力鋼線容許應力 13,200、$A_{ps}=21.7$ cm²；預力損失 20%；鋼線中心離底部最小 20 cm；其他靜載重 750 kgf/m；單位重 2,400 kgf/m³。</li>
+<li>圖旁斷面性質（照錄）：$S^t = 83{,}082\ cm^3$、$S_b = 101{,}370\ cm^3$、$I_o = 5.2\times10^6\ cm^4$、$A = 3{,}613\ cm^2$、$r^2 = 1{,}445\ cm^2$、$c_t = 62.8\ cm$、$c_b = 51.5\ cm$。</li>
+<li>卷首（第 1 頁）「以下各題之計算所用之規定及常數如下（※如有條件不足時，請自行合理假設）」：靜載重因數 1.2，活載重因數 1.6；強度折減係數：拉力控制 0.90（$\varepsilon_t$ 大於 0.005）、壓力控制 0.65、過渡 $\phi = 0.483 + 83.3\varepsilon_t$、剪力 0.75、柱 0.65；$E_s = 2.04\times10^6$ kgf/cm²；D29 面積 6.469 cm²。</li>
+<li><strong>沒有給</strong>：施工是否有支撐（版重由梁單獨或合成斷面承受）、施預力（transfer）階段容許應力、兩種混凝土模數比、有效翼版寬規定、鋼腱線形、活載重衝擊或分配係數。</li>
+<li>卷首注意事項：可以使用電子計算器。不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p><img alt="RC-2007-4 考卷附圖：對稱 I 形梁斷面。上翼寬 40cm、下翼寬 55cm、腹板寬 17.5cm；右側由上而下分段尺寸 17.5cm（上翼厚）、11.3cm（上翼斜坡段）、47.5cm（腹板直段）、18.7cm（下翼斜坡段）、17.5cm（下翼厚），總高 112.5cm；圖右列斷面性質 S^t、S_b、I_o、A、r²、c_t、c_b" src="../../raw/solutions/RC-2007-4/RC-2007-4-fig-1.png" /></p>
+<p>圖面文字照錄：<code>40 cm</code>、<code>17.5 cm</code>、<code>11.3 cm</code>、<code>17.5 cm</code>（腹板寬）、<code>47.5 cm</code>、<code>112.5 cm</code>、<code>18.7 cm</code>、<code>17.5cm</code>、<code>55 cm</code>；<code>S^t = 83,082 cm^3</code>、<code>r^2 = 1,445 cm^2</code>、<code>S_b = 101,370 cm^3</code>、<code>c_t = 62.8 cm</code>、<code>I_o= 5.2×10^6 cm^4</code>、<code>c_b = 51.5 cm</code>、<code>A = 3,613 cm^2</code>。</p>
+<h2>4. 判讀清單</h2>
+<p>「把握」標<strong>不確定</strong>者請優先確認；解讀類項目（題目用字的意思）另標「解讀」。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>斷面性質自相矛盾</td>
+<td><strong>$c_t + c_b = 114.3 \ne 112.5$ cm</strong>；依圖上尺寸自算 $A = 3{,}497$ cm²、$c_b = 50.7$、$c_t = 61.8$、$I \approx 4.90\times10^6$ cm⁴，與考卷所給數據都不合。考卷要求用「斷面及數據如下圖所示」，解讀為<strong>梁的斷面性質照考卷所給數據</strong>（$A$、$I_o$、$S^t$、$S_b$、$c_t$、$c_b$），總高 112.5 只用於幾何</td>
+<td>五段尺寸和 17.5＋11.3＋47.5＋18.7＋17.5＝112.5；$I_o/c_t = 82{,}803$、$I_o/c_b = 100{,}971$，與 $S^t$、$S_b$ 差 0.3–0.4%</td>
+<td>不確定（影響答案）；使用者確認（選擇見頭表判讀狀態）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>斷面形狀</td>
+<td>上翼 40×17.5、上斜坡 11.3（40→17.5）、腹板 17.5×47.5、下斜坡 18.7（17.5→55）、下翼 55×17.5</td>
+<td>分段尺寸線端點對齊各轉折水平線</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>有效翼版</td>
+<td>梁距 2.2 m；橋面版厚 20 cm 置於上翼頂</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>預力鋼線應力</td>
+<td>「預力鋼線容許應力 13,200」解讀為施預力時（損失前）的鋼線應力；損失 20% 後 $f_{se} = 0.8 \times 13{,}200$</td>
+<td>題文順序「容許應力 13200…假設預力損失 20%」</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>偏心距</td>
+<td>鋼線中心離底部「最小」20 cm → 跨中取最大偏心，鋼線中心距梁底 20 cm</td>
+<td>題文</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>容許拉應力 $3\sqrt{f'_c}$</td>
+<td>照考卷原文（kgf/cm² 制下 $3\sqrt{350} = 56$ kgf/cm²）；考卷未註明適用施預力或使用階段、未說版是否也適用</td>
+<td>題文</td>
+<td>確定（照考卷原文）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>施工順序</td>
+<td>考卷<strong>沒有寫</strong>版澆置時是否有支撐（版重由梁單獨或合成斷面承受）</td>
+<td>題文無相關敘述</td>
+<td>不確定（影響答案）；使用者確認（選擇見頭表判讀狀態）</td>
+</tr>
+<tr>
+<td>8</td>
+<td>問的量</td>
+<td>中間梁在跨距中央能承受之<strong>集中活載重</strong>（工作載重，非因數化）</td>
+<td>題文；卷首載重因數為強度設計用</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>9</td>
+<td>考卷沒有給</td>
+<td>施工支撐、施預力階段容許應力、模數比、有效翼寬規定、衝擊與分配係數</td>
+<td>全題</td>
+<td>確定（作答須自行假設）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-14（RC-U4-1 題目正本推廣・批 1）</em></p>
+<p><em>確認：2026-11-14 使用者確認（RC-U4-1 題目正本推廣・批 1，關卡一）</em></p></details>
+<h3>考題編號：RC-2007-4</h3>
 <p><strong>主分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
 <strong>副分類：</strong> 無<br />
 <strong>設計法：</strong> WSD工作應力法<br />
 <strong>標籤：</strong> <code>I形橋梁</code> <code>組合T型斷面</code> <code>兩階段應力疊加</code> <code>底纖維拉力控制</code> <code>集中活載重</code> <code>不同f'c轉換</code> <code>容許應力設計</code> <code>內梁</code></p>
 <hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>20 m 跨簡支預力 I 形橋梁，橋面板硬化後形成<strong>組合斷面</strong>，求中間梁<strong>跨中可承受的最大集中活載重 P</strong>。</p>
-<p><strong>已知條件：</strong></p>
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="RC-2007-4-problem.md"><code>RC-2007-4-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<p><img alt="RC-2007-4 重繪題目附圖：對稱 I 形梁，上翼 40、下翼 55、腹板 17.5 cm，分段尺寸 17.5／11.3／47.5／18.7／17.5，總高 112.5 cm，右列考卷所給斷面性質" src="../../raw/solutions/RC-2007-4/figs/RC-2007-4-fig-1-problem.svg" /><br />
+<em>重繪自考卷附圖，依題目正本判讀清單 #1–#2。五段尺寸和為 112.5 cm，但考卷給 $c_t+c_b=114.3$——本圖把這個矛盾標出來；依使用者確認，斷面性質照考卷數據，版置於 114.3 頂面。</em></p>
+<h3>常見誤讀</h3>
 <table>
 <thead>
 <tr>
 <th>項目</th>
-<th>數值</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>跨度 $L$</td>
-<td>20 m = 2000 cm</td>
+<td>斷面數據矛盾（#1）</td>
+<td>照考卷數據（$A$、$I_o$、$S$、$c_t$、$c_b$），版置於 $c_t+c_b=114.3$ 頂面（使用者確認）</td>
+<td>以為兩者一致；或改用自算斷面性質</td>
 </tr>
 <tr>
-<td>梁間距</td>
-<td>2.2 m</td>
+<td>施工支撐（#7）</td>
+<td>無支撐：版重由 I 形梁單獨承受；版硬化後的附加靜載重與活載重由合成斷面承受（使用者確認）</td>
+<td>版重放到合成斷面</td>
 </tr>
 <tr>
-<td>I 形梁 $f'_{c1}$</td>
-<td>350 kgf/cm²</td>
+<td>預力鋼線應力（#4）</td>
+<td>13,200 為施預力時（損失前）應力，損失 20% → $f_{se}=10{,}560$</td>
+<td>13,200 直接當有效應力</td>
 </tr>
 <tr>
-<td>橋面版 $f'_{c2}$，厚度</td>
-<td>280 kgf/cm²，20 cm</td>
+<td>偏心距（#5）</td>
+<td>鋼線中心離底部最小 20 cm → 跨中 $e=c_b-20$</td>
+<td>e 由圖上量</td>
 </tr>
 <tr>
-<td>容許壓應力</td>
-<td>$0.4f'_c$（梁：140，版：112 kgf/cm²）</td>
-</tr>
-<tr>
-<td>容許拉應力</td>
-<td>$3\sqrt{f'_c}$（梁：56.1，版：50.1 kgf/cm²）</td>
-</tr>
-<tr>
-<td>預力鋼線容許應力</td>
-<td>13,200 kgf/cm²</td>
-</tr>
-<tr>
-<td>預力鋼線面積 $A_{ps}$</td>
-<td>21.7 cm²</td>
-</tr>
-<tr>
-<td>預力損失</td>
-<td>20%</td>
-</tr>
-<tr>
-<td>c.g.s. 距梁底</td>
-<td>20 cm（最小值）</td>
-</tr>
-<tr>
-<td>附加靜載重</td>
-<td>750 kgf/m（梁版自重以外）</td>
-</tr>
-<tr>
-<td>$\gamma_c$</td>
-<td>2400 kgf/m³</td>
+<td>問的量（#8）</td>
+<td>中間梁跨中能承受的<strong>工作</strong>集中活載重</td>
+<td>乘載重因數</td>
 </tr>
 </tbody>
 </table>
-<p><strong>非組合 I 形梁斷面性質：</strong></p>
-<table>
-<thead>
-<tr>
-<th>$A = 3{,}613$ cm²</th>
-<th>$I_o = 5.2 \times 10^6$ cm⁴</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$c_t = 62.8$ cm</td>
-<td>$S_t = 83{,}082$ cm³</td>
-</tr>
-<tr>
-<td>$c_b = 51.5$ cm</td>
-<td>$S_b = 101{,}370$ cm³</td>
-</tr>
-<tr>
-<td>梁全深 = $c_t + c_b = 114.3$ cm</td>
-<td>$r^2 = 1{,}445$ cm²</td>
-</tr>
-</tbody>
-</table>
-<p><strong>題目附圖：</strong></p>
-<p><img alt="RC-2007-4 I形預力橋梁斷面：頂翼板40cm，底翼板55cm，梁深約114cm，各部位尺寸標示，斷面性質表列" src="../../raw/solutions/RC-2007-4/RC-2007-4-fig-1.png" /></p>
-<p><em>圖說：I 形梁，頂翼板寬 40 cm，底翼板寬 55 cm，梁全深 114.3 cm。橋面版寬 220 cm（梁間距 2.2 m），厚 20 cm，硬化後與梁形成組合斷面。c.g.s. 距梁底 20 cm，偏心距 $e = 51.5 - 20 = 31.5$ cm。</em></p>
+<p><strong>本解記號：</strong> 壓為正、拉為負；版寬取梁距 220 cm、模數比 $n=\sqrt{280/350}$；容許壓應力 $0.4f'_c$、容許拉應力 $3\sqrt{f'_c}$ 為考卷給值；兩者都在現行規範允許範圍內（拉應力屬 T 類），依根目錄 <code>CLAUDE.md</code>「規範版本」的容許值例外照用（見 §5）。</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
 <p><strong>核心：</strong> 兩階段應力疊加（施工順序決定作用斷面）：</p>
@@ -611,10 +699,47 @@ $$P \leq \frac{102.18}{0.001310} = 78{,}000 \text{ kgf} = 78.0 \text{ tf}$$</p>
 <li>誤差約 5-10%</li>
 </ul>
 <p>考試場合：可取 $n = \sqrt{f'_{c2}/f'_{c1}}$ 或 $n=1$（若題目未指定可合理假設）。</p>
-<h3>梁底拉力容許值 $3\sqrt{f'_c}$</h3>
-<p>本題容許<strong>正拉應力</strong> $= 3\sqrt{350} = 56.1$ kgf/cm²，屬於「B 級」截面（部分允許拉力裂縫）。若為更嚴格的「A 級」（全預壓），則容許拉應力 = 0，此時：<br />
-$$P_{max}^{no-tension} = 17.90/0.002920 = 6{,}130 \text{ kgf} = 6.13 \text{ tf}$$<br />
-大幅降低，顯示容許拉應力對 PC 橋梁活載重承載力影響很大。</p></main>
+<h3>梁底拉力容許值 $3\sqrt{f'_c}$：在現行規範屬 T 類</h3>
+<p>現行建築物混凝土結構設計規範（2023）把預力受彎構材依使用載重下的拉應力分級（kgf/cm² 制）：</p>
+<table>
+<thead>
+<tr>
+<th>類別</th>
+<th>拉應力 $f_t$</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>U 類（未開裂）</td>
+<td>$\le 2.0\sqrt{f'_c} = 37.4$</td>
+<td>全斷面彈性分析</td>
+</tr>
+<tr>
+<td>T 類（過渡）</td>
+<td>$2.0\sqrt{f'_c} &lt; f_t \le 3.2\sqrt{f'_c} = 59.9$</td>
+<td>應力仍用全斷面；<strong>撓度須用開裂斷面（雙線性）計算</strong></td>
+</tr>
+<tr>
+<td>C 類（開裂）</td>
+<td>$&gt; 3.2\sqrt{f'_c}$</td>
+<td>開裂斷面分析＋裂縫控制</td>
+</tr>
+</tbody>
+</table>
+<p>考卷給的 $3\sqrt{f'_c}=56.1$ 落在 T 類範圍內，是合規的設計條件，主線照用（$P_{max}=25.3$ tf）。壓應力 $0.4f'_c=140$ 也嚴於現行 $0.45f'_c$（持續）／$0.60f'_c$（全部載重），照用。作答時應註明：</p>
+<ul>
+<li>本梁在 $P_{max}$ 下屬 <strong>T 類</strong>，須另以開裂斷面檢核撓度；</li>
+<li>若要求 U 類（不開裂）：$P_{max} = (17.90 + 37.4)/0.002920 \approx 18.9$ tf；</li>
+<li>若取 T 類上限 $3.2\sqrt{f'_c}$：$P_{max} \approx 26.6$ tf（考卷沒有這樣要求，僅供比較）；</li>
+<li>全預壓（不容許拉應力）：$P_{max}^{no-tension} = 17.90/0.002920 = 6.13$ tf。</li>
+</ul>
+<p><img alt="RC-2007-4 梁底應力隨集中活載重 P 的直線：P=6.13 tf 梁底開始受拉、18.9 tf 到 U 類上限 37.4、25.3 tf 到考卷容許拉應力 56.1、26.6 tf 到 T 類上限 59.9；背景分為 U、T、C 三帶" src="../../raw/solutions/RC-2007-4/figs/RC-2007-4-fig-2-class.svg" /></p>
+<p><em>圖 1　梁底應力隨 $P$ 的變化與現行規範 U／T／C 分類。考卷的 $3\sqrt{f'_c}$ 落在 T 帶內——這張圖攔的是把它當成「未開裂」（舊稱 B 級）而漏了 T 類的開裂斷面撓度檢核。</em></p>
+<p>容許拉應力對 PC 橋梁活載重承載力影響很大。<br />
+<em>修正日期：2026-11-14（§1 改為指向題目正本，重繪題目附圖 figs/RC-2007-4-fig-1-problem.svg；刪除 §1 圖說「梁全深 114.3」的寫法，改列斷面數據矛盾）</em></p>
+<p><em>修正日期：2026-11-14（解析勘誤（數值不變）：§5「B 級」改為現行規範 T 類說明——考卷容許拉應力 $3\sqrt{f'_c}$ 在現行建築物混凝土結構設計規範（2023）屬 T 類，依容許值例外照用，補 U 類 18.9 tf、T 類上限 26.6 tf 對照與開裂斷面撓度檢核提醒；§1 本解記號同步；verify 腳本重算 MISMATCHES: 0）</em></p>
+<p><em>圖解補繪：2026-11-14（向量圖 1 張 <code>figs/RC-2007-4-fig-2-class.svg</code>，腳本 <code>gen_RC-2007-4.py</code>，可重跑；腳本檔尾對 §4／§5 公佈值做 assert）</em></p></main>
 <footer>來源：raw/solutions/RC-2007-4/RC-2007-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
 </footer>
 <script>

@@ -11,6 +11,8 @@ SS-2018-2 箱型斷面柱 LRFD 強度檢核 — 解題圖解腳本
 import sys, os, math
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 "..", "..", "..", "skills", "struct-diagram", "scripts"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                "..", "..", "..", "..", "skills", "struct-diagram", "scripts"))  # 五科合一後 skills 在根目錄
 
 from structdraw import Canvas, C, compose
 
@@ -34,12 +36,12 @@ Q_A = Q_BO ** 2 - Q_BI ** 2                      # 983.04
 Q_R = math.sqrt((Q_BO ** 2 + Q_BI ** 2) / 12)    # 31.38
 Q_BT = Q_BI / Q_T                                # 23.0
 Q_LR_AISC = 1.40 * math.sqrt(Q_E / Q_FY)         # 34.8
-Q_LR_TW = 50 / math.sqrt(Q_FY)                   # 27.5（國內寫法）
+Q_LR_TW = 63 / math.sqrt(Q_FY)                   # 34.7（現行台灣規範 表4.5-1 箱型翼板 λr）
 Q_KLR = max(Q_K1, Q_K2) * Q_L / Q_R              # 30.55
 Q_LC = Q_KLR / math.pi * math.sqrt(Q_FY / Q_E)   # 0.391
 Q_FCR = math.exp(-0.419 * Q_LC ** 2) * Q_FY      # 3.095
 Q_PN = Q_FCR * Q_A
-Q_PHI = {"0.85（國內 99 年版）": 0.85, "0.90（AISC 360-16）": 0.90}
+Q_PHI = {"0.85（現行台灣規範）": 0.85, "0.90（AISC 360-16，對照）": 0.90}
 
 
 def fig1_section():
@@ -60,14 +62,14 @@ def fig1_section():
         cv.text_px(x0, 130 + i * 30, s, 13, col, "start", weight=wt)
     sc = 12.0
     bars = [("b/t = 73.6 / 3.2", Q_BT, C["bmd"]),
-            ("國內 50/√Fy", Q_LR_TW, C["ghost"]),
-            ("AISC 1.40√(E/Fy)", Q_LR_AISC, C["ghost"])]
+            ("台灣 λr = 63/√Fy", Q_LR_TW, C["ghost"]),
+            ("AISC 1.40√(E/Fy)（對照）", Q_LR_AISC, C["ghost"])]
     for i, (lab, v, col) in enumerate(bars):
         y = 265 + i * 58
         cv.text_px(x0, y - 20, lab, 12.5, C["text"], "start")
         cv.rect_px(x0, y - 9, sc * v, 18, col, 3)
         cv.text_px(x0 + sc * v + 8, y, f"{v:.1f}", 13, C["bmd"] if col == C["bmd"] else C["muted"], "start", weight="700")
-    cv.text_px(x0, H1 - 36, f"{Q_BT:.1f} 小於 {Q_LR_TW:.1f}、{Q_LR_AISC:.1f} ⇒ 非細長，Q = 1，全斷面有效", 13, C["bmd"], "start", weight="700")
+    cv.text_px(x0, H1 - 36, f"{Q_BT:.1f} 小於 λr = {Q_LR_TW:.1f} ⇒ 非細長，Q = 1，全斷面有效", 13, C["bmd"], "start", weight="700")
     path = os.path.join(OUT, f"{TAG}-fig-1-section.svg")
     compose([cv], cols=1,
             title=f"圖 1　A = {Q_A:.2f} cm²、r = {Q_R:.2f} cm；壁板 b/t = {Q_BT:.1f} 通過局部挫屈",

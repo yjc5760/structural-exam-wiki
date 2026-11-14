@@ -261,3 +261,30 @@ print(f"{TAG}: 3 圖 OK　Pe={PE:,.0f} f_ce={FCE:.2f} Mcr={MCR/TFM:.2f} "
       f"f_ps={FPS:,.0f} a={A_BLK:.2f} c={CU:.2f} εt={ET:.4f} "
       f"Mn={MN/TFM:.2f} φMn={PHI_MN/TFM:.2f} 1.2Mcr={MCR_12/TFM:.2f} "
       f"ωp={OMEGA_P:.4f} β1=0.85誤用→{PHIMN_085/TFM:.2f}")
+
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-14，RC-U4-1 批 1；依題目正本 RC-2004-5-problem.md §4，已確認）
+# 只畫考卷給的東西：40×90 矩形、底部一排 4 根鋼腱、鋼腱中心距底 10 cm
+# 攔：90 cm 讀成有效深度、10 cm 量到斷面邊緣以外的基準
+# ══════════════════════════════════════════════════════════
+def fig_problem():
+    W, Hc = 640, 700
+    s = 4.8
+    cv = Canvas(W, Hc, sx=s, ox=W / 2 - B * s / 2, oy=120)
+    cv.panel("先拉預力梁斷面（重繪）", "依題目正本判讀清單 #1–#2")
+    cv.polygon([(0, 0), (B, 0), (B, H), (0, H)], "#EDF1F6", C["member"], 2.6)
+    for k in (0.2, 0.4, 0.6, 0.8):            # 水平位置考卷未標，依原圖比例示意
+        cv.circle((B * k, H - DP), 1.3, "#FFFFFF", C["member"], 1.8)
+    cv.dim((0, H), (B, H), "40 cm", off=-22, label_off=-14)
+    cv.dim((B, H), (B, 0), "90 cm", off=-30, label_off=-28)
+    cv.dim((0, H - DP), (0, 0), "10 cm", off=26, label_off=24)
+    cv.text((B + 14, H - DP + 7), "預力鋼腱 4 根", 13, C["text"], "start")
+    cv.text((B + 14, H - DP + 2), "A_{ps}＝6.16 cm²", 13, C["text"], "start")
+    return compose([cv], title=f"{TAG} 題目附圖（重繪）",
+                   sub="矩形 b＝40、h＝90 cm（全深）；一排 4 根鋼腱，中心距底 10 cm → dp＝80 cm",
+                   note="鋼腱水平位置考卷未標尺寸，依原圖比例示意",
+                   path=os.path.join(OUT, f"{TAG}-fig-1-problem.svg"))
+
+
+fig_problem()

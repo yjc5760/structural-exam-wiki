@@ -103,8 +103,14 @@ def main(ids):
                     + render_md(qid, ptxt) + "</details>\n" + body)
         m = re.search(r"^\*\*分析法：\*\*\s*(.+?)\s*$", md.read_text(encoding="utf-8"), re.M)
         if m:  # 頁首 meta2 的分析法欄位與正本同步（SA 頁面才有 meta2；2026-11-09 由 SA md2view.py 併入）
-            t = re.sub(r'(<p class="meta2">.*?｜ )[^｜<]*(</p>)', lambda g: g.group(1) + m.group(1) + g.group(2),
-                       t, count=1, flags=re.S)
+            def _meta2(g, meth=m.group(1)):
+                segs = g.group(2).split(" ｜ ")
+                if re.search(r"\d{4} 年（民國", segs[-1]):  # 尚無分析法欄位：附加，不覆蓋年份（2026-11-14 修正）
+                    segs.append(meth)
+                else:
+                    segs[-1] = meth
+                return g.group(1) + " ｜ ".join(segs) + g.group(3)
+            t = re.sub(r'(<p class="meta2">)(.*?)(</p>)', _meta2, t, count=1, flags=re.S)
         new = re.sub(r"(<main>\n?).*?(\n?</main>)", lambda m: m.group(1) + body + m.group(2), t, count=1, flags=re.S)
         if tpl != page:
             old = tpl.stem

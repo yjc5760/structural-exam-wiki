@@ -59,7 +59,7 @@
 > 單元總覽（`unit-overview`）的設計法標註與儀表板篩選選項，在本科一律用上表的分類軸與順序。
 >
 > ⚠️ **現況（2026-11-09 搬入時）**：SA 的 `question_index.json` **沒有 `designMethod` 欄位**（原 repo 從未建立）。
-> 分析法寫在解析 `.md` 標頭的 `**分析法：**` 行（96 份中 90 份有）（自由填寫具體方法名，如「傾角變位法」「諧合變位法」「最小功法」「矩陣法」「彎矩分配法」「靜定分析」「影響線」「混合」），
+> 分析法寫在解析 `.md` 標頭的 `**分析法：**` 行（96 份全有；2026-11-14 補齊 SA-2008-1～4、SA-2019-3、2019-4）（自由填寫具體方法名，如「傾角變位法」「諧合變位法」「最小功法」「矩陣法」「彎矩分配法」「靜定分析」「影響線」「混合」），
 > `render_problem_view.py` 會把它同步到題目瀏覽頁頁首。要不要依上表補 `designMethod` 欄位見 §10 待辦。
 
 ---
@@ -165,6 +165,7 @@ Müller-Breslau 原理：解除欲求量對應的束制、施加單位變位，�
 | 2026-11-09 | **由獨立 repo `exam-wiki-SA` 搬入本資料夾**（只搬檔案，不含 git 歷史）：先刪 10-29 scaffold 骨架（七層 wiki 空殼、空索引、`scripts/build_frequency.py` 副本），再搬入 `raw/`（24 份考卷、96 題題目正本與解析、methods）、`study/`、`wiki/queries/`、`archive/wiki/`、`影片講義/`、儀表板 `index.html`／`dashboard-data.js`；`scripts/` 只留 SA 專屬的 `gen_lecture_SA-*_figs.py` 與 `fixes/`；原 repo 根目錄 CLAUDE*.md 與 xcheck.py 存參考副本於 `archive/exam-wiki-SA-root/`；README、檔案架構索引表、知識庫使用說明書改為合併後路徑；`syllabus_taxonomy.json` 副本以 `sync_taxonomy.py` 重新同步 | 五科合一，SA 不再在原 repo 分岔維護。原 repo 與 GitHub Pages 舊網址維持上線不動，git 歷史保留在原 repo；`Claude outputs/`（gitignore 的暫存檔）、`audit-tools/`（skill 附錄腳本的工作副本，內容與根目錄版相同或較舊）未搬 |
 | 2026-11-09 | 共用腳本取代原 repo 版：`md2view.py` → 根目錄 `render_problem_view.py`（先併入 md2view 的「清單前補空行」與頁首 `**分析法：**` 同步），96 頁 problems-view 以新腳本重產；`build_unit_page.py`／`unit_page_template.html`／`build_frequency.py` 改用根目錄版（併入 SA 11-07 的頁尾 `mathIn` 修正），5 頁單元總覽與 `frequency-SA.html` 重產 | 題目瀏覽頁變化：題目正本區塊改為五科一致的黃底樣式並標「已確認」、表格內 `[[ID]]` 轉為徽章、斜體內粗體不再拆開、程式區塊正確渲染；清單項目數 3,411 不變。單元總覽只有樣式與 JS 差異（資料相同）；頻率熱圖同步 11-08 的 SA-2016-4、2021-1、2021-2 tags。`unit-SA-*.pdf` 未重出（內容不變） |
 | 2026-11-09 | 分類稽核（`audit_classification.py SA SA`）：0 問題 | 主副分類全部是 SA 子項，無須改歸 |
+| 2026-11-14 | **一致性檢查後整理（不動答案）**：索引刪 20 題舊 schema 欄位（SA-2009／2010／2011／2013 的 mainCategory、subCategory、topicId、topicCategories、difficulty 等，含不存在的 SA-U4-x 與「待分類」）；8 題索引 tags 與解析標頭對齊（SA-2022-3 刪「細長拉桿」、SA-2010-1「零力桿件」→「滾支承反力方向」等），SA-2016-1 刪「靜定剛架」「靜力平衡」；42 份解析標頭統一為「`代碼` 大綱名稱」格式（SA-2008-1～4 的 YAML frontmatter 改標準標頭、補 6 份副分類行與 2 份分析法行）；SA-2014-1 刪生成口吻；lecture-SA-U3-2 §6 版本提醒由 AISC 341-16 改引現行台灣鋼結構極限設計法規範 13.9.1 第 7 款；problems-view 43 頁、dashboard-data.js（tags 8 題）、frequency-SA.html 同步；unit-SA-U1-2／U1-3／U2-1／U2-3／U2-4 與 lecture-SA-U3-2 PDF 重產 | wiki/queries/一致性檢查-SA-2026-11-14.md 第 1–6 項；分類稽核 4 → 0 問題 |
 | 2026-11-10 | **新建 SA-U3-2 單元總覽與觀念講義**：`study/data/unit-SA-U3-2.json`（3 考點群、16 條公式卡：必背 14、別賭 1〔反曲點位於中點，2019 有印、2020 沒印〕、通常會給 1）→ `study/unit-SA-U3-2.html`＋PDF；新建 `study/lecture-SA-U3-2.html`＋PDF（16 頁、11 張數值圖）；5 題題目瀏覽頁按鈕列接上單元總覽與講義、刪「尚無教材」提示；`frequency-SA.html` 重跑（教材欄偵測到 unit-SA-U3-2 與講義） | 本單元原本沒有任何教材。全 24 年文字抽取＋本單元 5 頁轉圖目視：無參考公式區，只印假設與題目專屬數據；詳見 wiki/queries/log.md（UNIT-SA-U3-2、LECTURE-SA-U3-2） |
 
 ### 獨立 repo 時期的變更紀錄（2026-10-29～11-08，原 exam-wiki-SA/CLAUDE.md CHANGELOG，原樣保留）

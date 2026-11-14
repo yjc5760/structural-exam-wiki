@@ -2085,3 +2085,17 @@ PDF 文字層檢查無殘留 LaTeX、無 emoji 豆腐方框。
 - `[sync]` 單元總覽：study/data/unit-SA-U3-2.json「three」段「本單元目前沒有觀念講義…」改為連到講義的精選 5 題；`build_unit_page.py SA-U3-2` 重建（講義按鈕自動出現）；unit-SA-U3-2.pdf 重出（Chromium A4、#mxBox 展開、print media、scale 0.85，7 頁）
 - `[sync]` problems-view SA-2018-1／2019-2／2020-4／2021-4／2023-4：hbtns 加「📚 U3-2 建築結構系統分析 講義」、referrer 切換 NAMES 加 SA-U3-2（就地修補，與 UNIT-SA-U3-2 同法；重新渲染時需一併處理）
 - 觀察到但未改動（待使用者決定）：無題解與規範衝突。講義 §6 版本提醒引用 AISC 341-16 §F3.4a 連梁轉角限值（0.08／0.02 rad），只作提醒，SA-2023-4 不做規範檢核
+
+## [2026-11-14] CHECK-SA-CONSISTENCY
+- 全科一致性檢查，報告：wiki/queries/一致性檢查-SA-2026-11-14.md（未改動任何正本或衍生檔）
+
+## [2026-11-14] FIX-SA-CONSISTENCY｜一致性檢查第 1–6 項改正（不動任何答案）
+- `[index]` question_index.json：刪 20 題舊 schema 欄位（SA-2009-1～4 questionId／title／mainCategory／subCategory／method；SA-2010-1～4 mainCategory／subCategory／analysisMethod＝待分類；SA-2011-1～4 examYear／examName／questionType／topicCategories／subCategories／difficulty；SA-2013-1～4 questionIndex／topicId／difficulty）。原因：值與主分類矛盾（含不存在的 SA-U4-x），且使 audit_classification.py 報 SA-2010-1～4 假陽性
+- `[tags]` 索引 ↔ 解析標頭對齊 8 題：SA-2025-2（＋Gerber 鉸、剪力斷面，刪與 Gerber 鉸重複的「內鉸接」）、SA-2022-3（刪「細長拉桿」，11-07 已自解析刪除）、SA-2019-4（解析補「修正勁度」）、SA-2017-1（兩邊合併 3-4-5 斜桿＋零桿判斷）、SA-2015-2（＋剪力釋放）、SA-2010-1（刪「零力桿件」：勘誤後本題無零力桿；＋滾支承反力方向）、SA-2002-1（＋均布彎矩）、SA-2011-3（＋載重佈置）；SA-2016-1 兩邊刪「靜定剛架」「靜力平衡」（勘誤後為一度靜不定）
+- `[header]` 42 份解析標頭統一：主分類行一律「`代碼` 大綱名稱」（約 20 份原寫「靜不定結構分析」等非大綱名稱、SA-2017-2／2018-2 寫「名稱 (代碼)」）、副分類行一律存在（無則「無」）、SA-2008-1～4 YAML frontmatter（主分類／副分類／難易度）改為標準標頭並補分析法與標籤（取自索引）、SA-2019-3／2019-4 補分析法；每份頁尾加「修正日期：2026-11-14（格式整理…解題內容與答案不變）」。verified 的 SA-2025-1、2025-4、2018-2 只動標頭格式，未退回 unverified（非解析勘誤）
+- `[wording]` SA-2014-1 §4「讓我們先用點到直線距離公式驗算」→「以點到直線距離公式驗算」
+- `[code-version]` lecture-SA-U3-2 §6 版本提醒：AISC 341-16 §F3.4a → 現行台灣《鋼結構極限設計法規範》（96 年修正、99 年部分修正）13.9.1 第 7 款：連桿梁最大變形角 e ≤ 1.6Mp/Vp 為 0.08 rad、e ≥ 2.6Mp/Vp 為 0.02 rad、中間內插，以規定地震力下側位移角放大 1.4Fu 倍計算（可保守以層間全位移代替）。查證來源：國土管理署公布之鋼結構極限設計法第十三章 PDF
+- `[script]` scripts/render_problem_view.py：頁首 meta2 原本沒有分析法欄位時，會把「YYYY 年（民國）」那段覆蓋成分析法；改為附加。SA-2008-3、2008-4、2019-4 三頁先自 git HEAD 還原再重產（根目錄 CHANGELOG 記錄）
+- `[rebuild]` problems-view 43 頁；dashboard-data.js 就地更新 8 題 tags（未跑 refresh_dashboard.py，依 SUBJECT.md §10）；build_frequency.py 對帳通過；unit-SA-U1-2／U1-3／U2-1／U2-3／U2-4 PDF 重產（11／10／10／13／13 頁同舊版）、lecture-SA-U3-2 PDF 重產（16 → 17 頁，提醒段變長；p.12 目視），Chromium A4 margin 0，KaTeX 錯誤 0
+- 驗證：跨檔比對腳本重跑——索引無舊欄位、96 份標頭主副分類與標籤皆與索引一致、儀表板與頻率熱圖與索引一致；`audit_classification.py SA SA` 0 問題
+- 一次性腳本：scripts/fixes/2026-11-14_index_header_tags_cleanup.py

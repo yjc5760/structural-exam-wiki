@@ -8,10 +8,13 @@ RC-2017-1 加大柱・雙折線本構 — 解題圖解產生腳本
      一律由 bilinear_cc() / section() 現算，檔尾對 §4 公佈值 assert。
   2. 改 §1 任一數字（b、h、d'、f'c、根數）重跑，四張圖全部跟著變。
   3. FIGURES 表寫明每張圖攔什麼錯。
+
+2026-11-14 勘誤：擴柱後共 16 根 D25（原柱 8＋新增 8，題目正本判讀 #1）；原柱鋼筋假設距原柱面 6.5 cm（使用者定案）；
+section() 改為多層鋼筋；e = 0 的軸力強度主線取 P(ε) 峰值（ε = ε_y）。
 """
 import sys, os, math
 sys.path.insert(0, os.environ.get("STRUCTDRAW_DIR",
-                                  "/mnt/skills/user/struct-diagram/scripts"))
+                                  os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "..", "skills", "struct-diagram", "scripts")))
 from structdraw import Canvas, C, compose
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "figs"
@@ -29,6 +32,7 @@ FY     = 4200.0    # fy
 ES     = 2.04e6
 A_BAR  = 5.067     # D25 單根面積
 N_SIDE = 4         # 每側根數（兩翼各 4 支）
+C_OLD  = 6.5       # 原柱鋼筋距原柱面（考卷未給，假設＝新增鋼筋保護層；使用者定案）
 EPS_CU = 0.003
 EPS_PK = 0.002     # 雙折線峰值應變
 DROP   = 0.8       # eps_cu 時的應力比
@@ -36,7 +40,11 @@ DROP   = 0.8       # eps_cu 時的應力比
 # ── 由上列推得 ──────────────────────────────────────────
 D    = H - DP
 AS   = N_SIDE * A_BAR
-AST  = 2 * AS
+_X0  = (H - H_OLD) / 2                       # 原柱面距壓力面 15 cm
+# 各層（距壓力面 cm, 面積）：新增 4／原柱 3／原柱 2／原柱 3／新增 4
+LAYERS = [(DP, AS), (_X0 + C_OLD, 3 * A_BAR), (H / 2, 2 * A_BAR),
+          (_X0 + H_OLD - C_OLD, 3 * A_BAR), (H - DP, AS)]
+AST  = sum(a for _, a in LAYERS)
 AG   = B * H
 EPSY = FY / ES
 CB   = EPS_CU / (EPS_CU + EPSY) * D
@@ -72,15 +80,20 @@ def whitney_cc(c):
 def section(c, whitney=False):
     """平衡條件下的斷面內力。whitney=True 為（錯誤的）Whitney 近似對照。"""
     cc = whitney_cc(c) if whitney else bilinear_cc(c)
-    eps_p = EPS_CU * (c - DP) / c
-    fsp = min(FY, ES * eps_p)
-    fc_at = 0.85 * FC if whitney else fc_of(eps_p)      # 排開的混凝土應力
-    Cs = AS * (fsp - fc_at)
-    Ts = AS * FY                                         # 平衡點：拉力筋恰降伏
-    Pn = cc["Cc"] + Cs - Ts
-    Mn = cc["Cc"] * (H / 2 - cc["xbar"]) + Cs * (H / 2 - DP) + Ts * (D - H / 2)
-    return dict(cc=cc, eps_p=eps_p, fsp=fsp, fc_at=fc_at, Cs=Cs, Ts=Ts,
-                Pn=Pn, Mn=Mn)
+    Pn, Mn, rows = cc["Cc"], cc["Cc"] * (H / 2 - cc["xbar"]), []
+    for d, A in LAYERS:
+        eps = EPS_CU * (c - d) / c
+        fs = max(-FY, min(FY, ES * eps))
+        if whitney:
+            fc_at = 0.85 * FC if (d < cc["a"] and fs > 0) else 0.0
+        else:
+            fc_at = fc_of(eps)                         # 排開的混凝土應力
+        F = A * (fs - fc_at)
+        rows.append(dict(d=d, eps=eps, fs=fs, fc_at=fc_at, F=F))
+        Pn += F
+        Mn += F * (H / 2 - d)
+    return dict(cc=cc, rows=rows, eps_p=rows[0]["eps"], fc_at=rows[0]["fc_at"],
+                Cs=rows[0]["F"], Ts=-rows[-1]["F"], Pn=Pn, Mn=Mn)
 
 
 BAL = section(CB)
@@ -99,9 +112,14 @@ def _draw_section(cv):
     y0 = (H - H_OLD) / 2
     cv.poly([(x0, y0), (x0 + H_OLD, y0), (x0 + H_OLD, y0 + H_OLD),
              (x0, y0 + H_OLD), (x0, y0)], C["ghost"], 2.0, dash="7 5")
-    for y in (DP, D):
+    for y in (DP, D):                                   # 新增鋼筋（灰）
         for i in range(N_SIDE):
             xx = B * (i + 1) / (N_SIDE + 1)
+            cv.dot((xx, y), 5.6, fill="#9AA3AE", stroke="#FFFFFF", w=1.6)
+    xs3 = (x0 + C_OLD, x0 + H_OLD / 2, x0 + H_OLD - C_OLD)  # 原柱鋼筋（黑）
+    for y, xs in ((y0 + C_OLD, xs3), (y0 + H_OLD / 2, (xs3[0], xs3[2])),
+                  (y0 + H_OLD - C_OLD, xs3)):
+        for xx in xs:
             cv.dot((xx, y), 5.6, fill=C["member"], stroke="#FFFFFF", w=1.6)
 
 
@@ -122,8 +140,8 @@ def fig1_section():
     y = 118
     for col, expr, desc in [
         (C["member"], f"A_g = {B:.0f}×{H:.0f} = {AG:,.0f} cm^{{2}}", "加大後全斷面"),
-        (C["member"], f"A_{{st}} = 8×{A_BAR} = {AST:.2f} cm^{{2}}",
-         f"每翼 {N_SIDE} 支 D25，共 8 支"),
+        (C["member"], f"A_{{st}} = 16×{A_BAR} = {AST:.2f} cm^{{2}}",
+         f"新增 2×{N_SIDE} 支（灰）＋原柱 8 支（黑）"),
         (C["member"], f"ρ_g = {100*AST/AG:.2f}%", "在 1%~8% 內"),
         (C["compr"], f"d = h − d' = {D:.1f} cm", "有效深度"),
     ]:
@@ -133,12 +151,12 @@ def fig1_section():
         y += 54
     cv.text_px(x, y + 6, "灰虛線＝原 40×40 舊核心", 12.5, C["muted"], "start")
     cv.text_px(x, y + 28, "兩翼各 15 cm 為新增混凝土", 12.5, C["muted"], "start")
-    cv.text_px(x, y + 56, "⚠ 排列決定 Part (c)", 13, C["load"], "start", weight="700")
-    cv.text_px(x, y + 78, "若改成沿 70 cm 長邊均布，", 12.2, C["muted"], "start")
-    cv.text_px(x, y + 98, "M_{n,b} 會掉到 68.5（−23%）", 12.2, C["muted"], "start")
+    cv.text_px(x, y + 56, "⚠ 原柱 8 支也要算", 13, C["load"], "start", weight="700")
+    cv.text_px(x, y + 78, "原柱鋼筋距原柱面 6.5 cm", 12.2, C["muted"], "start")
+    cv.text_px(x, y + 98, "（考卷未給，假設）", 12.2, C["muted"], "start")
 
     cv.text_px(W / 2, 34, "圖 1　加大柱斷面（向量重繪）", 17, C["text"], weight="700")
-    cv.text_px(W / 2, 58, "彎曲方向為 70 cm 全深；8 支 D25 集中在兩翼各成一直行",
+    cv.text_px(W / 2, 58, "彎曲方向為 70 cm 全深；16 支 D25 沿深度分 5 層（4／3／2／3／4）",
                12.8, C["muted"])
     return cv.svg()
 
@@ -276,7 +294,7 @@ def fig3_stress_block():
                f"P_{{n,b}} 高估 {100*(BAL_W['Pn']-BAL['Pn'])/BAL['Pn']:.1f}%", 12.5,
                C["muted"], "start")
     cv.text_px(x + 6, y + 92,
-               "M_{n,b} 只差 1.8%——彎矩看不太出來，但軸力錯得很明顯", 12.2,
+               f"M_{{n,b}} 只差 {100*(BAL_W['Mn']-BAL['Mn'])/BAL['Mn']:.1f}%——彎矩看不太出來，但軸力錯得很明顯", 12.2,
                C["muted"], "start")
 
     cv.text_px(W / 2, 34, "圖 3　平衡點壓力區：雙折線分區積分 vs Whitney 近似",
@@ -292,10 +310,10 @@ def fig3_stress_block():
 
 # ══════════════════════════════════════════════════════════
 def fig4_axial():
-    W, HH = 720, 520
-    L, Rm, T, Bm = 100, 210, 90, 86
+    W, HH = 820, 520
+    L, Rm, T, Bm = 100, 310, 90, 86
     e_max = 0.0035
-    p_max = 820e3
+    p_max = 1000e3
     sx = (W - L - Rm) / e_max
     sy = (HH - T - Bm) / p_max
     k = sy / sx
@@ -306,15 +324,16 @@ def fig4_axial():
     pts = [(e / 1e6, P_axial(e / 1e6) * k) for e in range(0, int(EPS_CU * 1e6) + 1, 5)]
     cv.poly(pts, C["compr"], 3.2)
 
-    for e, col, note in [(EPS_PK, C["accent"], "P(ε) 的極大值"),
-                         (EPS_CU, C["load"], "本解採用（與 P-M 端點一致）")]:
+    for e, col, note in [(EPSY, C["accent"], "P(ε) 的極大值（本解採用）"),
+                         (EPS_CU, C["load"], "ε_cu 端點（對照）")]:
         p = P_axial(e)
         cv.line((e, 0), (e, p * k), col, 1.4, dash="5 4")
         cv.dot((e, p * k), 6.0, fill=col, stroke="#FFFFFF", w=2.0)
+        _lab = f"ε_y = {e:.5f}" if abs(e - EPSY) < 1e-9 else f"ε = {e:.3f}"
         cv.text_px(cv.X(e) + 10, cv.Y(p * k) - 10,
-                   f"ε = {e:.3f} → {p*KGF_TF:,.0f} tf", 13, col, "start", weight="700")
+                   f"{_lab} → {p*KGF_TF:,.0f} tf", 13, col, "start", weight="700")
         cv.text_px(cv.X(e) + 10, cv.Y(p * k) + 10, note, 12, C["muted"], "start")
-        cv.text_px(cv.X(e), cv.Y(0) + 20, f"{e:.3f}", 12.5, C["muted"])
+        cv.text_px(cv.X(e), cv.Y(0) + 20, f"{e:.5f}" if abs(e - EPSY) < 1e-9 else f"{e:.3f}", 12.5, C["muted"])
 
     for p in range(0, int(p_max) + 1, 200000):
         cv.line((0, p * k), (0.00006, p * k), C["muted"], 1.2)
@@ -322,40 +341,90 @@ def fig4_axial():
     cv.text_px(cv.X(e_max / 2), HH - 40, "全斷面同一壓應變 ε", 13.5, C["muted"])
     cv.text_px(cv.X(0) - 66, cv.Y(p_max * k / 2), "P (tf)", 13.5, C["muted"])
 
-    x = W - Rm + 12
+    x = W - Rm + 100
     cv.text_px(x, 118, "e = 0 的「軸壓強度」", 14, C["text"], "start", weight="700")
     y = 146
-    for e in (0.0018, EPS_PK, EPSY, 0.0025, EPS_CU):
+    for e in (0.0018, EPS_PK, round(EPSY, 6), 0.0025, EPS_CU):
         fs = min(FY, ES * e)
         cv.text_px(x, y, f"ε={e:.4f}", 12.2, C["muted"], "start")
         cv.text_px(x + 88, y, f"{P_axial(e)*KGF_TF:,.0f} tf", 12.2,
-                   C["accent"] if abs(e - EPS_PK) < 1e-9 else
+                   C["accent"] if abs(e - EPSY) < 1e-5 else
                    (C["load"] if abs(e - EPS_CU) < 1e-9 else C["muted"]),
-                   "start", weight="700" if e in (EPS_PK, EPS_CU) else "400")
+                   "start", weight="700" if (abs(e - EPSY) < 1e-5 or e == EPS_CU) else "400")
         y += 24
-    cv.text_px(x, y + 14, f"ε = {EPS_PK} 時鋼筋", 12.2, C["muted"], "start")
-    cv.text_px(x, y + 34, f"f_s = {ES*EPS_PK:,.0f} 小於 f_y", 12.2, C["muted"], "start")
-    cv.text_px(x, y + 54, "尚未降伏", 12.2, C["load"], "start", weight="700")
+    cv.text_px(x, y + 14, "16 支鋼筋時峰值在 ε = ε_y：", 12.2, C["muted"], "start")
+    cv.text_px(x, y + 34, f"鋼筋剛降伏、混凝土 {fc_of(EPSY):.1f}", 12.2, C["muted"], "start")
+    cv.text_px(x, y + 54, "再壓下去混凝土掉得比鋼筋多", 12.2, C["load"], "start", weight="700")
 
     cv.text_px(W / 2, 34, "圖 4　e = 0 時軸力隨應變的變化", 17, C["text"], weight="700")
     cv.text_px(W / 2, 58,
                "雙折線下軸力是應變的函數，「強度」取哪一點必須說清楚", 12.8, C["muted"])
     cv.text_px(W / 2, HH - 18,
-               "取 ε_cu = 0.003 得 634 tf；取 P(ε) 峰值得 745 tf——兩者差 17.5%",
+               f"取 ε_cu = 0.003 得 {P_axial(EPS_CU)*KGF_TF:,.0f} tf；取 P(ε) 峰值得 {P_axial(EPSY)*KGF_TF:,.0f} tf"
+               f"——兩者差 {100*(P_axial(EPSY)-P_axial(EPS_CU))/P_axial(EPS_CU):.1f}%",
                13, C["muted"])
     return cv.svg()
 
 
 # ══════════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-14，RC-U1-2 題目正本推廣・批 1）
+# 依據：題目正本 <id>-problem.md §4 判讀清單（已確認）。只畫考卷給的東西，不含解題結果；
+# 考卷未標尺寸的位置（如鋼筋在非彎曲方向的間距）畫成示意，並在副標寫明。
+# ══════════════════════════════════════════════════════════
+def _pc(Wm, Hm, maxpx=330, l=90, r=110, t=120, b=110):
+    s = maxpx / max(Wm, Hm)
+    return Canvas(int(Wm * s + l + r), int(Hm * s + t + b), sx=s, ox=l, oy=b)
+
+
+def _prect(cv, x0, y0, x1, y1, fill="#EDF1F6", stroke=None, w=2.4, dash=None):
+    pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]
+    cv.polygon(pts, fill)
+    cv.poly(pts, stroke or C["member"], w, dash=dash)
+
+
+def _pbar(cv, p, r=1.25, fill=None):
+    cv.circle(p, r, fill=fill or C["member"], stroke=C["member"], w=1.2)
+
+P_W, P_H = 15 + 40 + 15.0, 40.0      # 判讀 #4
+P_COVER = 6.5                         # 判讀 #2（使用者確認：量至鋼筋中心）
+
+
+def fig1_problem():
+    W, H = P_W, P_H
+    cv = _pc(W, H)
+    _prect(cv, 0, 0, 15, H, fill="#FFFFFF", w=2.0, dash="7 5")
+    _prect(cv, W - 15, 0, W, H, fill="#FFFFFF", w=2.0, dash="7 5")
+    _prect(cv, 15, 0, W - 15, H, fill="#EDF1F6")
+    cv.poly([(19, 4), (W - 19, 4), (W - 19, H - 4), (19, H - 4), (19, 4)], C["muted"], 1.4)
+    for x in (22.0, 35.0, 48.0):          # 原柱鋼筋位置考卷未給（示意，判讀 #3）
+        for y in ((7.0, 20.0, 33.0) if x != 35.0 else (7.0, 33.0)):
+            _pbar(cv, (x, y), 1.3)
+    for x in (P_COVER, W - P_COVER):      # 新增鋼筋：垂直間距考卷未標（示意）
+        for y in (8.0, 16.0, 24.0, 32.0):
+            _pbar(cv, (x, y), 1.3, fill="#9AA3AE")
+    cv.text((35, 20), "原柱 8-#8", 13, weight="700")
+    for a, b_ in ((0.0, 15.0), (15.0, W - 15), (W - 15, W)):
+        cv.dim((a, 0), (b_, 0), f"{b_ - a:.0f} cm", off=28, label_off=14)
+    cv.dim((0, H), (P_COVER, H), f"{P_COVER} cm", off=-24, label_off=-14)
+    cv.dim((W, H), (W, 0), f"{H:.0f} cm", off=-30, label_off=-30)
+    return compose([cv], title=f"{TAG} 題目附圖（圖 1 重繪）",
+                   sub="依題目正本判讀清單 #1–#5；原柱鋼筋位置、新增鋼筋垂直間距考卷未標（示意）",
+                   note="擴柱後共 16 根 D25（原柱 8＋新增 8，灰色）；保護層 6.5 cm 量至新增鋼筋中心")
+
+
 FIGURES = [
+    ("1-problem", fig1_problem,
+     "漏掉原柱 8 根鋼筋；保護層基準弄錯"),
     ("1-section",      fig1_section,
-     "把 alt 的 b/h 讀反；以為 8 支 D25 的排列是自行假設"),
+     "漏掉原柱 8 支鋼筋（只算新增 8 支）"),
     ("2-bilinear",     fig2_bilinear,
      "題目已給本構卻仍套 Whitney 的 0.85f'_c"),
     ("3-stress-block", fig3_stress_block,
-     "用 C_c = 0.85f'_c·a·b 取代分區積分（C_c 高估 14%、P_n,b 高估 14.5%）"),
+     "用 C_c = 0.85f'_c·a·b 取代分區積分（C_c 高估 14%、P_n,b 高估 13%）"),
     ("4-axial",        fig4_axial,
-     "把 ε_cu = 0.003 的軸力當成唯一答案，沒發現 P(ε) 的峰值在 ε = 0.002"),
+     "把 ε_cu = 0.003 的軸力當成唯一答案，沒發現 P(ε) 的峰值在 ε = ε_y"),
 ]
 
 
@@ -364,7 +433,7 @@ def main():
     b = BAL
     checks = [
         ("A_g",       AG,                    2800.0,  0.1),
-        ("A_st",      AST,                   40.536,  0.01),
+        ("A_st",      AST,                   81.072,  0.01),
         ("eps_y",     EPSY,                  0.002059, 1e-6),
         ("c_b",       CB,                    37.657,  0.005),
         ("x_peak",    b["cc"]["xpk"],        12.552,  0.005),
@@ -376,13 +445,18 @@ def main():
         ("xbar_c",    b["cc"]["xbar"],       14.094,  0.005),
         ("eps'_s",    b["eps_p"],            0.002482, 1e-6),
         ("排開 f_c",   b["fc_at"],            189.75,  0.05),
-        ("C'_s",      b["Cs"],               81280,   5),
-        ("T_s",       b["Ts"],               85126,   5),
-        ("P_n,b tf",  b["Pn"] * KGF_TF,      196.49,  0.05),
-        ("M_n,b tfm", b["Mn"] * KGCM_TFM,    89.31,   0.02),
-        ("P(0.003)tf", P_axial(EPS_CU) * KGF_TF, 633.8, 0.2),
-        ("P(0.002)tf", P_axial(EPS_PK) * KGF_TF, 744.9, 0.2),
-        ("Whitney C_c", BAL_W["cc"]["Cc"],   228537,  20),
+        ("F 6.5",     b["rows"][0]["F"],     81280,   5),
+        ("F 21.5",    b["rows"][1]["F"],     37861,   5),
+        ("F 35",      b["rows"][2]["F"],     4151,    5),
+        ("F 48.5",    b["rows"][3]["F"],     -26787,  5),
+        ("F 63.5",    b["rows"][4]["F"],     -85126,  5),
+        ("P_n,b tf",  b["Pn"] * KGF_TF,      211.71,  0.05),
+        ("M_n,b tfm", b["Mn"] * KGCM_TFM,    98.04,   0.02),
+        ("P(0.003)tf", P_axial(EPS_CU) * KGF_TF, 797.3, 0.2),
+        ("P(0.002)tf", P_axial(EPS_PK) * KGF_TF, 901.7, 0.2),
+        ("P(ε_y)tf",  P_axial(EPSY) * KGF_TF, 904.8, 0.2),
+        ("Whitney C_c", BAL_W["cc"]["Cc"],   228540,  20),
+        ("Whitney P_n,b", BAL_W["Pn"] * KGF_TF, 239.71, 0.05),
     ]
     print("── 與 RC-2017-1.md §4 對帳 ──")
     for name, got, want, tol in checks:

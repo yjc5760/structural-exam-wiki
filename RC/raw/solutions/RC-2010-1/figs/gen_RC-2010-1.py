@@ -8,10 +8,13 @@ RC-2010-1 圓形螺旋柱・降伏軸力 Py 與圍束極限軸力 Pu — 解題�
      其餘（Ag、Ach、rho_s、fL、f'cc、Py、Pu）一律由 section() 現算，檔尾對 §4 公佈值 assert。
   2. 改 §1 任一數字（D、Dc、f'c、fy、根數、螺距）重跑，三張圖全部跟著變。
   3. FIGURES 表寫明每張圖攔什麼錯。
+
+2026-11-14 勘誤：假設螺距由 10 cm（淨距 8.73 cm 超過規範上限 7.5 cm、ρ_s < ρ_s,min）改為合規的 8 cm（使用者定案）；
+舊假設 10 cm 只在圖 3 以灰點對照。
 """
 import sys, os, math
 sys.path.insert(0, os.environ.get("STRUCTDRAW_DIR",
-                                  "/mnt/skills/user/struct-diagram/scripts"))
+                                  os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "..", "skills", "struct-diagram", "scripts")))
 from structdraw import Canvas, C, compose
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "figs"
@@ -28,7 +31,9 @@ A_SP   = 1.27        # #4 螺旋筋單根面積 (cm^2)
 D_B_SP = 1.27        # #4 標稱直徑 (cm)
 A_BAR  = 8.17        # #10 主筋單根面積 (cm^2)
 N_BAR  = 12          # 主筋根數
-S_ASSUMED = 10.0     # ⚠ 螺距：題目未給，本解假設（見 .md §1 註）
+S_ASSUMED = 8.0      # ⚠ 螺距：題目未給，本解假設合規值（淨距 6.73 ≤ 7.5 cm、ρ_s ≥ ρ_s,min）
+S_OLD     = 10.0     # 舊版假設（不合規，只作圖 3 對照）
+S_CLEAR_MAX = 7.5 + D_B_SP   # 淨距 7.5 cm 上限對應的螺距
 
 # ── 由上列推得 ──────────────────────────────────────────
 AG   = math.pi * (D_OUT / 2) ** 2
@@ -114,7 +119,7 @@ def fig1_section():
     cv.text_px(W / 2, 34, "圖 1　圓形螺旋柱斷面（向量重繪）", 17, C["text"], weight="700")
     cv.text_px(W / 2, 58, "外環＝蓋層（會剝落，不計入 P_u）　　內圈藍區＝螺旋筋圍束的核心", 12.8, C["muted"])
     cv.text_px(W / 2, H - 22,
-               f"螺旋筋 #4 @ s = {S_ASSUMED:.0f} cm 為假設值——原卷圖上無間距標註",
+               f"螺旋筋 #4 @ s = {S_ASSUMED:.0f} cm 為假設值（合規）——原卷圖上無間距標註",
                13, C["load"], weight="700")
     return cv.svg()
 
@@ -191,10 +196,10 @@ def fig2_loss_gain():
     cv.text_px(W / 2, 34, "圖 2　P_y 與 P_u 的三段分解：蓋層損失 vs 圍束補償",
                17, C["text"], weight="700")
     cv.text_px(W / 2, 58,
-               "兩者只差中間那一塊——把蓋層換成圍束增益。長度幾乎相同，代表剛好打平",
+               f"兩者只差中間那一塊——把蓋層換成圍束增益；s = {S_ASSUMED:.0f} cm 時圍束增益大於蓋層損失",
                12.8, C["muted"])
     cv.text_px(W / 2, H - 26,
-               f"P_u / P_y = {REF['Pu']/REF['Py']:.4f}　零餘裕；漏 0.85 會憑空多出 "
+               f"P_u / P_y = {REF['Pu']/REF['Py']:.3f}（餘裕 {100*(REF['Pu']/REF['Py']-1):.1f}%）；漏 0.85 會憑空多出 "
                f"{(REF['Pu_no085']-REF['Pu'])*KGF_TF:,.0f} tf",
                13, C["muted"])
     return cv.svg()
@@ -217,8 +222,9 @@ def fig3_rho_s():
 
     # 合格區（rho >= rho_min）
     s_need = 4 * A_SP / (RHO_MIN * D_C)
-    cv.polygon([(s_lo, Y(RHO_MIN)), (s_need, Y(RHO_MIN)),
-                (s_need, Y(r_hi)), (s_lo, Y(r_hi))],
+    s_ok = min(s_need, S_CLEAR_MAX)              # 合格上限取 ρ_s,min 與淨距兩者較嚴者
+    cv.polygon([(s_lo, Y(RHO_MIN)), (s_ok, Y(RHO_MIN)),
+                (s_ok, Y(r_hi)), (s_lo, Y(r_hi))],
                "rgba(76,175,80,0.10)", "none")
 
     # 軸
@@ -252,35 +258,90 @@ def fig3_rho_s():
     # 兩個工作點
     r10 = rho_s(S_ASSUMED)
     cv.dot((S_ASSUMED, Y(r10)), 6.0, fill=C["load"], stroke="#FFFFFF", w=2.0)
-    cv.text_px(cv.X(S_ASSUMED) - 12, cv.Y(Y(r10)) + 30,
-               f"假設 s = {S_ASSUMED:.0f} cm → ρ_s = {r10:.5f}", 12.5, C["load"],
-               "end", weight="700")
-    cv.text_px(cv.X(S_ASSUMED) - 12, cv.Y(Y(r10)) + 50,
-               "兩條門檻都過不了", 12, C["muted"], "end")
-    cv.dot((s_need, Y(RHO_MIN)), 6.0, fill=C["bmd"], stroke="#FFFFFF", w=2.0)
-    cv.text_px(cv.X(s_need) - 12, cv.Y(Y(RHO_MIN)) - 20,
-               f"s ≤ {s_need:.2f} cm 才合格", 12.5, C["bmd"], "end", weight="700")
+    cv.text_px(cv.X(s_lo) + 14, cv.Y(Y(r_hi)) + 50,
+               f"● 本解 s = {S_ASSUMED:.0f} cm", 12.5, C["load"],
+               "start", weight="700")
+    cv.text_px(cv.X(s_lo) + 14, cv.Y(Y(r_hi)) + 70,
+               f"ρ_s = {r10:.5f}，全部通過", 12, C["muted"], "start")
+    r_old = rho_s(S_OLD)
+    cv.dot((S_OLD, Y(r_old)), 5.4, fill=C["ghost"], stroke="#FFFFFF", w=1.8)
+    cv.text_px(cv.X(s_lo) + 14, cv.Y(Y(r_lo)) - 22,
+               f"灰點：舊假設 s = {S_OLD:.0f} cm（淨距 {S_OLD-D_B_SP:.2f} > 7.5，不合規）", 12, C["muted"],
+               "start", weight="700")
+    cv.line((S_CLEAR_MAX, Y(r_lo)), (S_CLEAR_MAX, Y(r_hi)), C["load"], 1.6, dash="3 4")
+    cv.text_px(cv.X(S_CLEAR_MAX) + 6, cv.Y(Y(0.0108)),
+               f"淨距 7.5 cm 上限 s ≤ {S_CLEAR_MAX:.2f}", 12, C["load"], "start", weight="700")
+    cv.dot((s_need, Y(RHO_MIN)), 6.0, fill=C["load"], stroke="#FFFFFF", w=2.0)
+    cv.text_px(cv.X(s_need) + 10, cv.Y(Y(RHO_MIN)) - 14,
+               f"ρ_s,min → s ≤ {s_need:.2f}", 12.5, C["load"], "start", weight="700")
 
-    cv.text_px(cv.X(s_lo) + 14, cv.Y(Y(r_hi)) + 24, "合格區", 13.5, C["bmd"],
+    cv.text_px(cv.X(s_lo) + 14, cv.Y(Y(r_hi)) + 24, "合格區（s ≤ 8.77）", 13.5, C["bmd"],
                "start", weight="700")
 
     cv.text_px(W / 2, 34, "圖 3　螺旋筋比 ρ_s 與兩條門檻", 17, C["text"], weight="700")
     cv.text_px(W / 2, 58,
                "ρ_s = 4A_{sp} /(D_c·s)：間距越密、螺旋筋比越高", 12.8, C["muted"])
     cv.text_px(W / 2, H - 16,
-               "兩條門檻的間距（0.45 vs 0.4146）就是「理論剛好夠、規範還不夠」的那條縫",
+               f"三個限制中淨距（s ≤ {S_CLEAR_MAX:.2f}）最嚴；本解 s = {S_ASSUMED:.0f} cm 全部通過",
                13, C["muted"])
     return cv.svg()
 
 
 # ══════════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-14，RC-U1-2 題目正本推廣・批 1）
+# 依據：題目正本 <id>-problem.md §4 判讀清單（已確認）。只畫考卷給的東西，不含解題結果；
+# 考卷未標尺寸的位置（如鋼筋在非彎曲方向的間距）畫成示意，並在副標寫明。
+# ══════════════════════════════════════════════════════════
+def _pc(Wm, Hm, maxpx=330, l=90, r=110, t=120, b=110):
+    s = maxpx / max(Wm, Hm)
+    return Canvas(int(Wm * s + l + r), int(Hm * s + t + b), sx=s, ox=l, oy=b)
+
+
+def _prect(cv, x0, y0, x1, y1, fill="#EDF1F6", stroke=None, w=2.4, dash=None):
+    pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]
+    cv.polygon(pts, fill)
+    cv.poly(pts, stroke or C["member"], w, dash=dash)
+
+
+def _pbar(cv, p, r=1.25, fill=None):
+    cv.circle(p, r, fill=fill or C["member"], stroke=C["member"], w=1.2)
+
+P_D, P_DC = 75.0, 68.0              # 判讀 #3 外徑、#4 螺筋外緣至外緣
+P_NBAR = 12                          # 判讀 #6
+
+
+def fig1_problem():
+    import math as _m
+    R, RC = P_D / 2, P_DC / 2
+    cv = _pc(P_D, P_D, l=120, r=130, t=150)
+    O = (R, R)
+    cv.circle(O, R, fill="#E3E6EA", stroke=C["member"], w=1.6)
+    cv.circle(O, RC - 0.4, fill="#EEF0F3", stroke=C["member"], w=3.2)
+    rb = RC - 0.8 - 1.8
+    for k in range(P_NBAR):                 # 考卷畫得不等距（不依比例），此處畫等距
+        a = _m.radians(90 + 360 * k / P_NBAR)
+        _pbar(cv, (R + rb * _m.cos(a), R + rb * _m.sin(a)), 1.6)
+    cv.text((R, P_D + 13), "主筋 12-#10", 14, weight="700")
+    cv.text((R, P_D + 7), "#4 螺筋（螺距考卷未給）", 13)
+    s = cv.sx
+    cv.dim((R, R + RC), (R, R - RC), f"{P_DC:.0f} cm", off=RC * 0 + R * s + 34, label_off=30)
+    cv.dim((R, P_D), (R, 0), f"{P_D:.0f} cm", off=-(R * s + 34), label_off=-30)
+    return compose([cv], title=f"{TAG} 題目附圖（重繪）",
+                   sub="依題目正本判讀清單 #3–#7；主筋畫成等距（考卷不依比例、不等距）",
+                   note="68 cm 量至螺筋外緣（核心直徑），保護層 3.5 cm；螺距考卷沒有給")
+
+
 FIGURES = [
+    ("1-problem", fig1_problem,
+     "把 68 cm 當鋼筋中心圓；以為考卷給了螺距"),
     ("1-section",   fig1_section,
      "A_ch 誤用全斷面直徑 D；把 D_c 當成核心直徑以外的量法"),
     ("2-loss-gain", fig2_loss_gain,
-     "P_u 漏乘 0.85（會憑空多出 183 tf）；把「ρ_s 不足」與「P_u > P_y」同時寫出而不覺矛盾"),
+     "P_u 漏乘 0.85（會憑空多出 178 tf）；假設不合規的螺距再判「不符規範」"),
     ("3-rho-s",     fig3_rho_s,
-     "分不清 ρ_s,min（規範 0.45）與 P_u = P_y 的理論門檻（0.4146）"),
+     "只檢核 ρ_s,min、漏了螺筋淨距 7.5 cm 上限"),
 ]
 
 
@@ -292,16 +353,17 @@ def main():
         ("A_ch",       ACH,                   3631.7,   0.1),
         ("A_st",       AST,                   98.04,    0.01),
         ("A_g-A_ch",   COVER_AREA,            786.2,    0.1),
-        ("rho_s",      p["rho"],              0.00747,  1e-5),
+        ("rho_s",      p["rho"],              0.00934,  1e-5),
         ("rho_s,min",  RHO_MIN,               0.00812,  1e-5),
-        ("f_L",        p["fL"],               15.69,    0.02),
-        ("f'_cc",      p["fcc"],              414.3,    0.1),
+        ("f_L",        p["fL"],               19.61,    0.02),
+        ("f'_cc",      p["fcc"],              430.4,    0.1),
         ("蓋層損失tf",  p["shell"] * KGF_TF,   233.9,    0.2),
-        ("圍束增益tf",  p["gain"] * KGF_TF,    233.6,    0.2),
+        ("圍束增益tf",  p["gain"] * KGF_TF,    292.0,    0.2),
         ("P_y tf",     p["Py"] * KGF_TF,      1696.9,   0.5),
-        ("P_u tf",     p["Pu"] * KGF_TF,      1696.6,   0.5),
-        ("錯誤式 tf",   p["Pu_no085"] * KGF_TF, 1875.8,  0.5),
+        ("P_u tf",     p["Pu"] * KGF_TF,      1755.0,   0.5),
+        ("錯誤式 tf",   p["Pu_no085"] * KGF_TF, 1932.7,  0.5),
         ("s_need",     4 * A_SP / (RHO_MIN * D_C), 9.20, 0.02),
+        ("s_clear",    S_CLEAR_MAX,           8.77,     0.001),
     ]
     print("── 與 RC-2010-1.md §4 對帳 ──")
     for name, got, want, tol in checks:

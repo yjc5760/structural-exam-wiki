@@ -59,30 +59,33 @@ F1_TOP = R2(P1["axial"] - P1["ecc_t"] + P1["mom_t"])
 F1_BOT = R2(P1["axial"] + P1["ecc_b"] - P1["mom_b"])
 FS1 = FI / ASP
 
-# ── 全載 Step A（變換斷面：F_0 + M_G + M_S） ─────────────
-MGS = MG + MS
-PA = dict(axial=R2(F0 / TRAN["A"]),
-          ecc_t=R2(F0 * TRAN["e"] / TRAN["Zt"]), ecc_b=R2(F0 * TRAN["e"] / TRAN["Zb"]),
-          mom_t=R2(MGS / TRAN["Zt"]),           mom_b=R2(MGS / TRAN["Zb"]))
+# ── 全載 Step A（淨斷面：F_0 + M_G；灌漿前鎖入，不因換斷面而重分配） ──
+PA = dict(axial=R2(F0 / NET["A"]),
+          ecc_t=R2(F0 * NET["e"] / NET["Zt"]), ecc_b=R2(F0 * NET["e"] / NET["Zb"]),
+          mom_t=R2(MG / NET["Zt"]),            mom_b=R2(MG / NET["Zb"]))
 FA_TOP = R2(PA["axial"] - PA["ecc_t"] + PA["mom_t"])
 FA_BOT = R2(PA["axial"] + PA["ecc_b"] - PA["mom_b"])
 
-# ── 全載 Step B（合成斷面：僅 M_L） ─────────────────────
+# ── 全載 Step B（變換斷面：M_S；灌漿後、合成前） ─────────
+FS_TOP = R2(MS / TRAN["Zt"])
+FS_BOT = R2(-MS / TRAN["Zb"])
+
+# ── 全載 Step C（合成斷面：僅 M_L） ─────────────────────
 FB_TOP = R2(ML / COMP["Zt"])
 FB_BOT = R2(-ML / COMP["Zb"])
-F2_TOP = R2(FA_TOP + FB_TOP)
-F2_BOT = R2(FA_BOT + FB_BOT)
+F2_TOP = R2(FA_TOP + FS_TOP + FB_TOP)
+F2_BOT = R2(FA_BOT + FS_BOT + FB_BOT)
 
-# ── 腱應力（相容性） ─────────────────────────────────────
+# ── 腱應力（相容性；只計灌漿後施加的 M_S、M_L） ───────────
 FS_BASE = F0 / ASP
-SIG_A = R2(MGS * TRAN["e"] / TRAN["I"])      # 腱位張應力（變換斷面）
-SIG_B = R2(ML * COMP["e"] / COMP["I"])       # 腱位張應力（合成斷面）
+SIG_A = R2(MS * TRAN["e"] / TRAN["I"])       # 腱位張應力（變換斷面，M_S）
+SIG_B = R2(ML * COMP["e"] / COMP["I"])       # 腱位張應力（合成斷面，M_L）
 SIG_GRAV = R2(SIG_A + SIG_B)
 DFS = NR * SIG_GRAV
 FS2 = FS_BASE + DFS
-# 讀法 B（F_0 定義在 M_G 已作用之後）
-SIG_B_ALT = R2(R2(MS * TRAN["e"] / TRAN["I"]) + SIG_B)
-FS2_ALT = FS_BASE + NR * SIG_B_ALT
+# 錯誤讀法（舊版解析）：把灌漿前已作用的 M_G 也算進相容增量
+SIG_WRONG = R2(R2((MG + MS) * TRAN["e"] / TRAN["I"]) + SIG_B)
+FS2_ALT = FS_BASE + NR * SIG_WRONG
 # 灌漿後全斷面回推（§5 ①）
 AG = TRAN["A"] - (NR - 1) * ASP
 A_DUCT = AG - NET["A"]
@@ -151,9 +154,9 @@ def sect_panel(S, tag, stage, use, slab=False):
 
 
 compose([sect_panel(NET, "① 淨斷面", "灌漿前（扣導管孔）",
-                    "施預力時：F_i + M_G"),
+                    "F_i + M_G；全載 F_0 + M_G"),
          sect_panel(TRAN, "② 變換斷面", "灌漿後、合成前",
-                    "恆載：F_0 + M_G + M_S"),
+                    "版重：M_S（全載 Step B）"),
          sect_panel(COMP, "③ 合成斷面", "樓版硬化並結合後",
                     "活載：M_L", slab=True)],
         title=f"{TAG}　三個階段用三個斷面，e_p 也跟著換",
@@ -209,27 +212,28 @@ p1 = stage_panel(
     f"上緣 {F1_TOP:.2f}（壓）　下緣 {F1_BOT:.2f}（壓）")
 
 p2 = stage_panel(
-    TRAN, "全載 Step A（變換斷面）", f"F_0 = {F0/1000:.0f} tf ＋ M_G + M_S",
+    NET, "全載 Step A（淨斷面）", f"F_0 = {F0/1000:.0f} tf ＋ M_G（灌漿前鎖入）",
     FA_TOP, FA_BOT,
-    [("軸壓 F_0/A_c2", f"+{PA['axial']:.2f}", f"+{PA['axial']:.2f}"),
-     ("偏心 F_0·e_p2/Z", f"−{PA['ecc_t']:.2f}", f"+{PA['ecc_b']:.2f}"),
-     ("恆載 (M_G+M_S)/Z", f"+{PA['mom_t']:.2f}", f"−{PA['mom_b']:.2f}")],
+    [("軸壓 F_0/A_c1", f"+{PA['axial']:.2f}", f"+{PA['axial']:.2f}"),
+     ("偏心 F_0·e_p1/Z", f"−{PA['ecc_t']:.2f}", f"+{PA['ecc_b']:.2f}"),
+     ("梁重 M_G/Z", f"+{PA['mom_t']:.2f}", f"−{PA['mom_b']:.2f}")],
     f"上緣 {FA_TOP:.2f}（壓）　下緣 {FA_BOT:.2f}（壓）")
 
 p3 = stage_panel(
-    COMP, "全載 Step B ＋ 合計", "合成斷面只加 M_L",
+    COMP, "全載 Step B＋C 合計", "版重於變換斷面、活載於合成斷面",
     F2_TOP, F2_BOT,
-    [("Step A 小計", f"+{FA_TOP:.2f}", f"+{FA_BOT:.2f}"),
+    [("Step A 小計（淨斷面）", f"+{FA_TOP:.2f}", f"+{FA_BOT:.2f}"),
+     ("版重 M_S/Z（變換）", f"+{FS_TOP:.2f}", f"{FS_BOT:.2f}"),
      ("活載 M_L/Z（合成）", f"+{FB_TOP:.2f}", f"{FB_BOT:.2f}"),
      ("合計", f"+{F2_TOP:.2f}", f"+{F2_BOT:.2f}")],
-    f"上緣 {F2_TOP:.2f}（壓）　下緣 {F2_BOT:.2f}（壓，幾乎為零）")
+    f"上緣 {F2_TOP:.2f}（壓）　下緣 {F2_BOT:.2f}（壓）")
 
 compose([p1, p2, p3],
         title=f"{TAG}　壓為正、拉為負：偏心壓下緣、彎矩壓上緣",
         sub=("同一支腱在下方 → 偏心項讓上緣減壓、下緣加壓；重力彎矩反過來。"
              "兩者方向相反，是本題所有正負號的來源"),
-        note=(f"下緣最終 {F2_BOT:+.2f} kgf/cm²（仍為壓）＝ 斷面全程未開裂，"
-              f"「三斷面未開裂彈性疊加」這套算法才成立（318-19 Class U）"),
+        note=(f"每個載重只作用在它施加當時已存在的斷面：F_0、M_G 在淨斷面鎖入後不因灌漿而重新分配；"
+              f"下緣最終 {F2_BOT:+.2f} kgf/cm²（壓）→ 全程未開裂（Class U）"),
         path=f"{OUT}/{TAG}-fig-2-stress.svg")
 
 # ══════════════════════════════════════════════════════════
@@ -268,7 +272,7 @@ for x, v, lab, expr, col in STAGES:
     cv.dot(P(x, v), 7.0, fill=col, stroke="#FFFFFF", w=2.2)
     cv.text_px(cv.X(P(x, 0)[0]), cv.Y(P(0, Y0)[1]) + 24, lab, 13, col, weight="700")
     cv.math_px(cv.X(P(x, 0)[0]) + (16 if x == 0.0 else 0),
-               cv.Y(P(0, v)[1]) + (4 if x == 0.0 else -20),
+               cv.Y(P(0, v)[1]) + (4 if x == 0.0 else (30 if x == 2.0 else -20)),
                f"{v:,.0f}", 14.5, col, "start" if x == 0.0 else "middle", weight="700")
     cv.text_px(cv.X(P(x, 0)[0]), cv.Y(P(0, Y0)[1]) + 46, expr, 11.5, C["muted"])
 
@@ -283,16 +287,16 @@ cv.text_px(cv.X(P(1.5, 0)[0]) + 10, (cv.Y(P(0, FS_BASE)[1]) + cv.Y(P(0, FS2)[1])
 # 讀法 B
 cv.dot(P(2.0, FS2_ALT), 5.4, fill="#FFFFFF", stroke=C["accent"], w=2.4)
 cv.text_px(cv.X(P(2.0, 0)[0]) + 14, cv.Y(P(0, FS2_ALT)[1]),
-           f"讀法 B：{FS2_ALT:,.0f}", 12, C["accent"], "start", weight="700")
+           f"錯：{FS2_ALT:,.0f}", 12, C["accent"], "start", weight="700")
 cv.text_px(cv.X(P(2.0, 0)[0]) + 14, cv.Y(P(0, FS2_ALT)[1]) + 18,
-           "（M_G 視為灌漿前已作用）", 11, C["accent"], "start")
+           "（誤把灌漿前的 M_G 也算進）", 11, C["accent"], "start")
 
 cv.text_px(W3 / 2, H3 - 62,
-           f"重力使腱位混凝土受張 {SIG_GRAV:.2f} kgf/cm²"
-           f"（變換斷面 {SIG_A:.2f} ＋ 合成斷面 {SIG_B:.2f}）"
+           f"灌漿後載重使腱位混凝土受張 {SIG_GRAV:.2f} kgf/cm²"
+           f"（M_S 變換斷面 {SIG_A:.2f} ＋ M_L 合成斷面 {SIG_B:.2f}）"
            f"　→　Δf_s = n × {SIG_GRAV:.2f} = {DFS:,.0f}", 13, C["text"])
 cv.text_px(W3 / 2, H3 - 36,
-           "有黏結腱與混凝土應變相容：混凝土被拉長，腱跟著被拉長，應力回升", 12.5, C["muted"])
+           "灌漿後腱與混凝土握裹、應變相容；M_G 作用時尚未灌漿，不產生相容增量", 12.5, C["muted"])
 cv.save(f"{OUT}/{TAG}-fig-3-tendon.svg")
 
 # ══════════════════════════════════════════════════════════
@@ -304,22 +308,23 @@ assert F1_TOP == 18.75,   F1_TOP
 assert F1_BOT == 183.34,  F1_BOT
 assert abs(FS1 - 10417) < 1,  FS1
 assert (PA["axial"], PA["ecc_t"], PA["ecc_b"], PA["mom_t"], PA["mom_b"]) == \
-       (78.57, 128.78, 122.79, 109.76, 104.65), PA
-assert FA_TOP == 59.55,   FA_TOP
-assert FA_BOT == 96.71,   FA_BOT
+       (88.0, 137.5, 141.03, 75.0, 76.92), PA
+assert FA_TOP == 25.5,    FA_TOP
+assert FA_BOT == 152.11,  FA_BOT
+assert (FS_TOP, FS_BOT) == (36.59, -34.88), (FS_TOP, FS_BOT)
 assert FB_TOP == 51.09,   FB_TOP
 assert FB_BOT == -94.59,  FB_BOT
-assert F2_TOP == 110.64,  F2_TOP
-assert F2_BOT == 2.12,    F2_BOT
+assert F2_TOP == 113.18,  F2_TOP
+assert F2_BOT == 22.64,   F2_BOT
 assert abs(FS_BASE - 9167) < 1,       FS_BASE
-assert SIG_A == 56.84,    SIG_A
+assert SIG_A == 18.95,    SIG_A
 assert SIG_B == 63.49,    SIG_B
-assert SIG_GRAV == 120.33, SIG_GRAV
-assert abs(DFS - 722) < 0.5,          DFS
-assert abs(FS2 - 9889) < 1,           FS2
-assert abs(FS2_ALT - 9661) < 2,       FS2_ALT
+assert SIG_GRAV == 82.44, SIG_GRAV
+assert abs(DFS - 494.6) < 0.5,        DFS
+assert abs(FS2 - 9661) < 1,           FS2
+assert abs(FS2_ALT - 9889) < 2,       FS2_ALT
 assert abs(AG - 2680) < 1e-9,         AG
 assert abs(A_DUCT - 180) < 1e-9,      A_DUCT
 print(f"{TAG}: 3 圖 OK　施預力 {F1_TOP}/{F1_BOT}　全載 {F2_TOP}/{F2_BOT}　"
-      f"f_s {FS1:,.0f} → {FS_BASE:,.0f} → {FS2:,.0f}（讀法B {FS2_ALT:,.0f}）　"
+      f"f_s {FS1:,.0f} → {FS_BASE:,.0f} → {FS2:,.0f}（誤讀 {FS2_ALT:,.0f}）　"
       f"y_t/y_b = " + " ; ".join(f"{S['yt']:.2f}/{S['yb']:.2f}" for S in (NET, TRAN, COMP)))

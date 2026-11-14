@@ -11,8 +11,8 @@ RC-2006-4 組合預力梁・兩階段應力疊加 — 解題圖解產生腳本
 
 FIGURES
   fig-1-composite  兩階段斷面對照      攔：版寬不折換（n=1）、形心位置抓錯
-  fig-2-stress     載重歸屬與應力疊加  攔：把版 DL 放到組合斷面（Stage1 梁底就差 112.5）
-  fig-3-allow      容許應力利用率      攔：用查無出處的 0.4f'c／3√f'c 當容許值
+  fig-2-stress     載重歸屬與應力疊加  攔：把版 DL 放到組合斷面（Stage1 梁底就差 56.25）
+  fig-3-allow      容許應力利用率      攔：用查無出處的 0.4f'c／3√f'c 當容許值；梁距讀成 200
 """
 import sys, os, math
 
@@ -30,7 +30,7 @@ L     = 2000.0     # 跨度 (cm)
 BW    = 30.0       # 梁寬 (cm)
 HB    = 80.0       # 梁全深 (cm)
 FC1   = 350.0      # 梁 f'c
-BS    = 200.0      # 版寬 (cm)
+BS    = 100.0      # 版寬＝梁中心距 (cm)（題目正本判讀 #2；2026-11-14 勘誤，原誤讀 200）
 TS    = 15.0       # 版厚 (cm)
 FC2   = 280.0      # 版 f'c
 PE    = 210_000.0  # 有效預力 (kgf)
@@ -118,7 +118,7 @@ def stress_shape(cv, h, ftop, fbot, ss, x0=0.0, w=2.2):
 # ══════════════════════════════════════════════════════════
 PW, PH = 520, 560
 HTOT = HB + TS
-sc = min((PW - 200) / BS, (PH - 250) / HTOT)
+sc = min((PW - 200) / max(BS, 200.0), (PH - 250) / HTOT)   # 版寬 100 時維持與 200 相同比例，避免標註互相壓疊
 
 
 def beam_body(cv):
@@ -127,7 +127,7 @@ def beam_body(cv):
     cv.dot((0, CGS), 6.4, fill=C["tension"], stroke="#FFFFFF", w=1.8)
 
 
-g1 = Canvas(PW, PH, sx=sc, ox=PW / 2, oy=PH - 132 - HTOT * sc)
+g1 = Canvas(PW, PH, sx=sc, ox=PW / 2, oy=PH - 132 - HTOT * sc - 70)
 g1.panel("Stage 1：非組合梁斷面", "版尚未硬化，版重由梁獨自承受")
 beam_body(g1)
 g1.polygon([(-BS / 2, HB), (BS / 2, HB), (BS / 2, HB + TS), (-BS / 2, HB + TS)],
@@ -146,7 +146,7 @@ g1.text_px(PW / 2, PH - 72,
 g1.text_px(PW / 2, PH - 44,
            f"承受：P_{{e}} ＋ 梁自重 ＋ 版 DL", 13.5, C["bmd"], weight="700")
 
-g2 = Canvas(PW, PH, sx=sc, ox=PW / 2, oy=PH - 132 - HTOT * sc)
+g2 = Canvas(PW, PH, sx=sc, ox=PW / 2, oy=PH - 132 - HTOT * sc - 70)
 g2.panel("Stage 2：組合轉換斷面", f"版寬折換 n = √(f'c2/f'c1) = {NR:.4f}")
 beam_body(g2)
 g2.polygon([(-BS / 2, HB), (BS / 2, HB), (BS / 2, HB + TS), (-BS / 2, HB + TS)],
@@ -171,8 +171,8 @@ compose([g1, g2],
         title=f"{TAG}　「利用梁作為支撐」＝版重歸給非組合梁",
         sub=(f"組合形心被樓版拉高到距梁底 {YBAR:.2f} cm（梁全深才 {HB:.0f} cm），"
              f"故 Stop／Sbot = {SC_TOP/SC_BOT:.2f}"),
-        note=(f"同一個 MLL 在梁底造成的應力是梁頂的 {SC_TOP/SC_BOT:.1f} 倍 —— "
-              f"這就是梁底吃不消的直接原因；版寬若不折換（n 取 1）會高估 Ic"),
+        note=(f"同一個 MLL 在梁底造成的應力是梁頂的 {SC_TOP/SC_BOT:.1f} 倍；"
+              f"版寬取梁中心距 {BS:.0f} cm（圖四兩段 100 cm 皆為相鄰梁中心距），讀成 200 會使版重與活載重加倍"),
         path=f"{OUT}/{TAG}-fig-1-composite.svg")
 
 # ══════════════════════════════════════════════════════════
@@ -218,7 +218,7 @@ q2 = stress_panel(
     [("Stage 1 小計", f"+{S1_TOP:.2f}", f"+{S1_BOT:.2f}"),
      ("活載 M_{LL}/S_{comp}", f"+{LL_TOP:.2f}", f"{LL_BOT:.2f}"),
      ("合計", f"+{F_TOP:.1f}", f"{F_BOT:.1f}")],
-    f"梁頂 {F_TOP:+.1f}（壓）　梁底 {F_BOT:+.1f}（拉）", C["bmd"])
+    f"梁頂 {F_TOP:+.1f}（壓）　梁底 {F_BOT:+.1f}（{'壓' if F_BOT > 0 else '拉'}）", C["bmd"])
 
 q3 = stress_panel(
     "若把版 DL 誤放到組合斷面", "常見失分：版重當成組合後才施加", E_TOP, E_BOT,
@@ -229,12 +229,12 @@ q3 = stress_panel(
     f"梁底變成 {E_BOT:+.1f} —— 與正解差 {abs(F_BOT-E_BOT):.1f}", C["load"])
 
 compose([q1, q2, q3],
-        title=f"{TAG}　載重放在哪一個斷面上，決定梁底是 −106 還是 −50",
+        title=f"{TAG}　載重放在哪一個斷面上，決定梁底是 {F_BOT:+.1f} 還是 {E_BOT:+.1f}",
         sub=("原卷「澆置樓版時利用梁作為支撐」就是把版 DL 指定給非組合梁的關鍵字；"
              "壓為正、拉為負"),
         note=(f"錯放版 DL 的代價：Stage 1 梁底就差 {abs(E_S1_BOT-S1_BOT):.1f}"
               f"（{S1_BOT:.2f} 對 {E_S1_BOT:.2f}），最終梁底差 {abs(F_BOT-E_BOT):.1f} "
-              f"kgf/cm² —— 本題最大的單一失分點"),
+              f"kgf/cm²（本題另一個大失分點是把梁距讀成 200 cm）"),
         path=f"{OUT}/{TAG}-fig-2-stress.svg")
 
 # ══════════════════════════════════════════════════════════
@@ -247,10 +247,10 @@ CHECKS = [
      F_TOP, ALW_L, C["bmd"]),
     ("版頂壓（換回版材料）", f"{F_DECK:.1f} 對 0.60f'c2 = {ALW_DK:.1f}",
      F_DECK, ALW_DK, C["bmd"]),
-    ("梁底拉 對 Class U 上限", f"{abs(F_BOT):.1f} 對 2.0√f'c = {CLS_U:.1f}",
-     abs(F_BOT), CLS_U, C["load"]),
-    ("梁底拉 對 Class T 上限", f"{abs(F_BOT):.1f} 對 3.2√f'c = {CLS_T:.1f}",
-     abs(F_BOT), CLS_T, C["load"]),
+    ("梁底壓（預力＋持續載重 D）", f"{S1_BOT:.1f} 對 0.45f'c = {ALW_D:.1f}",
+     S1_BOT, ALW_D, C["bmd"]),
+    ("梁底拉 對 Class U 上限", f"梁底仍受壓 {F_BOT:+.1f}，拉應力 0 對 2.0√f'c = {CLS_U:.1f}",
+     max(0.0, -F_BOT), CLS_U, C["load"]),
 ]
 W3 = 1040
 ROW_H = 82
@@ -271,20 +271,22 @@ for i, (name, desc, val, lim, col) in enumerate(CHECKS):
     cv.rect_px(X0, y - 17, BAR_W, 34, "#EDF1F6", 8)
     cv.rect_px(X0, y - 17, min(BAR_W, BAR_W * r / FULL), 34,
                C["bmd"] if ok else C["load"], 8)
-    cv.text_px(X0 + BAR_W * min(r, FULL) / FULL - 12, y, f"{100*r:.0f}%", 14,
-               "#FFFFFF", "end", weight="700")
+    bw_px = BAR_W * min(r, FULL) / FULL
+    if bw_px >= 64:
+        cv.text_px(X0 + bw_px - 12, y, f"{100*r:.0f}%", 14, "#FFFFFF", "end", weight="700")
+    else:
+        cv.text_px(X0 + bw_px + 10, y, f"{100*r:.0f}%", 14, C["text"], "start", weight="700")
     cv.text_px(X0 + BAR_W + 18, y, "✓ 通過" if ok else "× 超限", 14,
                C["bmd"] if ok else C["load"], "start", weight="700")
 cv.parts.append(f'<line x1="{xl}" y1="{132-28}" x2="{xl}" y2="{132+ROW_H*len(CHECKS)-40}" '
                 f'stroke="{C["accent"]}" stroke-width="2.4" stroke-dasharray="7 5"/>')
 cv.text_px(xl, 132 - 44, "容許值 100%", 13, C["accent"], weight="700")
 cv.text_px(W3 / 2, H3 - 62,
-           f"梁底拉應力 {abs(F_BOT):.1f} 是開裂模數 f_r = 2.0√f'c = {CLS_U:.1f} 的 "
-           f"{abs(F_BOT)/CLS_U:.2f} 倍 → 使用載重下必然已開裂，屬 Class C",
-           13.5, C["load"], weight="700")
+           f"施加活載重後梁底仍有 {F_BOT:.1f} 的壓應力 → 全斷面未開裂，屬 Class U，彈性疊加有效",
+           13.5, C["bmd"], weight="700")
 cv.text_px(W3 / 2, H3 - 36,
-           "→ 106.3 只能解讀為「假設不開裂時的名目值」；壓應力那兩列其實都通過，"
-           "舊版判成超限是因為用了查無出處的 0.4f'c", 12.5, C["muted"])
+           "舊版把梁距讀成 200 cm，梁底算成 −106.3（拉、Class C）；版重與活載重都多算一倍",
+           12.5, C["muted"])
 cv.save(f"{OUT}/{TAG}-fig-3-allow.svg")
 
 # ══════════════════════════════════════════════════════════
@@ -293,19 +295,19 @@ cv.save(f"{OUT}/{TAG}-fig-3-allow.svg")
 assert (A1, I1, S1, ECC) == (2400.0, 1_280_000.0, 32_000.0, 25.0)
 assert (PS_AXI, PS_ECC) == (87.5, 164.06), (PS_AXI, PS_ECC)
 assert PS_TOP == -76.56 and PS_BOT == 251.56, (PS_TOP, PS_BOT)
-assert (W_BEAM, W_SLAB, W_S1) == (576.0, 720.0, 12.96), (W_BEAM, W_SLAB, W_S1)
-assert M_S1 == 6_480_000.0 and DL_S == 202.5, (M_S1, DL_S)
-assert S1_TOP == 125.94 and S1_BOT == 49.06, (S1_TOP, S1_BOT)
-assert abs(NR - 0.8944) < 5e-5 and abs(BS_T - 178.9) < 0.05, (NR, BS_T)
-assert abs(YBAR - 65.07) < 0.01, YBAR
-assert abs(IC - 4_188_695) < 3, IC
-assert abs(SC_TOP - 280_622) < 3 and abs(SC_BOT - 64_369) < 3, (SC_TOP, SC_BOT)
-assert abs(SC_TOP / SC_BOT - 4.36) < 0.01, SC_TOP / SC_BOT
-assert (W_LL, M_LL) == (20.0, 10_000_000.0), (W_LL, M_LL)
-assert abs(LL_TOP - 35.6) < 0.05 and abs(LL_BOT + 155.4) < 0.05, (LL_TOP, LL_BOT)
-assert F_TOP == 161.6 and F_BOT == -106.3, (F_TOP, F_BOT)
-assert abs(F_DECK - 63.9) < 0.1, F_DECK
-assert abs(E_S1_BOT - 161.56) < 0.02, E_S1_BOT
+assert (W_BEAM, W_SLAB, W_S1) == (576.0, 360.0, 9.36), (W_BEAM, W_SLAB, W_S1)
+assert M_S1 == 4_680_000.0 and DL_S == 146.25, (M_S1, DL_S)
+assert S1_TOP == 69.69 and S1_BOT == 105.31, (S1_TOP, S1_BOT)
+assert abs(NR - 0.8944) < 5e-5 and abs(BS_T - 89.44) < 0.01, (NR, BS_T)
+assert abs(YBAR - 57.03) < 0.01, YBAR
+assert abs(IC - 3_246_813) < 3, IC
+assert abs(SC_TOP - 141_363) < 3 and abs(SC_BOT - 56_930) < 3, (SC_TOP, SC_BOT)
+assert abs(SC_TOP / SC_BOT - 2.48) < 0.01, SC_TOP / SC_BOT
+assert (W_LL, M_LL) == (10.0, 5_000_000.0), (W_LL, M_LL)
+assert abs(LL_TOP - 35.37) < 0.01 and abs(LL_BOT + 87.83) < 0.01, (LL_TOP, LL_BOT)
+assert F_TOP == 105.1 and F_BOT == 17.5, (F_TOP, F_BOT)
+assert abs(F_DECK - 52.3) < 0.05, F_DECK
+assert abs(E_S1_BOT - 161.56) < 0.02 and abs(E_BOT - 42.1) < 0.05, (E_S1_BOT, E_BOT)
 assert abs(ALW_D - 157.5) < 1e-9 and abs(ALW_L - 210.0) < 1e-9
 assert abs(CLS_U - 37.4) < 0.05 and abs(CLS_T - 59.9) < 0.05, (CLS_U, CLS_T)
 assert abs(ALW_DK - 168.0) < 1e-9
@@ -313,3 +315,39 @@ print(f"{TAG}: 3 圖 OK　Stage1 {S1_TOP}/{S1_BOT}　最終 {F_TOP}/{F_BOT}　"
       f"n={NR:.4f} b'={BS_T:.1f} ȳ={YBAR:.2f} Ic={IC:,.0f} "
       f"S={SC_TOP:,.0f}/{SC_BOT:,.0f}（比 {SC_TOP/SC_BOT:.2f}）　"
       f"版頂 {F_DECK:.1f}　誤放版DL 梁底 {E_BOT:+.1f}")
+
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-14，RC-U4-1 批 1；依題目正本 RC-2006-4-problem.md §4，已確認）
+# 只畫考卷給的東西：15 cm 連續版、三支 30×80 梁（中心距 100）、c.g.s. 距梁底 15
+# 攔：兩段 100 cm 讀成「梁中心向兩側各 100」→ 梁距 200
+# ══════════════════════════════════════════════════════════
+def fig_problem():
+    W, Hc = 960, 520
+    s = 2.6
+    cv = Canvas(W, Hc, sx=s, ox=W / 2, oy=110)
+    cv.panel("圖四 跨中梁與樓版斷面（重繪）", "依題目正本判讀清單 #1–#4；80 cm 量自版底，不含版")
+    xe = 150.0
+    cv.polygon([(-xe, HB), (xe, HB), (xe, HB + TS), (-xe, HB + TS)], "#E3E9F2", C["member"], 2.2)
+    for sg in (-1, 1):                                  # 版端折斷線
+        x = sg * xe
+        cv.poly([(x, HB - 2), (x - sg * 3, HB + 5), (x + sg * 3, HB + 10), (x, HB + TS + 2)], C["member"], 1.6)
+    for x in (-BS, 0.0, BS):
+        cv.polygon([(x - BW / 2, 0), (x + BW / 2, 0), (x + BW / 2, HB), (x - BW / 2, HB)], "#EDF1F6", C["member"], 2.4)
+        cv.circle((x, CGS), 2.0, "#FFFFFF", C["member"], 1.6)
+        cv.line((x, HB + TS + 4), (x, HB + TS + 22), C["dim"], 1, dash="3 3")
+    cv.dim((-BS, HB + TS + 18), (0, HB + TS + 18), "100 cm", off=0, label_off=-13)
+    cv.dim((0, HB + TS + 18), (BS, HB + TS + 18), "100 cm", off=0, label_off=-13)
+    cv.dim((xe, HB + TS), (xe, HB), "15 cm", off=-20, label_off=-24)
+    cv.dim((BW / 2 + 14, HB), (BW / 2 + 14, 0), "80 cm", off=0, label_off=-24)
+    cv.line((-BW / 2 - 30, CGS), (-2.2, CGS), C["muted"], 1)
+    cv.text((-BW / 2 - 31, CGS + 4), "c.g.s.", 13, C["text"], "end")
+    cv.dim((-BW / 2 - 8, CGS), (-BW / 2 - 8, 0), "15 cm", off=0, label_off=24)
+    cv.dim((-BW / 2, 0), (BW / 2, 0), "30 cm", off=24, label_off=14)
+    return compose([cv], title=f"{TAG} 題目附圖（重繪）",
+                   sub="樓版厚 15 cm（f'c＝280）；預力梁 30×80 cm（f'c＝350），梁中心距 100 cm；c.g.s. 距梁底 15 cm",
+                   note="兩段 100 cm 都是相鄰梁中心距（梁距 100 cm），不是梁中心到版緣",
+                   path=os.path.join(OUT, f"{TAG}-fig-1-problem.svg"))
+
+
+fig_problem()

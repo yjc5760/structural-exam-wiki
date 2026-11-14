@@ -418,7 +418,50 @@ def fig4_pm():
 
 
 # ══════════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-14，RC-U1-2 題目正本推廣・批 1）
+# 依據：題目正本 <id>-problem.md §4 判讀清單（已確認）。只畫考卷給的東西，不含解題結果；
+# 考卷未標尺寸的位置（如鋼筋在非彎曲方向的間距）畫成示意，並在副標寫明。
+# ══════════════════════════════════════════════════════════
+def _pc(Wm, Hm, maxpx=330, l=90, r=110, t=120, b=110):
+    s = maxpx / max(Wm, Hm)
+    return Canvas(int(Wm * s + l + r), int(Hm * s + t + b), sx=s, ox=l, oy=b)
+
+
+def _prect(cv, x0, y0, x1, y1, fill="#EDF1F6", stroke=None, w=2.4, dash=None):
+    pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]
+    cv.polygon(pts, fill)
+    cv.poly(pts, stroke or C["member"], w, dash=dash)
+
+
+def _pbar(cv, p, r=1.25, fill=None):
+    cv.circle(p, r, fill=fill or C["member"], stroke=C["member"], w=1.2)
+
+P_B = P_H = 60.0                     # 判讀 #2
+P_DP = 8.0                           # 判讀 #3（量至鋼筋中心）
+
+
+def fig1_problem():
+    W, H = P_B, P_H
+    cv = _pc(W, H, l=140)
+    _prect(cv, 0, 0, W, H, fill="#FFFFFF")
+    for y in (H - P_DP, P_DP):
+        for k in range(4):               # 水平間距考卷未標，示意
+            _pbar(cv, (P_DP + 1 + k * (W - 2 * P_DP - 2) / 3, y), 1.6)
+    cv.text((W / 2, H / 2), "A_{st} = 8-#10", 15, weight="700")
+    cv.dim((0, H), (W, H), "b = 60 cm", off=-26, label_off=-14)
+    cv.dim((0, H), (0, 0), "h = 60 cm", off=36, label_off=36)
+    cv.dim((W, H), (W, H - P_DP), "8 cm", off=-30, label_off=-26)
+    cv.dim((W, P_DP), (W, 0), "8 cm", off=-30, label_off=-26)
+    return compose([cv], title=f"{TAG} 題目附圖（重繪）",
+                   sub="依題目正本判讀清單 #2–#6；鋼筋水平間距考卷未標（示意）；考卷未畫箍筋",
+                   note="上下兩排各 4-#10，8 cm 量至鋼筋中心（d = 52 cm）")
+
+
 FIGURES = [
+    ("1-problem", fig1_problem,
+     "把 8 cm 當淨保護層（d 再扣 db、箍筋）"),
     ("1-section",  fig1_section, "把 d'=8 誤讀成淨保護層 → d 算錯；漏看頂底各 4 根對稱配筋"),
     ("2-mn-c",     fig3_mn_c,    "以為最大彎矩發生在純彎矩（P=0）點"),
     ("3-balanced", fig2_balanced, "c 與 a 搞混；壓力鋼筋忘扣 0.85f'c 占位；未驗 ε'_s 是否降伏"),

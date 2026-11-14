@@ -185,6 +185,7 @@ $$B_1 = \frac{C_m}{1 - (P_u/P_e)},\qquad B_2 = \frac{1}{1 - (\sum P_u\Delta/\sum
 <hr />
 <h2>1. 原始題目重述 (Problem Restatement)</h2>
 <p>有一鋼造斜撐構架系統，W14×90（結實斷面，ASTM A572 Grade 50）之鋼柱，請以 AISC-LRFD 檢核是否滿足設計要求。（25分）</p>
+<p><strong>規範依據：</strong> 題目明確指定外國規範「AISC-LRFD」，依知識庫規範版本規則照題目指定的規範解題（不改用台灣規範）。題目未寫版本；「AISC-LRFD」是 AISC《Load and Resistance Factor Design Specification》的名稱，該系列最後一版為 1999 年（第三版），2005 年起併入 AISC 360，不再以 LRFD 單獨成冊；題內印出的 $B_1$、$B_2$ 式也是該版形式。因此本解主線採 <strong>AISC LRFD 1999</strong>（$\phi_c = 0.85$、$\lambda_c$ 柱強度式），AISC 360-16／-22 的結果列 §6 對照（結論相同）。</p>
 <p><strong>柱 W14×90 性質：</strong></p>
 <table>
 <thead>
@@ -265,28 +266,36 @@ $$B_1 = \frac{C_m}{1 - (P_u/P_e)},\qquad B_2 = \frac{1}{1 - (\sum P_u\Delta/\sum
 </tr>
 </tbody>
 </table>
-<p><strong>樓層參數（供 B2 計算）：</strong><br />
-- $\sum P_u = 9000$ kN（所在樓層最大垂直載重，含載重係數）<br />
-- $H = 600$ kN（側力）<br />
-- $\Delta/L = 5/1000$（側位移角）</p>
+<p><strong>樓層參數（供 B2 計算）：</strong></p>
+<ul>
+<li>$\sum P_u = 9000$ kN（所在樓層最大垂直載重，含載重係數）</li>
+<li>$H = 600$ kN（側力）</li>
+<li>$\Delta/L = 5/1000$（側位移角）</li>
+</ul>
 <p><strong>互制公式：</strong></p>
 <p>$$\frac{P_u}{\phi_c P_n} + \frac{8}{9}\left(\frac{M_{ux}}{\phi_b M_{nx}} + \frac{M_{uy}}{\phi_b M_{ny}}\right) \leq 1.0 \quad , \quad P_u \geq 0.2\phi_c P_n$$</p>
 <p>$$\frac{P_u}{2\phi_c P_n} + \left(\frac{M_{ux}}{\phi_b M_{nx}} + \frac{M_{uy}}{\phi_b M_{ny}}\right) \leq 1.0 \quad , \quad P_u &lt; 0.2\phi_c P_n$$</p>
 <p>$$B_1 = \frac{C_m}{1 - P_u/P_e} \quad , \quad B_2 = \frac{1}{1 - \sum P_u \Delta / \sum HL}$$</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
-<p><strong>核心觀念：</strong><br />
-- <strong>B1/B2 放大法（二階效應）</strong>：B1 處理 P-δ 效應（構件本身的撓曲），B2 處理 P-Δ 效應（樓層的側向位移）<br />
-- <strong>載重組合的力流</strong>：垂直力產生 Mnt（非側移彎矩），地震力產生 Mlt（側移彎矩），兩者疊加後再放大<br />
-- <strong>P-M 互制</strong>：軸壓 + 彎矩的複合受力，需判斷哪個互制方程式</p>
-<p><strong>出題意圖：</strong><br />
-1. 測試 B1 × Mnt + B2 × Mlt 的分離計算邏輯<br />
-2. 測試 Pe、Cm 的推導，以及 B1、B2 對結果的影響<br />
-3. 測試 P-M 互制的正確流程（先算 φcPn，再判斷公式）</p>
-<p><strong>陷阱：</strong><br />
-- ⚠️ B2 用<strong>樓層</strong>總垂直載重（ΣPu=9000），不是本柱的 Pu<br />
-- ⚠️ Pe 的 K 值：B1 計算中的 Pe 用非側移條件（K=1.0），不是 Kx=1.79<br />
-- ⚠️ 載重組合：垂直+地震的組合為 1.2D+0.5L+1.0E</p>
+<p><strong>核心觀念：</strong></p>
+<ul>
+<li><strong>B1/B2 放大法（二階效應）</strong>：B1 處理 P-δ 效應（構件本身的撓曲），B2 處理 P-Δ 效應（樓層的側向位移）</li>
+<li><strong>載重組合的力流</strong>：垂直力產生 Mnt（非側移彎矩），地震力產生 Mlt（側移彎矩），兩者疊加後再放大</li>
+<li><strong>P-M 互制</strong>：軸壓 + 彎矩的複合受力，需判斷哪個互制方程式</li>
+</ul>
+<p><strong>出題意圖：</strong></p>
+<ol>
+<li>測試 B1 × Mnt + B2 × Mlt 的分離計算邏輯</li>
+<li>測試 Pe、Cm 的推導，以及 B1、B2 對結果的影響</li>
+<li>測試 P-M 互制的正確流程（先算 φcPn，再判斷公式）</li>
+</ol>
+<p><strong>陷阱：</strong></p>
+<ul>
+<li>⚠️ B2 用<strong>樓層</strong>總垂直載重（ΣPu=9000），不是本柱的 Pu</li>
+<li>⚠️ Pe 的 K 值：B1 計算中的 Pe 用非側移條件（K=1.0），不是 Kx=1.79</li>
+<li>⚠️ 載重組合：垂直+地震的組合為 1.2D+0.5L+1.0E</li>
+</ul>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
 <p><strong>作戰計畫：</strong></p>
@@ -676,11 +685,13 @@ Step 7：P-M 互制公式檢核
 <hr />
 <h3>Step 2：計算 B2（考慮 P-Δ 效應）</h3>
 <p>$$B_2 = \frac{1}{1 - \dfrac{\sum P_u \cdot \Delta}{\sum H \cdot L}}$$</p>
-<p><strong>各參數：</strong><br />
-- $\sum P_u = 9000$ kN（樓層總垂直載重）<br />
-- $\Delta = \frac{5}{1000} \times L = \frac{5}{1000} \times 3750 = 18.75$ mm<br />
-- $\sum H = 600$ kN（樓層側力）<br />
-- $L = 3750$ mm（層高）</p>
+<p><strong>各參數：</strong></p>
+<ul>
+<li>$\sum P_u = 9000$ kN（樓層總垂直載重）</li>
+<li>$\Delta = \frac{5}{1000} \times L = \frac{5}{1000} \times 3750 = 18.75$ mm</li>
+<li>$\sum H = 600$ kN（樓層側力）</li>
+<li>$L = 3750$ mm（層高）</li>
+</ul>
 <p>$$\frac{\sum P_u \cdot \Delta}{\sum H \cdot L} = \frac{9000 \times 18.75}{600 \times 3750} = \frac{168{,}750}{2{,}250{,}000} = 0.075$$</p>
 <p>$$\boxed{B_2 = \frac{1}{1 - 0.075} = \frac{1}{0.925} = 1.081}$$</p>
 <p><em>策略註解：穩定係數 θ = 0.075 &lt; 0.1（AISC 建議），屬合理範圍。B2 = 1.081 表示地震彎矩放大 8.1%。</em></p>
@@ -842,13 +853,13 @@ Step 7：P-M 互制公式檢核
 <p><strong>⑤Kx = 1.79 的來源（AISC 對齊圖法）：</strong><br />
 $K_x = 1.79$ 通常對應於柱上端受梁約束（部分固接）、下端固接於基礎的情況，從 AISC 對齊圖（alignment chart）讀取。有效長度 $K_x L = 1.79 \times 3.75 = 6.71$ m 相當大，暗示柱腳接近固接但柱頂梁的束制相對較弱。</p>
 <hr />
-<h2>6. 依最新規範（AISC 360-16／-22）對照</h2>
+<h2>6. 與 AISC 360-16／-22 對照（非本解依據）</h2>
 <table>
 <thead>
 <tr>
 <th style="text-align: left;">項目</th>
-<th style="text-align: left;">考卷（AISC-LRFD 1993／1999 系）</th>
-<th style="text-align: left;">AISC 360-16／-22（附錄 8 近似二階分析）</th>
+<th style="text-align: left;">本解（AISC LRFD 1999，題目指定）</th>
+<th style="text-align: left;">AISC 360-16／-22（附錄 8 近似二階分析，對照）</th>
 </tr>
 </thead>
 <tbody>
@@ -883,6 +894,7 @@ $K_x = 1.79$ 通常對應於柱上端受梁約束（部分固接）、下端固�
 <hr />
 <p><em>修正日期：2026-11-01（依考卷原圖：頂端 $M_a$、底端 $M_b$ 箭頭皆為順時針，構材兩端同轉向為<strong>雙曲率</strong>；原解未依圖判讀而假設單曲率（保守）取 $C_m = 0.855$，更正為 $C_m = 0.6 - 0.4 \times 70/110 = 0.345$、$B_1 = 0.358$，仍取 1.0，$M_{ux} = 326.2$ kN-m 與互制比 0.821 不變，結論 OK 不變；新增 §6 對照）</em><br />
 <em>圖解補繪：2026-11-03（向量圖 2 張，腳本 <code>gen_SS-2014-4.py</code>，改輸入可原地重跑；SVG 供 wiki／PDF，2× PNG 供 pptx／影片）</em><br />
+<em>修正日期：2026-11-14（依 2026-11-14 規範版本規則確認版本：題目指定「AISC-LRFD」未寫年版，取該規範系列最後一版 AISC LRFD 1999 為主線（與原解一致），§1 補「規範依據」說明，§6 改為「與 AISC 360-16／-22 對照（非本解依據）」；數值與結論（互制比 0.821，OK）不變）</em><br />
 <em>驗證狀態：unverified</em></p></main>
 <footer>來源：raw/solutions/SS-2014-4/SS-2014-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>

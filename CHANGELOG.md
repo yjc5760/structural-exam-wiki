@@ -34,3 +34,14 @@
 - 使用者指示（2026-11-14 對話）；版本資訊依內政部國土管理署公告、行政院公報查證。備份：裝置工作階段 `~/bk3/`。
 - **[RULE] 2026-11-14 補充**：題目印出的舊規範公式、係數、φ、載重組合與載重因數、容許值、規範表格也改用現行台灣規範（考卷印在題目或提示裡也一樣）；照題目用的只限題意資料（幾何、材料強度、載重大小與位置、鋼筋規格與面積、斷面性質表、題目直接給的數值參數如 Lp、Lr、Cb、有效預力）。題目正本仍照錄考卷原式。CLAUDE.md、五科 SUBJECT.md §8 引言、exam-solve／exam-errata／exam-wiki-audit 同步並重新打包。
 - **[RULE] 2026-11-14 補充**：重要規則 12 加註——更新 skill 時除寫回 repo `skills/` 並重新打包，還要把更新過的 `.skill` 檔直接傳到對話裡，讓使用者點檔案卡片按「Save skill」安裝。
+- **[RULE] 2026-11-14 補充（容許值例外）**：考卷給的容許值若在現行規範允許範圍內（比現行規範嚴，或落在某一類別內，如 RC 預力構材 U／T／C 類）視為題目設計條件照用，§5 註明屬哪一類與須補的檢核；超出現行規範上限才改用現行上限。`CLAUDE.md`「規範版本」、`skills/exam-solve`、`exam-errata`、`exam-wiki-audit` 同步並重新打包 `.skill`。起因：RC-U4-1 批 1 盲解比對（RC-2007-4 的 $3\sqrt{f'_c}$ 屬現行 T 類、RC-2021-4 的 $1.6\sqrt{f'_c}$ 比 U 類嚴），使用者 2026-11-14 對話選定此通則。
+
+## 2026-11-14 — SS、RC 儀表板相容 `KB_*` 變數
+
+- **[FIX]** `SS/index.html`、`RC/index.html` 在載入 `dashboard-data.js` 後加相容段：有 `window.KB_*` 時轉成本科 `SS_*`／`RC_*` 變數。原因：兩頁是搬入前的舊版頁面，只讀科目前綴變數，而 `scripts/refresh_dashboard.py` 寫 `KB_*`；RC 今天重建 `dashboard-data.js` 後儀表板已顯示「找不到 dashboard-data.js」。未改用 `scripts/templates/dashboard-index.html`：兩頁有樣板沒有的功能（起點頁入口、結果列／清除篩選、手機版版面、題解新分頁開啟），改樣板會失去。
+- `SS/dashboard-data.js` 改由 `refresh_dashboard.py SS` 重建（內容與索引一致，98 題）；SS 設計法篩選補「塑性分析」。
+- 驗證：node 載入 `dashboard-data.js`＋相容段，SS 98 題／7 子項、RC 100 題／14 子項，未知子項 0、tags 空 0、設計法皆在篩選選項內。SA／SD／SM 的 `dashboard-data.js` 仍是科目前綴變數，與各自頁面相符，未動；之後對這三科跑 `refresh_dashboard.py` 前要先加同一段相容碼。
+
+## 2026-11-14 — `render_problem_view.py` 頁首分析法欄位不再覆蓋年份
+
+- **[FIX]** `scripts/render_problem_view.py`：同步 `**分析法：**` 到頁首 `meta2` 時，若該頁頁首尚無分析法欄位（最後一段是「YYYY 年（民國 …）」），改為附加一段，不再把年份覆蓋掉。只影響有 `meta2` 的頁面（目前為 SA）。發現於 SA 一致性整理（SA-2008-3、2008-4、2019-4 三頁已還原重產），詳見 `SA/wiki/queries/log.md` FIX-SA-CONSISTENCY。

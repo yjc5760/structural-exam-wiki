@@ -31,71 +31,176 @@ img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);bor
 footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
 </style></head><body>
 <header><h1>RC-2006-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U4-1.html">&#128202; U4-1 單元總覽</a><a class="lect" href="../lecture-RC-U4-1.html">&#128218; U4-1 預力梁斷面應力分析 講義</a></div></header>
-<main><h3>考題編號：RC-2006-4</h3>
-<p><strong>主分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
-<strong>副分類：</strong> 無<br />
-<strong>設計法：</strong> WSD工作應力法<br />
-<strong>標籤：</strong> <code>後拉法</code> <code>組合T型斷面</code> <code>兩階段應力疊加</code> <code>非組合梁承受DL</code> <code>組合梁承受LL</code> <code>上緣壓力</code> <code>下緣拉力</code> <code>不同f'c轉換</code></p>
-<hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>簡支預力梁，先架設（承受梁自重及版 DL），版硬化後形成組合斷面，施加均布活載重 $w_{LL} = 1.0$ tf/m²，求<strong>跨中斷面預力梁上緣（頂）及下緣（底）之混凝土應力</strong>。</p>
-<p><strong>已知條件：</strong></p>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>RC-2006-4 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>RC-2006-4.md</code>。<br />
+判讀清單已經使用者確認（凍結）；本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
 <table>
 <thead>
 <tr>
 <th>項目</th>
-<th>數值</th>
+<th>內容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>梁跨度 $L$</td>
-<td>20 m = 2000 cm</td>
+<td>考卷</td>
+<td><code>raw/exams/RC-2006_鋼筋混凝土設計與預力.pdf</code> 第 2 頁（背面），第四題</td>
 </tr>
 <tr>
-<td>梁斷面</td>
-<td>$b=30$ cm，$h=80$ cm</td>
+<td>考年</td>
+<td>民國 95 年（2006）</td>
 </tr>
 <tr>
-<td>梁 $f'_{c1}$</td>
-<td>350 kgf/cm²</td>
+<td>配分</td>
+<td>20 分</td>
 </tr>
 <tr>
-<td>版斷面</td>
-<td>寬 200 cm，厚 15 cm</td>
+<td>附圖</td>
+<td><code>RC-2006-4-fig-2.png</code>（圖四；2026-11-14 由考卷內嵌影像原生解析度 676×251 抽出，無游標）；既有 <code>RC-2006-4-fig-1.png</code> 為同一圖放大、30cm 尺寸線旁有滑鼠游標，保留不刪</td>
 </tr>
 <tr>
-<td>版 $f'_{c2}$</td>
-<td>280 kgf/cm²</td>
-</tr>
-<tr>
-<td>有效預力 $P_e$</td>
-<td>210 tf = 210,000 kgf</td>
-</tr>
-<tr>
-<td>c.g.s. 距梁底</td>
-<td>15 cm</td>
-</tr>
-<tr>
-<td>均布活載重 $w_{LL}$</td>
-<td>1.0 tf/m²（施於版上）</td>
-</tr>
-<tr>
-<td>$\gamma_c$</td>
-<td>2400 kgf/m³（原卷未給，依常規假設，已在 §5 說明）</td>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-14 使用者確認；影響答案項目使用者選擇：#2 梁中心距 100 cm（解析原用 200 cm，另行勘誤）；轉錄 2026-11-14；PyMuPDF 110 dpi 全頁目視＋抽出文字核對，附圖為掃描點陣、以原生影像 2× 放大目視；盲讀後才比對既有解析）</td>
 </tr>
 </tbody>
 </table>
-<p><strong>題目附圖：</strong></p>
-<p><img alt="RC-2006-4 預力梁組合截面：梁30×80cm（c.g.s.距底15cm），版寬200cm（梁中心各100cm）、版厚15cm，三梁示意圖" src="../../raw/solutions/RC-2006-4/RC-2006-4-fig-1.png" /></p>
-<p><em>圖說：簡支預力梁 30×80 cm，c.g.s. 距梁底 15 cm，梁偏心距 e=40-15=25 cm。梁間距 200 cm（梁中心各 100 cm），版寬 200 cm，版厚 15 cm（$f'_{c2}=280$ kgf/cm²）。有效預力 210 tf，$L=20$ m。</em></p>
+<h2>1. 考卷原文（逐字）</h2>
 <blockquote>
-<p><strong>原卷原文（95 年第四題）核對：</strong> 「有一簡支預力梁，其跨度為 20 m，梁寬為 30 cm，梁全深為 80 cm，梁之 $f'_c$＝350 kgf/cm²。<br />
-在此梁中，預力損失後預力鋼鍵之有效預力為 210 tf。此梁在預力損失後開始吊裝，並在其上澆置 15 cm 厚樓版，<br />
-<strong>澆置樓版時利用梁作為支撐</strong>……當樓版硬化並與梁結合為一體後，再於樓版上施加 1.0 tf/m² 之均布活載重。<br />
-試求施加均布活載重後，跨度中央斷面預力梁上緣及下緣之混凝土所承受之應力為何？」<br />
-——「利用梁作為支撐」正是把版重指定給<strong>非組合梁</strong>的關鍵字；原卷未指定規範版本，也未給混凝土單位重。</p>
+<p>四、有一簡支預力梁，其跨度為 20 m，梁寬為 30 cm，梁全深為 80 cm，梁之 $f'_c$ =350 kgf/cm²。在此梁中，預力損失後預力鋼鍵之有效預力為 210 tf。此梁在預力損失後開始吊裝，並在其上澆置 15 cm 厚樓版，澆置樓版時利用梁作為支撐，澆置後跨度中央梁與樓版之斷面如圖四所示，樓版之 $f'_c$ =280 kgf/cm²。當樓版硬化並與梁結合為一體後，再於樓版上施加 1.0 tf/m² 之均布活載重。試求施加均布活載重後，跨度中央斷面預力梁上緣及下緣之混凝土所承受之應力為何？（20 分）</p>
 </blockquote>
+<p>（「鋼鍵」照考卷原文。）</p>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>題文數值：跨度 20 m；梁 $30 \times 80$ cm（全深）、$f'_c = 350$；有效預力 210 tf（損失後）；樓版厚 15 cm、$f'_c = 280$；活載重 1.0 tf/m²。</li>
+<li>考卷未印任何公式。</li>
+<li><strong>沒有給</strong>：混凝土單位重、$E_c$（或兩種混凝土的模數比）、有效翼版寬規定、鋼腱線形（只給跨中 c.g.s.）、容許應力（題目只求應力，未要求檢核）。</li>
+<li>卷首注意事項：可以使用電子計算器。不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p><img alt="RC-2006-4 考卷圖四：一片厚 15cm 的樓版（兩端畫折斷線）下方三支等寬矩形梁；上方兩段尺寸線各 100cm，端點落在左、中、右三支梁的中心；中間梁右側 80cm 尺寸線由樓版底面（梁頂）量到梁底；中間梁內一小圓標 c.g.s.，左側 15cm 尺寸線由圓心量到梁底；中間梁下方 30cm 為梁寬；版右端 15cm 為版厚" src="../../raw/solutions/RC-2006-4/RC-2006-4-fig-2.png" /></p>
+<p>圖面文字照錄：<code>100 cm</code>、<code>100 cm</code>、<code>15cm</code>、<code>80cm</code>、<code>c.g.s.</code>、<code>15cm</code>、<code>30cm</code>、<code>圖四</code>。</p>
+<h2>4. 判讀清單</h2>
+<p>「把握」標<strong>不確定</strong>者請優先確認；解讀類項目（題目用字的意思）另標「解讀」。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>梁深 80 cm 的量測基準</td>
+<td><strong>梁本身全深 80 cm（樓版底面到梁底），不含 15 cm 樓版</strong>；合成斷面總深 95 cm</td>
+<td>80cm 尺寸線上端箭頭對齊樓版底／梁頂、下端對齊梁底（原生影像 2×）；題文「梁全深為 80 cm」</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>2</td>
+<td>梁距</td>
+<td>梁中心距 100 cm</td>
+<td>兩段 100cm 尺寸線端點落在三支梁的中心（左梁中心 ≈ x 297、中梁 ≈ 617、右梁 ≈ 937，2× 影像 px）</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>鋼腱位置（跨中）</td>
+<td>c.g.s. 距梁底 15 cm → 距梁頂 65 cm</td>
+<td>15cm 尺寸線上端對齊 c.g.s. 引線水平、下端對齊梁底</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>樓版</td>
+<td>厚 15 cm，$f'_c=280$；兩端折斷線＝連續版</td>
+<td>圖上 15cm、題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>施工順序</td>
+<td>梁先受預力（損失後）＋自重 → 澆版時版重由<strong>梁單獨</strong>承擔 → 硬化後合成斷面承受活載重</td>
+<td>題文「澆置樓版時利用梁作為支撐」「當樓版硬化並與梁結合為一體後，再於樓版上施加」</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>6</td>
+<td>活載重換算</td>
+<td>1.0 tf/m² 作用於版面；每支梁分擔寬度依梁距 100 cm</td>
+<td>題文、#2</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>問的量</td>
+<td>施加活載重後、<strong>跨中</strong>、<strong>預力梁</strong>（不是樓版）上緣與下緣的混凝土應力</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>8</td>
+<td>考卷沒有給</td>
+<td>混凝土單位重、$E_c$／模數比、有效翼版寬規定、鋼腱線形</td>
+<td>全題</td>
+<td>確定（作答須自行假設）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-14（RC-U4-1 題目正本推廣・批 1）</em></p>
+<p><em>確認：2026-11-14 使用者確認（RC-U4-1 題目正本推廣・批 1，關卡一）</em></p></details>
+<h3>考題編號：RC-2006-4</h3>
+<p><strong>主分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> WSD工作應力法<br />
+<strong>標籤：</strong> <code>後拉法</code> <code>組合T型斷面</code> <code>兩階段應力疊加</code> <code>非組合梁承受DL</code> <code>組合梁承受LL</code> <code>上緣壓力</code> <code>下緣拉力</code> <code>不同f'c轉換</code> <code>梁距100cm</code></p>
+<hr />
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="RC-2006-4-problem.md"><code>RC-2006-4-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<p><img alt="RC-2006-4 重繪題目附圖：15 cm 連續樓版下三支 30×80 cm 預力梁，梁中心距 100 cm；梁深 80 cm 由版底量到梁底；c.g.s. 距梁底 15 cm" src="../../raw/solutions/RC-2006-4/figs/RC-2006-4-fig-1-problem.svg" /><br />
+<em>重繪自考卷圖四，依題目正本判讀清單。圖上兩段 100 cm 都是<strong>相鄰梁的中心距</strong>——本圖攔下「把 100 cm 當成梁中心到版緣、梁距讀成 200 cm」的誤讀（舊版解析即犯此錯，版重與活載重多算一倍）。</em></p>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>梁距（題目正本 #2）</td>
+<td>兩段 100 cm 皆為相鄰梁中心距 → 梁距 100 cm，每支梁分擔版寬 100 cm</td>
+<td>讀成「梁中心向兩側各 100 cm」→ 梁距 200 cm（梁底會被算成拉 106.3，結論整個反轉）</td>
+</tr>
+<tr>
+<td>梁深 80 cm（#1）</td>
+<td>梁本身全深，量自版底；合成斷面總深 95 cm</td>
+<td>把 80 當成含版的總深</td>
+</tr>
+<tr>
+<td>施工順序（#5）</td>
+<td>「澆置樓版時利用梁作為支撐」→ 版重由<strong>非組合梁</strong>承受；活載重才由合成斷面承受</td>
+<td>版重放到合成斷面</td>
+</tr>
+<tr>
+<td>問的量（#7）</td>
+<td>跨中、<strong>預力梁</strong>上緣與下緣的應力</td>
+<td>改答版頂應力，或只答活載增量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> 壓為正、拉為負（kgf/cm²）；$P_e = 210$ tf；$A_1, I_1, S_1$ 為梁單獨斷面；$\bar y$ 為合成斷面形心距梁底；$S_{c,top}$、$S_{c,bot}$ 為合成斷面對<strong>梁頂</strong>、梁底的斷面模數（梁材料）；$n = \sqrt{f'_{c2}/f'_{c1}}$ 為版對梁的模數比。</p>
+<p><strong>自行假設（考卷未給）：</strong> 混凝土單位重 $\gamma_c = 2400$ kgf/m³；$E_c \propto \sqrt{f'_c}$；有效翼寬取 $\min(L/4,\ b_w+16h_f,\ \text{梁距})$。</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
 <p><strong>兩階段施工順序：</strong></p>
@@ -103,7 +208,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <li><strong>Stage 1（非組合梁）：</strong> $P_e$ + 梁自重 + 版濕混凝土 DL → 作用於梁斷面</li>
 <li><strong>Stage 2（組合斷面）：</strong> $w_{LL}$ → 作用於組合轉換斷面</li>
 </ul>
-<p><strong>控制條件：</strong> 本題不要求驗算，只求應力值。</p>
+<p><strong>控制條件：</strong> 本題不要求驗算，只求應力值；§5 另依現行台灣規範做容許應力檢核。</p>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
 <table>
@@ -124,7 +229,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 <tr>
 <td>3</td>
-<td>計算組合轉換斷面（$n=\sqrt{280/350}$）</td>
+<td>計算組合轉換斷面（有效翼寬 100 cm，$n=\sqrt{280/350}$）</td>
 </tr>
 <tr>
 <td>4</td>
@@ -136,7 +241,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 </tbody>
 </table>
-<p><strong>三大陷阱：</strong></p>
+<p><strong>四大陷阱：</strong></p>
 <table>
 <thead>
 <tr>
@@ -145,6 +250,10 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>⚠ 梁距讀成 200 cm</td>
+<td>圖四兩段 100 cm 是相鄰梁中心距；讀錯會使版重、活載重、翼寬全部加倍</td>
+</tr>
 <tr>
 <td>⚠ 版 DL 作用在非組合梁</td>
 <td>版尚未硬化時，版重由梁獨自承受</td>
@@ -164,8 +273,8 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <h3>最終目標</h3>
 <p><code>疊加 Stage1（預力+DL）和 Stage2（LL）應力，得梁頂梁底最終應力</code></p>
 <h3>本題關鍵公式鏈</h3>
-<p>$$\text{Stage 1: } f = \frac{P_e}{A_1} \pm \frac{P_e \cdot e}{S} \mp \frac{M_{S1}}{S}$$</p>
-<p>$$n = \sqrt{\frac{f'_{c2}}{f'_{c1}}}, \quad b'_{slab} = b_{slab} \times n, \quad \bar{y} = \frac{\sum A_i y_i}{\sum A_i}$$</p>
+<p>$$\text{Stage 1: } f = \frac{P_e}{A_1} \pm \frac{P_e \cdot e}{S_1} \mp \frac{M_{S1}}{S_1}$$</p>
+<p>$$b_e = \min\!\left(\tfrac{L}{4},\ b_w+16h_f,\ s\right), \quad n = \sqrt{\frac{f'_{c2}}{f'_{c1}}}, \quad b' = b_e \times n, \quad \bar{y} = \frac{\sum A_i y_i}{\sum A_i}$$</p>
 <p>$$\text{Stage 2: } \Delta f = \pm \frac{M_{LL} \cdot y}{I_c}$$</p>
 <h3>L2 關鍵數值</h3>
 <table>
@@ -190,47 +299,47 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 <tr>
 <td>$w_{S1}$</td>
-<td>$576+720=1296$ kgf/m</td>
+<td>$576+360=936$ kgf/m</td>
 </tr>
 <tr>
 <td>$M_{S1}$</td>
-<td>6,480,000 kgf·cm</td>
+<td>4,680,000 kgf·cm</td>
 </tr>
 <tr>
 <td>$f_{top}^{S1}$, $f_{bot}^{S1}$</td>
-<td>+125.9, +49.1 kgf/cm²（均壓縮）</td>
+<td>+69.69, +105.31 kgf/cm²（均壓縮）</td>
 </tr>
 <tr>
-<td>$n$, $b'$</td>
-<td>0.8944, 178.9 cm</td>
+<td>$b_e$, $n$, $b'$</td>
+<td>100 cm, 0.8944, 89.44 cm</td>
 </tr>
 <tr>
 <td>$\bar{y}$</td>
-<td>65.07 cm（梁底起）</td>
+<td>57.03 cm（梁底起）</td>
 </tr>
 <tr>
 <td>$I_c$</td>
-<td>4,188,695 cm⁴</td>
+<td>3,246,813 cm⁴</td>
 </tr>
 <tr>
-<td>$S_{comp,top}$, $S_{comp,bot}$</td>
-<td>280,622, 64,369 cm³</td>
+<td>$S_{c,top}$, $S_{c,bot}$</td>
+<td>141,363, 56,930 cm³</td>
 </tr>
 <tr>
 <td>$M_{LL}$</td>
-<td>10,000,000 kgf·cm</td>
+<td>5,000,000 kgf·cm</td>
 </tr>
 <tr>
 <td>$\Delta f_{top}^{LL}$, $\Delta f_{bot}^{LL}$</td>
-<td>+35.6, −155.4 kgf/cm²</td>
+<td>+35.37, −87.83 kgf/cm²</td>
 </tr>
 <tr>
 <td><strong>梁頂最終</strong></td>
-<td><strong>+161.6 kgf/cm²（壓縮）</strong></td>
+<td><strong>+105.1 kgf/cm²（壓縮）</strong></td>
 </tr>
 <tr>
 <td><strong>梁底最終</strong></td>
-<td><strong>−106.3 kgf/cm²（拉伸）</strong></td>
+<td><strong>+17.5 kgf/cm²（壓縮）</strong></td>
 </tr>
 </tbody>
 </table>
@@ -245,21 +354,23 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <p><strong>預力應力（壓縮為正）：</strong></p>
 <p>$$f_{top}^{PS} = \frac{P_e}{A_1} - \frac{P_e \cdot e}{S_{t1}} = \frac{210{,}000}{2{,}400} - \frac{210{,}000 \times 25}{32{,}000} = 87.50 - 164.06 = \boxed{-76.56 \text{ kgf/cm}^2 \text{ （拉）}}$$</p>
 <p>$$f_{bot}^{PS} = \frac{P_e}{A_1} + \frac{P_e \cdot e}{S_{b1}} = 87.50 + 164.06 = \boxed{+251.56 \text{ kgf/cm}^2 \text{ （壓）}}$$</p>
-<p><strong>Stage 1 DL 荷載（作用於非組合梁）：</strong></p>
+<p><strong>Stage 1 DL 荷載（作用於非組合梁；每支梁分擔版寬＝梁距 1.0 m）：</strong></p>
 <p>$$w_{beam} = 2400 \times \frac{30 \times 80}{10{,}000} = 576 \text{ kgf/m} = 5.76 \text{ kgf/cm}$$</p>
-<p>$$w_{slab} = 2400 \times 0.15 \times 2.00 = 720 \text{ kgf/m} = 7.20 \text{ kgf/cm}$$</p>
-<p>$$w_{S1} = 5.76 + 7.20 = 12.96 \text{ kgf/cm}$$</p>
-<p>$$M_{S1} = \frac{12.96 \times 2000^2}{8} = 12.96 \times 500{,}000 = 6{,}480{,}000 \text{ kgf·cm}$$</p>
+<p>$$w_{slab} = 2400 \times 0.15 \times 1.00 = 360 \text{ kgf/m} = 3.60 \text{ kgf/cm}$$</p>
+<p>$$w_{S1} = 5.76 + 3.60 = 9.36 \text{ kgf/cm}$$</p>
+<p>$$M_{S1} = \frac{9.36 \times 2000^2}{8} = 9.36 \times 500{,}000 = 4{,}680{,}000 \text{ kgf·cm}$$</p>
 <p><strong>Stage 1 DL 應力：</strong></p>
-<p>$$f_{top}^{S1,DL} = +\frac{M_{S1}}{S_{t1}} = +\frac{6{,}480{,}000}{32{,}000} = +202.50 \text{ kgf/cm}^2 \text{ （壓）}$$</p>
-<p>$$f_{bot}^{S1,DL} = -\frac{M_{S1}}{S_{b1}} = -202.50 \text{ kgf/cm}^2 \text{ （拉）}$$</p>
+<p>$$f_{top}^{S1,DL} = +\frac{M_{S1}}{S_{t1}} = +\frac{4{,}680{,}000}{32{,}000} = +146.25 \text{ kgf/cm}^2 \text{ （壓）}$$</p>
+<p>$$f_{bot}^{S1,DL} = -\frac{M_{S1}}{S_{b1}} = -146.25 \text{ kgf/cm}^2 \text{ （拉）}$$</p>
 <p><strong>Stage 1 總應力（預力 + DL）：</strong></p>
-<p>$$f_{top}^{S1} = -76.56 + 202.50 = \boxed{+125.94 \text{ kgf/cm}^2 \text{ （壓）}}$$</p>
-<p>$$f_{bot}^{S1} = +251.56 - 202.50 = \boxed{+49.06 \text{ kgf/cm}^2 \text{ （壓）}}$$</p>
+<p>$$f_{top}^{S1} = -76.56 + 146.25 = \boxed{+69.69 \text{ kgf/cm}^2 \text{ （壓）}}$$</p>
+<p>$$f_{bot}^{S1} = +251.56 - 146.25 = \boxed{+105.31 \text{ kgf/cm}^2 \text{ （壓）}}$$</p>
 <hr />
 <h3>Step 3：組合轉換斷面</h3>
+<p>有效翼寬：</p>
+<p>$$b_e = \min\left(\frac{L}{4},\ b_w + 16h_f,\ s\right) = \min(500,\ 30+16\times15=270,\ 100) = \boxed{100 \text{ cm}}$$</p>
 <p>$$n = \sqrt{\frac{f'_{c2}}{f'_{c1}}} = \sqrt{\frac{280}{350}} = \sqrt{0.800} = 0.8944$$</p>
-<p>轉換版寬：$b'_{slab} = 200 \times 0.8944 = 178.9$ cm</p>
+<p>轉換版寬：$b' = 100 \times 0.8944 = 89.44$ cm</p>
 <p>各子斷面（梁底起量）：</p>
 <table>
 <thead>
@@ -276,43 +387,42 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <td>40 cm</td>
 </tr>
 <tr>
-<td>轉換版（178.9×15）</td>
-<td>2,683.2 cm²</td>
+<td>轉換版（89.44×15）</td>
+<td>1,341.6 cm²</td>
 <td>80+7.5 = 87.5 cm</td>
 </tr>
 </tbody>
 </table>
 <p><strong>組合形心：</strong><br />
-$$\bar{y} = \frac{2{,}400 \times 40 + 2{,}683.2 \times 87.5}{2{,}400 + 2{,}683.2} = \frac{96{,}000 + 234{,}780}{5{,}083.2} = \frac{330{,}780}{5{,}083.2} = \boxed{65.07 \text{ cm}}$$</p>
+$$\bar{y} = \frac{2{,}400 \times 40 + 1{,}341.6 \times 87.5}{2{,}400 + 1{,}341.6} = \frac{96{,}000 + 117{,}394}{3{,}741.6} = \frac{213{,}394}{3{,}741.6} = \boxed{57.03 \text{ cm}}$$</p>
 <p>各關鍵距離：</p>
 <ul>
-<li>梁底至形心：65.07 cm（$y_{bot}$）</li>
-<li>形心至梁頂：$80 - 65.07 = 14.93$ cm（$y_{beam,top}$）</li>
-<li>形心至版頂：$95 - 65.07 = 29.93$ cm</li>
+<li>梁底至形心：57.03 cm（$y_{bot}$）</li>
+<li>形心至梁頂：$80 - 57.03 = 22.97$ cm（$y_{beam,top}$）</li>
+<li>形心至版頂：$95 - 57.03 = 37.97$ cm</li>
 </ul>
 <p><strong>組合慣性矩：</strong></p>
-<p>$$I_{beam} = 1{,}280{,}000 + 2{,}400 \times (65.07 - 40)^2 = 1{,}280{,}000 + 2{,}400 \times 628.5 = 2{,}788{,}400 \text{ cm}^4$$</p>
-<p>$$I_{slab} = \frac{178.9 \times 15^3}{12} + 2{,}683.2 \times (87.5 - 65.07)^2 = 50{,}310 + 2{,}683.2 \times 503.1 = 50{,}310 + 1{,}349{,}913 = 1{,}400{,}223 \text{ cm}^4$$</p>
-<p>$$I_c = 2{,}788{,}400 + 1{,}400{,}223 \approx \boxed{4{,}188{,}700 \text{ cm}^4}$$</p>
+<p>$$I_{beam} = 1{,}280{,}000 + 2{,}400 \times (57.03 - 40)^2 = 1{,}280{,}000 + 2{,}400 \times 290.1 = 1{,}976{,}240 \text{ cm}^4$$</p>
+<p>$$I_{slab} = \frac{89.44 \times 15^3}{12} + 1{,}341.6 \times (87.5 - 57.03)^2 = 25{,}156 + 1{,}341.6 \times 928.4 = 25{,}156 + 1{,}245{,}417 = 1{,}270{,}573 \text{ cm}^4$$</p>
+<p>$$I_c \approx \boxed{3{,}246{,}813 \text{ cm}^4}$$</p>
 <blockquote>
-<p>未取捨的精算值 $I_c = 4{,}188{,}695$ cm⁴（$\bar y = 65.074$ cm）。下方 $S$ 值以精算值計。</p>
+<p>上兩行為取三位有效數字的展示值，加總為 3,246,813（精算 $\bar y = 57.032$ cm）。下方 $S$ 值以精算值計。</p>
 </blockquote>
 <p><strong>截面模數（梁材料）：</strong><br />
-$$S_{comp,top} = \frac{I_c}{y_{beam,top}} = \frac{4{,}188{,}695}{14.93} = 280{,}622 \text{ cm}^3$$</p>
-<p>$$S_{comp,bot} = \frac{I_c}{\bar{y}} = \frac{4{,}188{,}695}{65.07} = 64{,}369 \text{ cm}^3$$</p>
+$$S_{c,top} = \frac{I_c}{y_{beam,top}} = \frac{3{,}246{,}813}{22.97} = 141{,}363 \text{ cm}^3$$</p>
+<p>$$S_{c,bot} = \frac{I_c}{\bar{y}} = \frac{3{,}246{,}813}{57.03} = 56{,}930 \text{ cm}^3$$</p>
 <blockquote>
-<p>$S_{comp,top}/S_{comp,bot} = 4.36$——組合斷面形心被樓版拉到很高（距梁底 65 cm，梁全深才 80 cm），<br />
-這是「同一個 $M_{LL}$ 在梁底造成的應力是梁頂的 4.4 倍」的來源，也是本題梁底吃不消的直接原因。</p>
+<p>$S_{c,top}/S_{c,bot} = 2.48$——組合後形心上移到距梁底 57.03 cm（梁全深 80 cm），同一個 $M_{LL}$ 在梁底造成的應力是梁頂的 2.5 倍。</p>
 </blockquote>
-<p><img alt="RC-2006-4 兩階段斷面對照：Stage 1 用 30×80 裸梁（A=2,400，St=Sb=32,000），Stage 2 用組合轉換斷面（版寬 200 折算為 b'=178.9，形心距梁底 65.07 cm，Ic=4,188,695，Sc,top=280,622、Sc,bot=64,369）" src="../../raw/solutions/RC-2006-4/figs/RC-2006-4-fig-1-composite.svg" /></p>
-<p><em>圖 1　兩個階段、兩個斷面。組合後形心被樓版拉到距梁底 65.07 cm（梁全深才 80 cm），使 $S_{c,top}/S_{c,bot} = 4.36$——這張圖攔的是「兩階段共用同一組斷面性質」：若 LL 誤用裸梁的 $S_b = 32{,}000$，梁底拉應力會算成 312 而非 155.4。</em></p>
+<p><img alt="RC-2006-4 兩階段斷面對照：Stage 1 用 30×80 裸梁（A=2,400，St=Sb=32,000），Stage 2 用組合轉換斷面（版寬 100 折算為 b'=89.4，形心距梁底 57.03 cm，Ic=3,246,813，Sc,top=141,363、Sc,bot=56,930）" src="../../raw/solutions/RC-2006-4/figs/RC-2006-4-fig-1-composite.svg" /></p>
+<p><em>圖 1　兩個階段、兩個斷面。組合後形心距梁底 57.03 cm，$S_{c,top}/S_{c,bot} = 2.48$——這張圖攔的是「兩階段共用同一組斷面性質」：若 LL 誤用裸梁的 $S_b = 32{,}000$，梁底拉應力增量會算成 156.3 而非 87.8；版寬取梁距 100 cm，讀成 200 會使版重與活載重加倍。</em></p>
 <hr />
 <h3>Step 4：Stage 2（組合斷面：$w_{LL}$ 均布活載重）</h3>
-<p>$$w_{LL} = 1.0 \text{ tf/m}^2 \times 2.0 \text{ m} = 2.0 \text{ tf/m} = 20.0 \text{ kgf/cm}$$</p>
-<p>$$M_{LL} = \frac{20.0 \times 2000^2}{8} = 20.0 \times 500{,}000 = 10{,}000{,}000 \text{ kgf·cm}$$</p>
+<p>$$w_{LL} = 1.0 \text{ tf/m}^2 \times 1.0 \text{ m} = 1.0 \text{ tf/m} = 10.0 \text{ kgf/cm}$$</p>
+<p>$$M_{LL} = \frac{10.0 \times 2000^2}{8} = 10.0 \times 500{,}000 = 5{,}000{,}000 \text{ kgf·cm}$$</p>
 <p><strong>LL 增量應力（作用於梁）：</strong></p>
-<p>$$\Delta f_{top}^{LL} = +\frac{M_{LL}}{S_{comp,top}} = +\frac{10{,}000{,}000}{280{,}622} = +\boxed{35.6 \text{ kgf/cm}^2 \text{ （壓）}}$$</p>
-<p>$$\Delta f_{bot}^{LL} = -\frac{M_{LL}}{S_{comp,bot}} = -\frac{10{,}000{,}000}{64{,}369} = -\boxed{155.4 \text{ kgf/cm}^2 \text{ （拉）}}$$</p>
+<p>$$\Delta f_{top}^{LL} = +\frac{M_{LL}}{S_{c,top}} = +\frac{5{,}000{,}000}{141{,}363} = +\boxed{35.37 \text{ kgf/cm}^2 \text{ （壓）}}$$</p>
+<p>$$\Delta f_{bot}^{LL} = -\frac{M_{LL}}{S_{c,bot}} = -\frac{5{,}000{,}000}{56{,}930} = -\boxed{87.83 \text{ kgf/cm}^2 \text{ （拉）}}$$</p>
 <hr />
 <h3>Step 5：施加 LL 後梁頂/底總應力</h3>
 <table>
@@ -327,28 +437,57 @@ $$S_{comp,top} = \frac{I_c}{y_{beam,top}} = \frac{4{,}188{,}695}{14.93} = 280{,}
 <tbody>
 <tr>
 <td>梁頂</td>
-<td>+125.94（壓）</td>
-<td>+35.6（壓）</td>
-<td>$\boxed{+161.6 \text{ kgf/cm}^2}$（<strong>壓縮</strong>）</td>
+<td>+69.69（壓）</td>
+<td>+35.37（壓）</td>
+<td>$\boxed{+105.1 \text{ kgf/cm}^2}$（<strong>壓縮</strong>）</td>
 </tr>
 <tr>
 <td>梁底</td>
-<td>+49.06（壓）</td>
-<td>−155.4（拉）</td>
-<td>$\boxed{-106.3 \text{ kgf/cm}^2}$（<strong>拉伸</strong>）</td>
+<td>+105.31（壓）</td>
+<td>−87.83（拉）</td>
+<td>$\boxed{+17.5 \text{ kgf/cm}^2}$（<strong>壓縮</strong>）</td>
 </tr>
 </tbody>
 </table>
-<p><img alt="RC-2006-4 應力疊加三聯圖：Stage 1 梁頂 +125.94／梁底 +49.06，Stage 2 LL 於組合斷面 +35.6／−155.4，合計梁頂 +161.6（壓）、梁底 −106.3（拉）；右側對照「版 DL 誤放組合斷面」得梁底 −49.7 的錯誤結果" src="../../raw/solutions/RC-2006-4/figs/RC-2006-4-fig-2-stress.svg" /></p>
-<p><em>圖 2　載重該掛在哪個斷面上。版澆置時組合作用尚未形成，版 DL 必須由裸梁單獨承擔——最右格是把版 DL 誤放到組合斷面的結果，梁底從 −106.3 變成 −49.7，直接把「已開裂」誤判成「勉強可用」。</em></p>
+<p><strong>答：</strong> 施加均布活載重後，跨中預力梁<strong>上緣 +105.1 kgf/cm²（壓）</strong>、<strong>下緣 +17.5 kgf/cm²（壓）</strong>；全斷面仍受壓。</p>
+<p><img alt="RC-2006-4 應力疊加三聯圖：Stage 1 梁頂 +69.69／梁底 +105.31，Stage 2 LL 於組合斷面 +35.37／−87.83，合計梁頂 +105.1、梁底 +17.5（均壓）；右側對照「版 DL 誤放組合斷面」得梁底 +42.1 的錯誤結果" src="../../raw/solutions/RC-2006-4/figs/RC-2006-4-fig-2-stress.svg" /></p>
+<p><em>圖 2　載重該掛在哪個斷面上。版澆置時組合作用尚未形成，版 DL 必須由裸梁單獨承擔——最右格是把版 DL 誤放到組合斷面的結果，梁底從 +17.5 變成 +42.1，高估了梁底的預壓餘裕。</em></p>
 <hr />
 <h2>5. 關鍵爭議點與進階探討</h2>
-<h3>⚠ 容許應力驗算（2026-08-22 全面改正：舊版兩個容許值都錯，壓應力的結論因此反轉）</h3>
-<blockquote>
-<p><strong>舊版寫法（錯誤）：</strong> 壓應力容許 $0.4f'_c = 140$ → 判 ❌；拉應力容許 $3\sqrt{f'_c} = 56.1$ → 判 ❌。<br />
-$0.4f'_c$ 與 $3\sqrt{f'_c}$ 兩個係數在土木 401 與 ACI 318 的任何版本都查不到。</p>
-</blockquote>
-<p><strong>正確容許值（土木 401-110／112 §18.4；ACI 318-19 §24.5，kgf/cm² 制）：</strong></p>
+<h3>⚠ 舊版梁距判讀錯誤（2026-11-14 勘誤）</h3>
+<p>舊版把圖四兩段 100 cm 讀成「梁中心向兩側各 100 cm」，梁距取 200 cm，於是版重 720 kgf/m、$w_{LL}$ 2.0 tf/m、翼寬 200 cm 全部加倍，得到梁頂 +161.6、梁底 <strong>−106.3（拉）</strong>，並據此判斷「Class C 已開裂、預力不足」。考卷圖四兩段尺寸線的端點都落在梁中心（左、中、右三梁），梁距是 100 cm；改正後梁底仍有 +17.5 的預壓，<strong>原來的開裂結論不成立</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>讀法</th>
+<th>版重</th>
+<th>$M_{LL}$</th>
+<th>合成形心</th>
+<th>梁頂</th>
+<th>梁底</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>梁距 100 cm（本解）</strong></td>
+<td>360 kgf/m</td>
+<td>50 tf·m</td>
+<td>57.03</td>
+<td><strong>+105.1</strong></td>
+<td><strong>+17.5（壓）</strong></td>
+</tr>
+<tr>
+<td>梁距 200 cm（舊版誤讀）</td>
+<td>720 kgf/m</td>
+<td>100 tf·m</td>
+<td>65.07</td>
+<td>+161.6</td>
+<td>−106.3（拉）</td>
+</tr>
+</tbody>
+</table>
+<h3>容許應力檢核（現行台灣規範：建築物混凝土結構設計規範 112 年版 §24.5，kgf/cm² 制）</h3>
+<p>題目只求應力；以下依現行規範判讀其意義。</p>
 <table>
 <thead>
 <tr>
@@ -362,137 +501,66 @@ $0.4f'_c$ 與 $3\sqrt{f'_c}$ 兩個係數在土木 401 與 ACI 318 的任何版�
 <tbody>
 <tr>
 <td>梁頂（壓）</td>
-<td><strong>125.9</strong>（預力＋持續載重 $D$）</td>
-<td>預力＋持續載重</td>
+<td><strong>69.7</strong></td>
+<td>預力＋持續載重（梁、版自重）</td>
 <td>$0.45f'_c = 157.5$</td>
-<td>✅ 通過（餘裕 20%）</td>
+<td>✅（44%）</td>
 </tr>
 <tr>
 <td>梁頂（壓）</td>
-<td><strong>161.6</strong>（含瞬時活載 $L$）</td>
+<td><strong>105.1</strong></td>
 <td>預力＋全部載重</td>
 <td>$0.60f'_c = 210.0$</td>
-<td>✅ 通過（餘裕 23%）</td>
+<td>✅（50%）</td>
 </tr>
 <tr>
-<td>梁底（拉）</td>
-<td><strong>106.3</strong></td>
+<td>梁底（壓）</td>
+<td><strong>105.3</strong></td>
+<td>預力＋持續載重</td>
+<td>$0.45f'_c = 157.5$</td>
+<td>✅（67%）</td>
+</tr>
+<tr>
+<td>梁底（全部載重）</td>
+<td><strong>+17.5（壓）</strong></td>
 <td>使用階段</td>
-<td>Class U $2.0\sqrt{f'_c} = 37.4$；Class T 上限 $3.2\sqrt{f'_c} = 59.9$</td>
-<td>❌ 兩者皆超 → <strong>Class C</strong></td>
+<td>拉應力 ≤ U 類 $2.0\sqrt{f'_c} = 37.4$</td>
+<td>✅ 無拉應力 → <strong>U 類（未開裂）</strong></td>
+</tr>
+<tr>
+<td>版頂（壓）</td>
+<td><strong>52.3</strong></td>
+<td>活載重（換回版材料）</td>
+<td>$0.60f'_{c2} = 168$</td>
+<td>✅</td>
 </tr>
 </tbody>
 </table>
-<p><strong>因此本題真正的結論不是「壓應力超限」，而是：</strong></p>
-<p>$$f_{bot} = 106.3 \gg f_r = 2.0\sqrt{350} = 37.4\ \text{kgf/cm}^2$$</p>
-<p>底纖維拉應力是<strong>開裂模數的 2.84 倍</strong>，斷面在使用載重下<strong>必然已經開裂</strong>。<br />
-依 ACI 318-19 §24.5.2.1 的分級，此構材屬 <strong>Class C（開裂）</strong>，其後果有三：</p>
-<ol>
-<li>
-<p><strong>本題用的「未開裂全斷面彈性疊加」在物理上已失效</strong>——真實的梁底拉應力不會達到 106.3，<br />
-   一旦開裂中性軸就上移、$I$ 大幅下降，應力重分配。106.3 只能解讀為「<strong>假設不開裂時的名目值</strong>」。<br />
-   考場上這個值就是標準答案（題目要的是彈性分析），但<strong>必須加註這一句</strong>才是完整的工程判斷。</p>
-</li>
-<li>
-<p>Class C 構材不得用未開裂斷面做撓度計算，須改用 $I_{cr}$（§24.2.3.9）。</p>
-</li>
-<li>Class C 須做裂縫控制（鋼筋間距限制 §24.3.2）與腐蝕防護檢討；本梁若處於腐蝕環境（如濱海橋梁）根本不可採用。</li>
-</ol>
-<p><strong>設計上的診斷：</strong> $P_e = 210$ tf、$e = 25$ cm 提供的底纖維預壓只有 251.6 kgf/cm²，<br />
-而 $M_{S1}+M_{LL}$ 在各自斷面產生的底纖維拉力合計 $202.5 + 155.4 = 357.9$ kgf/cm²。<br />
-<strong>預力量明顯不足</strong>——要讓底纖維維持 Class U（$\le 37.4$），需要把預力提高約 40%，或加深梁、或加大偏心。</p>
-<p><img alt="RC-2006-4 容許應力利用率長條圖：梁頂持續載重 125.9 對 0.45f'c=157.5、梁頂全載 161.6 對 0.60f'c=210.0 皆通過；梁底拉 106.3 對 Class U 上限 37.4 與 Class T 上限 59.9 皆超出，判定 Class C" src="../../raw/solutions/RC-2006-4/figs/RC-2006-4-fig-3-allow.svg" /></p>
-<p><em>圖 3　五條檢核各自對哪一個容許值。$0.45f'_c$ 管持續載重、$0.60f'_c$ 管全部載重，兩者不可互換——這張圖攔的是拿 $0.4f'_c$、$3\sqrt{f'_c}$ 這類規範查不到的係數去判斷：換成正確容許值後，壓應力的結論從超限反轉為通過，真正出事的是梁底拉應力（$2.84$ 倍 $f_r$ → Class C）。</em></p>
+<p><strong>結論：</strong> 全斷面在使用載重下仍受壓，屬 U 類，§4 的未開裂彈性疊加完全有效。</p>
+<p><img alt="RC-2006-4 容許應力利用率長條圖：梁頂持續載重 69.7 對 157.5、梁頂全載 105.1 對 210.0、版頂 52.3 對 168、梁底持續載重 105.3 對 157.5 皆通過；梁底全載仍受壓 +17.5，拉應力 0 對 Class U 上限 37.4，屬 U 類" src="../../raw/solutions/RC-2006-4/figs/RC-2006-4-fig-3-allow.svg" /></p>
+<p><em>圖 3　五條檢核各自對哪一個容許值。$0.45f'_c$ 管持續載重、$0.60f'_c$ 管全部載重——這張圖攔的是拿 $0.4f'_c$、$3\sqrt{f'_c}$ 這類規範查不到的係數去判斷，以及梁距讀成 200 cm 而誤判開裂。</em></p>
 <h3>版頂應力驗算（附加）</h3>
-<p>版頂位於組合形心上方 $95 - 65.07 = 29.93$ cm（<strong>舊版誤寫 35.93 cm，實際代入的 29.93 是對的</strong>）。<br />
-LL 引起之版頂壓應力（須乘 $n$ 換回版材料）：</p>
-<p>$$f_{deck,top}^{LL} = +\frac{M_{LL} \times y_{deck,top}}{I_c} \times n = +\frac{10{,}000{,}000 \times 29.93}{4{,}188{,}695} \times 0.8944 = 71.45 \times 0.8944 = 63.9 \text{ kgf/cm}^2$$</p>
-<p>版容許壓應力 $0.60f'_{c2} = 0.60\times280 = 168$ kgf/cm²（<strong>舊版寫 $0.4\times280=112$，係數同樣無出處</strong>）：<br />
-$63.9 &lt; 168$ ✓ 版本身通過。</p>
+<p>版頂位於組合形心上方 $95 - 57.03 = 37.97$ cm，LL 引起之版頂壓應力（須乘 $n$ 換回版材料）：</p>
+<p>$$f_{deck,top}^{LL} = +\frac{M_{LL} \times y_{deck,top}}{I_c} \times n = +\frac{5{,}000{,}000 \times 37.97}{3{,}246{,}813} \times 0.8944 = 58.47 \times 0.8944 = 52.3 \text{ kgf/cm}^2$$</p>
+<p>$52.3 &lt; 0.60f'_{c2} = 168$ ✓</p>
 <h3>版 DL 在 Stage 1 而非 Stage 2</h3>
-<p>若版 DL 誤置於組合斷面（Stage 2），梁底在 Stage 1 結束後只扣掉梁自重：</p>
-<p>$$f_{bot}^{S1,\text{錯誤}} = +251.56 - \frac{5.76\times500{,}000}{32{,}000} = +251.56 - 90.0 = +161.6\ \text{kgf/cm}^2$$</p>
-<p>差異達 112.5 kgf/cm²，是本題最大的單一失分點。原卷「<strong>澆置樓版時利用梁作為支撐</strong>」就是判定依據。</p>
+<p>若版 DL 誤置於組合斷面（Stage 2），Stage 1 只扣掉梁自重：</p>
+<p>$$f_{bot}^{S1,\text{錯誤}} = +251.56 - \frac{5.76\times500{,}000}{32{,}000} = +251.56 - 90.0 = +161.56\ \text{kgf/cm}^2$$</p>
+<p>最終梁底變成 $+161.56 - (1{,}800{,}000 + 5{,}000{,}000)/56{,}930 = +42.1$（正解 +17.5），差 24.6 kgf/cm²。原卷「<strong>澆置樓版時利用梁作為支撐</strong>」就是判定依據。</p>
+<h3>附記：吊裝後、澆版前的梁底壓應力</h3>
+<p>$P_e$＋梁自重（版尚未澆置）時，梁底 $= 251.56 - 90.0 = +161.56$，略高於 $0.45f'_c = 157.5$（2.6%）。此狀態只維持到澆版為止，屬施工暫態；題目也未給施預力時強度 $f'_{ci}$ 與初始預力，無法做傳遞階段檢核。作答時可註明但不影響本題答案。</p>
 <h3>幾何與假設的精度說明</h3>
 <ul>
-<li>$I_c$ 精算 $= 4{,}188{,}695$ cm⁴（正文寫 4,188,623，差 0.002%，係 $\bar y$ 取三位小數的進位，不影響任何結論）。</li>
-<li>
-<p>$\gamma_c = 2400$ kgf/m³ 為原卷<strong>未給</strong>之假設。若改用 2,300 kgf/m³（同庫 RC-2012-1 原卷給的值），<br />
-  $w_{S1} = 12.42$ kgf/cm、$M_{S1} = 6{,}210{,}000$、$M_{S1}/S = 194.1$ → 梁頂 $+153.2$、梁底 $-97.9$ kgf/cm²，<br />
-  結論（Class C）不變。作答時務必把假設寫出來。</p>
-</li>
-<li>
-<p>版的有效寬度：$\min(L/4=500,\ b_w+16h_f=270,\ \text{梁間距}=200) = 200$ cm，與題給版寬相同 ✓。</p>
-</li>
+<li>$\gamma_c = 2400$ kgf/m³ 為原卷<strong>未給</strong>之假設。若改用 2,300 kgf/m³，$M_{S1}/S_1$ 由 146.25 降為 140.16 → 梁頂 $+98.96$、梁底 $+23.58$ kgf/cm²，結論（全斷面受壓）不變。作答時務必把假設寫出來。</li>
+<li>版的有效寬度：$\min(L/4=500,\ b_w+16h_f=270,\ \text{梁距}=100) = 100$ cm，即梁距控制。</li>
+<li>$n = E_{c2}/E_{c1}$，以 $E_c = 15000\sqrt{f'_c}$（現行規範常重混凝土式）代入得 $\sqrt{280/350}$。</li>
 </ul>
+<h3>規範版本說明</h3>
+<p>95 年考卷未指定規範版本。依本庫「規範版本」規定，容許應力一律用現行台灣規範（112 年版 §24.5：U／T／C 分類與 $0.45f'_c$、$0.60f'_c$ 壓應力限制）；本題計算本身（兩階段疊加、組合斷面折換）新舊規範沒有差異。</p>
 <hr />
-<h2>6. 依最新規範對照（土木 401-112／ACI 318-19）</h2>
-<p><strong>結論：兩個主線應力值不變（梁頂 $+161.6$ 壓、梁底 $-106.3$ 拉），但驗算的判定全部改寫。</strong></p>
-<table>
-<thead>
-<tr>
-<th>項目</th>
-<th>原解／舊制</th>
-<th>土木 401-112／ACI 318-19</th>
-<th>影響</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>兩階段疊加、組合斷面折換</td>
-<td>$n=\sqrt{f'_{c2}/f'_{c1}}$</td>
-<td>未改（$n=E_{c2}/E_{c1}$，$E_c=15000\sqrt{f'_c}$ ⇒ 同式）</td>
-<td><strong>無</strong></td>
-</tr>
-<tr>
-<td>$E_c$</td>
-<td>$15000\sqrt{f'_c}$（kgf 制）</td>
-<td>$4700\sqrt{f'_c}$ MPa ＝ $15000\sqrt{f'_c}$ kgf/cm²</td>
-<td><strong>無</strong></td>
-</tr>
-<tr>
-<td>$f_r$</td>
-<td>—</td>
-<td>$2.0\sqrt{f'_c}$ kgf/cm²（$=0.62\lambda\sqrt{f'_c}$ MPa，§19.2.3.1）</td>
-<td>新增開裂判定</td>
-</tr>
-<tr>
-<td>使用階段<strong>壓</strong>應力</td>
-<td>誤用 $0.4f'_c$</td>
-<td>$0.45f'_c$（預力＋持續載重）／$0.60f'_c$（預力＋全部載重），§24.5.4</td>
-<td><strong>判定由 ❌ 反轉為 ✅</strong></td>
-</tr>
-<tr>
-<td>使用階段<strong>拉</strong>應力</td>
-<td>誤用 $3\sqrt{f'_c}$</td>
-<td>Class U $\le 2.0\sqrt{f'_c}$／Class T $\le 3.2\sqrt{f'_c}$／超過為 Class C，§24.5.2.1</td>
-<td><strong>判定由「超限」升級為「Class C 已開裂」</strong></td>
-</tr>
-<tr>
-<td>未開裂彈性分析的適用性</td>
-<td>未討論</td>
-<td>僅 Class U 全程有效；Class T 可用未開裂算應力但撓度須用 $I_{cr}$；<strong>Class C 不適用</strong></td>
-<td>本題屬 C，需加註</td>
-</tr>
-<tr>
-<td>撓度</td>
-<td>未問</td>
-<td>Class C 須用 $I_{cr}$（§24.2.3.9）</td>
-<td>延伸題型</td>
-</tr>
-<tr>
-<td>裂縫控制</td>
-<td>未問</td>
-<td>Class C 適用 §24.3.2 鋼筋間距規定</td>
-<td>延伸題型</td>
-</tr>
-</tbody>
-</table>
-<p><strong>一句話總結：</strong> 最新規範沒有改變「怎麼算」，但改變了「算出來代表什麼」。<br />
-本題舊版把壓應力判成超限（其實通過）、把拉應力當成單純超限（其實已開裂、分析前提失效），<br />
-兩處都是<strong>用了不存在的容許值係數</strong>造成的。</p>
-<hr />
-<p><em>圖解補繪：2026-08-31（向量圖 3 張，腳本 <code>figs/gen_RC-2006-4.py</code>，可重跑；腳本檔尾對 §4／§5 公佈值做 assert）</em></p></main>
+<p><em>圖解補繪：2026-08-31（向量圖 3 張，腳本 <code>figs/gen_RC-2006-4.py</code>，可重跑；腳本檔尾對 §4／§5 公佈值做 assert）</em></p>
+<p><em>修正日期：2026-11-14（解析勘誤：梁距由 200 cm 改為 100 cm（題目正本判讀 #2，考卷圖四兩段 100 cm 皆為相鄰梁中心距）；版重 720→360 kgf/m、$w_{LL}$ 2.0→1.0 tf/m、翼寬 200→100 cm；梁頂 +161.6→+105.1、梁底 −106.3（拉）→+17.5（壓），Class C 結論撤銷改為 U 類；舊 §6 規範對照併入 §5，改依現行台灣規範（建築物混凝土結構設計規範 112 年版）；驗證：verify_RC-2006-4.py 重算 12 值 MISMATCHES: 0，條帶積分第二路徑梁底差 0.000；圖 1–3 依新數值重跑）</em></p>
+<p><em>修正日期：2026-11-14（§1 改為指向題目正本，重繪題目附圖 figs/RC-2006-4-fig-1-problem.svg）</em></p></main>
 <footer>來源：raw/solutions/RC-2006-4/RC-2006-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
 </footer>
 <script>

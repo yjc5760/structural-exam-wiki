@@ -61,7 +61,7 @@
 腳本 `gen_SS-YYYY-N.py` 與 `figs/` 放在該題資料夾，`.md` 引用 SVG 相對路徑。
 （互動圖 `*-viz.html` 功能已於 2026-10-29 停用。）
 
-> SS 既有的 19 份互動圖（`*-viz.html`，內容碼 `sfd-bmd`／`pm`／`ltb`／`column-curve`／`connection`）保留為舊檔，儀表板仍可開啟，但不再新增或維護；勘誤時改以 struct-diagram 圖解取代。
+> SS 原有的 19 份互動圖（`*-viz.html`，內容碼 `sfd-bmd`／`pm`／`ltb`／`column-curve`／`connection`）已於 2026-11-01 全數刪除（見 §9 CHANGELOG），圖解一律以 struct-diagram 產生。
 
 本科常見圖解：
 
@@ -217,6 +217,8 @@ P-M 互制：
 | 2026-10-29 | 停用互動圖（`*-viz.html`）；§4 改為 struct-diagram 圖解 | 靜態向量圖可重跑、可審核，與互動圖功能重疊 |
 | 2026-11-08 | **由獨立 repo `exam-wiki-SS` 搬入本資料夾**（只搬檔案，不含 git 歷史）：`raw/`、`study/`、`wiki/queries/`、`archive/`、`scripts/`、`影片講義/`、`start.html`、儀表板等全部更新為 11-08 現況；原 repo 根目錄的 CLAUDE*.md 與 xcheck.py 存參考副本於 `archive/exam-wiki-SS-root/`；SS 較新的 skills（exam-start-page、unit-textbook 與 unit-* 的 SKILL.md）、`xcheck.py`、勘誤回報表單併入根目錄 | 10-29 合併後 SS 仍在原 repo 持續更新（wiki 封存、題目正本、單元總覽、起點頁等），兩邊分岔；五科共用 skill 集中維護。原 repo 與 GitHub Pages 舊網址維持上線不動，git 歷史保留在原 repo |
 | 2026-11-08 | 根目錄規則整併後同步本檔：§2 寫入 SS 分類原則（只填 SS 子項，`subject_profiles.json` SS `relatedTopics` 清空）；§5 改為 wiki 封存說明、§6 改為「題型辨識」（拿掉已封存的診斷頁欄）；§10 縮減為仍屬 SS 專屬或待辦的 4 項；共用腳本移至根目錄，`scripts/` 只留 `add_backlink.py`、`fixes/`；README、檔案架構索引表、知識庫使用說明書改為合併後路徑 | SS 的新規則已升為五科通用，見根目錄 CLAUDE.md CHANGELOG |
+| 2026-11-14 | 儀表板接上共用腳本：`dashboard-data.js` 改由 `scripts/refresh_dashboard.py SS` 產生（`KB_*` 變數，內容與索引一致）；`index.html` 加 `KB_*`→`SS_*` 相容段（保留本科起點頁入口、結果列、手機版等功能，未改用共用樣板），設計法篩選補「塑性分析」；§4 互動圖敘述改為已刪除；`檔案架構索引表.md`、`知識庫使用說明書.md` 驗證統計更正為 98 題 unverified | 一致性檢查（`wiki/queries/一致性檢查-SS-2026-11-14.md`）發現：本頁只讀 `SS_*`，一跑共用腳本儀表板即空白；說明文件仍寫 98 題 verified、19 份互動圖仍在 |
+| 2026-11-14 | 一致性檢查後續訂正：索引 tags 補正本標籤（28 題）；預拉力教材統一為 \(0.70F_uA_t\)；勘誤 SS-2008-3（\(M_{cr}\) 末位）、SS-2024-2（1.566→1.565）、SS-2024-3 題目正本 \(G\) 790→810、SS-2018-2（改依現行台灣規範：\(\phi_c\) 0.85 主線、箱型 \(\lambda_r=63/\sqrt{F_y}\)）、SS-2014-4（AISC-LRFD 取 1999 版並註明）；新增 `study/unit-SS-U2-2.html`（U2-2 首份單元總覽） | 一致性檢查（`wiki/queries/一致性檢查-SS-2026-11-14.md`）列出的待決項；五題答案皆不變，詳見 log 同日各條 |
 
 ### 獨立 repo 時期的變更紀錄（2026-10-30～11-08，原 exam-wiki-SS/CLAUDE.md CHANGELOG，原樣保留）
 

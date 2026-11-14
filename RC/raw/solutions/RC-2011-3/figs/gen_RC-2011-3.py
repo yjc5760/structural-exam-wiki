@@ -9,11 +9,13 @@ RC-2011-3 矩形柱・0.9Pb 下的設計彎矩與斷面韌性 — 解題圖解�
   2. 改 §1 任一數字重跑，三張圖跟著變。
   3. FIGURES 表寫明每張圖攔什麼錯。
 
-註：本檔採解讀 A（0.9P_b 視為標稱軸力 P_n），與 .md §5「題意歧義」的定案一致。
+註：本檔採讀法②（0.9P_b 視為標稱軸力 P_n，關卡一確認）；㈡ φ_u、φ_y 都在使用軸力 N = 0.9P_b/γ 下（2026-11-14 使用者定案）。
+2026-11-14 勘誤：鋼筋由 2+2+2 三排改為左右兩排各 3-#10（題目正本判讀 #4）；φ 過渡區依本庫約定（ε_ty → SD420 取 0.005）；
+φ_y 的彈性開裂斷面扣除壓力筋位置的混凝土。
 """
 import sys, os, math
 sys.path.insert(0, os.environ.get("STRUCTDRAW_DIR",
-                                  "/mnt/skills/user/struct-diagram/scripts"))
+                                  os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "..", "skills", "struct-diagram", "scripts")))
 from structdraw import Canvas, C, compose
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "figs"
@@ -25,8 +27,8 @@ TAG = "RC-2011-3"
 B, H = 40.0, 60.0
 FC, FY, ES = 350.0, 4200.0, 2.04e6
 A_BAR = 8.143            # #10
-N_PER_ROW = 2            # 6-#10 分三排，每排 2 根
-ROWS = (6.0, 30.0, 54.0)  # 各排距壓力面 (cm)
+N_PER_ROW = 3            # 6-#10 分左右兩排，每排 3 根（題目正本判讀 #4）
+ROWS = (6.0, 54.0)       # 各排距壓力面 (cm)
 GAMMA = 1.3              # 載重係數
 EPS_CU = 0.003
 
@@ -39,9 +41,11 @@ TF, TFM = 1e-3, 1e-5
 
 
 def phi_of(et):
-    if et >= 0.005:  return 0.90
-    if et <= EPSY:   return 0.65
-    return 0.65 + 0.25 * (et - EPSY) / (0.005 - EPSY)
+    # 本庫約定：壓力控制 ε_t ≤ ε_ty；拉力控制界限 SD420 取 0.005（規範 ε_ty + 0.003 對 SD420 的取值）
+    lim = 0.005 if FY <= 4200 else EPSY + 0.003
+    if et >= lim:  return 0.90
+    if et <= EPSY: return 0.65
+    return 0.65 + 0.25 * (et - EPSY) / (lim - EPSY)
 
 
 def section(c):
@@ -91,7 +95,7 @@ def elastic_na(N):
         tot = Cc
         for d in ROWS:
             eps = eps_c * (k - d) / k
-            tot += AS_ROW * ES * eps * (1 if d >= k else 1)
+            tot += AS_ROW * (ES * eps - (Ec * eps if eps > 0 else 0))   # 扣除壓力筋位置的混凝土
         return tot - N
     lo, hi = 1.0, D - 0.5
     for _ in range(300):
@@ -120,25 +124,27 @@ def _sec(cv, mark_mid=True):
 
 
 def fig1_section():
-    W, HH = 700, 560
-    L, Rm, T, Bm = 96, 286, 88, 92
+    W, HH = 730, 560
+    L, Rm, T, Bm = 96, 316, 88, 92
     sx = min((W - L - Rm) / B, (HH - T - Bm) / H)
     cv = Canvas(W, HH, sx=sx, ox=L, oy=Bm, bg="#FFFFFF")
     _sec(cv)
     cv.line((-1, H / 2), (B + 1, H / 2), C["accent"], 1.8, dash="7 4")
-    cv.text_px(cv.X(B) + 8, cv.Y(H / 2), "塑性形心 h/2 = 30", 12.5,
-               C["accent"], "start", weight="700")
+    cv.text_px(cv.X(0) - 10, cv.Y(H / 2) - 8, "塑性形心", 12.5,
+               C["accent"], "end", weight="700")
+    cv.text_px(cv.X(0) - 10, cv.Y(H / 2) + 12, "h/2 = 30", 12.5,
+               C["accent"], "end", weight="700")
     cv.dim((0, 0), (B, 0), f"b = {B:.0f} cm", off=34, color=C["dim"])
     cv.dim((B, 0), (B, H), f"h = {H:.0f} cm", off=44, color=C["dim"])
     for d in ROWS:
         cv.text_px(cv.X(0) - 10, cv.Y(H - d), f"d = {d:.0f}", 12.2,
                    C["muted"], "end")
 
-    x = W - Rm + 12
+    x = W - Rm + 42   # 圖例右移，避開 h 尺寸文字
     y = 118
     for col, expr, desc in [
-        (C["member"], f"6-#10 分三排，每排 {N_PER_ROW} 根", f"A_s（每排）= {AS_ROW:.3f} cm^{{2}}"),
-        (C["accent"], "中排 d_m = 30 cm = h/2", "力臂為零 → 不貢獻彎矩"),
+        (C["member"], f"2 × {N_PER_ROW}-#10", f"左右兩排；每排 A_s = {AS_ROW:.3f} cm^{{2}}"),
+        (C["accent"], "d' = 6,  d = 54 cm", "沒有中排；d'' = 24 是中心線到一排"),
         (C["compr"], f"β_1 = {BETA1:.2f}", f"f'_c = {FC:.0f} > 280"),
         (C["compr"], f"c_b = {CB:.2f} cm", f"a_b = {BETA1*CB:.2f} cm"),
         (C["load"], f"P_b = {BAL['Pn']*TF:.1f} tf", f"M_b = {BAL['Mn']*TFM:.2f} tf·m"),
@@ -148,13 +154,13 @@ def fig1_section():
         cv.text_px(x + 20, y + 14, desc, 12, C["muted"], "start")
         y += 54
 
-    cv.text_px(x, y + 10, "⚠ 中排的兩面性", 13.5, C["accent"], "start", weight="700")
-    cv.text_px(x, y + 32, "彎矩：力臂 0，完全不貢獻", 12.2, C["muted"], "start")
-    cv.text_px(x, y + 52, "軸力：照樣要算——c > 30 時", 12.2, C["muted"], "start")
-    cv.text_px(x, y + 72, "受壓，c 小於 30 時受拉", 12.2, C["muted"], "start")
+    cv.text_px(x, y + 10, "⚠ 不要畫出中排", 13.5, C["accent"], "start", weight="700")
+    cv.text_px(x, y + 32, "考卷每排 3 個圓點，在 40 cm", 12.2, C["muted"], "start")
+    cv.text_px(x, y + 52, "方向排開；讀成 2+2+2 會少算", 12.2, C["muted"], "start")
+    cv.text_px(x, y + 72, "兩排鋼筋各 1/3 的面積", 12.2, C["muted"], "start")
 
-    cv.text_px(W / 2, 34, "圖 1　矩形柱斷面與三排鋼筋", 17, C["text"], weight="700")
-    cv.text_px(W / 2, 58, "橘色中排恰在塑性形心上——考生最常忽略的一排",
+    cv.text_px(W / 2, 34, "圖 1　矩形柱斷面與兩排鋼筋", 17, C["text"], weight="700")
+    cv.text_px(W / 2, 58, "左右兩排各 3-#10，對稱配筋，塑性形心在 h/2",
                12.8, C["muted"])
     return cv.svg()
 
@@ -235,9 +241,9 @@ def fig2_balanced():
     return compose([c1, c2, c3],
                    title="圖 2　軸力 = 0.9Pb 時的斷面／應變／合力",
                    sub=f"c = {s['c']:.2f} cm、a = {s['a']:.2f} cm；"
-                       f"中排位置 30 cm 大於 a，落在等值應力塊之外",
-                   note="中排在應力塊外就不扣 0.85f\'c 占位，而且此時它其實受微拉——"
-                        "這兩件事一起錯會讓軸力差一截")
+                       f"壓力筋在應力塊內，扣 0.85f'c 占位",
+                   note="c 小於 c_b，拉力筋已降伏；ε_t 落在過渡區，φ 依現行規範"
+                        "在 ε_ty 與 0.005 之間內插")
 
 
 # ══════════════════════════════════════════════════════════
@@ -275,17 +281,64 @@ def fig3_curvature():
                f"φ_u = ε_cu/c = {PHI_U:.3e} 1/cm")
     return compose([p1, p2],
                    title=f"圖 3　曲率延展比 = 極限曲率 / 降伏曲率 = {MU:.2f}",
-                   sub=f"同一服務軸力 N = {N_SERVICE*TF:.1f} tf 下的兩個狀態",
+                   sub=f"同一使用軸力 N = 0.9Pb/γ = {N_SERVICE*TF:.1f} tf 下的兩個狀態",
                    note="降伏曲率用彈性三角形應力分佈、極限曲率用 Whitney 矩形——"
                         "兩者本構不同，不可混用同一組公式")
 
 
 # ══════════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-14，RC-U1-2 題目正本推廣・批 1）
+# 依據：題目正本 <id>-problem.md §4 判讀清單（已確認）。只畫考卷給的東西，不含解題結果；
+# 考卷未標尺寸的位置（如鋼筋在非彎曲方向的間距）畫成示意，並在副標寫明。
+# ══════════════════════════════════════════════════════════
+def _pc(Wm, Hm, maxpx=330, l=90, r=110, t=120, b=110):
+    s = maxpx / max(Wm, Hm)
+    return Canvas(int(Wm * s + l + r), int(Hm * s + t + b), sx=s, ox=l, oy=b)
+
+
+def _prect(cv, x0, y0, x1, y1, fill="#EDF1F6", stroke=None, w=2.4, dash=None):
+    pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]
+    cv.polygon(pts, fill)
+    cv.poly(pts, stroke or C["member"], w, dash=dash)
+
+
+def _pbar(cv, p, r=1.25, fill=None):
+    cv.circle(p, r, fill=fill or C["member"], stroke=C["member"], w=1.2)
+
+P_H, P_B = 60.0, 40.0               # 判讀 #3 h（彎曲方向，水平）、b
+P_DP, P_D = 6.0, 54.0               # 判讀 #4 d'、d
+
+
+def fig1_problem():
+    W, H = P_H, P_B
+    cv = _pc(W, H, l=140, b=170)
+    _prect(cv, 0, 0, W, H)
+    cv.poly([(4, 3.5), (W - 4, 3.5), (W - 4, H - 3.5), (4, H - 3.5), (4, 3.5)], C["muted"], 1.4)
+    for x in (P_DP, P_D):
+        for y in (6.0, H / 2, H - 6.0):      # 40 cm 方向位置考卷未標，示意
+            _pbar(cv, (x, y), 1.4)
+    cv.text((W / 2 - 13, H / 2), "6-#10", 14, weight="700")
+    cv.line((W / 2, -2), (W / 2, H + 3), C["dim"], 1.2, dash="6 4")
+    cv.dim((W, H), (W, 0), "b = 40 cm", off=-30, label_off=-44)
+    cv.dim((0, 0), (P_DP, 0), "", off=26, label_off=14)
+    cv.math((-1.0, 0), "d' = 6 cm", 14, C["dim"], anchor="end", dy=26)
+    cv.dim((W / 2, 0), (P_D, 0), "d'' = 24 cm", off=26, label_off=14)
+    cv.dim((P_DP, 0), (W, 0), "d = 54 cm", off=64, label_off=14)
+    cv.dim((0, 0), (W, 0), "h = 60 cm", off=102, label_off=14)
+    return compose([cv], title=f"{TAG} 題目附圖（圖 2 重繪）",
+                   sub="依題目正本判讀清單 #3–#6；#3 箍筋；鋼筋在 40 cm 方向的位置考卷未標，圖上為示意",
+                   note="左右兩排各 3-#10（d' = 6、d = 54 cm），沒有中排；d'' 是中心線到一排鋼筋")
+
+
 FIGURES = [
+    ("1-problem", fig1_problem,
+     "把 6-#10 讀成 2+2+2 三排、把 d'' 當壓力筋到中排"),
     ("1-section",   fig1_section,
-     "忽略中排：彎矩多算（它力臂為零），或軸力漏算（它照樣有力）"),
+     "把 6-#10 讀成 2+2+2 三排（每排面積少 1/3）"),
     ("2-balanced",  fig2_balanced,
-     "中排在應力塊外仍誤扣 0.85f'_c；沒發現 c < 30 時中排其實受拉"),
+     "壓力筋在應力塊內未扣 0.85f'_c；φ 過渡區以 0.002 為起點"),
     ("3-curvature", fig3_curvature,
      "φ_y 與 φ_u 混用同一種應力分佈（彈性三角形 vs Whitney 矩形）"),
 ]
@@ -297,21 +350,21 @@ def main():
     checks = [
         ("β_1",      BETA1,           0.80,     0.001),
         ("c_b",      CB,              32.023,   0.01),
-        ("P_b tf",   BAL["Pn"] * TF,  306.3,    0.2),
-        ("M_b tfm",  BAL["Mn"] * TFM, 84.08,    0.05),
-        ("0.9P_b tf", P_TARGET * TF,  275.7,    0.2),
-        ("c",        w["c"],          29.606,   0.01),
-        ("a",        w["a"],          23.685,   0.01),
-        ("ε_t",      w["et"],         0.002472, 5e-6),
-        ("φ",        w["phi"],        0.6851,   0.001),
-        ("M_n tfm",  w["Mn"] * TFM,   82.85,    0.05),
-        ("φM_n tfm", w["phi"] * w["Mn"] * TFM, 56.75, 0.05),
-        ("N tf",     N_SERVICE * TF,  212.1,    0.2),
-        ("k",        K_Y,             24.955,   0.06),
-        ("φ_y",      PHI_Y,           7.088e-5, 3e-7),
-        ("c*",       C_U,             24.922,   0.06),
-        ("φ_u",      PHI_U,           1.2038e-4, 5e-7),
-        ("μ_φ",      MU,              1.698,    0.02),
+        ("P_b tf",   BAL["Pn"] * TF,  297.6,    0.2),
+        ("M_b tfm",  BAL["Mn"] * TFM, 99.91,    0.05),
+        ("0.9P_b tf", P_TARGET * TF,  267.8,    0.2),
+        ("c",        w["c"],          28.897,   0.01),
+        ("a",        w["a"],          23.118,   0.01),
+        ("ε_t",      w["et"],         0.002606, 5e-6),
+        ("φ",        w["phi"],        0.6965,   0.001),
+        ("M_n tfm",  w["Mn"] * TFM,   98.24,    0.05),
+        ("φM_n tfm", w["phi"] * w["Mn"] * TFM, 68.42, 0.05),
+        ("N tf",     N_SERVICE * TF,  206.0,    0.2),
+        ("k",        K_Y,             25.048,   0.06),
+        ("φ_y",      PHI_Y,           7.111e-5, 3e-7),
+        ("c*",       C_U,             22.405,   0.06),
+        ("φ_u",      PHI_U,           1.339e-4, 5e-7),
+        ("μ_φ",      MU,              1.883,    0.02),
     ]
     print("── 與 RC-2011-3.md §4 對帳 ──")
     for name, got, want, tol in checks:

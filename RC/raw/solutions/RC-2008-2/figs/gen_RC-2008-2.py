@@ -299,7 +299,60 @@ def fig3_pm():
 
 
 # ══════════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-14，RC-U1-2 題目正本推廣・批 1）
+# 依據：題目正本 <id>-problem.md §4 判讀清單（已確認）。只畫考卷給的東西，不含解題結果；
+# 考卷未標尺寸的位置（如鋼筋在非彎曲方向的間距）畫成示意，並在副標寫明。
+# ══════════════════════════════════════════════════════════
+def _pc(Wm, Hm, maxpx=330, l=90, r=110, t=120, b=110):
+    s = maxpx / max(Wm, Hm)
+    return Canvas(int(Wm * s + l + r), int(Hm * s + t + b), sx=s, ox=l, oy=b)
+
+
+def _prect(cv, x0, y0, x1, y1, fill="#EDF1F6", stroke=None, w=2.4, dash=None):
+    pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]
+    cv.polygon(pts, fill)
+    cv.poly(pts, stroke or C["member"], w, dash=dash)
+
+
+def _pbar(cv, p, r=1.25, fill=None):
+    cv.circle(p, r, fill=fill or C["member"], stroke=C["member"], w=1.2)
+
+P_W, P_H = 8 + 20 + 20 + 8, 20 + 20.0   # 判讀 #2
+P_COLS = ((8.0, 2), (28.0, 2), (48.0, 4))  # 判讀 #4（距左緣，根數）
+
+
+def fig1_problem():
+    W, H = float(P_W), P_H
+    cv = _pc(W, H, r=140)
+    _prect(cv, 0, 0, W, H, fill="#FFFFFF")
+    cv.poly([(8, 8), (48, 8), (48, 32), (8, 32), (8, 8)], C["member"], 2.2)
+    for x, n in P_COLS:                     # 垂直位置考卷未標，示意（右列等距，判讀 #5）
+        ys = (8.0, 32.0) if n == 2 else (8.0, 16.0, 24.0, 32.0)
+        for y in ys:
+            _pbar(cv, (x, y), 1.5)
+    cv.text((16, 20), "8-#8", 14, weight="700", dy=14)
+    cv.arrow((28, 20), (W + 12, 20), C["muted"], 1.4, head=8)
+    cv.math((W + 13, 20), "X", 15, anchor="start")
+    cv.arrow((28, 20), (28, 27), C["muted"], 1.4, head=8)
+    cv.math((26.5, 27), "Y", 15, anchor="end")
+    xa = 37.0                                # A 點位置考卷未標（示意）
+    cv.line((xa - 1, 19), (xa + 1, 21), C["load"], 1.8); cv.line((xa - 1, 21), (xa + 1, 19), C["load"], 1.8)
+    cv.math((xa, 23), "A", 15)
+    xs = (0.0, 8.0, 28.0, 48.0, W)
+    for a, b_ in zip(xs[:-1], xs[1:]):
+        cv.dim((a, H), (b_, H), f"{b_ - a:.0f} cm", off=-26, label_off=-14)
+    cv.dim((W, H), (W, 20), "20 cm", off=-30, label_off=-30)
+    cv.dim((W, 20), (W, 0), "20 cm", off=-30, label_off=-30)
+    return compose([cv], title=f"{TAG} 題目附圖（圖二重繪）",
+                   sub="依題目正本判讀清單 #2–#10；右列 4 根垂直間距與 A 點位置考卷未標，圖上為示意",
+                   note="右側為壓力側；左列 2 根為拉力側鋼筋；Y 軸在斷面幾何中心（x = 28 cm）")
+
+
 FIGURES = [
+    ("1-problem", fig1_problem,
+     "把 Y 向讀成 56 cm 方柱、把右列 4 根讀成 3-2-3"),
     ("1-section", fig1_section,
      "還去解方程求 c——本題 ε_t = 0 已經把 c 鎖死在 48 cm"),
     ("2-strain",  fig2_strain,

@@ -39,4 +39,4 @@
 
 - [封存的舊主索引](../../archive/wiki/index.md)
 - [封存的依年份瀏覽](../../archive/wiki/by-year.md)
-- [題型診斷](../diagnosis/index.md)
+- [封存的題型診斷](../../archive/wiki/diagnosis/index.md)
