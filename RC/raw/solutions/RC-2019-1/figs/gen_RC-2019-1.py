@@ -299,3 +299,36 @@ assert abs(RHO_B - 0.02143) < 1e-5,          RHO_B
 print(f"{TAG}: 3 圖 OK　As={AS:.2f} a={S['a']:.2f} c={S['c']:.2f} "
       f"εt={S['et']:.5f} φ={S['phi']:.4f}　roots=({ROOT_S:.2f}, {ROOT_L:.2f}) "
       f"As,min={AS_MIN:.2f} ρb={RHO_B:.5f}")
+
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-13 補，RC-U1-1 題目正本批 2）
+# 依據：題目正本 RC-2019-1-problem.md §4 判讀清單（已確認）；只畫考卷給的東西
+#   fig-1-problem  攔：把 63 當全深、7 當淨保護層
+# ══════════════════════════════════════════════════════════
+def fig1_problem():
+    BP, DP_, CV = 50.0, 63.0, 7.0          # #1 #2 #3
+    HP = DP_ + CV
+    W, Hc = 600, 520
+    s = 4.0
+    cv = Canvas(W, Hc, sx=s, ox=W / 2 - BP * s / 2 - 20, oy=90)
+    cv.panel("單筋梁斷面（重繪）", "判讀清單 #1–#4；長度單位 cm")
+    cv.polygon([(0, 0), (BP, 0), (BP, HP), (0, HP)], "#EDF1F6", C["member"], 2.6)
+    for x in (6, 12, BP - 12, BP - 6):
+        cv.dot((x, CV), 5.5, fill=C["tension"], stroke="#FFFFFF", w=1.2)
+    cv.text((BP / 2, CV), "- - -", 14, C["tension"], weight="700")
+    cv.math((BP / 2 - 4, CV + 8), "A_{s}", 15, C["tension"], weight="700")
+    cv.text((BP / 2 + 4, CV + 8), "（單層配置）", 13, C["tension"], "start", weight="700")
+    cv.dim((0, HP), (BP, HP), "50", off=-28, label_off=-14)
+    cv.dim((BP, HP), (BP, CV), "63", off=-30, label_off=-22)
+    cv.dim((BP, CV), (BP, 0), "7", off=-30, label_off=-20)
+    cv.text_px(cv.X(BP / 2), cv.Y(0) + 34, "63 由頂面量到鋼筋列中心；7 由鋼筋列中心量到底面", 12.5, C["accent"], weight="700")
+    path = os.path.join(OUT, f"{TAG}-fig-1-problem.svg")
+    compose([cv], title=f"{TAG} 題目附圖（重繪）",
+            sub="b = 50；右側尺寸鏈 63 + 7；底部單層拉力筋 As（根數未定）",
+            note="d = 63、h = 70；提示：本題 φ 介於 0.65 與 0.9 之間",
+            path=path)
+    return path
+
+
+print(os.path.basename(fig1_problem()), "　攔：63 當全深、7 當淨保護層")

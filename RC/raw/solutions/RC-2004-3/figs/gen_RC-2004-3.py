@@ -12,7 +12,7 @@ RC-2004-3 特殊抗彎構架柱・圍束箍筋間距 — 解題圖解產生腳�
 import sys, os, math
 sys.path.insert(0, os.environ.get("STRUCTDRAW_DIR",
                                   "/mnt/skills/user/struct-diagram/scripts"))
-from structdraw import Canvas, C
+from structdraw import Canvas, C, compose
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "figs"
 TAG = "RC-2004-3"
@@ -180,7 +180,47 @@ def fig2_spacing():
 
 
 # ══════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-14，RC-U3-3 批 1；依題目正本 RC-2004-3-problem.md §4，已確認）
+# 只畫考卷給的東西：50×50、8-D25（四角＋四邊中點）、D13 外箍＋兩支繫筋
+# 考卷未標保護層：箍筋位置依考卷附圖 PDF 向量量得的示意值（7.5 pt／75.3 pt），不標尺寸
+# ══════════════════════════════════════════════════════════
+P_HOOP_INSET = B * 7.5 / 75.3     # 考卷附圖外框到箍筋線的比例距離（示意）
+
+
+def fig_problem():
+    W, H = 640, 600
+    s = 7.0
+    cv = Canvas(W, H, sx=s, ox=W / 2 - B * s / 2 - 60, oy=H / 2 - B * s / 2 + 6)
+    cv.panel("柱斷面（重繪）", "依題目正本判讀清單 #1–#3；未依比例")
+    cv.polygon([(0, 0), (B, 0), (B, B), (0, B)], "#EDF1F6", C["member"], 2.6)
+    e = P_HOOP_INSET
+    cv.polygon([(e, e), (B - e, e), (B - e, B - e), (e, B - e)], "none", C["deform"], 2.2)
+    m = B / 2
+    cv.line((e, m), (B - e, m), C["accent"], 2.2)          # 水平繫筋
+    cv.line((m, e), (m, B - e), C["accent"], 2.2)          # 垂直繫筋
+    r = DB_MAIN / 2
+    q = e + DB_TIE / 2 + r
+    for x in (q, m, B - q):
+        for y in (q, m, B - q):
+            if (x, y) == (m, m):
+                continue
+            cv.circle((x, y), r, "#FFFFFF", C["member"], 1.8)
+    cv.line((B - q + r, B - q), (B + 8, B - q), C["muted"], 1)
+    cv.text((B + 9, B - q), "8-D25", 14, C["text"], "start")
+    cv.line((m + 1, m - 6), (B + 8, m - 6), C["muted"], 1)
+    cv.text((B + 9, m - 6), "D13", 14, C["text"], "start")
+    cv.dim((0, 0), (B, 0), "50 cm", off=26, label_off=14)
+    cv.dim((0, B), (0, 0), "50 cm", off=26, label_off=26)
+    cv.text_px(W / 2, H - 20, "每一方向 3 支腳：外箍 2＋繫筋 1；保護層考卷未給", 12.5, C["accent"], weight="700")
+    return compose([cv], title=f"{TAG} 題目附圖（重繪）",
+                   sub="柱 50×50 cm；主筋 8-D25（fy＝4200）；箍筋及繫筋 D13（fy＝2800）；f'c＝280 kgf/cm²",
+                   note="考卷只標外緣 50 cm；箍筋到柱面距離、hc、Ach 都沒有給")
+
+
+
 FIGURES = [
+    ("1-problem", fig_problem, "8-D25 位置、繫筋支數讀錯（每方向腿數）"),
     ("1-section", fig1_section,
      "h_c 誤用箍筋中心距（與量到外緣的 A_ch 混用兩套基準）；把 6 腿全部算給同一方向"),
     ("2-spacing", fig2_spacing,

@@ -10,7 +10,8 @@ RC-2011-2 T 形梁 As = 0.9Asb・斷面韌性容量 — 解題圖解產生腳本
   3. FIGURES 表寫明每張圖攔什麼錯。
 
 FIGURES
-  fig-1-section    兩種尺寸讀法對照   攔：把附圖尺寸鏈直讀成 d=100 而不自覺
+  fig-1-problem    題目附圖重繪       攔：把 90 cm 段讀成到梁底、h 讀成 100（題目正本判讀 #3–#5）
+  fig-1-section    兩種尺寸讀法對照   攔：以為附圖比例只合 h=100 而改讀 d=90（2026-11-12 勘誤）
   fig-2-et-band    εt 規範帶狀圖      攔：φ 逕取 0.9、漏檢 εt ≥ 0.004
   fig-3-curvature  彈性 NA vs 塑性 NA 攔：φy 與 φu 混用同一條中性軸
 """
@@ -30,8 +31,8 @@ BF     = 80.0      # 翼板寬 (cm)
 HF     = 10.0      # 翼板厚 (cm)
 BW     = 40.0      # 腹板寬 (cm)
 COV    = 10.0      # 底部鋼筋形心至底纖維 (cm)
-H_MAIN = 100.0     # 本解採用的全深 (cm)   ← 依圖面比例判定
-H_ALT  = 110.0     # 尺寸鏈直讀的全深 (cm)
+H_MAIN = 110.0     # 本解採用的全深 (cm)   ← 題目正本判讀 #5：尺寸鏈 10+90+10，PDF 向量按比例量得 109.8
+H_ALT  = 100.0     # 舊解（2026-08-21～11-12）誤讀的全深 (cm)
 FC     = 350.0
 FY     = 4200.0
 ES     = 2.04e6
@@ -81,7 +82,7 @@ def solve(h):
 
 
 M = solve(H_MAIN)      # 本解
-A = solve(H_ALT)       # 直讀
+A = solve(H_ALT)       # 舊解誤讀
 
 # ══════════════════════════════════════════════════════════
 # 共用：T 形斷面
@@ -105,7 +106,7 @@ def draw_T(cv, h, d, nbar=5):
 # ══════════════════════════════════════════════════════════
 PW, PH = 470, 650
 TOPPX = 132                                       # 斷面頂緣距畫布上緣（兩格對齊）
-sc = min((PW - 195) / BF, (PH - TOPPX - 205) / H_ALT)
+sc = min((PW - 195) / BF, (PH - TOPPX - 205) / max(H_MAIN, H_ALT))
 
 
 def read_panel(R, title, sub, main, chain):
@@ -117,7 +118,7 @@ def read_panel(R, title, sub, main, chain):
     cv.dim((BF, R["h"]), (BF, R["h"] - HF), f"{HF:.0f}", off=-34, label_off=-12)
     cv.dim((BF, R["h"] - HF), (BF, R["h"] - R["d"]), f"{R['d']-HF:.0f}", off=-34, label_off=-12)
     cv.dim((BF, R["h"] - R["d"]), (BF, 0), f"{COV:.0f}", off=-34, label_off=-12)
-    cv.dim((0, R["h"]), (0, 0), f"h={R['h']:.0f}", off=42, label_off=14)
+    cv.dim((0, R["h"]), (0, 0), f"h={R['h']:.0f}", off=42, label_off=30)
     cv.line((0, R["h"] - R["d"]), (BF, R["h"] - R["d"]), C["tension"], 1.5, dash="6 4")
     cv.text_px(PW / 2, PH - 150, chain, 12, C["muted"])
     cv.text_px(PW / 2, PH - 118, f"d = {R['d']:.0f} cm", 15, col, weight="700")
@@ -129,15 +130,53 @@ def read_panel(R, title, sub, main, chain):
     return cv
 
 
-compose([read_panel(M, "本解：h = 100、d = 90", "依圖面比例判定　b_w = 40 cm", True,
-                    "右側尺寸鏈讀成 10 + 80 + 10 = 100；圖上標「90」那段的下箭頭位置畫錯"),
-         read_panel(A, "直讀尺寸鏈：h = 110、d = 100", "把「10 → 90 → 10」逐段相加　b_w = 40 cm", False,
-                    "右側尺寸鏈讀成 10 + 90 + 10 = 110；但整張圖會比標註短 10%")],
-        title=f"{TAG}　附圖尺寸鏈有兩種讀法，先把它講清楚再算",
+compose([read_panel(M, "本解：h = 110、d = 100", "尺寸鏈 10 → 90 → 10 逐段相加　b_w = 40 cm", True,
+                    "90 cm 由翼板底量到 As 形心；附圖按此比例畫"),
+         read_panel(A, "誤讀：h = 100、d = 90", "把 90 那段改讀成 80 cm　b_w = 40 cm", False,
+                    "與尺寸標註及 PDF 向量比例都不合")],
+        title=f"{TAG}　d 是 100 不是 90：讀錯 d，φMn 低估 17%",
         sub="兩種讀法之下 μφ 幾乎相同（無因次），但 φMn 差 20%",
-        note=("量測圖檔像素：翼板厚與底部保護層都畫成 35～38 px、全斷面高 354 px ≈ 101 cm，"
-              "整張圖對 h = 100 合乎比例"),
+        note=("考卷 PDF 向量量測：寬 80 cm＝99.06 pt，全高 135.96 pt＝109.8 cm，"
+              "翼厚 12.36 pt＝10.0 cm —— 附圖按 h = 110 的比例畫"),
         path=f"{OUT}/{TAG}-fig-1-section.svg")
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（-problem）：只畫考卷圖 1 給的東西，不含任何解題結果
+# 依題目正本 RC-2011-2-problem.md §4 判讀清單（已確認）：
+#   #1 翼板 80 × 10　#2 腹寬 40　#3 90 cm 由翼板底量到 As 形心
+#   #4 As 形心到梁底 10 cm　#5 h = 110（＝10＋90＋10）　#6 只有單層 As
+# ══════════════════════════════════════════════════════════
+P_SEG = (HF, 90.0, COV)            # 右側尺寸鏈（考卷標註）
+P_H = sum(P_SEG)                   # 110
+P_D = P_SEG[0] + P_SEG[1]          # 100（只用來定 As 的位置，不標在圖上）
+
+
+def fig_problem():
+    W, H = 560, 600
+    s_ = min(260 / BF, 430 / P_H)
+    cv = Canvas(W, H, sx=s_, ox=W / 2 - BF * s_ / 2 - 30, oy=78)
+    cv.panel("圖 1：T 型鋼筋混凝土梁斷面（重繪）", "依題目正本判讀清單 #1–#6；尺寸照考卷標註")
+    cv.polygon(outline(P_H) + [outline(P_H)[0]], "#EDF1F6", C["member"], 2.6)
+    yb = P_H - P_D                                  # As 形心高度（距梁底 10）
+    bw0, bw1 = (BF - BW) / 2, (BF + BW) / 2
+    cv.polygon([(bw0 + 9, yb - 1.4), (bw1 - 9, yb - 1.4), (bw1 - 9, yb + 1.4), (bw0 + 9, yb + 1.4)],
+               C["member"], C["member"], 1)
+    cv.text((BF / 2, yb + 1.4), "As", 15, C["text"], dy=-14, weight="700")
+    cv.dim((0, P_H), (BF, P_H), f"{BF:.0f} cm", off=-30, label_off=-13)
+    y = P_H
+    for seg in P_SEG:
+        cv.dim((BF, y), (BF, y - seg), f"{seg:.0f} cm", off=-40, label_off=-34)
+        y -= seg
+    cv.dim((bw0, 0), (bw1, 0), f"{BW:.0f} cm", off=30, label_off=14)
+    path = f"{OUT}/{TAG}-fig-1-problem.svg"
+    compose([cv], title=f"{TAG} 題目附圖（重繪）",
+            sub="右側尺寸鏈 10 → 90 → 10：90 cm 量到 As 形心，全高 110 cm",
+            note="90 cm 不是量到梁底；As 形心距頂 100 cm（d），附圖即按此比例繪製",
+            path=path)
+    return path
+
+
+fig_problem()
 
 # ══════════════════════════════════════════════════════════
 # 圖 2　εt 規範帶狀圖
@@ -210,7 +249,7 @@ def curvature_panel(title, sub, na, eps_top, eps_bot, col, phi_val, phi_lab, ext
                weight="700")
     cv.math_px(cv.X(-wt) - 6, cv.Y(h - d), f"ε={eps_bot:.5f}", 12, C["tension"], "end",
                weight="700")
-    cv.dim((0, h), (0, h - na), f"{na:.2f}", off=32, label_off=12, color=col)
+    cv.dim((0, h), (0, h - na), f"{na:.2f}", off=32, label_off=28, color=col)
     cv.text_px(PW / 2, PH - 116, extra, 12, C["muted"])
     cv.text_px(PW / 2, PH - 88, formula, 12.5, C["text"])
     cv.text_px(PW / 2, PH - 58, f"{phi_lab} = {phi_val*1e5:.3f} × 10^{{-5}} rad/cm",
@@ -244,30 +283,30 @@ compose([p_y, p_u],
 # ══════════════════════════════════════════════════════════
 assert abs(B1 - 0.80) < 1e-9,               B1
 assert abs(NRAT - 7.27) < 0.005,            NRAT
-assert abs(M["cb"] - 53.37) < 0.01,         M["cb"]
-assert abs(M["ab"] - 42.70) < 0.01,         M["ab"]
-assert abs(M["Asb"] - 149.31) < 0.02,       M["Asb"]
-assert abs(M["As"] - 134.38) < 0.02,        M["As"]
-assert abs(M["a"] - 37.43) < 0.01,          M["a"]
-assert abs(M["cu"] - 46.79) < 0.005,        M["cu"]
-assert abs(M["et"] - 0.002771) < 5e-6,      M["et"]
-assert abs(M["phi"] - 0.7105) < 5e-4,       M["phi"]
-assert abs(M["Mn"] / 1e5 - 418.7) < 0.2,    M["Mn"] / 1e5
-assert abs(M["phi"] * M["Mn"] / 1e5 - 297.5) < 0.3, M["phi"] * M["Mn"] / 1e5
-assert abs(M["ky_d"] - 40.95) < 0.02,       M["ky_d"]
-assert abs(M["phy"] * 1e5 - 4.198) < 0.001, M["phy"] * 1e5
-assert abs(M["phu"] * 1e5 - 6.412) < 0.005, M["phu"] * 1e5
-assert abs(M["mu"] - 1.53) < 0.01,          M["mu"]
-# 直讀版（§5 ⑥ 對照表）
-assert abs(A["cb"] - 59.30) < 0.02,         A["cb"]
-assert abs(A["Asb"] - 162.75) < 0.05,       A["Asb"]
-assert abs(A["a"] - 41.70) < 0.02,          A["a"]
-assert abs(A["cu"] - 52.13) < 0.01,         A["cu"]
-assert abs(A["et"] - 0.002755) < 5e-6,      A["et"]
-assert abs(A["Mn"] / 1e5 - 505.8) < 0.4,    A["Mn"] / 1e5
-assert abs(A["ky_d"] - 45.63) < 0.05,       A["ky_d"]
-assert abs(A["mu"] - 1.52) < 0.01,          A["mu"]
+assert abs(M["cb"] - 59.30) < 0.01,         M["cb"]
+assert abs(M["ab"] - 47.44) < 0.01,         M["ab"]
+assert abs(M["Asb"] - 162.75) < 0.02,       M["Asb"]
+assert abs(M["As"] - 146.48) < 0.02,        M["As"]
+assert abs(M["a"] - 41.70) < 0.01,          M["a"]
+assert abs(M["cu"] - 52.13) < 0.006,        M["cu"]
+assert abs(M["et"] - 0.002755) < 5e-6,      M["et"]
+assert abs(M["phi"] - 0.7092) < 5e-4,       M["phi"]
+assert abs(M["Mn"] / 1e5 - 505.8) < 0.2,    M["Mn"] / 1e5
+assert abs(M["phi"] * M["Mn"] / 1e5 - 358.7) < 0.3, M["phi"] * M["Mn"] / 1e5
+assert abs(M["ky_d"] - 45.63) < 0.02,       M["ky_d"]
+assert abs(M["phy"] * 1e5 - 3.787) < 0.001, M["phy"] * 1e5
+assert abs(M["phu"] * 1e5 - 5.755) < 0.005, M["phu"] * 1e5
+assert abs(M["mu"] - 1.52) < 0.01,          M["mu"]
+# 舊解誤讀版（§5 ⑥ 對照表）
+assert abs(A["cb"] - 53.37) < 0.02,         A["cb"]
+assert abs(A["Asb"] - 149.31) < 0.05,       A["Asb"]
+assert abs(A["a"] - 37.43) < 0.02,          A["a"]
+assert abs(A["cu"] - 46.79) < 0.01,         A["cu"]
+assert abs(A["et"] - 0.002771) < 5e-6,      A["et"]
+assert abs(A["Mn"] / 1e5 - 418.7) < 0.4,    A["Mn"] / 1e5
+assert abs(A["ky_d"] - 40.95) < 0.05,       A["ky_d"]
+assert abs(A["mu"] - 1.53) < 0.01,          A["mu"]
 print(f"{TAG}: 3 圖 OK　d={M['d']:.0f} cb={M['cb']:.2f} Asb={M['Asb']:.2f} a={M['a']:.2f} "
       f"cu={M['cu']:.2f} et={M['et']:.6f} φ={M['phi']:.4f} φMn={M['phi']*M['Mn']/1e5:.1f} "
-      f"kyd={M['ky_d']:.2f} μφ={M['mu']:.2f}　|| 直讀 φMn={A['phi']*A['Mn']/1e5:.1f} "
+      f"kyd={M['ky_d']:.2f} μφ={M['mu']:.2f}　|| 舊解誤讀 φMn={A['phi']*A['Mn']/1e5:.1f} "
       f"μφ={A['mu']:.2f}")

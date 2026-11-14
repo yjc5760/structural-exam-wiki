@@ -285,3 +285,43 @@ print(f"{TAG}: 3 圖 OK　固端負 {MU_TOP:.2f}／梁端正 {END_POS:.2f}／跨
       f"As,top需求 {AS_TOP_REQ:.2f}→4-D22 {AS_TOP:.2f}　As,bot {AS_BOT:.2f}　"
       f"Mn 比 {RATIO_MN:.3f} 大於 面積比 {RATIO_AS:.3f}　ρb={RHO_B:.5f} "
       f"As,max(舊制)={AS_MAX_OLD:.2f}")
+
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-13 補，RC-U1-1 題目正本批 2）
+# 依據：題目正本 RC-2016-1-problem.md §4 判讀清單（已確認）；只畫考卷給的東西
+#   fig-1-problem  攔：把 ME 畫成同曲度（兩端同號）；把 L 當中心距
+# ══════════════════════════════════════════════════════════
+def fig1_problem():
+    LP, BP, HP = 7.5, 35.0, 70.0          # #2 淨跨、#6 斷面
+    PW, PH = 640, 430
+    s = 62
+    p1 = Canvas(PW, PH, sx=s, ox=(PW - LP * s) / 2, oy=200)
+    p1.panel("(a) 兩端固定之 RC 梁（重繪）", "判讀清單 #1–#5")
+    p1.line((0, 0), (LP, 0), C["member"], 7, cap="butt")
+    p1.fixed_support((0, 0), 90, size=30)
+    p1.fixed_support((LP, 0), -90, size=30)
+    p1.udl((0, 0.08), (LP, 0.08), 1.0, n=15, color=C["load"], w=1.5)
+    p1.text_px(p1.X(LP / 2), p1.Y(1.08) - 26, "w_D = 2 tf/m（含自重）", 13, C["load"], weight="700")
+    p1.text_px(p1.X(LP / 2), p1.Y(1.08) - 8, "w_L = 1 tf/m", 13, C["load"], weight="700")
+    p1.moment_arrow((-0.55, 0), r=22, ccw=False, color=C["accent"], w=2.4)
+    p1.moment_arrow((LP + 0.55, 0), r=22, ccw=False, color=C["accent"], w=2.4)
+    p1.text_px(p1.X(-0.55), p1.Y(0) - 36, "M_E（−）", 13, C["accent"], weight="700")
+    p1.text_px(p1.X(LP + 0.55), p1.Y(0) - 36, "M_E（+）", 13, C["accent"], weight="700")
+    p1.dim((0, 0), (LP, 0), "L = 7.5 m（淨跨）", off=56, label_off=16)
+    p1.text_px(PW / 2, PH - 44, "M_E = 16.5 tf-m，兩端成一組雙曲度彎矩（地震反向時互換）", 12.5, C["muted"])
+    p2 = Canvas(320, PH, sx=3.0, ox=(320 - BP * 3.0) / 2 - 20, oy=90)
+    p2.panel("(b) 梁斷面（重繪）", "判讀清單 #6")
+    p2.polygon([(0, 0), (BP, 0), (BP, HP), (0, HP)], "#EDF1F6", C["member"], 2.4)
+    p2.dim((0, HP), (BP, HP), "35 cm", off=-24, label_off=-14)
+    p2.dim((BP, HP), (BP, 0), "70 cm", off=-26, label_off=-32)
+    p2.text_px(p2.X(BP / 2), p2.Y(0) + 30, "d = 63 cm（題文，頂、底筋統一）", 12, C["muted"])
+    path = os.path.join(OUT, f"{TAG}-fig-1-problem.svg")
+    compose([p1, p2], title=f"{TAG} 題目附圖（重繪）",
+            sub="兩端固定、淨跨 7.5 m、全跨均佈 wD + wL；兩端 ME 成雙曲度；斷面 35 × 70 cm",
+            note="雙曲度：一端負彎矩、另一端正彎矩——地震時梁端會出現正彎矩，底筋不能只看跨中",
+            path=path)
+    return path
+
+
+print(os.path.basename(fig1_problem()), "　攔：ME 畫成同曲度、L 當中心距")

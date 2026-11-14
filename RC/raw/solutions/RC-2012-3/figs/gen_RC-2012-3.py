@@ -43,8 +43,8 @@ PHI_V = 0.75                   # 剪力強度折減
 MPR_NEG = 75.52                # tf·m　頂筋 6-#8 受拉（控制）
 MPR_POS = 41.11                # tf·m　底筋 4-#7 受拉
 
-# §1 附圖標註：核心尺寸 48 cm（保護層 6 cm 量至主筋中心）
-BC_FIG = BCOL - 2 * COVER      # = 48.0，取法 A 的依據
+# 附圖標註 48 cm＝主筋中心距（題目正本 G2）；取法 A（舊解主線，對照用）
+BC_FIG = BCOL - 2 * COVER      # = 48.0
 
 TF = 1e-3                      # kgf → tf
 
@@ -99,11 +99,13 @@ VS_REQ = VU / PHI_V                        # tf（Vc = 0）
 S_SHEAR = AV * FYT * D_EFF / (VS_REQ / TF)
 
 # ── §4 Step 7／8：採用間距與驗算 ────────────────────────
-S_CANDIDATES = [S_SHEAR, CASE_A["s2"], S_B4, S0, S_6DB, CASE_A["s1"]]
-S_ADOPT = math.floor(min(S_CANDIDATES))                 # 9 cm
+# 2026-11-14 使用者確認：b_c 依規範量至箍筋外緣（取法 B）為主線
+S_CANDIDATES = [S_SHEAR, CASE_B["s1"], CASE_B["s2"], S_B4, S0, S_6DB]
+S_ADOPT = math.floor(min(S_CANDIDATES))                 # 13 cm（6d_b 控制）
+S_ADOPT_A = math.floor(min([S_SHEAR, CASE_A["s2"], S_B4, S0, S_6DB, CASE_A["s1"]]))  # 取法 A 對照 9 cm
 S_OUTSIDE = math.floor(min(S_6DB, S0_CAP))              # 塑鉸區外 13 cm
-ASH1_AT_S = CASE_A["a1"] * S_ADOPT
-ASH2_AT_S = CASE_A["a2"] * S_ADOPT
+ASH1_AT_S = CASE_B["a1"] * S_ADOPT
+ASH2_AT_S = CASE_B["a2"] * S_ADOPT
 VS_AT_S = AV * FYT * D_EFF / S_ADOPT * TF
 PHI_VS_AT_S = PHI_V * VS_AT_S
 MARGIN = PHI_VS_AT_S / VU
@@ -344,7 +346,7 @@ def _section_panel(title, sub, core_half, dim_pts, dim_label, note_start, ann):
 
 def fig2():
     a = _section_panel(
-        "取法 A（本解主線）：b_c 量至主筋中心",
+        "取法 A（舊解，對照）：把 48 cm 當 b_c",
         f"依原卷附圖標註 {BC_FIG:.0f} cm",
         COVER,
         [(BAR_POS[0], BAR_POS[-1]), (BAR_POS[-1], BAR_POS[-1])],
@@ -361,13 +363,13 @@ def fig2():
               M(f"A_{{sh1}}/s = {CASE_A['a1']:.3f} cm^{{2}}/cm  →  "
                 f"s ≤ {AV:.2f}/{CASE_A['a1']:.3f} = {CASE_A['s1']:.2f} cm"),
               14, C["load"], weight="700")
-    a.text_px(PW2 / 2, PH2 - 50, f"最終 s = {S_ADOPT:g} cm　←　圍束公式一控制",
-              15, C["load"], weight="700")
-    a.text_px(PW2 / 2, PH2 - 26, "（剪力需求與幾何上限均寬鬆，不控制）",
+    a.text_px(PW2 / 2, PH2 - 50, f"若照此取法 s = {S_ADOPT_A:g} cm（圍束公式一控制）",
+              15, C["muted"], weight="700")
+    a.text_px(PW2 / 2, PH2 - 26, "48 cm 是主筋中心距，不符 b_c 定義",
               12.5, C["muted"])
 
     b = _section_panel(
-        "取法 B（嚴格依規範）：b_c 量至箍筋外緣",
+        "取法 B（本解主線）：b_c 量至箍筋外緣",
         f"b_c = {BCOL:.0f} - 2({COVER:.0f} - {DB_MAIN/2:.2f} - {DB_TIE:.2f})",
         TIE_OUT,
         [(TIE_OUT, HCOL - TIE_OUT), (BCOL - TIE_OUT, HCOL - TIE_OUT)],
@@ -389,18 +391,18 @@ def fig2():
               f"最終 s = {S_OUTSIDE:g} cm　←　6d_b 幾何上限控制",
               15, C["load"], weight="700")
     b.text_px(PW2 / 2, PH2 - 26,
-              f"（圍束需求放寬 {CASE_A['a1']/CASE_B['a1']-1:.0%}，"
-              f"改由 6d_b = {S_6DB:.2f} cm 控制）", 12.5, C["muted"])
+              f"（圍束式 A_sh2 給 {CASE_B['s2']:.1f} cm、A_sh1 給 {CASE_B['s1']:.1f} cm，"
+              f"都寬於 6d_b = {S_6DB:.2f} cm）", 12.5, C["muted"])
 
     return compose(
         [a, b],
-        title="圖 2　核心尺寸 bc 的兩種取法：規範定義（箍筋外緣）vs 原卷附圖標註（主筋中心）",
+        title="圖 3　核心尺寸 bc：規範定義（箍筋外緣，本解）vs 把附圖 48 cm（主筋中心距）當 bc",
         sub=f"柱 {BCOL:.0f}×{HCOL:.0f} cm；12-#7 主筋 db = {DB_MAIN} cm；"
             f"4 legs #4 箍筋 Av = {N_LEG:g}×{AB_TIE} = {AV:.2f}；"
             f"橘虛線＝該取法的核心邊界",
         note=f"同一斷面、同一組箍筋，量測起點只差 {(BC_OUT-BC_FIG)/2:.2f} cm，"
-             f"Ash 需求就差 {CASE_A['a1']/CASE_B['a1']-1:.0%}，"
-             f"最終間距由 {S_ADOPT:g} cm 變成 {S_OUTSIDE:g} cm",
+             f"Ash 需求就差 {CASE_A['a1']/max(CASE_B['a1'], CASE_B['a2'])-1:.0%}，"
+             f"最終間距 {S_ADOPT_A:g} cm 與 {S_ADOPT:g} cm",
         cols=2)
 
 
@@ -411,24 +413,24 @@ def fig3():
     cases = [
         ("剪力強度需求", f"Vc = 0，餘裕 {MARGIN:.1f} 倍", S_SHEAR,
          M(f"s ≤ A_{{v}}f_{{yt}}d/(V_{{u}}/φ) = {S_SHEAR:.2f} cm"), C["sfd"]),
-        ("圍束公式二", "純配箍率下限", CASE_A["s2"],
-         M(f"s ≤ {AV:.2f}/{CASE_A['a2']:.3f} = {CASE_A['s2']:.2f} cm"), C["member2"]),
+        ("圍束公式一", "b_c 量至箍筋外緣", CASE_B["s1"],
+         M(f"s ≤ {AV:.2f}/{CASE_B['a1']:.4f} = {CASE_B['s1']:.2f} cm"), C["member2"]),
+        ("圍束公式二", "圍束兩式中較嚴", CASE_B["s2"],
+         M(f"s ≤ {AV:.2f}/{CASE_B['a2']:.4f} = {CASE_B['s2']:.2f} cm"), C["member2"]),
         ("柱最小邊 / 4", f"{BCOL:.0f}/4，不控制", S_B4,
          M(f"s ≤ b/4 = {S_B4:.2f} cm"), C["muted"]),
         ("s_0 主筋橫向間距", f"被 {S0_CAP:.0f} cm 上限截住", S0,
          M(f"s ≤ min(10+(35-h_{{x}})/3, {S0_CAP:.0f}) = {S0:.2f} cm"), C["accent"]),
-        ("6d_b 主筋直徑", "塑鉸區外的控制值", S_6DB,
-         M(f"s ≤ 6d_{{b}} = {S_6DB:.2f} cm"), C["compr"]),
-        ("圍束公式一 ← 控制", "含 Ag/Ach 項，最嚴格", CASE_A["s1"],
-         M(f"s ≤ {AV:.2f}/{CASE_A['a1']:.3f} = {CASE_A['s1']:.2f} cm"), C["load"]),
+        ("6d_b 主筋直徑 ← 控制", "塑鉸區內外都由它控制", S_6DB,
+         M(f"s ≤ 6d_{{b}} = {S_6DB:.2f} cm"), C["load"]),
     ]
-    I_S0 = 3                                   # s_0 那一列（與 cases 順序一致）
+    I_S0 = 4                                   # s_0 那一列（與 cases 順序一致）
     assert cases[I_S0][2] == S0 < S0_RAW
     cv = bar_compare(
         cases,
-        title="圖 3　柱塑鉸區箍筋間距：六個候選上限同時攤開，取最嚴格者",
-        sub="長條越長＝間距越大＝越寬鬆；四個幾何／規範上限與兩個圍束需求、一個剪力需求並列",
-        note=f"採用 s = {S_ADOPT:g} cm（圍束公式一控制）；剪力需求 {S_SHEAR:.2f} cm "
+        title="圖 2　柱塑鉸區箍筋間距：六個候選上限同時攤開，取最嚴格者",
+        sub="長條越長＝間距越大＝越寬鬆；b_c 依規範量至箍筋外緣（52.76 cm）",
+        note=f"採用 s = {S_ADOPT:g} cm（6d_b 控制）；剪力需求 {S_SHEAR:.2f} cm "
              f"餘裕 {MARGIN:.1f} 倍；塑鉸區外 s ≤ min(6d_b, {S0_CAP:.0f}) = "
              f"{min(S_6DB, S0_CAP):.2f} → 取 {S_OUTSIDE:g} cm")
 
@@ -450,11 +452,97 @@ FIGURES = [
     ("1-mechanism", fig1,
      "把一根柱的上下兩端各給一個「完整的」梁 Mpr，得 Vu = 50.3 tf（正解 25.17）"),
     ("3-section", fig2,
-     "bc／Ach 的量測起點搞錯（規範量至箍筋外緣，原卷附圖標的是主筋心）"),
+     "把附圖的 48 cm（主筋中心距）當 b_c，Ash 需求高估約七成"),
     ("2-spacing", fig3,
-     "以為剪力需求控制（其實寬鬆到 34.33 cm）；沒有取六者中最嚴格的那一個"),
+     "以為剪力或圍束需求控制（其實 6d_b 控制）；沒有取六者中最嚴格的那一個"),
 ]
 
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-14，RC-U3-3 批 1；第二～四題共用附圖）
+# 依題目正本 RC-2012-3-problem.md §4 判讀清單 G1–G7（已確認）。只畫考卷給的東西。
+# 本段在 RC-2012-2／3／4 三支腳本各存一份（腳本須可獨立重跑）
+# ══════════════════════════════════════════════════════════
+P_COL_B = 60.0            # G2 柱 60×60
+P_COL_E = 6.0             # G2 主筋中心距柱面
+P_COL_N = 4               # G2 每邊 4 根（12-#7）
+P_BM_B, P_BM_H = 50.0, 60.0   # G3 梁 50×60
+P_BM_E = 6.0              # G3 主筋中心距梁面
+P_N_TOP, P_N_BOT = 6, 4   # G3 頂 6-#8、底 4-#7
+P_LN_COL, P_LN_BM = 3.0, 7.0  # G4 柱淨高、梁淨跨（m）
+
+
+def fig_problem_2012():
+    from structdraw import Canvas, C, compose
+    PW, PH = 440, 520
+    # ---- 柱斷面 ----
+    s = 4.2
+    a = Canvas(PW, PH, sx=s, ox=PW / 2 - P_COL_B * s / 2 + 6, oy=100)
+    a.panel("柱斷面（2 樓與 3 樓）", "判讀 G2；箍筋考卷未畫")
+    B, e = P_COL_B, P_COL_E
+    a.polygon([(0, 0), (B, 0), (B, B), (0, B)], "#EDF1F6", C["member"], 2.4)
+    xs = [e + (B - 2 * e) * i / (P_COL_N - 1) for i in range(P_COL_N)]
+    pts = {(x, y) for x in xs for y in (e, B - e)} | {(x, y) for x in (e, B - e) for y in xs}
+    for p in sorted(pts):
+        a.circle(p, 1.11, C["member"], C["member"], 1.0)
+    a.text((B / 2, B / 2), "12-#7", 15, C["text"], weight="700")
+    a.dim((0, B), (B, B), "60 cm", off=-22, label_off=-14)
+    a.dim((B, B), (B, 0), "60 cm", off=-24, label_off=-30)
+    a.dim((0, B - e), (0, e), "48 cm", off=36, label_off=28)
+    a.dim((0, B), (0, B - e), "6", off=14, label_off=12, size=12)
+    a.dim((0, e), (0, 0), "6", off=14, label_off=12, size=12)
+    a.dim((B - e, 0), (B, 0), "6 cm", off=20, label_off=14, size=12)
+    a.text_px(PW / 2, PH - 30, "6 cm、48 cm 都量到主筋中心", 12.5, C["accent"], weight="700")
+
+    # ---- E-W 向剖面 ----
+    s2 = 0.75
+    b = Canvas(PW, PH, sx=s2, ox=60, oy=-25)
+    b.panel("E-W 向剖面（外圍）", "判讀 G1、G4、G7")
+    cw = P_COL_B
+    yb0, yb1 = 300.0, 300.0 + P_BM_H        # 梁底、梁頂（cm）
+    ybot_col = 100.0                          # 下柱畫出一段（淨高 3 m，示意截斷）
+    ytop = yb1 + 140.0                        # 上柱畫出一段
+    b.polygon([(0, ybot_col), (cw, ybot_col), (cw, ytop), (0, ytop)], "#EDF1F6", C["member"], 2.2)
+    b.polygon([(cw, yb0), (cw + 380, yb0), (cw + 380, yb1), (cw, yb1)], "#EDF1F6", C["member"], 2.2)
+    b.line((cw + 380, yb0 - 10), (cw + 380, yb1 + 10), C["member2"], 1.4, dash="4 3")
+    for yy in (ybot_col, ytop):
+        b.line((-10, yy), (cw + 10, yy), C["member2"], 1.4, dash="4 3")
+    for xx in (8.0, 22.0, 38.0, 52.0):
+        b.line((xx, ybot_col), (xx, ytop), C["member"], 1.6)
+    yt, ybot = yb1 - P_BM_E, yb0 + P_BM_E
+    b.poly([(cw + 374, yt), (12, yt), (12, ybot), (cw + 374, ybot)], C["load"], 3.0)
+    b.text((cw + 120, yt + 22), "6-#8", 13, C["text"])
+    b.text((cw + 120, ybot - 22), "4-#7", 13, C["text"])
+    b.text((cw + 190, (yb0 + yb1) / 2), "（梁淨跨距＝7 m）", 12.5, C["muted"])
+    b.text((cw + 150, yb1 + 85), "3 樓淨高＝3 m", 13, C["text"])
+    b.text((cw + 150, yb0 - 85), "2 樓淨高＝3 m", 13, C["text"])
+    b.text_px(PW / 2, PH - 30, "柱左側沒有梁：單跨構架的外柱", 12.5, C["accent"], weight="700")
+
+    # ---- 梁斷面 ----
+    s3 = 4.2
+    c = Canvas(PW, PH, sx=s3, ox=PW / 2 - P_BM_B * s3 / 2 + 6, oy=100)
+    c.panel("梁斷面", "判讀 G3")
+    bw, h, e2 = P_BM_B, P_BM_H, P_BM_E
+    c.polygon([(0, 0), (bw, 0), (bw, h), (0, h)], "#EDF1F6", C["member"], 2.4)
+    for n, y, rr in ((P_N_TOP, h - e2, 1.27), (P_N_BOT, e2, 1.11)):
+        for i in range(n):
+            x = e2 + (bw - 2 * e2) * i / (n - 1)
+            c.circle((x, y), rr, C["member"], C["member"], 1.0)
+    c.text((bw / 2, h - e2 - 5), "6-#8", 14, C["text"], weight="700")
+    c.text((bw / 2, e2 + 5), "4-#7", 14, C["text"], weight="700")
+    c.dim((0, h), (bw, h), "50 cm", off=-22, label_off=-14)
+    c.dim((bw, h), (bw, 0), "60 cm", off=-24, label_off=-30)
+    c.dim((0, h - e2), (0, e2), "48 cm", off=36, label_off=28)
+    c.dim((0, h), (0, h - e2), "6", off=14, label_off=12, size=12)
+    c.dim((0, e2), (0, 0), "6", off=14, label_off=12, size=12)
+    c.text_px(PW / 2, PH - 30, "d＝54 cm、d′＝6 cm（量到主筋中心）", 12.5, C["accent"], weight="700")
+
+    path = os.path.join(OUT, f"{TAG}-fig-1-problem.svg")
+    compose([a, b, c], cols=3, title=f"{TAG} 題目附圖（第二～四題共用，重繪）",
+            sub="單跨多層抗彎構架 2、3 樓外圍；f'c＝280、所有鋼筋 fy＝4200 kgf/cm²；Nu＝50 tf；wu＝6.1 tf/m",
+            note="附圖只有 E-W 向剖面；N-S 向梁考卷沒有畫也沒有寫",
+            path=path)
+    return path
 
 def main():
     os.makedirs(OUT, exist_ok=True)
@@ -478,19 +566,22 @@ def main():
         ("s0 cm",            S0,               15.0,    1e-9),
         ("6db cm",           S_6DB,            13.32,   1e-9),
         ("s_geom cm",        S_GEOM,           13.32,   1e-9),
-        ("Ash1@9 cm2",       ASH1_AT_S,        4.86,    0.01),
-        ("Ash2@9 cm2",       ASH2_AT_S,        2.59,    0.01),
+        ("Ash1@13 cm2",      ASH1_AT_S,        4.02,    0.01),
+        ("Ash2@13 cm2",      ASH2_AT_S,        4.12,    0.01),
         ("Vc0_thresh tf",    VC0_THRESH,       50.4,    0.01),
         ("Vs_req tf",        VS_REQ,           33.56,   0.01),
         ("s_shear cm",       S_SHEAR,          34.33,   0.01),
-        ("Vs@9 tf",          VS_AT_S,          128.0,   0.05),
-        ("phiVs@9 tf",       PHI_VS_AT_S,      96.0,    0.05),
-        ("s_adopt cm",       S_ADOPT,          9.0,     1e-9),
+        ("Vs@13 tf",         VS_AT_S,          88.6,    0.05),
+        ("phiVs@13 tf",      PHI_VS_AT_S,      66.5,    0.05),
+        ("s_adopt cm",       S_ADOPT,          13.0,    1e-9),
+        ("s_adopt_A cm",     S_ADOPT_A,        9.0,     1e-9),
         ("s_outside cm",     S_OUTSIDE,        13.0,    1e-9),
         ("bc_B cm",          CASE_B["bc"],     52.76,   1e-9),
         ("Ach_B cm2",        CASE_B["ach"],    2783.6,  0.05),
-        ("Ash1/s (B)",       CASE_B["a1"],     0.310,   0.001),
+        ("Ash1/s (B)",       CASE_B["a1"],     0.3095,  0.0005),
+        ("Ash2/s (B)",       CASE_B["a2"],     0.3166,  0.0005),
         ("s_conf_B cm",      CASE_B["s1"],     16.4,    0.05),
+        ("s_Ash2_B cm",      CASE_B["s2"],     16.0,    0.06),
         ("Vc_axial_old tf",  VC_AXIAL_OLD,     31.6,    0.05),
         ("Vc_318_19 tf",     VC_318_19,        36.2,    0.05),
     ]
@@ -506,6 +597,8 @@ def main():
         path = os.path.join(OUT, f"{TAG}-fig-{name}.svg")
         open(path, "w", encoding="utf-8").write(fn())
         print(f"  {os.path.basename(path):<34} 攔：{catches}")
+    p = fig_problem_2012()
+    print(f"  {os.path.basename(p):<34} 攔：48 cm 當核心或淨尺寸、6 cm 當淨保護層、圖示柱當內柱")
 
 
 if __name__ == "__main__":

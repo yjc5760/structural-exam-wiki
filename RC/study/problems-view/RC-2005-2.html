@@ -32,85 +32,200 @@ blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;paddin
 footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
 </style></head><body>
 <header><h1>RC-2005-2 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U1-1.html">&#128202; U1-1 單元總覽</a><a class="lect" href="../lecture-RC-U1-1.html">&#128218; U1-1 RC 梁彎矩強度分析與設計 講義</a></div></header>
-<main><h1>考題編號：RC-2005-2</h1>
-<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
-<strong>副分類：</strong> 無<br />
-<strong>設計法：</strong> USD 強度設計法<br />
-<strong>標籤：</strong> <code>T形梁</code> <code>最大拉力筋量</code> <code>0.75ρb</code> <code>T型梁平衡鋼筋</code> <code>NA在翼板</code> <code>活載重反推</code> <code>設計彎矩</code> <code>ACI載重組合</code></p>
-<hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>一簡支 T 型鋼筋混凝土梁，斷面尺寸如下：</p>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>RC-2005-2 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>RC-2005-2.md</code>。<br />
+判讀清單已經使用者確認（凍結）；本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
 <table>
 <thead>
 <tr>
-<th>參數</th>
-<th>數值</th>
+<th>項目</th>
+<th>內容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>有效翼板寬 $b$</td>
-<td>$120\ \text{cm}$</td>
+<td>考卷</td>
+<td><code>raw/exams/RC-2005_鋼筋混凝土設計與預力.pdf</code> 第 1 頁（全一頁），第二題</td>
 </tr>
 <tr>
-<td>腹板寬 $b_w$</td>
-<td>$25\ \text{cm}$</td>
+<td>考年</td>
+<td>民國 94 年（2005）</td>
 </tr>
 <tr>
-<td>翼板厚 $h_f$</td>
-<td>$12\ \text{cm}$</td>
+<td>配分</td>
+<td>20 分</td>
 </tr>
 <tr>
-<td>梁總高 $h$</td>
-<td>$63\ \text{cm}$</td>
+<td>附圖</td>
+<td>無</td>
 </tr>
 <tr>
-<td>有效深度 $d$</td>
-<td>$50\ \text{cm}$</td>
-</tr>
-<tr>
-<td>$f'_c$</td>
-<td>$280\ \text{kgf/cm}^2$</td>
-</tr>
-<tr>
-<td>$f_y$</td>
-<td>$4200\ \text{kgf/cm}^2$</td>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-12 使用者確認；影響答案項目 #3 使用者選 εt ≥ 0.004 上限＋1.2D + 1.6L；轉錄 2026-11-12，PyMuPDF 110 dpi 全頁目視＋抽出文字核對；盲讀後才比對既有解析）</td>
 </tr>
 </tbody>
 </table>
-<p>（一）試使用 ACI 規範允許之最大拉力筋量的一半，計算此梁之設計彎矩 $\phi M_n$。</p>
-<p>（二）若梁之簡支跨距為 9 m，並承受靜載重（含自重）$w_D = 0.75\ \text{t/m}$，則可承受之最大容許活載重 $w_L$ 為何？</p>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>二、一簡支 T 型鋼筋混凝土梁，斷面尺寸為 b=120 cm，$b_w$=25 cm，$h_f$=12 cm，h=63 cm，d=50 cm，混凝土 $f'_c$=280 kgf/cm²，鋼筋降伏強度 $f_y$=4200 kgf/cm²。試使用 ACI 規範允許之最大拉力筋量的一半，計算此梁之設計彎矩。若梁之簡支跨距為 9m，並承受靜載重（含自重）為 0.75 t/m，則可承受之最大容許活載重為何？（20 分）</p>
+</blockquote>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>題文數值：$b=120$、$b_w=25$、$h_f=12$、$h=63$、$d=50$ cm；$f'_c=280$、$f_y=4200$ kgf/cm²；簡支跨距 9 m；靜載重（含自重）0.75 t/m。</li>
+<li><strong>沒有給</strong>：所依 ACI 規範版本（「最大拉力筋量」在舊版為 $0.75\rho_b$、在 ACI 318-02 以後為淨拉應變下限）、載重因數、強度折減係數 $\phi$、$\beta_1$、$E_s$、斷面圖。</li>
+<li>卷首注意事項：㈠不必抄題；㈡可以使用電子計算器，但需詳列解答過程。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p>本題無附圖。</p>
+<h2>4. 判讀清單</h2>
+<p>「把握」標<strong>不確定</strong>者請優先確認；解讀類項目（題目用字的意思）另標「解讀」。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>斷面</td>
+<td>T 形，有效翼寬 $b=120$ cm（題目直接給，不需再算有效翼寬）、腹寬 25 cm、翼厚 12 cm、全高 63 cm、$d=50$ cm</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>2</td>
+<td>支承</td>
+<td>簡支，跨距 9 m</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>鋼筋量</td>
+<td>$A_s$＝「ACI 規範允許之最大拉力筋量」的一半；最大量的定義依所採 ACI 版本而異（$0.75\rho_b$ 或 $\varepsilon_t$ 下限 0.004），<strong>兩者給的 $A_s$ 不同</strong></td>
+<td>題文未指明版本；民國 94 年國內規範仍以 $0.75\rho_b$ 為主流寫法</td>
+<td>確定（使用者選擇：採 εt ≥ 0.004 上限，並配 1.2D + 1.6L）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>「設計彎矩」</td>
+<td>斷面設計強度 $\phi M_n$</td>
+<td>題文</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>「最大容許活載重」</td>
+<td>以 $\phi M_n \ge M_u$ 反求的<strong>工作（未乘因數）活載重</strong>均佈值 $w_L$（t/m）</td>
+<td>題文「容許活載重」；靜載重 0.75 t/m 為工作載重</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>靜載重</td>
+<td>0.75 t/m 已含自重，不再另加</td>
+<td>題文「（含自重）」</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>7</td>
+<td>考卷沒有給</td>
+<td>載重因數、$\phi$、$\beta_1$、$E_s$，須考生依規範假設</td>
+<td>全題</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-12（RC-U1-1 題目正本推廣・批 1）</em></p>
+<p><em>確認：2026-11-12 使用者確認（RC-U1-1 題目正本推廣・批 1，關卡一）</em></p></details>
+<h1>考題編號：RC-2005-2</h1>
+<p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>T形梁</code> <code>最大拉力筋量</code> <code>0.75ρb</code> <code>T型梁平衡鋼筋</code> <code>NA在翼板</code> <code>活載重反推</code> <code>設計彎矩</code> <code>ACI載重組合</code> <code>εt=0.004上限</code> <code>1.2D+1.6L</code></p>
+<hr />
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表與判讀清單（已確認）見 <a href="RC-2005-2-problem.md"><code>RC-2005-2-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「ACI 規範允許之最大拉力筋量」</td>
+<td>考卷沒寫版本；本解採 ACI 318-02 起的淨拉應變上限：最外層拉力筋 $\varepsilon_t \ge 0.004$ 時的 $A_s$（使用者確認，判讀 #3）</td>
+<td>一律用舊版 $0.75A_{sb}$（本解 2026-11-12 前即如此，$w_L = 3.28$ t/m）；兩者給的 $A_{s,\max}$ 不同</td>
+</tr>
+<tr>
+<td>載重組合</td>
+<td>$1.2D + 1.6L$，與 $\varepsilon_t$ 體系同一版規範成套</td>
+<td>混用 $\varepsilon_t$ 上限與舊版 $1.4D + 1.7L$</td>
+</tr>
+<tr>
+<td>$b = 120$ cm</td>
+<td>題目直接給的有效翼寬，不必再算</td>
+<td>再依跨距、梁距重算有效翼寬</td>
+</tr>
+<tr>
+<td>靜載重 0.75 t/m</td>
+<td>已含自重，不再另加</td>
+<td>另加腹板自重</td>
+</tr>
+<tr>
+<td>所求</td>
+<td>㈠ 設計彎矩 $\phi M_n$；㈡ 工作（未乘因數）活載重 $w_L$</td>
+<td>把 $W_u$ 當成答案</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> $b=120$、$b_w=25$、$h_f=12$、$d=50$ cm；$A_{s,\max}$＝$\varepsilon_t = 0.004$ 時的拉力筋量；$A_s = A_{s,\max}/2$；$w_D=0.75$ t/m、$w_L$＝活載重（工作載重）；$W_u$＝因數化均佈載重。</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
-<p><strong>核心觀念：</strong> T 型梁平衡鋼筋量的正確計算，以及 USD 反推活載重。</p>
+<p><strong>核心觀念：</strong> T 型梁「最大拉力筋量」的正確計算，以及 USD 反推活載重。</p>
 <p><strong>測驗重點：</strong></p>
 <ol>
-<li>T 型梁的平衡鋼筋量 $A_{sb}$ 計算（平衡時 NA 在腹板中，需計算翼板 + 腹板壓力面積）</li>
+<li>最大拉力筋量：取最外層拉力筋 $\varepsilon_t = 0.004$ 時的中性軸 $c = \tfrac{3}{7}d$，此時應力塊深 $a &gt; h_f$，壓力須計入翼板外挑 + 腹板</li>
 <li>確認使用 $A_s = A_{s,\max}/2$ 後，中性軸深度是否仍在翼板內（若在翼板，可簡化為矩形梁計算）</li>
-<li>知道「設計彎矩」= $\phi M_n$，並確認 $\phi = 0.9$（拉力控制）</li>
-<li>利用 $\phi M_n = M_u = W_u L^2/8$ 反推因數化載重，再求 $w_L$</li>
+<li>知道「設計彎矩」= $\phi M_n$，並由 $\varepsilon_t$ 確認 $\phi = 0.9$（拉力控制）</li>
+<li>利用 $\phi M_n = M_u = W_u L^2/8$ 反推因數化載重，再以 $1.2D + 1.6L$ 求 $w_L$</li>
 </ol>
 <p><strong>典型陷阱：</strong></p>
 <ul>
-<li>誤用矩形梁 $\rho_b$ 而忽略翼板壓力貢獻 → 低估 $A_{s,\max}$</li>
+<li>誤用矩形梁（寬 $b_w$）求上限而忽略翼板壓力貢獻 → 低估 $A_{s,\max}$</li>
 <li>計算完 $A_{s,\max}/2$ 後，未檢核 NA 是否在翼板內，就套用 T 形梁公式</li>
+<li>規範體系混用：$\varepsilon_t$ 上限配舊版 $1.4D + 1.7L$</li>
 </ul>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
 <p><strong>作戰計畫：</strong></p>
 <ol>
-<li>求平衡中性軸深度 $a_b$，判斷 NA 是在翼板還是腹板</li>
-<li>依 NA 位置計算 T 型梁平衡壓力 → 求 $A_{sb}$</li>
-<li>$A_{s,\max} = 0.75 A_{sb}$；使用 $A_s = A_{s,\max}/2$</li>
-<li>確認 NA 位置（用 $A_s/2$ 計算的 $a$ 是否 $\le h_f$）</li>
+<li>由 $\varepsilon_t = 0.004$ 求上限中性軸 $c_{\max} = \tfrac{0.003}{0.003+0.004}d$ 與 $a_{\max} = \beta_1 c_{\max}$，判斷在翼板或腹板</li>
+<li>依 NA 位置計算 T 型梁壓力 → 求 $A_{s,\max}$</li>
+<li>使用 $A_s = A_{s,\max}/2$</li>
+<li>確認 NA 位置（用 $A_s$ 計算的 $a$ 是否 $\le h_f$）</li>
 <li>若 NA 在翼板 → 矩形梁公式求 $\phi M_n$</li>
-<li>設 $\phi M_n = W_u L^2/8$，以 $W_u = 1.4w_D + 1.7w_L$ 反推 $w_L$</li>
+<li>設 $\phi M_n = W_u L^2/8$，以 $W_u = 1.2w_D + 1.6w_L$ 反推 $w_L$</li>
 </ol>
 <p><strong>關鍵陷阱（3 個）：</strong></p>
 <ul>
-<li>⚠ <strong>T 型梁平衡時 NA 在腹板中</strong>：$a_b = 25.2\ \text{cm} &gt; h_f = 12\ \text{cm}$，翼板伸出部分 + 腹板均受壓，壓力面積比矩形梁大很多，$A_{sb}$ 也遠大於矩形梁的 $\rho_b \times b_w \times d$</li>
-<li>⚠ <strong>用 $A_s/2$ 後 NA 反而跑回翼板內</strong>：用 $A_{s,\max}/2 = 37.6\ \text{cm}^2$ 時，$a = 5.53\ \text{cm} &lt; 12\ \text{cm}$，此時設計方法退化為矩形梁（寬度 $b = 120\ \text{cm}$），<strong>不需用 T 形梁公式</strong></li>
-<li>⚠ <strong>$\phi$ 值驗核</strong>：$\varepsilon_t = 0.02 \gg 0.005$，確認拉力控制 $\phi = 0.9$ ✓</li>
+<li>⚠ <strong>上限狀態 NA 在腹板中</strong>：$a_{\max} = 18.21\ \text{cm} &gt; h_f = 12\ \text{cm}$，翼板伸出部分 + 腹板均受壓，$A_{s,\max}$ 遠大於腹板矩形梁的上限</li>
+<li>⚠ <strong>用 $A_s/2$ 後 NA 反而跑回翼板內</strong>：$A_s = 45.20\ \text{cm}^2$ 時，$a = 6.65\ \text{cm} &lt; 12\ \text{cm}$，此時設計方法退化為矩形梁（寬度 $b = 120\ \text{cm}$），<strong>不需用 T 形梁公式</strong></li>
+<li>⚠ <strong>$\phi$ 值驗核</strong>：$\varepsilon_t = 0.0162 \gg 0.005$，確認拉力控制 $\phi = 0.9$ ✓</li>
 </ul>
 <hr />
 <h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
@@ -120,12 +235,12 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <h3>最終目標</h3>
 <p>（一）求 $\phi M_n$（設計彎矩，使用 $A_{s,\max}/2$）；（二）求最大容許活載重 $w_L$（t/m）。</p>
 <h3>本題關鍵公式（依計算順序）</h3>
-<p>$$\text{Step 1: } a_b = \beta_1 \cdot \frac{6120}{6120+f_y} \cdot d$$</p>
-<p>$$\text{Step 2: } C_b = 0.85f'_c \cdot (b-b_w) \cdot h_f + 0.85f'_c \cdot b_w \cdot \boxed{a_b}$$</p>
-<p>$$\text{Step 3: } A_{sb} = \frac{C_b}{f_y};\quad A_{s,\max} = 0.75\,A_{sb};\quad A_s = \frac{A_{s,\max}}{2}$$</p>
+<p>$$\text{Step 1: } c_{\max} = \frac{0.003}{0.003+0.004}\,d,\quad a_{\max} = \beta_1 \cdot c_{\max}$$</p>
+<p>$$\text{Step 2: } C_{\max} = 0.85f'_c \cdot (b-b_w) \cdot h_f + 0.85f'_c \cdot b_w \cdot \boxed{a_{\max}}$$</p>
+<p>$$\text{Step 3: } A_{s,\max} = \frac{\boxed{C_{\max}}}{f_y};\quad A_s = \frac{A_{s,\max}}{2}$$</p>
 <p>$$\text{Step 4: } a = \frac{\boxed{A_s} \cdot f_y}{0.85f'_c \cdot b} \quad \text{（驗核：} a \le h_f \text{ → 矩形梁）}$$</p>
 <p>$$\text{Step 5: } \phi M_n = \phi \cdot \boxed{A_s} \cdot f_y \cdot \left(d - \frac{\boxed{a}}{2}\right)$$</p>
-<p>$$\text{Step 6: } W_u = \frac{8\,\phi M_n}{L^2};\quad w_L = \frac{W_u - 1.4\,w_D}{1.7}$$</p>
+<p>$$\text{Step 6: } W_u = \frac{8\,\phi M_n}{L^2};\quad w_L = \frac{W_u - 1.2\,w_D}{1.6}$$</p>
 <h3>L1：題目直接給定</h3>
 <table>
 <thead>
@@ -179,7 +294,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tbody>
 </table>
 <h3>L2：需知識點推導</h3>
-<p><strong>平衡條件</strong></p>
+<p><strong>最大拉力筋量（$\varepsilon_t = 0.004$）</strong></p>
 <table>
 <thead>
 <tr>
@@ -195,18 +310,23 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <td></td>
 </tr>
 <tr>
-<td>$a_b$</td>
-<td>$\beta_1 \times 6120/10320 \times d = 25.2\ \text{cm}$（在腹板）</td>
+<td>$c_{\max}$</td>
+<td>$\tfrac{3}{7} \times 50 = 21.43\ \text{cm}$</td>
 <td></td>
 </tr>
 <tr>
-<td>$C_b$</td>
-<td>翼板 + 腹板壓力之和 = $421{,}260\ \text{kgf}$</td>
+<td>$a_{\max}$</td>
+<td>$0.85 \times 21.43 = 18.21\ \text{cm}$（在腹板）</td>
 <td></td>
 </tr>
 <tr>
-<td>$A_{sb}$</td>
-<td>$C_b/f_y = 100.3\ \text{cm}^2$</td>
+<td>$C_{\max}$</td>
+<td>翼板外挑 + 腹板壓力之和 = $379{,}695\ \text{kgf}$</td>
+<td></td>
+</tr>
+<tr>
+<td>$A_{s,\max}$</td>
+<td>$C_{\max}/f_y = 90.40\ \text{cm}^2$</td>
 <td></td>
 </tr>
 </tbody>
@@ -222,18 +342,13 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </thead>
 <tbody>
 <tr>
-<td>$A_{s,\max}$</td>
-<td>$0.75 \times 100.3 = 75.2\ \text{cm}^2$</td>
-<td></td>
-</tr>
-<tr>
 <td>$A_s$</td>
-<td>$75.2/2 = 37.6\ \text{cm}^2$</td>
+<td>$90.40/2 = 45.20\ \text{cm}^2$</td>
 <td></td>
 </tr>
 <tr>
 <td>$a$</td>
-<td>$37.6 \times 4200/28{,}560 = 5.53\ \text{cm} &lt; h_f$（矩形梁！）</td>
+<td>$45.20 \times 4200/28{,}560 = 6.65\ \text{cm} &lt; h_f$（矩形梁！）</td>
 <td></td>
 </tr>
 </tbody>
@@ -250,7 +365,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <tbody>
 <tr>
 <td>$\varepsilon_t$</td>
-<td>$0.003(d-c)/c$；$c = 6.51\ \text{cm}$ → $\varepsilon_t = 0.020 \gg 0.005$ → $\phi=0.9$</td>
+<td>$0.003(d-c)/c$；$c = 7.82\ \text{cm}$ → $\varepsilon_t = 0.0162 \gg 0.005$ → $\phi=0.9$</td>
 <td></td>
 </tr>
 <tr>
@@ -265,7 +380,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 <tr>
 <td>$w_L$</td>
-<td>$(W_u - 1.4 w_D)/1.7$</td>
+<td>$(W_u - 1.2 w_D)/1.6$</td>
 <td></td>
 </tr>
 </tbody>
@@ -281,75 +396,121 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </thead>
 <tbody>
 <tr>
-<td>T 型梁平衡 NA 在翼板或腹板</td>
-<td>先算 $a_b$，與 $h_f$ 比較，本題 $a_b = 25.2 &gt; 12$ → 腹板中，壓力需分開計算翼板+腹板</td>
+<td>最大拉力筋量的兩個時代</td>
+<td>舊版（ACI 318-99 以前）：$A_s \le 0.75A_{sb}$；ACI 318-02 起：最外層拉力筋 $\varepsilon_t \ge 0.004$，對應 $c \le \tfrac{3}{7}d$</td>
+<td></td>
+</tr>
+<tr>
+<td>上限狀態 NA 在翼板或腹板</td>
+<td>先算 $a_{\max}$，與 $h_f$ 比較，本題 $18.21 &gt; 12$ → 腹板中，壓力需分開計算翼板 + 腹板</td>
 <td></td>
 </tr>
 <tr>
 <td>使用部分鋼筋後 NA 位置可能改變</td>
-<td>$A_{s,\max}/2 = 37.6\ \text{cm}^2$ 比平衡時小很多，此時 $a = 5.53 &lt; h_f$ → NA 回到翼板內，退化為矩形梁</td>
+<td>$A_s = 45.20\ \text{cm}^2$ 比上限小很多，此時 $a = 6.65 &lt; h_f$ → NA 回到翼板內，退化為矩形梁</td>
 <td></td>
 </tr>
 <tr>
-<td>ACI USD 載重組合（1999版）</td>
-<td>$U = 1.4D + 1.7L$（2005年台灣考試採ACI 318-99基準）</td>
+<td>載重組合與規範版本成套</td>
+<td>$\varepsilon_t$ 體系（ACI 318-02 起）的強度載重組合為 $U = 1.2D + 1.6L$</td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
-<h3>① 求平衡 Whitney 應力塊深度 $a_b$</h3>
-<p>$$a_b = \beta_1 \cdot c_b = \beta_1 \cdot \frac{6120}{6120+f_y} \cdot d = 0.85 \times \frac{6120}{10320} \times 50$$</p>
-<p>$$= 0.85 \times 0.5930 \times 50 = \boxed{25.2\ \text{cm}}$$</p>
-<p><strong>判斷：</strong> $a_b = 25.2\ \text{cm} &gt; h_f = 12\ \text{cm}$，<strong>平衡中性軸在腹板中</strong> → 需計算 T 型斷面完整壓力</p>
+<h3>① 最大拉力筋量對應的中性軸</h3>
+<p>最外層拉力筋 $\varepsilon_t = 0.004$、混凝土 $\varepsilon_{cu} = 0.003$：</p>
+<p>$$c_{\max} = \frac{0.003}{0.003 + 0.004}\,d = \frac{3}{7} \times 50 = 21.43\ \text{cm}$$</p>
+<p>$$a_{\max} = \beta_1 \cdot c_{\max} = 0.85 \times 21.43 = \boxed{18.21\ \text{cm}}$$</p>
+<p><strong>判斷：</strong> $a_{\max} = 18.21\ \text{cm} &gt; h_f = 12\ \text{cm}$，<strong>上限狀態的中性軸在腹板中</strong> → 需計算 T 型斷面完整壓力</p>
 <hr />
-<h3>② 計算 T 型梁平衡壓力 $C_b$ 與 $A_{sb}$</h3>
+<h3>② 計算上限壓力 $C_{\max}$ 與 $A_{s,\max}$</h3>
 <p>$$C_f = 0.85 f'_c (b - b_w) h_f = 0.85 \times 280 \times (120-25) \times 12 = 238 \times 1{,}140 = 271{,}320\ \text{kgf}$$</p>
-<p>$$C_w = 0.85 f'_c \cdot b_w \cdot a_b = 238 \times 25 \times 25.2 = 149{,}940\ \text{kgf}$$</p>
-<p>$$C_b = 271{,}320 + 149{,}940 = 421{,}260\ \text{kgf}$$</p>
-<p>$$A_{sb} = \frac{C_b}{f_y} = \frac{421{,}260}{4{,}200} = \boxed{100.3\ \text{cm}^2}$$</p>
+<p>$$C_w = 0.85 f'_c \cdot b_w \cdot a_{\max} = 238 \times 25 \times 18.214 = 108{,}375\ \text{kgf}$$</p>
+<p>$$C_{\max} = 271{,}320 + 108{,}375 = 379{,}695\ \text{kgf}$$</p>
+<p>$$A_{s,\max} = \frac{C_{\max}}{f_y} = \frac{379{,}695}{4{,}200} = \boxed{90.40\ \text{cm}^2}$$</p>
 <hr />
-<h3>③ 最大鋼筋量與使用量</h3>
-<p>$$A_{s,\max} = 0.75 \times A_{sb} = 0.75 \times 100.3 = 75.2\ \text{cm}^2$$</p>
-<p>$$A_s = \frac{A_{s,\max}}{2} = \frac{75.2}{2} = \boxed{37.6\ \text{cm}^2}$$</p>
+<h3>③ 使用量</h3>
+<p>$$A_s = \frac{A_{s,\max}}{2} = \frac{90.40}{2} = \boxed{45.20\ \text{cm}^2}$$</p>
 <hr />
 <h3>④ 驗核 NA 位置（確認矩形梁模式）</h3>
 <p>假設 NA 在翼板（$a \le h_f$）：</p>
-<p>$$a = \frac{A_s f_y}{0.85 f'_c \cdot b} = \frac{37.6 \times 4{,}200}{0.85 \times 280 \times 120} = \frac{157{,}920}{28{,}560} = \boxed{5.53\ \text{cm}}$$</p>
-<p><strong>驗核：</strong> $a = 5.53\ \text{cm} &lt; h_f = 12\ \text{cm}$ ✓</p>
+<p>$$a = \frac{A_s f_y}{0.85 f'_c \cdot b} = \frac{45.20 \times 4{,}200}{0.85 \times 280 \times 120} = \frac{189{,}840}{28{,}560} = \boxed{6.65\ \text{cm}}$$</p>
+<p><strong>驗核：</strong> $a = 6.65\ \text{cm} &lt; h_f = 12\ \text{cm}$ ✓</p>
 <p>→ <strong>NA 在翼板內，等效為矩形梁（$b = 120\ \text{cm}$）</strong></p>
 <hr />
 <h3>⑤ 確認 $\phi$ 值</h3>
-<p>$$c = \frac{a}{\beta_1} = \frac{5.53}{0.85} = 6.51\ \text{cm}$$</p>
-<p>$$\varepsilon_t = 0.003 \times \frac{d - c}{c} = 0.003 \times \frac{50 - 6.51}{6.51} = 0.003 \times 6.68 = 0.020 \gg 0.005$$</p>
+<p>$$c = \frac{a}{\beta_1} = \frac{6.65}{0.85} = 7.82\ \text{cm}$$</p>
+<p>$$\varepsilon_t = 0.003 \times \frac{d - c}{c} = 0.003 \times \frac{50 - 7.82}{7.82} = 0.003 \times 5.39 = 0.0162 \gg 0.005$$</p>
+<p><img alt="RC-2005-2 同一 T 形斷面兩種鋼筋量的應力塊對照：左為 εt = 0.004 上限，a_max = 18.21 cm 超過翼板厚 12 cm、應力塊進入腹板，As,max = 90.40 cm²；右為 As = 45.20 cm²，a = 6.65 cm 在翼板內，c = 7.82 cm，εt = 0.0162，φMn = 79.75 tf·m" src="../../raw/solutions/RC-2005-2/figs/RC-2005-2-fig-1-tsection.svg" /></p>
+<p><em>圖 1　上限與一半的應力塊深度一個在腹板、一個在翼板內，所以兩步要用不同的公式。這張圖攔下兩個錯：求 $A_{s,\max}$ 時直接用翼板寬的矩形應力塊，以及鋼筋取一半後仍沿用翼板＋腹板分解。</em></p>
 <p><strong>拉力控制斷面，$\phi = 0.9$ ✓</strong></p>
 <hr />
 <h3>⑥ 設計彎矩 $\phi M_n$</h3>
-<p>$$M_n = A_s f_y \left(d - \frac{a}{2}\right) = 37.6 \times 4{,}200 \times \left(50 - \frac{5.53}{2}\right)$$</p>
-<p>$$= 157{,}920 \times 47.235 = 7{,}460{,}872\ \text{kgf·cm} = 74.6\ \text{tf·m}$$</p>
-<p>$$\phi M_n = 0.9 \times 74.6 = \boxed{67.1\ \text{tf·m}}$$</p>
+<p>$$M_n = A_s f_y \left(d - \frac{a}{2}\right) = 45.20 \times 4{,}200 \times \left(50 - \frac{6.65}{2}\right)$$</p>
+<p>$$= 189{,}840 \times 46.675 = 8{,}860{,}782\ \text{kgf·cm} = 88.61\ \text{tf·m}$$</p>
+<p>$$\phi M_n = 0.9 \times 88.61 = \boxed{79.75\ \text{tf·m}}$$</p>
 <hr />
 <h3>⑦ 最大容許活載重</h3>
 <p>簡支梁跨中最大彎矩：</p>
 <p>$$M_u = \frac{W_u L^2}{8} = \phi M_n \Rightarrow W_u = \frac{8\,\phi M_n}{L^2}$$</p>
-<p>$$W_u = \frac{8 \times 67.1}{9^2} = \frac{536.8}{81} = 6.63\ \text{t/m}$$</p>
-<p>ACI USD 載重組合（$U = 1.4D + 1.7L$）：</p>
-<p>$$W_u = 1.4\,w_D + 1.7\,w_L$$</p>
-<p>$$6.63 = 1.4 \times 0.75 + 1.7\,w_L = 1.05 + 1.7\,w_L$$</p>
-<p>$$w_L = \frac{6.63 - 1.05}{1.7} = \frac{5.58}{1.7} = \boxed{w_{L,\max} \approx 3.28\ \text{t/m}}$$</p>
+<p>$$W_u = \frac{8 \times 79.75}{9^2} = \frac{638.0}{81} = 7.88\ \text{t/m}$$</p>
+<p>USD 載重組合（$U = 1.2D + 1.6L$）：</p>
+<p>$$W_u = 1.2\,w_D + 1.6\,w_L$$</p>
+<p>$$7.88 = 1.2 \times 0.75 + 1.6\,w_L = 0.90 + 1.6\,w_L$$</p>
+<p>$$w_L = \frac{7.88 - 0.90}{1.6} = \frac{6.98}{1.6} = \boxed{w_{L,\max} \approx 4.36\ \text{t/m}}$$</p>
 <hr />
 <h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
-<p><strong>① 「T 型梁最大鋼筋量」的計算方式</strong></p>
-<p>本解採用<strong>T 型斷面完整平衡法</strong>（全 T 截面一次計算 $A_{sb}$），強調翼板壓力完整參與平衡。部分教科書採「分拆法」（$A_{sf} + 0.75\rho_b^\text{rect} \times b_w \times d$），其中翼板鋼筋 $A_{sf}$ 不受 0.75 限制，腹板部分才受延性限制。兩種方法在台灣考場均可接受，但應選一種方法貫徹到底，避免混用。</p>
+<p><strong>① 「ACI 規範允許之最大拉力筋量」是哪一版？</strong></p>
+<p>考卷（民國 94 年）沒有指明版本，本解採 ACI 318-02 起的淨拉應變上限 $\varepsilon_t \ge 0.004$，並配同一版的 $1.2D + 1.6L$（使用者 2026-11-12 確認）。三種讀法對照：</p>
+<table>
+<thead>
+<tr>
+<th>讀法</th>
+<th style="text-align: right;">$A_{s,\max}$</th>
+<th style="text-align: right;">$A_s$</th>
+<th style="text-align: right;">$\phi M_n$</th>
+<th style="text-align: right;">$w_L$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>本解：$\varepsilon_t = 0.004$，$1.2D+1.6L$</strong></td>
+<td style="text-align: right;">90.40 cm²</td>
+<td style="text-align: right;">45.20 cm²</td>
+<td style="text-align: right;">79.75 tf·m</td>
+<td style="text-align: right;"><strong>4.36 t/m</strong></td>
+</tr>
+<tr>
+<td>舊版：$0.75A_{sb}$（全 T 平衡法，$A_{sb} = 100.3$ cm²），$1.4D+1.7L$</td>
+<td style="text-align: right;">75.23 cm²</td>
+<td style="text-align: right;">37.61 cm²</td>
+<td style="text-align: right;">67.16 tf·m</td>
+<td style="text-align: right;">3.28 t/m</td>
+</tr>
+<tr>
+<td>$\varepsilon_t = 0.004$ 但配 $1.4D+1.7L$（體系混用）</td>
+<td style="text-align: right;">90.40 cm²</td>
+<td style="text-align: right;">45.20 cm²</td>
+<td style="text-align: right;">79.75 tf·m</td>
+<td style="text-align: right;">4.02 t/m</td>
+</tr>
+</tbody>
+</table>
+<p>考場上應寫明採用的規範版本，答案依版本而異。舊版的 $0.75A_{sb}$ 另有「分拆法」（$A_{sf} + 0.75\rho_b^\text{rect} b_w d$），不同教科書寫法不一，同一題內不可混用。</p>
 <p><strong>② 令人驚訝的「退化」現象</strong></p>
-<p>平衡時 NA 在腹板（$a_b = 25.2\ \text{cm}$），加上翼板貢獻後 $A_{sb} = 100.3\ \text{cm}^2$（遠大於矩形梁的 $\rho_b b_w d = 0.0286 \times 25 \times 50 = 35.8\ \text{cm}^2$）。但取 $A_{s,\max}/2 = 37.6\ \text{cm}^2$ 後，$a$ 縮短至 5.53 cm，NA 重新落入翼板，此時 T 形梁完全以矩形梁行為運作。這說明「大翼板 T 型梁」在使用遠低於最大鋼筋量時，翼板幾乎總是未被充分利用。</p>
+<p>上限狀態 NA 在腹板（$a_{\max} = 18.21\ \text{cm}$），加上翼板貢獻後 $A_{s,\max} = 90.40\ \text{cm}^2$，遠大於只用腹板寬算的上限（$238 \times 25 \times 18.21 / 4200 = 25.8\ \text{cm}^2$）。但取 $A_{s,\max}/2 = 45.20\ \text{cm}^2$ 後，$a$ 縮短至 6.65 cm，NA 重新落入翼板，此時 T 形梁完全以矩形梁行為運作。這說明「大翼板 T 型梁」在使用遠低於最大鋼筋量時，翼板幾乎總是未被充分利用。</p>
 <p><strong>③ 實際配筋數量估算</strong></p>
-<p>$A_s = 37.6\ \text{cm}^2$，若選用 #8 筋（$A_s = 5.07\ \text{cm}^2$/根）：<br />
-需根數 = $37.6/5.07 = 7.4$ → 選 8 根 #8（$A_s = 40.6\ \text{cm}^2$，略大於需求，合理）</p>
+<p>$A_s = 45.20\ \text{cm}^2$，若選用 #8 筋（$A_s = 5.07\ \text{cm}^2$/根）：<br />
+需根數 = $45.20/5.07 = 8.9$ → 選 9 根 #8（$A_s = 45.6\ \text{cm}^2$）</p>
 <p>若選用 #9 筋（$A_s = 6.47\ \text{cm}^2$/根）：<br />
-需根數 = $37.6/6.47 = 5.8$ → 選 6 根 #9（$A_s = 38.8\ \text{cm}^2$，合理）</p>
-<p>需驗核 $b_w = 25\ \text{cm}$ 腹板內能否排下（考量淨距與覆蓋層）。</p></main>
+需根數 = $45.20/6.47 = 7.0$ → 選 7 根 #9（$A_s = 45.3\ \text{cm}^2$）</p>
+<p>腹板寬僅 25 cm，這麼多根必須分 2～3 排配置，排數增加會使實際 $d$ 減小，需回頭驗核。</p>
+<hr />
+<p><em>修正日期：2026-11-12（§1 改為指向題目正本）</em></p>
+<p><em>修正日期：2026-11-12（勘誤：題意判讀，「ACI 規範允許之最大拉力筋量」改採 εt ≥ 0.004 上限並配 1.2D + 1.6L（使用者確認；舊解 0.75Asb ＋ 1.4D + 1.7L）；As,max 75.2 → 90.40 cm²，φMn 67.1 → 79.75 tf·m，wL 3.28 → 4.36 t/m；§2、§3、§3.5、§4、§5 改寫，舊解數值保留在 §5① 對照表；驗證：Python 獨立重算 MISMATCHES: 0）</em></p>
+<p><em>圖解補繪：2026-11-13（圖 1 T 形斷面上限與一半的應力塊對照；向量圖，腳本 <code>gen_RC-2005-2.py</code>，可重跑，檔尾對 §4 公佈值 assert；非勘誤）</em></p></main>
 <footer>來源：raw/solutions/RC-2005-2/RC-2005-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>
 /* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
