@@ -36,13 +36,14 @@ YBAR = MTOT/PTOT
 PA_EFF = sum(b[1] for b in BLK[:3])
 
 # 抗滑動
-AW  = (BTOP + BBOT)/2.0*H
-W   = AW*GC                                # 368.0
+# 牆面由牆頂斜到牆前地面，地面以下 DTOE 為鉛直段（題目正本 #5、#6；2026-11-15 勘誤，原為整高梯形 16.0 m²）
+AW  = (BTOP + BBOT)/2.0*(H - DTOE) + BBOT*DTOE   # 17.0 m²
+W   = AW*GC                                # 391.0
 U1, U2 = GW*(H-HC), GW*DTOE                # 牆踵 39.24、牆趾 9.81
 UU  = (U1+U2)/2.0*BBOT                     # 73.575 揚水壓合力
-WP  = W - UU                               # 294.43
+WP  = W - UU                               # 317.43
 DL  = 2.0/3.0*PHI2                         # 20°
-FR  = WP*math.tan(R(DL))                   # 107.16
+FR  = WP*math.tan(R(DL))                   # 115.53
 PP  = 0.5*KP2*GP2*DTOE**2                  # 13.035
 PWP = 0.5*GW*DTOE**2                       # 4.905
 FRT = FR + PP + PWP
@@ -152,7 +153,7 @@ def panel_fbd():
     sx = min((PW2-L-Rm)/(xmax-xmin), (PH2-T-Bm)/(ymax-ymin))
     cv = Canvas(PW2, PH2, sx=sx, ox=L-xmin*sx, oy=Bm-ymin*sx, bg="#FFFFFF")
     cv.panel(title="(二) 抗滑動自由體圖", sub="驅動＝土壓＋水壓；抵抗＝底面摩擦＋被動側")
-    wall = [(-BBOT, 0), (0, 0), (0, H), (-BTOP, H)]
+    wall = [(-BBOT, 0), (0, 0), (0, H), (-BTOP, H), (-BBOT, DTOE)]
     cv.polygon([(0, 0), (7.9, 0), (7.9, H), (0, H)], "rgba(180,83,9,0.10)")
     cv.polygon([(0, 0), (7.9, 0), (7.9, Yz(HC)), (0, Yz(HC))], "rgba(29,78,216,0.10)")
     cv.line((0, Yz(HC)), (7.9, Yz(HC)), C["deform"], 1.6, dash="7 5")
@@ -165,7 +166,7 @@ def panel_fbd():
     cv.text_px(cv.X(-4.6), cv.Y(DTOE+0.62), "前趾覆土 %g m" % DTOE, 11.5, C["muted"])
     cv.polygon(wall, "rgba(148,163,184,0.32)", C["member"], 2.6)
     cv.arrow((-BBOT/2.0-0.30, H*0.62), (-BBOT/2.0-0.30, H*0.62-1.7), C["muted"], 3.0, 10)
-    cv.text_px(cv.X(-BBOT/2.0-0.55), cv.Y(H*0.62-0.85), "W = %.1f kN/m" % W, 12.5,
+    cv.text_px(cv.X(-BBOT/2.0-1.05), cv.Y(H*0.62-0.85), "W = %.1f kN/m" % W, 12.5,
                C["muted"], anchor="end", weight="700")
     # 驅動
     cv.arrow((3.4, YBAR), (0.15, YBAR), C["load"], 4.2, 13)
@@ -236,6 +237,63 @@ def fig2():
                  "把假設寫清楚比選哪個值更重要。",
             path=os.path.join(OUT, "SM-2015-2-fig-2-sliding.svg"))
 
+
+
+
+# ══════ fig-1-problem：題目附圖重繪（2026-11-15 題目正本推廣，非解題圖）══════
+# 幾何只取自題目正本 SM-2015-2-problem.md §4 判讀清單，不含任何解題結果；不改上方既有圖的程式與輸出。
+# 只產本圖：python gen_SM-2015-2.py --problem [輸出資料夾]
+def _fitp(W, H, xr, yr, L, R_, T, B):
+    sx = min((W - L - R_) / (xr[1] - xr[0]), (H - T - B) / (yr[1] - yr[0]))
+    return dict(sx=sx, ox=L - xr[0] * sx, oy=B - yr[0] * sx)
+
+
+# ── 題目正本 §4 判讀清單 ──
+P_H, P_HC = 8.0, 4.0       # #4 牆高、#3 黏土厚＝水位深
+P_TOP, P_BOT = 1.0, 3.0    # #5 牆頂寬、牆底寬
+P_EMB = 1.0                # #6 牆前地面高於牆底
+
+def fig_problem(out):
+    W, H = 860, 600
+    cv = Canvas(W, H, bg="#FFFFFF", **_fitp(W, H, (-P_BOT - 2.6, 8.4), (-1.3, P_H + 1.1), 30, 30, 30, 20))
+    cv.polygon([(0, P_HC), (6.2, P_HC), (6.2, P_H), (0, P_H)], "rgba(63,74,90,0.20)")       # 黏土
+    cv.polygon([(0, 0), (6.2, 0), (6.2, P_HC), (0, P_HC)], "rgba(180,83,9,0.20)")          # 砂土
+    cv.polygon([(-P_BOT - 2.4, 0), (-P_BOT, 0), (-P_BOT, P_EMB), (-P_BOT - 2.4, P_EMB)], "rgba(180,83,9,0.12)")
+    cv.polygon([(-P_BOT, 0), (0, 0), (0, P_H), (-P_TOP, P_H), (-P_BOT, P_EMB)],
+               "rgba(138,148,166,0.35)", C["member"], 2.4)                               # #5 牆斷面
+    cv.line((0, P_H), (6.2, P_H), C["member"], 2.4)
+    cv.line((-P_BOT - 2.4, P_EMB), (-P_BOT, P_EMB), C["member"], 2.4)
+    cv.line((0, P_HC), (6.2, P_HC), C["member2"], 1.6)
+    cv.line((0.3, P_HC), (6.2, P_HC), C["deform"], 1.8, dash="8 5")
+    cv.polygon([(5.0, P_HC), (5.36, P_HC), (5.18, P_HC + 0.28)], "none", C["deform"], 2.0)
+    cv.text_px(cv.X(5.18), cv.Y(P_HC - 0.32), "地下水位", 12.5, C["deform"], weight="700")
+    cv.text_px(cv.X(0.4), cv.Y(7.3), "正常壓密黏土", 13, C["text"], anchor="start", weight="700")
+    cv.math_px(cv.X(0.4), cv.Y(6.7), "γ_{dry} = 17.5 kN/m^{3}", 13, C["text"], anchor="start")
+    cv.math_px(cv.X(0.4), cv.Y(6.15), "φ = 20°,  c = 20 kN/m^{2}", 13, C["text"], anchor="start")
+    cv.text_px(cv.X(0.4), cv.Y(3.0), "砂土", 13, C["text"], anchor="start", weight="700")
+    cv.math_px(cv.X(0.4), cv.Y(2.4), "γ_{sat} = 18.5 kN/m^{3}", 13, C["text"], anchor="start")
+    cv.math_px(cv.X(0.4), cv.Y(1.85), "φ = 30°", 13, C["text"], anchor="start")
+    cv.math_px(cv.X(-1.55), cv.Y(2.2), "γ_{concrete}", 13, C["text"])
+    cv.math_px(cv.X(-1.55), cv.Y(1.7), "= 23 kN/m^{3}", 13, C["text"])
+    cv.text_px(cv.X(-P_BOT - 1.3), cv.Y(1.4), "牆前土性未給", 11.5, C["muted"])
+    cv.dim((-P_TOP, P_H + 0.45), (0, P_H + 0.45), "1.0 m", 0, C["dim"], 12.5, label_off=-14)
+    cv.dim((-P_BOT, -0.55), (0, -0.55), "3.0 m", 0, C["dim"], 12.5, label_off=16)
+    cv.dim((-P_BOT - 0.5, 0), (-P_BOT - 0.5, P_EMB), "1.0 m", 0, C["dim"], 12.5, label_off=-24)
+    cv.dim((7.2, 0), (7.2, P_H), "8.0 m", 0, C["dim"], 13, label_off=26)
+    cv.dim((6.5, P_HC), (6.5, P_H), "4.0 m", 0, C["dim"], 13, label_off=-26)
+    return cv
+
+def make_problem(out):
+    compose([fig_problem(out)], title="SM-2015-2 題目附圖重繪",
+            sub="依題目正本判讀清單；尺寸以考卷標註為準（考卷附圖未按比例）",
+            note="攔錯用：牆底寬 3.0 m、頂寬 1.0 m、牆前埋入 1.0 m；水位在 4.0 m 的土層交界，黏土在水位以上。",
+            path=os.path.join(out, "SM-2015-2-fig-1-problem.svg"))
+
+if __name__ == "__main__" and "--problem" in sys.argv:
+    _o = next((a for a in sys.argv[1:] if not a.startswith("--")), OUT)
+    os.makedirs(_o, exist_ok=True)
+    make_problem(_o)
+    sys.exit(0)
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)

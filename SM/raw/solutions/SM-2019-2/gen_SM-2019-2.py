@@ -199,3 +199,47 @@ print("表一 Tv=%.4f -> t=%.2f 天 ; 理論 Tv=%.4f -> t=%.2f 天" % (TV_TBL, T
 print("表一逐列 vs U_z(Z=1) 檢核：")
 for t, u in TBL:
     print("  Tv=%.2f 表=%6.2f  Uz=%6.2f  Uavg=%6.2f" % (t, u, U_local(t)*100, U_avg(t)*100))
+
+
+# ══════ fig-1-problem：題目圖一重繪（2026-11-15 加）══════
+# 幾何只取自題目正本 SM-2019-2-problem.md §4 判讀清單（#3–#6），不含任何解題結果。
+# 用法：python gen_SM-2019-2.py [problem 圖輸出資料夾]（預設本題 figs/；上方既有圖仍輸出到 OUT）
+HERE_P = os.path.dirname(os.path.abspath(__file__))
+OUT_P = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE_P, "figs")
+os.makedirs(OUT_P, exist_ok=True)
+P_ZC0, P_ZC1 = 1.6, 5.6     # 黏土頂、底（上層砂厚考卷未標，取示意 1.6；#4 黏土 4 m）
+P_ZE = 7.0                  # 下層砂繪到此（示意）
+P_WT = 0.5                  # #5 水位在上層砂內，深度考卷未標（示意）
+
+def fig_problem_2019_2():
+    W, H = 880, 520
+    XL, XR = 0.0, 10.0
+    cv = Canvas(W, H, bg="#FFFFFF", **fit(W, H, (XL - 2.0, XR + 1.6), (-P_ZE, 2.0), 40, 40, 60, 40))
+    Y = lambda d: -d
+    for d0, d1, col in [(0, P_ZC0, "rgba(180,83,9,0.18)"), (P_ZC0, P_ZC1, "rgba(63,74,90,0.22)"),
+                        (P_ZC1, P_ZE, "rgba(180,83,9,0.18)")]:
+        soil_fill(cv, XL, XR, Y(d1), Y(d0), col)
+    cv.line((XL, Y(0)), (XR, Y(0)), C["member"], 2.6)
+    cv.line((XL, Y(P_ZC0)), (XR, Y(P_ZC0)), C["member"], 2.2)
+    cv.line((XL, Y(P_ZC1)), (XR, Y(P_ZC1)), C["member"], 2.2)
+    for i in range(11):
+        x = 0.4 + i * (XR - 0.8) / 10
+        cv.arrow((x, Y(-1.3)), (x, Y(-0.05)), C["load"], 2.0, 7)
+    cv.text_px(cv.X(XR) + 8, cv.Y(Y(-0.7)), "均布荷重", 12.5, C["load"], anchor="start", weight="700")
+    cv.line((XL, Y(P_WT)), (XR, Y(P_WT)), C["deform"], 1.6, dash="8 5")
+    wt_symbol(cv, 1.4, Y(P_WT), C["deform"], 0.12)
+    cv.text_px(cv.X(XR) + 8, cv.Y(Y(P_WT)), "地下水位", 12.5, C["deform"], anchor="start", weight="700")
+    cv.text_px(cv.X(6.5), cv.Y(Y(1.1)), "砂土（排水）", 13, C["text"], weight="700")
+    cv.text_px(cv.X(6.5), cv.Y(Y(3.6)), "正常壓密黏土", 13, C["text"], weight="700")
+    cv.text_px(cv.X(6.5), cv.Y(Y(6.3)), "砂土（排水）", 13, C["text"], weight="700")
+    xd = XL - 0.8
+    cv.dim((xd, Y(P_ZC1)), (xd, Y(P_ZC0)), "4 m", 0, C["dim"], 12.5, label_off=-26)
+    for d in (P_ZC0, P_ZC1):
+        cv.line((xd - 0.25, Y(d)), (XL, Y(d)), C["dim"], 0.9, dash="2 3")
+    return cv
+
+compose([fig_problem_2019_2()],
+        title="SM-2019-2 題目圖一重繪",
+        sub="依題目正本判讀清單；4 m 黏土上下皆為排水砂層（砂層厚與水位深度考卷未標，圖上為示意）",
+        note="攔錯用：黏土上下都是砂，雙向排水；考卷只標黏土厚 4 m，施工前有效應力 70 kPa 已直接給，不必由水位推算。",
+        path=os.path.join(OUT_P, "SM-2019-2-fig-1-problem.svg"))

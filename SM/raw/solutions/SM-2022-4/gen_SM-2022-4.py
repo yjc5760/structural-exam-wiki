@@ -253,7 +253,92 @@ def fig2():
     return [ca, cb]
 
 
+
+# ══════ fig-1-problem：題目附圖重繪（2026-11-15，題目正本推廣 SM-U2-3 批 1）══════
+# 幾何只取自題目正本 SM-2022-4-problem.md §4 判讀清單，不含任何解題結果。
+# 用法：python gen_SM-2022-4.py [輸出資料夾]；只寫 SM-2022-4-fig-1-problem.svg 到該資料夾（預設本題 figs/）。
+def _pgeo():
+    sys.path.insert(0, os.path.join(HERE, ".."))      # SM/raw/solutions/geo.py
+    import geo
+    return geo
+
+
+def _ground(cv, x0, x1, y, n=4, s=0.35):
+    for k in range(n):
+        x = x0 + (x1 - x0) * (k + 0.5) / n
+        cv.line((x, y), (x - s, y - s), C["member"], 1.3)
+
+
+def _wall(cv, x, y0, y1, t=0.18, fill="#3F4A5A"):
+    cv.polygon([(x - t / 2, y0), (x + t / 2, y0), (x + t / 2, y1), (x - t / 2, y1)], fill)
+
+
+def fig_problem(out):
+    g = _pgeo()
+    # 判讀清單：L1 = 3 m（水位面，兩側同高）、L2 = 6 m（開挖線）；L3、L4、DL 為所求，只畫符號（示意比例）
+    L1_, L2_ = 3.0, 6.0
+    L3S, L4S = 1.6, 3.4                         # 示意
+    ZD, ZE, ZB = L1_ + L2_, L1_ + L2_ + L3S, L1_ + L2_ + L3S + L4S
+    Wd, Ht = 900, 680
+    XL, XR = -5.0, 6.0
+    cv = Canvas(Wd, Ht, bg="#FFFFFF", **g.fit(Wd, Ht, (XL - 1.6, XR + 4.4), (-(ZB + 0.9), 1.0), 30, 30, 40, 40))
+    Y = lambda d: -d
+    g.soil_fill(cv, 0, XR, Y(L1_), Y(0), "rgba(180,83,9,0.12)")
+    g.soil_fill(cv, 0, XR, Y(ZD), Y(L1_), "rgba(180,83,9,0.24)")
+    g.soil_fill(cv, XL, XR, Y(ZB + 0.4), Y(ZD), "rgba(180,83,9,0.24)")
+    cv.line((0, Y(0)), (XR, Y(0)), C["member"], 2.2)
+    cv.line((XL, Y(L1_)), (XR, Y(L1_)), C["deform"], 1.5, dash="8 5")
+    g.wt_symbol(cv, -3.6, Y(L1_), C["deform"], 0.12)
+    g.wt_symbol(cv, XR - 0.6, Y(L1_), C["deform"], 0.12)
+    cv.text_px(cv.X(-3.6), cv.Y(Y(L1_)) - 26, "水位面", 14, C["text"], weight="700")
+    cv.line((XL, Y(ZD)), (XR, Y(ZD)), C["member"], 1.6, dash="10 4 2 4")
+    _wall(cv, 0, Y(0), Y(ZB), 0.2)
+    # 淨土壓力圖（示意形狀，僅標點名，不含數值）
+    PC, PD, PF, PG = 1.0, 1.9, -2.2, 3.0
+    pts = [(0, 0), (PC, L1_), (PD, ZD), (0, ZE), (PF, ZE + 0.72 * L4S), (PG, ZB)]
+    cv.poly([(x, Y(z)) for x, z in pts], C["member"], 1.6)
+    for x, z in ((0.55, 1.6), (1.4, 5.5), (1.0, ZD + 0.75)):
+        cv.arrow((x * 0.98, Y(z)), (0.15, Y(z)), C["member"], 1.4, 7)
+    for z in (ZE + 0.4 * L4S, ZE + 0.72 * L4S):
+        x = PF * (z - ZE) / (0.72 * L4S)
+        cv.arrow((x, Y(z)), (-0.15, Y(z)), C["member"], 1.4, 7)
+    cv.arrow((2.0, Y(ZB - 0.15)), (0.15, Y(ZB - 0.15)), C["member"], 1.4, 7)
+    zP = 6.3
+    cv.arrow((3.6, Y(zP)), (0.15, Y(zP)), C["load"], 4.0, 13)
+    cv.text_px(cv.X(3.8), cv.Y(Y(zP)), "P", 15, C["load"], anchor="start", weight="700")
+    for lab, x, z, dx, dy in (("A", 0, 0, 0, -14), ("C", PC, L1_, 14, -10), ("D", PD, ZD, 14, -10), ("E", 0, ZE, 14, 12),
+                              ("F", PF, ZE + 0.72 * L4S, -14, 10), ("G", PG, ZB, 10, 16), ("B", 0, ZB, 0, 18)):
+        cv.text_px(cv.X(x) + dx, cv.Y(Y(z)) + dy, lab, 14, C["text"], weight="700")
+    cv.math_px(cv.X(PC) + 30, cv.Y(Y(L1_)) + 16, "σ'_{1}", 13, C["text"])
+    cv.math_px(cv.X(PD) - 34, cv.Y(Y(ZD)) - 10, "σ'_{2}", 13, C["text"])
+    # 參數
+    xp = XR + 0.4
+    cv.text_px(cv.X(xp), cv.Y(Y(0.8)), "砂土", 13, C["text"], anchor="start", weight="700")
+    cv.math_px(cv.X(xp), cv.Y(Y(1.5)), "γ = 16.5 kN/m^{3}，φ' = 38°".replace("，", ", "), 13, C["text"], anchor="start")
+    cv.text_px(cv.X(xp), cv.Y(Y(4.4)), "砂土", 13, C["text"], anchor="start", weight="700")
+    cv.math_px(cv.X(xp), cv.Y(Y(5.1)), "γ_{sat} = 19.3 kN/m^{3}, φ' = 38°", 13, C["text"], anchor="start")
+    cv.text_px(cv.X(xp), cv.Y(Y(ZD + 1.6)), "砂土", 13, C["text"], anchor="start", weight="700")
+    cv.math_px(cv.X(xp), cv.Y(Y(ZD + 2.3)), "γ_{sat} = 19.3 kN/m^{3}, φ' = 38°", 13, C["text"], anchor="start")
+    cv.math_px(cv.X(xp), cv.Y(Y(ZB - 0.3)), "γ_{w} = 9.81 kN/m^{3}", 13, C["text"], anchor="start")
+    # 尺寸線
+    xa = -1.0
+    cv.dim((xa, Y(L1_)), (xa, Y(0)), "L_{1} = 3 m", 0, C["dim"], 12.5, label_off=-40)
+    cv.dim((xa, Y(ZD)), (xa, Y(L1_)), "L_{2} = 6 m", 0, C["dim"], 12.5, label_off=-40)
+    cv.dim((-2.6, Y(ZE)), (-2.6, Y(ZD)), "L_{3}", 0, C["dim"], 12.5, label_off=-18)
+    cv.dim((-2.6, Y(ZB)), (-2.6, Y(ZE)), "L_{4}", 0, C["dim"], 12.5, label_off=-18)
+    cv.dim((XL + 0.3, Y(ZB)), (XL + 0.3, Y(ZD)), "D_{L} = ?", 0, C["dim"], 12.5, label_off=-30)
+    cv.dim((-0.5, Y(ZE)), (-0.5, Y(zP)), "z̄", 0, C["dim"], 13, label_off=-12)
+    cv.line((-0.65, Y(zP)), (-0.1, Y(zP)), C["dim"], 0.8, dash="2 3")
+    for z in (ZE, ZB):
+        cv.line((XL + 0.1, Y(z)), (-0.1, Y(z)), C["dim"], 0.8, dash="2 3")
+    cv.text_px(cv.X(XL + 0.3), cv.Y(Y(ZB)) + 18, "H", 14, C["text"], weight="700")
+    compose([cv], title="SM-2022-4 題目附圖重繪（淨土壓力圖為示意形狀）",
+            sub="依題目正本判讀清單；水位面兩側同高（地表下 3 m），開挖線在地表下 9 m",
+            note="攔錯用：L3 由開挖線量到零壓點 E，DL = L3 + L4 量到樁底 B；z̄ 是合力 P 到 E 的距離；兩側同水位，淨水壓為零。",
+            path=os.path.join(out, "SM-2022-4-fig-1-problem.svg"))
+
 if __name__ == "__main__":
+    fig_problem(sys.argv[1] if len(sys.argv) > 1 else OUT)
     os.makedirs(OUT, exist_ok=True)
     c1 = fig1()
     compose([c1], title="SM-2022-4　懸臂式鋼板樁：淨土壓力分布與零淨壓力點",

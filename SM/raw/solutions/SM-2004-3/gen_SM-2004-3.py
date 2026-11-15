@@ -187,6 +187,55 @@ def fig2():
     cv.save(os.path.join(OUT, "SM-2004-3-fig-2-thrust-curve.svg"))
 
 
+
+
+# ══════ fig-1-problem：題目附圖重繪（2026-11-15 題目正本推廣，非解題圖）══════
+# 幾何只取自題目正本 SM-2004-3-problem.md §4 判讀清單，不含任何解題結果；不改上方既有圖的程式與輸出。
+# 只產本圖：python gen_SM-2004-3.py --problem [輸出資料夾]
+def _fitp(W, H, xr, yr, L, R_, T, B):
+    sx = min((W - L - R_) / (xr[1] - xr[0]), (H - T - B) / (yr[1] - yr[0]))
+    return dict(sx=sx, ox=L - xr[0] * sx, oy=B - yr[0] * sx)
+
+
+# ── 題目正本 §4 判讀清單 ──
+P_H   = 6.0     # #1 牆高（牆頂＝回填土面 → 牆底）
+P_X   = 2.6     # #2 水位高度 x 由牆底往上量——x 為待求量，此處高度僅示意
+P_TOP, P_BOT = 0.9, 2.4   # 牆頂、牆底寬：考卷未給，示意（#3 牆背鉛直、牆面傾斜）
+
+def fig_problem(out):
+    W, H = 820, 520
+    cv = Canvas(W, H, bg="#FFFFFF", **_fitp(W, H, (-P_BOT - 2.2, 6.5), (-0.6, P_H + 0.5), 40, 40, 30, 30))
+    soil = "rgba(180,83,9,0.18)"
+    cv.polygon([(0, 0), (6.0, 0), (6.0, P_H), (0, P_H)], soil)                      # 回填土（#4 水平、與牆頂齊）
+    cv.polygon([(0, 0), (6.0, 0), (6.0, P_X), (0, P_X)], "rgba(29,78,216,0.10)")     # 水位以下
+    cv.polygon([(-P_BOT, 0), (0, 0), (0, P_H), (-P_TOP, P_H)], "rgba(138,148,166,0.35)", C["member"], 2.4)
+    cv.line((-P_BOT - 2.0, 0), (6.0, 0), C["member"], 2.4)                          # 牆前地面在牆底高程（#5）
+    cv.line((0, P_H), (6.0, P_H), C["member"], 2.4)
+    cv.line((0, P_X), (6.0, P_X), C["deform"], 1.8, dash="8 5")
+    cv.polygon([(3.9, P_X), (4.25, P_X), (4.075, P_X + 0.26)], "none", C["deform"], 2.0)
+    cv.text_px(cv.X(4.45), cv.Y(P_X + 0.18), "G.W.T.", 13, C["deform"], anchor="start", weight="700")
+    cv.text_px(cv.X(3.0), cv.Y(4.9), "非凝聚性回填土", 13, C["text"], weight="700")
+    cv.math_px(cv.X(3.0), cv.Y(4.35), "γ_{t} = γ_{sat} = 19.2 kN/m^{3}", 13, C["text"])
+    cv.math_px(cv.X(3.0), cv.Y(3.8), "φ = 35°,  δ = 0", 13, C["text"])
+    cv.text_px(cv.X(-P_BOT/2 - 0.2), cv.Y(1.6), "重力式擋土牆", 12.5, C["text"], weight="700")
+    cv.text_px(cv.X(-P_BOT/2 - 0.2), cv.Y(1.1), "（尺寸未給，示意）", 11.5, C["muted"])
+    cv.text_px(cv.X(-P_BOT/2 - 0.2), cv.Y(0.6), "可抵抗 146 kN/m", 12.5, C["load"], weight="700")
+    cv.dim((-P_BOT - 1.2, 0), (-P_BOT - 1.2, P_H), "6 m", 0, C["dim"], 13, label_off=22)
+    cv.dim((1.4, 0), (1.4, P_X), "x", 0, C["dim"], 15, label_off=-14)
+    return cv
+
+def make_problem(out):
+    compose([fig_problem(out)], title="SM-2004-3 題目附圖重繪",
+            sub="依題目正本判讀清單；牆體尺寸考卷未給（示意），x 為待求量（高度示意）",
+            note="攔錯用：x 由牆底往上量（不是由地表往下）；牆背鉛直、忽略牆摩擦 → 可用 Rankine。",
+            path=os.path.join(out, "SM-2004-3-fig-1-problem.svg"))
+
+if __name__ == "__main__" and "--problem" in sys.argv:
+    _o = next((a for a in sys.argv[1:] if not a.startswith("--")), OUT)
+    os.makedirs(_o, exist_ok=True)
+    make_problem(_o)
+    sys.exit(0)
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     fig1(); fig2()

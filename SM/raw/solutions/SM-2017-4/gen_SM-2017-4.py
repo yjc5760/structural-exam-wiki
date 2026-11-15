@@ -55,19 +55,36 @@ def overburden(z_to):
             s += (hi - lo) * g
     return s
 SIGV = overburden(H_EXC)                 # 14.392 tf/m²
-NC = math.pi + 2                         # 5.1416
+# 2026-11-15 勘誤：考卷式 FS = Su(π+2α)/(γH+q)，圓心在最下階支撐 GL-3.5 m、半徑 X 到壁底
+Z_STRUT = 3.5                            # 最下一段支撐
+L_ARM = H_EXC - Z_STRUT                  # ℓ = 4.5 m
+X_ARC = D_TIP - Z_STRUT                  # X = ℓ + D = 10.5 m
+ALPHA = math.acos(L_ARM / X_ARC)         # 1.1279 rad = 64.62°
+NC = math.pi + 2 * ALPHA                 # 5.3974（舊解誤用 π+2 = 5.1416）
 
 N_SM = (14 + 12 + 14) / 3.0              # 13.333（S-7/S-8/S-9 逐點讀值）
 T_CL = Z_CLSM - H_EXC                    # 2.32
 T_SM = D_TIP - Z_CLSM                    # 3.68
 N_AVG = (4 * T_CL + N_SM * T_SM) / (D_TIP - H_EXC)
 SU_W = 10 * N_AVG / 16.0                 # 6.077
-FS_HV_W = SU_W * NC / (SIGV + Q)         # 2.03
+FS_HV_W = SU_W * NC / (SIGV + Q)         # 2.13
 SU_CL = 10 * 4 / 16.0                    # 2.50
-FS_HV_CL = SU_CL * NC / (SIGV + Q)       # 0.84
+FS_HV_CL = SU_CL * NC / (SIGV + Q)       # 0.88
 SU_FLAT = 10 * ((4*T_CL + 14*T_SM)/(D_TIP-H_EXC)) / 16.0   # 若 SM 一律取 N=14
 FS_FLAT = SU_FLAT * NC / (SIGV + Q)
 
+
+def arc_pts(Yz, xmin=-1e9, step=2):
+    """隆起圓弧：圓心 (0, GL-3.5)，半徑 X；背側由圓心水平線往下到正下方，開挖側往上到開挖面（角度 α）。"""
+    pts = []
+    for d in range(-90, int(round(math.degrees(ALPHA))) + 1, step):
+        f = math.radians(d)
+        x = X_ARC * math.sin(f)
+        if x >= xmin:
+            pts.append((x, Yz(Z_STRUT + X_ARC * math.cos(f))))
+    f = ALPHA
+    pts.append((X_ARC * math.sin(f), Yz(H_EXC)))
+    return pts
 
 def _seg(cv, x0, y0, x1, y1, col, w, dash=None):
     d = ' stroke-dasharray="%s"' % dash if dash else ""
@@ -96,11 +113,11 @@ def _wt(cv, x, y, col):
 # 圖一：剖面與三個檢核面
 # ══════════════════════════════════════════════════════════
 def fig1():
-    W1, H1, ZT = 1340, 820, 16.6
-    cv = Canvas(W1, H1, sx=38.0, ox=620, oy=68, bg=C["panel"])
+    W1, H1, ZT = 1420, 820, 16.6
+    cv = Canvas(W1, H1, sx=38.0, ox=700, oy=68, bg=C["panel"])
     cv.panel()
     Yz = lambda z: (ZT - z)
-    XLOG, XL, XR = -14.4, -9.4, 13.4     # 柱狀圖欄 / 地層左緣 / 右緣
+    XLOG, XL, XR = -16.4, -11.4, 13.4     # 柱狀圖欄 / 地層左緣 / 右緣
 
     LC = {"ML": "rgba(180,83,9,0.13)", "ML-CL": "rgba(180,83,9,0.20)",
           "CL": "rgba(46,125,111,0.20)", "SM": "rgba(124,58,237,0.14)"}
@@ -147,7 +164,7 @@ def fig1():
     cv.arrow((-0.45, Yz(WT_D)), (-0.45, Yz(D_TIP-0.3)), C["load"], 2.6, 9)
     cv.line((-0.45, Yz(D_TIP-0.3)), (0.45, Yz(D_TIP-0.3)), C["load"], 2.6)
     cv.arrow((0.45, Yz(D_TIP-0.3)), (0.45, Yz(H_EXC+0.2)), C["load"], 2.6, 9)
-    cv.text_px(cv.X(-0.72), cv.Y(Yz(3.4)), "D_{out} = %.1f m" % P_OUT, 11.5,
+    cv.text_px(cv.X(-0.72), cv.Y(Yz(2.4)), "D_{out} = %.1f m" % P_OUT, 11.5,
                C["load"], anchor="end", weight="700")
     cv.text_px(cv.X(0.72), cv.Y(Yz(12.6)), "D_{in} = %.1f m" % P_IN, 11.5,
                C["load"], anchor="start", weight="700")
@@ -167,17 +184,19 @@ def fig1():
                "受壓面 GL−%.2f m（CL / SM 交界）" % Z_CLSM, 12, C["load"],
                anchor="start", weight="700")
 
-    # ── (四) 隆起破壞面：以開挖面角點為圓心、半徑＝入土深度的圓弧 ──
-    r_arc = D_TIP - H_EXC
-    pts = [(r_arc*math.cos(math.radians(t)), Yz(H_EXC + r_arc*math.sin(math.radians(t))))
-           for t in range(0, 181, 3)]
-    cv.poly(pts, C["accent"], 2.8, dash="9 6")
-    cv.line((-r_arc, Yz(H_EXC)), (-r_arc, Yz(0)), C["accent"], 2.8, dash="9 6")
-    cv.text_px(cv.X(-5.75), cv.Y(Yz(4.2)), "隆起破壞面", 12.5, C["accent"],
+    # ── (四) 隆起破壞面：以最下階支撐為圓心、半徑 X = ℓ + D 的圓弧（2026-11-15 勘誤）──
+    cv.poly(arc_pts(Yz), C["accent"], 2.8, dash="9 6")
+    cv.line((0, Yz(Z_STRUT)), (-X_ARC, Yz(Z_STRUT)), C["accent"], 1.4, dash="3 4")
+    _dot(cv, cv.X(0), cv.Y(Yz(Z_STRUT)), 5, C["accent"])
+    cv.text_px(cv.X(-0.3), cv.Y(Yz(Z_STRUT))+20, "圓心＝最下階支撐 GL−%.1f m" % Z_STRUT, 11.5,
+               C["accent"], anchor="end", weight="700")
+    cv.text_px(cv.X(-7.0), cv.Y(Yz(Z_STRUT))-9, "X = ℓ + D = %.1f m" % X_ARC, 11.5,
+               C["accent"], anchor="middle", weight="700")
+    cv.text_px(cv.X(-6.6), cv.Y(Yz(6.6)), "隆起破壞圓弧", 12.5, C["accent"],
                anchor="start", weight="700")
-    cv.text_px(cv.X(-5.75), cv.Y(Yz(4.2))+19, "r = 入土深度 %.1f m" % r_arc, 11.5,
+    cv.text_px(cv.X(-6.6), cv.Y(Yz(6.6))+19, "α = arccos(ℓ/X) = %.1f°" % math.degrees(ALPHA), 11.5,
                C["accent"], anchor="start")
-    cv.text_px(cv.X(-5.75), cv.Y(Yz(4.2))+37, "繞過壁底 ⇒ 穿過 SM 層", 11.5,
+    cv.text_px(cv.X(-6.6), cv.Y(Yz(6.6))+37, "繞過壁底 ⇒ 穿過 SM 層", 11.5,
                C["accent"], anchor="start")
 
     # ── 三個檢核方塊（統一放在開挖空區）──
@@ -193,7 +212,7 @@ def fig1():
           "FS = W / U = %.3f / %.2f = %.2f　（極不安全）" % (W_RES, U_D, FS_UP_D),
           "欲得 FS = 2，坑內水位須降到 GL−%.2f m" % WT_FS2]),
         (5.6, C["accent"],
-         ["(四) 隆起　FS = S_u·N_c / (γH + q)，N_c = π + 2 = %.4f" % NC,
+         ["(四) 隆起　FS = S_u(π + 2α)/(γH + q)，π + 2α = %.4f" % NC,
           "γH（GL 0 ~ %.1f m 逐層累加）= %.3f tf/m²" % (H_EXC, SIGV),
           "N_{avg} = (4×%.2f + %.3f×%.2f)/%.1f = %.3f" % (T_CL, N_SM, T_SM, D_TIP-H_EXC, N_AVG),
           "S_u = 10N/16 = %.3f tf/m²　⇒　FS = %.2f　（安全）" % (SU_W, FS_HV_W)]),
@@ -286,7 +305,7 @@ def fig3():
         cv = Canvas(W3, H3, sx=19.0, ox=340, oy=187, bg=C["panel"])
         cv.panel(title, sub=sub)
         Yz = lambda z: (ZT - z)
-        XL, XR = -8.6, 8.6
+        XL, XR = -11.2, 11.2
         LC = {"ML": "rgba(180,83,9,0.13)", "ML-CL": "rgba(180,83,9,0.20)",
               "CL": "rgba(46,125,111,0.20)", "SM": "rgba(124,58,237,0.14)"}
         for a_, b_, cls, g, n in LAYERS:
@@ -319,20 +338,12 @@ def fig3():
         cv.text_px(cv.X(xb)+12, cv.Y(Yz((z0+z1)/2))+9, "GL−%.1f ~ −%.2f m" % (z0, z1), 11,
                    col, anchor="start")
 
-        # 破壞面
-        if arc_deep:
-            r = D_TIP - H_EXC
-            pts = [(r*math.cos(math.radians(t)), Yz(H_EXC + r*math.sin(math.radians(t))))
-                   for t in range(0, 181, 4)]
-            cv.poly(pts, col, 2.6, dash="8 5")
-            cv.line((-r, Yz(H_EXC)), (-r, Yz(0)), col, 2.6, dash="8 5")
-        else:
-            r = (Z_CLSM - H_EXC)
-            pts = [(r*math.cos(math.radians(t)), Yz(H_EXC + r*math.sin(math.radians(t))))
-                   for t in range(0, 181, 4)]
-            cv.poly(pts, col, 2.6, dash="8 5")
-            cv.line((-r, Yz(H_EXC)), (-r, Yz(0)), col, 2.6, dash="8 5")
-        _lab(cv, cv.X(-r)-8, cv.Y(Yz(3.2)), "破壞面", 11.5, col, anchor="end")
+        # 破壞面：兩欄是同一條圓弧（圓心最下階支撐、半徑 X），只差 S_u 取用範圍
+        cv.poly(arc_pts(Yz, xmin=XL), col, 2.6, dash="8 5")
+        _dot(cv, cv.X(0), cv.Y(Yz(Z_STRUT)), 4, col)
+        r = 8.4
+        _lab(cv, cv.X(-0.4), cv.Y(Yz(Z_STRUT))-9, "圓心 GL−3.5", 10.5, col, anchor="end")
+        _lab(cv, cv.X(-6.2), cv.Y(Yz(6.0)), "破壞圓弧 X = 10.5 m", 11.5, col, anchor="middle")
 
         yb = H3 - 128
         _seg(cv, 46, yb, W3-46, yb, C["border"], 1.3)
@@ -343,14 +354,87 @@ def fig3():
                    13.5, col, weight="700")
         return cv
 
-    a = panel(SU_CL, FS_HV_CL, "(a) 破壞面只在 CL 薄層內",
-              "壁體剛度不足、坑底先破壞時的下限", False, C["load"], (H_EXC, Z_CLSM))
-    b = panel(SU_W, FS_HV_W, "(b) 破壞面繞過壁底（本解）",
+    a = panel(SU_CL, FS_HV_CL, "(a) S_u 只取開挖面下 CL（N = 4）",
+              "下限：整段圓弧都只發揮 CL 的強度", False, C["load"], (H_EXC, Z_CLSM))
+    b = panel(SU_W, FS_HV_W, "(b) S_u 取開挖面～壁底加權（本解）",
               "GL−8 ~ −14 m 依厚度加權平均 N 值", True, C["bmd"], (H_EXC, D_TIP))
     return [a, b]
 
 
+
+# ══════ fig-1-problem：題目附圖重繪（2026-11-15，題目正本推廣 SM-U2-3 批 1）══════
+# 幾何只取自題目正本 SM-2017-4-problem.md §4 判讀清單，不含任何解題結果。
+# 用法：python gen_SM-2017-4.py [輸出資料夾]；只寫 SM-2017-4-fig-1-problem.svg 到該資料夾（預設本題 figs/）。
+def _pgeo():
+    sys.path.insert(0, os.path.join(HERE, ".."))      # SM/raw/solutions/geo.py
+    import geo
+    return geo
+
+
+def _ground(cv, x0, x1, y, n=4, s=0.35):
+    for k in range(n):
+        x = x0 + (x1 - x0) * (k + 0.5) / n
+        cv.line((x, y), (x - s, y - s), C["member"], 1.3)
+
+
+def _wall(cv, x, y0, y1, t=0.18, fill="#3F4A5A"):
+    cv.polygon([(x - t / 2, y0), (x + t / 2, y0), (x + t / 2, y1), (x - t / 2, y1)], fill)
+
+
+def fig_problem(out):
+    g = _pgeo()
+    # 圖 4-1 判讀：設計水位 GL-1.0、支撐 GL-1.5／GL-3.5、開挖 GL-8.0、壁底 GL-14.0、中間樁底 GL-17.5（#支撐、#擋土壁、#中間樁、#地下水位）
+    WT, S1, S2, EXC, TIP, PILE = 1.0, 1.5, 3.5, 8.0, 14.0, 17.5
+    BW = 10.0                                  # 開挖寬度考卷未給（示意）
+    Wd, Ht = 900, 700
+    XL, XR = -4.0, BW + 4.0
+    cv = Canvas(Wd, Ht, bg="#FFFFFF", **g.fit(Wd, Ht, (XL - 0.3, XR + 5.8), (-(PILE + 0.8), 2.4), 30, 30, 40, 40))
+    Y = lambda d: -d
+    g.soil_fill(cv, XL, 0, Y(PILE + 0.5), Y(0), "rgba(63,74,90,0.14)")
+    g.soil_fill(cv, BW, XR, Y(PILE + 0.5), Y(0), "rgba(63,74,90,0.14)")
+    g.soil_fill(cv, 0, BW, Y(PILE + 0.5), Y(EXC), "rgba(63,74,90,0.14)")
+    cv.line((XL, Y(0)), (0, Y(0)), C["member"], 2.4)
+    cv.line((BW, Y(0)), (XR, Y(0)), C["member"], 2.4)
+    _ground(cv, XL + 0.6, -1.0, Y(0), 3, 0.35)
+    cv.line((0, Y(EXC)), (BW, Y(EXC)), C["member"], 2.2)
+    _ground(cv, 1.2, 3.2, Y(EXC), 3, 0.35)
+    cv.line((XL, Y(WT)), (XR, Y(WT)), C["deform"], 1.5, dash="8 5")
+    g.wt_symbol(cv, BW + 2.4, Y(WT), C["deform"], 0.16)
+    for x in (0, BW):
+        _wall(cv, x, Y(0), Y(TIP), 0.22)
+    for x in (BW / 3, 2 * BW / 3):
+        _wall(cv, x, Y(0), Y(PILE), 0.22, "#8A94A6")
+    for z in (S1, S2):
+        cv.line((0.15, Y(z)), (BW - 0.15, Y(z)), C["member"], 4.0)
+    # 地表超載
+    for i in range(7):
+        x = BW + 0.6 + i * 0.5
+        cv.arrow((x, Y(-1.2)), (x, Y(-0.05)), C["load"], 1.8, 7)
+    cv.line((BW + 0.6, Y(-1.2)), (BW + 3.6, Y(-1.2)), C["load"], 1.8)
+    cv.math_px(cv.X(BW + 3.8), cv.Y(Y(-1.2)), "q = 1 tf/m^{2}", 13.5, C["load"], anchor="start", weight="700")
+    cv.text_px(cv.X(BW + 3.8), cv.Y(Y(-0.5)), "基地旁空地堆放材料", 12, C["muted"], anchor="start")
+    # 右側 GL 標註
+    xg = XR + 0.3
+    for z, s in ((0, "GL-0m"), (WT, "設計地下水位 GL-1.0m"), (S1, "支撐 GL-1.5m"), (S2, "最下一段支撐 GL-3.5m"),
+                 (EXC, "預定開挖深度 GL-8.0m"), (TIP, "擋土壁底 GL-14.0m"), (PILE, "中間樁底 GL-17.5m")):
+        dy = 10 if z == S1 else (-6 if z == WT else 0)
+        cv.text_px(cv.X(xg), cv.Y(Y(z)) + dy, s, 12, C["text"], anchor="start")
+        cv.line((BW + 0.15 if z not in (0, WT) else XR - 0.2, Y(z)), (xg - 0.1, Y(z)), C["dim"], 0.8, dash="2 3")
+    g.tag_px(cv, cv.X(BW / 2), cv.Y(Y(EXC + 2.2)), "開挖面 GL-8.0m 下", 12.5, C["text"], weight="400")
+    cv.math_px(cv.X(BW / 2), cv.Y(Y(EXC + 3.2)), "γ_{sat} = 1.86 t/m^{3}", 13, C["text"])
+    g.tag_px(cv, cv.X(BW / 2), cv.Y(Y(2.5)), "開挖寬度考卷未給（示意）", 12, C["muted"], weight="400")
+    cv.text_px(cv.X(-0.4), cv.Y(Y(10.5)), "擋土壁體", 12.5, C["muted"], anchor="end")
+    cv.text_px(cv.X(-0.4), cv.Y(Y(11.3)), "FSP IV 鋼版樁", 12, C["muted"], anchor="end")
+    xd = BW + 1.0
+    cv.dim((xd, Y(EXC)), (xd, Y(S2)), "ℓ = 4.5 m", 0, C["dim"], 12.5, label_off=40)
+    cv.dim((xd, Y(TIP)), (xd, Y(EXC)), "D = 6.0 m", 0, C["dim"], 12.5, label_off=40)
+    compose([cv], title="SM-2017-4 題目附圖（圖 4-1）重繪",
+            sub="依題目正本判讀清單；設計地下水位 GL-1.0 m，鑽探資料見表 4-1（不重繪）",
+            note="攔錯用：最下一段支撐在 GL-3.5 m（ℓ = 4.5 m 到開挖面），擋土壁底 GL-14.0 m（D = 6.0 m），GL-17.5 m 是中間樁底。",
+            path=os.path.join(out, "SM-2017-4-fig-1-problem.svg"))
+
 if __name__ == "__main__":
+    fig_problem(sys.argv[1] if len(sys.argv) > 1 else OUT)
     os.makedirs(OUT, exist_ok=True)
     compose([fig1()], title="SM-2017-4　開挖三項穩定檢核：管湧、上舉（土湧）、隆起",
             sub="設計水位 GL−1.0 m、開挖 GL−8.0 m、版樁底 GL−14.0 m、q = 1.0 tf/m²",
@@ -361,7 +445,7 @@ if __name__ == "__main__":
             note="降水目標 GL−%.2f m 是由 FS = 2 反推，不是任意取的整數。" % WT_FS2,
             path=os.path.join(OUT, "SM-2017-4-fig-2-uplift.svg"))
     compose(fig3(), title="SM-2017-4　隆起的爭議：Su 取用範圍決定結論",
-            sub="γH = %.3f tf/m²、q = %.1f tf/m²、Nc = π + 2 = %.4f 三者都相同" % (SIGV, Q, NC),
+            sub="γH = %.3f tf/m²、q = %.1f tf/m²、π + 2α = %.4f 三者都相同" % (SIGV, Q, NC),
             note="同一題、同一組鑽探資料，只因 Su 取用範圍不同，FS 由 %.2f 變成 %.2f。"
                  % (FS_HV_CL, FS_HV_W),
             cols=2, path=os.path.join(OUT, "SM-2017-4-fig-3-su-range.svg"))
@@ -371,5 +455,5 @@ if __name__ == "__main__":
           % (HPLUG, W_RES, U_D, FS_UP_D, WT_FS1, WT_FS2, FS_UP_M))
     print("(四) γH=%.3f Nc=%.4f N_SM=%.3f N_avg=%.3f Su=%.3f FS=%.3f"
           % (SIGV, NC, N_SM, N_AVG, SU_W, FS_HV_W))
-    print("     只取 CL：Su=%.2f FS=%.3f ；SM 一律 N=14：Su=%.3f FS=%.3f"
-          % (SU_CL, FS_HV_CL, SU_FLAT, FS_FLAT))
+    print("     α=%.4f rad；只取 CL：Su=%.2f FS=%.3f ；SM 一律 N=14：Su=%.3f FS=%.3f"
+          % (ALPHA, SU_CL, FS_HV_CL, SU_FLAT, FS_FLAT))

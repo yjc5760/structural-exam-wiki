@@ -1,6 +1,81 @@
 # -*- coding: utf-8 -*-
 """SM-2008-2 圖解。所有數值由本檔依 SM-2008-2.md §3.5 的 L1 輸入重算，非硬寫座標。"""
 import sys, os, math
+
+# ══════════════════════════════════════════════════════════
+# fig-1-problem　題目附圖重繪（2026-11-15 加，SM-U1-5 題目正本推廣・批 1）
+# 幾何只取自題目正本 SM-2008-2-problem.md §4 判讀清單（#1–#8），不含任何解題結果。
+# 用法：python gen_SM-2008-2.py --problem [輸出資料夾]　只產本圖後結束，不重跑下方既有解題圖解。
+# ══════════════════════════════════════════════════════════
+if __name__ == "__main__" and "--problem" in sys.argv:
+    _HERE = os.path.dirname(os.path.abspath(__file__))
+    sys.path.insert(0, os.path.join(_HERE, ".."))           # SM/raw/solutions/geo.py
+    from geo import Canvas as _Cv, C as _C, compose as _compose, fit, soil_fill, wt_symbol
+    _args = [a for a in sys.argv[1:] if a != "--problem"]
+    _OUT = _args[0] if _args else os.path.join(_HERE, "figs")
+    os.makedirs(_OUT, exist_ok=True)
+    P_D    = 10.0   # #3/題文 儲水槽內徑（槽壁 x = ±5）
+    P_ZS   = 2.0    # #4 砂土層厚 = #5 地下水位深（砂／黏土界面）
+    P_HC   = 5.0    # #6 黏土層厚，下為透水性良好之岩盤
+    P_ZA   = 3.5    # #1 A 點在黏土頂下 3.5 m
+    P_XA   = 0.0    # #2 A 點在水槽中心線下方
+    P_HT   = 4.6    # 槽壁高（考卷未標，示意）
+    P_HW   = 3.4    # 槽內水面高 H（考卷所求，示意位置）#3
+    Z_CL, Z_RK, Z_A = P_ZS, P_ZS + P_HC, P_ZS + P_ZA
+    Y = lambda d: -d
+    def _fig():
+        W, Hh = 960, 700
+        XL, XR = -8.0, 8.0
+        cv = _Cv(W, Hh, bg="#FFFFFF", **fit(W, Hh, (XL - 1.6, XR + 2.4), (-(Z_RK + 1.3), P_HT + 1.6), 30, 30, 50, 40))
+        soil_fill(cv, XL, XR, Y(Z_CL), Y(0), "rgba(180,83,9,0.14)")
+        soil_fill(cv, XL, XR, Y(Z_RK), Y(Z_CL), "rgba(63,74,90,0.22)")
+        cv.line((XL, 0), (XR, 0), _C["member"], 2.6)
+        cv.line((XL, Y(Z_CL)), (XR, Y(Z_CL)), _C["member2"], 1.8)
+        cv.line((XL, Y(Z_RK)), (XR, Y(Z_RK)), _C["member"], 2.6)
+        for x in (-6.6, -1.2, 4.4):          # 岩盤剖線
+            for k in range(5):
+                cv.line((x + k * 0.32, Y(Z_RK)), (x + k * 0.32 - 0.3, Y(Z_RK + 0.42)), _C["member"], 1.4)
+        cv.text_px(cv.X(0), cv.Y(Y(Z_RK + 0.9)), "透水性良好之岩盤", 13, _C["text"], weight="700")
+        # 儲水槽（直接置於地表 #8）與槽內水面（#3）
+        h = P_D / 2
+        cv.polygon([(-h, P_HW), (h, P_HW), (h, 0), (-h, 0)], "rgba(29,78,216,0.14)")
+        cv.poly([(-h, P_HT), (-h, 0), (h, 0), (h, P_HT)], _C["deform"], 2.4)
+        cv.line((-h, P_HT), (h, P_HT), _C["deform"], 2.4)
+        cv.line((-h, P_HW), (h, P_HW), _C["deform"], 1.6)
+        wt_symbol(cv, 2.6, P_HW, _C["deform"], 0.13)
+        cv.text_px(cv.X(0), cv.Y(P_HW / 2), "儲水槽", 14, _C["deform"], weight="700")
+        cv.dim((-h, P_HT + 0.7), (h, P_HT + 0.7), "D = 10 m", 0, _C["dim"], 13, label_off=14)
+        cv.text_px(cv.X(-0.75), cv.Y(P_HT + 0.7) - 15, "直徑", 13, _C["dim"], anchor="end")
+        for x in (-h, h):
+            cv.line((x, P_HT + 0.15), (x, P_HT + 0.95), _C["dim"], 0.9, dash="2 3")
+        # 右側尺寸線：H、2 m、5 m（#3、#4、#6）
+        xd = h + 1.4
+        cv.dim((xd, 0), (xd, P_HW), "H", 0, _C["deform"], 14, label_off=-18)
+        cv.dim((xd, Y(Z_CL)), (xd, 0), "2 m", 0, _C["dim"], 13, label_off=-26)
+        cv.dim((xd, Y(Z_RK)), (xd, Y(Z_CL)), "5 m", 0, _C["dim"], 13, label_off=-26)
+        cv.line((h, P_HW), (xd + 0.3, P_HW), _C["dim"], 0.9, dash="2 3")
+        # 地下水位（砂／黏土界面，#5）
+        wt_symbol(cv, 2.9, Y(Z_CL), _C["deform"], 0.13)
+        cv.text_px(cv.X(XR) + 8, cv.Y(Y(Z_CL)), "地下水位", 12.5, _C["deform"], anchor="start", weight="700")
+        cv.text_px(cv.X(XR) + 8, cv.Y(0), "地表", 12.5, _C["muted"], anchor="start")
+        # 層名
+        cv.text_px(cv.X(-0.2), cv.Y(Y(Z_CL / 2)), "砂土（全在水位以上，S = 50%）", 13, _C["text"])
+        cv.text_px(cv.X(-2.6), cv.Y(Y(Z_CL + 1.0)), "黏土", 13, _C["text"], weight="700")
+        # A 點（#1、#2）：3.5 m 引線由槽左壁投影往下再水平到中心線
+        cv.dim((-h, Y(Z_CL)), (-h, Y(Z_A)), "3.5 m", 0, _C["dim"], 13, label_off=-34)
+        cv.line((-h, Y(Z_A)), (P_XA, Y(Z_A)), _C["dim"], 1.2)
+        s = 0.17
+        cv.polygon([(P_XA - s, Y(Z_A) - s), (P_XA + s, Y(Z_A) - s), (P_XA + s, Y(Z_A) + s), (P_XA - s, Y(Z_A) + s)],
+                   _C["load"], _C["member"], 1.2)
+        cv.text_px(cv.X(P_XA + 0.45), cv.Y(Y(Z_A)), "A 點", 14, _C["load"], anchor="start", weight="700")
+        return cv
+    _compose([_fig()],
+             title="SM-2008-2 圖一重繪",
+             sub="依題目正本判讀清單；A 點在黏土頂下 3.5 m（地表下 5.5 m）、水槽中心線下方",
+             note="攔錯用：3.5 m 由黏土頂（地下水位）量起，不是由地表；H 由槽底（地表）量到槽內水面；槽壁高與水面位置為示意，考卷未依比例。",
+             path=os.path.join(_OUT, "SM-2008-2-fig-1-problem.svg"))
+    sys.exit(0)
+
 sys.path.insert(0, os.environ.get("STRUCTDRAW", os.path.expanduser("~/sd")))
 from structdraw import Canvas, C, compose
 D, Rad = math.degrees, math.radians

@@ -29,27 +29,262 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </style></head><body>
 <header><h1>SM-2016-3 題目解析</h1><a class="back quick" href="../study-SM-U2-1.html">&#128269; U2-1 命題分析</a>
 <a class="back lect" href="../lecture-SM-U2-1.html">&#128218; U2-1 淺基礎之支承力與沉陷量 講義</a></header>
-<main><h1>考題編號：SM-2016-3</h1>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>SM-2016-3 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>SM-2016-3.md</code>。<br />
+判讀清單已確認（凍結）；本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>考卷</td>
+<td><code>raw/exams/SM-2016_土壤力學與基礎設計.pdf</code> 第 2 頁，第三題；第 4 頁「參考資料」</td>
+</tr>
+<tr>
+<td>考年</td>
+<td>民國 105 年（2016）</td>
+</tr>
+<tr>
+<td>配分</td>
+<td>25 分（㈠12、㈡8、㈢5）</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td><code>SM-2016-3-fig-1.png</code>（加勁擋土牆剖面＋參數；既有證據圖，完整無雜訊，沿用）</td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-15 關卡一：使用者授權依建議判讀確認；轉錄 2026-11-15；PyMuPDF 110 dpi 全頁目視，附圖 400 dpi 局部放大；盲讀後才比對既有解析）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>三、下圖所示為直立 6.0 m 高加勁擋土牆，加勁材埋入深度為 4.5 m，假設加勁土壤視為一剛體，單位重 $\gamma_m = 20$ kN/m³，背填土壤為砂質土壤，單位重為 18 kN/m³，背填土有效剪力強度參數 $\phi' = 32^\circ$、$c' = 0$；此背填土及加勁土體座落於某粘土質沉泥基礎土壤上，其與加勁土體間界面的剪力強度參數 $c_a = 12$ kPa、$\delta = 15^\circ$，基礎土壤之有效剪力強度參數 $\phi' = 32^\circ$、$c' = 20$ kPa，單位重 $\gamma_m = 18$ kN/m³，加勁土與背填土上方承受 $q_s = 60$ kPa 均佈荷載。<br />
+㈠試分析此加勁擋土牆之抗傾倒、抗滑安全係數為何與是否適宜？如不適宜，建議補救措施為何？（12 分）<br />
+㈡請分析此加勁土體基礎承載力安全係數為何與是否適宜？如不適宜，建議補救措施為何？（8 分）<br />
+㈢請說明加勁擋土牆系統設計與施工注意事項。（5 分）</p>
+</blockquote>
+<p>（「粘土質沉泥」照考卷原文。）</p>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>加勁土體：高 6.0 m、加勁材埋入深度 4.5 m，視為剛體，$\gamma_m$ = 20 kN/m³。</li>
+<li>背填土：砂質土壤，$\gamma_m$ = 18 kN/m³，$\phi'$ = 32°，$c'$ = 0。</li>
+<li>加勁土體與基礎土壤界面：$c_a$ = 12 kPa，$\delta$ = 15°。</li>
+<li>基礎土壤（粘土質沉泥）：$\phi'$ = 32°，$c'$ = 20 kPa，$\gamma_m$ = 18 kN/m³；圖下另給 $N_c$ = 35.49、$N_q$ = 23.18、$N_\gamma$ = 30.22。</li>
+<li>均佈荷載：$q_s$ = 60 kPa，作用於加勁土與背填土上方。</li>
+</ul>
+<p>第 4 頁「參考資料：形狀、深度與傾斜修正因數關係式」（考卷未標屬於哪一題；第三、四題都問基礎承載力）：</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>凝聚力 ($c$)</th>
+<th>超載 ($q$)</th>
+<th>土重 ($\gamma$)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>形狀 ($s$)</td>
+<td>$1+\left(\dfrac{B}{L}\right)\left(\dfrac{N_q}{N_c}\right)$</td>
+<td>$1+\left(\dfrac{B}{L}\right)\tan\phi'$</td>
+<td>$1-0.4\left(\dfrac{B}{L}\right)$</td>
+</tr>
+<tr>
+<td>深度 ($d$)</td>
+<td>$1+0.4\left(\dfrac{D_f}{B}\right)$</td>
+<td>$1+2\tan\phi'(1-\sin\phi')^2\dfrac{D_f}{B}$</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>傾斜 ($i$)</td>
+<td>$\left(1-\dfrac{\theta}{90^\circ}\right)^2$</td>
+<td>$\left(1-\dfrac{\theta}{90^\circ}\right)^2$</td>
+<td>$\left(1-\dfrac{\theta}{\phi'}\right)^2$</td>
+</tr>
+</tbody>
+</table>
+<p>備註：$\theta$ = 基礎荷載對垂直面之傾斜角。（同頁「註」另印庫倫與 Mononobe–Okabe 主動土壓力係數，屬第四題指定用式，見 <code>SM-2016-4-problem.md</code>。）</p>
+<ul>
+<li><strong>沒有給</strong>：土壓力理論（Rankine 或 Coulomb）、背填土與加勁土體界面摩擦角、面板厚度與重量、加勁材間距與強度、安全係數要求值、地下水位、承載力公式本體。</li>
+<li>卷首注意事項：㈠可以使用電子計算器。㈡不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。（本年卷首只有這兩項。）</li>
+</ul>
+<h2>3. 附圖</h2>
+<p><img alt="SM-2016-3 考卷附圖：左側一道直立粗黑面板，其右為 4.5 m 寬、6.0 m 高的加勁土體（內畫 8 道水平加勁材，標 γm = 20 kN/m³）；加勁土體右側為背填土（γm = 18 kN/m³、c' = 0、φ' = 32°），地表水平；qs = 60 kPa 均佈荷載由面板頂一直畫到背填土上方；面板外側地面線與加勁土體底面同高，下方標「基礎土壤」，圖下列 ca = 12 kPa、δ = 15°；φ' = 32°、c' = 20 kPa、γm = 18 kN/m³；Nc = 35.49、Nq = 23.18、Nγ = 30.22" src="../../raw/solutions/SM-2016-3/SM-2016-3-fig-1.png" /></p>
+<p>圖面文字照錄：<code>qs = 60 kPa</code>、<code>6.0 m</code>、<code>γm = 20 kN/m³</code>、<code>背填土</code>、<code>γm = 18 kN/m³</code>、<code>c' = 0</code>、<code>φ' = 32°</code>、<code>4.5 m</code>、<code>基礎土壤</code>、<code>ca = 12 kPa, δ = 15°</code>、<code>φ' = 32°, c' = 20 kPa, γm = 18 kN/m³</code>、<code>Nc = 35.49, Nq = 23.18, Nγ = 30.22</code>。</p>
+<h2>4. 判讀清單</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>背填土壓力理論</td>
+<td>考卷未指定，也未給背填土與加勁土體界面摩擦角。建議：加勁土體背面鉛直、背填土面水平 → 用 Rankine 主動土壓力（界面摩擦不計）</td>
+<td>題文</td>
+<td>不確定（影響答案）；使用者授權依建議確認</td>
+</tr>
+<tr>
+<td>2</td>
+<td>加勁土體上方的 $q_s$</td>
+<td>題文明寫 $q_s$ 作用於「加勁土與背填土上方」，未區分活載或靜載。建議：主線計入加勁土體上方 $q_s$ 的垂直力與抵抗力矩，另以不計（活載保守做法）對照</td>
+<td>題文；圖上箭頭由面板頂畫到背填土上方</td>
+<td>不確定（影響答案）；使用者授權依建議確認</td>
+</tr>
+<tr>
+<td>3</td>
+<td>加勁土體尺寸</td>
+<td>寬 4.5 m（尺寸界線對齊面板外緣與加勁區右端鉛直線）、高 6.0 m（尺寸線上端對齊頂面、下端對齊地面線）</td>
+<td>附圖 400 dpi</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>面板</td>
+<td>左側粗黑實線為牆面板，厚度、重量未給</td>
+<td>附圖</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>加勁材</td>
+<td>圖上 8 道水平線，長度到 4.5 m 處；間距、強度未給（題目指定視為剛體）</td>
+<td>附圖＋題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>6</td>
+<td>背填土</td>
+<td>位於加勁區右側，地表水平並與加勁土體頂面同高；$\gamma_m$ = 18、$\phi'$ = 32°、$c'$ = 0</td>
+<td>附圖</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>7</td>
+<td>基礎與底面高程</td>
+<td>加勁土體與背填土都座落在基礎土壤上；面板外側地面線與加勁土體底面同高 → 埋入深度 $D_f$ = 0</td>
+<td>附圖地面線與剖線</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>8</td>
+<td>底面界面</td>
+<td>加勁土體底面與基礎土壤：$c_a$ = 12 kPa、$\delta$ = 15°</td>
+<td>題文＋圖下參數</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>9</td>
+<td>承載力參數</td>
+<td>基礎土壤 $\phi'$ = 32°、$c'$ = 20 kPa、$\gamma$ = 18；$N_c$、$N_q$、$N_\gamma$ 已給</td>
+<td>圖下參數</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>10</td>
+<td>參考資料表</td>
+<td>第 4 頁形狀、深度、傾斜修正因數表未標題號，第三、四題都問承載力 → 適用於本題㈡</td>
+<td>第 4 頁</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>11</td>
+<td>基礎長度</td>
+<td>沿牆長方向連續（條狀，按每延米分析）</td>
+<td>剖面圖</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>12</td>
+<td>所求</td>
+<td>㈠抗傾倒、抗滑安全係數＋是否適宜＋補救；㈡基礎承載力安全係數＋是否適宜＋補救；㈢設計與施工注意事項</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>13</td>
+<td>考卷沒有給</td>
+<td>土壓力理論、背填土—加勁土體界面摩擦角、安全係數要求值、地下水位（未提及，視為無水）、面板重</td>
+<td>全題</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-15（SM-U3-2 題目正本推廣・批 1）</em></p>
+<p><em>確認：2026-11-15 使用者授權依建議判讀確認（SM-U3-2 題目正本推廣・批 1，關卡一；使用者指示「要確認的依你建議」）</em></p></details>
+<h1>考題編號：SM-2016-3</h1>
 <p><strong>主分類：</strong> <code>SM-U3-2</code> 擋土結構物穩定分析<br />
 <strong>副分類：</strong> <code>SM-U2-1</code> 淺基礎之支承力與沉陷量、<code>SM-U3-1</code> 側向土壓力理論<br />
 <strong>分析法：</strong> 有效應力法<br />
-<strong>標籤：</strong> <code>加勁擋土結構</code> <code>抗滑動</code> <code>抗傾覆</code> <code>承載力檢核</code> <code>偏心距</code> <code>Rankine主動土壓力</code> <code>超載重</code></p>
+<strong>標籤：</strong> <code>加勁擋土結構</code> <code>抗滑動</code> <code>抗傾覆</code> <code>承載力檢核</code> <code>偏心距</code> <code>Rankine主動土壓力</code> <code>超載重</code> <code>傾斜修正因數</code> <code>有效寬度</code></p>
 <hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>下圖所示為直立 6.0 m 高加勁擋土牆，加勁材埋入深度為 4.5 m，假設加勁土壤視為一剛體，單位重 $\gamma_m = 20 \text{ kN/m}^3$，背填土壤為砂質土壤，單位重為 $\gamma_b = 18 \text{ kN/m}^3$，背填土有效剪力強度參數 $\phi' = 32^\circ$、$c' = 0$；此背填土及加勁土體座落於某粘土質沉泥基礎土壤上，其與加勁土體間界面的剪力強度參數 $c_a = 12 \text{ kPa}$、$\delta = 15^\circ$，基礎土壤之有效剪力強度參數 $\phi' = 32^\circ$、$c' = 20 \text{ kPa}$，單位重 $\gamma_f = 18 \text{ kN/m}^3$，加勁土與背填土上方承受 $q_s = 60 \text{ kPa}$ 均佈荷載。</p>
-<p><strong>(一) 試分析此加勁擋土牆之抗傾倒、抗滑安全係數為何與是否適宜？如不適宜，建議補救措施為何？（12 分）</strong><br />
-<strong>(二) 請分析此加勁土體基礎承載力安全係數為何與是否適宜？如不適宜，建議補救措施為何？（8 分）</strong><br />
-<strong>(三) 請說明加勁擋土牆系統設計與施工注意事項。（5 分）</strong></p>
-<p><img alt="SM-2016-3 題目附圖：加勁擋土牆剖面及相關參數" src="../../raw/solutions/SM-2016-3/SM-2016-3-fig-1.png" /></p>
-<p><em>圖說：加勁擋土牆高 $6.0\text{m}$，加勁體寬 $4.5\text{m}$，上方有 $60\text{kPa}$ 超載重，背填土為砂土 $(\phi'=32^\circ)$，基礎土為黏土質沉泥，並給定承載力係數。</em></p>
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="SM-2016-3-problem.md"><code>SM-2016-3-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<p><img alt="SM-2016-3 重繪題目附圖：4.5 m 寬、6.0 m 高的加勁土體（左側面板），右側為水平地表的背填土，qs = 60 kPa 均佈荷載同時作用於加勁土體與背填土上方，面板外側地面與底面同高" src="../../raw/solutions/SM-2016-3/figs/SM-2016-3-fig-1-problem.svg" /></p>
+<p><em>重繪自考卷附圖，依題目正本判讀清單 #2–#9；8 道加勁材僅示意。攔下的判讀錯誤：qs 同時壓在加勁土體與背填土上；加勁土體底面就是基礎面（$D_f$ = 0）。</em></p>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>土壓力理論</td>
+<td>考卷未指定 → Rankine，加勁土體背面鉛直、界面摩擦不計（題目正本 #1，已確認）</td>
+<td>自設界面摩擦角改用 Coulomb</td>
+</tr>
+<tr>
+<td>$q_s$ 作用範圍</td>
+<td>加勁土體與背填土上方都有；主線計入加勁土體上方 $q_s$ 的垂直力與抵抗力矩，另以不計對照（#2，已確認）</td>
+<td>只算背填土上 $q_s$ 的推力、漏掉加勁區上的垂直力</td>
+</tr>
+<tr>
+<td>埋入深度</td>
+<td>面板外側地面與加勁土體底面同高，$D_f$ = 0（#7）</td>
+<td>計入牆前被動土</td>
+</tr>
+<tr>
+<td>參考資料表</td>
+<td>第 4 頁形狀、深度、傾斜修正因數表未標題號，也適用於本題㈡（#10）；條狀 $B/L$ = 0、$D_f$ = 0 → 形狀、深度因數皆為 1，只剩<strong>傾斜因數</strong></td>
+<td>以為只給第四題用，承載力不做傾斜修正（本解 2026-11-15 前即如此，$FS_{BC}$ 高估為 6.21，實為 2.98）</td>
+</tr>
+<tr>
+<td>單位重符號</td>
+<td>考卷三種土都記 $\gamma_m$：加勁土 20、背填土 18、基礎土 18（題目正本 §2）</td>
+<td>混用加勁土與背填土的單位重</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> $\gamma_b$ 背填土單位重（考卷記 $\gamma_m$ = 18）；$\gamma_f$ 基礎土壤單位重（考卷記 $\gamma_m$ = 18）；$L$ 加勁土體寬 4.5 m；$L'$ 有效寬度；$K_a$ 主動土壓力係數；$P_h$ 水平推力；$V$ 總垂直力。</p>
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
 <p>本題測驗考生對於<strong>加勁擋土牆外部穩定分析 (External Stability)</strong> 的熟練度。<br />
-出題者期望考生將加勁土體視為一整體剛性區塊，計算背填土與超載重所造成之主動側向土壓力與傾覆力矩，並評估該剛體之抗滑、抗傾覆與承載能力。本題陷阱在於均佈超載重 $q_s$ 同時作用於「加勁土」與「背填土」上方，因此在計算驅動力時會產生側向推力，在計算抵抗力時亦會增加加勁體的正向垂直荷重，不可遺漏。</p>
+出題者期望考生將加勁土體視為一整體剛性區塊，計算背填土與超載重所造成之主動側向土壓力與傾覆力矩，並評估該剛體之抗滑、抗傾覆與承載能力。本題陷阱在於均佈超載重 $q_s$ 同時作用於「加勁土」與「背填土」上方，因此在計算驅動力時會產生側向推力，在計算抵抗力時亦會增加加勁體的正向垂直荷重，不可遺漏。第二個陷阱在㈡：加勁土體底面同時承受垂直力與很大的水平推力，合力傾斜約 14.5°，考卷第 4 頁的傾斜修正因數表正是為此而給，漏用會讓承載力高估一倍以上。</p>
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
 <ol>
 <li><strong>主動土壓力與推力計算</strong>：利用 Rankine 理論求得背填土之 $K_a$。計算土壤自重及均佈超載所產生之側向推力 $P_h$ 與傾覆力矩 $M_O$。</li>
 <li><strong>抗滑與抗傾倒檢核</strong>：加總垂直荷重 $V$（包含加勁土重與上方超載）。利用底部界面參數 $(c_a, \delta)$ 計算抗滑力，求出 $FS_{SL}$ 與 $FS_{OT}$。</li>
-<li><strong>承載力檢核</strong>：由於合力偏心，利用合力矩與總垂直力求出偏心距 $e$。採用 Meyerhof 有效寬度法 $L' = L - 2e$ 求出基礎底面等值均佈應力 $q'_{max}$，並以此寬度計算極限承載力 $q_{ult}$，進而求出 $FS_{BC}$。</li>
+<li><strong>承載力檢核</strong>：由於合力偏心，利用合力矩與總垂直力求出偏心距 $e$。採用 Meyerhof 有效寬度法 $L' = L - 2e$ 求出基礎底面等值均佈應力 $q'_{max}$，並以此寬度及考卷第 4 頁的傾斜修正因數（荷載傾角 $\theta = \tan^{-1}(P_h/V)$）計算極限承載力 $q_{ult}$，進而求出 $FS_{BC}$。</li>
 <li><strong>改善措施與注意事項</strong>：針對未達標的安全係數提出實務對策（如增加加勁長度、深埋等），並補充設計與施工之通則。</li>
 </ol>
 <h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
@@ -63,7 +298,8 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <li>Step 4 總垂直力：$V = \gamma_m H L + q_s L$</li>
 <li>Step 5 穩定安全係數：$FS_{SL} = \frac{c_a L + \boxed{V} \tan\delta}{\boxed{P_h}}$, $FS_{OT} = \frac{\boxed{V}(L/2)}{\boxed{M_O}}$</li>
 <li>Step 6 合力偏心距與有效寬度：$e = \frac{L}{2} - \frac{\boxed{V}(L/2) - \boxed{M_O}}{\boxed{V}}$, $L' = L - 2\boxed{e}$</li>
-<li>Step 7 承載力安全係數：$q_{ult} = c_f' N_c + \frac{1}{2} \gamma_f \boxed{L'} N_\gamma$, $FS_{BC} = \frac{\boxed{q_{ult}}}{\boxed{V}/\boxed{L'}}$</li>
+<li>Step 7 荷載傾角與傾斜因數：$\theta = \tan^{-1}(\boxed{P_h}/\boxed{V})$, $i_c = (1-\theta/90^\circ)^2$, $i_\gamma = (1-\theta/\phi_f')^2$</li>
+<li>Step 8 承載力安全係數：$q_{ult} = c_f' N_c \boxed{i_c} + \frac{1}{2} \gamma_f \boxed{L'} N_\gamma \boxed{i_\gamma}$, $FS_{BC} = \frac{\boxed{q_{ult}}}{\boxed{V}/\boxed{L'}}$</li>
 </ul>
 <h3>L1：題目直接給定</h3>
 <table>
@@ -121,6 +357,11 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <td>基礎土有效凝聚力</td>
 </tr>
 <tr>
+<td>$\phi_f'$</td>
+<td>32°</td>
+<td>基礎土有效內摩擦角（傾斜因數 $i_\gamma$ 用）</td>
+</tr>
+<tr>
 <td>$\gamma_f$</td>
 <td>18 kN/m³</td>
 <td>基礎土單位重</td>
@@ -129,6 +370,11 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <td>$N_c, N_q, N_\gamma$</td>
 <td>35.49, 23.18, 30.22</td>
 <td>基礎土之 Meyerhof 承載力係數</td>
+</tr>
+<tr>
+<td>修正因數表</td>
+<td>考卷第 4 頁</td>
+<td>形狀、深度、傾斜修正因數；本題只有傾斜因數 ≠ 1</td>
 </tr>
 </tbody>
 </table>
@@ -151,7 +397,9 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 | $e$ | $L/2 - (M_R - M_O)/V$ | |<br />
 | $L'$ | $L - 2e$ | |<br />
 | $q'_{max}$ | $V / L'$ | |<br />
-| $q_{ult}$ | $c_f' N_c + 0.5 \gamma_f L' N_\gamma$ | |<br />
+| $\theta$ | $\tan^{-1}(P_h/V)$，荷載對垂直面之傾斜角 | |<br />
+| $i_c$, $i_\gamma$ | $(1-\theta/90^\circ)^2$, $(1-\theta/\phi_f')^2$（考卷第 4 頁） | |<br />
+| $q_{ult}$ | $c_f' N_c i_c + 0.5 \gamma_f L' N_\gamma i_\gamma$ | |<br />
 | $FS_{BC}$ | $q_{ult} / q'_{max}$ | |</p>
 <h3>L3：深層知識（不懂就卡住）</h3>
 <table>
@@ -174,6 +422,11 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <td></td>
 </tr>
 <tr>
+<td>傾斜荷載</td>
+<td>擋土結構底面合力必然傾斜；$i_\gamma = (1-\theta/\phi')^2$ 對傾角非常敏感（本題 $\theta$ = 14.5° 就使 $i_\gamma$ = 0.30），不修正會嚴重高估承載力</td>
+<td></td>
+</tr>
+<tr>
 <td>超載重之影響</td>
 <td>均佈超載 $q_s$ 同時增加主動推力 (不利) 以及垂直正向力 (有利)，計算抵抗力矩與摩擦力時須包含之</td>
 <td></td>
@@ -187,10 +440,14 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 $$ K_a = \tan^2\left(45^\circ - \frac{32^\circ}{2}\right) = \tan^2(29^\circ) = 0.3073 $$<br />
 作用於加勁體後方之水平驅動力 $P_h$ 分為土壤自重與超載兩部分：</p>
 <ul>
-<li>土壤自重推力：$P_{a1} = \frac{1}{2} K_a \gamma_b H^2 = \frac{1}{2} \times 0.3073 \times 18 \times 6.0^2 = 99.56 \text{ kN/m}$<br />
-  （作用於距牆底 $H/3 = 2.0 \text{ m}$ 處）</li>
-<li>超載重推力：$P_{a2} = K_a q_s H = 0.3073 \times 60 \times 6.0 = 110.63 \text{ kN/m}$<br />
-  （作用於距牆底 $H/2 = 3.0 \text{ m}$ 處）</li>
+<li>
+<p>土壤自重推力：$P_{a1} = \frac{1}{2} K_a \gamma_b H^2 = \frac{1}{2} \times 0.3073 \times 18 \times 6.0^2 = 99.56 \text{ kN/m}$<br />
+  （作用於距牆底 $H/3 = 2.0 \text{ m}$ 處）</p>
+</li>
+<li>
+<p>超載重推力：$P_{a2} = K_a q_s H = 0.3073 \times 60 \times 6.0 = 110.63 \text{ kN/m}$<br />
+  （作用於距牆底 $H/2 = 3.0 \text{ m}$ 處）</p>
+</li>
 </ul>
 <p>總驅動水平力：<br />
 $$ P_h = P_{a1} + P_{a2} = 99.56 + 110.63 = 210.19 \text{ kN/m} $$</p>
@@ -227,16 +484,31 @@ $$ FS_{SL} = \frac{F_R}{P_h} = \frac{271.00}{210.19} = \boxed{1.29} $$<br />
 $$ L' = L - 2e = 4.5 - 2 \times 0.656 = 3.188 \text{ m} $$</p>
 <p><strong>2. 等值最大承載壓力 $(q'_{max})$</strong><br />
 $$ q'_{max} = \frac{V}{L'} = \frac{810}{3.188} = 254.08 \text{ kPa} $$</p>
-<p><strong>3. 極限承載力 $(q_{ult})$</strong><br />
-採用 Meyerhof 理論，無埋置深度 $(D_f = 0, q=0)$：<br />
-$$ q_{ult} = c_f' N_c + \frac{1}{2} \gamma_f L' N_\gamma $$<br />
+<p><strong>3. 荷載傾角與修正因數</strong><br />
+底面合力同時有垂直分量 $V$ 與水平分量 $P_h$，其對垂直面之傾斜角：<br />
+$$ \theta = \tan^{-1}\left(\frac{P_h}{V}\right) = \tan^{-1}\left(\frac{210.19}{810}\right) = 14.55^\circ $$<br />
+依考卷第 4 頁「形狀、深度與傾斜修正因數關係式」：條狀基礎 $B/L \to 0$ → 形狀因數皆為 1；$D_f = 0$ → 深度因數皆為 1；傾斜因數：<br />
+$$ i_c = \left(1 - \frac{\theta}{90^\circ}\right)^2 = \left(1 - \frac{14.55}{90}\right)^2 = 0.703 $$<br />
+$$ i_\gamma = \left(1 - \frac{\theta}{\phi_f'}\right)^2 = \left(1 - \frac{14.55}{32}\right)^2 = 0.298 $$</p>
+<p><strong>4. 極限承載力 $(q_{ult})$</strong><br />
+採用 Meyerhof 理論，無埋置深度 $(D_f = 0, q=0)$，$N_q$ 項為 0：<br />
+$$ q_{ult} = c_f' N_c i_c + \frac{1}{2} \gamma_f L' N_\gamma i_\gamma $$<br />
 代入已知參數 ($c_f' = 20 \text{ kPa}, \gamma_f = 18 \text{ kN/m}^3, N_c = 35.49, N_\gamma = 30.22$)：<br />
-$$ q_{ult} = 20 \times 35.49 + \frac{1}{2} \times 18 \times 3.188 \times 30.22 $$<br />
-$$ q_{ult} = 709.80 + 866.91 = 1576.71 \text{ kPa} $$</p>
-<p><strong>4. 承載力安全係數 $(FS_{BC})$</strong><br />
-$$ FS_{BC} = \frac{q_{ult}}{q'_{max}} = \frac{1576.71}{254.08} = \boxed{6.21} $$<br />
-<strong>評估：</strong> $FS_{BC} = 6.21 \ge 2.5 \sim 3.0$（規範容許值），基礎承載力<strong>適宜 (非常安全)</strong>。<br />
-<em>(註：由於已適宜，故無需補救措施。若未來有不適宜之情況，可採用增加加勁長度 $L$ 或地盤改良等措施)</em></p>
+$$ q_{ult} = 20 \times 35.49 \times 0.703 + \frac{1}{2} \times 18 \times 3.188 \times 30.22 \times 0.298 $$<br />
+$$ q_{ult} = 498.91 + 258.06 = 756.97 \text{ kPa} $$</p>
+<p><strong>5. 承載力安全係數 $(FS_{BC})$</strong><br />
+$$ FS_{BC} = \frac{q_{ult}}{q'_{max}} = \frac{756.97}{254.08} = \boxed{2.98} $$<br />
+（等價寫法：極限承載力合力 $q_{ult}L' = 2414.0$ kN/m 與 $V = 810$ kN/m 之比，同為 2.98。）</p>
+<p><img alt="SM-2016-3 圖 2：加勁土體外部穩定自由體圖；背面土壓為矩形（Ka·qs = 18.44 kPa）加三角形（底部 51.63 kPa），Pa1 = 99.6 kN/m @ 2.0 m、Pa2 = 110.6 kN/m @ 3.0 m；W = 540 與 Q = 270 kN/m 作用於 2.25 m；底面合力距牆趾 1.594 m、傾角 14.55°，Meyerhof 有效寬度 L' = 3.188 m 上均佈 q' = 254.08 kPa，虛線為梯形分布 337.3／22.7 kPa 對照" src="../../raw/solutions/SM-2016-3/figs/SM-2016-3-fig-2-fbd.svg" /></p>
+<p><em>圖 2　外部穩定自由體圖。攔下本題原解的錯誤：底面合力傾斜 14.55°，承載力必須乘考卷第 4 頁的傾斜因數（$i_\gamma$ 只剩 0.298）；另攔 $q_s$ 只算推力、漏算加勁區上的垂直力，以及有效寬度量錯起點。</em></p>
+<p><strong>評估：</strong> 依現行「建築物基礎構造設計規範」，擋土牆基礎支承力安全係數須符合淺基礎規定（長期載重 3.0），$FS_{BC} = 2.98 &lt; 3.0$，基礎承載力<strong>略為不足（不適宜）</strong>。</p>
+<p><strong>承載力補救措施建議：</strong></p>
+<ol>
+<li><strong>加長加勁材 $L$</strong>：同時降低偏心比 $e/L$ 與荷載傾角 $\theta$，有效寬度 $L'$ 增大；本題 $L$ 只要加到約 4.52 m 即可使 $FS_{BC} \ge 3.0$，但抗滑要求 $L \ge$ 約 5.24 m（㈠），兩者一併考量取 $L \approx 5.3$ m 以上。</li>
+<li><strong>增加埋置深度 $D_f$</strong>：引入 $q N_q$ 項與深度因數，承載力提高明顯。</li>
+<li><strong>基礎土壤改良或置換</strong>：置換為級配良好之粒料並分層夯實、或灌漿改良，提高 $c'$、$\phi'$。</li>
+<li><strong>降低水平推力</strong>：背填改用輕質或高摩擦角填料、加強背填排水，減小 $P_h$ 即同時減小 $\theta$ 與 $e$。</li>
+</ol>
 <h3>(三) 加勁擋土牆系統設計與施工注意事項</h3>
 <p><strong>設計注意事項：</strong></p>
 <ol>
@@ -253,8 +525,12 @@ $$ FS_{BC} = \frac{q_{ult}}{q'_{max}} = \frac{1576.71}{254.08} = \boxed{6.21} $$
 <h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
 <ul>
 <li><strong>超載重之考量</strong>：在台灣考題中，通常未特別區分超載重為活載重 (Live Load) 或靜載重 (Dead Load)，皆直接全數計入驅動力與抵抗力之計算。若考題特別聲明 $q_s$ 為活載重，則在進行保守設計時，計算抵抗傾覆力矩與底部摩擦力時會<strong>忽略</strong>作用於加勁區上方之活載重（即 $V$ 不計 $q_s \times L$），但推力計算仍包含其造成之主動土壓力。本解析依據常規考題慣例，將其視為均佈常設荷載全數列入。</li>
-<li><strong>承載力計算方法</strong>：傳統做法可能採用偏心應力公式 $q_{max} = \frac{V}{L}(1+\frac{6e}{L})$ 配合原寬度計算 $FS$，但對於加勁擋土牆，現行主流設計規範（如 AASHTO、FHWA）強烈建議採用 Meyerhof 有效寬度法 ($L' = L - 2e$) 計算極限承載力，這更能真實反映基底應力集中之破壞模式，也是本解析採用的方法。</li>
-</ul></main>
+<li><strong>傾斜修正因數（本題㈡的關鍵）</strong>：考卷第 4 頁的修正因數表未標題號，但第三、四題都問基礎承載力，且加勁土體底面合力傾斜 14.55°，傾斜修正必須做。不修正時 $q_{ult} = 1577.2$ kPa、$FS_{BC} = 6.21$（本解 2026-11-15 前的答案），高估一倍以上，結論也由「略不足」變成「非常安全」。$i_\gamma = (1-\theta/\phi')^2$ 對傾角特別敏感，是擋土結構承載力檢核最常漏的一項。</li>
+<li><strong>安全係數要求值的依據</strong>：現行「建築物基礎構造設計規範」第 7 章擋土牆：滑動長期 1.5／地震 1.2、傾覆長期 2.0／地震 1.5，基礎支承力安全係數依淺基礎章節（長期 3.0／地震 2.0）。條號依營建署公開之第 7 章條文（7.4.1–7.4.3）；112 年修正版條號是否變動未逐條核對原文。加勁擋土牆若依 FHWA／AASHTO 慣用值（承載 2.5），本題 2.98 則可接受——作答時寫明所依標準。</li>
+<li><strong>承載力計算方法</strong>：傳統做法可能採用偏心應力公式 $q_{max} = \frac{V}{L}(1+\frac{6e}{L}) = 337.3$ kPa 配合原寬度計算 $FS = q_{ult}/q_{max} = 2.24$，但對於加勁擋土牆，現行主流設計規範（如 AASHTO、FHWA）強烈建議採用 Meyerhof 有效寬度法 ($L' = L - 2e$) 計算極限承載力，這更能真實反映基底應力集中之破壞模式，也是本解析採用的方法。</li>
+</ul>
+<p><em>修正日期：2026-11-15（§1 改為指向題目正本 <code>SM-2016-3-problem.md</code>，重繪附圖 figs/SM-2016-3-fig-1-problem.svg；§4 補解題圖解 figs/SM-2016-3-fig-2-fbd.svg；非勘誤）</em></p>
+<p><em>修正日期：2026-11-15（FIX：承載力補傾斜修正因數——㈡ $q_{ult}$ 1576.71 → 756.97 kPa、$FS_{BC}$ 6.21 → 2.98，結論由「適宜（非常安全）」改為「略不足（&lt; 3.0）」並補承載力補救措施；原解漏用考卷第 4 頁形狀、深度與傾斜修正因數表（題目正本 #10）。§1 常見誤讀、§2、§3、§3.5、§4（二）、§5 同步；安全係數要求值改註現行建築物基礎構造設計規範。驗證：腳本重算 26 個數值 MISMATCHES: 0，$FS_{BC}$ 以 $q_{ult}/(V/L')$ 與 $q_{ult}L'/V$ 雙路徑一致；依 2026-11-15 獨立盲解比對）</em></p></main>
 <footer>來源：raw/solutions/SM-2016-3/SM-2016-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>
 /* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。

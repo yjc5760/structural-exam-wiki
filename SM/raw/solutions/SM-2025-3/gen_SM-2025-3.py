@@ -4,7 +4,8 @@ import sys, os, math
 sys.path.insert(0, os.environ.get("STRUCTDRAW", os.path.expanduser("~/sd")))
 from structdraw import Canvas, C, compose
 D, Rad = math.degrees, math.radians
-HERE = os.path.dirname(os.path.abspath(__file__)); OUT = os.path.join(HERE, "figs")
+HERE = os.path.dirname(os.path.abspath(__file__))
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "figs")   # 2026-11-15 加：可指定輸出資料夾
 
 # ── L1（§3.5，全部由考卷附圖的尺寸線判讀）────────────────────
 H      = 7.0      # 牆總高（牆頂 → 底版底面）
@@ -200,9 +201,55 @@ def fig2():
             path=os.path.join(OUT, "SM-2025-3-fig-2-sliding-fbd.svg"))
 
 
+# ══════════════════════════════════════════════════════════
+# fig-1-problem　題目附圖重繪（2026-11-15 加）
+# 幾何只取自題目正本 SM-2025-3-problem.md §4 判讀清單 #2–#11，不含任何解題結果。
+# （判讀值與上方 L1 常數相同：H #2、B #3、B_TOE／T_BASE #4、B_TOP #5、斜面 #6）
+# ══════════════════════════════════════════════════════════
+def fig_problem():
+    W, Hp = 900, 600
+    xmin, xmax, ymin, ymax = -2.6, 14.6, -2.4, 8.4
+    L, R, T, Bm = 40, 40, 30, 30
+    sx = min((W-L-R)/(xmax-xmin), (Hp-T-Bm)/(ymax-ymin))
+    cv = Canvas(W, Hp, sx=sx, ox=L-xmin*sx, oy=Bm-ymin*sx, bg="#FFFFFF")
+    XE = 10.4
+    cv.polygon([(xmin+0.3,-1.8), (XE,-1.8), (XE,0), (xmin+0.3,0)], "rgba(63,74,90,0.13)")   # clay（#11）
+    cv.polygon([(B,0), (XE,0), (XE,H), (B,H)], "rgba(180,83,9,0.13)")                       # sand（#8）
+    cv.line((xmin+0.3,0), (XE,0), C["member"], 2.0)          # 底面高程＝牆前地面（#9）
+    cv.line((B,H), (XE,H), C["member"], 2.0)                 # 地表水平與牆頂同高（#8）
+    cv.polygon(WALL, "rgba(29,78,216,0.16)", C["deform"], 2.4)
+    cv.text_px(cv.X(8.2), cv.Y(4.0), "sand", 14, C["accent"], weight="700")
+    cv.text_px(cv.X(8.2), cv.Y(-0.9), "clay", 14, C["member"], weight="700")
+    cv.text_px(cv.X(3.6), cv.Y(2.6), "混凝土", 12.5, C["deform"], weight="700")
+    # 參數框（照考卷）
+    bx, by = cv.X(11.0), cv.Y(7.6)
+    cv.rect_px(bx, by, cv.X(14.3)-bx, cv.Y(2.4)-by, "#FFFFFF", 4, C["member"], 1.2)
+    lines = [("for sand:", 0), ("γ = %g kN/m³" % GAM_S, 1), ("φ' = %g°" % PHI, 1), ("", 0),
+             ("for clay:", 0), ("Su = %g kPa" % SU, 1), ("", 0),
+             ("for concrete:", 0), ("γ = %g kN/m³" % GAM_C, 1)]
+    for i, (s, ind) in enumerate(lines):
+        cv.text_px(bx + 12 + ind*8, by + 22 + i*23, s, 12.5, C["text"], anchor="start")
+    # 尺寸線（照考卷位置）
+    cv.line((-1.5, H), (B-B_TOP-0.1, H), C["dim"], 0.9, dash="2 3")
+    cv.dim((-1.5, 0), (-1.5, H), "7 m", 0, C["dim"], 13, label_off=-18)
+    cv.dim((-0.5, 0), (-0.5, T_BASE), "1 m", 0, C["dim"], 12, label_off=-16)
+    cv.dim((0, T_BASE+0.45), (B_TOE, T_BASE+0.45), "1 m", 0, C["dim"], 12, label_off=-13)
+    cv.dim((0, -0.55), (B, -0.55), "6 m", 0, C["dim"], 13, label_off=14)
+    cv.dim((B-B_TOP, H+0.5), (B, H+0.5), "2 m", 0, C["dim"], 12, label_off=-13)
+    return cv
+
+
+def fig_p():
+    compose([fig_problem()],
+            title="SM-2025-3 題目附圖重繪",
+            sub="依題目正本判讀清單；7 m 為總高（到底面）、6 m 為底寬（含趾部），牆背鉛直",
+            note="攔錯用：考卷附圖垂直方向未按比例（以 6 m 換算圖上高只有約 5.5 m），尺寸以標註為準；牆前無覆土。",
+            path=os.path.join(OUT, "SM-2025-3-fig-1-problem.svg"))
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    fig1(); fig2()
+    fig1(); fig2(); fig_p()
     print("KA=%.4f  σA=%.3f  PA=%.3f  R=%.1f  FS=%.4f" % (KA, SIG_A, PA, R_SLIDE, FS))
     print("誤讀 PA=%.3f R=%.1f FS=%.4f" % (PA_BAD, R_BAD, FS_BAD))
     print("A=%.1f m²  W=%.1f kN/m  x̄=%.3f m" % (A_BASE+A_STEM, W_WALL,

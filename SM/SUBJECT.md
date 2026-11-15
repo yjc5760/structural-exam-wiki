@@ -16,7 +16,7 @@
 | 科目全名 | 土壤力學與基礎設計 |
 | 題號格式 | `SM-YYYY-N`（YYYY 為西元年，例 `SM-2015-1`） |
 | 考卷檔名 | `raw/exams/SM-YYYY_土壤力學與基礎設計.pdf`（24 份，另有原 repo 的 `命題大綱.pdf` 副本） |
-| 收錄範圍 | 2002–2025（民國 91–114 年），96 題；題目正本尚未建立；`verificationStatus` 96 題全為 unverified（2026-09-18 起全庫重新驗算，2026-11-11 搬入時） |
+| 收錄範圍 | 2002–2025（民國 91–114 年），96 題；題目正本 96 題全部已確認（2026-11-15 題庫流程完成）；`verificationStatus` 96 題全為 unverified（2026-09-18 起全庫重新驗算；2026-11-15 全庫盲解比對完成，待使用者關卡二複核） |
 | 架構範本 | 依 `SS/`（鋼結構設計）的架構建立骨架（2026-10-29）；內容由獨立 repo `exam-wiki-SM` 搬入（2026-11-11） |
 
 ---
@@ -337,6 +337,8 @@ Coulomb 理論（可考慮牆背傾角、填土坡度、牆土摩擦角 δ）：
 |------|------|------|
 | 2026-11-15 | 分類稽核（`wiki/queries/分類稽核-SM-2026-11-15.md`）後經使用者確認改 2 題：`SM-2010-3` 主副對調為 `SM-U2-3` 主／`SM-U1-2` 副；`SM-2002-2` 刪副分類 `SM-U2-4` | 2010-3 是開挖底面管湧檢核，與 2003-3、2017-4、2020-2 同歸開挖穩定；2002-2 未涉基礎型式選擇 |
 | 2026-11-15 | **U2-3 改成單元總覽**：`study/data/unit-SM-U2-3.json`（20 條公式卡、17 題逐題公式用途、24 年逐年表）→ `unit-SM-U2-3.html`／`.pdf`；刪舊 `study-SM-U2-3.html`、`formula-given-SM-U2-3.html`／`.pdf`，連結改指 `unit-`；`frequency-SM.html` 改用 v1.2 重產 | 分類變動後手寫命題分析頁的題數過時；改由 `build_unit_page.py` 從索引重算 |
+| 2026-11-15 | **SM 其餘 84 題題庫流程（A–F，13 子項分 9 組平行）**：84 題建立題目正本並確認、§1 改指題目正本；獨立盲解比對 70 題一致、14 題勘誤落實（verificationStatus 全部維持 unverified）。答案改變 9 題：`SM-2011-2`（Q 6.64→9.22 m³/day）、`SM-2018-3`（ΔH 7.9→6.3 m，e 點上揚壓力 0→28.1 kPa）、`SM-2017-3`（Qa ㈠ 3152→≈3090、㈡ 345→≈176 kN）、`SM-2015-2`（FS 0.63→0.68）、`SM-2016-3`（承載 FS 6.21→2.98，漏乘傾斜因數）、`SM-2021-4`（FS 0.867→0.98，舊切片表自編）、`SM-2017-4`（隆起 FS 2.03→2.13，考卷式含 α）、`SM-2012-4`（C 支撐 157.1→185.2 kN/m）、`SM-2010-3`（依現行規範 8.8.3 改判有管湧之虞）；敘述／觀念 5 題：`SM-2008-1`、`SM-2020-1`、`SM-2025-4`、`SM-2015-3`、`SM-2020-2`。新增解題圖解 43 張、題目附圖重繪 42 張；講義 `lecture-SM-U2-1`（HTML＋PDF）、`lecture-SM-U2-2`、`lecture-SM-U2-3`、單元總覽 `unit-SM-U2-3` 同步；ledger 擴為 96 題。複核清單 `wiki/queries/關卡二複核清單-SM-2026-11-15.md` | 全庫第一輪題庫流程；平行代理寫暫存片段 `wiki/queries/_staging/`，以 `scripts/fixes/2026-11-15_merge_staging.py` 合併 |
+| 2026-11-15 | **SM-U1-3 批 1 題庫流程（A–F）**：12 題建立題目正本並確認（SM 首批，`problemStatus` 欄位啟用）、3 題重繪附圖、§1 改指題目正本；獨立盲解比對 11 題一致、1 題分歧；**勘誤 `SM-2011-3`**：平均新增應力 49.38 → 55.56 kPa、沉陷 34.31 → 45.6 mm；新建 `wiki/queries/audit-ledger-SM.json` | 題庫總流程第一批；2011-3 題目問「平均」新增應力，舊解答成黏土中點值 |
 | 2026-10-29 | 依 SS 架構建立科目骨架（`scripts/scaffold_subject.py`） | 五科合併為單一知識庫，架構統一 |
 | 2026-10-29 | 停用互動圖（`*-viz.html`）；§4 改為 struct-diagram 圖解 | 靜態向量圖可重跑、可審核，與互動圖功能重疊 |
 | 2026-11-11 | **由獨立 repo `exam-wiki-SM` 搬入本資料夾**（只搬檔案，不含 git 歷史）：先刪 10-29 scaffold 骨架（七層 wiki 空殼、空索引、共用樣板儀表板、`.gitkeep`），再搬入 `raw/`（24 份考卷＋命題大綱副本、96 題解析、8 份 methods、`pdf_*.txt`）、`study/`（7 份講義、8 份命題分析頁、7 份給／背頁及 PDF、頻率熱圖、96 頁 problems-view）、`wiki/queries/`（含 `log.md`）、`archive/wiki/`（原 repo 11-01 已封存的舊 wiki）、`影片講義/`、儀表板 `index.html`／`dashboard-data.js`；`scripts/` 只留講義附圖產生器 `lecture-figs/U1-1/`；原 repo 根目錄 CLAUDE*.md、`xcheck.py` 存參考副本於 `archive/exam-wiki-SM-root/`；README、檔案架構索引表、知識庫使用說明書改寫為合併後路徑與現況（原檔停在 07-11 建庫時的「0 題」）；`syllabus_taxonomy.json` 副本以 `sync_taxonomy.py` 重新同步（只差 `_meta`）；§1 補收錄範圍、§2 補題數、§3 分類軸由 scaffold 的「題型」更正為原 repo 實際使用的「分析法」四值與判準（`subject_profiles.json` 同步，`codes` 依封存的 code-ref 補齊）、§3.1 標籤詞彙、§6 改指封存診斷頁、§8 換成原 repo 完整版框架 | 五科合一，SM 不再在原 repo 分岔維護。原 repo 與 GitHub Pages 舊網址維持上線不動，git 歷史保留在原 repo。未搬：`.claude/`（本機設定）、`.github/workflows/pages.yml`（根目錄已有 deploy-pages.yml）、`.gitignore`／`.gitattributes`／`.nojekyll`（根目錄已涵蓋）、`scripts/build_frequency.py`（v1.1，根目錄 v1.2 為超集）、本機 `解題過程影片/blackboard-solution-video.skill`（09-28 舊版，與根目錄 `skills/` 版內容相同，只差底圖 PNG 編碼） |
@@ -362,7 +364,7 @@ Coulomb 理論（可考慮牆背傾角、填土坡度、牆土摩擦角 δ）：
 | 項目 | 根目錄 | SM |
 |------|--------|----|
 | 規則 1 例外範圍 | 五處例外（含解析勘誤四條件、題目正本）；`-fig-*`／`-chart-*`／`-eqn-*`／`-hand-*` 圖檔一律是證據、不可改 | 原 repo 三處：`question_index.json`、methods、**1-C「附圖引用補正」**（2026-07-30）。1-C 的「補引用行與圖說」已被根目錄解析勘誤涵蓋；但 1-C 另允許**圖檔改名成合規檔名、刪除確認為重複／暫存的圖檔**，根目錄不允許。**待使用者決定**是否把這一小段升為五科通用；決定前以根目錄為準（不改名、不刪圖） |
-| 題目正本 | 解題前先寫 `-problem.md`、確認後凍結 | **待辦**：SM 96 題都還沒有題目正本（`problemStatus` 欄位尚不存在）；要補時用 exam-problem-split |
+| 題目正本 | 解題前先寫 `-problem.md`、確認後凍結 | 2026-11-15 已全部補齊（96 題 `problemStatus: confirmed`，exam-problem-split）；不重繪的附圖（試驗曲線、流網、表格、Newmark 圖）以考卷擷取圖為準 |
 | 單元教材 | 單元總覽 `unit-SM-Un-m.html`（unit-overview，`study/data/unit-*.json` ＋ `build_unit_page.py`）；`unit-exam-intel`、`unit-formula-map` 已於 11-11 停用 | **逐子項改版中**：U2-3 已改成單元總覽（2026-11-15，`study/data/unit-SM-U2-3.json` → `unit-SM-U2-3.html`／`.pdf`；舊 `study-SM-U2-3.html`、`formula-given-SM-U2-3.html`／`.pdf` 已刪，依 unit-overview 不做轉址頁，problems-view 返回鍵、講義導覽、其他給／背頁導覽、儀表板 `UNIT_PAGES` 已改連 `unit-`）。其餘仍是舊式：命題分析 7 頁（U1-1、U1-3、U1-5、U2-1、U2-2、U3-1、U3-3）、給／背 6 頁（＋PDF）。改下一個子項時照 U2-3 做法，並同步儀表板 `index.html` 的 `UNIT_PAGES` |
 | 頻率熱圖 | `build_frequency.py` v1.2（教材欄只認 `unit-*.html`） | 2026-11-15 已改用 v1.2 重產（使用者同意）：題數依最新分類，教材欄列單元總覽與講義；尚未改版子項的舊命題分析／給背頁不在熱圖上（頁面仍在，從講義導覽或儀表板進入）。之後可照常重產 |
 | 題目瀏覽頁 | `render_problem_view.py` 由正本產生 | 96 頁保留原 repo 版（08-29 同一管線重生、11-01 去 viz）。根目錄腳本已抽查相容（見 §9），勘誤後重產單題沒問題 |

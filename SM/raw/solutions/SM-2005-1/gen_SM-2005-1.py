@@ -171,7 +171,66 @@ def fig2():
     cv.save(os.path.join(OUT, "SM-2005-1-fig-2-sensitivity.svg"))
 
 
+
+# ══════ fig-1-problem：題目附圖重繪（2026-11-15，題目正本推廣 SM-U2-3 批 1）══════
+# 幾何只取自題目正本 SM-2005-1-problem.md §4 判讀清單，不含任何解題結果。
+# 用法：python gen_SM-2005-1.py [輸出資料夾]；只寫 SM-2005-1-fig-1-problem.svg 到該資料夾（預設本題 figs/）。
+def _pgeo():
+    sys.path.insert(0, os.path.join(HERE, ".."))      # SM/raw/solutions/geo.py
+    import geo
+    return geo
+
+
+def _ground(cv, x0, x1, y, n=4, s=0.35):
+    for k in range(n):
+        x = x0 + (x1 - x0) * (k + 0.5) / n
+        cv.line((x, y), (x - s, y - s), C["member"], 1.3)
+
+
+def _wall(cv, x, y0, y1, t=0.18, fill="#3F4A5A"):
+    cv.polygon([(x - t / 2, y0), (x + t / 2, y0), (x + t / 2, y1), (x - t / 2, y1)], fill)
+
+
+def fig_problem(out):
+    g = _pgeo()
+    H_EXC, Z_ANC, D_SK = 9.0, 1.5, 4.0     # 開挖 9 m（#開挖深度）、地錨頂下 1.5 m（#地錨）；入土段為示意
+    Wd, Ht = 760, 640
+    XL, XR = -4.0, 7.0
+    cv = Canvas(Wd, Ht, bg="#FFFFFF", **g.fit(Wd, Ht, (XL - 1.0, XR + 0.3), (-(H_EXC + D_SK + 0.6), 0.9), 30, 30, 40, 40))
+    Y = lambda d: -d
+    g.soil_fill(cv, 0, XR, Y(H_EXC), Y(0), "rgba(180,83,9,0.16)")
+    g.soil_fill(cv, XL, XR, Y(H_EXC + D_SK + 0.4), Y(H_EXC), "rgba(63,74,90,0.20)")
+    cv.line((0, Y(0)), (XR, Y(0)), C["member"], 2.4)
+    _ground(cv, 3.6, 6.0, Y(0), 4, 0.3)
+    cv.line((XL, Y(H_EXC)), (XR, Y(H_EXC)), C["member"], 2.0)
+    _ground(cv, XL + 0.5, -1.0, Y(H_EXC), 4, 0.3)
+    _wall(cv, 0, Y(0), Y(H_EXC + D_SK), 0.16)
+    cv.arrow((0.1, Y(Z_ANC)), (2.8, Y(Z_ANC)), C["load"], 2.6, 10)
+    cv.text_px(cv.X(1.4), cv.Y(Y(Z_ANC)) - 15, "地錨", 13.5, C["load"], weight="700")
+    cv.text_px(cv.X(1.0), cv.Y(Y(4.4)), "砂土", 14, C["text"], anchor="start", weight="700")
+    for i, s in enumerate(["γ_{s} = 18 kN/m^{3}", "φ_{s} = 32°", "c_{s} = 0"]):
+        cv.math_px(cv.X(1.0), cv.Y(Y(5.2 + 0.75 * i)), s, 14, C["text"], anchor="start")
+    cv.text_px(cv.X(1.0), cv.Y(Y(H_EXC + 0.8)), "黏土", 14, C["text"], anchor="start", weight="700")
+    for i, s in enumerate(["γ_{c} = 20 kN/m^{3}", "φ_{c} = 0°", "c_{c} = 45 kPa"]):
+        cv.math_px(cv.X(1.0), cv.Y(Y(H_EXC + 1.55 + 0.75 * i)), s, 14, C["text"], anchor="start")
+    cv.line((-0.35, Y(H_EXC + 1.2)), (-0.75, Y(H_EXC + 1.6)), C["muted"], 1.2)
+    cv.line((-0.75, Y(H_EXC + 1.6)), (-0.75, Y(H_EXC + D_SK - 0.3)), C["muted"], 1.2)
+    cv.line((-0.75, Y(H_EXC + D_SK - 0.3)), (-0.35, Y(H_EXC + D_SK)), C["muted"], 1.2)
+    cv.text_px(cv.X(-0.95), cv.Y(Y(H_EXC + 2.3)), "free earth support", 12.5, C["muted"], anchor="end")
+    cv.text_px(cv.X(-0.95), cv.Y(Y(H_EXC + 2.9)), "（自由土壤支撐）", 12, C["muted"], anchor="end")
+    cv.text_px(cv.X(-2.0), cv.Y(Y(4.0)), "開挖側", 13, C["muted"])
+    xd = XL - 0.4
+    cv.dim((xd, Y(H_EXC)), (xd, Y(0)), "9 m", 0, C["dim"], 13, label_off=-24)
+    for d in (0, H_EXC):
+        cv.line((xd - 0.12, Y(d)), (-0.1 if d == 0 else XL, Y(d)), C["dim"], 0.9, dash="2 3")
+    cv.dim((-0.8, Y(Z_ANC)), (-0.8, Y(0)), "1.5 m", 0, C["dim"], 12, label_off=-26)
+    compose([cv], title="SM-2005-1 題目附圖重繪",
+            sub="依題目正本判讀清單；地下水位以上，黏土內為自由土壤支撐",
+            note="攔錯用：9 m 由版樁頂量到開挖面，背填砂在右側；開挖面以下兩側都是黏土，地錨在頂下 1.5 m。",
+            path=os.path.join(out, "SM-2005-1-fig-1-problem.svg"))
+
 if __name__ == "__main__":
+    fig_problem(sys.argv[1] if len(sys.argv) > 1 else OUT)
     os.makedirs(OUT, exist_ok=True)
     fig1(); fig2()
     print("Ka=%.6f p_a(9m)=%.4f P_a=%.4f 力臂=%.2f" % (KA, PATOP, PA, LARM))

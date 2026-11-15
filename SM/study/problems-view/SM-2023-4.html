@@ -29,18 +29,366 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </style></head><body>
 <header><h1>SM-2023-4 題目解析</h1><a class="back quick" href="../unit-SM-U2-3.html">&#128269; U2-3 單元總覽</a>
 <a class="back lect" href="../lecture-SM-U2-3.html">&#128218; U2-3 開挖之穩定性分析 講義</a></header>
-<main><h1>考題編號：SM-2023-4</h1>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>SM-2023-4 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>SM-2023-4.md</code>。<br />
+判讀清單已確認（凍結）；本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>考卷</td>
+<td><code>raw/exams/SM-2023_土壤力學與基礎設計.pdf</code> 第 2 頁（頁次 2－2），第四題</td>
+</tr>
+<tr>
+<td>考年</td>
+<td>民國 112 年（2023）</td>
+</tr>
+<tr>
+<td>配分</td>
+<td>25 分（㈠15＋㈡10）</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td><code>SM-2023-4-fig-2.png</code>（鑽探資料表；2026-11-15 由考卷重新擷取 500 dpi）；既有 <code>SM-2023-4-fig-1.png</code> 為同一表，左上角有滑鼠游標，保留不刪</td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-15 關卡一：使用者授權依建議判讀確認；轉錄 2026-11-15；PyMuPDF 110 dpi 全頁目視，附表 500 dpi 局部放大（向量文字）；PDF 文字層核對逐字原文；盲讀後才比對既有解析）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>四、某建案基地為 1000 坪（地上 12 層、地下 3 層），開挖深度 11.95 公尺，採用連續壁深度 24 公尺。進行地下工程時即有鄰近住家反映牆壁龜裂漏水、磁磚掉落等情況，建物沉陷點及建物傾斜計監測數值超過警戒值，地下開挖至第 3 層時，大底未完成即發生支撐系統失敗，造成鄰近多戶民宅嚴重傾斜下陷。工址附近鑽探資料如下表所示。㈠請研判事故發生原因（15 分）及㈡未來此區域深開挖工程災害防治可能對策。（10 分）</p>
+</blockquote>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>基地 1000 坪、地上 12 層／地下 3 層；開挖 11.95 m、連續壁深 24 m。</li>
+<li>鑽探資料表（照錄）：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取樣深度（m）</th>
+<th>標準貫入試驗</th>
+<th>礫石 %</th>
+<th>砂 %</th>
+<th>粉土 %</th>
+<th>黏土 %</th>
+<th>含水量（%）</th>
+<th>液性限度（%）</th>
+<th>塑性限度（%）</th>
+<th>統一土壤分類</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>2+9+5</td>
+<td>14</td>
+<td>76</td>
+<td>9</td>
+<td>1</td>
+<td>24</td>
+<td>-</td>
+<td>-</td>
+<td>SW-SM</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2+2+3</td>
+<td>25</td>
+<td>63</td>
+<td>11</td>
+<td>1</td>
+<td>27</td>
+<td>-</td>
+<td>-</td>
+<td>SM</td>
+</tr>
+<tr>
+<td>6</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>49</td>
+<td>51</td>
+<td>39</td>
+<td>35</td>
+<td>11</td>
+<td>CL</td>
+</tr>
+<tr>
+<td>8</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>55</td>
+<td>45</td>
+<td>40</td>
+<td>33</td>
+<td>10</td>
+<td>CL</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>56</td>
+<td>44</td>
+<td>41</td>
+<td>32</td>
+<td>12</td>
+<td>CL</td>
+</tr>
+<tr>
+<td>12</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>60</td>
+<td>40</td>
+<td>36</td>
+<td>33</td>
+<td>11</td>
+<td>CL</td>
+</tr>
+<tr>
+<td>14</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>40</td>
+<td>60</td>
+<td>42</td>
+<td>35</td>
+<td>12</td>
+<td>CL</td>
+</tr>
+<tr>
+<td>16</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
+<td>47</td>
+<td>45</td>
+<td>36</td>
+<td>13</td>
+<td>CL</td>
+</tr>
+<tr>
+<td>18</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>51</td>
+<td>49</td>
+<td>41</td>
+<td>39</td>
+<td>14</td>
+<td>CL</td>
+</tr>
+<tr>
+<td>20</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>56</td>
+<td>44</td>
+<td>42</td>
+<td>40</td>
+<td>18</td>
+<td>CL</td>
+</tr>
+<tr>
+<td>22</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>57</td>
+<td>42</td>
+<td>35</td>
+<td>39</td>
+<td>20</td>
+<td>CL</td>
+</tr>
+<tr>
+<td>24</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
+<td>47</td>
+<td>39</td>
+<td>42</td>
+<td>18</td>
+<td>CL</td>
+</tr>
+<tr>
+<td>26</td>
+<td>1+1+2</td>
+<td>0</td>
+<td>1</td>
+<td>54</td>
+<td>45</td>
+<td>41</td>
+<td>40</td>
+<td>16</td>
+<td>CL</td>
+</tr>
+<tr>
+<td>28</td>
+<td>1+2</td>
+<td>0</td>
+<td>0</td>
+<td>57</td>
+<td>43</td>
+<td>44</td>
+<td>40</td>
+<td>15</td>
+<td>CL</td>
+</tr>
+<tr>
+<td>30</td>
+<td>1+2+2</td>
+<td>0</td>
+<td>1</td>
+<td>54</td>
+<td>45</td>
+<td>32</td>
+<td>40</td>
+<td>17</td>
+<td>CL</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>沒有給</strong>：地下水位、單位重、不排水剪力強度、支撐配置、連續壁厚度、工址所在地區。</li>
+<li>卷首注意事項（第 1 頁）：㈠可以使用電子計算器。㈡不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。㈢本科目除專門名詞或數理公式外，應使用本國文字作答。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p><img alt="SM-2023-4 考卷鑽探資料表：取樣深度 2–30 m，標準貫入試驗、粒徑分析（礫石、砂、粉土、黏土）、含水量、液性限度、塑性限度與統一土壤分類；2 m、4 m 為 SW-SM、SM，6 m 以下皆 CL" src="../../raw/solutions/SM-2023-4/SM-2023-4-fig-2.png" /></p>
+<p>表面文字照錄：見 §2 表格。</p>
+<h2>4. 判讀清單</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>「塑性限度」欄</td>
+<td>照錄數值 10～20；與液性限度 32～42 並看，數值偏小（若為塑性限度則 PI 約 20～25；若實為塑性指數則 PI 約 10～20），兩種讀法都屬 CL</td>
+<td>表格欄名</td>
+<td>不確定（解讀；不影響說明題結論，照錄）；使用者授權依建議確認</td>
+</tr>
+<tr>
+<td>2</td>
+<td>標準貫入試驗欄</td>
+<td>「2+9+5」等為每 15 cm 擊數；N 值為後兩段之和（2 m：N = 14；4 m：N = 5）；6～24 m 只寫「1」解讀為 N = 1（極軟）；26 m「1+1+2」N = 3、28 m「1+2」只列兩段（N 約 3）、30 m「1+2+2」N = 4</td>
+<td>表格；SPT 慣例</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>含水量與液性限度</td>
+<td>6 m 以下多數深度含水量 ≥ 液性限度（液性指數 ≥ 1 左右），屬高含水量軟弱黏土</td>
+<td>表格數值</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>地層</td>
+<td>0～約 5 m 砂質土（SW-SM、SM），6～30 m 均為軟弱 CL；連續壁底 24 m 仍在軟黏土內</td>
+<td>表格</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>開挖與壁深</td>
+<td>開挖 11.95 m、連續壁深 24 m → 貫入約 12 m</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>6</td>
+<td>事故時點</td>
+<td>開挖至地下第 3 層、大底未完成時支撐系統失敗；之前已有鄰房龜裂漏水、監測值超過警戒值</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>7</td>
+<td>所求</td>
+<td>㈠研判事故原因（說明題）、㈡此區域深開挖災害防治對策</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>8</td>
+<td>考卷沒有給</td>
+<td>地下水位、單位重、強度參數、支撐配置、壁厚、工址地區</td>
+<td>全題</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-15（SM-U2-3 題目正本推廣・批 1）</em></p>
+<p><em>確認：2026-11-15 使用者授權依建議判讀確認（SM-U2-3 題目正本推廣・批 1，關卡一；使用者指示「要我確認的請依你建議」）</em></p></details>
+<h1>考題編號：SM-2023-4</h1>
 <p><strong>主分類：</strong> <code>SM-U2-3</code> 開挖之穩定性分析<br />
 <strong>副分類：</strong> <code>SM-U1-1</code> 土壤基本性質、<code>SM-U2-5</code> 地層改良方法<br />
 <strong>分析法：</strong> 概念題<br />
 <strong>標籤：</strong> <code>開挖穩定性</code> <code>基盤隆起</code> <code>連續壁</code> <code>支撐系統</code> <code>液性指數</code> <code>軟弱黏土</code> <code>深層攪拌法</code></p>
 <hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>某建案基地為 1000 坪（地上 12 層、地下 3 層），開挖深度 11.95 公尺，採用連續壁深度 24 公尺。進行地下工程時即有鄰近住家反映牆壁龜裂漏水、磁磚掉落等情況，建物沉陷點及建物傾斜計監測數值超過警戒值，地下開挖至第 3 層時，大底未完成即發生支撐系統失敗，造成鄰近多戶民宅嚴重傾斜下陷。工址附近鑽探資料如下表所示。<br />
-(一) 請研判事故發生原因（15 分）<br />
-(二) 未來此區域深開挖工程災害防治可能對策。（10 分）</p>
-<p><img alt="SM-2023-4 題目附圖：鑽探與土壤試驗資料表" src="../../raw/solutions/SM-2023-4/SM-2023-4-fig-1.png" /></p>
-<p><em>圖說：鑽探柱狀資料表顯示，深度 2m~4m 為砂土層（N=5~14），而深度 6m~24m 為極軟弱之黏土層（CL），標準貫入試驗 N 值全段皆為 1。黏土層含水量約在 35%~45% 之間，液性限度約 32%~42%，塑性限度約 10%~20%。26m 以下 N 值微幅上升至 3~4。</em></p>
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="SM-2023-4-problem.md"><code>SM-2023-4-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N 值讀法</td>
+<td>「2+9+5」為每 15 cm 擊數，N 取後兩段和（2 m：14、4 m：5），6～24 m 為 1（題目正本 #2）</td>
+<td>三段相加或取第一段</td>
+</tr>
+<tr>
+<td>含水量</td>
+<td>6 m 以下多數深度含水量 ≥ 液性限度，屬高含水量軟弱黏土（#3）</td>
+<td>只看 N = 1 而忽略含水量資訊</td>
+</tr>
+<tr>
+<td>「塑性限度」欄</td>
+<td>照錄 10～20；與液性限度並看數值偏小，可能為塑性指數，兩種讀法都屬 CL、不影響說明題結論（#1）</td>
+<td>據此判定為低塑性粉土</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> $N$ SPT 擊數；$w$ 含水量；LL、PL 液性／塑性限度；LI 液性指數。（鑽探資料表為表格，不重繪，見題目正本 §2。）</p>
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
 <p>本題以實際工程災變案例（極類似 2023 年基泰大直深開挖災變案）為背景，測驗考生能否從鑽探資料中判讀出「極軟弱且高靈敏度」土層的特性，並結合深開挖力學機制，指出導致破壞的核心原因（基底隆起、支撐失敗、連續壁貫入深度不足等），最後提出具體可行的實務防治對策。出題者意圖評估考生對於土壤物理性質（液性指數）如何影響工程行為的敏銳度，以及對深開挖擋土與地盤改良工法的熟悉度。</p>
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
@@ -69,10 +417,14 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <p><code>從鑽探數據判讀極軟弱與高靈敏度土層特性，綜合分析深開挖破壞機制並提出防治對策</code></p>
 <h3>本題關鍵公式（依計算順序）</h3>
 <ul>
-<li><strong>塑性指數（Plasticity Index）</strong>：<br />
-  $$PI = LL - PL$$</li>
-<li><strong>液性指數（Liquidity Index）</strong>：<br />
-  $$LI = \frac{w - PL}{\boxed{PI}}$$</li>
+<li>
+<p><strong>塑性指數（Plasticity Index）</strong>：<br />
+  $$PI = LL - PL$$</p>
+</li>
+<li>
+<p><strong>液性指數（Liquidity Index）</strong>：<br />
+  $$LI = \frac{w - PL}{\boxed{PI}}$$</p>
+</li>
 </ul>
 <h3>L1：題目直接給定</h3>
 <table>
@@ -292,14 +644,18 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </table>
 <p><strong>這張表比任何文字敘述都有力，而且指出兩件事：</strong></p>
 <ol>
-<li><strong>$6 \sim 20 \text{ m}$ 連續八層 $LI$ 全部大於 $1$</strong>（天然含水量高於液性限度），<br />
+<li>
+<p><strong>$6 \sim 20 \text{ m}$ 連續八層 $LI$ 全部大於 $1$</strong>（天然含水量高於液性限度），<br />
    而開挖深度 $11.95 \text{ m}$、開挖影響範圍（約 $1 \sim 2$ 倍開挖深度）整段都落在這個區間內。<br />
    $LI &gt; 1$ 代表土壤在原狀態下的含水量已超過「開始像液體流動」的界線，<br />
    靠的只是尚未被擾動的結構（sensitivity）撐著；一旦開挖解壓、支撐變形或機具振動把結構打散，<br />
-   抗剪強度會掉到重模強度（remoulded strength），行為接近黏滯流體。</li>
-<li><strong>連續壁底（$24 \text{ m}$）所在的那一層反而是 $LI = 0.88 &lt; 1$ 的相對「較好」土層——但 $N$ 值仍然是 $1$。</strong><br />
+   抗剪強度會掉到重模強度（remoulded strength），行為接近黏滯流體。</p>
+</li>
+<li>
+<p><strong>連續壁底（$24 \text{ m}$）所在的那一層反而是 $LI = 0.88 &lt; 1$ 的相對「較好」土層——但 $N$ 值仍然是 $1$。</strong><br />
    也就是說連續壁底並不是插在一個「比較不會流動」就等於「夠硬」的地層上；<br />
-   $LI$ 改善了、強度卻沒有改善，這正是下一節「嵌固不足」的量化證據。</li>
+   $LI$ 改善了、強度卻沒有改善，這正是下一節「嵌固不足」的量化證據。</p>
+</li>
 </ol>
 <p><img alt="SM-2023-4 液性指數逐層剖面：左欄列出 GL−6~−30 m 每 2 m 的 w、LL、PL，右側以 LI 為橫軸、深度為縱軸繪出折線，LI = 1.0 以紅色虛線與底色標出；6、8、10、12、14、16、18、20 m 八層的 LI 分別為 1.17、1.30、1.45、1.14、1.30、1.39、1.08、1.09 全部大於 1，22 m = 0.79、24 m = 0.88、30 m = 0.65 小於 1；圖上另以水平虛線標出開挖面 GL−11.95 m 與連續壁底 GL−24.0 m" src="../../raw/solutions/SM-2023-4/figs/SM-2023-4-fig-1-li-profile.svg" /></p>
 <p><em>圖 1　只算一層看不出問題，逐層算過才看得出來。攔的是「只用 GL−10 m 的 $LI = 1.45$ 作結」：把整張表算過會發現 $6 \sim 20 \text{ m}$ 連續八層 $LI$ 全部大於 $1$，而開挖深度 $11.95 \text{ m}$ 與其影響範圍整段都落在這個區間；同時也看得到壁底 $24 \text{ m}$ 雖然 $LI = 0.88 &lt; 1$，$N$ 值卻仍是 $1$——$LI$ 改善不等於強度改善。</em></p>
@@ -326,10 +682,14 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 應密集佈設各項安全監測儀器（如連續壁內傾斜管、支撐應變計、水壓計、鄰房傾斜計及沉陷點等），並盡可能採用自動化即時傳輸。須設定更為保守的警戒與行動值，一旦發現變形速率異常，需立即啟動如回填土方、注水平衡、加設臨時支撐或緊急灌漿等應變措施，防止災變擴大。</p>
 <h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
 <ul>
-<li><strong>⚠ 抗隆起的量級估算：即使把 $S_u$ 放到最寬鬆，數字上也過不了</strong><br />
-  題目未給單位重與強度，但可由表列數據反推量級（以下為<strong>估算</strong>，非考卷數據，作答時須註明假設）：</li>
-<li>由 $w \approx 41\%$、取 $G_s = 2.70$、飽和（$S = 100\%$）：$e = wG_s = 1.107$，<br />
-    $\gamma_{sat} = \dfrac{G_s + e}{1 + e}\gamma_w = \dfrac{2.70 + 1.107}{2.107}(9.81) \approx 17.7 \text{ kN/m}^3$。</li>
+<li>
+<p><strong>⚠ 抗隆起的量級估算：即使把 $S_u$ 放到最寬鬆，數字上也過不了</strong><br />
+  題目未給單位重與強度，但可由表列數據反推量級（以下為<strong>估算</strong>，非考卷數據，作答時須註明假設）：</p>
+</li>
+<li>
+<p>由 $w \approx 41\%$、取 $G_s = 2.70$、飽和（$S = 100\%$）：$e = wG_s = 1.107$，<br />
+    $\gamma_{sat} = \dfrac{G_s + e}{1 + e}\gamma_w = \dfrac{2.70 + 1.107}{2.107}(9.81) \approx 17.7 \text{ kN/m}^3$。</p>
+</li>
 <li>由 $N = 1$ 與 Terzaghi–Peck 相關式 $S_u \approx 10N/16 \text{ (tf/m}^2)$：$S_u \approx 6.3 \text{ kPa}$。</li>
 <li>Terzaghi 基底隆起：$FS = \dfrac{N_c S_u}{\gamma H_e} = \dfrac{5.14 S_u}{17.7 \times 11.95}$，分母 $= 211.5 \text{ kPa}$。</li>
 </ul>
@@ -372,7 +732,8 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <li><strong>液性指數的實務意義</strong>：在考場上，很多考生看到 $N=1$ 只會寫出「土壤軟弱、承載力不足」。但若能利用表格中的 $w, LL, PL$ 算出 $LI &gt; 1$，點出「高靈敏度（High Sensitivity）」與「受擾動強度大幅喪失」的流體化特性，將能獲得極高分數，這也是出題老師特別提供阿太堡限度數據的用意。</li>
 </ul>
 <hr />
-<p><em>解析日期：見 <code>wiki/log.md</code>　｜　圖解補繪：2026-08-29（向量 SVG，程式繪製，腳本 <code>gen_SM-2023-4.py</code> 可重跑；同名 2× PNG 供簡報／影片管線使用）</em></p></main>
+<p><em>解析日期：見 <code>wiki/log.md</code>　｜　圖解補繪：2026-08-29（向量 SVG，程式繪製，腳本 <code>gen_SM-2023-4.py</code> 可重跑；同名 2× PNG 供簡報／影片管線使用）</em></p>
+<p><em>修正日期：2026-11-15（§1 改為指向題目正本 <code>SM-2023-4-problem.md</code>；非勘誤）</em></p></main>
 <footer>來源：raw/solutions/SM-2023-4/SM-2023-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>
 /* 跟隨來源單元：若由 study-/lecture-/formula-given-SM-Un-m.html 開啟，兩顆按鈕改指向來源單元。

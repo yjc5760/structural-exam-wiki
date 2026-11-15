@@ -241,6 +241,74 @@ def fig3():
     cv.save(os.path.join(OUT, "SM-2019-4-fig-3-max-p.svg"))
 
 
+
+
+# ══════ fig-1-problem：題目附圖重繪（2026-11-15 題目正本推廣，非解題圖）══════
+# 幾何只取自題目正本 SM-2019-4-problem.md §4 判讀清單，不含任何解題結果；不改上方既有圖的程式與輸出。
+# 只產本圖：python gen_SM-2019-4.py --problem [輸出資料夾]
+def _fitp(W, H, xr, yr, L, R_, T, B):
+    sx = min((W - L - R_) / (xr[1] - xr[0]), (H - T - B) / (yr[1] - yr[0]))
+    return dict(sx=sx, ox=L - xr[0] * sx, oy=B - yr[0] * sx)
+
+
+# ── 題目正本 §4 判讀清單（全題為符號；以下角度只為示意比例，圖上不標數值）──
+P_H, P_TH, P_AL, P_BE, P_ZT = 6.0, 9.0, 10.0, 52.0, 1.5   # H、θ、α、β、Zt：示意
+P_TW = 1.4                                                   # 牆頂寬：示意
+
+def fig_problem(out):
+    W, H = 820, 600
+    tan = lambda d: math.tan(R(d))
+    A = (0.0, 0.0)                                   # #5 牆踵（牆背底）
+    Ep = (-P_H * tan(P_TH), P_H)                     # #1 牆背頂端 E：往上向左（牆底較寬、牆背面朝上）
+    Dp = (Ep[0] + P_ZT * tan(P_TH), P_H - P_ZT)      # #2 D 在牆背上、深 Zt
+    ta = tan(P_AL)
+    # B：破壞面 AB（與水平夾 β）與「地表下鉛直 Zt」線的交點（#3、#5）
+    t = (Ep[1] - P_ZT - ta * Ep[0]) / (math.sin(R(P_BE)) - ta * math.cos(R(P_BE)))
+    Bp = (t * math.cos(R(P_BE)), t * math.sin(R(P_BE)))
+    Fp = (Bp[0], Ep[1] + ta * (Bp[0] - Ep[0]))       # #4 BF 鉛直到地表
+    xr = Fp[0] + 2.2
+    cv = Canvas(W, H, bg="#FFFFFF", **_fitp(W, H, (-P_H * tan(P_TH) - P_TW - 2.0, xr + 0.6), (-0.9, Fp[1] + 1.4), 30, 30, 30, 30))
+    gl = lambda x: Ep[1] + ta * (x - Ep[0])
+    # 牆
+    cv.polygon([(A[0] - P_TW - 2 * P_H * tan(P_TH) - 0.2, 0), A, Ep, (Ep[0] - P_TW, P_H)],
+               "rgba(138,148,166,0.35)", C["member"], 2.6)
+    # 地表、Zt 平行線、破壞面、裂縫
+    cv.line(Ep, (xr, gl(xr)), C["member"], 2.4)
+    cv.line(Dp, (xr, gl(xr) - P_ZT), C["muted"], 1.6, dash="8 5")
+    cv.line(A, Bp, C["member"], 1.6)
+    cv.line(Bp, Fp, C["load"], 2.2)
+    cv.line(Ep, Dp, C["load"], 2.2)
+    cv.line((A[0], 0), (A[0] + 2.2, 0), C["muted"], 1.0, dash="4 3")
+    cv.line(Ep, (Ep[0], Ep[1] - 2.6), C["muted"], 1.0, dash="4 3")
+    cv.line((xr - 1.6, gl(xr)), (xr, gl(xr)), C["muted"], 1.0, dash="4 3")
+    for p, s, dx, dy in ((A, "A", 14, -14), (Bp, "B", 14, 12), (Dp, "D", 16, 6), (Ep, "E", 0, -16), (Fp, "F", 0, -16)):
+        cv.math_px(cv.X(p[0]) + dx, cv.Y(p[1]) + dy, s, 16, C["text"], weight="700")
+    cv.math_px(cv.X(Ep[0]) + 14, cv.Y(Ep[1] - 2.2), "θ", 16, C["text"])
+    cv.math_px(cv.X(A[0] + 0.85), cv.Y(0.32), "β", 16, C["text"])
+    cv.math_px(cv.X(xr - 0.6), cv.Y(gl(xr)) - 4, "α", 16, C["text"])
+    xm = (Dp[0] + Bp[0]) / 2
+    cv.dim((xm, gl(xm) - P_ZT), (xm, gl(xm)), "Z_{t}", 0, C["dim"], 15, label_off=-16)
+    xh = Ep[0] - P_TW - 1.3
+    cv.dim((xh, 0), (xh, P_H), "H", 0, C["dim"], 16, label_off=18)
+    cv.line((xh - 0.1, P_H), (Ep[0] - P_TW, P_H), C["dim"], 0.9, dash="2 3")
+    cv.text_px(cv.X(Bp[0] + 0.4), cv.Y(2.0), "背填土", 13, C["text"], anchor="start", weight="700")
+    cv.math_px(cv.X(Bp[0] + 0.4) + 50, cv.Y(2.0), "γ,  c,  φ", 14, C["text"], anchor="start")
+    cv.text_px(cv.X(Bp[0] + 0.4), cv.Y(1.4), "牆土介面", 13, C["text"], anchor="start", weight="700")
+    cv.math_px(cv.X(Bp[0] + 0.4) + 62, cv.Y(1.4), "c_{a},  δ", 14, C["text"], anchor="start")
+    return cv
+
+def make_problem(out):
+    compose([fig_problem(out)], title="SM-2019-4 題目附圖重繪",
+            sub="依題目正本判讀清單；全題為符號，角度與尺寸僅示意比例（紅線為張力裂縫 DE、BF，縫內無水）",
+            note="攔錯用：牆底比牆頂寬、牆背面朝上；Zt 鉛直量、虛線平行地表；DE 沿牆背開裂，BF 鉛直。",
+            path=os.path.join(out, "SM-2019-4-fig-1-problem.svg"))
+
+if __name__ == "__main__" and "--problem" in sys.argv:
+    _o = next((a for a in sys.argv[1:] if not a.startswith("--")), OUT)
+    os.makedirs(_o, exist_ok=True)
+    make_problem(_o)
+    sys.exit(0)
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     fig1(); fig2(); fig3()
