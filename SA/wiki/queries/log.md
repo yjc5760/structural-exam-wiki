@@ -2111,3 +2111,11 @@ PDF 文字層檢查無殘留 LaTeX、無 emoji 豆腐方框。
 - `[lecture]` lecture-SA-U2-1、U2-4：歷屆表題數更正，改歸題標註「留作方法對照」（2005-4 表格法、2022-4 剪力棟架段落保留）；U1-2、U3-2：歷屆表新增 2022-1、2022-4 列；U2-3：副分類表新增 2018-4 列
 - `[rebuild]` problems-view 10 頁；frequency-SA.html（對帳通過）；dashboard-data.js 就地更新 10 題（先誤跑 refresh_dashboard.py 轉成 KB_* 格式，違反 SUBJECT.md §10，已自 git HEAD 還原後就地改）；unit-SA-U1-2／U2-1／U2-3／U2-4／U3-2 與 5 份講義 PDF 重產（Chromium A4，KaTeX 錯誤 0、390／1280 寬無水平捲動）；unit-SA-U1-3.html 隨重建只有圖示說明一行差異（模板），PDF 未重出
 - 驗證：`audit_classification.py SA SA` 0 問題；`build_unit_page.py --check` 六單元通過；xcheck 無新問題
+
+## [2026-11-15] TEXTBOOK-SA｜建立 SA 6 個核心單元完整教科書（HTML、PDF 與章節原始碼）
+- 建立單元：`SA-U1-2`、`SA-U1-3`、`SA-U2-1`、`SA-U2-3`、`SA-U2-4`、`SA-U3-2` 共 6 個單元完整教科書
+- 產出檔案：
+  - HTML：`study/textbook-SA-*.html`（6 份）
+  - PDF：`study/textbook-SA-*.pdf`（6 份，Chromium A4）
+  - 圖檔與章節原始碼：`study/figs-src/textbook-SA-*/`（各章節 HTML、Python 繪圖與計算腳本、`textbook.json`）
+

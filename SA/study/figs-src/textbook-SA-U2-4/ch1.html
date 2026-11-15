@@ -1,0 +1,149 @@
+<section id="ch1">
+<h2>第 1 章　勁度是量出來的：彈簧、桁架桿、扭轉桿</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$[k]=\frac{EA}{L}\begin{bmatrix}1&-1\\-1&1\end{bmatrix},\qquad k_T=\frac{GJ}{L},\qquad J=\frac{\pi d^4}{32}$$
+並且能說出 \(\{P\}=[K]\{D\}\) 裡<b>每一行到底是什麼</b>。<br>
+要記的只有 <span class="kw">S1 推一下、量力</span> 和 <span class="kw">S2 彈簧律</span>；矩陣的長相是「量」出來的，不是背出來的。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>結構勁度方程的形式 \(\{P\}=[K]\{D\}\)（每一行＝一次單位位移實驗）</td><td><span class="tg half">別賭</span></td><td>1.1</td></tr>
+<tr><td>桁架元素（局部座標）\(\dfrac{EA}{L}\begin{bmatrix}1&-1\\-1&1\end{bmatrix}\)</td><td><span class="tg must">必背</span></td><td>1.2、1.3</td></tr>
+<tr><td>扭轉元素 \(k_T=\dfrac{GJ}{L}\)，實心圓桿 \(J=\dfrac{\pi d^4}{32}\)</td><td><span class="tg must">必背</span></td><td>1.2</td></tr>
+<tr><td>旋轉彈簧元素 \(k_\theta\begin{bmatrix}1&-1\\-1&1\end{bmatrix}\)（細節在第 7 章）</td><td><span class="tg half">別賭</span></td><td>1.3</td></tr>
+</table>
+<p class="note">證據（單元總覽）：\(\{P\}=[K]\{D\}\) 的符號排法只在 2012、2015、2019 印過，其餘九年一個字都沒有。24 年沒有印過任何一個元素勁度矩陣；桁架題 <a href="problems-view/SA-2013-4.html">SA-2013-4</a> 等四題都從 \(EA/L\) 起步。<a href="problems-view/SA-2025-4.html">SA-2025-4</a> 給了 \(G\)，但 \(J=\pi d^4/32\) 與「格床要含扭轉」都沒提。旋轉彈簧勁度只在 2019-4 給過數值 \(10EI/L\)。</p>
+</div>
+
+<h3>1.1　種子 S1：鎖住、推一下、量力</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S1｜勁度的定義</div>
+$$k_{ij}=\text{只把第 } j \text{ 個自由度推動一單位、其他全部鎖住時，第 } i \text{ 個自由度需要的力}$$
+</div>
+<p>這是全書的樹幹。矩陣法裡每一個係數，都是做完一次這樣的「實驗」之後讀出來的。
+我們先用最簡單的東西做一次：<b>兩支彈簧串在一起</b>，一端接牆，有兩個可以左右動的節點。</p>
+
+{{FIG:fig1_1|圖 1-1｜三格實驗。(b) 只推節點 1：左彈簧被拉長 1、右彈簧被壓短 1，<b>兩支都把節點 1 往回推</b>，所以要施 \(k_1+k_2\)；節點 2 的鎖要擋住被壓短的右彈簧，出力 \(k_2\) 向左。(c) 只推節點 2：只有右彈簧變形。<b>每推一次，就填好 [K] 的一行</b>（紅字＝需要施加的力，向右為正）。}}
+
+<div class="derive">
+<p><span class="st">①</span> 推節點 1 一單位（節點 2 鎖住）：節點 1 需要 \(k_1+k_2\)，節點 2 需要 \(-k_2\)。這兩個數就是 [K] 的<b>第 1 行</b>。</p>
+<p><span class="st">②</span> 推節點 2 一單位（節點 1 鎖住）：節點 1 需要 \(-k_2\)，節點 2 需要 \(k_2\)。這是<b>第 2 行</b>。</p>
+<p><span class="st">③</span> 真實的變形是「推 \(d_1\) 倍的實驗 ①」加上「推 \(d_2\) 倍的實驗 ②」（線彈性可以疊加），力也跟著疊加：</p>
+$$\begin{Bmatrix}P_1\\P_2\end{Bmatrix}=d_1\begin{Bmatrix}k_1+k_2\\-k_2\end{Bmatrix}+d_2\begin{Bmatrix}-k_2\\k_2\end{Bmatrix}
+=\underbrace{\begin{bmatrix}k_1+k_2&-k_2\\-k_2&k_2\end{bmatrix}}_{[K]}\begin{Bmatrix}d_1\\d_2\end{Bmatrix}$$
+<p><span class="st">④</span> 這就是 \(\boxed{\{P\}=[K]\{D\}}\)　✔ 考卷偶爾印的那一行。<b>[K] 的第 \(j\) 行＝只推第 \(j\) 個自由度時，各處需要的力。</b></p>
+</div>
+
+<div class="why"><b>白話</b>：[K] 不是一張神祕的表，它是「實驗紀錄簿」。有幾個自由度，就做幾次實驗，每次實驗寫一行。
+考卷說「請寫出結構之勁度矩陣」（2025-1 的提示），意思就是「請把每一次單位位移實驗的結果寫出來」。</div>
+
+<div class="trap"><b>陷阱：把「行」和「列」搞反</b><br>
+第 \(j\) 次實驗的結果寫在<b>第 \(j\) 行（直的）</b>。因為 [K] 一定對稱（1.3 節），寫成橫的也不會錯——但只限於你每一格都算對。
+如果某一格算錯，對稱性就是你的警報：<b>寫完 [K] 先看它是不是對稱</b>。</div>
+
+<h3>1.2　種子 S2：一根桿子就是一支彈簧</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S2｜彈簧律</div>
+$$F=k\,\Delta\qquad\Longrightarrow\qquad k_{\text{軸向}}=\frac{EA}{L},\qquad k_{\text{扭轉}}=\frac{GJ}{L}$$
+</div>
+<p>彈簧常數 \(k\) 從哪裡來？材料力學的三件事各用一次：<b>相容</b>（變形怎麼分布）、<b>材料律</b>（應力和應變的關係）、<b>平衡</b>（應力加起來等於力）。</p>
+
+{{FIG:fig1_2|圖 1-2｜三種彈簧，同一個推法。(a) 桿子被拉長 \(\delta\)：應變 \(\delta/L\)、應力 \(E\delta/L\)、合力 \(EA\delta/L\)。(b) 圓桿被扭 \(\phi\)：剪應變 \(r\phi/L\)、剪應力 \(G r\phi/L\)、扭矩 \(G\phi/L\cdot\int r^2dA\)。(c) 旋轉彈簧沒有材料可推，<b>它的 \(k_\theta\) 一定是題目給的</b>。三者的勁度矩陣長得一模一樣。}}
+
+<div class="derive">
+<p><span class="st">①</span> 軸向：\(\varepsilon=\dfrac{\delta}{L}\)　→　\(\sigma=E\dfrac{\delta}{L}\)　→　\(N=\sigma A=\dfrac{EA}{L}\,\delta\)　⇒　\(\boxed{k=\dfrac{EA}{L}}\)</p>
+<p><span class="st">②</span> 扭轉：距中心 \(r\) 處的剪應變 \(\gamma=\dfrac{r\phi}{L}\)　→　\(\tau=G\dfrac{r\phi}{L}\)　→　\(T=\displaystyle\int\tau\,r\,dA=\frac{G\phi}{L}\int r^2\,dA=\frac{GJ}{L}\,\phi\)　⇒　\(\boxed{k_T=\dfrac{GJ}{L}}\)</p>
+<p><span class="st">③</span> 實心圓桿：\(J=\displaystyle\int_0^{R} r^2\cdot 2\pi r\,dr=\frac{\pi R^4}{2}=\boxed{\frac{\pi d^4}{32}}\)　✔ 2025-4 要自己補的那一條。</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・\(L\to\infty\)：\(k\to0\)，很長的橡皮筋一拉就長 ✔<br>
+・\(A\to0\)：\(k\to0\)，沒有斷面就沒有勁度 ✔<br>
+・\(d\) 加倍：\(J\) 變 16 倍——扭轉勁度靠「離中心遠的材料」，外圈的材料力臂大又應變大，算兩次 \(r\) ✔（所以空心管很會抗扭）<br>
+・量綱：\(EA/L\) 是 力/長度，\(GJ/L\) 是 力×長度/弧度 ✔ 和 \(F/\Delta\)、\(T/\phi\) 一致</div>
+
+<div class="trap"><b>陷阱：\(J\) 和 \(I\) 搞混</b><br>
+圓形斷面 \(J=\pi d^4/32\)，\(I=\pi d^4/64\)，剛好兩倍（\(J=I_x+I_y\)）。格床題（<a href="problems-view/SA-2025-4.html">SA-2025-4</a>）彎曲用 \(EI\)、扭轉用 \(GJ\)，兩個都要。
+記法：\(J\) 是「到中心」的距離平方 \(r^2=x^2+y^2\)，所以是兩個 \(I\) 相加。</div>
+
+<h3>1.3　一根彈簧的 2×2：用 S1 量出來</h3>
+<p>現在把一根桿子（或任何一支彈簧）當成一個<b>元素</b>，兩端各有一個節點 \(i\)、\(j\)。用 S1 做兩次實驗：</p>
+
+{{FIG:fig1_3|圖 1-3｜(a) 推 \(i\) 端：桿子縮短 1，受壓 \(k\)，把 \(i\) 往回推，所以 \(i\) 要施 \(+k\)、\(j\) 的鎖要出 \(-k\)。(b) 推 \(j\) 端：桿子伸長 1，受拉 \(k\)。(c) 兩端一起推：桿長不變、沒有力——<b>所以每一列加起來一定是 0</b>。}}
+
+<div class="derive">
+<p><span class="st">①</span> 推 \(i\)：力 \(=(+k,\,-k)\)，寫成第 1 行。</p>
+<p><span class="st">②</span> 推 \(j\)：力 \(=(-k,\,+k)\)，寫成第 2 行。</p>
+<p><span class="st">③</span> \(\boxed{[k]=k\begin{bmatrix}1&-1\\-1&1\end{bmatrix}}\)，桁架桿 \(k=EA/L\)、扭轉桿 \(k=GJ/L\)、旋轉彈簧 \(k=k_\theta\)　✔ 規範寫的局部座標桁架元素。</p>
+</div>
+
+<div class="why"><b>三個性質，不用背，看圖 1-3 就說得出來</b>
+<ol>
+<li><b>對稱</b>（\(k_{ij}=k_{ji}\)）：推 \(i\) 時 \(j\) 需要的力，等於推 \(j\) 時 \(i\) 需要的力。這是 Maxwell–Betti 互易定理，所有線彈性結構都成立。<b>組完 [K] 第一件事：檢查對稱。</b></li>
+<li><b>對角線一定是正的</b>：你往右推一個點，它一定往左頂你（不然就是你一推它自己跑掉，結構不穩定）。<b>對角線出現 0 或負數 → 一定算錯，或結構是機構。</b></li>
+<li><b>沒有支承的元素，每一列加起來是 0</b>：整根平移不會產生力。所以單一元素的 [k] 一定<b>求不出反矩陣</b>（行列式＝0）——一定要先接上支承、刪掉被固定的自由度（第 3 章），才能解。</li>
+</ol></div>
+
+<div class="check"><b>極限檢查</b><br>
+・\(\det[k]=k^2(1\cdot1-(-1)(-1))=0\)：單獨一根浮在空中的桿子，給它力它就整根飛走，位移解不出來 ✔ 物理上本來就沒有唯一解。<br>
+・接上牆（\(i\) 固定）：刪掉第 1 行第 1 列，只剩 \([k]\)，\(\Delta=P/k\) ✔ 就是 S2。</div>
+
+<h3>1.4　範例：兩支彈簧串接，順便預告「組裝」</h3>
+<div class="box"><b>題目</b>　圖 1-1 的系統，節點 2 受向右的力 \(P\)，節點 1 不受力。求 \(d_1\)、\(d_2\) 與兩支彈簧的內力。</div>
+<div class="derive">
+<p><span class="st">①</span> 由 1.1 節：\([K]=\begin{bmatrix}k_1+k_2&-k_2\\-k_2&k_2\end{bmatrix}\)，\(\det[K]=k_1k_2\)。</p>
+<p><span class="st">②</span> 解 \(\begin{bmatrix}k_1+k_2&-k_2\\-k_2&k_2\end{bmatrix}\begin{Bmatrix}d_1\\d_2\end{Bmatrix}=\begin{Bmatrix}0\\P\end{Bmatrix}\)：\(d_1=\dfrac{P}{k_1}\)，\(d_2=\dfrac{P}{k_1}+\dfrac{P}{k_2}\)。</p>
+<p><span class="st">③</span> 回代內力：彈簧 1 伸長 \(d_1\)，內力 \(k_1d_1=P\)；彈簧 2 伸長 \(d_2-d_1\)，內力 \(k_2(d_2-d_1)=P\)。</p>
+</div>
+<div class="check"><b>自我檢查</b><br>
+・串接彈簧的總柔度 \(=\dfrac1{k_1}+\dfrac1{k_2}\)，\(d_2\) 正好是它 ✔（材料力學的串聯公式）<br>
+・兩支彈簧內力都是 \(P\)：串在一起，力一路傳過去 ✔（ΣF＝0 隨便切一刀都對）</div>
+<div class="why"><b>預告：組裝就是「同一個節點的勁度相加」</b><br>
+把同一個 [K] 換個方式得到：彈簧 1（牆—節點 1）只碰到 \(d_1\)，它貢獻 \(k_1\) 到 \(K_{11}\)；
+彈簧 2（節點 1—節點 2）是一個完整的 \(k_2\begin{bmatrix}1&-1\\-1&1\end{bmatrix}\)，放到 \((d_1,d_2)\) 的位置。兩者相加：
+$$\begin{bmatrix}k_1&0\\0&0\end{bmatrix}+\begin{bmatrix}k_2&-k_2\\-k_2&k_2\end{bmatrix}=\begin{bmatrix}k_1+k_2&-k_2\\-k_2&k_2\end{bmatrix}$$
+和圖 1-1 量出來的一模一樣（calcs.py 已核對）。為什麼可以直接相加？因為推節點 1 時，兩支彈簧<b>同時</b>頂回來，力當然相加。第 3 章會把它變成一條固定的組裝規則。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜元素勁度 2×2（桁架、扭轉、旋轉彈簧通用）</div>
+<ol>
+<li><b>畫</b>：一根桿子兩端 \(i\)、\(j\)；推 \(i\) 一單位、\(j\) 鎖住</li>
+<li><b>種子</b>：S1（推一下、量力）＋S2（\(k=EA/L\) 或 \(GJ/L\)）</li>
+<li><b>推</b>：縮短 1 → 受壓 \(k\) → 第 1 行 \((+k,-k)\)；對稱 → 第 2 行 \((-k,+k)\)</li>
+<li><b>檢查</b>：每列和＝0（剛體平移無力）；對角線為正</li>
+</ol>
+</div>
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜\(J=\pi d^4/32\)</div>
+<ol>
+<li><b>畫</b>：圓斷面，半徑 \(r\) 處一圈細環，面積 \(2\pi r\,dr\)</li>
+<li><b>種子</b>：S2 的扭轉版：剪應變 \(\propto r\)，力臂也是 \(r\)</li>
+<li><b>推</b>：\(J=\int r^2\,dA=\int_0^R 2\pi r^3dr=\pi R^4/2=\pi d^4/32\)</li>
+<li><b>檢查</b>：\(J=2I\)（\(I=\pi d^4/64\)）</li>
+</ol>
+</div>
+
+<h3>1.5　🙈 蓋住重推</h3>
+<details><summary>Q1　[K] 的第 2 行第 1 列 \(K_{21}\)，用一句話說它是什麼？（不能回答「矩陣的元素」）</summary>
+<p>只把第 1 個自由度推動一單位、其他全部鎖住時，第 2 個自由度那裡需要施加的力。在圖 1-1 就是節點 2 的鎖要出的 \(-k_2\)。</p></details>
+<details><summary>Q2　為什麼單一元素的 2×2 求不出反矩陣？這在解題上代表什麼？</summary>
+<p>兩列相加為 0（整根平移不需要力），所以行列式＝0。物理上：沒有支承的桿子受力會整根飛走，位移沒有唯一解。解題上：一定要先把支承鎖住的自由度刪掉，剩下的 [K] 才能求逆。</p></details>
+<details><summary>Q3　把實心圓桿直徑加大 10%，扭轉勁度大約增加多少？</summary>
+<p>\(J\propto d^4\)，\(1.1^4=1.4641\)，約增加 46%。（從 \(J=\int r^2dA\)：面積隨 \(d^2\)、\(r^2\) 又一個 \(d^2\)。）</p></details>
+<details><summary>Q4　某生組出的 [K] 對角線有一個負數。可能是什麼問題？</summary>
+<p>對角線＝推那個自由度時它自己需要的力，必為正。負數代表算錯正負號（最常見：彈簧伸長／縮短方向判斷錯），或該自由度根本沒有東西擋住（機構）。</p></details>
+
+<h3>1.6　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>背 [K] 的長相，不知道每一行是什麼</td><td>第 \(j\) 行＝只推第 \(j\) 個自由度時的力。忘了就做一次「鎖住、推一下」的實驗。</td></tr>
+<tr><td>2</td><td>推節點 1 時只算左邊那支彈簧</td><td><b>所有接到節點 1 的元素都會變形、都會頂回來</b>，所以 \(K_{11}=k_1+k_2\)。</td></tr>
+<tr><td>3</td><td>對單一元素的 [k] 直接求逆</td><td>行列式＝0。先接支承、刪掉固定的自由度。</td></tr>
+<tr><td>4</td><td>扭轉用 \(I\)、彎曲用 \(J\)</td><td>彎曲 \(EI\)、扭轉 \(GJ\)；圓斷面 \(J=2I=\pi d^4/32\)。</td></tr>
+<tr><td>5</td><td>旋轉彈簧的 \(k_\theta\) 想自己推</td><td>它不是桿件，沒有材料可推；<b>一定是題目給的</b>（2019-4：\(10EI/L\)）。你要會的是把它當元素放進 [K]（第 7 章）。</td></tr>
+<tr><td>6</td><td>[K] 組完不檢查</td><td>三個免費檢查：對稱、對角線為正、自由元素每列和＝0。</td></tr>
+</table>
+</section>

@@ -1,0 +1,184 @@
+<section id="ch2">
+<h2>第 2 章　剪力建築：層剪力、層勁度、[K<sub>f</sub>]</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$V_i=\sum_{j\ge i}F_j,\qquad K_i=\sum_{\text{第 }i\text{ 層柱}}k_c,\qquad \Delta_i=\frac{V_i}{K_i},\qquad [K_f]=\begin{bmatrix}K_2&-K_2\\-K_2&K_1+K_2\end{bmatrix}$$
+並且會處理<b>跨兩層的挑高柱</b>（SA-2022-4）。<br>
+要記的只有三顆種子：<span class="kw">S4 剛性＝刪自由度</span>、<span class="kw">S3 水平切一刀</span>、<span class="kw">S2 並聯加 k、串聯加 Δ</span>。第 1 章的柱彈簧 \(k_c\) 是積木。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>剛性約束降自由度：梁 \(I=\infty\) ⇒ 節點不轉、每層一個側移</td><td><span class="tg must">必背</span></td><td>2.1</td></tr>
+<tr><td>層剪力累加 \(V_i=\sum_{j\ge i}F_j\)</td><td><span class="tg must">必背</span></td><td>2.2</td></tr>
+<tr><td>層間位移與勁度串聯 \(\Delta_i=V_i/K_i\)、\(\Delta_{\text{頂}}=\sum\Delta_i\)</td><td><span class="tg must">必背</span></td><td>2.3</td></tr>
+<tr><td>樓層勁度並聯與剪力建築勁度矩陣 \(K_i=\sum k_c\)、[K<sub>f</sub>]</td><td><span class="tg must">必背</span></td><td>2.3、2.4</td></tr>
+</table>
+<p class="note">證據（單元總覽）：這四條在本單元 6 題中都沒有印出過。<a href="problems-view/SA-2022-4.html">SA-2022-4</a> 獨立成題；<a href="problems-view/SA-2020-4.html">SA-2020-4</a>、<a href="problems-view/SA-2021-4.html">SA-2021-4</a>、<a href="problems-view/SA-2023-4.html">SA-2023-4</a> 都以它起步。U2-4 的 2025-1（門型剛架側向勁度）也是同一組式子。</p>
+</div>
+
+<h3>2.1　種子 S4：「剛性」就是在幫你刪掉未知數</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S4｜剛性＝那裡不會變形＝刪掉自由度</div>
+$$I_{\text{梁}}=\infty\ \Rightarrow\ \theta_{\text{節點}}=0;\qquad \text{不計軸向變形}\ \Rightarrow\ \text{同一層所有節點側移相同}$$
+</div>
+<p>一棟三層單跨的構架，如果梁是普通的梁，每個節點都會轉，加上每層的側移，共有 9 個未知數，要用傾角變位法或矩陣法。
+但題目只要寫一句「梁斷面慣性矩為無限大」，梁就彎不了，節點轉不了，<b>9 個未知數只剩 3 個</b>。</p>
+
+{{FIG:fig2_1|圖 2-1｜(a) 梁有彈性：6 個節點各有一個轉角 θ，加上 3 個樓層側移，共 9 個自由度。(b) 梁 \(I=\infty\)：節點全部鎖住不轉（橘色鎖），整層梁只能平移，<b>每層只剩一個側移 \(u_i\)</b>。每根柱都變成第 1 章那支「兩端不轉」的彈簧。右圖的側移依 SA-2023-4 的層間位移比 9 : 7 : 4 畫出。}}
+
+<div class="derive">
+<p><span class="st">①</span> 梁 \(I=\infty\)：梁不彎 → 梁兩端的切線角相同，且梁的柱端節點無法相對梁轉動 → 柱頂不轉。柱底固定 → 柱底不轉。</p>
+<p><span class="st">②</span> 不計軸向變形：梁不伸縮 → 同一層所有節點<b>水平位移相同</b>；柱不伸縮 → 節點沒有垂直位移。</p>
+<p><span class="st">③</span> 所以每層只剩一個未知數 \(u_i\)，每根柱是一支 \(k_c=12EI/h^3\) 的彈簧（第 1 章）。這就叫<b>剪力建築</b>（shear building）。</p>
+</div>
+
+<div class="why"><b>為什麼叫「剪力」建築？</b>
+每一層的變形只跟那一層的<b>層剪力</b>有關（2.3 節 \(\Delta_i=V_i/K_i\)），像一疊撲克牌被水平推動，每張牌相對下一張滑一點。
+越往下層剪力越大，滑得越多——所以剪力建築的側移曲線<b>底部最斜</b>。第 3 章會拿它和剪力牆（頂部最斜）比較，那是 S6。</div>
+
+<div class="trap"><b>陷阱：S4 只刪「題目說剛性」的那部分</b><br>
+SA-2022-4 的一樓梁只有 a–e 一跨，m、n 柱在一樓高度<b>沒有梁</b>：m、n 柱從地面直通二樓。剛性梁只約束「有梁的地方」。圖面上梁畫到哪裡，就約束到哪裡（2.5 節）。</div>
+
+<h3>2.2　種子 S3：水平切一刀，層剪力就出來了</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S3｜切面以上的外力合計＝被切到那些柱的剪力總和</div>
+$$\sum F_x=0\ (\text{切面以上的自由體})\quad\Longrightarrow\quad V_i=\sum_{j\ge i}F_j$$
+</div>
+
+{{FIG:fig2_2|圖 2-2｜<a href="problems-view/SA-2023-4.html">SA-2023-4</a> 的樓層力（每層合計 600、900、1200 kN）。(a) 在第 2 層柱的高度水平切開。(b) 切面以上只受兩個外力，柱的剪力必須擋住它們：\(V_2=900+1200=2100\) kN。(c) 每一層都這樣切，得到由上往下累加的層剪力 1200、2100、2700 kN（比例 4 : 7 : 9）。}}
+
+<div class="derive">
+<p><span class="st">①</span> 在第 \(i\) 層柱高的某處水平切開，取<b>上半部</b>當自由體（上半部只有外力和被切到的柱，不必管支承）。</p>
+<p><span class="st">②</span> 水平力平衡：外力向右合計 \(\sum_{j\ge i}F_j\)，被切到的柱剪力向左合計 \(V_i\)，兩者相等：
+$$\boxed{V_i=\sum_{j\ge i}F_j}$$</p>
+<p><span class="st">③</span> SA-2023-4：\(V_3=1200\)、\(V_2=1200+900=2100\)、\(V_1=2100+600=2700\) kN，比例 \(9:7:4\)（一、二、三層）。</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・只有屋頂受力：每一層的層剪力都等於那個力 ✔（力一路傳到地面，沒有地方可以「漏掉」）<br>
+・\(V_1\)＝全部外力合計＝基底剪力 ✔ 這是最後的平衡檢查：柱底反力加起來要等於它<br>
+・層剪力只靠平衡就得到，<b>與勁度無關</b> ✔——不管柱粗柱細，切面以上的外力都一樣</div>
+
+<div class="trap"><b>陷阱：從底層往上加，或只取單邊的力</b><br>
+・層剪力是「切面<b>以上</b>」的外力和，所以要從屋頂往下加。從底層開始加，會把底層剪力寫成 600、頂層寫成 2700，完全顛倒。<br>
+・SA-2023-4 的圖在樓板兩端各標一次力（例如兩端各 600）。解析取兩端相加（1200、900、600）；只取一側時是 600、450、300。<b>比例都是 9 : 7 : 4，答案不變</b>——但要在答案裡寫清楚你怎麼讀。</div>
+
+<h3>2.3　種子 S2：同一層並聯、上下層串聯</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S2｜並聯加勁度、串聯加位移</div>
+$$\text{位移相同（並聯）：}K=\sum k\qquad\qquad\text{力相同（串聯）：}\Delta=\sum\frac{V}{K}$$
+</div>
+
+{{FIG:fig2_3|圖 2-3｜(a) 同一層的柱接在同一片剛性樓板上，<b>側移都一樣</b>，各自出力 \(k_j\Delta\)，合起來 \((\sum k_j)\Delta\)：並聯，勁度相加。(b) 一層疊一層，<b>每一層的彈簧受自己那層的層剪力</b>，位移一層一層往上累加：串聯。(c) SA-2023-4 各層勁度相同，所以層間位移和層剪力成正比：6 cm 分成 2.7、2.1、1.2 cm；平均分成 2 cm 是最常見的錯。}}
+
+<div class="derive">
+<p><span class="st">①</span> <b>並聯</b>：第 \(i\) 層的柱頂都接在同一片剛性梁上（S4），層間位移都是 \(\Delta_i\)。每根柱出力 \(k_j\Delta_i\)（第 1 章），合計等於層剪力：
+$$V_i=\Big(\sum_j k_j\Big)\Delta_i\quad\Longrightarrow\quad\boxed{K_i=\sum_{\text{第 }i\text{ 層柱}}k_c}$$</p>
+<p><span class="st">②</span> <b>每層的層間位移</b>：\(\boxed{\Delta_i=\dfrac{V_i}{K_i}}\)（\(V_i\) 由 S3 來，不用解聯立）。</p>
+<p><span class="st">③</span> <b>串聯</b>：頂層位移是各層層間位移的和：\(\boxed{\Delta_{\text{頂}}=\sum_i\dfrac{V_i}{K_i}}\)。</p>
+<p><span class="st">④</span> SA-2023-4：各層 \(K\) 相同 → \(\Delta_i\propto V_i\) → \(\Delta_1:\Delta_2:\Delta_3=9:7:4\)。總共 20 份，6 cm：
+\(\Delta_1=6\times\dfrac{9}{20}=2.7\)、\(\Delta_2=6\times\dfrac{7}{20}=2.1\)、\(\Delta_3=6\times\dfrac{4}{20}=1.2\) cm。（第 6 章會用這三個數算連梁轉角。）</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・某一層柱數加倍：那層 \(K\) 加倍、層間位移減半，其他層不受影響 ✔（串聯的每一段各管各的）<br>
+・某一層 \(K\to0\)（軟弱層）：那層位移 \(\to\infty\) ✔ 整棟樓的變形集中在那一層——這就是地震時軟弱層倒塌的道理<br>
+・2.7＋2.1＋1.2＝6.0 cm ✔ 加回頂層位移</div>
+
+<div class="trap"><b>陷阱：漏乘柱數</b><br>
+SA-2020-4 每層兩根柱，層勁度 \(K=2\times30000=60000\) kN/m。只寫 30000 就錯一半（解析列出的陷阱）。<b>先數每一層切到幾根柱</b>，再加。</div>
+
+<h3>2.4　組出 [K<sub>f</sub>]：推一下、量力（貫穿範例第 2 步）</h3>
+<p>2.3 節的作法很快，但只能處理「外力已知、求位移」。第 3 章要把構架和剪力牆接在一起，兩者的力怎麼分配是未知數，這時需要寫成矩陣 \(\{F\}=[K_f]\{\Delta\}\)。
+[K<sub>f</sub>] 的每一行，就是「只推一層一單位、其他層鎖住」時，各層需要的力（U2-4 的種子 S1；在這裡就是 S2 加上一個鎖）。</p>
+
+{{FIG:fig2_4|圖 2-4｜<a href="problems-view/SA-2020-4.html">SA-2020-4</a> 的二層構架，每層 \(K=2\times30000=60000\) kN/m。(a) 只推頂層 1：只有上層柱變形，頂層要出 \(+K_2\)，一樓的鎖要拉住 \(-K_2\)。(b) 只推一樓 1：上下兩層的柱都變形，<b>一樓同時被上下兩層頂回來</b>，要出 \(K_1+K_2\)；頂層的鎖出 \(-K_2\)。自由度順序依考卷：\(\Delta_1\)＝頂層、\(\Delta_2\)＝一樓。}}
+
+<div class="derive">
+<p><span class="st">①</span> 推頂層 1（一樓鎖住）：上層柱的層間位移 1 → 頂層需 \(K_2\)、一樓需 \(-K_2\)。這是第 1 行。</p>
+<p><span class="st">②</span> 推一樓 1（頂層鎖住）：下層柱層間位移 \(+1\)、上層柱層間位移 \(-1\)，兩層都把一樓往回推 → 一樓需 \(K_1+K_2\)；上層柱把頂層往右拉，鎖要出 \(-K_2\)。這是第 2 行。</p>
+<p><span class="st">③</span> $$\boxed{[K_f]=\begin{bmatrix}K_2&-K_2\\-K_2&K_1+K_2\end{bmatrix}}=\begin{bmatrix}60000&-60000\\-60000&120000\end{bmatrix}=30000\begin{bmatrix}2&-2\\-2&4\end{bmatrix}\ \text{kN/m}$$
+✔ 2020-4 解析寫的那一個。</p>
+</div>
+
+<div class="check"><b>兩條路對帳（構架單獨受 60、60 kN）</b><br>
+・<b>矩陣</b>：解 \(30000\begin{bmatrix}2&-2\\-2&4\end{bmatrix}\begin{Bmatrix}\Delta_1\\\Delta_2\end{Bmatrix}=\begin{Bmatrix}60\\60\end{Bmatrix}\)，得 \(\Delta_1=3\) mm（頂層）、\(\Delta_2=2\) mm（一樓）。<br>
+・<b>S3＋S2</b>：一樓層剪力 120 kN，\(120/60000=2\) mm；二樓層剪力 60 kN，\(60/60000=1\) mm；頂層 \(2+1=3\) mm ✔ 完全一樣。<br>
+・[K<sub>f</sub>] 對稱、對角線為正 ✔；頂層對角項只有 \(K_2\)（上面沒有樓層），底層是 \(K_1+K_2\)。<br>
+（第 3 章接上剪力牆後，位移會降到 2 mm、1 mm——牆分擔了力。）</div>
+
+<div class="trap"><b>陷阱：層別標號顛倒</b><br>
+SA-2020-4 的 \(\Delta_1\) 是<b>頂層</b>、\(\Delta_2\) 是一樓（照牆的勁度矩陣的順序），和一般「由下往上編號」相反。把 \(K_1+K_2\) 放到頂層那一格，整題就錯。
+<b>先畫圖 2-4 的推一下，再填矩陣</b>：誰被上下兩層夾住，誰的對角項就是兩層相加。</div>
+
+<h3>2.5　範例：SA-2022-4 三層剪力棟架＋挑高柱</h3>
+<div class="box"><b>題目（摘要）</b>　三層構架，柱線 a、e、m、n 間距 4 m，樓高 3.6 m；柱 \(EI=97200\) kN-m²，梁 \(I=\infty\)，不計軸向變形。一樓梁<b>只有 a–e 一跨</b>，m、n 柱由地面直通二樓（長 7.2 m）。b（一樓）、c（二樓）、d（三樓）各受 100、200、300 kN 向右。求 c、b 的水平位移，以及 a、m 柱底的水平反力與彎矩。
+詳見 <a href="problems-view/SA-2022-4.html">SA-2022-4</a>。</div>
+
+{{FIG:fig2_5|圖 2-5｜(a) 題目：m、n 挑高柱（橘色）沒有一樓的梁，所以<b>切①、切② 都會切到它</b>，而且它兩端的位移差是 \(\Delta_2-0\)。(b) 解出的側移 9.8、17.6、20.6 mm（每 mm 放大 2.4 px）：a、e 柱每層各彎一個 S；m、n 柱整根 7.2 m 彎一個大 S。柱底反力 \(2\times245+2\times55=600\) kN，等於外力合計。}}
+
+<div class="derive">
+<p><span class="st">①</span> <b>柱彈簧</b>（第 1 章）：標準柱 \(k=\dfrac{12\times97200}{3.6^3}=25000\) kN/m；挑高柱 \(k/8=3125\) kN/m。</p>
+<p><span class="st">②</span> <b>切③（三樓柱）</b>：切到 4 根標準柱，層間位移 \(\Delta_3-\Delta_2\)，切面以上外力 300：
+$$4k(\Delta_3-\Delta_2)=300\ \Rightarrow\ \Delta_3-\Delta_2=0.003\ \text{m}$$</p>
+<p><span class="st">③</span> <b>切②（二樓柱）</b>：切到 a、e 的二樓柱（位移差 \(\Delta_2-\Delta_1\)）與 m、n 挑高柱（位移差 \(\Delta_2-0\)），切面以上外力 \(300+200=500\)：
+$$2k(\Delta_2-\Delta_1)+2\cdot\tfrac{k}{8}\Delta_2=500\ \Rightarrow\ 56250\Delta_2-50000\Delta_1=500$$</p>
+<p><span class="st">④</span> <b>切①（一樓柱）</b>：切到 a、e 的一樓柱（位移差 \(\Delta_1\)）與 m、n 挑高柱（位移差 \(\Delta_2\)），外力合計 600：
+$$2k\Delta_1+2\cdot\tfrac{k}{8}\Delta_2=600\ \Rightarrow\ 50000\Delta_1+6250\Delta_2=600$$</p>
+<p><span class="st">⑤</span> ③＋④ 消去 \(\Delta_1\)：\(62500\Delta_2=1100\)，\(\boxed{\Delta_2=17.6\ \text{mm}}\)（c 點）；代回 ④：\(\boxed{\Delta_1=9.8\ \text{mm}}\)（b 點）；\(\Delta_3=17.6+3=20.6\) mm。</p>
+<p><span class="st">⑥</span> <b>反力</b>：a 柱 \(H_a=k\Delta_1=25000\times0.0098=245\) kN（向左），\(M_a=245\times\dfrac{3.6}{2}=441\) kN-m；
+m 柱 \(H_m=\dfrac{k}{8}\Delta_2=3125\times0.0176=55\) kN（向左），\(M_m=55\times\dfrac{7.2}{2}=198\) kN-m。兩者都是逆時針（作用在柱上）。</p>
+</div>
+
+<div class="check"><b>自我檢查</b><br>
+・基底剪力：\(2\times245+2\times55=600\) kN＝100＋200＋300 ✔（S3 切在柱底）<br>
+・用「推一下」組 3×3 矩陣（calcs.py 的 <code>shear_building</code>）：
+\([K]=\begin{bmatrix}100000&-50000&0\\-50000&156250&-100000\\0&-100000&100000\end{bmatrix}\)，解出同樣的 9.8、17.6、20.6 mm ✔。
+切面方程式其實就是把矩陣的列由上往下累加——<b>切一刀＝把那一層以上的列加起來</b>。<br>
+・挑高柱很軟（\(k/8\)），只分到 55 kN；a、e 柱分到 245 kN。<b>軟的柱分得少</b> ✔（並聯時力依勁度分配）</div>
+
+<div class="trap"><b>陷阱：沒看出一樓右側沒有梁</b><br>
+若以為 m、n 每層都有梁（四根 3.6 m 柱、每層都一樣），會得到 6.0、11.0、14.0 mm（calcs.py 已算），和正解差很多。
+<b>先數每一個切面切到哪些柱、每根柱兩端接在哪一層</b>，再寫方程式。這是本題唯一的關卡，也是出題者的用意。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜層剪力與層間位移</div>
+<ol>
+<li><b>畫</b>：一棟樓，在第 \(i\) 層柱高水平切一刀，上半部當自由體</li>
+<li><b>種子</b>：S3（切面以上外力＝柱剪力和）＋S2（同層並聯、上下串聯）</li>
+<li><b>推</b>：\(V_i=\sum_{j\ge i}F_j\)；\(K_i=\sum k_c\)；\(\Delta_i=V_i/K_i\)；\(\Delta_{\text{頂}}=\sum\Delta_i\)</li>
+<li><b>檢查</b>：\(V_1\)＝外力合計＝柱底反力合計</li>
+</ol>
+</div>
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜剪力建築勁度矩陣 [K<sub>f</sub>]</div>
+<ol>
+<li><b>畫</b>：只推某一層一單位、其他層加鎖</li>
+<li><b>種子</b>：S4（每層一個自由度）＋S2（該層上下兩段柱都頂回來）</li>
+<li><b>推</b>：被推那層的對角項＝上下兩層的 \(K\) 相加；相鄰層＝\(-K\)（中間那段的勁度）；不相鄰＝0</li>
+<li><b>檢查</b>：對稱、對角為正；最頂層對角只有一個 \(K\)；用 S3＋S2 算一次位移對帳</li>
+</ol>
+</div>
+
+<h3>2.6　🙈 蓋住重推</h3>
+<details><summary>Q1　三層剪力建築，各層 K 相同，三層樓板各受 F（向右）。頂層位移是多少？</summary>
+<p>層剪力 \(3F,\ 2F,\ F\)；層間位移 \(3F/K,\ 2F/K,\ F/K\)；頂層 \(6F/K\)。底層的層間位移是頂層那層的 3 倍——剪力型變形底部最斜。</p></details>
+<details><summary>Q2　SA-2020-4 若把 Δ₁、Δ₂ 當成「一樓、頂層」，[K<sub>f</sub>] 會寫成什麼？會怎麼錯？</summary>
+<p>會寫成 \(30000\begin{bmatrix}4&-2\\-2&2\end{bmatrix}\)。單獨看沒錯，但和考卷給的牆矩陣 \([K_w]\)（\(\Delta_1\) 是頂層）相加時位置錯開，等於把兩個不同順序的矩陣硬加，結果全錯。<b>兩個矩陣相加前，自由度順序必須一致。</b></p></details>
+<details><summary>Q3　SA-2022-4 為什麼切②也切到 m、n 柱？它在切②方程式裡的位移差是多少？</summary>
+<p>m、n 柱從地面直通二樓，二樓柱高度的水平切面會切過它。它的兩端接在地面（0）和二樓（\(\Delta_2\)），所以位移差是 \(\Delta_2-0\)，不是 \(\Delta_2-\Delta_1\)。</p></details>
+<details><summary>Q4　同一層兩根柱，一根 3.6 m、一根 7.2 m（兩端都不轉），層剪力 900 kN。兩根柱各分到多少？</summary>
+<p>並聯、側移相同，力依勁度分配：\(k:k/8=8:1\)，分到 800 kN 和 100 kN。</p></details>
+
+<h3>2.7　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>層剪力從底層往上加</td><td>切面<b>以上</b>的外力和：從屋頂往下加（S3）。</td></tr>
+<tr><td>2</td><td>頂層位移平均分給各層</td><td>層間位移 \(=V_i/K_i\)，依層剪力分（S2 串聯）。2023-4：9 : 7 : 4。</td></tr>
+<tr><td>3</td><td>層勁度漏乘柱數</td><td>同層柱並聯，勁度相加；先數切到幾根柱。</td></tr>
+<tr><td>4</td><td>[K<sub>f</sub>] 的頂層、底層對角項放反</td><td>被上下兩層夾住的那層才是 \(K_1+K_2\)；畫「推一下」就不會錯。注意考卷的自由度順序。</td></tr>
+<tr><td>5</td><td>每層都當成有梁</td><td>S4 只約束有梁的地方；挑高柱跨兩層，兩個切面都切到它，位移差是 \(\Delta_2-0\)。</td></tr>
+<tr><td>6</td><td>沒做平衡檢查</td><td>柱底反力合計＝外力合計。一行就能抓出大部分錯。</td></tr>
+</table>
+</section>
