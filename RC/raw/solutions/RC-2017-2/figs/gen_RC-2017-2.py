@@ -316,6 +316,70 @@ FIGURES = [
 ]
 
 
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-15，RC-U2-1／U2-2 題目正本推廣・批 1）
+# 依據：題目正本 <id>-problem.md §4 判讀清單（已確認）。只畫考卷給的東西，不含解題結果；
+# 考卷未標尺寸的位置畫成示意，並在副標寫明。
+# ══════════════════════════════════════════════════════════
+def _pc(Wm, Hm, maxpx=330, l=150, r=170, t=40, b=90):
+    s = maxpx / max(Wm, Hm)
+    return Canvas(int(Wm * s + l + r), int(Hm * s + t + b), sx=s, ox=l, oy=b)
+
+
+def _prect(cv, x0, y0, x1, y1, fill="#EDF1F6", stroke=None, w=2.4, dash=None):
+    pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]
+    cv.polygon(pts, fill)
+    cv.poly(pts, stroke or C["member"], w, dash=dash)
+
+
+def _pbar(cv, p, r=1.25, fill=None):
+    cv.circle(p, r, fill=fill or C["member"], stroke=C["member"], w=1.2)
+
+
+def _phoop(cv, x0, y0, x1, y1, w=3.0, color=None):
+    """閉合箍筋（以箍筋中心線畫）"""
+    cv.poly([(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)], color or C["member"], w)
+
+
+def _phook(cv, p, ang_deg, L=3.0, w=3.0):
+    """箍筋彎鉤：由 p 往 ang 方向畫一段（135° 彎鉤用 -45° 指向斷面內）"""
+    import math
+    a = math.radians(ang_deg)
+    cv.line(p, (p[0] + L * math.cos(a), p[1] + L * math.sin(a)), C["member"], w)
+
+
+# 本函式與 RC-2017-1 的 fig1_problem 相同（同一張考卷附圖），僅標題與圖說不同
+P_W, P_H = 15 + 40 + 15.0, 40.0      # 判讀 #4
+P_COVER = 6.5                         # 判讀 #2（使用者確認：量至鋼筋中心）
+
+
+def fig1_problem():
+    W, H = P_W, P_H
+    cv = _pc(W, H, t=80)
+    _prect(cv, 0, 0, 15, H, fill="#FFFFFF", w=2.0, dash="7 5")
+    _prect(cv, W - 15, 0, W, H, fill="#FFFFFF", w=2.0, dash="7 5")
+    _prect(cv, 15, 0, W - 15, H, fill="#EDF1F6")
+    cv.poly([(19, 4), (W - 19, 4), (W - 19, H - 4), (19, H - 4), (19, 4)], C["muted"], 1.4)
+    for x in (22.0, 35.0, 48.0):          # 原柱鋼筋位置考卷未給（示意，判讀 #3）
+        for y in ((7.0, 20.0, 33.0) if x != 35.0 else (7.0, 33.0)):
+            _pbar(cv, (x, y), 1.3)
+    for x in (P_COVER, W - P_COVER):      # 新增鋼筋：垂直間距考卷未標（示意）
+        for y in (8.0, 16.0, 24.0, 32.0):
+            _pbar(cv, (x, y), 1.3, fill="#9AA3AE")
+    cv.text((35, 20), "原柱 8-#8", 13, weight="700")
+    for a, b_ in ((0.0, 15.0), (15.0, W - 15), (W - 15, W)):
+        cv.dim((a, 0), (b_, 0), f"{b_ - a:.0f} cm", off=28, label_off=14)
+    cv.dim((0, H), (P_COVER, H), f"{P_COVER} cm", off=-24, label_off=-14)
+    cv.dim((W, H), (W, 0), f"{H:.0f} cm", off=-30, label_off=-30)
+    return compose([cv], title=f"{TAG} 題目附圖（第一題圖 1 重繪）",
+                   sub="依判讀清單 #1–#4（同 RC-2017-1）；鋼筋位置示意",
+                   note="擴柱後 16 根 D25（新增 8 根灰色）；新舊介面在舊柱兩側面")
+
+
+FIGURES_PROBLEM = ("1-problem", fig1_problem, "漏看兩個新舊介面位置；漏掉原柱 8 根鋼筋")
+FIGURES.insert(0, FIGURES_PROBLEM)
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     checks = [

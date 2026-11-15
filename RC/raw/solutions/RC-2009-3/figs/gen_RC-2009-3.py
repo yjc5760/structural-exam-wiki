@@ -9,7 +9,7 @@ RC-2009-3 深梁壓拉桿模式（STM）最大載重與破壞模式 — 解題�
   2. 改尺寸鏈或任一材料數字重跑，四張圖跟著變（讀法 B 即以同一函式代不同 a 求得）。
   3. FIGURES 表寫明每張圖攔什麼錯。
 
-ACI 318-14 主線：β_s（瓶形＋腹筋）= 0.75、β_s（棱柱／邊界）= 1.0、
+現行台灣規範（2023，同 ACI 318-19 第 23 章）主線：β_s（瓶形＋腹筋）= 0.75、β_s（棱柱／邊界）= 1.0、
 β_n（CCT）= 0.80、β_n（CCC）= 1.0；題目指定 φ = 1.0。
 """
 import sys, os, math
@@ -200,7 +200,7 @@ def fig2():
     cv.text_px(cv.w / 2, 58,
                f"力臂 z = h − hc/2 − ht/2 = {Z:g} cm　"
                f"tanθ = z/a = {Z:g}/{A_SHEAR:g} → θ = {A_['theta']:.1f}°"
-               f"（＞ 25° 符合 ACI 下限）", 12.5, C["muted"])
+               f"（＞ 25° 符合規範下限）", 12.5, C["muted"])
     cv.moment_arrow((X_SUP_L, E_T), r=52, ccw=True, color=C["accent"],
                     w=1.8, span=A_["theta"], start=0)
     cv.text_px(cv.X(X_SUP_L) + 62, cv.Y(E_T) - 26,
@@ -346,6 +346,88 @@ FIGURES = [
     ("4-capacity", fig4,
      "沒把五項全算完就下結論；破壞模式誤判成延性的拉力桿降伏"),
 ]
+
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-15，RC-U2-1／U2-2 題目正本推廣・批 1）
+# 依據：題目正本 <id>-problem.md §4 判讀清單（已確認）。只畫考卷給的東西，不含解題結果；
+# 考卷未標尺寸的位置畫成示意，並在副標寫明。
+# ══════════════════════════════════════════════════════════
+def _pc(Wm, Hm, maxpx=330, l=150, r=170, t=40, b=90):
+    s = maxpx / max(Wm, Hm)
+    return Canvas(int(Wm * s + l + r), int(Hm * s + t + b), sx=s, ox=l, oy=b)
+
+
+def _prect(cv, x0, y0, x1, y1, fill="#EDF1F6", stroke=None, w=2.4, dash=None):
+    pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]
+    cv.polygon(pts, fill)
+    cv.poly(pts, stroke or C["member"], w, dash=dash)
+
+
+def _pbar(cv, p, r=1.25, fill=None):
+    cv.circle(p, r, fill=fill or C["member"], stroke=C["member"], w=1.2)
+
+
+def _phoop(cv, x0, y0, x1, y1, w=3.0, color=None):
+    """閉合箍筋（以箍筋中心線畫）"""
+    cv.poly([(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)], color or C["member"], w)
+
+
+def _phook(cv, p, ang_deg, L=3.0, w=3.0):
+    """箍筋彎鉤：由 p 往 ang 方向畫一段（135° 彎鉤用 -45° 指向斷面內）"""
+    import math
+    a = math.radians(ang_deg)
+    cv.line(p, (p[0] + L * math.cos(a), p[1] + L * math.sin(a)), C["member"], w)
+
+
+P_SEG = [20, 30, 20, 30, 20, 30, 20]   # 判讀 #2 底部尺寸鏈（cm）
+P_H, P_B = 70.0, 20.0                  # 判讀 #4
+P_TIE = 20.0                           # 判讀 #1 拉桿區高（底面起）
+P_LAYERS = 3                           # 3 層 × 2 根，層距考卷未標（示意：均分拉桿區）
+
+
+def fig_problem():
+    import itertools
+    xs = [0] + list(itertools.accumulate(P_SEG))
+    L = xs[-1]
+    gap = 30.0
+    Wm = L + gap + P_B
+    s = 2.9
+    cv = Canvas(int(Wm * s + 230), int(P_H * s + 250), sx=s, ox=110, oy=130)
+    _prect(cv, 0, 0, L, P_H, fill="#FFFFFF")
+    plate = 4.0
+    for (a, b) in ((xs[0], xs[1]), (xs[6], xs[7])):         # 支承承壓鈑（梁底兩端）
+        cv.polygon([(a, -plate), (b, -plate), (b, 0), (a, 0)], C["member"])
+        cv.arrow(((a + b) / 2, -plate - 18), ((a + b) / 2, -plate - 1), C["load"], 3.0, 10)
+    for (a, b) in ((xs[2], xs[3]), (xs[4], xs[5])):         # 載重鈑（梁頂）
+        cv.polygon([(a, P_H), (b, P_H), (b, P_H + plate), (a, P_H + plate)], C["member"])
+        cv.arrow(((a + b) / 2, P_H + plate + 22), ((a + b) / 2, P_H + plate + 1), C["load"], 3.0, 10)
+        cv.math(((a + b) / 2, P_H + plate + 28), "P/2", 15, C["load"])
+    ys = [P_TIE * (i + 0.5) / P_LAYERS for i in range(P_LAYERS)]
+    for y in ys:
+        cv.line((-3, y), (L + 3, y), C["member"], 2.6)
+    for x in (-3, L + 3):                                   # 端部錨定鈑
+        cv.line((x, 0.5), (x, P_TIE - 0.5), C["member"], 5)
+    cv.text(((xs[3] + xs[4]) / 2, P_H / 2), "純彎區", 14, color=C["muted"])
+    for a, b in zip(xs[:-1], xs[1:]):
+        cv.dim((a, -plate), (b, -plate), f"{b - a}", off=44, label_off=15)
+    cv.dim((0, P_H), (0, 0), f"{P_H:.0f} cm", off=40, label_off=30)
+    cv.dim((L, 0), (L, P_TIE), f"{P_TIE:.0f} cm", off=26, label_off=24)
+    # 斷面
+    x0 = L + gap
+    _prect(cv, x0, 0, x0 + P_B, P_H)
+    for y in ys:
+        for x in (x0 + 6, x0 + P_B - 6):
+            _pbar(cv, (x, y), 1.0)
+    cv.text((x0 + P_B / 2, P_TIE + 6), "6-D19", 13)
+    cv.dim((x0, P_H), (x0 + P_B, P_H), f"{P_B:.0f} cm", off=-26, label_off=-14)
+    return compose([cv], title=f"{TAG} 題目附圖（圖一重繪）",
+                   sub="依題目正本判讀清單 #1–#6；底部尺寸單位 cm；拉力筋層距考卷未標（示意）；圖依比例",
+                   note="全長 170 cm；鈑長皆 20 cm；支承中心至載重中心 50 cm；拉力筋形心距底 10 cm")
+
+
+FIGURES_PROBLEM = ("1-problem", fig_problem, "把七段尺寸鏈讀錯（鈑長 20、淨距 30）；拉力筋形心位置弄錯")
+FIGURES.insert(0, FIGURES_PROBLEM)
 
 
 def main():

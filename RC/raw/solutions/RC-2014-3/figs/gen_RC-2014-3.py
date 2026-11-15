@@ -10,7 +10,7 @@ RC-2014-3 軸力對混凝土剪力強度 V_c 的三條規範路徑 — 解題圖
   2. 改 §1 任一數字重跑，三張圖跟著變。
   3. FIGURES 表寫明每張圖攔什麼錯。
 
-規範：土木 401-100（原卷指定）。軸壓 N_u > 0、軸拉 N_u < 0。
+規範：本圖 2、3 為土木 401-100（原卷指定）對照；本解主線為現行台灣規範 2023（§4）。軸壓 N_u > 0、軸拉 N_u < 0。
 BMD 一律繪於受拉側（簡支梁下垂彎矩 → 畫在軸線下方）。
 """
 import sys, os, math
@@ -183,7 +183,7 @@ def fig2():
     cv = Canvas(W, HH, sx=sc_x, ox=mL - NLO * sc_x, oy=mB, bg="#FFFFFF")
     k = sc_y / sc_x                          # tf → 模型單位
 
-    cv.text_px(W / 2, 34, "圖 2　Vc 隨軸力的變化：軸壓抬高天花板、軸拉線性折減",
+    cv.text_px(W / 2, 34, "圖 2　Vc 隨軸力的變化（土木 401-100 對照）：軸壓抬高天花板、軸拉線性折減",
                17.0, C["text"], weight="700")
     cv.text_px(W / 2, 58, "橫軸：設計軸力 Nu（tf，壓為正）　縱軸：混凝土剪力強度 Vc（tf）",
                12.5, C["muted"])
@@ -261,7 +261,7 @@ def fig3():
     cases = [
         ("Case 3 軸拉 −25 tf", f"折減因子 {LAMBDA_T:.4f}", VC3 * TF,
          M_(f"V_c = {VC3 * TF:.2f} tf"), C["tension"]),
-        ("簡化式（無軸力）", "保守估算用", VC_SIMPLE * TF,
+        ("簡化式（無軸力）", "現行規範主線", VC_SIMPLE * TF,
          M_(f"0.53*sqrt(f'c)*bw*d = {VC_SIMPLE * TF:.2f}"), C["muted"]),
         ("Case 1 無軸力", f"Vu·d/Mu = {VD_M:.4f}", VC1 * TF,
          M_(f"V_c = {VC1 * TF:.2f} tf"), C["bmd"]),
@@ -272,7 +272,7 @@ def fig3():
     ]
     return bar_compare(
         cases,
-        title="圖 3　同一斷面、同一臨界位置，三種軸力狀態的 Vc",
+        title="圖 3　三種軸力狀態的 Vc（土木 401-100 對照）",
         sub="長條以最大值為 100%；灰色那一列是「軸壓上限忘了乘 √(1+0.0284Nu/Ag)」的錯誤答案",
         note=f"軸壓加強因子 √(1+0.0284×{NU_C / AG:.3f}) = {KAPPA:.4f}；"
              f"漏掉它就把 {VC2 * TF:.2f} tf 寫成 {VC_CAP0 * TF:.2f} tf（低估 "

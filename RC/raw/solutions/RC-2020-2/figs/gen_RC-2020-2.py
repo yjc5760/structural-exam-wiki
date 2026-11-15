@@ -25,14 +25,15 @@ TAG = "RC-2020-2"
 FC, FY = 280.0, 4200.0          # kgf/cm^2
 WU = 150.0                      # kgf/cm（= 15 tf/m）
 L = 800.0                       # cm 跨度
-BW, HW = 35.0, 70.0             # 腹板寬、腹板高（上方）
+BW, HT = 35.0, 70.0             # 腹板寬、全高（考卷 70 為頂面到底面，題目正本判讀 #2）
 BF, HF = 100.0, 20.0            # 翼板寬、翼板深（下方）
 COVER = 6.0                     # 上下保護層（至鋼筋重心）
 A_D13 = 1.267                   # cm^2 一支 D13
 PHI = 0.75                      # 剪力強度折減（108 年規範／土木 401-100）
 
-H = HW + HF                     # 全深 90
-D = H - COVER                   # 有效深度 84
+H = HT                          # 全深 70
+HW = H - HF                     # 梁腹高 50（翼版頂面以上）
+D = H - COVER                   # 有效深度 64
 AV = 2 * A_D13                  # 閉合箍一組兩腳
 SQFC = math.sqrt(FC)
 TF = 1e-3                       # kgf → tf
@@ -58,7 +59,7 @@ RIGHT = design(VU_SUPPORT)      # 正解：不可 d 偏移
 WRONG = design(VU_AT_D)         # 陷阱：誤判載重在梁頂
 VU_MAX = PHI * (VC + FOUR_VC)   # 斷面最大設計剪力容量
 
-S_PROVIDED = 16.0               # 實配 D13 @ 16 cm
+S_PROVIDED = 11.0               # 實配 D13 @ 11 cm
 AV_MIN = max(0.2 * SQFC * BW * S_PROVIDED / FY, 3.5 * BW * S_PROVIDED / FY)
 A_HANGER = WU / (PHI * FY)      # 懸吊鋼筋需求 cm^2/cm
 
@@ -88,7 +89,7 @@ def fig_beam():
 
     # 均佈載重：箭頭尖端落在 y = HF（翼板頂面），不是 y = H
     e.udl((0, HF), (L, HF), 34.0, n=11, w=1.9)
-    e.math_px(e.X(L / 2), e.Y(HF + 34.0) - 16, "w_{u} = 15 tf/m", 15.5,
+    e.math_px(e.X(L / 2), e.Y(H) - 14, "w_{u} = 15 tf/m", 15.5,
               C["load"], weight="700")
     e.support((0, 0), "pin"); e.support((L, 0), "roller")
 
@@ -103,7 +104,7 @@ def fig_beam():
     e.text_px(e.X(D) + 8, e.Y(H) - 20, "（本題不可偏移）", 12, C["muted"], "start")
 
     e.dim((0, 0), (L, 0), f"L = {L:g} cm", off=58, label_off=17)
-    e.dim((L, 0), (L, H), f"h = {H:g}", off=42, label_off=15)
+    e.dim((L, 0), (L, H), f"h = {H:g}", off=42, label_off=26)
     e.text_px(e.X(L * 0.60), e.Y(HF / 2), "下翼板（拉力側）", 12.5, C["muted"])
     return e
 
@@ -134,7 +135,7 @@ def fig_beam_section():
     s.dim((XW0, H), (XW0 + BW, H), f"b_{{w}} = {BW:g}", off=-30, label_off=-12)
     s.dim((0, 0), (BF, 0), f"{BF:g}", off=44, label_off=16)
     s.dim((BF, 0), (BF, HF), f"{HF:g}", off=34, label_off=13)
-    s.dim((XW0 + BW, HF), (XW0 + BW, H), f"{HW:g}", off=88, label_off=13)
+    s.dim((0, H), (0, 0), f"h = {H:g}", off=118, label_off=15)
     s.dim((0, H), (0, COVER), f"d = {D:g}", off=36, label_off=15)
     s.text_px(s.X(BF) + 66, s.Y(H * 0.72),
               f"A_{{v}} = 2×{A_D13:g} = {AV:g} cm^{{2}}", 12.5, C["load"], "start",
@@ -189,10 +190,10 @@ def _below(cv, x, crit, vu, why):
 def fig2():
     # ---- (a) 載重在腹板頂面 → 直接斜壓撐 → 可 d 偏移 ----
     a = _panel("(a) 載重在腹板頂面", "壓力側進入 → 形成直接斜壓撐")
-    a.udl((0, H), (XEND, H), 26.0, n=7, w=1.8)
-    a.math_px(a.X(XEND * 0.5) - 34, a.Y(H + 26.0) - 15, M("w_{u}"), 14,
+    a.udl((0, H), (XEND, H), 17.0, n=7, w=1.8)
+    a.math_px(a.X(XEND * 0.5) - 34, a.Y(H + 17.0) - 12, M("w_{u}"), 14,
               C["load"], weight="700")
-    a.text_px(a.X(XEND * 0.5) - 22, a.Y(H + 26.0) - 15, "（施於梁頂）", 12.5,
+    a.text_px(a.X(XEND * 0.5) - 22, a.Y(H + 17.0) - 12, "（施於梁頂）", 12.5,
               C["load"], "start", weight="700")
     for xt in (D * 0.5, D, D * 1.5):
         a.line((xt, H), (0, 0), C["compr"], 4.6, cap="butt", op=0.55)
@@ -204,7 +205,7 @@ def fig2():
 
     # ---- (b) 載重在下翼板 → 懸吊 → 不可偏移 ----
     b = _panel("(b) 載重在下翼板（本題）", "拉力側進入 → 須先被懸吊筋吊上壓力區")
-    b.udl((0, HF), (XEND, HF), 24.0, n=7, w=1.8)
+    b.udl((0, HF), (XEND, HF), 14.0, n=7, w=1.8)
     b.math_px(b.X(XEND * 0.62) - 46, b.Y(HF * 0.42), M("w_{u}"), 13.5,
               C["load"], weight="700")
     b.text_px(b.X(XEND * 0.62) - 34, b.Y(HF * 0.42), "壓在下翼板頂面", 12.5,
@@ -212,9 +213,9 @@ def fig2():
     for xt in (D * 0.5, D * 0.95):
         b.arrow((xt, HF + 2), (xt, H - 5), C["accent"], 3.0, 9)
         b.line((xt, H - 5), (0, HF), C["compr"], 4.4, cap="butt", op=0.5)
-    b.text_px(b.X(XEND * 0.68), b.Y(H * 0.80), "① 懸吊筋吊上壓力區", 12.5,
+    b.text_px(b.X(XEND * 0.68), b.Y(H * 0.90), "① 懸吊筋吊上壓力區", 12.5,
               C["accent"], weight="700")
-    b.text_px(b.X(XEND * 0.68), b.Y(H * 0.62), "② 之後才形成斜壓撐", 12.5,
+    b.text_px(b.X(XEND * 0.68), b.Y(H * 0.90) + 19, "② 之後才形成斜壓撐", 12.5,
               C["compr"], weight="700")
     _below(b, 0.0, "臨界斷面 x = 0（支承面）", VU_SUPPORT,
            "斜裂縫穿越整個端區，剪力不得折減")
@@ -276,17 +277,17 @@ def fig3():
     cv.text_px(cv.X(0) + 12, cv.Y(VU_SUPPORT * TF * k) - 12, "支承面（本題採用）",
                12.5, C["load"], "start", weight="700")
     cv.dot((D, VU_AT_D * TF * k), 5.4, fill=C["muted"], stroke="#FFFFFF", w=1.8)
-    cv.math_px(cv.X(D) - 12, cv.Y(VU_AT_D * TF * k) + 22,
-               M(f"{VU_AT_D * TF:.1f} tf @ x = d"), 12.5, C["muted"], "end")
-    cv.text_px(cv.X(D) - 12, cv.Y(VU_AT_D * TF * k) + 40, "（本題不適用）", 12,
-               C["muted"], "end")
+    cv.math_px(cv.X(D) + 14, cv.Y(VU_AT_D * TF * k) + 72,
+               M(f"{VU_AT_D * TF:.1f} tf @ x = d"), 12.5, C["muted"], "start")
+    cv.text_px(cv.X(D) + 14, cv.Y(VU_AT_D * TF * k) + 90, "（本題不適用）", 12,
+               C["muted"], "start")
     cv.line((D, 0), (D, VU_AT_D * TF * k), C["muted"], 1.4, dash="4 3")
 
     # 軸標
     for xv in (0, D, 200, 300, 400):
         cv.line((xv, 0), (xv, -ytop * k * 0.018), C["muted"], 1.4)
         cv.text_px(cv.X(xv), cv.Y(0) + 20, f"{xv:g}", 12, C["muted"])
-    for yv in (0, 20, 40, 60, 80, 100):
+    for yv in [v for v in (0, 20, 40, 60, 80, 100) if v <= ytop]:
         cv.text_px(cv.X(0) - 12, cv.Y(yv * k), f"{yv:g}", 12, C["muted"], "end")
 
     cv.text_px(W / 2, HH - 22,
@@ -316,9 +317,9 @@ def fig4():
         cases,
         title="圖 4　支承位置箍筋間距：四個候選值同時攤開",
         sub="長條越長＝間距越大＝越不安全；控制值取「強度需求」與「規範上限」之最小者",
-        note=f"V_s = {RIGHT['vs'] * TF:.2f} tf 只超過 2V_c = {TWO_VC * TF:.2f} tf "
-             f"{RIGHT['vs'] / TWO_VC - 1:.1%}，但規範是硬門檻——上限由 "
-             f"{min(D / 2, 60.0):.0f} cm 腰斬為 {RIGHT['s_code']:.0f} cm；"
+        note=f"V_s = {RIGHT['vs'] * TF:.2f} tf 超過 2V_c = {TWO_VC * TF:.2f} tf "
+             f"（{RIGHT['vs'] / TWO_VC - 1:.0%}），規範上限由 "
+             f"{min(D / 2, 60.0):.0f} cm 減為 {RIGHT['s_code']:.0f} cm；"
              f"最終仍由強度需求 {RIGHT['s_str']:.2f} cm 控制").svg()
 
 
@@ -335,22 +336,105 @@ FIGURES = [
 ]
 
 
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-15，RC-U2-1／U2-2 題目正本推廣・批 1）
+# 依據：題目正本 <id>-problem.md §4 判讀清單（已確認）。只畫考卷給的東西，不含解題結果；
+# 考卷未標尺寸的位置畫成示意，並在副標寫明。
+# ══════════════════════════════════════════════════════════
+def _pc(Wm, Hm, maxpx=330, l=150, r=170, t=40, b=90):
+    s = maxpx / max(Wm, Hm)
+    return Canvas(int(Wm * s + l + r), int(Hm * s + t + b), sx=s, ox=l, oy=b)
+
+
+def _prect(cv, x0, y0, x1, y1, fill="#EDF1F6", stroke=None, w=2.4, dash=None):
+    pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]
+    cv.polygon(pts, fill)
+    cv.poly(pts, stroke or C["member"], w, dash=dash)
+
+
+def _pbar(cv, p, r=1.25, fill=None):
+    cv.circle(p, r, fill=fill or C["member"], stroke=C["member"], w=1.2)
+
+
+def _phoop(cv, x0, y0, x1, y1, w=3.0, color=None):
+    """閉合箍筋（以箍筋中心線畫）"""
+    cv.poly([(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)], color or C["member"], w)
+
+
+def _phook(cv, p, ang_deg, L=3.0, w=3.0):
+    """箍筋彎鉤：由 p 往 ang 方向畫一段（135° 彎鉤用 -45° 指向斷面內）"""
+    import math
+    a = math.radians(ang_deg)
+    cv.line(p, (p[0] + L * math.cos(a), p[1] + L * math.sin(a)), C["member"], w)
+
+
+P_L = 800.0               # 判讀 #7 支承中心距
+P_EXT = 10.0              # 梁端伸出支承中心線（考卷未標，示意）
+P_H = 70.0                # 判讀 #2 全高
+P_BF, P_TF = 100.0, 20.0  # 判讀 #4 下翼版寬、厚
+P_BW = 35.0               # 判讀 #4 梁腹寬
+P_CT, P_CB = 6.0, 6.0     # 判讀 #3 頂面至上排筋心、下排筋心至底面
+
+
+def fig1_problem():
+    PW, PH = 760, 300
+    # 立面（水平、垂直同比例）
+    s1 = (PW - 160) / (P_L + 2 * P_EXT)
+    e = Canvas(PW, PH, sx=s1, ox=80 + P_EXT * s1, oy=120)
+    _prect(e, -P_EXT, 0, P_L + P_EXT, P_H, fill="#FFFFFF")
+    e.line((-P_EXT, P_TF), (P_L + P_EXT, P_TF), C["member"], 1.6)
+    e.udl((0, P_TF), (P_L, P_TF), 38, n=21, color=C["load"], w=1.6)
+    e.math_px(e.X(P_L / 2), e.Y(P_H) - 22, "w_{u} = 15 tf/m", 16, C["load"], weight="700")
+    e.support((0, 0), "pin"); e.support((P_L, 0), "roller")
+    for x in (0, P_L):
+        e.line((x, -40), (x, P_H + 30), C["muted"], 1.0, dash="6 4")
+    e.dim((0, -40), (P_L, -40), f"{P_L:.0f}", off=30, label_off=16)
+    e.text_px(PW / 2, PH - 12, "立面：載重作用在下翼版頂面（距底面 20）", 13, C["muted"])
+    # 斷面
+    s2 = 2.6
+    c = Canvas(PW, PH, sx=s2, ox=(PW - P_BF * s2) / 2, oy=60)
+    xw0 = (P_BF - P_BW) / 2
+    pts = [(0, 0), (P_BF, 0), (P_BF, P_TF), (xw0 + P_BW, P_TF), (xw0 + P_BW, P_H),
+           (xw0, P_H), (xw0, P_TF), (0, P_TF), (0, 0)]
+    c.polygon(pts, "#EDF1F6"); c.poly(pts, C["member"], 2.4)
+    _phoop(c, xw0 + 4, 4, xw0 + P_BW - 4, P_H - 4)
+    _phook(c, (xw0 + 4, P_H - 4), -45, 3.0); _phook(c, (xw0 + P_BW - 4, P_H - 4), -135, 3.0)
+    for x in (8, 18, xw0 + 6, P_BF / 2, xw0 + P_BW - 6, P_BF - 18, P_BF - 8):   # 位置考卷未標（示意）
+        _pbar(c, (x, P_CB), 1.3)
+    for x in (xw0 + 6, xw0 + P_BW - 6):
+        _pbar(c, (x, P_H - P_CT), 1.3)
+    c.text((xw0 + P_BW + 6, P_H - 22), "D13", 13, anchor="start")
+    c.dim((xw0, P_H), (xw0 + P_BW, P_H), f"{P_BW:.0f}", off=-26, label_off=-14)
+    c.dim((0, 0), (P_BF, 0), f"{P_BF:.0f}", off=30, label_off=16)
+    c.dim((0, P_TF), (0, 0), f"{P_TF:.0f}", off=30, label_off=18)
+    c.dim((P_BF, 0), (P_BF, P_H), f"{P_H:.0f}", off=56, label_off=20)
+    c.dim((xw0 + P_BW, P_H - P_CT), (xw0 + P_BW, P_H), f"{P_CT:.0f}", off=28, label_off=14)
+    c.dim((P_BF, 0), (P_BF, P_CB), f"{P_CB:.0f}", off=28, label_off=14)
+    return compose([e, c], cols=1, title=f"{TAG} 題目附圖重繪（單位 cm）",
+                   sub="依題目正本判讀清單 #1–#7；梁端伸出長度、鋼筋號數與位置考卷未標（示意）",
+                   note="70 為全高（頂面到底面）；d = 70 − 6 = 64 cm")
+
+
+FIGURES_PROBLEM = ("1-problem", fig1_problem, "把 70 讀成梁腹高（全高 90、d = 84）；把載重當成作用在梁頂")
+FIGURES.insert(0, FIGURES_PROBLEM)
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     checks = [
-        ("V_c kgf",        VC,                 26074,  3),
-        ("φV_c tf",        PHI_VC * TF,        19.6,   0.05),
+        ("V_c kgf",        VC,                 19866,  3),
+        ("φV_c tf",        PHI_VC * TF,        14.90,  0.05),
         ("V_u 支承 tf",     VU_SUPPORT * TF,    60.0,   0.01),
-        ("V_s tf",         RIGHT["vs"] * TF,   53.93,  0.01),
-        ("2V_c tf",        TWO_VC * TF,        52.15,  0.01),
-        ("4V_c tf",        FOUR_VC * TF,       104.30, 0.02),
-        ("s_code cm",      RIGHT["s_code"],    21.0,   0.01),
-        ("s_strength cm",  RIGHT["s_str"],     16.58,  0.01),
-        ("V_u,max tf",     VU_MAX * TF,        97.78,  0.02),
-        ("誤判 V_u,d tf",   VU_AT_D * TF,       47.4,   0.01),
-        ("誤判 V_s tf",     WRONG["vs"] * TF,   37.13,  0.01),
-        ("誤判 s cm",       WRONG["s_str"],     24.08,  0.01),
-        ("A_v,min cm2",    AV_MIN,             0.467,  0.001),
+        ("V_s tf",         RIGHT["vs"] * TF,   60.13,  0.01),
+        ("2V_c tf",        TWO_VC * TF,        39.73,  0.01),
+        ("4V_c tf",        FOUR_VC * TF,       79.46,  0.02),
+        ("s_code cm",      RIGHT["s_code"],    16.0,   0.01),
+        ("s_strength cm",  RIGHT["s_str"],     11.33,  0.01),
+        ("V_u,max tf",     VU_MAX * TF,        74.50,  0.02),
+        ("誤判 V_u,d tf",   VU_AT_D * TF,       50.4,   0.01),
+        ("誤判 V_s tf",     WRONG["vs"] * TF,   47.33,  0.01),
+        ("誤判 s cm",       WRONG["s_str"],     14.39,  0.01),
+        ("A_v,min cm2",    AV_MIN,             0.321,  0.001),
         ("A_h cm2/cm",     A_HANGER,           0.0476, 0.0001),
     ]
     print(f"── 與 {TAG}.md §4 對帳 ──")
