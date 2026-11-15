@@ -420,7 +420,69 @@ def fig4():
 
 
 # ══════════════════════════════════════════════════════════
+
+# ══════════ 題目附圖重繪（-problem，2026-11-15 加入；不影響既有圖）══════════
+# ── 題目附圖重繪共用小工具（各 gen 檔內聯一份）──
+def _p_rect(cv, x0, y0, x1, y1, fill="#EDF1F6", stroke=None, w=2.4, dash=None):
+    pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]
+    if fill:
+        cv.polygon(pts, fill)
+    cv.poly(pts, stroke or C["member"], w, dash=dash)
+
+
+def _p_bar(cv, p, r, fill=None):
+    cv.circle(p, r, fill=fill or C["member"], stroke=C["member"], w=1.2)
+
+
+def _p_hoop(cv, c, B, H, w=2.0, r=None):
+    cv.poly([(c, c), (B - c, c), (B - c, H - c), (c, H - c), (c, c)], C["member"], w)
+
+
+def _p_ring_bars(cv, B, H, e, n, r):
+    """每面 n 根（含角筋）沿周邊等距排列，回傳座標"""
+    pts = set()
+    for i in range(n):
+        t = e + (B - 2 * e) * i / (n - 1)
+        u = e + (H - 2 * e) * i / (n - 1)
+        for p in ((t, e), (t, H - e), (e, u), (B - e, u)):
+            pts.add((round(p[0], 6), round(p[1], 6)))
+    for p in pts:
+        _p_bar(cv, p, r)
+    return pts
+
+
+# ── 題目附圖重繪（題目正本 RC-2013-2-problem.md §4，2026-11-15 RC-U3-3 批 2）──
+P_B = 50.0          # #4 斷面 50×50
+P_COV = 4.0         # #1 保護層 4 cm（判讀：量到箍筋外緣）
+P_N = 5             # #5 每面 5 根（含角筋），共 16 根
+P_E = 6.9           # 主筋中心距外緣（考卷未標，示意：4＋箍筋＋半筋徑）
+P_R = 1.61          # D32 半徑
+
+
+def fig1_problem():
+    from structdraw import compose
+    cv = Canvas(680, 470, sx=6.6, ox=110, oy=78)
+    _p_rect(cv, 0, 0, P_B, P_B)
+    cv.poly([(P_COV, P_COV), (P_B - P_COV, P_COV), (P_B - P_COV, P_B - P_COV),
+             (P_COV, P_B - P_COV), (P_COV, P_COV)], C["muted"], 1.4, dash="5 4")
+    bars = _p_ring_bars(cv, P_B, P_B, P_E, P_N, P_R)
+    assert len(bars) == 16
+    cv.dim((0, 0), (P_B, 0), "50 cm", off=34, label_off=14)
+    cv.dim((0, 0), (0, P_B), "50 cm", off=-40, label_off=-24)
+    cv.text((P_B / 2, P_B / 2 + 4), "16-D32", 15, weight="700")
+    cv.text((P_B / 2, P_B / 2 - 3), "每面 5 根（含角筋）", 13, color=C["muted"])
+    cv.text((P_B + 2, P_B - P_COV + 1.5), "虛線：保護層 4 cm", 12.5, color=C["muted"], anchor="start")
+    cv.text((P_B + 2, P_B - P_COV - 2.5), "（量到箍筋外緣，判讀 #1）", 12.5, color=C["muted"], anchor="start")
+    cv.text((P_B + 2, 14), "箍筋、繫筋：", 12.5, color=C["muted"], anchor="start")
+    cv.text((P_B + 2, 10), "考卷未畫、未給號數", 12.5, color=C["muted"], anchor="start")
+    cv.text((P_B + 2, 6), "（本題所求）", 12.5, color=C["muted"], anchor="start")
+    return compose([cv], title=f"{TAG} 題目附圖（圖一重繪）",
+                   sub="依題目正本判讀清單 #1、#4、#5；主筋中心位置為示意",
+                   note="柱軸力、淨高考卷未給；橫向鋼筋 fy＝2800、f'c＝280 kgf/cm²")
+
+
 FIGURES = [
+    ("1-problem", fig1_problem, "把保護層 4 cm 量到主筋、漏看每面 5 根"),
     ("1-section", fig1,
      "把 A_sh 當「整個斷面」的量；漏掉中央那支繫筋使中間筋失去直接支撐；"
      "h_x 只扣一個箍筋直徑（9.38）而非兩側各一個（9.06）"),

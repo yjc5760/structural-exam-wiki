@@ -8,6 +8,7 @@ RC-2022-4　依公路橋梁耐震評估規範求三種韌性需求 — 解題圖
      l_u、d_b、f_y、P = 270、M = 232.5）。α、φ_y、M_y、φ_u、M_u、L、L_p、
      δ_y、θ_y、δ_u、θ_u、μ_φ、μ_θ、μ、φ_d、δ_d、λ、μ_approx 全部現算，
      檔尾對 §4／§5 公佈值 assert。
+  （2026-11-15 勘誤：主線改為需求狀態 M = 232.5 → φ_d、δ_d；極限點降為容量對照。）
   2. 改 §1 任一數字重跑，三張圖跟著變（含表格、內插點位置、變形曲線比例）。
   3. FIGURES 表寫明每張圖攔什麼錯。
 """
@@ -62,20 +63,24 @@ DELTA_U = HARDEN * DELTA_Y + THETA_P * ARM
 THETA_U = DELTA_U / L
 DELTA_U_NOHARD = DELTA_Y + THETA_P * ARM            # 拿掉硬化項
 
-MU_PHI = PHI_U / PHI_Y                              # 讀法A：斷面層次
-MU_THETA = THETA_U / THETA_Y                        # 讀法A：構件層次
-MU = DELTA_U / DELTA_Y                              # 讀法A：整體層次
+MU_PHI = PHI_U / PHI_Y                              # 容量（對照）：斷面層次
+MU_THETA = THETA_U / THETA_Y                        # 容量（對照）：構件層次
+MU = DELTA_U / DELTA_Y                              # 容量（對照）：整體層次
 
 # 讀法B：以實際承受的 M = 232.5 評估（§5 爭議點 2）
 PHI_D = PHI_Y + (M_APP - M_Y) / (M_U - M_Y) * (PHI_U - PHI_Y)
 MU_PHI_B = PHI_D / PHI_Y
 DELTA_D = (M_APP / M_Y) * DELTA_Y + (PHI_D - PHI_Y) * LP * ARM
 MU_B = DELTA_D / DELTA_Y
+THETA_D = DELTA_D / L
+THETA_PD = (PHI_D - PHI_Y) * LP                     # 需求狀態塑鉸轉角
+DELTA_D_NOHARD = DELTA_Y + THETA_PD * ARM
 CAP_DEM = MU / MU_B                                 # 容量／需求
 
 # 近似式（§5 進階）
 LAM = 3.0 * (LP / L) * (1.0 - 0.5 * LP / L)
 MU_APPROX = 1.0 + (MU_PHI - 1.0) * LAM
+MU_APPROX_B = 1.0 + (MU_PHI_B - 1.0) * LAM          # 需求（主線）近似式
 
 M_MID = (M_Y + M_U) / 2.0                           # 用來證明 232.5 是正中點
 CM = 100.0                                          # m → cm
@@ -321,12 +326,14 @@ def _elastic(xi):
 
 def fig2_right():
     cv = Canvas(PW2, PH2, sx=PLOT_H2 / L, ox=170, oy=OY2)
-    cv.panel("懸臂柱的降伏與極限變形",
+    cv.panel("懸臂柱的降伏與需求變形（極限點虛線對照）",
              "塑鉸長度 L_{p} 集中於柱底，力臂為 L - 0.5L_{p}")
 
     dy_d = AMP * DELTA_Y
-    du_el = AMP * HARDEN * DELTA_Y            # 極限狀態的等效彈性段
-    tp_d = AMP * THETA_P                      # 放大後的塑鉸轉角
+    du_el = AMP * HARDEN * DELTA_Y            # 極限狀態的等效彈性段（對照）
+    tp_d = AMP * THETA_P                      # 放大後的塑鉸轉角（對照）
+    dd_el = AMP * (M_APP / M_Y) * DELTA_Y     # 需求狀態的等效彈性段（主線）
+    tpd_d = AMP * THETA_PD
 
     cv.line((0, 0), (0, L), C["ghost"], 3.0, dash="7 5")
 
@@ -342,16 +349,23 @@ def fig2_right():
     def u_ult(y):
         return du_el * _elastic(y / L) + tp_d * max(0.0, y - 0.5 * LP)
 
+    def u_dem(y):
+        return dd_el * _elastic(y / L) + tpd_d * max(0.0, y - 0.5 * LP)
+
     cv.poly([(u_ult(L * i / 100), L * i / 100) for i in range(101)],
+            C["muted"], 2.2, dash="6 4")
+    cv.poly([(u_dem(L * i / 100), L * i / 100) for i in range(101)],
             C["load"], 4.6)
 
     cv.fixed_support((0, 0), size=20)
     cv.dot((dy_d, L), 5.4, fill=C["deform"], stroke="#FFFFFF", w=1.8)
-    cv.dot((u_ult(L), L), 6.0, fill=C["load"], stroke="#FFFFFF", w=2.0)
+    cv.dot((u_dem(L), L), 6.0, fill=C["load"], stroke="#FFFFFF", w=2.0)
+    cv.dot((u_ult(L), L), 4.6, fill=C["muted"], stroke="#FFFFFF", w=1.6)
     cv.math_px(cv.X(dy_d), cv.Y(L) - 20, M("δ_{y}"), 14.5, C["deform"],
                weight="700")
-    cv.math_px(cv.X(u_ult(L)), cv.Y(L) - 20, M("δ_{u}"), 14.5, C["load"],
+    cv.math_px(cv.X(u_dem(L)), cv.Y(L) - 20, M("δ_{d}"), 14.5, C["load"],
                weight="700")
+    cv.math_px(cv.X(u_ult(L)), cv.Y(L) - 20, M("δ_{u}"), 12.5, C["muted"])
 
     # 塑鉸中心與力臂
     cv.line((-0.16, 0.5 * LP), (0.15, 0.5 * LP), C["muted"], 1.5, dash="5 4")
@@ -366,26 +380,29 @@ def fig2_right():
     blk = 372
     cv.text_px(blk, 100, f"δ_{{y}} = {DELTA_Y*CM:.3f} cm", 13.5, C["deform"],
                "start", weight="700")
-    cv.text_px(blk, 122, f"δ_{{u}} = {DELTA_U*CM:.3f} cm", 13.5, C["load"],
+    cv.text_px(blk, 122, f"δ_{{d}} = {DELTA_D*CM:.3f} cm（M = {M_APP:g}）", 13.5,
+               C["load"], "start", weight="700")
+    cv.text_px(blk, 146, f"μ = δ_{{d}}/δ_{{y}} = {MU_B:.2f}", 13.5, C["accent"],
                "start", weight="700")
-    cv.text_px(blk, 146, f"μ = δ_{{u}}/δ_{{y}} = {MU:.2f}", 13.5, C["accent"],
-               "start", weight="700")
-    cv.text_px(blk, 184, "δ_{u} 的兩項：", 12, C["muted"], "start")
+    cv.text_px(blk, 184, "δ_{d} 的兩項：", 12, C["muted"], "start")
     cv.text_px(blk, 206,
-               f"(M_{{u}}/M_{{y}})δ_{{y}} = {HARDEN*DELTA_Y*CM:.3f} cm",
+               f"(M/M_{{y}})δ_{{y}} = {(M_APP/M_Y)*DELTA_Y*CM:.3f} cm",
                12, C["muted"], "start")
     cv.text_px(blk, 228,
-               f"θ_{{p}}(L - 0.5L_{{p}}) = {THETA_P*ARM*CM:.3f} cm",
+               f"θ_{{p}}(L - 0.5L_{{p}}) = {THETA_PD*ARM*CM:.3f} cm",
+               12, C["muted"], "start")
+    cv.text_px(blk, 252,
+               f"虛線：極限 δ_{{u}} = {DELTA_U*CM:.3f} cm",
                12, C["muted"], "start")
 
     cv.text_px(PW2 / 2, 540,
-               f"θ_{{p}} = (φ_{{u}} - φ_{{y}})L_{{p}} = {PHI_U-PHI_Y:.3f} × "
-               f"{LP:.3f} = {THETA_P:.6f} rad", 12.5, C["muted"])
+               f"θ_{{p}} = (φ_{{d}} - φ_{{y}})L_{{p}} = {PHI_D-PHI_Y:.4f} × "
+               f"{LP:.3f} = {THETA_PD:.6f} rad", 12.5, C["muted"])
     cv.text_px(PW2 / 2, 566,
                f"L_{{p}} = max({LP_EQ1:.4f}, {LP_LOWER:.4f}) = {LP:.4f} m　"
                f"← {LP_CTRL} 0.0044d_{{b}}f_{{y}} 控制", 13, C["load"], weight="700")
     cv.text_px(PW2 / 2, 592,
-               f"變形放大 {AMP:g} 倍；δ_{{u}}/δ_{{y}} = {MU:.3f} 為真實比例",
+               f"變形放大 {AMP:g} 倍；δ_{{d}}/δ_{{y}} = {MU_B:.3f} 為真實比例",
                12.5, C["muted"])
     return cv
 
@@ -393,10 +410,10 @@ def fig2_right():
 def fig2():
     return compose(
         [fig2_left(), fig2_right()],
-        title="圖 2　反曲點把雙曲率柱拆成兩根懸臂柱：懸臂長度、塑鉸長度與降伏／極限變形",
+        title="圖 2　反曲點把雙曲率柱拆成兩根懸臂柱：懸臂長度、塑鉸長度與降伏／需求變形",
         sub=f"L = lu/2 = {L:g} m（不是全柱淨高 {LU:g} m）；"
             f"塑鉸長度由{LP_CTRL}控制 = {LP:.3f} m",
-        note=f"極限位移第二項的力臂是 L - 0.5Lp = {ARM:.4f} m —— 不是 L，也不是 Lp",
+        note=f"位移第二項的力臂是 L - 0.5Lp = {ARM:.4f} m —— 不是 L，也不是 Lp",
         cols=2)
 
 
@@ -405,7 +422,7 @@ def fig2():
 # ══════════════════════════════════════════════════════════
 def fig3():
     KIND = ("sec", "mem", "mem", "sec", "mem")
-    VALS = (MU_PHI, MU, MU_APPROX, MU_PHI_B, MU_B)
+    VALS = (MU_PHI_B, MU_B, MU_APPROX_B, MU_PHI, MU)
     COLS = (C["accent"], C["load"], C["member2"], C["bmd"], C["deform"])
     peak = max(VALS)
 
@@ -425,29 +442,29 @@ def fig3():
             mini.dot((0.35 + XW * f, Y1), 3.2, fill=col, stroke="#FFFFFF", w=1.2)
 
     cases = [
-        ("μ_{φ}　讀法A", "斷面層次", MU_PHI,
-         M(f"φ_{{u}}/φ_{{y}} = {PHI_U:.3f}/{PHI_Y:.3f} = {MU_PHI:.3f}"), COLS[0]),
-        ("μ_{θ} = μ　讀法A", "構件／整體層次", MU,
-         M(f"δ_{{u}}/δ_{{y}} = {DELTA_U*CM:.4f}/{DELTA_Y*CM:.4f} = {MU:.3f}"),
-         COLS[1]),
-        ("近似式驗算", "拿掉應變硬化項後完全吻合", MU_APPROX,
-         M(f"1 + (μ_{{φ}}-1)λ = {MU_APPROX:.3f},  λ = {LAM:.3f}"), COLS[2]),
-        ("μ_{φ}　讀法B", f"M = {M_APP:g} 之實際狀態", MU_PHI_B,
-         M(f"φ_{{d}}/φ_{{y}} = {PHI_D:.4f}/{PHI_Y:.3f} = {MU_PHI_B:.3f}"), COLS[3]),
-        ("μ_{θ} = μ　讀法B", "嚴格意義的韌性需求", MU_B,
+        ("μ_{φ}　需求（主線）", f"斷面層次，M = {M_APP:g}", MU_PHI_B,
+         M(f"φ_{{d}}/φ_{{y}} = {PHI_D:.4f}/{PHI_Y:.3f} = {MU_PHI_B:.3f}"), COLS[0]),
+        ("μ_{θ} = μ　需求（主線）", "構件／整體層次", MU_B,
          M(f"δ_{{d}}/δ_{{y}} = {DELTA_D*CM:.4f}/{DELTA_Y*CM:.4f} = {MU_B:.3f}"),
+         COLS[1]),
+        ("近似式驗算（需求）", "拿掉應變硬化項後完全吻合", MU_APPROX_B,
+         M(f"1 + (μ_{{φ}}-1)λ = {MU_APPROX_B:.3f},  λ = {LAM:.3f}"), COLS[2]),
+        ("μ_{φ}　容量（對照）", "極限點", MU_PHI,
+         M(f"φ_{{u}}/φ_{{y}} = {PHI_U:.3f}/{PHI_Y:.3f} = {MU_PHI:.3f}"), COLS[3]),
+        ("μ_{θ} = μ　容量（對照）", "極限點", MU,
+         M(f"δ_{{u}}/δ_{{y}} = {DELTA_U*CM:.4f}/{DELTA_Y*CM:.4f} = {MU:.3f}"),
          COLS[4]),
     ]
     cv = bar_compare(
         cases, sketch=sketch,
-        title="圖 3　三層韌性（斷面 → 構件 → 整體）與兩種讀法的完整對照",
+        title="圖 3　三層韌性（斷面 → 構件 → 整體）：需求（主線）與容量（對照）",
         sub="長條長度＝該韌性比相對最大值的百分比；左側示意圖：楔形＝斷面曲率，"
             "曲線＝懸臂頂點位移",
         note=f"μ_{{θ}} 與 μ 必定相等（θ = δ/L，分子分母同除 L）；"
              f"且 μ ≤ μ_{{φ}}，因塑鉸只佔 L_{{p}}/L = {LP/L:.1%}，貢獻被稀釋")
     cv.text_px(cv.w / 2, cv.h - 96,
-               f"讀法A（用 φ_{{u}}、δ_{{u}}）算的是韌性容量；"
-               f"讀法B（M = {M_APP:g} 對應之實際狀態）才是嚴格的韌性需求",
+               f"需求＝M = {M_APP:g} 之實際狀態（主線）；"
+               f"代極限點 φ_{{u}}、δ_{{u}} 算的是韌性容量（對照）",
                13, C["text"], weight="700")
     cv.text_px(cv.w / 2, cv.h - 70,
                f"容量／需求 = {MU:.3f} / {MU_B:.3f} = {CAP_DEM:.3f} → "
@@ -462,9 +479,9 @@ def fig3():
 FIGURES = [
     ("1-bilinear", fig1,
      "φ_u 內插方向弄反（0.030→0.010 是遞減，α=0.5 得 0.020）；"
-     "誤以為 M=232.5 只是拿來確認已降伏"),
+     "誤以為 M=232.5 只是拿來確認已降伏而直接用極限點"),
     ("2-cantilever", fig2,
-     "L 誤用全柱淨高 6.4 m；δ_u 第二項力臂誤用 L 或 Lp；Lp 忘記取下限"),
+     "L 誤用全柱淨高 6.4 m；第二項力臂誤用 L 或 Lp；Lp 忘記取下限；把極限點當需求"),
     ("3-ductility", fig3,
      "把 μ 算得大於 μ_φ（不可能）；μ_θ 與 μ 算出不同值（必定相等）"),
 ]
@@ -499,6 +516,9 @@ def main():
         ("lambda",             LAM,             0.506,     5e-4),
         ("mu_approx",          MU_APPROX,       2.518,     5e-4),
         ("delta_u_nohard m",   DELTA_U_NOHARD,  0.042966,  1e-5),
+        ("theta_d rad",        THETA_D,         0.009684,  1e-6),
+        ("mu_approx_B",        MU_APPROX_B,     1.759,     5e-4),
+        ("delta_d_nohard m",   DELTA_D_NOHARD,  0.030021,  1e-5),
     ]
     print(f"── 與 {TAG}.md §4／§5 對帳 ──")
     for name, got, want, tol in checks:
@@ -512,6 +532,7 @@ def main():
     assert MU_B <= MU_PHI_B, "讀法B 的 μ 不可能大於 μ_φ"
     assert HI["phi_u"] < LO["phi_u"], "φ_u 應隨軸壓遞減"
     assert abs(DELTA_U_NOHARD / DELTA_Y - MU_APPROX) < 5e-4, "無硬化 μ 應等於近似式"
+    assert abs(DELTA_D_NOHARD / DELTA_Y - MU_APPROX_B) < 5e-4, "需求：無硬化 μ 應等於近似式"
     assert abs(M_APP - M_MID) < 1e-9, "M = 232.5 應為 M_y 與 M_u 的正中點"
     print("  OK  物理檢核：μ_θ = μ、μ ≤ μ_φ、φ_u 遞減、無硬化 μ = 近似式、"
           "232.5 為正中點")

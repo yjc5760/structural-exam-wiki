@@ -32,75 +32,204 @@ blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;paddin
 footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
 </style></head><body>
 <header><h1>RC-2007-2 題目解析</h1><div class="navbtns"></div></header>
-<main><h3>考題編號：RC-2007-2</h3>
-<p><strong>主分類：</strong> <code>RC-U3-1</code> 梁工作性要求（含撓度、裂縫）<br />
-<strong>副分類：</strong> 無<br />
-<strong>設計法：</strong> USD強度設計法<br />
-<strong>標籤：</strong> <code>雙筋梁</code> <code>即時撓度</code> <code>長期撓度</code> <code>有效慣性矩Ie</code> <code>開裂彎矩Mcr</code> <code>λ長期修正係數</code> <code>五小題撓度</code> <code>20%持續活載重</code></p>
-<hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>簡支梁（跨 8 m），計算下列五項撓度：</p>
-<ol>
-<li>靜載重下位移 $({\Delta_i})_D$</li>
-<li>持續載重（20%LL）下位移 $({\Delta_i})_{sus}$</li>
-<li>活載重瞬間位移 $({\Delta_i})_l$</li>
-<li>一年後總位移</li>
-<li>五年後總位移</li>
-</ol>
-<p><strong>已知條件：</strong></p>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>RC-2007-2 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>RC-2007-2.md</code>。<br />
+判讀清單已經確認（凍結）；本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
 <table>
 <thead>
 <tr>
 <th>項目</th>
-<th>數值</th>
+<th>內容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>斷面</td>
-<td>$b \times h = 30 \times 60$ cm</td>
+<td>考卷</td>
+<td><code>raw/exams/RC-2007_鋼筋混凝土設計與預力.pdf</code> 第 1 頁（正面），第二題</td>
 </tr>
 <tr>
-<td>跨距 $L$</td>
-<td>8 m = 800 cm</td>
+<td>考年</td>
+<td>民國 96 年（2007）</td>
 </tr>
 <tr>
-<td>張力筋</td>
-<td>8-D25，$A_s = 40.56$ cm²，兩排各 4 根</td>
+<td>配分</td>
+<td>25 分</td>
 </tr>
 <tr>
-<td>壓力筋</td>
-<td>3-D19，$A_s' = 8.55$ cm²，$d' = 6.5$ cm</td>
+<td>附圖</td>
+<td>無（純文字題）</td>
 </tr>
 <tr>
-<td>$f'_c$</td>
-<td>280 kgf/cm²</td>
-</tr>
-<tr>
-<td>$f_y$</td>
-<td>4200 kgf/cm²，$E_s = 2.04 \times 10^6$ kgf/cm²</td>
-</tr>
-<tr>
-<td>靜載重</td>
-<td>自重 + 0.1 tf/m</td>
-</tr>
-<tr>
-<td>活載重</td>
-<td>2 tf/m，其中 <strong>20% 為持續</strong></td>
-</tr>
-<tr>
-<td>$\gamma_c$</td>
-<td>2.4 tf/m³</td>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-15 使用者授權依 Claude 建議確認；轉錄 2026-11-15；PyMuPDF 110 dpi 全頁目視；文字以 PDF 文字層核對；盲讀後才比對既有解析）</td>
 </tr>
 </tbody>
 </table>
-<p><strong>有效深度假設（兩排張力筋，保護層 4.5 cm + D10 箍筋）：</strong><br />
-$$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
-（各排中心分別在 6.77 cm 和 11.84 cm，重心約 9.31 cm from bottom）</p>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>二、一簡支梁跨距 8 m，斷面為 30 cm×60 cm，$f'_c$＝280 kgf/cm²，$f_y$＝4,200 kgf/cm²，受拉鋼筋為 8-D25（面積＝40.56 cm²）平均分列成兩排，受壓鋼筋為 3-D19（面積＝8.55 cm²，d'＝6.5 cm），靜載重為自重加上 0.1 tf/m，活載重為 2 tf/m 且其中 20% 為持續載重，混凝土單位重 2.4 tf/m³，試求：（25 分）<br />
+㈠靜載重下位移 $(\Delta_i)_d$<br />
+㈡持續載重下位移 $(\Delta_i)_{sus}$<br />
+㈢活載重產生之瞬間位移 $(\Delta_i)_l$<br />
+㈣經過一年因乾縮潛變後之總位移<br />
+㈤經過五年因乾縮潛變後之總位移</p>
+</blockquote>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>卷首「以下各題之計算所用之規定及常數如下（※如有條件不足時，請自行合理假設）」照錄：</li>
+<li>靜載重因數 1.2，活載重因數 1.6</li>
+<li>強度折減係數：⑴拉力控制斷面：0.90，（$\varepsilon_t$ 大於 0.005）；⑵壓力控制斷面：0.65（$f_y$＝4,200 kgf/cm² 時 $\varepsilon_t$ 小於 0.002）；⑶過渡斷面：介於⑴及⑵間者，$\phi$＝0.483＋83.3$\varepsilon_t$；$\varepsilon_t$ 為構件破壞時最外受拉鋼筋淨拉應變值；⑷剪力：0.75；⑸柱：0.65</li>
+<li>$E_s$＝2.04×10⁶ kgf/cm²</li>
+<li>D29 之面積為 6.469 cm²</li>
+<li>題文數值：跨距 8 m（簡支）；30 cm×60 cm；$f'_c$＝280、$f_y$＝4,200 kgf/cm²；8-D25（40.56 cm²）平均分列兩排；3-D19（8.55 cm²），$d'$＝6.5 cm；靜載重＝自重＋0.1 tf/m；活載重 2 tf/m，其中 20% 為持續載重；混凝土單位重 2.4 tf/m³。</li>
+<li><strong>沒有給</strong>：拉力筋有效深度 $d$（兩排位置、保護層、箍筋號數皆未給）、$E_c$、開裂模數 $f_r$、長期撓度的時間因數 $\xi$。</li>
+<li>卷首注意事項：㈠可以使用電子計算器。㈡不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p>本題考卷沒有附圖。</p>
+<h2>4. 判讀清單</h2>
+<p>「把握」標<strong>不確定</strong>者優先列；解讀類項目（題目用字的意思）另標「解讀」。標「依 Claude 建議確認」者，為使用者 2026-11-15 授權「要我確認的請依你建議」後定案。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>拉力筋有效深度 $d$</td>
+<td><strong>考卷沒有給</strong>；需由「8-D25 平均分列兩排」自行合理假設保護層、箍筋與排距後求兩排形心（卷首允許自行合理假設）</td>
+<td>題文只給 $d'$＝6.5 cm；卷首「如有條件不足時，請自行合理假設」</td>
+<td>確定（解讀）；依 Claude 建議確認：假設值須在解析中明列</td>
+</tr>
+<tr>
+<td>2</td>
+<td>「持續載重」</td>
+<td>持續載重＝靜載重＋20% 活載重；$(\Delta_i)_{sus}$ 可列為 20% 活載重部分的即時撓度，再與靜載重部分合併計算長期效應</td>
+<td>題文「活載重為 2 tf/m 且其中 20% 為持續載重」</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>斷面與跨度</td>
+<td>$b\times h$＝30×60 cm；簡支跨距 800 cm</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>壓力筋</td>
+<td>3-D19，$A'_s$＝8.55 cm²，$d'$＝6.5 cm（用於長期撓度乘數）</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>靜載重</td>
+<td>自重（30×60 cm × 2.4 tf/m³）＋0.1 tf/m</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>6</td>
+<td>㈣㈤時間</td>
+<td>一年、五年；時間因數 $\xi$ 考卷未給，依規範表取值</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>7</td>
+<td>卷首係數</td>
+<td>載重因數 1.2／1.6、$\phi$ 等為全卷共用，本題（使用載重撓度）不需用到</td>
+<td>卷首</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>8</td>
+<td>考卷沒有給</td>
+<td>$d$、$E_c$、$f_r$、$\xi$</td>
+<td>全題</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-15（RC-U3-1／U3-2 題目正本推廣・批 1）</em></p>
+<p><em>確認：2026-11-15 使用者授權依 Claude 建議確認（RC-U3-1／U3-2 題目正本推廣・批 1，關卡一）</em></p></details>
+<h3>考題編號：RC-2007-2</h3>
+<p><strong>主分類：</strong> <code>RC-U3-1</code> 梁工作性要求（含撓度、裂縫）<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>雙筋梁</code> <code>即時撓度</code> <code>長期撓度</code> <code>有效慣性矩Ie</code> <code>開裂彎矩Mcr</code> <code>λ長期修正係數</code> <code>五小題撓度</code> <code>20%持續活載重</code> <code>現行規範2023</code> <code>差值法</code></p>
+<hr />
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="RC-2007-2-problem.md"><code>RC-2007-2-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>拉力筋有效深度 $d$</td>
+<td>考卷沒有給，須由「8-D25 平均分列兩排」自行假設保護層、箍筋與排距並明列</td>
+<td>把假設值當作題目已知</td>
+</tr>
+<tr>
+<td>持續載重</td>
+<td>靜載重＋20% 活載重；$(\Delta_i)_{sus}$ 依題意可寫 D＋0.2L 的總即時撓度，或其中 0.2L 的增量（兩者並列）</td>
+<td>只算靜載重或把全部活載重當持續</td>
+</tr>
+<tr>
+<td>㈡㈢ 計算法</td>
+<td><strong>差值法</strong>：$\Delta_{D+0.2L}-\Delta_D$、$\Delta_{D+L}-\Delta_D$，每個載重水準用自己的 $I_e$</td>
+<td>直接法：把 0.4、2.0 tf/m 單獨配上 $I_e$ 算（本庫舊解，低估約 7%）</td>
+</tr>
+<tr>
+<td>㈢活載重瞬間位移</td>
+<td>（D＋L）即時撓度減 D 即時撓度（$I_e$ 依各自彎矩）</td>
+<td>只用活載重彎矩算 $I_e$</td>
+</tr>
+<tr>
+<td>長期乘數</td>
+<td>只乘持續部分（靜載重＋20% 活載重），$\lambda$ 含 $\rho'$（3-D19）</td>
+<td>全部活載重也乘長期乘數</td>
+</tr>
+<tr>
+<td>卷首係數</td>
+<td>載重因數與 $\phi$ 本題（使用載重撓度）用不到</td>
+<td>撓度用因數化載重</td>
+</tr>
+<tr>
+<td>$E_c$</td>
+<td>本題沒有給 $n$ → $E_c=15000\sqrt{f'_c}$</td>
+<td>直接用 $E_s/8$</td>
+</tr>
+<tr>
+<td>$I_e$ 公式</td>
+<td>現行規範表 24.2.3.5（$\frac23M_{cr}$ 式）；$M_D$＝4.256 ＞ $\frac23M_{cr}$＝4.016，故 $I_{e,D}&lt;I_g$</td>
+<td>Branson 式且以 $M_D&lt;M_{cr}$ 判 $I_e=I_g$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> $b\times h$＝30×60 cm；$A_s$＝40.56 cm²（兩排，$d$＝50.94 cm 為假設）；$A'_s$＝8.55 cm²、$d'$＝6.5 cm；$L$＝800 cm；$w_D$＝自重＋0.1 tf/m；$w_L$＝2 tf/m（20% 持續）。</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
-<p><strong>核心：</strong> 分三個荷載水準分別計算 $I_e$，再用 ACI 長期公式疊加。</p>
-<p><strong>關鍵觀察：</strong> DL 彎矩 &lt; $M_{cr}$（斷面<strong>未開裂</strong>）→ $({\Delta_i})_D$ 使用 $I_g$；加上持續 LL 後才開裂。</p>
+<p><strong>核心：</strong> 三個載重水準（D、D＋0.2L、D＋L）各自計算 $I_e$ 與總即時撓度，所求的「某部分載重造成的撓度」以<strong>差值法</strong>取得；長期撓度只乘持續載重部分。</p>
+<p><strong>關鍵觀察：</strong> $M_D$＝4.256 tf·m 小於 $M_{cr}$＝6.024 但大於 $\frac23M_{cr}$＝4.016，依現行 $I_e$ 式已開始折減（$I_{e,D}$＝519,606 ＜ $I_g$）；加上持續活載重與全部活載重後深度開裂。</p>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
 <table>
@@ -113,23 +242,23 @@ $$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
 <tbody>
 <tr>
 <td>1</td>
-<td>計算各荷載水準之 $M_a$</td>
+<td>假設 $d$（兩排形心），計算各荷載水準之 $M_a$</td>
 </tr>
 <tr>
 <td>2</td>
-<td>計算 $M_{cr}$，判斷哪些水準開裂</td>
+<td>計算 $M_{cr}$、$I_{cr}$</td>
 </tr>
 <tr>
 <td>3</td>
-<td>對未開裂水準用 $I_g$；開裂水準計算 $I_{cr}$ → $I_e$</td>
+<td>三個水準分別求 $I_e$（現行式）與總即時撓度 $\Delta_D$、$\Delta_{D+0.2L}$、$\Delta_{D+L}$</td>
 </tr>
 <tr>
 <td>4</td>
-<td>計算三項即時撓度 (a)(b)(c)</td>
+<td>差值法得 ㈡㈢</td>
 </tr>
 <tr>
 <td>5</td>
-<td>計算 $\lambda$（1年/5年），用長期公式得 (d)(e)</td>
+<td>計算 $\lambda_\Delta$（1年/5年），總撓度 $=\Delta_{D+L}+\lambda_\Delta\Delta_{D+0.2L}$</td>
 </tr>
 </tbody>
 </table>
@@ -143,20 +272,20 @@ $$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
 </thead>
 <tbody>
 <tr>
-<td>⚠ DL 不開裂</td>
-<td>$M_a^{DL} = 4.26 &lt; M_{cr} = 6.02$ tf·m → $I_e = I_g$，不用 $I_{cr}$</td>
+<td>⚠ 直接法 vs 差值法</td>
+<td>撓度與載重非線性（$I_e$ 隨 $M_a$ 改變），部分載重的撓度須用「總撓度相減」</td>
+</tr>
+<tr>
+<td>⚠ $\frac23M_{cr}$ 門檻</td>
+<td>現行式在 $M_a&gt;\frac23M_{cr}$ 就折減；本題 D 水準已過門檻</td>
+</tr>
+<tr>
+<td>⚠ 長期公式只乘持續載重</td>
+<td>$\lambda_\Delta$ 只作用於 D＋0.2L 的即時撓度，非全部活載重</td>
 </tr>
 <tr>
 <td>⚠ $\rho'$ 的定義</td>
 <td>$\rho' = A_s'/(b \cdot d)$，用<strong>壓力鋼筋</strong>面積</td>
-</tr>
-<tr>
-<td>⚠ 長期公式只乘持續載重</td>
-<td>$\lambda$ 只作用於 DL + 持續 LL 的即時撓度，非全部 LL</td>
-</tr>
-<tr>
-<td>⚠ $n$ 值</td>
-<td>$n = E_s/E_c = 2{,}040{,}000/255{,}000 = 8$（$E_c$ 用 $E_s/n=255{,}000$）</td>
 </tr>
 </tbody>
 </table>
@@ -166,13 +295,13 @@ $$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
 <p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
 </blockquote>
 <h3>最終目標</h3>
-<p><code>分別求 DL 撓度、持續 LL 撓度、全 LL 撓度，再疊加長期效應得 1 年與 5 年總撓度</code></p>
+<p><code>求 D、持續、活載重的即時撓度，再疊加長期效應得 1 年與 5 年總撓度</code></p>
 <h3>本題關鍵公式（依計算順序）</h3>
 <p>$$\text{Step 1: } M_{cr} = \frac{f_r \cdot I_g}{y_t}, \quad f_r = 2\sqrt{f'_c}$$</p>
-<p>$$\text{Step 2 (Icr): } \frac{b(\boxed{kd})^2}{2} + (n-1)A_s'(\boxed{kd}-d') = nA_s(d-\boxed{kd})$$</p>
-<p>$$\text{Step 3: } I_e = \left(\frac{M_{cr}}{M_a}\right)^3\!I_g + \left[1-\left(\frac{M_{cr}}{M_a}\right)^3\right]\!\boxed{I_{cr}}$$</p>
-<p>$$\text{Step 4: } (\Delta_i) = \frac{5wL^4}{384 E_c \boxed{I_e}}$$</p>
-<p>$$\text{Step 5: } \lambda = \frac{\xi}{1+50\rho'}, \quad \Delta_{total} = \left[(\Delta_i)_D + (\Delta_i)_{sus}\right](1+\lambda) + \left[(\Delta_i)_l - (\Delta_i)_{sus}\right]$$</p>
+<p>$$\text{Step 2 (Icr): } \frac{b(\boxed{kd})^2}{2} + (n-1)A_s'(\boxed{kd}-d') = nA_{s1}(d_1-\boxed{kd})+nA_{s2}(d_2-\boxed{kd})$$</p>
+<p>$$\text{Step 3: } I_e = \frac{\boxed{I_{cr}}}{1-\left(\dfrac{(2/3)M_{cr}}{M_a}\right)^2\left(1-\dfrac{I_{cr}}{I_g}\right)}\le I_g$$</p>
+<p>$$\text{Step 4: } \Delta_{(\cdot)} = \frac{5w_{(\cdot)}L^4}{384 E_c \boxed{I_{e,(\cdot)}}},\quad (\Delta_i)_{sus}=\Delta_{D+0.2L}-\Delta_D,\quad (\Delta_i)_l=\Delta_{D+L}-\Delta_D$$</p>
+<p>$$\text{Step 5: } \lambda_\Delta = \frac{\xi}{1+50\rho'}, \quad \Delta_{total} = \Delta_{D+L} + \lambda_\Delta\,\Delta_{D+0.2L}$$</p>
 <h3>L1：題目直接給定</h3>
 <table>
 <thead>
@@ -201,7 +330,7 @@ $$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
 <tr>
 <td>$A_s$</td>
 <td>40.56 cm²</td>
-<td>8-D25</td>
+<td>8-D25 兩排</td>
 </tr>
 <tr>
 <td>$A_s'$</td>
@@ -215,6 +344,7 @@ $$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
 </tr>
 </tbody>
 </table>
+<p>假設（考卷未給）：淨保護層 4 cm、D13 箍筋、兩排淨距 2.5 cm；$E_c=15000\sqrt{f'_c}$；$f_r=2\sqrt{f'_c}$。</p>
 <h3>L2：需知識點推導</h3>
 <p><strong>Step 1：荷載、幾何</strong></p>
 <table>
@@ -227,43 +357,33 @@ $$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
 </thead>
 <tbody>
 <tr>
+<td>$d_1,\ d_2$</td>
+<td>$60-(4+1.27+1.27)=53.46$；$53.46-(2.54+2.5)=48.42$ cm</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
 <td>$d$</td>
-<td>兩排重心 ≈ 51 cm（見說明）</td>
+<td>兩排形心 $50.94$ cm</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$w_{SW}$</td>
-<td>$2.4\times0.30\times0.60=0.432$ tf/m</td>
+<td>$w_D$</td>
+<td>$2.4\times0.30\times0.60+0.1=0.532$ tf/m = 5.32 kgf/cm</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$w_{DL}$</td>
-<td>$0.432+0.1=0.532$ tf/m = 5.32 kgf/cm</td>
+<td>$w_{D+0.2L}$</td>
+<td>$5.32+4.0=9.32$ kgf/cm</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$w_{sus}$</td>
-<td>$0.20\times2=0.4$ tf/m = 4.0 kgf/cm（持續 LL）</td>
+<td>$w_{D+L}$</td>
+<td>$5.32+20.0=25.32$ kgf/cm</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$w_{LL}$</td>
-<td>2.0 tf/m = 20.0 kgf/cm（全部 LL）</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$M_{DL}$</td>
-<td>$5.32\times800^2/8=425{,}600$ kgf·cm</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$M_{sus}$</td>
-<td>$4.0\times80{,}000=320{,}000$ kgf·cm</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$M_{LL}$</td>
-<td>$20.0\times80{,}000=1{,}600{,}000$ kgf·cm</td>
+<td>$M_D,\ M_{D+0.2L},\ M_{D+L}$</td>
+<td>4.256、7.456、20.256 tf·m</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -280,7 +400,7 @@ $$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
 <tbody>
 <tr>
 <td>$E_c$</td>
-<td>$E_s/n = 255{,}000$ kgf/cm²（$n=8$）</td>
+<td>$15000\sqrt{280} = 250{,}998$ kgf/cm²，$n=8.128$</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
@@ -290,88 +410,57 @@ $$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
 </tr>
 <tr>
 <td>$M_{cr}$</td>
-<td>$2\sqrt{280}\times540{,}000/30=602{,}460$ kgf·cm = 6.02 tf·m</td>
-<td style="text-align: center;"></td>
+<td>$2\sqrt{280}\times540{,}000/30=6.024$ tf·m；$\frac23M_{cr}$＝4.016</td>
+<td style="text-align: center;">⚠</td>
 </tr>
 <tr>
 <td>$kd$</td>
-<td>二次方程求解 = 23.15 cm（見 Step 4 詳計）</td>
+<td>二次方程 = 23.25 cm</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$I_{cr}$</td>
-<td>三項合計 = 392,500 cm⁴</td>
+<td>四項合計 = 397,629 cm⁴</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Step 3：各荷載水準 $I_e$</strong></p>
+<p><strong>Step 3：各荷載水準 $I_e$ 與總即時撓度</strong></p>
 <table>
 <thead>
 <tr>
 <th>情況</th>
-<th>$M_a$</th>
-<th>$M_{cr}/M_a$</th>
-<th>$(M_{cr}/M_a)^3$</th>
-<th>$I_e$</th>
+<th>$M_a$ (tf·m)</th>
+<th>$\left(\frac{(2/3)M_{cr}}{M_a}\right)^2$</th>
+<th>$I_e$ (cm⁴)</th>
+<th>總即時撓度</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>DL 只</td>
-<td>425,600</td>
-<td><strong>1.415 &gt; 1</strong> → 未裂</td>
-<td>—</td>
-<td>$I_g = 540{,}000$</td>
+<td>D</td>
+<td>4.256</td>
+<td>0.8904</td>
+<td>519,606</td>
+<td>$\Delta_D$＝0.218 cm</td>
 </tr>
 <tr>
-<td>DL+sus_LL</td>
-<td>745,600</td>
-<td>0.808</td>
-<td>0.528</td>
-<td>470,300</td>
+<td>D＋0.2L</td>
+<td>7.456</td>
+<td>0.2901</td>
+<td>430,562</td>
+<td>$\Delta_{D+0.2L}$＝0.460 cm</td>
 </tr>
 <tr>
-<td>DL+全LL</td>
-<td>2,025,600</td>
-<td>0.297</td>
-<td>0.026</td>
-<td>396,400</td>
+<td>D＋L</td>
+<td>20.256</td>
+<td>0.0393</td>
+<td>401,793</td>
+<td>$\Delta_{D+L}$＝1.339 cm</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Step 4：三項即時撓度</strong></p>
-<table>
-<thead>
-<tr>
-<th>撓度</th>
-<th>$w$（kgf/cm）</th>
-<th>$E_c I_e$（×10¹¹）</th>
-<th>結果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$({\Delta_i})_D$</td>
-<td>5.32</td>
-<td>1.377</td>
-<td><strong>0.206 cm</strong></td>
-</tr>
-<tr>
-<td>$({\Delta_i})_{sus}$</td>
-<td>4.0</td>
-<td>1.199</td>
-<td><strong>0.178 cm</strong></td>
-</tr>
-<tr>
-<td>$({\Delta_i})_l$</td>
-<td>20.0</td>
-<td>1.011</td>
-<td><strong>1.055 cm</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Step 5：長期係數</strong></p>
+<p><strong>Step 4：差值法與長期係數</strong></p>
 <table>
 <thead>
 <tr>
@@ -382,28 +471,23 @@ $$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
 </thead>
 <tbody>
 <tr>
+<td>㈡ 增量</td>
+<td>$0.460-0.218=0.242$ cm</td>
+<td style="text-align: center;">⚠</td>
+</tr>
+<tr>
+<td>㈢</td>
+<td>$1.339-0.218=1.121$ cm</td>
+<td style="text-align: center;">⚠</td>
+</tr>
+<tr>
 <td>$\rho'$</td>
-<td>$8.55/(30\times51)=0.00559$</td>
+<td>$8.55/(30\times50.94)=0.00559$</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$\lambda_{1yr}$</td>
-<td>$1.4/(1+50\times0.00559)=1.094$</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$\lambda_{5yr}$</td>
-<td>$2.0/(1+50\times0.00559)=1.563$</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>持續撓度</td>
-<td>$({\Delta_i})_D+({\Delta_i})_{sus}=0.384$ cm</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>非持續 LL</td>
-<td>$({\Delta_i})_l-({\Delta_i})_{sus}=0.877$ cm</td>
+<td>$\lambda_{1yr},\ \lambda_{5yr}$</td>
+<td>$1.4/1.2797=1.094$；$2.0/1.2797=1.563$</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -419,9 +503,14 @@ $$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
 </thead>
 <tbody>
 <tr>
-<td>未開裂時 $I_e=I_g$</td>
-<td>當 $M_a \leq M_{cr}$，式中 $I_e$ 公式退化為 $I_g$</td>
-<td style="text-align: center;"></td>
+<td>為何用差值法</td>
+<td>撓度＝$\int M\,dx/(E_cI_e)$，$I_e$ 隨載重水準改變，撓度與載重非線性；某部分載重的撓度＝（加上它之後的總撓度）−（加之前的總撓度）</td>
+<td style="text-align: center;">⚠</td>
+</tr>
+<tr>
+<td>現行 $I_e$ 式</td>
+<td>ACI 318-19 起改 Bischoff 式並以 $\frac23M_{cr}$ 計，反映收縮約束提早開裂；Branson 式低配筋時高估勁度</td>
+<td style="text-align: center;">⚠</td>
 </tr>
 <tr>
 <td>$\xi$ 對應時間</td>
@@ -430,12 +519,12 @@ $$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
 </tr>
 <tr>
 <td>長期公式只乘持續部分</td>
-<td>$\lambda$ 描述潛變+乾縮，只有恆載入才會持續發生潛變</td>
+<td>$\lambda_\Delta$ 描述潛變＋乾縮，只有持續載重才會持續潛變</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>兩排鋼筋的 $d$</td>
-<td>加權平均：$d = h - (\text{兩排重心距底})$，需手算</td>
+<td>$I_{cr}$ 兩排分別計；$\rho'$、敘述用形心 $d$</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -443,98 +532,109 @@ $$d \approx 60 - 9.3 = 51 \text{ cm}$$<br />
 <hr />
 <h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
 <h3>Step 1：幾何與荷載</h3>
-<p>有效深度（8-D25 兩排各 4 根，保護層 4.5 cm，D10 箍筋，D25 直徑 = 2.54 cm）：</p>
-<p>$$y_1 = 4.5 + 1.0 + 1.27 = 6.77 \text{ cm（第一排中心，距底）}$$<br />
-$$y_2 = 6.77 + 2.54 + 2.54 = 11.85 \text{ cm（第二排中心，距底，取淨間距} = d_b)$$<br />
-$$\bar{y} = \frac{4 \times 6.77 + 4 \times 11.85}{8} = 9.31 \text{ cm} \Rightarrow \boxed{d = 60 - 9.31 = 50.69 \approx 51 \text{ cm}}$$</p>
-<p>$$w_{SW} = 2.4 \times 0.30 \times 0.60 = 0.432 \text{ tf/m} \Rightarrow w_{DL} = 0.432 + 0.1 = 0.532 \text{ tf/m} = 5.32 \text{ kgf/cm}$$<br />
-$$w_{sus} = 0.20 \times 2.0 = 0.40 \text{ tf/m} = 4.0 \text{ kgf/cm}$$<br />
-$$w_{LL} = 2.0 \text{ tf/m} = 20.0 \text{ kgf/cm}$$</p>
-<p><strong>跨中彎矩（$L=800$ cm）：</strong><br />
-$$M_{DL} = \frac{5.32 \times 800^2}{8} = 425{,}600 \text{ kgf·cm} = 4.256 \text{ tf·m}$$<br />
-$$M_{sus} = \frac{4.0 \times 800^2}{8} = 320{,}000 \text{ kgf·cm} = 3.2 \text{ tf·m}$$<br />
-$$M_{LL} = \frac{20.0 \times 800^2}{8} = 1{,}600{,}000 \text{ kgf·cm} = 16.0 \text{ tf·m}$$</p>
+<p>有效深度（考卷未給，假設：淨保護層 4 cm、D13 箍筋、8-D25 兩排各 4 根、排間淨距 2.5 cm）：</p>
+<p>$$d_1 = 60 - (4 + 1.27 + 1.27) = 53.46 \text{ cm},\qquad d_2 = 53.46 - (2.54 + 2.5) = 48.42 \text{ cm}$$<br />
+$$\boxed{d = \frac{53.46+48.42}{2} = 50.94 \text{ cm}}$$</p>
+<p>$$w_D = 2.4 \times 0.30 \times 0.60 + 0.1 = 0.532 \text{ tf/m} = 5.32 \text{ kgf/cm}$$<br />
+$$w_{D+0.2L} = 5.32 + 0.2\times20.0 = 9.32 \text{ kgf/cm},\qquad w_{D+L} = 5.32 + 20.0 = 25.32 \text{ kgf/cm}$$</p>
+<p><strong>跨中彎矩（$L=800$ cm，$wL^2/8$）：</strong><br />
+$$M_D = 4.256 \text{ tf·m},\qquad M_{D+0.2L} = 7.456 \text{ tf·m},\qquad M_{D+L} = 20.256 \text{ tf·m}$$</p>
 <hr />
 <h3>Step 2：斷面性質</h3>
-<p>$$E_c = \frac{E_s}{n} = \frac{2{,}040{,}000}{8} = 255{,}000 \text{ kgf/cm}^2, \quad n = 8$$</p>
-<p>$$I_g = \frac{30 \times 60^3}{12} = 540{,}000 \text{ cm}^4$$</p>
-<p>$$f_r = 2\sqrt{280} = 33.47 \text{ kgf/cm}^2, \quad y_t = 30 \text{ cm}$$</p>
-<p>$$M_{cr} = \frac{f_r I_g}{y_t} = \frac{33.47 \times 540{,}000}{30} = \boxed{602{,}460 \text{ kgf·cm} = 6.025 \text{ tf·m}}$$</p>
-<p><strong>荷載水準與開裂判斷：</strong></p>
-<p>$$M_{DL} = 4.256 \text{ tf·m} &lt; M_{cr} = 6.025 \text{ tf·m} \Rightarrow \text{DL 水準未開裂，} I_e = I_g$$</p>
-<p>$$M_{DL} + M_{sus} = 7.456 \text{ tf·m} &gt; M_{cr} \Rightarrow \text{持續載重水準開裂}$$</p>
-<p>$$M_{DL} + M_{LL} = 20.256 \text{ tf·m} \gg M_{cr} \Rightarrow \text{全載重水準深裂}$$</p>
+<p>$$E_c = 15000\sqrt{280} = 250{,}998 \text{ kgf/cm}^2,\qquad n = \frac{2.04\times10^6}{250{,}998} = 8.128$$</p>
+<p>$$I_g = \frac{30 \times 60^3}{12} = 540{,}000 \text{ cm}^4,\qquad f_r = 2\sqrt{280} = 33.47 \text{ kgf/cm}^2,\quad y_t = 30 \text{ cm}$$</p>
+<p>$$M_{cr} = \frac{33.47 \times 540{,}000}{30} = \boxed{602{,}400 \text{ kgf·cm} = 6.024 \text{ tf·m}},\qquad \frac23M_{cr} = 4.016\text{ tf·m}$$</p>
+<p>$M_D$＝4.256 ＞ $\frac23M_{cr}$ → 依現行式 D 水準 $I_e$ 已開始折減；$M_{D+0.2L}$、$M_{D+L}$ 均 ＞ $M_{cr}$。</p>
 <hr />
-<h3>Step 3：開裂轉換斷面 $I_{cr}$（$d=51$ cm，$d'=6.5$ cm）</h3>
-<p>中性軸方程式：<br />
-$$\frac{b(kd)^2}{2} + (n-1)A_s'(kd-d') = nA_s(d-kd)$$<br />
-$$15(kd)^2 + 7 \times 8.55 \times (kd-6.5) = 8 \times 40.56 \times (51-kd)$$<br />
-$$15(kd)^2 + 59.85(kd) - 389.0 = 16{,}548 - 324.5(kd)$$<br />
-$$15(kd)^2 + 384.3(kd) - 16{,}937 = 0$$<br />
-$$(kd)^2 + 25.62(kd) - 1{,}129.1 = 0$$</p>
-<p>$$kd = \frac{-25.62 + \sqrt{25.62^2 + 4 \times 1{,}129.1}}{2} = \frac{-25.62 + \sqrt{5{,}173}}{2} = \frac{-25.62 + 71.93}{2} = \boxed{23.15 \text{ cm}}$$</p>
-<p>$$I_{cr} = \frac{30 \times 23.15^3}{3} + 7 \times 8.55 \times (23.15-6.5)^2 + 8 \times 40.56 \times (51-23.15)^2$$</p>
-<p>$$= \frac{30 \times 12{,}406}{3} + 59.85 \times 277.2 + 324.5 \times 776.2$$</p>
-<p>$$= 124{,}060 + 16{,}591 + 251{,}827 = \boxed{392{,}478 \approx 392{,}500 \text{ cm}^4}$$</p>
+<h3>Step 3：開裂轉換斷面 $I_{cr}$（兩排分算，$d'=6.5$ cm）</h3>
+<p>$$\frac{b(kd)^2}{2} + (n-1)A_s'(kd-d') = nA_{s1}(d_1-kd) + nA_{s2}(d_2-kd),\quad A_{s1}=A_{s2}=20.28\text{ cm}^2$$<br />
+$$15(kd)^2 + 390.59(kd) - 17{,}188.7 = 0 \ \Rightarrow\ \boxed{kd = 23.25 \text{ cm}}$$</p>
+<p>$$I_{cr} = \frac{30 \times 23.25^3}{3} + 7.128 \times 8.55 \times (23.25-6.5)^2 + 8.128 \times 20.28 \times \left[(53.46-23.25)^2 + (48.42-23.25)^2\right]$$</p>
+<p>$$= 125{,}665 + 17{,}096 + 150{,}438 + 104{,}431 = \boxed{397{,}629 \text{ cm}^4}$$</p>
 <hr />
-<h3>Step 4：各水準有效慣性矩 $I_e$</h3>
-<p><strong>持續荷載水準</strong> ($M_a = 745{,}600$ kgf·cm)：<br />
-$$\left(\frac{M_{cr}}{M_a}\right)^3 = \left(\frac{602{,}460}{745{,}600}\right)^3 = (0.8080)^3 = 0.5278$$</p>
-<p>$$I_{e,sus} = 0.5278 \times 540{,}000 + 0.4722 \times 392{,}500 = 285{,}012 + 185{,}240 = \boxed{470{,}252 \text{ cm}^4}$$</p>
-<p><strong>全活載重水準</strong> ($M_a = 2{,}025{,}600$ kgf·cm)：<br />
-$$\left(\frac{M_{cr}}{M_a}\right)^3 = \left(\frac{602{,}460}{2{,}025{,}600}\right)^3 = (0.2974)^3 = 0.02626$$</p>
-<p>$$I_{e,LL} = 0.02626 \times 540{,}000 + 0.97374 \times 392{,}500 = 14{,}180 + 382{,}242 = \boxed{396{,}422 \text{ cm}^4}$$</p>
+<h3>Step 4：各水準有效慣性矩 $I_e$（現行規範表 24.2.3.5）</h3>
+<p>$$1-\frac{I_{cr}}{I_g} = 1-\frac{397{,}629}{540{,}000} = 0.2637$$</p>
+<table>
+<thead>
+<tr>
+<th>水準</th>
+<th>$M_a$</th>
+<th>$\left(\frac{4.016}{M_a}\right)^2$</th>
+<th>$I_e=\dfrac{397{,}629}{1-(\cdot)\times0.2637}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D</td>
+<td>4.256</td>
+<td>0.8904</td>
+<td><strong>519,606 cm⁴</strong></td>
+</tr>
+<tr>
+<td>D＋0.2L</td>
+<td>7.456</td>
+<td>0.2901</td>
+<td><strong>430,562 cm⁴</strong></td>
+</tr>
+<tr>
+<td>D＋L</td>
+<td>20.256</td>
+<td>0.0393</td>
+<td><strong>401,793 cm⁴</strong></td>
+</tr>
+</tbody>
+</table>
 <hr />
-<h3>Step 5：三項即時撓度（$\Delta_i = \frac{5wL^4}{384E_cI_e}$）</h3>
-<p>共同因子：$\frac{5L^4}{384} = \frac{5 \times 800^4}{384} = \frac{5 \times 4.096 \times 10^{11}}{384} = 5.333 \times 10^9$ cm</p>
-<p><strong>(a) $({\Delta_i})_D$（DL 未開裂，$I_e = I_g = 540{,}000$ cm⁴）：</strong><br />
-$$EI_D = 255{,}000 \times 540{,}000 = 1.377 \times 10^{11} \text{ kgf·cm}^2$$</p>
-<p>$$\boxed{({\Delta_i})_D = \frac{5.32 \times 5.333 \times 10^9}{1.377 \times 10^{11}} = \frac{2.837 \times 10^{10}}{1.377 \times 10^{11}} = 0.206 \text{ cm}}$$</p>
-<p><strong>(b) $({\Delta_i})_{sus}$（持續 LL = 4 kgf/cm，$I_e = 470{,}252$ cm⁴）：</strong><br />
-$$EI_{sus} = 255{,}000 \times 470{,}252 = 1.199 \times 10^{11}$$</p>
-<p>$$\boxed{({\Delta_i})_{sus} = \frac{4.0 \times 5.333 \times 10^9}{1.199 \times 10^{11}} = \frac{2.133 \times 10^{10}}{1.199 \times 10^{11}} = 0.178 \text{ cm}}$$</p>
-<p><strong>(c) $({\Delta_i})_l$（全 LL = 20 kgf/cm，$I_e = 396{,}422$ cm⁴）：</strong><br />
-$$EI_{LL} = 255{,}000 \times 396{,}422 = 1.011 \times 10^{11}$$</p>
-<p>$$\boxed{({\Delta_i})_l = \frac{20.0 \times 5.333 \times 10^9}{1.011 \times 10^{11}} = \frac{1.067 \times 10^{11}}{1.011 \times 10^{11}} = 1.055 \text{ cm}}$$</p>
+<h3>Step 5：各水準總即時撓度（$\Delta = \frac{5wL^4}{384E_cI_e}$）</h3>
+<p>共同因子：$\dfrac{5L^4}{384} = \dfrac{5 \times 800^4}{384} = 5.333 \times 10^9$ cm⁴</p>
+<p>$$\Delta_D = \frac{5.32 \times 5.333 \times 10^9}{250{,}998 \times 519{,}606} = 0.218 \text{ cm}$$</p>
+<p>$$\Delta_{D+0.2L} = \frac{9.32 \times 5.333 \times 10^9}{250{,}998 \times 430{,}562} = 0.460 \text{ cm}$$</p>
+<p>$$\Delta_{D+L} = \frac{25.32 \times 5.333 \times 10^9}{250{,}998 \times 401{,}793} = 1.339 \text{ cm}$$</p>
+<p><strong>㈠ 靜載重下位移：</strong><br />
+$$\boxed{(\Delta_i)_d = \Delta_D = 0.218 \text{ cm}}$$</p>
+<p><strong>㈡ 持續載重下位移</strong>（兩種寫法並列）：<br />
+$$\boxed{(\Delta_i)_{sus} = \Delta_{D+0.2L} = 0.460 \text{ cm（D＋0.2L 總即時撓度）}}$$<br />
+$$\boxed{\Delta_{D+0.2L} - \Delta_D = 0.460 - 0.218 = 0.242 \text{ cm（其中 0.2L 增量）}}$$</p>
+<p><strong>㈢ 活載重產生之瞬間位移：</strong><br />
+$$\boxed{(\Delta_i)_l = \Delta_{D+L} - \Delta_D = 1.339 - 0.218 = 1.121 \text{ cm}}$$</p>
 <hr />
-<h3>Step 6：長期修正係數 $\lambda$</h3>
-<p>$$\rho' = \frac{A_s'}{b \cdot d} = \frac{8.55}{30 \times 51} = 0.005588$$</p>
+<p><img alt="RC-2007-2 圖 1：載重 w 對跨中即時撓度 Δ 的曲線，由 Δ(w)＝5wL⁴/(384EcIe(w)) 逐點計算而上彎；標出 D、D＋0.2L、D＋L 三點 0.218／0.460／1.339 cm，差值法 ㈡ 增量 0.242、㈢ 1.121 cm，與直接法 1.058 cm 對照" src="../../raw/solutions/RC-2007-2/figs/RC-2007-2-fig-1-load-deflection.svg" /></p>
+<p><em>圖 1　載重–撓度曲線（$I_e$ 隨載重水準下降，曲線上彎）。所求部分載重的撓度是曲線上兩點的差；直接法把活載重單獨配 $I_{e,D+L}$，漏了靜載重部分因 $I_e$ 下降而增加的撓度，㈢ 低估約 6%。</em></p>
+<h3>Step 6：長期修正係數 $\lambda_\Delta$</h3>
+<p>$$\rho' = \frac{A_s'}{b \cdot d} = \frac{8.55}{30 \times 50.94} = 0.00559$$</p>
 <table>
 <thead>
 <tr>
 <th>時間</th>
 <th>$\xi$</th>
-<th>$\lambda = \xi/(1+50\rho')$</th>
+<th>$\lambda_\Delta = \xi/(1+50\rho')$</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>1 年</td>
 <td>1.4</td>
-<td>$1.4/(1+0.2794) = 1.094$</td>
+<td>$1.4/1.2797 = 1.094$</td>
 </tr>
 <tr>
 <td>5 年</td>
 <td>2.0</td>
-<td>$2.0/1.2794 = 1.563$</td>
+<td>$2.0/1.2797 = 1.563$</td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h3>Step 7：長期總撓度</h3>
-<p>持續載重之即時撓度：<br />
-$$(\Delta_i)_{sustained} = ({\Delta_i})_D + ({\Delta_i})_{sus} = 0.206 + 0.178 = 0.384 \text{ cm}$$</p>
-<p>非持續 LL 之即時撓度：<br />
-$$(\Delta_i)_{non-sus} = ({\Delta_i})_l - ({\Delta_i})_{sus} = 1.055 - 0.178 = 0.877 \text{ cm}$$</p>
-<p>長期總撓度公式：<br />
-$$\Delta_{total} = (\Delta_i)_{sustained} \times (1+\lambda) + (\Delta_i)_{non-sus}$$</p>
-<p><strong>(d) 一年後總撓度：</strong><br />
-$$\Delta_{total,1yr} = 0.384 \times (1 + 1.094) + 0.877 = 0.384 \times 2.094 + 0.877 = 0.804 + 0.877 = \boxed{1.681 \approx 1.68 \text{ cm}}$$</p>
-<p><strong>(e) 五年後總撓度：</strong><br />
-$$\Delta_{total,5yr} = 0.384 \times (1 + 1.563) + 0.877 = 0.384 \times 2.563 + 0.877 = 0.984 + 0.877 = \boxed{1.861 \approx 1.86 \text{ cm}}$$</p>
+<p>總撓度＝全部載重即時撓度＋持續載重即時撓度 × $\lambda_\Delta$：<br />
+$$\Delta_{total} = \Delta_{D+L} + \lambda_\Delta\,\Delta_{D+0.2L}$$</p>
+<p><strong>㈣ 一年後總位移：</strong><br />
+$$\Delta_{total,1yr} = 1.339 + 1.094 \times 0.460 = 1.339 + 0.503 = \boxed{1.84 \text{ cm}}$$</p>
+<p><strong>㈤ 五年後總位移：</strong><br />
+$$\Delta_{total,5yr} = 1.339 + 1.563 \times 0.460 = 1.339 + 0.719 = \boxed{2.06 \text{ cm}}$$</p>
+<p>（等價寫法：持續部分 $0.460\times(1+\lambda_\Delta)$ ＋ 非持續活載重 $1.339-0.460=0.879$。）</p>
 <hr />
 <h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
-<h3>彙總表</h3>
+<h3>彙總表（現行規範主線）</h3>
 <table>
 <thead>
 <tr>
@@ -544,40 +644,82 @@ $$\Delta_{total,5yr} = 0.384 \times (1 + 1.563) + 0.877 = 0.384 \times 2.563 + 0
 </thead>
 <tbody>
 <tr>
-<td>$({\Delta_i})_D$（DL，未裂，$I_e = I_g$）</td>
-<td><strong>0.206 cm</strong></td>
+<td>㈠ $(\Delta_i)_d$</td>
+<td><strong>0.218 cm</strong></td>
 </tr>
 <tr>
-<td>$({\Delta_i})_{sus}$（持續 LL = 20%×LL）</td>
-<td><strong>0.178 cm</strong></td>
+<td>㈡ $(\Delta_i)_{sus}$：D＋0.2L 總值／0.2L 增量</td>
+<td><strong>0.460 cm／0.242 cm</strong></td>
 </tr>
 <tr>
-<td>$({\Delta_i})_l$（全 LL）</td>
-<td><strong>1.055 cm</strong></td>
+<td>㈢ $(\Delta_i)_l$</td>
+<td><strong>1.121 cm</strong></td>
 </tr>
 <tr>
-<td>$\Delta_{total,1yr}$（1 年後）</td>
-<td><strong>1.68 cm</strong></td>
+<td>㈣ 1 年後總位移</td>
+<td><strong>1.84 cm</strong></td>
 </tr>
 <tr>
-<td>$\Delta_{total,5yr}$（5 年後）</td>
-<td><strong>1.86 cm</strong></td>
+<td>㈤ 5 年後總位移</td>
+<td><strong>2.06 cm</strong></td>
 </tr>
 </tbody>
 </table>
-<h3>爭議：DL 未裂但加上持續 LL 後才裂</h3>
-<p>本題有一特殊現象：DL 單獨作用時 $M_{DL} = 4.26 &lt; M_{cr} = 6.02$ tf·m（未裂），但一旦加上 20%LL = 3.2 tf·m，合計 7.46 tf·m &gt; 6.02 tf·m（開裂）。</p>
-<p>這表示：</p>
+<h3>方法與規範版本對照</h3>
+<table>
+<thead>
+<tr>
+<th>小題</th>
+<th>現行 $I_e$＋差值法（主線）</th>
+<th>Branson＋差值法</th>
+<th>舊解：Branson＋直接法＋$E_c=E_s/8$、$d$＝50.69</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>㈠</td>
+<td>0.218</td>
+<td>0.209</td>
+<td>0.206</td>
+</tr>
+<tr>
+<td>㈡ 總值／增量</td>
+<td>0.460／0.242</td>
+<td>0.419／0.210</td>
+<td>—／0.178</td>
+</tr>
+<tr>
+<td>㈢</td>
+<td>1.121</td>
+<td>1.131</td>
+<td>1.055</td>
+</tr>
+<tr>
+<td>㈣</td>
+<td>1.84</td>
+<td>1.80</td>
+<td>1.68</td>
+</tr>
+<tr>
+<td>㈤</td>
+<td>2.06</td>
+<td>2.00</td>
+<td>1.86</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>計算 $({\Delta_i})_D$ 時使用 $I_g$（正確）</li>
-<li>計算 $({\Delta_i})_{sus}$ 時使用 $I_{e,sus}$（基於 $M_{DL}+M_{sus}$），此 $I_e$ 已反映裂縫狀態</li>
+<li>舊解的主要問題是<strong>直接法</strong>：把 0.4、2.0 tf/m 單獨配上該水準 $I_e$ 算撓度，等於假設這部分載重作用在已開裂的勁度上而前面的載重不受影響；但 $I_e$ 由 $I_{e,D}$ 降到 $I_{e,D+L}$ 時，靜載重部分的撓度也增加了。差值法才符合規範「同一載重水準的總撓度」定義；光是方法差就使 ㈣㈤ 低估約 7%。</li>
+<li>$E_c$：本題未給 $n$，取 $15000\sqrt{f'_c}$＝250,998；舊解用 $E_s/8$＝255,000（差 1.6%）。</li>
+<li>$d$ 假設敏感度：$d$＝50／52 cm 時 $\Delta_{D+L}$ 約 1.40／1.28 cm（±5%），須明列假設。</li>
 </ul>
-<p>若改用：$({\Delta_i})_{sus} = \Delta_{DL+sus} - ({\Delta_i})_D$ 的差值法（同一 $I_{e,sus}$）：<br />
-$\Delta_{DL+sus} = 9.32 \times 5.333 \times 10^9/1.199 \times 10^{11} = 0.415$ cm<br />
-$({\Delta_i})_{sus,diff} = 0.415 - 0.206 = 0.209$ cm</p>
-<p>這與直接法（0.178 cm）略有差異，是因為不同 $I_e$ 的非線性。兩種方法在考試中均可接受，本解採直接法。</p>
+<h3>現象：D 未達 $M_{cr}$ 但 $I_e$ 已折減</h3>
+<p>$M_D$＝4.256 ＜ $M_{cr}$＝6.024，舊規範 Branson 式判 $I_e=I_g$；現行式以 $\frac23M_{cr}$＝4.016 為門檻，考慮收縮與溫度約束使實際開裂彎矩低於理論 $M_{cr}$，因此 D 水準 $I_e$＝519,606（比 $I_g$ 小 4%）。</p>
 <h3>$\xi = 1.4$（1 年）vs $\xi = 2.0$（≥5 年）</h3>
-<p>$\xi$ 值對應關係：3 個月 = 1.0，6 個月 = 1.2，1 年 = 1.4，5 年以上 = 2.0。</p></main>
+<p>$\xi$ 值對應關係：3 個月 = 1.0，6 個月 = 1.2，1 年 = 1.4，5 年以上 = 2.0。</p>
+<p><em>修正日期：2026-11-15（§1 改為指向題目正本；舊 §1 重述改寫為常見誤讀與本解記號；本行非答案勘誤）</em></p>
+<p><em>修正日期：2026-11-15（FIX-RC-U3-B1 解析勘誤，改依現行台灣規範（建築物混凝土結構設計規範 2023）：㈡㈢ 由直接法改差值法；$I_e$ 改現行表 24.2.3.5（$\frac23M_{cr}$ 式）；$E_c$ 改 $15000\sqrt{f'_c}$、$d$ 改明列假設 50.94 cm、$I_{cr}$ 兩排分算：㈠ 0.206 → <strong>0.218</strong>、㈡ 0.178 → <strong>0.460（總值）／0.242（增量）</strong>、㈢ 1.055 → <strong>1.121</strong>、㈣ 1.68 → <strong>1.84</strong>、㈤ 1.86 → <strong>2.06 cm</strong>；Branson 與舊解對照列 §5。驗證：check_errata_U3_B1.py 重算、總撓度兩種寫法交叉，MISMATCHES: 0）</em></p>
+<p><em>圖解補繪：2026-11-15（DIAG-RC-U3-B1，向量圖，腳本 <code>figs/gen_RC-2007-2.py</code>，可重跑；非勘誤、答案不變）</em></p></main>
 <footer>來源：raw/solutions/RC-2007-2/RC-2007-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>
 /* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，

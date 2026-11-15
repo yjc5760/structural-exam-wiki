@@ -32,79 +32,188 @@ blockquote{border-left:4px solid #90caf9;background:#f1f8ff;margin:14px 0;paddin
 footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
 </style></head><body>
 <header><h1>RC-2007-3 題目解析</h1><div class="navbtns"></div></header>
-<main><h3>考題編號：RC-2007-3</h3>
-<p><strong>主分類：</strong> <code>RC-U3-2</code> 樓版與基腳設計<br />
-<strong>副分類：</strong> 無<br />
-<strong>設計法：</strong> USD強度設計法<br />
-<strong>標籤：</strong> <code>獨立基腳</code> <code>正方形基腳</code> <code>因數化土壓</code> <code>彎矩檢核</code> <code>單向剪力</code> <code>穿孔剪力</code> <code>φMn驗算</code> <code>雙向剪力</code></p>
-<hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>一方形獨立基腳，<strong>檢核承受彎矩與剪力之適當性</strong>。</p>
-<p><strong>已知條件：</strong></p>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>RC-2007-3 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>RC-2007-3.md</code>。<br />
+判讀清單已經確認（凍結）；本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
 <table>
 <thead>
 <tr>
 <th>項目</th>
-<th>數值</th>
+<th>內容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>柱斷面</td>
-<td>$45 \times 45$ cm</td>
+<td>考卷</td>
+<td><code>raw/exams/RC-2007_鋼筋混凝土設計與預力.pdf</code> 第 1 頁（正面），第三題</td>
 </tr>
 <tr>
-<td>靜載重 $P_{DL}$</td>
-<td>100 tf</td>
+<td>考年</td>
+<td>民國 96 年（2007）</td>
 </tr>
 <tr>
-<td>活載重 $P_{LL}$</td>
-<td>80 tf</td>
+<td>配分</td>
+<td>25 分</td>
 </tr>
 <tr>
-<td>基腳尺寸</td>
-<td>$3 \times 3$ m，方形</td>
+<td>附圖</td>
+<td>無（純文字題）</td>
 </tr>
 <tr>
-<td>基腳埋置深度</td>
-<td>地表下 1.5 m</td>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-15 使用者授權依 Claude 建議確認；轉錄 2026-11-15；PyMuPDF 110 dpi 全頁目視；文字以 PDF 文字層核對；盲讀後才比對既有解析）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>三、一柱 45 cm×45 cm，其所受之靜載重 100 tf，活載重 80 tf，由一位於地表下 1.5 m 處之正方形獨立基腳支持，該基腳為 3 m×3 m，有效深度 50 cm，$f'_c$＝280 kgf/cm²，$f_y$＝4,200 kgf/cm²，混凝土單位重 2.4 tf/m³，土壤單位重 2 tf/m³，土壤承載力為 25 tf/m²，在基腳內二垂直方向之鋼筋量均為 50 cm²，試檢核該基腳承受彎矩與剪力之適當性。（25 分）</p>
+</blockquote>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>卷首「以下各題之計算所用之規定及常數如下（※如有條件不足時，請自行合理假設）」照錄：</li>
+<li>靜載重因數 1.2，活載重因數 1.6</li>
+<li>強度折減係數：⑴拉力控制斷面：0.90，（$\varepsilon_t$ 大於 0.005）；⑵壓力控制斷面：0.65（$f_y$＝4,200 kgf/cm² 時 $\varepsilon_t$ 小於 0.002）；⑶過渡斷面：介於⑴及⑵間者，$\phi$＝0.483＋83.3$\varepsilon_t$；$\varepsilon_t$ 為構件破壞時最外受拉鋼筋淨拉應變值；⑷剪力：0.75；⑸柱：0.65</li>
+<li>$E_s$＝2.04×10⁶ kgf/cm²</li>
+<li>D29 之面積為 6.469 cm²</li>
+<li>題文數值：柱 45×45 cm；靜載重 100 tf、活載重 80 tf；基腳位於地表下 1.5 m；基腳 3 m×3 m、有效深度 50 cm；$f'_c$＝280、$f_y$＝4,200 kgf/cm²；混凝土單位重 2.4、土壤單位重 2 tf/m³；土壤承載力 25 tf/m²；二向鋼筋量均為 50 cm²。</li>
+<li><strong>沒有給</strong>：基腳全厚（只給有效深度）、保護層與鋼筋號數、柱的 $f'_c$。</li>
+<li>卷首注意事項：㈠可以使用電子計算器。㈡不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p>本題考卷沒有附圖。</p>
+<h2>4. 判讀清單</h2>
+<p>「把握」標<strong>不確定</strong>者優先列；解讀類項目（題目用字的意思）另標「解讀」。標「依 Claude 建議確認」者，為使用者 2026-11-15 授權「要我確認的請依你建議」後定案。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>「位於地表下 1.5 m 處」</td>
+<td>基腳底面在地表下 1.5 m（基腳＋上方覆土共 1.5 m）</td>
+<td>題文</td>
+<td>確定（解讀）；依 Claude 建議確認</td>
 </tr>
 <tr>
-<td>有效深度 $d$</td>
-<td>50 cm</td>
+<td>2</td>
+<td>土壤承載力 25 tf/m²</td>
+<td>容許（使用載重）總承載力；檢核尺寸時須扣除基腳與覆土重</td>
+<td>題文「土壤承載力」</td>
+<td>確定（解讀）</td>
 </tr>
 <tr>
-<td>$f'_c$</td>
-<td>280 kgf/cm²</td>
+<td>3</td>
+<td>鋼筋量</td>
+<td>每一方向全寬（3 m）共 50 cm²</td>
+<td>題文「二垂直方向之鋼筋量均為 50 cm²」</td>
+<td>確定（解讀）</td>
 </tr>
 <tr>
-<td>$f_y$</td>
-<td>4200 kgf/cm²</td>
+<td>4</td>
+<td>載重因數與 $\phi$</td>
+<td>卷首 1.2D＋1.6L；剪力 $\phi$＝0.75、撓曲依 $\varepsilon_t$（卷首）；屬題目印出的規範係數，依現行規範換用（同值）</td>
+<td>卷首</td>
+<td>確定</td>
 </tr>
 <tr>
-<td>$\gamma_c$，$\gamma_s$</td>
-<td>2.4，2.0 tf/m³</td>
+<td>5</td>
+<td>所求</td>
+<td>檢核彎矩強度與剪力強度（單向剪力與雙向穿孔剪力）的適當性</td>
+<td>題文「承受彎矩與剪力」</td>
+<td>確定（解讀）</td>
 </tr>
 <tr>
-<td>土壤承載力</td>
-<td>25 tf/m²</td>
-</tr>
-<tr>
-<td>雙向配筋 $A_s$（每方向）</td>
-<td>50 cm²（全寬 3 m）</td>
+<td>6</td>
+<td>考卷沒有給</td>
+<td>基腳全厚、保護層、鋼筋號數</td>
+<td>全題</td>
+<td>確定</td>
 </tr>
 </tbody>
 </table>
 <hr />
+<p><em>轉錄：2026-11-15（RC-U3-1／U3-2 題目正本推廣・批 1）</em></p>
+<p><em>確認：2026-11-15 使用者授權依 Claude 建議確認（RC-U3-1／U3-2 題目正本推廣・批 1，關卡一）</em></p></details>
+<h3>考題編號：RC-2007-3</h3>
+<p><strong>主分類：</strong> <code>RC-U3-2</code> 樓版與基腳設計<br />
+<strong>副分類：</strong> 無<br />
+<strong>設計法：</strong> USD強度設計法<br />
+<strong>標籤：</strong> <code>獨立基腳</code> <code>正方形基腳</code> <code>因數化土壓</code> <code>彎矩檢核</code> <code>單向剪力</code> <code>穿孔剪力</code> <code>φMn驗算</code> <code>雙向剪力</code> <code>現行規範2023</code> <code>ρw單向剪力式</code></p>
+<hr />
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="RC-2007-3-problem.md"><code>RC-2007-3-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「地表下 1.5 m」</td>
+<td>基腳底面在地表下 1.5 m（基腳＋覆土共 1.5 m）</td>
+<td>基腳頂面在地表下 1.5 m</td>
+</tr>
+<tr>
+<td>土壤承載力 25 tf/m²</td>
+<td>容許總承載力；扣除基腳與覆土重後才是可承受柱載重的淨承載力</td>
+<td>直接用柱載重／面積比較</td>
+</tr>
+<tr>
+<td>設計土壓</td>
+<td>強度檢核用因數化柱載重／面積（基腳與覆土重不產生彎矩、剪力）</td>
+<td>因數化土壓含基腳自重</td>
+</tr>
+<tr>
+<td>鋼筋量 50 cm²</td>
+<td>每一方向全寬 3 m 合計</td>
+<td>每公尺寬</td>
+</tr>
+<tr>
+<td>剪力</td>
+<td>單向剪力與雙向穿孔剪力皆須檢核</td>
+<td>只檢核其一</td>
+</tr>
+<tr>
+<td>全厚</td>
+<td>考卷只給有效深度 50 cm</td>
+<td>把 50 cm 當全厚</td>
+</tr>
+<tr>
+<td>單向剪力 $V_c$</td>
+<td>基腳沒有剪力筋（$A_v&lt;A_{v,\min}$）→ 現行規範用 $2.12\lambda_s\lambda\rho_w^{1/3}\sqrt{f'_c}b_wd$；基腳可取 $\lambda_s$＝1</td>
+<td>沿用舊式 $0.53\sqrt{f'_c}b_wd$（本庫舊解，結論「合適」）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> $B$＝300 cm；柱 $c$＝45 cm；$d$＝50 cm；$q_a$＝25 tf/m²；$\rho_w=A_s/(Bd)$；1.2D＋1.6L、剪力 $\phi$＝0.75（卷首與現行規範同值）。</p>
+<hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
 <p><strong>核心：</strong> 方形基腳有三項強度驗算——<strong>彎矩</strong>、<strong>單向剪力</strong>（廣剪）、<strong>雙向剪力</strong>（衝剪）。</p>
-<p><strong>關鍵規則：</strong></p>
+<p><strong>關鍵規則（現行建築物混凝土結構設計規範 2023）：</strong></p>
 <ul>
 <li>結構設計使用<strong>因數化淨上壓力</strong> $q_u = P_u/A$（不含基腳自重）</li>
 <li>彎矩臨界斷面：柱面</li>
-<li>單向剪力臨界斷面：距柱面 $d$ 處</li>
-<li>雙向剪力臨界周長：距柱面 $d/2$ 處圍起之矩形</li>
+<li>單向剪力臨界斷面：距柱面 $d$ 處；基腳無剪力筋 → $V_c=2.12\lambda_s\lambda\rho_w^{1/3}\sqrt{f'_c}b_wd$（$\le1.33\lambda\sqrt{f'_c}b_wd$）</li>
+<li>雙向剪力臨界周長：距柱面 $d/2$ 處圍起之矩形；$v_c$ 取三式最小</li>
+<li><strong>尺寸效應 $\lambda_s$</strong>：一向淺基礎、獨立基腳、聯合基腳與筏基的單向與雙向剪力<strong>可忽略 $\lambda_s$（取 1.0）</strong>（規範 13.2.6.2，同 ACI 318-19 13.2.6.2）；樁帽不適用此放寬</li>
 </ul>
+<p>出題年代（2007）規範的單向剪力是 $0.53\sqrt{f'_c}b_wd$，與配筋量無關；現行規範改成與 $\rho_w^{1/3}$ 相關，配筋少的厚基腳單向剪力強度明顯下降——這是本題結論改變的原因。</p>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
 <table>
@@ -125,15 +234,15 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 <tr>
 <td>3</td>
-<td><strong>單向剪力</strong>：臨界斷面在柱面 + $d$ 處，計算 $V_u$，與 $\phi V_c$ 比較</td>
+<td><strong>單向剪力</strong>：臨界斷面在柱面 + $d$ 處，計算 $V_u$；求 $\rho_w$，用現行式算 $\phi V_c$</td>
 </tr>
 <tr>
 <td>4</td>
-<td><strong>雙向剪力</strong>：計算臨界周長 $b_o$，求 $V_u$ 與 $\phi V_c$ 比較</td>
+<td><strong>雙向剪力</strong>：計算臨界周長 $b_o$，求 $V_u$，三式取最小 $\phi V_c$</td>
 </tr>
 </tbody>
 </table>
-<p><strong>四大陷阱：</strong></p>
+<p><strong>五大陷阱：</strong></p>
 <table>
 <thead>
 <tr>
@@ -151,11 +260,15 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <td>從柱面起量 $d$，非從基腳邊緣</td>
 </tr>
 <tr>
+<td>⚠ 單向剪力用舊式</td>
+<td>基腳無剪力筋，現行規範須用含 $\rho_w^{1/3}$ 的式子；$\rho_w$＝0.00333 時係數只有 $2.12\times0.1494=0.317$，約為舊式 0.53 的 60%</td>
+</tr>
+<tr>
 <td>⚠ 雙向剪力 $b_o$</td>
 <td>$b_o = 4(c+d) = 4 \times 95 = 380$ cm（柱 45 + $d$ 50 = 95 cm 每邊）</td>
 </tr>
 <tr>
-<td>⚠ $V_u$（衝剪）需扣除柱投影區土壓</td>
+<td>⚠ $V_u$（衝剪）需扣除臨界周長內土壓</td>
 <td>$V_u = P_u - q_u \times (c+d)^2$</td>
 </tr>
 </tbody>
@@ -166,13 +279,13 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
 </blockquote>
 <h3>最終目標</h3>
-<p><code>驗算方形基腳承受因數化載重時，彎矩、單向剪力、雙向剪力均在容量之內</code></p>
+<p><code>驗算方形基腳承受因數化載重時，彎矩、單向剪力、雙向剪力是否在容量之內</code></p>
 <h3>本題關鍵公式（依計算順序）</h3>
 <p>$$\text{Step 1: } P_u = 1.2P_{DL} + 1.6P_{LL}, \quad q_u = \frac{P_u}{B^2}$$</p>
 <p>$$\text{Step 2 (彎矩): } M_u = q_u \cdot B \cdot \frac{L_c^2}{2}, \quad \phi M_n = \phi A_s f_y \!\left(d - \frac{a}{2}\right)$$</p>
-<p>$$\text{Step 3 (單向剪): } V_u = q_u \cdot B \cdot (L_c - d), \quad \phi V_c = \phi \cdot 0.53\sqrt{f'_c} \cdot B \cdot d$$</p>
+<p>$$\text{Step 3 (單向剪): } V_u = q_u \cdot B \cdot (L_c - d), \quad \phi V_c = \phi \cdot 2.12\lambda_s\lambda\,\rho_w^{1/3}\sqrt{f'_c} \cdot B \cdot d\quad(\lambda_s=1)$$</p>
 <p>$$\text{Step 4 (雙向剪): } b_o = 4(c+d), \quad V_u = P_u - q_u(c+d)^2$$<br />
-$$\phi V_c = \phi \cdot 1.06\sqrt{f'_c} \cdot b_o \cdot d$$</p>
+$$\phi V_c = \phi \cdot \lambda_s\lambda\sqrt{f'_c}\,b_od\cdot\min\!\left\{1.06,\ 0.53\!\left(1+\tfrac{2}{\beta}\right),\ 0.265\!\left(2+\tfrac{\alpha_sd}{b_o}\right)\right\}\quad(\lambda_s=1)$$</p>
 <h3>L1：題目直接給定</h3>
 <table>
 <thead>
@@ -255,7 +368,7 @@ $$\phi V_c = \phi \cdot 1.06\sqrt{f'_c} \cdot b_o \cdot d$$</p>
 <tbody>
 <tr>
 <td>$M_u$</td>
-<td>$27.56\times3.0\times1.275^2/2=67.2$ tf·m</td>
+<td>$27.56\times3.0\times1.275^2/2=67.19$ tf·m</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
@@ -265,12 +378,12 @@ $$\phi V_c = \phi \cdot 1.06\sqrt{f'_c} \cdot b_o \cdot d$$</p>
 </tr>
 <tr>
 <td>$\phi M_n$</td>
-<td>$0.9\times50\times4200\times(50-1.47)=91.7$ tf·m</td>
+<td>$0.9\times50\times4200\times(50-1.47)=91.72$ tf·m</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td><strong>判斷</strong></td>
-<td>$\phi M_n=91.7&gt;M_u=67.2$ ✓</td>
+<td>$\phi M_n=91.72&gt;M_u=67.19$ ✓</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -287,17 +400,22 @@ $$\phi V_c = \phi \cdot 1.06\sqrt{f'_c} \cdot b_o \cdot d$$</p>
 <tbody>
 <tr>
 <td>$V_u$</td>
-<td>$27.56\times3.0\times(1.275-0.50)=64.1$ tf</td>
+<td>$27.56\times3.0\times(1.275-0.50)=64.07$ tf</td>
 <td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>$\rho_w$</td>
+<td>$50/(300\times50)=0.00333$；$\rho_w^{1/3}=0.1494$</td>
+<td style="text-align: center;">⚠</td>
 </tr>
 <tr>
 <td>$\phi V_c$</td>
-<td>$0.75\times0.53\sqrt{280}\times300\times50=99.8$ tf</td>
-<td style="text-align: center;"></td>
+<td>$0.75\times2.12\times1.0\times0.1494\times\sqrt{280}\times300\times50=59.62$ tf</td>
+<td style="text-align: center;">⚠</td>
 </tr>
 <tr>
 <td><strong>判斷</strong></td>
-<td>$\phi V_c=99.8&gt;V_u=64.1$ ✓</td>
+<td>$\phi V_c=59.62&lt;V_u=64.07$ ✗ <strong>不足</strong></td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -324,17 +442,22 @@ $$\phi V_c = \phi \cdot 1.06\sqrt{f'_c} \cdot b_o \cdot d$$</p>
 </tr>
 <tr>
 <td>$V_u$</td>
-<td>$248-27.56\times0.9025=223.1$ tf</td>
+<td>$248-27.56\times0.9025=223.13$ tf</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>係數</td>
+<td>$\min(1.06,\ 1.59,\ 0.265(2+40\times50/380)=1.92)=1.06$</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$\phi V_c$</td>
-<td>$0.75\times1.06\sqrt{280}\times380\times50=252.8$ tf</td>
+<td>$0.75\times1.06\times1.0\times\sqrt{280}\times380\times50=252.75$ tf</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td><strong>判斷</strong></td>
-<td>$\phi V_c=252.8&gt;V_u=223.1$ ✓</td>
+<td>$\phi V_c=252.75&gt;V_u=223.13$ ✓</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -356,8 +479,18 @@ $$\phi V_c = \phi \cdot 1.06\sqrt{f'_c} \cdot b_o \cdot d$$</p>
 </tr>
 <tr>
 <td>單向剪力臨界在 $d$ 處</td>
-<td>ACI：梁/基腳之剪力臨界斷面在支承面（柱面）起 $d$ 處</td>
+<td>梁／基腳之剪力臨界斷面在支承面（柱面）起 $d$ 處</td>
 <td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>無剪力筋 → $\rho_w^{1/3}$ 式</td>
+<td>現行規範表 22.5.5.1：$A_v&lt;A_{v,\min}$ 時只能用 $2.12\lambda_s\lambda\rho_w^{1/3}\sqrt{f'_c}$；基腳通常不配剪力筋，所以一定走這條</td>
+<td style="text-align: center;">⚠</td>
+</tr>
+<tr>
+<td>基腳 $\lambda_s$ 取 1</td>
+<td>規範 13.2.6.2：淺基礎（一向、獨立、聯合、筏基）的單向、雙向剪力可忽略尺寸效應；樁帽不在此列</td>
+<td style="text-align: center;">⚠</td>
 </tr>
 <tr>
 <td>雙向剪力 $b_o$ 公式</td>
@@ -365,8 +498,8 @@ $$\phi V_c = \phi \cdot 1.06\sqrt{f'_c} \cdot b_o \cdot d$$</p>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$\phi V_c = 1.06\sqrt{f'_c} b_o d$（方柱）</td>
-<td>此為三個 ACI 公式中最小值（$\beta_c=1$ 時），需逐一驗算取控制</td>
+<td>三式取最小</td>
+<td>方柱 $\beta=1$、內柱型 $\alpha_s=40$ 時 1.06 通常控制，仍需逐一驗算</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
@@ -381,107 +514,140 @@ $$L_c = \frac{B - c}{2} = \frac{300 - 45}{2} = \boxed{127.5 \text{ cm} = 1.275 \
 <hr />
 <h3>(a) 彎矩驗算</h3>
 <p><strong>臨界斷面：柱面處</strong></p>
-<p>$$M_u = q_u \times B \times \frac{L_c^2}{2} = 27.56 \times 3.0 \times \frac{1.275^2}{2}$$</p>
-<p>$$= 27.56 \times 3.0 \times \frac{1.6256}{2} = 27.56 \times 3.0 \times 0.8128 = \boxed{67.2 \text{ tf·m}}$$</p>
+<p>$$M_u = q_u \times B \times \frac{L_c^2}{2} = 27.56 \times 3.0 \times \frac{1.275^2}{2} = 27.56 \times 3.0 \times 0.8128 = \boxed{67.19 \text{ tf·m}}$$</p>
 <p><strong>計算 $\phi M_n$：</strong>（$b = 300$ cm，$d = 50$ cm，$A_s = 50$ cm²）</p>
 <p>$$a = \frac{A_s f_y}{0.85 f'_c b} = \frac{50 \times 4200}{0.85 \times 280 \times 300} = \frac{210{,}000}{71{,}400} = 2.94 \text{ cm}$$</p>
-<p>$$\phi M_n = \phi A_s f_y \left(d - \frac{a}{2}\right) = 0.9 \times 50 \times 4200 \times \left(50 - 1.47\right)$$</p>
-<p>$$= 0.9 \times 210{,}000 \times 48.53 = 9{,}172{,}170 \text{ kgf·cm} = \boxed{91.7 \text{ tf·m}}$$</p>
-<p>$$\phi M_n = 91.7 \text{ tf·m} \quad &gt; \quad M_u = 67.2 \text{ tf·m} \quad \boxed{\checkmark \text{ 彎矩強度合適}}$$</p>
+<p>$$c=\frac{a}{\beta_1}=\frac{2.94}{0.85}=3.46\text{ cm},\quad \varepsilon_t=0.003\times\frac{50-3.46}{3.46}=0.040&gt;0.005\ \Rightarrow\ \phi=0.9$$</p>
+<p>$$\phi M_n = 0.9 \times 50 \times 4200 \times \left(50 - 1.47\right) = 9{,}172{,}060 \text{ kgf·cm} = \boxed{91.72 \text{ tf·m}}$$</p>
+<p>$$\phi M_n = 91.72 \text{ tf·m} \quad &gt; \quad M_u = 67.19 \text{ tf·m} \quad \boxed{\checkmark \text{ 彎矩強度合適}}$$</p>
+<p>最少鋼筋（版、基腳 $0.0018A_g$，全厚假設 $h$＝60 cm）：$0.0018\times300\times60=32.4\text{ cm}^2\le50\text{ cm}^2$ ✓</p>
 <hr />
 <h3>(b) 單向剪力驗算（寬梁剪力）</h3>
 <p><strong>臨界斷面：距柱面 $d = 50$ cm 處</strong></p>
 <p>距基腳邊緣之剩餘懸臂 = $L_c - d = 127.5 - 50 = 77.5$ cm = 0.775 m</p>
-<p>$$V_u = q_u \times B \times (L_c - d) = 27.56 \times 3.0 \times 0.775 = \boxed{64.1 \text{ tf}}$$</p>
-<p><strong>混凝土剪力強度：</strong>（$b_w = B = 300$ cm）</p>
-<p>$$\phi V_c = \phi \times 0.53\sqrt{f'_c} \times b_w \times d = 0.75 \times 0.53\sqrt{280} \times 300 \times 50$$</p>
-<p>$$= 0.75 \times 0.53 \times 16.73 \times 300 \times 50 = 0.75 \times 133{,}000 = \boxed{99.8 \text{ tf}}$$</p>
-<p>$$\phi V_c = 99.8 \text{ tf} \quad &gt; \quad V_u = 64.1 \text{ tf} \quad \boxed{\checkmark \text{ 單向剪力合適}}$$</p>
+<p>$$V_u = q_u \times B \times (L_c - d) = 27.56 \times 3.0 \times 0.775 = \boxed{64.07 \text{ tf}}$$</p>
+<p><strong>混凝土剪力強度</strong>（現行規範表 22.5.5.1；基腳無剪力筋 $A_v&lt;A_{v,\min}$；常重混凝土 $\lambda$＝1；基腳依 13.2.6.2 取 $\lambda_s$＝1）：</p>
+<p>$$\rho_w = \frac{A_s}{b_wd} = \frac{50}{300\times50} = 0.00333,\qquad \rho_w^{1/3} = 0.1494$$</p>
+<p>$$V_c = 2.12\lambda_s\lambda\,\rho_w^{1/3}\sqrt{f'_c}\,b_wd = 2.12\times1.0\times0.1494\times16.733\times300\times50 = 79{,}490 \text{ kgf}$$</p>
+<p>上限 $1.33\lambda\sqrt{f'_c}b_wd=333.8$ tf，不控制。</p>
+<p>$$\phi V_c = 0.75 \times 79.49 = \boxed{59.62 \text{ tf}} \quad &lt; \quad V_u = 64.07 \text{ tf} \quad \boxed{\times \text{ 單向剪力不足}}$$</p>
+<p>（$V_u/\phi V_c$＝1.075，不足約 7%。）</p>
 <hr />
 <h3>(c) 雙向剪力驗算（衝剪）</h3>
 <p><strong>臨界周長：距柱面 $d/2 = 25$ cm 處</strong></p>
 <p>臨界方塊邊長：$c + d = 45 + 50 = 95$ cm</p>
 <p>$$b_o = 4 \times (c + d) = 4 \times 95 = \boxed{380 \text{ cm}}$$</p>
-<p><strong>衝剪力（扣除柱下方土壓）：</strong></p>
-<p>$$V_u = P_u - q_u \times (c+d)^2 = 248 - 27.56 \times \frac{95^2}{10{,}000}$$</p>
-<p>$$= 248 - 27.56 \times 0.9025 = 248 - 24.87 = \boxed{223.1 \text{ tf}}$$</p>
-<p><strong>雙向剪力強度</strong>（方柱 $\beta_c = 45/45 = 1$，取三式最小值）：</p>
+<p><strong>衝剪力（扣除臨界周長內土壓）：</strong></p>
+<p>$$V_u = P_u - q_u \times (c+d)^2 = 248 - 27.56 \times 0.9025 = 248 - 24.87 = \boxed{223.13 \text{ tf}}$$</p>
+<p><strong>雙向剪力強度</strong>（方柱 $\beta = 1$；柱下基腳視同內柱 $\alpha_s=40$；$\lambda_s$＝1），係數取三式最小：</p>
 <table>
 <thead>
 <tr>
-<th>公式</th>
-<th>計算</th>
-<th>結果</th>
+<th>式</th>
+<th>係數</th>
+<th>$V_c$</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>$(1)$ $\left(0.53+\frac{1.06}{\beta_c}\right)\sqrt{f'_c}\,b_o d$</td>
-<td>$(0.53+1.06)\times16.73\times380\times50$</td>
-<td><strong>504.7 tf</strong></td>
+<td>$0.53\left(1+\frac{2}{\beta}\right)$</td>
+<td>1.59</td>
+<td>505.5 tf</td>
 </tr>
 <tr>
-<td>$(2)$ $\left(0.27\frac{\alpha_s d}{b_o}+0.53\right)\sqrt{f'_c}\,b_o d$（$\alpha_s=40$，內柱）</td>
-<td>$\left(0.27\times\frac{40\times50}{380}+0.53\right)\times\ldots$</td>
-<td><strong>≈ 424 tf</strong></td>
+<td>$0.265\left(2+\frac{\alpha_s d}{b_o}\right)=0.265\left(2+\frac{40\times50}{380}\right)$</td>
+<td>1.92</td>
+<td>611.9 tf</td>
 </tr>
 <tr>
-<td>$(3)$ $1.06\sqrt{f'_c}\,b_o d$</td>
-<td>$1.06\times16.73\times380\times50$</td>
-<td><strong>337.0 tf</strong></td>
+<td>$1.06$</td>
+<td><strong>1.06（控制）</strong></td>
+<td>337.0 tf</td>
 </tr>
 </tbody>
 </table>
-<p>公式 (3) 控制（最小值）：</p>
-<p>$$\phi V_c = 0.75 \times 1.06 \times \sqrt{280} \times 380 \times 50 = 0.75 \times 1.06 \times 16.73 \times 19{,}000$$</p>
-<p>$$= 0.75 \times 17.737 \times 19{,}000 = 0.75 \times 337{,}000 = \boxed{252.8 \text{ tf}}$$</p>
-<p>$$\phi V_c = 252.8 \text{ tf} \quad &gt; \quad V_u = 223.1 \text{ tf} \quad \boxed{\checkmark \text{ 雙向剪力合適}}$$</p>
+<p>$$\phi V_c = 0.75 \times 1.06 \times 1.0 \times \sqrt{280} \times 380 \times 50 = 0.75 \times 337{,}000 = \boxed{252.75 \text{ tf}}$$</p>
+<p>$$\phi V_c = 252.75 \text{ tf} \quad &gt; \quad V_u = 223.13 \text{ tf} \quad \boxed{\checkmark \text{ 雙向剪力合適}}$$</p>
 <hr />
 <h2>5. 結論與進階探討</h2>
-<h3>彙總驗算表</h3>
+<h3>彙總驗算表（現行規範，基腳 $\lambda_s$＝1）</h3>
 <table>
 <thead>
 <tr>
 <th>項目</th>
 <th>需求</th>
 <th>容量</th>
-<th>安全餘裕</th>
+<th>容量／需求</th>
 <th>判斷</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>彎矩</td>
-<td>$M_u = 67.2$ tf·m</td>
-<td>$\phi M_n = 91.7$ tf·m</td>
-<td>36%</td>
+<td>$M_u = 67.19$ tf·m</td>
+<td>$\phi M_n = 91.72$ tf·m</td>
+<td>1.37</td>
 <td>✓</td>
 </tr>
 <tr>
 <td>單向剪力</td>
-<td>$V_u = 64.1$ tf</td>
-<td>$\phi V_c = 99.8$ tf</td>
-<td>56%</td>
-<td>✓</td>
+<td>$V_u = 64.07$ tf</td>
+<td>$\phi V_c = 59.62$ tf</td>
+<td>0.93</td>
+<td>✗ 不足</td>
 </tr>
 <tr>
 <td>雙向剪力</td>
-<td>$V_u = 223.1$ tf</td>
-<td>$\phi V_c = 252.8$ tf</td>
-<td>13%</td>
+<td>$V_u = 223.13$ tf</td>
+<td>$\phi V_c = 252.75$ tf</td>
+<td>1.13</td>
 <td>✓</td>
 </tr>
 </tbody>
 </table>
-<p>→ <strong>基腳所有強度均合適</strong>，但雙向剪力安全餘裕最小（13%），為設計控制點。</p>
+<p>→ <strong>彎矩與穿孔剪力合適；單向剪力依現行規範不足（約 7%）</strong>，本基腳不適當。</p>
+<p>改善方式：</p>
+<ul>
+<li>增加鋼筋量：單向剪力需 $\rho_w\ge\left(\dfrac{64.07}{0.75\times2.12\times\sqrt{280}\times300\times50/1000}\right)^3=0.00414$，即每向 $A_s\ge0.00414\times300\times50\approx62$ cm²（例如 13-D25＝65.9 cm²）即可通過；</li>
+<li>或加厚基腳（$d$ 增加同時降低 $V_u$、提高 $V_c$）。</li>
+</ul>
+<h3>規範版本對照（題目年代規範 vs 現行規範）</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>舊規範（考卷年代，舊解答案）</th>
+<th>現行規範（主線，$\lambda_s$＝1）</th>
+<th>若計入 $\lambda_s$＝0.8165（$d$＝50 cm）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>單向剪力 $\phi V_c$</td>
+<td>$0.75\times0.53\sqrt{f'_c}b_wd$＝99.77 tf ✓</td>
+<td>59.62 tf ✗</td>
+<td>48.68 tf ✗</td>
+</tr>
+<tr>
+<td>雙向剪力 $\phi V_c$</td>
+<td>252.75 tf ✓</td>
+<td>252.75 tf ✓</td>
+<td>206.37 tf ✗</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>舊解依考卷年代規範「彎矩、單向、雙向皆合適」，在當年規範下計算正確；現行規範單向剪力改用 $\rho_w^{1/3}$ 式，結論翻轉。</li>
+<li>$\lambda_s=\sqrt{2/(1+0.04d)}$（$d$ cm）。規範 13.2.6.2（同 ACI 318-19 13.2.6.2）允許一向淺基礎、獨立基腳、聯合基腳與筏基的單向與雙向剪力忽略 $\lambda_s$；若保守計入，單向與雙向都不足。</li>
+</ul>
 <h3>土壓驗算（附）</h3>
-<p>估計基腳全深 $h \approx 60$ cm（$d=50$ cm + 保護層 10 cm），服務載重土壓：</p>
-<p>$$q = \frac{P_{service} + W_f + W_s}{A} = \frac{180 + 12.96 + 16.2}{9} = \frac{209.2}{9} = 23.2 \text{ tf/m}^2 &lt; 25 \text{ tf/m}^2 \quad \checkmark$$</p>
+<p>估計基腳全深 $h \approx 60$ cm（$d=50$ cm + 約 10 cm），服務載重土壓：</p>
+<p>$$q = \frac{P_{service} + W_f + W_s}{A} = \frac{180 + 12.96 + 16.2}{9} = \frac{209.2}{9} = 23.24 \text{ tf/m}^2 &lt; 25 \text{ tf/m}^2 \quad \checkmark$$</p>
 <p>（$W_f = 2.4\times3\times3\times0.6 = 12.96$ tf，$W_s = 2.0\times9\times0.9 = 16.2$ tf）</p>
-<h3>彎矩分布係數</h3>
-<p>ACI 規定：T 形基腳（非方形柱），在柱寬 + $2d$ 的帶狀範圍內需集中較多鋼筋。對方柱方形基腳（對稱），鋼筋均勻分布即可。</p>
-<h3>最小配筋量驗算</h3>
-<p>$$A_{s,min} = 0.002 \times b \times h = 0.002 \times 300 \times 60 = 36 \text{ cm}^2 \ll 50 \text{ cm}^2 \quad \checkmark$$</p></main>
+<h3>鋼筋分布</h3>
+<p>方柱方形基腳對稱，兩向鋼筋全寬均勻分布即可；矩形基腳短向才需在中央帶（寬＝短邊）集中 $2/(\beta+1)$ 比例的鋼筋。</p>
+<p><em>修正日期：2026-11-15（§1 改為指向題目正本；舊 §1 重述改寫為常見誤讀與本解記號；本行非答案勘誤）</em></p>
+<p><em>修正日期：2026-11-15（FIX-RC-U3-B1 解析勘誤，改依現行台灣規範（建築物混凝土結構設計規範 2023）：單向剪力改用 $2.12\lambda_s\lambda\rho_w^{1/3}\sqrt{f'_c}b_wd$（基腳依 13.2.6.2 取 $\lambda_s$＝1），$\phi V_c$ 99.77 → 59.62 tf，結論「合適」→ <strong>單向剪力不足</strong>；雙向剪力 252.75 tf 合適不變；最少鋼筋改 $0.0018A_g$；舊規範與計入 $\lambda_s$ 對照列 §5。驗證：check_errata_U3_B1.py 重算、每公尺寬另路交叉，MISMATCHES: 0）</em></p></main>
 <footer>來源：raw/solutions/RC-2007-3/RC-2007-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>
 /* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，

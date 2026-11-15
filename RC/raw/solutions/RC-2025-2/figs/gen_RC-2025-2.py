@@ -27,7 +27,7 @@ TAG = "RC-2025-2"
 # §1 原始給定（RC-2025-2.md「1. 原始題目重述」，不含任何解題結果）
 # ══════════════════════════════════════════════════════════
 FC, FY, FYT = 280.0, 4200.0, 2800.0    # kgf/cm^2（混凝土、主筋、D13 箍筋）
-BW, HH, DP = 60.0, 76.0, 9.0           # 梁寬、梁總高、面至縱向筋形心（頂底皆同）cm
+BW, HH, DP = 60.0, 85.0, 9.0           # 梁寬、梁總高（假設：考卷 76 cm 量到底層筋形心，76＋9）、面至縱向筋形心（頂底皆同）cm
 N_TOP, N_BOT = 8, 6                    # 柱面處頂／底 D32 根數
 AB_D32, DB_D32 = 8.14, 3.22            # D32 單支面積 cm^2、標稱直徑 cm
 AB_D13, DB_D13 = 1.27, 1.27            # D13 單支面積 cm^2、標稱直徑 cm
@@ -163,8 +163,9 @@ def fig1():
     tx0 = cv.X(BW) + 100
     rows = [
         (C["accent"], "700", 14.5, f"d = h - d' = {HH:g} - {DP:g} = {D:g} cm"),
-        (C["muted"], "400", 12.5, f"不是 h = {HH:g} cm；頂／底 d' 皆 {DP:g} cm，"),
-        (C["muted"], "400", 12.5, f"故兩個搖擺方向的 d 都是 {D:g} cm"),
+        (C["muted"], "400", 12.5, f"考卷 76 cm 量到底層筋形心＝d，不是梁全深；"),
+        (C["muted"], "400", 12.5, f"h = {HH:g} 為假設（底筋形心至底面取 {DP:g} cm），"),
+        (C["muted"], "400", 12.5, f"頂筋受拉 d = {HH:g} - {DP:g} = {D:g} cm，兩向相同"),
         (None, None, None, None),
         (C["load"], "700", 14.5, f"A_{{v}} = {N_LEG_D} × {AB_D13:g} = {AV_D:g} cm^{{2}}"),
         (C["muted"], "400", 12.5, f"密箍區 4 腳 = 外箍 {N_LEG_G} 腳 + 繫筋 2 腳"),
@@ -479,50 +480,134 @@ def fig4():
 
 
 # ══════════════════════════════════════════════════════════
+
+# ══════════ 題目附圖重繪（-problem，2026-11-15 加入；不影響既有圖）══════════
+# ── 題目附圖重繪共用小工具（各 gen 檔內聯一份）──
+def _p_rect(cv, x0, y0, x1, y1, fill="#EDF1F6", stroke=None, w=2.4, dash=None):
+    pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]
+    if fill:
+        cv.polygon(pts, fill)
+    cv.poly(pts, stroke or C["member"], w, dash=dash)
+
+
+def _p_bar(cv, p, r, fill=None):
+    cv.circle(p, r, fill=fill or C["member"], stroke=C["member"], w=1.2)
+
+
+def _p_hoop(cv, c, B, H, w=2.0, r=None):
+    cv.poly([(c, c), (B - c, c), (B - c, H - c), (c, H - c), (c, c)], C["member"], w)
+
+
+def _p_ring_bars(cv, B, H, e, n, r):
+    """每面 n 根（含角筋）沿周邊等距排列，回傳座標"""
+    pts = set()
+    for i in range(n):
+        t = e + (B - 2 * e) * i / (n - 1)
+        u = e + (H - 2 * e) * i / (n - 1)
+        for p in ((t, e), (t, H - e), (e, u), (B - e, u)):
+            pts.add((round(p[0], 6), round(p[1], 6)))
+    for p in pts:
+        _p_bar(cv, p, r)
+    return pts
+
+
+# ── 題目附圖重繪（題目正本 RC-2025-2-problem.md §4，2026-11-15 RC-U3-3 批 2）──
+P_BW = 60.0          # #4 梁寬 60
+P_DT = 9.0           # #3 頂面→頂層筋形心 9
+P_D76 = 76.0         # #1 頂面→底層筋形心 76（＝底筋受拉 d，不是全深）
+P_HB = 9.0           # #2 底層筋形心→底面：考卷未標，採 9（假設）
+P_HT = P_D76 + P_HB  # #2 全深 85（假設）
+P_LN = 9.0           # #7 淨跨 9 m
+PPW, PPH = 600, 470
+
+
+def p_panel_elev():
+    cv = Canvas(PPW, PPH, sx=52, ox=70, oy=220)
+    hb = 0.42
+    cw = 0.6
+    _p_rect(cv, -cw, -1.6, 0, hb + 1.6, fill="#C9D1DC")             # 內柱（寬度示意）
+    _p_rect(cv, P_LN, -1.6, P_LN + cw, hb + 1.6, fill="#C9D1DC")
+    _p_rect(cv, 0, 0, P_LN, hb)
+    cv.udl((0, hb), (P_LN, hb), 0.7, n=13)                        # #6 W_u 全跨
+    cv.math((P_LN / 2, hb + 1.15), "W_{u} = 2 tf/m", 14, color=C["load"])
+    cv.dim((0, 0), (P_LN, 0), "9 m", off=60, label_off=14)
+    cv.text((P_LN / 2, -2.05), "耐震梁立面（兩端接內柱）：淨跨 9 m", 13, color=C["muted"])
+    cv.text((P_LN / 2, -2.5), "柱面處頂層 8-D32、底層 6-D32；剪力筋 D13", 12.5, color=C["muted"])
+    return cv
+
+
+def p_panel_sec():
+    cv = Canvas(PPW, PPH, sx=4.0, ox=170, oy=75)
+    _p_rect(cv, 0, 0, P_BW, P_HT)
+    yt, yb = P_HT - P_DT, P_HB
+    for y in (yt, yb):                                          # 鋼筋以帶表示（排數考卷未畫）
+        cv.polygon([(6, y - 1.6), (P_BW - 6, y - 1.6), (P_BW - 6, y + 1.6), (6, y + 1.6)], "#C9D1DC",
+                   stroke=C["member"], w=1.4)
+    cv.text((P_BW / 2, yt - 5.5), "8-D32", 14, weight="700")
+    cv.text((P_BW / 2, yb + 5.5), "6-D32", 14, weight="700")
+    cv.dim((0, P_HT), (P_BW, P_HT), "60 cm", off=-28, label_off=-14)
+    cv.dim((P_BW, P_HT), (P_BW, yt), "9 cm", off=-30, label_off=-24)
+    cv.dim((0, P_HT), (0, yb), "76 cm", off=34, label_off=26)     # 量到底層筋形心
+    cv.line((P_BW + 6, yb), (P_BW + 6, 0), C["accent"], 1.4, dash="4 3")
+    cv.text((P_BW + 9, yb / 2 + 2), "9（假設）", 12, color=C["accent"], anchor="start")
+    cv.text((P_BW + 9, yb / 2 - 3), "考卷未標", 12, color=C["accent"], anchor="start")
+    cv.text((P_BW / 2, -6), "梁斷面：76 cm 量到底層筋形心（非全深）", 12.5, color=C["muted"])
+    cv.text((P_BW / 2, -10.5), "全深採 76＋9＝85 cm（判讀 #2，假設）", 12.5, color=C["accent"])
+    return cv
+
+
+def fig1_problem():
+    from structdraw import compose
+    return compose([p_panel_elev(), p_panel_sec()], title=f"{TAG} 題目附圖（圖 1 重繪）",
+                   sub="依題目正本判讀清單 #1–#7；柱寬、鋼筋排數為示意，底部 9 cm 為假設",
+                   note="考卷 76 cm 尺寸下端在底層筋帶、不在底面；Wu 已因數化")
+
+
 FIGURES = [
+    ("1-problem", fig1_problem, "把 76 cm 讀成梁全深（它只量到底層筋形心）"),
     ("1-section", fig1,
-     f"d 誤用 h = {HH:g} 而非 h - d' = {D:g}；A_v 只算外箍 2 腳 "
+     f"把考卷 76 cm 當梁全深（它是 d = {D:g}，h 假設 {HH:g}）；A_v 只算外箍 2 腳 "
      f"{AV_G:g} 而非 4 腳 {AV_D:g} cm^2"),
     ("2-sway", fig2,
      "V_e 的 ± 取錯方向（重力與地震同向者才控制）；M_pr 用 f_y 而非 1.25f_y"),
     ("3-envelope", fig3,
      "把跨中當成「重力剪力 9 tf」而取 s = 30 cm；忘記 V_e 沿全梁都存在"),
     ("4-detailing", fig4,
-     "密箍區長度寫 2d = 134 而非 2h = 152；第一支箍寫 s_o/2 = 7.5 而非梁的 5 cm"),
+     f"密箍區長度寫 2d = {2 * D:g} 而非 2h = {L_HINGE:g}；第一支箍寫 s_o/2 = 7.5 而非梁的 5 cm"),
 ]
 
 
 def main():
     os.makedirs(OUT, exist_ok=True)
     checks = [
-        ("d cm",              D,                  67.0,    0.001),
+        ("d cm",              D,                  76.0,    0.001),
         ("A_s,top cm2",       AS_TOP,             65.12,   0.001),
         ("A_s,bot cm2",       AS_BOT,             48.84,   0.001),
         ("1.25f_y",           FY_PR,              5250.0,  0.001),
         ("a_top cm",          A_TOP,              23.94,   0.01),
-        ("M_pr^- tf·m",       MPR_N * TFM,        188.1,   0.05),
+        ("M_pr^- tf·m",       MPR_N * TFM,        218.90,  0.01),
         ("a_bot cm",          A_BOT,              17.96,   0.01),
-        ("M_pr^+ tf·m",       MPR_P * TFM,        148.8,   0.05),
-        ("V_seis tf",         V_SEIS * TF,        37.43,   0.01),
+        ("M_pr^+ tf·m",       MPR_P * TFM,        171.85,  0.01),
+        ("V_seis tf",         V_SEIS * TF,        43.42,   0.01),
         ("V_grav tf",         V_GRAV * TF,        9.00,    0.001),
-        ("V_e tf",            V_E * TF,           46.43,   0.01),
-        ("V_e(另一端) tf",     V_E_MIN * TF,       28.43,   0.01),
-        ("地震剪力佔比",        RATIO,              0.806,   0.001),
-        ("V_s,req tf",        VS_REQ * TF,        61.91,   0.01),
+        ("V_e tf",            V_E * TF,           52.42,   0.01),
+        ("V_e(另一端) tf",     V_E_MIN * TF,       34.42,   0.01),
+        ("地震剪力佔比",        RATIO,              0.828,   0.001),
+        ("V_s,req tf",        VS_REQ * TF,        69.89,   0.01),
         ("A_v 4腳 cm2",        AV_D,               5.08,    0.001),
-        ("s_req cm",          S_REQ,              15.39,   0.01),
+        ("s_req cm",          S_REQ,              15.47,   0.01),
         ("s_o cm",            S_O,                15.0,    0.001),
-        ("2h cm",             L_HINGE,            152.0,   0.001),
-        ("V_s,max tf",        VS_MAX * TF,        142.6,   0.05),
+        ("2h cm",             L_HINGE,            170.0,   0.001),
+        ("V_s,max tf",        VS_MAX * TF,        161.8,   0.05),
         ("A_v,min/s cm2/cm",  AVMIN_S,            0.0750,  0.0001),
-        ("φV_s @15 tf",       PHI_VS_D * TF,      47.65,   0.01),
-        ("V_c tf",            VC * TF,            35.65,   0.01),
-        ("φV_c tf",           PHI_VC * TF,        26.74,   0.01),
-        ("V_e(1.52 m) tf",    VE_OUT * TF,        43.39,   0.01),
-        ("V_e(4.5 m) tf",     VE_MID * TF,        37.43,   0.01),
-        ("V_s,一般區 tf",      VS_GEN * TF,        22.21,   0.01),
-        ("s_一般區 cm",        S_GEN_REQ,          21.46,   0.01),
-        ("φ(V_c+V_s)@20 tf",  PHI_CAP_G * TF,     44.61,   0.01),
+        ("φV_s @15 tf",       PHI_VS_D * TF,      54.05,   0.01),
+        ("V_c tf",            VC * TF,            40.44,   0.01),
+        ("φV_c tf",           PHI_VC * TF,        30.33,   0.01),
+        ("V_e(1.70 m) tf",    VE_OUT * TF,        49.02,   0.01),
+        ("V_e(4.5 m) tf",     VE_MID * TF,        43.42,   0.01),
+        ("V_s,一般區 tf",      VS_GEN * TF,        24.92,   0.01),
+        ("s_一般區 cm",        S_GEN_REQ,          21.69,   0.01),
+        ("φ(V_c+V_s)@20 tf",  PHI_CAP_G * TF,     50.60,   0.01),
         ("主筋中心距 cm",       SP_TOP,             6.61,    0.01),
     ]
     print(f"── 與 {TAG}.md §4 / §Step 8 對帳 ──")

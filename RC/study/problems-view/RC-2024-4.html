@@ -31,70 +31,193 @@ img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);bor
 footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
 </style></head><body>
 <header><h1>RC-2024-4 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U4-1.html">&#128202; U4-1 單元總覽</a><a class="lect" href="../lecture-RC-U4-1.html">&#128218; U4-1 預力梁斷面應力分析 講義</a></div></header>
-<main><h1>考題編號：RC-2024-4</h1>
-<p><strong>主分類：</strong> <code>RC-U4-2</code> 預力量與偏心量設計<br />
-<strong>副分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
-<strong>設計法：</strong> WSD 工作應力法<br />
-<strong>標籤：</strong> <code>等效載重法</code> <code>拋物線腱</code> <code>次彎矩</code> <code>C線</code> <code>壓力線</code> <code>超靜定預力梁</code> <code>一致腱</code> <code>固定端彎矩</code></p>
-<hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>一根後張法（Post-tensioned）RC 梁，一端固定一端滾支（propped cantilever），跨度 $L = 12\ \text{m}$，斷面 $b = 40\ \text{cm}$，$h = 60\ \text{cm}$（形心在中央，$y_c = 30\ \text{cm}$）。有效預力 $P = 120\ \text{tf}$（視為定值）。</p>
-<p>鋼腱偏心距（以形心為基準，下為正）：</p>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>RC-2024-4 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>RC-2024-4.md</code>。<br />
+判讀清單已經確認（凍結）；本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
 <table>
 <thead>
 <tr>
-<th>位置</th>
-<th>$x$</th>
-<th>偏心距 $e$</th>
+<th>項目</th>
+<th>內容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>固定端 A</td>
-<td>0 m</td>
-<td>$-25\ \text{cm}$（腱在形心<strong>上方</strong>）</td>
+<td>考卷</td>
+<td><code>raw/exams/RC-2024_鋼筋混凝土設計與預力.pdf</code> 第 3 頁（頁次 3－3），第四題</td>
 </tr>
 <tr>
-<td>跨中</td>
-<td>6 m</td>
-<td>$+15\ \text{cm}$（腱在形心<strong>下方</strong>）</td>
+<td>考年</td>
+<td>民國 113 年（2024）</td>
 </tr>
 <tr>
-<td>滾支端 B</td>
-<td>12 m</td>
-<td>$0\ \text{cm}$（腱過形心）</td>
+<td>配分</td>
+<td>25 分</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td><code>RC-2024-4-fig-1.png</code>（圖 4 預力梁結構與鋼腱配置示意圖，未依照比例尺繪製）</td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-15 使用者授權依 Claude 建議確認；轉錄 2026-11-15；PyMuPDF 110 dpi 全頁目視、文字層逐字核對、圖 4 向量曲線座標擬合；盲讀後才比對既有解析）</td>
 </tr>
 </tbody>
 </table>
-<p><img alt="RC-2024-4 梁示意圖：propped cantilever，跨度12m，拋物線腱偏心距分佈" src="../../raw/solutions/RC-2024-4/RC-2024-4-fig-1.png" /></p>
-<p><em>圖說：單跨受撐懸臂梁（propped cantilever），總跨度 $L = 12\text{ m}$。拋物線腱偏心距：固定端 A 處 $e = -25\text{ cm}$（腱在形心上方），跨中 $e = +15\text{ cm}$（腱在形心下方），滾支端 B 處 $e = 0$（腱過形心）。預力 $P = 2500\text{ kN}$。</em></p>
-<p>計算：</p>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>四、某一後拉預力梁結構系統，一端為固定端，一端為輥支承；梁全長為 12 m，梁全長具統一對稱矩形斷面，斷面深度為 60 cm，寬度為 40 cm。今配一拋物線鋼腱，其在固定端斷面鋼腱偏心距為混凝土形心上方 25 cm，梁中央斷面偏心距為混凝土形心下方 15 cm，輥支承端處則無偏心，如圖 4 所示。假設鋼腱預力大小為 120 噸，請繪製由該預力所產生之壓力作用線、計算由該預力引起固定端與輥支承端之受力，以及如何調整鋼腱使其成為「同位鋼腱」。（25 分）</p>
+<p>圖 4 預力梁結構與鋼腱配置示意圖（未依照比例尺繪製）</p>
+</blockquote>
+<h2>2. 考卷給的公式、附表與參數</h2>
 <ul>
-<li>(a) 以等效載重法求各支承反力</li>
-<li>(b) 求各斷面之次彎矩 $M_s(x)$</li>
-<li>(c) 求壓力線（C 線）偏心距 $e_C(x)$</li>
-<li>(d) 說明一致腱（Concordant Tendon）的意義與本題之一致腱剖面</li>
+<li>一端固定、一端輥支承；全長 12 m；矩形斷面深 60、寬 40 cm（形心在中央）。</li>
+<li>拋物線鋼腱偏心：固定端形心上方 25 cm；梁中央形心下方 15 cm；輥支承端 0。</li>
+<li>鋼腱預力 120 噸（tf）。</li>
+<li>所求：①繪製預力產生的壓力作用線（C 線）；②預力引起固定端與輥支承端的受力；③如何調整鋼腱成為同位（一致）鋼腱。</li>
+<li><strong>沒有給</strong>：外加載重（題目只問預力效應）、預力損失、$f'_c$。</li>
+<li>卷首：※依據與作答規範：中國土木水利工程學會「混凝土工程設計規範與解說」（土木401-112），未依上述規範作答，不予計分。注意事項：可以使用電子計算器。不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。本科目除專門名詞或數理公式外，應使用本國文字作答。</li>
 </ul>
+<h2>3. 附圖</h2>
+<p><img alt="RC-2024-4 考卷圖 4：左端為固定端（牆面斜線），右端輥支承；梁深 30＋30 cm，點劃線為混凝土形心；點線為拋物線預力鋼腱形心，自固定端形心上方 25 cm 下降，於 6 m 處低於形心 15 cm，最低點畫在梁中央右側，再上升至輥支承端形心；下方尺寸 6 m、12 m" src="../../raw/solutions/RC-2024-4/RC-2024-4-fig-1.png" /></p>
+<p>圖面文字照錄：25 cm、15 cm、30 cm、30 cm、6 m、12 m、混凝土形心、拋物線預力鋼腱形心、圖 4 預力梁結構與鋼腱配置示意圖（未依照比例尺繪製）。</p>
+<h2>4. 判讀清單</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>拋物線的形式</td>
+<td><strong>通過三個給定偏心點的單一拋物線</strong>（頂點不在梁中央）。不採「以梁中央為頂點的兩段拋物線」。向量曲線：梁 x＝174.8～434.4 pt、梁中央 304.6 pt；曲線最低點畫在 x≈340 pt（距固定端約 7.6 m），與單一拋物線頂點位置（約 7.4 m）相符；兩段拋物線的最低點應在 6 m。題文也只說「一拋物線鋼腱」</td>
+<td>題文；圖 4 向量座標</td>
+<td>確定（解讀；圖未依比例，形狀僅定性。2026-11-15 使用者授權依 Claude 建議確認）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>支承</td>
+<td>左端固定（牆面斜線）、右端輥支承（圓輪）</td>
+<td>題文；圖 4</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>斷面</td>
+<td>矩形 40×60 cm，形心距頂、底各 30 cm</td>
+<td>題文；圖 4 尺寸 30＋30</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>偏心</td>
+<td>固定端形心上方 25 cm；梁中央（6 m）形心下方 15 cm；輥支承端 0</td>
+<td>題文；圖 4 尺寸 25、15 量自點劃線</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>預力</td>
+<td>120 tf，沿全長視為定值（考卷未給損失）</td>
+<td>題文「鋼腱預力大小為 120 噸」</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>「受力」</td>
+<td>預力在超靜定梁中引起的支承反力（固定端反力與彎矩、輥支承反力），即二次反力</td>
+<td>題文「由該預力引起固定端與輥支承端之受力」</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>考卷沒有給</td>
+<td>外加載重、損失、$f'_c$</td>
+<td>全題</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-15（RC-U4-2+U4-3+U4-4 題目正本推廣・批 1）</em></p>
+<p><em>確認：2026-11-15 使用者授權依 Claude 建議確認（RC-U4-2+U4-3+U4-4 題目正本推廣・批 1，關卡一）</em></p></details>
+<h1>考題編號：RC-2024-4</h1>
+<p><strong>主分類：</strong> <code>RC-U4-2</code> 預力量與偏心量設計<br />
+<strong>副分類：</strong> <code>RC-U4-1</code> 預力梁斷面應力分析<br />
+<strong>設計法：</strong> WSD 工作應力法<br />
+<strong>標籤：</strong> <code>等效載重法</code> <code>拋物線腱</code> <code>次彎矩</code> <code>C線</code> <code>壓力線</code> <code>超靜定預力梁</code> <code>一致腱</code> <code>固定端彎矩</code> <code>錨碇垂直分力</code> <code>相容法</code></p>
+<hr />
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="RC-2024-4-problem.md"><code>RC-2024-4-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<p><img alt="RC-2024-4 重繪題目附圖：梁全長 12 m，左端固定、右端輥支承，斷面深 60 cm（形心上下各 30）；鋼腱為通過三點的單一拋物線：固定端形心上方 25 cm、梁中央形心下方 15 cm、輥支承端 0（豎向放大示意）" src="../../raw/solutions/RC-2024-4/figs/RC-2024-4-fig-1-problem.svg" /><br />
+<em>重繪自考卷圖 4，依題目正本判讀清單 #1–#5。本圖攔下的讀錯：固定端／輥支承端對調；把梁中央當拋物線頂點、拆成兩段拋物線。</em></p>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>拋物線形式</td>
+<td>通過三個給定偏心的單一拋物線（頂點不在梁中央；圖 4 最低點畫在中央右側）</td>
+<td>以梁中央為頂點的兩段拋物線</td>
+</tr>
+<tr>
+<td>預力</td>
+<td>120 tf（1 tf ≈ 9.81 kN），沿全長定值</td>
+<td>換算成其他數值（本庫舊 §1 圖說寫成 2500 kN）</td>
+</tr>
+<tr>
+<td>所求</td>
+<td>壓力線（C 線）、預力引起的固定端與輥支承端反力、調整為同位鋼腱的方法</td>
+<td>只算主彎矩</td>
+</tr>
+<tr>
+<td>偏心符號</td>
+<td>固定端在形心上方、梁中央在下方</td>
+<td>上下弄反</td>
+</tr>
+<tr>
+<td>等值載重</td>
+<td>均佈向上力 <strong>加上兩端錨碇的垂直分力</strong>（左 13.5、右 8.5 tf 向下）與固定端錨碇彎矩，三者自平衡</td>
+<td>只列均佈力與錨碇彎矩（不自平衡），再套「$R_B=3wL/8$ 向上」→ $R_B$＝4.5 tf、C 線跨中 +37.5 cm（超出半梁深 30 cm，不可能）——本庫 2026-11-15 前舊解即此錯</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> $L$＝12 m；$b$＝40、$h$＝60 cm；$P$＝120 tf；$x$ 自固定端 A 量起，輥支承端為 B；偏心 $e(x)$ 以形心為準、<strong>下為正</strong>：$e(0)=-25$、$e(6)=+15$、$e(12)=0$ cm。彎矩以正彎矩（下緣受拉）為正；主彎矩 $M_1=-Pe$，二次彎矩 $M_2$，總彎矩 $M=M_1+M_2=-Pe_C$。</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
-<p><strong>核心觀念：</strong> 超靜定預力結構中，鋼腱的等效載重會在超靜定束制下產生「次彎矩」，使壓力線（C 線）偏離實際腱形；一致腱是使次彎矩恰好為零的腱形，此時 C 線 = 腱形。</p>
+<p><strong>核心觀念：</strong> 超靜定預力梁中，鋼腱想讓梁產生的變形（主曲率 $M_1/EI$）被多餘支承束制，支承因而產生<strong>二次反力</strong>，沿梁分佈成線性的<strong>二次彎矩</strong> $M_2$；壓力線（C 線）偏離鋼腱 $M_2/P$。鋼腱的等值載重<strong>一定自平衡</strong>（均佈向上力＝兩端錨碇垂直分力之和），反力只來自「被束制」的部分。一致（同位）鋼腱是 $M_2\equiv0$ 的鋼腱，此時 C 線與鋼腱重合。</p>
 <p><strong>出題意圖：</strong></p>
 <ol>
-<li>測試等效載重法推導拋物線腱之均佈上升力與端部錨定力矩</li>
-<li>測試超靜定梁（propped cantilever）受等效載重後的支承反力計算</li>
-<li>測試次彎矩定義：$M_s(x) = P \times e_C(x) - P \times e(x)$</li>
-<li>測試 C 線計算：$e_C(x) = e(x) + M_s(x)/P$</li>
-<li>測試一致腱概念（腱形 = C 線時，次彎矩 = 0）</li>
+<li>擬合三點拋物線，求等值載重（含錨碇垂直分力與錨碇彎矩）並檢查自平衡</li>
+<li>用相容法（力法）或等值載重法求一端固定一端輥支梁的二次反力</li>
+<li>由 $M_2$ 求 C 線並作圖：$e_C=e-M_2/P$</li>
+<li>一致鋼腱：線性轉換（只改支承處偏心、不改形狀）不改變 C 線；鋼腱放在 C 線上即為一致鋼腱</li>
 </ol>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
 <p><strong>作戰計畫：</strong></p>
-<pre><code>Step 1：配合三點偏心距，擬合拋物線 e(x)
-Step 2：等效載重法 → 均佈上升力 w_eq 及端部錨定力矩 M_eq
-Step 3：將等效載重施於 propped cantilever → 求支承反力（超靜定計算）
-Step 4：由支承反力計算各斷面次彎矩 M_s(x)
-Step 5：C 線偏心距 e_C(x) = e(x) + M_s(x)/P
-Step 6：說明一致腱 = 腱形與 C 線重合之腱（此題即 C 線剖面）
+<pre><code>Step 1：三點擬合拋物線 e(x)
+Step 2：等值載重：均佈向上力 w、兩端錨碇垂直分力、固定端錨碇彎矩 → 驗自平衡
+Step 3：二次反力 R_B（路徑一：相容法；路徑二：等值載重法）→ 兩條路徑一致
+Step 4：固定端二次反力 V_A、M_A 與二次彎矩 M2(x)
+Step 5：C 線 e_C(x) = e(x) − M2(x)/P，作圖
+Step 6：同位鋼腱：沿 C 線布設（線性轉換），或改支承處偏心使 R_B = 0
 </code></pre>
 <p><strong>關鍵陷阱：</strong></p>
 <table>
@@ -108,159 +231,221 @@ Step 6：說明一致腱 = 腱形與 C 線重合之腱（此題即 C 線剖面�
 <tbody>
 <tr>
 <td>①</td>
-<td>忘記端部錨定力矩</td>
-<td>腱在固定端有偏心，錨定處產生 $M_{eq,A} = P \cdot e_A$ 的集中力矩</td>
+<td>漏掉錨碇垂直分力</td>
+<td>鋼腱在兩端有斜率：左端 $Pe'(0)$＝13.5 tf、右端 $P\lvert e'(12)\rvert$＝8.5 tf，皆向下作用於混凝土；少了它們等值載重不平衡</td>
 </tr>
 <tr>
 <td>②</td>
-<td>固定端力矩 $M_A$ 的反力方向混淆</td>
-<td>用等效載重法算出的 $M_A$ 是<strong>結構反力</strong>，不是錨定外力矩</td>
+<td>把固定端錨碇彎矩當成會造成 B 點撓度的載重</td>
+<td>固定端上的集中彎矩、垂直力直接由固定支承吸收；輥支承端的錨碇垂直力直接由輥支承吸收</td>
 </tr>
 <tr>
 <td>③</td>
-<td>次彎矩誤以為是固定端力矩</td>
-<td>$M_s(x)$ 是整個梁的超靜定彎矩分佈，需由反力積分</td>
+<td>向上載重套「$R_B=3wL/8$ 向上」</td>
+<td>向上均佈載重使輥支承反力<strong>向下</strong> $3wL/8$</td>
 </tr>
 <tr>
 <td>④</td>
-<td>C 線公式用錯</td>
-<td>$e_C = e + M_s/P$（次彎矩除以 P，不是除以 $M_n$）</td>
+<td>C 線超出斷面仍不起疑</td>
+<td>總彎矩 $M=-Pe_C$；$e_C$ 不可能超過半梁深 30 cm，超出代表算錯</td>
+</tr>
+<tr>
+<td>⑤</td>
+<td>一致鋼腱答「把鋼腱移到 C 線」卻用錯的 C 線</td>
+<td>一致鋼腱的檢驗：$\int_0^L e(x)(L-x)\,dx=0$（本題束制條件），代入確認 $R_B=0$</td>
 </tr>
 </tbody>
 </table>
 <hr />
+<h2>3.5 變數層次分析（Variable Hierarchy Analysis）</h2>
+<blockquote>
+<p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
+</blockquote>
+<h3>最終目標</h3>
+<p>C 線 $e_C(x)$、固定端與輥支承端反力（$V_A$、$M_A$、$R_B$）、同位鋼腱配置。</p>
+<h3>本題關鍵公式（依計算順序）</h3>
+<blockquote>
+<p>$\boxed{\cdot}$ = 需由前步驟推導，非題目直接給定的變數</p>
+</blockquote>
+<ol>
+<li>$e(x)=ax^2+bx+c$（三點擬合）→ $\boxed{a}$、$\boxed{b}$</li>
+<li>$w=-P\,e''$、錨碇垂直力 $Pe'(0)$、$P\lvert e'(L)\rvert$、錨碇彎矩 $Pe(0)$</li>
+<li>$R_B=\dfrac{3P}{L^3}\displaystyle\int_0^L e(x)(L-x)\,dx$（相容法）＝ $P\lvert e'(L)\rvert-\dfrac{3wL}{8}$（等值載重法）</li>
+<li>$M_2(x)=R_B(L-x)$</li>
+<li>$e_C=e-M_2/P$</li>
+</ol>
+<h3>L1：題目直接給定</h3>
+<ul>
+<li>$L$＝12 m、$h$＝60 cm、$b$＝40 cm、$P$＝120 tf</li>
+<li>$e(0)=-25$、$e(6)=+15$、$e(12)=0$ cm；支承：A 固定、B 輥支</li>
+</ul>
+<h3>L2：需知識點推導</h3>
+<ul>
+<li>拋物線係數 $a=-0.76389$ cm/m²、$b=11.25$ cm/m</li>
+<li>等值載重 $w$＝1.8333 tf/m（向上）、錨碇垂直力 13.5／8.5 tf（向下）、錨碇彎矩 30 tf·m</li>
+<li>二次反力 $R_B$＝0.25 tf、$V_A$＝0.25 tf、$M_{2,A}$＝3.0 tf·m</li>
+</ul>
+<h3>L3：深層知識（不懂就卡住）</h3>
+<ul>
+<li>等值載重自平衡：預力是內力，作用在混凝土上的等值載重合力與合力矩皆為零；只有超靜定束制才產生反力</li>
+<li>主彎矩 $M_1=-Pe$ 是「靜定時」的彎矩；二次彎矩在兩支承間呈線性（支承反力為集中力）</li>
+<li>線性轉換：只改支承處偏心而不改跨內形狀（等值載重不變），C 線不變</li>
+</ul>
+<hr />
 <h2>4. 詳細計算 (Detailed Calculation)</h2>
 <h3>Step 1：擬合拋物線 $e(x)$</h3>
-<p>設 $e(x) = ax^2 + bx + c$（$x$ 單位：m，$e$ 單位：m）</p>
-<p>三個邊界條件（下為正）：</p>
-<p>$$e(0) = -0.25\ \text{m} \Rightarrow c = -0.25$$</p>
-<p>$$e(6) = +0.15\ \text{m} \Rightarrow 36a + 6b - 0.25 = 0.15 \Rightarrow 36a + 6b = 0.40 \quad \cdots (1)$$</p>
-<p>$$e(12) = 0\ \text{m} \Rightarrow 144a + 12b - 0.25 = 0 \Rightarrow 144a + 12b = 0.25 \quad \cdots (2)$$</p>
-<p>由 $(2) - 2\times(1)$：$72a = 0.25 - 0.80 = -0.55 \Rightarrow a = -0.007639\ \text{m}^{-1}$</p>
-<p>代回 $(1)$：$6b = 0.40 - 36(-0.007639) = 0.40 + 0.2750 = 0.675 \Rightarrow b = 0.1125\ \text{m}^{-1}$</p>
-<p>$$\boxed{e(x) = -0.007639x^2 + 0.1125x - 0.25\ \text{(m)}}$$</p>
-<h3>Step 2：等效載重</h3>
-<p><strong>均佈上升力（拋物線腱之等效均佈荷重）：</strong></p>
-<p>$$w_{eq} = -P \cdot \frac{d^2e}{dx^2} = -P \cdot 2a = -120 \times 2(-0.007639)$$</p>
-<p>$$\boxed{w_{eq} = +1.833\ \text{tf/m（向上）}}$$</p>
-<p><strong>固定端 A 錨定集中力矩（等效外力矩）：</strong></p>
-<p>$$M_{eq,A} = P \cdot e(0) = 120 \times (-0.25) = -30\ \text{tf·m（逆時針，使梁端上緣受拉）}$$</p>
-<p><strong>滾支端 B 錨定集中力矩：</strong></p>
-<p>$$M_{eq,B} = P \cdot e(12) = 120 \times 0 = 0$$</p>
+<p>設 $e(x)=ax^2+bx+c$（$x$：m；$e$：cm，下為正）：</p>
+<p>$$e(0)=-25\Rightarrow c=-25$$</p>
+<p>$$e(6)=15\Rightarrow 36a+6b=40\quad\cdots(1)$$</p>
+<p>$$e(12)=0\Rightarrow 144a+12b=25\quad\cdots(2)$$</p>
+<p>$(2)-2\times(1)$：$72a=-55\Rightarrow a=-0.76389\ \text{cm/m}^2$；代回 $(1)$：$b=11.25\ \text{cm/m}$</p>
+<p>$$\boxed{e(x)=-0.76389x^2+11.25x-25\ \text{(cm)}}$$</p>
+<p>頂點（最低點）在 $x=-b/2a=7.36$ m，$e_{\max}=16.42$ cm（與圖 4 最低點畫在中央右側相符）。</p>
+<h3>Step 2：等值載重（作用在混凝土上）</h3>
+<p>$e'(x)=2ax+b$：$e'(0)=+11.25$ cm/m＝0.1125；$e'(12)=-7.083$ cm/m＝−0.07083。</p>
+<table>
+<thead>
+<tr>
+<th>等值載重</th>
+<th>計算</th>
+<th>大小與方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>跨內均佈力</td>
+<td>$w=-P\,e''=-120\times2(-0.0076389)$</td>
+<td><strong>1.8333 tf/m 向上</strong>（合力 22.0 tf，作用於 6 m）</td>
+</tr>
+<tr>
+<td>A 端錨碇垂直分力</td>
+<td>$P\,e'(0)=120\times0.1125$</td>
+<td><strong>13.5 tf 向下</strong></td>
+</tr>
+<tr>
+<td>B 端錨碇垂直分力</td>
+<td>$P\lvert e'(12)\rvert=120\times0.07083$</td>
+<td><strong>8.5 tf 向下</strong></td>
+</tr>
+<tr>
+<td>A 端錨碇彎矩</td>
+<td>$P\,e(0)=120\times0.25$</td>
+<td><strong>30 tf·m</strong>（水平力作用在形心上方，順時針，使 A 端下緣受拉）</td>
+</tr>
+<tr>
+<td>B 端錨碇彎矩</td>
+<td>$P\,e(12)$</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>自平衡檢查：</strong></p>
+<p>$$\Sigma F_y=22.0-13.5-8.5=0\ \checkmark$$</p>
+<p>$$\Sigma M_A\ (\circlearrowleft+)=22.0\times6-8.5\times12-30=132-102-30=0\ \checkmark$$</p>
 <blockquote>
-<p>等效載重系統：全梁均佈上升力 $w_{eq} = 1.833\ \text{tf/m}$，加上 A 端集中力矩 $M_{eq,A} = -30\ \text{tf·m}$（頂面受拉方向）。</p>
+<p>📌 舊解只列 1.833 tf/m 與 30 tf·m，兩者合力 22 tf、合力矩 102 tf·m 都不為零——等值載重不自平衡是第一個警訊。</p>
 </blockquote>
-<h3>Step 3：支承反力（Propped Cantilever 超靜定計算）</h3>
-<p>取 $R_B$（滾支）為贅餘力。</p>
-<p><strong>固定端梁（Fixed-Free）於均佈上升力 $w_{eq}$ 下 B 點撓度：</strong></p>
-<p>$$\delta_{B,w} = \frac{w_{eq} L^4}{8EI} = \frac{1.833 \times 12^4}{8EI} = \frac{3,799.7}{8EI}\ \uparrow$$</p>
-<p><strong>固定端梁於端部集中力矩 $M_{eq,A} = -30\ \text{tf·m}$ 下 B 點撓度：</strong></p>
-<p>$$\delta_{B,M} = \frac{M_{eq,A} L^2}{2EI} = \frac{(-30)(144)}{2EI} = \frac{-2,160}{2EI} = \frac{-1,080}{EI}\ (\text{向下})$$</p>
-<p><strong>$R_B$ 作用下 B 點撓度（向上 $R_B$ 使 B 點上移）：</strong></p>
-<p>$$\delta_{B,R} = \frac{R_B L^3}{3EI}\ \downarrow$$</p>
-<p><strong>相容條件（B 點為滾支，撓度 = 0）：</strong></p>
-<p>$$\delta_{B,w} + \delta_{B,M} - \delta_{B,R} = 0$$</p>
-<p>$$\frac{3,799.7}{8EI} - \frac{1,080}{EI} = \frac{R_B \times 1,728}{3EI}$$</p>
-<p>$$\frac{3,799.7 - 8,640}{8EI} = \frac{576 R_B}{EI}$$</p>
-<p>$$\frac{-4,840.3}{8} = 576 R_B \Rightarrow R_B = \frac{-4,840.3}{4,608} \approx -1.05\ \text{tf}$$</p>
-<blockquote>
-<p><strong>注意：</strong> 若題目給定的圖示為理想化值，取整數計算。以下採用「等效載重法的標準公式直接解」：</p>
-</blockquote>
-<p>對於 propped cantilever 在均佈荷重 $w$（向上）：</p>
-<p>$$R_B = \frac{3wL}{8} = \frac{3 \times 1.833 \times 12}{8} = \frac{66}{8} = 8.25\ \text{tf（向上，作用於梁）}$$</p>
-<p>$$R_{A,v} = wL - R_B = 1.833 \times 12 - 8.25 = 22 - 8.25 = 13.75\ \text{tf（向上）}$$</p>
-<p>$$M_A = \frac{wL^2}{8} = \frac{1.833 \times 144}{8} = \frac{264}{8} = 33\ \text{tf·m（使頂面受壓，固端負力矩）}$$</p>
-<p>加入端部集中力矩 $M_{eq,A} = -30\ \text{tf·m}$ 的貢獻（propped cantilever 在端部力矩下）：</p>
-<p>$$R_B^{(M)} = \frac{3 M_{eq,A}}{2L} = \frac{3 \times (-30)}{2 \times 12} = -3.75\ \text{tf}$$</p>
-<p>$$R_{A,v}^{(M)} = -R_B^{(M)} = +3.75\ \text{tf}$$</p>
-<p>$$M_A^{(M)} = M_{eq,A} + R_B^{(M)} \times L - 0 = -30 + (-3.75)(12)\cdot\ldots$$</p>
-<p><strong>疊加總反力：</strong></p>
-<p>$$R_B = 8.25 + (-3.75) = \boxed{4.5\ \text{tf（向上）}}$$</p>
-<p>$$R_{A,v} = 13.75 + 3.75 = \boxed{17.5\ \text{tf（向上）}}$$</p>
-<p><strong>固端反力矩（propped cantilever 在端部力矩 $M_0$ 下固端反力矩 = $M_0/2$）：</strong></p>
-<p>$$M_A^{(M)} = \frac{M_{eq,A}}{2} = \frac{-30}{2} = -15\ \text{tf·m}$$</p>
-<p>$$M_A^{(w)} = -\frac{wL^2}{8} = -33\ \text{tf·m（固端使頂面受壓 = 負號慣例）}$$</p>
-<p>$$M_A^{total} = -33 + (-15) = -48\ \text{tf·m（固端反力矩）}$$</p>
-<blockquote>
-<p><strong>提示：</strong> 支承反力方向取決於等效載重方向（上升力為正）。次彎矩計算只需超靜定反力部分。</p>
-</blockquote>
-<h3>Step 4：次彎矩 $M_s(x)$</h3>
-<p>次彎矩為超靜定束制對梁施加的彎矩。對於 propped cantilever，唯一的超靜定反力為 $R_B$：</p>
-<p>$$M_s(x) = R_B \cdot (L - x) = 4.5 \times (12 - x)\ \text{tf·m}$$</p>
+<h3>Step 3：二次反力 $R_B$（兩條獨立路徑）</h3>
+<p><strong>路徑一：相容法（力法）。</strong> 以 $R_B$（向上為正）為贅餘力，基本結構為 A 端固定的懸臂梁。預力主曲率 $M_1/EI=-Pe/EI$ 使 B 點產生撓度 $\delta_{B1}=\int_0^L\frac{M_1}{EI}(L-x)\,dx$；$R_B$ 造成 $\delta_{BR}=\frac{R_BL^3}{3EI}$。相容 $\delta_{B1}+\delta_{BR}=0$：</p>
+<p>$$R_B=-\frac{3}{L^3}\int_0^L M_1(L-x)\,dx=\frac{3P}{L^3}\int_0^L e(x)(L-x)\,dx$$</p>
+<p>$$\int_0^{12}e(x)(12-x)\,dx=1728a+288b+72c=1728(-0.76389)+288(11.25)+72(-25)$$</p>
+<p>$$=-1320+3240-1800=120\ \text{cm·m}^2$$</p>
+<p>$$R_B=\frac{3\times120\ \text{tf}}{12^3\ \text{m}^3}\times120\ \text{cm·m}^2\times\frac{1\ \text{m}}{100\ \text{cm}}=\frac{43{,}200}{172{,}800}=0.25\ \text{tf（向上）}$$</p>
+<p><strong>路徑二：等值載重法。</strong> 把 Step 2 的等值載重放到一端固定一端輥支梁上：</p>
+<ul>
+<li>A 端的 13.5 tf 與 30 tf·m 作用在固定支承上，直接由固定端吸收，不使梁變形；</li>
+<li>B 端的 8.5 tf 向下作用在輥支承正上方，直接由輥支承吸收 → 輥支承反力 +8.5 tf；</li>
+<li>跨內向上 1.8333 tf/m：一端固定一端輥支梁受均佈載重，輥支承反力 $3wL/8$，方向與載重相反 → $-\frac{3\times1.8333\times12}{8}=-8.25$ tf。</li>
+</ul>
+<p>$$R_B=8.5-8.25=\boxed{0.25\ \text{tf（向上）}}$$</p>
+<p>兩條路徑一致（另以 240 元素有限元素、施加初始曲率驗算得 0.2500 tf）。</p>
+<h3>Step 4：固定端二次反力與二次彎矩</h3>
+<p>二次反力自成平衡（只有 $R_B$ 一個贅餘力）：</p>
+<p>$$V_A=0.25\ \text{tf（向下）},\qquad M_A=R_B\,L=0.25\times12=3.0\ \text{tf·m}$$</p>
+<p>固定端反力矩 3.0 tf·m 為順時針，使 A 端斷面產生 <strong>+3.0 tf·m（正彎矩）</strong> 的二次彎矩。水平方向：預力為內力，輥支承可自由軸向移動，無水平反力。</p>
+<p>$$M_2(x)=R_B(L-x)=0.25(12-x)\ \text{tf·m}$$</p>
+<h3>Step 5：C 線</h3>
+<p>$$e_C(x)=e(x)-\frac{M_2(x)}{P}=e(x)-\frac{0.25(12-x)}{120}\times100=e(x)-0.2083(12-x)\ \text{(cm)}$$</p>
 <table>
 <thead>
 <tr>
 <th>位置</th>
 <th>$x$ (m)</th>
-<th>$M_s$ (tf·m)</th>
+<th>$e$ (cm)</th>
+<th>$M_1=-Pe$ (tf·m)</th>
+<th>$M_2$ (tf·m)</th>
+<th>$M=M_1+M_2$ (tf·m)</th>
+<th>$M_2/P$ (cm)</th>
+<th>$e_C$ (cm)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>A（固定端）</td>
 <td>0</td>
-<td>$4.5 \times 12 = 54$</td>
+<td>−25.00</td>
+<td>+30.00</td>
+<td>+3.00</td>
+<td>+33.00</td>
+<td>2.50</td>
+<td><strong>−27.50</strong>（形心上方）</td>
 </tr>
 <tr>
-<td>跨中</td>
+<td></td>
+<td>3</td>
+<td>+1.88</td>
+<td>−2.25</td>
+<td>+2.25</td>
+<td>0</td>
+<td>1.88</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>梁中央</td>
 <td>6</td>
-<td>$4.5 \times 6 = 27$</td>
+<td>+15.00</td>
+<td>−18.00</td>
+<td>+1.50</td>
+<td>−16.50</td>
+<td>1.25</td>
+<td><strong>+13.75</strong></td>
 </tr>
 <tr>
-<td>B（滾支端）</td>
+<td></td>
+<td>9</td>
+<td>+14.38</td>
+<td>−17.25</td>
+<td>+0.75</td>
+<td>−16.50</td>
+<td>0.63</td>
+<td><strong>+13.75</strong></td>
+</tr>
+<tr>
+<td>B（輥支承）</td>
 <td>12</td>
-<td>$0$</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><strong>0</strong></td>
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p><strong>驗核：</strong> 在滾支端 B，$M_s = 0$（正確，滾支不傳彎矩）。</p>
-</blockquote>
-<h3>Step 5：C 線偏心距 $e_C(x)$</h3>
-<p>$$e_C(x) = e(x) + \frac{M_s(x)}{P}$$</p>
-<p>其中 $P = 120\ \text{tf}$，$e$ 單位轉換：$M_s$ 單位 tf·m，除以 $P$ = 120 tf → 得 m，再 ×100 轉 cm。</p>
-<table>
-<thead>
-<tr>
-<th>位置</th>
-<th>$e(x)$ (cm)</th>
-<th>$M_s(x)$ (tf·m)</th>
-<th>$M_s/P$ (cm)</th>
-<th>$e_C(x)$ (cm)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A ($x=0$)</td>
-<td>$-25$</td>
-<td>$54$</td>
-<td>$+45$</td>
-<td>$\mathbf{+20}$</td>
-</tr>
-<tr>
-<td>跨中 ($x=6$)</td>
-<td>$+15$</td>
-<td>$27$</td>
-<td>$+22.5$</td>
-<td>$\mathbf{+37.5}$</td>
-</tr>
-<tr>
-<td>B ($x=12$)</td>
-<td>$0$</td>
-<td>$0$</td>
-<td>$0$</td>
-<td>$\mathbf{0}$</td>
-</tr>
-</tbody>
-</table>
-<p>$$\boxed{e_C(0) = +20\ \text{cm},\quad e_C(6) = +37.5\ \text{cm},\quad e_C(12) = 0\ \text{cm}}$$</p>
-<h3>Step 6：一致腱（Concordant Tendon）</h3>
-<p><strong>定義：</strong> 一致腱是指腱形（tendon profile）使得結構中<strong>不產生任何次彎矩</strong>（$M_s = 0$）的腱剖面，即腱形恰好等於壓力線（C 線）。</p>
-<p><strong>本題一致腱：</strong> 若將鋼腱改配置為 C 線剖面：</p>
-<p>$$e_{conc}(0) = +20\ \text{cm},\quad e_{conc}(6) = +37.5\ \text{cm},\quad e_{conc}(12) = 0\ \text{cm}$$</p>
-<p>則此腱形不產生超靜定反力，梁中不存在次彎矩，壓力線即與腱形重合。</p>
+<p>$$\boxed{e_C(0)=-27.5\ \text{cm（形心上方）},\quad e_C(6)=+13.75\ \text{cm},\quad e_C(12)=0}$$</p>
+<p>C 線仍為拋物線：$e_C(x)=-0.76389x^2+11.458x-27.5$（cm），在 $x$＝3 m 穿過形心，最低點 $x$＝7.5 m、$e_C$＝15.47 cm。<strong>作圖</strong>：在鋼腱線上方畫一條曲線，固定端高出鋼腱 2.5 cm、向輥支承端線性遞減到 0（兩線在輥支承端相交）。C 線全長落在斷面內（$\lvert e_C\rvert\le27.5&lt;30$ cm）。</p>
+<p><img alt="RC-2024-4 圖 2：①等值載重自由體（向上均佈 1.8333 tf/m、兩端錨碇垂直分力 13.5／8.5 tf 向下、固定端錨碇彎矩 30 tf·m，自平衡）；②二次反力 R_B 0.25 tf 向上、V_A 0.25 tf 向下、M_A 3.0 tf·m 與線性二次彎矩圖；③鋼腱、C 線（−27.5／0／+13.75／0 cm）與一致鋼腱（中央 +12.5 cm），舊解 C 線 +37.5 落在斷面外" src="../../raw/solutions/RC-2024-4/figs/RC-2024-4-fig-2-cline.svg" /></p>
+<p><em>圖 2　等值載重 → 二次反力 → C 線。等值載重必須自平衡；二次彎矩 $M_2$ 在兩支承間呈線性；C 線由鋼腱上移 $M_2/P$ 並全長落在斷面內。本圖攔：漏掉錨碇垂直分力、把固定端錨碇彎矩當成會造成撓度、$R_B$ 方向套反、C 線超出斷面仍不起疑。</em></p>
+<h3>Step 6：調整為同位（一致）鋼腱</h3>
+<p>一致鋼腱的條件：$R_B=0$，即 $\int_0^L e(x)(L-x)\,dx=0$。</p>
+<ol>
+<li><strong>把鋼腱放在 C 線上</strong>（理論標準答案）：固定端 −27.5、梁中央 +13.75、輥支承端 0 cm 的拋物線。它與原鋼腱只差一個線性轉換 $0.2083(12-x)$（形狀、跨內等值載重不變），所以 C 線不變而與鋼腱重合：代入檢驗 $1728(-0.76389)+288(11.458)+72(-27.5)=0$ ✓。但固定端偏心 27.5 cm 只剩 2.5 cm 到上緣，保護層不足，實務上不可行。</li>
+<li><strong>保留兩端偏心、改梁中央偏心</strong>（實務可行）：固定端 −25、輥支承端 0 不變，求梁中央 $e_m$ 使積分為零：$48e_m-600=0\Rightarrow e_m=+12.5$ cm（形心下方 12.5 cm）。</li>
+<li>保留梁中央 +15 與輥支承端 0、改固定端：$24e_0+720=0\Rightarrow e_0=-30$ cm——鋼腱形心落在上緣，不可行，只作理論對照。</li>
+</ol>
+<p>一致鋼腱時 $R_B=V_A=M_{2}=0$，預力只產生主彎矩，C 線即鋼腱線。</p>
 <hr />
-<h2>5. 最終答案彙整 (Summary of Results)</h2>
+<h2>5. 最終答案彙整與討論 (Summary &amp; Discussion)</h2>
 <table>
 <thead>
 <tr>
@@ -270,44 +455,50 @@ Step 6：說明一致腱 = 腱形與 C 線重合之腱（此題即 C 線剖面�
 </thead>
 <tbody>
 <tr>
-<td>等效均佈上升力 $w_{eq}$</td>
-<td>$1.833\ \text{tf/m}$</td>
+<td>拋物線</td>
+<td>$e(x)=-0.76389x^2+11.25x-25$ cm（下為正）</td>
 </tr>
 <tr>
-<td>等效端部力矩 $M_{eq,A}$</td>
-<td>$-30\ \text{tf·m}$（使頂面受拉）</td>
+<td>等值載重</td>
+<td>均佈 1.8333 tf/m 向上；錨碇垂直力 A 13.5、B 8.5 tf 向下；A 端錨碇彎矩 30 tf·m（自平衡）</td>
 </tr>
 <tr>
-<td>滾支端反力 $R_B$</td>
-<td>$4.5\ \text{tf（向上）}$</td>
+<td>輥支承端反力 $R_B$</td>
+<td><strong>0.25 tf（向上）</strong></td>
 </tr>
 <tr>
-<td>C 線偏心距 $e_C(0)$</td>
-<td>$+20\ \text{cm}$（形心下方）</td>
+<td>固定端反力</td>
+<td>$V_A$＝<strong>0.25 tf（向下）</strong>；反力矩 <strong>3.0 tf·m</strong>（二次彎矩 $M_{2,A}$＝+3.0 tf·m）</td>
 </tr>
 <tr>
-<td>C 線偏心距 $e_C(6)$</td>
-<td>$+37.5\ \text{cm}$</td>
+<td>總彎矩</td>
+<td>A 端 +33.0、梁中央 −16.5 tf·m</td>
 </tr>
 <tr>
-<td>C 線偏心距 $e_C(12)$</td>
-<td>$0\ \text{cm}$</td>
+<td>C 線</td>
+<td>固定端 <strong>−27.5 cm</strong>（形心上方）、$x$＝3 m 為 0、梁中央 <strong>+13.75 cm</strong>、輥支承端 0</td>
 </tr>
 <tr>
-<td>一致腱剖面</td>
-<td>腱形需符合 C 線：$e = +20, +37.5, 0\ \text{cm}$</td>
+<td>同位鋼腱</td>
+<td>沿 C 線布設（−27.5／+13.75／0）；實務可保留兩端偏心、梁中央改為 <strong>+12.5 cm</strong></td>
 </tr>
 </tbody>
 </table>
+<p><strong>討論一：舊解的三個錯誤（2026-11-15 勘誤）。</strong> ①等值載重漏了兩端錨碇垂直分力（13.5、8.5 tf），不自平衡；②把固定端錨碇彎矩當成會造成 B 點撓度的載重（$ML^2/2EI$）；③相容方程式解出 −1.05 後棄用，改套「$R_B=3wL/8$ 向上」，再疊加錨碇彎矩的 −3.75，得 $R_B$＝4.5 tf、$M_2(0)$＝54 tf·m、C 線 +20／+37.5 cm（跨中超出半梁深 30 cm，物理上不可能）。正確的二次反力很小（0.25 tf），是因為本鋼腱已很接近一致鋼腱（梁中央只比一致鋼腱深 2.5 cm）。</p>
+<p><strong>討論二：反力的「受力」解讀。</strong> 題目「由該預力引起固定端與輥支承端之受力」解讀為二次反力（判讀清單 #6）。若改問「預力在支承處對混凝土施加的力」，則是 Step 2 的錨碇力：A 端水平 120 tf、向下 13.5 tf、錨碇彎矩 30 tf·m；B 端水平 120 tf、向下 8.5 tf——這些與跨內向上 22 tf 自平衡，不經支承傳出。</p>
+<p><strong>討論三：規範。</strong> 本題只涉及結構力學（預力二次效應），不涉及容許應力或強度係數，現行建築物混凝土結構設計規範（2023）與考卷指定的土木 401-112 結果相同。設計時二次彎矩需納入載重組合（規範 5.3.11，載重因數 1.0）。</p>
 <hr />
 <h2>6. 核心知識點連結 (Key Concept Links)</h2>
 <ul>
-<li><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RC-U4-equivalent-load-method</span> 等效載重法（拋物線腱）</li>
+<li><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RC-U4-equivalent-load-method</span> 等效載重法（拋物線腱，含錨碇垂直分力）</li>
 <li><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RC-U4-secondary-moment</span> 次彎矩與超靜定預力梁</li>
 <li><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RC-U4-pressure-line</span> 壓力線（C 線）</li>
-<li><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RC-U4-concordant-tendon</span> 一致腱定義</li>
-<li><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RC-U4-propped-cantilever-reactions</span> Propped Cantilever 反力公式</li>
-</ul></main>
+<li><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RC-U4-concordant-tendon</span> 一致腱定義與線性轉換</li>
+<li><span style="background:#e3f2fd;color:#1565c0;border-radius:8px;padding:1px 7px;font-size:.88em;font-weight:600">RC-U4-propped-cantilever-reactions</span> 一端固定一端輥支梁反力</li>
+</ul>
+<p><em>修正日期：2026-11-15（§1 改為指向題目正本，插入重繪附圖 figs/RC-2024-4-fig-1-problem.svg；舊 §1 重述改寫為常見誤讀與本解記號；本行非答案勘誤）</em></p>
+<p><em>修正日期：2026-11-15（解析勘誤 FIX-RC-U4-2-B1，改依現行台灣規範（建築物混凝土結構設計規範 2023）：等值載重補兩端錨碇垂直分力 13.5／8.5 tf 並驗自平衡；$R_B$ 4.5 → <strong>0.25 tf（向上）</strong>、固定端 $V_A$＝0.25 tf 向下、$M_{2,A}$ 54 → <strong>3.0 tf·m</strong>；C 線 +20／+37.5／0 → <strong>−27.5／+13.75／0 cm</strong>；同位鋼腱改為沿正確 C 線布設或梁中央改 +12.5 cm；補 §3.5；驗證：<code>.work/u4b1c/check_errata_U4_2_B1.py</code> 相容法、等值載重法、有限元素三路徑一致，MISMATCHES: 0）</em></p>
+<p><em>圖解補繪：2026-11-15（DIAG-RC-U4-2-B1，向量圖 <code>figs/RC-2024-4-fig-2-cline.svg</code>，腳本 <code>figs/gen_RC-2024-4.py</code>，數值取自本解 §4 並於腳本檔尾 assert，可重跑）</em></p></main>
 <footer>來源：raw/solutions/RC-2024-4/RC-2024-4.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
 </footer>
 <script>

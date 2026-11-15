@@ -282,7 +282,96 @@ def fig3_magnifier():
 
 
 # ══════════════════════════════════════════════════════════
+
+# ══════════ 題目附圖重繪（-problem，2026-11-15 加入；不影響既有圖）══════════
+# ── 題目附圖重繪共用小工具（各 gen 檔內聯一份）──
+def _p_rect(cv, x0, y0, x1, y1, fill="#EDF1F6", stroke=None, w=2.4, dash=None):
+    pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]
+    if fill:
+        cv.polygon(pts, fill)
+    cv.poly(pts, stroke or C["member"], w, dash=dash)
+
+
+def _p_bar(cv, p, r, fill=None):
+    cv.circle(p, r, fill=fill or C["member"], stroke=C["member"], w=1.2)
+
+
+def _p_hoop(cv, c, B, H, w=2.0, r=None):
+    cv.poly([(c, c), (B - c, c), (B - c, H - c), (c, H - c), (c, c)], C["member"], w)
+
+
+def _p_ring_bars(cv, B, H, e, n, r):
+    """每面 n 根（含角筋）沿周邊等距排列，回傳座標"""
+    pts = set()
+    for i in range(n):
+        t = e + (B - 2 * e) * i / (n - 1)
+        u = e + (H - 2 * e) * i / (n - 1)
+        for p in ((t, e), (t, H - e), (e, u), (B - e, u)):
+            pts.add((round(p[0], 6), round(p[1], 6)))
+    for p in pts:
+        _p_bar(cv, p, r)
+    return pts
+
+
+# ── 題目附圖重繪（題目正本 RC-2006-2-problem.md §4，2026-11-15 RC-U1-3 題目正本推廣）──
+P_B = 50.0                  # #7 斷面 50×50
+P_XS = (7.0, 25.0, 43.0)    # #2 尺寸鏈 7＋18＋18＋7；#1 Y 向同（對稱）
+P_R = 1.61                  # #10 半徑（d_b 考卷未給，示意）
+P_LU = 6.0                  # 題文淨高 6 m
+PPW, PPH = 560, 480
+
+
+def p_panel_sec():
+    cv = Canvas(PPW, PPH, sx=6.4, ox=130, oy=88)
+    _p_rect(cv, 0, 0, P_B, P_B)
+    c = 5.0                                                  # 箍筋位置（號數未標，示意）
+    _p_hoop(cv, c, P_B, P_B)
+    cv.line((P_B / 2, c), (P_B / 2, P_B - c), C["member"], 1.8)   # 垂直繫筋
+    cv.line((c, P_B / 2), (P_B - c, P_B / 2), C["member"], 1.8)   # 水平繫筋
+    n = 0
+    for x in P_XS:
+        for y in P_XS:
+            if (x, y) != (25.0, 25.0):
+                _p_bar(cv, (x, y), P_R); n += 1
+    assert n == 8
+    cv.dim((0, P_B), (P_B, P_B), "50 cm", off=-28, label_off=-14)
+    cv.dim((0, 0), (0, P_B), "50 cm", off=-34, label_off=-24)
+    xs = (0.0,) + P_XS + (P_B,)
+    for i in range(4):
+        cv.dim((xs[i], 0), (xs[i + 1], 0), f"{xs[i+1]-xs[i]:g}", off=30, label_off=13)
+    cv.axes((P_B + 5, P_B - 14), 8, 8, labels=("X", "Y"))
+    cv.text((P_B / 2, P_B / 2 + 3.2), "8-#10", 13)
+    cv.text((P_B / 2, -10), "斷面：對 Y 軸彎曲 → 深度沿 X 向 50 cm", 12.5, color=C["muted"])
+    return cv
+
+
+def p_panel_col():
+    cv = Canvas(PPW, PPH, sx=52, ox=250, oy=80)
+    w = 0.5
+    _p_rect(cv, -w / 2, 0, w / 2, P_LU)
+    cv.line((-1.4, 0), (1.4, 0), C["member"], 2.4)
+    cv.line((-1.4, P_LU), (1.4, P_LU), C["member"], 2.4)
+    cv.moment_arrow((0, P_LU), r=24, ccw=False, color=C["load"])
+    cv.moment_arrow((0, 0), r=24, ccw=True, color=C["load"])
+    cv.math((0.55, P_LU - 0.15), "M_{u} = 15 tf-m", 14, color=C["load"], anchor="start")
+    cv.text((0.55, P_LU - 0.6), "（柱頭）", 12.5, color=C["load"], anchor="start")
+    cv.math((0.55, 0.95), "M_{u} = 27 tf-m", 14, color=C["load"], anchor="start")
+    cv.text((0.55, 0.5), "（柱腳）", 12.5, color=C["load"], anchor="start")
+    cv.dim((-w / 2, 0), (-w / 2, P_LU), "6 m", off=-40, label_off=-22)
+    cv.text((0, -0.8), "無側移柱、單曲率；k＝0.9", 12.5, color=C["muted"])
+    cv.text((0, -1.2), "P_u＝400 tf、β_d＝0.3", 12.5, color=C["muted"])
+    return cv
+
+
+def fig1_problem():
+    from structdraw import compose
+    return compose([p_panel_sec(), p_panel_col()], title=f"{TAG} 題目附圖（圖二重繪＋柱端彎矩示意）",
+                   sub="依題目正本判讀清單 #1–#7；箍筋位置、筋徑、端彎矩箭頭為示意（單曲率）",
+                   note="下方尺寸鏈 7＋18＋18＋7 量到各列筋心；Y 向依對稱取相同")
+
+
 FIGURES = [
+    ("1-problem", fig1_problem, "繞 Y 軸時深度方向弄錯；尺寸鏈 7 cm 當保護層"),
     ("1-section",   fig1_section,
      "把 8-#10 當成每排 4 根；I_se 少算或多算力臂為零的中排 2 根"),
     ("2-curvature", fig2_curvature,

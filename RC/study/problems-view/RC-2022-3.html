@@ -31,78 +31,218 @@ img{max-width:100%;display:block;margin:14px auto;border:1px solid var(--bd);bor
 footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top:1px solid var(--bd)}
 </style></head><body>
 <header><h1>RC-2022-3 題目解析</h1><div class="navbtns"><a class="quick" href="../unit-RC-U2-1.html">&#128202; U2-1 單元總覽</a><a class="lect" href="../lecture-RC-U2-1.html">&#128218; U2-1 RC 剪力強度分析與設計 講義</a></div></header>
-<main><h1>考題編號：RC-2022-3</h1>
-<p><strong>主分類：</strong> <code>RC-U4-4</code> 預力梁剪力分析與設計<br />
-<strong>副分類：</strong> <code>RC-U2-1</code> RC 剪力強度分析與設計<br />
-<strong>設計法：</strong> USD 強度設計法<br />
-<strong>標籤：</strong> <code>預力梁</code> <code>腹剪裂縫</code> <code>Vcw</code> <code>PCI形梁</code> <code>垂直地震力</code> <code>肋筋間距</code> <code>腹剪破壞</code></p>
-<hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p><strong>題目：</strong> 簡支預力混凝土 PCI I 形梁，地震後於距梁端一倍有效深度處出現腹剪裂縫。加入垂直向地震力後，設計 D10 肋筋間距 $s$ 以避免腹剪破壞。（25 分）</p>
-<p><strong>材料強度：</strong></p>
-<ul>
-<li>$\gamma = 2.4 \text{ tf/m}^3$，$f'_c = 420 \text{ kgf/cm}^2$，$f_y = 4200 \text{ kgf/cm}^2$，$f_{yt} = 2800 \text{ kgf/cm}^2$</li>
-<li>有效預力：$F_e = 200 \text{ tf}$（直線配置，$V_p = 0$）</li>
-</ul>
-<p><strong>斷面幾何（PCI I 形梁，由圖讀取）：</strong></p>
+<main><details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>RC-2022-3 題目正本</h1>
+<blockquote>
+<p>本檔只記錄<strong>考卷上寫了什麼、圖上畫了什麼</strong>，不含任何解法。解析見同資料夾 <code>RC-2022-3.md</code>。<br />
+判讀清單已經確認（凍結）；本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
 <table>
 <thead>
 <tr>
-<th>位置</th>
-<th>寬度</th>
-<th>厚度</th>
-<th>距底高度</th>
+<th>項目</th>
+<th>內容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>上翼板</td>
-<td>45 cm</td>
-<td>20 cm</td>
-<td>70 ~ 90 cm</td>
+<td>考卷</td>
+<td><code>raw/exams/RC-2022_鋼筋混凝土設計與預力.pdf</code> 第 3 頁（頁次 4－3），第三題</td>
 </tr>
 <tr>
-<td>腹板</td>
-<td>17.5 cm</td>
-<td>50 cm</td>
-<td>20 ~ 70 cm</td>
+<td>考年</td>
+<td>民國 111 年（2022）</td>
 </tr>
 <tr>
-<td>下翼板</td>
-<td>12 cm</td>
-<td>20 cm</td>
-<td>0 ~ 20 cm</td>
+<td>配分</td>
+<td>25 分</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td><code>RC-2022-3-fig-1.png</code>（預力簡支 PCI 形梁之斷面圖與受力圖；考卷只有這一張複合圖，<strong>沒有第二張圖</strong>）</td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-15 使用者授權依 Claude 建議確認；轉錄 2026-11-15；PyMuPDF 110 dpi 全頁＋400–450 dpi 局部目視、文字層逐字核對、斷面以 PDF 向量座標量測；盲讀後才比對既有解析）</td>
 </tr>
 </tbody>
 </table>
-<p><strong>跨度與載重：</strong></p>
+<h2>1. 考卷原文（逐字）</h2>
+<blockquote>
+<p>三、如下圖所示之簡支預力混凝土梁跨徑 $L$ = 20 m，鋼筋混凝土之單位重 $\gamma$ = 2.4 tf/m³、混凝土強度 $f'_c$ = 420 kgf/cm²，主筋降伏強度 $f_y$ = 4200 kgf/cm²、肋筋降伏強度 $f_{yt}$ = 2800 kgf/cm²，有效預力 $F_e$ = 200 tf。今於地震後發現距離梁端支承約水平距離為一倍有效深度處出現腹剪裂縫，經查原設計階段所採用之垂直肋筋為 D10@15 cm，使用載重包括：自重 $W_G$、均佈靜載重 $W_D$ = 1.1 tf/m、集中活載重 $P_L$ = 25 tf，但未考慮垂直向地震力。今擬重新檢討，假設垂直向地震力為均佈載重，其值為自重 $W_G$ 與均佈靜載重 $W_D$ 兩者相加後的 25%，且仍使用 D10 當作垂直肋筋，請問肋筋間距 s 宜如何配置以避免產生腹剪破壞？（25 分）</p>
+<p>預力簡支 PCI 形梁之斷面圖與受力圖</p>
+</blockquote>
+<h2>2. 考卷給的公式、附表與參數</h2>
 <ul>
-<li>$L = 20$ m；臨界斷面位於距支承 $d_p = 80$ cm 處</li>
-<li>靜載重：$W_D = 1.1$ tf/m（不含自重）</li>
-<li>活載重：$P_L = 25$ tf（集中，位於 $L/3$ 與 $2L/3$ 各一）</li>
-<li>垂直地震力：$W_E = 0.25(W_G + W_D)$（均佈）</li>
+<li>簡支，$L=20$ m；$\gamma=2.4$ tf/m³；$f'_c=420$、$f_y=4200$、$f_{yt}=2800$ kgf/cm²；$F_e=200$ tf。</li>
+<li>載重：自重 $W_G$（由斷面與 $\gamma$ 計算）、$W_D=1.1$ tf/m、$P_L=25$ tf（附圖兩處）、垂直地震力 $W_E=0.25(W_G+W_D)$（均佈）。</li>
+<li>原設計 D10@15 cm 垂直肋筋；重新檢討仍用 D10。</li>
+<li>卷首表 1（照錄本題相關列）：D10 標稱直徑 0.953 cm、標稱面積 0.7133 cm²。</li>
+<li><strong>沒有給</strong>：載重組合與載重因數、肋筋肢數、有效深度數值（須由斷面推得）、下翼板寬度數值（見 #4）。</li>
+<li>卷首：※注意：本科目試題之作答規範：中國土木水利工程學會「混凝土工程設計規範與解說」（土木401-100），未依規範作答，不予計分。注意事項：可以使用電子計算器。不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。本科目除專門名詞或數理公式外，應使用本國文字作答。</li>
 </ul>
-<p><img alt="RC-2022-3 附圖一：簡支預力梁受力圖，含 WG、WD、WE 均佈載重及 PL 集中載重" src="../../raw/solutions/RC-2022-3/RC-2022-3-fig-1.png" /><br />
-<em>圖說：跨度 20 m 簡支梁，集中活載重在 L/3 與 2L/3 處各 25 tf，均佈載重含自重、靜載重與垂直地震力。</em></p>
-<p><img alt="RC-2022-3 附圖二：PCI I 形梁斷面尺寸，上翼板 45 cm、腹板 17.5 cm、下翼板 12 cm，全高 90 cm" src="../../raw/solutions/RC-2022-3/RC-2022-3-fig-2.png" /><br />
-<em>圖說：上翼板 45×20 cm、腹板 17.5×50 cm、下翼板 12×20 cm，總高 90 cm，預力鋼腱位於下翼板形心（距底 10 cm）。</em></p>
+<h2>3. 附圖</h2>
+<p><img alt="RC-2022-3 考卷附圖：上為受力圖，簡支梁左端鉸支承、右端滾支承，跨徑 L，兩個 PL 分別位於距左、右支承 1/3 L 處，全跨均佈 WG、WD、WE，兩端 Fe 水平作用於梁底附近的直線鋼腱高度，梁端附近各有一條紅色斜線（腹剪裂縫）；下為 PCI 斷面：上翼板寬 45 cm、厚 20 cm，腹板寬 17.5 cm、高 50 cm，下翼板厚 20 cm、寬度未標註（圖上與上翼板同寬），全深 90 cm，鋼腱（黑點）距梁底 12 cm" src="../../raw/solutions/RC-2022-3/RC-2022-3-fig-1.png" /></p>
+<p>圖面文字照錄：1/3 L、P_L、W_G、W_D、W_E、P_L、1/3 L、F_e、F_e、L、45 cm、20 cm、17.5 cm、90 cm、50 cm、20 cm、12 cm、預力簡支 PCI 形梁之斷面圖與受力圖。</p>
+<h2>4. 判讀清單</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>下翼板寬度</td>
+<td><strong>45 cm</strong>（與上翼板同寬）。考卷未標註；PDF 向量座標：上翼板與下翼板矩形皆 x＝260.4～337.9 pt（77.5 pt），上翼板寬 45 cm → 1.72 pt/cm；腹板 30.3 pt＝17.6 cm、各層高 34.5／85.7／34.2 pt＝20／50／20 cm，比例一致</td>
+<td>向量座標</td>
+<td>確定（解讀，影響答案；2026-11-15 使用者授權依 Claude 建議確認）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>12 cm</td>
+<td><strong>鋼腱形心距梁底</strong> 12 cm（尺寸線上端對齊黑點右側短線、下端對齊梁底），不是下翼板寬；向量量測鋼腱中心距底 20.1 pt＝11.7 cm</td>
+<td>400 dpi；向量座標</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>載重組合</td>
+<td>考卷沒有給；依現行規範各載重組合取控制者——含地震的 $1.2D+1.0E+1.0L$（$E$ 為 $W_E$）與 $1.2D+1.6L$ 都要檢核；$W_E$ 不可再乘靜載重因數</td>
+<td>題文未給組合</td>
+<td>確定（解讀；依本庫「規範版本」規則）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>斷面其餘尺寸</td>
+<td>上翼板 45×20；腹板 17.5×50；下翼板厚 20；全深 90；左右對稱，鋼腱在中線</td>
+<td>附圖尺寸；向量座標（腹板中心＝翼板中心 299.2 pt）</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>鋼腱線形</td>
+<td><strong>直線</strong>，全長距底 12 cm；$F_e$ 於兩端水平作用於鋼腱高度 → 無垂直分量</td>
+<td>受力圖：鋼腱為貼近梁底的水平線，$F_e$ 箭頭水平</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>6</td>
+<td>有效深度</td>
+<td>$d_p=90-12=78$ cm（≥ 0.8h＝72）；裂縫在距支承約一倍有效深度處</td>
+<td>#2；題文</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>集中載重位置</td>
+<td>兩個 $P_L$，分別在距左、右支承 $L/3$</td>
+<td>受力圖兩個 1/3 L 尺寸</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>8</td>
+<td>支承與均佈載重</td>
+<td>左鉸右滾；$W_G$、$W_D$、$W_E$ 皆全跨均佈</td>
+<td>受力圖</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>9</td>
+<td>肋筋肢數</td>
+<td>考卷沒有給；D10 垂直肋筋一般為雙肢（$A_v=2\times0.7133$），須明列</td>
+<td>卷首表 1</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>10</td>
+<td>所求</td>
+<td>依腹剪強度檢討，求 D10 垂直肋筋間距 $s$</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-15（RC-U4-2+U4-3+U4-4 題目正本推廣・批 1）</em></p>
+<p><em>確認：2026-11-15 使用者授權依 Claude 建議確認（RC-U4-2+U4-3+U4-4 題目正本推廣・批 1，關卡一）</em></p></details>
+<h1>考題編號：RC-2022-3</h1>
+<p><strong>主分類：</strong> <code>RC-U4-4</code> 預力梁剪力分析與設計<br />
+<strong>副分類：</strong> <code>RC-U2-1</code> RC 剪力強度分析與設計<br />
+<strong>設計法：</strong> USD 強度設計法<br />
+<strong>標籤：</strong> <code>預力梁</code> <code>腹剪裂縫</code> <code>Vcw</code> <code>PCI形梁</code> <code>垂直地震力</code> <code>肋筋間距</code> <code>腹剪破壞</code> <code>載重組合</code> <code>臨界斷面h/2</code></p>
+<hr />
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="RC-2022-3-problem.md"><code>RC-2022-3-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<p><img alt="RC-2022-3 重繪題目附圖：簡支 PCI 梁跨徑 20 m（左鉸右滾），兩個 PL 各在距支承 L/3，全跨均佈 WG、WD、WE；直線鋼腱距梁底 12 cm，Fe 於兩端水平作用，梁端附近有腹剪裂縫；右為 PCI 斷面：上翼板 45×20、腹板 17.5×50、下翼板 45×20（下翼板寬考卷未標，依向量量測），全深 90" src="../../raw/solutions/RC-2022-3/figs/RC-2022-3-fig-1-problem.svg" /><br />
+<em>重繪自考卷附圖，依題目正本判讀清單 #1–#8。本圖攔下的讀錯：把 12 cm 當成下翼板寬；鋼腱距底取 10 cm。</em></p>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>下翼板寬</td>
+<td>45 cm（考卷未標，向量量測與上翼板同寬）</td>
+<td>12 cm（本庫舊解）</td>
+</tr>
+<tr>
+<td>12 cm</td>
+<td>鋼腱形心距梁底 → $d_p$＝78 cm</td>
+<td>下翼板寬；鋼腱距底 10 cm、$d_p$＝80</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td>考卷只有一張複合圖（受力圖＋斷面）</td>
+<td>另有第二張斷面圖（本庫舊 §1 引用不存在的 fig-2）</td>
+</tr>
+<tr>
+<td>載重組合</td>
+<td>考卷沒有給；依現行規範各組合取控制者（含 $1.2D+1.0E+1.0L$ 與 $1.2D+1.6L$）</td>
+<td>$W_E$ 併入靜載重乘 1.2，再與 $1.6L$ 同時作用（本庫舊解；非規範組合）</td>
+</tr>
+<tr>
+<td>$V_s$ 間距減半門檻</td>
+<td>kgf 制 $1.06\sqrt{f'_c}b_wd$</td>
+<td>SI 係數 $\tfrac13\sqrt{f'_c}b_wd$ 直接代 kgf（本庫舊解）</td>
+</tr>
+<tr>
+<td>$V_p$</td>
+<td>直線鋼腱，$V_p$＝0</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> $L$＝20 m；上翼板 45×20、腹板 $b_w$＝17.5×50、下翼板 45×20 cm；$h$＝90、$d_p$＝78 cm；$F_e$＝200 tf；$\gamma$＝2.4 tf/m³；$W_D$＝1.1 tf/m；$P_L$＝25 tf（$L/3$ 兩處）；$W_E$＝0.25($W_G$＋$W_D$)；D10 $A_b$＝0.7133 cm²，雙肢 $A_v$＝1.4266 cm²；$f'_c$＝420、$f_{yt}$＝2800 kgf/cm²；$D=W_G+W_D$。</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
-<p><strong>核心觀念：</strong> 預力混凝土梁的<strong>腹剪破壞</strong>（web-shear failure）發生於支承附近高剪力低彎矩區，須以 $V_{cw}$ 公式設計肋筋。</p>
+<p><strong>核心觀念：</strong> 預力梁支承附近剪力大、彎矩小，混凝土剪力強度由<strong>腹剪強度</strong> $V_{cw}$ 控制（主拉應力在形心處達到開裂強度）。預力 $f_{pc}=F_e/A$ 提高 $V_{cw}$，所以 $V_{cw}$ 對斷面積非常敏感——斷面讀錯（下翼板寬），$V_{cw}$ 就錯。</p>
 <p><strong>出題者意圖：</strong></p>
 <ol>
-<li>測驗 $V_{cw}$ 公式（含 $f_{pc}$ 項）的正確應用</li>
-<li>考驗截面特性計算（PCI I 形梁形心、有效深度 $d_p$）</li>
-<li>驗算加入垂直地震力後載重組合，求所需肋筋間距</li>
+<li>由 PCI 斷面求 $A$、自重、$d_p$；$f_{pc}=F_e/A$ 與 $V_{cw}$（kgf 制係數）</li>
+<li>加入垂直地震力 $W_E$ 後，依規範載重組合求 $V_u$，判斷控制組合</li>
+<li>由 $V_s=V_u/\phi-V_{cw}$ 求 D10 肋筋間距，並檢核間距上限、最少剪力筋、$V_s$ 上限</li>
+<li>檢討原設計 D10@15 為何出現腹剪裂縫</li>
 </ol>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
 <p><strong>作戰計畫：</strong></p>
-<pre><code>Step 1：計算截面積 A、形心 ȳ → 確認 dp 與 bw
-Step 2：計算 fpc = Fe/A（形心軸壓應力）→ Vcw
-Step 3：計算自重 WG → 加入 WE 求因數化均佈載重 wu
-Step 4：求臨界斷面 Vu（距支承 dp = 80 cm）
-Step 5：計算所需 Vs，求間距 s；驗算最大間距限制
+<pre><code>Step 1：斷面性質 A、形心、dp（≥0.8h）、WG、WE
+Step 2：fpc = Fe/A → Vcw = (0.93√f'c + 0.3fpc) bw dp + Vp
+Step 3：各載重組合在臨界斷面（距支承 h/2）的 Vu → 取控制者
+Step 4：Vs = Vu/φ − Vcw → s = Av fyt dp / Vs
+Step 5：檢核 Vs 上限、間距上限、Av,min；Vci 確認不控制；原設計 @15 檢討
 </code></pre>
 <p><strong>關鍵陷阱：</strong></p>
 <table>
@@ -116,23 +256,33 @@ Step 5：計算所需 Vs，求間距 s；驗算最大間距限制
 <tbody>
 <tr>
 <td>⚠1</td>
-<td>$d_p$ 是<strong>頂面</strong>到預力鋼腱形心的距離，非有效深度 $d$（RC 用法）；本題 $d_p = 90 - 10 = 80$ cm</td>
-<td>直接由截面幾何求出</td>
+<td>斷面讀錯</td>
+<td>12 cm 是鋼腱距底；下翼板寬 45 → $A$＝2675 cm²</td>
 </tr>
 <tr>
 <td>⚠2</td>
-<td>$f_{pc}$ 在<strong>形心軸</strong>處評估：偏心矩項貢獻為 $F_e \cdot e \cdot 0/I = 0$，所以 $f_{pc} = F_e/A$</td>
-<td>無需考慮偏心矩</td>
+<td>$d_p$</td>
+<td>頂面至鋼腱形心 90−12＝78 cm（≥ 0.8h＝72），剪力計算的 $d$ 取 $d_p$</td>
 </tr>
 <tr>
 <td>⚠3</td>
-<td>$V_p$（預力垂直分量）：直線鋼腱 $V_p = 0$</td>
-<td>若拋物線腱需另算；本題未給腱型，取 $V_p = 0$</td>
+<td>$f_{pc}$ 只取 $F_e/A$</td>
+<td>形心處偏心項為零</td>
 </tr>
 <tr>
 <td>⚠4</td>
-<td>垂直地震力 $W_E$ 的載重組合：加入後須配合載重因數，$W_E = 0.25(W_G + W_D)$ 應以 1.2 倍（視為等效靜載重）計入</td>
-<td>使用 $U = 1.2(W_G + W_D + W_E) + 1.6P_L$</td>
+<td>載重組合</td>
+<td>現行規範：$1.4D$、$1.2D+1.6L$、$1.2D+1.0E+1.0L$；$W_E$ 是地震載重 $E$，不可再乘 1.2，也不與 $1.6L$ 同時作用</td>
+</tr>
+<tr>
+<td>⚠5</td>
+<td>臨界斷面</td>
+<td>預力構材取距支承面 $h/2$（＝45 cm）；裂縫在約 $d_p$ 處，兩者結果同為 @13</td>
+</tr>
+<tr>
+<td>⚠6</td>
+<td>kgf 制係數</td>
+<td>$V_{cw}$ 0.93、間距減半門檻 1.06、$V_s$ 上限 2.12、$A_{v,\min}$ $0.2\sqrt{f'_c}$ 與 3.5——SI 係數（0.29、0.33、0.66、0.062、0.35）不可直接代 kgf</td>
 </tr>
 </tbody>
 </table>
@@ -142,14 +292,13 @@ Step 5：計算所需 Vs，求間距 s；驗算最大間距限制
 <p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
 </blockquote>
 <h3>最終目標</h3>
-<p><code>求加入垂直地震力後，D10 肋筋所需最大間距 s，以滿足 φ(Vcw + Vs) ≥ Vu</code></p>
+<p><code>求加入垂直地震力檢討後，D10 肋筋所需間距 s，以滿足 φ(Vcw + Vs) ≥ Vu</code></p>
 <h3>本題關鍵公式（依計算順序）</h3>
-<p>$$\text{Step 1：截面積與形心} \quad A = \sum b_i h_i, \quad \bar{y} = \frac{\sum A_i \bar{y}_i}{A}$$</p>
-<p>$$\text{Step 2：腹剪強度} \quad \boxed{V_{cw}} = (0.93\sqrt{f'_c} + 0.3\boxed{f_{pc}}) \cdot b_w \cdot d_p + V_p, \quad \boxed{f_{pc}} = \frac{F_e}{A}$$</p>
-<p>$$\text{Step 3：因數化剪力} \quad \boxed{V_u} = \boxed{R} - w_u \cdot d_p, \quad \boxed{R} = \frac{w_u L}{2} + \sum P_u \frac{L-x_i}{L}$$</p>
-<p>$$\text{Step 4：需求鋼筋剪力} \quad \boxed{V_s} = \frac{\boxed{V_u}}{\phi} - \boxed{V_{cw}}, \quad \phi = 0.75$$</p>
-<p>$$\text{Step 5：肋筋間距} \quad s \le \frac{A_v \cdot f_{yt} \cdot d_p}{\boxed{V_s}}$$</p>
-<hr />
+<p>$$\text{Step 1：} A=\sum b_ih_i,\quad W_G=A\gamma,\quad W_E=0.25(W_G+W_D)$$</p>
+<p>$$\text{Step 2：} \boxed{V_{cw}}=(0.93\sqrt{f'_c}+0.3\boxed{f_{pc}})\,b_w d_p+V_p,\quad \boxed{f_{pc}}=\frac{F_e}{A}$$</p>
+<p>$$\text{Step 3：} \boxed{V_u}=w_u\left(\frac{L}{2}-x\right)+P_u\quad(x&lt;L/3)$$</p>
+<p>$$\text{Step 4：} \boxed{V_s}=\frac{\boxed{V_u}}{\phi}-\boxed{V_{cw}},\quad \phi=0.75$$</p>
+<p>$$\text{Step 5：} s\le\frac{A_vf_{yt}d_p}{\boxed{V_s}}$$</p>
 <h3>L1：題目直接給定</h3>
 <table>
 <thead>
@@ -198,18 +347,16 @@ Step 5：計算所需 Vs，求間距 s；驗算最大間距限制
 <tr>
 <td>D10</td>
 <td>$d_b = 0.953$ cm，$A_b = 0.7133$ cm²</td>
-<td>查表1</td>
+<td>卷首表 1</td>
 </tr>
 <tr>
 <td>斷面</td>
-<td>上翼板 45×20、腹板 17.5×50、下翼板 12×20 cm</td>
-<td>附圖</td>
+<td>上翼板 45×20、腹板 17.5×50、下翼板 45×20 cm；鋼腱距底 12</td>
+<td>附圖（下翼板寬向量量測）</td>
 </tr>
 </tbody>
 </table>
-<hr />
 <h3>L2：需知識點推導</h3>
-<p><strong>Step 1：截面性質</strong></p>
 <table>
 <thead>
 <tr>
@@ -221,128 +368,36 @@ Step 5：計算所需 Vs，求間距 s；驗算最大間距限制
 <tbody>
 <tr>
 <td>$A$</td>
-<td>$45\times20 + 17.5\times50 + 12\times20$</td>
+<td>$2(45\times20)+17.5\times50=2675$ cm²</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$\bar{y}$（形心距底）</td>
-<td>$\sum A_i\bar{y}_i / A$</td>
+<td>$d_p$</td>
+<td>$90-12=78$ cm ≥ $0.8h$＝72</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$d_p$（鋼腱深度距頂）</td>
-<td>$h - $ 下翼板形心距底 $= 90 - 10$</td>
+<td>$W_G$、$W_E$</td>
+<td>0.642、0.4355 tf/m</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$b_w$</td>
-<td>腹板寬 17.5 cm</td>
-<td style="text-align: center;"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Step 2：$f_{pc}$ 與 $V_{cw}$</strong></p>
-<table>
-<thead>
-<tr>
-<th>符號</th>
-<th>公式／來源</th>
-<th style="text-align: center;">卡關?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$f_{pc}$</td>
-<td>$F_e/A$（形心軸，偏心矩項為零）</td>
+<td>$f_{pc}$、$V_{cw}$</td>
+<td>74.77 kgf/cm²；56.63 tf</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$\sqrt{f'_c}$</td>
-<td>$\sqrt{420}$</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$V_{cw}$</td>
-<td>$(0.93\sqrt{f'_c}+0.3f_{pc}) \cdot b_w \cdot d_p$</td>
-<td style="text-align: center;"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Step 3–4：因數化載重</strong></p>
-<table>
-<thead>
-<tr>
-<th>符號</th>
-<th>公式／來源</th>
-<th style="text-align: center;">卡關?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$W_G$</td>
-<td>$A \times 10^{-4} \text{ m}^2/\text{cm}^2 \times \gamma$</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$W_E$</td>
-<td>$0.25(W_G + W_D)$</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$w_u$（均佈）</td>
-<td>$1.2(W_G + W_D + W_E)$</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$P_u$（集中）</td>
-<td>$1.6 P_L$</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$R$（支承反力）</td>
-<td>$w_u L/2 + P_u(2/3 + 1/3)$</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$V_u$（臨界斷面）</td>
-<td>$R - w_u \cdot d_p$</td>
-<td style="text-align: center;"></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Step 5：肋筋設計</strong></p>
-<table>
-<thead>
-<tr>
-<th>符號</th>
-<th>公式／來源</th>
-<th style="text-align: center;">卡關?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$V_s$</td>
-<td>$V_u/\phi - V_{cw}$</td>
+<td>控制組合</td>
+<td>$1.2D+1.6L$：$V_u$＝59.96 tf（$h/2$）</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>$A_v$</td>
-<td>$2 \times 0.7133$ cm²（雙肢）</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$s$</td>
-<td>$A_v \cdot f_{yt} \cdot d_p / V_s$</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>$s_{max}$（若 $V_s &gt; \frac{1}{3}\sqrt{f'_c}b_wd_p$）</td>
-<td>$\min(0.375h, 30\text{ cm})$</td>
+<td>雙肢 1.4266 cm²（考卷未給肢數，假設）</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>
-<hr />
 <h3>L3：深層知識（不懂就卡住）</h3>
 <table>
 <thead>
@@ -354,106 +409,160 @@ Step 5：計算所需 Vs，求間距 s；驗算最大間距限制
 </thead>
 <tbody>
 <tr>
-<td>腹剪裂縫 vs 彎剪裂縫</td>
-<td>腹剪（web-shear）發生於高剪低彎矩區（支承附近），用 $V_{cw}$；彎剪（flexure-shear）發生於中段，用 $V_{ci}$</td>
+<td>腹剪 vs 彎剪</td>
+<td>支承附近 $V_{ci}$ 很大（$M_{cre}/M_{\max}$ 項），$V_c=\min(V_{ci},V_{cw})$ 由 $V_{cw}$ 控制</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$f_{pc}$ 的取法</td>
-<td>$f_{pc}$ 是形心軸上的有效預力壓應力。在形心軸上，偏心矩項 $F_e \cdot e \cdot 0/I = 0$，故只有 $F_e/A$，與偏心量無關</td>
+<td>垂直地震的載重組合</td>
+<td>$W_E$ 屬地震載重 $E$，與 $1.2D$、$1.0L$ 組合；它不一定控制</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>腹板寬度 $b_w$</td>
-<td>I 形梁剪力集中於腹板，計算 $V_{cw}$ 時用腹板寬 17.5 cm，不用翼板寬</td>
+<td>預力構材臨界斷面</td>
+<td>距支承面 $h/2$（RC 為 $d$）</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr>
-<td>$d_p$ 的下限</td>
-<td>規範規定 $d_p \ge 0.8h$；本題 $80 \ge 0.8\times90=72$ cm ✓</td>
-<td style="text-align: center;"></td>
-</tr>
-<tr>
-<td>最大肋筋間距切換點</td>
-<td>$V_s$ 超過 $\frac{1}{3}\sqrt{f'_c}b_wd_p$ 時，最大間距從 $0.75h$ 縮為 $0.375h$</td>
+<td>kgf 制係數換算</td>
+<td>$\sqrt{\text{MPa}}$ 係數 ×3.19 → $\sqrt{\text{kgf/cm}^2}$ 係數（0.29→0.93、0.33→1.06、0.66→2.12）</td>
 <td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>
 <hr />
 <h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
-<h3>Step 1：截面性質</h3>
-<p><strong>截面積：</strong><br />
-$$A = 45\times20 + 17.5\times50 + 12\times20 = 900 + 875 + 240 = \mathbf{2015 \text{ cm}^2}$$</p>
-<p><strong>自重：</strong><br />
-$$W_G = A \times \gamma = 2015 \times 10^{-4} \text{ m}^2 \times 2.4 \text{ tf/m}^3 = \mathbf{0.484 \text{ tf/m}}$$</p>
-<p><strong>形心距底面（$\bar{y}$）：</strong><br />
-$$\bar{y} = \frac{900\times80 + 875\times45 + 240\times10}{2015} = \frac{72{,}000 + 39{,}375 + 2{,}400}{2015} = \frac{113{,}775}{2015} = \mathbf{56.46 \text{ cm}}$$</p>
-<p><strong>腹板寬度與有效深度：</strong><br />
-$$b_w = 17.5 \text{ cm}, \quad d_p = 90 - 10 = \mathbf{80 \text{ cm}} \ge 0.8h = 72 \text{ cm} \quad\checkmark$$</p>
-<hr />
+<blockquote>
+<p>依現行建築物混凝土結構設計規範（2023）：載重組合 5.3、預力構材腹剪強度 $V_{cw}$、剪力筋間距與最少剪力筋（kgf 制係數）。</p>
+</blockquote>
+<h3>Step 1：截面性質與載重</h3>
+<p>$$A=45\times20+17.5\times50+45\times20=900+875+900=\mathbf{2675\ \text{cm}^2}$$</p>
+<p>斷面上下對稱，形心距底 45 cm；$I=2\left(\frac{45\times20^3}{12}+900\times35^2\right)+\frac{17.5\times50^3}{12}=2{,}447{,}292$ cm⁴。</p>
+<p>$$d_p=90-12=\mathbf{78\ \text{cm}}\ \ge 0.8h=72\ \text{cm}\ \checkmark,\qquad b_w=17.5\ \text{cm}$$</p>
+<p>$$W_G=2675\times10^{-4}\times2.4=\mathbf{0.642\ \text{tf/m}},\qquad D=W_G+W_D=1.742\ \text{tf/m}$$</p>
+<p>$$W_E=0.25\times1.742=\mathbf{0.4355\ \text{tf/m}}$$</p>
 <h3>Step 2：腹剪混凝土強度 $V_{cw}$</h3>
-<p><strong>形心軸預壓應力：</strong><br />
-$$f_{pc} = \frac{F_e}{A} = \frac{200{,}000 \text{ kgf}}{2015 \text{ cm}^2} = \mathbf{99.25 \text{ kgf/cm}^2}$$</p>
-<p><strong>$V_{cw}$（取 $V_p = 0$，直線鋼腱）：</strong><br />
-$$V_{cw} = (0.93\sqrt{f'_c} + 0.3f_{pc})\cdot b_w \cdot d_p$$<br />
-$$= (0.93\times\sqrt{420} + 0.3\times99.25)\times17.5\times80$$<br />
-$$= (0.93\times20.49 + 29.78)\times17.5\times80$$<br />
-$$= (19.06 + 29.78)\times1400$$<br />
-$$= 48.84\times1400 = \mathbf{68{,}376 \text{ kgf} = 68.38 \text{ tf}}$$</p>
-<hr />
-<h3>Step 3：因數化設計剪力 $V_u$</h3>
-<p><strong>垂直地震力：</strong><br />
-$$W_E = 0.25(W_G + W_D) = 0.25\times(0.484 + 1.1) = 0.25\times1.584 = \mathbf{0.396 \text{ tf/m}}$$</p>
-<p><strong>因數化載重（$W_E$ 視同靜載重，以 1.2 計）：</strong><br />
-$$w_u = 1.2(W_G + W_D + W_E) = 1.2\times(0.484 + 1.1 + 0.396) = 1.2\times1.980 = \mathbf{2.376 \text{ tf/m}}$$<br />
-$$P_u = 1.6\times P_L = 1.6\times25 = \mathbf{40 \text{ tf}}$$</p>
-<p><strong>支承反力（對稱載重）：</strong><br />
-$$R = \frac{w_u \cdot L}{2} + P_u\times\frac{L - L/3}{L} + P_u\times\frac{L - 2L/3}{L}$$<br />
-$$= \frac{2.376\times20}{2} + 40\times\frac{2}{3} + 40\times\frac{1}{3}$$<br />
-$$= 23.76 + 26.67 + 13.33 = \mathbf{63.76 \text{ tf}}$$</p>
-<p><strong>臨界斷面剪力（距支承 $d_p = 0.8$ m，無集中載重介入）：</strong><br />
-$$V_u = R - w_u\times d_p = 63.76 - 2.376\times0.8 = 63.76 - 1.90 = \mathbf{61.86 \text{ tf}}$$</p>
-<hr />
-<h3>Step 4：需求鋼筋剪力 $V_s$</h3>
-<p>$$\phi V_{cw} = 0.75\times68.38 = 51.29 \text{ tf} &lt; V_u = 61.86 \text{ tf} \quad\Rightarrow\quad \text{需設計肋筋}$$</p>
-<p>$$V_s \ge \frac{V_u}{\phi} - V_{cw} = \frac{61.86}{0.75} - 68.38 = 82.48 - 68.38 = \mathbf{14.10 \text{ tf} = 14{,}100 \text{ kgf}}$$</p>
-<hr />
-<h3>Step 5：D10 肋筋間距</h3>
-<p><strong>D10 雙肢肋筋面積：</strong><br />
-$$A_v = 2\times0.7133 = 1.4266 \text{ cm}^2$$</p>
-<p><strong>所需間距：</strong><br />
-$$s \le \frac{A_v \cdot f_{yt} \cdot d_p}{V_s} = \frac{1.4266\times2800\times80}{14{,}100} = \frac{319{,}475}{14{,}100} = \mathbf{22.7 \text{ cm}}$$</p>
-<p><strong>最大間距限制：</strong></p>
-<p>先判斷 $V_s$ 是否超過切換門檻：<br />
-$$\frac{1}{3}\sqrt{f'_c}\cdot b_w\cdot d_p = \frac{1}{3}\times20.49\times17.5\times80 = \mathbf{9{,}493 \text{ kgf}}$$</p>
-<p>$$V_s = 14{,}100 &gt; 9{,}493 \text{ kgf} \quad\Rightarrow\quad s_{\max} = \min(0.375h,\ 30\text{ cm}) = \min(33.75,\ 30) = \mathbf{30 \text{ cm}}$$</p>
-<p>$$\text{需求間距 } 22.7 \text{ cm} &lt; s_{\max} = 30 \text{ cm} \quad\checkmark$$</p>
-<p><strong>驗算：</strong> 採 $s = 20$ cm：<br />
-$$V_s = \frac{1.4266\times2800\times80}{20} = 15{,}974 \text{ kgf}$$</p>
-<p>$$\phi(V_{cw}+V_s) = 0.75\times(68{,}376+15{,}974) = 0.75\times84{,}350 = 63{,}263 \text{ kgf} = 63.26 \text{ tf} &gt; 61.86 \text{ tf} \quad\checkmark$$</p>
-<p>$$\boxed{s \le 22.7 \text{ cm，採用 D10@20 cm}}$$</p>
-<p><strong>驗算 $s = 25$ cm（不合格，供參考）：</strong><br />
-$$V_s = 319{,}475/25 = 12{,}779 \text{ kgf}$$<br />
-$$\phi(V_{cw}+V_s) = 0.75\times(68{,}376+12{,}779) = 60{,}866 \text{ kgf} &lt; 61{,}860 \text{ kgf} \quad\times$$</p>
+<p>$$f_{pc}=\frac{F_e}{A}=\frac{200{,}000}{2675}=\mathbf{74.77\ \text{kgf/cm}^2}$$</p>
+<p>$$V_{cw}=(0.93\sqrt{420}+0.3\times74.77)\times17.5\times78=(19.06+22.43)\times1365=\mathbf{56{,}630\ \text{kgf}=56.63\ \text{tf}}$$</p>
+<p>（直線鋼腱 $V_p$＝0。）</p>
+<h3>Step 3：各載重組合的 $V_u$（臨界斷面 $x=h/2=0.45$ m）</h3>
+<p>兩個 $P_L$ 對稱，支承反力含 $P_u$；$x&lt;L/3$，故 $V_u=w_u(10-x)+P_u$。</p>
+<table>
+<thead>
+<tr>
+<th>組合</th>
+<th>$w_u$ (tf/m)</th>
+<th>$P_u$ (tf)</th>
+<th>$V_u$ @ $h/2$ (tf)</th>
+<th>$V_u$ @ $d_p$ (tf)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$1.4D$</td>
+<td>2.439</td>
+<td>0</td>
+<td>23.29</td>
+<td>22.49</td>
+</tr>
+<tr>
+<td>$\mathbf{1.2D+1.6L}$</td>
+<td>2.090</td>
+<td>40</td>
+<td><strong>59.96</strong></td>
+<td><strong>59.27</strong></td>
+</tr>
+<tr>
+<td>$1.2D+1.0E+1.0L$</td>
+<td>$2.090+0.4355=2.526$</td>
+<td>25</td>
+<td>49.12</td>
+<td>48.29</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>$1.2D+1.6L$ 控制</strong>，$V_u$＝59.96 tf。依題目要求加入垂直地震力檢討後，含地震的組合（49.12 tf）不控制。</p>
+<h3>Step 4：需求鋼筋剪力</h3>
+<p>$$\phi V_{cw}=0.75\times56.63=42.47\ \text{tf}&lt;V_u=59.96\ \text{tf}\Rightarrow\text{需剪力筋}$$</p>
+<p>$$V_s=\frac{59.96}{0.75}-56.63=79.95-56.63=\mathbf{23.32\ \text{tf}}$$</p>
+<h3>Step 5：D10 肋筋間距與檢核</h3>
+<p>$$s\le\frac{A_vf_{yt}d_p}{V_s}=\frac{1.4266\times2800\times78}{23{,}320}=\mathbf{13.4\ \text{cm}}$$</p>
+<p><strong>檢核：</strong></p>
+<ul>
+<li>$V_s$ 上限：$2.12\sqrt{f'_c}b_wd_p=59.31$ tf ≥ 23.32 ✓（斷面足夠）</li>
+<li>間距減半門檻：$1.06\sqrt{f'_c}b_wd_p=29.65$ tf &gt; 23.32 → 間距上限 $\min(0.75h,60)=\min(67.5,60)=60$ cm ✓</li>
+<li>最少剪力筋：$A_{v,\min}/s=\max(0.2\sqrt{f'_c},3.5)\,b_w/f_{yt}$ → $s\le\frac{1.4266\times2800}{4.099\times17.5}=55.7$ cm ✓（另一條 $A_{ps}f_{pu}$ 式因考卷未給鋼腱資料無法檢核，且 13 cm 遠小於上述限值）</li>
+</ul>
+<p>採 <strong>D10 雙肢 @13 cm</strong>：</p>
+<p>$$V_s=\frac{1.4266\times2800\times78}{13}=23.97\ \text{tf},\qquad \phi(V_{cw}+V_s)=0.75(56.63+23.97)=60.45\ \text{tf}\ge59.96\ \checkmark$$</p>
+<p>$$\boxed{s\le13.4\ \text{cm，採 D10（雙肢）@13 cm}}$$</p>
+<p>（以裂縫位置 $x=d_p$ 計：$V_u$＝59.27、$V_s$＝22.40、$s\le13.9$ cm，同樣配 @13。）</p>
+<p><img alt="RC-2022-3 圖 2：上圖為 PCI 形斷面（上下翼板 45×20、腹板 17.5×50、h 90、鋼腱距底 12、d_p 78）與 A 2675、f_pc 74.77、V_cw 56.63 tf；下圖為支承附近 V_u 沿 x 變化，h/2＝0.45 m 處 1.2D＋1.6L 為 59.96 tf，1.2D＋1.0E＋1.0L 為 49.12 tf 不控制，φV_n @13 為 60.45、原設計 @15 為 58.05、φV_cw 為 42.47 tf" src="../../raw/solutions/RC-2022-3/figs/RC-2022-3-fig-2-shear.svg" /></p>
+<p><em>圖 2　斷面、臨界斷面與腹剪強度。12 cm 是鋼腱距梁底（下翼板寬 45）；臨界斷面取 $h/2$，需求線在此高於原設計 @15 的強度、低於 @13 的強度。本圖攔：把 12 cm 讀成下翼板寬、垂直地震乘 1.2 又與 1.6L 同時作用、漏比原設計 @15。</em></p>
 <hr />
 <h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
-<h3>爭議點 1：原設計 D10@15 cm 為何尚未破壞？</h3>
-<p><strong>原設計（無地震，wu = 1.2×1.584 = 1.901 tf/m，Pu = 40 tf）：</strong><br />
-$$R_{\text{orig}} = 1.901\times10 + 40 = 59.01 \text{ tf}$$<br />
-$$V_u^{\text{orig}} = 59.01 - 1.901\times0.8 = 57.49 \text{ tf}$$<br />
-$$\phi(V_{cw}+V_s^{@15\text{cm}}) = 0.75\times(68.38 + 319.475/15) = 0.75\times(68.38+21.30) = 67.26 \text{ tf} &gt; 57.49 \text{ tf} \quad\checkmark$$</p>
-<p><strong>加入地震後（Vu = 61.86 tf）：</strong><br />
-$$\phi(V_{cw}+V_s^{@15\text{cm}}) = 67.26 \text{ tf} &gt; 61.86 \text{ tf} \quad\checkmark$$</p>
-<p>→ 即使加入地震力後，D10@15 cm 從<strong>強度</strong>角度仍符合。腹剪裂縫的出現更可能是<strong>使用性問題</strong>（裂縫寬度超限或斷面抗裂能力 $V_{cr}$ 被超越），而非達到極限強度破壞。</p>
-<h3>爭議點 2：$f_{pc}$ 為何只取 $F_e/A$？</h3>
-<p>預力鋼腱位於下翼板形心（$y_{\text{tendon}} = 10$ cm from bottom），偏心量 $e = \bar{y} - 10 = 46.46$ cm。計算形心軸（$y = \bar{y}$）的應力：</p>
-<p>$$f_{pc} = \frac{F_e}{A} + \frac{F_e \cdot e \cdot (y_{\text{centroid}} - y_{\text{centroid}})}{I} = \frac{F_e}{A} + 0 = \frac{F_e}{A}$$</p>
-<p>偏心矩項對<strong>形心軸</strong>的貢獻恆為零，這是 $V_{cw}$ 公式使用 $f_{pc} = F_e/A$ 的理論依據。</p>
-<h3>進階：垂直地震力對腹剪的物理意義</h3>
-<p>垂直地震加速度 = $0.25g$（對應本題 $W_E = 0.25W_{total}$），使支承反力增加約：<br />
-$$\Delta R = 0.25\times(W_G + W_D)\times L/2 = 0.25\times1.584\times10 = 3.96 \text{ tf}$$</p>
-<p>即支承剪力增加約 4 tf，對原設計（裕度 ≈ 67.26 - 57.49 ≈ 9.77 tf）尚有餘裕，但加上 1.2 的放大因數後裕度縮小。</p></main>
+<h3>爭議點 1：原設計 D10@15 為何出現腹剪裂縫</h3>
+<p>$$V_s^{@15}=\frac{1.4266\times2800\times78}{15}=20.77\ \text{tf},\qquad \phi V_n=0.75(56.63+20.77)=58.05\ \text{tf}&lt;V_u=59.96\ \text{tf}$$</p>
+<p>原設計在 $1.2D+1.6L$ 下強度已不足（約差 3%），與梁端出現腹剪裂縫的現象方向一致；只要把間距縮到 13 cm 即可。垂直地震組合（49.12 tf）在現行組合下不控制。</p>
+<h3>爭議點 2：舊解（2026-11-15 勘誤前）與差異</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>舊解</th>
+<th>本解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>下翼板寬</td>
+<td>12 cm</td>
+<td>45 cm</td>
+</tr>
+<tr>
+<td>$A$、$W_G$</td>
+<td>2015 cm²、0.484 tf/m</td>
+<td>2675 cm²、0.642 tf/m</td>
+</tr>
+<tr>
+<td>$d_p$</td>
+<td>80</td>
+<td>78</td>
+</tr>
+<tr>
+<td>$f_{pc}$、$V_{cw}$</td>
+<td>99.25、68.38 tf</td>
+<td>74.77、56.63 tf</td>
+</tr>
+<tr>
+<td>載重組合</td>
+<td>$1.2(W_G+W_D+W_E)+1.6P_L$ → $V_u$＝61.86（$x$＝0.8 m）</td>
+<td>現行組合取控制者 → 59.96（$h/2$）</td>
+</tr>
+<tr>
+<td>間距減半門檻</td>
+<td>$\tfrac13\sqrt{f'_c}b_wd$＝9.49 tf（SI 係數代 kgf）</td>
+<td>$1.06\sqrt{f'_c}b_wd$＝29.65 tf</td>
+</tr>
+<tr>
+<td>答案</td>
+<td>$s\le22.7$，D10@20</td>
+<td>$s\le13.4$，<strong>D10@13</strong></td>
+</tr>
+</tbody>
+</table>
+<p>斷面積少算 25% → $f_{pc}$ 高估 33%、$V_{cw}$ 高估 21%，是答案改變的主因。若照舊解的組合（非規範組合）配合正確斷面，$V_u$＝64.95 tf、$s\le10.4$ cm，僅作對照。</p>
+<h3>爭議點 3：$V_{ci}$ 不控制（驗算）</h3>
+<p>$x=h/2$、$1.2D+1.6L$：$e=33$ cm，$f_{pe}$（底緣）＝196.1、$f_d$＝14.09 kgf/cm²，$M_{cre}=\frac{I}{y_b}(1.6\sqrt{f'_c}+f_{pe}-f_d)=116.8$ tf·m；$V_i$＝43.33 tf、$M_{\max}$＝19.53 tf·m：</p>
+<p>$$V_{ci}=0.16\sqrt{f'_c}b_wd_p+V_d+\frac{V_iM_{cre}}{M_{\max}}\approx280\ \text{tf}\gg V_{cw}=56.63\ \text{tf}$$</p>
+<p>支承附近 $V_c=V_{cw}$，題目以腹剪檢討正確。</p>
+<h3>爭議點 4：$f_{pc}$ 為何只取 $F_e/A$</h3>
+<p>鋼腱偏心 $e=45-12=33$ cm，但 $f_{pc}$ 定義在形心處，偏心彎矩項 $F_ee\cdot0/I=0$，故 $f_{pc}=F_e/A$。</p>
+<h3>爭議點 5：規範版本</h3>
+<p>考卷指定土木 401-100，本解改依現行建築物混凝土結構設計規範（2023）：載重組合為 $1.2D+1.6L$、$1.2D+1.0E+1.0L$ 等（401-100 同屬 ACI 318-05 以後的組合，結果相同）；$V_{cw}$、間距上限、$A_{v,\min}$ 以 kgf 制係數計算。肋筋肢數考卷未給，本解假設雙肢。</p>
+<p><em>修正日期：2026-11-15（§1 改為指向題目正本，插入重繪附圖 figs/RC-2022-3-fig-1-problem.svg；舊 §1 重述改寫為常見誤讀與本解記號；本行非答案勘誤）</em></p>
+<p><em>修正日期：2026-11-15（解析勘誤 FIX-RC-U4-2-B1，改依現行台灣規範（建築物混凝土結構設計規範 2023）：依題目正本 #1–#3 下翼板寬 12 → 45 cm、鋼腱距底 10 → 12 cm（$d_p$ 80 → 78）：$A$ 2015 → 2675 cm²、$f_{pc}$ 99.25 → 74.77、$V_{cw}$ 68.38 → <strong>56.63 tf</strong>；載重組合改現行規範取控制者（$1.2D+1.6L$），臨界斷面取 $h/2$：$V_u$ 61.86 → <strong>59.96 tf</strong>；間距減半門檻 $\tfrac13\sqrt{f'_c}b_wd$ → $1.06\sqrt{f'_c}b_wd$；肋筋 D10@20（$s\le22.7$）→ <strong>D10 雙肢 @13（$s\le13.4$）</strong>；補 $V_{ci}$ 驗算與原設計 @15 檢討；撤除 §1 待勘誤提示；驗證：<code>.work/u4b1c/check_errata_U4_2_B1.py</code> 重算 MISMATCHES: 0）</em></p>
+<p><em>圖解補繪：2026-11-15（DIAG-RC-U4-2-B1，向量圖 <code>figs/RC-2022-3-fig-2-shear.svg</code>，腳本 <code>figs/gen_RC-2022-3.py</code>，數值取自本解 §4 並於腳本檔尾 assert，可重跑）</em></p></main>
 <footer>來源：raw/solutions/RC-2022-3/RC-2022-3.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）
 </footer>
 <script>
