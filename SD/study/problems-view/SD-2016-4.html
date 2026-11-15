@@ -50,52 +50,235 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 </div>
 </header>
 <main>
-<h1>SD-2016-4 ｜ 三樓剪力建築 — 反應譜 SRSS 耐震分析</h1>
-<p><strong>考年：</strong> 2016（民國 105 年）｜<strong>題號：</strong> 第四題｜<strong>配分：</strong> 25 分<br />
-<strong>primaryTopicId：</strong> SD-U2-1｜<strong>analysisMethod：</strong> 模態疊加法 + SRSS 組合</p>
-<hr />
-<h2>§1 題目重述</h2>
-<p>如 fig-1 所示，三樓剪力建築（shear frame），各樓層質量與樓層勁度如下：</p>
+<details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>SD-2016-4 題目正本</h1>
+<blockquote>
+<p>本檔只記錄考卷上寫了什麼、圖上畫了什麼，不含任何解法。解析見同資料夾 <code>SD-2016-4.md</code>。<br />
+判讀清單經使用者確認前，狀態為「待確認」；確認後本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
 <table>
 <thead>
 <tr>
-<th>樓層</th>
-<th>質量</th>
-<th>層間勁度</th>
+<th>項目</th>
+<th>內容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>1（地面以上一樓）</td>
-<td>$m$</td>
-<td>$k$</td>
+<td>考卷</td>
+<td><code>raw/exams/SD-2016_結構動力分析與耐震設計.pdf</code>，第 2 頁（背面），第四題</td>
 </tr>
 <tr>
-<td>2（二樓）</td>
-<td>$m$</td>
-<td>$k$</td>
+<td>考年</td>
+<td>2016（民國105年）專技高考結構工程技師「結構動力分析與耐震設計」</td>
 </tr>
 <tr>
-<td>3（頂樓）</td>
-<td>$m/2$</td>
-<td>$k$</td>
+<td>配分</td>
+<td>25 分（6／14／5）</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td><code>SD-2016-4-fig-1.png</code>（屋架）、<code>SD-2016-4-fig-2.png</code>（反應譜，左上有游標）、<code>SD-2016-4-fig-3.png</code>（2026-11-15 由考卷 500 dpi 重擷取反應譜）</td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-15 使用者授權依 Claude 建議確認；影響答案項目定案：#1 反應譜讀值採本檔數位化表（線性內插）。原轉錄：2026-11-15 轉錄；PyMuPDF 110 dpi 整頁＋400–500 dpi 局部放大，PDF 文字層核對原文；盲讀於開啟解析前完成）</td>
 </tr>
 </tbody>
 </table>
-<p><strong>參數：</strong><br />
-$$k = 1.15\times10^6\ \text{N/m},\quad m = 5\times10^3\ \text{kg}$$</p>
-<p>已知設計反應譜（彈性，圖 fig-2，$S_a$ 單位 g，$T$ 單位 s），試求：</p>
+<h2>1. 考卷原文（逐字）</h2>
+<p>四、有一棟三層樓剪力屋架，如下左圖所示，其中 $k=1.15\times10^6$ N/m 用來代表各樓層的總勁度，而質量 $m=5\times10^3$ kg。已知在某一地震力作用下，其加速度反應譜可簡化如下右圖所示。自由度之編號請由底層增加至頂層，如圖中之 $v_1$，$v_2$ 和 $v_3$ 所示，試回答以下問題：</p>
+<p>㈠求出振動頻率及所對應之振態。（6 分）</p>
+<p>㈡計算各樓層的側向位移，可採用 SRSS（Square Root of the Sum of the Squares）疊加法。（14 分）</p>
+<p>㈢計算各樓層的層剪力，可採用 SRSS 疊加法。（5 分）</p>
+<h2>2. 考卷給的公式、附表與參數</h2>
 <ul>
-<li><strong>(一) 自然頻率 ω 與振態 {φ}（6 分）</strong></li>
-<li><strong>(二) 各樓層位移（SRSS 組合，14 分）</strong></li>
-<li><strong>(三) 各層剪力（SRSS 組合，5 分）</strong></li>
+<li>考卷沒有給參考公式。</li>
+<li>給定：各樓層總勁度 $k=1.15\times10^6$ N/m（三層相同）；質量由下往上 $m$、$m$、$m/2$，$m=5\times10^3$ kg。</li>
+<li>反應譜：右圖曲線「線彈性反應譜」，縱軸 $S_a$ (g) 0–1.5、橫軸 $T$ (sec) 0–2.0，格線 0.1 g × 0.1 s；曲線為點陣影像（非向量），數值須由圖上格線讀取。</li>
+<li>考卷沒有給：反應譜的阻尼比、$g$ 數值、樓高。</li>
+<li>卷首注意事項：㈠可以使用電子計算器。㈡不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。考試時間：2 小時。</li>
 </ul>
-<p><img alt="SD-2016-4 題目附圖一：三層樓剪力屋架，自由度由底層向上編號 v1、v2、v3；1F 與 2F 集中質量皆為 m、頂層為 m/2，三個樓層的樓層總勁度皆為 k，底部受地表加速度作用" src="../../raw/solutions/SD-2016-4/SD-2016-4-fig-1.png" /></p>
-<p><em>圖說：三層剪力屋架（shear frame）。自由度 $v_1$（1F）、$v_2$（2F）、$v_3$（RF）由底層向上遞增；集中質量 1F = 2F = $m$、RF = $m/2$；三個樓層的層間總勁度均為 $k = 1.15\times10^6$ N/m；輸入為底部地表加速度（ground acceleration）。</em></p>
+<h2>3. 附圖</h2>
+<p><img alt="SD-2016-4 考卷附圖（左）：三層剪力屋架，網點樓版由上而下標 m/2、m、m；三個柱段左側皆標 k；樓版右側虛線箭頭由上而下 v3、v2、v1；底部斜線地面，下方雙向箭頭標「地表加速度（ground acceleration）」" src="../../raw/solutions/SD-2016-4/SD-2016-4-fig-1.png" /><br />
+<em>證據圖 SD-2016-4-fig-1.png</em></p>
+<p><img alt="SD-2016-4 考卷附圖（右）：線彈性反應譜，縱軸 Sa (g) 0.0–1.5、橫軸 T (sec) 0.0–2.0，虛線方格 0.1×0.1；曲線自 T=0 的 0.6 g 緩升，0.25–0.35 s 間陡升，約 0.5 s 達峰值約 1.27 g，之後下降，1.0 s 約 0.5 g、1.5 s 約 0.2 g、2.0 s 約 0.12 g" src="../../raw/solutions/SD-2016-4/SD-2016-4-fig-3.png" /><br />
+<em>證據圖 SD-2016-4-fig-3.png（500 dpi 重擷取；舊圖 SD-2016-4-fig-2.png 內容相同，左上有游標）</em></p>
+<p>圖面文字照錄：k、m/2、v3、k、m、v2、k、m、v1、地表加速度（ground acceleration）；Sa (g)、T (sec)、線彈性反應譜、刻度 0.0–1.5、0.0–2.0</p>
+<p><strong>曲線讀值（2026-11-15 以考卷內嵌影像 856×561 px 依格線像素校準數位化，±0.02 g；陡升段 0.25–0.35 s 斜率約 4 g/s，週期差 0.01 s 即差約 0.04 g）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>T (s)</th>
+<th>0.05</th>
+<th>0.10</th>
+<th>0.15</th>
+<th>0.20</th>
+<th>0.25</th>
+<th>0.30</th>
+<th>0.35</th>
+<th>0.40</th>
+<th>0.45</th>
+<th>0.50</th>
+<th>0.60</th>
+<th>0.70</th>
+<th>0.80</th>
+<th>0.90</th>
+<th>1.00</th>
+<th>1.20</th>
+<th>1.50</th>
+<th>2.00</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$S_a$ (g)</td>
+<td>0.61</td>
+<td>0.62</td>
+<td>0.65</td>
+<td>0.70</td>
+<td>0.80</td>
+<td>1.00</td>
+<td>1.13</td>
+<td>1.21</td>
+<td>1.25</td>
+<td>1.27</td>
+<td>1.20</td>
+<td>1.02</td>
+<td>0.80</td>
+<td>0.63</td>
+<td>0.50</td>
+<td>0.33</td>
+<td>0.20</td>
+<td>0.12</td>
+</tr>
+</tbody>
+</table>
+<h2>4. 判讀清單</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>反應譜讀值精度</td>
+<td>曲線為點陣圖，只能依格線讀值；陡升段（0.25–0.35 s）讀值對週期很敏感，落在此段的振態 $S_a$ 有約 ±0.05 g 的不確定</td>
+<td>上表數位化；目視與格線交點吻合</td>
+<td>不確定（影響答案）；使用者授權依建議確認</td>
+</tr>
+<tr>
+<td>2</td>
+<td>樓層質量</td>
+<td>由下往上 $m$、$m$、$m/2$（頂層為一半）</td>
+<td>圖上 m/2 在最上層樓版、兩個 m 在下兩層</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>樓層勁度</td>
+<td>三層皆 $k=1.15\times10^6$ N/m（層總勁度）</td>
+<td>題文＋圖上三個 k</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>自由度</td>
+<td>$v_1$、$v_2$、$v_3$ 由下往上</td>
+<td>題文＋圖上箭頭</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>縱軸單位</td>
+<td>$S_a$ 以 g 為單位</td>
+<td>縱軸標「Sa (g)」</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>6</td>
+<td>反應譜阻尼比</td>
+<td>考卷沒有給；圖名「線彈性反應譜」，直接取用不作阻尼修正</td>
+<td>圖名</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>㈡「側向位移」</td>
+<td>各樓層相對地面的位移（SRSS）</td>
+<td>題文</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>8</td>
+<td>柱底</td>
+<td>固定（斜線地面）</td>
+<td>圖面</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>9</td>
+<td>所求</td>
+<td>㈠三個頻率與振態 ㈡SRSS 樓層位移 ㈢SRSS 層剪力</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-15（SD-U1-3 題目正本推廣・批 2）</em><br />
+<em>確認：2026-11-15 使用者授權依 Claude 建議確認（SD-U1-3 題目正本推廣・批 2，關卡一）</em></p></details>
+<h1>SD-2016-4 ｜ 三樓剪力建築 — 反應譜 SRSS 耐震分析</h1>
+<p><strong>考年：</strong> 2016（民國 105 年）｜<strong>題號：</strong> 第四題｜<strong>配分：</strong> 25 分<br />
+<strong>primaryTopicId：</strong> SD-U2-1｜<strong>analysisMethod：</strong> 模態疊加法 + SRSS 組合</p>
+<hr />
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="SD-2016-4-problem.md"><code>SD-2016-4-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<p><img alt="SD-2016-4 重繪題目附圖：三層剪力屋架，由下往上 m、m、m/2，三層勁度皆 k，自由度 v1、v2、v3 由下往上" src="../../raw/solutions/SD-2016-4/figs/SD-2016-4-fig-1-problem.svg" /><br />
+<em>重繪自考卷附圖，依題目正本判讀清單；本圖攔下的判讀錯誤：頂層質量是 m/2；勁度矩陣對角線是 2k、2k、k。</em></p>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>頂層質量</td>
+<td>$m/2$（判讀 #2）</td>
+<td>三層都是 $m$</td>
+</tr>
+<tr>
+<td>勁度矩陣</td>
+<td>對角線 $2k,2k,k$</td>
+<td>對角線 $k,k,k$</td>
+</tr>
+<tr>
+<td>反應譜讀值</td>
+<td>依題目正本數位化表；陡升段（0.25–0.35 s）對週期敏感（判讀 #1，使用者授權依建議確認）</td>
+<td>目測取整到 1.0 g</td>
+</tr>
+<tr>
+<td>單位</td>
+<td>$S_a$ 以 g 為單位</td>
+<td>直接當 m/s²</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> $v_1$、$v_2$、$v_3$ 由底層往上；$\Gamma_n=L_n/M_n$；$D_n=S_{a,n}g/\omega_n^2$。</p>
+<h3>判讀圖解（解析自繪）</h3>
 <p><img alt="SD-2016-4 圖一（向量重繪）：三層剪力構架，自由度 v1、v2、v3 由底層向上，1F 與 2F 質量 m、RF 質量 m/2，三個樓層層間勁度皆為 k，右側列出質量矩陣 diag(m,m,m/2) 與勁度矩陣對角線 2k、2k、k" src="../../raw/solutions/SD-2016-4/figs/SD-2016-4-fig-1-frame.svg" /></p>
 <p><em>圖 1　題目重繪（向量版）。頂層質量是 $m/2$、勁度矩陣對角線是 $2k$ 而非 $k$——這兩件事各自對應一種矩陣寫錯的方式，圖上直接標死。</em></p>
-<p><img alt="SD-2016-4 題目附圖二：線彈性加速度反應譜，橫軸週期 T 由 0 至 2.0 秒、縱軸譜加速度 Sa 以 g 為單位由 0 至 1.5，曲線自 T=0 的約 0.6g 上升，於 T 約 0.5 秒達尖峰約 1.27g 後遞減，T=2.0 秒時約 0.12g" src="../../raw/solutions/SD-2016-4/SD-2016-4-fig-2.png" /></p>
-<p><em>圖說：線彈性加速度反應譜（$S_a$ 以 $g$ 為單位、$T$ 以秒為單位）。$T=0$ 時 $S_a \approx 0.60g$；$T = 0.2$ s 約 $0.70g$、$0.25$ s 約 $0.79g$、$0.3$ s 約 $1.00g$、$0.4$ s 約 $1.21g$；尖峰在 $T \approx 0.5$ s 約 $1.27g$；其後遞減，$0.6$ s 約 $1.21g$、$0.7$ s 約 $1.01g$、$0.8$ s 約 $0.81g$、$0.9$ s 約 $0.63g$、$1.0$ s 約 $0.50g$、$2.0$ s 約 $0.12g$。格線間距為 $T$ 每 0.1 s、$S_a$ 每 0.1g。</em></p>
 <hr />
 <h2>§2 系統矩陣</h2>
 <p><strong>自由度：</strong> $v_1$（1F）、$v_2$（2F）、$v_3$（RF），以 ground acceleration 為輸入。</p>
@@ -566,6 +749,7 @@ $$f_{3,3}=2500\times0.04467\times2\times7.063=1{,}577\ \text{N}$$</p>
 </blockquote>
 <hr />
 <p><em>圖解補繪：2026-08-22（向量圖 4 張，腳本 <code>gen_SD-2016-4.py</code>，所有數值由解題結果算出，可重跑）</em></p>
+<p><em>修正日期：2026-11-15（§1 改為指向題目正本，重繪附圖 figs/SD-2016-4-fig-1-problem.svg）</em></p>
 </main>
 <footer>來源：raw/solutions/SD-2016-4/SD-2016-4.md（唯讀證據，本頁僅為渲染層）｜exam-wiki-SD</footer>
 <script>

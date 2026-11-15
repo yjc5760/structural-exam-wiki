@@ -50,38 +50,62 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 </div>
 </header>
 <main>
-<h1>考題編號：SD-2020-2</h1>
-<p><strong>主分類：</strong> <code>SD-U1-3</code> 單自由度、多自由度系統之動態分析及應用<br />
-<strong>副分類：</strong> <code>SD-U2-2</code> 建築耐震設計規範<br />
-<strong>分析方法：</strong> 反應譜分析（SRSS振態疊加）<br />
-<strong>標籤：</strong> <code>MDOF</code> <code>3自由度</code> <code>剪力建築</code> <code>反應譜分析</code> <code>有效振態質量</code> <code>SRSS</code> <code>模態參與因子</code> <code>譜位移</code> <code>95%質量準則</code> <code>樓層位移</code></p>
-<hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>三自由度平面剪力建築，各樓層質量均相等（設每層質量 = $m$）。</p>
-<p><strong>加速度反應譜（ $\xi = 0.05$）：</strong></p>
+<details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>SD-2020-2 題目正本</h1>
+<blockquote>
+<p>本檔只記錄考卷上寫了什麼、圖上畫了什麼，不含任何解法。解析見同資料夾 <code>SD-2020-2.md</code>。<br />
+判讀清單經使用者確認前，狀態為「待確認」；確認後本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
 <table>
 <thead>
 <tr>
-<th>週期（秒）</th>
-<th>$S_a$ (g)</th>
+<th>項目</th>
+<th>內容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>$0 \leq T &lt; 0.2$</td>
-<td>$0.2 + 1.5T$</td>
+<td>考卷</td>
+<td><code>raw/exams/SD-2020_結構動力分析與耐震設計.pdf</code>，第 1 頁（頁次 3－1），第二題</td>
 </tr>
 <tr>
-<td>$0.2 \leq T &lt; 1$</td>
+<td>考年</td>
+<td>2020（民國109年）專技高考結構工程技師「結構動力分析與耐震設計」</td>
+</tr>
+<tr>
+<td>配分</td>
+<td>25 分</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td>無附圖（反應譜與振態參數皆為表格，照錄於 §1）</td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-15 使用者授權依 Claude 建議確認。原轉錄：2026-11-15 轉錄；PyMuPDF 110 dpi 整頁目視，PDF 文字層核對原文；盲讀於開啟解析前完成）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<p>二、假設某筆地震紀錄在結構阻尼比為 0.05 下之加速度反應譜如下：</p>
+<table>
+<thead>
+<tr>
+<th>週期（秒）</th>
+<th>$0\le T&lt;0.2$</th>
+<th>$0.2\le T&lt;1$</th>
+<th>$1\le T&lt;2.5$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$S_a$（g）</td>
+<td>$0.2+1.5T$</td>
 <td>$0.5$</td>
-</tr>
-<tr>
-<td>$1 \leq T &lt; 2.5$</td>
 <td>$0.5/T$</td>
 </tr>
 </tbody>
 </table>
-<p><strong>振態參數：</strong></p>
+<p>其中，$g=9.8\ \mathrm{m/sec^2}$。一個三自由度平面剪力建築，已知各樓層的質量都相等，其振態參數如下表所示：</p>
 <table>
 <thead>
 <tr>
@@ -99,10 +123,10 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 <td>0.3</td>
 </tr>
 <tr>
-<td>振態向量（1F→3F）</td>
-<td>$\{0.46346, 0.86379, 1.00000\}^T$</td>
-<td>$\{-1.24698, -0.55496, 1.00000\}^T$</td>
-<td>$\{1.80194, -2.24698, 1.00000\}^T$</td>
+<td>振態向量</td>
+<td>$\begin{Bmatrix}0.46346\\0.86379\\1.00000\end{Bmatrix}$</td>
+<td>$\begin{Bmatrix}-1.24698\\-0.55496\\1.00000\end{Bmatrix}$</td>
+<td>$\begin{Bmatrix}1.80194\\-2.24698\\1.00000\end{Bmatrix}$</td>
 </tr>
 <tr>
 <td>振態阻尼比</td>
@@ -112,24 +136,145 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 </tr>
 </tbody>
 </table>
-<p>設計規範：累積有效振態質量 $\geq 95\%$ 結構總質量。以 <strong>最少振態數量</strong> 用 SRSS 法估算頂樓最大位移。</p>
-<p>其中 $g = 9.8$ m/s²。</p>
+<p>若依某設計規範要求，估計最大反應時需考量累積有效振態質量至少為 95% 結構總質量的低頻振態反應之貢獻合。試以最少的振態數量估算本結構頂樓的最大位移反應。其中，以 SRSS 法估算振態疊加最大反應。（25分）</p>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>考卷沒有給參考公式。</li>
+<li>給定：上列加速度反應譜（阻尼比 0.05、$S_a$ 以 g 計，週期定義到 $T&lt;2.5$ 秒）、$g=9.8$ m/s²；三個振態的週期、振態向量、阻尼比（皆 0.05）；各樓層質量相等。</li>
+<li>考卷沒有給：樓層質量數值、樓層勁度、樓高；振態向量各分量對應哪一樓層（表中未標樓層）。</li>
+<li>卷首注意事項：㈠可以使用電子計算器。㈡不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。㈢本科目除專門名詞或數理公式外，應使用本國文字作答。考試時間：2小時。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p>本題無附圖。</p>
+<h2>4. 判讀清單</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>振態向量分量的排列</td>
+<td>由上而下列依序為一樓、二樓、頂樓（第三列 1.00000 為頂樓）</td>
+<td>表中未標樓層；三個振態最後一列皆正規化為 1.00000，振態-1 分量由上往下遞增（剪力建築第一振態頂樓最大），振態-3 符號變化兩次</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>考卷振態數據的一致性</td>
+<td>照錄考卷數值；振態-1 與振態-2、振態-3 對等質量並不精確正交（$\phi_1^T\phi_2\approx-0.057$、$\phi_1^T\phi_3\approx-0.106$），振態-2、振態-3 與等勁度三層剪力建築的精確振態一致</td>
+<td>表列數值以等質量做內積檢核</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>$S_a$ 單位</td>
+<td>以 g 為單位的擬加速度，乘 $g=9.8$ m/s² 為 m/s²</td>
+<td>表頭「$S_a$（g）」</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>各振態週期落在反應譜哪一段</td>
+<td>1.7 s → $1\le T&lt;2.5$；0.5 s、0.3 s → $0.2\le T&lt;1$</td>
+<td>表列區間</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>「頂樓的最大位移反應」</td>
+<td>頂樓相對地面的位移最大值（以 SRSS 組合）</td>
+<td>題文</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>「最少的振態數量」</td>
+<td>由低頻振態起累加有效振態質量比，達 ≥95% 總質量時所需的最少振態數</td>
+<td>題文「累積有效振態質量至少為 95% 結構總質量的低頻振態」</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>7</td>
+<td>考卷沒有給</td>
+<td>樓層質量數值（各層相等，比值即可）、勁度</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-15（SD-U1-3 題目正本推廣・批 3）</em><br />
+<em>確認：2026-11-15 使用者授權依 Claude 建議確認（SD-U1-3 題目正本推廣・批 3，關卡一）</em></p></details>
+<h1>考題編號：SD-2020-2</h1>
+<p><strong>主分類：</strong> <code>SD-U1-3</code> 單自由度、多自由度系統之動態分析及應用<br />
+<strong>副分類：</strong> <code>SD-U2-2</code> 建築耐震設計規範<br />
+<strong>分析方法：</strong> 反應譜分析（SRSS振態疊加）<br />
+<strong>標籤：</strong> <code>MDOF</code> <code>3自由度</code> <code>剪力建築</code> <code>反應譜分析</code> <code>有效振態質量</code> <code>SRSS</code> <code>模態參與因子</code> <code>譜位移</code> <code>95%質量準則</code> <code>樓層位移</code></p>
+<hr />
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="SD-2020-2-problem.md"><code>SD-2020-2-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>振態向量排列</td>
+<td>由上而下為一樓、二樓、頂樓，第三列 1.00000 為頂樓（判讀 #1）</td>
+<td>第一列當頂樓</td>
+</tr>
+<tr>
+<td>振態數據</td>
+<td>照錄考卷；振態 1 與振態 2、3 對等質量不精確正交（判讀 #2），有效質量比各振態分別以 $L_n^2/M_n$ 計</td>
+<td>以為振態已正規化、直接用 $\phi^T\phi=1$</td>
+</tr>
+<tr>
+<td>$S_a$</td>
+<td>以 g 計，乘 $g=9.8$ m/s²（判讀 #3）；$T_1=1.7$ s 落在 $0.5/T$ 段，$T_2$、$T_3$ 落在 0.5 平台（判讀 #4）</td>
+<td>直接當 m/s²；$T_1$ 套平台</td>
+</tr>
+<tr>
+<td>振態數</td>
+<td>由低頻起累加有效質量比至 ≥95% 的最少振態數（判讀 #6）</td>
+<td>一律取全部振態</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> $\phi_{n}$ 分量依 (1F, 2F, 3F)；$\Gamma_n=L_n/M_n$、$L_n=\phi_n^T m\{1\}$、$M_n=\phi_n^T m\phi_n$；$S_{d,n}=S_{a,n}g/\omega_n^2$。</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
-<p><strong>核心觀念：</strong><br />
-1. 計算各振態的「有效振態質量比」，判斷最少需幾個振態達到95%<br />
-2. 從反應譜讀取各振態的譜加速度→換算譜位移<br />
-3. 用模態參與因子求各振態頂樓位移，SRSS組合</p>
+<p><strong>核心觀念：</strong></p>
+<ol>
+<li>計算各振態的「有效振態質量比」，判斷最少需幾個振態達到95%</li>
+<li>從反應譜讀取各振態的譜加速度→換算譜位移</li>
+<li>用模態參與因子求各振態頂樓位移，SRSS組合</li>
+</ol>
 <p><strong>關鍵陷阱：</strong> 有效質量比計算：分子是 $(\phi_i^T[M]\{1\})^2$，分母是 $(\phi_i^T[M]\phi_i) \times M_{total}$，漏掉任一項都會出錯。</p>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
-<p><strong>作戰計畫：</strong><br />
-1. 設質量矩陣 $[M] = mI_{3\times3}$（均質）<br />
-2. 逐振態計算 $L_i = \phi_i^T[M]\{1\}$、$M_i^* = \phi_i^T[M]\phi_i$<br />
-3. 有效質量比 $\rho_i = L_i^2/(M_i^* \times 3m)$，累積至 95%<br />
-4. 讀取 $Sa(T_i)$，換算 $Sd_i = Sa_i \cdot T_i^2/(4\pi^2)$<br />
-5. 各振態頂樓最大位移 = $|\Gamma_i| \times |\phi_{top,i}| \times Sd_i$<br />
-6. SRSS 組合</p>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>設質量矩陣 $[M] = mI_{3\times3}$（均質）</li>
+<li>逐振態計算 $L_i = \phi_i^T[M]\{1\}$、$M_i^* = \phi_i^T[M]\phi_i$</li>
+<li>有效質量比 $\rho_i = L_i^2/(M_i^* \times 3m)$，累積至 95%</li>
+<li>讀取 $Sa(T_i)$，換算 $Sd_i = Sa_i \cdot T_i^2/(4\pi^2)$</li>
+<li>各振態頂樓最大位移 = $|\Gamma_i| \times |\phi_{top,i}| \times Sd_i$</li>
+<li>SRSS 組合</li>
+</ol>
 <p><strong>四大陷阱：</strong></p>
 <table>
 <thead>
@@ -346,6 +491,8 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 </tbody>
 </table>
 <p><em>策略註解：振態2雖為7.49%有效質量，但其譜位移 $Sd_2 = 3.1$ cm 遠小於振態1的 $Sd_1 = 21.1$ cm，加上振態2頂樓分量等於1，最終對頂樓位移的貢獻僅0.87 cm（相比振態1的25 cm微乎其微）。這說明<strong>有效質量比大 ≠ 位移貢獻大</strong>，還需考慮譜位移的大小。</em></p>
+<p><img alt="SD-2020-2 圖一：三個振態形狀（振態向量由 1F 排到 3F），振態 1 有效質量 92.07%、振態 2 7.49%、振態 3 1.10%，累積到振態 2 達 99.55% 故取 2 個振態；頂樓貢獻 +25.04、−0.87、+0.07 cm，SRSS 25.06 cm" src="../../raw/solutions/SD-2020-2/figs/SD-2020-2-fig-1-modes.svg" /></p>
+<p><em>圖 1　三個振態形狀、有效質量比與頂樓位移貢獻。考卷振態向量由 1F 排到 3F（頂樓分量都是 1.000），畫反了就會把 0.46346 當頂樓；振態 1 只有 92.07%，未達 95%，必須加振態 2——但振態 2 的頂樓貢獻不到 1 cm，有效質量比大小不等於位移貢獻大小。</em></p>
 <hr />
 <h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
 <p><strong>爭議點：為何振態2有效質量7.49%，但位移貢獻卻不到1%？</strong></p>
@@ -356,6 +503,8 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 <p><strong>工程啟示：</strong> 高樓（長週期結構）的頂樓位移由第一振態主導，且位移反應隨樓高顯著增加。</p>
 <p><strong>進階：是否需考慮振態3？</strong></p>
 <p>振態3有效質量比 = $0.55496^2/(9.29591 \times 3) = 0.30798/27.88 = 1.10\%$，加上振態1+2已達 99.56%，振態3可忽略。且 $T_3 = 0.3$ sec，$Sd_3 = 0.5 \times 9.8 \times 0.09/39.48 = 0.0112$ m（1.12 cm），頂樓位移貢獻更小。</p>
+<p><em>修正日期：2026-11-15（§1 改為指向題目正本）</em></p>
+<p><em>修正日期：2026-11-15（非勘誤）§4 Step 5 補解題圖解 figs/SD-2020-2-fig-1-modes.svg（圖解補繪，腳本 gen_SD-2020-2.py）</em></p>
 </main>
 <footer>來源：raw/solutions/SD-2020-2/SD-2020-2.md（唯讀證據，本頁僅為渲染層）｜exam-wiki-SD</footer>
 <script>

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 SD-2021-2 解題圖解產生腳本（struct-diagram skill）
+2026-11-15 勘誤：圖二主解改計入阻尼 ξ=0.06（x_max 5.68 cm），不計阻尼 6.22 cm 改為細虛線對照；圖三框註同步。
 
 用法：  python3 gen_SD-2021-2.py [輸出目錄]      # 預設輸出到 ./figs
 
@@ -143,6 +144,41 @@ def x_free(t):
     return XTD * math.cos(W0 * tau) + (VTD / W0) * math.sin(W0 * tau)
 
 
+# ── 2026-11-15 勘誤：㈡ 計入㈠求得的阻尼比 ξ（題文「其阻尼比可由㈠計算得知」）──
+WDD  = W0 * math.sqrt(1 - XI ** 2)           # ω_D = 9.982 rad/s
+_DEN = (1 - R ** 2) ** 2 + (2 * XI * R) ** 2
+_CC  = XST * (1 - R ** 2) / _DEN             # 穩態特解 sin 項
+_DD  = -XST * 2 * XI * R / _DEN              # 穩態特解 cos 項
+_AA  = -_DD                                  # 齊次解係數（靜止起始）
+_BB  = (XI * W0 * _AA - _CC * OMG) / WDD
+
+
+def xd_forced(t):
+    """強迫相（計阻尼，靜止起始）：衰減齊次解＋穩態特解"""
+    return (math.exp(-XI * W0 * t) * (_AA * math.cos(WDD * t) + _BB * math.sin(WDD * t))
+            + _CC * math.sin(OMG * t) + _DD * math.cos(OMG * t))
+
+
+def vd_forced(t, h=1e-7):
+    return (xd_forced(t + h) - xd_forced(t - h)) / (2 * h)
+
+
+XDTD = xd_forced(TD)                         # x(t_d) = 0.02878 m
+VDTD = vd_forced(TD)                         # ẋ(t_d) = 0.5134 m/s
+_AF, _BF = XDTD, (VDTD + XI * W0 * XDTD) / WDD
+
+
+def xd_free(t):
+    """自由相（計阻尼）"""
+    tau = t - TD
+    return math.exp(-XI * W0 * tau) * (_AF * math.cos(WDD * tau) + _BF * math.sin(WDD * tau))
+
+
+TPD  = TD + math.atan2(_BF * WDD - XI * W0 * _AF, _AF * WDD + XI * W0 * _BF) / WDD   # 第一個波峰 t = 0.2016 s
+XDMAX = xd_free(TPD)                         # x_max = 0.05677 m
+RDD  = XDMAX / XST                           # 0.568
+
+
 def daf(r, xi):
     """穩態動力放大係數 D(r, ξ)"""
     return 1.0 / math.sqrt((1 - r ** 2) ** 2 + (2 * xi * r) ** 2)
@@ -266,28 +302,34 @@ def fig2_pulse():
     axx.hline(0.0, 0.0, TEND, C["muted"], 1.6, dash=None)
 
     tf = [TD * i / 200 for i in range(201)]
-    axx.curve(tf, [100 * x_forced(t) for t in tf], C["deform"], 3.8)
     tv = [TD + (TEND - TD) * i / 400 for i in range(401)]
-    axx.curve(tv, [100 * x_free(t) for t in tv], C["deform"], 3.8, dash="9 5")
-    axx.hline(100 * XMAX, TD, TEND, C["accent"], 1.5)
-    axx.hline(-100 * XMAX, TD, TEND, C["accent"], 1.5)
+    # 對照：不計阻尼（細虛線）
+    axx.curve(tf + tv, [100 * x_forced(t) for t in tf] + [100 * x_free(t) for t in tv],
+              C["muted"], 1.6, dash="6 5")
+    # 主解：計阻尼 ξ（勘誤 2026-11-15）
+    axx.curve(tf, [100 * xd_forced(t) for t in tf], C["deform"], 3.8)
+    axx.curve(tv, [100 * xd_free(t) for t in tv], C["deform"], 3.8, dash="9 5")
     axx.vline(TD, -8.4, 8.4, C["muted"], 1.4)
 
-    axx.mark(TD, 100 * XTD, "x(t_{d}) = %.2f cm" % (100 * XTD), C["deform"],
+    axx.mark(TD, 100 * XDTD, "x(t_{d}) = %.2f cm" % (100 * XDTD), C["deform"],
              dx=-11, dy=-15, anchor="end")
-    phi = math.atan2(XTD, VTD / W0)          # 自由相第一個波峰：由相位角算出，非目測
+    axx.mark(TPD, 100 * XDMAX, "", C["accent"])
+    axx.vline(TPD, 0.0, 100 * XDMAX, C["accent"], 1.3)
+    axx.at(TPD, 2.9, "x_{max} = %.2f cm" % (100 * XDMAX), C["accent"], dx=8, size=13.5, anchor="start")
+    axx.at(TPD, 0.9, "t = %.3f s" % TPD, C["accent"], dx=8, size=12.5, anchor="start")
+    phi = math.atan2(XTD, VTD / W0)          # 不計阻尼的第一個波峰：由相位角算出
     t_pk = TD + (math.pi / 2 - phi) / W0
-    axx.mark(t_pk, 100 * XMAX, "x_{max} = %.2f cm" % (100 * XMAX), C["accent"], dx=13, dy=-13)
+    axx.mark(t_pk, 100 * XMAX, "不計阻尼 %.2f cm" % (100 * XMAX), C["muted"], dx=13, dy=-14, r=4.2, size=12.5)
 
     axx.at(0.048, -7.2, "強迫相", C["muted"], size=13)
     axx.at(0.55, 7.3, "自由振動相（載重已結束）", C["muted"], size=13)
 
     # compose() 的 title/sub/note 走 esc()，不解析上下標，故此處用純文字寫法
     compose([top, bot], cols=1,
-            title="半正弦脈衝：載重結束後才出現最大位移",
-            sub="t_d/T = %.3f ＜ 0.5，故最大值落在自由振動相；R_d = x_max/x_st = %.3f" % (GAM, RD),
-            note="強迫相在 t_d 之前沒有極值，端點值 %.2f cm 只是自由相的初始條件；"
-                 "真正的最大值 %.2f cm 由 x(t_d) 與速度 v(t_d) 合成。" % (100 * XTD, 100 * XMAX),
+            title="半正弦脈衝：載重結束後才出現最大位移（ξ = %.2f）" % XI,
+            sub="t_d/T = %.3f ＜ 0.5，最大值落在自由振動相；R_d = x_max/x_st = %.3f（不計阻尼 %.3f）" % (GAM, RDD, RD),
+            note="強迫相端點 %.2f cm 只是自由相的初始條件；計阻尼的第一個波峰 %.2f cm；"
+                 "細虛線為不計阻尼對照 %.2f cm。" % (100 * XDTD, 100 * XDMAX, 100 * XMAX),
             path=f"{OUT}/{TAG}-fig-2-pulse.svg")
     return f"{OUT}/{TAG}-fig-2-pulse.svg"
 
@@ -343,10 +385,11 @@ def fig3_srs():
                            "載重（step load）的結果。"]):
         cv.text_px(bx + 16, 150 + i * 22, t, 12.5, "#9A3412", "start")
 
-    cv.rect_px(bx, 330, 214, 96, "#EEF4FF", 12, "#C7D9F5", 1.3)
+    cv.rect_px(bx, 330, 214, 118, "#EEF4FF", 12, "#C7D9F5", 1.3)
     cv.text_px(bx + 16, 356, "本題落在放大 ＜ 1 區", 13, "#1D4ED8", "start", weight="700")
-    cv.text_px(bx + 16, 382, "x_{max} = %.3f × 10 cm" % RD, 12.5, "#1D4ED8", "start")
-    cv.text_px(bx + 16, 405, "     = %.2f cm" % (100 * XMAX), 12.5, "#1D4ED8",
+    cv.text_px(bx + 16, 382, "本圖不計阻尼：%.3f × 10 cm" % RD, 12.5, "#1D4ED8", "start")
+    cv.text_px(bx + 16, 405, "     = %.2f cm" % (100 * XMAX), 12.5, "#1D4ED8", "start")
+    cv.text_px(bx + 16, 430, "計 ξ = %.2f：%.2f cm" % (XI, 100 * XDMAX), 12.5, "#1D4ED8",
                "start", weight="700")
 
     cv.text_px(WD / 2, HT - 32,
@@ -358,7 +401,8 @@ def fig3_srs():
 if __name__ == "__main__":
     print(f"ξ = {XI}  k = {K:.3g} N/m  T = {T0:.4f} s  x_st = {XST} m  r = {R:.4f}  "
           f"t_d/T = {GAM:.4f}")
-    print(f"x(t_d) = {XTD:.5f} m   ẋ(t_d) = {VTD:.5f} m/s   x_max = {XMAX:.5f} m   R_d = {RD:.4f}")
+    print(f"[ξ=0]  x(t_d) = {XTD:.5f} m   ẋ(t_d) = {VTD:.5f} m/s   x_max = {XMAX:.5f} m   R_d = {RD:.4f}")
+    print(f"[ξ={XI}] x(t_d) = {XDTD:.5f} m   ẋ(t_d) = {VDTD:.5f} m/s   x_max = {XDMAX:.5f} m @ t = {TPD:.4f} s   R_d = {RDD:.4f}")
     for g in (0.10, 0.159, 0.28, 0.40, 0.50, 0.75, 0.81, 1.00, 2.00):
         r, freephase = srs_halfsine(g)
         print(f"  t_d/T = {g:5.3f} → R_d = {r:.4f}  ({'自由相' if freephase else '強迫相'})")

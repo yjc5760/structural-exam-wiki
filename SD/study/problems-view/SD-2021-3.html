@@ -50,41 +50,224 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 </div>
 </header>
 <main>
+<details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>SD-2021-3 題目正本</h1>
+<blockquote>
+<p>本檔只記錄考卷上寫了什麼、圖上畫了什麼，不含任何解法。解析見同資料夾 <code>SD-2021-3.md</code>。<br />
+判讀清單經使用者確認前，狀態為「待確認」；確認後本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>考卷</td>
+<td><code>raw/exams/SD-2021_結構動力分析與耐震設計.pdf</code>，第 2 頁（反面），第三題</td>
+</tr>
+<tr>
+<td>考年</td>
+<td>2021（民國110年）專技高考結構工程技師「結構動力分析與耐震設計」</td>
+</tr>
+<tr>
+<td>配分</td>
+<td>25 分（採階段性計分）</td>
+</tr>
+<tr>
+<td>附圖</td>
+<td><code>SD-2021-3-fig-1.png</code>（舊擷取，圖右側空白處有游標）、<code>SD-2021-3-fig-2.png</code>（2026-11-15 由考卷 500 dpi 重擷取）</td>
+</tr>
+<tr>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-15 使用者授權依 Claude 建議確認；影響答案項目定案：#1 初始位移採粗索只拉一樓版、上兩層隨之平移，{v1,v2,v3}＝{6,6,6} cm（本庫舊解採 {6,0,0}，交階段 C）；#2 主解寫頂層層間剪力的時間函數並求其最大值。原轉錄：2026-11-15 轉錄；PyMuPDF 110 dpi 整頁＋500 dpi 局部放大，PDF 文字層核對原文；盲讀於開啟解析前完成）</td>
+</tr>
+</tbody>
+</table>
+<h2>1. 考卷原文（逐字）</h2>
+<p>三、有一三層樓建築物進行自由振動實驗，此實驗係利用粗索在一樓向右拉位移 6 cm，隨後突然完全放開。樓地版假設為剛性，結構性質如圖所示，包括每層質量，每層勁度，振動頻率 $\omega_i$ 及振態 $\phi_i$，$i=1,2,3$。試求頂層（三樓）的層間剪力。（25 分）（採階段性計分）</p>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>圖中方框照錄（考卷給定，不是解答）：</li>
+</ul>
+<p>$$\omega_1^2=\left(2-\sqrt3\right)\left(\frac{k}{m}\right),\qquad \omega_2^2=2\left(\frac{k}{m}\right),\qquad \omega_3^2=\left(2+\sqrt3\right)\left(\frac{k}{m}\right)$$</p>
+<p>$$\phi_1=\begin{Bmatrix}1\\ \sqrt3\\ 2\end{Bmatrix},\qquad \phi_2=\begin{Bmatrix}1\\ 0\\ -1\end{Bmatrix},\qquad \phi_3=\begin{Bmatrix}1\\ -\sqrt3\\ 2\end{Bmatrix}$$</p>
+<ul>
+<li>給定（圖上）：由下往上各層質量 $m$、$m$、$m/2$，各層勁度皆 $k$（符號，無數值）；一樓初始位移 6 cm。</li>
+<li>考卷沒有給：$m$、$k$ 的數值；阻尼；初始速度（題文「突然完全放開」）；所求是時間函數還是最大值。</li>
+<li>卷首注意事項：㈠可以使用電子計算器。㈡不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。㈢本科目除專門名詞或數理公式外，應使用本國文字作答。考試時間：2 小時。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p><img alt="SD-2021-3 考卷附圖：左為三層構架，三片網點填滿的樓版（剛性），由下往上樓版間標 m、m、m/2，每層右側標 k；三樓版右側虛線箭頭 v1、v2、v3 向右；一樓版另有實線箭頭向右標「粗索」；一層柱畫成彎曲（變形後），上兩層柱為直線；地面斜線；底部尺寸線 6 cm，左端點為一層右柱柱腳處的鉛垂虛線，右端點為一樓版右緣向下延伸的鉛垂虛線。中為方框列 ω1²、ω2²、ω3²；右為方框列 φ1、φ2、φ3" src="../../raw/solutions/SD-2021-3/SD-2021-3-fig-2.png" /><br />
+<em>證據圖 SD-2021-3-fig-2.png（500 dpi 重擷取；舊圖 SD-2021-3-fig-1.png 內容相同，右側空白處有游標）</em></p>
+<p>圖面文字照錄：m / 2、m、m、k、k、k、v3、v2、v1、粗索、6 cm、ω1² = (2 − √3)(k/m)、ω2² = 2(k/m)、ω3² = (2 + √3)(k/m)、φ1 = {1, √3, 2}、φ2 = {1, 0, −1}、φ3 = {1, −√3, 2}</p>
+<h2>4. 判讀清單</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>初始位移形狀</td>
+<td>粗索在一樓版拉 6 cm：一樓版相對地面位移 6 cm，二、三樓版隨之平移同樣 6 cm（初始位移 $\{v_1,v_2,v_3\}=\{6,6,6\}$ cm，只有一層柱變形）</td>
+<td>圖上只有一層柱畫成彎曲、上兩層柱為直線且樓版鉛垂對齊；6 cm 尺寸線量一層柱腳至一樓版右緣；粗索只拉一樓版（上兩層層剪力為零）</td>
+<td>確定（解讀）（影響答案）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>所求形式</td>
+<td>頂層（第三層，$v_2$–$v_3$ 之間）層間剪力 $V_3=k(v_3-v_2)$；題文未說明求時間歷時或最大值</td>
+<td>題文「試求頂層（三樓）的層間剪力」</td>
+<td>不確定（解讀）（影響答案）；使用者授權依建議確認</td>
+</tr>
+<tr>
+<td>3</td>
+<td>阻尼</td>
+<td>考卷沒有給阻尼</td>
+<td>題文、附圖</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>初始速度</td>
+<td>0（突然完全放開，自靜止開始自由振動）</td>
+<td>題文「隨後突然完全放開」</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>振態分量順序</td>
+<td>向量由上而下依序為 $v_1$（一樓）、$v_2$、$v_3$（頂樓）；$\phi_2$ 的 0 在二樓</td>
+<td>以圖上 $m,m,m/2$、各層 $k$ 組成的 $K$、$M$ 代入：依此順序三組 $(\omega_i^2,\phi_i)$ 皆滿足特徵方程式，反序不滿足</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>樓層命名</td>
+<td>考卷「一樓」指 $v_1$ 所在樓版（第一層頂）、「三樓／頂層」指 $v_3$ 樓版所在的第三層</td>
+<td>圖上粗索箭頭與 $v_1$ 同高；題文「頂層（三樓）」</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>質量</td>
+<td>由下往上 $m$、$m$、$m/2$（質量標在各樓版下方的樓層空間內，代表其上方樓版質量）</td>
+<td>圖面 m（最下）、m、m/2（最上）</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>8</td>
+<td>勁度</td>
+<td>三層層側向勁度皆 $k$，標在各層右柱旁</td>
+<td>圖面 k、k、k</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>9</td>
+<td>樓版</td>
+<td>剛性（只平移）</td>
+<td>題文「樓地版假設為剛性」＋網點厚板</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>10</td>
+<td>柱底</td>
+<td>固定於地面</td>
+<td>圖上斜線地面</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>11</td>
+<td>方向</td>
+<td>$v_1$、$v_2$、$v_3$、粗索拉力皆向右為正</td>
+<td>圖上箭頭</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-15（SD-U1-3 題目正本推廣・批 3）</em><br />
+<em>確認：2026-11-15 使用者授權依 Claude 建議確認（SD-U1-3 題目正本推廣・批 3，關卡一）</em></p></details>
 <h1>考題編號：SD-2021-3</h1>
 <p><strong>主分類：</strong> <code>SD-U1-3</code> 單自由度、多自由度系統之動態分析及應用<br />
 <strong>副分類：</strong> <code>SD-U1-1</code> 結構動力基本性質及原理<br />
 <strong>分析方法：</strong> MDOF模態疊加法（自由振動初始條件展開）<br />
 <strong>標籤：</strong> <code>MDOF</code> <code>3自由度</code> <code>剪力建築</code> <code>自由振動</code> <code>模態疊加</code> <code>初始條件</code> <code>模態正交性</code> <code>層間剪力</code> <code>彈返法</code> <code>模態展開</code></p>
 <hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p>三層樓剪力建築，以彈返法（snap-back test）進行自由振動實驗：<br />
-- <strong>拉力位置：</strong> 一樓向右拉位移 6 cm，隨後突然完全放開<br />
-- <strong>樓板：</strong> 假設為剛性</p>
-<p><img alt="SD-2021-3 題目附圖：三層樓剪力建築結構（左圖）、振動頻率公式（中框）、振態向量（右框）" src="../../raw/solutions/SD-2021-3/SD-2021-3-fig-1.png" /></p>
-<p><em>圖說：一樓質量 $m$（速度 $v_1$）、二樓質量 $m$（速度 $v_2$）、三樓質量 $m/2$（速度 $v_3$）；每層層間勁度均為 $k$；粗索施力於一樓，初始位移 6 cm。</em></p>
-<p><strong>已知振動頻率：</strong><br />
-$$\omega_1^2 = (2-\sqrt{3})\frac{k}{m}, \quad \omega_2^2 = 2\frac{k}{m}, \quad \omega_3^2 = (2+\sqrt{3})\frac{k}{m}$$</p>
-<p><strong>已知振態（由下層至頂層，分量對應 1F、2F、3F）：</strong><br />
-$$\phi_1 = \begin{Bmatrix} 1 \\ \sqrt{3} \\ 2 \end{Bmatrix}, \quad \phi_2 = \begin{Bmatrix} 1 \\ 0 \\ -1 \end{Bmatrix}, \quad \phi_3 = \begin{Bmatrix} 1 \\ -\sqrt{3} \\ 2 \end{Bmatrix}$$</p>
-<p><strong>求：頂層（三樓）的層間剪力</strong></p>
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="SD-2021-3-problem.md"><code>SD-2021-3-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<p><img alt="SD-2021-3 重繪題目附圖：三層剪力構架，由下往上質量 m、m、m/2、層勁度皆 k；粗索拉一樓版 6 cm，只有一層柱變形、上兩層隨之平移；右側照錄考卷給的 ω 與 φ" src="../../raw/solutions/SD-2021-3/figs/SD-2021-3-fig-1-problem.svg" /><br />
+<em>重繪自考卷附圖，依題目正本判讀清單；本圖攔下的判讀錯誤：粗索只拉一樓版、上兩層樓版隨之平移，初始位移不是 {6,0,0}。</em></p>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初始位移</td>
+<td>粗索只拉一樓版：一樓版相對地面 6 cm，上兩層隨之平移，$\{v_1,v_2,v_3\}=\{6,6,6\}$ cm、初速 0（判讀 #1、#4，使用者授權依建議確認）</td>
+<td>$\{6,0,0\}$ cm：只有一樓有初始位移、上兩層不動（本庫舊解）</td>
+</tr>
+<tr>
+<td>所求</td>
+<td>頂層（第三層）層間剪力 $V_3=k(v_3-v_2)$；主解寫時間函數並求最大值（判讀 #2，使用者授權依建議確認）</td>
+<td>只寫時間函數，或以 SRSS 估自由振動的最大值</td>
+</tr>
+<tr>
+<td>振態分量順序</td>
+<td>由上而下依序為 $v_1$（一樓）、$v_2$、$v_3$（頂樓）（判讀 #5）</td>
+<td>反序</td>
+</tr>
+<tr>
+<td>$v_i$</td>
+<td>各樓版側向位移，向右為正（判讀 #11）</td>
+<td>當成速度（本庫舊解 §1 圖說）</td>
+</tr>
+<tr>
+<td>阻尼</td>
+<td>考卷未給，視為無阻尼自由振動（判讀 #3）</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> $x_1,x_2,x_3$（即題圖 $v_1,v_2,v_3$）為一、二、三樓版側移；$A_i$ 為振態展開係數；$V_3=k(x_3-x_2)$。</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
-<p><strong>核心觀念：</strong> 以<strong>模態正交性</strong>將任意初始條件展開為各振態貢獻，再對三樓層間位移（$x_3 - x_2$）乘以層間勁度得層間剪力。</p>
-<p><strong>出題者測驗能力：</strong><br />
-1. 正確建立質量矩陣（注意三樓質量 $m/2$）<br />
-2. 以模態展開係數公式 $A_i = \phi_i^T[M]\mathbf{x}(0) / \phi_i^T[M]\phi_i$ 求各模態振幅<br />
-3. 由位移時程差求層間位移，再求層間剪力<br />
-4. 理解「層間剪力 = 層間勁度 × 層間位移」的物理含義</p>
-<p><strong>關鍵陷阱：</strong> 質量矩陣中三樓是 $m/2$，若誤用 $m$ 將導致所有模態展開係數錯誤。</p>
+<p><strong>核心觀念：</strong> 先由「粗索只拉一樓版」判斷初始變形形狀（上兩層沒有外力、層剪力為零 → 隨一樓平移），再以<strong>振態正交性</strong>把初始位移展開為各振態貢獻，最後對頂層層間位移（$x_3 - x_2$）乘以層間勁度得層間剪力。</p>
+<p><strong>出題者測驗能力：</strong></p>
+<ol>
+<li>由施力方式判斷靜態初始變形：只有被拉的那一層以下的柱有層剪力</li>
+<li>正確建立質量矩陣（注意三樓質量 $m/2$）</li>
+<li>以模態展開係數公式 $A_i = \phi_i^T[M]\mathbf{x}(0) / \phi_i^T[M]\phi_i$ 求各模態振幅</li>
+<li>由位移時程差求層間位移，再求層間剪力與其最大值</li>
+</ol>
+<p><strong>關鍵陷阱：</strong> 把初始位移寫成 $\{6,0,0\}$（只有一樓動、上兩層不動）——這個形狀需要在二樓版另加外力才能靜止平衡，與題意及考卷附圖（只有一層柱彎曲、上兩層樓版鉛垂對齊）不符。</p>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
-<p><strong>作戰計畫：</strong><br />
-1. 確認初始條件：$\mathbf{x}(0) = \{6,0,0\}^T$ cm，$\dot{\mathbf{x}}(0) = \{0,0,0\}^T$<br />
-2. 建立質量矩陣 $[M] = \text{diag}(m, m, m/2)$<br />
-3. 對每個振態計算 $\phi_i^T[M]\phi_i$（模態質量）及 $\phi_i^T[M]\mathbf{x}(0)$（模態初始值）<br />
-4. 求展開係數 $A_i$，驗算 $\sum A_i\phi_i = \mathbf{x}(0)$<br />
-5. 寫出 $x_2(t)$ 和 $x_3(t)$ 的時程<br />
-6. $V_3(t) = k[x_3(t) - x_2(t)]$</p>
+<p><strong>作戰計畫：</strong></p>
+<ol>
+<li>確認初始條件：粗索只拉一樓版 → $\mathbf{x}(0) = \{6,6,6\}^T$ cm（題目正本判讀 #1），$\dot{\mathbf{x}}(0) = \{0,0,0\}^T$</li>
+<li>建立質量矩陣 $[M] = \text{diag}(m, m, m/2)$</li>
+<li>對每個振態計算 $\phi_i^T[M]\phi_i$（模態質量）及 $\phi_i^T[M]\mathbf{x}(0)$（模態初始值）</li>
+<li>求展開係數 $A_i$，驗算 $\sum A_i\phi_i = \mathbf{x}(0)$</li>
+<li>寫出 $x_2(t)$ 和 $x_3(t)$ 的時程</li>
+<li>$V_3(t) = k[x_3(t) - x_2(t)]$，再討論最大值</li>
+</ol>
 <p><strong>四大陷阱：</strong></p>
 <table>
 <thead>
@@ -102,18 +285,18 @@ $$\phi_1 = \begin{Bmatrix} 1 \\ \sqrt{3} \\ 2 \end{Bmatrix}, \quad \phi_2 = \beg
 </tr>
 <tr>
 <td>2</td>
-<td>初始條件誤設 $x_2(0) \neq 0$</td>
-<td>彈返法：僅 $x_1(0) = 6$ cm，其餘為零</td>
+<td>初始條件誤設 $\{6,0,0\}$</td>
+<td>粗索只拉一樓：上兩層層剪力為零、隨一樓平移 → $\{6,6,6\}$ cm</td>
 </tr>
 <tr>
 <td>3</td>
 <td>初始速度 $\dot{\mathbf{x}}(0)$ 忘記設為零</td>
-<td>突然放開瞬間，台車靜止，速度為零</td>
+<td>突然放開瞬間結構靜止，速度為零</td>
 </tr>
 <tr>
 <td>4</td>
-<td>層間剪力用 $k \cdot x_3$ 而非 $k(x_3 - x_2)$</td>
-<td>頂層層間剪力 = $k \times$（三樓與二樓的<strong>相對</strong>位移）</td>
+<td>層間剪力用 $k \cdot x_3$ 而非 $k(x_3 - x_2)$；或以 SRSS 估自由振動最大值</td>
+<td>頂層層間剪力 = $k \times$（三樓與二樓的<strong>相對</strong>位移）；自由振動的各振態同時起振（$t=0$ 同相），不適用 SRSS</td>
 </tr>
 </tbody>
 </table>
@@ -123,7 +306,7 @@ $$\phi_1 = \begin{Bmatrix} 1 \\ \sqrt{3} \\ 2 \end{Bmatrix}, \quad \phi_2 = \beg
 <p>複習提示：第一次解題後，在每個卡住的知識點旁標記 <code>⚠</code>；第二次複習時只看有 <code>⚠</code> 的項目。</p>
 </blockquote>
 <h3>最終目標</h3>
-<p>頂層（三樓）層間剪力 $V_3(t)$ 的完整時間歷程</p>
+<p>頂層（三樓）層間剪力 $V_3(t)$ 的完整時間歷程及其最大值</p>
 <h3>本題關鍵公式（依計算順序）</h3>
 <p>$$\text{Step 1: 模態質量} \quad M_i^* = \phi_i^T[M]\phi_i$$</p>
 <p>$$\text{Step 2: 模態初始值} \quad c_i = \phi_i^T[M]\mathbf{x}(0)$$</p>
@@ -156,14 +339,9 @@ $$\phi_1 = \begin{Bmatrix} 1 \\ \sqrt{3} \\ 2 \end{Bmatrix}, \quad \phi_2 = \beg
 <td>每層層間勁度</td>
 </tr>
 <tr>
-<td>$x_1(0)$</td>
+<td>一樓初始位移</td>
 <td>$6$ cm</td>
-<td>一樓初始位移（彈返法）</td>
-</tr>
-<tr>
-<td>$x_2(0), x_3(0)$</td>
-<td>$0$</td>
-<td>其餘樓層初始位移</td>
+<td>粗索在一樓版拉 6 cm</td>
 </tr>
 <tr>
 <td>$\phi_1,\phi_2,\phi_3$</td>
@@ -178,6 +356,23 @@ $$\phi_1 = \begin{Bmatrix} 1 \\ \sqrt{3} \\ 2 \end{Bmatrix}, \quad \phi_2 = \beg
 </tbody>
 </table>
 <h3>L2：需知識點推導</h3>
+<p><strong>初始位移形狀</strong></p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>公式／來源</th>
+<th>卡關?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\mathbf{x}(0)$</td>
+<td>只有一樓版受粗索拉力 → 二、三層層剪力 $=0$ → $x_3-x_2=x_2-x_1=0$ → $\{6,6,6\}$ cm</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p><strong>模態質量計算</strong></p>
 <table>
 <thead>
@@ -205,7 +400,7 @@ $$\phi_1 = \begin{Bmatrix} 1 \\ \sqrt{3} \\ 2 \end{Bmatrix}, \quad \phi_2 = \beg
 </tr>
 </tbody>
 </table>
-<p><strong>模態初始值</strong></p>
+<p><strong>模態初始值</strong>（$[M]\mathbf{x}(0) = \{6m,\,6m,\,3m\}^T$）</p>
 <table>
 <thead>
 <tr>
@@ -217,17 +412,17 @@ $$\phi_1 = \begin{Bmatrix} 1 \\ \sqrt{3} \\ 2 \end{Bmatrix}, \quad \phi_2 = \beg
 <tbody>
 <tr>
 <td>$c_1$</td>
-<td>$\phi_1^T[M]\mathbf{x}(0) = 1\cdot m\cdot 6 = 6m$</td>
+<td>$6m + 6\sqrt{3}m + 2\cdot 3m = (12+6\sqrt3)m$</td>
 <td></td>
 </tr>
 <tr>
 <td>$c_2$</td>
-<td>$\phi_2^T[M]\mathbf{x}(0) = 1\cdot m\cdot 6 = 6m$</td>
+<td>$6m + 0 - 3m = 3m$</td>
 <td></td>
 </tr>
 <tr>
 <td>$c_3$</td>
-<td>$\phi_3^T[M]\mathbf{x}(0) = 1\cdot m\cdot 6 = 6m$</td>
+<td>$6m - 6\sqrt{3}m + 6m = (12-6\sqrt3)m$</td>
 <td></td>
 </tr>
 </tbody>
@@ -244,17 +439,17 @@ $$\phi_1 = \begin{Bmatrix} 1 \\ \sqrt{3} \\ 2 \end{Bmatrix}, \quad \phi_2 = \beg
 <tbody>
 <tr>
 <td>$A_1$</td>
-<td>$6m / 6m = 1$ cm</td>
+<td>$(12+6\sqrt3)m / 6m = 2+\sqrt3 = 3.732$ cm</td>
 <td></td>
 </tr>
 <tr>
 <td>$A_2$</td>
-<td>$6m / (3m/2) = 4$ cm</td>
+<td>$3m / (3m/2) = 2$ cm</td>
 <td></td>
 </tr>
 <tr>
 <td>$A_3$</td>
-<td>$6m / 6m = 1$ cm</td>
+<td>$(12-6\sqrt3)m / 6m = 2-\sqrt3 = 0.268$ cm</td>
 <td></td>
 </tr>
 </tbody>
@@ -275,8 +470,8 @@ $$\phi_1 = \begin{Bmatrix} 1 \\ \sqrt{3} \\ 2 \end{Bmatrix}, \quad \phi_2 = \beg
 <td></td>
 </tr>
 <tr>
-<td>彈返法初始條件的標準解釋</td>
-<td>僅施力樓層有初始位移，其他樓層假設為零</td>
+<td>靜態拉開的初始形狀</td>
+<td>初始位移是「拉力作用下的靜力平衡形狀」：只在一樓施力時，一樓以上各層層剪力為零，上部樓層剛體平移</td>
 <td></td>
 </tr>
 <tr>
@@ -286,7 +481,12 @@ $$\phi_1 = \begin{Bmatrix} 1 \\ \sqrt{3} \\ 2 \end{Bmatrix}, \quad \phi_2 = \beg
 </tr>
 <tr>
 <td>$\dot{\mathbf{x}}(0) = 0$ 的物理意義</td>
-<td>靜態拉開後釋放，初速為零，自由振動中無 $\sin$ 項</td>
+<td>靜態拉開後釋放，初速為零，自由振動中無 $\sin$ 項；各振態在 $t=0$ 同相起振</td>
+<td></td>
+</tr>
+<tr>
+<td>自由振動的最大值</td>
+<td>頻率比為無理數時時程不嚴格週期，$\max|V_3|$ 為各振態係數絕對值和的上確界（可任意逼近），不是 SRSS</td>
 <td></td>
 </tr>
 </tbody>
@@ -295,9 +495,11 @@ $$\phi_1 = \begin{Bmatrix} 1 \\ \sqrt{3} \\ 2 \end{Bmatrix}, \quad \phi_2 = \beg
 <h2>4. 步驟化詳細計算過程 (Step-by-Step Detailed Calculation)</h2>
 <h3>Step 1：建立質量矩陣與初始條件</h3>
 <p>$$[M] = \begin{bmatrix} m &amp; 0 &amp; 0 \\ 0 &amp; m &amp; 0 \\ 0 &amp; 0 &amp; m/2 \end{bmatrix}$$</p>
-<p><strong>彈返法初始條件</strong>（一樓拉 6 cm，突然放開）：</p>
-<p>$$\mathbf{x}(0) = \begin{Bmatrix} 6 \\ 0 \\ 0 \end{Bmatrix} \text{ cm}, \qquad \dot{\mathbf{x}}(0) = \begin{Bmatrix} 0 \\ 0 \\ 0 \end{Bmatrix}$$</p>
+<p><strong>初始條件</strong>（粗索在一樓版拉 6 cm，突然放開）：一樓版受拉力 $F$，二、三樓版沒有外力，靜止平衡時二、三層層剪力為零，上兩層隨一樓平移（考卷附圖只有一層柱畫成彎曲；題目正本判讀 #1）：</p>
+<p>$$\mathbf{x}(0) = \begin{Bmatrix} 6 \\ 6 \\ 6 \end{Bmatrix} \text{ cm}, \qquad \dot{\mathbf{x}}(0) = \begin{Bmatrix} 0 \\ 0 \\ 0 \end{Bmatrix}$$</p>
 <p><em>策略註解：初速為零 → 自由振動解只含 $\cos$ 項：$\mathbf{x}(t) = \sum_{i=1}^3 A_i\phi_i\cos(\omega_i t)$</em></p>
+<p><img alt="SD-2021-3 初始變形：左為粗索只拉一樓版的靜力平衡形狀 {6,6,6} cm，只有一層柱彎曲、層剪力 6k、0、0；右為舊解 {6,0,0}，須在二樓版另加向左 6k" src="../../raw/solutions/SD-2021-3/figs/SD-2021-3-fig-2-initial.svg" /></p>
+<p><em>圖 2　初始變形是拉力作用下的靜力平衡形狀。只拉一樓版時上兩層沒有外力、層剪力為零，只能剛體平移；本圖攔下把「拉一樓」讀成上兩層不動 $\{6,0,0\}$ 的錯誤。</em></p>
 <hr />
 <h3>Step 2：計算各振態的模態質量 $M_i^* = \phi_i^T[M]\phi_i$</h3>
 <p><strong>振態 1（$\phi_1 = \{1,\sqrt{3},2\}^T$）：</strong></p>
@@ -308,54 +510,66 @@ $$\phi_1 = \begin{Bmatrix} 1 \\ \sqrt{3} \\ 2 \end{Bmatrix}, \quad \phi_2 = \beg
 <p>$$M_3^* = 1^2\cdot m + (-\sqrt{3})^2\cdot m + 2^2\cdot\frac{m}{2} = m + 3m + 2m = 6m$$</p>
 <hr />
 <h3>Step 3：計算模態初始值 $c_i = \phi_i^T[M]\mathbf{x}(0)$</h3>
-<p>由於 $[M]\mathbf{x}(0) = \{6m, 0, 0\}^T$（僅一樓有質量慣性貢獻）：</p>
-<p>$$c_1 = 1\times 6m + \sqrt{3}\times 0 + 2\times 0 = 6m$$</p>
-<p>$$c_2 = 1\times 6m + 0\times 0 + (-1)\times 0 = 6m$$</p>
-<p>$$c_3 = 1\times 6m + (-\sqrt{3})\times 0 + 2\times 0 = 6m$$</p>
-<p><em>策略註解：三個振態的一樓分量均為 1，所以 $c_1 = c_2 = c_3 = 6m$。模態質量的差異才決定展開係數的不同。</em></p>
+<p>$[M]\mathbf{x}(0) = \{6m,\ 6m,\ 3m\}^T$：</p>
+<p>$$c_1 = 1\times 6m + \sqrt{3}\times 6m + 2\times 3m = (12+6\sqrt3)m$$</p>
+<p>$$c_2 = 1\times 6m + 0\times 6m + (-1)\times 3m = 3m$$</p>
+<p>$$c_3 = 1\times 6m + (-\sqrt{3})\times 6m + 2\times 3m = (12-6\sqrt3)m$$</p>
 <hr />
 <h3>Step 4：求展開係數 $A_i = c_i / M_i^*$</h3>
-<p>$$A_1 = \frac{6m}{6m} = 1 \text{ cm}$$</p>
-<p>$$A_2 = \frac{6m}{3m/2} = 4 \text{ cm}$$</p>
-<p>$$A_3 = \frac{6m}{6m} = 1 \text{ cm}$$</p>
+<p>$$A_1 = \frac{(12+6\sqrt3)m}{6m} = 2+\sqrt3 = 3.732 \text{ cm}$$</p>
+<p>$$A_2 = \frac{3m}{3m/2} = 2 \text{ cm}$$</p>
+<p>$$A_3 = \frac{(12-6\sqrt3)m}{6m} = 2-\sqrt3 = 0.268 \text{ cm}$$</p>
 <p><strong>驗算（必要步驟）：</strong></p>
-<p>$$\sum_{i=1}^3 A_i\phi_i = 1\begin{Bmatrix}1\\\sqrt{3}\\2\end{Bmatrix} + 4\begin{Bmatrix}1\\0\\-1\end{Bmatrix} + 1\begin{Bmatrix}1\\-\sqrt{3}\\2\end{Bmatrix} = \begin{Bmatrix}1+4+1\\\sqrt{3}+0-\sqrt{3}\\2-4+2\end{Bmatrix} = \begin{Bmatrix}6\\0\\0\end{Bmatrix} \checkmark$$</p>
+<p>$$\sum_{i=1}^3 A_i\phi_i = (2+\sqrt3)\begin{Bmatrix}1\\\sqrt{3}\\2\end{Bmatrix} + 2\begin{Bmatrix}1\\0\\-1\end{Bmatrix} + (2-\sqrt3)\begin{Bmatrix}1\\-\sqrt{3}\\2\end{Bmatrix} = \begin{Bmatrix}4+2\\ \sqrt3(2+\sqrt3-2+\sqrt3)\\ 8-2\end{Bmatrix} = \begin{Bmatrix}6\\6\\6\end{Bmatrix} \checkmark$$</p>
+<p><em>策略註解：第一振態的展開係數最大（$A_1=3.732$）——均勻平移的初始形狀最接近第一振態。</em></p>
 <hr />
 <h3>Step 5：寫出各樓層位移時程</h3>
-<p>$$\mathbf{x}(t) = 1\begin{Bmatrix}1\\\sqrt{3}\\2\end{Bmatrix}\cos(\omega_1 t) + 4\begin{Bmatrix}1\\0\\-1\end{Bmatrix}\cos(\omega_2 t) + 1\begin{Bmatrix}1\\-\sqrt{3}\\2\end{Bmatrix}\cos(\omega_3 t) \quad \text{[cm]}$$</p>
+<p>$$\mathbf{x}(t) = (2+\sqrt3)\begin{Bmatrix}1\\\sqrt{3}\\2\end{Bmatrix}\cos(\omega_1 t) + 2\begin{Bmatrix}1\\0\\-1\end{Bmatrix}\cos(\omega_2 t) + (2-\sqrt3)\begin{Bmatrix}1\\-\sqrt{3}\\2\end{Bmatrix}\cos(\omega_3 t) \quad \text{[cm]}$$</p>
 <p><strong>三樓位移：</strong></p>
-<p>$$x_3(t) = 2\cos(\omega_1 t) + 4\times(-1)\cos(\omega_2 t) + 2\cos(\omega_3 t) = 2\cos(\omega_1 t) - 4\cos(\omega_2 t) + 2\cos(\omega_3 t) \text{ [cm]}$$</p>
+<p>$$x_3(t) = 2(2+\sqrt3)\cos(\omega_1 t) - 2\cos(\omega_2 t) + 2(2-\sqrt3)\cos(\omega_3 t) \text{ [cm]}$$</p>
 <p><strong>二樓位移：</strong></p>
-<p>$$x_2(t) = \sqrt{3}\cos(\omega_1 t) + 0 + (-\sqrt{3})\cos(\omega_3 t) = \sqrt{3}\cos(\omega_1 t) - \sqrt{3}\cos(\omega_3 t) \text{ [cm]}$$</p>
+<p>$$x_2(t) = \sqrt3(2+\sqrt3)\cos(\omega_1 t) + 0 - \sqrt3(2-\sqrt3)\cos(\omega_3 t) \text{ [cm]}$$</p>
 <hr />
 <h3>Step 6：求頂層（三樓）層間剪力</h3>
-<p><strong>三樓層間位移</strong>（三樓相對二樓的水平位移）：</p>
-<p>$$x_3(t) - x_2(t) = \left[2 - \sqrt{3}\right]\cos(\omega_1 t) - 4\cos(\omega_2 t) + \left[2 + \sqrt{3}\right]\cos(\omega_3 t) \text{ [cm]}$$</p>
+<p><strong>三樓層間位移</strong>（三樓相對二樓的水平位移）：振態 $i$ 的層間位移形狀 $\phi_{3i}-\phi_{2i} = 2-\sqrt3,\ -1,\ 2+\sqrt3$，乘上 $A_i$：</p>
+<p>$$x_3(t) - x_2(t) = (2+\sqrt3)(2-\sqrt3)\cos(\omega_1 t) - 2\cos(\omega_2 t) + (2-\sqrt3)(2+\sqrt3)\cos(\omega_3 t)$$</p>
+<p>$$= \cos(\omega_1 t) - 2\cos(\omega_2 t) + \cos(\omega_3 t) \text{ [cm]}$$</p>
 <p><strong>頂層層間剪力：</strong></p>
-<p>$$\boxed{V_3(t) = k\left[(2-\sqrt{3})\cos(\omega_1 t) - 4\cos(\omega_2 t) + (2+\sqrt{3})\cos(\omega_3 t)\right]}$$</p>
-<p>其中 $k$ 的單位為 [力/長度]，$V_3$ 的單位為 [力]。</p>
+<p>$$\boxed{V_3(t) = k\left[\cos(\omega_1 t) - 2\cos(\omega_2 t) + \cos(\omega_3 t)\right]\ \text{（cm）}}$$</p>
+<p>其中 $\omega_1=0.5176\sqrt{k/m}$、$\omega_2=1.4142\sqrt{k/m}$、$\omega_3=1.9319\sqrt{k/m}$；$k$ 的單位為 [力/長度]，$V_3$ 的單位為 [力]（$k$ 以 N/m 計時，係數 cm 換成 0.01 m）。$t=0$ 時 $V_3=0$ ✓（初始上兩層無層剪力）。</p>
 <hr />
 <p><strong>等價表達（用慣性力驗算）：</strong></p>
 <p>三樓方程式：$m_3\ddot{x}_3 = -k(x_3 - x_2)$ → $V_3 = -m_3\ddot{x}_3$</p>
-<p>$$\ddot{x}_3 = -2\omega_1^2\cos(\omega_1 t) + 4\omega_2^2\cos(\omega_2 t) - 2\omega_3^2\cos(\omega_3 t)$$</p>
-<p>$$V_3 = -\frac{m}{2}\ddot{x}_3 = m\left[\omega_1^2\cos(\omega_1 t) - 2\omega_2^2\cos(\omega_2 t) + \omega_3^2\cos(\omega_3 t)\right]$$</p>
-<p>代入 $\omega_i^2 = (2\pm\sqrt{3})k/m$ 或 $2k/m$：</p>
-<p>$$= m\left[(2-\sqrt{3})\frac{k}{m}\cos(\omega_1 t) - 2\cdot2\frac{k}{m}\cos(\omega_2 t) + (2+\sqrt{3})\frac{k}{m}\cos(\omega_3 t)\right]$$</p>
-<p>$$= k\left[(2-\sqrt{3})\cos(\omega_1 t) - 4\cos(\omega_2 t) + (2+\sqrt{3})\cos(\omega_3 t)\right] \checkmark$$</p>
-<p><strong>數值係數：</strong><br />
-- $2-\sqrt{3} \approx 0.268$（一階振態貢獻，最小）<br />
-- $4$（二階振態貢獻，最大）<br />
-- $2+\sqrt{3} \approx 3.732$（三階振態貢獻）</p>
+<p>$$\ddot{x}_3 = -2(2+\sqrt3)\omega_1^2\cos(\omega_1 t) + 2\omega_2^2\cos(\omega_2 t) - 2(2-\sqrt3)\omega_3^2\cos(\omega_3 t)$$</p>
+<p>$$V_3 = -\frac{m}{2}\ddot{x}_3 = m\left[(2+\sqrt3)\omega_1^2\cos(\omega_1 t) - \omega_2^2\cos(\omega_2 t) + (2-\sqrt3)\omega_3^2\cos(\omega_3 t)\right]$$</p>
+<p>代入 $\omega_1^2=(2-\sqrt3)k/m$、$\omega_2^2=2k/m$、$\omega_3^2=(2+\sqrt3)k/m$：</p>
+<p>$$= k\left[\cos(\omega_1 t) - 2\cos(\omega_2 t) + \cos(\omega_3 t)\right] \checkmark$$</p>
+<hr />
+<h3>Step 7：最大頂層層間剪力</h3>
+<ul>
+<li>各振態貢獻 $k$、$2k$、$k$（cm）。恰有 $\omega_3-\omega_1=\omega_2$（$(\omega_3-\omega_1)^2 = 4-2\sqrt{(2+\sqrt3)(2-\sqrt3)} = 2$），令 $a=\omega_2t/2$、$b=(\omega_1+\omega_3)t/2$：<br />
+$$\frac{V_3}{k} = 2\cos a\cos b - 2(2\cos^2 a - 1)$$<br />
+  $b/a=\sqrt3$ 為無理數，$\cos b$ 可任意接近 $\pm1$，所以 $V_3/k$ 的範圍是 $[-4,\ 2.25]$ cm。</li>
+</ul>
+<p>$$\boxed{|V_3|_{\max} = 4k\ \text{（cm）}=0.04k\ \text{（N，}k\text{ 以 N/m 計）}}$$</p>
+<p>為三振態係數絕對值和（$1+2+1$），可任意逼近（數值掃描 $t\sqrt{k/m}\le3000$ 得 $3.99999k$）；正向最大 $+2.25k$。</p>
+<p><img alt="SD-2021-3 頂層層剪力歷時：勘誤後 V3/k＝cos ω1t − 2cos ω2t + cos ω3t 在 ±4 之間，於 t√(k/m)≈17.8 接近 −4；舊解 {6,0,0} 的歷時以虛線表示，幅度約為兩倍" src="../../raw/solutions/SD-2021-3/figs/SD-2021-3-fig-3-v3.svg" /></p>
+<p><em>圖 3　頂層層剪力時間歷時。三個振態在 $t=0$ 同相起振，最大值由絕對值和 $4k$ 給出上確界；本圖攔下以 SRSS 估自由振動最大值，以及初始形狀讀錯使層剪力加倍。</em></p>
+<ul>
+<li>若以 SRSS 估：$k\sqrt{1+4+1}=2.45k$——自由振動各振態在 $t=0$ 同相起振，不是反應譜的隨機峰值組合，SRSS 不適用，僅供對照。</li>
+</ul>
 <hr />
 <h2>5. 關鍵爭議點與進階探討 (Critical Issues &amp; Advanced Discussion)</h2>
-<p><strong>爭議點：彈返法初始條件的物理合理性</strong></p>
-<p>若實際上以靜態力 $F$ 拉一樓使其位移 6 cm，則二、三樓也會有靜態位移（非零），初始條件為靜力平衡位移向量，而非 $\{6,0,0\}^T$。</p>
-<p><strong>考場建議：</strong> 題目明確給出「在一樓向右拉位移 6 cm」而未說明上層情況，以 $\mathbf{x}(0) = \{6,0,0\}^T$ cm 作答為標準。</p>
-<p><strong>進階：振態 2 的貢獻最大（$A_2 = 4$ cm）</strong></p>
-<p>因為 $M_2^* = 3m/2$（最小模態質量），相同的初始激發能量（$c_2 = 6m$）分配後得到最大的展開係數。這在工程上意味著：若只激發一樓，二階振態在剪力建築中往往有最大響應。</p>
+<p><strong>爭議點：初始位移是 $\{6,6,6\}$ 還是 $\{6,0,0\}$</strong></p>
+<p>以粗索靜態拉一樓版，初始條件是「拉力作用下的靜力平衡位移」。只有一樓版受力時，二、三樓版沒有外力，二、三層層剪力為零，上兩層隨一樓平移，初始位移為 $\{6,6,6\}$ cm；考卷附圖也只把一層柱畫成彎曲、上兩層樓版鉛垂對齊（題目正本判讀 #1）。</p>
+<p>$\{6,0,0\}$（本庫 2026-11-15 前的舊解）要讓二樓版維持不動，必須在二樓版另加一個向左的力 $6k$，與題意不符。對照其結果：$A_i=1,4,1$，$V_3=k[(2-\sqrt3)\cos\omega_1t-4\cos\omega_2t+(2+\sqrt3)\cos\omega_3t]$，最大值趨近 $8k$（cm），是正確答案的 2 倍。</p>
+<p><strong>進階：均勻平移的初始形狀以第一振態為主</strong></p>
+<p>$A_1=3.732$、$A_2=2$、$A_3=0.268$ cm：初始形狀 $\{1,1,1\}$ 與第一振態 $\{1,\sqrt3,2\}$ 同號，第一振態貢獻最大。但頂層層間剪力看的是 $\phi_{3i}-\phi_{2i}$，第一振態的頂層層間位移形狀很小（$2-\sqrt3$），第三振態很大（$2+\sqrt3$），兩者相乘後三振態對 $V_3$ 的貢獻為 $1:2:1$——<strong>高振態對上部樓層的層剪力貢獻不可忽略</strong>。</p>
 <p><strong>進階：最大層間剪力</strong></p>
-<p>三個振態頻率比 $\omega_3/\omega_1 \neq$ 有理數，故時程不嚴格週期，最大值需數值積分求得。若用 SRSS 近似（不適用於此自由振動問題，僅供參考）：</p>
-<p>$$V_{3,max} \approx k\sqrt{(2-\sqrt{3})^2 + 4^2 + (2+\sqrt{3})^2} = k\sqrt{0.0718 + 16 + 13.93} \approx k\sqrt{30} \approx 5.48k$$</p>
+<p>三個振態頻率比 $\omega_3/\omega_1 = 2+\sqrt3$ 為無理數，時程不嚴格週期；最大值由絕對值和 $4k$ 給出上確界（見 Step 7）。SRSS（$2.45k$）只適用於反應譜分析中各振態峰值不同時發生的情形，不適用於本題自由振動。</p>
+<p><em>修正日期：2026-11-15（§1 改為指向題目正本，重繪附圖 figs/SD-2021-3-fig-1-problem.svg；§1 舊重述的初始位移 {6,0,0} 與考卷不符、圖說把 v 寫成速度，改列常見誤讀（正文勘誤見階段 C））</em><br />
+<em>修正日期：2026-11-15（初始位移 {6,0,0} → {6,6,6} cm（考卷粗索只拉一樓版，上兩層隨之平移；題目正本判讀 #1），頂層層剪力 V3 改為 k[cos ω1t − 2cos ω2t + cos ω3t]，補最大值 4k（cm）；舊解 SRSS 5.48k 刪除。改 §2、§3、§3.5、§4、§5；驗證：scripts/fixes/2026-11-15_verify_SD-2021-3.py 振態閉合解、solve_ivp 數值積分、長時間掃描三路一致 MISMATCHES: 0）</em><br />
+<em>修正日期：2026-11-15（非勘誤）§4 Step 1、Step 7 補解題圖解 figs/SD-2021-3-fig-2-initial.svg、fig-3-v3.svg（圖解補繪，腳本 gen_SD-2021-3.py，可重跑）</em></p>
 </main>
 <footer>來源：raw/solutions/SD-2021-3/SD-2021-3.md（唯讀證據，本頁僅為渲染層）｜exam-wiki-SD</footer>
 <script>
