@@ -51,3 +51,12 @@
 - `scripts/audit_classification.py` 與 `skills/exam-wiki-audit/SKILL.md` 附錄腳本：標頭設計法主值（括號前）含「混合」⇔ 索引為「混合」，不一致即報（原子字串比對放過「WSD / USD 混合」對索引 WSD，RC-2018-4 漏報）；重新打包 `skills/exam-wiki-audit.skill`
 - 驗證：五科重跑，SS／RC／SA／SM 0 筆、SD 34 筆皆與修改前相同（無新增誤報）；合成測試（RC-2018-4 索引改 WSD、RC-2004-5 改 USD）兩題皆被報出
 - 已知：skill 附錄腳本與 `scripts/` 版本原本就分岔（附錄缺 SD analysisMethod 對照，SD 報 87 筆；scripts 版另有已封存 wiki 的 C/D/E 檢查），本次未合併
+
+## 2026-11-15 起點頁腳本：影片講義支援分集
+- `scripts/parse_links.py`：清單「影片講義」段同一單元多行 → `video_handout` 存成 `[[標題, 網址], …]`（標題取檔名去掉單元代號）；只有一份時仍存字串
+- `scripts/build_start.py`：`video_handout` 為清單時輸出「影片講義（圖文，N 集）：各集連結」，並逐一檢查相對連結
+- 原因：SA 的影片講義每單元分 2–7 集，舊格式只容一份
+- 驗證：SS 用新腳本 dry-run 無任何 `~` 變更，重產 `start.html` 與現有檔逐位元組相同
+- 同步 `skills/exam-start-page/`（scripts、references/format.md）並重新打包 `skills/exam-start-page.skill`
+- 同日追加：觀念講義影片（`lecture_anim`／`lecture_video`）也支援分集，存法與顯示同影片講義；SS 重產仍逐位元組相同
+

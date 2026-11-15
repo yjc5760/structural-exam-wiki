@@ -63,8 +63,17 @@ class Site:
 
     def unit_block(self, i, u):
         c = self.check
-        for k in ("overview", "lecture", "video_handout"):
+        for k in ("overview", "lecture"):
             c(u.get(k, ""))
+        vh = u.get("video_handout", "")
+        if isinstance(vh, list):      # 分集影片講義 [[標題, 網址], ...]
+            for _, h in vh:
+                c(h)
+            vh_line = (f"<li>{a(vh[0][1], '影片講義（圖文）')}</li>" if len(vh) == 1 else
+                       f"<li>影片講義（圖文，{len(vh)} 集）：{inline_links(vh)}</li>")
+        else:
+            c(vh)
+            vh_line = li(vh, '影片講義（圖文）')
         tb = "".join(f"<li>{a(c(h), '教科書' if t == '教科書' else '教科書：' + escape(t))}</li>"
                      for t, h in u["textbook"])
         tv = [list(x) for x in u["textbook_videos"]]
@@ -72,10 +81,20 @@ class Site:
         if len(tv) > 1 and len(heads) == 1 and all(" " in t for t, _ in tv):
             tv = [[t.split(" ", 1)[1], h] for t, h in tv]   # 去掉各集共同前綴（如「塑性分析」）
         tbv = f"<li>教科書講解影片：{inline_links(tv)}</li>" if tv else ""
-        vids = [(t, u.get(k)) for t, k in (("觀念講義影片", "lecture_video"), ("動畫版", "lecture_anim")) if u.get(k)]
-        if len(vids) == 1 and vids[0][0] == "動畫版":
-            vids = [("觀念講義影片（動畫版）", vids[0][1])]
-        vid_line = f"<li>{inline_links(vids)}</li>" if vids else ""
+        lv, la = u.get("lecture_video"), u.get("lecture_anim")
+        if isinstance(lv, list) or isinstance(la, list):   # 分集影片 [[標題, 網址], ...]
+            vid_line = ""
+            for name, v in (("觀念講義影片", lv), ("觀念講義影片（動畫版）", la)):
+                if isinstance(v, list):
+                    vid_line += f"<li>{name[:-1]}，{len(v)} 集）：{inline_links(v)}</li>" if name.endswith("）") \
+                        else f"<li>{name}（{len(v)} 集）：{inline_links(v)}</li>"
+                elif v:
+                    vid_line += f"<li>{a(v, name)}</li>"
+        else:
+            vids = [(t, u.get(k)) for t, k in (("觀念講義影片", "lecture_video"), ("動畫版", "lecture_anim")) if u.get(k)]
+            if len(vids) == 1 and vids[0][0] == "動畫版":
+                vids = [("觀念講義影片（動畫版）", vids[0][1])]
+            vid_line = f"<li>{inline_links(vids)}</li>" if vids else ""
         if u["solutions"]:
             sols = "".join(f'<li>{a(h, f"<span class=qid>{escape(q)}</span> {escape(t)}")}</li>'
                            for q, t, h in u["solutions"])
@@ -109,7 +128,7 @@ class Site:
       <ul>
         {li(u.get('lecture', ''), '觀念講義（網頁）')}
         {vid_line}
-        {li(u.get('video_handout', ''), '影片講義（圖文）')}
+        {vh_line}
         {li(u.get('slides_pdf', ''), '講義簡報 PDF')}
         {tb}
         {tbv}

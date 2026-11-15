@@ -9,6 +9,7 @@
 - 清單式欄位（教科書、教科書講解影片、解題影片）：該單元在清單該段出現 → 整組換成清單版本。
 - 指向本站的絕對網址自動轉成相對路徑（本機與 GitHub Pages 都能開）。
 - 行首的 @ 等標記符號會被忽略。
+- 影片講義、觀念講義影片：一單元一份存字串；多份（分集）存 [[標題, 網址], ...]，標題取檔名去掉單元代號。
 """
 import argparse, json, re, sys
 from pathlib import Path
@@ -165,10 +166,19 @@ def main():
             U(uid)["overview"] = href
             if uid not in order:
                 order.append(uid)
-        elif section in ("lecture", "video_handout", "formula_video", "notebooklm", "slides_pdf"):
+        elif section == "video_handout":
+            # 一單元可有多份影片講義（SA 分集）：先收成清單，迴圈後只有一份就存字串
+            lab = title or Path(unquote(href)).stem
+            lab = re.sub(rf"^{uid}(-\d+)?[_\s]*", "", lab).replace("_", " ").strip() or "影片講義"
+            U(uid).setdefault("_handouts", []).append([lab, href])
+        elif section in ("lecture", "formula_video", "notebooklm", "slides_pdf"):
             U(uid)[section] = href
         elif section == "lecture_video":
-            U(uid)["lecture_anim" if "動畫" in title else "lecture_video"] = url
+            # 一單元可有多支（SA 分集）：先收成清單，迴圈後只有一支就存字串
+            key = "_anim" if "動畫" in title else "_lv"
+            lab = re.sub(rf"^{uid}(-\d+)?\s*", "", title)
+            lab = re.sub(r"[（(]\s*動畫版?\s*[)）]", "", lab).strip() or "講解"
+            U(uid).setdefault(key, []).append([lab, url])
         elif section == "textbook":
             slug = Path(unquote(href)).stem
             suf = slug.split(uid, 1)[-1].lstrip("-")
@@ -186,6 +196,14 @@ def main():
 
     if "topic" in seen_sections:
         g["topic_videos"] = topic_videos
+    for upd in new.values():
+        hs = upd.pop("_handouts", None)
+        if hs:
+            upd["video_handout"] = hs[0][1] if len(hs) == 1 else hs
+        for tmp, f in (("_anim", "lecture_anim"), ("_lv", "lecture_video")):
+            vs = upd.pop(tmp, None)
+            if vs:
+                upd[f] = vs[0][1] if len(vs) == 1 else vs
 
     # ---- 合併 ----
     FIELDS = ["overview", "lecture", "textbook", "textbook_videos", "lecture_video", "lecture_anim",
