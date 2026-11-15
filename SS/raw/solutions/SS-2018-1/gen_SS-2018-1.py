@@ -11,7 +11,7 @@ SS-2018-1 中央細縫鋼板受拉之伸長量 — 題目附圖重繪腳本
 """
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                "..", "..", "..", "skills", "struct-diagram", "scripts"))
+                                "..", "..", "..", "..", "skills", "struct-diagram", "scripts"))   # 五科合一後 skill 在根目錄 skills/
 
 from structdraw import Canvas, C, compose
 
@@ -55,9 +55,76 @@ def fig1_problem():
     return path
 
 
+# ══════════════════════════════════════════════════════════════
+# 解題圖解（2026-11-15 補繪）——數值取自 SS-2018-1.md §4 與題目正本 §4
+# ══════════════════════════════════════════════════════════════
+FU = 500.0; AN_AG = 1 - SLIT                     # 淨／全斷面比 0.8
+E_S = 2.05e5                                       # N/mm²（§4 Step 3，題未給）
+MAT = {"A": {"fy": 450.0, "plat_end": 0.06},       # 題目正本 #1、#3
+       "B": {"fy": 300.0, "pt": (0.06, 400.0)}}    # 題目正本 #2
+EPS_U = 0.2
+SIG_G = FU * AN_AG                                 # 400：淨斷面達 Fu 時的全斷面應力
+EPS_A = SIG_G / E_S                                # A 仍彈性
+EPS_B = MAT["B"]["pt"][0]                          # B 由圖讀 0.06
+DA, DB = EPS_A * L0, EPS_B * L0
+
+
+def fig2_curve():
+    W1, H1p = 1000, 560
+    cv = Canvas(W1, H1p, sx=1)
+    cv.panel("最大拉力時（細縫淨斷面達 Fu），全斷面應力 = 0.8 Fu = 400", "曲線依題目刻度；B 的平台終點與兩曲線硬化段形狀為示意")
+    X0, X1, YB, YT = 110, 640, 470, 120
+    em, s0, s1 = 0.22, 0.0, 550.0
+    PX = lambda e: X0 + (X1 - X0) * e / em
+    PY = lambda s: YB - (YB - YT) * (s - s0) / (s1 - s0)
+    L = lambda x0, y0, x1, y1, col, w=2.0, dash=None: cv.line((x0, H1p - y0), (x1, H1p - y1), col, w, dash=dash, cap="butt")
+    L(X0, YB, X1, YB, C["muted"], 1.5); L(X0, YB, X0, YT, C["muted"], 1.5)
+    for e in (0.06, 0.2):
+        cv.text_px(PX(e), YB + 18, f"{e:g}", 11.5, C["muted"])
+    for s in (300, 400, 450, 500):
+        cv.text_px(X0 - 8, PY(s), f"{s}", 11.5, C["muted"], "end")
+        L(X0, PY(s), X1, PY(s), C["ghost"], 0.6, dash="2 4")
+    cv.text_px((X0 + X1) / 2, YB + 40, "應變 ε", 13, C["text"], weight="700")
+    cv.text_px(X0 - 4, YT - 18, "σ（N/mm²）", 13, C["text"], "start", weight="700")
+    ea = MAT["A"]["fy"] / E_S; eb = MAT["B"]["fy"] / E_S
+    pa = [(0, 0), (ea, 450), (0.06, 450), (0.13, 485), (EPS_U, FU)]
+    pb = [(0, 0), (eb, 300), (0.02, 300), (0.06, 400), (0.13, 470), (EPS_U, FU)]
+    cv.poly([(PX(e), H1p - PY(s)) for e, s in pa], C["compr"], 2.6)
+    cv.poly([(PX(e), H1p - PY(s)) for e, s in pb], C["tension"], 2.6)
+    cv.text_px(PX(0.15) , PY(492) - 12, "鋼材 A（Fy 450，YR 0.90）", 12.5, C["compr"], "end", weight="700")
+    cv.text_px(PX(0.12), PY(360), "鋼材 B（Fy 300，YR 0.60）", 12.5, C["tension"], "start", weight="700")
+    L(X0, PY(SIG_G), X1, PY(SIG_G), C["accent"], 1.8, dash="7 4")
+    cv.text_px(X1 - 4, PY(SIG_G) - 10, f"全斷面 σ = {SIG_G:.0f}", 12.5, C["accent"], "end", weight="700")
+    cv.dot((PX(EPS_A), H1p - PY(SIG_G)), 6.5, fill=C["compr"])
+    cv.text_px(PX(EPS_A) + 12, PY(SIG_G) - 14, f"A：仍彈性 ε = {EPS_A:.5f}", 12.5, C["compr"], "start", weight="700")
+    cv.dot((PX(EPS_B), H1p - PY(SIG_G)), 6.5, fill=C["tension"])
+    cv.text_px(PX(EPS_B) + 12, PY(SIG_G) + 22, f"B：ε = {EPS_B:g}", 12.5, C["tension"], "start", weight="700")
+    xt = 680
+    rows = [("標距 1000 mm 的伸長量：", C["text"]),
+            (f"A：{DA:.1f} mm ≈ 2 mm", C["compr"]),
+            (f"B：{DB:.0f} mm", C["tension"]),
+            ("", C["text"]),
+            ("判斷式：", C["text"]),
+            (f"YR = Fy/Fu 與 An/Ag = {AN_AG:.1f} 比", C["text"]),
+            ("A：0.90 高於 0.8，全斷面來不及降伏", C["compr"]),
+            ("B：0.60 低於 0.8，全長降伏、變形擴散", C["tension"])]
+    for i, (s, col) in enumerate(rows):
+        if s:
+            cv.text_px(xt, 150 + i * 32, s, 13, col, "start", weight="700" if col != C["text"] else "400")
+    path = os.path.join(OUT, f"{TAG}-fig-2-curve.svg")
+    compose([cv], cols=1,
+            title=f"圖 2　ΔA ≈ {DA:.0f} mm、ΔB ≈ {DB:.0f} mm：降伏比是否低於 An/Ag = {AN_AG:.1f}",
+            sub="鋼材 A 是 450 平台、B 是 300 平台，兩者 Fu 都是 500",
+            note="淨斷面在 P = 0.8 Fu·Ag 時就斷，全斷面應力最高只到 400；A 的 Fy 450 碰不到，只剩細縫處局部變形",
+            path=path)
+    return path
+
+
 FIGURES = [
     (fig1_problem, "§1（題目正本 §4）",
      "把細縫讀成平行拉力方向；標點間距沒有跨過細縫"),
+    (fig2_curve, "§4 (一)(二)",
+     "A、B 兩曲線對調；以為全長都達 εu；忽略淨斷面先達 Fu 時全斷面只有 0.8Fu"),
 ]
 
 if __name__ == "__main__":

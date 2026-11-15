@@ -10,7 +10,7 @@ import sys, os, math
 # 若把本檔搬到別處，設環境變數 SD_SKILL 指向 struct-diagram 目錄即可。
 _HERE = os.path.dirname(os.path.abspath(__file__))
 SKILL = os.environ.get("SD_SKILL",
-                       os.path.normpath(os.path.join(_HERE, "..", "..", "..",
+                       os.path.normpath(os.path.join(_HERE, "..", "..", "..", "..",   # 五科合一後 skill 在根目錄 skills/
                                                      "skills", "struct-diagram")))
 sys.path.insert(0, os.path.join(SKILL, "scripts"))
 from structdraw import Canvas, C, compose
@@ -200,7 +200,39 @@ def fig2_pm():
     return path
 
 
+
+# ══════════════════════════════════════════════════════════
+# 題目附圖重繪（2026-11-15）——依題目正本 SS-2014-4-problem.md §3、§4（已確認）
+# 只畫考卷所給：直立柱、兩端 Pu、兩端彎矩 Ma、Mb 皆順時針（判讀 #1）；柱長 3.75 m（判讀 #7）
+# ══════════════════════════════════════════════════════════
+L_COL = 3.75          # m
+MA_CW, MB_CW = True, True   # 判讀 #1：兩端彎矩同為順時針
+
+
+def fig1_problem():
+    W, H, sx = 420, 580, 70
+    cv = Canvas(W, H, sx=sx, ox=W / 2, oy=120)
+    cv.panel("柱端力與端彎矩", "依題目正本判讀 #1：Ma、Mb 同為順時針")
+    cv.line((0, 0), (0, L_COL), C["member"], 5, cap="butt")
+    cv.arrow((0, L_COL + 0.75), (0, L_COL + 0.05), C["load"], 3.0)
+    cv.arrow((0, -0.75), (0, -0.05), C["load"], 3.0)
+    cv.text((0, L_COL + 0.75), "Pu", 15, C["load"], "start", dx=10, dy=4, weight="700")
+    cv.text((0, -0.75), "Pu", 15, C["load"], "start", dx=10, dy=4, weight="700")
+    cv.moment_arrow((0, L_COL), r=34, ccw=not MA_CW, start=170, span=160)
+    cv.moment_arrow((0, 0), r=34, ccw=not MB_CW, start=-10, span=160)
+    cv.text((0, L_COL), "Ma", 15, C["load"], "start", dx=44, dy=-18, weight="700")
+    cv.text((0, 0), "Mb", 15, C["load"], "end", dx=-44, dy=26, weight="700")
+    cv.dim((0, 0), (0, L_COL), f"L = {L_COL:g} m", off=-90, label_off=-34)
+    path = os.path.join(OUT, f"{TAG}-fig-1-problem.svg")
+    compose([cv], title="SS-2014-4 題目附圖（重繪）",
+            sub="依題目正本判讀清單 #1、#7；分析結果表與斷面資料見題目正本 §1",
+            note="兩端彎矩同為順時針 → 雙曲率（M1/M2 為正）",
+            path=path)
+    return path
+
 FIGURES = [
+    (fig1_problem, "§1（題目正本 §4）",
+     "把兩端彎矩讀成一順一逆（單曲率）；漏看兩端 Pu"),
     (fig1_superpose, "§4 Step 2–4",
      "Mnt 與 Mlt 先加再一起放大；控制端取錯；雙曲率判成單曲率；B1 小於 1 未取 1.0"),
     (fig2_pm, "§4 Step 5–7",
