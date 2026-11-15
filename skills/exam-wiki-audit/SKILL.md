@@ -260,6 +260,14 @@ def main():
         if h["設計法"] and method(x) and len(norm(method(x))) <= 8 and norm(h["設計法"]).split("（")[0] != norm(method(x)):
             if norm(method(x)) not in norm(h["設計法"]):
                 iss[qid].append((lab, f"設計法「{h['設計法']}」≠ 索引「{method(x)}」"))
+        # 「混合」雙向比對：標頭主值（括號前）含「混合」⇔ 索引為「混合」。
+        # 上面的子字串比對會放過「WSD / USD 混合」對索引 WSD 這類情形（RC-2018-4 曾漏報，2026-11-15 補）
+        if h["設計法"] and method(x) and len(norm(method(x))) <= 8:
+            hh = re.split(r"[（(]", h["設計法"])[0]
+            if ("混合" in hh) != (norm(method(x)) == "混合"):
+                msg = f"設計法「{h['設計法']}」≠ 索引「{method(x)}」（混合不一致）"
+                if not any(d.startswith(f"設計法「{h['設計法']}」") for c, d in iss[qid] if c == lab):
+                    iss[qid].append((lab, msg))
 
     for d in sorted((root / "raw/solutions").glob(f"{S}-*")):
         if d.is_dir() and re.fullmatch(rf"{S}-\d{{4}}-\d+", d.name) and d.name not in qs:

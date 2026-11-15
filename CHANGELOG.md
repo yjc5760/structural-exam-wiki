@@ -45,3 +45,9 @@
 ## 2026-11-14 — `render_problem_view.py` 頁首分析法欄位不再覆蓋年份
 
 - **[FIX]** `scripts/render_problem_view.py`：同步 `**分析法：**` 到頁首 `meta2` 時，若該頁頁首尚無分析法欄位（最後一段是「YYYY 年（民國 …）」），改為附加一段，不再把年份覆蓋掉。只影響有 `meta2` 的頁面（目前為 SA）。發現於 SA 一致性整理（SA-2008-3、2008-4、2019-4 三頁已還原重產），詳見 `SA/wiki/queries/log.md` FIX-SA-CONSISTENCY。
+
+## 2026-11-15 audit_classification.py：補「混合」設計法雙向比對
+
+- `scripts/audit_classification.py` 與 `skills/exam-wiki-audit/SKILL.md` 附錄腳本：標頭設計法主值（括號前）含「混合」⇔ 索引為「混合」，不一致即報（原子字串比對放過「WSD / USD 混合」對索引 WSD，RC-2018-4 漏報）；重新打包 `skills/exam-wiki-audit.skill`
+- 驗證：五科重跑，SS／RC／SA／SM 0 筆、SD 34 筆皆與修改前相同（無新增誤報）；合成測試（RC-2018-4 索引改 WSD、RC-2004-5 改 USD）兩題皆被報出
+- 已知：skill 附錄腳本與 `scripts/` 版本原本就分岔（附錄缺 SD analysisMethod 對照，SD 報 87 筆；scripts 版另有已封存 wiki 的 C/D/E 檢查），本次未合併
