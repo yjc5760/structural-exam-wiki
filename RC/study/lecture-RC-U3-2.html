@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RC-U3-2 觀念講義｜樓版與基腳設計</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--tension:#2e7d32;--tension2:#e8f5e9;
+--comp:#c62828;--comp2:#ffebee;--warn:#ef6c00;--warn2:#fff3e0;
+--key:#6a1b9a;--key2:#f3e5f5;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:34px 26px}
+header h1{margin:0 0 8px;font-size:1.6em}header .sub{opacity:.9;font-size:.93em;margin:0}
+header .meta{margin-top:12px;font-size:.82em;opacity:.8}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);
+padding:9px 14px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+nav a{text-decoration:none;color:var(--ac);font-size:.85em;padding:4px 11px;border-radius:14px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:980px;margin:0 auto;padding:24px 18px 80px}
+section{margin-bottom:46px}
+h2{font-size:1.32em;border-left:6px solid var(--ac);padding-left:12px;margin:44px 0 18px;line-height:1.4}
+h3{font-size:1.08em;margin:30px 0 10px;color:#0d47a1}
+h4{font-size:.99em;margin:20px 0 8px;color:#37474f}
+.lead{font-size:1.03em;background:#fff;border:1px solid var(--bd);border-left:5px solid var(--ac);
+border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:16px 18px;margin:16px 0}
+.why{background:var(--key2);border:1px solid #ce93d8;border-left:5px solid var(--key);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.why b:first-child{color:var(--key)}
+.trap{background:var(--warn2);border:1px solid #ffcc80;border-left:5px solid var(--warn);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.trap b:first-child{color:#e65100}
+.tens{background:var(--tension2);border:1px solid #a5d6a7;border-left:5px solid var(--tension);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.comp{background:var(--comp2);border:1px solid #ef9a9a;border-left:5px solid var(--comp);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.fig{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 14px 10px;margin:20px 0;overflow-x:auto}
+.fig>svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig .cap{font-size:.85em;color:var(--mut);text-align:center;margin-top:10px;line-height:1.6}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9em;background:#fff}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}li{margin:5px 0}
+.pill{display:inline-block;font-size:.76em;padding:2px 8px;border-radius:10px;margin-right:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+details{background:#fff;border:1px solid var(--bd);border-radius:9px;padding:10px 14px;margin:12px 0}
+summary{cursor:pointer;font-weight:600;color:var(--ac)}
+details p{border-left:3px solid #e0e0e0;padding-left:12px;margin:8px 0;color:#37474f}
+.qlink{color:#1565c0;text-decoration:none;border-bottom:1px dotted #90caf9;font-weight:600}
+.katex-display{margin:14px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+<h1>RC-U3-2 觀念講義：樓版與基腳設計</h1>
+<p class="sub">理解導向——基腳是倒過來的版；寬而薄的構件有兩種剪力破壞，而穿孔剪力正是現行規範改動最多的地方。練題之前先讀這一份。</p>
+<p class="meta">結構工程技師｜鋼筋混凝土設計與預力｜第三單元第 2 子項<br>
+涵蓋歷屆考題：主分類 7 題（2002-1、2007-3、2013-1、2017-3、2020-3、2021-3、2025-1）、副分類 1 題（2019-3）｜依現行建築物混凝土結構設計規範（2023）</p>
+</header>
+<nav>
+  <a href="#s0">§0 全景</a>
+  <a href="#s1">§1 兩種土壓</a>
+  <a href="#s2">§2 臨界斷面</a>
+  <a href="#s3">§3 單向剪力</a>
+  <a href="#s4">§4 穿孔剪力</a>
+  <a href="#s5">§5 版剪力筋與樁帽</a>
+  <a href="#s6">§6 樓版</a>
+  <a href="#s7">§7 解題流程</a>
+  <a href="#s8">§8 考點對照</a>
+  <a href="#s9">§9 陷阱總表</a>
+  <a href="#s10">§10 自我檢測</a>
+  <a href="#s11">★ 精選 5 題</a>
+  <a href="#s12">§12 因果鏈</a>
+  <span style="flex:1"></span>
+  <a href="unit-RC-U3-2.html" title="單元總覽：考什麼、公式給／背、每題要背哪幾條" style="background:#e3f2fd;color:#1565c0">📊 單元總覽</a>
+  <a href="lecture-RC-U3-2.pdf" target="_blank" title="本講義的列印版" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+<main>
+<section id="s0">
+<h2>§0 全景：寬而薄的構件，有兩種剪力破壞</h2>
+
+<div class="lead">
+<b>一句話：梁只會被「整條切斷」；版與基腳又寬又薄，除了整條切斷（單向剪力），還可能被柱子「沖穿」一個截頭錐（雙向剪力、穿孔剪力）。<br>
+兩種破壞的臨界斷面、需求、強度公式都不一樣，所以基腳題永遠要檢核兩次。</b>
+</div>
+
+<p>
+基腳就是倒過來的版：柱子往下壓，土壤往上推，基腳像一塊受均佈向上載重、中央有支承的版。
+彎矩的處理和梁一樣（柱面為臨界斷面、矩形斷面撓曲公式）；真正讓這個單元與梁不同的是剪力——
+破壞面可以是一條橫跨全寬的斜裂縫，也可以是繞著柱子一圈的錐面。
+本單元 7 題主考點裡，後段 4 題（2017、2020、2021、2025）全部要算穿孔剪力。
+</p>
+
+<div class="fig">
+<!--FIG:g0-->
+<svg viewBox="0 0 900 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC-2007-3 單向剪力與穿孔剪力的臨界斷面">
+<line x1="450.0" y1="20.0" x2="450.0" y2="420.0" stroke="#cfd8dc" stroke-width="2" stroke-dasharray="6 5"/>
+<rect x="105.0" y="45.0" width="240.0" height="240.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="1.5"/>
+<rect x="207.0" y="147.0" width="36.0" height="36.0" rx="0" fill="#90a4ae" stroke="#263238" stroke-width="1.4"/>
+<text x="225.0" y="33.0" font-size="13" text-anchor="middle" fill="#263238" font-weight="700">單向剪力（梁式）</text>
+<rect x="283.0" y="45.0" width="62.0" height="240.0" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.2" fill-opacity="0.9"/>
+<line x1="283.0" y1="41.0" x2="283.0" y2="289.0" stroke="#c62828" stroke-width="2.2"/>
+<text x="287.0" y="303.0" font-size="11.5" text-anchor="middle" fill="#c62828" font-weight="700">距柱面 d＝50</text>
+<rect x="105.0" y="318.0" width="240.0" height="48.0" rx="0" fill="#eceff1" stroke="#546e7a" stroke-width="1.3"/>
+<rect x="207.0" y="292.0" width="36.0" height="26.0" rx="0" fill="#90a4ae" stroke="#263238" stroke-width="1.2"/>
+<line x1="243.0" y1="318.0" x2="283.0" y2="358.0" stroke="#c62828" stroke-width="2.4"/>
+<text x="225.0" y="380.0" font-size="11" text-anchor="middle" fill="#607d8b">斷面（紅線＝45° 破壞面，同比例）</text>
+<text x="225.0" y="397.0" font-size="12.5" text-anchor="middle" fill="#263238" font-weight="700">Vu＝64.07 tf　vs　φVc＝59.62 tf（現行式）</text>
+<text x="225.0" y="418.0" font-size="13" text-anchor="middle" fill="#c62828" font-weight="700">不足</text>
+<rect x="555.0" y="45.0" width="240.0" height="240.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="1.5"/>
+<rect x="657.0" y="147.0" width="36.0" height="36.0" rx="0" fill="#90a4ae" stroke="#263238" stroke-width="1.4"/>
+<text x="675.0" y="33.0" font-size="13" text-anchor="middle" fill="#263238" font-weight="700">穿孔剪力（雙向）</text>
+<rect x="555.0" y="45.0" width="240.0" height="240.0" rx="0" fill="#e3f2fd" stroke="none" stroke-width="0" fill-opacity="0.9"/>
+<rect x="637.0" y="127.0" width="76.0" height="76.0" rx="0" fill="#fafafa" stroke="#c62828" stroke-width="2.2"/>
+<rect x="657.0" y="147.0" width="36.0" height="36.0" rx="0" fill="#90a4ae" stroke="#263238" stroke-width="1.4"/>
+<text x="675.0" y="219.0" font-size="11.5" text-anchor="middle" fill="#c62828" font-weight="700">距柱面 d/2，bo＝4(c+d)＝380</text>
+<rect x="555.0" y="318.0" width="240.0" height="48.0" rx="0" fill="#eceff1" stroke="#546e7a" stroke-width="1.3"/>
+<rect x="657.0" y="292.0" width="36.0" height="26.0" rx="0" fill="#90a4ae" stroke="#263238" stroke-width="1.2"/>
+<line x1="655.0" y1="318.0" x2="615.0" y2="358.0" stroke="#c62828" stroke-width="2.4"/>
+<line x1="695.0" y1="318.0" x2="735.0" y2="358.0" stroke="#c62828" stroke-width="2.4"/>
+<text x="675.0" y="380.0" font-size="11" text-anchor="middle" fill="#607d8b">斷面（紅線＝45° 破壞面，同比例）</text>
+<text x="675.0" y="397.0" font-size="12.5" text-anchor="middle" fill="#263238" font-weight="700">Vu＝223.13 tf　vs　φVc＝252.75 tf（λs＝1）</text>
+<text x="675.0" y="418.0" font-size="13" text-anchor="middle" fill="#2e7d32" font-weight="700">足夠</text>
+</svg>
+<div class="cap">圖 0　RC-2007-3（3 m×3 m 基腳、柱 45 cm、\(d=50\) cm）的兩種剪力破壞。左：單向剪力，臨界斷面距柱面 \(d\)、橫跨全寬，需求 64.07 tf 大於現行式強度 59.62 tf（不足）；右：穿孔剪力，臨界周長距柱面 \(d/2\)，需求 223.13 tf 小於 252.75 tf（足夠）。
+這張圖攔的錯：只檢核其中一種——同一個基腳，兩種破壞的結論可以相反。</div>
+</div>
+
+<div class="why"><b>為什麼穿孔剪力的強度比單向剪力高？</b>
+穿孔的破壞面是一圈封閉的錐面，周圍的混凝土互相圍束，斜裂縫面處在雙向受壓狀態；單向剪力的斜裂縫只靠梁式的骨材咬合與壓力區。
+所以同樣的 \(\sqrt{f'_c}\)，穿孔用 \(1.06\)（\(=0.33\times3.19\)），單向（舊式）只有 \(0.53\)（\(=0.17\times3.19\)）——差兩倍。
+但穿孔的周長小、需求大，兩者誰控制要看幾何。</div>
+</section>
+
+<section id="s1">
+<h2>§1 基腳的兩種土壓：一個驗土壤、一個驗混凝土</h2>
+
+<p class="lead">這一節在怕的是：<b>把基腳與覆土的自重加進強度設計的土壓，或在承載力檢核時忘了它們。</b>兩件事用的是兩種不同的土壓。</p>
+
+<div class="grid2">
+<div class="tens"><b>承載力檢核（服務載重）</b><br>
+$$q=\frac{P_D+P_L+W_f+W_s}{A}\le q_a$$
+驗的是土壤：土壤看到的是<b>全部重量</b>，包括基腳與上方覆土。
+考卷給的「土壤承載力」是容許<b>總</b>承載力，等價寫法是先扣掉 \(\gamma_ch_f+\gamma_sh_s\) 得淨承載力。</div>
+<div class="comp"><b>強度設計（因數化淨土壓）</b><br>
+$$q_u=\frac{P_u}{A}=\frac{1.2P_D+1.6P_L}{A}$$
+驗的是混凝土：基腳與覆土的自重是均勻向下、而土壓同樣均勻向上，<b>兩者直接抵銷，不產生彎矩與剪力</b>。
+所以只有柱載重造成的那一份會讓基腳彎曲、剪切。</div>
+</div>
+
+<div class="fig">
+<!--FIG:g1-->
+<svg viewBox="0 0 900 410" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC-2025-1 承載力土壓與因數化淨土壓">
+<line x1="450.0" y1="20.0" x2="450.0" y2="400.0" stroke="#cfd8dc" stroke-width="2" stroke-dasharray="6 5"/>
+<defs><marker id="g1-up" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse"><path d="M0,0 L9,4.5 L0,9 z" fill="#1565c0"/></marker><marker id="g1-dn" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse"><path d="M0,0 L9,4.5 L0,9 z" fill="#263238"/></marker></defs>
+<text x="225.0" y="34.0" font-size="14" text-anchor="middle" fill="#0d47a1" font-weight="700">承載力檢核：服務載重＋自重</text>
+<line x1="50.0" y1="120.0" x2="400.0" y2="120.0" stroke="#6d4c41" stroke-width="1.6"/>
+<text x="400.0" y="114.0" font-size="11" text-anchor="end" fill="#6d4c41">地表</text>
+<rect x="90.0" y="120.0" width="270.0" height="90.0" rx="0" fill="#efebe9" stroke="#a1887f" stroke-width="1" fill-opacity="0.9"/>
+<text x="96.0" y="140.0" font-size="11" text-anchor="start" fill="#6d4c41">覆土 0.9 m</text>
+<rect x="90.0" y="210.0" width="270.0" height="60.0" rx="0" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<rect x="207.0" y="80.0" width="36.0" height="130.0" rx="0" fill="#90a4ae" stroke="#263238" stroke-width="1.2"/>
+<line x1="225.0" y1="60.0" x2="225.0" y2="78.0" stroke="#263238" stroke-width="2" marker-end="url(#g1-dn)"/>
+<text x="233.0" y="72.0" font-size="12" text-anchor="start" fill="#263238" font-weight="700">PD＋PL＝155 tf</text>
+<text x="364.0" y="244.0" font-size="11" text-anchor="start" fill="#607d8b">60</text>
+<rect x="90.0" y="270.0" width="270.0" height="61.4" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.2" fill-opacity="0.9"/>
+<line x1="105.0" y1="329.4" x2="105.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="135.0" y1="329.4" x2="135.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="165.0" y1="329.4" x2="165.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="195.0" y1="329.4" x2="195.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="225.0" y1="329.4" x2="225.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="255.0" y1="329.4" x2="255.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="285.0" y1="329.4" x2="285.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="315.0" y1="329.4" x2="315.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="345.0" y1="329.4" x2="345.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<text x="225.0" y="349.4" font-size="12.5" text-anchor="middle" fill="#1565c0" font-weight="700">q＝(155＋12.96＋16.20)/9＝20.46 tf/m²</text>
+<text x="225.0" y="369.4" font-size="12.5" text-anchor="middle" fill="#2e7d32" font-weight="700">≤ qa＝25 tf/m²，合格（驗土壤）</text>
+<text x="675.0" y="34.0" font-size="14" text-anchor="middle" fill="#0d47a1" font-weight="700">強度設計：因數化淨土壓</text>
+<line x1="500.0" y1="120.0" x2="850.0" y2="120.0" stroke="#6d4c41" stroke-width="1.6"/>
+<text x="850.0" y="114.0" font-size="11" text-anchor="end" fill="#6d4c41">地表</text>
+<rect x="540.0" y="210.0" width="270.0" height="60.0" rx="0" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<rect x="657.0" y="80.0" width="36.0" height="130.0" rx="0" fill="#90a4ae" stroke="#263238" stroke-width="1.2"/>
+<line x1="675.0" y1="60.0" x2="675.0" y2="78.0" stroke="#263238" stroke-width="2" marker-end="url(#g1-dn)"/>
+<text x="683.0" y="72.0" font-size="12" text-anchor="start" fill="#263238" font-weight="700">Pu＝1.2PD＋1.6PL＝216 tf</text>
+<text x="814.0" y="244.0" font-size="11" text-anchor="start" fill="#607d8b">60</text>
+<rect x="540.0" y="270.0" width="270.0" height="72.0" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.2" fill-opacity="0.9"/>
+<line x1="555.0" y1="340.0" x2="555.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="585.0" y1="340.0" x2="585.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="615.0" y1="340.0" x2="615.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="645.0" y1="340.0" x2="645.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="675.0" y1="340.0" x2="675.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="705.0" y1="340.0" x2="705.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="735.0" y1="340.0" x2="735.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="765.0" y1="340.0" x2="765.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<line x1="795.0" y1="340.0" x2="795.0" y2="274.0" stroke="#1565c0" stroke-width="1.3" marker-end="url(#g1-up)"/>
+<text x="675.0" y="360.0" font-size="12.5" text-anchor="middle" fill="#1565c0" font-weight="700">qu＝216/9＝24.00 tf/m²</text>
+<text x="675.0" y="380.0" font-size="12.5" text-anchor="middle" fill="#c62828" font-weight="700">只用來算彎矩、剪力（驗混凝土）</text>
+<text x="675.0" y="244.0" font-size="11.5" text-anchor="middle" fill="#607d8b">基腳與覆土自重＝其土壓反力，互相抵銷</text>
+</svg>
+<div class="cap">圖 1　RC-2025-1（3 m×3 m、底面在地表下 1.5 m、假設基腳全厚 60 cm）的兩種土壓。左：服務載重 \(q=(155+12.96+16.20)/9=20.46\) tf/m²，與容許 25 tf/m² 比；右：因數化淨土壓 \(q_u=216/9=24.00\) tf/m²，只用來算彎矩與剪力。
+這張圖攔的錯：右圖的 24 大於左圖的 20.46 不是矛盾——一個乘了載重因數、一個含自重，本來就不能拿來互相比較，更不能把 \(q_u\) 拿去跟 \(q_a\) 比。</div>
+</div>
+
+<div class="trap"><b>陷阱：「地表下 1.5 m」指基腳頂面。</b>
+觸發信號：2007-3、2025-1「由一位於地表下 1.5 m 處之正方形獨立基腳支持」。錯誤思維：覆土 1.5 m。正確認知：指基腳<b>底面</b>，覆土厚＝1.5 m 減基腳全厚（考卷只給有效深度 50 cm，全厚要自己估，例如 60 cm）。</div>
+
+<p><b>因果鏈：</b>土壤承受全部重量 → 承載力用服務載重＋自重 → 自重與其土壓反力互相抵銷 → 強度設計只用 \(q_u=P_u/A\) → 兩者不可互相比較。</p>
+</section>
+
+<section id="s2">
+<h2>§2 三個臨界斷面：柱面、距柱面 d、距柱面 d/2</h2>
+
+<p class="lead">基腳的每一個檢核，都是「臨界斷面外側那塊面積上的土壓」對臨界斷面造成的效應。記住三個臨界斷面的位置，需求就是面積乘以 \(q_u\)。</p>
+
+<table>
+<thead><tr><th>檢核</th><th>臨界斷面</th><th>需求</th><th>為什麼在那裡</th></tr></thead>
+<tbody>
+<tr><td>彎矩</td><td>柱面</td><td>\(M_u=q_uB\,\dfrac{L^2}{2}\)，\(L=\dfrac{B-c}{2}\)</td><td>柱面以內被柱子撐住，懸臂從柱面開始</td></tr>
+<tr><td>單向剪力</td><td>距柱面 \(d\)</td><td>\(V_u=q_uB\Big(\dfrac{B-c}{2}-d\Big)\)</td><td>斜裂縫約 45°，從柱面算起 \(d\) 以內的載重直接以壓桿傳進柱子</td></tr>
+<tr><td>穿孔剪力</td><td>距柱面 \(d/2\) 的一圈</td><td>\(b_o=4(c+d)\)，\(V_u=P_u-q_u(c+d)^2\)</td><td>錐面在 \(d/2\) 處穿過斷面中高；周長內的土壓直接進柱，不經過破壞面</td></tr>
+</tbody>
+</table>
+
+<div class="fig">
+<!--FIG:g2-->
+<svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC-2007-3 三個臨界斷面">
+<defs><marker id="g2-ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse"><path d="M0,0 L9,4.5 L0,9 z" fill="#455a64"/></marker></defs>
+<rect x="30.0" y="50.0" width="240.0" height="240.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="1.5"/>
+<rect x="168.0" y="50.0" width="102.0" height="240.0" rx="0" fill="#e3f2fd" stroke="none" stroke-width="0" fill-opacity="0.95"/>
+<line x1="168.0" y1="46.0" x2="168.0" y2="294.0" stroke="#c62828" stroke-width="2.2"/>
+<line x1="168.0" y1="240.0" x2="270.0" y2="240.0" stroke="#455a64" stroke-width="1" marker-end="url(#g2-ar)" marker-start="url(#g2-ar)"/>
+<text x="219.0" y="234.0" font-size="11.5" text-anchor="middle" fill="#455a64" font-weight="700">L＝127.5</text>
+<rect x="132.0" y="152.0" width="36.0" height="36.0" rx="0" fill="#90a4ae" stroke="#263238" stroke-width="1.4"/>
+<text x="150.0" y="38.0" font-size="13" text-anchor="middle" fill="#263238" font-weight="700">彎矩：柱面</text>
+<text x="150.0" y="312.0" font-size="12" text-anchor="middle" fill="#0d47a1" font-weight="700">Mu＝qu·B·L²/2＝67.19 tf·m</text>
+<rect x="330.0" y="50.0" width="240.0" height="240.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="1.5"/>
+<rect x="508.0" y="50.0" width="62.0" height="240.0" rx="0" fill="#e3f2fd" stroke="none" stroke-width="0" fill-opacity="0.95"/>
+<line x1="508.0" y1="46.0" x2="508.0" y2="294.0" stroke="#c62828" stroke-width="2.2"/>
+<line x1="508.0" y1="240.0" x2="570.0" y2="240.0" stroke="#455a64" stroke-width="1" marker-end="url(#g2-ar)" marker-start="url(#g2-ar)"/>
+<text x="539.0" y="234.0" font-size="11.5" text-anchor="middle" fill="#455a64" font-weight="700">77.5</text>
+<rect x="432.0" y="152.0" width="36.0" height="36.0" rx="0" fill="#90a4ae" stroke="#263238" stroke-width="1.4"/>
+<text x="450.0" y="38.0" font-size="13" text-anchor="middle" fill="#263238" font-weight="700">單向剪力：距柱面 d</text>
+<text x="450.0" y="312.0" font-size="12" text-anchor="middle" fill="#0d47a1" font-weight="700">Vu＝qu·B·(L−d)＝64.07 tf</text>
+<rect x="630.0" y="50.0" width="240.0" height="240.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="1.5"/>
+<rect x="630.0" y="50.0" width="240.0" height="240.0" rx="0" fill="#e3f2fd" stroke="none" stroke-width="0" fill-opacity="0.95"/>
+<rect x="712.0" y="132.0" width="76.0" height="76.0" rx="0" fill="#fafafa" stroke="#c62828" stroke-width="2.2"/>
+<text x="750.0" y="222.0" font-size="11.5" text-anchor="middle" fill="#c62828" font-weight="700">95×95</text>
+<rect x="732.0" y="152.0" width="36.0" height="36.0" rx="0" fill="#90a4ae" stroke="#263238" stroke-width="1.4"/>
+<text x="750.0" y="38.0" font-size="13" text-anchor="middle" fill="#263238" font-weight="700">穿孔：距柱面 d/2</text>
+<text x="750.0" y="312.0" font-size="12" text-anchor="middle" fill="#0d47a1" font-weight="700">Vu＝Pu−qu(c+d)²＝223.13 tf</text>
+<text x="450.0" y="348.0" font-size="12" text-anchor="middle" fill="#455a64">qu＝27.56 tf/m²；藍色＝造成該需求的土壓面積；基腳 300×300、柱 45×45、d＝50 cm</text>
+</svg>
+<div class="cap">圖 2　RC-2007-3 的三個臨界斷面（平面，比例 1 cm＝0.8 px）。藍色陰影是「造成該需求的土壓面積」：彎矩 127.5 cm 寬的懸臂條、單向剪力 77.5 cm 寬的條帶、穿孔剪力為周長 95×95 cm 以外的全部面積。
+這張圖攔的錯：穿孔需求寫成 \(P_u\)——周長內那塊土壓直接進柱子，要扣掉 \(q_u(c+d)^2\)；懸臂長度量到柱中心而不是柱面。</div>
+</div>
+
+<div class="box">
+<b><a class="qlink" href="problems-view/RC-2007-3.html" target="_blank">RC-2007-3</a>（柱 45 cm、D100／L80 tf、\(f'_c=280\)、二向鋼筋各 50 cm²）：</b><br>
+\(P_u=1.2\times100+1.6\times80=248\) tf，\(q_u=27.56\) tf/m²。<br>
+彎矩：\(L=127.5\) cm，\(M_u=67.19\) tf·m；\(a=2.94\) cm，\(\phi M_n=91.72\) tf·m ✓；最少鋼筋 \(0.0018\times300\times60=32.4\le50\) ✓。<br>
+單向剪力：\(V_u=64.07\) tf；現行式 \(\phi V_c=59.62\) tf → <b>不足</b>（舊式 99.77 tf 會判為足夠，見 §3）。<br>
+穿孔剪力：\(b_o=380\) cm，\(V_u=223.13\) tf；\(\phi V_c=0.75\times1.06\sqrt{280}\times380\times50=252.75\) tf ✓（獨立基腳 \(\lambda_s=1\)）。
+</div>
+<p><a class="qlink" href="problems-view/RC-2025-1.html" target="_blank">RC-2025-1</a> 幾乎是同一題（柱改 40 cm、D80／L75 tf），只問彎矩與穿孔：\(M_u=60.84\le91.7\) ✓、\(V_u=196.56\le239.45\) tf ✓。若補問單向剪力，\(V_u=57.60\le59.62\) tf，勉強通過——下次再出，單向剪力很可能回來。</p>
+
+<div class="trap"><b>陷阱：鋼筋量 50 cm² 是每公尺。</b>
+觸發信號：「基腳內二向之鋼筋量均為 50 cm²」。錯誤思維：50 cm²/m。正確認知：每一方向全寬 3 m 合計；\(a\) 與 \(\rho_w\) 都用 \(b=B=300\) cm。</div>
+
+<p><b>因果鏈：</b>柱面以內被撐住 → 彎矩在柱面；45° 斜裂縫 → 單向剪力在 \(d\)；錐面穿過中高 → 穿孔在 \(d/2\) → 需求 = 臨界斷面外的土壓面積 × \(q_u\)。</p>
+</section>
+
+<section id="s3">
+<h2>§3 單向剪力：規範改了什麼，結論為什麼翻轉</h2>
+
+<p class="lead">這一節在怕的是：<b>照抄考卷印的舊式 \(V_c=0.53\sqrt{f'_c}b_wd\)。</b>現行規範對「沒有剪力筋（\(A_v\lt A_{v,\min}\)）」的構材改用含縱向鋼筋比的式子，基腳正是這一類。</p>
+
+$$V_c=2.12\,\lambda_s\,\lambda\,\rho_w^{1/3}\sqrt{f'_c}\,b_wd\qquad(\rho_w=A_s/b_wd，\text{基腳 }\lambda_s=1)$$
+
+<div class="why"><b>為什麼要乘 \(\rho_w^{1/3}\)？</b>
+混凝土的剪力強度靠三樣東西：壓力區、裂縫面的骨材咬合、縱向鋼筋的插銷作用。縱向鋼筋越少，彎曲裂縫越寬、越深，壓力區越小、裂縫面咬合越差。
+舊式 \(0.53\sqrt{f'_c}\) 是用鋼筋比較高的梁試驗迴歸的，用在鋼筋比很低的基腳與厚版上會高估。
+\(\rho_w^{1/3}\) 把這件事寫進式子：\(2.12\rho_w^{1/3}=0.53\) 時 \(\rho_w=0.0156\)——<b>只有鋼筋比超過約 1.6% 時，新式才不比舊式小</b>，而基腳的 \(\rho_w\) 通常只有 0.2%～0.4%。</div>
+
+<div class="fig">
+<!--FIG:g3-->
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="單向剪力強度係數與縱向鋼筋比">
+<defs></defs>
+<line x1="90.0" y1="330.0" x2="620.0" y2="330.0" stroke="#455a64" stroke-width="1.3"/>
+<line x1="90.0" y1="330.0" x2="90.0" y2="40.0" stroke="#455a64" stroke-width="1.3"/>
+<line x1="90.0" y1="330.0" x2="90.0" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="90.0" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">0</text>
+<line x1="156.2" y1="330.0" x2="156.2" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="156.2" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">0.25</text>
+<line x1="222.5" y1="330.0" x2="222.5" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="222.5" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">0.5</text>
+<line x1="288.8" y1="330.0" x2="288.8" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="288.8" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">0.75</text>
+<line x1="355.0" y1="330.0" x2="355.0" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="355.0" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">1</text>
+<line x1="421.2" y1="330.0" x2="421.2" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="421.2" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">1.25</text>
+<line x1="487.5" y1="330.0" x2="487.5" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="487.5" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">1.5</text>
+<line x1="553.8" y1="330.0" x2="553.8" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="553.8" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">1.75</text>
+<line x1="620.0" y1="330.0" x2="620.0" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="620.0" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">2</text>
+<line x1="85.0" y1="330.0" x2="90.0" y2="330.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="82.0" y="334.0" font-size="11" text-anchor="end" fill="#455a64">0.0</text>
+<line x1="85.0" y1="288.6" x2="90.0" y2="288.6" stroke="#455a64" stroke-width="1.4"/>
+<text x="82.0" y="292.6" font-size="11" text-anchor="end" fill="#455a64">0.1</text>
+<line x1="85.0" y1="247.1" x2="90.0" y2="247.1" stroke="#455a64" stroke-width="1.4"/>
+<text x="82.0" y="251.1" font-size="11" text-anchor="end" fill="#455a64">0.2</text>
+<line x1="85.0" y1="205.7" x2="90.0" y2="205.7" stroke="#455a64" stroke-width="1.4"/>
+<text x="82.0" y="209.7" font-size="11" text-anchor="end" fill="#455a64">0.3</text>
+<line x1="85.0" y1="164.3" x2="90.0" y2="164.3" stroke="#455a64" stroke-width="1.4"/>
+<text x="82.0" y="168.3" font-size="11" text-anchor="end" fill="#455a64">0.4</text>
+<line x1="85.0" y1="122.9" x2="90.0" y2="122.9" stroke="#455a64" stroke-width="1.4"/>
+<text x="82.0" y="126.9" font-size="11" text-anchor="end" fill="#455a64">0.5</text>
+<line x1="85.0" y1="81.4" x2="90.0" y2="81.4" stroke="#455a64" stroke-width="1.4"/>
+<text x="82.0" y="85.4" font-size="11" text-anchor="end" fill="#455a64">0.6</text>
+<line x1="85.0" y1="40.0" x2="90.0" y2="40.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="82.0" y="44.0" font-size="11" text-anchor="end" fill="#455a64">0.7</text>
+<text x="355.0" y="368.0" font-size="12.5" text-anchor="middle" fill="#263238">縱向鋼筋比 ρw（%）</text>
+<text x="40.0" y="175.0" font-size="13" text-anchor="middle" fill="#263238" font-weight="700">vc</text>
+<text x="40.0" y="193.0" font-size="10.5" text-anchor="middle" fill="#607d8b">＝Vc/(√f'c·bw·d)</text>
+<line x1="90.0" y1="110.4" x2="620.0" y2="110.4" stroke="#546e7a" stroke-width="2.2" stroke-dasharray="8 4"/>
+<polyline points="92.7,289.2 95.3,278.6 98.0,271.2 100.6,265.3 103.2,260.3 105.9,255.9 108.5,252.0 111.2,248.5 113.8,245.2 116.5,242.2 119.2,239.3 121.8,236.7 124.5,234.1 127.1,231.7 129.8,229.5 132.4,227.3 135.1,225.2 137.7,223.2 140.3,221.2 143.0,219.3 145.7,217.5 148.3,215.8 150.9,214.1 153.6,212.4 156.2,210.8 158.9,209.2 161.6,207.7 164.2,206.2 166.8,204.8 169.5,203.3 172.2,201.9 174.8,200.6 177.4,199.2 180.1,197.9 182.8,196.7 185.4,195.4 188.1,194.2 190.7,192.9 193.4,191.8 196.0,190.6 198.6,189.4 201.3,188.3 203.9,187.2 206.6,186.1 209.2,185.0 211.9,183.9 214.6,182.9 217.2,181.8 219.8,180.8 222.5,179.8 225.2,178.8 227.8,177.8 230.5,176.9 233.1,175.9 235.8,175.0 238.4,174.0 241.0,173.1 243.7,172.2 246.3,171.3 249.0,170.4 251.7,169.5 254.3,168.7 256.9,167.8 259.6,166.9 262.2,166.1 264.9,165.3 267.6,164.4 270.2,163.6 272.9,162.8 275.5,162.0 278.1,161.2 280.8,160.4 283.4,159.6 286.1,158.8 288.8,158.1 291.4,157.3 294.1,156.6 296.7,155.8 299.4,155.1 302.0,154.3 304.6,153.6 307.3,152.9 309.9,152.2 312.6,151.5 315.2,150.8 317.9,150.1 320.6,149.4 323.2,148.7 325.9,148.0 328.5,147.3 331.1,146.6 333.8,146.0 336.5,145.3 339.1,144.6 341.8,144.0 344.4,143.3 347.1,142.7 349.7,142.0 352.4,141.4 355.0,140.8 357.6,140.2 360.3,139.5 362.9,138.9 365.6,138.3 368.2,137.7 370.9,137.1 373.6,136.5 376.2,135.9 378.9,135.3 381.5,134.7 384.2,134.1 386.8,133.5 389.4,132.9 392.1,132.3 394.8,131.8 397.4,131.2 400.0,130.6 402.7,130.0 405.3,129.5 408.0,128.9 410.6,128.4 413.3,127.8 415.9,127.3 418.6,126.7 421.2,126.2 423.9,125.6 426.6,125.1 429.2,124.6 431.9,124.0 434.5,123.5 437.2,123.0 439.8,122.4 442.5,121.9 445.1,121.4 447.8,120.9 450.4,120.4 453.1,119.8 455.7,119.3 458.3,118.8 461.0,118.3 463.6,117.8 466.3,117.3 468.9,116.8 471.6,116.3 474.2,115.8 476.9,115.3 479.6,114.8 482.2,114.4 484.9,113.9 487.5,113.4 490.1,112.9 492.8,112.4 495.4,112.0 498.1,111.5 500.8,111.0 503.4,110.5 506.1,110.1 508.7,109.6 511.4,109.1 514.0,108.7 516.7,108.2 519.3,107.8 522.0,107.3 524.6,106.9 527.2,106.4 529.9,106.0 532.5,105.5 535.2,105.1 537.8,104.6 540.5,104.2 543.1,103.7 545.8,103.3 548.5,102.8 551.1,102.4 553.8,102.0 556.4,101.5 559.0,101.1 561.7,100.7 564.4,100.3 567.0,99.8 569.7,99.4 572.3,99.0 575.0,98.6 577.6,98.1 580.2,97.7 582.9,97.3 585.5,96.9 588.2,96.5 590.8,96.0 593.5,95.6 596.1,95.2 598.8,94.8 601.5,94.4 604.1,94.0 606.8,93.6 609.4,93.2 612.0,92.8 614.7,92.4 617.4,92.0 620.0,91.6" fill="none" stroke="#1565c0" stroke-width="2.6"/>
+<circle cx="504.1" cy="110.4" r="4" fill="#263238" stroke="none" stroke-width="1.4"/>
+<text x="504.1" y="100.4" font-size="11.5" text-anchor="middle" fill="#263238">交點 ρw＝1.56%</text>
+<line x1="178.3" y1="198.8" x2="178.3" y2="110.4" stroke="#c62828" stroke-width="1" stroke-dasharray="3 3"/>
+<circle cx="178.3" cy="198.8" r="4.5" fill="#c62828" stroke="none" stroke-width="1.4"/>
+<polyline points="173.3,184.0 183.3,194.0" fill="none" stroke="#c62828" stroke-width="2.2"/>
+<polyline points="173.3,194.0 183.3,184.0" fill="none" stroke="#c62828" stroke-width="2.2"/>
+<line x1="184.3" y1="189.0" x2="250.3" y2="147.9" stroke="#c62828" stroke-width="0.9" stroke-dasharray="2 2"/>
+<text x="254.3" y="151.9" font-size="12" text-anchor="start" fill="#c62828" font-weight="700">2007-3（ρw＝0.33%）</text>
+<text x="254.3" y="168.9" font-size="11.5" text-anchor="start" fill="#c62828">需求 0.340 ＞ 強度 0.317（舊式 0.53）</text>
+<line x1="152.4" y1="213.2" x2="152.4" y2="110.4" stroke="#ef6c00" stroke-width="1" stroke-dasharray="3 3"/>
+<circle cx="152.4" cy="213.2" r="4.5" fill="#ef6c00" stroke="none" stroke-width="1.4"/>
+<polyline points="147.4,175.6 157.4,185.6" fill="none" stroke="#ef6c00" stroke-width="2.2"/>
+<polyline points="147.4,185.6 157.4,175.6" fill="none" stroke="#ef6c00" stroke-width="2.2"/>
+<line x1="158.4" y1="180.6" x2="250.3" y2="255.6" stroke="#ef6c00" stroke-width="0.9" stroke-dasharray="2 2"/>
+<text x="254.3" y="259.6" font-size="12" text-anchor="start" fill="#ef6c00" font-weight="700">2017-3（ρw＝0.24%）</text>
+<text x="254.3" y="276.6" font-size="11.5" text-anchor="start" fill="#ef6c00">需求 0.361 ＞ 強度 0.282（舊式 0.53）</text>
+<line x1="650.0" y1="70.0" x2="680.0" y2="70.0" stroke="#546e7a" stroke-width="2.2" stroke-dasharray="8 4"/>
+<text x="686.0" y="74.0" font-size="12.5" text-anchor="start" fill="#546e7a" font-weight="700">舊式 0.53</text>
+<line x1="650.0" y1="96.0" x2="680.0" y2="96.0" stroke="#1565c0" stroke-width="2.6"/>
+<text x="686.0" y="100.0" font-size="12.5" text-anchor="start" fill="#1565c0" font-weight="700">現行 2.12·ρw^(1/3)</text>
+<circle cx="665.0" cy="126.0" r="4.5" fill="#263238" stroke="none" stroke-width="1.4"/>
+<text x="686.0" y="130.0" font-size="12" text-anchor="start" fill="#263238">強度（現行式）</text>
+<polyline points="660.0,147.0 670.0,157.0" fill="none" stroke="#263238" stroke-width="2"/>
+<polyline points="660.0,157.0 670.0,147.0" fill="none" stroke="#263238" stroke-width="2"/>
+<text x="686.0" y="157.0" font-size="12" text-anchor="start" fill="#263238">需求 Vu/(φ√f'c·bw·d)</text>
+<text x="650.0" y="200.0" font-size="12.5" text-anchor="start" fill="#263238" font-weight="700">兩題需求都在兩線之間：</text>
+<text x="650.0" y="222.0" font-size="12.5" text-anchor="start" fill="#546e7a">舊式判「足夠」</text>
+<text x="650.0" y="244.0" font-size="12.5" text-anchor="start" fill="#c62828" font-weight="700">現行式判「不足」</text>
+<text x="650.0" y="280.0" font-size="12" text-anchor="start" fill="#607d8b">基腳 λs＝1、λ＝1</text>
+</svg>
+<div class="cap">圖 3　單向剪力強度係數 \(v_c=V_c/(\sqrt{f'_c}b_wd)\) 與 \(\rho_w\) 的關係。灰線為舊式 0.53（與 \(\rho_w\) 無關），藍線為現行式 \(2.12\rho_w^{1/3}\)，兩線在 \(\rho_w=1.56\%\) 相交。圓點是兩題基腳的強度、叉號是需求 \(V_u/(\phi\sqrt{f'_c}b_wd)\)：2007-3（\(\rho_w=0.33\%\)）、2017-3（\(\rho_w=0.24\%\)）的需求都落在新舊兩線之間——舊式判「足夠」、現行式判「不足」。
+這張圖攔的錯：以為規範改版只是係數微調——對低鋼筋比的基腳，強度砍掉四到五成。</div>
+</div>
+
+<div class="box">
+<b>兩題的翻轉</b><br>
+<a class="qlink" href="problems-view/RC-2007-3.html" target="_blank">RC-2007-3</a>：\(V_u=64.07\) tf；舊式 99.77 ✓、現行式 59.62 ✗。補強：\(\rho_w\ge0.00414\)（每向約 62 cm²，例如 13-D25）或加厚。<br>
+<a class="qlink" href="problems-view/RC-2017-3.html" target="_blank">RC-2017-3</a>：\(V_u=109.69\) tf；舊式 161.2 ✓、現行式 85.77 ✗。2017 年卷首「可能使用之公式」印的正是舊式——<b>給了舊版、要自己換</b>。
+</div>
+
+<div class="trap"><b>陷阱：考卷印了公式就照用。</b>
+觸發信號：2017 年卷首 \(V_c=0.53\sqrt{f'_c}b_wd\)。錯誤思維：考卷給的一定對。正確認知：依本庫規範版本規則，題目印出的規範公式一律換成現行版，§5 附舊式對照值即可。</div>
+
+<p><b>因果鏈：</b>縱向鋼筋少 → 裂縫寬、壓力區小、咬合差 → 剪力強度隨 \(\rho_w^{1/3}\) 下降 → 基腳 \(\rho_w\) 很低 → 現行式比舊式小四到五成 → 舊題結論翻轉。</p>
+</section>
+
+<section id="s4">
+<h2>§4 穿孔剪力：三式取小、\(\alpha_s\)、尺寸效應 \(\lambda_s\)</h2>
+
+<p class="lead">穿孔三式只在「題目本身就在考穿孔」時印出（2020-3、2021-3）；三題獨立基腳都要檢核穿孔，卻一次也沒印。三式每一條都在防一件事，記住防什麼就能重建。</p>
+
+$$V_c=\lambda_s\sqrt{f'_c}\,b_od\cdot\min\Big\{\underbrace{1.06}_{\text{一般上限}},\ \underbrace{0.53\Big(1+\frac{2}{\beta}\Big)}_{\text{長柱（}\beta\text{ 大）}},\ \underbrace{0.265\Big(2+\frac{\alpha_sd}{b_o}\Big)}_{\text{周長很大（}b_o/d\text{ 大）}}\Big\}$$
+
+<ul>
+<li><b>1.06</b>：一般情況的上限（SI 的 \(0.33\sqrt{f'_c}\)）。</li>
+<li><b>\(0.53(1+2/\beta)\)</b>：柱很扁（\(\beta\)＝長邊／短邊大）時，剪應力集中在短邊附近，長邊中段的周長有效性降低。\(\beta=1\) 時是 1.59，不控制；\(\beta\gt2\) 才開始比 1.06 小。</li>
+<li><b>\(0.265(2+\alpha_sd/b_o)\)</b>：周長相對於版厚很大時（大柱、厚度小），周長上的剪應力不再均勻。\(\alpha_s\) 是「臨界周長有幾面」：內柱 40、邊柱 30、角柱 20。</li>
+</ul>
+
+<div class="fig">
+<!--FIG:g4-->
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="穿孔三式係數與尺寸效應">
+<defs></defs>
+<line x1="470.0" y1="20.0" x2="470.0" y2="370.0" stroke="#cfd8dc" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="30.0" y="36.0" font-size="13.5" text-anchor="start" fill="#263238" font-weight="700">(a) 方柱 β＝1 的係數 κ 與 bo/d</text>
+<line x1="70.0" y1="320.0" x2="440.0" y2="320.0" stroke="#455a64" stroke-width="1.3"/>
+<line x1="70.0" y1="320.0" x2="70.0" y2="60.0" stroke="#455a64" stroke-width="1.3"/>
+<line x1="70.0" y1="320.0" x2="70.0" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="70.0" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">0</text>
+<line x1="131.7" y1="320.0" x2="131.7" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="131.7" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">5</text>
+<line x1="193.3" y1="320.0" x2="193.3" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="193.3" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">10</text>
+<line x1="255.0" y1="320.0" x2="255.0" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="255.0" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">15</text>
+<line x1="316.7" y1="320.0" x2="316.7" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="316.7" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">20</text>
+<line x1="378.3" y1="320.0" x2="378.3" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="378.3" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">25</text>
+<line x1="440.0" y1="320.0" x2="440.0" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="440.0" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">30</text>
+<line x1="65.0" y1="320.0" x2="70.0" y2="320.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="62.0" y="324.0" font-size="11" text-anchor="end" fill="#455a64">0.6</text>
+<line x1="65.0" y1="276.7" x2="70.0" y2="276.7" stroke="#455a64" stroke-width="1.4"/>
+<text x="62.0" y="280.7" font-size="11" text-anchor="end" fill="#455a64">0.8</text>
+<line x1="65.0" y1="233.3" x2="70.0" y2="233.3" stroke="#455a64" stroke-width="1.4"/>
+<text x="62.0" y="237.3" font-size="11" text-anchor="end" fill="#455a64">1.0</text>
+<line x1="65.0" y1="190.0" x2="70.0" y2="190.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="62.0" y="194.0" font-size="11" text-anchor="end" fill="#455a64">1.2</text>
+<line x1="65.0" y1="146.7" x2="70.0" y2="146.7" stroke="#455a64" stroke-width="1.4"/>
+<text x="62.0" y="150.7" font-size="11" text-anchor="end" fill="#455a64">1.4</text>
+<line x1="65.0" y1="103.3" x2="70.0" y2="103.3" stroke="#455a64" stroke-width="1.4"/>
+<text x="62.0" y="107.3" font-size="11" text-anchor="end" fill="#455a64">1.6</text>
+<line x1="65.0" y1="60.0" x2="70.0" y2="60.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="62.0" y="64.0" font-size="11" text-anchor="end" fill="#455a64">1.8</text>
+<text x="255.0" y="358.0" font-size="12.5" text-anchor="middle" fill="#263238">bo/d</text>
+<line x1="70.0" y1="105.5" x2="440.0" y2="105.5" stroke="#546e7a" stroke-width="1.6" stroke-dasharray="6 4"/>
+<text x="316.7" y="120.5" font-size="11" text-anchor="start" fill="#546e7a">0.53(1+2/β)＝1.59</text>
+<line x1="70.0" y1="220.3" x2="440.0" y2="220.3" stroke="#263238" stroke-width="2"/>
+<text x="440.0" y="214.3" font-size="11.5" text-anchor="end" fill="#263238" font-weight="700">1.06</text>
+<polyline points="174.1,63.0 175.8,67.5 177.5,71.8 179.3,75.9 181.0,80.0 182.7,83.9 184.5,87.7 186.2,91.4 187.9,94.9 189.6,98.4 191.4,101.8 193.1,105.0 194.8,108.2 196.5,111.3 198.3,114.3 200.0,117.3 201.7,120.1 203.4,122.9 205.2,125.6 206.9,128.3 208.6,130.8 210.4,133.4 212.1,135.8 213.8,138.2 215.5,140.5 217.3,142.8 219.0,145.0 220.7,147.2 222.4,149.4 224.2,151.4 225.9,153.5 227.6,155.5 229.3,157.4 231.1,159.3 232.8,161.2 234.5,163.0 236.3,164.8 238.0,166.5 239.7,168.3 241.4,169.9 243.2,171.6 244.9,173.2 246.6,174.8 248.3,176.3 250.1,177.9 251.8,179.4 253.5,180.8 255.2,182.3 257.0,183.7 258.7,185.1 260.4,186.4 262.2,187.8 263.9,189.1 265.6,190.4 267.3,191.6 269.1,192.9 270.8,194.1 272.5,195.3 274.2,196.5 276.0,197.6 277.7,198.8 279.4,199.9 281.1,201.0 282.9,202.1 284.6,203.2 286.3,204.2 288.1,205.3 289.8,206.3 291.5,207.3 293.2,208.3 295.0,209.3 296.7,210.2 298.4,211.2 300.1,212.1 301.9,213.0 303.6,213.9 305.3,214.8 307.0,215.7 308.8,216.5 310.5,217.4 312.2,218.2 314.0,219.1 315.7,219.9 317.4,220.7 319.1,221.5 320.9,222.3 322.6,223.0 324.3,223.8 326.0,224.5 327.8,225.3 329.5,226.0 331.2,226.7 332.9,227.4 334.7,228.1 336.4,228.8 338.1,229.5 339.9,230.2 341.6,230.9 343.3,231.5 345.0,232.2 346.8,232.8 348.5,233.5 350.2,234.1 351.9,234.7 353.7,235.3 355.4,235.9 357.1,236.5 358.8,237.1 360.6,237.7 362.3,238.3 364.0,238.8 365.8,239.4 367.5,239.9 369.2,240.5 370.9,241.0 372.7,241.6 374.4,242.1 376.1,242.6 377.8,243.2 379.6,243.7 381.3,244.2 383.0,244.7 384.7,245.2 386.5,245.7 388.2,246.1 389.9,246.6 391.7,247.1 393.4,247.6 395.1,248.0 396.8,248.5 398.6,249.0 400.3,249.4 402.0,249.9 403.7,250.3 405.5,250.7 407.2,251.2 408.9,251.6 410.6,252.0 412.4,252.4 414.1,252.8 415.8,253.3 417.6,253.7 419.3,254.1 421.0,254.5 422.7,254.9 424.5,255.3 426.2,255.6 427.9,256.0 429.6,256.4 431.4,256.8 433.1,257.2 434.8,257.5 436.5,257.9 438.3,258.3 440.0,258.6" fill="none" stroke="#1565c0" stroke-width="2.2"/>
+<circle cx="316.7" cy="220.3" r="3.5" fill="#1565c0" stroke="none" stroke-width="1.4"/>
+<text x="316.7" y="236.3" font-size="11" text-anchor="middle" fill="#1565c0" font-weight="700">αs＝40：20</text>
+<polyline points="122.3,64.3 124.0,73.0 125.7,81.1 127.5,88.7 129.2,95.9 130.9,102.7 132.7,109.1 134.4,115.2 136.1,120.9 137.8,126.4 139.6,131.6 141.3,136.5 143.0,141.2 144.7,145.7 146.5,150.0 148.2,154.0 149.9,158.0 151.6,161.7 153.4,165.3 155.1,168.7 156.8,172.1 158.6,175.2 160.3,178.3 162.0,181.2 163.7,184.1 165.5,186.8 167.2,189.4 168.9,192.0 170.6,194.4 172.4,196.8 174.1,199.1 175.8,201.3 177.5,203.5 179.3,205.6 181.0,207.6 182.7,209.5 184.5,211.4 186.2,213.3 187.9,215.0 189.6,216.8 191.4,218.5 193.1,220.1 194.8,221.7 196.5,223.2 198.3,224.8 200.0,226.2 201.7,227.6 203.4,229.0 205.2,230.4 206.9,231.7 208.6,233.0 210.4,234.3 212.1,235.5 213.8,236.7 215.5,237.9 217.3,239.0 219.0,240.1 220.7,241.2 222.4,242.3 224.2,243.3 225.9,244.3 227.6,245.3 229.3,246.3 231.1,247.2 232.8,248.2 234.5,249.1 236.3,250.0 238.0,250.9 239.7,251.7 241.4,252.6 243.2,253.4 244.9,254.2 246.6,255.0 248.3,255.8 250.1,256.5 251.8,257.3 253.5,258.0 255.2,258.7 257.0,259.4 258.7,260.1 260.4,260.8 262.2,261.5 263.9,262.1 265.6,262.8 267.3,263.4 269.1,264.0 270.8,264.6 272.5,265.2 274.2,265.8 276.0,266.4 277.7,267.0 279.4,267.5 281.1,268.1 282.9,268.6 284.6,269.2 286.3,269.7 288.1,270.2 289.8,270.7 291.5,271.2 293.2,271.7 295.0,272.2 296.7,272.7 298.4,273.2 300.1,273.6 301.9,274.1 303.6,274.5 305.3,275.0 307.0,275.4 308.8,275.9 310.5,276.3 312.2,276.7 314.0,277.1 315.7,277.5 317.4,277.9 319.1,278.3 320.9,278.7 322.6,279.1 324.3,279.5 326.0,279.9 327.8,280.2 329.5,280.6 331.2,280.9 332.9,281.3 334.7,281.7 336.4,282.0 338.1,282.3 339.9,282.7 341.6,283.0 343.3,283.3 345.0,283.7 346.8,284.0 348.5,284.3 350.2,284.6 351.9,284.9 353.7,285.2 355.4,285.5 357.1,285.8 358.8,286.1 360.6,286.4 362.3,286.7 364.0,287.0 365.8,287.3 367.5,287.6 369.2,287.8 370.9,288.1 372.7,288.4 374.4,288.6 376.1,288.9 377.8,289.2 379.6,289.4 381.3,289.7 383.0,289.9 384.7,290.2 386.5,290.4 388.2,290.7 389.9,290.9 391.7,291.1 393.4,291.4 395.1,291.6 396.8,291.8 398.6,292.1 400.3,292.3 402.0,292.5 403.7,292.7 405.5,292.9 407.2,293.2 408.9,293.4 410.6,293.6 412.4,293.8 414.1,294.0 415.8,294.2 417.6,294.4 419.3,294.6 421.0,294.8 422.7,295.0 424.5,295.2 426.2,295.4 427.9,295.6 429.6,295.8 431.4,296.0 433.1,296.2 434.8,296.3 436.5,296.5 438.3,296.7 440.0,296.9" fill="none" stroke="#6a1b9a" stroke-width="2.2"/>
+<circle cx="193.3" cy="220.3" r="3.5" fill="#6a1b9a" stroke="none" stroke-width="1.4"/>
+<text x="193.3" y="236.3" font-size="11" text-anchor="middle" fill="#6a1b9a" font-weight="700">αs＝20：10</text>
+<circle cx="163.7" cy="220.3" r="4" fill="#c62828" stroke="none" stroke-width="1.4"/>
+<circle cx="151.1" cy="220.3" r="4" fill="#c62828" stroke="none" stroke-width="1.4"/>
+<circle cx="260.3" cy="220.3" r="4" fill="#c62828" stroke="none" stroke-width="1.4"/>
+<circle cx="174.1" cy="220.3" r="4" fill="#c62828" stroke="none" stroke-width="1.4"/>
+<circle cx="108.1" cy="220.3" r="4" fill="#c62828" stroke="none" stroke-width="1.4"/>
+<circle cx="158.8" cy="220.3" r="4" fill="#c62828" stroke="none" stroke-width="1.4"/>
+<text x="220.0" y="64.0" font-size="11" text-anchor="start" fill="#c62828" font-weight="700">紅點：本單元檢核點，全落在 1.06</text>
+<text x="220.0" y="80.0" font-size="10.5" text-anchor="start" fill="#c62828">bo/d：21角樁 3.1、17 6.6、25 7.2</text>
+<text x="220.0" y="95.0" font-size="10.5" text-anchor="start" fill="#c62828">07 7.6、21柱 8.4、20 15.4</text>
+<text x="500.0" y="36.0" font-size="13.5" text-anchor="start" fill="#263238" font-weight="700">(b) 尺寸效應 λs＝√(2/(1+0.04d))，d 以 cm 計</text>
+<line x1="530.0" y1="320.0" x2="870.0" y2="320.0" stroke="#455a64" stroke-width="1.3"/>
+<line x1="530.0" y1="320.0" x2="530.0" y2="60.0" stroke="#455a64" stroke-width="1.3"/>
+<line x1="530.0" y1="320.0" x2="530.0" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="530.0" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">0</text>
+<line x1="598.0" y1="320.0" x2="598.0" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="598.0" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">20</text>
+<line x1="666.0" y1="320.0" x2="666.0" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="666.0" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">40</text>
+<line x1="734.0" y1="320.0" x2="734.0" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="734.0" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">60</text>
+<line x1="802.0" y1="320.0" x2="802.0" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="802.0" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">80</text>
+<line x1="870.0" y1="320.0" x2="870.0" y2="325.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="870.0" y="339.0" font-size="11" text-anchor="middle" fill="#455a64">100</text>
+<line x1="525.0" y1="320.0" x2="530.0" y2="320.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="522.0" y="324.0" font-size="11" text-anchor="end" fill="#455a64">0.5</text>
+<line x1="525.0" y1="272.7" x2="530.0" y2="272.7" stroke="#455a64" stroke-width="1.4"/>
+<text x="522.0" y="276.7" font-size="11" text-anchor="end" fill="#455a64">0.6</text>
+<line x1="525.0" y1="225.5" x2="530.0" y2="225.5" stroke="#455a64" stroke-width="1.4"/>
+<text x="522.0" y="229.5" font-size="11" text-anchor="end" fill="#455a64">0.7</text>
+<line x1="525.0" y1="178.2" x2="530.0" y2="178.2" stroke="#455a64" stroke-width="1.4"/>
+<text x="522.0" y="182.2" font-size="11" text-anchor="end" fill="#455a64">0.8</text>
+<line x1="525.0" y1="130.9" x2="530.0" y2="130.9" stroke="#455a64" stroke-width="1.4"/>
+<text x="522.0" y="134.9" font-size="11" text-anchor="end" fill="#455a64">0.9</text>
+<line x1="525.0" y1="83.6" x2="530.0" y2="83.6" stroke="#455a64" stroke-width="1.4"/>
+<text x="522.0" y="87.6" font-size="11" text-anchor="end" fill="#455a64">1.0</text>
+<text x="700.0" y="358.0" font-size="12.5" text-anchor="middle" fill="#263238">有效深度 d（cm）</text>
+<rect x="530.0" y="79.6" width="340.0" height="8.0" rx="0" fill="#c8e6c9" stroke="none" stroke-width="0" fill-opacity="0.9"/>
+<text x="866.0" y="75.6" font-size="11" text-anchor="end" fill="#2e7d32" font-weight="700">獨立基腳可取 1（13.2.6.2）</text>
+<polyline points="530.0,83.6 531.7,83.6 533.4,83.6 535.1,83.6 536.8,83.6 538.5,83.6 540.2,83.6 541.9,83.6 543.6,83.6 545.3,83.6 547.0,83.6 548.7,83.6 550.4,83.6 552.1,83.6 553.8,83.6 555.5,83.6 557.2,83.6 558.9,83.6 560.6,83.6 562.3,83.6 564.0,83.6 565.7,83.6 567.4,83.6 569.1,83.6 570.8,83.6 572.5,83.6 574.2,83.6 575.9,83.6 577.6,83.6 579.3,83.6 581.0,83.6 582.7,83.6 584.4,83.6 586.1,83.6 587.8,83.6 589.5,83.6 591.2,83.6 592.9,83.6 594.6,83.6 596.3,83.6 598.0,83.6 599.7,83.6 601.4,83.6 603.1,83.6 604.8,83.6 606.5,83.6 608.2,83.6 609.9,83.6 611.6,83.6 613.3,83.6 615.0,83.6 616.7,86.0 618.4,88.3 620.1,90.6 621.8,92.8 623.5,95.0 625.2,97.2 626.9,99.4 628.6,101.5 630.3,103.6 632.0,105.6 633.7,107.7 635.4,109.7 637.1,111.7 638.8,113.6 640.5,115.5 642.2,117.4 643.9,119.3 645.6,121.2 647.3,123.0 649.0,124.8 650.7,126.6 652.4,128.4 654.1,130.1 655.8,131.8 657.5,133.5 659.2,135.2 660.9,136.9 662.6,138.5 664.3,140.2 666.0,141.8 667.7,143.3 669.4,144.9 671.1,146.5 672.8,148.0 674.5,149.5 676.2,151.0 677.9,152.5 679.6,154.0 681.3,155.4 683.0,156.8 684.7,158.3 686.4,159.7 688.1,161.0 689.8,162.4 691.5,163.8 693.2,165.1 694.9,166.5 696.6,167.8 698.3,169.1 700.0,170.4 701.7,171.7 703.4,172.9 705.1,174.2 706.8,175.4 708.5,176.7 710.2,177.9 711.9,179.1 713.6,180.3 715.3,181.5 717.0,182.6 718.7,183.8 720.4,185.0 722.1,186.1 723.8,187.2 725.5,188.3 727.2,189.5 728.9,190.6 730.6,191.6 732.3,192.7 734.0,193.8 735.7,194.9 737.4,195.9 739.1,197.0 740.8,198.0 742.5,199.0 744.2,200.0 745.9,201.0 747.6,202.0 749.3,203.0 751.0,204.0 752.7,205.0 754.4,206.0 756.1,206.9 757.8,207.9 759.5,208.8 761.2,209.7 762.9,210.7 764.6,211.6 766.3,212.5 768.0,213.4 769.7,214.3 771.4,215.2 773.1,216.1 774.8,217.0 776.5,217.8 778.2,218.7 779.9,219.6 781.6,220.4 783.3,221.3 785.0,222.1 786.7,222.9 788.4,223.8 790.1,224.6 791.8,225.4 793.5,226.2 795.2,227.0 796.9,227.8 798.6,228.6 800.3,229.4 802.0,230.2 803.7,230.9 805.4,231.7 807.1,232.5 808.8,233.2 810.5,234.0 812.2,234.7 813.9,235.5 815.6,236.2 817.3,236.9 819.0,237.7 820.7,238.4 822.4,239.1 824.1,239.8 825.8,240.5 827.5,241.2 829.2,241.9 830.9,242.6 832.6,243.3 834.3,244.0 836.0,244.7 837.7,245.3 839.4,246.0 841.1,246.7 842.8,247.3 844.5,248.0 846.2,248.6 847.9,249.3 849.6,249.9 851.3,250.6 853.0,251.2 854.7,251.9 856.4,252.5 858.1,253.1 859.8,253.7 861.5,254.3 863.2,255.0 864.9,255.6 866.6,256.2 868.3,256.8 870.0,257.4" fill="none" stroke="#1565c0" stroke-width="2.4"/>
+<circle cx="649.0" cy="124.8" r="4" fill="#c62828" stroke="none" stroke-width="1.4"/>
+<text x="657.0" y="140.8" font-size="11" text-anchor="start" fill="#c62828" font-weight="700">2020-3 樓版 0.913</text>
+<circle cx="683.0" cy="156.8" r="4" fill="#c62828" stroke="none" stroke-width="1.4"/>
+<text x="691.0" y="172.8" font-size="11" text-anchor="start" fill="#c62828" font-weight="700">2021-3 樁帽 0.845</text>
+<circle cx="700.0" cy="170.4" r="4" fill="#c62828" stroke="none" stroke-width="1.4"/>
+<text x="708.0" y="200.4" font-size="11" text-anchor="start" fill="#c62828" font-weight="700">2007/2025 基腳 0.816</text>
+<text x="615.0" y="105.6" font-size="11" text-anchor="middle" fill="#607d8b">d ≤ 25：λs＝1</text>
+</svg>
+<div class="cap">圖 4　(a) 方柱（\(\beta=1\)）的三式係數隨 \(b_o/d\) 變化：\(\alpha_s=40\) 時 \(b_o/d\gt20\) 才由第三式控制，\(\alpha_s=20\) 時門檻降到 10。本單元五個檢核點（2007-3、2017-3、2020-3、2021-3 柱周與角隅樁、2025-1）全部落在 1.06 控制區。(b) 尺寸效應 \(\lambda_s=\sqrt{2/(1+0.04d)}\)（\(d\) 以 cm 計），\(d=25\) cm 以下為 1；獨立基腳可依 13.2.6.2 取 1，樓版與樁帽要乘。
+這張圖攔的錯：背了三式卻不知道誰控制；或把基腳的 \(\lambda_s=1\) 放寬套到樁帽、樓版。</div>
+</div>
+
+<div class="why"><b>尺寸效應：構件越厚，名義剪應力越低</b>
+混凝土的剪力破壞是脆性斷裂，斷裂力學的結論是：構件尺寸越大，破壞時的名義應力越低（裂縫寬度隨尺寸放大，咬合力下降）。
+舊規範的係數來自厚度較小的試驗，用在厚版會高估。現行規範乘上 \(\lambda_s\)：\(d=35\) cm 時 0.913、45 cm 時 0.845、50 cm 時 0.816。
+基腳與筏基可以忽略，是規範 13.2.6.2 的明文放寬（淺基礎由土壤支承，規範解說引用的試驗未顯示明顯的尺寸效應）。</div>
+
+<div class="trap"><b>陷阱：基腳也乘 \(\lambda_s\)。</b>
+觸發信號：現行規範的穿孔式含 \(\lambda_s\)。錯誤思維：一律乘。正確認知：獨立基腳可取 1。2025-1 若乘 \(\lambda_s=0.8165\)，\(\phi V_c=195.51\) tf ＜ 196.56 tf，會誤判為略不足；反過來，2021-3 是樁帽、2020-3 是樓版，都要乘。</div>
+
+<p><b>因果鏈：</b>錐面互相圍束 → 強度 1.06（比單向高）→ 柱太扁或周長太大時剪應力不均 → 另兩式折減 → 構件越厚越脆 → 乘 \(\lambda_s\) → 基腳可取 1。</p>
+</section>
+<section id="s5">
+<h2>§5 穿孔不足之後：版剪力筋（2020-3）與樁帽（2021-3）</h2>
+
+<h3>5.1 無梁版內柱：剪力筋怎麼算</h3>
+<p class="lead">版的穿孔不足時，可以沿柱面向外配剪力筋。規則和梁類似，但有三個地方不同：混凝土貢獻降為一半、\(V_s\) 用 \(d\) 不用 \(b_o\)、\(A_v\) 是整圈的肢數。</p>
+$$V_c=0.53\lambda_s\sqrt{f'_c}\,b_od,\qquad V_s=\frac{A_vf_{yt}d}{s},\qquad V_c+V_s\le1.59\sqrt{f'_c}\,b_od,\qquad s\le\frac{d}{2}$$
+<div class="why"><b>為什麼配了剪力筋，混凝土貢獻反而從 1.06 降到 0.53？</b>
+剪力筋要發揮，斜裂縫必須先張開；裂縫張開後，錐面的圍束與咬合就打折了。所以規範把有剪力筋時的混凝土貢獻降到一半，再加上剪力筋，總強度上限 \(1.59\sqrt{f'_c}\)（SI 的 \(0.5\sqrt{f'_c}\)）防止混凝土斜壓破壞。</div>
+
+<div class="fig">
+<!--FIG:g5-->
+<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC-2020-3 無梁版內柱穿孔與剪力筋">
+<defs></defs>
+<rect x="78.0" y="56.5" width="264.0" height="297.0" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.2" stroke-dasharray="5 4" fill-opacity="0.9"/>
+<text x="210.0" y="48.5" font-size="12" text-anchor="middle" fill="#1565c0" font-weight="700">從屬面積 8 m × 9 m</text>
+<rect x="187.7" y="182.7" width="44.6" height="44.6" rx="0" fill="#fafafa" stroke="#c62828" stroke-width="2"/>
+<rect x="193.5" y="188.5" width="33.0" height="33.0" rx="0" fill="#90a4ae" stroke="#263238" stroke-width="1.3"/>
+<line x1="228.2" y1="193.0" x2="228.2" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="229.8" y1="193.0" x2="229.8" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="231.4" y1="193.0" x2="231.4" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="233.1" y1="193.0" x2="233.1" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="234.8" y1="193.0" x2="234.8" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="236.4" y1="193.0" x2="236.4" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="238.1" y1="193.0" x2="238.1" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="239.7" y1="193.0" x2="239.7" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="191.8" y1="193.0" x2="191.8" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="190.2" y1="193.0" x2="190.2" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="188.6" y1="193.0" x2="188.6" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="186.9" y1="193.0" x2="186.9" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="185.2" y1="193.0" x2="185.2" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="183.6" y1="193.0" x2="183.6" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="181.9" y1="193.0" x2="181.9" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="180.3" y1="193.0" x2="180.3" y2="217.0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="223.2" x2="222.0" y2="223.2" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="224.8" x2="222.0" y2="224.8" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="226.4" x2="222.0" y2="226.4" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="228.1" x2="222.0" y2="228.1" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="229.8" x2="222.0" y2="229.8" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="231.4" x2="222.0" y2="231.4" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="233.1" x2="222.0" y2="233.1" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="234.7" x2="222.0" y2="234.7" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="186.8" x2="222.0" y2="186.8" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="185.2" x2="222.0" y2="185.2" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="183.6" x2="222.0" y2="183.6" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="181.9" x2="222.0" y2="181.9" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="180.2" x2="222.0" y2="180.2" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="178.6" x2="222.0" y2="178.6" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="176.9" x2="222.0" y2="176.9" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="198.0" y1="175.3" x2="222.0" y2="175.3" stroke="#ef6c00" stroke-width="1.6"/>
+<text x="238.3" y="176.7" font-size="11.5" text-anchor="start" fill="#c62828" font-weight="700">bo＝4×135＝540</text>
+<text x="210.0" y="371.5" font-size="11.5" text-anchor="middle" fill="#455a64">柱 100×100；橘線＝剪力筋（四條、每條雙肢、s＝5）</text>
+<text x="400.0" y="50.0" font-size="13" text-anchor="start" fill="#263238" font-weight="700">需求與強度（tf）</text>
+<text x="400.0" y="92.0" font-size="12" text-anchor="start" fill="#263238" font-weight="700">Vu</text>
+<rect x="400.0" y="100.0" width="274.4" height="22.0" rx="0" fill="#263238" stroke="#263238" stroke-width="1" fill-opacity="0.8"/>
+<text x="680.4" y="116.0" font-size="12.5" text-anchor="start" fill="#263238" font-weight="700">322.82</text>
+<text x="400.0" y="154.0" font-size="12" text-anchor="start" fill="#c62828" font-weight="700">φVc（無剪力筋）</text>
+<rect x="400.0" y="162.0" width="195.1" height="22.0" rx="0" fill="#c62828" stroke="#c62828" stroke-width="1" fill-opacity="0.8"/>
+<text x="601.1" y="178.0" font-size="12.5" text-anchor="start" fill="#c62828" font-weight="700">229.52</text>
+<text x="400.0" y="216.0" font-size="12" text-anchor="start" fill="#2e7d32" font-weight="700">φ(Vc′＋Vs)，s＝5.37</text>
+<rect x="400.0" y="224.0" width="274.4" height="22.0" rx="0" fill="#2e7d32" stroke="#2e7d32" stroke-width="1" fill-opacity="0.8"/>
+<text x="680.4" y="240.0" font-size="12.5" text-anchor="start" fill="#2e7d32" font-weight="700">322.82</text>
+<text x="400.0" y="278.0" font-size="12" text-anchor="start" fill="#546e7a" font-weight="700">φVn,max＝0.75×1.59√f'c·bo·d</text>
+<rect x="400.0" y="286.0" width="320.6" height="22.0" rx="0" fill="#546e7a" stroke="#546e7a" stroke-width="1" fill-opacity="0.8"/>
+<text x="726.6" y="302.0" font-size="12.5" text-anchor="start" fill="#546e7a" font-weight="700">377.14</text>
+<text x="400.0" y="342.0" font-size="12" text-anchor="start" fill="#455a64">Vc′＝0.53·λs·√f'c·bo·d＝153.01；Vs＝277.41 tf</text>
+<text x="400.0" y="364.0" font-size="12" text-anchor="start" fill="#455a64">λs＝√(2/2.4)＝0.9129（樓版要乘）</text>
+</svg>
+<div class="cap">圖 5　RC-2020-3。左：內柱 A 的從屬面積 8 m×9 m（柱中心距 X 向 800、Y 向 900 cm）、柱 100×100 cm、臨界周長 135×135 cm，剪力筋沿 ±X、±Y 四條、每條雙肢（\(A_v=8\times1.267=10.14\) cm²）。右：需求與強度，\(V_u=322.82\) tf 大於無剪力筋的 \(\phi V_c=229.52\) tf；配筋後需 \(V_s=277.41\) tf → \(s=5.37\) cm，取 5 cm；上限 \(\phi V_{n,\max}=377.1\) tf 未超過。
+這張圖攔的錯：柱距兩向都取 800 cm（從屬面積少 11%）；\(A_v\) 只算一組雙肢；\(V_s\) 寫成 \(A_vf_yb_o/s\)。</div>
+</div>
+
+<div class="box"><b><a class="qlink" href="problems-view/RC-2020-3.html" target="_blank">RC-2020-3</a> 步驟</b><br>
+\(b_o=4(100+35)=540\) cm、\(\lambda_s=\sqrt{2/2.4}=0.9129\)；三式 1.59／1.217／1.06 → 1.06 控制。<br>
+\(V_u=4.6\times(72-1.35^2)=322.82\) tf（載重已因數化、含自重，不要再乘）；\(\phi V_c=0.75\times1.06\times0.9129\times316.25=229.52\) tf → 不足。<br>
+\(V_c^{(w)}=0.53\times0.9129\times316.25=153.01\) tf；\(V_s=322.82/0.75-153.01=277.41\) tf；\(s=10.136\times4200\times35/277{,}410=5.37\) cm → <b>取 5 cm</b>。
+</div>
+
+<h3>5.2 樁帽：力從樁進來</h3>
+<p>樁帽的「土壓」換成了幾支樁的集中反力。剛性樁帽下，偏心載重的樁力分配就是材料力學的 \(P/A\pm Mc/I\)：</p>
+$$P_i=\frac{P_u}{n}\pm\frac{P_u\,e_x\,x_i}{\sum x_j^2}$$
+<p>穿孔要檢核兩種：<b>柱周</b>（\(\alpha_s=40\)）與<b>角隅樁</b>（樁靠近帽緣，臨界周長只剩兩段直線加四分之一圓弧，\(\alpha_s=20\)）。柱周的需求是周長外所有樁力的和——2021-3 四支樁都在柱周臨界面外，\(V_u=P_u=100\) tf，與偏心無關。</p>
+
+<div class="fig">
+<!--FIG:g6-->
+<svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC-2021-3 樁帽臨界周長與樁力">
+<defs></defs>
+<rect x="63.5" y="68.5" width="273.0" height="273.0" rx="0" fill="#fafafa" stroke="#455a64" stroke-width="1.5"/>
+<text x="200.0" y="58.5" font-size="12" text-anchor="middle" fill="#263238" font-weight="700">樁帽 260×260、D＝55、d＝45 cm</text>
+<rect x="150.1" y="155.1" width="99.8" height="99.8" rx="0" fill="none" stroke="#c62828" stroke-width="2"/>
+<rect x="173.8" y="178.8" width="52.5" height="52.5" rx="0" fill="#90a4ae" stroke="#263238" stroke-width="1.3"/>
+<circle cx="105.5" cy="110.5" r="15.75" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/>
+<circle cx="105.5" cy="299.5" r="15.75" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/>
+<circle cx="294.5" cy="110.5" r="15.75" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/>
+<circle cx="294.5" cy="299.5" r="15.75" fill="#cfd8dc" stroke="#263238" stroke-width="1.2"/>
+<path d="M 255.1,68.5 L 255.1,110.5 A 39.4 39.4 0 0 0 294.5,149.9 L 336.5,149.9" fill="none" stroke="#6a1b9a" stroke-width="2.2"/>
+<text x="253.9" y="209.0" font-size="11.5" text-anchor="start" fill="#c62828" font-weight="700">柱周 bo＝380</text>
+<text x="249.1" y="84.5" font-size="11.5" text-anchor="end" fill="#6a1b9a" font-weight="700">角隅樁 bo＝138.9</text>
+<text x="249.1" y="99.5" font-size="10.5" text-anchor="end" fill="#6a1b9a">（2×40＋π×37.5/2）</text>
+<text x="200.0" y="361.5" font-size="11.5" text-anchor="middle" fill="#455a64">樁徑 30、樁心 ±90 cm（距帽緣 40）</text>
+<line x1="470.0" y1="330.0" x2="860.0" y2="330.0" stroke="#455a64" stroke-width="1.3"/>
+<line x1="470.0" y1="330.0" x2="470.0" y2="60.0" stroke="#455a64" stroke-width="1.3"/>
+<line x1="470.0" y1="330.0" x2="470.0" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="470.0" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">0</text>
+<line x1="525.7" y1="330.0" x2="525.7" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="525.7" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">20</text>
+<line x1="581.4" y1="330.0" x2="581.4" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="581.4" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">40</text>
+<line x1="637.1" y1="330.0" x2="637.1" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="637.1" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">60</text>
+<line x1="692.9" y1="330.0" x2="692.9" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="692.9" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">80</text>
+<line x1="748.6" y1="330.0" x2="748.6" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="748.6" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">100</text>
+<line x1="804.3" y1="330.0" x2="804.3" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="804.3" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">120</text>
+<line x1="860.0" y1="330.0" x2="860.0" y2="335.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="860.0" y="349.0" font-size="11" text-anchor="middle" fill="#455a64">140</text>
+<line x1="465.0" y1="330.0" x2="470.0" y2="330.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="462.0" y="334.0" font-size="11" text-anchor="end" fill="#455a64">-20</text>
+<line x1="465.0" y1="291.4" x2="470.0" y2="291.4" stroke="#455a64" stroke-width="1.4"/>
+<text x="462.0" y="295.4" font-size="11" text-anchor="end" fill="#455a64">-10</text>
+<line x1="465.0" y1="252.9" x2="470.0" y2="252.9" stroke="#455a64" stroke-width="1.4"/>
+<text x="462.0" y="256.9" font-size="11" text-anchor="end" fill="#455a64">0</text>
+<line x1="465.0" y1="214.3" x2="470.0" y2="214.3" stroke="#455a64" stroke-width="1.4"/>
+<text x="462.0" y="218.3" font-size="11" text-anchor="end" fill="#455a64">10</text>
+<line x1="465.0" y1="175.7" x2="470.0" y2="175.7" stroke="#455a64" stroke-width="1.4"/>
+<text x="462.0" y="179.7" font-size="11" text-anchor="end" fill="#455a64">20</text>
+<line x1="465.0" y1="137.1" x2="470.0" y2="137.1" stroke="#455a64" stroke-width="1.4"/>
+<text x="462.0" y="141.1" font-size="11" text-anchor="end" fill="#455a64">30</text>
+<line x1="465.0" y1="98.6" x2="470.0" y2="98.6" stroke="#455a64" stroke-width="1.4"/>
+<text x="462.0" y="102.6" font-size="11" text-anchor="end" fill="#455a64">40</text>
+<line x1="465.0" y1="60.0" x2="470.0" y2="60.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="462.0" y="64.0" font-size="11" text-anchor="end" fill="#455a64">50</text>
+<text x="665.0" y="368.0" font-size="12.5" text-anchor="middle" fill="#263238">偏心距 ex（cm）</text>
+<text x="470.0" y="46.0" font-size="12" text-anchor="start" fill="#263238" font-weight="700">樁力（tf，壓為正）</text>
+<line x1="470.0" y1="252.9" x2="860.0" y2="252.9" stroke="#607d8b" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="470.0" y1="156.4" x2="720.7" y2="60.0" stroke="#1565c0" stroke-width="2.4"/>
+<line x1="470.0" y1="156.4" x2="860.0" y2="306.4" stroke="#ef6c00" stroke-width="2.4"/>
+<line x1="470.0" y1="98.6" x2="860.0" y2="98.6" stroke="#c62828" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text x="860.0" y="92.6" font-size="11.5" text-anchor="end" fill="#c62828" font-weight="700">承壓 40</text>
+<line x1="470.0" y1="291.4" x2="860.0" y2="291.4" stroke="#c62828" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text x="748.6" y="307.4" font-size="11.5" text-anchor="end" fill="#c62828" font-weight="700">承拉 −10</text>
+<circle cx="620.4" cy="98.6" r="5" fill="#c62828" stroke="none" stroke-width="1.4"/>
+<text x="614.4" y="88.6" font-size="12" text-anchor="end" fill="#c62828" font-weight="700">ex＝54（控制）</text>
+<circle cx="821.0" cy="291.4" r="4" fill="#ef6c00" stroke="none" stroke-width="1.4"/>
+<text x="821.0" y="281.4" font-size="11.5" text-anchor="middle" fill="#ef6c00" font-weight="700">126</text>
+<text x="700.9" y="78.7" font-size="12" text-anchor="start" fill="#1565c0" font-weight="700">Pmax＝25＋ex/3.6</text>
+<text x="581.4" y="225.3" font-size="12" text-anchor="middle" fill="#ef6c00" font-weight="700">Pmin＝25−ex/3.6</text>
+</svg>
+<div class="cap">圖 6　RC-2021-3。左：樁帽 260×260 cm、柱 50 cm、樁徑 30 cm、樁心 ±90 cm；柱周臨界周長 \(b_o=4(50+45)=380\) cm，角隅樁臨界周長 \(2\times40+\pi\times37.5/2=138.9\) cm。右：樁力隨偏心 \(e_x\) 變化，\(P_{\max}=25+e_x/3.6\) 在 \(e_x=54\) cm 碰到承壓 40 tf，\(P_{\min}\) 要到 126 cm 才碰到承拉 −10 tf；角隅樁穿孔容量 70.3 tf 遠高於 40 tf。
+這張圖攔的錯：樁位量到樁邊（±75）；只檢核柱周、漏掉角隅樁；樁帽沿用基腳的 \(\lambda_s=1\)。</div>
+</div>
+
+<p><b>因果鏈：</b>穿孔不足 → 配剪力筋 → 裂縫張開、混凝土貢獻減半 → \(V_s=A_vf_{yt}d/s\)、\(A_v\) 算整圈 → 上限 \(1.59\) 防斜壓；樁帽 → 樁力 \(P/n\pm Pe\,x/\Sigma x^2\) → 柱周＋角隅樁兩種穿孔。</p>
+</section>
+
+<section id="s6">
+<h2>§6 樓版：版厚、彎矩係數、最少鋼筋、角隅、橫膈</h2>
+
+<h3>6.1 單向版（2013-1）</h3>
+<p class="lead">2013-1 的三條規則考卷一條都不給：最小版厚表、彎矩係數表、最少鋼筋。它們都是「不算撓度、不做結構分析時」的簡化規定，所以有適用條件。</p>
+<ul>
+<li><b>最小版厚</b>（不另算撓度時）：簡支 \(\ell/20\)、一端連續 \(\ell/24\)、兩端連續 \(\ell/28\)、懸臂 \(\ell/10\)（\(f_y=4200\)）。連續越多，跨中撓度越小，版可以越薄。</li>
+<li><b>彎矩係數</b> \(M_u=C_m w_u\ell_n^2\)：適用於兩跨以上、相鄰跨差不超過 20%、均佈載重、活載不超過靜載 3 倍。係數本身是把連續梁在不利活載排列下的包絡值整理成表。</li>
+<li><b>最少鋼筋</b> \(0.0018A_g\)（\(f_y=4200\)）：同時是溫度收縮鋼筋量；主筋間距 \(\le\min(3h,45)\) cm。</li>
+</ul>
+
+<div class="fig">
+<!--FIG:g7-->
+<svg viewBox="0 0 900 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="多跨連續單向版彎矩係數">
+<defs></defs>
+<line x1="60.0" y1="170.0" x2="860.0" y2="170.0" stroke="#455a64" stroke-width="3"/>
+<text x="866.0" y="174.0" font-size="14" text-anchor="start" fill="#455a64">…</text>
+<rect x="50.0" y="172.0" width="20.0" height="50.0" rx="0" fill="#cfd8dc" stroke="#546e7a" stroke-width="1"/>
+<rect x="310.0" y="172.0" width="20.0" height="50.0" rx="0" fill="#cfd8dc" stroke="#546e7a" stroke-width="1"/>
+<rect x="570.0" y="172.0" width="20.0" height="50.0" rx="0" fill="#cfd8dc" stroke="#546e7a" stroke-width="1"/>
+<rect x="830.0" y="172.0" width="20.0" height="50.0" rx="0" fill="#cfd8dc" stroke="#546e7a" stroke-width="1"/>
+<text x="60.0" y="240.0" font-size="11.5" text-anchor="middle" fill="#455a64">外支承（邊梁）</text>
+<text x="320.0" y="240.0" font-size="11.5" text-anchor="middle" fill="#455a64">第一內支承</text>
+<text x="580.0" y="240.0" font-size="11.5" text-anchor="middle" fill="#455a64">內支承</text>
+<text x="190.0" y="260.0" font-size="12" text-anchor="middle" fill="#263238" font-weight="700">外跨</text>
+<text x="450.0" y="260.0" font-size="12" text-anchor="middle" fill="#263238" font-weight="700">內跨</text>
+<text x="710.0" y="260.0" font-size="12" text-anchor="middle" fill="#263238" font-weight="700">內跨</text>
+<rect x="69.0" y="111.7" width="18.0" height="58.3" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.2"/>
+<text x="78.0" y="103.7" font-size="12" text-anchor="middle" fill="#c62828" font-weight="700">−1/24</text>
+<rect x="181.0" y="70.0" width="18.0" height="100.0" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.2"/>
+<text x="190.0" y="62.0" font-size="12" text-anchor="middle" fill="#1565c0" font-weight="700">+1/14</text>
+<rect x="293.0" y="30.0" width="18.0" height="140.0" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.2"/>
+<text x="302.0" y="22.0" font-size="12" text-anchor="middle" fill="#c62828" font-weight="700">−1/10</text>
+<rect x="329.0" y="42.7" width="18.0" height="127.3" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.2"/>
+<text x="338.0" y="34.7" font-size="12" text-anchor="middle" fill="#c62828" font-weight="700">−1/11</text>
+<rect x="441.0" y="82.5" width="18.0" height="87.5" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.2"/>
+<text x="450.0" y="74.5" font-size="12" text-anchor="middle" fill="#1565c0" font-weight="700">+1/16</text>
+<rect x="553.0" y="42.7" width="18.0" height="127.3" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.2"/>
+<text x="562.0" y="34.7" font-size="12" text-anchor="middle" fill="#c62828" font-weight="700">−1/11</text>
+<rect x="589.0" y="42.7" width="18.0" height="127.3" rx="0" fill="#ffcdd2" stroke="#c62828" stroke-width="1.2"/>
+<text x="598.0" y="34.7" font-size="12" text-anchor="middle" fill="#c62828" font-weight="700">−1/11</text>
+<rect x="701.0" y="82.5" width="18.0" height="87.5" rx="0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.2"/>
+<text x="710.0" y="74.5" font-size="12" text-anchor="middle" fill="#1565c0" font-weight="700">+1/16</text>
+<rect x="64.0" y="81.7" width="36.0" height="90.3" rx="0" fill="none" stroke="#ef6c00" stroke-width="1.6" stroke-dasharray="4 3"/>
+<text x="106.0" y="93.7" font-size="12" text-anchor="start" fill="#ef6c00" font-weight="700">2013-1 問這裡 → 最少鋼筋控制</text>
+<text x="450.0" y="310.0" font-size="12" text-anchor="middle" fill="#455a64">Mu＝Cm·wu·ℓn²；紅＝負彎矩（版頂受拉）、藍＝正彎矩；支承為柱時外支承改 −1/16</text>
+</svg>
+<div class="cap">圖 7　多跨連續單向版的彎矩係數（\(M_u=C_mw_u\ell_n^2\)，外支承與邊梁一體）。長條高度與係數成比例：外支承負彎矩 1/24、外跨正彎矩 1/14、第一內支承外側負彎矩 1/10、內支承負彎矩 1/11、內跨正彎矩 1/16。2013-1 問的正是最小的那一個（1/24），所以由最少鋼筋控制。
+這張圖攔的錯：外支承一律用 1/16——那是支承為柱時的係數；與邊梁一體時是 1/24。</div>
+</div>
+
+<div class="box"><b><a class="qlink" href="problems-view/RC-2013-1.html" target="_blank">RC-2013-1</a></b>（中心跨 4.8 m、梁寬 30 cm、LL 0.6、SDL 0.1 tf/m²）：<br>
+\(\ell_n=450\) cm，外跨一端連續 \(h\ge450/24=18.75\) → \(h=19\) cm，\(d=19-2-0.48=16.52\) cm。<br>
+\(w_u=1.2(0.456+0.1)+1.6\times0.6=1.627\) tf/m²；外支承 \(M_u=w_u\ell_n^2/24=137{,}278\) kgf·cm/m；撓曲需 \(A_s=2.23\) cm²/m ＜ \(A_{s,\min}=0.0018\times100\times19=3.42\) → <b>D10@20</b>（3.55 cm²/m）。
+</div>
+<div class="trap"><b>待確認：版厚表的 \(\ell\) 用淨跨還是跨度？</b>
+本庫 2013-1 題解以淨跨 \(\ell_n=450\) cm 得 19 cm；若以中心距 480 cm 計，\(h\ge20\) cm。規範表格中 \(\ell\) 的定義本講義未逐條查證，作答時寫明採用哪一個即可；彎矩係數法則明確用淨跨 \(\ell_n\)。</div>
+
+<h3>6.2 雙向版外角隅（2002-1）</h3>
+<p>四周有梁的雙向版受均佈載重時呈碟形下陷，版角有上翹的傾向；被邊梁擋住後，角隅附近出現扭矩：<b>版頂沿對角線方向受拉、版底垂直對角線方向受拉</b>。</p>
+<div class="fig">
+<!--FIG:g8-->
+<svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="雙向版外角隅特殊配筋">
+<defs><marker id="g8-ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse"><path d="M0,0 L9,4.5 L0,9 z" fill="#455a64"/></marker></defs>
+<rect x="60.0" y="60.0" width="290.0" height="232.0" rx="0" fill="#fafafa" stroke="#b0bec5" stroke-width="1" stroke-dasharray="5 4"/>
+<line x1="60.0" y1="60.0" x2="350.0" y2="60.0" stroke="#263238" stroke-width="6"/>
+<line x1="60.0" y1="60.0" x2="60.0" y2="292.0" stroke="#263238" stroke-width="6"/>
+<rect x="60.0" y="60.0" width="58.0" height="58.0" rx="0" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.2" fill-opacity="0.9"/>
+<rect x="60.0" y="60.0" width="58.0" height="58.0" rx="0" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="60.0" y1="60.0" x2="152.8" y2="152.8" stroke="#607d8b" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="106.9" y1="60.0" x2="118.0" y2="71.1" stroke="#1565c0" stroke-width="2"/>
+<line x1="95.2" y1="60.0" x2="118.0" y2="82.8" stroke="#1565c0" stroke-width="2"/>
+<line x1="83.4" y1="60.0" x2="118.0" y2="94.6" stroke="#1565c0" stroke-width="2"/>
+<line x1="71.7" y1="60.0" x2="118.0" y2="106.3" stroke="#1565c0" stroke-width="2"/>
+<line x1="60.0" y1="60.0" x2="118.0" y2="118.0" stroke="#1565c0" stroke-width="2"/>
+<line x1="60.0" y1="71.7" x2="106.3" y2="118.0" stroke="#1565c0" stroke-width="2"/>
+<line x1="60.0" y1="83.4" x2="94.6" y2="118.0" stroke="#1565c0" stroke-width="2"/>
+<line x1="60.0" y1="95.2" x2="82.8" y2="118.0" stroke="#1565c0" stroke-width="2"/>
+<line x1="60.0" y1="106.9" x2="71.1" y2="118.0" stroke="#1565c0" stroke-width="2"/>
+<line x1="153.8" y1="121.8" x2="121.8" y2="153.8" stroke="#c62828" stroke-width="1.4" stroke-dasharray="3 2"/>
+<line x1="143.9" y1="111.9" x2="111.9" y2="143.9" stroke="#c62828" stroke-width="1.4" stroke-dasharray="3 2"/>
+<line x1="134.0" y1="102.0" x2="102.0" y2="134.0" stroke="#c62828" stroke-width="1.4" stroke-dasharray="3 2"/>
+<line x1="124.1" y1="92.1" x2="92.1" y2="124.1" stroke="#c62828" stroke-width="1.4" stroke-dasharray="3 2"/>
+<line x1="114.2" y1="82.2" x2="82.2" y2="114.2" stroke="#c62828" stroke-width="1.4" stroke-dasharray="3 2"/>
+<text x="205.0" y="36.0" font-size="14" text-anchor="middle" fill="#0d47a1" font-weight="700">版頂：沿對角線受拉</text>
+<line x1="60.0" y1="132.0" x2="118.0" y2="132.0" stroke="#455a64" stroke-width="1" marker-end="url(#g8-ar)" marker-start="url(#g8-ar)"/>
+<text x="89.0" y="148.0" font-size="12" text-anchor="middle" fill="#455a64" font-weight="700">ℓ/5</text>
+<text x="126.0" y="93.0" font-size="11.5" text-anchor="start" fill="#455a64">ℓ＝長跨</text>
+<text x="245.0" y="252.0" font-size="12" text-anchor="middle" fill="#c62828" font-weight="700">裂縫垂直對角線（紅虛線）</text>
+<text x="245.0" y="274.0" font-size="12" text-anchor="middle" fill="#1565c0" font-weight="700">鋼筋平行對角線（藍）</text>
+<text x="56.0" y="52.0" font-size="11" text-anchor="start" fill="#263238">邊梁</text>
+<rect x="510.0" y="60.0" width="290.0" height="232.0" rx="0" fill="#fafafa" stroke="#b0bec5" stroke-width="1" stroke-dasharray="5 4"/>
+<line x1="510.0" y1="60.0" x2="800.0" y2="60.0" stroke="#263238" stroke-width="6"/>
+<line x1="510.0" y1="60.0" x2="510.0" y2="292.0" stroke="#263238" stroke-width="6"/>
+<rect x="510.0" y="60.0" width="58.0" height="58.0" rx="0" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.2" fill-opacity="0.9"/>
+<rect x="510.0" y="60.0" width="58.0" height="58.0" rx="0" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.6"/>
+<line x1="510.0" y1="60.0" x2="602.8" y2="152.8" stroke="#607d8b" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="510.0" y1="71.1" x2="521.1" y2="60.0" stroke="#1565c0" stroke-width="2"/>
+<line x1="510.0" y1="82.8" x2="532.8" y2="60.0" stroke="#1565c0" stroke-width="2"/>
+<line x1="510.0" y1="94.6" x2="544.6" y2="60.0" stroke="#1565c0" stroke-width="2"/>
+<line x1="510.0" y1="106.3" x2="556.3" y2="60.0" stroke="#1565c0" stroke-width="2"/>
+<line x1="510.0" y1="118.0" x2="568.0" y2="60.0" stroke="#1565c0" stroke-width="2"/>
+<line x1="521.7" y1="118.0" x2="568.0" y2="71.7" stroke="#1565c0" stroke-width="2"/>
+<line x1="533.4" y1="118.0" x2="568.0" y2="83.4" stroke="#1565c0" stroke-width="2"/>
+<line x1="545.2" y1="118.0" x2="568.0" y2="95.2" stroke="#1565c0" stroke-width="2"/>
+<line x1="556.9" y1="118.0" x2="568.0" y2="106.9" stroke="#1565c0" stroke-width="2"/>
+<line x1="571.8" y1="82.2" x2="603.8" y2="114.2" stroke="#c62828" stroke-width="1.4" stroke-dasharray="3 2"/>
+<line x1="561.9" y1="92.1" x2="593.9" y2="124.1" stroke="#c62828" stroke-width="1.4" stroke-dasharray="3 2"/>
+<line x1="552.0" y1="102.0" x2="584.0" y2="134.0" stroke="#c62828" stroke-width="1.4" stroke-dasharray="3 2"/>
+<line x1="542.1" y1="111.9" x2="574.1" y2="143.9" stroke="#c62828" stroke-width="1.4" stroke-dasharray="3 2"/>
+<line x1="532.2" y1="121.8" x2="564.2" y2="153.8" stroke="#c62828" stroke-width="1.4" stroke-dasharray="3 2"/>
+<text x="655.0" y="36.0" font-size="14" text-anchor="middle" fill="#0d47a1" font-weight="700">版底：垂直對角線受拉</text>
+<line x1="510.0" y1="132.0" x2="568.0" y2="132.0" stroke="#455a64" stroke-width="1" marker-end="url(#g8-ar)" marker-start="url(#g8-ar)"/>
+<text x="539.0" y="148.0" font-size="12" text-anchor="middle" fill="#455a64" font-weight="700">ℓ/5</text>
+<text x="576.0" y="93.0" font-size="11.5" text-anchor="start" fill="#455a64">ℓ＝長跨</text>
+<text x="695.0" y="252.0" font-size="12" text-anchor="middle" fill="#c62828" font-weight="700">裂縫平行對角線（紅虛線）</text>
+<text x="695.0" y="274.0" font-size="12" text-anchor="middle" fill="#1565c0" font-weight="700">鋼筋垂直對角線（藍）</text>
+<text x="506.0" y="52.0" font-size="11" text-anchor="start" fill="#263238">邊梁</text>
+<text x="450.0" y="366.0" font-size="12" text-anchor="middle" fill="#455a64">外角隅（邊牆或 αf＞1.0 邊梁支承）；頂、底層鋼筋量＝最大正彎矩鋼筋；亦可頂底各配兩層平行版邊鋼筋</text>
+</svg>
+<div class="cap">圖 8　雙向版外角隅特殊配筋（現行規範 8.7.3）。範圍自角隅沿兩向各延伸<b>長跨</b>的 1/5；適用於外角隅由邊牆或 \(\alpha_f\gt1.0\) 的邊梁支承時；頂、底層的鋼筋量都等於該版格最大正彎矩鋼筋。左：版頂（裂縫垂直對角線 → 鋼筋平行對角線）；右：版底（裂縫平行對角線 → 鋼筋垂直對角線）；也可頂底各配兩層平行版邊的鋼筋。
+這張圖攔的錯：範圍取短跨淨跨的 1/5（本庫舊解）；只配頂層。</div>
+</div>
+
+<h3>6.3 橫膈版（2019-3，副考點）</h3>
+<p>樓版在地震時把水平力傳給抗側力構材，像一根很深的水平梁受剪。剪力強度 \(V_n=(0.53\sqrt{f'_c}+\rho_tf_y)A_{cv}\)，考卷連 \(\phi=0.6\) 都給了；
+失分點在「最終設計」：撓曲已用掉的 #4@25（雙層）不能再拿來抗剪，抗剪所需要<b>加上去</b>，再換成雙層等間距：\(0.1016+0.0620=0.1636\) cm²/cm → \(s=15\) cm。兩者取小（25 cm）是舊解的錯。</p>
+
+<p><b>因果鏈：</b>不算撓度 → 版厚表；不做分析 → 彎矩係數（有適用條件）；溫度收縮 → \(0.0018A_g\)；角隅扭矩 → 頂底兩層、長跨 1/5；橫膈 → 撓曲筋＋抗剪筋合計。</p>
+</section>
+
+<section id="s7">
+<h2>§7 解題決策流程</h2>
+<div class="fig">
+<!--FIG:g9-->
+<svg viewBox="0 0 900 690" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RC-U3-2 解題決策流程">
+<defs><marker id="g9-ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse"><path d="M0,0 L9,4.5 L0,9 z" fill="#455a64"/></marker></defs>
+<rect x="320.0" y="12.0" width="260.0" height="44.0" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.4"/>
+<text x="450.0" y="29.5" font-size="12" text-anchor="middle" fill="#263238">讀題：構件型式、尺寸、載重</text>
+<text x="450.0" y="46.9" font-size="12" text-anchor="middle" fill="#263238">（是否已因數化）、問什麼</text>
+<line x1="450.0" y1="56.0" x2="450.0" y2="80.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<polygon points="450.0,80.0 560.0,118.0 450.0,156.0 340.0,118.0" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.6"/>
+<text x="450.0" y="122.4" font-size="12.5" text-anchor="middle" fill="#263238">構件？</text>
+<line x1="340.0" y1="118.0" x2="150.0" y2="118.0" stroke="#455a64" stroke-width="1.5"/>
+<line x1="150.0" y1="118.0" x2="150.0" y2="140.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<text x="245.0" y="110.0" font-size="12" text-anchor="middle" fill="#c62828" font-weight="700">獨立基腳</text>
+<rect x="40.0" y="140.0" width="220.0" height="46.0" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<text x="150.0" y="158.5" font-size="12" text-anchor="middle" fill="#263238">補假設：全厚、保護層、</text>
+<text x="150.0" y="175.9" font-size="12" text-anchor="middle" fill="#263238">fy、單位重</text>
+<line x1="150.0" y1="186.0" x2="150.0" y2="206.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<rect x="40.0" y="206.0" width="220.0" height="46.0" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<text x="150.0" y="224.5" font-size="12" text-anchor="middle" fill="#263238">承載力（服務載重＋自重）</text>
+<text x="150.0" y="241.9" font-size="12" text-anchor="middle" fill="#263238">q ≤ qa</text>
+<line x1="150.0" y1="252.0" x2="150.0" y2="272.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<rect x="40.0" y="272.0" width="220.0" height="46.0" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<text x="150.0" y="290.5" font-size="12" text-anchor="middle" fill="#263238">qu＝Pu/A（不含自重）</text>
+<text x="150.0" y="307.9" font-size="12" text-anchor="middle" fill="#263238">柱面 Mu、0.0018Ag</text>
+<line x1="150.0" y1="318.0" x2="150.0" y2="338.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<rect x="30.0" y="338.0" width="240.0" height="56.0" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<text x="150.0" y="353.3" font-size="11.5" text-anchor="middle" fill="#263238">單向剪力：距柱面 d</text>
+<text x="150.0" y="370.0" font-size="11.5" text-anchor="middle" fill="#263238">Vc＝2.12λsλρw^(1/3)√f'c·bw·d</text>
+<text x="150.0" y="386.7" font-size="11.5" text-anchor="middle" fill="#263238">（考卷印舊式也要換）</text>
+<line x1="150.0" y1="394.0" x2="150.0" y2="414.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<rect x="40.0" y="414.0" width="220.0" height="46.0" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<text x="150.0" y="432.5" font-size="12" text-anchor="middle" fill="#263238">穿孔：bo＝4(c+d)</text>
+<text x="150.0" y="449.9" font-size="12" text-anchor="middle" fill="#263238">Vu＝Pu−qu(c+d)²</text>
+<line x1="150.0" y1="460.0" x2="150.0" y2="500.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<line x1="450.0" y1="156.0" x2="450.0" y2="186.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<text x="496.0" y="171.0" font-size="12" text-anchor="middle" fill="#c62828" font-weight="700">版柱／樁帽</text>
+<rect x="340.0" y="186.0" width="220.0" height="46.0" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<text x="450.0" y="204.7" font-size="11.5" text-anchor="middle" fill="#263238">樁帽：Pi＝P/n ± P·e·x/Σx²</text>
+<text x="450.0" y="221.4" font-size="11.5" text-anchor="middle" fill="#263238">版：Vu＝wu[ℓxℓy−(c+d)²]</text>
+<line x1="450.0" y1="232.0" x2="450.0" y2="256.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<rect x="340.0" y="256.0" width="220.0" height="46.0" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<text x="450.0" y="274.5" font-size="12" text-anchor="middle" fill="#263238">柱周 αs＝40</text>
+<text x="450.0" y="291.9" font-size="12" text-anchor="middle" fill="#263238">邊柱 30、角柱／角隅樁 20</text>
+<line x1="450.0" y1="302.0" x2="450.0" y2="500.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<polygon points="300.0,462.0 450.0,500.0 300.0,538.0 150.0,500.0" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.6"/>
+<text x="300.0" y="496.0" font-size="11.5" text-anchor="middle" fill="#263238">三式取小 κ；λs 取多少？</text>
+<text x="300.0" y="512.1" font-size="11.5" text-anchor="middle" fill="#263238">基腳可取 1；版、樁帽要乘</text>
+<line x1="300.0" y1="538.0" x2="300.0" y2="556.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<polygon points="300.0,556.0 400.0,584.0 300.0,612.0 200.0,584.0" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.6"/>
+<text x="300.0" y="588.2" font-size="12" text-anchor="middle" fill="#263238">φVc ≥ Vu？</text>
+<line x1="400.0" y1="584.0" x2="470.0" y2="584.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<text x="435.0" y="576.0" font-size="12" text-anchor="middle" fill="#c62828" font-weight="700">否</text>
+<rect x="470.0" y="560.0" width="150.0" height="48.0" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<text x="545.0" y="579.7" font-size="11.5" text-anchor="middle" fill="#263238">配剪力筋：Vc′ 減半</text>
+<text x="545.0" y="596.4" font-size="11.5" text-anchor="middle" fill="#263238">Vs＝Av·fyt·d/s</text>
+<line x1="300.0" y1="612.0" x2="300.0" y2="630.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<text x="314.0" y="625.0" font-size="12" text-anchor="middle" fill="#c62828" font-weight="700">是</text>
+<line x1="545.0" y1="608.0" x2="545.0" y2="630.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<line x1="560.0" y1="118.0" x2="765.0" y2="118.0" stroke="#455a64" stroke-width="1.5"/>
+<line x1="765.0" y1="118.0" x2="765.0" y2="140.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<text x="660.0" y="110.0" font-size="12" text-anchor="middle" fill="#c62828" font-weight="700">樓版</text>
+<rect x="650.0" y="140.0" width="230.0" height="52.0" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<text x="765.0" y="161.7" font-size="11.5" text-anchor="middle" fill="#263238">單向版：版厚表（ℓ/24 等）</text>
+<text x="765.0" y="178.4" font-size="11.5" text-anchor="middle" fill="#263238">係數 Cm·wu·ℓn²、0.0018Ag</text>
+<line x1="765.0" y1="192.0" x2="765.0" y2="214.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<rect x="650.0" y="214.0" width="230.0" height="46.0" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<text x="765.0" y="232.7" font-size="11.5" text-anchor="middle" fill="#263238">雙向版角隅：長跨 1/5</text>
+<text x="765.0" y="249.4" font-size="11.5" text-anchor="middle" fill="#263238">頂底兩層、量＝最大正彎矩筋</text>
+<line x1="765.0" y1="260.0" x2="765.0" y2="282.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<rect x="650.0" y="282.0" width="230.0" height="46.0" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="1.4"/>
+<text x="765.0" y="300.7" font-size="11.5" text-anchor="middle" fill="#263238">橫膈版：Vn＝(0.53√f'c＋ρt·fy)Acv</text>
+<text x="765.0" y="317.4" font-size="11.5" text-anchor="middle" fill="#263238">撓曲筋＋抗剪筋合計</text>
+<line x1="765.0" y1="328.0" x2="765.0" y2="630.0" stroke="#455a64" stroke-width="1.5" marker-end="url(#g9-ar)"/>
+<rect x="40.0" y="630.0" width="840.0" height="48.0" rx="6" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.4"/>
+<text x="460.0" y="649.5" font-size="12" text-anchor="middle" fill="#263238">收尾：每一項寫「需求 vs 強度 → 合格／不合格」，列出所有假設與 λs 取值；</text>
+<text x="460.0" y="666.9" font-size="12" text-anchor="middle" fill="#263238">考卷印舊式時附舊式對照值</text>
+</svg>
+<div class="cap">圖 9　RC-U3-2 解題決策流程。先分基腳／樁帽／樓版；基腳一定先驗承載力（服務載重），再用因數化淨土壓做彎矩、單向剪力、穿孔三項；所有穿孔分支都要決定 \(\lambda_s\) 取不取 1。
+這張圖攔的錯：基腳題只做題目點名的項目而漏了承載力；穿孔不足時直接加厚而沒考慮題目要的剪力筋。</div>
+</div>
+</section>
+
+<section id="s8">
+<h2>§8 歷屆題 × 觀念對照表</h2>
+<h3>主分類（7 題）</h3>
+<table>
+<thead><tr><th>題號</th><th>考年</th><th>題型</th><th>用到的觀念（本講義節次）</th><th>答案（現行規範）</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="problems-view/RC-2002-1.html" target="_blank">RC-2002-1</a></td><td>2002</td><td>雙向版角隅配筋（繪圖）</td><td>§6.2</td><td>長跨 1/5、頂底層、量＝最大正彎矩筋</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2007-3.html" target="_blank">RC-2007-3</a></td><td>2007</td><td>獨立基腳檢核</td><td>§1、§2、§3、§4</td><td>彎矩 ✓、單向剪力 ✗（59.62 ＜ 64.07）、穿孔 ✓</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2013-1.html" target="_blank">RC-2013-1</a></td><td>2013</td><td>單向版版厚與負彎矩鋼筋</td><td>§6.1</td><td>\(h=19\) cm、D10@20</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2017-3.html" target="_blank">RC-2017-3</a></td><td>2017</td><td>獨立基腳設計</td><td>§1、§2、§3、§4</td><td>\(A_s=62.40\) cm²（13-D25）；單向 ✗、穿孔略不足（1%）</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2020-3.html" target="_blank">RC-2020-3</a></td><td>2020</td><td>無梁版穿孔＋剪力筋</td><td>§4、§5.1</td><td>穿孔不足；\(s=5\) cm</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2021-3.html" target="_blank">RC-2021-3</a></td><td>2021</td><td>偏心載重樁帽</td><td>§4、§5.2</td><td>\(e_{x,\max}=54\) cm（樁承壓控制）</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2025-1.html" target="_blank">RC-2025-1</a></td><td>2025</td><td>獨立基腳檢核（2007-3 同型）</td><td>§1、§2、§4</td><td>彎矩 ✓、穿孔 ✓</td></tr>
+</tbody>
+</table>
+<h3>副分類（1 題，主分類 U3-3）</h3>
+<table>
+<thead><tr><th>題號</th><th>考年</th><th>題型</th><th>用到的觀念</th><th>答案</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="problems-view/RC-2019-3.html" target="_blank">RC-2019-3</a></td><td>2019</td><td>橫膈版抗剪鋼筋</td><td>§6.3</td><td>\(\rho_t=0.003446\)；#4 雙層雙向 \(s=15\) cm</td></tr>
+</tbody>
+</table>
+<p>公式給／背與考點頻率見 <a href="unit-RC-U3-2.html">單元總覽</a>；剪力的基本觀念見 <a href="lecture-RC-U2-1.html">U2-1 觀念講義</a>。</p>
+</section>
+
+<section id="s9">
+<h2>§9 陷阱總表（考前十分鐘掃完）</h2>
+<table>
+<thead><tr><th>#</th><th>觸發信號</th><th>錯誤思維</th><th>正確認知</th><th>出處</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>土壤承載力 25 tf/m²</td><td>拿 \(q_u\) 去比</td><td>承載力用服務載重＋基腳與覆土重</td><td>2007-3、2025-1</td></tr>
+<tr><td>2</td><td>算彎矩剪力的土壓</td><td>含基腳自重</td><td>\(q_u=P_u/A\)，自重與其反力抵銷</td><td>2007-3</td></tr>
+<tr><td>3</td><td>「地表下 1.5 m」</td><td>覆土 1.5 m</td><td>基腳底面深度；覆土＝1.5 m－全厚</td><td>2007-3、2025-1</td></tr>
+<tr><td>4</td><td>鋼筋量 50 cm²</td><td>每公尺</td><td>全寬合計</td><td>2007-3、2025-1</td></tr>
+<tr><td>5</td><td>只給有效深度 50 cm</td><td>當全厚</td><td>全厚自己估（算自重、\(0.0018A_g\) 用全厚）</td><td>2007-3、2025-1</td></tr>
+<tr><td>6</td><td>只給厚度 80 cm</td><td>當 \(d\)</td><td>扣保護層 7.5 cm 與筋徑；穿孔用兩向平均 \(d\)</td><td>2017-3</td></tr>
+<tr><td>7</td><td>懸臂長度</td><td>量到柱中心</td><td>量到柱面 \((B-c)/2\)</td><td>基腳三題</td></tr>
+<tr><td>8</td><td>考卷印 \(0.53\sqrt{f'_c}b_wd\)</td><td>照用</td><td>無剪力筋改用 \(2.12\lambda_s\lambda\rho_w^{1/3}\sqrt{f'_c}b_wd\)</td><td>2017-3</td></tr>
+<tr><td>9</td><td>穿孔需求</td><td>\(V_u=P_u\)</td><td>扣掉周長內土壓 \(q_u(c+d)^2\)</td><td>基腳三題</td></tr>
+<tr><td>10</td><td>穿孔三式</td><td>考卷沒印就不會</td><td>基腳題從來不印；\(b_o\) 五題都沒定義</td><td>2007、2017、2025</td></tr>
+<tr><td>11</td><td>\(\lambda_s\)</td><td>一律乘或一律不乘</td><td>獨立基腳可取 1；樓版、樁帽要乘</td><td>2020-3、2021-3、2025-1</td></tr>
+<tr><td>12</td><td>4.6 tf/m²「設計（因數化）」</td><td>再乘 1.2／1.6</td><td>已因數化、含自重</td><td>2020-3</td></tr>
+<tr><td>13</td><td>柱距</td><td>兩向都 800</td><td>X 向 800、Y 向 900</td><td>2020-3</td></tr>
+<tr><td>14</td><td>版剪力筋</td><td>\(V_s=A_vf_yb_o/s\)、\(A_v\) 只算一組</td><td>\(V_s=A_vf_{yt}d/s\)；\(A_v\)＝同一周線所有肢</td><td>2020-3</td></tr>
+<tr><td>15</td><td>樁帽穿孔</td><td>只驗柱周</td><td>柱周（\(\alpha_s\)＝40）＋角隅樁（\(\alpha_s\)＝20）</td><td>2021-3</td></tr>
+<tr><td>16</td><td>外支承彎矩係數</td><td>1/16</td><td>與邊梁一體 1/24；支承為柱才 1/16</td><td>2013-1</td></tr>
+<tr><td>17</td><td>角隅筋範圍</td><td>短跨淨跨 1/5</td><td>長跨 1/5，頂底層</td><td>2002-1</td></tr>
+<tr><td>18</td><td>橫膈版「最終設計」間距</td><td>撓曲與剪力取小</td><td>撓曲筋＋抗剪筋合計再換成間距</td><td>2019-3</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="s10">
+<h2>§10 自我檢測：10 個「為什麼」</h2>
+<details><summary>1. 為什麼基腳強度設計的土壓不含基腳自重？</summary><p>自重均勻向下、它引起的土壓均勻向上，兩者在每一點都抵銷，不讓基腳彎曲或剪切；只有柱載重造成的那一份會。</p></details>
+<details><summary>2. 單向剪力的臨界斷面為什麼在距柱面 \(d\)？</summary><p>斜裂縫約 45°，柱面算起 \(d\) 以內的土壓可以直接以壓桿傳進柱子，不經過那條斜裂縫。</p></details>
+<details><summary>3. 穿孔的需求為什麼要扣掉 \(q_u(c+d)^2\)？</summary><p>臨界周長以內的土壓直接進柱，不穿過破壞錐面；只有周長以外的土壓需要靠錐面傳遞。</p></details>
+<details><summary>4. 為什麼穿孔強度係數（1.06）是單向舊式（0.53）的兩倍？</summary><p>錐面封閉、四周互相圍束，裂縫面處於雙向受壓，咬合與壓力區都比梁式破壞有效。</p></details>
+<details><summary>5. 現行單向剪力式為什麼含 \(\rho_w^{1/3}\)？</summary><p>縱向鋼筋少，彎曲裂縫寬而深，壓力區與咬合都變差；舊式是用高鋼筋比的梁迴歸的，用在低鋼筋比的基腳會高估。</p></details>
+<details><summary>6. 方柱的穿孔為什麼幾乎總是 1.06 控制？</summary><p>\(\beta=1\) 時第二式為 1.59；第三式要 \(b_o/d\gt20\)（內柱）才小於 1.06，一般柱尺寸與版厚達不到。</p></details>
+<details><summary>7. \(\lambda_s\) 在防什麼？為什麼基腳可以不乘？</summary><p>防尺寸效應：構件越厚，剪力破壞時的名義應力越低。規範 13.2.6.2 允許淺基礎（獨立、聯合基腳、筏基）忽略。</p></details>
+<details><summary>8. 版配了剪力筋，混凝土貢獻為什麼降為 0.53？</summary><p>剪力筋要發揮，斜裂縫必須先張開；裂縫張開後錐面的圍束與咬合打折，所以混凝土貢獻減半。</p></details>
+<details><summary>9. 角隅筋為什麼頂底兩層都要配？</summary><p>角隅扭矩讓版頂沿對角線受拉、版底垂直對角線受拉，兩個方向、兩個面都可能開裂。</p></details>
+<details><summary>10. 彎矩係數法為什麼有「相鄰跨差不超過 20%」的條件？</summary><p>係數是等跨連續梁在不利活載排列下的包絡值；跨度差太多，內支承彎矩分配與係數假設不符，就要做結構分析。</p></details>
+</section>
+
+<section id="s11">
+<h2>★ 精選 5 題：時間只夠練五題就練這五題</h2>
+<div class="lead">選題邏輯：<b>三題基腳選一題最完整的、兩題穿孔各練一題、樓版與角隅各一題</b>。2007-3 與 2025-1 與 2017-3 高度重疊，選要自己建 \(d\)、自己求 \(A_s\) 的 2017-3。</div>
+
+<h3>① <a class="qlink" href="problems-view/RC-2017-3.html" target="_blank">RC-2017-3</a>（2017，25 分）— 基腳全流程</h3>
+<div class="box"><b>為什麼選它：</b>三題基腳裡唯一要自己算 \(d\)（扣保護層、兩向平均）、自己求 \(A_s\)（設計而非檢核），而且卷首印了舊版單向剪力式，練「換式」與「結論翻轉」。<br>
+<b>先讀：</b>§1、§2、§3、§4<br><b>做完要能回答：</b>①承載力與強度設計各用哪種土壓？②為什麼單向剪力依現行式不足？③穿孔不足 1% 時，有哪兩種改法？</div>
+
+<h3>② <a class="qlink" href="problems-view/RC-2020-3.html" target="_blank">RC-2020-3</a>（2020，20 分）— 版穿孔＋剪力筋</h3>
+<div class="box"><b>為什麼選它：</b>唯一要配穿孔剪力筋的題目；同時練 \(\lambda_s\)（樓版要乘）、\(A_v\) 整圈肢數、\(V_n\) 上限。<br>
+<b>先讀：</b>§4、§5.1<br><b>做完要能回答：</b>①配了剪力筋 \(V_c\) 為什麼變小？②\(A_v\) 為什麼是 8 肢？③為什麼 \(V_u\) 不再乘載重因數？</div>
+
+<h3>③ <a class="qlink" href="problems-view/RC-2021-3.html" target="_blank">RC-2021-3</a>（2021，20 分）— 樁帽</h3>
+<div class="box"><b>為什麼選它：</b>把穿孔的「土壓」換成樁力：剛性樁帽樁力分配＋柱周與角隅樁兩種穿孔，而且最後由樁承壓控制——練「把每個限制都列出來再取最嚴」。<br>
+<b>先讀：</b>§4、§5.2<br><b>做完要能回答：</b>①柱周穿孔為什麼與偏心無關？②角隅樁的臨界周長怎麼畫？</div>
+
+<h3>④ <a class="qlink" href="problems-view/RC-2013-1.html" target="_blank">RC-2013-1</a>（2013，25 分）— 單向版</h3>
+<div class="box"><b>為什麼選它：</b>三張純記憶的表（版厚、係數、最少鋼筋）一次練完，考卷一條都不給；別題練不到。<br>
+<b>先讀：</b>§6.1<br><b>做完要能回答：</b>①外支承係數為什麼是 1/24？②為什麼最後由最少鋼筋控制？</div>
+
+<h3>⑤ <a class="qlink" href="problems-view/RC-2002-1.html" target="_blank">RC-2002-1</a>（2002，10 分）— 觀念鏈</h3>
+<div class="box"><b>為什麼選它：</b>沒有計算，10 分鐘可以寫完；但要畫得出範圍、兩層方向與適用條件，代表你懂角隅扭矩的力學。<br>
+<b>先讀：</b>§6.2<br><b>做完要能回答：</b>①版頂、版底各在哪個方向受拉？②範圍為什麼用長跨？</div>
+
+<h3>練這幾題的正確方法</h3>
+<ol>
+<li>先列所有假設（全厚、保護層、\(f_y\)、單位重），再分項檢核；每一項都寫「需求 vs 強度 → ✓／✗」。</li>
+<li>穿孔一定寫出三式數值，標出誰控制，並說明 \(\lambda_s\) 取多少、為什麼。</li>
+<li>做完對照題解的「常見誤讀」表與 §5 的舊式對照。</li>
+</ol>
+<p><b>候補：</b><a class="qlink" href="problems-view/RC-2025-1.html" target="_blank">RC-2025-1</a>（最新一年，與 2007-3 同型，用來驗收）、<a class="qlink" href="problems-view/RC-2019-3.html" target="_blank">RC-2019-3</a>（橫膈版）。</p>
+<p><b>誠實標註</b>：本單元沒有考過雙向版的直接設計法／等效構架法、聯合基腳、偏心載重的獨立基腳（土壓不均勻）、柱與版間的彎矩傳遞（\(\gamma_v\)）；這些本講義都沒有展開。</p>
+</section>
+
+<section id="s12">
+<h2>§12 因果鏈總表：能用嘴巴講出來才算懂</h2>
+<ol>
+<li><b>兩種土壓：</b>土壤承受全部重量 → 承載力用服務載重＋自重；自重與反力抵銷 → 強度用 \(q_u=P_u/A\)。</li>
+<li><b>臨界斷面：</b>柱面以內被撐住 → 彎矩在柱面；45° 斜裂縫 → 單向在 \(d\)；錐面穿過中高 → 穿孔在 \(d/2\)。</li>
+<li><b>單向剪力：</b>鋼筋少 → 裂縫寬、咬合差 → \(\rho_w^{1/3}\) → 基腳強度比舊式低四到五成 → 舊題結論翻轉。</li>
+<li><b>穿孔：</b>錐面圍束 → 1.06；柱扁、周長大 → 另兩式；越厚越脆 → \(\lambda_s\)；淺基礎可取 1。</li>
+<li><b>剪力筋：</b>裂縫先張開 → \(V_c\) 減半 → \(V_s=A_vf_{yt}d/s\)、\(A_v\) 算整圈 → 上限 1.59。</li>
+<li><b>樁帽：</b>剛性 → \(P/n\pm Pe\,x/\Sigma x^2\) → 柱周＋角隅樁 → 所有限制取最嚴。</li>
+<li><b>樓版：</b>不算撓度 → 版厚表；不做分析 → 係數表；角隅扭矩 → 頂底兩層、長跨 1/5；橫膈 → 撓曲＋抗剪合計。</li>
+</ol>
+</section>
+</main>
+<footer>
+RC-U3-2 觀念講義｜structural-exam-wiki／RC｜由 unit-lecture skill 產生（2026-11-15 首版）<br>
+數值與圖：scripts/lecture-figs/RC-U3-2/（calcs.py 以 assert 對帳題解正本；gen_figs.py 依數值繪圖並注入本頁）<br>
+資料來源：raw/json/question_index.json、raw/solutions/（2026-11-15 勘誤後版本）、建築物混凝土結構設計規範（2023）
+</footer>
+</body>
+</html>

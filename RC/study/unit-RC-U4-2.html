@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RC-U4-2 預力量與偏心｜單元總覽</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"></script>
+<style>
+
+:root{--ac:#1565c0;--ac2:#e8f0fe;--ink:#26323a;--mut:#607d8b;--bd:#e0e6ea;--bg:#f4f6f8;
+ --must:#c62828;--must2:#fdecea;--half:#ef6c00;--half2:#fff4e5;--give:#2e7d32;--give2:#e9f5ec}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+ font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.7;-webkit-text-size-adjust:100%}
+main{max-width:1120px;margin:0 auto;padding:0 16px 60px}
+header{background:linear-gradient(135deg,#0d47a1,#1565c0 55%,#1976d2);color:#fff;padding:28px 22px 24px}
+header .in{max-width:1120px;margin:0 auto}
+header .eyebrow{font-size:.78rem;letter-spacing:.14em;opacity:.85;margin:0 0 6px}
+header h1{margin:0 0 8px;font-size:1.6rem;line-height:1.4}
+header p{margin:0;font-size:.93rem;opacity:.94;max-width:80ch}
+header code{background:rgba(255,255,255,.18);color:#fff}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #dde4ea;
+ padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+nav a{font-size:.8rem;text-decoration:none;color:var(--ac);background:var(--ac2);padding:5px 12px;border-radius:20px;white-space:nowrap}
+nav a:hover{background:#d3e3fd}
+nav a.ext{background:#f3e5f5;color:#6a1b9a}
+section{margin:34px 0}
+h2{font-size:1.3rem;margin:0 0 6px;padding-left:11px;border-left:6px solid var(--ac);color:#0d47a1}
+h2 small{font-size:.8rem;color:var(--mut);font-weight:400;margin-left:6px}
+h3{font-size:1.04rem;margin:26px 0 8px;color:#37474f;padding-bottom:4px;border-bottom:2px solid var(--ac2)}
+p.lead{font-size:.93rem;color:#455a64;margin:6px 0 10px}
+code{font-size:.85em;background:#eceff1;padding:0 4px;border-radius:4px}
+a{color:var(--ac)}
+
+/* position strip */
+.pos{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;background:#fff;border:1px solid var(--bd);
+ border-radius:12px;padding:12px 16px;margin:18px 0 0;font-size:.9rem}
+.pos .k{display:flex;align-items:baseline;gap:5px}
+.pos .k b{font-size:1.35rem;color:#0d47a1;font-variant-numeric:tabular-nums}
+.pos .k span{color:var(--mut);font-size:.8rem}
+.pos .go{margin-left:auto;font-size:.82rem}
+.btnbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.btnbar a{padding:5px 14px;border-radius:6px;font-size:.86rem;text-decoration:none}
+.b-lec{background:#6a1b9a;color:#fff}.b-lecp{background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8}
+.b-pdf{background:#eceff1;color:#37474f;border:1px solid #cfd8dc}
+
+/* cards / tables shared */
+.note,.warn{border-radius:10px;padding:11px 15px;margin:12px 0;font-size:.89rem}
+.note{background:var(--ac2);border-left:5px solid var(--ac)}
+.warn{background:var(--half2);border-left:5px solid var(--half)}
+.tw{position:relative;overflow-x:auto;border:1px solid var(--bd);border-radius:10px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:.86rem;background:#fff}
+th,td{border-bottom:1px solid #eceff1;padding:7px 9px;text-align:left;vertical-align:top}
+th{background:#eceff1;color:#37474f;font-size:.8rem}
+td.num,th.num{text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+.up{color:#2e7d32;font-weight:700}.down{color:var(--must);font-weight:700}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:baseline}
+#riskT td:nth-child(-n+5),#riskT th:nth-child(-n+5){white-space:nowrap}
+.risk-hi{background:#ffebee}.risk-md{background:#fff8e1}.risk-lo{background:#f1f8e9}
+
+/* §1 clusters */
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:11px;margin-top:8px}
+.cat{background:#fff;border:1px solid var(--bd);border-left:6px solid;border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.cat:hover{box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.cat b{display:block;font-size:.98rem}.cat span{font-size:.8rem;color:var(--mut)}
+.chartbox{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:12px 14px;margin-top:12px}
+.chartbox h4{margin:0 0 6px;font-size:.88rem;color:var(--mut);font-weight:600}
+.chartbox canvas{width:100%;height:auto;display:block}
+.legend-s{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.78rem;color:#455a64;margin-top:6px}
+
+/* §2 formula */
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.lg{flex:1 1 220px;border-radius:10px;padding:10px 13px;border:1px solid}
+.lg h4{margin:0 0 3px;font-size:.95rem}.lg p{margin:0;font-size:.82rem;line-height:1.6}
+.lg.must{background:var(--must2);border-color:#f5c6c2}.lg.must h4{color:var(--must)}
+.lg.half{background:var(--half2);border-color:#ffd9a8}.lg.half h4{color:var(--half)}
+.lg.give{background:var(--give2);border-color:#bcdfc6}.lg.give h4{color:var(--give)}
+.kpis{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.kpi{flex:1 1 110px;background:#fff;border:1px solid var(--bd);border-radius:10px;padding:10px;text-align:center}
+.kpi .n{font-size:1.55em;font-weight:800;color:#0d47a1;line-height:1.15}
+.kpi .l{font-size:.73rem;color:var(--mut);margin-top:2px}
+.kpi.red .n{color:var(--must)}.kpi.org .n{color:var(--half)}.kpi.grn .n{color:var(--give)}
+details{background:#fff;border:1px solid var(--bd);border-radius:10px;margin:12px 0}
+details>summary{cursor:pointer;padding:10px 14px;font-weight:600;font-size:.92rem;color:#37474f}
+details>.db{padding:0 14px 12px}
+blockquote{margin:8px 0;padding:8px 14px;background:#fafbfc;border-left:4px solid #90a4ae;font-size:.87rem;color:#37474f}
+.ynote{font-size:.72rem;color:#78909c}
+.filters{display:flex;flex-wrap:wrap;gap:6px 12px;margin:12px 0;align-items:center}
+.filters .fg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.filters b{font-size:.76rem;color:var(--mut);margin-right:2px}
+.filters button,.filters select{font:inherit;font-size:.79rem;border:1px solid #cfd8dc;background:#fff;color:#455a64;border-radius:16px;padding:4px 12px;cursor:pointer}
+.filters select{max-width:100%}
+.filters button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.recallbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 12px;padding:8px 12px;background:#fff;border:1px dashed #b0bec5;border-radius:10px;font-size:.83rem;color:#546e7a}
+.recallbar button{font:inherit;font-size:.8rem;border:1px solid var(--ac);background:#fff;color:var(--ac);border-radius:16px;padding:3px 12px;cursor:pointer}
+.recallbar button.on{background:var(--ac);color:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));gap:12px}
+.fc,.qrow>*{min-width:0}
+.fc{background:#fff;border:1px solid var(--bd);border-left:6px solid #90a4ae;border-radius:10px;padding:12px 15px;scroll-margin-top:70px;transition:box-shadow .3s}
+.fc.must{border-left-color:var(--must)}.fc.half{border-left-color:var(--half)}.fc.give{border-left-color:var(--give)}
+.fc.flash{box-shadow:0 0 0 3px #90caf9}
+.fc .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.fc .nm{font-weight:700;font-size:1rem}
+.tag{font-size:.71rem;font-weight:700;border-radius:14px;padding:2px 9px;white-space:nowrap}
+.tag.must{background:var(--must2);color:var(--must)}.tag.half{background:var(--half2);color:var(--half)}.tag.give{background:var(--give2);color:var(--give)}
+.fc .eq{background:#f7f9fb;border-radius:8px;padding:5px 10px;margin:6px 0;overflow-x:auto}
+.fc .meta{font-size:.86rem;color:#455a64;margin:6px 0 0;line-height:1.68}
+.fc .ev{font-size:.78rem;margin-top:8px;padding-top:7px;border-top:1px dashed #dde4ea;color:#607d8b}
+.fc .ev a{display:inline-block;border-radius:4px;padding:0 5px;margin:1px 2px 1px 0;text-decoration:none;font-size:.76rem;background:var(--must2);color:var(--must)}
+.fc .ev a.sec{background:#eceff1;color:#546e7a}
+.fc .ev .ok{display:inline-block;border-radius:4px;padding:0 5px;background:var(--give2);color:var(--give);font-size:.76rem}
+.fc .ev .uses{margin-left:4px;color:#455a64;cursor:pointer;text-decoration:underline dotted}
+.never{color:var(--must);font-weight:700}
+body.recall .fc .eq{position:relative;cursor:pointer;min-height:2.6em}
+body.recall .fc .eq>*{visibility:hidden}
+body.recall .fc .eq::after{content:"✍ 先默寫，再點這裡翻開";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#90a4ae;font-size:.83rem;background:repeating-linear-gradient(45deg,#eef2f5 0 8px,#f7f9fb 8px 16px);border-radius:8px}
+body.recall .fc.rev .eq>*{visibility:visible}
+body.recall .fc.rev .eq::after{display:none}
+body.recall .fc .meta .katex{filter:blur(4px)}
+body.recall .fc.rev .meta .katex{filter:none}
+#mx{min-width:900px;font-size:.8rem}
+#mx th{text-align:center;position:sticky;top:0}
+#mx th:first-child,#mx th:nth-child(2),#mx th:last-child{text-align:left}
+#mx td.c{text-align:center}
+#mx .y{color:var(--give);font-weight:800}#mx .x{color:var(--must);font-weight:800}#mx .n{color:#cfd8dc}
+#mx tr.hl{background:#f2f7fc}
+#mx td.qq{font-size:.8rem;font-weight:600;white-space:nowrap}
+#mx td.qq a{text-decoration:none;border-bottom:1px dotted #90a4ae}
+#mx td.rm{font-size:.76rem;color:#546e7a;line-height:1.55}
+#mx tfoot td{background:#f7f9fb;font-size:.74rem;color:#455a64;text-align:center;border-top:2px solid #cfd8dc}
+#mx tfoot td:first-child{text-align:left;font-weight:700}
+.lgd{display:inline-block;min-width:1.6em;text-align:center;font-weight:800;margin:0 3px 0 8px;border-radius:4px;background:#fff;border:1px solid var(--bd)}
+.lgd.y{color:var(--give)}.lgd.x{color:var(--must)}.lgd.n{color:#b0bec5}
+.strat h4{margin:16px 0 4px;font-size:.98rem;color:#37474f}
+.strat p{margin:0 0 6px;font-size:.9rem;color:#455a64}
+
+/* §3 question table */
+.qhead{display:grid;grid-template-columns:96px 58px 1fr 1.25fr 64px;gap:10px;padding:6px 12px;font-size:.76rem;color:var(--mut);font-weight:600}
+.qrow{display:grid;grid-template-columns:96px 58px 1fr 1.25fr 64px;gap:10px;align-items:start;background:#fff;border:1px solid var(--bd);border-left:6px solid;border-radius:9px;padding:9px 12px;margin-bottom:7px}
+.qrow.sec{background:#fafafa;border-style:dashed;border-left-style:solid}
+.qrow .id a{font-weight:700;text-decoration:none}
+.qrow .id .sub{display:block;font-size:.72rem;color:var(--mut);font-weight:400}
+.qrow .ty{font-size:.72rem;color:#fff;border-radius:10px;padding:1px 8px;text-align:center;justify-self:start;white-space:nowrap}
+.qrow .sum{font-size:.88rem}
+.qrow .sum .cl{display:block;font-size:.74rem;color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font:inherit;font-size:.74rem;border-radius:12px;padding:1px 9px;border:1px solid;cursor:pointer;background:#fff;line-height:1.6}
+.chip.must{color:var(--must);border-color:#f5c6c2;background:var(--must2)}
+.chip.half{color:var(--half);border-color:#ffd9a8;background:var(--half2)}
+.chip.give{color:var(--give);border-color:#bcdfc6;background:var(--give2)}
+.chip.hit{outline:2px solid #1565c0}
+.chips .none{font-size:.76rem;color:var(--mut)}
+.qrow .ico{font-size:.85rem;white-space:nowrap;text-align:right}
+.qrow .ico a{text-decoration:none}
+.count{font-size:.82rem;color:var(--mut);margin:0 0 8px}
+@media(max-width:760px){
+ .qhead{display:none}
+ .qrow{grid-template-columns:auto 1fr auto;gap:6px 10px}
+ .qrow .id{grid-column:1;grid-row:1}.qrow .ty{grid-column:2;grid-row:1;align-self:center}.qrow .ico{grid-column:3;grid-row:1}
+ .tw table{min-width:620px}
+ .qrow .sum,.qrow .chips{grid-column:1/-1}
+ header h1{font-size:1.3rem}
+ .cards{grid-template-columns:1fr}
+ .pos .go{margin-left:0}
+ .katex{display:inline-block;max-width:100%;overflow-x:auto;overflow-y:hidden;vertical-align:middle}
+ .katex-display>.katex{display:block}
+ .filters .fg{max-width:100%}
+ .filters select{width:100%}
+}
+footer{margin-top:40px;padding-top:14px;border-top:1px solid #dde4ea;color:#78909c;font-size:.78rem}
+@media print{
+ nav,.filters,.recallbar,.btnbar,.pos .go{display:none!important}
+ body{background:#fff}header{padding:14px 0;color:#000;background:none;border-bottom:2px solid #0d47a1}
+ header .eyebrow,header p{opacity:1}
+ section{break-inside:auto}.fc,.qrow,.chartbox,tr{break-inside:avoid}
+ body.recall .fc .eq>*{visibility:visible}body.recall .fc .eq::after{display:none}
+ #mx{font-size:7pt;min-width:0}
+ .cards{grid-template-columns:1fr 1fr;gap:8px}.fc{padding:8px 10px}.fc .eq{font-size:.8em}.fc .meta{font-size:.78rem}
+ .qrow{padding:6px 10px;margin-bottom:4px}.chartbox{display:none}.cats{grid-template-columns:1fr 1fr}
+}
+.katex-display{overflow-x:auto;overflow-y:hidden;padding:2px 0}
+.chip.gv{color:var(--give);border-color:#bcdfc6;background:#fff;border-style:dashed}
+</style>
+</head><body>
+
+
+<header><div class="in">
+  <p class="eyebrow">exam-wiki-RC｜鋼筋混凝土｜單元總覽</p>
+  <h1>RC-U4-2　預力量與偏心量設計</h1>
+  <p>一頁回答三件事：<b>這單元考什麼</b>、<b>哪些公式考卷會給、哪些要自己背</b>、<b>每一題要背哪幾條</b>。數字全部可由 <code>raw/json/question_index.json</code> 與題解重算；全科排第幾、哪年有考，看全科熱圖。</p>
+</div></header>
+
+<nav>
+  <a href="#s1">一、考什麼</a>
+  <a href="#s2">二、公式給／背</a>
+  <a href="#s3">三、考題總表</a>
+  <a href="#s4">四、只剩三天</a>
+  <a class="ext" href="lecture-RC-U4-2.html">觀念講義 ▶</a>
+  <a class="ext" href="frequency-RC.html#s-heat">全科熱圖 ▶</a>
+</nav>
+
+<main>
+
+<div class="pos"><div class="k"><b>#9</b><span>全科出題排名（13 子項）</span></div><div class="k"><b>5</b><span>主考點題數（＋副考點 1）</span></div><div class="k"><b>5/24</b><span>有出題的考年</span></div><div class="k"><b>3/6</b><span>近 6 考年（2020–25）共 3 題</span></div>
+  <a class="go" href="frequency-RC.html#s-heat">在全科熱圖看這一列 →</a>
+</div>
+<div class="btnbar">
+  <a class="b-lec" href="lecture-RC-U4-2.html">觀念講義 📘</a>
+  <a class="b-lecp" href="lecture-RC-U4-2.pdf" target="_blank">講義 PDF 🖨️</a>
+  <a class="b-pdf" href="unit-RC-U4-2.pdf" target="_blank">本頁 PDF 🖨️</a>
+</div>
+
+<!-- ============================================================ 一 -->
+<section id="s1">
+<h2>一、這單元考什麼</h2>
+<p class="lead">5 題主考點依「考點結構」分成 3 群，每題只歸一群。點卡片會跳到第三節、只列出那一群的題目。</p>
+<div class="cats" id="cats"></div>
+
+<h3 id="drift">考點漂移：前段 vs. 後段</h3>
+<div class="note">
+📌 <b>三個要記住的數字</b>：① 主考點只有 <b>5 題</b>（全期排第 9），但 <b>2014–2025 後半期有 4 題</b>、排第 6——只看總排名會把它排得太後面；近 6 考年 <b>2020、2024、2025 三年各一題</b>，是整個預力區塊目前最熱的子項；
+② 5 題主考點<b>全部是第四題、全部是 WSD</b>，而且清一色是矩形斷面——題型窄、套路固定，是投資報酬率很高的單元；
+③ <b>2025-4 幾乎是 2010-4 的重製題</b>（同樣 \(P_i=200\) tf、\(f_{pe}/f_{pi}=0.85\)、均布活載重 1.5 tf/m，只換了跨度與斷面），15 年後一條公式都沒多給。
+</div>
+<p class="lead"><b>考點漂移：前 2 題（2010–2015）vs. 後 3 題（2020–2025）</b></p>
+<p style="font-size:.9em;margin:0 0 10px;color:#78909c">把 5 題主考點依題號排序後對切，前段取 ⌊5/2⌋＝2 題（2010-4、2015-4）、後段 3 題（2020-4、2024-4、2025-4）。副考點 2005-5（主考點 U4-3）不計入對切，另列於表末。</p>
+<div class="tw"><table>
+<thead><tr><th>題型</th><th class="num">2010–2015</th><th class="num">2020–2025</th><th class="num">變化</th><th>解讀</th></tr></thead>
+<tbody>
+<tr><td><span class="bar" style="width:12px;background:#f57c00"></span> 簡支梁偏心距限制與最優設計</td><td class="num">2</td><td class="num">1</td><td class="num down">▼ −1</td><td>2010-4、2025-4 是同一個模子（傳遞＋使用兩階段、四條不等式取交集）；2015-4 換成「四條同時達限求最優 F、e<sub>p</sub> 與最大活載」。<b>題數少了一題，但 2025 剛考過，不是退燒</b></td></tr>
+<tr><td><span class="bar" style="width:12px;background:#1565c0"></span> 超靜定預力：等效載重、二次彎矩與 C 線</td><td class="num">0</td><td class="num">2</td><td class="num up">▲ +2</td><td><b>近年新題型。</b>2020-4 兩跨連續梁要求「無二次彎矩且均勻軸壓」（載重平衡）；2024-4 受撐懸臂梁要畫壓力線、算二次反力、說明怎麼改成同位鋼腱。兩題都要先會超靜定梁的彎矩（結構學）</td></tr>
+<tr style="background:#fafafa"><td><span class="bar" style="width:12px;background:#2e7d32"></span> 鋼腱線形與載重能力（論述）<br><span style="font-size:.85em;color:#78909c">（副考點，主考點在 U4-3）</span></td><td class="num" colspan="2">2005-5（副）</td><td class="num flat">—</td><td>論述直線與曲線鋼腱的載重能力差別，與 2010-4 ㈠ 是同一個觀念：<b>直線鋼腱的偏心被梁端（沒有自重彎矩）卡住</b>。兩題的舊解都把它答成「跨中彎矩一樣、只差剪力撓度」，已於 2026-11-15 勘誤</td></tr>
+</tbody>
+</table></div>
+<div class="chartbox"><h4>年度分布（主考點 5 題，依考點結構堆疊）</h4><canvas id="cvBar" width="1000" height="230"></canvas><div class="legend-s" id="barLg"></div></div>
+<div class="note">
+📌 <b>一句話</b>：本單元從「簡支梁上下限」擴張到「超靜定梁的壓力線」——前者是 U4-1 應力疊加的延伸，後者其實是結構學（等效載重＋力法）套在預力上。
+只準備簡支梁四控制條件，2020、2024 兩題會整題拿不到分；反過來，C 線那兩題一旦懂了「等效載重自平衡、只有束制才產生二次反力」，計算量反而比四控制條件小。
+</div>
+
+<h3 id="type">題型走向</h3>
+<p class="lead"><b>設計法走向：本單元 100% 是工作應力法（WSD）</b></p>
+<div class="tw"><table>
+<thead><tr><th>期間</th><th class="num">WSD<br>容許應力</th><th class="num">USD<br>強度</th><th class="num">概念題</th><th>觀察</th></tr></thead>
+<tbody>
+<tr><td>2010–2015（2 題）</td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td>偏心距限制與最優設計，全用容許應力</td></tr>
+<tr><td>2020–2025（3 題）</td><td class="num">3</td><td class="num">0</td><td class="num">0</td><td>C 線題也標 WSD：只算預力效應與服務載重下應力，不碰極限強度</td></tr>
+<tr style="background:#fafafa"><td>副考點 2005-5</td><td class="num">0</td><td class="num">0</td><td class="num">1</td><td>純論述，無數值</td></tr>
+<tr style="background:#fff8e1"><td><b>近 6 考年 2020–2025（3 題）</b></td><td class="num">3</td><td class="num">0</td><td class="num">0</td><td>與全期相同，沒有 USD 題</td></tr>
+</tbody>
+</table></div>
+<div class="note">
+📌 <b>對複習的直接影響</b>：這個單元<b>不考 \(f_{ps}\)、\(M_n\)</b>（那些在 U4-1），只考兩件事：<b>容許應力該取多少</b>、<b>偏心該放在哪裡</b>。
+前者在 2010-4、2025-4 都是「請自行推知」，所以現行規範的傳遞／使用階段容許值（含 kgf 制係數）必須能默寫；本庫舊解把兩題的拉應力一律取 0，範圍算得過窄，已於 2026-11-15 勘誤改用 U 類限值。<br><br>
+哪些公式考卷會印、哪些要自己背，見 <a href="#s2">給／背分界</a>。
+</div>
+
+<h3 id="risk">命題風險排序</h3>
+<p class="lead">依「歷史頻率 × 空窗年數 × 近年趨勢」排序。<b>這是推測不是預言</b>，用途是決定練題順序，不是 all-in 單一考點。最右欄是這類題<b>必背的公式</b>，點了跳到第二節的卡片。</p>
+<div class="tw"><table id="riskT">
+<thead><tr><th>風險</th><th>考點</th><th class="num">歷史題數</th><th>最後出現</th><th class="num">空窗</th><th>理由</th><th>必背公式</th></tr></thead>
+<tbody>
+<tr class="risk-hi"><td><b>高</b></td><td>簡支梁跨中偏心距限制（四控制條件＋現行容許應力）</td><td class="num">2</td><td>2025-4</td><td class="num">0 年</td><td>2010-4 與 2025-4 幾乎同一題，代表題庫會回收；兩題都沒給容許應力、沒給單位重。再加上 U4-1 副考點也用同一套條件，練一次抵兩個子項</td><td data-f="0,2,3,4,5"></td></tr>
+<tr class="risk-hi"><td><b>高</b></td><td>超靜定預力梁的二次彎矩、C 線與同位鋼腱</td><td class="num">2</td><td>2024-4</td><td class="num">1 年</td><td>2020、2024 四年內出兩題，屬「新題型剛成形」；兩題都要先算超靜定梁彎矩（兩跨連續梁 \(wL^2/8\)、受撐懸臂梁相容法），結構學不熟就卡在第一步</td><td data-f="8,10,11,12"></td></tr>
+<tr class="risk-md"><td><b>中</b></td><td>四條件同時達限的最優設計（求 F、e<sub>p</sub>、w<sub>L,max</sub>）</td><td class="num">1</td><td>2015-4</td><td class="num">10 年</td><td>只出過一次，但它是偏心距限制的「反問版」，題目條件（容許值 140／0）一給，聯立兩次就收工；空窗 10 年，值得用半小時練一遍</td><td data-f="5,6"></td></tr>
+<tr class="risk-lo"><td><b>中低</b></td><td>直線 vs 曲線鋼腱的載重能力（論述或計算）</td><td class="num">2</td><td>2010-4</td><td class="num">15 年</td><td>2005-5（論述）、2010-4 ㈠（計算）兩次；觀念一句話就能講完（直線鋼腱偏心受梁端控制，曲線鋼腱多抵抗約 \(\eta M_G\)），但兩題舊解都答錯，值得看一次勘誤後的版本</td><td data-f="7,13"></td></tr>
+</tbody>
+</table></div>
+</section>
+
+<!-- ============================================================ 二 -->
+<section id="s2">
+<h2>二、公式給／背</h2>
+<p class="lead">以 <b>2002–2025 共 24 份考卷原文</b>為證據，逐條判定哪些考卷會印給你、哪些必須自己寫得出來。這不是公式速查表，是<b>背誦資源的投放決策</b>。</p>
+<p class="lead">結論先講：<b>本單元 15 條公式裡，考卷只「給」過一樣東西——有效預力比 \(P_e/P_i\)。</b>
+5 題主考點有 <b>4 題是零公式年</b>（2010、2020、2024、2025），唯一例外 2015-4 也只是在題文裡把容許應力寫成數值（\(f_{ca}=140\)、\(f_{ta}=0\)）。
+四控制條件、核心距、等效載重、二次彎矩、C 線——<b>24 年零次印出</b>。</p>
+<div class="warn"><b>⚠️ 容許應力：別被 U4-1 的經驗騙了。</b>
+在 U4-1（斷面應力分析），使用階段容許應力印過四次（96、97、104、110 年），所以那裡歸為「別賭」。
+但本單元的偏心距題 <b>2010-4、2025-4 兩次都沒給</b>，卷首只寫「依規範所需之公式或物理參數等，請自行推知或合理假設」（99 年）或指定土木 401-112（114 年）。
+\(0.60f'_{ci}\)、\(0.8\sqrt{f'_{ci}}\)、\(0.45f'_c\)、U 類 \(2.0\sqrt{f'_c}\)（kgf 制）要能默寫。</div>
+<details><summary>判定方法（展開）</summary><div class="db">
+<p class="lead">考卷交公式有三種擺法，三種都算「有給」：<b>(a) 集中式</b>——最後一題後另闢「※參考公式」區；<b>(b) 隨題式</b>——緊跟該題題目；<b>(c) 內文式</b>——混在題目敘述裡當已知條件。</p>
+<h4>1-1　本單元的「給」只有內文式一種</h4>
+<div class="tw"><table>
+<tr><th style="width:14%">擺法</th><th style="width:30%">特徵</th><th>本單元的實例</th></tr>
+<tr><td><b>(a) 集中式</b></td><td>卷首或題前共用區</td><td>沒有。2025 年卷首共用區給的是 RC 各題用的 \(f'_c=280\)、鋼筋 \(f_y\) 與尺寸表，與本題無關（本題另給 \(f'_{ci}\)、\(f'_c\)）</td></tr>
+<tr><td><b>(b) 隨題式</b></td><td>緊跟題目的「提示」「參考公式」</td><td>沒有。預力區塊的隨題式公式（93 年 \(f_{ps}\)、108 年摩擦損失、112 年無黏結 \(f_{ps}\)）都落在 U4-1／U4-3</td></tr>
+<tr><td><b>(c) 內文式</b></td><td>以題目條件給數值</td><td>104 年「施預力時及全部載重作用時，容許壓應力均為 \(f_{ca}=140\)，容許拉應力均為 \(f_{ta}=0\)」；99、109、114 年給 \(f_{pe}/f_{pi}\) 或 \(P_e/P_i\)</td></tr>
+</table></div>
+
+<h4>1-2　考卷的免責聲明：本來就不打算給</h4>
+<blockquote>「以下各計算題依規範所需之公式或物理參數等，請自行推知或合理假設。」（99 年——這年第四題就是偏心距限制）</blockquote>
+<p>109、113、114 年改為指定作答規範（108 年版規範／土木 401-100、土木 401-112），沒有任何公式提示。
+104 年的 \(f_{ca}=140\)（\(=0.4f'_c\)）、\(f_{ta}=0\) 比現行規範嚴，依本庫「容許值例外」規則視為題目設計條件照用；
+沒給容許值的年份，一律依現行規範取值，<b>拉應力不可自作主張取 0</b>（那是「完全預力」條件，會把可行範圍算得過窄）。</p>
+
+<h4>1-3　零公式年也一定要自己補的三個假設</h4>
+<ul>
+<li><b>混凝土單位重</b>：2010-4、2015-4、2025-4 都沒給。2010-4 明寫「除自重外」，2025-4 連自重都沒提，但自重恆存在、傳遞階段就在抵銷偏心彎矩——寫上「假設 2.4 tf/m³」再算。</li>
+<li><b>容許應力</b>：見上。kgf 制係數是 SI 係數 ×3.19（\(\sqrt{10.197}\)），例如 SI 的 \(0.25\sqrt{f'_{ci}}\) ↔ kgf 制 \(0.8\sqrt{f'_{ci}}\)。</li>
+<li><b>最大可行偏心</b>：沒給保護層時，算出的 \(e_{\max}\) 要自己檢查是否放得進斷面（2010-4 取鋼腱形心距底至少 10 cm，\(e\le35\) cm）。</li>
+</ul>
+<p class="lead"><b>「用到」的判定</b>：該題題解實際寫出或套用了這條式子才算。卡片上的題號、第三節每題的公式標籤、下方逐年表的 ✗，全部由同一份逐題資料算出。</p>
+</div></details>
+
+<div class="legend">
+<div class="lg must"><h4>必背</h4><p>考卷從未印過；或曾「考了卻沒給」。自己要寫得出來，否則整題卡死。</p></div>
+<div class="lg half"><h4>別賭</h4><p>曾在某些年份印出，但多數年份沒有，或只給形式不給可用的式子。仍建議背。</p></div>
+<div class="lg give"><h4>通常會給</h4><p>需要用到時幾乎必定印在題幹，無「考了卻沒給」的先例。</p></div>
+</div>
+<p class="lead">採<b>保守標準</b>：拿不準就往上歸。把「必背」誤判成「會給」的代價，遠大於多背幾條。</p>
+<div class="kpis" id="fkpi"></div>
+
+<h3>公式逐條分界</h3>
+<p class="lead">每張卡底下列出「考了卻沒給」的<b>題號</b>（灰色＝副考點題），點題號開解析；點「看這幾題」會在第三節篩出用到這條的題目。</p>
+<div class="filters" id="flt"></div>
+<div class="recallbar"><button id="rcToggle" type="button">🙈 回想模式：關</button><span id="rcInfo"></span><button id="rcReset" type="button" hidden>全部蓋回</button></div>
+<div class="cards" id="cards"></div>
+
+<details id="mxBox"><summary>逐年證據表：24 考年 × 公式欄（展開）</summary><div class="db">
+<p class="lead">每格三種狀態：<span class="lgd y">✔</span> 該年考卷印出 <span class="lgd x">✗</span> 該年有本單元題目用到這欄的式子，<b>考卷卻沒印</b> <span class="lgd n">·</span> 該年沒用到。底色列＝該年有本單元題目。</p>
+<div class="tw"><table id="mx">
+<thead><tr><th>考卷年</th><th>單元題號</th><th>應力疊加S / k</th><th>容許應力傳遞階段</th><th>容許應力使用階段</th><th>kgf 制係數</th><th>四控制條件</th><th>直線/曲線鋼腱</th><th>等效載重平衡</th><th>二次彎矩C線</th><th>超靜定梁彎矩</th><th>摩擦損失</th><th>Pe/Pi 給定</th><th>備註</th></tr></thead>
+<tbody></tbody><tfoot></tfoot></table></div>
+<p class="lead" id="mxsum" style="margin-top:10px"></p>
+</div></details>
+
+<h3>背誦策略</h3>
+<div class="strat" id="strat">
+<h4>4-1　這 15 條裡，先背哪 5 條</h4>
+<ol>
+<li><b>四控制條件與「哪兩條會控制」</b>——傳遞頂拉（\(P_i\)、只有 \(M_G\)）定<b>上限</b>，使用底拉（\(P_e\)、\(M_G+M_L\)）定<b>下限</b>。2010-4、2025-4 兩題都是這兩條控制，壓應力條件只是陪榜。</li>
+<li><b>現行容許應力表（kgf 制）</b>——傳遞：壓 \(0.60f'_{ci}\)（簡支端部 \(0.70f'_{ci}\)）、拉 \(0.8\sqrt{f'_{ci}}\)（端部 \(1.6\sqrt{f'_{ci}}\)）；使用：壓 \(0.45f'_c\)（持續）／\(0.60f'_c\)（全部）、拉 U 類 \(2.0\sqrt{f'_c}\)、T 類 \(2.0\!\sim\!3.2\sqrt{f'_c}\)。</li>
+<li><b>等效載重 \(w_p=8Pf/L^2\)（\(f\) 為弦線下垂量）與二次彎矩 \(M_2=M_{\text{net}}-Pe\)</b>——2020-4 用它驗證載重平衡，2024-4 用它求二次反力。記住「等效載重自平衡，只有超靜定束制才產生反力」。</li>
+<li><b>C 線 \(e_C=e-M_2/P\)，同位鋼腱 ⇔ \(M_2=0\)</b>——2024-4 直接問怎麼改成同位鋼腱；只改支承處偏心、不改跨內形狀（線性轉換），C 線不變。</li>
+<li><b>直線鋼腱偏心由梁端控制</b>——梁端 \(M=0\)，\(e_s\le k_b+f_{ti,\text{end}}S/P_i\)；曲線鋼腱跨中可多放 \(M_G/P_i\)，使用時多抵抗約 \(\eta M_G\)。</li>
+</ol>
+
+<h4>4-2　可以省下的背誦力氣</h4>
+<ul>
+<li><b>有效預力比</b>：2010、2020、2025 都直接給（0.85、0.8、0.85）；2015 只有一個 \(F\)。不用推損失。</li>
+<li><b>斷面性質</b>：5 題全是矩形，\(S=bh^2/6\)、\(k=h/6\) 現算即可，不用背 I 形斷面的表。</li>
+<li><b>最優設計的封閉解</b>（對稱斷面、兩階段同一預力時）：\(M_{L,\max}=(f_{ca}-f_{ta})S\)、\(F=(f_{ca}+f_{ta})A/2\)——由四條等式兩兩相加推得，考場上推一次只要兩行，不必硬背。</li>
+</ul>
+
+<h4>4-3　四個「陷阱型」細節</h4>
+<div class="warn"><b>⚠️ 一、拉應力不要一律取 0。</b>考卷沒給容許值時依現行規範取 U 類 \(2.0\sqrt{f'_c}\)、傳遞 \(0.8\sqrt{f'_{ci}}\)。
+本庫舊解在 2010-4 取 0 得 27.68～30.18 cm，現行規範為 <b>12.83～34.71 cm</b>；只有考卷明寫 \(f_{ta}=0\)（如 2015-4）才照用。</div>
+<div class="warn"><b>⚠️ 二、SI 係數不能直接代 kgf/cm²。</b>規範的 \(0.25\sqrt{f'_{ci}}\)、\(0.62\sqrt{f'_c}\)（MPa）換成 kgf 制要乘 3.19，變成 \(0.8\sqrt{f'_{ci}}\)、\(2.0\sqrt{f'_c}\)。2025-4 的考卷全用 kgf 單位。</div>
+<div class="warn"><b>⚠️ 三、直線鋼腱不是「零偏心、只給軸壓」。</b>2010-4 ㈠ 的舊解用 \(8P_ee_p/l^2\) 當成「曲線比直線多的載重」，其實那是曲線鋼腱的平衡載重；直線鋼腱的 \(P_ee\) 一樣能抵抗彎矩，差別在偏心能放多大（梁端限制）。</div>
+<div class="warn"><b>⚠️ 四、2020-4 ㈡ 用 \(P_i\) 時斷面 B 不再是均勻軸壓。</b>㈠ 以 \(P_e\) 做到載重平衡，㈡ 換成 \(P_i=P_e/0.8\)，等效上揚力大於 \(w\)，B 點出現 \((P_i/P_e-1)\,wL^2/8\) 的淨彎矩——直接寫 \(P_i/A\) 會漏掉這一項。</div>
+
+<h4>4-4　一句話</h4>
+<p class="lead">RC-U4-2 的給／背分界是全 RC 最極端的：<b>除了預力損失比，什麼都不給</b>。好消息是題型只有兩種（簡支梁四控制條件、超靜定梁 C 線），
+而且 2025 年證明了題目會回收——把 2010-4／2025-4、2020-4／2024-4 這兩對題各練到能默寫流程，就涵蓋了 5 題主考點。</p>
+</div>
+</section>
+
+<!-- ============================================================ 三 -->
+<section id="s3">
+<h2>三、考題總表 <small>主 5 ＋ 副 1 ＝ 6 題</small></h2>
+<p class="lead">每題列出題解用到的公式：紅／橘＝考卷沒給、要自己背；綠框虛線＝那年考卷有印。標籤點了會跳到第二節那張卡。虛線灰底＝副考點（主考點在別的子項）。</p>
+<div class="filters" id="qflt">
+  <div class="fg" id="qfCat"><b>考點群</b></div>
+  <div class="fg" id="qfPri"><b>範圍</b></div>
+  <div class="fg"><b>用到公式</b><select id="qfF"><option value="">（不限）</option></select></div>
+</div>
+<p class="count" id="qcount"></p>
+<div class="qhead"><span>題號</span><span>題型</span><span>考什麼</span><span>用到的式子</span><span style="text-align:right">解析／影片</span></div>
+<div id="qlist"></div>
+<div class="note">圖示：📄 解析頁（problems-view）、🎬 解題影片、✅ 已驗證。本單元目前沒有 verificationStatus＝verified 的題目。</div>
+</section>
+
+<!-- ============================================================ 四 -->
+<section id="s4">
+<h2>四、只剩三天</h2>
+<div class="note" style="font-size:.92rem">
+📌 <b>若只剩三天</b>：先把「傳遞頂拉定上限、使用底拉定下限」連同現行容許應力表（kgf 制）練到能默寫——2010-4、2025-4 是同一題，第三次出現的機率不低；
+第二順位是 2024-4 的流程（拋物線三點擬合 → 等效載重 → 相容法求 \(R_B\) → \(M_2\) → C 線），順手把 2020-4 的載重平衡看一遍；<b>2015-4 最優設計</b>排第三，<b>2005-5 論述</b>讀勘誤後的結論即可。
+本單元的應力疊加與符號約定見 <a href="unit-RC-U4-1.html">U4-1 單元總覽</a>。
+</div>
+</section>
+
+<footer>
+RC-U4-2 單元總覽｜由 <code>scripts/build_unit_page.py</code> 從 <code>study/data/unit-RC-U4-2.json</code> 產生｜2026-11-15<br>
+資料來源：<code>raw/json/question_index.json</code>（100 題／24 考年）、<code>raw/exams/</code> 考卷原文、<code>raw/solutions/RC-YYYY-N/*.md</code>（本單元 6 份題解，逐題核對公式用途）。<br>
+本頁為 RC-U4-2 首版單元總覽（2026-11-15），題目集合依 question_index.json（主考點 5 題、副考點 1 題）。公式證據：24 份考卷全數以 pdftotext 抽取並以關鍵字搜尋參考公式區，掃描影像卷 2003 年轉圖目視；本單元 6 題另以題目正本（-problem.md，已確認）§2「考卷給的公式」逐題核對。逐題公式用途以各題解析 §1–§4 的 regex 命中數為初篩，再逐題開原文確認（§5 討論不計）。2005-5、2010-4 的 ㈠ 與 2010-4、2025-4 的容許應力已於 2026-11-15 勘誤（FIX-RC-U4-2-B1），本頁依勘誤後版本。全部 6 題目前皆為 unverified。
+</footer>
+</main>
+
+<script>
+const D={"Q": [{"id": "RC-2010-4", "cl": "P", "sum": "簡支梁跨中偏心距上下限 12.83～34.71 cm（U 類），並比較曲線 vs 直線鋼腱可多承受 18.1 tf·m", "ty": "計算", "f": [0, 1, 2, 3, 4, 5, 7, 14], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "WSD"}, {"id": "RC-2015-4", "cl": "P", "sum": "端部無偏心拋物線腱，四條件同時達限求 F=105 tf、ep=14.50 cm、wLmax=0.972 tf/m", "ty": "計算", "f": [0, 1, 2, 3, 5, 6], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "WSD"}, {"id": "RC-2025-4", "cl": "P", "sum": "簡支梁跨中偏心距上下限 −15.07～37.24 cm（99 年同型重製）", "ty": "計算", "f": [0, 1, 2, 3, 4, 5, 14], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "WSD"}, {"id": "RC-2020-4", "cl": "C", "sum": "兩跨連續梁載重平衡求 eD=eE=17.5 cm、Pe=128.6 tf；改用 Pi 後求 B 斷面上下緣應力", "ty": "計算", "f": [0, 1, 8, 9, 10, 11, 12, 14], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "WSD"}, {"id": "RC-2024-4", "cl": "C", "sum": "受撐懸臂預力梁：繪 C 線、求二次反力 RB=0.25 tf、說明改為同位鋼腱", "ty": "計算", "f": [8, 10, 11, 12], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "WSD"}, {"id": "RC-2005-5", "cl": "L", "sum": "論述直線 vs 曲線鋼腱載重能力（直線偏心受梁端控制），及直線後拉鋼腱的擺動摩擦損失", "ty": "說明", "f": [0, 1, 2, 5, 7, 8, 13], "pri": 0, "secCat": "U4-3 預力損失", "ver": 0, "video": 0, "dm": "概念題"}], "F": [{"g": "A 斷面應力與性質", "lv": "must", "nm": "上下緣應力疊加式", "sh": "應力疊加", "c": 0, "eq": "$$\\begin{gathered}f_{t}=\\frac{P}{A}-\\frac{Pe}{S_t}+\\frac{M}{S_t} \\\\ f_{b}=\\frac{P}{A}+\\frac{Pe}{S_b}-\\frac{M}{S_b}\\quad(\\text{壓為正})\\end{gathered}$$", "meta": "<b>24 年零次印出<\/b>，本單元 6 題有 5 題寫出它（2005-5 論述、2010-4、2015-4、2020-4 ㈡、2025-4）。四控制條件就是把這兩式各在傳遞、使用兩階段寫一次。符號約定（壓正或拉正、\\(e\\) 向下為正）要寫在卷面上；本單元題解一律壓為正。與 U4-1 共用。", "ok": []}, {"g": "A 斷面應力與性質", "lv": "must", "nm": "矩形斷面 S 與核心距 k", "sh": "S／核心距", "c": 0, "eq": "$$S=\\frac{bh^2}{6},\\qquad k_t=k_b=\\frac{S}{A}=\\frac{h}{6}$$", "meta": "從未印過，5 題主考點全是矩形斷面（2010-4 50×90、2015-4 30×50、2020-4 50×90、2024-4 40×60、2025-4 40×120）。2005-5 用 \\(k_b=h/6\\) 說明直線鋼腱的偏心只能放到核心距附近。2024-4 只用幾何、不必算 \\(S\\)。", "ok": []}, {"g": "B 容許應力（現行規範）", "lv": "must", "nm": "傳遞階段容許應力", "sh": "傳遞容許", "c": 1, "eq": "$$\\begin{gathered}f_{ci}=0.60f'_{ci}\\ (\\text{簡支端部 }0.70f'_{ci}) \\\\ f_{ti}=0.8\\sqrt{f'_{ci}}\\ (\\text{簡支端部 }1.6\\sqrt{f'_{ci}})\\quad[\\text{kgf/cm}^2]\\end{gathered}$$", "meta": "本單元只有 2015-4 以數值給（\\(f_{ca}=140\\)、\\(f_{ta}=0\\)，兩階段同值）；<b>2010-4、2025-4 都要你自己取<\/b>。2012 年（U4-1）曾印 \\(0.60f'_{ci}\\)、\\(0.80\\sqrt{f'_{ci}}\\)。<b>端部值是 2010-4 ㈠ 的關鍵<\/b>：直線鋼腱的偏心由梁端 \\(1.6\\sqrt{f'_{ci}}\\) 控制（\\(e\\le24.04\\) cm）。用 \\(f'_{ci}\\) 不是 \\(f'_c\\)。", "ok": [2012, 2015]}, {"g": "B 容許應力（現行規範）", "lv": "must", "nm": "使用階段容許應力（U／T／C 分類）", "sh": "使用容許", "c": 2, "eq": "$$\\begin{gathered}f_c=0.45f'_c\\ (\\text{持續})\\ /\\ 0.60f'_c\\ (\\text{全部}) \\\\ f_t\\le2.0\\sqrt{f'_c}\\ (\\text{U 類})\\ ;\\ 2.0\\!\\sim\\!3.2\\sqrt{f'_c}\\ (\\text{T 類})\\end{gathered}$$", "meta": "2010-4、2025-4 沒給；2015-4 給 140／0（照用）。U4-1 那邊印過四次（96、97、104、110 年，每次值都不同），所以在 U4-1 歸「別賭」；<b>但本單元的偏心距題 3 題有 2 題沒給<\/b>，歸必背。舊解把拉應力取 0 得到過窄範圍，U 類限值才是現行主線。", "ok": [2007, 2008, 2015, 2021]}, {"g": "B 容許應力（現行規範）", "lv": "must", "nm": "kgf 制係數換算", "sh": "kgf 係數", "c": 3, "eq": "$$\\begin{gathered}1\\ \\text{MPa}=10.197\\ \\text{kgf/cm}^2 \\\\ \\sqrt{10.197}=3.19 \\\\ 0.25\\sqrt{f'_{ci}}\\!\\to\\!0.8\\sqrt{f'_{ci}},\\ \\ 0.62\\sqrt{f'_c}\\!\\to\\!2.0\\sqrt{f'_c}\\end{gathered}$$", "meta": "從未印過。2010-4、2025-4 題解都特別列出換算（2025-4：\\(f_t=2.0\\sqrt{420}=40.99\\)、\\(f_{ti}=0.8\\sqrt{320}=14.31\\) kgf/cm²）。把 SI 係數直接代 kgf/cm² 會讓拉應力限值小約 3 倍，偏心範圍整個偏掉。", "ok": []}, {"g": "C 偏心距設計", "lv": "must", "nm": "四控制條件反推偏心距上下限", "sh": "四控制條件", "c": 4, "eq": "$$\\begin{gathered}\\text{上限：}\\ \\frac{P_i}{A}-\\frac{P_ie}{S}+\\frac{M_G}{S}\\ge-f_{ti} \\\\ \\text{下限：}\\ \\frac{P_e}{A}+\\frac{P_ee}{S}-\\frac{M_G+M_L}{S}\\ge-f_t\\end{gathered}$$", "meta": "<b>24 年零次印出。<\/b>2010-4（12.83～34.71 cm）、2025-4（−15.07～37.24 cm）都是傳遞頂拉定上限、使用底拉定下限；另兩條（傳遞底壓、使用頂壓）要列出但不控制。2015-4 是四條同時取等號；2005-5 論述也寫出傳遞頂纖維條件。下限出現負值代表鋼腱放到形心以上仍合格（2025-4）。", "ok": []}, {"g": "C 偏心距設計", "lv": "must", "nm": "最優設計：四條件同時達限", "sh": "最優聯立", "c": 4, "eq": "$$\\begin{gathered}M_{L,\\max}=(f_{ca}-f_{ta})\\,S \\\\ F=\\frac{(f_{ca}+f_{ta})A}{2} \\\\ e_p=\\Big(\\frac{F}{A}-f_{ta}+\\frac{M_G}{S}\\Big)\\frac{S}{F}\\quad(S_t=S_b,\\ P_i=P_e)\\end{gathered}$$", "meta": "從未印過，只有 2015-4 用到：四條件兩兩相加消去 \\(e_p\\)，得 \\(M_L=140\\times12{,}500=17.5\\) tf·m、\\(F=105\\) tf、\\(e_p=14.50\\) cm、\\(w_{L\\max}=0.972\\) tf/m。封閉解只適用對稱斷面且兩階段同一預力；有損失比時要回到四條不等式。", "ok": []}, {"g": "C 偏心距設計", "lv": "must", "nm": "直線 vs 曲線鋼腱的偏心限制", "sh": "直線/曲線", "c": 5, "eq": "$$\\begin{gathered}\\text{直線（梁端 }M=0\\text{）：}e_s\\le k_b+\\frac{f_{ti,\\text{end}}S}{P_i} \\\\ \\text{曲線（跨中）：}e_c\\le k_b+\\frac{f_{ti}S+M_G}{P_i} \\\\ \\Delta M\\approx\\eta M_G\\end{gathered}$$", "meta": "從未印過。2005-5 ㈠（論述）與 2010-4 ㈠（計算：\\(\\Delta M=18.1\\) tf·m，約 +30%）都考這個比較。兩題舊解都答成「跨中彎矩相同、差在剪力與撓度」，2026-11-15 勘誤：主因是直線鋼腱的偏心被梁端卡住。", "ok": []}, {"g": "D 超靜定預力", "lv": "must", "nm": "等效載重法", "sh": "等效載重", "c": 6, "eq": "$$\\begin{gathered}w_p=\\frac{8Pf}{L^2}\\ (\\text{拋物線，}f=\\text{弦線下垂量}) \\\\ w(x)=-P\\,e''(x) \\\\ \\text{錨碇力 }P e'(0),\\ \\text{錨碇彎矩 }Pe(0)\\end{gathered}$$", "meta": "從未印過。2020-4 用 \\(8P_ef/L^2=1.6\\) tf/m＝\\(w\\) 驗證載重平衡（注意 \\(f\\) 是相對兩端連線的下垂量，B 點在形心上 35 cm 時 \\(f=35\\) cm 不是 17.5）；2024-4 用 \\(w=-Pe''\\) 與錨碇力求二次反力；2005-5 論述以等效上揚力比較兩種鋼腱。", "ok": []}, {"g": "D 超靜定預力", "lv": "must", "nm": "載重平衡（均勻軸壓條件）", "sh": "載重平衡", "c": 6, "eq": "$$P_e\\,e(x)=M_{\\text{ext}}(x)\\ \\ \\forall x\\ \\Rightarrow\\ \\text{全斷面應力}=\\frac{P_e}{A}\\ (\\text{均勻軸壓})$$", "meta": "從未印過。2020-4 ㈠「使預力不產生二次彎矩效應，且…梁斷面受均勻軸壓應力」就是這一條：\\(P_e=|M_B|/e_B=45/0.35=128.6\\) tf，\\(e_D=M_D/P_e=17.5\\) cm。題目沒說「載重平衡」四個字，要自己認出來。", "ok": []}, {"g": "D 超靜定預力", "lv": "must", "nm": "二次彎矩與二次反力", "sh": "二次彎矩", "c": 7, "eq": "$$\\begin{gathered}M_{\\text{net}}=M_1+M_2,\\quad M_1=-Pe\\ (\\text{靜定時}) \\\\ M_2(x)\\ \\text{在支承間為線性} \\\\ R_B=\\frac{3P}{L^3}\\!\\int_0^L\\! e(x)(L-x)\\,dx\\end{gathered}$$", "meta": "從未印過。2024-4 受撐懸臂梁以相容法（或等效載重法）得 \\(R_B=0.25\\) tf、\\(M_{2,A}=3.0\\) tf·m；2020-4 的題意「不產生二次彎矩」就是要 \\(M_2=0\\)。關鍵觀念：等效載重自平衡，只有超靜定束制才產生反力。", "ok": []}, {"g": "D 超靜定預力", "lv": "must", "nm": "壓力線（C 線）與同位鋼腱", "sh": "C 線", "c": 7, "eq": "$$\\begin{gathered}e_C(x)=e(x)-\\frac{M_2(x)}{P} \\\\ \\text{同位鋼腱}\\Leftrightarrow M_2=0\\Leftrightarrow e_C=e\\end{gathered}$$", "meta": "從未印過。2024-4 要「繪製壓力作用線」並說明「如何調整鋼腱使其成為同位鋼腱」（\\(e_C(0)=-27.5\\)、\\(e_C(6)=+13.75\\) cm）；2020-4 的一致腱 \\(e_C=e\\)。線性轉換：只改支承處偏心、不改跨內形狀（等效載重不變），C 線不變。", "ok": []}, {"g": "D 超靜定預力", "lv": "must", "nm": "超靜定梁基本彎矩", "sh": "超靜定彎矩", "c": 8, "eq": "$$\\begin{gathered}\\text{兩跨等跨連續梁：}M_B=-\\frac{wL^2}{8},\\ M_{\\text{跨中}}=+\\frac{wL^2}{16} \\\\ \\text{受撐懸臂：}R_{\\text{輥}}=\\frac{3wL}{8}\\end{gathered}$$", "meta": "結構學公式，考卷當然不給。2020-4 以 \\(M_B=-wL^2/8\\)、\\(M_D=wL^2/16\\) 得到 \\(e_D=e_B/2\\)；2024-4 以受撐懸臂梁的 \\(3wL/8\\) 做等效載重法的反力分配。這一步錯，後面 C 線全錯。", "ok": []}, {"g": "E 預力損失（Pe 的來源）", "lv": "half", "nm": "摩擦損失（直線鋼腱只有擺動項）", "sh": "摩擦損失", "c": 9, "eq": "$$\\begin{gathered}P_x=P_j\\,e^{-(\\mu\\alpha+Kx)} \\\\ \\text{直線鋼腱 }\\alpha=0:\\ P_x=P_je^{-Kx}\\approx P_j(1-Kx)\\end{gathered}$$", "meta": "2005-5 ㈡ 要「以方程式表示其大小」——當年沒印，要自己寫。2019 年（U4-3）印過完整式子。先拉法直線鋼腱無套管、無摩擦損失；後拉法直線鋼腱仍有擺動（wobble）項 \\(Kx\\)。", "ok": [2019]}, {"g": "E 預力損失（Pe 的來源）", "lv": "give", "nm": "有效預力比 Pe／Pi", "sh": "Pe/Pi", "c": 10, "eq": "$$P_e=\\eta\\,P_i,\\qquad \\eta=f_{pe}/f_{pi}\\ \\text{由題目給定}$$", "meta": "2010-4（0.85）、2020-4（0.8）、2025-4（0.85）都直接給，2015-4 只有一個 \\(F\\)。<b>這是題目條件不是公式<\/b>；要記的是用法：傳遞階段用 \\(P_i\\)、使用階段用 \\(P_e\\)，2020-4 ㈡ 換成 \\(P_i\\) 時載重平衡就破了。"}], "clusters": {"P": {"icon": "🟧", "name": "簡支梁偏心距限制與最優設計", "desc": "傳遞＋使用兩階段四控制條件、現行規範容許應力（kgf 制）、最優 F 與 e<sub>p<\/sub> 聯立", "color": "#f57c00"}, "C": {"icon": "🟦", "name": "超靜定預力：等效載重、二次彎矩與 C 線", "desc": "連續梁／受撐懸臂梁的載重平衡、二次反力、壓力線、同位（一致）鋼腱", "color": "#1565c0"}, "L": {"icon": "🟩", "name": "鋼腱線形與載重能力（論述）", "desc": "直線 vs 曲線鋼腱：偏心受梁端控制、等效上揚力、直線後拉鋼腱的擺動摩擦", "color": "#2e7d32"}}, "MXR": {"2002": "本單元無題。第五題摩擦損失屬 U4-3。", "2003": "本單元無題。掃描影像卷（已目視），預力題為應變相容法（U4-1）。", "2004": "本單元無題。", "2005": "第五題論述（副考點）：直線 vs 曲線鋼腱載重能力、直線鋼腱摩擦損失「以方程式表示」——全卷零公式，摩擦式要自己寫。", "2006": "本單元無題。", "2007": "本單元無題；第四題（U4-1）內文給使用階段容許壓 0.4f'c、拉 3√f'c。", "2008": "本單元無題；第四題（U4-1）內文給「壓應力不得超過 0.45f'c，亦不容許張應力」。", "2009": "本單元無題。", "2010": "⚠️ 零公式年。偏心距限制＋直線／曲線比較；卷首「請自行推知或合理假設」，容許應力、四控制條件、單位重全沒給，只給 fpe/fpi=0.85。", "2011": "本單元無題。", "2012": "本單元無題；第一題（U4-1）列初始階段容許壓 0.60f'ci、拉 0.80√f'ci。", "2013": "本單元無題。", "2014": "本單元無題。", "2015": "內文給兩階段同值 fca=140、fta=0（比現行嚴，照用）；四控制條件、最優聯立、單位重沒給，預力只有一個 F。", "2016": "本單元無題。", "2017": "本單元無題。", "2018": "本單元無題。", "2019": "本單元無題；第四題（U4-3）印摩擦損失 Ppx=Ppj·e^−ω 與 ω 定義。", "2020": "⚠️ 零公式年。兩跨連續梁一致腱：載重平衡、等效載重、連續梁彎矩全沒給，只給 Pe/Pi=0.8。", "2021": "本單元無題；第四題（U4-1）內文給使用階段容許壓 0.6f'c、拉 1.6√f'c。", "2022": "本單元無題。", "2023": "本單元無題。", "2024": "⚠️ 零公式年。受撐懸臂超靜定預力：等效載重、二次反力、C 線、同位鋼腱一條都沒給。", "2025": "⚠️ 零公式年。與 99 年同型的偏心距限制（Pi=200 tf、fpe/fpi=0.85、活載 1.5 tf/m 都相同），容許應力仍沒給。"}, "mxCols": ["應力疊加S / k", "容許應力傳遞階段", "容許應力使用階段", "kgf 制係數", "四控制條件", "直線/曲線鋼腱", "等效載重平衡", "二次彎矩C線", "超靜定梁彎矩", "摩擦損失", "Pe/Pi 給定"], "base": [], "baseShort": "基本式", "mxNote": "「設參考公式區次數」＝ 24 年中考卷印出任何 RC 公式（三種擺法皆算）的考年數，由各單元的逐年表合併計算（20 年）。✗ 由第三節每題的公式用途推出：該題題解實際套用了這條式子、當年考卷又沒印。容許應力欄的 ✔ 多來自 U4-1 的題目（同一張考卷的其他預力題印出數值）。", "refAreaYears": 20, "NY": 24, "giveCol": false};
+const Q=D.Q, F=D.F, CAT=D.clusters, MXR=D.MXR, BASE=D.base||[];
+const TYC={"計算":"#1565c0","繪圖":"#f57c00","推導":"#6a1b9a","說明":"#546e7a"};
+const YEARS=Object.keys(MXR).map(Number).sort((a,b)=>a-b);
+const NCOL=D.mxCols.length, GIVECOL=D.giveCol===false?-1:NCOL-1;
+const CN=["","一","二","三","四","五","六"];
+const yr=id=>+id.split('-')[1], qn=id=>+id.split('-')[2];
+const lab=id=>yr(id)+'-'+qn(id);
+const pv=id=>'problems-view/'+id+'.html';
+const vid=id=>'../解題過程影片/'+id+'/video/'+id+'.mp4';
+const QM={};Q.forEach(q=>QM[q.id]=q);
+F.forEach((f,i)=>{
+  f.qs=Q.filter(q=>q.f.includes(i)).map(q=>q.id);
+  if(f.lv==='give'){f.ok=[...new Set(f.qs.map(yr))].sort();f.noQs=[];}
+  else{f.ok=f.ok||[];f.noQs=f.qs.filter(id=>!f.ok.includes(yr(id)));}
+  f.no=[...new Set(f.noQs.map(yr))].sort();
+});
+const isPri=id=>QM[id].pri;
+const LVN={must:'必背',half:'別賭',give:'通常會給'};
+function mathIn(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});}
+function chip(i,qid){const f=F[i];const given=qid&&f.lv!=='give'&&f.ok.includes(yr(qid));
+  return '<button class="chip '+(given?'gv':f.lv)+'" data-fi="'+i+'" title="'+f.nm+'（'+(given?'該年考卷有印':LVN[f.lv])+'）">'+f.sh+'</button>';}
+function bindChips(root){root.querySelectorAll('.chip').forEach(c=>c.onclick=()=>openCard(+c.dataset.fi));}
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+/* §1 */
+function drawCats(){
+  const box=document.getElementById('cats');
+  box.innerHTML=Object.keys(CAT).map(k=>{const c=CAT[k];
+    const n=Q.filter(q=>q.cl===k&&q.pri).length,s=Q.filter(q=>q.cl===k&&!q.pri).length;
+    return '<button class="cat" style="border-left-color:'+c.color+'" data-k="'+k+'"><b>'+c.icon+' '+c.name+'（主 '+n+(s?'＋副 '+s:'')+'）</b><span>'+c.desc+'</span></button>';}).join('');
+  box.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{qf={cat:b.dataset.k,pri:'ALL',f:''};syncQF();renderQ();go('s3');});
+}
+function drawBar(){
+  const cv=document.getElementById('cvBar'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  const P=Q.filter(q=>q.pri),ks=Object.keys(CAT),by={};
+  YEARS.forEach(y=>{by[y]={};ks.forEach(k=>by[y][k]=0);});P.forEach(q=>by[yr(q.id)][q.cl]++);
+  const max=Math.max(1,...YEARS.map(y=>ks.reduce((a,k)=>a+by[y][k],0)));
+  const L=34,B=30,T=12,bw=(W-L-10)/YEARS.length;
+  ctx.font='20px sans-serif';ctx.textAlign='right';
+  for(let i=0;i<=max;i++){const yy=H-B-(H-B-T)*i/max;ctx.fillStyle='#90a4ae';ctx.fillText(i,L-8,yy+6);
+    ctx.strokeStyle='#eceff1';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(L,yy);ctx.lineTo(W-10,yy);ctx.stroke();}
+  ctx.textAlign='center';
+  YEARS.forEach((y,i)=>{let acc=0;const x=L+i*bw+bw*.15;
+    ks.forEach(k=>{const v=by[y][k];if(!v)return;const h=(H-B-T)*v/max;ctx.fillStyle=CAT[k].color;ctx.fillRect(x,H-B-acc-h,bw*.7,h-2);acc+=h;});
+    ctx.fillStyle='#78909c';ctx.fillText("'"+String(y).slice(2),x+bw*.35,H-8);});
+  document.getElementById('barLg').innerHTML=ks.map(k=>'<span><span class="dot" style="background:'+CAT[k].color+'"></span>'+CAT[k].name+'</span>').join('');
+}
+function drawRisk(){document.querySelectorAll('td[data-f]').forEach(td=>{
+  td.innerHTML='<div class="chips">'+td.dataset.f.split(',').map(i=>chip(+i)).join('')+'</div>';});}
+
+/* §2 */
+const G=[...new Set(F.map(f=>f.g))];
+let fl={lv:'all',g:'all'};let recall=false;const rev=new Set();
+function openCard(i){
+  if(!(fl.lv==='all'||fl.lv===F[i].lv)||!(fl.g==='all'||fl.g===F[i].g)){fl={lv:'all',g:'all'};syncFlt();draw();}
+  const el=document.getElementById('fc'+i);if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1600);
+}
+function shown(){return F.map((f,i)=>[f,i]).filter(([f])=>(fl.lv==='all'||f.lv===fl.lv)&&(fl.g==='all'||f.g===fl.g));}
+function rcInfo(){const s=shown();const n=s.filter(([f])=>rev.has(f.nm)).length;
+  document.getElementById('rcInfo').textContent=recall?'已翻開 '+n+' / '+s.length+' 條——看名稱先默寫，再點式子對答案。':'開啟後式子會被蓋住：看卡片名稱先在紙上默寫，再點式子翻開。';}
+function qa(id){return '<a href="'+pv(id)+'" target="_blank" class="'+(isPri(id)?'':'sec')+'">'+lab(id)+'</a>';}
+function draw(){
+  const box=document.getElementById('cards');
+  box.innerHTML=shown().map(([f,i])=>{
+    let ev;
+    if(f.lv==='give'){ev='<b>考卷給過：</b>'+f.qs.map(id=>'<span class="ok">'+lab(id)+'</span>').join(' ');}
+    else{
+      ev='<b>考卷給過：</b>'+(f.ok.length?f.ok.map(y=>'<span class="ok">'+y+'</span>').join(' '):'<span class="never">從未</span>');
+      ev+='<br><b>考了卻沒給（'+f.noQs.length+' 題）：</b>'+(f.noQs.length?f.noQs.map(qa).join(''):'—');
+      const g=f.qs.filter(id=>!f.noQs.includes(id));
+      if(g.length)ev+='<br><b>考了、當年有印：</b>'+g.map(id=>'<span class="ok">'+lab(id)+'</span>').join(' ');
+    }
+    if(f.qs.length)ev+=' <span class="uses" data-fi="'+i+'">看這幾題 ↓</span>';
+    return '<div class="fc '+f.lv+(rev.has(f.nm)?' rev':'')+'" id="fc'+i+'" data-nm="'+f.nm+'"><div class="top"><span class="nm">'+f.nm+'</span><span class="tag '+f.lv+'">'+LVN[f.lv]+'</span></div>'+
+      '<div class="eq">'+f.eq+'</div><p class="meta">'+f.meta+'</p><div class="ev">'+ev+'</div></div>';}).join('')||'<p class="lead">（此組合下沒有公式）</p>';
+  mathIn(box);
+  box.querySelectorAll('.fc .eq').forEach(e=>e.onclick=()=>{if(!recall)return;const c=e.closest('.fc');c.classList.toggle('rev');
+    c.classList.contains('rev')?rev.add(c.dataset.nm):rev.delete(c.dataset.nm);rcInfo();});
+  box.querySelectorAll('.uses').forEach(u=>u.onclick=()=>{qf={cat:'ALL',pri:'ALL',f:u.dataset.fi};syncQF();renderQ();go('s3');});
+  rcInfo();
+}
+function syncFlt(){document.querySelectorAll('#flt button').forEach(b=>b.classList.toggle('on',fl[b.dataset.t]===b.dataset.v));}
+function drawFlt(){
+  const fb=document.getElementById('flt');const lvs=[['all','全部'],['must','必背'],['half','別賭'],['give','通常會給']].filter(([k])=>k==='all'||F.some(f=>f.lv===k));
+  fb.innerHTML='<div class="fg"><b>級別</b>'+lvs.map(([k,v])=>'<button data-t="lv" data-v="'+k+'">'+v+'</button>').join('')+
+    '</div><div class="fg"><b>主題</b>'+['all',...G].map(g=>'<button data-t="g" data-v="'+g+'">'+(g==='all'?'全部':g)+'</button>').join('')+'</div>';
+  fb.querySelectorAll('button').forEach(b=>b.onclick=()=>{fl[b.dataset.t]=b.dataset.v;syncFlt();draw();});syncFlt();
+}
+function drawKpi(){
+  const n=k=>F.filter(f=>f.lv===k).length;
+  const uy=new Set(Q.map(q=>yr(q.id))).size;
+  document.getElementById('fkpi').innerHTML=[['',F.length,'本單元條列公式'],['red',n('must'),'必背'],['org',n('half'),'別賭'],['grn',n('give'),'通常會給'],['',uy,'本單元出題年數（含副考點）'],['',D.refAreaYears,D.NY+' 年設參考公式區次數']]
+    .map(([c,v,l])=>'<div class="kpi '+c+'"><div class="n">'+v+'</div><div class="l">'+l+'</div></div>').join('');
+}
+function cell(y,col){
+  if(col===GIVECOL)return F.some(f=>f.c===col&&f.ok.includes(y))?1:0;
+  if(F.some(f=>f.c===col&&f.ok.includes(y)))return 1;
+  return F.some(f=>f.c===col&&f.no.includes(y))?2:0;
+}
+function drawMx(){
+  const ok=Array(NCOL).fill(0),no=Array(NCOL).fill(0);
+  document.querySelector('#mx tbody').innerHTML=YEARS.map(y=>{
+    const qs=Q.filter(q=>yr(q.id)===y).sort((a,b)=>qn(a.id)-qn(b.id));
+    const qq=qs.length?qs.map(q=>'<a href="'+pv(q.id)+'" target="_blank">'+CN[qn(q.id)]+'</a>'+(q.pri?'':'<span class="ynote">（副）</span>')).join('、'):'(—)';
+    let c='';for(let i=0;i<NCOL;i++){const s=cell(y,i);if(s===1)ok[i]++;if(s===2)no[i]++;
+      c+='<td class="c">'+(s===1?'<span class="y">✔</span>':s===2?'<span class="x">✗</span>':'<span class="n">·</span>')+'</td>';}
+    return '<tr class="'+(qs.length?'hl':'')+'"><td><b>'+y+'</b><br><span class="ynote">'+(y-1911)+'年</span></td><td class="qq">'+qq+'</td>'+c+'<td class="rm">'+MXR[y]+'</td></tr>';}).join('');
+  document.querySelector('#mx tfoot').innerHTML='<tr><td colspan="2">'+YEARS.length+' 年合計</td>'+ok.map((v,i)=>'<td>✔ '+v+'<br><span style="color:#c62828">✗ '+no[i]+'</span></td>').join('')+'<td>✗ 合計 '+no.reduce((a,b)=>a+b,0)+' 格</td></tr>';
+  if(GIVECOL<0){const tOk=ok.reduce((a,b)=>a+b,0),tNo=no.reduce((a,b)=>a+b,0);
+    document.getElementById('mxsum').innerHTML='看表底合計：<b>'+NCOL+' 個欄位、'+YEARS.length+' 年共 ✔ '+tOk+' 格、✗ '+tNo+' 格</b>。'+(D.mxNote||'');return;}
+  const mOk=ok.slice(0,GIVECOL).reduce((a,b)=>a+b,0),mNo=no.slice(0,GIVECOL).reduce((a,b)=>a+b,0);
+  document.getElementById('mxsum').innerHTML='看表底合計：<b>'+GIVECOL+' 個力學欄 ✔ '+mOk+' 格、✗ '+mNo+' 格</b>；材料／斷面數值欄 ✔ '+ok[GIVECOL]+' 格、✗ '+no[GIVECOL]+' 格。'+(D.mxNote||'');
+}
+/* strategy placeholders: <span data-qs="2+3" data-count> → 同時用到 2 與 3 的題號 */
+function fillQs(root){root.querySelectorAll('[data-qs]').forEach(s=>{
+  const need=s.dataset.qs.split('+').map(Number);
+  const ids=Q.filter(q=>need.every(i=>q.f.includes(i))).map(q=>q.id).sort((a,b)=>(QM[b].pri-QM[a].pri)||a.localeCompare(b));
+  s.textContent=ids.map(id=>lab(id)+(QM[id].pri?'':'（副）')).join('、')+(s.hasAttribute('data-count')?' 共 '+ids.length+' 題':'');});}
+
+/* §3 */
+let qf={cat:'ALL',pri:'ALL',f:''};
+function drawQF(){
+  document.getElementById('qfCat').insertAdjacentHTML('beforeend',[['ALL','全部'],...Object.keys(CAT).map(k=>[k,CAT[k].name])].map(([k,v])=>'<button data-t="cat" data-v="'+k+'">'+v+'</button>').join(''));
+  document.getElementById('qfPri').insertAdjacentHTML('beforeend',[['ALL','主＋副'],['PRI','僅主考點'],['SEC','僅副考點']].map(([k,v])=>'<button data-t="pri" data-v="'+k+'">'+v+'</button>').join(''));
+  const sel=document.getElementById('qfF');
+  F.forEach((f,i)=>sel.insertAdjacentHTML('beforeend','<option value="'+i+'">'+f.nm+'（'+f.qs.length+' 題）</option>'));
+  document.querySelectorAll('#qflt button').forEach(b=>b.onclick=()=>{qf[b.dataset.t]=b.dataset.v;syncQF();renderQ();});
+  sel.onchange=()=>{qf.f=sel.value;renderQ();};syncQF();
+}
+function syncQF(){document.querySelectorAll('#qflt button').forEach(b=>b.classList.toggle('on',qf[b.dataset.t]===b.dataset.v));document.getElementById('qfF').value=qf.f;}
+function renderQ(){
+  const fi=qf.f===''?null:+qf.f;
+  const sel=Q.filter(q=>(qf.cat==='ALL'||q.cl===qf.cat)&&(qf.pri==='ALL'||(qf.pri==='PRI')===!!q.pri)&&(fi===null||q.f.includes(fi)))
+    .sort((a,b)=>(b.pri-a.pri)||a.id.localeCompare(b.id));
+  document.getElementById('qcount').textContent='顯示 '+sel.length+' / '+Q.length+' 題'+(fi!==null?'——用到「'+F[fi].nm+'」':'');
+  const box=document.getElementById('qlist');
+  box.innerHTML=sel.map(q=>{
+    const fs=q.f.filter(i=>!BASE.includes(i));const c=CAT[q.cl];
+    const chips=fs.length?fs.map(i=>chip(i,q.id).replace('class="chip','class="chip'+(i===fi?' hit':''))).join(''):'<span class="none">'+(q.f.length?'只需'+D.baseShort:(q.pri?'題解未用到本單元公式':'不用本單元公式（主解法見 '+q.secCat+'）'))+'</span>';
+    return '<div class="qrow'+(q.pri?'':' sec')+'" style="border-left-color:'+c.color+'">'+
+      '<span class="id"><a href="'+pv(q.id)+'" target="_blank">'+q.id+'</a>'+(q.pri?'':'<span class="sub">副・'+q.secCat+'</span>')+'</span>'+
+      '<span class="ty" style="background:'+TYC[q.ty]+'">'+q.ty+'</span>'+
+      '<span class="sum">'+q.sum+'<span class="cl">'+c.icon+' '+c.name+(q.dm?'・'+q.dm:'')+'</span></span>'+
+      '<span class="chips">'+chips+'</span>'+
+      '<span class="ico"><a href="'+pv(q.id)+'" target="_blank" title="解析">📄</a>'+(q.video?' <a href="'+vid(q.id)+'" target="_blank" title="解題影片">🎬</a>':'')+(q.ver?' <span title="已驗證">✅</span>':'')+'</span></div>';}).join('');
+  bindChips(box);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  drawCats();drawBar();drawRisk();drawFlt();drawKpi();draw();drawMx();drawQF();renderQ();
+  fillQs(document.getElementById('strat'));fillQs(document.getElementById('s1'));
+  bindChips(document.getElementById('s1'));
+  mathIn(document.getElementById('strat'));mathIn(document.getElementById('s1'));mathIn(document.getElementById('mxsum'));mathIn(document.getElementById('mx'));mathIn(document.getElementById('s2'));mathIn(document.getElementById('s4'));mathIn(document.querySelector('footer'));
+  const tg=document.getElementById('rcToggle'),rs=document.getElementById('rcReset');
+  tg.onclick=()=>{recall=!recall;document.body.classList.toggle('recall',recall);tg.classList.toggle('on',recall);tg.textContent=recall?'🙈 回想模式：開':'🙈 回想模式：關';rs.hidden=!recall;rcInfo();};
+  rs.onclick=()=>{rev.clear();document.querySelectorAll('.fc.rev').forEach(c=>c.classList.remove('rev'));rcInfo();};
+  window.addEventListener('beforeprint',()=>{document.getElementById('mxBox').open=true;});
+});
+</script>
+</body></html>

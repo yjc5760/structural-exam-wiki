@@ -58,7 +58,7 @@ B_, H_ = 0.40, 0.70                    # 斷面 m（題目正本 §1）
 WD, WL = 5.0, 2.0                      # t/m
 GAMMA = 2.4                            # t/m³（§4 假設）
 WSW = B_ * H_ * GAMMA
-WU = 1.4 * (WD + WSW) + 1.7 * WL       # §4 ① 1.4D + 1.7L
+WU = max(1.4 * (WD + WSW), 1.2 * (WD + WSW) + 1.6 * WL)   # §4 ① 現行規範 1.2D + 1.6L 控制（2026-11-15 勘誤，原 1.4D + 1.7L）
 L = L_AB + L_BC
 RB = WU * L * (L / 2) / L_AB
 RA = WU * L - RB
@@ -83,7 +83,7 @@ def fig2_vm():
     xs = [L * i / 400 for i in range(401)]
     xs = sorted(set(xs + [L_AB - 1e-9, L_AB + 1e-9]))
     top = Canvas(W, PH, sx=sx, ox=pad, oy=PH * 0.34)
-    top.panel("載重與支承", f"wu = 1.4(5 + {WSW:.3f}) + 1.7 × 2 = {WU:.2f} t/m（全長 10 m）")
+    top.panel("載重與支承", f"wu = 1.2(5 + {WSW:.3f}) + 1.6 × 2 = {WU:.2f} t/m（全長 10 m）")
     top.line((0, 0), (L, 0), C["member"], 6, cap="butt")
     top.support((0, 0), "pin"); top.support((L_AB, 0), "roller")
     top.udl((0, 0), (L, 0), 0.085 * L, n=13)
@@ -109,7 +109,7 @@ def fig2_vm():
 
     mid = strip([V(x) for x in xs], C["sfd"], C["fill_s"], "剪力圖 SFD", "t",
                 [(0, f"+{RA:.1f}", -12),
-                 (L_AB - 0.01, f"{V(L_AB - 0.01):.1f}", 16), (L_AB + 0.01, f"+{V(L_AB + 0.01):.1f}", -12)])
+                 (L_AB - 0.01, f"{RA - WU * L_AB:.1f}", 16), (L_AB + 0.01, f"+{RA + RB - WU * L_AB:.1f}", -12)])  # 標籤取 B 兩側極限值（2026-11-15 落實檢查修正，原取 x = 8 ∓ 0.01 顯示 −42.4／+19.9）
     Ms = [M(x) for x in xs]
     bot = strip(Ms, C["bmd"], C["fill_m"], "彎矩圖 BMD（正彎矩畫在上方）", "t·m",
                 [(X_D, f"M_{{D}} = 7w_{{u}} = {M(X_D):.1f}", -16), 
@@ -135,6 +135,7 @@ if __name__ == "__main__":
     for fn, sec, catches in FIGURES:
         print(f"{os.path.basename(fn()):<32} {sec:<18} 攔：{catches}")
     # 與 RC-2004-2.md §4 公佈值核對
-    assert round(WU, 2) == 11.34 and round(RB, 1) == 70.9 and round(RA, 1) == 42.5
-    assert round(M(X_D), 1) == 79.4 and abs(M(X_D) - 7 * WU) < 1e-9
+    assert round(WU, 2) == 10.01 and round(RB, 2) == 62.54 and round(RA, 2) == 37.52
+    assert round(RA - WU * L_AB, 1) == -42.5 and round(RA + RB - WU * L_AB, 1) == 20.0
+    assert round(M(X_D), 1) == 70.0 and round(M(L_AB), 1) == -20.0 and abs(M(X_D) - 7 * WU) < 1e-9
     print("assert OK")

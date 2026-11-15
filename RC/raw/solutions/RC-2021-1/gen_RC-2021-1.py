@@ -206,7 +206,7 @@ WU = max(1.2 * S_DL + 1.6 * S_LL, 1.4 * S_DL)
 MU = WU * S_L ** 2 / 8 * 1e5                      # kgf·cm
 K1 = 0.85 * S_FC * S_BF
 S_A_CALC = S_D - (S_D ** 2 - 2 * MU / 0.9 / K1) ** 0.5  # 假設 a ≤ hf 的小根（7.233）
-S_A = 7.24                                        # §4 Part 1 公佈值（取兩位後再算 As = 35.17）
+S_A = S_A_CALC                                    # §4 Part 1 公佈值 7.23（2026-11-15 更正，原捨入誤植 7.24／As 35.17）
 S_C = S_A / 0.85
 S_AS = K1 * S_A / S_FY
 S_ET = S_ECU * (S_D - S_C) / S_C
@@ -277,7 +277,7 @@ if __name__ == "__main__":
     assert H == 70.0 and H - YS == 60.0
     print("assert OK")
     assert abs(WU - 9.36) < 1e-9 and abs(MU / 1e5 - 74.88) < 1e-6
-    assert abs(S_A_CALC - 7.24) < 0.01 and abs(S_AS - 35.17) < 0.05
+    assert round(S_A, 2) == 7.23 and round(S_AS, 2) == 35.13
     assert abs(VUD - 31.82) < 0.01 and abs(VC - 19.71) < 0.01 and abs(VS - 22.72) < 0.01
     assert abs(S_REQ - 10.55) < 0.01 and abs(CAP10 - 32.76) < 0.01
     print("assert（解題圖解）OK")

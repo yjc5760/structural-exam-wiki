@@ -2482,3 +2482,79 @@ $T = \tfrac12 \times 15.63 \times 22.5 \times 30 = 5{,}275.125 \to \mathbf{5{,}2
   - 儀表板：`python scripts/refresh_dashboard.py RC` 重跑（100 題，ID 集合不變，差異只有 tags）；node 載入驗證 KB_QUESTIONS 100 筆
   - `SUBJECT.md` §10 更新：題目正本已完成（100/100 confirmed）、RC-2009-2 標頭已結案、儀表板已為共用格式、RC-2022-3 死連結已移除
   - 下一批候選：RC-2004-2（1.4D+1.7L）、RC-2021-1（SI 係數門檻，答案不變）、unit-RC-U3-3 λdh 公式卡；U1-3、U2-3、U3-1、U3-2、U4-2～U4-4 單元總覽／講義待建
+
+
+## 2026-11-15 FIX-RC-CAND-1：下一批候選勘誤 2 題＋unit-RC-U3-3 ℓdh 公式卡（階段 C）
+
+- 2026-11-15｜FIX-RC-CAND-1｜改了什麼（解析勘誤；題目正本、考卷、證據圖未動）：
+  - RC-2004-2（RC-U1-1，答案改變）：載重組合 1.4D＋1.7L → 現行 1.2D＋1.6L（只有 D、L，1.4D＝7.94 不控制）：$W_u$ 11.34 → **10.01 t/m**、$R_A$／$R_B$ 42.5／70.9 → 37.52／62.54 t、$M_u^D$ 79.4 → **70.0 t·m**、$M_B$ −22.7 → −20.0 t·m、$A_{s,req}$ 41.3 → **35.52 cm²**，配筋 6-D32 兩排（過渡區 φ 0.822、φMn 83.4）→ **5-D32 單排**（淨距 3.33 ≥ 3.23 cm；εt 0.00547 拉力控制、φMn 78.9 t·m）；$A_{s,\min}$ 補 $0.8\sqrt{f'_c}/f_y$ 式（14/fy 控制，8.00 cm²）；φMn,max 82.7 → 82.6（43.35 cm² 未捨入）；舊組合結果降 §5 ① 對照表（過渡區 φ 改依 εty＝0.002059 起點：0.820、83.2 t·m）；§1 常見誤讀加「沿用 1.4D＋1.7L」、§2–§3.5 改寫；標頭標籤同步
+  - RC-2021-1（RC-U1-1，觀念、答案不變）：Step 8 間距減半門檻 SI 係數 $\tfrac13\sqrt{f'_c}b_wd$＝12.39 tf → kgf 制 $1.06\sqrt{f'_c}b_wd$＝**39.41 tf** > $V_s$ 22.72 tf → 規範上限 $d/4$＝15 → $\min(d/2,60)$＝**30 cm**；**順查發現第二處 SI 係數**：截面檢核 $V_{s,\max}$ $\tfrac23\sqrt{f'_c}b_wd$＝24.78 → $2.12\sqrt{f'_c}b_wd$＝**78.82 tf**、$\phi(V_c+V_{s,\max})$ 33.37 → 73.90 tf（結論仍 OK）；補 $A_{v,\min}$ 檢核（0.500 < 1.4266 cm²）；**另查出算術捨入誤植**：$a$＝60−√(3600−815.69)＝7.233（原 7.24）、$(A_s)_{req}$ 35.17 → **35.13 cm²**、c 8.51、εt 0.01815；§5 爭議點 3、進階例（s＝30／15 皆不足）改寫，新增「規範版本」小節（考卷指定 110 年規範／401-100，本題條文兩版數值相同）；最終 s＝10 cm 由強度控制不變
+  - `study/data/unit-RC-U3-3.json` 公式卡 #16「標準彎鉤錨定長度 λdh＝0.06dbfy/√f'c」（舊式）→「標準彎鉤伸展長度 ℓdh（現行式）」：$\ell_{dh}=\psi_e\psi_r\psi_o\psi_c f_y d_b^{1.5}/(23.2\lambda\sqrt{f'_c})\ge\max(8d_b,15)$（kgf/cm²、cm），meta 列 ψe／ψr／ψo／ψc（0.6＋f'c/1050，f'c<420）／λ 定義、耐震接頭式 $f_yd_b/(17.2\lambda\sqrt{f'_c})$、RC-2003-4 例 13.4 → 15 cm；`study/lecture-RC-U3-3.html` §7.1 表同式改寫
+  為什麼錯：RC-2004-2 規範版本（考卷沒給載重因數，舊解用 93 年當時組合）；RC-2021-1 單位制係數（SI 係數直接代 kgf 制，兩處）＋算術捨入；λdh 卡規範版本（考卷 92 年印的 ACI 318-08 以前舊式）
+  證據：考卷 RC-2004 p1、RC-2021 p1 以 pdftoppm 130 dpi 全頁目視，與題目正本（皆已確認）一致——RC-2004：A 鉸、B 滾、W 全長、D 在 AB 跨中，題文無載重因數；RC-2021：h＝70、d＝60，作答規範指定 110 年規範或土木 401-100
+  依據（ℓdh）：本庫 RC-2003-4（2026-11-14 勘誤）已用 ACI 318-19 式 25.4.3.1 SI 形式、RC-2005-3 用耐震接頭 kgf 式 17.2；kgf 係數由 SI 式換算 23×√10.197/√10＝23.23、5.4×√10.197＝17.24，ψc 分母 15000 psi≈1055／SI 105 MPa≈1071 kgf/cm²，取 1050 與 RC-2003-4 的 ψc 0.866 一致；台灣 2023 年版條文印法未取得原文，卡上註明「請以原文核對」
+  怎麼驗證：`.work/cand1/check_RC-2004-2.py` 重算 37 值＋新值存在 17 項＋舊值殘留掃描，MISMATCHES: 0（殘留僅 §3 陷阱與 §3.5 公式中的 1.4D 項）；D 點彎矩以剪力積分交叉（70.045）；`check_RC-2021-1.py` 重算 27 值＋新值存在 9 項，MISMATCHES: 0，主線無 12.39／24.78／33.37／7.24／35.17 殘留；`verify_ldh.py` 隨機 1000 組 kgf 式與 SI 式相對差 ≤ 0.11%、RC-2003-4 交叉 13.39／13.41 cm
+  同步的下游：figs——RC-2004-2 gen 腳本 WU 改 max(1.4D, 1.2D＋1.6L)、面板字樣與 assert 更新，fig-2-vm 重跑（$w_u$ 10.01、$R_A$ 37.5、$M_D$ 70.0、$M_B$ −20.0）；RC-2021-1 gen 腳本 S_A 改用現算值、assert 7.23／35.13，fig-1-tsection 重跑（Shear 圖數值不變）；render.py 溢出 0、PNG 目視；problems-view 2 頁重產（KaTeX 192＋215 式錯誤 0）；question_index tags：RC-2004-2 刪「雙排配筋」「過渡區φ值」「ACI載重組合」、加「單排配筋」「拉力控制」「1.2D+1.6L」，RC-2021-1 加「間距減半門檻」；dashboard-data.js 重跑（只差 tags）；`study/data/unit-RC-U1-1.json` RC-2004-2 摘要（原「雙排配筋落入過渡區」）→ unit-RC-U1-1.html 重建；`study/lecture-RC-U1-1.html` 三處（§3.4 dt≠d 關卡、逐題表、陷阱 #7 移除 RC-2004-2 雙排／過渡區描述）；unit-RC-U3-3.html 重建；4 份 PDF（lecture／unit-RC-U1-1、U3-3）雲端 headless Chrome 重出（A4、scale 0.85；KaTeX 292／139／185／431 式錯誤 0、pageerror 0、破圖 0；改動頁抽頁目視；寫回 md5 一致；頁數 27／21／20／32 → 22／12／12／23，前例 log 已記頁數隨列印設定浮動）
+  ledger：RC-2004-2 result 一致 → 分歧-答案改變、RC-2021-1 一致 → 分歧-觀念作圖，兩題 fixed 2026-11-15、human 寫入使用者指示
+  verificationStatus：兩題皆 unverified（未動）；未 commit
+  列出不改（不在本批）：`study/data/unit-RC-U1-1.json` 公式卡 #6、#7 φ 過渡區仍寫 0.002 起點（本庫慣例為 εty＝fy/Es）；`lecture-RC-U3-3.html` §7.1 剪力牆表首列仍寫「φ＝0.6 牆剪力折減」（RC-2003-4 勘誤已不照用，講義未跟上）；全庫 grep SI 係數 $\tfrac13$／$\tfrac23\sqrt{f'_c}$ 直代 kgf 制已無其他題殘留（其餘命中皆為已勘誤題的誤讀說明）
+
+## 2026-11-15 CLEAN-C2PA-RC-2026-11-15：RC 自繪圖 C2PA 中繼資料清理
+
+- 2026-11-15｜CLEAN-C2PA-RC｜改了什麼：全庫 `grep -rl -a c2pa` 盤點（PNG 與 SVG；原指示只列 15 張 PNG，實際範圍更大，且多數在 HEAD 已帶 C2PA）：RC figs/ 下 68 張 PNG＋56 張 SVG 帶 C2PA（SVG 為 `xmlns:c2pa` 與 `<metadata><c2pa:manifest>`），分布 38 個題目資料夾（含原清單 13 題 15 張與 RC-2004-2、RC-2021-1）
+  - 處理：38 個資料夾在使用者電腦、於題目資料夾執行 gen 腳本（20 題腳本位於 figs/ 內，以 `python figs/gen_<id>.py` 執行、輸出 ./figs，無巢狀 figs/figs；STRUCTDRAW_DIR 指向 repo skills），再以 render.py 出 PNG
+  - 驗證：`.work/cand1/c2pa_rerun.py` 逐檔比對——每張既有 SVG 去掉 C2PA 宣告與 metadata 後與重跑結果**逐字相同**（無一例外，含原本無 C2PA 的 SVG），gen 斷言全過、render 溢出 0、無新增檔、無 figs/figs；重跑後 RC figs/ 帶 C2PA 數 0。原本無 C2PA 的 PNG 從備份還原以免無謂差異（RC-2019-1 fig-2-phi-et.png 寫回時 Windows 端回 Errno 22，保留重渲染的合法 PNG）；備份在 `.work/cand1/c2pa_bak/`
+  - 證據圖（不在 figs/，不改，只列出）：RC 23 張考卷擷取圖仍帶 C2PA——RC-2003-1-fig-2.png RC-2003-4-fig-2.png RC-2004-2-fig-2.png RC-2004-5-fig-2.png RC-2005-1-fig-2.png RC-2006-4-fig-2.png RC-2008-2-fig-2.png RC-2008-4-fig-2.png RC-2009-4-fig-2.png RC-2010-1-fig-2.png RC-2010-2-fig-2.png RC-2011-2-fig-2.png RC-2011-3-fig-2.png RC-2012-2-fig-3.png RC-2012-3-fig-1.png RC-2012-3-fig-2.png RC-2012-4-fig-1.png RC-2012-4-fig-2.png RC-2018-4-fig-2.png RC-2024-1-fig-2.png RC-2024-2-fig-3.png RC-2024-2-fig-4.png RC-2024-3-fig-2.png
+  - 他科（規則 9，只列不改）：SS PNG 16（皆 figs/，如 SS-2020-4、SS-2013-4）；SA PNG 189＋SVG 79（figs/ 201，如 SA-2025-1、SA-2002-1、SA-2008-4）；SD PNG 16＋SVG 16（如 SD-2012-2、SD-2011-4、SD-2023-4）；SM PNG 6＋SVG 3（SM-2011-3、SM-2014-4、SM-2015-4 各含 1 張非 figs/ 證據圖；盤點期間由 3 張增為 9 張，疑似有其他工作階段寫入）；清單見 `.work/cand1/c2pa_after.txt`
+  - study/ 下 PDF／HTML 無 C2PA；未 commit
+
+## 2026-11-15 RECHECK-RC-CAND-1：下一批候選落實檢查（階段 D）
+
+- 2026-11-15｜RECHECK-RC-CAND-1｜對象：FIX-RC-CAND-1（RC-2004-2、RC-2021-1、unit-RC-U3-3 ℓdh 公式卡）與 CLEAN-C2PA-RC。獨立工作階段，重算程式另寫（`.work/cand1d/`）。結果：**落實 2、殘留 1（已當場修正）、新分歧 0**。報告 `落實檢查-RC-下一批候選-2026-11-15.md`
+  - 獨立重算：`recalc.py` 從題目正本重算 31 值（RC-2004-2 17、RC-2021-1 14），MISMATCHES 0；`scan.py` 逐行掃舊值，命中都在 §1 常見誤讀、§3 陷阱、§5 對照與頁尾，逐筆確認都是合法用法
+  - 殘留修正（RC-2004-2 figs，勘誤前就存在）：`fig-2-vm` 剪力圖 B 兩側標籤 −42.4／+19.9 → **−42.5／+20.0**（$R_A-8w_u$、$2w_u$）。原因：gen 在 x＝8∓0.01 取值；HEAD 版同樣偏 0.1（−48.1／+22.6）。改了什麼：`gen_RC-2004-2.py` 標籤改用 B 兩側極限值並加 assert；在題目資料夾重跑 gen＋render.py（溢出 0），SVG 只差兩個文字節點，PNG 目視正常，C2PA 0；.md／problems-view 沒有寫這兩個數，problems-view 直接引用 figs，不需重產。備份 `.work/cand1d/bak_gen_RC-2004-2.py`、`bak_fig-2-vm.*`
+  - ℓdh：`ldh_conv.py` 換算 23×√10.197/√10＝23.23、5.4×√10.197＝17.24；ψc 分母 psi 版 1054.6（上限 421.8）、SI 版 1070.7（上限 407.9），卡上 1050／420 在上限處連續（＝1.000）；隨機 2000 組相對差 ≤ 0.26%；RC-2003-4 13.42 cm（下限 15 控制，舊式 19.13）、RC-2005-3 37.1 cm 重算一致。RC-2003-4 正本 ψc 0.866（psi 版）與卡上 0.867（1050）只是捨入差異，答案相同，不勘誤
+  - 改了什麼（ℓdh 卡文字）：`study/data/unit-RC-U3-3.json` 卡 #16 ψo 條件改成「(a) 止於核心內且側面保護層 ≥6.5 cm，或 (b) 側面保護層 ≥6db」（原文字容易讀成兩者都要在核心內；依 ACI 318-19 表 25.4.3.2）
+  - C2PA：RC figs/ 帶 C2PA 0（非 figs/ 證據圖 23 張，不改）；抽 RC-2012-4、2002-4、2023-1、2008-3、2015-3 共 10 張 SVG，去掉 C2PA 後與 HEAD 逐字相同 10／10；PNG 拼圖目視正常；RC .md 圖片引用 296 個、缺檔 0
+  - ledger：RC-2004-2、RC-2021-1 `recheck` 填 2026-11-15／落實；verificationStatus 未動；未 commit
+
+## 2026-11-15 BATCH-RC-CAND-1：下一批候選收尾（階段 F）
+
+- 2026-11-15｜BATCH-RC-CAND-1｜改了什麼：
+  - `study/data/unit-RC-U1-1.json` 公式卡 #6、#7、#8 與策略區警示框：φ 壓力控制界限 0.002 → $\varepsilon_{ty}=f_y/E_s$（#6 式子改為 $\varepsilon_t\le\varepsilon_{ty}$，說明補 SD420 0.00206、舊式寫 0.002 的由來，以及 SD280／SD550 的 0.00137／0.00275）；#7 過渡式改為 $0.65+0.25(\varepsilon_t-\varepsilon_{ty})/(0.005-\varepsilon_{ty})$，說明補考卷 103、106 印的是舊式、本庫依 SUBJECT.md §8 改用現行式、數值差（0.004：0.817→0.815；RC-2004-2 舊組合 0.00406：0.822→0.820），並註明 ACI 318-19 表 21.2.2 拉力控制界限寫成 εty＋0.003、台灣條文以原文核對；#8（96 年 0.483＋83.3εt）改稱與「舊式」同一條線，作答時用現行式。為什麼：與講義 §3.4（已用 εty 式）和已勘誤題的慣例不一致。怎麼驗證：程式重算 εty 0.00206、φ 0.815／0.817、0.820／0.822
+  - `study/lecture-RC-U3-3.html` §7.1 剪力牆表首列與 `unit-RC-U3-3.json` 卡 #24 說明：先查證——ACI 318-19 §21.2.4.1 仍規定耐震系統構材（接頭除外）若標稱剪力強度小於發展標稱撓曲強度所對應的剪力，剪力 φ 取 0.60，其他情況 0.75；橫膈版 φ 不得大於垂直構材的最小值（§21.2.4.2）。講義原寫「牆的剪力折減比一般構件（0.75）更嚴」少了條件 → **數值不改，只補條件**，並以 RC-2003-4（$V_{@M_n}\approx263$ tf < $V_n$，非剪力控制 → 主線 0.75）為例，與該題正本第 136、210 行一致；卡 #24 原寫「與梁的 0.75 不同」同樣補上條件。
+  - 重建：`build_unit_page.py RC-U1-1`、`RC-U3-3`（卡 #24 的 `<` 被 builder 當成標籤吃掉，改 `&lt;` 後重建；卡 #6 式子溢出框，縮短後重建）
+  - PDF：lecture-RC-U3-3、unit-RC-U3-3、unit-RC-U1-1 在雲端 headless Chrome 重出（A4、scale 0.85；KaTeX 433／189／151 個渲染元素 katex-error 0、pageerror 0、破圖 0、殘留定界符 0；頁數 23／12／12 與前次相同；改動頁 lecture p15、unit-U1-1 p4、unit-U3-3 p7 抽頁目視；寫回後 md5 一致）。備份 `.work/cand1d/bak_*.pdf`
+  - 檢查：problems-view RC-2004-2／RC-2021-1 KaTeX 192＋215 式錯誤 0（頁面晚於正本產生，正本本次未改）；講義／單元總覽 558 式錯誤 0；`xcheck.py RC` A＝0、B＝0、C＝0；`build_frequency.py`、`refresh_dashboard.py RC` 重跑，產出與重跑前逐字相同（本次未動 tags）
+  - `RC/SUBJECT.md` §9：在前一對話已加的「下一批候選」列補上本次結果（沒有新增一列）；`批次摘要-RC-下一批候選-2026-11-15.md`
+  - verificationStatus 未動（RC-2004-2、RC-2021-1 皆 unverified）；未 commit；他科未動
+
+## 2026-11-15 UNIT-RC-U4-2＋U3-2：新建單元總覽
+
+- 2026-11-15｜UNIT-RC-U4-2＋U3-2｜改了什麼：
+  - 新建 `study/data/unit-RC-U4-2.json`、`study/data/unit-RC-U3-2.json`，以 `scripts/build_unit_page.py` 產生 `study/unit-RC-U4-2.html`、`study/unit-RC-U3-2.html`，並出 A4 PDF（雲端 headless Chromium，`#mxBox` 展開、print media、scale 0.85）
+  - U4-2：主 5（2010-4、2015-4、2020-4、2024-4、2025-4）＋副 1（2005-5）；3 群（簡支梁偏心距／超靜定 C 線／鋼腱線形論述）；公式 15 條（必背 13、別賭 1：摩擦損失、會給 1：Pe/Pi）
+  - U3-2：主 7（2002-1、2007-3、2013-1、2017-3、2020-3、2021-3、2025-1）＋副 1（2019-3）；3 群（獨立基腳／版柱與樁帽穿孔／樓版構造）；公式 18 條（必背 13、別賭 4：載重組合、φ、單向 Vc 現行式、版剪力筋；會給 1：橫膈版 Vn）
+  - 下游：`build_frequency.py` 重跑（對帳通過，教材欄出現兩頁）；`study/problems-view/` 14 頁按鈕列加上單元總覽連結（主考點題放第一顆；RC-2005-5、RC-2019-3 為副考點，加在既有按鈕之後）
+- 怎麼驗證的：
+  - 公式證據：24 份考卷 pdftotext 全抽，以「參考公式／提示／參考式／穿孔／0.265／1.06／容許／偏心」等關鍵字搜尋；2003 年掃描卷轉圖目視；14 題另以題目正本 §2「考卷給的公式」逐題核對
+  - 逐題公式用途：每條公式一個 regex，對 14 份解析 §1–§4 計數（§5 不計），差異逐題開原文確認（例：2007-3 承載力驗算在 §4 末附節，計入；2010-4 的「等效載重」只出現在標籤，不計）
+  - `build_unit_page.py --check` 通過；Playwright 1280／390 寬：console error 0、`.katex-error` 0、scrollWidth 不超過視窗、公式框溢出 0
+- 觀察（寫進頁面，未改任何正本）：2025-4 與 2010-4、2025-1 與 2007-3 幾乎是同一題（題目回收）；U3-2 穿孔三式只在 2020、2021 純穿孔題印出，三題獨立基腳都沒印
+- 已知小差異：單元頁 KPI 的全科排名用並列算法（U3-2 與 U2-2 同為 7 題，顯示 #5），全科熱圖以排序先後顯示 #6；頁面文字已寫「並列第 5」
+- verificationStatus 未動；正本未改；他科未動；未 commit
+
+## 2026-11-15 LECTURE-RC-U4-2＋U3-2：新建觀念講義
+
+- 2026-11-15｜LECTURE-RC-U4-2＋U3-2｜改了什麼：
+  - 新建 `study/lecture-RC-U4-2.html`／`.pdf`（§0–§13、圖 9 張、16 頁）與 `study/lecture-RC-U3-2.html`／`.pdf`（§0–§12、圖 10 張、14 頁）；格式採本科既有講義的預設（HTML＋PDF、觀念圖解為主、附歷屆題對照表）
+  - 圖與數值：`scripts/lecture-figs/svglib.py`（共用 SVG 工具，`<!--FIG:id-->` 注入）、`scripts/lecture-figs/RC-U4-2/{calcs,gen_figs}.py`、`scripts/lecture-figs/RC-U3-2/{calcs,gen_figs}.py`；重跑逐位元相同（本機已驗）
+  - 下游：`build_unit_page.py RC-U4-2／RC-U3-2` 重跑（單元總覽出現講義連結）；`build_frequency.py` 重跑（教材欄出現兩份講義）；14 份 problems-view 按鈕列加上講義按鈕
+- 怎麼驗證的：
+  - 數值：`calcs.py` 由題目條件重算 14 題全部引用數字，並以 assert 對帳題解正本（2010-4 窗口 12.83～34.71、直線鋼腱 24.04、ΔM 18.1；2015-4 F＝105、ep＝14.50；2020-4 Pe＝128.6、B 斷面 52.4／19.0；2024-4 RB＝0.25、eC＝−27.5／13.75；2007-3、2017-3、2025-1 各項需求與強度；2020-3 s＝5.37；2021-3 ex＝54；2013-1、2019-3）
+  - 圖：Playwright 逐張檢查文字出界／重疊（最終為 0）、逐張截圖目視方向與位置；KaTeX 錯誤 0（U4-2 348 式、U3-2 222 式）；PDF 以 headless Chromium 列印並抽頁目視
+  - 題號：講義引用題號與索引本單元清單一致（U4-2 6 題、U3-2 8 題）；無 .md 連結
+- 觀察到、未改動，待使用者決定：
+  1. RC-2013-1 題解以淨跨 ℓn＝450 cm 套單向版最小厚度表（h＝19 cm），並寫「Table 9.5(a) 用淨跨」；ACI 表中 ℓ 的定義可能是跨度而非淨跨（若取 480 cm 則 h＝20 cm）。講義寫成「待確認」框；單元總覽 U3-2 公式卡 #14 的 meta 也寫了「用淨跨」，若確認需改再一起改
+  2. RC-2010-4 直線鋼腱偏心 24.04 cm 以梁端斷面、端部容許拉應力 1.6√f'ci 求得；規範未定義「端部」長度，若一般位置限值 0.8√f'ci 從離端約 1.3 m 內就適用，直線鋼腱在該段會超限。講義 §4 以補充框說明，題解未改
+- verificationStatus 未動；題解正本未改；他科未動；未 commit

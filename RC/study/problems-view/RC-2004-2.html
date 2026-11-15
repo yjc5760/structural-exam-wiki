@@ -180,7 +180,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
 <strong>副分類：</strong> 無<br />
 <strong>設計法：</strong> USD 強度設計法<br />
-<strong>標籤：</strong> <code>外伸梁</code> <code>懸臂梁</code> <code>D點跨中彎矩</code> <code>單筋梁</code> <code>Whitney應力塊</code> <code>D32鋼筋</code> <code>雙排配筋</code> <code>過渡區φ值</code> <code>ACI載重組合</code></p>
+<strong>標籤：</strong> <code>外伸梁</code> <code>懸臂梁</code> <code>D點跨中彎矩</code> <code>單筋梁</code> <code>Whitney應力塊</code> <code>D32鋼筋</code> <code>單排配筋</code> <code>拉力控制</code> <code>1.2D+1.6L</code></p>
 <hr />
 <h2>1. 題目（考卷原文見題目正本）</h2>
 <blockquote>
@@ -215,8 +215,13 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 <tr>
 <td>考卷沒給</td>
-<td>載重因數、混凝土單位重、$\phi$、保護層（判讀 #10）；本解取 $1.4D+1.7L$、2.4 t/m³</td>
+<td>載重因數、混凝土單位重、$\phi$、保護層（判讀 #10）；本解依現行規範取 $1.2D+1.6L$、2.4 t/m³</td>
 <td>當成題目條件</td>
+</tr>
+<tr>
+<td>載重組合</td>
+<td>依現行建築物混凝土結構設計規範（2023）取 $1.2D+1.6L$（只有 D、L 時與 $1.4D$ 取大）</td>
+<td>沿用考卷年份的 $1.4D+1.7L$（本解 2026-11-15 前即如此：$M_u$ 79.4、6-D32 兩排）</td>
 </tr>
 </tbody>
 </table>
@@ -226,34 +231,35 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <p><strong>核心觀念：</strong> 外伸梁的力學分析（反力計算 → D 點彎矩）+ USD 單筋梁設計 + D32 鋼筋排列。</p>
 <p><strong>測驗重點：</strong></p>
 <ol>
-<li>正確求出懸臂端對簡支段的反力影響（懸臂使 B 支承力增大，A 支承力減小）</li>
+<li>正確求出外伸段對簡支段的反力影響（外伸使 B 支承力增大，A 支承力減小）</li>
 <li>判斷是否需要雙筋（本題 $M_u &lt; \phi M_{n,\max}$ → 單筋即可）</li>
-<li>D32 鋼筋排列：單排最多 5 根，超過需排兩排</li>
-<li>雙排配筋導致實際 $\varepsilon_t$ 落入過渡區，需調整 $\phi$</li>
+<li>D32 鋼筋排列：$b=40$ cm 單排最多 5 根</li>
+<li>配筋後驗核 $\varepsilon_t$ 與 $\phi$（拉力控制或過渡區）</li>
 </ol>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析</h2>
 <p><strong>作戰計畫：</strong></p>
 <ol>
-<li>計算梁自重 $w_{SW}$，求總因數化載重 $W_u$</li>
+<li>計算梁自重 $w_{SW}$，依現行載重組合求 $W_u$（只有 D、L：$1.4D$ 與 $1.2D+1.6L$ 取大）</li>
 <li>由靜力求 $R_A$、$R_B$（ΣMa = 0）</li>
 <li>求 D 點（$x = 4\ \text{m}$）因數化彎矩 $M_u$</li>
-<li>計算 $\phi M_{n,\max}$（單筋上限）確認不需雙筋</li>
-<li>設計 $A_s$，選用 D32 鋼筋根數</li>
-<li>驗核 $\phi M_n \ge M_u$（注意 $\varepsilon_t$ 是否進入過渡區）</li>
+<li>計算 $\phi M_{n,\max}$（$\varepsilon_t=0.005$ 單筋上限）確認不需雙筋</li>
+<li>設計 $A_s$，選用 D32 鋼筋根數並檢查排列</li>
+<li>驗核 $\varepsilon_t$、$\phi M_n \ge M_u$ 與最小鋼筋量</li>
 </ol>
-<p><strong>關鍵陷阱（3 個）：</strong></p>
+<p><strong>關鍵陷阱（4 個）：</strong></p>
 <ul>
-<li>⚠ <strong>懸臂改變反力</strong>：$R_A = 3.75W_u$（≠ $W_u L/2 = 4W_u$），懸臂使 A 端反力減小</li>
-<li>⚠ <strong>D32 排列限制</strong>：單排最多 5 根（$b = 40\ \text{cm}$ 限制），6 根需排兩排，導致 $\varepsilon_t$ 偏低進入過渡區，$\phi &lt; 0.9$</li>
-<li>⚠ <strong>加入 $w_{SW}$ 後再因數化</strong>：梁自重屬死載重，須先加入再乘 1.4</li>
+<li>⚠ <strong>載重組合用現行規範</strong>：考卷沒給載重因數，依現行建築物混凝土結構設計規範（2023）取 $1.2D+1.6L$；舊版 $1.4D+1.7L$ 會把 $M_u$ 高估 13%，並把配筋推到 6 根兩排（見 §5 ①）</li>
+<li>⚠ <strong>外伸改變反力</strong>：$R_A = 3.75W_u$（≠ $W_u L/2 = 4W_u$），外伸段使 A 端反力減小</li>
+<li>⚠ <strong>加入 $w_{SW}$ 後再因數化</strong>：梁自重屬靜載重，須先加入再乘 1.2</li>
+<li>⚠ <strong>D32 排列限制</strong>：單排最多 5 根（$b = 40\ \text{cm}$），本題 5 根剛好排得下</li>
 </ul>
 <hr />
 <h2>3.5 變數層次分析 (Variable Hierarchy Analysis)</h2>
 <h3>最終目標</h3>
 <p>求 D 點所需縱向鋼筋量，並完成鋼筋配置。</p>
 <h3>本題關鍵公式（依計算順序）</h3>
-<p>$$\text{Step 1: } W_u = 1.4(w_D + w_{SW}) + 1.7\,w_L$$</p>
+<p>$$\text{Step 1: } W_u = \max\left[1.4(w_D + w_{SW}),\ 1.2(w_D + w_{SW}) + 1.6\,w_L\right]$$</p>
 <p>$$\text{Step 2: } R_B = \frac{W_u \times 10 \times 5}{8},\quad R_A = 10W_u - R_B$$</p>
 <p>$$\text{Step 3: } M_u^D = R_A \times 4 - W_u \times \frac{4^2}{2}$$</p>
 <p>$$\text{Step 4: } R_n = \frac{M_u}{\phi \cdot b \cdot d^2},\quad \rho = \frac{0.85f'_c}{f_y}\left[1-\sqrt{1-\frac{2R_n}{0.85f'_c}}\right]$$</p>
@@ -277,7 +283,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <tr>
 <td>$w_D$（不含自重）</td>
 <td>$5\ \text{t/m}$</td>
-<td>均布呆載重</td>
+<td>均布靜載重</td>
 </tr>
 <tr>
 <td>$w_L$</td>
@@ -292,7 +298,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <tr>
 <td>$L_{BC}$</td>
 <td>$2\ \text{m}$</td>
-<td>懸臂段</td>
+<td>外伸段</td>
 </tr>
 </tbody>
 </table>
@@ -313,7 +319,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 <tr>
 <td>$W_u$</td>
-<td>$1.4(5.672) + 1.7(2) = 11.34\ \text{t/m}$</td>
+<td>$1.2(5.672) + 1.6(2) = 10.01\ \text{t/m}$（&gt; $1.4D$ = 7.94）</td>
 <td></td>
 </tr>
 <tr>
@@ -323,7 +329,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 <tr>
 <td>$M_u^D$</td>
-<td>$7W_u = 79.4\ \text{t·m}$</td>
+<td>$7W_u = 70.0\ \text{t·m}$</td>
 <td></td>
 </tr>
 <tr>
@@ -333,12 +339,17 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 <tr>
 <td>$A_s$</td>
-<td>需求量 vs 6-D32 提供量</td>
+<td>需求 35.52 cm² vs 5-D32 提供 40.95 cm²</td>
 <td></td>
 </tr>
 <tr>
 <td>$\varepsilon_t$</td>
-<td>依 $c$ 計算（過渡區判斷）</td>
+<td>依 $c$ 計算（拉力控制判斷；本庫 SD420 取 0.005）</td>
+<td></td>
+</tr>
+<tr>
+<td>$A_{s,\min}$</td>
+<td>$\max(0.8\sqrt{f'_c},\,14)\,b_wd/f_y$</td>
 <td></td>
 </tr>
 </tbody>
@@ -347,74 +358,122 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <h2>4. 步驟化詳細計算過程</h2>
 <h3>① 梁自重與因數化載重</h3>
 <p>$$w_{SW} = b \times h \times \gamma = 0.40 \times 0.70 \times 2400 = 672\ \text{kg/m} = 0.672\ \text{t/m}$$</p>
-<p>$$W_u = 1.4(w_D + w_{SW}) + 1.7\,w_L = 1.4(5 + 0.672) + 1.7 \times 2 = 7.941 + 3.400 = 11.34\ \text{t/m}$$</p>
+<p>只有靜載重與活載重，現行規範兩個組合取大：</p>
+<p>$$1.4(w_D + w_{SW}) = 1.4 \times 5.672 = 7.94\ \text{t/m}$$</p>
+<p>$$W_u = 1.2(w_D + w_{SW}) + 1.6\,w_L = 1.2(5 + 0.672) + 1.6 \times 2 = 6.806 + 3.200 = 10.01\ \text{t/m} \quad\text{（控制）}$$</p>
 <hr />
 <h3>② 支承反力（均布載重 $W_u$ 作用於全長 10 m）</h3>
-<p>$$\sum M_A = 0:\quad R_B \times 8 = W_u \times 10 \times 5 \Rightarrow R_B = \frac{50 \times 11.34}{8} = 70.9\ \text{t}$$</p>
-<p>$$R_A = 11.34 \times 10 - 70.9 = 42.5\ \text{t}$$</p>
+<p>$$\sum M_A = 0:\quad R_B \times 8 = W_u \times 10 \times 5 \Rightarrow R_B = \frac{50 \times 10.006}{8} = 62.54\ \text{t}$$</p>
+<p>$$R_A = 10.006 \times 10 - 62.54 = 37.52\ \text{t}$$</p>
 <hr />
 <h3>③ D 點因數化彎矩（$x = 4\ \text{m}$ 自 A）</h3>
-<p>$$M_u^D = R_A \times 4 - W_u \times \frac{4^2}{2} = 42.5 \times 4 - 11.34 \times 8 = 170.0 - 90.7 = \boxed{79.4\ \text{t·m}}$$</p>
-<p><img alt="RC-2004-2 載重、剪力與彎矩三聯圖：wu = 11.34 t/m 作用全長 10 m，RA = 42.5 t、RB = 70.9 t；剪力在 x = 3.75 m 為零；D 點（x = 4 m）彎矩 7wu = 79.4 t·m，x = 7.5 m 處彎矩為零，B 支承負彎矩 −22.7 t·m" src="../../raw/solutions/RC-2004-2/figs/RC-2004-2-fig-2-vm.svg" /></p>
+<p>$$M_u^D = R_A \times 4 - W_u \times \frac{4^2}{2} = 37.52 \times 4 - 10.006 \times 8 = 150.10 - 80.05 = \boxed{70.0\ \text{t·m}}$$</p>
+<p><img alt="RC-2004-2 載重、剪力與彎矩三聯圖：wu = 10.01 t/m（1.2D＋1.6L）作用全長 10 m，RA = 37.5 t、RB = 62.5 t；剪力在 x = 3.75 m 為零；D 點（x = 4 m）彎矩 7wu = 70.0 t·m，x = 7.5 m 處彎矩為零，B 支承負彎矩 −20.0 t·m" src="../../raw/solutions/RC-2004-2/figs/RC-2004-2-fig-2-vm.svg" /></p>
 <p><em>圖 2　外伸段的載重把 A 端反力壓到 $3.75w_u$，D 點彎矩只剩 $7w_u$。這張圖攔下三個錯：照無外伸簡支梁取 $w_uL^2/8 = 8w_u$（高估 14%）、把 D 取在全梁中點 5 m，以及忽略 B 支承處需要上層筋的負彎矩。</em></p>
 <hr />
 <h3>④ 檢核是否需要雙筋（以 $\varepsilon_t = 0.005$ 計算 $\phi M_{n,\max}$）</h3>
 <p>$\varepsilon_t = 0.005$ 時的中性軸深度：<br />
 $$c_{0.005} = \frac{0.003}{0.003+0.005} \times d = \frac{0.003}{0.008} \times 60 = 22.5\ \text{cm}$$<br />
 $$a_{0.005} = \beta_1 c = 0.85 \times 22.5 = 19.13\ \text{cm}$$<br />
-$$A_{s,0.005} = \frac{0.85 f'_c \cdot b \cdot a}{f_y} = \frac{9520 \times 19.13}{4200} = 43.4\ \text{cm}^2$$</p>
-<p>$$\phi M_{n,\max} = 0.9 \times 43.4 \times 4200 \times \left(60 - \frac{19.13}{2}\right) = 0.9 \times 182{,}280 \times 50.44 = 82.7\ \text{t·m}$$</p>
-<p><strong>結論：</strong> $M_u = 79.4\ \text{t·m} &lt; \phi M_{n,\max} = 82.7\ \text{t·m}$ → <strong>單筋梁即可，$\phi = 0.9$</strong></p>
+$$A_{s,0.005} = \frac{0.85 f'_c \cdot b \cdot a}{f_y} = \frac{9520 \times 19.125}{4200} = 43.35\ \text{cm}^2$$</p>
+<p>$$\phi M_{n,\max} = 0.9 \times 43.35 \times 4200 \times \left(60 - \frac{19.13}{2}\right) = 0.9 \times 182{,}070 \times 50.44 = 82.6\ \text{t·m}$$</p>
+<p><strong>結論：</strong> $M_u = 70.0\ \text{t·m} &lt; \phi M_{n,\max} = 82.6\ \text{t·m}$ → <strong>單筋梁即可，$\phi = 0.9$</strong></p>
 <hr />
 <h3>⑤ 設計 $A_s$（$\phi = 0.9$）</h3>
-<p>$$R_n = \frac{M_u}{\phi \cdot b \cdot d^2} = \frac{79.4 \times 10^5}{0.9 \times 40 \times 60^2} = \frac{7{,}940{,}000}{129{,}600} = 61.3\ \text{kgf/cm}^2$$</p>
-<p>$$\rho = \frac{0.85 f'_c}{f_y}\left[1 - \sqrt{1 - \frac{2R_n}{0.85f'_c}}\right] = \frac{0.85 \times 280}{4200}\left[1 - \sqrt{1 - \frac{2 \times 61.3}{238}}\right]$$</p>
-<p>$$= 0.05667 \times \left[1 - \sqrt{1 - 0.5151}\right] = 0.05667 \times \left[1 - \sqrt{0.4849}\right] = 0.05667 \times 0.3036 = 0.01720$$</p>
-<p>$$A_{s,\text{req}} = \rho \cdot b \cdot d = 0.01720 \times 40 \times 60 = 41.3\ \text{cm}^2$$</p>
-<p><strong>最小鋼筋量驗核：</strong><br />
-$$A_{s,\min} = \frac{14}{f_y} \times b \times d = \frac{14}{4200} \times 40 \times 60 = 8.0\ \text{cm}^2 \ll 41.3\ \text{cm}^2\ \checkmark$$</p>
+<p>$$R_n = \frac{M_u}{\phi \cdot b \cdot d^2} = \frac{70.04 \times 10^5}{0.9 \times 40 \times 60^2} = \frac{7{,}004{,}000}{129{,}600} = 54.05\ \text{kgf/cm}^2$$</p>
+<p>$$\rho = \frac{0.85 f'_c}{f_y}\left[1 - \sqrt{1 - \frac{2R_n}{0.85f'_c}}\right] = \frac{0.85 \times 280}{4200}\left[1 - \sqrt{1 - \frac{2 \times 54.05}{238}}\right]$$</p>
+<p>$$= 0.05667 \times \left[1 - \sqrt{1 - 0.4542}\right] = 0.05667 \times \left[1 - \sqrt{0.5458}\right] = 0.05667 \times 0.2612 = 0.01480$$</p>
+<p>$$A_{s,\text{req}} = \rho \cdot b \cdot d = 0.01480 \times 40 \times 60 = 35.52\ \text{cm}^2$$</p>
+<p><strong>最小鋼筋量驗核（現行規範取兩式大者）：</strong><br />
+$$A_{s,\min} = \max\!\left(\frac{0.8\sqrt{f'_c}}{f_y},\ \frac{14}{f_y}\right) b_w d = \max(7.65,\ 8.00) = 8.00\ \text{cm}^2 \ll 35.52\ \text{cm}^2\ \checkmark$$</p>
 <hr />
 <h3>⑥ 選用鋼筋（D32，$a_b = 8.19\ \text{cm}^2$）</h3>
-<p>$$n_{\min} = \frac{41.3}{8.19} = 5.04 \Rightarrow \text{需 6 根 D32}$$</p>
+<p>$$n_{\min} = \frac{35.52}{8.19} = 4.34 \Rightarrow \text{需 5 根 D32}$$</p>
 <blockquote>
-<p>5 根驗核：$A_s = 40.95\ \text{cm}^2$，$a = 18.1\ \text{cm}$，$\phi M_n = 0.9 \times 171{,}990 \times 51.0 = 78.9\ \text{t·m} &lt; 79.4\ \text{t·m}$（不足）</p>
+<p>4 根驗核：$A_s = 32.76\ \text{cm}^2$，$a = 14.45\ \text{cm}$，$\phi M_n = 0.9 \times 72.61 = 65.4\ \text{t·m} &lt; 70.0\ \text{t·m}$（不足）</p>
 </blockquote>
-<p><strong>使用 6-D32：</strong> $A_s = 6 \times 8.19 = 49.14\ \text{cm}^2$</p>
+<p><strong>使用 5-D32：</strong> $A_s = 5 \times 8.19 = 40.95\ \text{cm}^2$</p>
 <hr />
-<h3>⑦ 驗核 $\phi M_n$（6 根 D32）</h3>
-<p>$$a = \frac{49.14 \times 4200}{0.85 \times 280 \times 40} = \frac{206{,}388}{9{,}520} = 21.67\ \text{cm}$$</p>
-<p>$$c = \frac{a}{\beta_1} = \frac{21.67}{0.85} = 25.49\ \text{cm}$$</p>
-<p>$$\varepsilon_t = 0.003 \times \frac{d-c}{c} = 0.003 \times \frac{60-25.49}{25.49} = 0.003 \times 1.354 = 0.00406$$</p>
-<p>由於 $\varepsilon_y &lt; \varepsilon_t = 0.00406 &lt; 0.005$（<strong>過渡區</strong>），需調整 $\phi$：</p>
-<p>$$\phi = 0.65 + (\varepsilon_t - 0.002) \times \frac{0.25}{0.003} = 0.65 + \frac{0.00406-0.002}{0.003} \times 0.25 = 0.65 + 0.172 = 0.822$$</p>
-<p>$$\phi M_n = 0.822 \times 49.14 \times 4200 \times \left(60 - \frac{21.67}{2}\right) = 0.822 \times 206{,}388 \times 49.165$$</p>
-<p>$$= 0.822 \times 10{,}146{,}779 = 8{,}340{,}652\ \text{kgf·cm} = \boxed{83.4\ \text{t·m}}$$</p>
-<p>$$\phi M_n = 83.4\ \text{t·m} \ge M_u = 79.4\ \text{t·m} \quad \checkmark$$</p>
+<h3>⑦ 驗核 $\phi M_n$（5 根 D32）</h3>
+<p>$$a = \frac{40.95 \times 4200}{0.85 \times 280 \times 40} = \frac{171{,}990}{9{,}520} = 18.07\ \text{cm}$$</p>
+<p>$$c = \frac{a}{\beta_1} = \frac{18.07}{0.85} = 21.25\ \text{cm}$$</p>
+<p>$$\varepsilon_t = 0.003 \times \frac{d-c}{c} = 0.003 \times \frac{60-21.25}{21.25} = 0.00547 \ge 0.005 \quad\Rightarrow\quad \text{拉力控制，}\phi = 0.9$$</p>
+<p>（也滿足非預力梁 $\varepsilon_t \ge 0.004$ 的下限。）</p>
+<p>$$\phi M_n = 0.9 \times 40.95 \times 4200 \times \left(60 - \frac{18.07}{2}\right) = 0.9 \times 171{,}990 \times 50.97 = 7{,}889{,}000\ \text{kgf·cm} = \boxed{78.9\ \text{t·m}}$$</p>
+<p>$$\phi M_n = 78.9\ \text{t·m} \ge M_u = 70.0\ \text{t·m} \quad \checkmark$$</p>
 <hr />
 <h3>⑧ 鋼筋配置</h3>
-<p><strong>排列驗核（$b = 40\ \text{cm}$，D32 + D13 箍筋，覆蓋層 4 cm）：</strong></p>
-<p>單排最大根數：<br />
-$$b = 2(4 + 1.27) + n \times 3.23 + (n-1) \times 3.23 \le 40\ \text{cm}$$<br />
-$$\Rightarrow (2n-1) \times 3.23 \le 29.46 \Rightarrow n \le 5.06 \Rightarrow \text{單排最多 5 根}$$</p>
-<p>→ <strong>6 根 D32 需分兩排（3+3 排列）</strong></p>
-<p>各排距底部距離：</p>
-<ul>
-<li>第 1 排（底部）：$4 + 1.27 + 1.615 = 6.885\ \text{cm}$</li>
-<li>第 2 排：$6.885 + 3.23 + 2.5 = 12.615\ \text{cm}$（排間淨距 25 mm）</li>
-</ul>
-<p>合力中心：$\bar{y} = \dfrac{3 \times 6.885 + 3 \times 12.615}{6} = 9.75\ \text{cm}$ 自底部</p>
-<p>實際有效深度：$d_\text{actual} = 70 - 9.75 = \mathbf{60.25\ \text{cm}} \approx 60\ \text{cm}$ ✓</p>
-<p><strong>最終配置：底部拉力筋 6-D32（兩排，各 3 根）</strong></p>
+<p><strong>排列驗核（$b = 40\ \text{cm}$，D32 + D13 箍筋，保護層 4 cm）：</strong></p>
+<p>鋼筋可用寬度 $40 - 2(4 + 1.27) = 29.46\ \text{cm}$；5 根 D32 時淨距</p>
+<p>$$s_{\text{clear}} = \frac{29.46 - 5 \times 3.23}{4} = 3.33\ \text{cm} \ge \max(d_b,\ 2.5) = 3.23\ \text{cm}\ \checkmark$$</p>
+<p>→ <strong>5 根 D32 可排單排</strong>（6 根以上才需兩排）</p>
+<p>單排鋼筋形心距梁底 $4 + 1.27 + 1.615 = 6.885\ \text{cm}$，實際 $d = 63.1\ \text{cm}$ &gt; 題給 $d = 60\ \text{cm}$；本解照題給 $d = 60$ 計算（偏保守）。</p>
+<p><strong>最終配置：底部拉力筋 5-D32（單排）</strong></p>
 <hr />
 <h2>5. 關鍵爭議點與進階探討</h2>
-<p><strong>① D 點正確為 A-B 跨中（非 A-C 之中）</strong></p>
+<p><strong>① 載重組合：現行 $1.2D+1.6L$ vs 舊版 $1.4D+1.7L$（考卷年份 93 年的規範）</strong></p>
+<p>考卷沒給載重因數。本解依現行建築物混凝土結構設計規範（2023）取 $1.2D+1.6L$；勘誤前的舊解用 93 年當時規範的 $1.4D+1.7L$，對照如下：</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>現行 $1.2D+1.6L$（主線）</th>
+<th>舊版 $1.4D+1.7L$（對照）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$W_u$</td>
+<td>10.01 t/m</td>
+<td>11.34 t/m</td>
+</tr>
+<tr>
+<td>$R_A$／$R_B$</td>
+<td>37.52／62.54 t</td>
+<td>42.53／70.88 t</td>
+</tr>
+<tr>
+<td>$M_u^D$</td>
+<td><strong>70.0 t·m</strong></td>
+<td>79.4 t·m</td>
+</tr>
+<tr>
+<td>$M_B$（負彎矩）</td>
+<td>−20.0 t·m</td>
+<td>−22.7 t·m</td>
+</tr>
+<tr>
+<td>$A_{s,\text{req}}$（$\phi=0.9$）</td>
+<td>35.52 cm²</td>
+<td>41.26 cm²</td>
+</tr>
+<tr>
+<td>配筋</td>
+<td><strong>5-D32 單排</strong>（40.95 cm²）</td>
+<td>6-D32 兩排 3＋3（49.14 cm²；5 根 $\phi M_n$ 78.9 &lt; 79.4 不足）</td>
+</tr>
+<tr>
+<td>$\varepsilon_t$、$\phi$</td>
+<td>0.00547 → 0.90</td>
+<td>0.00406 → 過渡區 0.820</td>
+</tr>
+<tr>
+<td>$\phi M_n$</td>
+<td>78.9 t·m</td>
+<td>83.2 t·m</td>
+</tr>
+</tbody>
+</table>
+<p>舊解在過渡區用 $\phi = 0.65 + (\varepsilon_t - 0.002)\times 0.25/0.003 = 0.822$（$\phi M_n$ 83.4 t·m）；現行規範壓力控制界限為 $\varepsilon_{ty} = f_y/E_s = 0.002059$，本庫 SD420 拉力控制界限取 0.005，內插得 $0.820$、$\phi M_n = 83.2\ \text{t·m}$。兩套載重組合的 $W_u$ 差 13%，剛好跨過「5 根夠不夠」的門檻，所以配筋從 6 根兩排變成 5 根單排。</p>
+<p><strong>② D 點正確為 A-B 跨中（非 A-C 之中）</strong></p>
 <p>題目圖示 A-D-B-C 排列，D 在 A 與 B 之間，確認 $x_D = 4\ \text{m}$ 自 A。若誤將 D 取在 A-C 全長中點（$x = 5\ \text{m}$），所求彎矩將不同。</p>
-<p><strong>② 懸臂使 A 端反力「縮水」</strong></p>
-<p>若無懸臂，$R_A = 4.5W_u$；加入 2 m 懸臂後，$R_A = 3.75W_u$，減少 16.7%。這導致 D 點正彎矩由 $wL^2/8 = 8W_u$ 降至 $7W_u$，考生容易忽略懸臂的影響。</p>
-<p><strong>③ 鋼筋過渡區的設計取向</strong></p>
-<p>6 根 D32 使 $\varepsilon_t = 0.00406$（過渡區），$\phi = 0.822$ 而非 0.9。這說明在設計初期假設 $\phi = 0.9$ 求出 $A_s = 41.3\ \text{cm}^2$，再配置 6 D32（49.14 cm²）後，$\phi$ 下降但 $\phi M_n$ 仍足夠——是典型的「設計迭代」情形。考場上可直接選 6 根，再驗核 $\phi M_n$，不需重算 $A_s$。</p>
+<p><strong>③ 外伸使 A 端反力「縮水」</strong></p>
+<p>若無外伸、只有 8 m 簡支跨，$R_A = 4W_u$；本題全長載重下 $R_A = 3.75W_u$。D 點正彎矩因此由 $wL^2/8 = 8W_u$ 降至 $7W_u$（照 $8W_u$ 算會高估 14%），考生容易忽略外伸段的影響。</p>
+<p><strong>④ 最小鋼筋量與 $\varepsilon_t$ 下限</strong></p>
+<p>現行規範 $A_{s,\min}$ 取 $0.8\sqrt{f'_c}/f_y$ 與 $14/f_y$ 兩式大者；$f'_c = 280$ 時 $14/f_y$ 控制（8.00 cm²）。舊解只寫 $14/f_y$，本題數值相同。非預力梁另須 $\varepsilon_t \ge 0.004$，5-D32 的 0.00547 已達拉力控制。</p>
 <p><em>修正日期：2026-11-12（§1 改為指向題目正本，重繪題目附圖 figs/RC-2004-2-fig-1-problem.svg；刪除「A、B 為鉸支承」誤述）</em></p>
-<p><em>圖解補繪：2026-11-13（圖 2 載重／剪力／彎矩圖；向量圖，腳本 <code>gen_RC-2004-2.py</code>，可重跑，檔尾對 §4 公佈值 assert；非勘誤）</em></p></main>
+<p><em>圖解補繪：2026-11-13（圖 2 載重／剪力／彎矩圖；向量圖，腳本 <code>gen_RC-2004-2.py</code>，可重跑，檔尾對 §4 公佈值 assert；非勘誤）</em></p>
+<p><em>修正日期：2026-11-15（改依現行台灣規範（建築物混凝土結構設計規範 2023）：載重組合 1.4D＋1.7L → 1.2D＋1.6L，$W_u$ 11.34 → 10.01 t/m、$M_u^D$ 79.4 → 70.0 t·m、$A_{s,req}$ 41.3 → 35.52 cm²，配筋 6-D32 兩排 → <strong>5-D32 單排</strong>（$\varepsilon_t$ 0.00547 拉力控制、$\phi M_n$ 78.9 t·m）；$A_{s,\min}$ 補 $0.8\sqrt{f'_c}$ 式；舊組合結果降 §5 ① 對照（過渡區 $\phi$ 改依 $\varepsilon_{ty}$ 起點）；圖 2 重跑。驗證：<code>.work/cand1/check_RC-2004-2.py</code> 獨立重算 MISMATCHES: 0，D 點彎矩以剪力積分交叉驗算）</em></p></main>
 <footer>來源：raw/solutions/RC-2004-2/RC-2004-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>
 /* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，
