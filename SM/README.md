@@ -24,7 +24,7 @@
 | 講義／教科書 | 「生成 SM-U2-2 講義」「把 SM-U1-3 寫成教科書」 |
 | 查詢知識 / 跨題分析 | 對 **Cowork** 直接提問 |
 
-> SM 的單元教材仍是舊式「命題分析＋給／背＋講義」三件套，尚未改成單元總覽（`unit-overview`）；要改之前先看 `SUBJECT.md` §10。
+> SM 的單元教材正從舊式「命題分析＋給／背＋講義」三件套改成單元總覽（`unit-overview`）：U2-3 已完成（2026-11-15），其餘子項仍是舊式，見 `SUBJECT.md` §10。
 
 ---
 
@@ -35,8 +35,9 @@
 | **視覺化瀏覽題庫** | **雙擊 `index.html`**（題庫搜尋篩選、考點統計、進度追蹤） |
 | 特定題目的解析 | `raw/solutions/SM-YYYY-N/SM-YYYY-N.md` |
 | 題目渲染頁（公式／附圖可讀） | `study/problems-view/SM-YYYY-N.html` |
-| 子項命題分析（這個單元考什麼） | `study/study-SM-UN-n.html`（U1-1、U1-3、U1-5、U2-1、U2-2、U2-3、U3-1、U3-3） |
-| 公式給／背分界 | `study/formula-given-SM-UN-n.html`（+ 同名 `.pdf`；7 個子項） |
+| 單元總覽（考什麼＋公式給／背＋逐題公式表） | `study/unit-SM-UN-n.html`（U2-3） |
+| 子項命題分析（舊式） | `study/study-SM-UN-n.html`（U1-1、U1-3、U1-5、U2-1、U2-2、U3-1、U3-3） |
+| 公式給／背分界（舊式） | `study/formula-given-SM-UN-n.html`（+ 同名 `.pdf`；6 個子項） |
 | 單元觀念講義 | `study/lecture-SM-UN-n.html`（+ 同名 `.pdf`；U1-1、U1-3、U1-5、U2-1、U2-2、U2-3、U3-1） |
 | 全科出題頻率熱圖 | `study/frequency-SM.html` |
 | 方法論（承載力、壓密沉陷、流線網、土壓力、擋土牆、樁、Fellenius／Bishop） | `raw/solutions/methods/` |

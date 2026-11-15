@@ -2099,3 +2099,15 @@ PDF 文字層檢查無殘留 LaTeX、無 emoji 豆腐方框。
 - `[rebuild]` problems-view 43 頁；dashboard-data.js 就地更新 8 題 tags（未跑 refresh_dashboard.py，依 SUBJECT.md §10）；build_frequency.py 對帳通過；unit-SA-U1-2／U1-3／U2-1／U2-3／U2-4 PDF 重產（11／10／10／13／13 頁同舊版）、lecture-SA-U3-2 PDF 重產（16 → 17 頁，提醒段變長；p.12 目視），Chromium A4 margin 0，KaTeX 錯誤 0
 - 驗證：跨檔比對腳本重跑——索引無舊欄位、96 份標頭主副分類與標籤皆與索引一致、儀表板與頻率熱圖與索引一致；`audit_classification.py SA SA` 0 問題
 - 一次性腳本：scripts/fixes/2026-11-14_index_header_tags_cleanup.py
+
+## [2026-11-15] RECLASS-SA｜分類稽核後調整主副分類（不動任何答案）
+- 依據：wiki/queries/分類稽核-SA-2026-11-15.md（機械檢查 0 問題；語意檢查讀 96 份題目正本 §1＋查題解實際方法），使用者指示「依你建議修改」
+- `[index]` 主分類：SA-2005-4 U2-1 → U2-2（題解以單位力法諧合方程式解贅力）；SA-2022-1 U2-1 → U1-2（題給彎矩圖後純靜力＋共軛梁法）；SA-2022-4 U2-4 → U3-2（剪力棟架以層勁度與層剪力平衡求解、未建勁度矩陣）
+- `[index]` 副分類：SA-2023-2 刪 U1-1（考卷未問靜不定度）；靜不定影響線統一「求解方法掛副分類」：SA-2005-3、2011-3、2020-3、2021-3 補 U2-2，SA-2018-4 補 U2-3
+- `[index]` 標籤：SA-2024-4 刪舊版殘留「傾角變位法、集中力、反對稱、非均勻斷面」
+- `[header]` 上述 10 份解析標頭同步，頁尾加「修正日期：2026-11-15（非勘誤）（分類調整…）」；verificationStatus 不變（未勘誤）
+- `[pending]` SA-2016-3 未改：報告建議主分類 U2-1 → U2-2，但 2026-11-07 使用者判定該題「與諧合變位無關」（副分類 U2-2 → U2-3），兩者衝突，待使用者決定
+- `[unit]` unit-SA-U2-1（12 → 10 題，對切 5／5、近 6 考年 0 題、支承位移修正卡證據改述）、U2-4（14 → 13，對切 6／7、近 6 考年 3 題）、U1-2（16 → 17，2022-1 歸 DP 群）、U3-2（5 → 6，新增考點群「剪力建築層勁度」，對切 3／3）、U2-3（副 3 → 4，2018-4 歸對稱降維群；「26 題」更正為 28 題）資料檔更新；前後段與題型數字以腳本由 Q[].cl／ty 重算核對；6 頁 build 通過
+- `[lecture]` lecture-SA-U2-1、U2-4：歷屆表題數更正，改歸題標註「留作方法對照」（2005-4 表格法、2022-4 剪力棟架段落保留）；U1-2、U3-2：歷屆表新增 2022-1、2022-4 列；U2-3：副分類表新增 2018-4 列
+- `[rebuild]` problems-view 10 頁；frequency-SA.html（對帳通過）；dashboard-data.js 就地更新 10 題（先誤跑 refresh_dashboard.py 轉成 KB_* 格式，違反 SUBJECT.md §10，已自 git HEAD 還原後就地改）；unit-SA-U1-2／U2-1／U2-3／U2-4／U3-2 與 5 份講義 PDF 重產（Chromium A4，KaTeX 錯誤 0、390／1280 寬無水平捲動）；unit-SA-U1-3.html 隨重建只有圖示說明一行差異（模板），PDF 未重出
+- 驗證：`audit_classification.py SA SA` 0 問題；`build_unit_page.py --check` 六單元通過；xcheck 無新問題

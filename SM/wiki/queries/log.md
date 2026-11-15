@@ -1946,3 +1946,24 @@ $P \to \infty$ 而溢出 925 處，改為只畫 $P \ge 0.45P_a$ 的視窗後解�
   - `SUBJECT.md`：§3 分類軸更正為「分析法」四值＋判準（`scripts/subject_profiles.json` 同步）、§3.1 標籤詞彙、§8 原 repo 設計哲學框架原文、§9 搬家紀錄、§10 與根目錄差異及待辦。
 - **怎麼驗證的**：`diff -rq` 逐檔比對 raw／study／影片講義／archive／wiki/queries／scripts/lecture-figs 全部相同，儀表板兩檔 `cmp` 相同；檔案數 919 −12（不搬）＋6（SUBJECT.md、archive root 副本 5 檔）＝913 吻合。`xcheck.py SM` A=0／B=0／C=0；`audit_classification.py SM SM` 0 題、0 筆（補「分析法」標頭別名後含標頭比對）；`build_frequency.py --check` 對帳通過；`render_problem_view.py` 抽 SM-2019-2、SM-2008-1 重產比對後還原（正文、圖、返回鈕相同，只差清單 `<p>` 與斜體內粗體）；站內相對連結 129 頁 0 處失效；根目錄五科入口讀得到 SM 96 題。
 - **未動**：`raw/` 任何檔案內容（除 `syllabus_taxonomy.json` 副本重新同步）、`question_index.json`、96 頁 problems-view、frequency-SM.html。
+
+## [2026-11-15] RECLASSIFY | 分類稽核後改 2 題主副分類（使用者確認）
+
+- **依據**：`wiki/queries/分類稽核-SM-2026-11-15.md`（機械比對 0 筆；逐題讀 §1 判讀後建議 2 題）。
+- **改了什麼**：
+  - `SM-2010-3`：主 `SM-U1-2`／副 `SM-U2-3` → 主 `SM-U2-3`／副 `SM-U1-2`（開挖底面管湧檢核，與 SM-2003-3、2017-4、2020-2 同歸開挖穩定）
+  - `SM-2002-2`：刪副分類 `SM-U2-4`（題目只問液化地盤改良工法，未涉基礎型式選擇）
+  - 同步：`raw/json/question_index.json`、兩題解析標頭（頁尾加修正日期，標「非勘誤」，不影響 verificationStatus 與盲解排程）、`study/problems-view/` 兩頁（render_problem_view.py）、`dashboard-data.js`（refresh_dashboard.py）、`study/frequency-SM.html`（build_frequency.py，對帳通過）。
+- **怎麼驗證的**：`audit_classification.py SM SM` 0 題 0 筆；`build_frequency.py --check` 對帳通過；`git diff` 確認索引只動兩題的分類欄位。
+- **未同步（待處理）**：`study/study-SM-U2-3.html`（2026-08-16 手寫命題分析頁）仍寫「主 12＋副 5」並把 SM-2010-3 列為副考點；改歸後應為主 13＋副 4，題數排名、比例、分群與前後段表需一起重算。講義 `lecture-SM-U2-1/U2-3` 只是引用題號，不受影響。
+
+## [2026-11-15] UNIT | SM-U2-3 改成單元總覽（unit-overview）
+
+- **做了什麼**：新建 `study/data/unit-SM-U2-3.json`，以 `python scripts/build_unit_page.py SM-U2-3` 產生 `study/unit-SM-U2-3.html`（主 13＋副 4＝17 題、排名 #2、20 條公式卡：必背 15／別賭 3／通常會給 2），Playwright 產 `unit-SM-U2-3.pdf`。
+  - 公式卡沿用舊給／背頁（2026-08，年份層級）的證據，改為逐題標公式用途：對 17 份題解逐式 regex 計數、再開原文判斷「實際寫出或套用」。證據更正列在頁尾 footer（如「4cu−γH」移除 2008、「Ns」移除 2023、「流徑」新增 2010／2020、「上舉」新增 2009 副考點）；舊「開題三十秒」改寫進第四節，不再列公式卡。
+  - 考卷證據：24 份 `pdftotext -layout` 重抽核對 2017、2022 印出的式子；補轉圖目視 92、96、98、112 年（皆確認本單元零公式）。
+  - 刪除被取代的 `study/study-SM-U2-3.html`、`study/formula-given-SM-U2-3.html`／`.pdf`（不做轉址頁）；連結改指 `unit-SM-U2-3.html`：14 頁 problems-view 返回鍵、`lecture-SM-U2-3.html` 導覽（兩鍵併為「單元總覽」）、其他 6 份給／背頁導覽與 U3-1 內文連結、儀表板 `index.html` 的 `UNIT_PAGES`。
+  - `study/frequency-SM.html` 以 v1.2 重產（`--check` 對帳通過）。使用者同意保留 v1.2 版：尚未改版子項的舊命題分析／給背頁不再列在熱圖教材欄。
+  - `SUBJECT.md` §9 加兩列、§10「單元教材」「頻率熱圖」改寫；README、檔案架構索引表、知識庫使用說明書同步。
+- **更正同日 RECLASSIFY 一筆**：該筆寫「`dashboard-data.js`（refresh_dashboard.py）」——SUBJECT.md §10 規定改回共用樣板前不可對 SM 執行 `refresh_dashboard.py`（會改寫成 `KB_*` 格式、與 SM 現用 `index.html` 不相容）。已從 HEAD 還原原格式，只手改 `SM_QUESTIONS` 中 SM-2002-2、SM-2010-3 兩筆分類（`git diff` 1 行）。
+- **怎麼驗證的**：`build_unit_page.py --check` 題目集合與索引一致；1280／390 寬 console 無錯、`.katex-error` 0、無水平捲動；逐年表合計 ✔ 6／✗ 36；站內再無 `study-SM-U2-3`、`formula-given-SM-U2-3` 連結（`archive/`、`wiki/queries/` 歷史紀錄除外）。
