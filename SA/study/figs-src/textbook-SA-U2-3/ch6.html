@@ -1,0 +1,106 @@
+<section id="ch6">
+<h2>第 6 章　無側移結構：節點平衡、桿端剪力、彈簧與沉陷</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能在空白紙上寫出：</b>
+$$\sum_{\text{接在節點的桿}}M_{ij}=M_{\text{外}},\qquad V_{A}=V_0-\frac{M_{AB}+M_{BA}}{L},\quad V_{B}=V_0+\frac{M_{AB}+M_{BA}}{L}$$
+並且會處理三種「多一點東西」的無側移題：鉸端（第 4 章）、支承沉陷、彈簧支承。<br>
+要記的只有 <span class="kw">S1 平衡</span>：切下節點、切下桿件，各自 \(\sum M=0\)、\(\sum F=0\)。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>節點彎矩平衡 \(\sum M_{\text{node}}=0\)（每一個未知轉角配一條）</td><td><span class="tg must">必背</span></td><td>6.2</td></tr>
+<tr><td>桿端剪力 \(V=V_0\pm(M_{AB}+M_{BA})/L\)</td><td><span class="tg must">必背</span></td><td>6.3</td></tr>
+<tr><td>支承沉陷：放進 \(\psi\)（或當固端彎矩，擇一）</td><td><span class="tg must">必背</span></td><td>6.4</td></tr>
+<tr><td>彈簧支承：位移當未知數，多一條 \(k\Delta=\) 節點力平衡</td><td>—</td><td>6.5</td></tr>
+</table>
+<p class="note">證據：無側移梁／剛架＋鉸端修正＋彈簧／沉陷，五年內三題（2019-3、2021-1、2023-3），單元總覽列為中高風險。桿端剪力容易漏掉 \(V_0\)（跨間載重造成的部分）。</p>
+</div>
+
+<!-- ======================================================== 6.1 -->
+<h3>6.1　先判斷：有沒有側移</h3>
+<p>第 1 章的盤點表：有東西擋住水平移動（支承、或連到不能動的點），或對稱結構受對稱載重，就沒有側移，\(\psi\) 只剩「支承沉陷」造成的那一部分。
+<a href="problems-view/SA-2023-3.html">SA-2023-3</a>：A 鉸、C 滾（擋垂直）、D 固定，不計軸向變形時每個節點都動不了 → <b>無側移</b>，未知數只有 \(\theta_B\)、\(\theta_C\)。</p>
+
+<!-- ======================================================== 6.2 -->
+<h3>6.2　節點彎矩平衡：切下節點　<span class="tg must">必背</span></h3>
+{{FIG:fig6_1|圖 6-1｜切下節點 B。主式裡的 \(M_{BA}\)、\(M_{BC}\) 是「作用在桿件端部」的彎矩（順時針為正）；反作用到節點上就是逆時針。節點沒有外加彎矩時，<b>接在節點上的桿端彎矩加起來＝0</b>。}}
+<div class="derive">
+<p><span class="st">①</span> 種子 S1：切下節點，它也要平衡。桿件對節點的彎矩是 \(-M_{ij}\)（作用力與反作用力）。</p>
+<p><span class="st">②</span> \(\sum(-M_{ij})+M_{\text{外}}=0\) → \(\boxed{\sum M_{ij}=M_{\text{外}}}\)（\(M_{\text{外}}\) 是加在節點上的外力矩，順時針為正；沒有就 0）。</p>
+<p><span class="st">③</span> SA-2023-3：節點 B \(M_{BA}+M_{BC}=0\)、節點 C \(M_{CB}+M_{CD}=0\)：
+$$1.5EI\theta_B+0.5EI\theta_C=65,\qquad 0.5EI\theta_B+2EI\theta_C=25$$
+解出 \(EI\theta_B=\dfrac{470}{11}\approx42.73\)、\(EI\theta_C=\dfrac{20}{11}\approx1.82\) ✔（和題解一致）。</p>
+</div>
+<div class="trap"><b>陷阱：節點上有外加彎矩時的正負</b><br>
+外加彎矩順時針作用在節點上，等式右邊是 \(+M_{\text{外}}\)。寫成 \(\sum M_{ij}+M_{\text{外}}=0\) 就整個反了。不確定時就畫圖 6-1：桿件給節點的彎矩方向和桿端彎矩相反。</div>
+
+<!-- ======================================================== 6.3 -->
+<h3>6.3　桿端剪力：切下桿件　<span class="tg must">必背</span></h3>
+{{FIG:fig6_2|圖 6-2｜切下桿件 AB。桿端剪力＝簡支梁的剪力 \(V_0\)（載重造成）＋兩端彎矩造成的一對力。端彎矩合起來順時針，就需要一對逆時針的力來平衡：<b>左端往下、右端往上</b>，大小 \((M_{AB}+M_{BA})/L\)。}}
+<div class="derive">
+<p><span class="st">①</span> 對 B 取力矩（向上為正）：\(V_A L-\dfrac{wL^2}{2}+M_{AB}+M_{BA}=0\)。</p>
+<p><span class="st">②</span> \(\boxed{V_A=V_0-\dfrac{M_{AB}+M_{BA}}{L}}\)；同理 \(\boxed{V_B=V_0+\dfrac{M_{AB}+M_{BA}}{L}}\)（\(V_0=wL/2\)，集中載重就換成簡支反力）。</p>
+</div>
+<div class="check"><b>極限檢查</b>　沒有端彎矩（簡支梁）→ \(V=V_0\) ✔。兩端彎矩大小相同、方向相反（\(M_{AB}=-M_{BA}\)，例如對稱的兩端固定梁）→ 修正項為 0，剪力和簡支梁一樣 ✔。</div>
+<div class="trap"><b>陷阱：漏掉 \(V_0\)，或把修正項的正負背錯</b><br>
+不要背「左減右加」；每次都畫圖 6-2，看端彎矩合起來往哪轉，那一對力就反著轉。</div>
+
+<!-- ======================================================== 6.4 -->
+<h3>6.4　支承沉陷：沉陷就是已知的 ψ　<span class="tg must">必背</span></h3>
+{{FIG:fig6_3|圖 6-3｜SA-2019-3：三跨連續梁，B、C 等量沉陷 \(\Delta\)。AB 跨的弦順時針轉 \(\psi_{AB}=\Delta/L\)；BC 兩端一起沉，只是平移，\(\psi_{BC}=0\)。對稱讓 \(\theta_C=-\theta_B\)，未知數只剩一個。}}
+<div class="derive">
+<p><span class="st">①</span> AB（A 鉸，修正式）：\(M_{BA}=\dfrac{3EI}{L}\Big(\theta_B-\dfrac{\Delta}{L}\Big)+\Big(\dfrac{wL^2}{12}+\dfrac{wL^2}{24}\Big)\)。修正固端彎矩 \(wL^2/8\) 是第 4 章的表。</p>
+<p><span class="st">②</span> BC（\(\theta_C=-\theta_B\)、\(\psi=0\)）：\(M_{BC}=\dfrac{2EI}{L}(2\theta_B-\theta_B)-\dfrac{wL^2}{12}=\dfrac{2EI}{L}\theta_B-\dfrac{wL^2}{12}\)。</p>
+<p><span class="st">③</span> 節點 B：\(\dfrac{5EI}{L}\theta_B-\dfrac{3EI\Delta}{L^2}+\dfrac{wL^2}{24}=0\) → 代回 \(M_{BA}=\dfrac{wL^2}{10}-\dfrac{6EI\Delta}{5L^2}\)。</p>
+<p><span class="st">④</span> 6.3 節：\(R_A=V_0-\dfrac{M_{BA}}{L}=\dfrac{wL}{2}-\dfrac{wL}{10}+\dfrac{6EI\Delta}{5L^3}\)。增加量 \(\dfrac{6EI\Delta}{5L^3}=0.1wL\) → \(\boxed{\Delta=\dfrac{wL^4}{12EI}}\) ✔（和題解一致）。</p>
+</div>
+<div class="check"><b>極限檢查</b>　\(\Delta=0\)：\(R_A=0.4wL\)，就是等跨三跨連續梁大家熟悉的端反力 ✔。\(\Delta\) 越大 \(R_A\) 越大 ✔（題目自己說的趨勢）。</div>
+<div class="trap"><b>陷阱：沉陷算兩次</b>　這裡把沉陷放進 \(\psi\)，就<b>不要</b>再加 \(-6EI\Delta/L^2\) 當固端彎矩（第 2 章 2.5 節）。</div>
+
+<!-- ======================================================== 6.5 -->
+<h3>6.5　彈簧支承：未知的沉陷＋一條力平衡</h3>
+{{FIG:fig6_4|圖 6-4｜SA-2021-1：b 點有彈簧、c 是內鉸、cd 是懸臂。彈簧的位移 \(\Delta_b\) 事先不知道，就當成未知數，再用 b 點的垂直力平衡補一條方程。<b>b 點左右兩根桿的端彎矩剪力是同號相加，不會抵銷</b>。}}
+<div class="derive">
+<p><span class="st">①</span> 未知數：\(\theta_b\)、\(\Delta_b\)、\(\Delta_c\)。ab、bc 都以外端鉸（a 滾支、c 內鉸）為遠端，用 \(3EI/L\) 修正式（第 4 章）；ab 的修正固端彎矩 \(\overline{M}_{F,ba}=18-\tfrac12(-18)=27\)。</p>
+<p><span class="st">②</span> cd 懸臂對 c 點像一根彈簧：\(k_c=3EI/L_{cd}^3=3750\) kN/m（第 4 章預告的 \(3EI/L^3\)）。</p>
+<p><span class="st">③</span> 三條方程：節點 b \(M_{ba}+M_{bc}=0\)；b 點垂直 \(k\Delta_b=36+18+\dfrac{M_{ba}}{4}-\dfrac{M_{bc}}{4}=54+\dfrac{M_{ba}}{2}\)；c 點垂直 \(k_c\Delta_c=M_{bc}/4\)。</p>
+<p><span class="st">④</span> 解：\(\Delta_b=3.80\) mm（彈簧力 57 kN）、\(\theta_b=-0.00185\) rad（逆時針）、\(\Delta_c=-0.40\) mm（往上翹）、\(M_{ba}=+6\)、\(M_{bc}=-6\) kN·m ✔（和勘誤後題解一致）。</p>
+</div>
+<div class="trap"><b>陷阱：以為兩跨等長，剪力修正會抵銷</b><br>
+\(M_{bc}=-M_{ba}\)，代進 6.3 節的式子，ab 右端是 \(+M_{ba}/4\)、bc 左端是 \(-M_{bc}/4=+M_{ba}/4\)，<b>同號相加</b>得 \(M_{ba}/2=3\) kN。誤以為抵銷會得到 54 kN、\(\Delta_b=3.6\) mm——這正是題解 2026-11-08 前的錯誤，用整體 \(\sum F_y\) 檢核就能攔下。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜無側移結構</div>
+<ol>
+<li><b>畫</b>：切下節點（圖 6-1）、切下桿件（圖 6-2）。</li>
+<li><b>種子 S1</b>：節點 \(\sum M_{ij}=M_{\text{外}}\)；桿件 \(V=V_0\pm(M_{AB}+M_{BA})/L\)，方向看端彎矩合起來往哪轉。</li>
+<li><b>推</b>：沉陷→已知 \(\psi\)；彈簧→未知位移＋\(k\Delta=\)節點力平衡；鉸端→第 4 章修正式。</li>
+<li><b>檢查</b>：未知數＝方程數；最後用整體 \(\sum F_y\) 驗反力。</li>
+</ol>
+</div>
+
+<h3>6.6　🙈 蓋住重推</h3>
+<details><summary>Q1　節點上沒有外加彎矩，為什麼「桿端彎矩加起來＝0」？</summary>
+<p>桿件給節點的彎矩是桿端彎矩的反作用力；節點平衡 \(\sum(-M_{ij})=0\)，所以 \(\sum M_{ij}=0\)。</p></details>
+<details><summary>Q2　一根簡支跨受均布 \(w\)，算出 \(M_{AB}=-20\)、\(M_{BA}=+50\) kN·m，\(L=6\)、\(w=10\)。A、B 端剪力（向上）？</summary>
+<p>\(V_0=30\)；\((M_{AB}+M_{BA})/L=30/6=5\)。\(V_A=30-5=25\)、\(V_B=30+5=35\) kN。檢查：25+35＝60＝wL ✔。</p></details>
+<details><summary>Q3　SA-2019-3 為什麼 BC 跨沒有 \(\psi\)？</summary>
+<p>B、C 沉陷量相同，BC 兩端一起往下平移，弦不轉。</p></details>
+<details><summary>Q4　彈簧支承比一般支承多了什麼？</summary>
+<p>多一個未知位移 \(\Delta\)（放進 \(\psi\)），和一條該點的垂直力平衡 \(k\Delta=\) 桿端剪力＋節點載重。</p></details>
+
+<h3>6.7　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>節點外加彎矩的正負寫反</td><td>畫節點自由體：桿件給節點的彎矩和桿端彎矩相反</td></tr>
+<tr><td>2</td><td>桿端剪力漏掉 \(V_0\)</td><td>桿端剪力＝簡支剪力＋端彎矩力偶</td></tr>
+<tr><td>3</td><td>背「左減右加」而用錯方向</td><td>端彎矩合起來往哪轉，那一對力就反著轉</td></tr>
+<tr><td>4</td><td>沉陷放進 \(\psi\) 又加固端彎矩</td><td>同一件事只算一次</td></tr>
+<tr><td>5</td><td>等量沉陷的中跨也給 \(\psi\)</td><td>兩端一起沉只是平移，\(\psi=0\)</td></tr>
+<tr><td>6</td><td>彈簧點兩側剪力以為會抵銷</td><td>代進剪力式逐項算；用整體 \(\sum F_y\) 驗</td></tr>
+</table>
+</section>

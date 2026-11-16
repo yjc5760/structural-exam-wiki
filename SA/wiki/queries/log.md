@@ -2119,3 +2119,13 @@ PDF 文字層檢查無殘留 LaTeX、無 emoji 豆腐方框。
   - PDF：`study/textbook-SA-*.pdf`（6 份，Chromium A4）
   - 圖檔與章節原始碼：`study/figs-src/textbook-SA-*/`（各章節 HTML、Python 繪圖與計算腳本、`textbook.json`）
 
+## [2026-11-17] TEXTBOOK-SA-U2-3-CH3-6｜擴充 SA-U2-3 教科書第 3～6 章與向量圖解
+- 擴充章節：
+  - 第 3 章：固端彎矩（均布、集中、偏心、考題對照 SA-2012-3、2023-3）
+  - 第 4 章：遠端鉸接 3EI/L 與修正固端彎矩（SA-2017-3、2023-3、2022-2）
+  - 第 5 章：非均勻斷面傾角變位式（SA-2025-3 柔度矩陣求轉角反力與固端彎矩）
+  - 第 6 章：無側移結構求解（連續梁沉陷 SA-2019-3、彈簧／內鉸 SA-2021-1）
+- 產出檔案：
+  - `SA/study/figs-src/textbook-SA-U2-3/`: `ch3.html`～`ch6.html`、`figs_ch3.py`～`figs_ch6.py`、`calcs.py`（擴充驗算）、`textbook.json`
+  - 重建 `SA/study/textbook-SA-U2-3.html` 與 `SA/study/textbook-SA-U2-3.pdf`
+
