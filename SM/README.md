@@ -41,7 +41,6 @@
 | 單元觀念講義 | `study/lecture-SM-UN-n.html`（+ 同名 `.pdf`；U1-1、U1-3、U1-5、U2-1、U2-2、U2-3、U3-1） |
 | 全科出題頻率熱圖 | `study/frequency-SM.html` |
 | 方法論（承載力、壓密沉陷、流線網、土壓力、擋土牆、樁、Fellenius／Bishop） | `raw/solutions/methods/` |
-| 影片講義 | `影片講義/` |
 | 稽核報告 | `wiki/queries/`（目錄 `index.md`） |
 | 操作紀錄 | `wiki/queries/log.md` |
 | 舊 wiki 各層（2026-11-01 封存，唯讀參考） | `archive/wiki/`（見 `archive/README.md`） |
@@ -58,7 +57,6 @@ SM/
 ├── 檔案架構索引表.md · 知識庫使用說明書.md
 ├── index.html         ← 離線儀表板 · dashboard-data.js（題庫快照，暫用原 repo 版，見 SUBJECT.md §10）
 ├── scripts/           ← 只放 SM 專屬腳本（lecture-figs/U1-1/ 講義附圖）；共用腳本在根目錄 scripts/
-├── 影片講義/           ← 影片轉成的圖文講義（img/、video/）
 │
 ├── study/
 │   ├── study-*.html   ← 命題分析（舊式，unit-exam-intel 產出）

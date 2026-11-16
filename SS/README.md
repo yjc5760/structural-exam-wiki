@@ -36,7 +36,6 @@
 | 子項單元總覽（考什麼＋公式給／背＋逐題公式表） | `study/unit-SS-UN-n.html`（資料 `study/data/unit-SS-UN-n.json`） |
 | 單元觀念講義、教科書 | `study/lecture-SS-UN-n.html`、`study/textbook-SS-UN-n*.html`（+ 同名 `.pdf`） |
 | 全科出題頻率熱圖 | `study/frequency-SS.html` |
-| 影片講義 | `影片講義/` |
 | 稽核、盲解比對報告 | `wiki/queries/`（總帳 `audit-ledger-SS.json`） |
 | 操作紀錄 | `wiki/queries/log.md` |
 | 舊 wiki 各層（概念、方法、陷阱、規範對應…） | `archive/wiki/`（封存，僅供參考） |
@@ -54,7 +53,6 @@ SS/
 ├── start.html         ← 起點頁（python scripts/build_start.py --repo SS）
 ├── index.html         ← 離線儀表板 · dashboard-data.js（題庫快照）
 ├── scripts/           ← 只放 SS 一次性腳本（add_backlink.py、fixes/）；共用腳本在根目錄 scripts/
-├── 影片講義/           ← 影片轉成的圖文講義
 │
 ├── study/
 │   ├── unit-*.html    ← 單元總覽 + .pdf（unit-overview）

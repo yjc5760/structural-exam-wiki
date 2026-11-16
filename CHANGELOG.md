@@ -63,6 +63,7 @@
 ## 2026-11-17 移除版控中各科影片講義並更新 .gitignore（符合 GitHub 倉庫容量限制）
 - 依使用者指示，將各科 `*/影片講義/`（共 1,123 份檔案，含 MP4 影片與截圖）自版控移除，改為本地存放不納入 Git。
 - `.gitignore` 新增 `**/影片講義/`。
+- 同步更新 RC、SA、SD、SM、SS 之 README.md，移除影片講義目錄說明。
 
 ## 2026-11-17 blackboard-solution-video：預設改為 Azure TTS 並新增斷點續跑
 - `skills/blackboard-solution-video/`：

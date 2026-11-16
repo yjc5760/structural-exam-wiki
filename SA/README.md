@@ -35,7 +35,6 @@
 | 單元觀念講義 | `study/lecture-SA-UN-n.html`（+ 同名 `.pdf`） |
 | 全科出題頻率熱圖 | `study/frequency-SA.html` |
 | 方法論（彎矩分配、傾角變位、矩陣法等） | `raw/solutions/methods/` |
-| 影片講義 | `影片講義/` |
 | 稽核、盲解比對報告 | `wiki/queries/`（總帳 `audit-ledger-SA.json`） |
 | 操作紀錄 | `wiki/queries/log.md` |
 | 舊 wiki 各層（2026-11-01 封存，唯讀參考） | `archive/wiki/` |
@@ -52,7 +51,6 @@ SA/
 ├── 檔案架構索引表.md · 知識庫使用說明書.md
 ├── index.html         ← 離線儀表板 · dashboard-data.js（題庫快照，暫用原 repo 版，見 SUBJECT.md §10）
 ├── scripts/           ← 只放 SA 專屬腳本（講義附圖 gen_lecture_*、fixes/）；共用腳本在根目錄 scripts/
-├── 影片講義/           ← 影片轉成的圖文講義（img/、video/）
 │
 ├── study/
 │   ├── unit-*.html    ← 單元總覽 + .pdf（unit-overview）

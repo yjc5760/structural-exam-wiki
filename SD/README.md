@@ -11,7 +11,7 @@
 
 ## 這個資料庫是什麼
 
-每道考古題都有一份 **深度解析**（LaTeX 公式、逐步計算、陷阱說明），解析由 AI 完成，經人工驗算確認。讀書以 `study/`（題目瀏覽頁、命題分析、觀念講義）與 `影片講義/` 為準。
+每道考古題都有一份 **深度解析**（LaTeX 公式、逐步計算、陷阱說明），解析由 AI 完成，經人工驗算確認。讀書以 `study/`（題目瀏覽頁、命題分析、觀念講義）為準。
 題目正本（考卷原文＋判讀清單，`SD-YYYY-N-problem.md`）尚未建立，要補時說「SD 題目正本 第 1 批」（exam-problem-split）。
 
 > wiki/ 只保留 `wiki/queries/`（稽核報告、變更紀錄 log.md）；舊 wiki 各層已封存於 `archive/wiki/`，不再維護、內容未經全面核對。
@@ -39,7 +39,6 @@
 | 公式給／背分界 | `study/formula-given-SD-UN-n.html`（+ 同名 `.pdf`；同上 5 個子項） |
 | 單元觀念講義 | `study/lecture-SD-UN-n.html`（+ 同名 `.pdf`；同上 5 個子項） |
 | 全科出題頻率熱圖 | `study/frequency-SD.html` |
-| 影片講義 | `影片講義/`（5 個子項，HTML＋`video/*.mp4`） |
 | 稽核報告 | `wiki/queries/`（目錄 `index.md`） |
 | 操作紀錄 | `wiki/queries/log.md` |
 | 舊 wiki 各層（2026-11-01 封存，唯讀參考） | `archive/wiki/`（見 `archive/README.md`） |
@@ -58,7 +57,6 @@ SD/
 ├── 檔案架構索引表.md · 知識庫使用說明書.md
 ├── index.html         ← 離線儀表板 · dashboard-data.js（題庫快照，暫用原 repo 版，見 SUBJECT.md §10）
 ├── scripts/           ← 只放 SD 專屬腳本（講義附圖產生器＋structdraw.py、refresh-dashboard.ps1）；共用腳本在根目錄 scripts/
-├── 影片講義/           ← 影片轉成的圖文講義（img/、video/）
 │
 ├── study/
 │   ├── study-*.html   ← 命題分析（舊式，unit-exam-intel 產出）
