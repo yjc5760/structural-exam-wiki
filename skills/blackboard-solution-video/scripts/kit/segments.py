@@ -9,11 +9,12 @@ PROBLEM_ID = "XX-YYYY-N"          # 題號，例：SM-2020-3
 TOPIC = "主題"                      # 例：相對密度
 
 # ── 配音 ──
-GEMINI_MODEL = "gemini-3.8-flash-tts"       # 省錢可改 gemini-3.8-flash-lite-tts
-GEMINI_VOICE = "Charon"                     # 先 python tts_gemini.py --audition A,B,C 試聽再定
+# 預設 Azure（run_tts.bat → tts_azure.py）；Gemini 有每日次數限制，只在指定時用
+AZURE_VOICE = "zh-TW-HsiaoChenNeural"       # 預設：台灣華語女聲
+AZURE_RATE = "+0%"                          # 語速預設
+GEMINI_MODEL = "gemini-3.8-flash-tts"       # 備用（tts_gemini.py）
+GEMINI_VOICE = "Charon"
 GEMINI_STYLE = "patient teacher explaining at a blackboard, clear and steady, medium pace"
-AZURE_VOICE = "zh-TW-YunJheNeural"          # 備用
-AZURE_RATE = "+0%"
 
 # ── 字幕 ──
 # (念法, 顯示) —— 長的放前面

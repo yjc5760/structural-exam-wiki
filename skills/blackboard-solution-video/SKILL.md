@@ -1,6 +1,6 @@
 ---
 name: "blackboard-solution-video"
-description: "把考題解析（exam-wiki 的 XX-YYYY-N.md 題解、或任何有完整算式的解題文件）做成「黑板手寫風」講解影片，可直接上傳 YouTube——Manim 動畫逐步寫出算式與圖解、Gemini TTS 中文配音（Azure 備用）、對齊語音停頓的 .srt 字幕、1280×720 封面 PNG。當使用者說「把這題做成解題影片」「解題過程影片」「黑板講解影片」「幫我做 SM-2020-3 的影片」「題解轉影片」「Manim 講解」「做 YouTube 解題影片／封面／字幕」，或手上有題解想配音成教學影片時，必須使用此 skill；使用者提到接續某題的影片工作（例如有 HANDOFF.md、segments.py、durations.json）時也要使用。若來源是 PDF 投影片、要的是投影片翻頁式影片，改用 pdf-narration-video。"
+description: "把考題解析（exam-wiki 的 XX-YYYY-N.md 題解、或任何有完整算式的解題文件）做成「黑板手寫風」講解影片，可直接上傳 YouTube——Manim 動畫逐步寫出算式與圖解、Azure TTS 台灣華語配音（預設女聲 zh-TW-HsiaoChenNeural；Gemini 備用）、對齊語音停頓的 .srt 字幕、1280×720 封面 PNG。當使用者說「把這題做成解題影片」「解題過程影片」「黑板講解影片」「幫我做 SM-2020-3 的影片」「題解轉影片」「Manim 講解」「做 YouTube 解題影片／封面／字幕」，或手上有題解想配音成教學影片時，必須使用此 skill；使用者提到接續某題的影片工作（例如有 HANDOFF.md、segments.py、durations.json）時也要使用。若來源是 PDF 投影片、要的是投影片翻頁式影片，改用 pdf-narration-video。"
 ---
 
 # 黑板解題講解影片
@@ -55,15 +55,15 @@ manim -ql --disable_caching scene.py Full && python frames_grid.py   # 用 Read 
 ```
 逐張檢查有沒有重疊、出界、被虛線穿過，修到乾淨為止（常見問題見 lessons.md 第 2 節）。然後用 `manim -qm` 出 720p 無聲審閱版給使用者。這時每段長度是估計值，節奏會在配音後自動對齊。
 
-### 4. 配音（使用者在 Windows 上做）
+### 4. 配音（在使用者的 Windows 上跑 Azure TTS）
 
-請使用者：
-1. 把 `env.example` 複製成 `.env`，填入 `GEMINI_API_KEY`（`.env` 放在影片資料夾或上層資料夾都可以）。
-2. `pip install -U "google-genai>=2.25.0"`
-3. 需要選聲音時先試聽：`python tts_gemini.py --audition Charon,Sadaltager,Iapetus`，再把 segments.py 裡的 `GEMINI_VOICE` 改成選定的聲音。
-4. 雙擊 `run_tts.bat`，產出 `audio/s*.wav` 和 `durations.json`。
+預設聲音：Azure `zh-TW-HsiaoChenNeural`（女聲），語速 `+0%`。Gemini 有每日次數限制，只在使用者指定時用（`run_tts.bat` 改回 `tts_gemini.py`）。
 
-完成後把 `audio/*.wav` 和 `durations.json` 搬到渲染環境。
+1. 金鑰：使用者 Windows 上已設好 `AZURE_SPEECH_KEY`、`AZURE_SPEECH_REGION`（`.env` 或環境變數）；沒有時才請他照 `env.example` 填。需要 `pip install azure-cognitiveservices-speech`。
+2. 雙擊 `run_tts.bat`，產出 `audio/s*.wav`（48 kHz）、`durations.json`、`tts_azure.log`。中斷了就雙擊 `run_tts_resume.bat` 續跑。
+3. 使用者說「直接配音、不用我跑 bat」時：用 computer use 申請檔案總管、開到影片資料夾、雙擊 `run_tts.bat`；用 device_bash 看 `tts_azure.log` 與 `audio/` 追進度（細節見 lessons.md 第 3、6 節）。
+
+完成後確認 52 段都是 48 kHz、`audio/.azure_voice` 是指定的聲音，再把 `audio/*.wav` 和 `durations.json` 搬到渲染環境。
 
 ### 5. 成片、字幕、封面 → ★ 使用者驗收
 

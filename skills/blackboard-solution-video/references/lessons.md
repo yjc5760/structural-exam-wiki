@@ -49,11 +49,11 @@ self.add(m, index_labels(m[0], label_height=0.12, color=RED))   # manim -s 出�
 
 ## 3. 配音（TTS）
 
-- 預設 Gemini TTS（`gemini-3.8-flash-tts`），聲音 Charon（資訊型男聲）。其他適合講解的男聲：Sadaltager（博學）、Iapetus（清晰）、Rasalgethi（資訊型）、Orus（堅定）。
-- `python tts_gemini.py --audition A,B,C` 用第一段試聽；`--list-voices` 找台灣口音聲音；也可以在 Google AI Studio 用文字描述設計聲音，得到 `voice_...` ID。
-- 語氣用 `GEMINI_STYLE` 描述；口音不自然時可加 `Taiwanese Mandarin accent`。
-- 某段念錯：改 segments.py 那段文字（例如改寫法讓它念對）→ `run_tts.bat --only s07` → 重跑步驟 5。
-- Azure 備用（`zh-TW-YunJheNeural`）：`tts_azure.py`，`<short pause>` 會轉成 SSML break。
+- **預設 Azure TTS，女聲 `zh-TW-HsiaoChenNeural`，語速 `+0%`**（2026-11-16 使用者指定；Gemini 有每日次數限制，改為備用）。金鑰 `AZURE_SPEECH_KEY`、`AZURE_SPEECH_REGION` 在使用者 Windows 的 `.env` 或環境變數。
+- `run_tts.bat` 呼叫 `tts_azure.py`：每段寫完就更新 `durations.json` 並記 `tts_azure.log`；失敗自動重試 5 次。中斷後雙擊 `run_tts_resume.bat`（`--resume`）續跑，只補缺的段落（`audio/.azure_voice` 記錄聲音，換聲音就不會誤用舊檔）。
+- 某段念錯：改 segments.py 那段 → `run_tts.bat --only s07` → 重跑步驟 5。`<short pause>` 會轉成 SSML break。
+- Gemini 備用（`tts_gemini.py`，聲音 Charon 等）：只在使用者指定時用；`run_tts.bat` 改回 `tts_gemini.py`。
+- **成片前驗證配音**：所有 wav 取樣率應為 48000（Azure）；24000 表示是 Gemini 或本機 TTS 的舊檔混進來。
 
 ## 4. 字幕對齊（make_srt.py）
 
@@ -77,6 +77,7 @@ self.add(m, index_labels(m[0], label_height=0.12, color=RED))   # manim -s 出�
 ## 6. 環境與網路
 
 - 渲染在 Linux 做（雲端沙箱或 WSL），執行 `bash scripts/setup_render_env.sh`。Manim 依賴的 `srt` 套件在某些 Ubuntu 上 build 失敗，腳本已內建繞法。
-- 使用者電腦的 Cowork 本機 VM、以及雲端沙箱，通常都連不到 generativelanguage.googleapis.com。**配音一律在使用者的 Windows 跑**（run_tts.bat）。跑完後把 `audio/*.wav` 和 `durations.json` 搬回渲染環境。
+- 使用者電腦的 Cowork 本機 VM、以及雲端沙箱，通常都連不到 Azure／Google 的語音 API。**配音一律在使用者的 Windows 跑**（run_tts.bat）。使用者要求「直接配音、不用他跑 bat」時：用 computer use 只申請檔案總管（click 層級即可），開到影片資料夾雙擊 `run_tts.bat`，以 device_bash 讀 `tts_azure.log`／`audio/` 追進度，再用 device_stage_files 把 wav 搬回沙箱。
+- **device_commit_files 覆寫既有檔案可能沒生效**（同一路徑第二次 commit 會拿到舊內容）：改使用者資料夾裡已存在的腳本，用 device_bash 直接改（sed／python），改完 md5sum 核對。跑完後把 `audio/*.wav` 和 `durations.json` 搬回渲染環境。
 - `.env` 放金鑰，**不要**打包、分享或 commit；只分享 env.example。
 - 大檔（mp4、音檔）在雲端和使用者電腦之間搬動很慢，只搬必要的檔案。

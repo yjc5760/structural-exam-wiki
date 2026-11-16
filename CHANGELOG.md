@@ -60,3 +60,11 @@
 - 同步 `skills/exam-start-page/`（scripts、references/format.md）並重新打包 `skills/exam-start-page.skill`
 - 同日追加：觀念講義影片（`lecture_anim`／`lecture_video`）也支援分集，存法與顯示同影片講義；SS 重產仍逐位元組相同
 
+## 2026-11-17 blackboard-solution-video：預設改為 Azure TTS 並新增斷點續跑
+- `skills/blackboard-solution-video/`：
+  - 配音預設改為 Azure TTS `zh-TW-HsiaoChenNeural`（台灣華語女聲），Gemini TTS 轉為備用（避開每日 quota 限制）
+  - `tts_azure.py` 加入指數退避重試（最多 5 次）、日誌記錄 `tts_azure.log`，以及 `--resume` 斷點續跑功能
+  - 新增 `run_tts_resume.bat` 供使用者一鍵續跑
+  - 更新 `SKILL.md`、`references/lessons.md`、`scripts/kit/env.example`
+  - 重新打包 `skills/blackboard-solution-video.skill`
+
