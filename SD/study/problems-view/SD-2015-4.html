@@ -50,79 +50,202 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 </div>
 </header>
 <main>
-<h1>考題編號：SD-2015-4</h1>
-<p><strong>主分類：</strong> <code>SD-U2-2</code> 建築耐震設計規範<br />
-<strong>副分類：</strong> <code>SD-U1-3</code> 單自由度、多自由度系統之動態分析及應用<br />
-<strong>分析方法：</strong> 概念題（含計算）——簡易懸臂梁法（Approximate Cantilever Method）<br />
-<strong>標籤：</strong> <code>懸臂梁法</code> <code>側力分析</code> <code>端點彎矩</code> <code>近似法</code> <code>中性軸</code> <code>柱軸力</code> <code>梁剪力</code> <code>彎矩圖</code> <code>靜不定構架</code> <code>一層兩跨</code> <code>靜力近似法</code></p>
-<hr />
-<h2>1. 原始題目重述 (Problem Restatement)</h2>
-<p><strong>構架幾何（圖四）：</strong></p>
-<pre><code>  20tf →  1 ─────────────── 2 ─────────────────── 3
-           |       7m        |          10m         |
-           |                 |                      |
-           |    (4m高)       |                      |
-           |                 |                      |
-           4                 5                      6
-        (固定)            (固定)                 (固定)
-</code></pre>
+<details class="prob" open style="background:#fffde7;border:1px solid #ffe082;border-left:5px solid #f9a825;border-radius:0 10px 10px 0;padding:10px 18px;margin:0 0 26px"><summary style="cursor:pointer;font-weight:700;color:#e65100">📄 題目正本：考卷原文・附圖・判讀清單（已確認）</summary><h1>SD-2015-4 題目正本</h1>
+<blockquote>
+<p>本檔只記錄考卷上寫了什麼、圖上畫了什麼，不含任何解法。解析見同資料夾 <code>SD-2015-4.md</code>。<br />
+判讀清單經使用者確認前，狀態為「待確認」；確認後本檔原則上不再修改（改動須回考卷原圖並記 log）。</p>
+</blockquote>
 <table>
 <thead>
 <tr>
-<th>參數</th>
-<th>數值</th>
+<th>項目</th>
+<th>內容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>側向荷載 P</td>
-<td>20 tf（向右，作用於節點1）</td>
+<td>考卷</td>
+<td><code>raw/exams/SD-2015_結構動力分析與耐震設計.pdf</code>，第 2 頁（背面），第四題</td>
 </tr>
 <tr>
-<td>左跨寬 L₁₂</td>
-<td>7 m</td>
+<td>考年</td>
+<td>2015（民國104年）專技高考結構工程技師「結構動力分析與耐震設計」</td>
 </tr>
 <tr>
-<td>右跨寬 L₂₃</td>
-<td>10 m</td>
+<td>配分</td>
+<td>25 分</td>
 </tr>
 <tr>
-<td>層高 h</td>
-<td>4 m</td>
+<td>附圖</td>
+<td><code>SD-2015-4-fig-1.png</code>（舊擷取，完整、無游標，未重擷取）</td>
 </tr>
 <tr>
-<td>全柱斷面積 A</td>
-<td>1 m²（Col-14、Col-25、Col-36 均相同）</td>
-</tr>
-<tr>
-<td>基礎型式</td>
-<td>固定端（Fixed）</td>
+<td>判讀狀態</td>
+<td><strong>已確認</strong>（2026-11-16，使用者授權依 Claude 建議。原轉錄：2026-11-16 轉錄；PyMuPDF 110 dpi 整頁＋500 dpi 局部放大，PDF 文字層核對原文；盲讀於開啟解析前完成）</td>
 </tr>
 </tbody>
 </table>
-<p><strong>要求：</strong> 以簡易懸臂梁法計算每一梁與柱之<strong>端點彎矩</strong>（tf·m）。</p>
+<h2>1. 考卷原文（逐字）</h2>
+<p>四、構架如圖四，以簡易懸臂梁法（Approximation of cantilever method）計算每一梁與柱之端點彎矩。令柱之斷面積皆 1 m²。（25 分）</p>
+<h2>2. 考卷給的公式、附表與參數</h2>
+<ul>
+<li>考卷沒有給參考公式。</li>
+<li>給定（圖上）：單層兩跨構架，跨距 7 m、10 m，柱高 4 m；水平力 20 tf 作用於節點 1、向右；柱底 4、5、6 固定；題文：三柱斷面積皆 1 m²。</li>
+<li>考卷沒有給：構件 $EI$、梁斷面、垂直載重；懸臂梁法的假設（反曲點位置等）由考生自行敘明。</li>
+<li>卷首注意事項：㈠可以使用電子計算器。㈡不必抄題，作答時請將試題題號及答案依照順序寫在試卷上，於本試題上作答者，不予計分。考試時間：2 小時。</li>
+</ul>
+<h2>3. 附圖</h2>
+<p><img alt="SD-2015-4 考卷附圖（圖四）：單層兩跨構架，頂部梁節點由左至右 1、2、3，柱底節點 4、5、6；柱底皆畫斜線固定；水平箭頭標 20tf 向右作用於節點 1；下方尺寸線 7m（柱 1-4 至柱 2-5）、10m（柱 2-5 至柱 3-6）；右側尺寸線 4m 量梁線至柱底" src="../../raw/solutions/SD-2015-4/SD-2015-4-fig-1.png" /><br />
+<em>證據圖 SD-2015-4-fig-1.png</em></p>
+<p>圖面文字照錄：20tf、1、2、3、4、5、6、4m、7m、10m、圖四</p>
+<h2>4. 判讀清單</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目</th>
+<th>判讀</th>
+<th>圖上／題文依據</th>
+<th>把握</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>懸臂梁法假設</td>
+<td>考卷只寫方法名稱；定案採教科書標準假設：梁、柱反曲點在中點，柱軸力與柱至柱形心軸距離成正比（柱面積相同，形心由三柱位置求）</td>
+<td>題文「簡易懸臂梁法」「柱之斷面積皆 1 m²」</td>
+<td>確定（解讀）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>柱底</td>
+<td>三柱皆固定</td>
+<td>500 dpi：柱底橫線＋斜線</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>3</td>
+<td>跨距</td>
+<td>1–2 為 7 m、2–3 為 10 m（尺寸線端點對齊柱中心線；圖未依比例）</td>
+<td>500 dpi：延伸線與柱線同 x</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>柱高</td>
+<td>4 m（尺寸線上端對齊梁線、下端對齊柱底）</td>
+<td>500 dpi</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>5</td>
+<td>側力</td>
+<td>20 tf，水平向右，作用於節點 1（梁高度）</td>
+<td>圖上箭頭</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>6</td>
+<td>節點編號</td>
+<td>梁：1（左）、2（中）、3（右）；柱底：4、5、6 對應其下</td>
+<td>圖面文字</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>7</td>
+<td>所求</td>
+<td>每一梁（1-2、2-3）與每一柱（1-4、2-5、3-6）兩端彎矩</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+<tr>
+<td>8</td>
+<td>考卷沒有給</td>
+<td>$EI$、垂直載重</td>
+<td>題文</td>
+<td>確定</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>轉錄：2026-11-16（SD-U3-1 題目正本推廣・組 U3-1-G1）</em><br />
+<em>確認：2026-11-16 使用者授權依 Claude 建議確認（SD-U3-1 題目正本推廣・組 U3-1-G1，關卡一）</em></p></details>
+<h1>考題編號：SD-2015-4</h1>
+<p><strong>主分類：</strong> <code>SD-U3-1</code> 結構耐震設計（含RC結構與鋼結構）<br />
+<strong>副分類：</strong> （無）<br />
+<strong>分析方法：</strong> 概念題（含計算）——簡易懸臂梁法（Approximate Cantilever Method）<br />
+<strong>標籤：</strong> <code>懸臂梁法</code> <code>側力分析</code> <code>端點彎矩</code> <code>近似法</code> <code>中性軸</code> <code>柱軸力</code> <code>梁剪力</code> <code>彎矩圖</code> <code>靜不定構架</code> <code>一層兩跨</code> <code>靜力近似法</code></p>
+<hr />
+<h2>1. 題目（考卷原文見題目正本）</h2>
+<blockquote>
+<p>考卷原文、公式／附表、附圖與判讀清單（已確認）見 <a href="SD-2015-4-problem.md"><code>SD-2015-4-problem.md</code></a>。本節只列解題時最容易讀錯的地方與本解使用的記號；題意以題目正本為準。</p>
+</blockquote>
+<p><img alt="SD-2015-4 重繪題目附圖：單層兩跨構架，節點 1、2、3 在梁、4、5、6 為固定柱底，跨距 7 m、10 m，柱高 4 m，20 tf 向右作用於節點 1" src="../../raw/solutions/SD-2015-4/figs/SD-2015-4-fig-1-problem.svg" /><br />
+<em>重繪自考卷附圖，依題目正本判讀清單；本圖攔下的判讀錯誤：跨距 7 m 在左、10 m 在右，三柱底皆固定。</em></p>
+<h3>常見誤讀</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>正確判讀</th>
+<th>常見誤讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>懸臂梁法假設</td>
+<td>梁、柱反曲點在中點；柱軸力與柱至形心距離成正比（柱面積皆 1 m²）（判讀 #1）</td>
+<td>用門架法（內柱剪力為外柱 2 倍）</td>
+</tr>
+<tr>
+<td>跨距</td>
+<td>1–2 為 7 m、2–3 為 10 m（判讀 #3）</td>
+<td>左右對調</td>
+</tr>
+<tr>
+<td>柱底</td>
+<td>三柱皆固定（判讀 #2）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>側力</td>
+<td>20 tf 向右作用於節點 1（判讀 #5）</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本解記號：</strong> $\bar x$ 為柱斷面形心位置（自柱 1-4 起算）；$d_i=x_i-\bar x$。</p>
 <hr />
 <h2>2. 考題核心精神與出題者意圖 (Core Concepts &amp; Examiner's Intent)</h2>
-<p><strong>核心觀念：</strong><br />
-- 懸臂梁法把整體構架類比為「懸臂梁截面」，各柱視為截面纖維，用彎曲應力分布原理求柱軸力<br />
-- 從柱軸力→梁剪力→梁端彎矩→柱端彎矩→柱剪力，形成一個自洽的解析流程<br />
-- 本題測驗整個懸臂梁法的計算流程是否熟練</p>
-<p><strong>出題者意圖：</strong><br />
-- 驗證考生能否正確計算中性軸（重心）位置<br />
-- 驗證考生能否由彎矩平衡推導柱端彎矩（非直接由剪力算，而是由梁端彎矩累加）<br />
-- 非對稱跨距（7m vs 10m）增加計算複雜度，測驗對分配邏輯的理解</p>
-<p><strong>關鍵陷阱：</strong><br />
-1. 誤用門架法（Portal Method）的等剪力假設：懸臂梁法的柱剪力不相等<br />
-2. 忘記求中性軸（誤設中性軸在中柱）<br />
-3. 梁端彎矩應從柱軸力→節點垂直平衡→梁剪力→梁端彎矩，步驟不可跳過</p>
+<p><strong>核心觀念：</strong></p>
+<ul>
+<li>懸臂梁法把整體構架類比為「懸臂梁截面」，各柱視為截面纖維，用彎曲應力分布原理求柱軸力</li>
+<li>從柱軸力→梁剪力→梁端彎矩→柱端彎矩→柱剪力，形成一個自洽的解析流程</li>
+<li>本題測驗整個懸臂梁法的計算流程是否熟練</li>
+</ul>
+<p><strong>出題者意圖：</strong></p>
+<ul>
+<li>驗證考生能否正確計算中性軸（重心）位置</li>
+<li>驗證考生能否由彎矩平衡推導柱端彎矩（非直接由剪力算，而是由梁端彎矩累加）</li>
+<li>非對稱跨距（7m vs 10m）增加計算複雜度，測驗對分配邏輯的理解</li>
+</ul>
+<p><strong>關鍵陷阱：</strong></p>
+<ol>
+<li>誤用門架法（Portal Method）的等剪力假設：懸臂梁法的柱剪力不相等</li>
+<li>忘記求中性軸（誤設中性軸在中柱）</li>
+<li>梁端彎矩應從柱軸力→節點垂直平衡→梁剪力→梁端彎矩，步驟不可跳過</li>
+</ol>
 <hr />
 <h2>3. 解題戰略地圖與陷阱分析 (Strategic Roadmap &amp; Trap Analysis)</h2>
-<p><strong>懸臂梁法五步驟：</strong><br />
-1. 求柱群中性軸位置（所有柱面積加權重心）<br />
-2. 由傾覆力矩平衡，求各柱軸力 $N_i$（正比於柱距中性軸距離）<br />
-3. 由節點垂直平衡，求各梁垂直剪力 $V_\text{beam}$<br />
-4. 由梁剪力 × L/2 求梁端彎矩；由節點彎矩平衡求柱端彎矩<br />
-5. 由柱端彎矩求柱剪力，驗算 ΣV = P</p>
+<p><strong>懸臂梁法五步驟：</strong></p>
+<ol>
+<li>求柱群中性軸位置（所有柱面積加權重心）</li>
+<li>由傾覆力矩平衡，求各柱軸力 $N_i$（正比於柱距中性軸距離）</li>
+<li>由節點垂直平衡，求各梁垂直剪力 $V_\text{beam}$</li>
+<li>由梁剪力 × L/2 求梁端彎矩；由節點彎矩平衡求柱端彎矩</li>
+<li>由柱端彎矩求柱剪力，驗算 ΣV = P</li>
+</ol>
 <p><strong>關鍵陷阱：</strong></p>
 <table>
 <thead>
@@ -141,7 +264,7 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 <tr>
 <td>2</td>
 <td>柱軸力方向</td>
-<td>P向右 → 右柱受拉、左柱受壓（懸臂彎曲，右側為凸面=拉側）</td>
+<td>P 向右 → 傾覆力矩順時針 → <strong>左柱受拉、右柱受壓</strong>（懸臂梁類比：受力側為拉側，背風側為壓側）；本庫舊解曾寫反</td>
 </tr>
 <tr>
 <td>3</td>
@@ -253,7 +376,7 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 </tr>
 <tr>
 <td>N_i</td>
-<td>k·A_i·d_i</td>
+<td>k·A_i·d_i（正值為壓；側力向右時 d_i&gt;0 的右柱受壓）</td>
 <td></td>
 </tr>
 </tbody>
@@ -312,7 +435,7 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 </tr>
 <tr>
 <td>柱軸力方向</td>
-<td>P向右：右側為凸面（張力）→右柱受拉；左柱受壓</td>
+<td>P 向右：上方自由體的順時針傾覆力矩須由柱軸力的逆時針力矩抵抗 → 右柱向上推（受壓）、左柱向下拉（受拉）</td>
 <td></td>
 </tr>
 <tr>
@@ -365,7 +488,7 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 <p>在柱中高（h/2 = 2m）處切割，取<strong>上方自由體</strong>（包含節點 1、2、3 及各柱上半段）：</p>
 <p>傾覆力矩（取中性軸為矩心，CCW 為正）：</p>
 <p>$$M_\text{OT} = P \times \frac{h}{2} = 20 \times 2 = 40 \text{ tf}\cdot\text{m（順時針）}$$</p>
-<p>柱軸力假設 $N_i = k \cdot A_i \cdot d_i$，由力矩平衡（ΣM_z = 0）：</p>
+<p>柱軸力假設 $N_i = k \cdot A_i \cdot d_i$（<strong>正值為壓力</strong>，即柱向上推上方自由體），由力矩平衡（ΣM_z = 0，柱軸力的逆時針力矩抵抗順時針傾覆力矩）：</p>
 <p>$$\sum N_i d_i = M_\text{OT} \Rightarrow k \sum A_i d_i^2 = 40$$</p>
 <p>$$k = \frac{40}{146} = \frac{20}{73} \approx 0.274 \text{ tf/m}^3$$</p>
 <p>各柱軸力：</p>
@@ -383,41 +506,44 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 <td>左柱（Col-14）</td>
 <td>$\frac{20}{73} \times 1 \times (-8)$</td>
 <td>$-\dfrac{160}{73} \approx -2.19$ tf</td>
-<td>壓力</td>
+<td>拉力</td>
 </tr>
 <tr>
 <td>中柱（Col-25）</td>
 <td>$\frac{20}{73} \times 1 \times (-1)$</td>
 <td>$-\dfrac{20}{73} \approx -0.27$ tf</td>
-<td>壓力</td>
+<td>拉力</td>
 </tr>
 <tr>
 <td>右柱（Col-36）</td>
 <td>$\frac{20}{73} \times 1 \times (+9)$</td>
 <td>$+\dfrac{180}{73} \approx +2.47$ tf</td>
-<td>張力</td>
+<td>壓力</td>
 </tr>
 </tbody>
 </table>
 <blockquote>
-<p><strong>策略註解：</strong> P 向右時，右柱（右側為凸面）受張力，左柱受壓力，符合懸臂梁彎曲直覺。</p>
+<p><strong>策略註解：</strong> P 向右時，構架像懸臂梁向右彎，受力側（左）伸長受拉、背風側（右）縮短受壓：左柱、中柱受拉，右柱受壓。方向可用 Step 6 的整體傾覆力矩驗算確認（右柱壓力對柱 1 底的力矩才能與 $P\times H$ 平衡）。</p>
 </blockquote>
 <p><strong>驗算：</strong> $N_1 + N_2 + N_3 = -\dfrac{160}{73} - \dfrac{20}{73} + \dfrac{180}{73} = 0$ ✓</p>
 <hr />
 <h3>Step 3：求各梁垂直剪力（由節點垂直平衡）</h3>
-<p>對於壓力柱：柱壓縮，向上推節點；對於張力柱：柱拉伸，向下拉節點。</p>
+<p>對於壓力柱：柱壓縮，向上推節點；對於拉力柱：柱拉伸，向下拉節點。</p>
 <p><strong>節點1（左端，只有一梁 Beam-12）：</strong></p>
-<p>$$\uparrow \sum F_y = 0: \quad +\frac{160}{73} + V_\text{b12,L} = 0 \Rightarrow V_\text{b12,L} = -\frac{160}{73} \text{ tf（梁向下拉節點1）}$$</p>
-<p>Beam-12 剪力 $= \dfrac{160}{73}$ tf（梁在節點1端向下，在節點2端向上）</p>
+<p>左柱受拉，向下拉節點 1：</p>
+<p>$$\uparrow \sum F_y = 0: \quad -\frac{160}{73} + V_\text{b12,L} = 0 \Rightarrow V_\text{b12,L} = +\frac{160}{73} \text{ tf（梁向上推節點1）}$$</p>
+<p>Beam-12 剪力 $= \dfrac{160}{73}$ tf（梁在節點 1 端向上推節點、在節點 2 端向下拉節點）</p>
 <p><strong>節點2（中間節點，連接 Beam-12 右端與 Beam-23 左端）：</strong></p>
-<p>節點2受到的合力：<br />
-- 中柱（壓力）向上推：$+\dfrac{20}{73}$ tf<br />
-- Beam-12 右端向上推：$+\dfrac{160}{73}$ tf（與節點1的方向相反）</p>
-<p>$$\sum F_y = 0: \quad \frac{20}{73} + \frac{160}{73} + V_\text{b23,L} = 0 \Rightarrow V_\text{b23,L} = -\frac{180}{73} \text{ tf（Beam-23 向下拉節點2）}$$</p>
+<p>節點2受到的合力：</p>
+<ul>
+<li>中柱（拉力）向下拉：$-\dfrac{20}{73}$ tf</li>
+<li>Beam-12 右端向下拉：$-\dfrac{160}{73}$ tf（與節點 1 的方向相反）</li>
+</ul>
+<p>$$\sum F_y = 0: \quad -\frac{20}{73} - \frac{160}{73} + V_\text{b23,L} = 0 \Rightarrow V_\text{b23,L} = +\frac{180}{73} \text{ tf（Beam-23 向上推節點2）}$$</p>
 <p>Beam-23 剪力 $= \dfrac{180}{73}$ tf</p>
 <p><strong>節點3（右端，驗算）：</strong></p>
-<p>右柱（張力）向下拉節點3：$-\dfrac{180}{73}$ tf；Beam-23 右端向上推：$+\dfrac{180}{73}$ tf</p>
-<p>$$\sum F_y = -\frac{180}{73} + \frac{180}{73} = 0 \checkmark$$</p>
+<p>右柱（壓力）向上推節點 3：$+\dfrac{180}{73}$ tf；Beam-23 右端向下拉：$-\dfrac{180}{73}$ tf</p>
+<p>$$\sum F_y = +\frac{180}{73} - \frac{180}{73} = 0 \checkmark$$</p>
 <hr />
 <h3>Step 4：求梁端彎矩（Beam End Moments）</h3>
 <p>反曲點在梁跨中（L/2 處），因此兩端彎矩相同：</p>
@@ -489,6 +615,9 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 <p><strong>整體傾覆力矩驗算（基底）：</strong></p>
 <p>$$P \times H = 20 \times 4 = 80 \text{ tf}\cdot\text{m}$$</p>
 <p>$$\sum M_\text{col,base} + \sum N_i x_i = \frac{2920}{73} + \frac{2920}{73} = 40 + 40 = 80 \text{ tf}\cdot\text{m} \checkmark$$</p>
+<p>（$N_i$ 以壓力為正、$x_i$ 自柱 1 起算：$\sum N_i x_i = -\tfrac{160}{73}\times0 - \tfrac{20}{73}\times7 + \tfrac{180}{73}\times17 = \tfrac{2920}{73} = 40$ tf·m；若把拉壓寫反，這一項會變成 $-40$，傾覆力矩不閉合。）</p>
+<p><img alt="SD-2015-4 懸臂梁法結果：梁柱中點為反曲點，彎矩圖畫在受拉側，梁端 7.67、12.33 tf·m，柱端 7.67、20.00、12.33 tf·m；柱軸力左柱拉 2.19、中柱拉 0.27、右柱壓 2.47 tf；形心 x̄＝8 m" src="../../raw/solutions/SD-2015-4/figs/SD-2015-4-fig-2-cantilever.svg" /><br />
+<em>圖 2　懸臂梁法的反曲點、彎矩圖（受拉側）與柱軸力方向（數值由腳本依本節公式重算）。本圖攔下的錯誤：側力向右時把柱軸力拉壓寫反——左柱、中柱受拉，右柱受壓。</em></p>
 <hr />
 <h3>最終答案匯整</h3>
 <p><strong>梁端彎矩（Beam End Moments）：</strong></p>
@@ -583,10 +712,13 @@ footer{max-width:960px;margin:0 auto;padding:14px 18px 40px;color:var(--mut);fon
 <ol>
 <li>先畫示意圖標出各節點編號和尺寸</li>
 <li>中性軸計算寫清楚（3行公式）</li>
-<li>柱軸力表格列清楚（正負代表壓拉）</li>
+<li>柱軸力表格列清楚（正負代表壓拉；側力向右時左柱受拉、右柱受壓）</li>
 <li>從節點1開始，逐節點求梁剪力（不要跳步）</li>
 <li>最後驗算 ΣV_col = P（必做，可能得分）</li>
 </ol>
+<p><em>修正日期：2026-11-16（§1 改為指向題目正本，重繪附圖 figs/SD-2015-4-fig-1-problem.svg）</em><br />
+<em>修正日期：2026-11-16（勘誤：柱軸力方向更正為左柱、中柱受拉，右柱受壓（舊解寫反）；§3 陷阱表、§3.5 L3、§4 Step 2 軸力表與策略註解、Step 3 節點垂直平衡的推拉方向、Step 6 傾覆驗算註記、§5.3 一併更正；梁柱端彎矩數值不變（7.67、12.33、20 tf·m）；標頭主分類改為 SD-U3-1、無副分類（同索引）；驗證：scripts/fixes/2026-11-16_verify_SD-2015-4.py 懸臂梁法重算＋整體傾覆力矩閉合，MISMATCHES: 0）</em><br />
+<em>修正日期：2026-11-16（非勘誤）圖解補繪：figs/SD-2015-4-fig-2-cantilever.svg（反曲點、彎矩圖、柱軸力方向，§4 Step 6）</em></p>
 </main>
 <footer>來源：raw/solutions/SD-2015-4/SD-2015-4.md（唯讀證據，本頁僅為渲染層）｜exam-wiki-SD</footer>
 <script>
