@@ -60,6 +60,10 @@
 - 同步 `skills/exam-start-page/`（scripts、references/format.md）並重新打包 `skills/exam-start-page.skill`
 - 同日追加：觀念講義影片（`lecture_anim`／`lecture_video`）也支援分集，存法與顯示同影片講義；SS 重產仍逐位元組相同
 
+## 2026-11-17 移除版控中各科影片講義並更新 .gitignore（符合 GitHub 倉庫容量限制）
+- 依使用者指示，將各科 `*/影片講義/`（共 1,123 份檔案，含 MP4 影片與截圖）自版控移除，改為本地存放不納入 Git。
+- `.gitignore` 新增 `**/影片講義/`。
+
 ## 2026-11-17 blackboard-solution-video：預設改為 Azure TTS 並新增斷點續跑
 - `skills/blackboard-solution-video/`：
   - 配音預設改為 Azure TTS `zh-TW-HsiaoChenNeural`（台灣華語女聲），Gemini TTS 轉為備用（避開每日 quota 限制）
