@@ -2129,3 +2129,28 @@ PDF 文字層檢查無殘留 LaTeX、無 emoji 豆腐方框。
   - `SA/study/figs-src/textbook-SA-U2-3/`: `ch3.html`～`ch6.html`、`figs_ch3.py`～`figs_ch6.py`、`calcs.py`（擴充驗算）、`textbook.json`
   - 重建 `SA/study/textbook-SA-U2-3.html` 與 `SA/study/textbook-SA-U2-3.pdf`
 
+## [2026-11-17] TEXTBOOK-SA-U2-3-CH7-10｜擴充 SA-U2-3 教科書第 7～10 章與向量圖解（全書完結）
+- 擴充章節：
+  - 第 7 章：有側移剛架（層剪力方程、12EI/h³ 與短柱、貫穿全書 SA-2017-3）
+  - 第 8 章：斜桿與非正交構架（位移圖定 ψ、虛功列側移方程）
+  - 第 9 章：對稱／反對稱降維（對稱面剪力為零、轉角為零、反對稱面彎矩為零）
+  - 第 10 章：總整理（種子樹、解題流程、一頁公式卡、精選 5 題）
+- 產出檔案：
+  - `SA/study/figs-src/textbook-SA-U2-3/`: `ch7.html`～`ch10.html`、`figs_ch7.py`～`figs_ch10.py`、`calcs.py`、`textbook.json`
+  - 重建 `SA/study/textbook-SA-U2-3.html` 與 `SA/study/textbook-SA-U2-3.pdf`（全書 10 章完整收斂）
+
+## [2026-11-17] TEXTBOOK-SA-U1-2-CH3-10｜擴充 SA-U1-2 教科書第 3～10 章與向量圖解（全書完結）
+- 擴充章節：
+  - 第 3 章：桁架 I（二力桿、節點法、零力桿）
+  - 第 4 章：桁架 II（斷面法、複合桁架、K 桁架）
+  - 第 5 章：梁剪力彎矩圖（微分關係法、面積法）
+  - 第 6 章：剛架內力圖（正負號約定、彎矩圖畫在受拉側）
+  - 第 7 章：三鉸拱與纜索結構（水平推力、拋物線拱軸線）
+  - 第 8 章：幾何變位法（共軛梁法、力矩面積法）
+  - 第 9 章：能量法（單位載重法／虛功法、Castigliano 第二定理）
+  - 第 10 章：總整理（種子樹、歷屆 17 題速查、公式卡）
+- 產出檔案：
+  - `SA/study/figs-src/textbook-SA-U1-2/`: `ch3.html`～`ch10.html`、`figs_ch3.py`～`figs_ch10.py`、`calcs.py`、`textbook.json`
+  - 重建 `SA/study/textbook-SA-U1-2.html` 與 `SA/study/textbook-SA-U1-2.pdf`（全書 10 章完整收斂）
+
+

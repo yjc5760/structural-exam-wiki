@@ -327,6 +327,256 @@ def fmt(v, nd=2):
     return f'{v:.{nd}f}' if isinstance(v, float) else str(v)
 
 
+
+# ------------------------------------------------------------------ 第 7 章：有側移剛架（層剪力方程、12EI/L³、短柱）
+def story_rhs(loads):
+    """層剪力方程（＝剛體虛功）右端：Σ(M_上+M_下) = −Σ P_x·y。
+    loads = [(P_x 向右為正, 作用點距柱底高度 y)]；所有柱同高、柱底同高程時成立。"""
+    return -sum(Fr(p) * Fr(y) for p, y in loads)
+
+
+def ch7():
+    d = {}
+    # 柱側移勁度（以 EI/L³ 為單位）：兩端固定 θ=0 → 端彎矩各 −6EIΔ/L²，剪力 12EIΔ/L³；一端鉸 → 3
+    d['k_ff'] = 2 * 6                             # 12
+    d['k_fp'] = 3                                 # 3
+    # 短柱：剛性梁、兩柱兩端固定、EI 相同，柱高 4 m 與 2 m，頂部水平力 90 kN
+    h1, h2, P = Fr(4), Fr(2), Fr(90)
+    k1, k2 = 12 / h1**3, 12 / h2**3               # 以 EI 為單位
+    d['sc_k1'], d['sc_k2'] = k1, k2
+    d['sc_ratio'] = k2 / k1                       # 8
+    d['sc_V1'], d['sc_V2'] = P * k1 / (k1 + k2), P * k2 / (k1 + k2)   # 10、80
+    d['sc_EIDelta'] = P / (k1 + k2)               # EIΔ
+    # 柱頂彎矩：M = 6EIΔ/h²
+    d['sc_M1'], d['sc_M2'] = 6 * d['sc_EIDelta'] / h1**2, 6 * d['sc_EIDelta'] / h2**2   # 20、80
+    # SA-2017-3：層剪力方程右端由「外力 × 高度」直接得到
+    d['s17_rhs'] = story_rhs([(-60, 4), (-60, 2)])            # 360
+    e = ex2017()
+    d['s17_HA'] = e['M_BA'] / 4                               # 70.10（柱底反力向右）
+    d['s17_HD'] = (120 + e['M_CD']) / 4                       # 49.90
+    VB = Fr(45 * 6, 2) - (e['M_BC'] + e['M_CB']) / 6          # 梁 B 端剪力（向上）＝柱 AB 軸力
+    d['s17_VA'] = VB                                          # 195
+    d['s17_VD'] = 45 * 6 - VB                                 # 75
+    # 梁 BC 彎矩（下緣受拉為正）：M(x) = −M_BC·(−1)…：左端下緣受拉值 = +M_BC，右端 = −M_CB
+    MB, MC = e['M_BC'], -e['M_CB']
+    d['s17_beam_mid'] = (MB + MC) / 2 + Fr(45 * 36, 8)        # 102.12
+    # 反曲點：M(x)=MB + (MC−MB)x/6 + 22.5x(6−x)=0
+    a_, b_, c_ = -Fr(45, 2), (MC - MB) / 6 + Fr(45 * 6, 2), MB
+    disc = float(b_**2 - 4 * a_ * c_)
+    d['s17_x0'] = (-float(b_) + disc**0.5) / (2 * float(a_))  # 1.82 m
+    # 右柱載重點彎矩：柱 DC 自 D 起，M_DC=0，柱頂 M_CD；載重點 y=2：柱 D 端剪力 × 2
+    d['s17_col_load'] = d['s17_HD'] * 2                       # 99.8
+    d['s17_ratio'] = e['M_BA'] / e['M_CD']                    # 3.52
+    # 驗算：柱 AB 剪力 = (M_AB+M_BA)/4，方向
+    # SA-2022-2：K = EI/4 = 10000；x=Kθc、y=Kθd、z=KΔ；ψ_ac = +Δ/4、ψ_de = −Δ/4（e 在上）
+    MFm = Fr(45, 2)
+    # M_ca = 3K(θc − Δ/4) + 22.5；M_cd = 2K(2θc+θd)；M_dc = 2K(2θd+θc)；M_de = 3K(θd + Δ/4) − 22.5
+    def M22(x, y, z):
+        return dict(ca=3 * x - Fr(3, 4) * z + MFm, cd=4 * x + 2 * y, dc=4 * y + 2 * x, de=3 * y + Fr(3, 4) * z - MFm)
+    # 虛功：(M_ac+M_ca)(1/4) + (M_de+M_ed)(−1/4) + 30·(1/2) + 30·(1/2) = 0 → M_ca − M_de = −120
+    d['s22_rhs'] = -4 * (30 * Fr(1, 2) + 30 * Fr(1, 2))       # −120
+    def F22(v):
+        m = M22(*v)
+        return [m['ca'] + m['cd'], m['dc'] + m['de'], m['ca'] - m['de'] - d['s22_rhs']]
+    z0 = [Fr(0)] * 3
+    f0 = F22(z0)
+    A = [[F22([Fr(int(i == j)) for j in range(3)])[r] - f0[r] for i in range(3)] for r in range(3)]
+    x, y, z = solve3(A, [-v for v in f0])
+    d['s22_x'], d['s22_y'], d['s22_z'] = x, y, z              # 30、−30、230
+    m = M22(x, y, z)
+    d.update({f's22_M{k}': v for k, v in m.items()})          # ca −60、cd 60、dc −60、de 60
+    K = Fr(10000)
+    d['s22_Dc_mm'] = z / K * 1000                             # 23
+    # b 點：弦一半 + 彈性（簡支柱中點：P L³/48EI ＋ 端彎矩 |M| L²/16EI），EI = 40000
+    EI, Lc = Fr(40000), Fr(4)
+    d['s22_el_P'] = 30 * Lc**3 / 48                           # 40（/EI）
+    d['s22_el_M'] = abs(m['ca']) * Lc**2 / 16                 # 60（/EI）
+    d['s22_Db_mm'] = (z / K / 2 + (d['s22_el_P'] + d['s22_el_M']) / EI) * 1000   # 14
+    # SA-2024-3：k = L_b/L；θ = 6k/(4k+3)·ψ；彎矩以 K_cψ 表示；側移勁度 PL/(K_cψ) = 3(8k+15)/(4k+3)
+    def s24(k):
+        k = Fr(k)
+        th = 6 * k / (4 * k + 3)
+        out = dict(th=th, MAB=2 * (th - 3), MBA=2 * (2 * th - 3), MBC=3 * th / k, MDC=Fr(-3))
+        out['PL'] = -(out['MAB'] + out['MBA'] + out['MDC'])
+        out['ratio'] = abs(out['MAB']) / abs(out['MBC'])
+        return out
+    d['s24'] = s24
+    r = s24(Fr(3, 2))
+    d['s24_k'] = Fr(3, 2)
+    d['s24_ratio'] = r['ratio']                               # 2
+    d['s24_PL'] = r['PL']                                     # 9
+    d.update({f's24_{k}_PL': v / r['PL'] for k, v in r.items() if k.startswith('M')})   # 以 PL 表示
+    d['s24_lim0'] = Fr(15)                                    # k→0：12 + 3
+    d['s24_liminf'] = Fr(6)                                   # k→∞：3 + 3
+    d['s24_sym_k'] = Fr(3)                                    # 誤當剛接對稱 → 3
+    return d
+
+
+# ------------------------------------------------------------------ 第 8 章：斜桿與非正交構架
+def ch8():
+    d = {}
+    # SA-2020-1：ab 水平 4 m（a 固定）、bc 斜 4-3-5、c 靠垂直牆滾支承；68 kN 在 bc 中點
+    # 位移：u_b = 0（ab 軸向）、u_c = 0（牆）；bc 軸向 → v_c = v_b = −Δ（向下 Δ）
+    d['s20_Pn'] = Fr(68) * Fr(4, 5)                           # 54.4
+    d['s20_Pa'] = Fr(68) * Fr(3, 5)                           # 40.8
+    d['s20_MF'] = d['s20_Pn'] * 5 / 8                         # 34
+    # 未知 t=EIθb、s=EIθc、D=EIΔ；ψ_ab = Δ/4、ψ_bc = 0
+    def M(t, s, D):
+        return dict(ab=Fr(1, 2) * (t - 3 * D / 4), ba=Fr(1, 2) * (2 * t - 3 * D / 4),
+                    bc=Fr(2, 5) * (2 * t + s) - d['s20_MF'], cb=Fr(2, 5) * (2 * s + t) + d['s20_MF'])
+    # 虛功：(M_ab+M_ba)·δΔ/4 + 68·δΔ = 0 → M_ab + M_ba = −272
+    d['s20_vw'] = -68 * 4
+    def F(v):
+        m = M(*v)
+        return [m['ba'] + m['bc'], m['cb'], m['ab'] + m['ba'] - d['s20_vw']]
+    z0 = [Fr(0)] * 3
+    f0 = F(z0)
+    A = [[F([Fr(int(i == j)) for j in range(3)])[r] - f0[r] for i in range(3)] for r in range(3)]
+    t, s, D = solve3(A, [-v for v in f0])
+    d['s20_t'], d['s20_s'], d['s20_D'] = t, s, D              # 220、−152.5、2408/3
+    m = M(t, s, D)
+    d.update({f's20_M{k}': v for k, v in m.items()})          # ab −191、ba −81、bc 81、cb 0
+    d['s20_Cx'] = (68 * 6 + m['ab']) / 3                      # 217/3（整體對 a 取矩，M_a 逆時針 191）
+    # bc 中點彎矩（下緣受拉）：端點 +81→0 線性 + 法向載重三角形 P⊥L/4
+    d['s20_bc_mid'] = m['bc'] / 2 + d['s20_Pn'] * 5 / 4      # 40.5 + 68 = 108.5
+    # SA-2014-3：K = EI/L（DE 的 EI/L）；R = Δ/L；ψ：AB −R、BC +R、BD −2R、DE +2R
+    s3 = 3 ** 0.5
+    LDE = (s3 / 2, -1 / 2)                                    # D→E 單位向量（以 L 為長度）
+    v = LDE[0] / (-LDE[1])                                    # u·ex + v·ey = 0 → v = u·(√3/2)/(1/2) = √3u
+    d['s14_vD'] = s3                                          # D 上移 √3Δ
+    d['s14_vD_chk'] = v
+    d['s14_psi'] = dict(AB=Fr(-1), BC=Fr(1), BD=Fr(-2), DE=Fr(2))
+    d['s14_psi_BD_chk'] = -s3 / (s3 / 2)                      # −2
+    d['s14_psi_DE_chk'] = 2.0                                 # |D 位移| = 2Δ，桿長 L
+    kAB, kBC, kBD, kDE = Fr(2), Fr(2), Fr(2), Fr(1)           # EI/L 倍數（2I/L、2I/L、√3I/(√3L/2)、I/L）
+    psi = d['s14_psi']
+    def M14(tB, tD, R):
+        mm = {}
+        mm['AB'] = 2 * kAB * (tB - 3 * psi['AB'] * R); mm['BA'] = 2 * kAB * (2 * tB - 3 * psi['AB'] * R)
+        mm['BC'] = 2 * kBC * (2 * tB - 3 * psi['BC'] * R); mm['CB'] = 2 * kBC * (tB - 3 * psi['BC'] * R)
+        mm['BD'] = 2 * kBD * (2 * tB + tD - 3 * psi['BD'] * R); mm['DB'] = 2 * kBD * (2 * tD + tB - 3 * psi['BD'] * R)
+        mm['DE'] = 2 * kDE * (2 * tD - 3 * psi['DE'] * R); mm['ED'] = 2 * kDE * (tD - 3 * psi['DE'] * R)
+        return mm
+    PL = Fr(66 * 8)
+    def F14(v):
+        mm = M14(*v)
+        vw = PL + (mm['AB'] + mm['BA']) * psi['AB'] + (mm['BC'] + mm['CB']) * psi['BC'] \
+            + (mm['BD'] + mm['DB']) * psi['BD'] + (mm['DE'] + mm['ED']) * psi['DE']
+        return [mm['BA'] + mm['BC'] + mm['BD'], mm['DB'] + mm['DE'], vw]
+    z0 = [Fr(0)] * 3
+    f0 = F14(z0)
+    A = [[F14([Fr(int(i == j)) for j in range(3)])[r] - f0[r] for i in range(3)] for r in range(3)]
+    tB, tD, R = solve3(A, [-v for v in f0])
+    d['s14_tB'], d['s14_tD'], d['s14_R'] = tB, tD, R          # Kθ、KR（K = EI/L）
+    d['s14_tB_R'], d['s14_tD_R'] = tB / R, tD / R             # −15/17、−12/17
+    mm = M14(tB, tD, R)
+    d.update({f's14_M{k}': v for k, v in mm.items()})
+    d['s14_VAB'] = (mm['AB'] + mm['BA']) / 8
+    d['s14_VBC'] = -(mm['BC'] + mm['CB']) / 8
+    d['s14_rest'] = 66 - d['s14_VAB'] - d['s14_VBC']          # 由 BD–DE 傳到 E
+    return d
+
+
+# ------------------------------------------------------------------ 第 9 章：對稱／反對稱
+def ch9():
+    d = {}
+    # SA-2020-2：EI=20000；未知 t=EIθb、D=EIΔ（b 下沉）；ψ_ab = Δ/4
+    # 節點 b：M_ba + M_bc + M_bf = 0：(t − 3D/8) + (t/2 − 6) + 3t/2 = 0 → 3t − 3D/8 = 6
+    # 節點 b 垂直：V_ba + V_bc = 0：(M_ab+M_ba)/4 + 6 = 0
+    def M20(t, D):
+        return dict(ab=Fr(1, 2) * (t - 3 * D / 4), ba=Fr(1, 2) * (2 * t - 3 * D / 4), bc=Fr(1, 2) * (2 * t - t) - 6,
+                    bf=Fr(1, 2) * (2 * t + t))
+    # 解 2×2
+    a11, a12, b1 = Fr(3), Fr(-3, 8), Fr(6)
+    a21, a22, b2 = Fr(3, 8), Fr(-3, 16), Fr(-6)
+    det = a11 * a22 - a12 * a21
+    t = (b1 * a22 - a12 * b2) / det
+    D = (a11 * b2 - b1 * a21) / det
+    m = M20(t, D)
+    assert m['ba'] + m['bc'] + m['bf'] == 0 and (m['ab'] + m['ba']) / 4 + 6 == 0
+    d['s20_t'], d['s20_D'] = t, D                             # 8、48
+    d.update({f's20_M{k}': v for k, v in m.items()})          # ab −14、ba −10、bc −2、bf 12
+    d['s20_theta'] = t / 20000
+    d['s20_v_mm'] = D / 20000 * 1000                          # 2.40
+    # SA-2021-2：反對稱 θb = θe = θ、θc = θd = φ；ψ = Δ/3；EI=20000
+    def M21(t, p, s):
+        return dict(ba=t, be=Fr(2, 6) * (2 * t + t), bc=Fr(2, 3) * (2 * t + p - 3 * s),
+                    cb=Fr(2, 3) * (2 * p + t - 3 * s), cd=Fr(2, 6) * (2 * p + p))
+    def F21(v):
+        mm = M21(*v)
+        return [mm['ba'] + mm['be'] + mm['bc'], mm['cb'] + mm['cd'], mm['bc'] + mm['cb'] + 36]
+    z0 = [Fr(0)] * 3
+    f0 = F21(z0)
+    A = [[F21([Fr(int(i == j)) for j in range(3)])[r] - f0[r] for i in range(3)] for r in range(3)]
+    t, p, s = solve3(A, [-v for v in f0])
+    d['s21_t'], d['s21_p'], d['s21_s'] = t, p, s              # 10、16、22
+    mm = M21(t, p, s)
+    d.update({f's21_M{k}': v for k, v in mm.items()})         # ba 10、be 10、bc −20、cb −16、cd 16
+    d['s21_D_mm'] = 3 * s / 20000 * 1000                      # 3.30
+    d['s21_theta'] = t / 20000
+    d['s21_story'] = story_rhs([(24, 3)]) / 2                 # 每根柱 M_bc + M_cb = −36
+    # SA-2015-3：對稱於中柱 GD → θ_D = 0、無側移；C 鉸下陷 δ
+    # M_BA = EIθB；M_BC = 3EI(θB − δ) − 0.5；M_DC = EIδ/3 + 4.5
+    # 節點 B：4t − 3δ = 0.5；鉸 C 剪力：M_BC − M_DC/3 = −8
+    a11, a12, b1 = Fr(4), Fr(-3), Fr(1, 2)
+    a21, a22, b2 = Fr(3), -Fr(3) - Fr(1, 9), Fr(-8) + Fr(1, 2) + Fr(3, 2)
+    det = a11 * a22 - a12 * a21
+    t = (b1 * a22 - a12 * b2) / det
+    dl = (a11 * b2 - b1 * a21) / det
+    d['s15_t'], d['s15_d'] = t, dl                            # 176/31、459/62
+    MAB, MBA = t / 2, t
+    MBC = 3 * (t - dl) - Fr(1, 2)
+    MDC = dl / 3 + Fr(9, 2)
+    assert MBA + MBC == 0
+    d.update(s15_MAB=MAB, s15_MBA=MBA, s15_MBC=MBC, s15_MDC=MDC)
+    VC = 6 - MDC / 3                                          # 鉸 C 對 CD 的向上力 114/31
+    d['s15_VC'] = VC
+    d['s15_xmax'] = VC / 4                                    # 0.919 m
+    d['s15_Mmax'] = VC**2 / 8                                 # 1.69
+    VD = 6 + MDC / 3
+    d['s15_Gy'] = 2 * VD                                      # 516/31
+    d['s15_MFm_BC'] = -Fr(4 * 1, 8)                           # −wL²/8，L=1
+    d['s15_MFm_DC'] = Fr(4 * 9, 8)                            # +wL²/8，L=3
+    return d
+
+
+# ------------------------------------------------------------------ 第 10 章：綜合重建（門型剛架、兩端固定、梁柱同 EI、同長 L，柱頂 P 向右）
+def ch10():
+    d = {}
+    # 反對稱：θB = θC = θ；以 K = EI/L、ψ 為未知
+    # M_AB = 2K(θ − 3ψ)、M_BA = 2K(2θ − 3ψ)、M_BC = 2K(3θ) = 6Kθ
+    # 節點 B：10θ − 6ψ = 0 → θ = 3ψ/5
+    th = Fr(3, 5)
+    MAB, MBA, MBC = 2 * (th - 3), 2 * (2 * th - 3), 6 * th     # 以 Kψ 為單位
+    PL = -2 * (MAB + MBA)                                     # 層剪力：2(M_AB+M_BA) = −PL
+    d['th'] = th
+    d['Kpsi'] = 1 / PL                                        # Kψ = PL·(…)
+    d['MAB'], d['MBA'], d['MBC'] = MAB / PL, MBA / PL, MBC / PL   # 以 PL 為單位：−2/7、−3/14、3/14
+    d['k_lat'] = PL                                           # P/Δ = (PL/Kψ)·EI/L³ → 84/5
+    d['k_rigid'] = Fr(24)                                     # 梁剛性：2 × 12
+    d['k_zero'] = Fr(6)                                       # 梁無勁度：2 × 3
+    # 變化題 1：柱底改鉸（修正式）。M_BA = 3K(θ − ψ)、M_BC = 6Kθ → 9θ − 3ψ = 0 → θ = ψ/3
+    thp = Fr(1, 3)
+    MBAp = 3 * (thp - 1)
+    PLp = -2 * MBAp                                           # 2·M_BA = −PL
+    d['pin_th'] = thp
+    d['pin_MBA'] = MBAp / PLp                                 # −1/2（以 PL）
+    d['pin_k'] = PLp                                          # 4（×EI/L³）
+    d['pin_k_rigid'] = Fr(6)                                  # 2 × 3
+    # 變化題 2：梁受均布 w（對稱）：θC = −θB、無側移。M_BA = 4Kθ、M_BC = 2Kθ − wL²/12 → 6Kθ = wL²/12
+    Kth = Fr(1, 72)                                           # 以 wL² 計
+    d['g_Kth'] = Kth
+    d['g_MAB'] = 2 * Kth                                      # 1/36
+    d['g_MBA'] = 4 * Kth                                      # 1/18
+    d['g_MBC'] = 2 * Kth - Fr(1, 12)                          # −1/18
+    d['g_mid'] = Fr(1, 8) + d['g_MBC']                        # 跨中下緣受拉 1/8 − 1/18 = 5/72
+    # 精選 5 題的對答案數字（沿用各章）
+    c4, c5, c8 = ch4(), ch5(), ch8()
+    d['p23_t'], d['p23_MBA'] = c4['s23_t'], c4['s23_M_BA']
+    d['p25_kAA'], d['p25_kAB'], d['p25_C'], d['p25_MF'] = c5['kAA'], c5['kAB'], c5['C'], c5['MF_AB']
+    d['p20_Mab'], d['p20_Mba'], d['p20_Cx'] = c8['s20_Mab'], c8['s20_Mba'], c8['s20_Cx']
+    return d
+
 if __name__ == '__main__':
     print('== 第 2 章（L=EI=1 無因次）==')
     for k, v in ch2().items():
@@ -349,3 +599,9 @@ if __name__ == '__main__':
     print('== SA-2017-3（kN、m；θ、ψ 以 EI·θ 表示）==')
     for k, v in ex2017().items():
         print(f'  {k:12s}', fmt(v))
+    for nm, fn in (('第 7 章', ch7), ('第 8 章', ch8), ('第 9 章', ch9), ('第 10 章', ch10)):
+        print(f'== {nm} ==')
+        for k, v in fn().items():
+            if callable(v):
+                continue
+            print(f'  {k:14s}', v if isinstance(v, (dict, tuple)) else fmt(v))
