@@ -1,0 +1,136 @@
+<section id="ch6">
+<h2 class="c">第 6 章　靜態凝縮與側向勁度</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$[K^*]=[K_{aa}]-[K_{ab}][K_{bb}]^{-1}[K_{ba}],\qquad k_{\text{門型}}=\frac{84EI}{5L^3}$$
+並且看懂第 2 章那兩個「子公式」（修正勁度 \(3EI/L\)、懸臂柱 \(3EI/L^3\)）其實都是凝縮；最後用同一招做 SA-2024-4 的塑鉸側推曲線。<br>
+要記的只有 <span class="kw">S6 沒有外力的自由度，會自己轉到力＝0</span>。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>靜態凝縮 \([K^*]=[K_{aa}]-[K_{ab}][K_{bb}]^{-1}[K_{ba}]\)；單一自由度 \(k^*=a-b^2/c\)</td><td><span class="tg must">必背</span></td><td>6.1、6.2</td></tr>
+<tr><td>修正勁度 \(3EI/L\)、一端鉸接柱 \(3EI/L^3\)（凝縮的特例）</td><td><span class="tg must">必背</span></td><td>6.2</td></tr>
+<tr><td>門型剛架側向勁度 \(84EI/5L^3\)；勁度比公式 \(k=\dfrac{EI_c}{L^3}\left(24-\dfrac{72}{4+6\rho}\right)\)</td><td><span class="tg must">必背</span></td><td>6.3、6.4</td></tr>
+<tr><td>塑鉸：彎矩固定 → 增量分析時該端「放手」（凝縮掉）</td><td><span class="tg must">必背</span></td><td>6.5</td></tr>
+</table>
+<p class="note">證據（單元總覽）：側向勁度／靜態凝縮是本單元<b>風險最高</b>的考點——2024-4（塑鉸側推）、2025-1（\(84EI/5L^3\)）連兩年出，2025-1 還寫「提示：請先寫出結構之勁度矩陣」；U3-2 的 2022-4（三層剪力棟架）用的是同一組側向勁度觀念。凝縮公式 24 年沒印過。</p>
+</div>
+
+<h3>6.1　種子 S6：放手的自由度自己找平衡</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S6｜沒有外力的自由度，會自己動到「力＝0」為止</div>
+$$\text{自由度 } b \text{ 上沒有外力}\quad\Rightarrow\quad[K_{ba}]\{D_a\}+[K_{bb}]\{D_b\}=\{0\}$$
+</div>
+<p>第 3 章組出的 [K] 回答的是「每個自由度都被我控制」時的力。可是題目只在 \(\Delta\) 方向推，B、C 的轉角<b>沒人管</b>——它們會自己轉到節點彎矩平衡（＝0）為止。轉一轉，柱頂的束制變鬆，側向勁度就變小。</p>
+
+{{FIG:fig6_1|圖 6-1｜同一座門型剛架、同樣推 \(\Delta\)。(a) B、C 的轉角被鎖住：柱子是兩端固定的 S 形，勁度 \(12+12=24\)（\(\times EI/L^3\)）。(b) 放手：B、C 自己順時針轉 \(0.6\,\Delta/L\)，柱頂不再被扶正，勁度降到 \(84/5=16.8\)。藍線由 Hermite 形狀函數依各自的節點轉角算出。}}
+
+<h3>6.2　凝縮公式：分成「留下」與「放手」兩塊</h3>
+
+{{FIG:fig6_3|圖 6-3｜靜態凝縮就是分塊消去：下半列是 S6（放手的自由度沒有外力），解出 \(\{D_b\}\) 代回上半列。和第 3 章 3.5 的「分割求反力」是同一種切法，只是這次切的是「有外力」與「沒外力」。}}
+
+<div class="derive">
+<p><span class="st">①</span> 下半列（S6）：\([K_{ba}]\{D_a\}+[K_{bb}]\{D_b\}=0\ \Rightarrow\ \{D_b\}=-[K_{bb}]^{-1}[K_{ba}]\{D_a\}\)。</p>
+<p><span class="st">②</span> 代回上半列：\([K_{aa}]\{D_a\}+[K_{ab}]\{D_b\}=\{P_a\}\ \Rightarrow\ \boxed{[K^*]=[K_{aa}]-[K_{ab}][K_{bb}]^{-1}[K_{ba}]}\)。</p>
+<p><span class="st">③</span> 只留一個、放手一個時（2×2 \(\begin{bmatrix}a&b\\b&c\end{bmatrix}\)）：\(\boxed{k^*=a-\dfrac{b^2}{c}}\)（calcs.py：<code>condensation_general()</code>）。</p>
+</div>
+
+<div class="check"><b>第 2 章的兩個子公式，原來都是凝縮</b><br>
+・<b>修正勁度</b>：梁近端轉動、遠端轉角放手。\(a=4,\ b=2,\ c=4\)（\(\times EI/L\)）→ \(k^*=4-\dfrac{2^2}{4}=3\) → \(\boxed{3EI/L}\) ✔<br>
+・<b>懸臂柱</b>（頂端可自由轉）：推 \(v\)、頂端轉角放手。\(a=12,\ b=6L,\ c=4L^2\)（\(\times EI/L^3\)）→ \(k^*=12-\dfrac{36L^2}{4L^2}=3\) → \(\boxed{3EI/L^3}\) ✔，和 S3 直接倒數一樣。<br>
+・減掉的 \(b^2/c\) 永遠 \(\ge0\)：<b>放手只會變軟，不會變硬</b> ✔。</div>
+
+<div class="trap"><b>陷阱：放手的自由度上其實有外力</b><br>
+S6 的前提是「\(\{P_b\}=0\)」。如果被凝縮的節點上有外加彎矩（或有跨間載重造成的等效節點彎矩），下半列右邊不是 0，凝縮後 \(\{P_a\}\) 也要跟著修正：\(\{P_a^*\}=\{P_a\}-[K_{ab}][K_{bb}]^{-1}\{P_b\}\)。只求「勁度」的題目（SA-2025-1）不會遇到。</div>
+
+<h3>6.3　貫穿範例 ③：SA-2025-1 收尾，\(84EI/5L^3\)</h3>
+<div class="box"><b>接續第 3 章 3.4</b>　\([K]=\dfrac{EI}{L^3}\begin{bmatrix}8L^2&2L^2&6L\\2L^2&8L^2&6L\\6L&6L&24\end{bmatrix}\)，順序 \((\theta_B,\theta_C,\Delta)\)。留下 \(\Delta\)（a），放手 \(\theta_B,\theta_C\)（b）。</div>
+<div class="derive">
+<p><span class="st">①</span> <b>捷徑（看出對稱）</b>：\(\theta_B\)、\(\theta_C\) 兩列長得一樣（只是 8 和 2 交換），而且它們對 \(\Delta\) 的係數相同（6L），所以解一定是 \(\theta_B=\theta_C=\theta\)。第 1 列：\((8+2)L^2\theta+6L\Delta=0\ \Rightarrow\ \theta=-\dfrac{3\Delta}{5L}\)（順時針）。</p>
+<p><span class="st">②</span> 代回第 3 列：\(P=\dfrac{EI}{L^3}\big(24\Delta+2\times6L\theta\big)=\dfrac{EI}{L^3}\left(24-\dfrac{36}{5}\right)\Delta\ \Rightarrow\ \boxed{k=\dfrac{84EI}{5L^3}}\)。</p>
+<p><span class="st">③</span> <b>照公式算一次</b>（驗算）：\([K_{bb}]^{-1}=\dfrac{L}{60EI}\begin{bmatrix}8&-2\\-2&8\end{bmatrix}\)，\([K_{ab}]=\dfrac{EI}{L^2}[6\ \ 6]\)。
+\([K_{ab}][K_{bb}]^{-1}[K_{ba}]=\dfrac{EI}{60L^3}\times36\times(8-2-2+8)=\dfrac{7.2EI}{L^3}\)；\(24-7.2=16.8=84/5\) ✔。</p>
+</div>
+<div class="check"><b>極限檢查（calcs.py：<code>portal_numeric()</code> 用 numpy 組含軸向的 6 自由度矩陣獨立驗算）</b><br>
+・梁 \(EI\to\infty\)：柱頂轉不動，退回 \(12+12=24\) ✔（數值 24.0）。<br>
+・梁 \(EI\to0\)：柱頂自由轉，兩支懸臂 \(3+3=6\) ✔（數值 6.0）。<br>
+・\(16.8\) 介於 6 與 24 之間，是兩端固接的 70%（\(16.8/24=0.7\)）✔。<br>
+・和題解對照：題解轉角順時針為正，得 \(\theta=+3\Delta/5L\)；本書逆時針為正，得 \(-3\Delta/5L\)。勁度一樣是 \(84EI/5L^3\)。</div>
+
+<h3>6.4　推廣：梁柱勁度比 \(\rho\)</h3>
+<p>把 6.3 的梁換成任意勁度（柱 \(EI_c/L_c\)，梁 \(EI_b/L_b\)，比值 \(\rho\)）。反對稱轉動時，梁兩端同向轉 \(\theta\)：近端 \(4\)、遠端傳來 \(2\)，<b>梁對每個節點的轉動勁度是 \(6EI_b/L_b\)</b>（不是 4）。</p>
+<div class="derive">
+<p><span class="st">①</span> 節點方程：\((4+6\rho)\theta+\dfrac{6\Delta}{L}=0\ \Rightarrow\ \theta=-\dfrac{6}{4+6\rho}\dfrac{\Delta}{L}\)（柱的 \(EI_c/L\) 約掉）。</p>
+<p><span class="st">②</span> \(k=\dfrac{EI_c}{L^3}\left(24-2\times6\times\dfrac{6}{4+6\rho}\right)=\boxed{\dfrac{EI_c}{L^3}\left(24-\dfrac{72}{4+6\rho}\right)}\)。</p>
+</div>
+
+{{FIG:fig6_2|圖 6-2｜側向勁度隨梁柱勁度比 \(\rho\) 變化（calcs.py：<code>portal_limits()</code>）。\(\rho=0\) 為 6（兩支懸臂），\(\rho\to\infty\) 趨近 24（兩端固接），\(\rho=1\) 正是 SA-2025-1 的 16.8。曲線一開始很陡：梁只要有一點勁度，側向勁度就大幅回升。}}
+
+<div class="why"><b>剪力棟架就是 \(\rho\to\infty\)</b>：U3-2 的 2022-4（三層剪力棟架）假設梁 \(I=\infty\)，每根柱直接用 \(12EI/h^3\)，層勁度是同層柱相加——就是圖 6-2 右邊那條漸近線。這一章給你的是「梁不夠剛時要打幾折」。</div>
+
+<h3>6.5　塑鉸側推：SA-2024-4</h3>
+<div class="box"><b>題目（<a href="problems-view/SA-2024-4.html">SA-2024-4</a>，2024 第四題，25 分）</b>　門型構架，柱 AB、DC 高 \(2L\)、\(2EI\)；梁 BC 長 \(L\)、\(EI\)；A、D 固定；側力 \(P\) 作用於 B。\(EI=425{,}000\) kN·m²，\(L=7\) m，梁 \(M_{pb}=300\)、柱 \(M_{pc}=580\) kN·m。忽略軸向變形，以結構勁度矩陣法求 \(P\)–\(\Delta\) 側推曲線至極限承載力。</div>
+<p><b>塑鉸 ＝ 那個斷面的彎矩被固定住、可以自由轉</b>。增量分析時，那一端「沒人管轉角」——正是 S6：把它放手（凝縮掉）。所以每形成一批塑鉸，就把對應的勁度拿掉、重組 [K]、再算一段。</p>
+
+{{FIG:fig6_4|圖 6-4｜SA-2024-4 的側推曲線（calcs.py：<code>pushover_2024()</code>）。三段折線：彈性 5204.1 kN/m；梁端 B、C 在 \(P=100\) kN 形成塑鉸後降到 1858.6 kN/m；柱底 A、D 在 \(P=125.71\) kN 形成塑鉸後成為側移機構，勁度 0。右側紅點為各階段累積的塑鉸。}}
+
+<div class="derive">
+<p><span class="st">①</span> <b>元素</b>：柱高 \(2L\)、\(2EI\)，所以 \(\dfrac{12(2EI)}{(2L)^3}=\dfrac{3EI}{L^3}\)、\(\dfrac{6(2EI)}{(2L)^2}=\dfrac{3EI}{L^2}\)、\(\dfrac{4(2EI)}{2L}=\dfrac{4EI}{L}\)。梁 \(\dfrac{EI}{L}\begin{bmatrix}4&2\\2&4\end{bmatrix}\)。單位 \(EI/L^3=1239.07\) kN/m。</p>
+<p><span class="st">②</span> <b>階段 1（彈性）</b>：\([K_1]=\dfrac{EI}{L^3}\begin{bmatrix}6&3L&3L\\3L&8L^2&2L^2\\3L&2L^2&8L^2\end{bmatrix}\)（\(\Delta,\theta_B,\theta_C\)）。同 6.3 的對稱捷徑：\(10L^2\theta+3L\Delta=0\Rightarrow\theta=-0.3\Delta/L\)；\(k_1=6-2\times3\times0.3=4.2\) → \(5204.1\) kN/m。</p>
+<p>　每單位 \(P\) 的彎矩（\(L=7\)）：柱底 \(4.0P\)、柱頂 \(3.0P\)、梁端 \(3.0P\)。各自到達強度的載重：梁端 \(300/3=100\)、柱底 \(580/4=145\)、柱頂 \(580/3=193\)。<b>梁端最先</b>：\(P_1=100\) kN、\(\Delta_1=100/5204.1=19.22\) mm；此時柱底 400 kN·m。</p>
+<p><span class="st">③</span> <b>階段 2（梁端塑鉸）</b>：梁兩端都放手 → 梁對 [K] 的貢獻歸零：\([K_2]=\dfrac{EI}{L^3}\begin{bmatrix}6&3L&3L\\3L&4L^2&0\\3L&0&4L^2\end{bmatrix}\)。\(\theta=-0.75\Delta/L\)，\(k_2=6-2\times3\times0.75=1.5\) → \(1858.6\) kN/m。柱底彎矩增量 \(7\,\delta P\)（柱頂增量 0，維持 300）。到 580：\(\delta P=180/7=25.71\)；\(P_2=125.71\) kN、\(\Delta_2=19.22+13.83=33.05\) mm。</p>
+<p><span class="st">④</span> <b>階段 3</b>：柱底也放手，每根柱兩端都是塑鉸，\([K_3]\) 的側向勁度為 0（奇異）→ 側移機構，\(P_u=125.71\) kN。</p>
+</div>
+<div class="check"><b>極限檢查</b><br>
+・<b>機構法互證</b>：柱轉 \(\phi=\Delta/14\)，四個塑鉸各轉 \(\phi\)：\(P_u\Delta=(2\times580+2\times300)\dfrac{\Delta}{14}\Rightarrow P_u=\dfrac{1760}{14}=125.71\) kN ✔，和矩陣法一模一樣。<br>
+・階段 2 的 \(k_2=1.5\)：兩根「底固定、頂鉸接」的柱，每根 \(\dfrac{3(2EI)}{(2L)^3}=0.75\)，合計 1.5 ✔（第 2 章 2.5 的 \(3EI/L^3\)）。<br>
+・柱頂不會先降伏：梁端塑鉸後柱頂彎矩被梁端 300 鎖住（節點平衡），到不了 580 ✔。</div>
+
+<div class="trap"><b>陷阱：塑鉸形成後，仍用原本的 [K] 繼續算</b><br>
+每一段都要重組 [K]（或直接把對應勁度拿掉）。另一個常見錯：把塑鉸位置放在柱頂——用「哪個斷面最先到 \(M_p\)」逐一比較，不要憑感覺。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜靜態凝縮</div>
+<ol>
+<li><b>畫</b>：[K] 切成 aa、ab、ba、bb 四塊；右邊 b 那格寫 0</li>
+<li><b>種子</b>：S6（放手的自由度力＝0）</li>
+<li><b>推</b>：下半列解 \(D_b\) → 代回上半列 → \(K_{aa}-K_{ab}K_{bb}^{-1}K_{ba}\)；單一自由度 \(a-b^2/c\)</li>
+<li><b>檢查</b>：\(4-2^2/4=3\)（修正勁度）、\(12-36/4=3\)（懸臂柱）；凝縮後只會變軟</li>
+</ol>
+</div>
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜門型剛架 \(84EI/5L^3\)</div>
+<ol>
+<li><b>畫</b>：圖 6-1(b)，兩個柱頂同向轉 \(\theta\)</li>
+<li><b>種子</b>：S1（[K]）＋S6（節點彎矩＝0）</li>
+<li><b>推</b>：\((8+2)\theta L^2+6L\Delta=0\Rightarrow\theta=-0.6\Delta/L\)；\(24-2\cdot6\cdot0.6=16.8\)</li>
+<li><b>檢查</b>：梁剛 → 24；梁軟 → 6；16.8 在中間</li>
+</ol>
+</div>
+
+<h3>6.6　🙈 蓋住重推</h3>
+<details><summary>Q1　用凝縮公式一行推出修正勁度 \(3EI/L\)。</summary>
+<p>梁端 2×2 轉動勁度 \(\tfrac{EI}{L}\begin{bmatrix}4&2\\2&4\end{bmatrix}\)，放手遠端：\(4-2^2/4=3\)。</p></details>
+<details><summary>Q2　門型剛架為什麼可以直接假設 \(\theta_B=\theta_C\)？</summary>
+<p>兩個轉角的方程式對稱（8、2 互換），而且 \(\Delta\) 對兩者的係數都是 6L；側推是「反對稱載重」，兩個柱頂轉角相同。</p></details>
+<details><summary>Q3　梁柱勁度比 \(\rho=2\) 時，側向勁度是多少？</summary>
+<p>\(24-72/(4+12)=24-4.5=19.5\ EI_c/L^3\)。</p></details>
+<details><summary>Q4　SA-2024-4 梁端形成塑鉸後，[K] 要怎麼改？為什麼側向勁度變 1.5？</summary>
+<p>把梁的 \(\begin{bmatrix}4&2\\2&4\end{bmatrix}\) 從 [K] 拿掉（梁兩端都放手）。每根柱變成「底固定、頂鉸接」，\(3(2EI)/(2L)^3=0.75\)，兩根 1.5。</p></details>
+<details><summary>Q5　凝縮時，被放手的節點上有外加彎矩 \(M_0\)，載重向量要怎麼改？</summary>
+<p>\(\{P_a^*\}=\{P_a\}-[K_{ab}][K_{bb}]^{-1}\{P_b\}\)，\(\{P_b\}\) 就是那個 \(M_0\)。</p></details>
+
+<h3>6.7　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>側向勁度直接寫 \(\sum12EI/h^3\)</td><td>那只在梁無限剛時成立；一般要凝縮。用 \(\rho\to\infty\)、\(\rho=0\) 兩個極限檢查。</td></tr>
+<tr><td>2</td><td>凝縮公式的減號、轉置寫錯</td><td>從分塊消去現推：下半列解 \(D_b\)，代回上半列。</td></tr>
+<tr><td>3</td><td>被放手的節點有外力卻當成 0</td><td>S6 的前提是 \(P_b=0\)；否則要修正 \(P_a\)。</td></tr>
+<tr><td>4</td><td>反對稱時梁的轉動勁度用 \(4EI/L\)</td><td>兩端同向轉：\(4+2=6\)。對稱（反向轉）時才是 \(4-2=2\)。</td></tr>
+<tr><td>5</td><td>塑鉸形成後沒重組 [K]</td><td>塑鉸＝放手；每一段都重算勁度，最後一段勁度 0 才是機構。</td></tr>
+<tr><td>6</td><td>只做矩陣法，不用機構法驗算</td><td>極限載重用虛功一行驗：\(P_u\Delta=\sum M_p\phi\)。</td></tr>
+</table>
+</section>

@@ -1,0 +1,166 @@
+<section id="ch3">
+<h2>第 3 章　自由度盤點與組裝：\(\{P\}=[K]\{D\}\)</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$[K]_{\text{門型}}=\frac{EI}{L^3}\begin{bmatrix}8L^2&2L^2&6L\\2L^2&8L^2&6L\\6L&6L&24\end{bmatrix}\quad(\theta_B,\ \theta_C,\ \Delta)$$
+並且會做三件事：<b>數出自由度</b>（節點自由度 − 支承 − 軸向／剛性約束）、<b>把元素的格子丟進 [K]</b>、<b>用分割求支承反力</b>。<br>
+這一章沒有新種子，只有 <span class="kw">S1 推一下、量力</span>——把它從「一根桿」放大到「整座結構」。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>自由度 ＝ 節點平移＋節點轉角 − 支承束制 − 軸向／剛性約束</td><td><span class="tg must">必背</span></td><td>3.1、3.6</td></tr>
+<tr><td>結構勁度方程 \(\{P\}=[K]\{D\}\)：[K] 第 \(j\) 行＝推第 \(j\) 個自由度、其他鎖住時要的力</td><td><span class="tg half">別賭</span></td><td>3.2</td></tr>
+<tr><td>組裝：\(K_{ij}=\sum_{\text{元素}}k^{(e)}_{ij}\)（照代號對號入座、同格相加）</td><td><span class="tg must">必背</span></td><td>3.3、3.4</td></tr>
+<tr><td>求解與反力：\(\{D_f\}=[K_{ff}]^{-1}\{P_f\}\)、\(\{R_s\}=[K_{sf}]\{D_f\}\)</td><td><span class="tg must">必背</span></td><td>3.5</td></tr>
+<tr><td>剛性桿：\(EI\to\infty\Rightarrow\theta_i=\theta_j\)、平移＝轉角×力臂；\([K]=[T]^{\mathsf T}[k][T]\)</td><td><span class="tg must">必背</span></td><td>3.6</td></tr>
+</table>
+<p class="note">證據（單元總覽）：自由度判定是 13 題全部的第一步；<a href="problems-view/SA-2018-2.html">SA-2018-2</a> 明寫「請畫結構圖並定義自由度編號」、<a href="problems-view/SA-2015-4.html">SA-2015-4</a> 要求「標示此結構之位移自由度（完全束制者不計）」，考卷從不替你數。\(\{P\}=[K]\{D\}\) 只在 2012、2015、2019 印過符號排法。剛性桿 \(EI=\infty\) 只在 <a href="problems-view/SA-2012-4.html">SA-2012-4</a> 單獨考過。</p>
+</div>
+
+<h3>3.1　先數自由度：一本帳</h3>
+<p>矩陣法的第一步不是寫矩陣，是<b>決定 [K] 有幾行幾列</b>。數錯一個，後面全部白做。方法是記帳：先把每個節點都當成自由的（平面剛架每點 3 個：水平、垂直、轉角），再一筆一筆扣掉。</p>
+
+{{FIG:fig3_1|圖 3-1｜SA-2025-1 門型剛架的自由度帳本。A、D 是固定端，三個自由度全部被鎖（橘色 ×）。「忽略軸向變形」是兩筆隱藏的扣項：柱不縮短 → B、C 不能上下動（灰色向上箭頭）；梁不伸長 → B、C 一起水平移動，只算一個 \(\Delta\)。最後剩 \(\theta_B,\theta_C,\Delta\) 三個。}}
+
+<div class="derive">
+<p><span class="st">①</span> 節點自由度：4 個節點 × 3 ＝ 12。</p>
+<p><span class="st">②</span> 支承：固定端鎖 3（水平、垂直、轉角）、鉸支承鎖 2（水平、垂直）、滾支承鎖 1（垂直於滾動面）。A、D 固定 → 扣 6。</p>
+<p><span class="st">③</span> 軸向不變形：<b>每根桿扣 1</b>（兩端沿桿軸的位移必須相同）。三根桿 → 扣 3。</p>
+<p><span class="st">④</span> \(12-6-3=\boxed{3}\)，就是 \(\theta_B,\ \theta_C,\ \Delta\)。</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・<a href="problems-view/SA-2018-2.html">SA-2018-2</a> 的 Z 形剛架（A 在 B 正上方、D 在 C 正下方，兩端固定）：一樣是 4 節點、2 固定端、3 根桿 → \(12-6-3=3\)（\(u,\ \theta_B,\ \theta_C\)）✔ 和題解相同。<br>
+・如果<b>不</b>忽略軸向變形，就不扣第 ③ 項，自由度變 6——矩陣大一倍，考場上做不完。所以題目幾乎都寫「忽略軸向變形」，它不是小字，是在幫你砍掉一半的工作。</div>
+
+<div class="trap"><b>陷阱：題目說「忽略軸向變形」，卻還把 \(v_B\)、\(u_B\neq u_C\) 列進去</b><br>
+<a href="problems-view/SA-2015-4.html">SA-2015-4</a> 是經典：題目給了一支水平線性彈簧 \(k_s\)，但因為忽略軸向變形，彈簧兩端的水平位移都是 0，它根本不變形，不會出現在 [K] 裡（第 7 章詳談）。<b>先記帳，再看彈簧接在哪</b>。</div>
+
+<h3>3.2　[K] 的每一行，就是一次「推一下」</h3>
+<p>第 1 章說過，一根彈簧的 [k] 是量出來的。整座結構也一樣：<b>把第 \(j\) 個自由度推動 1、其他全部鎖住，量每個自由度上需要多少力——那一串數字就是 [K] 的第 \(j\) 行</b>。</p>
+
+{{FIG:fig3_3|圖 3-3｜門型剛架的三次單位位移實驗（藍線依 Hermite 形狀函數由節點位移算出）。① 只轉 \(\theta_B\)：B 要 \(4+4=8\)（柱、梁各出 4），C 被梁傳過去 2，柱頂還要水平力 6。② 對稱。③ 只推 \(\Delta\)、轉角鎖住：兩柱各要 12，合計 24；兩個柱頂各要一個逆時針彎矩 6 把轉角扶正。}}
+
+<div class="derive">
+<p><span class="st">①</span> <b>第 1 行（\(\theta_B=1\)）</b>：柱 AB 的頂端轉 1 → 頂端彎矩 \(4EI/L\)、水平力 \(6EI/L^2\)；梁 BC 的 B 端轉 1 → B 端 \(4EI/L\)、C 端 \(2EI/L\)（第 2 章的四個數字）。加起來：
+\(\{K_{11},K_{21},K_{31}\}=\{8EI/L,\ 2EI/L,\ 6EI/L^2\}\)。</p>
+<p><span class="st">②</span> <b>第 2 行（\(\theta_C=1\)）</b>：左右對調 → \(\{2EI/L,\ 8EI/L,\ 6EI/L^2\}\)。</p>
+<p><span class="st">③</span> <b>第 3 行（\(\Delta=1\)）</b>：兩柱頂都往右推 1、轉角鎖住 → 各要 \(12EI/L^3\)，合計 \(24EI/L^3\)；每個柱頂要 \(+6EI/L^2\)。梁兩端只是一起平移，不彎，不出力。</p>
+</div>
+
+<div class="why"><b>為什麼一定要「其他鎖住」？</b><br>
+因為這樣每一次實驗只有<b>一個</b>原因、量到的力才能歸給那一格。真實狀態是三種推法同時發生，S1 的「線性」保證可以疊加：\(\{P\}=\theta_B\{\text{第 1 行}\}+\theta_C\{\text{第 2 行}\}+\Delta\{\text{第 3 行}\}=[K]\{D\}\)。<b>矩陣乘法就是疊加</b>。</div>
+
+<h3>3.3　組裝規則：元素代號對號入座</h3>
+<p>3.2 節是「一行一行量」。考場上更快的做法是：<b>每個元素的小矩陣，照它碰到哪幾個自由度，直接丟進大矩陣，同一格相加</b>。這就是第 1 章 1.4 節預告的「同一節點的勁度相加」。</p>
+
+{{FIG:fig3_2|圖 3-2｜組裝。每個元素先標「代號」（它的兩個端點自由度對應到結構的哪兩個），再把 2×2 的四個數字丟進對應的格子。紫色對角格被兩個元素同時碰到，所以是「4＋4」「12＋12」；θ<sub>B</sub> 與 θ<sub>C</sub> 只有梁同時碰到，所以是 2；兩根柱子沒有共同的轉角，所以柱 AB 不會出現在 θ<sub>C</sub> 那一列。}}
+
+<div class="derive">
+<p><span class="st">①</span> 寫代號：柱 AB → \((\Delta,\theta_B)\)；梁 BC → \((\theta_B,\theta_C)\)；柱 DC → \((\Delta,\theta_C)\)。</p>
+<p><span class="st">②</span> 逐元素加進去（順序 \(\theta_B,\theta_C,\Delta\)）：</p>
+$$[K]=\underbrace{\begin{bmatrix}4L^2&0&6L\\0&0&0\\6L&0&12\end{bmatrix}}_{\text{柱 AB}}+\underbrace{\begin{bmatrix}4L^2&2L^2&0\\2L^2&4L^2&0\\0&0&0\end{bmatrix}}_{\text{梁 BC}}+\underbrace{\begin{bmatrix}0&0&0\\0&4L^2&6L\\0&6L&12\end{bmatrix}}_{\text{柱 DC}}\ \times\frac{EI}{L^3}$$
+<p><span class="st">③</span> 相加得本章開頭那個 3×3。和 3.2 節一行一行量的結果完全一樣（calcs.py：<code>portal_symbolic()</code>）。</p>
+</div>
+
+<div class="check"><b>組完一定要做的三個檢查</b><br>
+・<b>對稱</b>：\(K_{ij}=K_{ji}\)（Maxwell–Betti）。不對稱 → 某個耦合項正負號錯了。<br>
+・<b>對角線全正</b>：推哪裡，那裡一定要同方向的力。對角線出現 0 或負 → 漏了元素或結構不穩定（機構）。<br>
+・<b>零的位置</b>：兩個自由度沒有任何一根桿同時碰到，那一格必定是 0。門型剛架的 [K] 沒有 0，是因為三個自由度兩兩都有一根桿同時碰到。</div>
+
+<h3>3.4　貫穿範例 ②：SA-2025-1 的 [K]</h3>
+<div class="box"><b>接續第 2 章 2.6 節</b>　三個元素的格子已經準備好，自由度帳本也數完（3 個），現在組起來。</div>
+<div class="derive">
+<p><span class="st">①</span> 照 3.3 節相加，順序 \((\theta_B,\theta_C,\Delta)\)：</p>
+$$\begin{Bmatrix}M_B\\M_C\\P\end{Bmatrix}=\frac{EI}{L^3}\begin{bmatrix}8L^2&2L^2&6L\\2L^2&8L^2&6L\\6L&6L&24\end{bmatrix}\begin{Bmatrix}\theta_B\\\theta_C\\\Delta\end{Bmatrix}$$
+<p><span class="st">②</span> 載重向量：側向力 \(P\) 直接作用在 \(\Delta\) 方向，節點上沒有外加彎矩 → \(\{P\}=\{0,\ 0,\ P\}^{\mathsf T}\)。</p>
+<p><span class="st">③</span> 題目要的是「側向勁度」\(P/\Delta\)，而 \(\theta_B,\theta_C\) 是「沒人推、自己會轉」的自由度——這正是第 6 章「靜態凝縮」要做的事。答案 \(84EI/5L^3\) 留到第 6 章收尾。</p>
+</div>
+<div class="trap"><b>陷阱：把 \(K_{33}=24EI/L^3\) 當成側向勁度</b><br>
+\(24EI/L^3\) 是「<b>轉角鎖住</b>」時的勁度（梁無限剛）。真實的梁會讓柱頂轉，勁度只剩 \(84/5=16.8\)，小了 30%。題目要的是後者。</div>
+
+<h3>3.5　支承反力：分割成「自由」與「支承」兩塊</h3>
+<p>把被支承鎖住的自由度也列進來（排在後面），整個方程式分成四塊。因為支承位移是 0，右邊那一欄乘到 0 就消失了：</p>
+
+{{FIG:fig3_5|圖 3-5｜分割。上半部 \([K_{ff}]\{D_f\}=\{P_f\}\) 用來解位移；下半部 \(\{R_s\}=[K_{sf}]\{D_f\}\) 用來算反力——<b>位移解出來以後再乘一次就好</b>，不必重新取自由體。有支承沉陷時 \(\{D_s\}\neq0\)，右邊那欄就不能丟（第 5 章）。}}
+
+<div class="derive">
+<p><span class="st">①</span> 以門型剛架為例：第 6 章會算出 \(\Delta\) 方向推 1 時，兩個節點自己轉到 \(\theta_B=\theta_C=-\dfrac{3}{5L}\)（順時針）。</p>
+<p><span class="st">②</span> 柱底 A 的彎矩反力＝「柱頂推 \(\Delta\) 時底端要的彎矩」＋「柱頂轉 \(\theta\) 時底端拿到的一半」：
+\(M_A=\dfrac{6EI}{L^2}\cdot1+\dfrac{2EI}{L}\cdot\left(-\dfrac{3}{5L}\right)=\boxed{\dfrac{24}{5}\dfrac{EI}{L^2}}\)（每單位 \(\Delta\)）。</p>
+<p><span class="st">③</span> 柱頂彎矩 \(=\dfrac{6EI}{L^2}+\dfrac{4EI}{L}\left(-\dfrac{3}{5L}\right)=\dfrac{18}{5}\dfrac{EI}{L^2}\)；柱剪力 \(=(M_{\text{頂}}+M_{\text{底}})/L=\dfrac{42}{5}\dfrac{EI}{L^3}\)。</p>
+</div>
+<div class="check"><b>極限檢查</b><br>
+・兩柱剪力合計 \(2\times\dfrac{42}{5}=\dfrac{84}{5}\dfrac{EI}{L^3}\)，正好等於側向勁度 × 1 ＝ 施加的側力 ✔（水平力平衡）。<br>
+・柱底彎矩 \(24/5\) 比柱頂 \(18/5\) 大：柱頂被允許轉一點，彎矩被「放掉」一些；柱底完全固定，放不掉 ✔（反曲點因此在柱中點以上）。</div>
+
+<h3>3.6　剛性桿：用約束把未知數綁在一起</h3>
+<p>\(EI=\infty\) 的桿子不會彎，它只能整根平移或轉動。所以它兩端的位移<b>不是獨立的</b>：兩端轉角相同、橫向位移差＝轉角×桿長。這又是記帳的一筆扣項。</p>
+
+<div class="box"><b>題目（<a href="problems-view/SA-2012-4.html">SA-2012-4</a>，2012 第四題）</b>　剛架有二個自由度，a 固接、d 鉸接；ab、bc 的 \(EI\) 為常數，cd 的 \(EI\) 為無限大；\(r_1\)、\(r_2\) 為 b 點與 d 點的轉角（圖上兩箭頭皆順時針）。求 2×2 勁度矩陣。ab 長 \(L\)，bc、cd 各長 \(L/2\)。</div>
+
+{{FIG:fig3_4|圖 3-4｜SA-2012-4，只推 \(r_2\) 的情形（\(r_1\) 鎖住）。剛桿 cd 繞鉸 d 轉 \(r_2\)，c 端跟著轉同一個角度、而且被抬高 \(r_2\times L/2\)。bc 梁因此兩端都被「推」：c 端同時有轉角與上移。藍線由 Hermite 形狀函數算出。}}
+
+<div class="derive">
+<p><span class="st">①</span> 記帳：4 節點 12；a 固定 −3、d 鉸 −2；三桿不伸縮 −3（連帶 \(u_b=u_c=u_d=0\)）；剛桿 cd 綁住 c 的轉角與垂直位移 −2 → \(12-3-2-3-2=\boxed{2}\) ✔ 題目說二個自由度。</p>
+<p><span class="st">②</span> 寫「綁法」（逆時針、向上為正）：\(\theta_b=-r_1\)；\(\theta_c=-r_2\)；\(v_c=+\dfrac L2 r_2\)。排成一個轉換矩陣：
+$$\begin{Bmatrix}v_b\\\theta_b\\v_c\\\theta_c\end{Bmatrix}=\underbrace{\begin{bmatrix}0&0\\-1&0\\0&L/2\\0&-1\end{bmatrix}}_{[T]}\begin{Bmatrix}r_1\\r_2\end{Bmatrix}$$</p>
+<p><span class="st">③</span> 梁 bc 長 \(L/2\)，第 2 章的四個數字變成 \(\dfrac{12EI}{(L/2)^3}=\dfrac{96EI}{L^3}\)、\(\dfrac{6EI}{(L/2)^2}=\dfrac{24EI}{L^2}\)、\(\dfrac{8EI}{L}\)、\(\dfrac{4EI}{L}\)。用 \([K]=[T]^{\mathsf T}[k][T]\)（3.3 節「對號入座」的一般化：一個自由度可以同時推動好幾個端點位移）：</p>
+<p>　\(K_{11}=\underbrace{4EI/L}_{\text{柱 ab}}+\underbrace{8EI/L}_{\text{梁 bc}}=\dfrac{12EI}{L}\)；
+\(K_{22}=\left(\dfrac L2\right)^2\dfrac{96EI}{L^3}+2\cdot\dfrac L2\cdot\dfrac{24EI}{L^2}+\dfrac{8EI}{L}=\dfrac{(24+24+8)EI}{L}=\dfrac{56EI}{L}\)；
+\(K_{12}=-\left[\left(-\dfrac{24EI}{L^2}\right)\dfrac L2+\dfrac{4EI}{L}\cdot(-1)\right]=\dfrac{12EI}{L}+\dfrac{4EI}{L}=\dfrac{16EI}{L}\)（前一項是 c 端被抬高、後一項是 c 端轉動傳回來的「一半」）。</p>
+$$[K]=\frac{EI}{L}\begin{bmatrix}12&16\\16&56\end{bmatrix}=\frac{4EI}{L}\begin{bmatrix}3&4\\4&14\end{bmatrix}$$
+</div>
+<div class="check"><b>極限檢查</b><br>
+・與題解 \(\dfrac{4EI}{L}\begin{bmatrix}3&4\\4&14\end{bmatrix}\) 相同 ✔（calcs.py：<code>rigid_bar_2012()</code>）。<br>
+・兩個轉角都以順時針為正，或都以逆時針為正，[K] 完全一樣——兩個自由度一起變號，\(K_{12}\) 的號不變 ✔。只翻一個才會讓 \(K_{12}\) 變號。<br>
+・\(K_{22}\) 很大（56）：剛桿是一根長槓桿，轉一點點就把 bc 梁的 c 端抬高，梁要出很大的力 ✔。<br>
+・正定：\(12\times56-16^2=416>0\) ✔，結構穩定。</div>
+<div class="why"><b>「綁法」是通用工具</b>：剛性樓板（同層水平位移相同）、剛性梁（兩端轉角相同、柱頂只剩平移）、斜向滾支承（位移只能沿滾動面）——全部都是「寫出 \(\{d_{\text{元素}}\}=[T]\{D\}\)、再算 \([T]^{\mathsf T}[k][T]\)」。第 4 章的座標轉換也是同一招，只是 [T] 變成 \(\cos\)、\(\sin\)。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜自由度帳本</div>
+<ol>
+<li><b>畫</b>：每個節點三個符號（→、↑、↺），支承打 ×</li>
+<li><b>種子</b>：S1（只有會動的才需要量）</li>
+<li><b>推</b>：節點×3 − 支承（固 3／鉸 2／滾 1）− 每根不伸縮桿 1 − 剛桿 2</li>
+<li><b>檢查</b>：剩下的每一個都能畫出「只動它、其他不動」的變形圖</li>
+</ol>
+</div>
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜組裝與反力</div>
+<ol>
+<li><b>畫</b>：每個元素一張 2×2 卡片，旁邊寫代號</li>
+<li><b>種子</b>：S1（同時推，力相加）</li>
+<li><b>推</b>：代號對號入座、同格相加；反力＝\([K_{sf}]\{D_f\}\)</li>
+<li><b>檢查</b>：對稱、對角正、沒共用桿的格子為 0；反力總和＝外力</li>
+</ol>
+</div>
+
+<h3>3.7　🙈 蓋住重推</h3>
+<details><summary>Q1　Z 形剛架（SA-2018-2）：A 在 B 正上方、D 在 C 正下方，兩端固定、忽略軸向變形。自由度幾個？是哪些？</summary>
+<p>\(12-6-3=3\)：\(u\)（B、C 一起水平移動）、\(\theta_B\)、\(\theta_C\)。</p></details>
+<details><summary>Q2　門型剛架 [K] 的 \(K_{12}\)（θ<sub>B</sub> 列、θ<sub>C</sub> 行）為什麼是 \(2EI/L\)，不是 \(4EI/L\) 或 0？</summary>
+<p>只有梁 BC 同時碰到 θ<sub>B</sub> 與 θ<sub>C</sub>；推 θ<sub>C</sub>＝1 時，梁在遠端 B 出「一半」\(2EI/L\)（第 2 章 2.3）。兩根柱各自只碰到一個轉角，不貢獻。</p></details>
+<details><summary>Q3　組完 [K] 發現 \(K_{13}=6EI/L^2\) 但 \(K_{31}=-6EI/L^2\)。錯在哪裡？</summary>
+<p>[K] 必須對稱。通常是某一個元素的耦合項正負號判斷錯了——回第 2 章 2.6 用圖重新判斷「推 Δ 時柱頂要哪個方向的彎矩」。</p></details>
+<details><summary>Q4　門型剛架側推 \(\Delta=1\) 時，柱底彎矩是多少？怎麼不重新取自由體就得到？</summary>
+<p>\(\{R_s\}=[K_{sf}]\{D_f\}\)：\(M_A=\dfrac{6EI}{L^2}\cdot1+\dfrac{2EI}{L}\cdot\left(-\dfrac{3}{5L}\right)=\dfrac{24}{5}\dfrac{EI}{L^2}\)。</p></details>
+<details><summary>Q5　剛桿 cd 繞 d 轉 \(r_2\)，c 在 d 左邊 \(L/2\)。c 的垂直位移與轉角各是多少？</summary>
+<p>轉角＝\(r_2\)（同一根剛體）；垂直位移＝\(r_2\times L/2\)，順時針轉時 d 左邊的點往上。</p></details>
+
+<h3>3.8　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>忘了「忽略軸向變形」也要扣自由度</td><td>每根不伸縮桿扣 1。門型剛架只剩 3 個，不是 6 個。</td></tr>
+<tr><td>2</td><td>把 \(K_{33}=24EI/L^3\) 當側向勁度</td><td>那是轉角鎖住的值；真正的側向勁度要凝縮（第 6 章）。</td></tr>
+<tr><td>3</td><td>組完不檢查對稱</td><td>[K] 一定對稱、對角線一定正，這是最便宜的除錯工具。</td></tr>
+<tr><td>4</td><td>反力重新取自由體算，花時間又容易錯號</td><td>\(\{R_s\}=[K_{sf}]\{D_f\}\)，位移解出來後乘一次。</td></tr>
+<tr><td>5</td><td>剛桿兩端各給一個獨立轉角</td><td>\(EI=\infty\)：兩端轉角相同、橫向位移差＝轉角×長度；用 [T] 綁住。</td></tr>
+<tr><td>6</td><td>兩個轉角約定一個順時針、一個逆時針</td><td>同一題全部用同一種約定；只翻一個會讓交叉項變號。</td></tr>
+</table>
+</section>

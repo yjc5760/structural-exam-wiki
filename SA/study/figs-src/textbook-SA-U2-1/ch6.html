@@ -1,0 +1,118 @@
+<section id="ch6">
+<h2>第 6 章　桁架、彈簧、梁＋桁架：把每根構件都當成彈簧</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$\frac{\partial U}{\partial X}=\sum\frac{N\,(\partial N/\partial X)\,L}{EA}+\frac{X}{k}+\int\frac{M\,(\partial M/\partial X)}{EI}dx=0$$
+並且用一張表格把桁架的最小功算完；看懂「彈簧＝一根長 \(EA/k\) 的桿件」；知道混合結構的答案為什麼會帶著 \(\alpha=EI/EA\)。<br>
+用到的種子：<span class="kw">S2</span>（每根構件各存一個三角形的能量，全部相加）、<span class="kw">S3</span>（桿件、彈簧、梁都是彈簧，只是勁度不同）。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:26%">證據（單元總覽）</th><th style="width:9%">本章</th></tr>
+<tr><td>軸力應變能 \(\sum N^2L/2EA\)（第 1 章）用在最小功</td><td><span class="tg must">必背</span></td><td>2012-2、2019-1、2006-1、2018-3</td><td>6.1</td></tr>
+<tr><td>彈簧應變能 \(R^2/2k\)（等效柔度 \(1/k\)）</td><td><span class="tg must">必背</span></td><td>2012-2（\(K_s=2500\) kN/m）</td><td>6.2</td></tr>
+<tr><td>單位力法兩項 \(\int mM/EI+\sum nNL/EA\)</td><td><span class="tg must">必背</span></td><td>2006-1 梁＋桁架兩項都要</td><td>6.3</td></tr>
+<tr><td>材料與斷面數值 \(EA\)、\(K_s\)</td><td><span class="tg give">會給</span></td><td>2012-2 給 \(EA=10000\) kN、\(K_s=2500\) kN/m</td><td>6.1</td></tr>
+</table>
+</div>
+
+<!-- ======================================================== 6.1 -->
+<h3>6.1　桁架的最小功：一張表就算完</h3>
+<p>桁架沒有彎矩，只有軸力。第 1 章的 \(\sum N^2L/2EA\) 代進第 3 章的 S4：</p>
+<div class="derive">
+<p><span class="st">①</span> 選多餘力 \(X\)（一根多餘桿的軸力、或一個多餘反力），用節點法（S1）把<b>每一根桿</b>的軸力寫成 \(N=N_0+n\,X\)。</p>
+<p><span class="st">②</span> S4：\(\dfrac{\partial U}{\partial X}=\displaystyle\sum\frac{N\,n\,L}{EA}=0\)（\(n=\partial N/\partial X\)，就是 \(X=1\) 時的桿力）。</p>
+<p><span class="st">③</span> \(EA\) 各桿相同就消掉，剩下一張表：每列算 \(N\cdot n\cdot L\)，最後一欄加總令它 \(=0\)。</p>
+</div>
+
+<div class="box"><b>題目（<a href="problems-view/SA-2012-2.html">SA-2012-2</a>）</b>：桁架 a 鉸、c 滾，b 點下方有軸向線彈性彈簧 \(K_s=2500\) kN/m；各桿 \(EA=10000\) kN；d 點受 40 kN 向下、20 kN 向右。以最小功法求各桿內力（他法不計分）。</div>
+
+<p>未知：a 2 個、c 1 個、彈簧 1 個 ＝ 4，平衡 3 條，<b>一度靜不定</b>。多餘力 \(X\)＝彈簧往上頂 b 的力。節點法得到每根桿的 \(N(X)\)：</p>
+<table>
+<tr><th>桿</th><th>\(L\)（m）</th><th>\(N\)（拉為正）</th><th>\(n=\partial N/\partial X\)</th><th>\(N\,n\,L\)</th></tr>
+<tr><td>ab</td><td>4</td><td>\(30-\tfrac12X\)</td><td>\(-\tfrac12\)</td><td>\(X-60\)</td></tr>
+<tr><td>bc</td><td>4</td><td>\(30-\tfrac12X\)</td><td>\(-\tfrac12\)</td><td>\(X-60\)</td></tr>
+<tr><td>ad</td><td>\(4\sqrt2\)</td><td>\(-10\sqrt2+\tfrac{\sqrt2}2X\)</td><td>\(\tfrac{\sqrt2}2\)</td><td>\(2\sqrt2X-40\sqrt2\)</td></tr>
+<tr><td>cd</td><td>\(4\sqrt2\)</td><td>\(-30\sqrt2+\tfrac{\sqrt2}2X\)</td><td>\(\tfrac{\sqrt2}2\)</td><td>\(2\sqrt2X-120\sqrt2\)</td></tr>
+<tr><td>bd</td><td>4</td><td>\(-X\)</td><td>\(-1\)</td><td>\(4X\)</td></tr>
+<tr style="background:#f3e5f5"><td><b>彈簧</b></td><td colspan="3">\(\dfrac{\partial}{\partial X}\Big(\dfrac{X^2}{2K_s}\Big)=\dfrac{X}{K_s}\)，乘上 \(EA\)：\(\dfrac{EA}{K_s}X=4X\)</td><td>\(4X\)</td></tr>
+</table>
+
+<div class="derive">
+<p><span class="st">④</span> 全部相加：\((10+4\sqrt2)X-(120+160\sqrt2)=0\)
+$$X=\frac{120+160\sqrt2}{10+4\sqrt2}=\frac{-20+280\sqrt2}{17}=22.12\ \text{kN}$$</p>
+<p><span class="st">⑤</span> 回代：ab＝bc＝\(+18.94\)（拉）、ad＝\(+1.50\)（拉）、cd＝\(-26.79\)（壓）、bd＝\(-22.12\)（壓）kN。</p>
+</div>
+
+{{FIG:fig6_1|圖 6-1｜SA-2012-2 的結果。藍色受拉、紅色受壓，線寬和力的大小成正比。豎桿 bd 壓 22.12 kN，正好等於彈簧頂 b 的力——這是節點 b 的垂直平衡，可以拿來驗算。ad 只剩 1.50 kN：彈簧把一大半的載重直接接走了。}}
+
+<div class="trap"><b>陷阱（2012-2）</b>：(1) 漏了彈簧項 → 等於把 b 當成剛性支承，\(X\) 會算成 29.71；(2) 以為「b 有彈簧、c 有滾支承」就是靜定 → 彈簧力是未知數，要數進去；(3) 表格裡忘了把斜桿的長度 \(4\sqrt2\) 乘進去。</div>
+
+<!-- ======================================================== 6.2 -->
+<h3>6.2　種子 S3：彈簧就是一根長 \(EA/k\) 的桿</h3>
+<div class="derive">
+<p><span class="st">①</span> 桿件：\(U=N^2\cdot\dfrac{L}{EA}\cdot\dfrac12\)；彈簧：\(U=X^2\cdot\dfrac1k\cdot\dfrac12\)。兩者的「柔度」分別是 \(L/EA\) 和 \(1/k\)。</p>
+<p><span class="st">②</span> 整條式子乘以 \(EA\)：桿的柔度變成 \(L\)，彈簧的變成 \(EA/k\)。</p>
+<p><span class="st">③</span> 所以表格裡<b>彈簧就是多一列「長度 \(EA/k\)、\(n=1\)」的桿</b>。2012-2：\(EA/K_s=10000/2500=4\) m，和其他桿一樣長。</p>
+</div>
+
+{{FIG:fig6_2|圖 6-2｜\(X\) 隨 \(EA/K_s\) 的變化：\(X=\dfrac{40(3+4\sqrt2)}{6+4\sqrt2+EA/K_s}\)。左端 \(K_s\to\infty\)（彈簧無限硬）：\(X=29.71\)，就是「b 為剛性支承」的答案；右端 \(K_s\to0\)：\(X\to0\)，彈簧等於不存在，結構退回靜定桁架。本題 4 m 落在中間。}}
+
+<div class="check"><b>極限檢查（每一題有彈簧的題目都能用）</b>：把 \(k\to\infty\) 與 \(k\to0\) 代進你的答案，看是不是分別回到「支承」與「沒有支承」的那兩題。兩個都對，中間的數字就很難錯。</div>
+
+<!-- ======================================================== 6.3 -->
+<h3>6.3　梁＋桁架：兩種能量一起進 \(U\)，答案帶著 \(\alpha=EI/EA\)</h3>
+<div class="box"><b>題目（<a href="problems-view/SA-2006-1.html">SA-2006-1</a>）</b>：梁 AE 支承在 A（滾）與桁架上弦的 B、D（滾支承），桁架 F、G 為鉸支承；梁上 \(x=15\)、\(25\) m 各受 10 kN。\(E\)、\(I\)、\(A\) 為常數，求 J 點（桁架下弦中點）垂直變位。</div>
+<div class="derive">
+<p><span class="st">①</span> <b>數 \(n\)</b>：梁與桁架之間有 B、D 兩個接觸力，F、G 兩個鉸各 2 個反力……整體數下來二度：多餘力選 \(R_D\)（D 點梁與桁架之間的力）與 \(H\)（桁架鉸支承的水平力）。</p>
+<p><span class="st">②</span> <b>S2：能量相加</b>：\(U=\displaystyle\int\frac{M^2}{2EI}dx\big|_\text{梁}+\sum\frac{N^2L}{2EA}\big|_\text{桁架}\)。</p>
+<p><span class="st">③</span> \(\partial U/\partial H=0\)：只有上弦四根含 \(H\)，得 \(H=R_D-20\)。\(\partial U/\partial R_D=0\)：
+$$\frac{4000R_D-32500}{EI}+\frac{(160+120\sqrt2)R_D-(2000+1600\sqrt2)}{EA}=0$$
+兩邊乘 \(EI\)，令 \(\alpha=EI/EA\)：
+$$R_D=\frac{812.5+\alpha(50+40\sqrt2)}{100+\alpha(4+3\sqrt2)}$$</p>
+<p><span class="st">④</span> <b>J 點變位（單位力法，第 2 章）</b>：虛力系統自己選——切斷 \(R_D\)、G 改成滾支承，梁上沒有虛彎矩（\(m=0\)），只剩桁架項 \(\sum nNL/EA\)：
+\(\Delta_J=\dfrac{20(1+\sqrt2)(20-R_D)}{EA}\)（向下）。</p>
+</div>
+
+{{FIG:fig6_3|圖 6-3｜答案隨 \(\alpha=EI/EA\)（對數軸）的變化。(a) \(R_D\)：\(\alpha\to0\)（桁架不會變形）時 8.125 kN，\(\alpha\to\infty\)（梁不會彎）時 12.93 kN。(b) \(\Delta_J\cdot EA\)：從 573.4 降到 341.4。實際斷面 \(\alpha=I/A=r^2\) 只有約 0.01 m²，已經非常接近左端的極限。}}
+
+<div class="why"><b>為什麼答案一定帶著 \(\alpha\)？</b>最小功法在問「能量怎麼分配最省」。梁存能量的難易由 \(EI\) 決定，桁架由 \(EA\) 決定；誰比較軟，誰就多分一點力——所以答案只會和兩者的<b>比值</b>有關。題目只說「\(E\)、\(I\)、\(A\) 為常數」不給數字，答案就必須保留 \(\alpha\)；擅自假設「梁剛性無限大」等於直接取到曲線的一個端點。</div>
+
+<div class="trap"><b>2006-1 的兩個坑</b>：(1) <b>漏掉水平多餘力 \(H\)</b>：F、G 都是鉸，桁架受載會往外撐，不能直接令 \(H=0\)。(2) <b>A 點反力是負的</b>：\(R_A=2R_D-20\)，實際斷面（\(\alpha\approx0.01\)）時 \(R_D\approx8.125\)，\(R_A\approx-3.75\) kN——梁端 A 被<b>往下拉住</b>。題解把 A 當成能受拉的滾支承；如果 A 只能受壓，A 會離開支承，要重算（題解 §4 有另算：\(\Delta_J=200(1+\sqrt2)/EA\)）。這和第 7 章的纜索是同一種「先假設、再檢查」。</div>
+
+<!-- ======================================================== 重建 -->
+<div class="rebuild"><div class="rb-h">🧩 30 秒重建卡：桁架、彈簧、混合</div>
+<ol>
+<li><b>S2</b>：\(U=\)每根構件的 \(\tfrac12\)力×變形 相加（桿 \(N^2L/2EA\)、簧 \(X^2/2k\)、梁 \(\int M^2/2EI\)）。</li>
+<li><b>S4</b>：\(\sum Nn L/EA+X/k+\int Mm/EI=0\)。</li>
+<li><b>表格</b>：桿｜\(L\)｜\(N(X)\)｜\(n\)｜\(NnL\)；彈簧多一列「長 \(EA/k\)」。</li>
+<li><b>檢查</b>：\(k\to\infty\) 回到剛性支承；\(k\to0\) 回到沒有支承；混合結構 \(\alpha\to0\)、\(\alpha\to\infty\) 兩端各有意義。</li>
+</ol>
+</div>
+
+<h3>🙈 蓋住重推</h3>
+<details><summary>Q1　桁架最小功的表格要哪五欄？</summary>
+<p>桿名、長度 \(L\)、桿力 \(N(X)\)、\(n=\partial N/\partial X\)、\(N\,n\,L\)（\(EA\) 不同時再除以各自的 \(EA\)）。</p></details>
+<details><summary>Q2　\(EA=10000\) kN、\(k=2500\) kN/m，彈簧在表裡等於多長的桿？</summary>
+<p>\(EA/k=4\) m，\(n=1\)。</p></details>
+<details><summary>Q3　SA-2012-2 若彈簧換成剛性支承，\(X\) 是多少？怎麼得到？</summary>
+<p>把 \(EA/k\) 那一列拿掉：\((6+4\sqrt2)X=120+160\sqrt2\)，\(X=29.71\) kN。</p></details>
+<details><summary>Q4　梁＋桁架的答案為什麼只和 \(EI/EA\) 有關？</summary>
+<p>\(\partial U/\partial R=0\) 裡梁項除以 \(EI\)、桁架項除以 \(EA\)，同乘 \(EI\) 後只剩比值 \(\alpha\)。</p></details>
+<details><summary>Q5　求 J 點變位時，虛力系統一定要和原結構一樣二度靜不定嗎？</summary>
+<p>不用。虛力系統只要滿足平衡，選最省事的靜定結構即可（2006-1 選讓梁 \(m=0\) 的那一個）。</p></details>
+
+<h3>本章陷阱總表</h3>
+<table>
+<tr><th style="width:34%">陷阱</th><th>怎麼避開</th><th style="width:15%">題號</th></tr>
+<tr><td>彈簧沒進 \(U\)</td><td>畫了彈簧就多一列 \(EA/k\)；用 \(k\to\infty\) 驗算</td><td>2012-2</td></tr>
+<tr><td>彈簧力沒算進未知數，誤判靜定</td><td>彈簧力是一個未知反力</td><td>2012-2</td></tr>
+<tr><td>斜桿長度沒乘進去</td><td>表格一定有 \(L\) 欄</td><td>2012-2、2019-1</td></tr>
+<tr><td>混合結構只算梁或只算桁架</td><td>兩種能量都進 \(U\)；答案保留 \(\alpha\)</td><td>2006-1</td></tr>
+<tr><td>漏掉桁架的水平多餘力</td><td>兩個鉸支承之間一定要問「水平力算得出來嗎」</td><td>2006-1</td></tr>
+<tr><td>反力解出負值卻沒檢查支承能不能拉</td><td>滾支承、纜索：負值就要回頭檢查（第 7 章）</td><td>2006-1</td></tr>
+</table>
+</section>

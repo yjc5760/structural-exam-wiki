@@ -1,0 +1,180 @@
+<section id="ch4">
+<h2>第 4 章　剛性樓板扭轉：剛心、\(K_\theta\)、各柱剪力</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$x_r=\frac{\sum k_{y}x}{\sum k_{y}},\quad y_r=\frac{\sum k_{x}y}{\sum k_{x}},\quad M_t=F\,e,\quad K_\theta=\sum k_x y'^2+\sum k_y x'^2,\quad u_i=\Delta_x-\theta y_i',\ \ v_i=\Delta_y+\theta x_i'$$
+並且算完 SA-2021-4：C3、C4 柱頂位移與柱底雙向剪力。<br>
+要記的只有三顆種子：<span class="kw">S4 剛性樓板只剩 u、v、θ</span>、<span class="kw">S7 剛體轉 θ，距離 r 走 rθ</span>、<span class="kw">S2 並聯力照勁度分</span>。第 1 章的柱彈簧 \(k=12EI/h^3\) 是積木。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>剛性約束降自由度：剛性樓板 ⇒ \((u,v,\theta)\) 3 自由度</td><td><span class="tg must">必背</span></td><td>4.1</td></tr>
+<tr><td>剛心 \(x_r=\sum k_y x/\sum k_y\)、\(y_r=\sum k_x y/\sum k_x\)</td><td><span class="tg must">必背</span></td><td>4.2</td></tr>
+<tr><td>偏心扭矩與扭轉勁度 \(M_t=Fe\)、\(K_\theta=\sum k_xy'^2+\sum k_yx'^2\)、\(\theta=M_t/K_\theta\)</td><td><span class="tg must">必背</span></td><td>4.3、4.4</td></tr>
+<tr><td>樓板剛體運動 → 各柱位移與剪力 \(u_i=\Delta_x-\theta y_i'\)、\(v_i=\Delta_y+\theta x_i'\)、\(V=k\cdot\)位移</td><td><span class="tg must">必背</span></td><td>4.5</td></tr>
+<tr><td>層間位移 \(\Delta_y=F_y/\sum k_y\)（第 2 章）</td><td><span class="tg must">必背</span></td><td>4.5</td></tr>
+<tr><td>題目數據：\(EI_d\)、\(EI_e\)、柱位、樓高、載重</td><td><span class="tg give">會給</span></td><td>—</td></tr>
+</table>
+<p class="note">證據（單元總覽）：<a href="problems-view/SA-2021-4.html">SA-2021-4</a> 是本單元唯一的立體題，風險表列「高」。考卷只在括號裡定義剛性樓板（平面內剛度無限大），剛心、扭轉勁度、柱位移的公式一條都沒給。U3-1 的 2017-4 以文字考過同一個觀念（剪力牆配置造成偏心扭轉）。</p>
+</div>
+
+<h3>4.1　種子 S4＋S7：整片樓板只能平移和轉</h3>
+<p>第 2 章的剛性梁讓「一層樓只剩一個側移」。換成<b>剛性樓板</b>（平面內不變形），樓板在水平面上就像一塊硬紙板：可以往 \(x\) 推、往 \(y\) 推、繞垂直軸轉——<b>只有三個自由度 \(u, v, \theta\)</b>，不管底下有幾根柱。</p>
+
+<div class="seed"><div class="seed-h">🌱 種子 S7｜剛體轉一個小角度 θ：距轉心 r 的點走 rθ，方向垂直 r</div>
+$$\text{點 }(x,y)\text{ 繞原點轉 }\theta\ (\text{逆時針 +})：\qquad \Delta x=-\theta\,y,\qquad \Delta y=+\theta\,x$$
+</div>
+
+{{FIG:fig4_1|圖 4-1｜(a) 樓板繞 O 轉 θ（放大成 9° 示意）：點 \((x,y)\) 沿著垂直 \(r\) 的方向走 \(r\theta\)。把這段位移拆成兩個方向：往左 \(\theta y\)、往上 \(\theta x\)。(b) 剛性樓板只剩參考點的 \((u,v)\) 與轉角 \(\theta\)。每根柱的柱頂位移都由這三個數決定——<b>柱再多也不會增加未知數</b>。}}
+
+<div class="derive">
+<p><span class="st">①</span> 轉 \(\theta\) 時，點 \(P\) 沿圓弧走 \(r\theta\)，方向垂直 \(\overline{OP}\)（小角度，弧＝弦）。</p>
+<p><span class="st">②</span> 垂直 \((x,y)\) 的方向是 \((-y,\ x)/r\)，所以位移 \(=r\theta\cdot(-y,\ x)/r=\theta(-y,\ x)\)：
+$$\boxed{\Delta x=-\theta y,\qquad \Delta y=+\theta x}$$</p>
+<p><span class="st">③</span> 再加上參考點的平移 \((u,v)\)，量到參考點的座標記作 \((x_i',y_i')\)：
+$$\boxed{u_i=u-\theta\,y_i',\qquad v_i=v+\theta\,x_i'}$$</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・\(\theta=0\)：每根柱位移都是 \((u,v)\) ✔ 純平移<br>
+・點在參考點上（\(x'=y'=0\)）：只剩平移 ✔ 轉心自己不動<br>
+・點在參考點正右方（\(y'=0,\ x'>0\)）、\(\theta>0\)（逆時針）：\(\Delta x=0\)、\(\Delta y>0\)，往上走 ✔ 右邊的點逆時針轉當然往上</div>
+
+<div class="trap"><b>陷阱：正負號</b>
+\(-\theta y\) 的負號最容易掉。記畫面，不要記式子：<b>逆時針轉時，上面的點往左、右邊的點往上</b>。作答第一行寫「θ 逆時針為正、\(x\) 右 \(y\) 上為正」。</div>
+
+<h3>4.2　剛心：只平移時，柱力的合力落在哪裡</h3>
+<p>先問一個簡單的問題：如果樓板<b>只往 \(y\) 平移 \(v\)、不轉</b>，各柱出多少力？合力在哪？</p>
+
+{{FIG:fig4_2|圖 4-2｜SA-2021-4（C1、C3 勁度 \(k\)；C2、C4 勁度 \(5k\)）。(a) 只往 \(y\) 平移：每根柱出 \(k_y v\)，右邊兩根是左邊的 5 倍，合力 \(12kv\) 落在 \(x=2\) m——這條線就是<b>剛心</b>的位置。(b) 外力 4×27＝108 kN 的合力在幾何中心 \(x=0\)，離剛心 2 m：多出一個順時針扭矩 \(108\times2=216\) kN-m。}}
+
+<div class="derive">
+<p><span class="st">①</span> 只平移 \(v\)：每根柱位移都是 \(v\)，力 \(k_{yi}v\)（S2 並聯），合力 \(\big(\sum k_y\big)v\)。</p>
+<p><span class="st">②</span> 合力的位置：對原點取力矩，合力×\(x_r\) ＝ 各柱力×各自的 \(x\)：
+$$\Big(\sum k_y\Big)v\cdot x_r=\sum k_{yi}v\,x_i\quad\Longrightarrow\quad\boxed{x_r=\frac{\sum k_{y}x}{\sum k_{y}}}$$
+同理往 \(x\) 平移，合力的高度 \(\boxed{y_r=\dfrac{\sum k_{x}y}{\sum k_{x}}}\)。</p>
+<p><span class="st">③</span> 意義：<b>外力剛好通過剛心時，樓板只平移不轉</b>；外力偏離剛心 \(e\)，就多一個扭矩 \(\boxed{M_t=F\,e}\)。</p>
+<p><span class="st">④</span> SA-2021-4：\(x_r=\dfrac{k(-3)+5k(3)+k(-3)+5k(3)}{12k}=\dfrac{24k}{12k}=2\) m；\(y_r=\dfrac{k(-2)+5k(-2)+k(2)+5k(2)}{12k}=0\)。剛心在 \((2,0)\)。
+外力合力 108 kN 在 \(x=0\)：\(M_t=F_y(x_F-x_r)=108\times(0-2)=-216\) kN-m（負＝順時針）。</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・四根柱一樣粗：\(x_r=0\)，剛心在中心，外力不產生扭矩 ✔<br>
+・只有一根柱有勁度：剛心就在那根柱上 ✔<br>
+・剛心就是「勁度的重心」：把 \(k\) 當重量，找重心 ✔——這是記法，也正是推導的內容</div>
+
+<div class="trap"><b>陷阱：\(x_r\) 要用 \(y\) 向勁度</b>
+\(x_r\) 是「往 \(y\) 推時合力的 \(x\) 位置」，所以用 \(k_y\)；\(y_r\) 用 \(k_x\)。交叉配錯是典型失誤。本題兩向勁度相同所以看不出來；若某根柱是牆或扁柱（兩向不同），一配錯就錯。<b>畫圖 4-2(a)：往哪個方向推，就用那個方向的 \(k\)</b>。</div>
+
+<h3>4.3　扭轉勁度 \(K_\theta\)：繞剛心轉，每根柱都在兩個方向出力</h3>
+
+{{FIG:fig4_3|圖 4-3｜樓板繞剛心轉 \(\theta\)（順時針示意）：每根柱沿垂直 \(r'\) 的方向走 \(r'\theta\)（S7），在 \(x\)、\(y\) 兩個方向都要出力，都對剛心產生力矩。離剛心越遠，走得越多、力越大、力臂也越長——所以貢獻是 \(k\,r'^2\)。}}
+
+<div class="derive">
+<p><span class="st">①</span> 繞剛心轉 \(\theta\)（S7，量到剛心的座標 \(x',y'\)）：柱位移 \((-\theta y',\ \theta x')\)，柱力 \((-k_x\theta y',\ k_y\theta x')\)（S2）。</p>
+<p><span class="st">②</span> 柱力對剛心的力矩（逆時針 +，\(M=x'F_y-y'F_x\)）：
+\(x'(k_y\theta x')-y'(-k_x\theta y')=(k_xy'^2+k_yx'^2)\theta\)。</p>
+<p><span class="st">③</span> 全部加起來就是樓板抵抗扭轉的能力：
+$$M_t=\Big(\sum k_xy'^2+\sum k_yx'^2\Big)\theta\quad\Longrightarrow\quad\boxed{K_\theta=\sum k_xy'^2+\sum k_yx'^2,\qquad \theta=\frac{M_t}{K_\theta}}$$</p>
+<p><span class="st">④</span> SA-2021-4（\(x'=x-2\)）：C1 \((-5,-2)\)、C2 \((1,-2)\)、C3 \((-5,2)\)、C4 \((1,2)\)。
+\(\sum k_xy'^2=4k+20k+4k+20k=48k\)，\(\sum k_yx'^2=25k+5k+25k+5k=60k\)，\(K_\theta=108k=108\times2500=270000\) kN-m/rad。</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・所有柱都擠在剛心上（\(r'=0\)）：\(K_\theta=0\)，樓板一推就轉 ✔——這就是為什麼耐震設計要把剪力牆放在<b>外圍</b><br>
+・柱離剛心距離加倍：貢獻變 4 倍（\(r'^2\)）✔ 一次來自位移變大、一次來自力臂變長<br>
+・單位：kN/m × m² ＝ kN-m/rad ✔</div>
+
+<div class="why"><b>為什麼平移和轉動可以分開算？</b>
+以剛心為參考點時：只平移 → 合力剛好過剛心 → 對剛心沒有力矩；只轉動 → 各柱力的 \(x\) 向合計 \(-\theta\sum k_xy'=0\)、\(y\) 向合計 \(\theta\sum k_yx'=0\)（剛心的定義就是 \(\sum k_yx'=0\)、\(\sum k_xy'=0\)）→ 沒有淨力。
+兩件事互不干擾，所以 \(\Delta_y=F_y/\sum k_y\)、\(\theta=M_t/K_\theta\) 可以各自算完再相加。<b>參考點選在別處就會耦合</b>，要解 3×3 聯立（4.5 節第二條路）。</div>
+
+<div class="trap"><b>陷阱：\(x'\)、\(y'\) 量到幾何中心、或漏掉另一個方向的柱</b><br>
+・量到幾何中心：\(\sum k(x^2+y^2)=390000\)，不是 270000——這已經不是對剛心的扭轉勁度。<br>
+・只受 \(y\) 向力就只算 \(\sum k_yx'^2=60k\)：\(\theta=-216/150000=-0.00144\) rad，大了 80%。題目寫「C1 及 C3 柱桿件<b>二個方向</b>的斷面慣性矩都為 \(I_d\)」就是在提示：\(x\) 向的柱也在抵抗扭轉。</div>
+
+<h3>4.4　（貫穿）四步流程</h3>
+<table>
+<tr><th style="width:8%">步</th><th style="width:30%">做什麼</th><th>從哪顆種子</th></tr>
+<tr><td>①</td><td>柱勁度 \(k=12EI/h^3\)</td><td>第 1 章（S1、S5）：梁 \(I=\infty\)＋樓板剛性 → 柱頂不轉</td></tr>
+<tr><td>②</td><td>剛心 \((x_r,y_r)\)、扭矩 \(M_t=Fe\)</td><td>S2：只平移時合力的位置</td></tr>
+<tr><td>③</td><td>平移 \(F/\sum k\)、轉角 \(M_t/K_\theta\)</td><td>S2＋S7：繞剛心轉，柱力對剛心的力矩</td></tr>
+<tr><td>④</td><td>各柱 \(u_i=\Delta_x-\theta y_i'\)、\(v_i=\Delta_y+\theta x_i'\)，剪力 \(=k\times\)位移</td><td>S7（剛體運動）＋S2</td></tr>
+</table>
+
+<h3>4.5　範例：SA-2021-4 一層四柱剛性樓板</h3>
+<div class="box"><b>題目（摘要）</b>　一層樓，樓高 3.6 m，平面 6 m（\(x\)）× 4 m（\(y\)），四柱 C1 左下、C2 右下、C3 左上、C4 右上；柱底固定、梁 \(I=\infty\)、屋頂為剛性樓板。C1、C3 兩向 \(EI_d=9720\) kN-m²；C2、C4 兩向 \(EI_e=48600\) kN-m²。四根柱頂各受 \(+y\) 向 27 kN。求 C3、C4 柱底兩向剪力與柱頂兩向位移。詳見 <a href="problems-view/SA-2021-4.html">SA-2021-4</a>。</div>
+
+<div class="derive">
+<p><span class="st">①</span> <b>柱勁度</b>：\(k_d=\dfrac{12\times9720}{3.6^3}=2500\) kN/m，\(k_e=\dfrac{12\times48600}{3.6^3}=12500\) kN/m＝\(5k_d\)。記 \(k=2500\)，兩向總勁度 \(\sum k_x=\sum k_y=12k=30000\) kN/m。</p>
+<p><span class="st">②</span> <b>剛心與扭矩</b>（4.2 節）：剛心 \((2,0)\)；\(M_t=-216\) kN-m（順時針）。</p>
+<p><span class="st">③</span> <b>扭轉勁度</b>（4.3 節）：\(K_\theta=108k=270000\) kN-m/rad。</p>
+<p><span class="st">④</span> <b>樓板運動</b>：平移 \(\Delta_y=\dfrac{108}{30000}=0.0036\) m＝3.6 mm，\(\Delta_x=0\)；轉角 \(\theta=\dfrac{-216}{270000}=-0.0008\) rad（順時針）。</p>
+<p><span class="st">⑤</span> <b>C3</b>（\(x'=-5,\ y'=2\)，勁度 \(k\)）：
+\(u_3=0-(-0.0008)(2)=+0.0016\) m＝1.6 mm，\(v_3=0.0036+(-0.0008)(-5)=0.0036+0.0040=0.0076\) m＝7.6 mm；
+\(V_{x3}=2500\times0.0016=\boxed{4\ \text{kN}}\)，\(V_{y3}=2500\times0.0076=\boxed{19\ \text{kN}}\)。</p>
+<p><span class="st">⑥</span> <b>C4</b>（\(x'=1,\ y'=2\)，勁度 \(5k\)）：
+\(u_4=0-(-0.0008)(2)=1.6\) mm，\(v_4=0.0036+(-0.0008)(1)=0.0028\) m＝2.8 mm；
+\(V_{x4}=12500\times0.0016=\boxed{20\ \text{kN}}\)，\(V_{y4}=12500\times0.0028=\boxed{35\ \text{kN}}\)。</p>
+</div>
+
+{{FIG:fig4_4|圖 4-4｜SA-2021-4 的結果（位移放大 100 倍）：樓板往上平移 3.6 mm，再繞剛心順時針轉 0.0008 rad。左邊兩根柱離剛心 5 m，多走 4 mm（共 7.6 mm）；右邊兩根離剛心 1 m，少走 0.8 mm（2.8 mm）。綠箭頭是 \(y\) 向剪力，紅箭頭是 \(x\) 向剪力——<b>只受 \(y\) 向力，柱卻有 \(x\) 向剪力</b>。}}
+
+<div class="check"><b>自我檢查（兩條路對帳）</b><br>
+・<b>力平衡</b>：\(\sum V_y=19+35+19+35=108\) kN ✔；\(\sum V_x=+4+20-4-20=0\) ✔（C1、C2 的 \(x\) 向位移是 \(-1.6\) mm）<br>
+・<b>力矩平衡</b>（對幾何中心）：柱力矩 \(\sum(xV_y-yV_x)=0\)，外力四個 27 kN 對稱，力矩也是 0 ✔<br>
+・<b>第二條路：以幾何中心為參考點的 3×3 勁度矩陣</b>（calcs.py 第二條路）：
+$$\begin{bmatrix}30000&0&0\\0&30000&60000\\0&60000&390000\end{bmatrix}\begin{Bmatrix}u\\v\\\theta\end{Bmatrix}=\begin{Bmatrix}0\\108\\0\end{Bmatrix}\ \Rightarrow\ u=0,\ v=5.2\ \text{mm},\ \theta=-0.0008$$
+中心的 \(v=5.2\) mm ＝ 剛心的 3.6 mm ＋ \(\theta\times(0-2)\)＝3.6＋1.6 ✔，各柱位移完全相同。（非對角的 60000 就是「參考點不在剛心」造成的耦合。）<br>
+・<b>剪力只看勁度比</b>：把 EI 讀成一半（舊解的誤讀），位移全部加倍，但剪力 4、19、20、35 kN 不變 ✔——所以剪力對了不代表 EI 讀對，位移才是檢查 EI 的地方。</div>
+
+<div class="trap"><b>陷阱：本題的三個讀題坑</b><br>
+・「kN-m²」的 2 是單位，不是 \(2EI\)：\(EI_d=9720\)，不是 4860（題解 2026-11-07 勘誤）。<br>
+・大斷面柱在<b>右側</b>（C2、C4），剛心偏右；對調就整題鏡射錯。<br>
+・\(k=12EI/h^3\)（梁 \(I=\infty\)、柱底固定），不是 \(3EI/h^3\)。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜剛心與偏心扭矩</div>
+<ol>
+<li><b>畫</b>：平面圖，只往 \(y\) 推，每根柱一支向上箭頭（長度＝\(k_y\)）</li>
+<li><b>種子</b>：S2（平移時柱力照勁度分）</li>
+<li><b>推</b>：合力位置 \(x_r=\sum k_yx/\sum k_y\)；外力偏離 \(e\) → \(M_t=Fe\)</li>
+<li><b>檢查</b>：勁度對稱時剛心在中心、扭矩為 0</li>
+</ol>
+</div>
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜扭轉勁度與柱位移</div>
+<ol>
+<li><b>畫</b>：樓板繞剛心轉 θ，每根柱一支垂直 \(r'\) 的小箭頭</li>
+<li><b>種子</b>：S7（\(\Delta x=-\theta y'\)、\(\Delta y=\theta x'\)）＋S2（力＝\(k\)×位移）</li>
+<li><b>推</b>：力矩 \(k_xy'^2\theta+k_yx'^2\theta\) 加總 → \(K_\theta\)；\(\theta=M_t/K_\theta\)；柱位移＝平移＋轉動；剪力＝\(k\)×位移</li>
+<li><b>檢查</b>：\(\sum V_y=F_y\)、\(\sum V_x=0\)；離剛心越遠走越多</li>
+</ol>
+</div>
+
+<h3>4.6　🙈 蓋住重推</h3>
+<details><summary>Q1　SA-2021-4 若四根柱都是 \(EI_d\)，各柱剪力是多少？會不會有 \(x\) 向剪力？</summary>
+<p>剛心在中心，\(M_t=0\)，樓板只平移：每根柱 \(108/4=27\) kN（\(y\) 向），沒有 \(x\) 向剪力。位移 \(108/(4\times2500)=10.8\) mm。</p></details>
+<details><summary>Q2　剛心在 (2, 0)，為什麼 C3 的位移比 C4 大那麼多？</summary>
+<p>樓板順時針轉，剛心以左的點往上多走、以右的點往上少走。C3 離剛心 \(x'=-5\)，多走 \(0.0008\times5=4\) mm；C4 在 \(x'=+1\)，少走 0.8 mm。</p></details>
+<details><summary>Q3　寫出 \(K_\theta\) 的推導第一行。</summary>
+<p>繞剛心轉 θ，柱位移 \((-\theta y',\ \theta x')\)，柱力 \((-k_x\theta y',\ k_y\theta x')\)，對剛心的力矩 \(x'F_y-y'F_x=(k_xy'^2+k_yx'^2)\theta\)。</p></details>
+<details><summary>Q4　只受 \(y\) 向力，C3 柱的 \(x\) 向剪力為什麼不是 0？方向如何？</summary>
+<p>樓板在轉，C3 在剛心上方 \(y'=2\)，順時針轉時往右走 \(-\theta y'=+1.6\) mm，所以有 \(+x\) 向剪力 4 kN。C1 在剛心下方，往左 4 kN，兩者相消。</p></details>
+
+<h3>4.7　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>\(x_r\) 用 \(k_x\)</td><td>往 \(y\) 推時合力的 \(x\) 位置 → 用 \(k_y\)（畫圖 4-2a）。</td></tr>
+<tr><td>2</td><td>\(x',y'\) 量到幾何中心</td><td>\(K_\theta\) 與柱位移都量到<b>剛心</b>；量到別處要解 3×3 聯立。</td></tr>
+<tr><td>3</td><td>\(K_\theta\) 只算 \(\sum k_yx'^2\)</td><td>轉動時每根柱兩向都動，兩向都出力：再加 \(\sum k_xy'^2\)。</td></tr>
+<tr><td>4</td><td>漏掉 \(x\) 向位移與剪力</td><td>只受 \(y\) 向力也會有 \(x\) 向：\(u_i=-\theta y_i'\)。題目問「二個方向」。</td></tr>
+<tr><td>5</td><td>\(-\theta y\) 的負號掉了</td><td>畫面：逆時針轉時上方的點往左。</td></tr>
+<tr><td>6</td><td>EI 讀成一半</td><td>「kN-m²」的 2 是單位指數。剪力不受影響、位移會加倍。</td></tr>
+<tr><td>7</td><td>沒做平衡檢查</td><td>\(\sum V_y=F\)、\(\sum V_x=0\)、力矩平衡，三行抓出大部分錯。</td></tr>
+</table>
+</section>

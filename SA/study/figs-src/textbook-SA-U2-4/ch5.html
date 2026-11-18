@@ -1,0 +1,174 @@
+<section id="ch5">
+<h2 class="k">第 5 章　載重向量與回代：先鎖住，再放開</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$\{P\}=\{P_{\text{節點}}\}-\{f_F\},\qquad \{f\}=[k]\{d\}+\{f_F\},\qquad M_F^{\text{均布}}=\frac{wL^2}{12},\quad M_F^{\text{中央}}=\frac{PL}{8}$$
+並且會處理三種「不是直接打在節點上」的東西：<b>跨間載重</b>、<b>製造誤差（溫度）</b>、<b>支承沉陷</b>。<br>
+要記的只有 <span class="kw">S5 先鎖住，再放開</span>。固端彎矩不用背表：用 S3 的「\(M/EI\) 面積＝轉角變化」一行就推出來。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>等效節點載重 \(\{P_{eq}\}=-\{f_F\}\)（固端力反號）</td><td><span class="tg must">必背</span></td><td>5.1</td></tr>
+<tr><td>固端彎矩 \(wL^2/12\)、\(PL/8\)；固端剪力＝簡支反力</td><td><span class="tg must">必背</span></td><td>5.2</td></tr>
+<tr><td>回代 \(\{f\}=[k]\{d\}+\{f_F\}\)（<b>別忘了加回固端力</b>）</td><td><span class="tg must">必背</span></td><td>5.1、5.3</td></tr>
+<tr><td>製造誤差／溫度：鎖住時的桿力 \(T_0=\dfrac{EA}{L}\Delta L_0\)，\(\{P_{eq}\}=T_0\{c,s\}\)（指向使桿恢復的方向）</td><td><span class="tg must">必背</span></td><td>5.4</td></tr>
+<tr><td>支承沉陷：\(\{P_f\}\mathrel{-}=[K_{fs}]\{D_s\}\)</td><td><span class="tg must">必背</span></td><td>5.5</td></tr>
+</table>
+<p class="note">證據（單元總覽）：2004-4、2008-4、2018-2 三題都有跨間載重要換成節點載重；2019-4 一題就有柱中點集中力、梁上均布、遠端鉸三種（第 7 章）；2011-4 的「AC 桿短 0.02 m」是本單元唯一的製造誤差題。固端彎矩表 24 年沒印過，題目也不會提醒你「要先算固端力」。</p>
+</div>
+
+<h3>5.1　種子 S5：先鎖住，再放開</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S5｜真實狀態 ＝ 鎖住狀態 ＋ 放開狀態</div>
+$$\text{(a) 真實}\;=\;\text{(b) 所有節點鎖住，只受跨間載重}\;+\;\text{(c) 拿掉鎖，節點受「鎖的反力」反向}$$
+</div>
+<p>矩陣法只會處理「力作用在自由度上」。跨間載重不在自由度上，怎麼辦？<b>先借</b>：把所有節點鎖住，梁變成一根根兩端固定梁，每根各自承受自己的載重，鎖頭要出的力就是<b>固端力</b>。<b>再還</b>：真實結構沒有鎖，所以把鎖頭的力反向加回節點——這一組節點力才是矩陣法要解的。</p>
+
+{{FIG:fig5_1|圖 5-1｜S5 的兩格疊加，以 SA-2018-2 的 Z 形剛架示範（藍線：Hermite 形狀＋兩端固定梁的局部撓度，同一組數字）。(b) 鎖住 B、C 時，梁像兩端固定梁一樣下垂，鎖頭得在 B 出逆時針 \(PL/8\)、在 C 出順時針 \(PL/8\)。(c) 把這兩個彎矩反向加在節點上，結構才會轉、才會側移。(a)＝(b)＋(c)：(a) 的變形正好是 (b) 的下垂加上 (c) 的轉動。}}
+
+<div class="derive">
+<p><span class="st">①</span> 鎖住狀態 (b)：節點位移 0，每根桿端有固端力 \(\{f_F\}\)；鎖頭對節點出的力 ＝ \(\{f_F\}\) 在各節點加總。</p>
+<p><span class="st">②</span> 放開狀態 (c)：只受節點力 \(\{P_{\text{節點}}\}-\{f_F\}\)，用 \([K]\{D\}=\{P\}\) 解。</p>
+<p><span class="st">③</span> 疊加回代：桿端力 ＝ (c) 的 \([k]\{d\}\) ＋ (b) 的 \(\{f_F\}\)：\(\boxed{\{f\}=[k]\{d\}+\{f_F\}}\)。</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・載重全部打在節點上：\(\{f_F\}=0\)，退回第 3 章的 \(\{P\}=[K]\{D\}\) ✔。<br>
+・如果結構所有節點本來就被支承鎖死（例如兩端固定的單跨梁）：\(\{D\}=0\)，答案就是 (b) 的固端力本身 ✔。</div>
+
+<div class="trap"><b>陷阱：回代時忘了加 \(\{f_F\}\)</b><br>
+這是本單元最常見的失分。\([k]\{d\}\) 只是 (c) 的桿端力；有跨間載重的桿件一定要再加 (b)。最好的檢查：<b>節點彎矩平衡</b>（同一節點各桿端彎矩相加＝外加節點彎矩）——漏加 \(\{f_F\}\) 的話會差一個 \(PL/8\)，一眼就看出來。</div>
+
+<h3>5.2　固端彎矩不用背：兩端都不轉 → \(M/EI\) 圖面積＝0</h3>
+<p>S3 的「彎矩面積法」說：從一端到另一端，<b>轉角的變化＝\(M/EI\) 圖的面積</b>。兩端固定梁兩端轉角都是 0，所以整根梁的 \(M/EI\) 面積必須是 0。把彎矩拆成「簡支梁的彎矩」＋「兩端彎矩」（對稱載重時兩端相等）：</p>
+
+{{FIG:fig5_2|圖 5-2｜(a) 均布：簡支彎矩是拋物線，面積 \(\tfrac23\cdot\tfrac{wL^2}{8}\cdot L=\tfrac{wL^3}{12}\)；端彎矩造成一塊長方形 \(M_{端}L\)，號相反。兩塊相消 → \(M_{端}=wL^2/12\)。(b) 中央集中力：三角形面積 \(\tfrac12\cdot\tfrac{PL}{4}\cdot L=\tfrac{PL^2}{8}\) → \(M_{端}=PL/8\)。（calcs.py：<code>fem_by_area()</code>）}}
+
+<div class="derive">
+<p><span class="st">①</span> 均布：\(\displaystyle\int_0^L\frac{wx(L-x)}{2}dx=\frac{wL^3}{12}\)；令 \(M_{端}\cdot L=\dfrac{wL^3}{12}\) ⇒ \(\boxed{M_{端}=\dfrac{wL^2}{12}}\)。</p>
+<p><span class="st">②</span> 中央集中力：\(\tfrac12\cdot L\cdot\dfrac{PL}{4}=\dfrac{PL^2}{8}\) ⇒ \(\boxed{M_{端}=\dfrac{PL}{8}}\)。</p>
+<p><span class="st">③</span> 固端剪力：對稱載重時兩端剪力相等，就是簡支反力（\(wL/2\)、\(P/2\)）——端彎矩兩端一樣大、方向相反，對剪力沒有貢獻。</p>
+</div>
+
+<div class="check"><b>第二條路（只用 S3）</b>：中央集中力的梁對稱，中點斜率為 0。所以左半段是一支長 \(L/2\) 的懸臂，尖端受剪力 \(P/2\)、而且轉角被「鎖住」。S3：\(\dfrac{(P/2)(L/2)^2}{2EI}+\dfrac{M_{中}(L/2)}{EI}=0\) ⇒ \(M_{中}=-PL/8\)；固定端 \(M=\dfrac P2\cdot\dfrac L2-\dfrac{PL}{8}=\dfrac{PL}{8}\) ✔（calcs.py：<code>fem_half_cantilever()</code>）。兩條路答案相同。</div>
+
+<div class="why"><b>方向怎麼判斷（不用背正負號）</b>：載重往下，梁想往下垂，兩端想「往內轉」——左端想順時針、右端想逆時針。鎖頭要擋住它，所以左端固端彎矩<b>逆時針</b>、右端<b>順時針</b>。逆時針為正時：左 \(+PL/8\)、右 \(-PL/8\)。等效節點載重再反號：左 \(-PL/8\)、右 \(+PL/8\)。</div>
+
+<h3>5.3　範例：SA-2018-2 Z 形剛架（完整走一遍）</h3>
+<div class="box"><b>題目（<a href="problems-view/SA-2018-2.html">SA-2018-2</a>，2018 第二題，25 分）</b>　A 在 B 正上方 \(L\)，C 在 B 右方 \(L\)，D 在 C 正下方 \(L\)；A、D 固定，B、C 剛接；水平桿 BC 中央受向下力 \(P\)。各桿 \(EI\) 定值、長 \(L\)，忽略軸向與剪力變形。畫結構圖並定義自由度、建立勁度矩陣與節點外力向量，以直接勁度法求各自由度位移，並繪彎矩圖。</div>
+
+{{FIG:fig5_3|圖 5-3｜自由度（第 3 章的帳本：\(12-6-3=3\)）：\(D_1=u\)（B、C 一起水平動）、\(D_2=\theta_B\)、\(D_3=\theta_C\)，向右、逆時針為正。右邊是由 5.1、5.2 得到的等效節點載重。}}
+
+<div class="derive">
+<p><span class="st">①</span> <b>[K]：三次實驗</b>（第 3 章 3.2）。推 \(u=1\)、轉角鎖住：兩柱各 \(12EI/L^3\)；柱端彎矩用圖判斷——<b>CD 柱固定端在下</b>，和門型剛架一樣要 \(+6EI/L^2\)；<b>AB 柱固定端在上</b>（倒掛），整個畫面上下翻，要 \(-6EI/L^2\)。轉 \(\theta_B\)、\(\theta_C\) 照舊。</p>
+$$[K]=\frac{EI}{L^3}\begin{bmatrix}24&-6L&6L\\-6L&8L^2&2L^2\\6L&2L^2&8L^2\end{bmatrix},\qquad\{P\}=\begin{Bmatrix}0\\-PL/8\\+PL/8\end{Bmatrix}$$
+<p><span class="st">②</span> <b>解</b>：第 2、3 列相加，\(u\) 的項 \(-6L+6L\) 消掉，得 \(10L^2(\theta_B+\theta_C)=0\) ⇒ \(\theta_C=-\theta_B\)（反對稱轉動）。代回第 1 列：\(24u=6L(\theta_B-\theta_C)=12L\theta_B\) ⇒ \(u=\tfrac L2\theta_B\)。代入第 2 列：\((-3+8-2)\dfrac{EI}{L}\theta_B=-\dfrac{PL}{8}\)。</p>
+$$\boxed{u=-\frac{PL^3}{48EI}\ (\text{向左}),\quad\theta_B=-\frac{PL^2}{24EI}\ (\text{順時針}),\quad\theta_C=+\frac{PL^2}{24EI}\ (\text{逆時針})}$$
+<p><span class="st">③</span> <b>回代</b>（\([k]\{d\}+\{f_F\}\)，逆時針為正）：</p>
+<p>　柱 AB：\(M_{AB}=\dfrac{2EI}{L}\theta_B-\dfrac{6EI}{L^2}u=-\dfrac{PL}{12}+\dfrac{PL}{8}=+\dfrac{PL}{24}\)；\(M_{BA}=\dfrac{4EI}{L}\theta_B-\dfrac{6EI}{L^2}u=-\dfrac{PL}{24}\)。</p>
+<p>　梁 BC：\(M_{BC}=\dfrac{2EI}{L}(2\theta_B+\theta_C)\;\underline{+\dfrac{PL}{8}}=+\dfrac{PL}{24}\)；\(M_{CB}=\dfrac{2EI}{L}(2\theta_C+\theta_B)\;\underline{-\dfrac{PL}{8}}=-\dfrac{PL}{24}\)（底線就是 \(\{f_F\}\)）。</p>
+<p>　柱 CD：\(M_{CD}=+\dfrac{PL}{24}\)、\(M_{DC}=-\dfrac{PL}{24}\)。梁跨中：\(\dfrac{PL}{4}-\dfrac{PL}{24}=\boxed{\dfrac{5PL}{24}}\)（下緣受拉）。</p>
+</div>
+
+{{FIG:fig5_4|圖 5-4｜(a) 依解出的 \(u,\theta_B,\theta_C\) 畫出的變形（放大 6 倍；梁的下垂加上了固端梁的局部撓度）。(b) 彎矩圖：兩柱全長都是 \(PL/24\)、梁端 \(PL/24\) 上緣受拉、跨中 \(5PL/24\) 下緣受拉。（calcs.py：<code>zframe_2018()</code> 符號解；<code>zframe_numeric()</code> 以 numpy 組 15 自由度含軸向的完整矩陣獨立驗算，三個位移相同。）}}
+
+<div class="check"><b>極限檢查</b><br>
+・節點 B：\(M_{BA}+M_{BC}=-\tfrac{PL}{24}+\tfrac{PL}{24}=0\) ✔（B 沒有外加彎矩）。<br>
+・柱 AB：\(M_{AB}+M_{BA}=0\) → 柱剪力 \(=0\)；兩柱剪力都是 0，水平力平衡 \(\Sigma F_x=0\) ✔（題目沒有側力）。<br>
+・梁端 \(PL/24\) 介於 0（兩端鉸）和 \(PL/8\)（兩端固定）之間：柱子提供部分轉動束制 ✔。<br>
+・為什麼會側移？梁下垂時 B 順時針、C 逆時針轉。倒掛柱 AB 的下端順時針轉、站立柱 CD 的上端逆時針轉，<b>兩者都把節點往左帶</b>（圖 5-4a）。門型剛架兩柱都站著，同樣的梁下垂會讓兩柱往相反方向帶、互相抵消，所以不側移；Z 形把其中一根倒過來，就不再抵消。</div>
+
+<div class="trap"><b>陷阱：倒掛柱的耦合項照抄 \(+6EI/L^2\)</b><br>
+AB 柱固定端在上面，推 B 往右時的畫面和站立柱上下顛倒，耦合項變號。不要背「柱就是 +6」，<b>每根柱都畫一次推一下的圖</b>（第 2 章 2.6 的方法）。號錯的話 [K] 仍然對稱，看不出來，但 \(u\) 會變號、柱的受拉側整組畫反。</div>
+
+<h3>5.4　製造誤差：SA-2011-4（AC 桿短 0.02 m）</h3>
+<div class="box"><b>題目（<a href="problems-view/SA-2011-4.html">SA-2011-4</a>，2011 第四題，25 分）</b>　C(0,0)、D(6,0)、A(3,4)、B(0,4)（m）；B、C、D 鉸支承，三桿 BA、CA、DA 交於 A。AC 桿組裝前因製造瑕疵短了 0.02 m，\(EA=10^4\) kN。以直接勁度法求 A 點水平、垂直變位與各桿內力。沒有任何外力。</div>
+
+<p>製造誤差和跨間載重是同一件事：<b>鎖住 A，硬把太短的 AC 拉長接上</b>，AC 就有一個「鎖住時的桿力」\(T_0\)——它相當於 AC 的固端力。再放開 A，讓三根桿一起分攤。</p>
+
+{{FIG:fig5_5|圖 5-5｜SA-2011-4 的 S5 拆解。(a) 鎖住 A，AC 被拉長 0.02 m → 拉力 \(T_0=\tfrac{10^4}{5}\times0.02=40\) kN，它把 A 往 C 拉，鎖頭得反向出 \((24,32)\)。(b) 放開：A 受 \((-24,-32)\)，三桿一起抵抗，A 往左下動。(c) 疊加：AC 受拉 13.97、另兩桿受壓。（數值：calcs.py 的 <code>fabrication_2011()</code>）}}
+
+<div class="derive">
+<p><span class="st">①</span> <b>[K]</b>（只有 A 的兩個自由度；方向由 A 指向遠端）：AB \(c=-1,s=0,k=\tfrac{10^4}{3}\)；AC \(c=-0.6,s=-0.8,k=2000\)；AD \(c=0.6,s=-0.8,k=2000\)。
+\([K]=\sum k[C]=\begin{bmatrix}4773.33&0\\0&2560\end{bmatrix}\) kN/m——AC、AD 左右對稱，\(cs\) 項正好相消。</p>
+<p><span class="st">②</span> <b>鎖住時的桿力</b>：\(T_0=\dfrac{EA}{L}\Delta L_0=\dfrac{10^4}{5}\times0.02=40\) kN（拉）。它對 A 的拉力指向 C：\(40\times(-0.6,\,-0.8)=(-24,\,-32)\)。鎖頭出 \((+24,+32)\) 擋住；放開時節點受 \(\{P_{eq}\}=\{-24,\ -32\}\) kN。</p>
+<p><span class="st">③</span> <b>解</b>：\(D_1=\dfrac{-24}{4773.33}=-0.00503\) m（向左）、\(D_2=\dfrac{-32}{2560}=-0.0125\) m（向下）。</p>
+<p><span class="st">④</span> <b>回代</b>：A 往遠端方向的位移讓桿縮短，伸長量 \(e=-(cD_1+sD_2)\)：</p>
+<p>　AB：\(e=D_1=-0.005028\) → \(N=-16.76\) kN（壓）</p>
+<p>　AD：\(e=-[0.6(-0.005028)-0.8(-0.0125)]=-0.006983\) → \(N=-13.97\) kN（壓）</p>
+<p>　AC：\(e=-0.013017\) → \(N=2000(-0.013017)\;\underline{+40}=\boxed{+13.97\ \text{kN（拉）}}\)（底線＝鎖住時的 \(T_0\)）</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・沒有外力，所以三根桿的力必須<b>自相平衡</b>：A 點 \(\Sigma F_x=16.76-13.97(0.6)\times2=0\)、\(\Sigma F_y=13.97(0.8)-13.97(0.8)=0\) ✔（calcs.py 殘差 0）。<br>
+・如果 AB、AD 無限硬（\(k\to\infty\)）：A 不動，AC 的力就是 \(T_0=40\)。如果它們無限軟：A 自由跟著 AC 縮回去，AC 力為 0。實際 13.97 介於兩者之間 ✔。<br>
+・溫度升高 \(\Delta T\)：\(\Delta L_0=-\alpha\Delta T L\)（桿想變長＝「太長」），鎖住時受壓，同一套流程、號相反。</div>
+
+<div class="trap"><b>陷阱：AC 回代沒有加 \(T_0\)</b><br>
+只算 \(ke=-26.03\) 會誤判 AC 受壓，而且 A 點不平衡。與 5.1 的陷阱完全相同：<b>鎖住狀態的力要加回去</b>。</div>
+
+<h3>5.5　支承沉陷：把被鎖住的那一欄留下來</h3>
+<p>第 3 章分割時說「支承位移為 0，右邊那一欄乘到 0」。支承沉陷時它不是 0，就要搬到右邊：</p>
+$$[K_{ff}]\{D_f\}+[K_{fs}]\{D_s\}=\{P_f\}\quad\Rightarrow\quad[K_{ff}]\{D_f\}=\{P_f\}-[K_{fs}]\{D_s\}$$
+<p>這也是 S5：先把支承「推到」沉陷後的位置、節點鎖住（產生固端力 \([K_{fs}]\{D_s\}\)），再放開節點。</p>
+<div class="derive">
+<p><span class="st">①</span> <b>示範</b>：梁 AB，A 固定、B 為滾支承，B 下陷 \(\delta\)。自由度只有 \(\theta_B\)；支承位移 \(v_B=-\delta\)。</p>
+<p><span class="st">②</span> 由梁元素 4×4：\(K_{ff}=k_{\theta_2\theta_2}=\dfrac{4EI}{L}\)、\(K_{fs}=k_{\theta_2v_2}=-\dfrac{6EI}{L^2}\)。\(P_f=0-\left(-\dfrac{6EI}{L^2}\right)(-\delta)=-\dfrac{6EI\delta}{L^2}\)。</p>
+<p><span class="st">③</span> \(\theta_B=-\dfrac{3\delta}{2L}\)（順時針）；A 端彎矩 \(=k_{\theta_1v_2}(-\delta)+k_{\theta_1\theta_2}\theta_B=\dfrac{6EI\delta}{L^2}-\dfrac{3EI\delta}{L^2}=\boxed{\dfrac{3EI\delta}{L^2}}\)，B 端彎矩 0 ✔（calcs.py：<code>settlement_demo()</code>）。</p>
+</div>
+<div class="check"><b>極限檢查</b>：\(3EI\delta/L^2\) 就是「懸臂受端點撓度 \(\delta\)」的固定端彎矩（S3：\(\delta=VL^3/3EI\Rightarrow V=3EI\delta/L^3\)，\(M=VL\)）✔——B 是滾支承，不出彎矩，整根梁就是一支被壓下 \(\delta\) 的懸臂。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜等效節點載重與回代</div>
+<ol>
+<li><b>畫</b>：圖 5-1 三格（真實＝鎖住＋放開）</li>
+<li><b>種子</b>：S5</li>
+<li><b>推</b>：鎖住 → 固端力 \(\{f_F\}\)；放開 → \(\{P\}=\{P_{\text{節點}}\}-\{f_F\}\)；回代 \(\{f\}=[k]\{d\}+\{f_F\}\)</li>
+<li><b>檢查</b>：節點彎矩平衡、整體力平衡</li>
+</ol>
+</div>
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜固端彎矩</div>
+<ol>
+<li><b>畫</b>：簡支彎矩圖（拋物線／三角形）＋一塊長方形</li>
+<li><b>種子</b>：S3（\(M/EI\) 面積＝轉角變化；兩端不轉 → 面積＝0）</li>
+<li><b>推</b>：\(\tfrac23\cdot\tfrac{wL^2}{8}\cdot L=M L\Rightarrow wL^2/12\)；\(\tfrac12\cdot\tfrac{PL}{4}\cdot L=ML\Rightarrow PL/8\)</li>
+<li><b>檢查</b>：方向＝擋住「往內轉」；剪力＝簡支反力</li>
+</ol>
+</div>
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜製造誤差</div>
+<ol>
+<li><b>畫</b>：鎖住節點，把太短的桿硬拉上去</li>
+<li><b>種子</b>：S5＋S2（\(T_0=\tfrac{EA}{L}\Delta L_0\)）</li>
+<li><b>推</b>：\(\{P_{eq}\}=T_0\times\)（指向遠端的 \(c,s\)）；解 \(D\)；桿力＝\(ke+T_0\)</li>
+<li><b>檢查</b>：無外力 → 各桿力自相平衡</li>
+</ol>
+</div>
+
+<h3>5.6　🙈 蓋住重推</h3>
+<details><summary>Q1　兩端固定梁受均布 \(w\)，不查表，一行寫出固端彎矩。</summary>
+<p>兩端不轉 → \(M/EI\) 面積＝0：\(\tfrac{wL^3}{12}=M\cdot L\Rightarrow M=wL^2/12\)。</p></details>
+<details><summary>Q2　SA-2018-2 回代 \(M_{BC}\) 時，為什麼要加 \(+PL/8\)？若漏加會怎樣？</summary>
+<p>\(M_{BC}\) 是梁 BC 在 B 端的彎矩，梁上有載重，鎖住狀態的固端彎矩 \(+PL/8\) 必須加回。漏加會得 \(-PL/12\)，節點 B 的 \(M_{BA}+M_{BC}\neq0\)，立刻不平衡。</p></details>
+<details><summary>Q3　SA-2018-2 中為什麼 \(K_{12}=-6EI/L^2\) 而 \(K_{13}=+6EI/L^2\)？</summary>
+<p>AB 柱固定端在上、CD 柱固定端在下，推 \(u\) 時兩根柱的畫面上下顛倒，柱頂（B、C 端）要的彎矩方向相反。</p></details>
+<details><summary>Q4　SA-2011-4 如果改成 AC 桿「長了」0.02 m，A 會往哪動？AC 受拉還是受壓？</summary>
+<p>鎖住時 AC 被壓短接上（\(T_0=-40\)，壓），它把 A 往遠離 C 的方向推，\(\{P_{eq}\}=(+24,+32)\)；A 往右上動，AC 最後受壓 13.97 kN，另兩桿受拉。</p></details>
+<details><summary>Q5　A 固定、B 滾支承的梁，B 下陷 \(\delta\)，A 端彎矩多少？用兩條路說明。</summary>
+<p>\(3EI\delta/L^2\)。矩陣法：\(\{P_f\}=-[K_{fs}]\{D_s\}\) 解 \(\theta_B=-3\delta/2L\) 再回代；S3：B 不出彎矩，整根是被壓下 \(\delta\) 的懸臂，\(V=3EI\delta/L^3\)、\(M=VL\)。</p></details>
+
+<h3>5.7　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>把固端力直接當成節點載重（沒反號）</td><td>鎖頭的力要「還」回去：\(\{P_{eq}\}=-\{f_F\}\)。</td></tr>
+<tr><td>2</td><td>回代忘了加 \(\{f_F\}\) 或 \(T_0\)</td><td>\(\{f\}=[k]\{d\}+\{f_F\}\)。用節點平衡抓：漏加一定不平衡。</td></tr>
+<tr><td>3</td><td>固端彎矩方向背錯</td><td>載重讓梁端「往內轉」，鎖頭擋它：左端逆時針、右端順時針（向下載重）。</td></tr>
+<tr><td>4</td><td>倒掛柱耦合項照抄 \(+6EI/L^2\)</td><td>每根柱畫一次推一下的圖；固定端在上時號相反。</td></tr>
+<tr><td>5</td><td>製造誤差的 \(\{P_{eq}\}\) 方向弄反</td><td>太短的桿鎖住時受拉，把節點拉向遠端；放開時節點受的力就是這個拉力的方向。</td></tr>
+<tr><td>6</td><td>支承沉陷只改反力，不改 \(\{P_f\}\)</td><td>\(\{P_f\}\mathrel{-}=[K_{fs}]\{D_s\}\)：沉陷會讓節點轉，所有彎矩都變。</td></tr>
+</table>
+</section>

@@ -3,6 +3,7 @@
 所有座標由呼叫端以 m 為單位給定，換算一律走 Xm()。"""
 from draw import *  # noqa
 import math
+import numpy as np
 
 POS, POS2 = AC, '#bbdefb'       # 影響線正值：藍
 NEG, NEG2 = COMP, '#ffcdd2'     # 負值：紅
@@ -59,12 +60,21 @@ def il(ax, y0, sy, pts, c=ILC, w=2.6, fill=True, xr=None, axis_lab='', vals=(), 
                 seg += [((xa, ya), (xm, 0.0)), ((xm, 0.0), (xb, yb))]
             else:
                 seg.append(((xa, ya), (xb, yb)))
+        # 連續同號的小段併成一塊多邊形（曲線影響線才不會出現細縫）
+        groups = []
         for (xa, ya), (xb, yb) in seg:
             sgn = ya + yb
             if abs(sgn) < 1e-12:
                 continue
-            col = (pfill or POS2) if sgn > 0 else (nfill or NEG2)
-            o += P([(ax(xa), y0), (ax(xa), Y(ya)), (ax(xb), Y(yb)), (ax(xb), y0)], None, fill=col, close=True, op=0.8)
+            sg = 1 if sgn > 0 else -1
+            if groups and groups[-1][0] == sg and abs(groups[-1][1][-1][0] - xa) < 1e-6:
+                groups[-1][1].append((xb, yb))
+            else:
+                groups.append([sg, [(xa, ya), (xb, yb)]])
+        for sg, gp in groups:
+            col = (pfill or POS2) if sg > 0 else (nfill or NEG2)
+            poly = [(ax(gp[0][0]), y0)] + [(ax(xx), Y(yy)) for xx, yy in gp] + [(ax(gp[-1][0]), y0)]
+            o += P(poly, None, fill=col, close=True, op=0.8)
     o += L(ax(xr[0]) - 10, y0, ax(xr[1]) + 14, y0, MUT, 1.3)
     for t in ticks:
         o += L(ax(t), y0 - 4, ax(t), y0 + 4, MUT, 1.2)
@@ -100,3 +110,50 @@ def up_arrow(X, y, c=TEN, label='', h=38, lsize=15, ldx=0, anchor='middle'):
     if label:
         o += T(X + ldx, y + h + 18, label, lsize, c, anchor, 'bold')
     return o
+
+
+# ───────── 第 3 章起：桁架與曲線影響線的共用元件 ─────────
+def truss_draw(F, nodes, members, sup=None, labels=None, hl=None, w=2.6, c=INK, jr=3.6, show=None):
+    """F：draw.Frame（結構座標 m → px）；nodes：{名: (x,y)}；members：[(名1,名2)]；
+    sup：{名: 'pin'|'roller'}；labels：{名: (dx, dy, 顯示文字)}；hl：{(名1,名2): (顏色, 線寬)}。"""
+    o = ''
+    hl = hl or {}
+    for m in members:
+        p, q = F(*nodes[m[0]]), F(*nodes[m[1]])
+        col, ww = hl.get(m, hl.get((m[1], m[0]), (c, w)))
+        o += L(p[0], p[1], q[0], q[1], col, ww)
+    for n, (x, y) in nodes.items():
+        if show is not None and n not in show:
+            continue
+        X, Y = F(x, y)
+        o += C(X, Y, jr, '#fff', c, 1.4)
+    for n, k in (sup or {}).items():
+        X, Y = F(*nodes[n])
+        o += pin(X, Y + jr) if k == 'pin' else roller(X, Y + jr)
+    for n, lab in (labels or {}).items():
+        X, Y = F(*nodes[n])
+        txt = lab[2] if len(lab) > 2 else n
+        o += T(X + lab[0], Y + lab[1], txt, 16, INK, 'middle', 'bold')
+    return o
+
+
+def cut_line(X, y1, y2, label='', c=KEY, lsize=15, dy=-6):
+    """垂直截斷線（虛線）＋標籤。"""
+    o = L(X, y1, X, y2, c, 2.2, '7 5')
+    if label:
+        o += T(X, y1 + dy, label, lsize, c, 'middle', 'bold')
+    return o
+
+
+def il_curve(ax, y0, sy, fn, x1, x2, n=240, c=ILC, w=2.6, breaks=()):
+    """曲線影響線：取樣 fn，於 breaks（跳躍位置）兩側分開取點。回傳 pts 供 il() 用。"""
+    xs = list(np.linspace(x1, x2, n + 1))
+    pts = []
+    bset = sorted(breaks)
+    for x in xs:
+        pts.append((x, fn(x)))
+    for bx in bset:
+        pts.append((bx - 1e-9, fn(bx - 1e-9)))
+        pts.append((bx + 1e-9, fn(bx + 1e-9)))
+    pts.sort(key=lambda p: p[0])
+    return pts

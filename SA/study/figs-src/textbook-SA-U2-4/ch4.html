@@ -1,0 +1,151 @@
+<section id="ch4">
+<h2>第 4 章　斜桿與座標轉換：\(c^2,\ cs,\ s^2\)</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$[k]_{\text{整體}}=\frac{EA}{L}\begin{bmatrix}c^2&cs&-c^2&-cs\\cs&s^2&-cs&-s^2\\-c^2&-cs&c^2&cs\\-cs&-s^2&cs&s^2\end{bmatrix},\qquad N=\frac{EA}{L}\big[c(u_j-u_i)+s(v_j-v_i)\big]$$
+以及剛架元素的轉換 \([k]_{\text{整體}}=[T]^{\mathsf T}[k]_{\text{局部}}[T]\)。<br>
+要記的只有 <span class="kw">S4 伸長＝\(c\,u+s\,v\)</span>：斜桿只「看得見」沿著自己的位移。再加上 S2（\(N=ke\)）與「力也要投影回 \(x\)、\(y\)」，16 個係數一次出來。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>桁架元素（整體座標）\(\dfrac{EA}{L}\begin{bmatrix}c^2&cs\\cs&s^2\end{bmatrix}\) 為基本塊、\(\pm\) 排成 4×4</td><td><span class="tg must">必背</span></td><td>4.1、4.2</td></tr>
+<tr><td>桿件內力 \(N=\dfrac{EA}{L}\big[c\,\Delta u+s\,\Delta v\big]\)</td><td><span class="tg must">必背</span></td><td>4.1、4.4</td></tr>
+<tr><td>座標轉換 \([k]_{\text{整體}}=[T]^{\mathsf T}[k]_{\text{局部}}[T]\)</td><td><span class="tg must">必背</span></td><td>4.3</td></tr>
+</table>
+<p class="note">證據（單元總覽）：桁架題 2009-4、2010-4、2011-4、2013-4 四題都要用 \(c^2,cs,s^2\)，考卷一次都沒印。2013 之後空窗 12 年，但它是所有矩陣題裡<b>成本最低</b>的一型：一節點兩自由度、沒有轉角、沒有固端彎矩。</p>
+</div>
+
+<h3>4.1　種子 S4：桿子只看得見沿著自己的那一段</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S4｜斜桿的伸長量</div>
+$$e=c\,(u_j-u_i)+s\,(v_j-v_i),\qquad c=\cos\theta,\ s=\sin\theta\quad(\theta\text{＝由 } i \text{ 指向 } j \text{ 的角度})$$
+</div>
+<p>節點 \(j\) 動了一個向量 \((u,v)\)。這個向量有一部分沿著桿軸（把桿拉長），一部分垂直桿軸（只讓桿子轉一個小角度，<b>不</b>改變長度）。桿子只對第一部分有反應——伸長量就是位移向量在桿軸上的投影。</p>
+
+{{FIG:fig4_1|圖 4-1｜節點 \(j\) 往右 \(u\)、往上 \(v\)。把 \(u\) 投影到桿軸上得 \(c\,u\)（藍），把 \(v\) 投影得 \(s\,v\)（綠），兩段接起來就是伸長量 \(e\)。紫色虛線是 \(j\) 的實際位置；從它到桿軸延長線的垂線，腳點正好在 \(c\,u+s\,v\) 處。}}
+
+<div class="derive">
+<p><span class="st">①</span> 桿軸單位向量 \(\hat e=(c,s)\)；位移向量 \(\vec d=(u,v)\)。投影＝內積：\(e=\vec d\cdot\hat e=c\,u+s\,v\)。</p>
+<p><span class="st">②</span> 兩端都會動時，看「相對」位移：\(e=c\,(u_j-u_i)+s\,(v_j-v_i)\)。</p>
+<p><span class="st">③</span> 加上 S2：\(\boxed{N=\dfrac{EA}{L}\,e}\)，拉為正。</p>
+</div>
+
+<div class="check"><b>極限檢查</b><br>
+・水平桿 \(\theta=0\)：\(e=u_j-u_i\)，垂直位移不影響長度 ✔（第 1 章的彈簧）。<br>
+・垂直桿 \(\theta=90^\circ\)：\(e=v_j-v_i\) ✔。<br>
+・位移恰好垂直桿軸 \((u,v)\propto(-s,c)\)：\(e=-cs+sc=0\) ✔ 桿子只是轉了一下。</div>
+
+<h3>4.2　從伸長到四個節點力：16 個係數一次出來</h3>
+<p>S1 說：推 \(u_j=1\)、其他鎖住，量四個方向要多少力。用 S4、S2、再投影一次，三步就到。</p>
+
+{{FIG:fig4_2|圖 4-2｜三步：① 推 \(u_j=1\)，由 S4 桿伸長 \(c\)；② 由 S2 桿拉力 \(N=kc\)；③ 拉力沿桿軸，要扶住 \(j\) 就得在 \(j\) 加一個沿桿軸向外的力 \(N\)，它的 \(x\) 分量 \(kc^2\)、\(y\) 分量 \(kcs\)。\(i\) 端的力大小相同、方向相反。}}
+
+<div class="derive">
+<p><span class="st">①</span> 推 \(u_j=1\)：\(e=c\)，\(N=kc\)。\(j\) 端需要 \((Nc,\ Ns)=(kc^2,\ kcs)\)；\(i\) 端需要 \((-kc^2,\ -kcs)\)。這就是 4×4 的第 3 行。</p>
+<p><span class="st">②</span> 推 \(v_j=1\)：\(e=s\)，\(N=ks\)。\(j\) 端 \((kcs,\ ks^2)\)，\(i\) 端變號 → 第 4 行。</p>
+<p><span class="st">③</span> 推 \(i\) 端：伸長量變號，所有力都變號 → 第 1、2 行。寫成區塊：
+$$[k]=\frac{EA}{L}\begin{bmatrix}[C]&-[C]\\-[C]&[C]\end{bmatrix},\qquad[C]=\begin{bmatrix}c^2&cs\\cs&s^2\end{bmatrix}=\begin{Bmatrix}c\\s\end{Bmatrix}\begin{Bmatrix}c&s\end{Bmatrix}$$</p>
+</div>
+
+{{FIG:fig4_3|圖 4-3｜三個方向檢查 \([C]\)。水平桿只擋水平（\([1,0;0,0]\)），垂直桿只擋垂直，45° 桿推 \(x\) 一定也頂到 \(y\)（四格都是 ½）。考場上組完先看這三種特例，正負號錯一眼就看出來。}}
+
+<div class="check"><b>極限檢查</b><br>
+・\(\theta=0\)：\([C]=\begin{bmatrix}1&0\\0&0\end{bmatrix}\)，4×4 退回第 1 章的 \(\begin{bmatrix}1&-1\\-1&1\end{bmatrix}\)（多兩排 0）✔。<br>
+・<b>方向反過來</b>（由 \(j\) 指向 \(i\)）：\(c,s\) 同時變號，\(c^2,\ cs,\ s^2\) 全部不變 ✔——所以「從哪一端量角度」不影響 [k]。但算 \(N\) 時要前後一致：\(c,s\) 是 \(i\to j\) 的，就用 \(u_j-u_i\)。<br>
+・每一列相加：\(c^2+cs-c^2-cs=0\) ✔ 整根桿剛體平移，不需要力。</div>
+
+<div class="why"><b>為什麼只要記一塊 \([C]\)</b>：\([C]\) 是「桿軸方向 \((c,s)\) 自己乘自己」——推的方向投影到桿軸一次（S4），力再從桿軸投影回來一次。兩次投影，所以是平方。整個 4×4 只是 \([C]\) 照「同號在對角、異號在旁邊」排四次，和第 1 章的 \(\begin{bmatrix}1&-1\\-1&1\end{bmatrix}\) 一模一樣。</div>
+
+<h3>4.3　\([T]^{\mathsf T}[k][T]\)：同一件事的矩陣寫法</h3>
+<p>4.2 節是「直接在整體座標推」。另一條路：先在<b>局部座標</b>（\(x'\) 沿桿軸）寫最簡單的矩陣，再轉回整體座標。兩條路答案一樣，後者在剛架元素比較好用。</p>
+
+{{FIG:fig4_5|圖 4-5｜局部座標 \(x'\) 沿桿軸、\(y'\) 垂直桿軸。每個節點的位移用一個 3×3 的旋轉 \([t]\) 換過去；轉角是垂直紙面的向量，旋轉平面座標時不變，所以右下角是 1。整根元素的 \([T]\) 就是兩個 \([t]\) 排在對角線上。}}
+
+<div class="derive">
+<p><span class="st">①</span> 桁架：局部只看 \(x'\) 方向，\(\{u'_i,\ u'_j\}=\begin{bmatrix}c&s&0&0\\0&0&c&s\end{bmatrix}\{u_i,v_i,u_j,v_j\}\)——每一列就是 S4。</p>
+<p><span class="st">②</span> 局部勁度 \(\dfrac{EA}{L}\begin{bmatrix}1&-1\\-1&1\end{bmatrix}\)（第 1 章）。</p>
+<p><span class="st">③</span> \([T]^{\mathsf T}[k'][T]\)：左乘 \([T]^{\mathsf T}\) 是「力投影回整體座標」，右乘 \([T]\) 是「位移投影到桿軸」——正好是 4.2 節的兩次投影。乘開即得 4.2 的 4×4 ✔。</p>
+<p><span class="st">④</span> 剛架元素：局部 6×6（軸向 \(EA/L\)＋第 2 章的 12、6、4、2），每個節點用圖 4-5 的 \([t]\)。calcs.py 的 <code>frame_elem_global()</code> 就是這樣寫的，本書所有數值驗算（門型剛架、Z 形剛架）都用它獨立重算過。</p>
+</div>
+
+<div class="why"><b>水平、垂直的桿子不必真的乘 [T]</b>：考題的梁柱幾乎都是水平或垂直的，像第 2 章 2.6 節那樣「看圖判斷柱的局部 \(y'\) 是整體的哪個方向、正負號用圖決定」最快。[T] 是給斜桿、或你想用程式驗算時用的。</div>
+
+<div class="trap"><b>陷阱：把 \([T]\) 寫成轉置</b><br>
+\([T]\) 的定義是「整體 → 局部」：\(\{d'\}=[T]\{d\}\)。如果你的書定義反過來，公式就變成 \([T][k'][T]^{\mathsf T}\)。<b>不要背哪一邊有轉置</b>，記住「位移投影進去、力投影出來」，再用 \(\theta=0\) 檢查一次：答案必須退回局部矩陣。</div>
+
+<h3>4.4　範例：SA-2013-4 四桿桁架</h3>
+<div class="box"><b>題目（<a href="problems-view/SA-2013-4.html">SA-2013-4</a>，2013 第四題，25 分）</b>　A(0,0)、C(0,6) 鉸支承，B(14,0) 滾支承（水平可動），D(6,6)；桿件 CD、AD、DB、AB；\(E=200\) GPa、\(A=10\times10^3\) mm²。以直接勁度法組成對應 \(d_1\)（B 水平）、\(d_2\)、\(d_3\)（D 水平、垂直）的勁度矩陣。若 \((d_1,d_2,d_3)=(0.1277,\ 0.1743,\ 0.7055)\) mm，求 \(P_1,P_2,P_3\) 與 AD、CD 內力。</div>
+
+{{FIG:fig4_4|圖 4-4｜SA-2013-4 的自由度與桿力（數值由 calcs.py 的 <code>truss_2013()</code> 算出，kN）。四根桿都受拉；AD 最大（146.63 kN），因為它是把 D 的向上力 \(P_3\) 送到支承 A 的主要路徑。}}
+
+<div class="derive">
+<p><span class="st">①</span> <b>單位</b>：全部用 kN、mm。\(E=200\ \text{kN/mm}^2\)，\(EA=2\times10^6\) kN。</p>
+<p><span class="st">②</span> <b>每根桿的 \(c,s,k\)</b>（方向 \(i\to j\)）：</p>
+<table>
+<tr><th>桿</th><th>\(L\)（mm）</th><th>\(c\)</th><th>\(s\)</th><th>\(k=EA/L\)（kN/mm）</th><th>碰到的自由度</th></tr>
+<tr><td>AB</td><td>14000</td><td>1</td><td>0</td><td>142.857</td><td>\(d_1\)（B 端 \(u\)）</td></tr>
+<tr><td>AD</td><td>8485.3</td><td>0.7071</td><td>0.7071</td><td>235.702</td><td>\(d_2,d_3\)（D 端）</td></tr>
+<tr><td>CD</td><td>6000</td><td>1</td><td>0</td><td>333.333</td><td>\(d_2,d_3\)（D 端）</td></tr>
+<tr><td>BD</td><td>10000</td><td>−0.8</td><td>0.6</td><td>200</td><td>\(d_1\)（B 端 \(u\)）、\(d_2,d_3\)（D 端）</td></tr>
+</table>
+<p><span class="st">③</span> <b>對號入座</b>：只有一端有自由度的桿（AB、AD、CD），只貢獻 \(+[C]\) 那一塊的相關格子；兩端都有自由度的 BD，四塊都要放，交叉格帶負號：</p>
+<p>　BD：\(K_{11}\mathrel{+}=kc^2=128\)；\(K_{12}\mathrel{+}=-kc^2=-128\)；\(K_{13}\mathrel{+}=-kcs=+96\)；\(K_{22}\mathrel{+}=128\)；\(K_{23}\mathrel{+}=kcs=-96\)；\(K_{33}\mathrel{+}=ks^2=72\)。</p>
+$$[K]=\begin{bmatrix}142.857+128&-128&96\\-128&117.851+333.333+128&117.851-96\\96&117.851-96&117.851+72\end{bmatrix}=\begin{bmatrix}270.857&-128&96\\-128&579.184&21.851\\96&21.851&189.851\end{bmatrix}\ \text{kN/mm}$$
+<p><span class="st">④</span> <b>求外力</b>：\(\{P\}=[K]\{d\}=\{80.01,\ 100.02,\ 150.01\}\) kN，差異來自題給位移只有四位小數；反過來以 \(\{80,100,150\}\) 解 \([K]^{-1}\) 正好得 \((0.1277,\ 0.1743,\ 0.7055)\) mm ✔。</p>
+<p><span class="st">⑤</span> <b>求桿力</b>（S4＋S2）：</p>
+<p>　AD：\(N=235.702\times\big[0.7071(0.1743)+0.7071(0.7055)\big]=\boxed{146.63\ \text{kN（拉）}}\)</p>
+<p>　CD：\(N=333.333\times\big[1\times0.1743\big]=\boxed{58.10\ \text{kN（拉）}}\)</p>
+</div>
+
+<div class="check"><b>節點 D 平衡（兩條路互相驗算）</b><br>
+另算 BD \(=200\big[-0.8(0.1743-0.1277)+0.6(0.7055)\big]=77.20\) kN（拉）、AB \(=18.24\) kN（拉）。<br>
+D 點 \(x\)：\(-58.10-146.63(0.7071)+77.20(0.8)=-100.0\) ＝ \(-P_2\) ✔；
+\(y\)：\(-146.63(0.7071)-77.20(0.6)=-150.0\) ＝ \(-P_3\) ✔（桿拉力對節點的作用指向桿內，所以和外力反號相消）。</div>
+
+<div class="trap"><b>陷阱：BD 的 \(c\) 取成正的</b><br>
+B(14,0) → D(6,6)：\(\Delta x=-8\)，\(c=-0.8\)。若取 \(c=+0.8\)，\(cs\) 變號，\(K_{13}\)、\(K_{23}\) 全錯——但 \(c^2\)、\(s^2\) 不受影響，所以對角線看起來還是對的，很難發現。<b>用圖 4-3 檢查</b>：BD 往左上斜，推 B 往右（\(d_1\)）會把桿拉長、把 D 往右下拉——所以 \(K_{13}\) 和 \(K_{12}\) 的號要能用這個畫面解釋。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜桁架元素整體勁度</div>
+<ol>
+<li><b>畫</b>：斜桿＋節點位移向量，投影到桿軸</li>
+<li><b>種子</b>：S4（\(e=cu+sv\)）＋S2（\(N=ke\)）</li>
+<li><b>推</b>：推 1 → 伸長 \(c\) → 力 \(kc\) → 投影回來 \(kc^2,\ kcs\)；\([C]=\{c,s\}^{\mathsf T}\{c,s\}\)，照 \(\begin{bmatrix}+&-\\-&+\end{bmatrix}\) 排四塊</li>
+<li><b>檢查</b>：\(\theta=0\) 退回 \(\begin{bmatrix}1&-1\\-1&1\end{bmatrix}\)；每列和 0</li>
+</ol>
+</div>
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜座標轉換</div>
+<ol>
+<li><b>畫</b>：圖 4-5 的 \(x'\)、\(y'\) 與 3×3 \([t]\)</li>
+<li><b>種子</b>：S4（位移投影進去、力投影出來）</li>
+<li><b>推</b>：\(\{d'\}=[T]\{d\}\) → \([k]=[T]^{\mathsf T}[k'][T]\)</li>
+<li><b>檢查</b>：\(\theta=0\) 時 \([T]=[I]\)，退回局部矩陣</li>
+</ol>
+</div>
+
+<h3>4.5　🙈 蓋住重推</h3>
+<details><summary>Q1　30° 斜桿，\(j\) 端往上移 \(v\)，桿伸長多少？</summary>
+<p>\(e=s\,v=v\sin30^\circ=v/2\)。</p></details>
+<details><summary>Q2　\([C]\) 的 \(cs\) 項什麼時候是負的？畫一個例子。</summary>
+<p>\(c\)、\(s\) 異號時，例如 SA-2013-4 的 BD（\(c=-0.8,s=0.6\)）。把上端 D 往右推 1：伸長 \(e=c=-0.8\)，桿被壓短，它把 D 往左上頂；要扶住 D 得往右下施力，所以 \(y\) 分量 \(kcs=-96\) 為負。</p></details>
+<details><summary>Q3　把 BD 的方向改成 D→B 重算，[K] 會變嗎？桿力公式要怎麼改？</summary>
+<p>[K] 不變（\(c,s\) 同時變號，乘積不變）。桿力改用 \(N=k[c(u_B-u_D)+s(v_B-v_D)]\)，\(c=+0.8,s=-0.6\)，數值相同。</p></details>
+<details><summary>Q4　SA-2013-4 中，為什麼 AB 只貢獻到 \(K_{11}\)？</summary>
+<p>A 是鉸支承（不動），B 只有水平自由度 \(d_1\)；AB 是水平桿，\([C]=[1,0;0,0]\)，只有 \(u_B\) 那一格不為 0。</p></details>
+<details><summary>Q5　\([k]=[T]^{\mathsf T}[k'][T]\) 的兩個 \(T\)，各自代表哪一次投影？</summary>
+<p>右邊 \([T]\)：把整體位移投影到桿軸（S4）；左邊 \([T]^{\mathsf T}\)：把桿軸方向的力投影回整體 \(x\)、\(y\)。</p></details>
+
+<h3>4.6　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>\(c,s\) 的正負號取錯（只取絕對值）</td><td>\(c=\Delta x/L\)、\(s=\Delta y/L\)，帶號。錯了只影響 \(cs\) 項，對角線看不出來——用圖 4-3 的畫面檢查。</td></tr>
+<tr><td>2</td><td>桿力公式用 \(u_i-u_j\)</td><td>\(c,s\) 是 \(i\to j\) 就用 \(j-i\)；拉為正。最後用節點平衡驗一次。</td></tr>
+<tr><td>3</td><td>單位混用 m、mm、GPa</td><td>一律 kN、mm：\(E=200\ \text{kN/mm}^2\)，位移 mm，力直接是 kN。</td></tr>
+<tr><td>4</td><td>只有一端有自由度的桿，也放了四塊</td><td>支承那一端的列與行刪掉，只剩 \(+[C]\) 一塊。</td></tr>
+<tr><td>5</td><td>背 \([T]^{\mathsf T}[k][T]\) 背成 \([T][k][T]^{\mathsf T}\)</td><td>「位移投影進去、力投影出來」；\(\theta=0\) 時必須退回局部矩陣。</td></tr>
+</table>
+</section>
