@@ -35,6 +35,9 @@ HEADINGS = [
     ("從這裡開始", "self"),
 ]
 
+# 網頁段落 → 其後無標題 YouTube 行所屬的影片段落
+VIDEO_AFTER = {"overview": "formula_video", "lecture": "lecture_video", "textbook": "textbook_video"}
+
 # 教科書檔名尾碼 → 中文標籤（新尾碼可在 start-links.json 的 textbook_labels 補）
 TEXTBOOK_LABELS = {
     "tension": "拉力桿件", "compression": "壓力桿件", "flexure": "撓曲", "shear": "剪力",
@@ -52,6 +55,8 @@ def heading_of(line):
 
 
 def to_rel(url, site):
+    if site and url.rstrip("/") == site.rstrip("/"):   # 網站根目錄（有無結尾斜線皆可）
+        return "index.html"
     if site and url.startswith(site):
         return unquote(url[len(site):]) or "index.html"
     return url
@@ -140,6 +145,11 @@ def main():
 
         if section in ("self", None):
             continue
+        # 清單省略影片段標題（只用分隔線隔開）時：網頁段落後面接 YouTube 行，
+        # 依前一個網頁段落判斷是哪一種影片
+        if "youtu" in url and section in VIDEO_AFTER:
+            section = VIDEO_AFTER[section]
+            seen_sections.add(section)
         if section in ("wiki", "frequency"):
             g[section] = href
             continue

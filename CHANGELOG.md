@@ -73,3 +73,8 @@
   - 更新 `SKILL.md`、`references/lessons.md`、`scripts/kit/env.example`
   - 重新打包 `skills/blackboard-solution-video.skill`
 
+## 2026-11-20 起點頁腳本：清單可省略影片段標題
+- `scripts/parse_links.py`：
+  - 「單元總覽／觀念講義／教科書」段後面直接接 YouTube 行（中間只有分隔線、沒有段標題）時，依序歸為公式記憶影片／觀念講義影片／教科書講解影片
+  - 網站根目錄網址（有無結尾斜線）一律轉成 `index.html`
+- 原因：SS 新清單把影片段標題換成分隔線，舊版會把影片誤塞進 overview／lecture／textbook；有段標題的舊格式解析結果不變

@@ -255,6 +255,7 @@ P-M 互制：
 | 2026-11-08 | 停用並移除 `skills/formula-recall-deck/` 與 `skills/formula-recall-deck.skill`；`exam-review-deck-builder` 同時停用（未收錄於本 repo） | 使用者決定停用；已產出的公式記憶片與影片不受影響。`wiki/queries/log.md` 歷史紀錄中的引用保留不改（append only） |
 | 2026-11-08 | 停用並移除 `skills/vha-treasure-map.skill`，`skills/README.md` 刪除其說明並改用他例、`檔案架構索引表.md` 的 skills 清單更新為現況 | 使用者決定停用；既有產出 `wiki/queries/SS-2020-3-treasure-map.html` 與其索引列保留 |
 | 2026-11-08 | **SS-2025-4 解析勘誤**：§4（三）局部機構舉例改為三跨連續梁邊跨（舊解兩跨梁鉸數恰＝n+1，無法說明局部機構） | 考卷核對一致；束制矩陣驗證 n=2、邊跨 2 鉸 DOF=1、wu=11.66 吻合；同步 downstream 至 problems-view、methods、textbook-SS-U2-1（見 log FIX-SS-2025-4-LOCAL） |
+| 2026-11-20 | `start.html` 依新清單重產：`start-links.json` 的 `site`／`repo`／勘誤回報連結改指新站 `yjc5760.github.io/structural-exam-wiki/SS/`；六單元 `video_handout` 清空 | 新清單網址全換新站、刪除「影片講義」段（11-17 起 `*/影片講義/` 不納入版控，Pages 上會 404）。66 支影片與舊值完全相同；新清單省略影片段標題，靠 `parse_links.py` 新增的「網頁段後接 YouTube 行」推斷（見根目錄 CHANGELOG 11-20） |
 
 ### 併入前的變更紀錄（原 exam-wiki-SS/CLAUDE.md CHANGELOG，原樣保留）
 
@@ -318,5 +319,5 @@ P-M 互制：
 | 項目 | 根目錄 | SS |
 |------|--------|----|
 | 儀表板 | 五科共用樣板＋`scripts/refresh_dashboard.py`（`KB_*`） | **待辦**：暫用原 repo 的 `index.html`／`dashboard-data.js`（`SS_*`，已移除互動圖、補充 PDF 欄）；改回共用樣板前不要對 SS 執行 `refresh_dashboard.py` |
-| 網站網址 | — | **待辦**：`study/data/start-links.json` 的 `site`、勘誤回報連結仍指向舊站 `yjc5760.github.io/exam-wiki-SS`（舊站維持上線）；新站上線後再改並在舊站加轉址 |
+| 網站網址 | — | 已完成（11-20）：`start-links.json` 的 `site`、勘誤回報連結改指新站；舊站轉址仍待辦 |
 | 一次性腳本 | 共用腳本在根目錄 `scripts/` | `scripts/add_backlink.py`（文字寫死 SS）、`scripts/fixes/`（歷次一次性修正）留在 SS |
