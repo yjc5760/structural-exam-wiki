@@ -256,6 +256,7 @@ P-M 互制：
 | 2026-11-08 | 停用並移除 `skills/vha-treasure-map.skill`，`skills/README.md` 刪除其說明並改用他例、`檔案架構索引表.md` 的 skills 清單更新為現況 | 使用者決定停用；既有產出 `wiki/queries/SS-2020-3-treasure-map.html` 與其索引列保留 |
 | 2026-11-08 | **SS-2025-4 解析勘誤**：§4（三）局部機構舉例改為三跨連續梁邊跨（舊解兩跨梁鉸數恰＝n+1，無法說明局部機構） | 考卷核對一致；束制矩陣驗證 n=2、邊跨 2 鉸 DOF=1、wu=11.66 吻合；同步 downstream 至 problems-view、methods、textbook-SS-U2-1（見 log FIX-SS-2025-4-LOCAL） |
 | 2026-11-20 | `start.html` 依新清單重產：`start-links.json` 的 `site`／`repo`／勘誤回報連結改指新站 `yjc5760.github.io/structural-exam-wiki/SS/`；六單元 `video_handout` 清空 | 新清單網址全換新站、刪除「影片講義」段（11-17 起 `*/影片講義/` 不納入版控，Pages 上會 404）。66 支影片與舊值完全相同；新清單省略影片段標題，靠 `parse_links.py` 新增的「網頁段後接 YouTube 行」推斷（見根目錄 CHANGELOG 11-20） |
+| 2026-11-20 | 單元總覽 7 頁正確性檢查：U1-1、U1-2、U1-4 設計法表依索引重算；U1-1／U1-2／U1-3／U1-4／U2-3 副考點與總題數同步 11-15 分類調整；U1-4 SS-2004-2 補標螺栓孔承壓；U2-1 重產；U2-3 移除 SS-2021-4 相關計數；10 張無題目使用的公式卡補註；6 頁重產（詳 log UNIT-SS-CHECK） | 11-15 改索引（設計法、副考點）與 11-01 SS-2005-3 勘誤後，手寫段落未同步 |
 
 ### 併入前的變更紀錄（原 exam-wiki-SS/CLAUDE.md CHANGELOG，原樣保留）
 
