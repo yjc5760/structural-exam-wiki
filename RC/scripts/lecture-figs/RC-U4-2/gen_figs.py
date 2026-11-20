@@ -122,7 +122,7 @@ def f2():
     N = 120
     pts = [(xA + (xB - xA) * i / N, ycg + c.r10["e1"] * 4 * (i / N) * (1 - i / N) * sc) for i in range(N + 1)]
     b.append(P(pts, "none", BLUE, 2.4, close=False))
-    b.append(T(xA, yb + 40, f"直線：全長 e＝{c.e_str10:.2f} cm（梁端 M＝0 控制，1.6√f'ci）", 12, "start", ORG, True))
+    b.append(T(xA, yb + 40, f"直線：全長 e＝{c.e_str10:.2f} cm（梁端 M＝0 控制，一般值 0.8√f'ci）", 12, "start", ORG, True))
     b.append(T(xA, yb + 20, f"曲線：梁端 0、跨中 e＝{c.r10['e1']:.2f} cm（跨中 MG 抵銷）", 12, "start", BLUE, True))
     b.append(T(xA, yt - 10, "梁端", 11.5, "middle", AX)); b.append(T(xB, yt - 10, "梁端", 11.5, "middle", AX))
     b.append(T((xA + xB) / 2, yt - 10, "跨中", 11.5, "middle", AX))
@@ -139,9 +139,9 @@ def f2():
         b.append(T(bx0 + v * kpx + 8, y + 20, f"{v:.2f}", 13, "start", col, True))
     xs, xc = bx0 + c.MLs10 / c.TFM * kpx, bx0 + c.MLc10 / c.TFM * kpx
     b.append(L(xs, by + 82, xc, by + 82, INK, 1.4, marker="f2-ar", mstart="f2-ar"))
-    b.append(T((xs + xc) / 2, by + 100, f"ΔM＝{c.dM10:.1f} tf·m（約 +30%）", 12.5, "middle", INK, True))
+    b.append(T((xs + xc) / 2, by + 100, f"ΔM＝{c.dM10:.1f} tf·m＝ηMG（約 +{100 * c.dM10 / (c.MLs10 / c.TFM):.0f}%）", 12.5, "middle", INK, True))
     b.append(L(bx0, by - 4, bx0, by + 78, AX, 1.2))
-    b.append(T(80, by + 132, f"題給活載彎矩 ML＝{c.ML10 / c.TFM:.2f} tf·m，兩者都夠；概念值 ηMG＝{c.etaMG10:.1f} tf·m 較大，因為端部容許拉應力是一般位置的兩倍。", 12, "start", AX))
+    b.append(T(80, by + 132, f"題給活載彎矩 ML＝{c.ML10 / c.TFM:.2f} tf·m，兩者都夠；梁端若字面套放寬值 1.6√f'ci（e＝{c.e_str10_end:.2f}），ΔM 只剩 {c.dM10_end:.1f}，但離端 1.2 m 內超限。", 12, "start", AX))
     xg = bx0 + c.ML10 / c.TFM * kpx
     b.append(L(xg, by - 6, xg, by + 80, RED, 1.3, "4 3"))
     b.append(T(xg, by + 116, "題給 ML", 11, "middle", RED))

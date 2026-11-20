@@ -49,9 +49,11 @@ close(al10["fti"], 13.39, 0.01); close(al10["fti_end"], 26.77, 0.01); close(al10
 close(r10["e1"], 34.71, 0.01); close(r10["e3"], 12.83, 0.01)
 close(r10["e2"], 56.89, 0.01); close(r10["e4"], -25.70, 0.02)
 E10 = (r10["emin"], r10["emax"])
-# 直線鋼腱：梁端 M=0、端部拉應力 1.6√f'ci
-e_str10 = r10["k"] + al10["fti_end"] * r10["S"] / Pi10
-close(e_str10, 24.04, 0.01)
+# 直線鋼腱：梁端 M=0；端部放寬 1.6√f'ci 只管很短一段，等偏心直線鋼腱離端 1.2 m 內都要一般值 0.8√f'ci（2026-11-20 勘誤）
+e_str10 = r10["k"] + al10["fti"] * r10["S"] / Pi10
+close(e_str10, 19.52, 0.01)
+e_str10_end = r10["k"] + al10["fti_end"] * r10["S"] / Pi10   # 字面套放寬值（對照）
+close(e_str10_end, 24.04, 0.01)
 
 
 def ML_cap(e, r, al, MG):
@@ -60,10 +62,13 @@ def ML_cap(e, r, al, MG):
 
 
 MLc10, MLs10 = ML_cap(r10["e1"], r10, al10, MG10), ML_cap(e_str10, r10, al10, MG10)
-close(MLc10 / TFM, 79.38, 0.02); close(MLs10 / TFM, 61.24, 0.02)
+close(MLc10 / TFM, 79.38, 0.02); close(MLs10 / TFM, 53.56, 0.02)
 dM10 = (MLc10 - MLs10) / TFM
-close(dM10, 18.1, 0.06)
-etaMG10 = eta10 * MG10 / TFM                      # 25.8 概念值
+close(dM10, 25.82, 0.01)
+etaMG10 = eta10 * MG10 / TFM                      # 25.8＝dM10
+close(etaMG10, dM10, 1e-6)
+dM10_end = (MLc10 - ML_cap(e_str10_end, r10, al10, MG10)) / TFM
+close(dM10_end, 18.14, 0.01)
 # 傳遞時跨中應力（e = e_max 與 e = e_min 兩種配置，供 §0 圖）
 st10_tr_emax = stresses(r10["A"], r10["S"], Pi10, r10["e1"], MG10)
 st10_sv_emin = stresses(r10["A"], r10["S"], r10["Pe"], r10["e3"], MG10 + ML10)
