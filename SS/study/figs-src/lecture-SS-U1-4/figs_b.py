@@ -55,9 +55,9 @@ def f33():
     b.append(T(ox-20,290,'剪力面沿螺栓「中心線」走、穿過孔；',12.5,INK))
     b.append(T(ox-20,310,'不是貼著孔外緣走。',12.5,INK))
     b.append(T(ox-20,342,'剪（綠）→ ×0.6；拉（紅）→ 不乘',12.5,PUR,weight='700'))
-    b.append(T(ox-20,364,'式A：0.6F_{u}A_{nv} + U_{bs}F_{u}A_{nt}',12.5,INK))
-    b.append(T(ox-20,386,'式B：0.6F_{y}A_{gv} + U_{bs}F_{u}A_{nt}',12.5,INK))
-    b.append(T(ox-20,412,'φR_{n} = 0.75 × min(式A, 式B)',13.5,RED,weight='700'))
+    b.append(T(ox-20,364,'剪力面斷裂：0.6F_{u}A_{nv} + F_{y}A_{gt}',12.5,INK))
+    b.append(T(ox-20,386,'拉力面斷裂：0.6F_{y}A_{gv} + F_{u}A_{nt}',12.5,INK))
+    b.append(T(ox-20,412,'φR_{n} = 0.75 × 擇一（看 0.6F_{u}A_{nv}、F_{u}A_{nt} 誰大）',13.5,RED,weight='700'))
     return svg(880,450,''.join(b),'塊狀剪力破壞塊：範例A實尺寸與雙排螺栓示意')
 
 # ---------------- 圖 4-1 摩阻型 vs 承壓型 + 載重-滑移 ----------------

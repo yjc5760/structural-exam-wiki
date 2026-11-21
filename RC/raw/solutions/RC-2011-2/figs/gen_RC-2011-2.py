@@ -12,7 +12,7 @@ RC-2011-2 T 形梁 As = 0.9Asb・斷面韌性容量 — 解題圖解產生腳本
 FIGURES
   fig-1-problem    題目附圖重繪       攔：把 90 cm 段讀成到梁底、h 讀成 100（題目正本判讀 #3–#5）
   fig-1-section    兩種尺寸讀法對照   攔：以為附圖比例只合 h=100 而改讀 d=90（2026-11-12 勘誤）
-  fig-2-et-band    εt 規範帶狀圖      攔：φ 逕取 0.9、漏檢 εt ≥ 0.004
+  fig-2-et-band    εt 規範帶狀圖      攔：φ 逕取 0.9、漏檢梁須拉力控制（εt ≥ 0.005）
   fig-3-curvature  彈性 NA vs 塑性 NA 攔：φy 與 φu 混用同一條中性軸
 """
 import sys, os, math
@@ -49,9 +49,10 @@ NRAT = ES / EC
 
 
 def phi_of(et):
+    """112 年版表 21.2.2；§21.2.2.1 SD420 取 εty = 0.002（拉力控制界限 0.005）。"""
     if et >= 0.005: return 0.90
-    if et <= EPSY:  return 0.65
-    return 0.65 + 0.25 * (et - EPSY) / (0.005 - EPSY)
+    if et <= 0.002: return 0.65
+    return 0.65 + 0.25 * (et - 0.002) / 0.003
 
 
 def solve(h):
@@ -192,17 +193,16 @@ def X(et): return (et - X0) / (X1 - X0)
 
 
 BAND_H = 68 / pw                                  # 帶狀高度（模型單位）
-cv.panel("淨拉應變 εt 落在哪一段？", "土木401-100：非預力撓曲構材 εt ≥ 0.004")
+cv.panel("淨拉應變 εt 落在哪一段？", "112 年版 §9.3.3.1：非預力梁須拉力控制 εt ≥ 0.005")
 
-zones = [(X0, EPSY, "壓力控制", "rgba(29,78,216,0.16)", C["compr"]),
-         (EPSY, 0.004, "梁不得使用（εt 小於 0.004）", "rgba(192,57,43,0.18)", C["load"]),
-         (0.004, 0.005, "過渡區・梁可用", "rgba(180,83,9,0.16)", C["accent"]),
+zones = [(X0, 0.002, "壓力控制", "rgba(29,78,216,0.16)", C["compr"]),
+         (0.002, 0.005, "過渡區・梁不得使用（εt 小於 0.005）", "rgba(192,57,43,0.18)", C["load"]),
          (0.005, X1, "拉力控制 φ = 0.90", "rgba(46,125,111,0.16)", C["bmd"])]
 for a0, a1, lab, fill, col in zones:
     cv.polygon([(X(a0), 0), (X(a1), 0), (X(a1), BAND_H), (X(a0), BAND_H)], fill, col, 1.6)
     cv.text_px((cv.X(X(a0)) + cv.X(X(a1))) / 2, cv.Y(BAND_H / 2), lab, 12.5, col, weight="700")
 
-for v, lab in ((EPSY, f"ε_{{ty}}={EPSY:.6f}"), (0.004, "0.004"), (0.005, "0.005")):
+for v, lab in ((0.002, "ε_{ty}=0.002"), (0.005, "0.005")):
     cv.line((X(v), 0), (X(v), BAND_H), C["text"], 1.6)
     cv.math_px(cv.X(X(v)), cv.Y(0) + 22, lab, 12.5, C["text"], weight="700")
 cv.line((X(X0), 0), (X(X1), 0), C["muted"], 1.8)
@@ -215,15 +215,15 @@ cv.text_px(cv.X(X(M["et"])), cv.Y(BAND_H * 1.80) - 38,
            f"（A_{{s}} = 0.9A_{{sb}}，c_{{u}} = {M['cu']:.2f} cm）", 12.5, C["load"])
 
 cv.text_px(W3 / 2, H3 - 96,
-           f"φ = 0.65 + 0.25 × (εt − εty)/(0.005 − εty) = {M['phi']:.4f}"
+           f"φ = 0.65 + 0.25 × (εt − 0.002)/0.003 = {M['phi']:.4f}"
            f"　　不是 0.90（差 {100*(0.9-M['phi'])/M['phi']:.0f}%）",
            13.5, C["accent"], weight="700")
 cv.text_px(W3 / 2, H3 - 68,
-           f"εt = {M['et']:.6f} 小於 0.004 → 規範上此斷面不得作為梁；"
+           f"εt = {M['et']:.6f} 小於 0.005 → 不是拉力控制，規範上此斷面不得作為梁；"
            f"μφ = {M['mu']:.2f} 正是這件事的量化證據",
            13.5, C["load"], weight="700")
 cv.text_px(W3 / 2, H3 - 40,
-           "「As 小於 Asb」不等於合法 —— 算完 εt 一律順手比 0.004", 13, C["muted"])
+           "「As 小於 Asb」不等於合法 —— 梁算完 εt 一律比 0.005（§9.3.3.1）", 13, C["muted"])
 cv.save(f"{OUT}/{TAG}-fig-2-et-band.svg")
 
 # ══════════════════════════════════════════════════════════
@@ -290,9 +290,9 @@ assert abs(M["As"] - 146.48) < 0.02,        M["As"]
 assert abs(M["a"] - 41.70) < 0.01,          M["a"]
 assert abs(M["cu"] - 52.13) < 0.006,        M["cu"]
 assert abs(M["et"] - 0.002755) < 5e-6,      M["et"]
-assert abs(M["phi"] - 0.7092) < 5e-4,       M["phi"]
+assert abs(M["phi"] - 0.7129) < 5e-4,       M["phi"]
 assert abs(M["Mn"] / 1e5 - 505.8) < 0.2,    M["Mn"] / 1e5
-assert abs(M["phi"] * M["Mn"] / 1e5 - 358.7) < 0.3, M["phi"] * M["Mn"] / 1e5
+assert abs(M["phi"] * M["Mn"] / 1e5 - 360.6) < 0.3, M["phi"] * M["Mn"] / 1e5
 assert abs(M["ky_d"] - 45.63) < 0.02,       M["ky_d"]
 assert abs(M["phy"] * 1e5 - 3.787) < 0.001, M["phy"] * 1e5
 assert abs(M["phu"] * 1e5 - 5.755) < 0.005, M["phu"] * 1e5

@@ -296,7 +296,7 @@ f_{\text{底}} = \frac{P}{A} + \frac{P\,e}{S_b} - \frac{M}{S_b}$$
 但本單元<b>高頻的組合 T 型斷面</b>（<a class="qlink" href="problems-view/RC-2006-4.html">RC-2006-4</a>、
 <a class="qlink" href="problems-view/RC-2008-4.html">RC-2008-4</a>、
 <a class="qlink" href="problems-view/RC-2021-4.html">RC-2021-4</a>）形心嚴重偏上，
-\(S_{comp,top}\) 常是 \(S_{comp,bot}\) 的<b>兩倍以上</b>。RC-2006-4 的實際數字：</p>
+\(S_{comp,top}\)（量到梁頂，即與版的介面）常是 \(S_{comp,bot}\) 的<b>兩倍以上</b>。RC-2006-4 的實際數字：</p>
 
 $$S_{comp,top} = 141{,}363\ \text{cm}^3 \quad\text{vs.}\quad S_{comp,bot} = 56{,}930\ \text{cm}^3 \quad (\text{比值 } 2.48)$$
 
@@ -424,7 +424,7 @@ RC-2014-4 實算 \(k = 426.4/30 = 14.2\) cm，上圖淺藍帶即此範圍。
 <table>
 <thead><tr><th>限值</th><th>MPa 制</th><th>kgf/cm² 制</th><th>物理出處</th></tr></thead>
 <tbody>
-<tr><td>傳遞階段壓應力</td><td>\(0.60 f'_{ci}\)</td><td>\(0.60 f'_{ci}\)</td><td>短暫載重，允許較高；但仍在混凝土 σ-ε 曲線的近線性段內</td></tr>
+<tr><td>傳遞階段壓應力</td><td>\(0.60 f'_{ci}\)<br>（簡支端部 \(0.70 f'_{ci}\)）</td><td>\(0.60 f'_{ci}\)<br>（簡支端部 \(0.70 f'_{ci}\)）</td><td>短暫載重，允許較高；但仍在混凝土 σ-ε 曲線的近線性段內</td></tr>
 <tr><td>傳遞階段拉應力</td><td>\(0.25\sqrt{f'_{ci}}\)<br>（端部 \(0.5\sqrt{f'_{ci}}\)）</td><td>\(0.80\sqrt{f'_{ci}}\)<br>（端部 \(1.6\sqrt{f'_{ci}}\)）</td><td>約破裂模數 \(f_r\) 的 <b>0.4 倍</b>：\(f'_{ci}\) 只是推估值，齡期短、離散度大，且此處裂縫會反覆張開</td></tr>
 <tr><td>使用階段壓應力</td><td>\(0.45 f'_c\)（持續）<br>\(0.60 f'_c\)（全部）</td><td>同左</td><td>混凝土約在 \(0.4\sim0.5f'_c\) 以上進入顯著微裂與<b>非線性潛變</b>；0.45 是「潛變可預測、彈性分析仍成立」的門檻</td></tr>
 <tr><td>使用階段拉應力</td><td>\(0.5\sqrt{f'_c}\)</td><td>\(1.6\sqrt{f'_c}\)</td><td>約 \(f_r\) 的 <b>0.8 倍</b>：對開裂保留 20% 餘裕（\(f_r\) 試驗變異約 20%）</td></tr>
@@ -1091,34 +1091,36 @@ RC-2004-5：\(f'_c=350 \Rightarrow \beta_1 = 0.80\)；RC-2023-4：\(f'_c=420 \Ri
 注意 \(\beta_1\) 在 \(f_{ps}\) 公式裡出現在<b>分母</b>（\(\gamma_p/\beta_1\)），忘記折減會讓 \(f_{ps}\) 偏大。
 </div>
 
-<h3>8.2 無握裹腱：為什麼 L/d<sub>p</sub> 會出現在公式裡</h3>
+<h3>8.2 無握裹腱：為什麼跨深比會出現在公式裡</h3>
 
 $$f_{ps} = f_{se} + 700 + \frac{f'_c}{k\,\rho_p} \quad (\text{kgf/cm}^2),\qquad
-k = \begin{cases} 100 & L/d_p \leq 35 \\ 300 & L/d_p > 35\end{cases}$$
-$$f_{ps} \leq \min\left(f_{py},\; f_{se} + 4200\right)$$
+k = \begin{cases} 100 & \ell_n/h \leq 35 \\ 300 & \ell_n/h > 35\end{cases}$$
+$$f_{ps} \leq \begin{cases}\min\left(f_{py},\; f_{se} + 4200\right) & \ell_n/h \leq 35\\ \min\left(f_{py},\; f_{se} + 2100\right) & \ell_n/h > 35\end{cases}$$
+<p style="font-size:.9em;color:#607d8b">判準是跨深比 \(\ell_n/h\)（用全深 \(h\)，不是 \(d_p\)）；公式與上限要<b>同一分支</b>（112 年版表 20.3.2.4.1，對應 ACI 318-19）。本講義 2026-11-21 前把兩分支的上限都寫成 \(f_{se}+4200\)、判準寫成 \(L/d_p\)，已改正。</p>
 
 <div class="why">
 <b>k 從 100 變 300 的物理（不用背哪個配哪個）</b><br>
 無握裹腱的應力增量 \(\propto\) 平均應變 \(= \dfrac{\text{全長伸長量}}{\text{腱長}}\)。<br>
-跨度越長（\(L/d_p\) 越大），分母越大 → <b>同樣的撓度被攤到更長的腱上 → 平均應變越小 → 應力增量越小</b>
-→ 所以分母係數要從 100 加大到 300（增量變成 1/3）。<br>
+跨度越長（\(\ell_n/h\) 越大），分母越大 → <b>同樣的撓度被攤到更長的腱上 → 平均應變越小 → 應力增量越小</b>
+→ 所以分母係數要從 100 加大到 300（增量變成 1/3），增量上限也從 4200 減半為 2100。<br>
 <b>方向記法：長跨用大數（300），增量小。</b>這樣就不會背反。<br>
-（MPa 制對應：\(f_{ps} = f_{se} + 70 + f'_c/(k\rho_p)\)，上限 \(f_{se}+420\)；係數 700／4200 是 kgf/cm² 制的 10.2 倍近似值。）
+（MPa 制對應：\(f_{ps} = f_{se} + 70 + f'_c/(k\rho_p)\)，上限 \(f_{se}+420\)／\(f_{se}+210\)；係數 700／4200／2100 是 kgf/cm² 制的 10.2 倍近似值。）
 </div>
 
 <div class="box">
 <b>手算：<a class="qlink" href="problems-view/RC-2023-4.html">RC-2023-4</a>（無握裹單向版，2023 年題）</b><br>
-\(L=1000\) cm、\(d_p=22\) cm、\(A_p=1.47\) cm²/根 @ 20 cm、\(f_{pu}=19000\)、\(f_{se}=11000\)、\(f'_c=420\) kgf/cm²。
+\(\ell_n=1000\) cm、\(h=25\)、\(d_p=22\) cm、\(A_p=1.47\) cm²/根 @ 20 cm、\(f_{pu}=19000\)、\(f_{se}=11000\)、\(f'_c=420\) kgf/cm²。
 
-$$\frac{L}{d_p} = \frac{1000}{22} = 45.5 > 35 \;\Rightarrow\; k = 300$$
+$$\frac{\ell_n}{h} = \frac{1000}{25} = 40 > 35 \;\Rightarrow\; k = 300$$
 $$\rho_p = \frac{1.47}{20\times22} = 0.003341 \;\Rightarrow\;
 f_{ps} = 11000 + 700 + \frac{420}{300\times0.003341} = 11000+700+419 = 12{,}119\ \text{kgf/cm}^2$$
 
-上限檢核：\(f_{py} = 0.85\times19000 = 16150\)；\(f_{se}+4200 = 15200\) → 12,119 均未超過 ✓
+上限檢核（\(\ell_n/h>35\) 分支）：\(f_{py} = 0.85\times19000 = 16150\)；\(f_{se}+2100 = 13100\) → 12,119 均未超過 ✓（餘裕 7.5%）
 
 $$a = \frac{1.47\times12119}{0.85\times420\times20} = \frac{17{,}815}{7{,}140} = 2.49\ \text{cm}$$
 $$M_n = 17{,}815\times\left(22 - \frac{2.49}{2}\right) = 17{,}815\times20.75 = 3.70\times10^5\ \text{kgf·cm （每 20 cm 條帶）}$$
-$$\Rightarrow M_n = 3.70\times10^5 \times 5 = 1.85\times10^6\ \text{kgf·cm/m} = \mathbf{18.5\ tf·m/m}$$
+$$\Rightarrow M_n = 3.70\times10^5 \times 5 = 1.85\times10^6\ \text{kgf·cm/m} = 18.5\ \text{tf·m/m}\ (\text{只計鋼絞線})$$
+<p>考卷另有「普通具握裹鋼筋」（號數未給）。解析正本依規範無握裹預力版最少握裹鋼筋 \(A_{s,\min}=0.004A_{ct}=0.004\times20\times12.5=1.0\) cm²／條帶計入：\(T = 17{,}815+4{,}200 = 22{,}015\) kgf、\(a=3.08\) cm → <b>\(M_n = 22.5\) tf·m/m</b>（主線答案）。</p>
 
 <b>三個自我檢查：</b><br>
 ① \(f_{ps}/f_{pu} = 12119/19000 = 0.64\) —— 無握裹腱典型落在 0.6~0.75，若算出 0.9 就是誤用了有黏結公式。<br>
@@ -1303,7 +1305,7 @@ RC-2004-5 實算：\(\omega_p = 0.0867 \ll 0.36\times0.80 = 0.288\)，延性非�
 <tr><td><a class="qlink" href="problems-view/RC-2014-4.html">RC-2014-4</a></td><td>2014</td><td>A</td><td>對稱 I 形兩階段、容許應力檢核、底纖維受拉仍在 U 類內</td><td>§3.3</td></tr>
 <tr><td><a class="qlink" href="problems-view/RC-2018-4.html">RC-2018-4</a></td><td>2018</td><td>B</td><td>後拉有黏結、Mcr 與 Mn 併問、fps 公式選擇、鋼腱拉斷檢核</td><td>§7、§8.1</td></tr>
 <tr><td><a class="qlink" href="problems-view/RC-2021-4.html">RC-2021-4</a></td><td>2021</td><td>C</td><td>預力 T 型梁組合斷面、有效翼板寬、反算最大活載重</td><td>§5、§6.2</td></tr>
-<tr><td><a class="qlink" href="problems-view/RC-2023-4.html">RC-2023-4</a></td><td>2023</td><td>B</td><td>後拉無握裹單向版、L/dp 判斷、fps 上限、β₁ = 0.75</td><td>§8.2</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2023-4.html">RC-2023-4</a></td><td>2023</td><td>B</td><td>後拉無握裹單向版、ℓn/h 判斷、fps 上限（同分支）、計入 As,min 得 Mn = 22.5</td><td>§8.2</td></tr>
 </tbody>
 </table>
 
@@ -1346,7 +1348,7 @@ RC-2004-5 實算：\(\omega_p = 0.0867 \ll 0.36\times0.80 = 0.288\)，延性非�
 <tr><td>4</td><td>容許值寫成 k√f'c</td><td>用 kgf/cm² 算應力卻套 MPa 制係數</td><td>換單位時係數要乘 √10.2 ≈ 3.19；題目給值就用題目的</td><td>§3.2</td></tr>
 <tr><td>5</td><td>「版澆置後形成組合斷面」</td><td>版重放到組合斷面上</td><td>濕混凝土無勁度，版重由梁單獨承擔（用 Sb1）</td><td>RC-2006-4、RC-2008-4</td></tr>
 <tr><td>6</td><td>版與梁 f'c 不同</td><td>直接把版寬併入</td><td>n = √(f'c2/f'c1)，版寬乘 n；n &lt; 1 才對</td><td>RC-2006-4、RC-2007-4</td></tr>
-<tr><td>7</td><td>組合／T 形斷面</td><td>令 St = Sb = I/(h/2)</td><td>先求 ȳ，再分別算 St、Sb；比值可達 4 倍以上</td><td><a class="qlink" href="problems-view/RC-2006-4.html">RC-2006-4</a></td></tr>
+<tr><td>7</td><td>組合／T 形斷面</td><td>令 St = Sb = I/(h/2)</td><td>先求 ȳ，再分別算 St、Sb；RC-2006-4 比值 2.48</td><td><a class="qlink" href="problems-view/RC-2006-4.html">RC-2006-4</a></td></tr>
 <tr><td>8</td><td>題目給三組斷面性質</td><td>三個階段共用一個 e</td><td>ep 是「腱到該斷面形心」，三個必然不同</td><td><a class="qlink" href="problems-view/RC-2011-5.html">RC-2011-5</a></td></tr>
 <tr><td>9</td><td>問「鋼腱應力」</td><td>直接答 Pe/Aps</td><td>有黏結腱要加相容修正 n·|Δσc|；結果一定比 Pe/Aps 大</td><td><a class="qlink" href="problems-view/RC-2011-5.html">RC-2011-5</a></td></tr>
 <tr><td>10</td><td>懸臂梁預力</td><td>套簡支經驗把腱放形心下方</td><td>看彎矩圖：頂部受拉 → 腱在形心上方</td><td><a class="qlink" href="problems-view/RC-2012-1.html">RC-2012-1</a></td></tr>
@@ -1355,8 +1357,8 @@ RC-2004-5 實算：\(\omega_p = 0.0867 \ll 0.36\times0.80 = 0.288\)，延性非�
 <tr><td>13</td><td>要求 Mcr</td><td>用 Whitney 應力塊算</td><td>Mcr 是彈性問題：Mcr = Sb(fce + fr)</td><td>RC-2004-5、RC-2018-4</td></tr>
 <tr><td>14</td><td>f'c &gt; 280 kgf/cm²</td><td>β₁ 仍用 0.85</td><td>β₁ = 0.85 − 0.05(f'c−280)/70，下限 0.65；在 fps 公式中位於分母</td><td>RC-2004-5、RC-2023-4</td></tr>
 <tr><td>15</td><td>「無握裹」「unbonded」</td><td>用有黏結的 γp/β₁ 公式</td><td>無握裹不能用應變相容，只能用經驗式；fps/fpu 約 0.6~0.75</td><td><a class="qlink" href="problems-view/RC-2023-4.html">RC-2023-4</a></td></tr>
-<tr><td>16</td><td>無握裹腱</td><td>忘了兩個上限</td><td>fps ≤ min(fpy, fse + 4200 kgf/cm²)</td><td><a class="qlink" href="problems-view/RC-2023-4.html">RC-2023-4</a></td></tr>
-<tr><td>17</td><td>無握裹腱、給跨度與 dp</td><td>k 值記反</td><td>長跨（L/dp &gt; 35）用 300（增量小）；短跨用 100</td><td><a class="qlink" href="problems-view/RC-2023-4.html">RC-2023-4</a></td></tr>
+<tr><td>16</td><td>無握裹腱</td><td>忘了兩個上限</td><td>fps ≤ min(fpy, fse + 4200)（ℓn/h ≤ 35）或 min(fpy, fse + 2100)（ℓn/h &gt; 35），與公式同分支</td><td><a class="qlink" href="problems-view/RC-2023-4.html">RC-2023-4</a></td></tr>
+<tr><td>17</td><td>無握裹腱、給跨度與 dp</td><td>k 值記反</td><td>長跨（ℓn/h &gt; 35）用 300、上限 fse + 2100；短跨用 100、上限 fse + 4200</td><td><a class="qlink" href="problems-view/RC-2023-4.html">RC-2023-4</a></td></tr>
 <tr><td>18</td><td>單向版、給鋼腱間距</td><td>ρp 與 Mn 用不同的 b</td><td>分析寬度全程一致，最後再換算每米</td><td><a class="qlink" href="problems-view/RC-2023-4.html">RC-2023-4</a></td></tr>
 <tr><td>19</td><td>有壓力非預力鋼筋</td><td>fps 公式漏掉 ω′</td><td>(d/dp)(ω − ω′) 這一項要完整帶入</td><td><a class="qlink" href="problems-view/RC-2003-1.html">RC-2003-1</a></td></tr>
 <tr><td>20</td><td>算完 Mn 就交卷</td><td>沒做延性與最小強度驗核</td><td>ωp ≤ 0.36β₁ 且 φMn ≥ 1.2Mcr，兩項都要寫</td><td><a class="qlink" href="problems-view/RC-2004-5.html">RC-2004-5</a></td></tr>
@@ -1412,9 +1414,9 @@ RC-2004-5 實算：\(\omega_p = 0.0867 \ll 0.36\times0.80 = 0.288\)，延性非�
 <p>應變相容。載重把梁壓彎，腱位的混凝土往拉的方向變形，鋼腱被同步拉長 → 應力上升 Δfs = n·|Δσc|。
 所以「載重增加 → 腱應力增加」，答案必定大於 Pe/Aps。（§4.2）</p></details>
 
-<details><summary>10. 為什麼無握裹腱的 fps 遠低於有黏結腱？L/dp 為什麼會進到公式裡？</summary>
+<details><summary>10. 為什麼無握裹腱的 fps 遠低於有黏結腱？跨深比為什麼會進到公式裡？</summary>
 <p>無握裹腱可以在套管內自由滑動，它的應變是<b>全長平均值</b>而非局部值。
-同樣的跨中撓度，腱越長（L/dp 越大），平均應變越小 → 應力增量越小，
+同樣的跨中撓度，腱越長（ℓn/h 越大），平均應變越小 → 應力增量越小，
 所以分母係數從 100 加大到 300。（§8.2）</p></details>
 
 <details><summary>11. 規範為什麼要求 φMn ≥ 1.2Mcr？</summary>
@@ -1450,7 +1452,7 @@ RC-2004-5 實算：\(\omega_p = 0.0867 \ll 0.36\times0.80 = 0.288\)，延性非�
 還要處理 n = √(f'c2/f'c1) 的雙材料轉換。這是 5 題組合斷面題（2006、2007、2008、2011、2021）的公版，
 練這一題等於練那五題。計算量最大，但也最值得投資。<br>
 <b>先讀：</b>§1.2、§5.1、§5.2<br>
-<b>做完要能回答：</b>①版重為什麼歸給梁斷面？②Scomp,top / Scomp,bot 為什麼會差 4 倍以上，
+<b>做完要能回答：</b>①版重為什麼歸給梁斷面？②Scomp,top / Scomp,bot 為什麼會差到 2.5 倍，
 這對「哪個纖維控制」有什麼啟示？③如果版與梁 f'c 相同，答案會往哪個方向變？
 </div>
 
@@ -1470,7 +1472,7 @@ RC-2004-5 實算：\(\omega_p = 0.0867 \ll 0.36\times0.80 = 0.288\)，延性非�
 同時是最近年份，代表命題趨勢（無握裹後拉版在實務上越來越常見）。
 計算量小，投報率高。<br>
 <b>先讀：</b>§8.2<br>
-<b>做完要能回答：</b>①L/dp 為什麼會影響 fps？②兩個上限各在防什麼？
+<b>做完要能回答：</b>①跨深比 ℓn/h 為什麼會影響 fps？②兩個上限各在防什麼？
 ③如果把它當有黏結腱算，Mn 會高估多少（量級）？
 </div>
 
@@ -1539,7 +1541,7 @@ RC-2004-5 實算：\(\omega_p = 0.0867 \ll 0.36\times0.80 = 0.288\)，延性非�
 <div class="box">
 <b>鏈 4：組合斷面必定底纖維控制（§1.2、§5）</b><br>
 版加在頂部 → 形心上移 → 底部力臂 yb 變長、頂部 yt 變短 →
-Sb 遠小於 St（可差 4 倍以上）→ 同一個活載重彎矩在底纖維造成的應力遠大於頂纖維 →
+Sb 遠小於 St（RC-2006-4 差 2.5 倍）→ 同一個活載重彎矩在底纖維造成的應力遠大於頂纖維 →
 <b>先算底纖維</b>，時間不夠可略頂纖維。
 </div>
 
@@ -1553,7 +1555,7 @@ Mdec = Pe(kt + e) = Pe(r²/yb + e) → 再多一個 fr·Sb 就<b>開裂</b> → 
 <div class="box">
 <b>鏈 6：無握裹腱的 fps 為什麼低（§8.2）</b><br>
 無握裹腱可在套管內滑動 → 應變是<b>全長平均值</b>而非局部值 →
-腱越長（L/dp 越大）平均應變越小 → 應力增量越小 → 分母係數由 100 加大到 300 →
+腱越長（ℓn/h 越大）平均應變越小 → 應力增量越小 → 分母係數由 100 加大到 300 →
 fps 僅 fse 加上有限增量（fps/fpu ≈ 0.6~0.75）→ 不能用應變相容，只能用經驗式。
 </div>
 
@@ -1577,6 +1579,6 @@ fps 僅 fse 加上有限增量（fps/fpu ≈ 0.6~0.75）→ 不能用應變相�
 <footer>
 RC-U4-1 觀念講義｜exam-wiki-RC 知識庫｜由 unit-lecture skill 產生<br>
 資料來源：raw/json/question_index.json、archive/wiki/concepts/、archive/wiki/traps/、archive/wiki/code-ref/
-</footer>
+<br>2026-11-21 改正：§8.2 無握裹腱判準改為 ℓn/h、ℓn/h &gt; 35 分支上限 fse + 2100（原誤寫 fse + 4200）；RC-2023-4 手算補計 As,min，Mn = 22.5 tf·m/m（與解析正本一致）；組合斷面 S 比改為實值 2.48；傳遞階段補簡支端部 0.70f'ci。</footer>
 </body>
 </html>

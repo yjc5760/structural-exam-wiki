@@ -55,10 +55,10 @@ DP = 7.0                                   # 判讀 #5：拉力筋形心距頂�
 D = H - DP
 FC, FY, ES, ECU, MU = 350.0, 4200.0, 2.04e6, 0.003, 150.0
 B1 = 0.85 - 0.05 * (FC - 280) / 70
-ET = 0.004                                 # §4 以 εt = 0.004 上限設計
-C_ = 3 / 7 * D
+ET = 0.002 + 0.003                         # 112 年版 §9.3.3.1 梁須拉力控制；SD420 εty 取 0.002（§21.2.2.1）
+C_ = ECU / (ECU + ET) * D
 A_ = B1 * C_
-PHI = round(0.65 + (ET - 0.002) * 0.25 / 0.003, 3)
+PHI = 0.90
 CC = 0.85 * FC * A_ * BW
 PMN1 = round(PHI * CC * (D - A_ / 2) / 1e5, 1)
 EPSP = ECU * (C_ - DP) / C_
@@ -106,7 +106,7 @@ def fig2_negative():
     p2.math_px(p2.X(FY / ES * K) + 4, p2.Y(C_) - 8, "ε_{y}", 11.5, C["accent"], "start")
     p2.line((-80 / sc, C_), (80 / sc, C_), C["accent"], 1.4, dash="6 4")
     p2.text_px(PW / 2, PH - 64, f"ε's 大於 εy：A's 降伏，取 fy − 0.85f'c", 12.5, C["muted"])
-    p2.text_px(PW / 2, PH - 38, f"εt = 0.004 → φ = {PHI:.3f}", 13, C["accent"], weight="700")
+    p2.text_px(PW / 2, PH - 38, f"εt = 0.005（拉力控制）→ φ = {PHI:.2f}", 13, C["accent"], weight="700")
     # 內力
     p3 = Canvas(PW, PH, sx=sc, ox=PW * 0.40, oy=oy)
     M = 64 / sc
@@ -125,7 +125,7 @@ def fig2_negative():
     p3.text_px(PW / 2, PH - 38, f"As = {AS:.2f}、A's = {ASP:.2f} cm²", 13, C["accent"], weight="700")
     path = os.path.join(OUT, f"{TAG}-fig-2-negative.svg")
     compose([p1, p2, p3], title=f"{TAG}　負彎矩 T 形梁：翼板受拉，壓力只能靠 40 cm 腹板",
-            sub=f"單筋上限 φMn1 = {PMN1:.1f} 小於 Mu = 150 tf·m → 腹板底加壓力筋（雙筋設計，εt = 0.004）",
+            sub=f"單筋上限 φMn1 = {PMN1:.1f} 小於 Mu = 150 tf·m → 腹板底加壓力筋（雙筋設計，拉力控制 εt = 0.005）",
             note="壓力區寬若誤取 bf = 100，單筋就看似足夠——負彎矩時翼板在受拉側，對強度沒有幫助",
             path=path)
     return path
@@ -139,7 +139,7 @@ if __name__ == "__main__":
     for fn, sec, catches in FIGURES:
         print(f"{os.path.basename(fn()):<32} {sec:<18} 攔：{catches}")
     # 與 RC-2015-3.md §4 公佈值核對
-    assert (round(C_, 2), round(A_, 2), round(CC)) == (27.0, 21.6, 257040) and PHI == 0.817
-    assert PMN1 == 109.6 and round(EPSP, 5) == 0.00222
-    assert round(ASP, 2) == 22.63 and round(AS, 2) == 82.22
+    assert abs(C_ - 23.625) < 1e-9 and abs(A_ - 18.90) < 1e-9 and round(CC) == 224910 and PHI == 0.90
+    assert PMN1 == 108.4 and round(EPSP, 5) == 0.00211
+    assert abs(ASP - 21.15) < 0.05 and abs(AS - 73.20) < 0.06
     print("assert OK")

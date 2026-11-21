@@ -169,7 +169,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <p><strong>主分類：</strong> <code>RC-U1-1</code> RC 梁彎矩強度分析與設計<br />
 <strong>副分類：</strong> 無<br />
 <strong>設計法：</strong> USD 強度設計法<br />
-<strong>標籤：</strong> <code>T形梁</code> <code>平衡鋼筋量</code> <code>NA在腹板</code> <code>過渡區φ值</code> <code>斷面韌性容量</code> <code>曲率延展比</code> <code>降伏曲率</code> <code>極限曲率</code> <code>彈性中性軸</code> <code>As=0.9Asb</code> <code>超筋斷面</code> <code>εt&lt;0.004</code> <code>圖面尺寸歧義</code> <code>尺寸鏈判讀</code> <code>d=100</code></p>
+<strong>標籤：</strong> <code>T形梁</code> <code>平衡鋼筋量</code> <code>NA在腹板</code> <code>過渡區φ值</code> <code>斷面韌性容量</code> <code>曲率延展比</code> <code>降伏曲率</code> <code>極限曲率</code> <code>彈性中性軸</code> <code>As=0.9Asb</code> <code>超筋斷面</code> <code>非拉力控制</code> <code>圖面尺寸歧義</code> <code>尺寸鏈判讀</code> <code>d=100</code></p>
 <hr />
 <h2>1. 題目（考卷原文見題目正本）</h2>
 <blockquote>
@@ -261,13 +261,13 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 <tr>
 <td>❸ 過渡區 $\phi$ 值</td>
-<td>$\varepsilon_y &lt; \varepsilon_t &lt; 0.005$，$\phi$ 需線性插值，非直接 0.9</td>
-<td>$\phi = 0.65 + 0.25\dfrac{\varepsilon_t - \varepsilon_y}{0.005 - \varepsilon_y}$</td>
+<td>$\varepsilon_{ty} &lt; \varepsilon_t &lt; 0.005$，$\phi$ 需線性插值，非直接 0.9</td>
+<td>$\phi = 0.65 + 0.25\dfrac{\varepsilon_t - \varepsilon_{ty}}{0.003}$，SD420 取 $\varepsilon_{ty}=0.002$（表 21.2.2、§21.2.2.1）</td>
 </tr>
 <tr>
-<td>❸' <strong>漏檢 $\varepsilon_t \geq 0.004$</strong></td>
-<td>本題 $\varepsilon_t = 0.00276 &lt; 0.004$，<strong>規範上此斷面不得作為梁</strong></td>
-<td>算完 $\varepsilon_t$ 一律順手比 0.004，見 §5 ②</td>
+<td>❸' <strong>漏檢梁須拉力控制</strong></td>
+<td>本題 $\varepsilon_t = 0.00276 &lt; 0.005$，<strong>規範上此斷面不得作為梁</strong>（112 年版 §9.3.3.1）</td>
+<td>梁算完 $\varepsilon_t$ 一律比 0.005，見 §5 ②</td>
 </tr>
 <tr>
 <td>❹ $\phi_y$ 用彈性中性軸，$\phi_u$ 用塑性中性軸</td>
@@ -449,7 +449,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 <tr>
 <td>$\phi$</td>
-<td>$0.65 + 0.25\times(0.002755-0.002059)/(0.005-0.002059) = 0.7092$</td>
+<td>$0.65 + 0.25\times(0.002755-0.002)/0.003 = 0.7129$</td>
 <td></td>
 </tr>
 </tbody>
@@ -553,16 +553,16 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <h4>Step 5：$\varepsilon_t$ 與 $\phi$ 值</h4>
 <p>$$c_u = \frac{a}{\beta_1} = \frac{41.70}{0.80} = 52.13 \text{ cm}$$</p>
 <p>$$\varepsilon_t = \varepsilon_{cu}\cdot\frac{d - c_u}{c_u} = 0.003\times\frac{100-52.13}{52.13} = 0.003\times0.9183 = 0.002755$$</p>
-<p><strong>判斷區間：</strong> $\varepsilon_y = 0.002059 &lt; \varepsilon_t = 0.002755 &lt; 0.005$ → <strong>過渡區</strong></p>
-<p>$$\phi = 0.65 + 0.25\times\frac{\varepsilon_t - \varepsilon_y}{0.005 - \varepsilon_y} = 0.65 + 0.25\times\frac{0.000696}{0.002941}$$</p>
-<p>$$= 0.65 + 0.25\times0.2368 = 0.65 + 0.0592 = \boxed{0.7092}$$</p>
+<p><strong>判斷區間：</strong> $\varepsilon_{ty} = 0.002 &lt; \varepsilon_t = 0.002755 &lt; 0.005$ → <strong>過渡區</strong>（112 年版表 21.2.2；SD420 依 §21.2.2.1 取 $\varepsilon_{ty}=0.002$）</p>
+<p>$$\phi = 0.65 + 0.25\times\frac{\varepsilon_t - \varepsilon_{ty}}{0.003} = 0.65 + 0.25\times\frac{0.000755}{0.003}$$</p>
+<p>$$= 0.65 + 0.0629 = \boxed{0.7129}$$</p>
 <blockquote>
-<p>⚠ <strong>但這個斷面規範上不合格：</strong> $\varepsilon_t = 0.002755 &lt; 0.004$，見 §5 ② 的討論。<br />
+<p>⚠ <strong>但這個斷面規範上不合格：</strong> $\varepsilon_t = 0.002755 &lt; 0.005$（非預力梁須拉力控制），見 §5 ② 的討論。<br />
 本題為純分析題（題目直接指定 $A_s = 0.9A_{sb}$），故仍照算 $\phi M_n$。</p>
 </blockquote>
 <hr />
-<p><img alt="RC-2011-2 淨拉應變帶狀圖：εty = 0.002059、0.004、0.005 三個界限，本題 εt = 0.002755 落在「梁不得使用」區間" src="../../raw/solutions/RC-2011-2/figs/RC-2011-2-fig-2-et-band.svg" /></p>
-<p><em>圖 2　$\varepsilon_t$ 落在哪一段。$\phi$ 必須內插得 0.7092 而非 0.90，且 $\varepsilon_t = 0.002755$ 未達 0.004——這張圖攔下「$A_s &lt; A_{sb}$ 就當合法」與「$\phi$ 逕取 0.9」兩個錯，本題真正的得分點在這裡。</em></p>
+<p><img alt="RC-2011-2 淨拉應變帶狀圖：εty = 0.002、0.005 兩個界限，本題 εt = 0.002755 落在過渡區、梁不得使用" src="../../raw/solutions/RC-2011-2/figs/RC-2011-2-fig-2-et-band.svg" /></p>
+<p><em>圖 2　$\varepsilon_t$ 落在哪一段。$\phi$ 必須內插得 0.7129 而非 0.90，且 $\varepsilon_t = 0.002755$ 未達拉力控制的 0.005——這張圖攔下「$A_s &lt; A_{sb}$ 就當合法」與「$\phi$ 逕取 0.9」兩個錯，本題真正的得分點在這裡。</em></p>
 <h4>Step 6：計算 $M_n$（對 $A_s$ 形心取矩）</h4>
 <p><strong>策略：</strong> 將壓力分為腹板矩形塊 + 翼板外挑矩形塊（均勻應力 $0.85f'_c$）：</p>
 <p>$$C_{c,\text{web}} = 0.85\times350\times b_w\times a = 297.5\times40\times41.70 = 496{,}230 \text{ kgf}$$</p>
@@ -572,7 +572,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <p><strong>驗算平衡：</strong> $C_{c,\text{web}} + C_{c,\text{flange}} = 496{,}230 + 119{,}000 = 615{,}230 \approx A_s\cdot f_y = 615{,}202$ kgf ✅（差 28 kgf 來自 $a$ 取兩位小數）</p>
 <p>$$M_n = 496{,}230\times79.15 + 119{,}000\times95.00$$</p>
 <p>$$= 39{,}276{,}605 + 11{,}305{,}000 = 50{,}581{,}605 \text{ kgf·cm} = 505.8 \text{ tf·m}$$</p>
-<p>$$\boxed{\phi M_n = 0.7092\times505.8 = 358.7 \text{ tf·m}}$$</p>
+<p>$$\boxed{\phi M_n = 0.7129\times505.8 = 360.6 \text{ tf·m}}$$</p>
 <hr />
 <h3>Part (二)：斷面韌性容量 $\mu_\phi = \phi_u/\phi_y$</h3>
 <hr />
@@ -613,19 +613,19 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <p>$$A_{sf} = \frac{119{,}000}{4200} = 28.33 \text{ cm}^2$$</p>
 <p>$$A_{sb,T} = A_{sb,\text{rect}} + A_{sf} = 134.40 + 28.33 = 162.73 \text{ cm}^2 \;\checkmark\;(\text{與 Step 2 的 } 162.75 \text{ 相符，差為四捨五入})$$</p>
 <p>翼板貢獻佔 $28.33/162.73 = 17\%$，不可忽略。</p>
-<p><strong>② ⚠ 本斷面規範上不得作為梁使用（$\varepsilon_t &lt; 0.004$）</strong></p>
-<p>$$\varepsilon_t = 0.002755 &lt; 0.004$$</p>
-<p>依土木 401（及 ACI 318 §9.3.3.1），<strong>非預力撓曲構材的最外緣受拉鋼筋淨拉應變不得小於 0.004</strong>；<br />
+<p><strong>② ⚠ 本斷面規範上不得作為梁使用（$\varepsilon_t &lt; 0.005$）</strong></p>
+<p>$$\varepsilon_t = 0.002755 &lt; 0.005$$</p>
+<p>依現行 112 年版 §9.3.3.1，<strong>非預力梁應符合表 21.2.2 拉力控制之規定</strong>（SD420：$\varepsilon_t \ge 0.005$）；考卷當年的土木 401 規定 $\varepsilon_t \ge 0.004$，本題同樣不通過；<br />
 更早期的規定 $A_s \leq 0.75A_{sb}$ 同樣不通過（本題 $A_s = 0.9A_{sb}$）。也就是說：</p>
 <blockquote>
 <p><strong>$A_s = 0.9A_{sb}$ 是一個規範上禁止的超筋斷面。</strong></p>
 </blockquote>
 <p>出題者刻意給 $0.9A_{sb}$，就是要看考生會不會發現「$A_s &lt; A_{sb}$ 不等於合法」。<br />
 本題屬<strong>純分析題</strong>（直接指定 $A_s$，只問強度與韌性），故仍照算；<br />
-但若題目是「設計」，正確答案是<strong>這個配筋不可採用</strong>，必須加深斷面、加壓力鋼筋，或降低 $A_s$ 至 $\varepsilon_t \geq 0.004$。</p>
+但若題目是「設計」，正確答案是<strong>這個配筋不可採用</strong>，必須加深斷面、加壓力鋼筋，或降低 $A_s$ 至 $\varepsilon_t \geq 0.005$。</p>
 <p>Part (二) 算出的 $\mu_\phi = 1.52$ 正是這件事的量化證據——延性幾乎沒有。</p>
 <p><strong>③ 過渡區 $\phi$ 值的考場處理</strong></p>
-<p>$A_s &lt; A_{sb}$ 不代表 $\phi = 0.9$，必須計算 $\varepsilon_t$ 後插值。本題 $\phi = 0.7092$，若直接取 0.9 將高估 $\phi M_n$ 約 27%，導致設計不安全。</p>
+<p>$A_s &lt; A_{sb}$ 不代表 $\phi = 0.9$，必須計算 $\varepsilon_t$ 後插值。本題 $\phi = 0.7129$，若直接取 0.9 將高估 $\phi M_n$ 約 26%，導致設計不安全。</p>
 <p><strong>④ 彈性 vs. 塑性中性軸的深度比較</strong></p>
 <table>
 <thead>
@@ -658,7 +658,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <ul>
 <li>先判斷 $a_b$ 位置（翼板 or 腹板），免得後面全錯</li>
 <li>$\phi$ 值一定要算，不要假設</li>
-<li>算完 $\varepsilon_t$ <strong>順手比一下 0.004</strong>，這是本題真正的得分點</li>
+<li>算完 $\varepsilon_t$ <strong>順手比一下 0.005</strong>（梁須拉力控制），這是本題真正的得分點</li>
 <li>$\phi_y$ 和 $\phi_u$ 的中性軸完全不同，<strong>不可混用</strong></li>
 </ul>
 <p><strong>⑥ 判讀勘誤：$d = 100$ 不是 90（2026-11-12）</strong></p>
@@ -707,7 +707,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 <tr>
 <td>$\phi$</td>
-<td style="text-align: right;">0.7092</td>
+<td style="text-align: right;">0.7129（2026-11-12 版 0.7092）</td>
 <td style="text-align: right;">0.7105</td>
 </tr>
 <tr>
@@ -717,7 +717,7 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 </tr>
 <tr>
 <td>$\phi M_n$</td>
-<td style="text-align: right;"><strong>358.7 tf·m</strong></td>
+<td style="text-align: right;"><strong>360.6 tf·m</strong>（2026-11-12 版 358.7）</td>
 <td style="text-align: right;">297.5 tf·m</td>
 </tr>
 <tr>
@@ -736,7 +736,8 @@ footer{text-align:center;color:var(--mut);font-size:.8em;padding:22px;border-top
 <hr />
 <p><em>圖解補繪：2026-08-31（向量圖 3 張，腳本 <code>figs/gen_RC-2011-2.py</code>，可重跑；腳本檔尾對 §4／§5 公佈值做 assert）</em></p>
 <p><em>修正日期：2026-11-12（§1 改為指向題目正本，重繪題目附圖 figs/RC-2011-2-fig-1-problem.svg；原 §1 圖 1 移到「判讀圖解（解析自繪）」）</em></p>
-<p><em>修正日期：2026-11-12（勘誤：題意判讀錯誤，附圖尺寸鏈 10＋90＋10 應讀為 d = 100、h = 110 cm（舊解 d = 90、h = 100）；φMn 297.5 → 358.7 tf·m，μφ 1.53 → 1.52；§1、§3、§3.5、§4、§5 全部數值與 §5⑥ 改寫；figs/gen_RC-2011-2.py 改 H_MAIN = 110 重跑 3 張圖並更新 assert；驗證：考卷 PDF 向量座標量測，Python 獨立重算 MISMATCHES: 0）</em></p></main>
+<p><em>修正日期：2026-11-12（勘誤：題意判讀錯誤，附圖尺寸鏈 10＋90＋10 應讀為 d = 100、h = 110 cm（舊解 d = 90、h = 100）；φMn 297.5 → 358.7 tf·m，μφ 1.53 → 1.52；§1、§3、§3.5、§4、§5 全部數值與 §5⑥ 改寫；figs/gen_RC-2011-2.py 改 H_MAIN = 110 重跑 3 張圖並更新 assert；驗證：考卷 PDF 向量座標量測，Python 獨立重算 MISMATCHES: 0）</em></p>
+<p><em>修正日期：2026-11-21（解析勘誤，改依現行台灣規範（建築物混凝土結構設計規範 2023）：φ 改表 21.2.2 原式、SD420 依 §21.2.2.1 取 εty = 0.002，φ 0.7092 → 0.7129、φMn 358.7 → 360.6 tf·m；梁延性改依 §9.3.3.1 拉力控制（εt ≥ 0.005），本題 εt = 0.002755 仍不合格；μφ 不變；gen 腳本與圖 2 重產）</em></p></main>
 <footer>來源：raw/solutions/RC-2011-2/RC-2011-2.md（知識庫解題內容唯一正本；本頁僅為渲染顯示）</footer>
 <script>
 /* 跟隨來源單元：由 unit-/lecture-（及舊 study-/formula-given-）RC-Un-m.html 進入時，

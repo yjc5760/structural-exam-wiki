@@ -50,7 +50,7 @@ EPSY = FY / ES
 KA   = FY / (0.85 * FC * B)                       # a = KA · As
 
 RHO_B  = 0.85 * B1 * FC / FY * 6120 / (6120 + FY)
-C_MAX  = 3 / 7 * D                                # εt = 0.004
+C_MAX  = 3 / 8 * D                                # 拉力控制 εt = 0.005（112 年版 §9.3.3.1）
 A_MAX  = B1 * C_MAX
 AS_MAX = 0.85 * FC * A_MAX * B / FY
 RHO_MAX = AS_MAX / (B * D)
@@ -263,8 +263,8 @@ assert abs(END_POS - 8.06) < 0.01,           END_POS
 assert abs(M_of(1.2 * WD + 1.0 * WL, 1.0, 0.0) - 0.56) < 0.01
 assert abs(MID_POS - 9.375) < 1e-9,          MID_POS
 assert abs(RHO_B - 0.02856) < 5e-5,          RHO_B          # ← 修正後（原 .md 誤植 0.02849）
-assert abs(AS_MAX - 45.52) < 0.02,           AS_MAX
-assert abs(RHO_MAX - 0.02064) < 5e-5,        RHO_MAX
+assert abs(AS_MAX - 39.83) < 0.02,           AS_MAX
+assert abs(RHO_MAX - 0.01806) < 5e-5,        RHO_MAX
 assert abs(AS_MAX_OLD - 47.24) < 0.05,       AS_MAX_OLD     # ← 修正後（原 .md 誤植 47.11）
 assert abs(ET_OLD - 0.003745) < 5e-6,        ET_OLD
 assert abs(RHO_MIN - 0.003333) < 5e-6,       RHO_MIN

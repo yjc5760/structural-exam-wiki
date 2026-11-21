@@ -168,8 +168,8 @@ def f32():
     b.append(T(ox-56,Y(0.5),'U',15,INK,'middle',extra=f' font-family={SERIF!r} font-style="italic"'.replace("'",'"')))
     b.append(L(ox,Y(1),ox+W,Y(1),MUT,1.4,'6,4')); b.append(T(ox+W,Y(1)-6,'U = 1（無遲滯）',12,MUT,'end'))
     # table values for angles
-    b.append(L(ox,Y(0.8),ox+W,Y(0.8),ORG,1.2,'3,4')); b.append(T(ox+W,Y(0.8)+15,'查表 0.80（角鋼，≥4 顆）',11.5,ORG,'end'))
-    b.append(L(ox,Y(0.6),ox+W,Y(0.6),ORG,1.2,'3,4')); b.append(T(ox+W,Y(0.6)+15,'查表 0.60（角鋼，2～3 顆）',11.5,ORG,'end'))
+    b.append(L(ox,Y(0.85),ox+W,Y(0.85),ORG,1.2,'3,4')); b.append(T(ox+W,Y(0.85)+15,'我國查表 0.85（角鋼，每行 ≥3 栓）',11.5,ORG,'end'))
+    b.append(L(ox,Y(0.75),ox+W,Y(0.75),ORG,1.2,'3,4')); b.append(T(ox+W,Y(0.75)+15,'我國查表 0.75（每行僅 2 栓）',11.5,ORG,'end'))
     pts=[]
     n=220
     for k in range(n+1):
@@ -181,5 +181,5 @@ def f32():
         b.append(T(X(r)+dx,Y(u)+dy,lab,12.5,c,'start' if dx>=0 else 'end','700'))
     b.append(R(ox+330,Y(0.42)-6,300,62,LPUR,'#ce93d8',1.2,8))
     b.append(T(ox+344,Y(0.42)+14,'U = 1 − ~{x̄}/L = 1 − 1/(L/~{x̄})',13,PUR,weight='700'))
-    b.append(T(ox+344,Y(0.42)+36,'範例 A 算得 0.832 ＞ 查表 0.80 → 能算就用算的',12,PUR))
+    b.append(T(ox+344,Y(0.42)+36,'範例 A 0.832 ＜ 查表 0.85 → 能算就用算的',12,PUR))
     return svg(820,330,''.join(b),'U 隨接合長度比變化的精確曲線')

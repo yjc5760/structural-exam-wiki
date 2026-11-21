@@ -200,7 +200,7 @@ footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-to
 <div class="why">
 <b>為什麼要這樣看？</b><br>
 如果只把本單元當成「一堆耐震規範的公式與限值」，你會發現要背的東西多到記不住：
-\(1.25f_y\)、\(\phi=1.0\)、\(6/5\)、\(V_c=0\)、\(A_{sh}\) 兩式、\(l_o\) 三式、\(s\) 三式、\(\gamma\sqrt{f'_c}A_j\)、\(\phi=0.85\)、\(\phi=0.6\)……<br>
+\(1.25f_y\)、\(\phi=1.0\)、\(6/5\)、\(V_c=0\)、\(A_{sh}\) 兩式、\(l_o\) 三式、\(s\) 三式、\(\gamma\sqrt{f'_c}A_j\)、\(\phi=0.85\)、（剪力控制的牆）\(\phi=0.6\)……<br>
 但如果理解「這些全是<b>同一場賽跑的讓分</b>」，你只需要記住讓分的方向：
 <b>延性那一側往下調（做弱、允許它先壞），脆性那一側往上調（做強、絕對不准它先壞）</b>。
 考場上忘記某個係數時，至少能寫出方向與理由，拿到大部分過程分。
@@ -288,7 +288,7 @@ footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-to
 <tr><td>\(V_c = 0\)</td><td>脆性側<b>往下</b>估</td><td>塑鉸區反覆正負彎矩 → 裂縫<b>貫穿全深度</b> → 骨材互鎖（aggregate interlock）失效、壓力區混凝土剝落 → 混凝土的剪力貢獻不可靠</td><td>§18.6.5.2</td></tr>
 <tr><td>\(\sum M_{nc} \geq \frac{6}{5}\sum M_{nb}\)</td><td>柱側<b>往上</b>要求</td><td>讓梁比柱先到達強度。6/5 = 1.2 只是<b>降低機率</b>而非絕對保證（見 §5.1）</td><td>§18.7.3.1</td></tr>
 <tr><td>\(A_{sh}\) 兩式<b>取大</b></td><td>圍束<b>往上</b></td><td>一式管「保護層剝落後核心強度不能掉」，一式管「最低延性底線」，適用區間不同（§4.1）</td><td>§18.7.5.4</td></tr>
-<tr><td>接頭 \(\phi = 0.85\)、剪力牆 \(\phi = 0.6\)</td><td>脆性側<b>往下</b></td><td>接頭與牆的剪力破壞是脆性、離散度大、且無替代傳力路徑 → 折減比一般剪力（0.75）更嚴</td><td>§18.8.4、牆設計規範</td></tr>
+<tr><td>接頭 \(\phi = 0.85\)、剪力控制的牆 \(\phi = 0.6\)</td><td>脆性側<b>往下</b></td><td>牆的剪力破壞是脆性、無替代傳力路徑 → <b>剪力強度低於撓曲強度對應剪力時</b>折減比一般剪力（0.75）更嚴；非剪力控制的牆照 0.75（§7.1）</td><td>§21.2.4、§18.8.4</td></tr>
 </tbody>
 </table>
 
@@ -296,7 +296,7 @@ footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-to
 <b>方向記法（忘記數字時自救）</b><br>
 問自己一句：「這個量是我<b>希望它發生</b>的，還是我<b>絕對不准它發生</b>的？」<br>
 ・希望它發生（梁端彎矩塑鉸）→ 我要估它的<b>上限</b> → 材料強度往上調（1.25）、不折減（\(\phi=1.0\)）。<br>
-・不准它發生（剪力、接頭、柱鉸）→ 我要估它的<b>下限</b> → 材料貢獻往下調（\(V_c=0\)）、折減更嚴（\(\phi=0.85/0.75/0.6\)）。<br>
+・不准它發生（剪力、接頭、柱鉸）→ 我要估它的<b>下限</b> → 材料貢獻往下調（\(V_c=0\)）、折減更嚴（\(\phi=0.85/0.75\)，剪力控制的牆 0.6）。<br>
 <b>凡是把係數調反的答案，閱卷者一眼就看出來</b> —— 因為那代表你沒懂能力設計法。
 </div>
 
@@ -580,6 +580,7 @@ $$\Rightarrow s = 15\ \text{cm}\ \text{（密箍區）};\quad
 
 $$A_{sh} \geq \max\underbrace{\left[0.3\,s\,b_c\frac{f'_c}{f_{yt}}\left(\frac{A_g}{A_{ch}}-1\right)\right.}_{\text{式①：補回剝落損失}}
 ,\quad \underbrace{\left.0.09\,s\,b_c\frac{f'_c}{f_{yt}}\right]}_{\text{式②：延性底線}}$$
+<p style="font-size:.9em;color:#607d8b">當 \(P_u > 0.3A_gf'_c\) 或 \(f'_c > 700\) kgf/cm² 時另有第三式 \(0.2\,k_fk_n\,P_u\,s\,b_c/(f_{yt}A_{ch})\)，三式取大（\(k_f\)、\(k_n\) 定義見規範；112 年版特殊抗彎矩構架柱橫向鋼筋表，對應 ACI 318-19 表 18.7.5.4）。本單元歷屆題軸力都不大，兩式即可。</p>
 
 <div class="why">
 <b>式①在補什麼</b><br>
@@ -1279,7 +1280,7 @@ RC-2003-4 的地震彎矩 \(M_E = 30\times8.0+20\times4.5 = 330\) tf·m（使用
 <thead><tr><th>題號</th><th>考年</th><th>群</th><th>核心考點</th><th>對應本講義</th></tr></thead>
 <tbody>
 <tr><td><a class="qlink" href="problems-view/RC-2003-3.html">RC-2003-3</a></td><td>2003</td><td>D</td><td>梁柱內部接頭、水平剪力 Vjh、有效接頭寬 bj、γ 係數</td><td>§6</td></tr>
-<tr><td><a class="qlink" href="problems-view/RC-2003-4.html">RC-2003-4</a></td><td>2003</td><td>E</td><td>剪力牆 40 分大題：邊界構材、水平／垂直剪力筋、覆沒力矩、φ=0.6、彎鉤錨定</td><td>§7.1</td></tr>
+<tr><td><a class="qlink" href="problems-view/RC-2003-4.html">RC-2003-4</a></td><td>2003</td><td>E</td><td>剪力牆 40 分大題：邊界構材、水平／垂直剪力筋、覆沒力矩、φ（非剪力控制 → 0.75；考卷印 0.6）、彎鉤錨定</td><td>§7.1</td></tr>
 <tr><td><a class="qlink" href="problems-view/RC-2004-1.html">RC-2004-1</a></td><td>2004</td><td>E</td><td>概念題：混凝土強度驗收＋耐震梁搭接（接頭面 2h 禁區、箍筋 ≤ min(d/4, 10 cm)）</td><td>§7.3</td></tr>
 <tr><td><a class="qlink" href="problems-view/RC-2004-3.html">RC-2004-3</a></td><td>2004</td><td>B</td><td>耐震柱 Ash 公式、圍束箍筋與繫筋、密箍區間距</td><td>§4</td></tr>
 <tr><td><a class="qlink" href="problems-view/RC-2005-3.html">RC-2005-3</a></td><td>2005</td><td>D</td><td>角柱（外）接頭：Vjh、Vcol 反推、Aj、γ=3.2</td><td>§6.3</td></tr>
@@ -1335,7 +1336,7 @@ RC-2003-4 的地震彎矩 \(M_E = 30\times8.0+20\times4.5 = 330\) tf·m（使用
 <tr><td>7</td><td>梁密箍區長度</td><td>用 2d</td><td>用 <b>2h</b>（梁全高的兩倍）</td><td><a class="qlink" href="problems-view/RC-2025-2.html">RC-2025-2</a></td></tr>
 <tr><td>8</td><td>梁 Vc 是否歸零</td><td>直接沿用一般梁的 Vc</td><td>兩條件：地震剪力 &gt; 50% 且 Nu &lt; Agf'c/20（梁幾乎必然成立）</td><td><a class="qlink" href="problems-view/RC-2016-2.html">RC-2016-2</a></td></tr>
 <tr><td>9</td><td>柱 Vc 是否歸零</td><td>以為柱也一定 Vc=0</td><td>柱有軸壓：必須把 Agf'c/20 算出來比較（RC-2012-3 只差 0.8%）</td><td><a class="qlink" href="problems-view/RC-2012-3.html">RC-2012-3</a></td></tr>
-<tr><td>10</td><td>同一題出現兩個 φ</td><td>以為抄錯</td><td>Mpr 用 φ=1.0、剪力用 φ=0.75、接頭用 φ=0.85、牆用 φ=0.6 —— 各有理由</td><td>§1.2</td></tr>
+<tr><td>10</td><td>同一題出現兩個 φ</td><td>以為抄錯</td><td>Mpr 用 φ=1.0、剪力用 φ=0.75、接頭用 φ=0.85、剪力控制的牆用 φ=0.6 —— 各有理由</td><td>§1.2</td></tr>
 <tr><td>11</td><td>Ash 公式</td><td>只算一式</td><td>兩式<b>取大</b>；Ag/Ach &gt; 1.3 → 式①控制（省一次計算）</td><td><a class="qlink" href="problems-view/RC-2013-2.html">RC-2013-2</a></td></tr>
 <tr><td>12</td><td>Ash 的定義</td><td>把所有箍筋腳加總</td><td>Ash 是<b>單一方向</b>的腳數：外箍 2 腳 + 該方向繫筋各 1 腳</td><td><a class="qlink" href="problems-view/RC-2013-2.html">RC-2013-2</a></td></tr>
 <tr><td>13</td><td>hc（或 bc）的量法</td><td>用柱全寬</td><td>核心尺寸；量到箍筋外緣或中心線<b>依題目保護層定義</b>，並在紙上寫清楚</td><td>RC-2013-2、RC-2012-3</td></tr>
@@ -1343,14 +1344,14 @@ RC-2003-4 的地震彎矩 \(M_E = 30\times8.0+20\times4.5 = 330\) tf·m（使用
 <tr><td>15</td><td>密箍區長度 lo</td><td>只寫一個條件，或把柱的三條件套到梁上</td><td><b>柱</b>：三條件 max(柱最大邊長, ln/6, 45 cm)（§18.7.5.1）；<b>梁</b>：<b>只有 2h</b> 單一條件（§18.6.4.1）—— 兩者不可互換</td><td><a class="qlink" href="problems-view/RC-2012-3.html">RC-2012-3</a></td></tr>
 <tr><td>16</td><td>接頭剪力 Vjh</td><td>直接用 T = As·fy 當 Vjh</td><td>要扣柱剪力：Vjh = T_top + T_bot − Vcol</td><td><a class="qlink" href="problems-view/RC-2005-3.html">RC-2005-3</a></td></tr>
 <tr><td>17</td><td>接頭 T_top 與 T_bot</td><td>相減（以為方向相反）</td><td>對切面而言<b>同向</b> → 相加；只有 Vcol 是減項</td><td><a class="qlink" href="problems-view/RC-2003-3.html">RC-2003-3</a></td></tr>
-<tr><td>18</td><td>接頭 γ 係數</td><td>抄到不同單位制的數字</td><td>kgf/cm²：5.3／4.0／3.2；MPa：1.7／1.25／1.0；psi：20／15／12（知識庫內有三套矛盾值，見 §6.2）</td><td><a class="qlink" href="problems-view/RC-2005-3.html">RC-2005-3</a></td></tr>
+<tr><td>18</td><td>接頭 γ 係數</td><td>抄到不同單位制的數字</td><td>kgf/cm²：5.3／3.9／3.2；MPa：1.7／1.2／1.0；psi：20／15／12（柱連續時；見 §6.2）</td><td><a class="qlink" href="problems-view/RC-2005-3.html">RC-2005-3</a></td></tr>
 <tr><td>19</td><td>接頭 Aj</td><td>只寫一個 bj 候選、或用坊間簡化式</td><td>規範原式 bj = min(bw+hc, bw+2x) ≤ bc，兩個候選都寫出再取小（bw+0.5hc 是簡化式）</td><td><a class="qlink" href="problems-view/RC-2012-4.html">RC-2012-4</a></td></tr>
 <tr><td>20</td><td>強柱弱梁的 ΣMnb</td><td>用 1.25fy</td><td>用<b>標稱</b> fy（超強餘裕已含在 6/5 裡）；知識庫 code-ref 有相反寫法，作答註明依據</td><td>§1.2</td></tr>
 <tr><td>21</td><td>強柱弱梁通過就不配柱密箍</td><td>以為 6/5 是絕對保證</td><td>6/5 只降低機率；柱端仍必須有 lo 與 Ash（且柱底一定出鉸）</td><td>§5.1</td></tr>
 <tr><td>22</td><td>韌性題的 L</td><td>用全柱高 lu</td><td>L = 塑鉸到<b>反曲點</b>；雙曲率柱 L = lu/2（δy 差 4 倍）</td><td><a class="qlink" href="problems-view/RC-2022-4.html">RC-2022-4</a></td></tr>
 <tr><td>23</td><td>Lp 公式</td><td>只算第一式</td><td>0.0044db·fy 是<b>下限</b>，常常控制；且 db 用公尺、fy 用 kgf/cm²，不要自行換算</td><td><a class="qlink" href="problems-view/RC-2022-4.html">RC-2022-4</a></td></tr>
 <tr><td>24</td><td>算出 μθ ≠ μ</td><td>以為正常</td><td>μθ 必定等於 μ（θ = δ/L）；不等就是算錯</td><td><a class="qlink" href="problems-view/RC-2022-4.html">RC-2022-4</a></td></tr>
-<tr><td>25</td><td>剪力牆</td><td>只配水平剪力筋</td><td>水平＋垂直<b>都要</b>（桁架機制）；φ = 0.6；兩端邊界構材照柱的規定辦</td><td><a class="qlink" href="problems-view/RC-2003-4.html">RC-2003-4</a></td></tr>
+<tr><td>25</td><td>剪力牆</td><td>只配水平剪力筋</td><td>水平＋垂直<b>都要</b>（桁架機制）；φ 先判斷是否剪力控制（是 → 0.6，否 → 0.75）；兩端邊界構材照柱的規定辦</td><td><a class="qlink" href="problems-view/RC-2003-4.html">RC-2003-4</a></td></tr>
 <tr><td>26</td><td>耐震搭接位置</td><td>搭在柱端方便施工</td><td>限柱<b>中段 1/2</b>，避開潛在塑鉸區；拉力搭接（全數同斷面 → Class B）；柱無「同斷面 ≤ 50%」規定</td><td><a class="qlink" href="problems-view/RC-2010-2.html">RC-2010-2</a></td></tr>
 <tr><td>27</td><td>韌性題問「需求」</td><td>直接用極限點 \(\phi_u\)、\(\delta_u\)</td><td>需求取設計彎矩在雙線性曲線上內插的 \(\phi_d\)；極限點是<b>容量</b>，只作對照（需求 μ＝1.82 vs 容量 2.63）</td><td><a class="qlink" href="problems-view/RC-2022-4.html">RC-2022-4</a></td></tr>
 <tr><td>28</td><td>橫膈版同時受重力撓曲與面內剪力</td><td>撓曲間距與抗剪間距取小</td><td>撓曲已用掉既有鋼筋，抗剪要<b>另外加</b>：鋼筋量相加後求間距</td><td><a class="qlink" href="problems-view/RC-2019-3.html">RC-2019-3</a></td></tr>
@@ -1519,7 +1520,7 @@ psi → kgf/cm² 乘 \(\sqrt{0.0703}=0.265\)、psi → MPa 乘 \(\sqrt{0.006895}
 <b>鏈 1：能力設計法為什麼存在（§0、§1）</b><br>
 大地震下結構必然進入非線性 → 問題從「不壞」變成「怎麼壞」 →
 延性機構與脆性機構在賽跑，先到者決定破壞模式 →
-所以刻意把延性側往上估（1.25fy、φ=1.0）、脆性側往下估（Vc=0、φ=0.85/0.75/0.6）→
+所以刻意把延性側往上估（1.25fy、φ=1.0）、脆性側往下估（Vc=0、φ=0.85/0.75，剪力控制的牆 0.6）→
 <b>讓延性一定先到，而且領先幅度大到材料超強也翻不了盤</b>。
 </div>
 
@@ -1593,6 +1594,6 @@ psi → kgf/cm² 乘 \(\sqrt{0.0703}=0.265\)、psi → MPa 乘 \(\sqrt{0.006895}
 <footer>
 RC-U3-3 觀念講義｜exam-wiki-RC 知識庫｜由 unit-lecture skill 產生<br>
 資料來源：raw/json/question_index.json、archive/wiki/concepts/、archive/wiki/traps/、archive/wiki/code-ref/、archive/wiki/methods/
-</footer>
+<br>2026-11-21 改正：陷阱 18 接頭 γ 改為與 §6.2 一致的 5.3／3.9／3.2（MPa 1.7／1.2／1.0）；剪力牆 φ 一律寫明「剪力控制才用 0.6」（§0、§1.2、陷阱 10、25、鏈 1）；§4.1 補 Ash 第三式。註：本頁條號沿用 ACI 318-19 編號，112 年版特殊抗彎矩構架條號較 ACI 前移（例：接頭剪力強度表為 18.5.4.3、柱橫向鋼筋表為 18.4.5.4）。</footer>
 </body>
 </html>

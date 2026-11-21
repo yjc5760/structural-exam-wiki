@@ -217,16 +217,21 @@ def tcase(k, et):
     return dict(c=c, a=a, cf=cf, cw=cw, As=(cf + cw) / p["fy"], ey=p["fy"] / T_ES, **p)
 
 
-R1 = tcase(1, 0.004)                                  # Case 1 最大鋼筋量
-R2 = tcase(2, 0.004)                                  # Case 2 最大鋼筋量
+# 最大鋼筋量：112 年版 §9.3.3.1 非預力梁須拉力控制，εt ≥ εty + 0.003（表 21.2.2）
+#   Case 1 SD420：§21.2.2.1 εty 可採 0.002 → εt ≥ 0.005
+#   Case 2 fy = 6900：εty = fy/Es = 0.003382 → εt ≥ 0.006382
+ET1 = 0.002 + 0.003
+ET2 = CASES[2]["fy"] / T_ES + 0.003
+R1 = tcase(1, ET1)                                    # Case 1 最大鋼筋量
+R2 = tcase(2, ET2)                                    # Case 2 最大鋼筋量
 R2B = tcase(2, CASES[2]["fy"] / T_ES)                 # Case 2 平衡
 ASMIN1 = 14 / 4200 * T_BW * T_D
 
 
-def _fig(k, R, name, extra):
+def _fig(k, R, name, extra, et):
     path = os.path.join(OUT, f"{TAG}-fig-{k}-{name}.svg")
     section3(T_BF, T_HF, T_BW, T_D + 8, False, R["c"], R["a"], R["eu"], R["ey"],
-             layers=[dict(z=T_D, n=1, kind="T", eps=0.004)],
+             layers=[dict(z=T_D, n=1, kind="T", eps=et)],
              forces=[dict(z=T_HF / 2, F=R["cf"], kind="C", name="C_{f}"),
                      dict(z=R["a"] / 2, F=R["cw"], kind="C", name="C_{w}"),
                      dict(z=T_D, F=R["As"] * R["fy"], kind="T", name="T")],
@@ -239,20 +244,20 @@ def _fig(k, R, name, extra):
 
 def fig1_case1():
     return _fig(1, R1, "case1-max", dict(
-        title=f"{TAG}　Case 1 最大鋼筋量：εt = 0.004 → c = {R1['c']:.2f}、a = {R1['a']:.2f} > hf = 20",
+        title=f"{TAG}　Case 1 最大鋼筋量：εt = 0.005（拉力控制）→ c = {R1['c']:.2f}、a = {R1['a']:.2f} > hf = 20",
         sub=f"Cf（翼板懸出）＋Cw（腹板 bw·a）= T → As,max = {R1['As']:.1f} cm²；As,min = 14/fy·bw·d = {ASMIN1:.2f} cm²",
-        note="應力塊已伸入腹板：用 b = 80 的矩形公式會高估壓力、As,max 偏大"))
+        note="應力塊已伸入腹板：用 b = 80 的矩形公式會高估壓力、As,max 偏大"), ET1)
 
 
 def fig2_case2():
     return _fig(2, R2, "case2-max", dict(
-        title=f"{TAG}　Case 2 最大鋼筋量：εu = 0.004、εt = 0.004 → c = {R2['c']:.1f}、a = {R2['a']:.1f}",
+        title=f"{TAG}　Case 2 最大鋼筋量：εu = 0.004、εt = εy + 0.003 = {ET2:.6f} → c = {R2['c']:.2f}、a = {R2['a']:.2f}",
         sub=f"As,max = {R2['As']:.1f} cm²；平衡 εs = εy = {R2['ey']:.6f} → cb = {R2B['c']:.2f}、As,b = {R2B['As']:.1f} cm²",
-        note="εu 改為 0.004 後 c 變深；εy 也較大（0.00338），As,max 仍小於 As,b，最大量由 εt = 0.004 控制"))
+        note="fy = 6900 的拉力控制界限是 εy + 0.003（不是 0.005）；As,max 遠小於 As,b"), ET2)
 
 
-FIGURES += [(fig1_case1, "§4 Case 1", "a > hf 仍用矩形公式；εt 限制取錯"),
-            (fig2_case2, "§4 Case 2", "εu 仍用 0.003；平衡量與最大量搞混")]
+FIGURES += [(fig1_case1, "§4 Case 1", "a > hf 仍用矩形公式；εt 限制沿用舊規範 0.004"),
+            (fig2_case2, "§4 Case 2", "εu 仍用 0.003；高強度鋼筋拉力控制界限誤用 0.005")]
 
 
 if __name__ == "__main__":
@@ -261,8 +266,8 @@ if __name__ == "__main__":
         print(f"{os.path.basename(fn()):<32} {sec:<18} 攔：{catches}")
     assert D == 80.0
     print("assert OK")
-    assert abs(R1["c"] - 34.29) < 0.01 and abs(R1["a"] - 29.14) < 0.01 and abs(R1["As"] - 111.4) < 0.05
-    assert abs(R1["cf"] + R1["cw"] - 467840) < 5 and abs(ASMIN1 - 10.67) < 0.01
+    assert abs(R1["c"] - 30.00) < 0.01 and abs(R1["a"] - 25.50) < 0.01 and abs(R1["As"] - 103.1) < 0.05
+    assert abs(R1["cf"] + R1["cw"] - 433160) < 5 and abs(ASMIN1 - 10.67) < 0.01
     assert abs(R2B["c"] - 43.35) < 0.01 and abs(R2B["a"] - 36.84) < 0.01 and abs(R2B["As"] - 58.8) < 0.05
-    assert abs(R2["c"] - 40.0) < 1e-9 and abs(R2["As"] - 55.9) < 0.05 and abs(R2["cf"] + R2["cw"] - 385560) < 1
+    assert abs(R2["c"] - 30.82) < 0.01 and abs(R2["As"] - 47.8) < 0.05 and abs(R2["cf"] + R2["cw"] - 329856) < 5
     print("assert（解題圖解）OK")

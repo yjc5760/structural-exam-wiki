@@ -19,14 +19,14 @@ def beta1(fc):
 
 
 def phi_of(eps_t, fy, spiral=False):
-    ety = fy / ES
-    lim = 0.005 if fy <= 4200 else ety + 0.003   # 本庫約定：SD420 取 0.005；高強度鋼筋 εty+0.003
+    # 112 年版表 21.2.2：φ = lo + (0.90 − lo)(εt − εty)/0.003；§21.2.2.1：fy = 4200 竹節鋼筋 εty 可採 0.002
+    ety = 0.002 if fy == 4200 else fy / ES
     lo = 0.75 if spiral else 0.65
     if eps_t <= ety:
         return lo
-    if eps_t >= lim:
+    if eps_t >= ety + 0.003:
         return 0.90
-    return lo + (0.90 - lo) * (eps_t - ety) / (lim - ety)
+    return lo + (0.90 - lo) * (eps_t - ety) / 0.003
 
 
 class Section:
@@ -227,7 +227,7 @@ def fig_pm():
     label_box(s, ax.X(8), ax.Y(150) - 34, [(f'④ 純彎 Mn = {ep["Mt"]:.1f}', True), (f'φMn = {ep["fMt"]:.1f}（φ = 0.90）', False)], GRN)
     # 設計曲線上的點
     dot(eb['fMt'], eb['fPt'], RED, 5)
-    s.text(ax.X(eb['fMt']) - 4, ax.Y(eb['fPt']) + 20, f'③ ×φ=0.65 → ({eb["fMt"]:.1f}, {eb["fPt"]:.0f})', 11, RED, 'end', True)
+    s.text(ax.X(eb['fMt']) - 4, ax.Y(eb['fPt']) + 20, f'③ ×φ=0.655 → ({eb["fMt"]:.1f}, {eb["fPt"]:.0f})', 11, RED, 'end', True)
     s.add(f'<path d="M{f(ax.X(et["fMt"]))},{f(ax.Y(et["fPt"]) - 10)} l3,7 7,0 -5.5,4.5 2,7.5 -6.5,-4.3 -6.5,4.3 2,-7.5 -5.5,-4.5 7,0 z" fill="#ffb300" stroke="#e65100" stroke-width="1.2"/>')
     label_box(s, ax.X(et['fMt']) + 12, ax.Y(et['fPt']) + 6,
               [(f'★ φMn 峰值 = {et["fMt"]:.1f}', True), (f'εt = 0.005，c = {ctc:.2f}，φPn = {et["fPt"]:.0f}', False)], '#e65100')
@@ -419,7 +419,7 @@ def fig_mc():
     s.circ(ax.X(cb), ax.Y(b['Mt']), 7, BLUE, '#fff', 1.6)
     label_box(s, ax.X(cb) + 10, ax.Y(b['Mt']) - 14, [(f'Mn 峰值 {b["Mt"]:.2f}', True), (f'c = cb = {cb:.2f}（平衡點）', False)], BLUE)
     s.circ(ax.X(cb), ax.Y(b['fMt']), 5, RED, '#fff', 1.4)
-    s.text(ax.X(cb) + 9, ax.Y(b['fMt']) - 10, f'×0.65 → {b["fMt"]:.1f}', 11.5, RED, bold=True)
+    s.text(ax.X(cb) + 9, ax.Y(b['fMt']) - 10, f'×0.655 → {b["fMt"]:.1f}', 11.5, RED, bold=True)
     s.add(f'<path d="M{f(ax.X(ctc))},{f(ax.Y(t["fMt"]) - 10)} l3,7 7,0 -5.5,4.5 2,7.5 -6.5,-4.3 -6.5,4.3 2,-7.5 -5.5,-4.5 7,0 z" fill="#ffb300" stroke="#e65100" stroke-width="1.2"/>')
     label_box(s, ax.X(ctc) - 12, ax.Y(t['fMt']) - 52, [(f'★ φMn 峰值 {t["fMt"]:.1f}', True), ('c = 0.375d = 19.50（εt = 0.005）', False)], '#e65100', anchor='end')
     s.circ(ax.X(ctc), ax.Y(t['Mt']), 4.5, BLUE)
@@ -432,7 +432,7 @@ def fig_mc():
     s.text(ax.X(ctc / 2), yb - 30, '拉力控制 φ = 0.90', 12, GRN, 'middle', True)
     s.text(ax.X((ctc + cb) / 2), yb - 30, '過渡區', 12, ORG, 'middle', True)
     s.text(ax.X((cb + 60) / 2), yb - 30, '壓力控制 φ = 0.65', 12, RED, 'middle', True)
-    s.text(ax.X((ctc + cb) / 2), yb - 14, 'φ +38%、Mn −15%', 11, ORG, 'middle')
+    s.text(ax.X((ctc + cb) / 2), yb - 14, 'φ +37%、Mn −15%', 11, ORG, 'middle')
     label_box(s, ax.X(21), ax.Y(52), [('小跳階：a 越過 d′ = 8', True), ('壓力筋開始扣 0.85f′c', False)], MUT, size=11)
     s.line(ax.X(21), ax.Y(52) + 10, ax.X(10.2), ax.Y(sec.at(10.05)['Mt']) + 4, MUT, 1)
     # 圖例
@@ -452,32 +452,31 @@ def fig_phi():
     ax = Axes(s, 70, 40, 600, 260, (0, 0.007), (0.6, 0.95))
     ax.frame([0, 0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007], [0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95],
              'εt', 'φ', xfmt='{:.3f}', yfmt='{:.2f}')
-    ety = 4200 / ES
+    ety = 0.002                       # φ 分區用（§21.2.2.1）
+    eyb = 4200 / ES                   # 平衡點 εt = fy/Es
     xs = [i * 0.007 / 700 for i in range(701)]
     s.poly([ax.P(x, phi_of(x, 4200)) for x in xs], RED, 3.4)
     s.poly([ax.P(x, phi_of(x, 4200, True)) for x in xs], BLUE, 3, dash='9 5')
-    for x, lab in ((ety, f'εty = fy/Es = {ety:.5f}'), (0.005, '0.005')):
+    for x, lab in ((ety, 'εty = 0.002'), (0.005, '0.005')):
         s.line(ax.X(x), ax.Y(0.6), ax.X(x), ax.Y(0.93), '#90a4ae', 1.2, '4 4')
-    s.text(ax.X(ety), ax.Y(0.6) + 36, f'εty = {ety:.5f}', 11.5, INK, 'middle', True)
+    s.text(ax.X(ety), ax.Y(0.6) + 36, 'εty = 0.002', 11.5, INK, 'middle', True)
     s.text(ax.X(0.005), ax.Y(0.6) + 36, '0.005', 11.5, INK, 'middle', True)
     s.text(ax.X(ety / 2), ax.Y(0.70), '壓力控制', 12.5, RED, 'middle', True)
     s.text(ax.X(0.0042), ax.Y(0.607), '過渡區（線性內插）', 12.5, ORG, 'middle', True)
     s.text(ax.X(0.006), ax.Y(0.607), '拉力控制', 12.5, GRN, 'middle', True)
-    pts = [(ety, 0.65, PUR, '③ 平衡點：恰在轉角上，φ = 0.650', 'below'),
+    pts = [(eyb, phi_of(eyb, 4200), PUR, f'③ 平衡點：εt = fy/Es = {eyb:.5f} → φ = {phi_of(eyb, 4200):.3f}', 'below'),
            (0.002606, phi_of(0.002606, 4200), ORG, f'RC-2011-3：εt = 0.002606 → {phi_of(0.002606, 4200):.3f}', 'above'),
            (0.005, 0.90, '#e65100', 'RC-2015-1 ★：εt = 0.005 → 0.90', 'above')]
     for x, y, col, t, pos in pts:
         s.circ(ax.X(x), ax.Y(y), 6, col, '#fff', 1.5)
-    label_box(s, ax.X(ety) - 4, ax.Y(0.65) + 6, [(pts[0][3], True)], PUR, anchor='end', size=11.5)
+    label_box(s, ax.X(eyb) - 4, ax.Y(0.65) + 6, [(pts[0][3], True)], PUR, anchor='end', size=11.5)
     label_box(s, ax.X(0.002606) + 10, ax.Y(pts[1][1]) - 6, [(pts[1][3], True)], ORG, size=11.5)
     label_box(s, ax.X(0.005) - 8, ax.Y(0.90) - 34, [(pts[2][3], True)], '#e65100', anchor='end', size=11.5)
-    s.line(ax.X(0), ax.Y(0.655), ax.X(ety), ax.Y(0.655), '#9e9e9e', 1, '2 2')
-    s.text(ax.X(0.0001), ax.Y(0.655) - 4, '舊式在此給 0.655（本庫不用）', 10.5, '#757575')
     s.line(90, 355, 122, 355, RED, 3.4)
     s.text(128, 359, '矩形箍筋柱 0.65 → 0.90', 12)
     s.line(330, 355, 362, 355, BLUE, 3, '9 5')
     s.text(368, 359, '螺旋柱 0.75 → 0.90', 12)
-    s.text(530, 359, 'SD420；現行式', 11.5, MUT)
+    s.text(530, 359, 'SD420；表 21.2.2（εty 取 0.002）', 11.5, MUT)
     return s.render()
 
 

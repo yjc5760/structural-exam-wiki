@@ -90,7 +90,7 @@ footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-to
 <header>
   <h1>SS-U1-1 拉力及壓力桿件 — 觀念講義</h1>
   <p class="sub">先懂物理，再看公式。每一條規範式子都有一個「它在怕什麼」的故事。</p>
-  <p class="meta">科目四 鋼結構設計｜命題大綱 第一單元（一）｜涵蓋歷屆 26 題主分類 + 7 題副分類
+  <p class="meta">科目四 鋼結構設計｜命題大綱 第一單元（一）｜涵蓋歷屆 26 題主分類 + 9 題副分類
 　｜含 2 則手算範例、12 題自我檢測、★ 精選 5 題（§13）｜理解導向．非速查表　v3（2026-10-23 圖解重繪）</p>
 </header>
 
@@ -195,7 +195,7 @@ footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-to
 </table>
 
 <p class="lead" style="border-left-color:var(--warn)">
-<b>統計事實（33 題標籤分析）</b>：「壓力桿件」出現 15 次、「有效長度」11 次、「ASD」10 次、「拉力桿件」9 次。
+<b>統計事實（35 題標籤分析）</b>：「壓力桿件」出現 15 次、「有效長度」13 次、「ASD」10 次、「拉力桿件」7 次。
 <b>壓力桿件是本單元絕對主場，而其中最常被考的不是強度公式本身，是 \(K\) 值怎麼定。</b>
 另外注意 ASD 出現 10 次 —— 這科沒有「只念 LRFD 就好」這種事。
 </p>
@@ -210,7 +210,7 @@ footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-to
 $$\phi_t P_n = \min \begin{cases}
 0.90 \cdot F_y A_g & \text{全斷面降伏（GSY）}\\
 0.75 \cdot F_u A_e & \text{淨斷面斷裂（NSF）}\\
-0.75 \cdot \left(0.6F_u A_{nv} + U_{bs}F_u A_{nt}\right) & \text{塊狀剪力（BSR）}
+0.75 \cdot \left(0.6F_u A_{nv} + F_y A_{gt}\right)\ \text{或}\ 0.75 \cdot \left(0.6F_y A_{gv} + F_u A_{nt}\right) & \text{塊狀剪力（BSR，依大小擇一，§3）}
 \end{cases}$$
 
 <p>多數人背到這裡就停了。但真正會被考「觀念題」的是下面這件事：</p>
@@ -268,7 +268,7 @@ $$\phi_t P_n = \min \begin{cases}
 $$d_{\text{扣除}} = d_b + 0.3\ \text{cm}\quad(\text{即螺栓直徑}+3\ \text{mm，公制};\ +1/8''\ \text{英制})$$
 <div class="trap">
 <b>陷阱</b>：扣的是「孔徑 + 損傷」，不是螺栓直徑。考卷若給「標準孔」就用 \(d_b+0.3\) cm；
-若題目直接給孔徑 \(d_h\)，則扣 \(d_h+0.16\) cm（孔緣損傷 1.6 mm）。<b>先看題目給的是螺栓還是孔。</b>
+若題目直接給孔徑 \(d_h\)，則扣 \(d_h+0.1\) cm（標準孔 \(d_b+2\) mm 再加 1 mm 孔緣損傷，與 U1-4 講義、methods 一致；AISC 為 \(d_h+1/16\)。<span style="color:var(--mut)">規範原文待核對</span>）。<b>先看題目給的是螺栓還是孔。</b>
 </div>
 <p>多排交錯（zigzag）螺栓時，破壞線可能走斜的，須加回 \(s^2/4g\) 項：</p>
 $$A_n = \left[b_g - \sum d_{\text{扣除}} + \sum \frac{s^2}{4g}\right] t$$
@@ -404,21 +404,18 @@ $$A_n = \left[b_g - \sum d_{\text{扣除}} + \sum \frac{s^2}{4g}\right] t$$
 <thead><tr><th>構材</th><th>連接條件</th><th>\(U\)</th></tr></thead>
 <tbody>
 <tr><td colspan="2">全斷面所有元件都連接</td><td>1.0</td></tr>
-<tr><td rowspan="3">W／H 型鋼</td><td>僅翼板連接，\(b_f \ge \tfrac{2}{3}d\)</td><td>0.90</td></tr>
-<tr><td>僅翼板連接，\(b_f &lt; \tfrac{2}{3}d\)</td><td>0.85</td></tr>
-<tr><td>僅腹板連接</td><td>0.70</td></tr>
-<tr><td rowspan="2">角鋼</td><td>每線 4 支以上螺栓</td><td>0.80</td></tr>
-<tr><td>每線 3 支螺栓</td><td>0.60</td></tr>
-<tr><td>槽鋼</td><td>每線 3 支以上螺栓</td><td>0.90</td></tr>
+<tr><td>W、H、S、I 型鋼（及其切成之 T 型鋼）</td><td>翼板接合，\(b_f \ge \tfrac{2}{3}d\)，沿力向每行 ≥ 3 栓</td><td>0.90</td></tr>
+<tr><td>不符上款之 W、H、T 型鋼及其他斷面（含角鋼、槽鋼、組合斷面）</td><td>沿力向每行 ≥ 3 栓</td><td>0.85</td></tr>
+<tr><td>所有斷面</td><td>沿力向每行僅 2 栓</td><td>0.75</td></tr>
 <tr><td rowspan="3">板（僅兩側縱向銲）</td><td>\(l \ge 2w\)</td><td>1.00</td></tr>
 <tr><td>\(2w &gt; l \ge 1.5w\)</td><td>0.87</td></tr>
 <tr><td>\(1.5w &gt; l \ge w\)（\(l &lt; w\) 不允許）</td><td>0.75</td></tr>
 <tr><td colspan="2">一般情況（可算 \(\bar{x}\) 時）</td><td>\(U = 1-\bar{x}/L\)</td></tr>
 </tbody>
 </table>
-<p><b>策略</b>：題目給得出斷面尺寸 → 用公式法（較精確，且閱卷者看得到你會推）；只給構材類型 → 查表（保守下限）。
-兩者都可時，<b>規範允許取較大者</b>。<br>
-<span style="color:var(--mut);font-size:.93em">表中型鋼與角鋼的數值取自 AISC 360-16 表 D3.1；台灣規範（如 SS-2005-1 考卷所附）分為 0.90／0.85／0.75 三級（每行僅 2 根螺栓為 0.75）。<b>考卷有附表時一律照考卷。</b>板類縱向銲的三列與 SS-2025-2 引用之台灣容許應力法 §4.3 相同。</span></p>
+<p><b>策略</b>：題目給得出斷面尺寸 → 用公式法（較精確，且閱卷者看得到你會推）；只給構材類型 → 查表（代表值，不一定比公式保守）。
+兩者都可時，AISC 360-10 起明文允許取較大者；我國條文是否同樣允許待核對，作答寫明採用哪一個。<br>
+<span style="color:var(--mut);font-size:.93em">表中螺栓接合三列為<b>我國極限設計法</b>的值（同 AISC LRFD 1993 B3；SS-2005-1 考卷所附即此）。AISC 360-16 表 D3.1 另有「角鋼每線 4 栓以上 0.80、3 栓 0.60、W 型鋼僅腹板連接 0.70」等值，只在題目指定 AISC 時使用。AISC LRFD 1993 另規定 \(U=1-\bar x/L\le0.9\)，我國條文是否有此上限待核對。<b>考卷有附表時一律照考卷。</b>板類縱向銲的三列與 SS-2025-2 引用之台灣容許應力法 §4.3 相同。</span></p>
 <div class="trap">
 <b>陷阱 T-01（SS-2024-2 直接考）｜圓管的 \(L\) 不是周長</b><br>
 圓管端部以縱向填角銲接到十字板時，\(L\) 是<b>平行受力方向的銲道長度</b>，不是繞管一圈的周長。
@@ -596,7 +593,10 @@ SS-2025-2：板厚 2 cm、縱向銲長 3 cm，求板寬 \(L\)。\(l\ge w\) 直�
 <div class="cap">圖 3-1｜塊狀剪力的關鍵動作是「畫出破壞塊體」。(a) 依 §3.1 範例比例繪製：剪力面沿螺栓線穿過 2.5 個孔、拉力面到肢趾穿過半個孔；(b) 兩排螺栓時為「ㄇ」字形。<br>畫對了，公式只是把邊長乘一乘。</div>
 </div>
 
-$$\phi R_n = \phi\left(0.6F_uA_{nv} + U_{bs}F_uA_{nt}\right) \le \phi\left(0.6F_yA_{gv} + U_{bs}F_uA_{nt}\right),\quad \phi=0.75$$
+<p>我國極限設計法（同 AISC LRFD 1993／1999 J4.3）是<b>依大小擇一式</b>，\(\phi=0.75\)：</p>
+$$F_uA_{nt} \ge 0.6F_uA_{nv}:\quad \phi R_n = \phi\left[0.6F_yA_{gv} + F_uA_{nt}\right]$$
+$$0.6F_uA_{nv} > F_uA_{nt}:\quad \phi R_n = \phi\left[0.6F_uA_{nv} + F_yA_{gt}\right]$$
+<p>兩式都不得超過 \(\phi\left[0.6F_uA_{nv} + F_uA_{nt}\right]\)（兩面同時斷裂）。</p>
 
 <div class="why">
 <b>為什麼是 0.6？</b> 這是 von Mises 降伏準則的直接結果。純剪狀態下，
@@ -608,19 +608,22 @@ $$\tau_y = \frac{F_y}{\sqrt3} = 0.577 F_y \approx 0.6F_y$$
 </div>
 
 <div class="why">
-<b>為什麼右邊要有個「上限」？</b> 左式假設剪力面與拉力面<b>同時</b>達到極限強度 \(F_u\)，
-但真實情況兩個面的變形能力不同步：拉力面比較脆、剪力面比較韌，通常拉力面先到 \(F_u\) 時，
-剪力面還只在降伏附近。規範因此用「剪力面只算降伏 \(0.6F_yA_{gv}\)」的組合當上界截斷。<br>
-<b>解題動作</b>：兩式都算，取小的。不是「看哪個公式比較像」。
+<b>為什麼是「擇一」，而且看誰大？</b> 剪力面與拉力面的變形能力不同步，兩個面不會<b>同時</b>到 \(F_u\)。
+規範的模型是：<b>斷裂發生在斷裂強度較大的那個面，另一個面只到降伏</b>——
+\(F_uA_{nt}\) 較大就是拉力面斷、剪力面降伏（\(0.6F_yA_{gv}\)）；\(0.6F_uA_{nv}\) 較大就是剪力面斷、拉力面降伏（\(F_yA_{gt}\)）。
+上限 \(0.6F_uA_{nv}+F_uA_{nt}\) 則是「兩面都斷」，任何組合都不會超過它。<br>
+<b>解題動作</b>：先比 \(F_uA_{nt}\) 與 \(0.6F_uA_{nv}\) 選式，算完再檢查上限。<b>不是兩式取小。</b><br>
+<span style="color:var(--mut);font-size:.93em">AISC 360-05 以後改為單一式 \(0.6F_uA_{nv}+U_{bs}F_uA_{nt} \le 0.6F_yA_{gv}+U_{bs}F_uA_{nt}\)（兩項取小，\(U_{bs}\)＝拉應力均勻 1.0、不均 0.5），只在題目指定 AISC 時使用。</span>
 </div>
 
 <table>
 <thead><tr><th>符號</th><th>意義</th><th>常錯處</th></tr></thead>
 <tbody>
-<tr><td>\(A_{gv}\)</td><td>剪力面<b>毛</b>面積</td><td>只有上界式用它（配 \(F_y\)）</td></tr>
+<tr><td>\(A_{gv}\)</td><td>剪力面<b>毛</b>面積</td><td>拉力面斷裂式用它（配 \(F_y\)，剪力面只降伏）</td></tr>
+<tr><td>\(A_{gt}\)</td><td>拉力面<b>毛</b>面積</td><td>剪力面斷裂式用它（配 \(F_y\)，拉力面只降伏）</td></tr>
 <tr><td>\(A_{nv}\)</td><td>剪力面<b>淨</b>面積</td><td>剪力路徑上通常會經過 \(n-0.5\) 個孔（端邊那顆算半個）</td></tr>
 <tr><td>\(A_{nt}\)</td><td>拉力面<b>淨</b>面積</td><td>拉力路徑上通常扣 0.5 個孔</td></tr>
-<tr><td>\(U_{bs}\)</td><td>拉應力均勻性係數</td><td>板片對接等均勻受拉 = 1.0；梁端剪力連接板（拉應力沿深度不均） = 0.5</td></tr>
+<tr><td>\(U_{bs}\)</td><td>拉應力均勻性係數（<b>僅 AISC 360 版</b>）</td><td>我國擇一式沒有這一項；AISC 360：均勻受拉 = 1.0，梁端切缺多行螺栓（拉應力不均） = 0.5</td></tr>
 </tbody>
 </table>
 <div class="trap">
@@ -648,10 +651,11 @@ $$\tau_y = \frac{F_y}{\sqrt3} = 0.577 F_y \approx 0.6F_y$$
 
 <p><b>Step 3　③ 塊狀剪力 BSR</b>（先畫塊體：沿螺栓線剪開、垂直方向拉開）<br>
 剪力路徑長 \(=e+2s=3.5+14=17.5\) cm　→　\(A_{gv}=17.5\) cm²，\(A_{nv}=(17.5-2.5\times2.3)=11.75\) cm²<br>
-拉力路徑長 \(=4.5\) cm　→　\(A_{nt}=(4.5-0.5\times2.3)=3.35\) cm²，\(U_{bs}=1.0\)<br>
-主式：\(0.6(4.10)(11.75)+1.0(4.10)(3.35)=28.9+13.7=42.6\)<br>
-上界：\(0.6(2.52)(17.5)+13.7=26.5+13.7=40.2\)　→　取小 40.2<br>
-\(\phi R_n = 0.75\times40.2 = \mathbf{30.2}\) tf</p>
+拉力路徑長 \(=4.5\) cm　→　\(A_{gt}=4.5\) cm²，\(A_{nt}=(4.5-0.5\times2.3)=3.35\) cm²<br>
+比大小：\(0.6F_uA_{nv}=0.6(4.10)(11.75)=28.9\)　&gt;　\(F_uA_{nt}=4.10(3.35)=13.7\)　→　剪力面斷裂、拉力面降伏<br>
+\(0.6F_uA_{nv}+F_yA_{gt}=28.9+2.52(4.5)=28.9+11.3=40.2\)　≤　上限 \(28.9+13.7=42.6\)　→　取 40.2<br>
+\(\phi R_n = 0.75\times40.2 = \mathbf{30.2}\) tf<br>
+<span style="color:var(--mut);font-size:.93em">對照 AISC 360 單一式：\(\min(42.6,\ 0.6(2.52)(17.5)+13.7=40.2)=40.2\)，本例兩版剛好相同；U1-4 講義範例 A 兩版就不同（54.0 vs 58.7 tf）。</span></p>
 
 <p class="lead" style="margin-bottom:0"><b>控制模式：塊狀剪力，\(\phi_tP_n = 30.2\) tf。</b><br>
 注意它比 GSY 低了 <b>30%</b>。只算前兩項就交卷的人，答案會高估三成 ——
@@ -838,7 +842,8 @@ $$F_{ez} = \left[\frac{\pi^2 E C_w}{(K_zL)^2} + GJ\right]\frac{1}{A\,\bar{r}_0^{
 <tbody>
 <tr><td>H／W 型鋼（雙對稱）</td><td>彎曲挫屈（弱軸）</td><td>扭轉挫屈幾乎不控制，可略</td></tr>
 <tr><td>箱型、圓管（閉口）</td><td>彎曲挫屈</td><td>\(J\) 極大，完全不必擔心扭轉</td></tr>
-<tr><td>十字形、雙角鋼背對背</td><td>扭轉挫屈可能控制</td><td>\(C_w\approx0\) 且 \(J\) 小，須檢核</td></tr>
+<tr><td>十字形</td><td>扭轉挫屈可能控制</td><td>雙對稱但 \(C_w\approx0\) 且 \(J\) 小，須檢核</td></tr>
+<tr><td>雙角鋼背對背</td><td>彎扭挫屈可能控制</td><td>單對稱（形心 ≠ 剪力中心），繞對稱軸的彎曲與扭轉耦合</td></tr>
 <tr><td><b>單角鋼、T 型鋼、槽鋼</b></td><td><b>彎扭挫屈常控制</b></td><td>不可只算彎曲挫屈</td></tr>
 </tbody>
 </table>
@@ -1290,7 +1295,7 @@ $$F_{cr} = \begin{cases}
 <table>
 <thead><tr><th>數字</th><th>來源</th><th>怎麼記／怎麼答</th></tr></thead>
 <tbody>
-<tr><td><b>0.877</b></td><td>初始彎曲缺陷（out-of-straightness）\(\delta_0 = L/1000\) 的統計折減</td>
+<tr><td><b>0.877</b></td><td>初始彎曲缺陷（out-of-straightness）\(\delta_0 \approx L/1500\)（AISC 解說的柱曲線依據；\(L/1000\) 是製造容許差）的統計折減</td>
 <td>\(0.877 \approx 1/1.14\)，即約打 12% 折。<b>真實的柱不是完美直的</b>，一有初始偏心，
 軸壓一上去就立刻產生 \(P\delta_0\) 的彎矩 → 沒有純粹的「分歧」，強度必低於理想 Euler。</td></tr>
 <tr><td><b>0.658</b></td><td>非彈性區的試驗迴歸（SSRC 第 2 條曲線）</td>
@@ -1614,9 +1619,12 @@ $$I_{\text{組合}} = \sum \left(I_{0,i} + A_i d_i^2\right),\qquad A=\sum A_i,\q
 <h4>修正細長比 \((KL/r)_m\)：組合柱不是實心柱</h4>
 <p>把幾支型鋼「綁」在一起，接合處不可能完全剛接 —— 繫材或綴板會有剪力變形，
 使整根組合柱比同 \(I\) 的實心斷面軟一點。規範因此把細長比往上調：</p>
-$$\left(\frac{KL}{r}\right)_m=\sqrt{\left(\frac{KL}{r}\right)_o^{2}+\left(\frac{\alpha\,a}{r_i}\right)^{2}}$$
+<p>AISC LRFD 1993 E4 的寫法分兩種連接（我國極限設計法沿用該版架構，條號以規範為準）：</p>
+$$\text{緊配（snug-tight）螺栓：}\quad\left(\frac{KL}{r}\right)_m=\sqrt{\left(\frac{KL}{r}\right)_o^{2}+\left(\frac{a}{r_i}\right)^{2}}$$
+$$\text{銲接或全預拉螺栓：}\quad\left(\frac{KL}{r}\right)_m=\sqrt{\left(\frac{KL}{r}\right)_o^{2}+0.82\,\frac{\alpha^2}{1+\alpha^2}\left(\frac{a}{r_{ib}}\right)^{2}},\qquad \alpha=\frac{h}{2r_{ib}}$$
 <p>\((KL/r)_o\)＝把它當實心斷面算出的細長比；\(a\)＝繫材（或綴板）間距；\(r_i\)＝<b>單一分肢</b>的最小迴轉半徑；
-\(\alpha\)＝依連接方式的係數（緊配螺栓／銲接連接可取較小值；一般連接取 \(\approx1.0\)）。</p>
+\(r_{ib}\)＝單一分肢對「平行挫屈軸的自身形心軸」的迴轉半徑；\(h\)＝垂直挫屈軸方向兩分肢形心的距離。
+連接越剛（銲接、全預拉），第二項乘上小於 1 的折減；緊配螺栓會滑，第二項全額計入。</p>
 <div class="why">
 <b>為什麼是平方相加？</b> 因為這是兩個獨立的「軟化來源」串聯：
 整體彎曲變形 \(+\) 分肢間的局部變形。兩者的柔度相加，換算回細長比就是平方和開根號 ——
@@ -1634,16 +1642,17 @@ $$\left(\frac{KL}{r}\right)_m=\sqrt{\left(\frac{KL}{r}\right)_o^{2}+\left(\frac{
 <h3 class="c">8.2 SRC 複合柱：把混凝土「換算成鋼」</h3>
 <p>混凝土包覆型鋼柱的規範作法非常直觀 —— <b>不另立新公式，而是把混凝土與鋼筋的貢獻折算成「等效鋼材性質」，
 然後照樣走 §7 的柱強度曲線。</b></p>
-$$F_{my} = F_y + 0.85f'_c\frac{A_c}{A_s} + F_{yr}\frac{A_{sr}}{A_s}
+$$F_{my} = F_y + 0.7F_{yr}\frac{A_{sr}}{A_s} + 0.6f'_c\frac{A_c}{A_s}
 \qquad E_m = E_s + 0.2E_c\frac{A_c}{A_s}$$
+<p style="color:var(--mut);font-size:.93em">係數 0.7／0.6／0.2 是<b>包覆型</b>（AISC LRFD 1993 I2，SS-2003-2 題解採此法）；充填型（鋼管混凝土）為 1.0／0.85／0.4。</p>
 <div class="why">
 <b>逐項讀懂它</b>
 <ul>
 <li>\(F_{my}\)：三個材料的軸壓貢獻，全部除以 \(A_s\) 攤成「一個等效的鋼材降伏強度」。
 這樣 \(P_n = F_{my}A_s\) 就自動包含了混凝土與鋼筋。</li>
-<li>\(0.85f'_c\)：混凝土實際受壓強度的折減（尺寸效應、長期載重）—— 和 RC 規範同源。</li>
+<li>\(0.7F_{yr}\)、\(0.6f'_c\)：鋼筋與混凝土的強度都打折。包覆混凝土在外層、沒有鋼管圍束、容易剝落，所以只取 \(0.6f'_c\)，比 RC 柱的 \(0.85f'_c\) 更保守；充填型被鋼管圍住才給到 0.85。</li>
 <li>\(0.2E_c\)：混凝土對<b>勁度</b>的貢獻只採兩成。因為挫屈是長期、受裂縫與潛變影響的行為，
-混凝土的勁度不可全信。<b>強度打 0.85，勁度只打 0.2</b> —— 這個對比本身就是考點。</li>
+混凝土的勁度不可全信。<b>強度打 0.6，勁度只打 0.2</b> —— 這個對比本身就是考點。</li>
 </ul>
 </div>
 <p><b>然後照常走流程</b>（這是最容易被忽略的一步）：</p>
@@ -1762,7 +1771,7 @@ $$\phi_cP_n=\phi_c\left[A_sF_y+C_2f'_c\left(A_c+C_3\frac{A_{sr}E_s}{E_c}\right)\
 
 
 <section id="s10">
-<h2>10 ｜歷屆 33 題 × 觀念對照表</h2>
+<h2>10 ｜歷屆 35 題 × 觀念對照表</h2>
 <p>把每一題「還原成它在考哪個物理觀念」。<b>建議用法</b>：先讀完對應章節，再去做那幾題；
 做錯時回到該章節的「陷阱」欄位對照。</p>
 
@@ -1775,8 +1784,8 @@ $$\phi_cP_n=\phi_c\left[A_sF_y+C_2f'_c\left(A_c+C_3\frac{A_{sr}E_s}{E_c}\right)\
 <tr><td><a class="qlink" href="problems-view/SS-2003-2.html" target="_blank">SS-2003-2</a></td><td>92</td><td>LRFD</td><td>SRC 包覆型複合柱完整流程</td><td>§8.2 → §7.2</td><td>\(r_m\ge0.3\times\)挫屈平面全厚；\(\lambda_c\) 用 \(F_{my}/E_m\)；最後乘 \(A_s\)</td></tr>
 <tr><td><a class="qlink" href="problems-view/SS-2003-3.html" target="_blank">SS-2003-3</a></td><td>92</td><td>LRFD</td><td>雙角鋼夾 WT 腹板：雙剪螺栓數量設計；WT 與柱 8 栓拉剪互制</td><td>§1, §2</td><td>沒給外力 → 以構材 \(\phi_tP_n\) 為設計力；雙角鋼夾板是雙剪；題目明示不必考慮塊狀剪力</td></tr>
 <tr><td><a class="qlink" href="problems-view/SS-2005-1.html" target="_blank">SS-2005-1</a></td><td>94</td><td>LRFD</td><td>等肢角鋼拉桿（2 行 × 3 列螺栓）：GSY、NSF、BSR 加螺栓剪力、孔承壓五模式競爭</td><td>§1, §2, §3</td><td>螺栓剪力 71.8 tf 控制；6 栓撕出塊 BSR 100.2 tf（單排塊只承 P/2）</td></tr>
-<tr><td><a class="qlink" href="problems-view/SS-2006-1.html" target="_blank">SS-2006-1</a></td><td>95</td><td>概念</td><td>整體挫屈 vs 局部挫屈的分工；結實斷面判定</td><td>§7.4 陷阱</td><td>先過寬厚比才有資格談 \(F_{cr}\)</td></tr>
-<tr><td><a class="qlink" href="problems-view/SS-2007-4.html" target="_blank">SS-2007-4</a></td><td>96</td><td>LRFD</td><td>多層框架 G 值計算 + 對位圖查 K</td><td>§5.2</td><td>G 分子是柱、分母是梁；固接 G=1</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2006-1.html" target="_blank">SS-2006-1</a></td><td>95</td><td>概念</td><td>整體挫屈 vs 局部挫屈的分工；結實斷面判定</td><td>§7.5</td><td>先過寬厚比才有資格談 \(F_{cr}\)</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2007-4.html" target="_blank">SS-2007-4</a></td><td>96</td><td>概念</td><td>多層框架 G 值計算 + 對位圖查 K</td><td>§5.2</td><td>G 分子是柱、分母是梁；固接 G=1</td></tr>
 <tr><td><a class="qlink" href="problems-view/SS-2008-2.html" target="_blank">SS-2008-2</a></td><td>97</td><td>LRFD</td><td>靠桿效應 + LeMessurier 修正 K；未束制頂層</td><td>§5.4</td><td>靠桿自己 K=1，放大的是抗側柱</td></tr>
 <tr><td><a class="qlink" href="problems-view/SS-2010-3.html" target="_blank">SS-2010-3</a></td><td>99</td><td>混合</td><td>不等肢角鋼組合柱：斷面性質 → Euler / \(C_c\) 判斷</td><td>§8.1, §4, §7</td><td>平行軸定理的 \(d\) 要算對；\(r_{\min}\) 控制</td></tr>
 <tr><td><a class="qlink" href="problems-view/SS-2011-2.html" target="_blank">SS-2011-2</a></td><td>100</td><td>LRFD</td><td>LeMessurier 公式、系統挫屈載重、側移構架 K 修正</td><td>§5.4</td><td>柱頂鉸接 → \(K_0=2\)；\(\sum P\) 含全層、\(\sum P_{eK}\) 只含抗側柱</td></tr>
@@ -1799,7 +1808,7 @@ $$\phi_cP_n=\phi_c\left[A_sF_y+C_2f'_c\left(A_c+C_3\frac{A_{sr}E_s}{E_c}\right)\
 </tbody>
 </table>
 
-<h3>副分類 7 題（主考點在別的單元，但會用到本單元知識）</h3>
+<h3>副分類 9 題（主考點在別的單元，但會用到本單元知識）</h3>
 <table>
 <thead><tr><th style="width:11%">題號</th><th style="width:6%">考年</th><th style="width:20%">主戰場</th><th>本單元被借用的部分</th><th style="width:16%">本講義章節</th></tr></thead>
 <tbody>
@@ -1808,16 +1817,18 @@ $$\phi_cP_n=\phi_c\left[A_sF_y+C_2f'_c\left(A_c+C_3\frac{A_{sr}E_s}{E_c}\right)\
 <tr><td><a class="qlink" href="problems-view/SS-2007-1.html" target="_blank">SS-2007-1</a></td><td>96</td><td>接合之分析與設計</td><td>不等肢角鋼偏心銲接接合的 \(U\) 與力偶平衡</td><td>§2</td></tr>
 <tr><td><a class="qlink" href="problems-view/SS-2009-3.html" target="_blank">SS-2009-3</a></td><td>98</td><td>斷面性質 / 梁</td><td>平行軸定理、弱軸 \(r\)、\(\lambda_c\)</td><td>§4.2, §8.1</td></tr>
 <tr><td><a class="qlink" href="problems-view/SS-2012-3.html" target="_blank">SS-2012-3</a></td><td>101</td><td>梁柱桿件</td><td>斜撐構架柱的有效長度、弱軸挫屈</td><td>§5</td></tr>
-<tr><td><a class="qlink" href="problems-view/SS-2016-1.html" target="_blank">SS-2016-1</a></td><td>105</td><td>梁桿件</td><td>ASD 寬厚比表：柱翼板／腹板均勻受壓，故 \(\lambda_r\) 與受彎梁腹板不同</td><td>§7.4</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2016-1.html" target="_blank">SS-2016-1</a></td><td>105</td><td>梁桿件</td><td>ASD 寬厚比表：柱翼板／腹板均勻受壓，故 \(\lambda_r\) 與受彎梁腹板不同</td><td>§7.5</td></tr>
 <tr><td><a class="qlink" href="problems-view/SS-2019-3.html" target="_blank">SS-2019-3</a></td><td>108</td><td>梁柱桿件</td><td>ASD 互制式中的 \(F_a\)、\(F'_e\)、弱軸彈性挫屈</td><td>§7.3</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2013-4.html" target="_blank">SS-2013-4</a></td><td>102</td><td>梁柱桿件</td><td>無側撐剛架柱 BC 的有效長度：對位圖 \(G\) 值（梁遠端為滾支承 → 梁勁度 ×½）、層間穩定 \(\sum P_{eK}\)</td><td>§5.2, §5.3, §5.4</td></tr>
+<tr><td><a class="qlink" href="problems-view/SS-2018-1.html" target="_blank">SS-2018-1</a></td><td>107</td><td>鋼結構材料特性</td><td>細縫鋼板受拉：淨斷面比 \(A_n/A_g\) 與降伏比 \(F_y/F_u\) 誰大，決定先毛斷面降伏還是淨斷面斷裂</td><td>§1.2</td></tr>
 </tbody>
 </table>
 
 <div class="lead" style="border-left-color:var(--warn)">
 <b>從考點分布看複習優先順序</b>
 <ol>
-<li><b>§5 有效長度 \(K\)</b>（11 題觸及）—— 投報率最高，而且錯了整題陪葬。</li>
-<li><b>§7 柱強度曲線 LRFD + ASD</b>（兩套都要，ASD 出現 11 次）。</li>
+<li><b>§5 有效長度 \(K\)</b>（13 題觸及）—— 投報率最高，而且錯了整題陪葬。</li>
+<li><b>§7 柱強度曲線 LRFD + ASD</b>（兩套都要，ASD 出現 10 次）。</li>
 <li><b>§2 剪力遲滯 \(U\)</b>（6 題）—— 觀念單純但陷阱密集，性價比高。</li>
 <li><b>§6 殘留應力因果鏈</b>（5 題）—— 幾乎都是申論／觀念題，寫得出因果就有分。</li>
 <li><b>§8 組合柱／SRC</b>（4 題）—— 計算量大但套路固定，時間不夠時可放後面。</li>
@@ -1836,11 +1847,11 @@ $$\phi_cP_n=\phi_c\left[A_sF_y+C_2f'_c\left(A_c+C_3\frac{A_{sr}E_s}{E_c}\right)\
 <tr><td>2</td><td><span class="pill p-t">拉</span>圓管 \(U\) 的 \(L\)</td><td>\(L\)＝圓管周長</td>
 <td>\(L\)＝<b>平行受力方向</b>的銲道長度；半圓管 \(\bar{x}=D/\pi\)</td></tr>
 <tr><td>3</td><td><span class="pill p-t">拉</span>孔徑扣除量</td><td>直接扣螺栓直徑 \(d_b\)</td>
-<td>扣 \(d_b+0.3\) cm（孔＋損傷）；題目給孔徑時扣 \(d_h+0.16\) cm</td></tr>
+<td>扣 \(d_b+0.3\) cm（孔＋損傷）；題目給孔徑時扣 \(d_h+0.1\) cm</td></tr>
 <tr><td>4</td><td><span class="pill p-t">拉</span>φ 值配對</td><td>都用 0.9 或都用 0.75</td>
 <td>降伏型 0.90、斷裂／撕裂型 0.75。<b>延性有預警 → 寬鬆</b></td></tr>
 <tr><td>5</td><td><span class="pill p-t">拉</span>塊狀剪力只算一式</td><td>挑「看起來對」的那條算</td>
-<td>兩式都算取小；剪力面經過的孔通常是 \(n-0.5\) 個</td></tr>
+<td>先比 \(F_uA_{nt}\) 與 \(0.6F_uA_{nv}\)，依大小擇一式，再檢查上限；剪力面經過的孔通常是 \(n-0.5\) 個</td></tr>
 <tr><td>6</td><td><span class="pill p-t">拉</span>板類縱向銲的 \(U\)</td><td>把板寬一半當 \(\bar{x}\) 套 \(1-\bar{x}/L\)</td>
 <td>查 \(l/w\) 階梯值（1.00／0.87／0.75），且 \(l\ge w\)（SS-2025-2）</td></tr>
 <tr><td>7</td><td><span class="pill p-t">拉</span>螺栓接合只算構材</td><td>GSY、NSF、BSR 算完就交卷</td>
@@ -1915,9 +1926,10 @@ $$\phi_cP_n=\phi_c\left[A_sF_y+C_2f'_c\left(A_c+C_3\frac{A_{sr}E_s}{E_c}\right)\
 <p>von Mises 降伏準則：純剪狀態下 \(\tau_y=F_y/\sqrt3=0.577F_y\approx0.6F_y\)。
 同源的還有腹板剪力強度 \(0.6F_yA_w\)、螺栓與銲道的剪力強度等。記一個通吃一片。（§3）</p></details>
 
-<details><summary>Q5　塊狀剪力為什麼要取兩式的最小值？</summary>
-<p>主式假設剪力面與拉力面<b>同時</b>到達 \(F_u\)，但兩者變形能力不同步：拉力面較脆、先到 \(F_u\) 時剪力面往往還在降伏附近。
-規範因此用「剪力面只算降伏（\(0.6F_yA_{gv}\)）」的組合當上界把它截斷，取小者。（§3）</p></details>
+<details><summary>Q5　塊狀剪力為什麼是「依大小擇一式」，而不是兩式取小？</summary>
+<p>剪力面與拉力面變形能力不同步，不會同時到 \(F_u\)。我國規範（同 AISC LRFD 1993／1999）的模型是：斷裂發生在<b>斷裂強度較大</b>的那個面，另一面只到降伏。
+所以先比 \(F_uA_{nt}\) 與 \(0.6F_uA_{nv}\)：前者大用 \(0.6F_yA_{gv}+F_uA_{nt}\)，後者大用 \(0.6F_uA_{nv}+F_yA_{gt}\)，再以「兩面都斷」的 \(0.6F_uA_{nv}+F_uA_{nt}\) 為上限。
+「兩式取小」是 AISC 360-05 以後的單一式寫法，題目指定 AISC 才用。（§3）</p></details>
 
 <details><summary>Q6　Euler 公式裡沒有 \(F_y\)，這對「用高強度鋼做細長柱」有什麼含意？</summary>
 <p>細長柱（\(\lambda_c&gt;1.5\)）在全斷面彈性時就挫屈，強度只由 \(E\) 與幾何決定。
@@ -1962,7 +1974,7 @@ $$\phi_cP_n=\phi_c\left[A_sF_y+C_2f'_c\left(A_c+C_3\frac{A_{sr}E_s}{E_c}\right)\
 
 <p class="lead" style="border-left-color:var(--warn)">
 <b>挑選標準</b>：不是挑最難或最新，而是挑<b>一題能練到最多獨立技能</b>的。
-本單元 33 題可歸成 10 個考點群，這 5 題涵蓋其中 8 個，而且彼此重疊最少。
+本單元 35 題可歸成 10 個考點群，這 5 題涵蓋其中 8 個，而且彼此重疊最少。
 建議<b>照順序做</b>，因為後面的題會用到前面建立的手感。</p>
 
 <table>
@@ -2061,6 +2073,8 @@ $$\phi_cP_n=\phi_c\left[A_sF_y+C_2f'_c\left(A_c+C_3\frac{A_{sr}E_s}{E_c}\right)\
 
 <footer>
   exam-wiki-SS ｜ SS-U1-1 觀念講義 ｜ 產生於 2026-07-25 ｜ v3 圖解重繪與勘誤同步 2026-10-23（圖形由 <code>study/figs-src/lecture-SS-U1-1/</code> 程式產生）
+<br>
+  2026-11-22 勘誤：塊狀剪力與 U 值表改依我國極限設計法（擇一式、0.90／0.85／0.75），SRC 係數改包覆型 0.7／0.6／0.2，修正細長比分緊配螺栓／銲接兩式，雙角鋼改列彎扭挫屈，0.877 依據改 L/1500，給孔徑扣除量 \(d_h+0.1\) cm，副分類補 SS-2013-4、SS-2018-1（詳見 SS/wiki/queries/log.md）
 </footer>
 
 </body>

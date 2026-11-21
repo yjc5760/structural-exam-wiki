@@ -21,6 +21,8 @@
 | 拉力控制（$\varepsilon_t \geq 0.005$） | $\phi = 0.90$ |
 | 過渡區（$0.002 < \varepsilon_t < 0.005$）| $\phi = 0.65 + (\varepsilon_t - 0.002)\,\dfrac{0.25}{0.003}$（箍筋柱） |
 | 壓力控制（$\varepsilon_t \leq 0.002$）| $\phi = 0.65$（箍筋柱），$0.75$（螺旋柱） |
+| 依據 | 112 年版表 21.2.2：$\phi = 0.65 + 0.25(\varepsilon_t-\varepsilon_{ty})/0.003$，拉力控制 $\varepsilon_t \ge \varepsilon_{ty}+0.003$；§21.2.2.1 SD420 取 $\varepsilon_{ty} = 0.002$（上三列即此）；$f_y \ne 4200$ 時 $\varepsilon_{ty} = f_y/E_s$ |
+| 非預力梁的延性要求 | §9.3.3.1：須拉力控制（SD420：$\varepsilon_t \ge 0.005$）；舊規範 $\varepsilon_t \ge 0.004$ 已取消 |
 
 ---
 
@@ -81,7 +83,7 @@ $$\varepsilon'_s = 0.003\,\frac{c - d'}{c} \geq \varepsilon_y = \frac{f_y}{E_s}$
 | [RC-2004-2](../problems/RC-2004-2.md) | 外伸梁單筋設計，過渡區 $\phi$ 值 |
 | [RC-2007-1](../problems/RC-2007-1.md) | T 形梁，有效翼板寬，$a \leq h_f$ |
 | [RC-2014-1](../problems/RC-2014-1.md) | 單筋過筋梁，雙 $f'_c$ 複合斷面 |
-| [RC-2015-2](../problems/RC-2015-2.md) | 雙筋梁，最大設計彎矩，$\varepsilon_t = 0.004$ |
+| [RC-2015-2](../problems/RC-2015-2.md) | 雙筋梁，最大設計彎矩在拉力控制界限 $\varepsilon_t = 0.005$ |
 | [RC-2016-1](../problems/RC-2016-1.md) | 單筋矩形梁，地震彎矩組合 |
 | [RC-2019-1](../problems/RC-2019-1.md) | 單筋梁，過渡區 $\phi$ 值 |
 | [RC-2022-1](../problems/RC-2022-1.md) | 雙筋梁，壓力筋未降伏，有效深度求解 |
@@ -90,3 +92,5 @@ $$\varepsilon'_s = 0.003\,\frac{c - d'}{c} \geq \varepsilon_y = \frac{f_y}{E_s}$
 | [RC-2023-2](../problems/RC-2023-2.md) | T 形梁雙筋，壓力鋼筋未降伏 |
 | [RC-2024-1](../problems/RC-2024-1.md) | T 形梁最大/最小鋼筋量，高強度鋼筋 |
 | [RC-2024-2](../problems/RC-2024-2.md) | 雙筋梁壓力筋未降伏，懸臂梁 |
+
+*修正日期：2026-11-21（補 φ 依據表 21.2.2／§21.2.2.1 與非預力梁須拉力控制（§9.3.3.1）；RC-2015-2 說明改正）*

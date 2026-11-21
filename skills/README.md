@@ -20,7 +20,7 @@
 | 品質：盲解、勘誤、稽核 | `exam-wiki-pipeline`、`exam-errata`、`exam-wiki-audit` |
 | 分析與教材 | `subject-frequency-map`、`unit-overview`、`unit-lecture`、`unit-textbook` |
 | 練習與入口 | `exam-practice-sheet`、`add-to-wiki`（改卷、卡關紀錄）、`exam-start-page` |
-| 圖與影片 | `struct-diagram`、`blackboard-solution-video`、`video-handout` |
+| 圖與影片 | `struct-diagram`、`blackboard-solution-video`、`video-handout`、`youtube-upload` |
 | 知識庫維護 | `exam-subject-migrate`（科目從原 repo 搬入） |
 
 ## 安裝方式

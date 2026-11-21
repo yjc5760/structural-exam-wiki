@@ -11,8 +11,8 @@ RC-2019-1 單筋矩形梁・過渡區 φ 聯立求 As — 解題圖解產生腳�
 
 FIGURES
   fig-1-section    斷面／應變／應力三聯   攔：把 c 當 a（或反之）、忘記 T = Cc 才定出 a
-  fig-2-phi-et     φ–εt 內插圖            攔：φ 直接取 0.9、εy 用 0.002、內插方向畫反
-  fig-3-roots      二次方程雙根取捨        攔：取到大根 90.3 cm² 交卷
+  fig-2-phi-et     φ–εt 內插圖            攔：φ 直接取 0.9、內插方向畫反、忘了梁須拉力控制
+  fig-3-roots      二次方程雙根取捨        攔：取到大根 101.0 cm² 交卷
 """
 import sys, os, math
 
@@ -43,11 +43,14 @@ KA   = FY / (0.85 * FC * B)          # a  = KA · As
 KC   = KA / B1                       # c  = KC · As
 
 
+ETY  = 0.002   # φ 分區用 ε_ty：112 年版 §21.2.2.1，fy = 4200 的竹節鋼筋可採 0.002
+
+
 def phi_of(et):
-    """土木 401-100 現行式（箍筋圍束，壓力控制界限 ε_ty = fy/Es）。"""
-    if et >= 0.005:  return 0.90
-    if et <= EPSY:   return 0.65
-    return 0.65 + 0.25 * (et - EPSY) / (0.005 - EPSY)
+    """112 年版表 21.2.2（箍筋圍束）：φ = 0.65 + 0.25(εt − εty)/0.003，拉力控制 εt ≥ εty + 0.003。"""
+    if et >= ETY + 0.003: return 0.90
+    if et <= ETY:         return 0.65
+    return 0.65 + 0.25 * (et - ETY) / 0.003
 
 
 def state(As):
@@ -60,7 +63,7 @@ def state(As):
 def phi_lin(As):
     """把過渡區內插式**不設限**地外推（§4.4 建立二次方程時的假設）。"""
     et = EPS_CU * (D - KC * As) / (KC * As)
-    return 0.65 + 0.25 * (et - EPSY) / (0.005 - EPSY)
+    return 0.65 + 0.25 * (et - ETY) / 0.003
 
 
 # ── 解 φMn = Mu（物理解：φ 依 state() 夾在 0.65~0.90） ──
@@ -74,8 +77,8 @@ AS = (lo + hi) / 2
 S = state(AS)
 
 # ── §4.4 二次方程的兩根（把內插式外推後的代數解） ──
-QA = 0.25 / (0.005 - EPSY) * (EPS_CU * D / KC)      # = 29.017…  (1/As 項係數)
-QB = 0.65 - 0.25 / (0.005 - EPSY) * (EPS_CU + EPSY)  # = 0.220…   (常數項)
+QA = 0.25 / 0.003 * (EPS_CU * D / KC)               # = 28.448…  (1/As 項係數)
+QB = 0.65 - 0.25 / 0.003 * (EPS_CU + ETY)          # = 0.2333…  (常數項)
 # (QB·As + QA)·fy·(D − KA·As/2) = MU
 qa = -QB * KA / 2
 qb = QB * D - QA * KA / 2
@@ -157,10 +160,10 @@ class Frame:
 F = Frame(780, 470, (0.0, 0.0075), (0.62, 0.95))
 cv, P = F.cv, F.p
 cv.panel("強度折減因數 φ 與淨拉應變 ε_t", None)
-cv.text_px(F.W / 2, 60, "土木401-100 現行式（箍筋圍束）", 12.5, C["muted"])
+cv.text_px(F.W / 2, 60, "112 年版表 21.2.2（箍筋圍束，SD420 取 ε_ty = 0.002）", 12.5, C["muted"])
 
 # 三區底色（先畫，才不會蓋住線）
-cv.polygon([P(0.0, 0.62), P(EPSY, 0.62), P(EPSY, 0.95), P(0.0, 0.95)], "rgba(29,78,216,0.07)")
+cv.polygon([P(0.0, 0.62), P(ETY, 0.62), P(ETY, 0.95), P(0.0, 0.95)], "rgba(29,78,216,0.07)")
 cv.polygon([P(0.005, 0.62), P(0.0075, 0.62), P(0.0075, 0.95), P(0.005, 0.95)],
            "rgba(192,57,43,0.07)")
 F.frame([0.65, 0.70, 0.75, 0.80, 0.85, 0.90],
@@ -168,34 +171,31 @@ F.frame([0.65, 0.70, 0.75, 0.80, 0.85, 0.90],
         xlabel="ε_t", ylabel="φ")
 
 # 三段折線（壓力控制平台／過渡區／拉力控制平台）
-seg = [P(0.0, 0.65), P(EPSY, 0.65)]
-seg += [P(EPSY + (0.005 - EPSY) * i / 24,
-          phi_of(EPSY + (0.005 - EPSY) * i / 24)) for i in range(25)]
+seg = [P(0.0, 0.65), P(ETY, 0.65)]
+seg += [P(ETY + 0.003 * i / 24,
+          phi_of(ETY + 0.003 * i / 24)) for i in range(25)]
 seg += [P(0.0075, 0.90)]
 cv.poly(seg, C["bmd"], 3.6)
 
-cv.text_px((cv.X(P(0.0, 0)[0]) + cv.X(P(EPSY, 0)[0])) / 2, F.T + 34,
+cv.text_px((cv.X(P(0.0, 0)[0]) + cv.X(P(ETY, 0)[0])) / 2, F.T + 34,
            "壓力控制", 12.5, C["compr"], weight="700")
-cv.text_px((cv.X(P(EPSY, 0)[0]) + cv.X(P(0.005, 0)[0])) / 2, F.T + 34,
+cv.text_px((cv.X(P(ETY, 0)[0]) + cv.X(P(0.005, 0)[0])) / 2, F.T + 34,
            "過渡區", 12.5, C["accent"], weight="700")
 cv.text_px((cv.X(P(0.005, 0)[0]) + cv.X(P(0.0075, 0)[0])) / 2, F.T + 34,
            "拉力控制", 12.5, C["tension"], weight="700")
 
 # εty 與 0.005 兩個折點
-for et in (EPSY, 0.005):
+for et in (ETY, 0.005):
     cv.line(P(et, 0.62), P(et, 0.928), C["muted"], 1.6, dash="6 4")
     cv.dot(P(et, phi_of(et)), 5.0, fill=C["bmd"], stroke="#FFFFFF", w=1.8)
-cv.math_px(cv.X(P(EPSY, 0)[0]) - 10, cv.Y(P(0, 0.690)[1]),
-           f"ε_{{ty}}={EPSY:.6f}", 13, C["bmd"], "end", weight="700")
+cv.math_px(cv.X(P(ETY, 0)[0]) - 10, cv.Y(P(0, 0.690)[1]),
+           "ε_{ty}=0.002", 13, C["bmd"], "end", weight="700")
 cv.math_px(cv.X(P(0.005, 0)[0]) + 10, cv.Y(P(0, 0.868)[1]),
            "0.005", 13, C["bmd"], "start", weight="700")
 
-# 梁的配筋上限 0.004
-cv.line(P(0.004, 0.62), P(0.004, 0.928), C["load"], 1.8, dash="4 5")
-cv.math_px(cv.X(P(0.004, 0)[0]) - 10, cv.Y(P(0, 0.730)[1]),
-           "0.004", 13, C["load"], "end", weight="700")
-cv.text_px(cv.X(P(0.004, 0)[0]) - 10, cv.Y(P(0, 0.703)[1]),
-           "梁配筋上限", 12, C["load"], "end")
+# 非預力梁須拉力控制（§9.3.3.1）：0.005 左側對梁是禁區
+cv.text_px(cv.X(P(0.0050, 0)[0]) - 10, cv.Y(P(0, 0.703)[1]),
+           "非預力梁須 ε_t ≥ 0.005（§9.3.3.1）", 12, C["load"], "end")
 
 # 本題解
 cv.dot(P(S["et"], S["phi"]), 6.4, fill=C["accent"], stroke="#FFFFFF", w=2.2)
@@ -206,8 +206,8 @@ cv.math_px(cv.X(P(0.00512, 0)[0]), cv.Y(P(0, 0.775)[1]),
 cv.line(P(S["et"], S["phi"]), P(0.00505, 0.795), C["accent"], 1.4, dash="3 3")
 
 cv.text_px(F.W / 2, F.H - 34,
-           f"ε_{{ty}} = f_{{y}}/E_{{s}} = {EPSY:.6f}（不是 0.002）；"
-           f"ε_{{t}} 越大 φ 越大，不是越小",
+           "φ 分區 ε_ty 取 0.002（§21.2.2.1）；鋼筋降伏判斷仍用 f_y/E_s；"
+           "ε_t 越大 φ 越大",
            13, C["muted"])
 cv.save(f"{OUT}/{TAG}-fig-2-phi-et.svg")
 
@@ -287,13 +287,13 @@ assert abs(B1 - 0.85) < 1e-9
 assert abs(EPSY - 0.002059) < 5e-7,          EPSY
 assert abs(KA - 0.4706) < 5e-5,              KA
 assert abs(KC - 0.5536) < 5e-5,              KC
-assert abs(AS - 45.52) < 0.01,               AS
-assert abs(S["a"] - 21.42) < 0.01,           S["a"]
-assert abs(S["c"] - 25.20) < 0.01,           S["c"]
-assert abs(S["et"] - 0.00450) < 5e-6,        S["et"]
-assert abs(S["phi"] - 0.8575) < 5e-5,        S["phi"]
-assert abs(ROOT_S - 45.5) < 0.1,             ROOT_S
-assert abs(ROOT_L - 90.3) < 0.1,             ROOT_L
+assert abs(AS - 44.87) < 0.01,               AS
+assert abs(S["a"] - 21.11) < 0.01,           S["a"]
+assert abs(S["c"] - 24.84) < 0.01,           S["c"]
+assert abs(S["et"] - 0.00461) < 5e-6,        S["et"]
+assert abs(S["phi"] - 0.8674) < 5e-5,        S["phi"]
+assert abs(ROOT_S - 44.9) < 0.1,             ROOT_S
+assert abs(ROOT_L - 101.0) < 0.1,             ROOT_L
 assert abs(AS_MIN - 10.50) < 0.01,           AS_MIN
 assert abs(RHO_B - 0.02143) < 1e-5,          RHO_B
 print(f"{TAG}: 3 圖 OK　As={AS:.2f} a={S['a']:.2f} c={S['c']:.2f} "

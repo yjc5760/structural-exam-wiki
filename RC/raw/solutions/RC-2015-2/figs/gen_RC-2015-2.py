@@ -42,9 +42,10 @@ EPSY = FY / ES
 
 
 def phi_of(et):
+    """112 年版表 21.2.2；§21.2.2.1 SD420 取 εty = 0.002（拉力控制界限 0.005）。"""
     if et >= 0.005: return 0.90
-    if et <= EPSY:  return 0.65
-    return 0.65 + 0.25 * (et - EPSY) / (0.005 - EPSY)
+    if et <= 0.002: return 0.65
+    return 0.65 + 0.25 * (et - 0.002) / 0.003
 
 
 def state(c):
@@ -169,7 +170,7 @@ cv.panel("φM_n 的極大值落在「折點」，不是導數為零的地方", N
 cv.text_px(F.W / 2, 62, "縱軸單位 tf·m；A_s 可自由調整，故以中性軸深 c 為唯一參數掃描",
            12.5, C["muted"])
 
-cv.polygon([P(X0, 70), P(0.004, 70), P(0.004, 145), P(X0, 145)], "rgba(192,57,43,0.10)")
+cv.polygon([P(X0, 70), P(0.005, 70), P(0.005, 145), P(X0, 145)], "rgba(192,57,43,0.10)")
 F.frame([70, 85, 100, 115, 130, 145],
         [0.004, 0.005, 0.006, 0.007, 0.008, 0.009, 0.010], xlabel="ε_t")
 
@@ -180,16 +181,16 @@ cv.poly([P(e, state(c_of_et(e))["phiMn"] / 1e5) for e in ets], C["bmd"], 3.6)
 
 # 規範可行區左界
 cv.line(P(0.004, 70), P(0.004, 143), C["load"], 2.0, dash="4 5")
-cv.text_px(cv.X(P(0.004, 0)[0]) + 8, F.T + 40, "梁 ε_t ≥ 0.004", 12.5, C["load"], "start",
+cv.text_px(cv.X(P(0.004, 0)[0]) + 8, F.T + 40, "舊規範 ε_t ≥ 0.004", 12.5, C["load"], "start",
            weight="700")
-cv.text_px(cv.X(P(0.004, 0)[0]) + 8, F.T + 60, "（配筋上限）", 11.5, C["load"], "start")
+cv.text_px(cv.X(P(0.004, 0)[0]) + 8, F.T + 60, "（現行規範：梁須 ε_t ≥ 0.005）", 11.5, C["load"], "start")
 
 # 拉力控制界限
 cv.line(P(0.005, 70), P(0.005, 143), C["accent"], 2.0, dash="6 4")
 cv.text_px(cv.X(P(0.005, 0)[0]) + 8, F.T + 96, "ε_t = 0.005：φ 觸頂 0.90", 12.5,
            C["accent"], "start", weight="700")
 
-for s, lab, col in ((S004, "延性下限", C["muted"]), (S005, "峰值", C["accent"])):
+for s, lab, col in ((S004, "舊規範下限", C["muted"]), (S005, "峰值", C["accent"])):
     cv.dot(P(s["et"], s["phiMn"] / 1e5), 6.6 if s is S005 else 5.2,
            fill=col, stroke="#FFFFFF", w=2.0)
     cv.text_px(cv.X(P(s["et"], 0)[0]) + (12 if s is S005 else -10),
@@ -211,7 +212,7 @@ cv.text_px(F.W / 2, F.H - 62,
            13, C["text"])
 cv.text_px(F.W / 2, F.H - 36,
            f"max(φM_n) = {S005['phiMn']/1e5:.1f} tf·m（A_s = {S005['As']:.2f} cm²）"
-           f"　不是 φ × max(M_n) = {S004['phiMn']/1e5:.1f}", 13.5, C["accent"], weight="700")
+           f"　也是現行規範梁的配筋上限（拉力控制）；舊規範下限 0.004 處只有 {S004['phiMn']/1e5:.1f}", 13.5, C["accent"], weight="700")
 cv.save(f"{OUT}/{TAG}-fig-1-scan.svg")
 
 # ══════════════════════════════════════════════════════════
@@ -308,7 +309,7 @@ def fmt_mu(v): return f"{v:.2f}" if v < 10 else f"{v:.1f}"
 
 
 LBL = ((D_MAX_M, "(一) 最大設計彎矩", C["accent"], 4.2, 124.0),
-       (D_004,   "延性下限 ε_t = 0.004", C["muted"], 4.2, 100.0),
+       (D_004,   "舊規範下限 ε_t = 0.004", C["muted"], 4.2, 100.0),
        (D_MAX_U, "(二) 最大韌性", C["bmd"], 6.6, 56.0))
 for d_, lab, col, lx, ly in LBL:
     cv.dot(P(d_["mu"], d_["phiMn"]), 6.8, fill=col, stroke="#FFFFFF", w=2.2)
@@ -334,8 +335,8 @@ assert abs(S004["c"] - 27.00) < 0.01,        S004["c"]
 assert abs(S004["a"] - 21.60) < 0.01,        S004["a"]
 assert abs(S004["As"] - 62.97) < 0.02,       S004["As"]
 assert abs(S004["Mn"] / 1e5 - 139.55) < 0.05, S004["Mn"] / 1e5
-assert abs(S004["phi"] - 0.815) < 5e-4,      S004["phi"]
-assert abs(S004["phiMn"] / 1e5 - 113.7) < 0.1, S004["phiMn"] / 1e5
+assert abs(S004["phi"] - 0.8167) < 5e-4,     S004["phi"]
+assert abs(S004["phiMn"] / 1e5 - 114.0) < 0.1, S004["phiMn"] / 1e5
 assert abs(S005["c"] - 23.625) < 0.005,      S005["c"]
 assert abs(S005["a"] - 18.90) < 0.01,        S005["a"]
 assert abs(S005["esp"] - 0.002111) < 5e-6,   S005["esp"]
@@ -343,7 +344,7 @@ assert abs(S005["As"] - 56.27) < 0.02,       S005["As"]
 assert abs(S005["Mn"] / 1e5 - 127.53) < 0.05, S005["Mn"] / 1e5
 assert abs(S005["phiMn"] / 1e5 - 114.8) < 0.05, S005["phiMn"] / 1e5
 assert PEAK is S005 or abs(PEAK["et"] - 0.005) < 1e-9
-for s, want in zip(SCAN, (113.7, 114.3, 114.8, 105.3, 89.3, 77.0)):
+for s, want in zip(SCAN, (114.0, 114.4, 114.8, 105.3, 89.3, 77.0)):
     assert abs(s["phiMn"] / 1e5 - want) < 0.06, (s["et"], s["phiMn"] / 1e5, want)
 assert abs(RHO_MIN - 0.003564) < 1e-6,       RHO_MIN
 assert abs(AS_MIN - 7.86) < 1e-9,            AS_MIN

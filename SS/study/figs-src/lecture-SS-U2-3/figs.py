@@ -444,15 +444,15 @@ def fig_bolt3():
 
     # ---------- ② 孔位偏差 ----------
     cx = 440
-    f.text(cx, 30, "② 孔位偏差（M22，標準孔 d+1.5）", 15, ORANGE, "middle", "700")
+    f.text(cx, 30, "② 孔位偏差（M22，標準孔 d+2）", 15, ORANGE, "middle", "700")
     s = 3.2         # px/mm
-    d, d0, e = 22.0, 23.5, 3.0
+    d, d0, e = 22.0, 24.0, 3.0
     clear = d0 - e
     c1 = (cx - e * s / 2, 100); c2 = (cx + e * s / 2, 100)
     f.circle(*c1, d0 * s / 2, "#e3f2fd", BLUE, 1.6, op=0.85)
     f.circle(*c2, d0 * s / 2, "#fff3e0", ORANGE, 1.6, op=0.75)
     f.circle(cx, 100, d * s / 2, "none", RED, 1.6)
-    f.text(cx, 160, "藍／橙＝上、下板孔 Ø23.5（相錯 e）　紅＝螺桿 Ø22", 10.5, MUT, "middle")
+    f.text(cx, 160, "藍／橙＝上、下板孔 Ø24（相錯 e）　紅＝螺桿 Ø22", 10.5, MUT, "middle")
     # clear width dim
     xl = c2[0] - d0 * s / 2; xr = c1[0] + d0 * s / 2
     f.line(xl, 100, xr, 100, PURPLE, 1.3, arrow=PURPLE, arrow_start=PURPLE)
