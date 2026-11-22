@@ -223,6 +223,7 @@ Magnel 圖：把 4 個不等式寫成 1/P 對 e 的直線，可行區即容許�
 | 2026-11-15 | **新建觀念講義 lecture-RC-U4-2、lecture-RC-U3-2**（HTML＋PDF；圖由 `scripts/lecture-figs/` 依 calcs.py 數值產生並注入）；單元總覽、全科熱圖重跑；14 份 problems-view 加講義按鈕。待複核：RC-2013-1 版厚表 ℓ 取淨跨或跨度 | U4-2、U3-2 為讀書順序建議中尚無講義的兩個單元 |
 
 ---
+| 2026-11-22 | **新建起點頁 `start.html`**（exam-start-page）：清單存 `study/data/start-links.txt`，合併成 `study/data/start-links.json`，根目錄 `scripts/build_start.py` 產生；7 單元依清單順序 U1-1→U1-2→U4-1→U4-2→U3-3→U3-2→U2-1，各含單元總覽、觀念講義、教科書、講義／公式記憶／教科書影片與 5 支解題影片（共 57 支 YouTube） | JSON 的 `site`／`repo`／`feedback` 改指 structural-exam-wiki（腳本預設為舊 exam-wiki-RC）；U4-2、U3-2 講義影片標題沒寫「動畫」，歸為一般講義影片 |
 
 ## 10. 本科與根目錄規則的差異
 
