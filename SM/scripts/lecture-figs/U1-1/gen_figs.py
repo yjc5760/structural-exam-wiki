@@ -589,7 +589,7 @@ def fig6b():
         b.append(C(X(ll), Y(pi), 4.5, "#c62828", "#fff", 1.5))
         b.append(T(X(ll) + 7, Y(pi) + 15, f"({ll}, {pi:g})", 11, "#c62828", "start", 700))
     # zone labels
-    for ll, pi, lab, col in [(38, 23, "CL", "#4a148c"), (72, 42, "CH", "#4a148c"), (40, 4, "ML 或 OL", "#455a64"), (80, 13, "MH 或 OH", "#455a64")]:
+    for ll, pi, lab, col in [(38, 23, "CL", "#4a148c"), (62, 45, "CH", "#4a148c"), (40, 4, "ML 或 OL", "#455a64"), (80, 13, "MH 或 OH", "#455a64")]:
         b.append(T(X(ll), Y(pi), lab, 15 if len(lab) == 2 else 13, col, weight=700))
     # example soil from fig 5
     b.append(C(X(38), Y(16), 6, "#00695c", "#fff", 2))

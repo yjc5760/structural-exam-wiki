@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SM-U3-2 擋土牆穩定｜單元總覽</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"></script>
+<style>
+
+:root{--ac:#1565c0;--ac2:#e8f0fe;--ink:#26323a;--mut:#607d8b;--bd:#e0e6ea;--bg:#f4f6f8;
+ --must:#c62828;--must2:#fdecea;--half:#ef6c00;--half2:#fff4e5;--give:#2e7d32;--give2:#e9f5ec}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+ font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.7;-webkit-text-size-adjust:100%}
+main{max-width:1120px;margin:0 auto;padding:0 16px 60px}
+header{background:linear-gradient(135deg,#0d47a1,#1565c0 55%,#1976d2);color:#fff;padding:28px 22px 24px}
+header .in{max-width:1120px;margin:0 auto}
+header .eyebrow{font-size:.78rem;letter-spacing:.14em;opacity:.85;margin:0 0 6px}
+header h1{margin:0 0 8px;font-size:1.6rem;line-height:1.4}
+header p{margin:0;font-size:.93rem;opacity:.94;max-width:80ch}
+header code{background:rgba(255,255,255,.18);color:#fff}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #dde4ea;
+ padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+nav a{font-size:.8rem;text-decoration:none;color:var(--ac);background:var(--ac2);padding:5px 12px;border-radius:20px;white-space:nowrap}
+nav a:hover{background:#d3e3fd}
+nav a.ext{background:#f3e5f5;color:#6a1b9a}
+section{margin:34px 0}
+h2{font-size:1.3rem;margin:0 0 6px;padding-left:11px;border-left:6px solid var(--ac);color:#0d47a1}
+h2 small{font-size:.8rem;color:var(--mut);font-weight:400;margin-left:6px}
+h3{font-size:1.04rem;margin:26px 0 8px;color:#37474f;padding-bottom:4px;border-bottom:2px solid var(--ac2)}
+p.lead{font-size:.93rem;color:#455a64;margin:6px 0 10px}
+code{font-size:.85em;background:#eceff1;padding:0 4px;border-radius:4px}
+a{color:var(--ac)}
+
+/* position strip */
+.pos{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;background:#fff;border:1px solid var(--bd);
+ border-radius:12px;padding:12px 16px;margin:18px 0 0;font-size:.9rem}
+.pos .k{display:flex;align-items:baseline;gap:5px}
+.pos .k b{font-size:1.35rem;color:#0d47a1;font-variant-numeric:tabular-nums}
+.pos .k span{color:var(--mut);font-size:.8rem}
+.pos .go{margin-left:auto;font-size:.82rem}
+.btnbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.btnbar a{padding:5px 14px;border-radius:6px;font-size:.86rem;text-decoration:none}
+.b-lec{background:#6a1b9a;color:#fff}.b-lecp{background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8}
+.b-pdf{background:#eceff1;color:#37474f;border:1px solid #cfd8dc}
+
+/* cards / tables shared */
+.note,.warn{border-radius:10px;padding:11px 15px;margin:12px 0;font-size:.89rem}
+.note{background:var(--ac2);border-left:5px solid var(--ac)}
+.warn{background:var(--half2);border-left:5px solid var(--half)}
+.tw{position:relative;overflow-x:auto;border:1px solid var(--bd);border-radius:10px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:.86rem;background:#fff}
+th,td{border-bottom:1px solid #eceff1;padding:7px 9px;text-align:left;vertical-align:top}
+th{background:#eceff1;color:#37474f;font-size:.8rem}
+td.num,th.num{text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+.up{color:#2e7d32;font-weight:700}.down{color:var(--must);font-weight:700}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:baseline}
+#riskT td:nth-child(-n+5),#riskT th:nth-child(-n+5){white-space:nowrap}
+.risk-hi{background:#ffebee}.risk-md{background:#fff8e1}.risk-lo{background:#f1f8e9}
+
+/* §1 clusters */
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:11px;margin-top:8px}
+.cat{background:#fff;border:1px solid var(--bd);border-left:6px solid;border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.cat:hover{box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.cat b{display:block;font-size:.98rem}.cat span{font-size:.8rem;color:var(--mut)}
+.chartbox{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:12px 14px;margin-top:12px}
+.chartbox h4{margin:0 0 6px;font-size:.88rem;color:var(--mut);font-weight:600}
+.chartbox canvas{width:100%;height:auto;display:block}
+.legend-s{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.78rem;color:#455a64;margin-top:6px}
+
+/* §2 formula */
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.lg{flex:1 1 220px;border-radius:10px;padding:10px 13px;border:1px solid}
+.lg h4{margin:0 0 3px;font-size:.95rem}.lg p{margin:0;font-size:.82rem;line-height:1.6}
+.lg.must{background:var(--must2);border-color:#f5c6c2}.lg.must h4{color:var(--must)}
+.lg.half{background:var(--half2);border-color:#ffd9a8}.lg.half h4{color:var(--half)}
+.lg.give{background:var(--give2);border-color:#bcdfc6}.lg.give h4{color:var(--give)}
+.kpis{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.kpi{flex:1 1 110px;background:#fff;border:1px solid var(--bd);border-radius:10px;padding:10px;text-align:center}
+.kpi .n{font-size:1.55em;font-weight:800;color:#0d47a1;line-height:1.15}
+.kpi .l{font-size:.73rem;color:var(--mut);margin-top:2px}
+.kpi.red .n{color:var(--must)}.kpi.org .n{color:var(--half)}.kpi.grn .n{color:var(--give)}
+details{background:#fff;border:1px solid var(--bd);border-radius:10px;margin:12px 0}
+details>summary{cursor:pointer;padding:10px 14px;font-weight:600;font-size:.92rem;color:#37474f}
+details>.db{padding:0 14px 12px}
+blockquote{margin:8px 0;padding:8px 14px;background:#fafbfc;border-left:4px solid #90a4ae;font-size:.87rem;color:#37474f}
+.ynote{font-size:.72rem;color:#78909c}
+.filters{display:flex;flex-wrap:wrap;gap:6px 12px;margin:12px 0;align-items:center}
+.filters .fg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.filters b{font-size:.76rem;color:var(--mut);margin-right:2px}
+.filters button,.filters select{font:inherit;font-size:.79rem;border:1px solid #cfd8dc;background:#fff;color:#455a64;border-radius:16px;padding:4px 12px;cursor:pointer}
+.filters select{max-width:100%}
+.filters button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.recallbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 12px;padding:8px 12px;background:#fff;border:1px dashed #b0bec5;border-radius:10px;font-size:.83rem;color:#546e7a}
+.recallbar button{font:inherit;font-size:.8rem;border:1px solid var(--ac);background:#fff;color:var(--ac);border-radius:16px;padding:3px 12px;cursor:pointer}
+.recallbar button.on{background:var(--ac);color:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));gap:12px}
+.fc,.qrow>*{min-width:0}
+.fc{background:#fff;border:1px solid var(--bd);border-left:6px solid #90a4ae;border-radius:10px;padding:12px 15px;scroll-margin-top:70px;transition:box-shadow .3s}
+.fc.must{border-left-color:var(--must)}.fc.half{border-left-color:var(--half)}.fc.give{border-left-color:var(--give)}
+.fc.flash{box-shadow:0 0 0 3px #90caf9}
+.fc .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.fc .nm{font-weight:700;font-size:1rem}
+.tag{font-size:.71rem;font-weight:700;border-radius:14px;padding:2px 9px;white-space:nowrap}
+.tag.must{background:var(--must2);color:var(--must)}.tag.half{background:var(--half2);color:var(--half)}.tag.give{background:var(--give2);color:var(--give)}
+.fc .eq{background:#f7f9fb;border-radius:8px;padding:5px 10px;margin:6px 0;overflow-x:auto}
+.fc .meta{font-size:.86rem;color:#455a64;margin:6px 0 0;line-height:1.68}
+.fc .ev{font-size:.78rem;margin-top:8px;padding-top:7px;border-top:1px dashed #dde4ea;color:#607d8b}
+.fc .ev a{display:inline-block;border-radius:4px;padding:0 5px;margin:1px 2px 1px 0;text-decoration:none;font-size:.76rem;background:var(--must2);color:var(--must)}
+.fc .ev a.sec{background:#eceff1;color:#546e7a}
+.fc .ev .ok{display:inline-block;border-radius:4px;padding:0 5px;background:var(--give2);color:var(--give);font-size:.76rem}
+.fc .ev .uses{margin-left:4px;color:#455a64;cursor:pointer;text-decoration:underline dotted}
+.never{color:var(--must);font-weight:700}
+body.recall .fc .eq{position:relative;cursor:pointer;min-height:2.6em}
+body.recall .fc .eq>*{visibility:hidden}
+body.recall .fc .eq::after{content:"✍ 先默寫，再點這裡翻開";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#90a4ae;font-size:.83rem;background:repeating-linear-gradient(45deg,#eef2f5 0 8px,#f7f9fb 8px 16px);border-radius:8px}
+body.recall .fc.rev .eq>*{visibility:visible}
+body.recall .fc.rev .eq::after{display:none}
+body.recall .fc .meta .katex{filter:blur(4px)}
+body.recall .fc.rev .meta .katex{filter:none}
+#mx{min-width:900px;font-size:.8rem}
+#mx th{text-align:center;position:sticky;top:0}
+#mx th:first-child,#mx th:nth-child(2),#mx th:last-child{text-align:left}
+#mx td.c{text-align:center}
+#mx .y{color:var(--give);font-weight:800}#mx .x{color:var(--must);font-weight:800}#mx .n{color:#cfd8dc}
+#mx tr.hl{background:#f2f7fc}
+#mx td.qq{font-size:.8rem;font-weight:600;white-space:nowrap}
+#mx td.qq a{text-decoration:none;border-bottom:1px dotted #90a4ae}
+#mx td.rm{font-size:.76rem;color:#546e7a;line-height:1.55}
+#mx tfoot td{background:#f7f9fb;font-size:.74rem;color:#455a64;text-align:center;border-top:2px solid #cfd8dc}
+#mx tfoot td:first-child{text-align:left;font-weight:700}
+.lgd{display:inline-block;min-width:1.6em;text-align:center;font-weight:800;margin:0 3px 0 8px;border-radius:4px;background:#fff;border:1px solid var(--bd)}
+.lgd.y{color:var(--give)}.lgd.x{color:var(--must)}.lgd.n{color:#b0bec5}
+.strat h4{margin:16px 0 4px;font-size:.98rem;color:#37474f}
+.strat p{margin:0 0 6px;font-size:.9rem;color:#455a64}
+
+/* §3 question table */
+.qhead{display:grid;grid-template-columns:96px 58px 1fr 1.25fr 64px;gap:10px;padding:6px 12px;font-size:.76rem;color:var(--mut);font-weight:600}
+.qrow{display:grid;grid-template-columns:96px 58px 1fr 1.25fr 64px;gap:10px;align-items:start;background:#fff;border:1px solid var(--bd);border-left:6px solid;border-radius:9px;padding:9px 12px;margin-bottom:7px}
+.qrow.sec{background:#fafafa;border-style:dashed;border-left-style:solid}
+.qrow .id a{font-weight:700;text-decoration:none}
+.qrow .id .sub{display:block;font-size:.72rem;color:var(--mut);font-weight:400}
+.qrow .ty{font-size:.72rem;color:#fff;border-radius:10px;padding:1px 8px;text-align:center;justify-self:start;white-space:nowrap}
+.qrow .sum{font-size:.88rem}
+.qrow .sum .cl{display:block;font-size:.74rem;color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font:inherit;font-size:.74rem;border-radius:12px;padding:1px 9px;border:1px solid;cursor:pointer;background:#fff;line-height:1.6}
+.chip.must{color:var(--must);border-color:#f5c6c2;background:var(--must2)}
+.chip.half{color:var(--half);border-color:#ffd9a8;background:var(--half2)}
+.chip.give{color:var(--give);border-color:#bcdfc6;background:var(--give2)}
+.chip.hit{outline:2px solid #1565c0}
+.chips .none{font-size:.76rem;color:var(--mut)}
+.qrow .ico{font-size:.85rem;white-space:nowrap;text-align:right}
+.qrow .ico a{text-decoration:none}
+.count{font-size:.82rem;color:var(--mut);margin:0 0 8px}
+@media(max-width:760px){
+ .qhead{display:none}
+ .qrow{grid-template-columns:auto 1fr auto;gap:6px 10px}
+ .qrow .id{grid-column:1;grid-row:1}.qrow .ty{grid-column:2;grid-row:1;align-self:center}.qrow .ico{grid-column:3;grid-row:1}
+ .tw table{min-width:620px}
+ .qrow .sum,.qrow .chips{grid-column:1/-1}
+ header h1{font-size:1.3rem}
+ .cards{grid-template-columns:1fr}
+ .pos .go{margin-left:0}
+ .katex{display:inline-block;max-width:100%;overflow-x:auto;overflow-y:hidden;vertical-align:middle}
+ .katex-display>.katex{display:block}
+ .filters .fg{max-width:100%}
+ .filters select{width:100%}
+}
+footer{margin-top:40px;padding-top:14px;border-top:1px solid #dde4ea;color:#78909c;font-size:.78rem}
+@media print{
+ nav,.filters,.recallbar,.btnbar,.pos .go{display:none!important}
+ body{background:#fff}header{padding:14px 0;color:#000;background:none;border-bottom:2px solid #0d47a1}
+ header .eyebrow,header p{opacity:1}
+ section{break-inside:auto}.fc,.qrow,.chartbox,tr{break-inside:avoid}
+ body.recall .fc .eq>*{visibility:visible}body.recall .fc .eq::after{display:none}
+ #mx{font-size:7pt;min-width:0}
+ .cards{grid-template-columns:1fr 1fr;gap:8px}.fc{padding:8px 10px}.fc .eq{font-size:.8em}.fc .meta{font-size:.78rem}
+ .qrow{padding:6px 10px;margin-bottom:4px}.chartbox{display:none}.cats{grid-template-columns:1fr 1fr}
+}
+.katex-display{overflow-x:auto;overflow-y:hidden;padding:2px 0}
+.chip.gv{color:var(--give);border-color:#bcdfc6;background:#fff;border-style:dashed}
+</style>
+</head><body>
+
+
+<header><div class="in">
+  <p class="eyebrow">exam-wiki-SM｜土壤力學｜單元總覽</p>
+  <h1>SM-U3-2　擋土結構物穩定分析</h1>
+  <p>一頁回答三件事：<b>這單元考什麼</b>、<b>哪些公式考卷會給、哪些要自己背</b>、<b>每一題要背哪幾條</b>。數字全部可由 <code>raw/json/question_index.json</code> 與題解重算；全科排第幾、哪年有考，看全科熱圖。</p>
+</div></header>
+
+<nav>
+  <a href="#s1">一、考什麼</a>
+  <a href="#s2">二、公式給／背</a>
+  <a href="#s3">三、考題總表</a>
+  <a href="#s4">四、只剩三天</a>
+  <a class="ext" href="lecture-SM-U3-2.html">觀念講義 ▶</a>
+  <a class="ext" href="frequency-SM.html#s-heat">全科熱圖 ▶</a>
+</nav>
+
+<main>
+
+<div class="pos"><div class="k"><b>#6</b><span>全科出題排名（13 子項）</span></div><div class="k"><b>7</b><span>主考點題數（＋副考點 2）</span></div><div class="k"><b>6/24</b><span>有出題的考年</span></div><div class="k"><b>2/6</b><span>近 6 考年（2020–25）共 2 題</span></div>
+  <a class="go" href="frequency-SM.html#s-heat">在全科熱圖看這一列 →</a>
+</div>
+<div class="btnbar">
+  <a class="b-lec" href="lecture-SM-U3-2.html">觀念講義 📘</a>
+  <a class="b-lecp" href="lecture-SM-U3-2.pdf" target="_blank">講義 PDF 🖨️</a>
+  <a class="b-pdf" href="unit-SM-U3-2.pdf" target="_blank">本頁 PDF 🖨️</a>
+</div>
+
+<!-- ============================================================ 一 -->
+<section id="s1">
+<h2>一、這單元考什麼</h2>
+<p class="lead">7 題主考點依「考點結構」分成 3 群，每題只歸一群。點卡片會跳到第三節、只列出那一群的題目。</p>
+<div class="cats" id="cats"></div>
+
+<h3 id="drift">考點漂移：前段 vs. 後段</h3>
+<div class="note">
+📌 <b>三個要記住的數字</b>：① 主考點 7 題，全科第六；24 個考年只有 6 年出現（2016 一年兩題）；
+② 主考點 2002–2008 連續七年零題（期間只有 2004-3 一題副考點），2009 起 17 年 7 題、平均 2～3 年一題，<b>2025 剛考過</b>；
+③ 7 題裡 5 題是「算 FS 再判斷是否適宜」，2 題是加勁擋土結構的說明題——<b>本科唯一會整題考加勁擋土的子項</b>。另有 2 題副考點（2004-3、2015-2）的主考點在 U3-1，土壓力算完順手檢核滑動。
+</div>
+<p class="lead"><b>考點漂移：前 3 題（2009–2016-3）vs. 後 4 題（2016-4–2025）</b></p>
+<p style="font-size:.9em;margin:0 0 10px;color:#78909c">把 7 題主考點依題號排序後對切，前段取 ⌊7/2⌋＝3 題、後段 4 題。題數少，只看方向。副考點不列入本表。</p>
+<div class="tw"><table>
+<thead><tr><th>考點群</th><th class="num">前 3 題</th><th class="num">後 4 題</th><th class="num">變化</th><th>解讀</th></tr></thead>
+<tbody>
+<tr><td><span class="bar" style="width:12px;background:#6d4c41"></span> 重力式／懸臂式：滑動與傾倒</td><td class="num">1</td><td class="num">2</td><td class="num">↑</td><td>2009-4 → 2018-4（懸臂式＋虛擬牆背）→ 2025-3（φ＝0 黏土底，只問抗滑）。計算量逐題變小，陷阱逐題變細</td></tr>
+<tr><td><span class="bar" style="width:12px;background:#1565c0"></span> 底面承載力與地震土壓</td><td class="num">1</td><td class="num">1</td><td class="num">－</td><td>兩題都在 2016 同一卷（第三、四題），共用第 4 頁參考資料；之後 9 年沒有再考承載力或 M-O</td></tr>
+<tr><td><span class="bar" style="width:12px;background:#2e7d32"></span> 加勁擋土結構（觀念）</td><td class="num">1</td><td class="num">1</td><td class="num">－</td><td>2013-1 ㈣ 只是 7 分小題，2022-2 已成 25 分整題；加上 2016-3 的加勁土體計算，加勁擋土 10 年內出現三次</td></tr>
+</tbody></table></div>
+<div class="chartbox"><h4>年度分布（主考點 7 題，依考點結構堆疊）</h4><canvas id="cvBar" width="1000" height="230"></canvas><div class="legend-s" id="barLg"></div></div>
+<div class="note">
+📌 <b>一句話</b>：骨架（Ka → 合力 → ΣV、ΣM → FS → 比門檻）24 年沒變，變的是「哪一步不給你」：2009-4 不給土壓理論、2018-4 不給虛擬牆背、2025-3 不給界面黏著——
+近年題目短、數字少，考的是自由體圖畫得對不對，而不是算得快不快。
+</div>
+
+<h3 id="type">題型走向</h3>
+<p class="lead"><b>分析法與題型走向</b></p>
+<div class="tw"><table>
+<thead><tr><th>期間</th><th class="num">有效應力法</th><th class="num">總應力法</th><th class="num">混合</th><th class="num">概念題</th><th>觀察</th></tr></thead>
+<tbody>
+<tr><td>前段 2009–2016-3（3 題）</td><td class="num">1</td><td class="num">0</td><td class="num">1</td><td class="num">1</td><td>2016-3 砂質背填（有效）、2009-4 砂背填＋基礎土（混合）、2013-1 問答</td></tr>
+<tr><td>後段 2016-4–2025（4 題）</td><td class="num">2</td><td class="num">1</td><td class="num">0</td><td class="num">1</td><td>2025-3 牆底 φ＝0 黏土（總應力）是本單元第一次；2022-2 問答</td></tr>
+<tr style="background:#fff8e1"><td><b>近 6 考年 2020–2025（2 題）</b></td><td class="num">0</td><td class="num">1</td><td class="num">0</td><td class="num">1</td><td>一題說明、一題短計算</td></tr>
+</tbody></table></div>
+<div class="note">📌 <b>對複習的直接影響</b>：分析法由牆底土決定——砂或 c′-φ′ 土用 \(\Sigma V\tan\delta+c_aB\)，φ＝0 黏土只剩 \(S_uB\)（2025-3），牆重再大也沒用。
+題型上 9 題（含副考點）有 7 題是計算、2 題說明；計算題幾乎都問「是否適宜」，<b>門檻值與補救措施是固定配分</b>。</div>
+
+<h3 id="risk">命題風險排序</h3>
+<p class="lead">依「歷史頻率 × 空窗年數 × 近年趨勢」排序。<b>這是推測不是預言</b>，用途是決定練題順序，不是 all-in 單一考點。最右欄是這類題<b>必背的公式</b>，點了跳到第二節的卡片。</p>
+<div class="tw"><table id="riskT">
+<thead><tr><th>風險</th><th>考點</th><th class="num">歷史題數</th><th>最後出現</th><th class="num">空窗</th><th>理由</th><th>必背公式</th></tr></thead>
+<tbody>
+<tr class="risk-hi"><td><b>高</b></td><td>重力式／懸臂式擋土牆抗滑＋抗傾覆（常時）</td><td class="num">3 主＋2 副</td><td>2025-3</td><td class="num">0 年</td><td>本單元的主幹，2009、2018、2025 每隔 7～9 年一次，副考點又在 2004、2015 出現；每次換一個陷阱（土壓方向、虛擬牆背、φ＝0 底土），自由體圖是唯一共通點</td><td data-f="5,8,9,10,11"></td></tr>
+<tr class="risk-md"><td><b>中高</b></td><td>牆底承載力：偏心、有效寬度、傾斜因數</td><td class="num">2</td><td>2016-4</td><td class="num">9 年</td><td>只在 2016 一卷出現，但它是外穩定三項裡最容易漏的一項（2016-3 舊解就漏乘傾斜因數）；2025-3 題解 §5 補算承載力 FS 1.27，同樣不合格</td><td data-f="12,13,14"></td></tr>
+<tr class="risk-md"><td><b>中</b></td><td>加勁擋土結構（內穩定破壞模式、外穩定清單）</td><td class="num">2 主</td><td>2022-2</td><td class="num">3 年</td><td>2013 小題 → 2016 計算 → 2022 整題 25 分，熱度上升；說明題沒有標準答案，畫得出破壞模式圖的人拿高分</td><td data-f="15,16"></td></tr>
+<tr class="risk-md"><td><b>中</b></td><td>地震時擋土牆（M-O 動態土壓）</td><td class="num">1</td><td>2016-4</td><td class="num">9 年</td><td>Kae 會給，大小與作用點不給；與 U3-1 側向土壓力共用，也可能以 U3-1 題目出現</td><td data-f="4,3"></td></tr>
+<tr class="risk-lo"><td><b>中低</b></td><td>地下水對擋土牆（水壓、揚壓、排水）</td><td class="num">2 副</td><td>2015-2</td><td class="num">10 年</td><td>都以 U3-1 主考點出題、順手檢核滑動；水壓分開與揚壓是固定陷阱</td><td data-f="6,7"></td></tr>
+</tbody></table></div>
+<p style="font-size:.88em;color:#78909c">這是推測不是預言：依「歷史頻率 × 空窗年數 × 近年趨勢」排序，用途是決定練題順序。</p>
+</section>
+
+<!-- ============================================================ 二 -->
+<section id="s2">
+<h2>二、公式給／背</h2>
+<p class="lead">以 <b>2002–2025 共 24 份考卷原文</b>為證據，逐條判定哪些考卷會印給你、哪些必須自己寫得出來。這不是公式速查表，是<b>背誦資源的投放決策</b>。</p>
+<p class="lead">結論先講：<b>本單元「給係數、不給骨架」。</b>有題目的 8 個考年裡，印過土壓力係數的只有 105（2016）、107（2018）、114（2025）年（111 年印在他題，本單元用不到），
+而抗滑、抗傾覆、偏心、底壓、門檻值這些<b>外穩定骨架 24 年一條都沒印過</b>。</p>
+<div class="warn"><b>⚠️ 105 年印了最難的兩條，獨漏最常用的。</b>第 4 頁印出 Coulomb \(K_a\)、M-O \(K_{ae}\) 與傾斜修正因數表，
+卻沒印 Rankine \(K_a\)（2016-3 要用）、承載力公式本體、有效寬度、\(P_{ae}\) 的作用點。「印了一整頁就以為安全」是本單元最危險的心態——2016-3 舊解就在這裡漏乘傾斜因數，承載 FS 高估一倍。</div>
+<details><summary>判定方法（展開）</summary><div class="db">
+<p class="lead">考卷交公式有三種擺法，三種都算「有給」：<b>(a) 集中式</b>——最後一題後另闢「※參考公式」區；<b>(b) 隨題式</b>——緊跟該題題目；<b>(c) 內文式</b>——混在題目敘述裡當已知條件。</p>
+<h4>1-1　考卷把公式印出來的三種擺法（三種都算「有給」）</h4>
+<div class="tw"><table>
+<tr><th style="width:14%">擺法</th><th style="width:30%">特徵</th><th>本單元的實例</th></tr>
+<tr><td><b>(a) 集中式</b></td><td>全卷共用的「參考資料」區</td><td>105 年（2016）第 4 頁：修正因數表＋Coulomb、M-O 係數，考卷沒標屬於哪一題（第三、四題共用）</td></tr>
+<tr><td><b>(b) 隨題式</b></td><td>「附註」或附圖旁</td><td>107 年（2018-4）傾斜填土 Rankine \(K_a\) 以影像印在附圖上方；114 年（2025-3）附註印 \(K_A\)</td></tr>
+<tr><td><b>(c) 內文式</b></td><td>寫在題目敘述裡當已知條件</td><td>只有數值：105 年 \(N_c,N_q,N_\gamma\)、\(c_a\)、δ；107 年 \(k_1=k_2=2/3\)、\(P_p=0\)——都不是式子</td></tr>
+</table></div>
+<p>證據來源：<code>raw/exams/</code> 2002–2025 全 24 份考卷 <code>pdftotext -layout</code> 抽取；有本單元題目的年份以題目正本（<code>-problem.md</code>，轉圖目視寫成、已確認）的「考卷給的公式」逐題核對；93、102 年本頁 2026-11-22 補轉圖確認無公式影像；98、104 年見 U2-3 單元總覽的轉圖紀錄；107 年傾斜填土 \(K_a\) 為附圖上方的影像，本頁 2026-11-22 轉圖再確認。</p>
+<h4>1-2　SM 考卷的免責聲明：方向和 SS 相反</h4>
+<p>96～102 年的注意事項要你「相關公式…未提及時，請自行合理推斷與假設」；SM 從未出現「公式僅供參考」。本單元的 98 年（2009-4）就是典型：不指定土壓理論、不給牆底摩擦角、不給門檻，全部要自己假設並寫明。</p>
+<h4>1-3　最該警覺的一件事：自由體圖 24 年零供給</h4>
+<p>土壓力方向（平行地表或與牆背法線夾 δ）、虛擬牆背的位置、踵上土楔算不算牆重、\(P_{av}\) 的力臂——考卷從沒畫過，卻決定每一個力矩。題解附圖攔下的錯誤幾乎全在這裡（2009-4、2016-4、2018-4）。</p>
+<p class="lead"><b>「用到」的判定</b>：該題題解實際寫出或套用了這條式子才算。卡片上的題號、第三節每題的公式標籤、下方逐年表的 ✗，全部由同一份逐題資料算出。</p>
+</div></details>
+
+<div class="legend">
+<div class="lg must"><h4>必背</h4><p>考卷從未印過；或曾「考了卻沒給」。自己要寫得出來，否則整題卡死。</p></div>
+<div class="lg half"><h4>別賭</h4><p>曾在某些年份印出，但多數年份沒有，或只給形式不給可用的式子。仍建議背。</p></div>
+<div class="lg give"><h4>通常會給</h4><p>需要用到時幾乎必定印在題幹，無「考了卻沒給」的先例。</p></div>
+</div>
+<p class="lead">採<b>保守標準</b>：拿不準就往上歸。把「必背」誤判成「會給」的代價，遠大於多背幾條。</p>
+<div class="kpis" id="fkpi"></div>
+
+<h3>公式逐條分界</h3>
+<p class="lead">每張卡底下列出「考了卻沒給」的<b>題號</b>（灰色＝副考點題），點題號開解析；點「看這幾題」會在第三節篩出用到這條的題目。</p>
+<div class="filters" id="flt"></div>
+<div class="recallbar"><button id="rcToggle" type="button">🙈 回想模式：關</button><span id="rcInfo"></span><button id="rcReset" type="button" hidden>全部蓋回</button></div>
+<div class="cards" id="cards"></div>
+
+<details id="mxBox"><summary>逐年證據表：24 考年 × 公式欄（展開）</summary><div class="db">
+<p class="lead">每格三種狀態：<span class="lgd y">✔</span> 該年考卷印出 <span class="lgd x">✗</span> 該年有本單元題目用到這欄的式子，<b>考卷卻沒印</b> <span class="lgd n">·</span> 該年沒用到。底色列＝該年有本單元題目。</p>
+<div class="tw"><table id="mx">
+<thead><tr><th>考卷年</th><th>單元題號</th><th>Ka・水平</th><th>Ka・傾斜/庫倫</th><th>M-O・地震</th><th>合力・水壓・裂縫</th><th>牆背方向</th><th>抗滑</th><th>抗傾覆</th><th>偏心・底壓</th><th>承載力</th><th>加勁・外穩定</th><th>門檻・對策</th><th>備註</th></tr></thead>
+<tbody></tbody><tfoot></tfoot></table></div>
+<p class="lead" id="mxsum" style="margin-top:10px"></p>
+</div></details>
+
+<h3>背誦策略</h3>
+<div class="strat" id="strat">
+<h4>4-1　如果只背五條</h4>
+<ol>
+<li><b>抗滑 \(FS=(\Sigma V\tan\delta+c_aB+P_p)/\Sigma P_h\) 與界面強度取法</b>——主副 6 題用到、零供給；φ＝0 底土只剩 \(S_uB\)。用到抗滑的題：<span data-qs="9" data-count></span>。</li>
+<li><b>土壓力方向與虛擬牆背</b>——傾斜填土 \(P_a\) 平行地表、\(P_{av}\) 進 \(\Sigma V\)；懸臂式取過踵端的虛擬牆背。同時用到兩者的題：<span data-qs="8+9" data-count></span>。</li>
+<li><b>偏心距 \(e=B/2-\bar x\le B/6\) 與有效寬度 \(B'=B-2e\)</b>——連到底壓與承載力，零供給。</li>
+<li><b>門檻 1.5／2.0／3.0</b>——幾乎每題都問「是否適宜」，從不印。</li>
+<li><b>水壓與土壓分開、張力裂縫 \(z_c=2c/(\gamma\sqrt{K_a})\)</b>——兩題副考點的陷阱，與 U3-1 共用。</li>
+</ol>
+<p><b>可以省下的</b>：Coulomb \(K_a\) 與 M-O \(K_{ae}\) 的完整式——考過就給（105 年）。要記的是 β、α、δ 各量自哪個面，以及 \(\Delta P_{ae}\) 作用在 0.6H。</p>
+<h4>4-2　考場上的四個檢查動作</h4>
+<ol>
+<li><b>先畫自由體圖再寫式子</b>：牆分塊編號、每塊重量與對牆趾力臂、土壓分量與作用點全部標在圖上。</li>
+<li><b>看牆底土是什麼</b>：砂或 c′-φ′ → \(\tan\delta\) 項；φ＝0 黏土 → 只有 \(S_uB\)，牆重是干擾項。</li>
+<li><b>看題目有沒有沒給的參數</b>：牆底摩擦角、牆前被動、門檻——每一項寫一行假設；FS 對 δ 很敏感，必要時附對照值。</li>
+<li><b>算完三項 FS 一定比門檻、不足一定給對策</b>：滑動、傾覆、承載各配一個對症的補救。</li>
+</ol>
+</div>
+</section>
+
+<!-- ============================================================ 三 -->
+<section id="s3">
+<h2>三、考題總表 <small>主 7 ＋ 副 2 ＝ 9 題</small></h2>
+<p class="lead">每題列出題解用到的公式：紅／橘＝考卷沒給、要自己背；綠框虛線＝那年考卷有印。標籤點了會跳到第二節那張卡。虛線灰底＝副考點（主考點在別的子項）。</p>
+<div class="filters" id="qflt">
+  <div class="fg" id="qfCat"><b>考點群</b></div>
+  <div class="fg" id="qfPri"><b>範圍</b></div>
+  <div class="fg"><b>用到公式</b><select id="qfF"><option value="">（不限）</option></select></div>
+</div>
+<p class="count" id="qcount"></p>
+<div class="qhead"><span>題號</span><span>題型</span><span>考什麼</span><span>用到的式子</span><span style="text-align:right">解析／影片</span></div>
+<div id="qlist"></div>
+<div class="note">圖示：📄 解析頁（problems-view）、🎬 解題影片、✅ 已驗證。本單元目前沒有 verificationStatus＝verified 的題目。</div>
+</section>
+
+<!-- ============================================================ 四 -->
+<section id="s4">
+<h2>四、只剩三天</h2>
+<div class="note" style="font-size:.92rem">
+📌 <b>若只剩三天</b>：第一天做 2018-4（虛擬牆背）與 2025-3（φ＝0 底土），把抗滑、抗傾覆的自由體圖練到不用想；
+第二天做 2016-4（偏心、qmax、承載力、M-O）與 2016-3（有效寬度＋傾斜因數），補齊外穩定第三項；
+第三天寫 2022-2 的五種內穩定破壞模式圖，再把 2004-3、2015-2 的水壓與張力裂縫各算一次。
+原理與圖解見 <a href="lecture-SM-U3-2.html">觀念講義</a>；土壓力原理見 <a href="lecture-SM-U3-1.html">U3-1 側向土壓力理論講義</a>。
+</div>
+</section>
+
+<footer>
+SM-U3-2 單元總覽｜由 <code>scripts/build_unit_page.py</code> 從 <code>study/data/unit-SM-U3-2.json</code> 產生｜2026-11-22<br>
+資料來源：<code>raw/json/question_index.json</code>（96 題／24 考年）、<code>raw/exams/</code> 考卷原文、<code>raw/solutions/SM-YYYY-N/*.md</code>（本單元 9 份題解，逐題核對公式用途）。<br>
+本子項過去沒有命題分析頁與給／背分界頁（舊 repo 的 7 份命題分析頁與 6 份給背頁都不含 U3-2，見 archive/study/），本頁為第一版，不列證據更正。逐題公式用途以各題題解最新版為準（含 2026-11-15 勘誤：SM-2015-2 牆斷面含埋入段、FS 0.63→0.68；SM-2016-3 承載 FS 6.21→2.98，漏乘傾斜因數）。SM-2025-3 題解 §5 補算的抗傾覆與承載力屬延伸討論、題目未問，不計入該題公式用途；SM-2016-3 題解 §5 以 qmax 作對照的傳統做法亦不計入。
+</footer>
+</main>
+
+<script>
+const D={"Q": [{"id": "SM-2004-3", "cl": "W", "sum": "（副）重力牆可抵抗 146 kN/m：牆後水位上升到多高 x 會滑移（Ka、水壓分開）", "ty": "計算", "f": [0, 5, 6], "pri": 0, "secCat": "U3-1 側向土壓力理論", "ver": 0, "video": 0, "dm": "有效應力法"}, {"id": "SM-2009-4", "cl": "W", "sum": "傾斜背填土（20°）重力牆：合力落牆趾 B/3 反求底寬，再檢核滑動與傾倒並提不改底寬的改善方式", "ty": "計算", "f": [1, 5, 8, 9, 10, 11, 12, 17, 18], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "混合"}, {"id": "SM-2013-1", "cl": "M", "sum": "四小題問答之㈣：加勁土壤結構物穩定分析應進行哪些檢核（另含順向坡試驗、波動方程式、Rankine vs Coulomb）", "ty": "說明", "f": [15, 16], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SM-2015-2", "cl": "W", "sum": "（副）黏土＋砂土兩層 Rankine 土壓（張力裂縫、水位在交界）求合力與作用點，檢核抗滑動是否恰當", "ty": "計算", "f": [0, 5, 6, 7, 9, 10, 17], "pri": 0, "secCat": "U3-1 側向土壓力理論", "ver": 0, "video": 0, "dm": "有效應力法"}, {"id": "SM-2016-3", "cl": "B", "sum": "加勁土體（視為剛體）＋背填土超載 60 kPa：抗傾倒、抗滑、承載力（有效寬度＋傾斜因數）與補救、設計施工注意事項", "ty": "計算", "f": [0, 5, 9, 11, 12, 14, 15, 16, 17, 18], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "有效應力法"}, {"id": "SM-2016-4", "cl": "B", "sum": "8 m 混凝土重力牆：Coulomb 土壓求抗傾倒、抗滑，偏心與 qmax 求承載力；M-O 動態土壓的大小、方向、位置", "ty": "計算", "f": [2, 3, 4, 5, 9, 11, 12, 13, 14, 17, 18], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "有效應力法"}, {"id": "SM-2018-4", "cl": "W", "sum": "懸臂式擋土牆、背填土傾角 12°：虛擬牆背、傾斜填土 Rankine Ka，求抗傾覆與抗滑移安全係數", "ty": "計算", "f": [1, 5, 8, 9, 10, 11], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "有效應力法"}, {"id": "SM-2022-2", "cl": "M", "sum": "加勁擋土結構的原理、材料、種類；繪圖說明 5 種內穩定破壞模式及原因", "ty": "說明", "f": [15, 16], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SM-2025-3", "cl": "W", "sum": "重力式擋土牆座於 φ＝0 黏土（Su＝30 kPa）：Rankine 主動土壓，評估抗滑動安全係數（牆重是干擾項）", "ty": "計算", "f": [0, 5, 9, 10, 17], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "總應力法"}], "F": [{"g": "A 土壓力（推力從哪裡來）", "lv": "half", "nm": "Rankine 主動土壓力係數（水平背填土）", "sh": "Ka", "c": 0, "eq": "$$K_a=\\tan^2\\!\\Bigl(45^\\circ-\\frac{\\phi}{2}\\Bigr)=\\frac{1-\\sin\\phi}{1+\\sin\\phi}$$", "meta": "114 年（2025-3）附註印出 \\(K_A=\\tan^2[45^\\circ-\\phi/2]\\)；111 年（2022）同卷第四題（U2-3）的「相關公式」也印過，但本單元 2022-2 是說明題用不到。93 年（2004-3，副）、104 年（2015-2，副）、105 年（2016-3）三題要用都沒印——105 年第 4 頁只印 Coulomb 與 M-O，Rankine 反而沒有。規律同 U2-3：<b>給複雜式子時順手給簡單的，只考簡單式子的年份不給<\/b>。", "ok": [2022, 2025]}, {"g": "A 土壓力（推力從哪裡來）", "lv": "half", "nm": "傾斜背填土的 Rankine Ka", "sh": "Ka傾斜", "c": 1, "eq": "$$K_a=\\cos\\alpha\\,\\frac{\\cos\\alpha-\\sqrt{\\cos^2\\alpha-\\cos^2\\phi}}{\\cos\\alpha+\\sqrt{\\cos^2\\alpha-\\cos^2\\phi}},\\qquad P_a=\\tfrac12K_a\\gamma H^2\\ (\\text{平行地表})$$", "meta": "107 年（2018-4）以<b>影像<\/b>印在附圖上方（只看文字抽取會誤判成沒給）；98 年（2009-4）背填土上傾 20°，連用 Rankine 還是 Coulomb 都沒指定，這條式子也沒印。一給一不給，歸別賭。重點不在式子本身，而在 \\(P_a\\) 方向平行地表——水平、垂直分量要分開進 \\(\\Sigma H\\)、\\(\\Sigma V\\)（見「牆背方向」卡）。", "ok": [2018]}, {"g": "A 土壓力（推力從哪裡來）", "lv": "give", "nm": "Coulomb 主動土壓力係數", "sh": "庫倫Ka", "c": 1, "eq": "$$K_a=\\frac{\\sin^2(\\beta+\\phi')}{\\sin^2\\beta\\,\\sin(\\beta-\\delta)\\Bigl[1+\\sqrt{\\dfrac{\\sin(\\phi'+\\delta)\\sin(\\phi'-\\alpha)}{\\sin(\\beta-\\delta)\\sin(\\alpha+\\beta)}}\\Bigr]^2}$$", "meta": "只考過 105 年（2016-4）一次，第 4 頁「註」整式印出（β 為牆背與水平面夾角，題目只標符號，要由 \\(\\tan\\beta=8.0/2.0\\) 自己算）。式子會給，要背的是符號定義：β、α、δ 各量自哪一個面，題解附圖特別攔下「把 β 當背填土傾角」的錯誤。"}, {"g": "A 土壓力（推力從哪裡來）", "lv": "give", "nm": "Mononobe–Okabe 動態主動土壓力係數", "sh": "M-O", "c": 2, "eq": "$$K_{ae}=\\frac{\\sin^2(\\phi'+\\beta-\\theta')}{\\cos\\theta'\\sin^2\\beta\\sin(\\beta-\\delta-\\theta')\\Bigl[1+\\sqrt{\\dfrac{\\sin(\\phi'+\\delta)\\sin(\\phi'-\\alpha-\\theta')}{\\sin(\\beta-\\delta-\\theta')\\sin(\\alpha+\\beta)}}\\Bigr]^2},\\quad \\theta'=\\tan^{-1}\\frac{K_h}{1-K_v}$$", "meta": "105 年（2016-4）㈢與 Coulomb 式同處印出，含 \\(\\theta'\\) 定義。但同一小題還問「大小、方向與位置」——\\(P_{ae}=\\tfrac12\\gamma H^2(1-K_v)K_{ae}\\) 與作用點都沒印（下一張卡）。"}, {"g": "A 土壓力（推力從哪裡來）", "lv": "must", "nm": "動態土壓力的大小與作用點（ΔPae 在 0.6H）", "sh": "Pae位置", "c": 2, "eq": "$$P_{ae}=\\tfrac12\\gamma H^2(1-K_v)K_{ae},\\qquad \\Delta P_{ae}=P_{ae}-P_a$$$$\\bar z=\\frac{P_a(H/3)+\\Delta P_{ae}(0.6H)}{P_{ae}}$$", "meta": "105 年（2016-4）㈢「主動土壓力 \\(P_{ae}\\) 的大小、方向與位置」——\\(K_{ae}\\) 給了，\\((1-K_v)\\) 因子與「靜態部分在 H/3、動態增量在 0.6H（Seed–Whitman）」都沒印；題解得 \\(P_{ae}=296.26\\) kN/m、距牆底 3.08 m。方向：與牆背法線夾 δ。<b>給了係數、少給關鍵一步<\/b>的典型。", "ok": []}, {"g": "A 土壓力（推力從哪裡來）", "lv": "must", "nm": "土壓力合力與作用點（含超載、凝聚力）", "sh": "合力", "c": 3, "eq": "$$P_a=\\tfrac12K_a\\gamma H^2\\ (\\text{作用於 }H/3)\\qquad P_q=K_aq_sH\\ (\\text{作用於 }H/2)$$$$\\sigma_a=K_a\\sigma_v'-2c'\\sqrt{K_a}$$", "meta": "所有計算題都要，24 年從未印過。105 年（2016-3）\\(q_s=60\\) kPa 超載的矩形分布作用在 H/2；104 年（2015-2）上層黏土 \\(c=20\\) kPa 先扣 \\(2c\\sqrt{K_a}\\)，再分層積分求合力 197.30 kN/m、作用點 1.683 m；114 年（2025-3）只要三角形一塊。合力位置錯，傾覆力矩與偏心距全錯。", "ok": []}, {"g": "A 土壓力（推力從哪裡來）", "lv": "must", "nm": "水壓與土壓分開（含揚壓力）", "sh": "水壓", "c": 3, "eq": "$$P_h=\\underbrace{\\tfrac12K_a\\gamma' z_w^2+\\cdots}_{\\text{有效應力}}+\\underbrace{\\tfrac12\\gamma_wz_w^2}_{\\text{水壓，}K=1}\\qquad U=\\tfrac12\\gamma_wh_wB\\ (\\text{牆底揚壓})$$", "meta": "零供給。93 年（2004-3，副）整題就是它：水位上升 \\(x\\) 時推力由 \\(K_a\\) 倍變成 1 倍，令推力＝146 kN/m 解出 \\(x=3.83\\) m；104 年（2015-2，副）水位在黏土砂土交界，土壓與水壓分開畫，抗滑另扣牆底揚壓。水的「K」是 1，把 \\(\\gamma_{sat}\\) 直接乘 \\(K_a\\) 等於水壓也乘了 \\(K_a\\)（φ＝30°～35° 時約 0.27～0.33），水壓那一塊少算約三分之二，水位以下的總側壓約少一半。", "ok": []}, {"g": "A 土壓力（推力從哪裡來）", "lv": "must", "nm": "張力裂縫深度（黏性背填土）", "sh": "張力裂縫", "c": 3, "eq": "$$z_c=\\frac{2c'}{\\gamma\\sqrt{K_a}}\\qquad(z\\lt z_c\\ \\text{不計負的主動土壓；裂縫積水時另加水壓})$$", "meta": "104 年（2015-2，副）上層正常壓密黏土 \\(c=20\\) kPa，題解先求 \\(z_c\\) 再積分裂縫以下的三角形，並以「裂縫積水」做對照（FS 0.53）。零供給。拉應力區直接不計，比「正負抵銷」保守也合理。", "ok": []}, {"g": "B 牆體自由體圖", "lv": "must", "nm": "傾斜填土的土壓力方向與虛擬牆背", "sh": "牆背方向", "c": 4, "eq": "$$P_{ah}=P_a\\cos\\alpha,\\qquad P_{av}=P_a\\sin\\alpha$$$$\\text{懸臂式：虛擬牆背過踵端，}H'=H+t+b_{heel}\\tan\\alpha;\\ \\text{踵上土重計入 }\\Sigma V$$", "meta": "零供給，兩題都卡在這。107 年（2018-4）懸臂式牆要取通過踵端的虛擬牆背、踵上土楔當牆重的一部分（FS 傾覆 3.67、滑動 1.55）；98 年（2009-4）重力牆 \\(P_a\\) 平行 20° 地表，\\(P_{av}\\) 作用在牆背、力臂是整個 \\(B\\)——題解附圖特別攔下「把 \\(P_a\\) 畫成水平」與「漏算 \\(P_{av}\\)」兩種錯誤。", "ok": []}, {"g": "C 外穩定三項檢核", "lv": "must", "nm": "抗滑動安全係數", "sh": "抗滑", "c": 5, "eq": "$$FS_{SL}=\\frac{\\Sigma V\\tan\\delta_b+c_aB+P_p}{\\Sigma P_h}$$", "meta": "本單元出現最多的一條（主考點 5 題、副考點 1 題），24 年從未印過。牆前被動土壓計不計要寫明：104 年（2015-2）列「計入 1.0 m 被動土壓」與「不計」兩組、107 年（2018-4）題目明給 \\(P_p=0\\)。114 年（2025-3）牆底是 \\(\\phi=0\\) 黏土，分子只剩 \\(S_uB\\)，牆重再大也不增加抗滑力（FS≈1.30）——混凝土單位重是干擾項。", "ok": []}, {"g": "C 外穩定三項檢核", "lv": "must", "nm": "牆底界面強度的取法（δ、ca、φ＝0）", "sh": "界面強度", "c": 5, "eq": "$$\\delta_b=(\\tfrac23\\sim1)\\phi_f,\\qquad c_a=(\\tfrac12\\sim\\tfrac23)c_f,\\qquad \\phi=0\\ \\text{黏土}:\\ c_a\\le S_u$$", "meta": "四題要自己決定：98 年（2009-4）沒給牆底摩擦角，題解取 \\(\\delta=\\phi_f=33^\\circ\\)；104 年（2015-2）自設 \\(\\delta=2\\phi/3\\)；107 年（2018-4）給 \\(k_1=k_2=2/3\\) 卻沒說乘在角度還是 \\(\\tan\\) 上；114 年（2025-3）只給 \\(S_u\\)，題解取 \\(c_a=S_u\\)。105 年兩題直接給 \\(c_a\\)、δ 數值，不必選。零供給，而且 FS 對它極敏感——作答一定寫明採用值。", "ok": []}, {"g": "C 外穩定三項檢核", "lv": "must", "nm": "抗傾覆安全係數（對牆趾取矩）", "sh": "抗傾覆", "c": 6, "eq": "$$FS_{OT}=\\frac{\\Sigma M_R}{\\Sigma M_O}\\qquad(\\text{對牆趾；}P_{av}\\text{ 的力矩歸 }M_R)$$", "meta": "四題用到（98、105×2、107 年），從未印過。分塊算牆重與形心；\\(P_{av}\\) 放分子或從分母扣除會得到不同 FS，有 \\(P_{av}\\) 的三題（98、105-4、107 年）題解都把它放在 \\(\\Sigma M_R\\)（2016-4 傾倒 FS＝3.66）。98 年（2009-4）在合力落 B/3 的條件下，抗傾覆與抗滑同時不足，接著問不改底寬的改善方式。", "ok": []}, {"g": "D 底面壓力與承載力", "lv": "must", "nm": "合力作用點與偏心距（e ≤ B/6）", "sh": "偏心", "c": 7, "eq": "$$\\bar x=\\frac{\\Sigma M_R-\\Sigma M_O}{\\Sigma V},\\qquad e=\\frac{B}{2}-\\bar x\\le\\frac{B}{6}$$", "meta": "零供給。98 年（2009-4）倒過來用：令合力距牆趾 \\(B/3\\)（即 \\(e=B/6\\)）反求底寬 \\(B=2.49\\) m；105 年兩題都要先求 \\(e\\) 才能算底壓與有效寬度。\\(B/3\\) 要從牆趾量，題解附圖攔下「量自牆踵」的錯。", "ok": []}, {"g": "D 底面壓力與承載力", "lv": "must", "nm": "底面接觸壓力 qmax、qmin", "sh": "底壓", "c": 7, "eq": "$$q_{\\max,\\min}=\\frac{\\Sigma V}{B}\\Bigl(1\\pm\\frac{6e}{B}\\Bigr)\\qquad(e\\gt B/6:\\ q_{\\max}=\\frac{2\\Sigma V}{3(B/2-e)})$$", "meta": "105 年（2016-4）求 \\(q_{max}=339.0\\) kPa（\\(q_{min}=8.2\\)，檢核全斷面受壓），零供給；承載力安全係數的分母則用有效寬度上的 \\(q'=\\Sigma V/B'=254.4\\) kPa（2026-11-22 勘誤，原以 \\(q_{max}\\) 為分母）。105 年（2016-3）加勁土體題解改用有效寬度均布法、只在 §5 提 \\(q_{max}\\) 作對照，不算用到。", "ok": []}, {"g": "D 底面壓力與承載力", "lv": "half", "nm": "牆底承載力：有效寬度＋傾斜修正因數", "sh": "承載力", "c": 8, "eq": "$$B'=B-2e,\\qquad q_u=c'N_cF_{ci}+\\tfrac12\\gamma B'N_\\gamma F_{\\gamma i},\\qquad \\theta=\\tan^{-1}\\frac{\\Sigma P_h}{\\Sigma V}$$$$F_{ci}=\\Bigl(1-\\frac{\\theta}{90^\\circ}\\Bigr)^2,\\quad F_{\\gamma i}=\\Bigl(1-\\frac{\\theta}{\\phi'}\\Bigr)^2,\\qquad FS_{BC}=\\frac{q_u}{\\Sigma V/B'}$$", "meta": "105 年（2016-3、2016-4）第 4 頁集中式印了形狀／深度／傾斜修正因數表與 \\(N_c,N_q,N_\\gamma\\) 數值，<b>承載力公式本體、有效寬度 \\(B'\\)、荷載傾角 θ 怎麼算都沒印<\/b>。2016-3 漏乘傾斜因數會把 FS 由 2.98 高估成 6.21（2026-11-15 勘誤）；2016-4 \\(FS=q_u/(\\Sigma V/B')=2.52<3\\) 不適宜（2026-11-22 勘誤：原解 \\(q_u\\) 用 \\(B'\\)、分母卻用 \\(q_{max}\\)，得 1.89）。因數表會給，骨架要背，歸別賭。", "ok": []}, {"g": "E 加勁擋土結構", "lv": "must", "nm": "加勁擋土牆內穩定破壞模式", "sh": "內穩定", "c": 9, "eq": "$$\\text{加勁材拉斷}:\\ FS_t=\\frac{T_{ult}}{\\sigma_hS_v}\\qquad\\text{拔出}:\\ FS_{po}=\\frac{2L_e\\,\\sigma_v'\\tan\\phi_r}{\\sigma_hS_v}$$$$\\text{另有：面板連接破壞、面板局部鼓出、沿加勁層滑動}$$", "meta": "111 年（2022-2）整題 25 分：原理、材料、種類，以及「繪圖並說明 5 種內穩定破壞模式」（15 分）；102 年（2013-1）㈣問「應進行那些檢核」（7 分）；105 年（2016-3）㈢設計與施工注意事項也要提內穩定。全部零供給。拉斷與拔出的兩條式子是骨架，其他模式說得出機制與圖即可。", "ok": []}, {"g": "E 加勁擋土結構", "lv": "must", "nm": "外穩定檢核清單（把加勁土體當重力牆）", "sh": "外穩定", "c": 9, "eq": "$$\\text{滑動}\\ \\to\\ \\text{傾覆}\\ \\to\\ \\text{承載力（偏心、有效寬度）}\\ \\to\\ \\text{整體圓弧滑動（U3-3）}$$", "meta": "流程骨架。102 年（2013-1）㈣與 111 年（2022-2）都要先講「加勁土體外部視為剛體，比照重力牆檢核滑動、傾覆、承載，另加整體穩定」，再講內穩定；105 年（2016-3）就是把它做成計算。零供給。", "ok": []}, {"g": "F 判定與補救", "lv": "must", "nm": "安全係數門檻", "sh": "門檻", "c": 10, "eq": "$$FS_{SL}\\ge1.5,\\qquad FS_{OT}\\ge2.0,\\qquad FS_{BC}\\ge3.0\\qquad(\\text{地震時可酌降})$$", "meta": "題目幾乎都問「是否適宜／恰當」，門檻卻從不印：98（2009-4）傾覆 <2.0、滑動 <1.5 皆不足；104（2015-2）FS＝0.68 不恰當；105（2016-3）滑動 1.29 <1.5、105（2016-4）滑動 1.71 適宜但承載 2.52 <3.0；114（2025-3）1.30 <1.5。算完不比門檻等於沒答完。依據：現行建築物基礎構造設計規範（112 年修正）7.4.1 滑動 1.5（地震 1.2）、7.4.2 傾覆 2.0（地震 1.5）、7.4.3 基礎支承力 3.0（地震 2.0）；7.4.4 整體穩定 1.5（地震 1.1、最高水位 1.2）。", "ok": []}, {"g": "F 判定與補救", "lv": "must", "nm": "補救措施：先降推力、再增抵抗", "sh": "對策", "c": 10, "eq": "$$\\text{降推力}:\\ \\text{排水（洩水孔、濾層）、輕質回填、降低牆高}$$$$\\text{增抵抗}:\\ \\text{剪力榫、加寬底版或踵、牆前埋入、改良基礎土、地錨}$$", "meta": "98（2009-4）限定「不改變牆底寬度」問改善方式；105 年兩題各問「如不適宜，建議補救措施」。零供給。答題時要對症：抗滑不足 → 剪力榫、增加 \\(c_a\\)；傾覆不足 → 加長踵版、重心後移；承載不足 → 加寬底版降偏心、改良基礎土；地下水造成的不足 → 排水。", "ok": []}], "clusters": {"W": {"icon": "🧱", "name": "重力式／懸臂式擋土牆：滑動與傾倒", "desc": "Rankine 土壓（水平／傾斜填土）・水壓與張力裂縫・虛擬牆背・抗滑・抗傾覆・基底界面強度", "color": "#6d4c41"}, "B": {"icon": "🏛️", "name": "底面承載力與地震土壓", "desc": "合力偏心・有效寬度・傾斜修正因數・Coulomb／Mononobe–Okabe・補救措施", "color": "#1565c0"}, "M": {"icon": "🧵", "name": "加勁擋土結構（觀念）", "desc": "內穩定破壞模式（拉斷、拔出…）・外穩定檢核清單・材料與種類", "color": "#2e7d32"}}, "MXR": {"2002": "本單元無題。", "2003": "本單元無題。", "2004": "三（副）牆後水位上升到 x 才滑移：Ka、水壓分開全部自理，<b>零公式<\/b>。已轉圖確認全頁影像只有應力元素圖、擋土牆與油槽剖面（2026-11-22）。", "2005": "本單元無題。", "2006": "本單元無題。", "2007": "本單元無題。", "2008": "本單元無題。", "2009": "四：傾斜背填土重力牆，合力落 B/3 反求 B，再檢核滑動與傾倒；<b>零公式<\/b>，連用 Rankine 或 Coulomb、牆底摩擦角都沒給。已轉圖確認（U2-3 頁）。", "2010": "本單元無題。第二題 Rankine 牆背土壓分布屬 U3-1。", "2011": "本單元無題。", "2012": "本單元無題。", "2013": "一㈣ 加勁土壤結構物應進行哪些檢核（7 分），零公式；同題㈢ Rankine 與 Coulomb 差異屬 U3-1。已轉圖確認（2026-11-22）。", "2014": "本單元無題。", "2015": "二（副，U3-1 主）兩層 Rankine 土壓＋張力裂縫＋水壓，抗滑 FS＝0.68 不恰當；牆底摩擦、牆前被動、門檻都沒給。已轉圖確認整頁無公式（U2-3 頁）。", "2016": "★ 三、四：第 4 頁集中式印出形狀／深度／傾斜修正因數表、<b>Coulomb Ka、M-O Kae 與 θ′<\/b>；承載力公式本體、有效寬度、Pae 的 (1−Kv) 與作用點、門檻值都沒印。Rankine Ka 也沒印。", "2017": "本單元無題。", "2018": "四：懸臂式擋土牆，附圖上方以<b>影像<\/b>印出傾斜填土 Rankine Ka；虛擬牆背、Pa 方向、k1、k2 的用法全部自理。", "2019": "本單元無題。", "2020": "本單元無題。", "2021": "本單元無題。", "2022": "二：加勁擋土結構原理與 5 種內穩定破壞模式（說明題），零公式；同卷第四題（U2-3）「相關公式」印了 Ka、Kp，本題用不到。", "2023": "本單元無題。", "2024": "本單元無題。", "2025": "三：附註印 K_A＝tan²(45°−φ/2)；牆底黏土只給 Su，ca 取法、牆重不貢獻抗滑都要自己判斷。同卷集中式「參考公式」是壓密 Tv（U1-3）。"}, "mxCols": ["Ka・水平", "Ka・傾斜/庫倫", "M-O・地震", "合力・水壓・裂縫", "牆背方向", "抗滑", "抗傾覆", "偏心・底壓", "承載力", "加勁・外穩定", "門檻・對策"], "base": [], "baseShort": "基本式", "mxNote": "「設參考公式區次數」＝ 24 年中考卷印出任何 SM 公式（集中式、隨題式、內文式皆算）的考年數：96、99、103、105、106、107、108、110、111、113、114 年，共 11 年；只給數值參數（如 107 年 k1＝k2＝2/3、105 年 Nc、Nq、Nγ 數值）不計。✗ 由第三節每題的公式用途推出：該題題解實際套用了這條式子、當年考卷又沒印。", "refAreaYears": 11, "NY": 24, "giveCol": false};
+const Q=D.Q, F=D.F, CAT=D.clusters, MXR=D.MXR, BASE=D.base||[];
+const TYC={"計算":"#1565c0","繪圖":"#f57c00","推導":"#6a1b9a","說明":"#546e7a"};
+const YEARS=Object.keys(MXR).map(Number).sort((a,b)=>a-b);
+const NCOL=D.mxCols.length, GIVECOL=D.giveCol===false?-1:NCOL-1;
+const CN=["","一","二","三","四","五","六"];
+const yr=id=>+id.split('-')[1], qn=id=>+id.split('-')[2];
+const lab=id=>yr(id)+'-'+qn(id);
+const pv=id=>'problems-view/'+id+'.html';
+const vid=id=>'../解題過程影片/'+id+'/video/'+id+'.mp4';
+const QM={};Q.forEach(q=>QM[q.id]=q);
+F.forEach((f,i)=>{
+  f.qs=Q.filter(q=>q.f.includes(i)).map(q=>q.id);
+  if(f.lv==='give'){f.ok=[...new Set(f.qs.map(yr))].sort();f.noQs=[];}
+  else{f.ok=f.ok||[];f.noQs=f.qs.filter(id=>!f.ok.includes(yr(id)));}
+  f.no=[...new Set(f.noQs.map(yr))].sort();
+});
+const isPri=id=>QM[id].pri;
+const LVN={must:'必背',half:'別賭',give:'通常會給'};
+function mathIn(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});}
+function chip(i,qid){const f=F[i];const given=qid&&f.lv!=='give'&&f.ok.includes(yr(qid));
+  return '<button class="chip '+(given?'gv':f.lv)+'" data-fi="'+i+'" title="'+f.nm+'（'+(given?'該年考卷有印':LVN[f.lv])+'）">'+f.sh+'</button>';}
+function bindChips(root){root.querySelectorAll('.chip').forEach(c=>c.onclick=()=>openCard(+c.dataset.fi));}
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+/* §1 */
+function drawCats(){
+  const box=document.getElementById('cats');
+  box.innerHTML=Object.keys(CAT).map(k=>{const c=CAT[k];
+    const n=Q.filter(q=>q.cl===k&&q.pri).length,s=Q.filter(q=>q.cl===k&&!q.pri).length;
+    return '<button class="cat" style="border-left-color:'+c.color+'" data-k="'+k+'"><b>'+c.icon+' '+c.name+'（主 '+n+(s?'＋副 '+s:'')+'）</b><span>'+c.desc+'</span></button>';}).join('');
+  box.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{qf={cat:b.dataset.k,pri:'ALL',f:''};syncQF();renderQ();go('s3');});
+}
+function drawBar(){
+  const cv=document.getElementById('cvBar'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  const P=Q.filter(q=>q.pri),ks=Object.keys(CAT),by={};
+  YEARS.forEach(y=>{by[y]={};ks.forEach(k=>by[y][k]=0);});P.forEach(q=>by[yr(q.id)][q.cl]++);
+  const max=Math.max(1,...YEARS.map(y=>ks.reduce((a,k)=>a+by[y][k],0)));
+  const L=34,B=30,T=12,bw=(W-L-10)/YEARS.length;
+  ctx.font='20px sans-serif';ctx.textAlign='right';
+  for(let i=0;i<=max;i++){const yy=H-B-(H-B-T)*i/max;ctx.fillStyle='#90a4ae';ctx.fillText(i,L-8,yy+6);
+    ctx.strokeStyle='#eceff1';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(L,yy);ctx.lineTo(W-10,yy);ctx.stroke();}
+  ctx.textAlign='center';
+  YEARS.forEach((y,i)=>{let acc=0;const x=L+i*bw+bw*.15;
+    ks.forEach(k=>{const v=by[y][k];if(!v)return;const h=(H-B-T)*v/max;ctx.fillStyle=CAT[k].color;ctx.fillRect(x,H-B-acc-h,bw*.7,h-2);acc+=h;});
+    ctx.fillStyle='#78909c';ctx.fillText("'"+String(y).slice(2),x+bw*.35,H-8);});
+  document.getElementById('barLg').innerHTML=ks.map(k=>'<span><span class="dot" style="background:'+CAT[k].color+'"></span>'+CAT[k].name+'</span>').join('');
+}
+function drawRisk(){document.querySelectorAll('td[data-f]').forEach(td=>{
+  td.innerHTML='<div class="chips">'+td.dataset.f.split(',').map(i=>chip(+i)).join('')+'</div>';});}
+
+/* §2 */
+const G=[...new Set(F.map(f=>f.g))];
+let fl={lv:'all',g:'all'};let recall=false;const rev=new Set();
+function openCard(i){
+  if(!(fl.lv==='all'||fl.lv===F[i].lv)||!(fl.g==='all'||fl.g===F[i].g)){fl={lv:'all',g:'all'};syncFlt();draw();}
+  const el=document.getElementById('fc'+i);if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1600);
+}
+function shown(){return F.map((f,i)=>[f,i]).filter(([f])=>(fl.lv==='all'||f.lv===fl.lv)&&(fl.g==='all'||f.g===fl.g));}
+function rcInfo(){const s=shown();const n=s.filter(([f])=>rev.has(f.nm)).length;
+  document.getElementById('rcInfo').textContent=recall?'已翻開 '+n+' / '+s.length+' 條——看名稱先默寫，再點式子對答案。':'開啟後式子會被蓋住：看卡片名稱先在紙上默寫，再點式子翻開。';}
+function qa(id){return '<a href="'+pv(id)+'" target="_blank" class="'+(isPri(id)?'':'sec')+'">'+lab(id)+'</a>';}
+function draw(){
+  const box=document.getElementById('cards');
+  box.innerHTML=shown().map(([f,i])=>{
+    let ev;
+    if(f.lv==='give'){ev='<b>考卷給過：</b>'+f.qs.map(id=>'<span class="ok">'+lab(id)+'</span>').join(' ');}
+    else{
+      ev='<b>考卷給過：</b>'+(f.ok.length?f.ok.map(y=>'<span class="ok">'+y+'</span>').join(' '):'<span class="never">從未</span>');
+      ev+='<br><b>考了卻沒給（'+f.noQs.length+' 題）：</b>'+(f.noQs.length?f.noQs.map(qa).join(''):'—');
+      const g=f.qs.filter(id=>!f.noQs.includes(id));
+      if(g.length)ev+='<br><b>考了、當年有印：</b>'+g.map(id=>'<span class="ok">'+lab(id)+'</span>').join(' ');
+    }
+    if(f.qs.length)ev+=' <span class="uses" data-fi="'+i+'">看這幾題 ↓</span>';
+    return '<div class="fc '+f.lv+(rev.has(f.nm)?' rev':'')+'" id="fc'+i+'" data-nm="'+f.nm+'"><div class="top"><span class="nm">'+f.nm+'</span><span class="tag '+f.lv+'">'+LVN[f.lv]+'</span></div>'+
+      '<div class="eq">'+f.eq+'</div><p class="meta">'+f.meta+'</p><div class="ev">'+ev+'</div></div>';}).join('')||'<p class="lead">（此組合下沒有公式）</p>';
+  mathIn(box);
+  box.querySelectorAll('.fc .eq').forEach(e=>e.onclick=()=>{if(!recall)return;const c=e.closest('.fc');c.classList.toggle('rev');
+    c.classList.contains('rev')?rev.add(c.dataset.nm):rev.delete(c.dataset.nm);rcInfo();});
+  box.querySelectorAll('.uses').forEach(u=>u.onclick=()=>{qf={cat:'ALL',pri:'ALL',f:u.dataset.fi};syncQF();renderQ();go('s3');});
+  rcInfo();
+}
+function syncFlt(){document.querySelectorAll('#flt button').forEach(b=>b.classList.toggle('on',fl[b.dataset.t]===b.dataset.v));}
+function drawFlt(){
+  const fb=document.getElementById('flt');const lvs=[['all','全部'],['must','必背'],['half','別賭'],['give','通常會給']].filter(([k])=>k==='all'||F.some(f=>f.lv===k));
+  fb.innerHTML='<div class="fg"><b>級別</b>'+lvs.map(([k,v])=>'<button data-t="lv" data-v="'+k+'">'+v+'</button>').join('')+
+    '</div><div class="fg"><b>主題</b>'+['all',...G].map(g=>'<button data-t="g" data-v="'+g+'">'+(g==='all'?'全部':g)+'</button>').join('')+'</div>';
+  fb.querySelectorAll('button').forEach(b=>b.onclick=()=>{fl[b.dataset.t]=b.dataset.v;syncFlt();draw();});syncFlt();
+}
+function drawKpi(){
+  const n=k=>F.filter(f=>f.lv===k).length;
+  const uy=new Set(Q.map(q=>yr(q.id))).size;
+  document.getElementById('fkpi').innerHTML=[['',F.length,'本單元條列公式'],['red',n('must'),'必背'],['org',n('half'),'別賭'],['grn',n('give'),'通常會給'],['',uy,'本單元出題年數（含副考點）'],['',D.refAreaYears,D.NY+' 年設參考公式區次數']]
+    .map(([c,v,l])=>'<div class="kpi '+c+'"><div class="n">'+v+'</div><div class="l">'+l+'</div></div>').join('');
+}
+function cell(y,col){
+  if(col===GIVECOL)return F.some(f=>f.c===col&&f.ok.includes(y))?1:0;
+  if(F.some(f=>f.c===col&&f.ok.includes(y)))return 1;
+  return F.some(f=>f.c===col&&f.no.includes(y))?2:0;
+}
+function drawMx(){
+  const ok=Array(NCOL).fill(0),no=Array(NCOL).fill(0);
+  document.querySelector('#mx tbody').innerHTML=YEARS.map(y=>{
+    const qs=Q.filter(q=>yr(q.id)===y).sort((a,b)=>qn(a.id)-qn(b.id));
+    const qq=qs.length?qs.map(q=>'<a href="'+pv(q.id)+'" target="_blank">'+CN[qn(q.id)]+'</a>'+(q.pri?'':'<span class="ynote">（副）</span>')).join('、'):'(—)';
+    let c='';for(let i=0;i<NCOL;i++){const s=cell(y,i);if(s===1)ok[i]++;if(s===2)no[i]++;
+      c+='<td class="c">'+(s===1?'<span class="y">✔</span>':s===2?'<span class="x">✗</span>':'<span class="n">·</span>')+'</td>';}
+    return '<tr class="'+(qs.length?'hl':'')+'"><td><b>'+y+'</b><br><span class="ynote">'+(y-1911)+'年</span></td><td class="qq">'+qq+'</td>'+c+'<td class="rm">'+MXR[y]+'</td></tr>';}).join('');
+  document.querySelector('#mx tfoot').innerHTML='<tr><td colspan="2">'+YEARS.length+' 年合計</td>'+ok.map((v,i)=>'<td>✔ '+v+'<br><span style="color:#c62828">✗ '+no[i]+'</span></td>').join('')+'<td>✗ 合計 '+no.reduce((a,b)=>a+b,0)+' 格</td></tr>';
+  if(GIVECOL<0){const tOk=ok.reduce((a,b)=>a+b,0),tNo=no.reduce((a,b)=>a+b,0);
+    document.getElementById('mxsum').innerHTML='看表底合計：<b>'+NCOL+' 個欄位、'+YEARS.length+' 年共 ✔ '+tOk+' 格、✗ '+tNo+' 格</b>。'+(D.mxNote||'');return;}
+  const mOk=ok.slice(0,GIVECOL).reduce((a,b)=>a+b,0),mNo=no.slice(0,GIVECOL).reduce((a,b)=>a+b,0);
+  document.getElementById('mxsum').innerHTML='看表底合計：<b>'+GIVECOL+' 個力學欄 ✔ '+mOk+' 格、✗ '+mNo+' 格</b>；材料／斷面數值欄 ✔ '+ok[GIVECOL]+' 格、✗ '+no[GIVECOL]+' 格。'+(D.mxNote||'');
+}
+/* strategy placeholders: <span data-qs="2+3" data-count> → 同時用到 2 與 3 的題號 */
+function fillQs(root){root.querySelectorAll('[data-qs]').forEach(s=>{
+  const need=s.dataset.qs.split('+').map(Number);
+  const ids=Q.filter(q=>need.every(i=>q.f.includes(i))).map(q=>q.id).sort((a,b)=>(QM[b].pri-QM[a].pri)||a.localeCompare(b));
+  s.textContent=ids.map(id=>lab(id)+(QM[id].pri?'':'（副）')).join('、')+(s.hasAttribute('data-count')?' 共 '+ids.length+' 題':'');});}
+
+/* §3 */
+let qf={cat:'ALL',pri:'ALL',f:''};
+function drawQF(){
+  document.getElementById('qfCat').insertAdjacentHTML('beforeend',[['ALL','全部'],...Object.keys(CAT).map(k=>[k,CAT[k].name])].map(([k,v])=>'<button data-t="cat" data-v="'+k+'">'+v+'</button>').join(''));
+  document.getElementById('qfPri').insertAdjacentHTML('beforeend',[['ALL','主＋副'],['PRI','僅主考點'],['SEC','僅副考點']].map(([k,v])=>'<button data-t="pri" data-v="'+k+'">'+v+'</button>').join(''));
+  const sel=document.getElementById('qfF');
+  F.forEach((f,i)=>sel.insertAdjacentHTML('beforeend','<option value="'+i+'">'+f.nm+'（'+f.qs.length+' 題）</option>'));
+  document.querySelectorAll('#qflt button').forEach(b=>b.onclick=()=>{qf[b.dataset.t]=b.dataset.v;syncQF();renderQ();});
+  sel.onchange=()=>{qf.f=sel.value;renderQ();};syncQF();
+}
+function syncQF(){document.querySelectorAll('#qflt button').forEach(b=>b.classList.toggle('on',qf[b.dataset.t]===b.dataset.v));document.getElementById('qfF').value=qf.f;}
+function renderQ(){
+  const fi=qf.f===''?null:+qf.f;
+  const sel=Q.filter(q=>(qf.cat==='ALL'||q.cl===qf.cat)&&(qf.pri==='ALL'||(qf.pri==='PRI')===!!q.pri)&&(fi===null||q.f.includes(fi)))
+    .sort((a,b)=>(b.pri-a.pri)||a.id.localeCompare(b.id));
+  document.getElementById('qcount').textContent='顯示 '+sel.length+' / '+Q.length+' 題'+(fi!==null?'——用到「'+F[fi].nm+'」':'');
+  const box=document.getElementById('qlist');
+  box.innerHTML=sel.map(q=>{
+    const fs=q.f.filter(i=>!BASE.includes(i));const c=CAT[q.cl];
+    const chips=fs.length?fs.map(i=>chip(i,q.id).replace('class="chip','class="chip'+(i===fi?' hit':''))).join(''):'<span class="none">'+(q.f.length?'只需'+D.baseShort:(q.pri?'題解未用到本單元公式':'不用本單元公式（主解法見 '+q.secCat+'）'))+'</span>';
+    return '<div class="qrow'+(q.pri?'':' sec')+'" style="border-left-color:'+c.color+'">'+
+      '<span class="id"><a href="'+pv(q.id)+'" target="_blank">'+q.id+'</a>'+(q.pri?'':'<span class="sub">副・'+q.secCat+'</span>')+'</span>'+
+      '<span class="ty" style="background:'+TYC[q.ty]+'">'+q.ty+'</span>'+
+      '<span class="sum">'+q.sum+'<span class="cl">'+c.icon+' '+c.name+(q.dm?'・'+q.dm:'')+'</span></span>'+
+      '<span class="chips">'+chips+'</span>'+
+      '<span class="ico"><a href="'+pv(q.id)+'" target="_blank" title="解析">📄</a>'+(q.video?' <a href="'+vid(q.id)+'" target="_blank" title="解題影片">🎬</a>':'')+(q.ver?' <span title="已驗證">✅</span>':'')+'</span></div>';}).join('');
+  bindChips(box);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  drawCats();drawBar();drawRisk();drawFlt();drawKpi();draw();drawMx();drawQF();renderQ();
+  fillQs(document.getElementById('strat'));fillQs(document.getElementById('s1'));
+  bindChips(document.getElementById('s1'));
+  mathIn(document.getElementById('strat'));mathIn(document.getElementById('s1'));mathIn(document.getElementById('mxsum'));mathIn(document.getElementById('mx'));mathIn(document.getElementById('s2'));mathIn(document.getElementById('s4'));mathIn(document.querySelector('footer'));
+  const tg=document.getElementById('rcToggle'),rs=document.getElementById('rcReset');
+  tg.onclick=()=>{recall=!recall;document.body.classList.toggle('recall',recall);tg.classList.toggle('on',recall);tg.textContent=recall?'🙈 回想模式：開':'🙈 回想模式：關';rs.hidden=!recall;rcInfo();};
+  rs.onclick=()=>{rev.clear();document.querySelectorAll('.fc.rev').forEach(c=>c.classList.remove('rev'));rcInfo();};
+  window.addEventListener('beforeprint',()=>{document.getElementById('mxBox').open=true;});
+});
+</script>
+</body></html>

@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SM-U3-3 坡地工程：沿著滑動面，抗剪強度夠不夠用 — 觀念講義</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+<style>
+:root{--ac:#1565c0;--ac2:#e3f2fd;--tension:#2e7d32;--tension2:#e8f5e9;
+--comp:#c62828;--comp2:#ffebee;--warn:#ef6c00;--warn2:#fff3e0;
+--key:#6a1b9a;--key2:#f3e5f5;--bg:#f7f9fb;--card:#fff;--ink:#263238;--mut:#607d8b;--bd:#dfe6ea}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei","Noto Sans TC",-apple-system,sans-serif;
+background:var(--bg);color:var(--ink);line-height:1.75;font-size:15.5px}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2 60%,#42a5f5);color:#fff;padding:34px 26px}
+header h1{margin:0 0 8px;font-size:1.6em}header .sub{opacity:.9;font-size:.93em;margin:0}
+header .meta{margin-top:12px;font-size:.82em;opacity:.8}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:2px solid var(--bd);
+padding:9px 14px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+nav a{text-decoration:none;color:var(--ac);font-size:.85em;padding:4px 11px;border-radius:14px;background:var(--ac2)}
+nav a:hover{background:var(--ac);color:#fff}
+main{max-width:980px;margin:0 auto;padding:24px 18px 80px}
+section{margin-bottom:46px}
+h2{font-size:1.32em;border-left:6px solid var(--ac);padding-left:12px;margin:44px 0 18px;line-height:1.4}
+h3{font-size:1.08em;margin:30px 0 10px;color:#0d47a1}
+h4{font-size:.99em;margin:20px 0 8px;color:#37474f}
+.lead{font-size:1.03em;background:#fff;border:1px solid var(--bd);border-left:5px solid var(--ac);
+border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:16px 18px;margin:16px 0}
+.why{background:var(--key2);border:1px solid #ce93d8;border-left:5px solid var(--key);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.why b:first-child{color:var(--key)}
+.trap{background:var(--warn2);border:1px solid #ffcc80;border-left:5px solid var(--warn);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.trap b:first-child{color:#e65100}
+.tens{background:var(--tension2);border:1px solid #a5d6a7;border-left:5px solid var(--tension);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.comp{background:var(--comp2);border:1px solid #ef9a9a;border-left:5px solid var(--comp);
+border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.fig{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 14px 10px;margin:20px 0;overflow-x:auto}
+.fig>svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.fig .cap{font-size:.85em;color:var(--mut);text-align:center;margin-top:10px;line-height:1.6}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9em;background:#fff}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#eceff1;font-weight:600}
+tbody tr:nth-child(even){background:#fafcfd}
+ul,ol{margin:10px 0 10px 4px;padding-left:22px}li{margin:5px 0}
+.pill{display:inline-block;font-size:.76em;padding:2px 8px;border-radius:10px;margin-right:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+details{background:#fff;border:1px solid var(--bd);border-radius:9px;padding:10px 14px;margin:12px 0}
+summary{cursor:pointer;font-weight:600;color:var(--ac)}
+details p{border-left:3px solid #e0e0e0;padding-left:12px;margin:8px 0;color:#37474f}
+.qlink{color:#1565c0;text-decoration:none;border-bottom:1px dotted #90caf9;font-weight:600}
+.katex-display{margin:14px 0!important;overflow-x:auto;overflow-y:hidden}
+footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-top:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header>
+<h1>SM-U3-3　坡地工程：沿著滑動面，抗剪強度夠不夠用</h1>
+<p class="sub">邊坡安全係數只有一個定義：假設滑動面上可發揮的抗剪強度 ÷ 維持平衡所需的剪力。整個單元只在換兩個變數 —— 滑動面長什麼樣、水從哪裡進來</p>
+<p class="meta">土壤力學與基礎設計 · 命題大綱第三單元第 3 子項 · 觀念講義（練題前讀）· 主考點 6 題、副考點 1 題（本講義涵蓋 7 題），主考點佔全科 6.2%，命題排名第 7 · 近 6 考年（2020–2025）出現 3 次</p>
+</header>
+
+<nav>
+<a href="#s0">§0 全景</a>
+<a href="#s1">§1 無限邊坡（c = 0）</a>
+<a href="#s2">§2 c′-φ′＋滲流</a>
+<a href="#s3">§3 平面楔體</a>
+<a href="#s4">§4 地震與地錨</a>
+<a href="#s5">§5 滑動塊體法</a>
+<a href="#s6">§6 圓弧切片法</a>
+<a href="#s7">§7 門檻與對策</a>
+<a href="#s8">§8 決策流程</a>
+<a href="#s9">§9 考點對照</a>
+<a href="#s10">§10 陷阱總表</a>
+<a href="#s11">§11 自我檢測</a>
+<a href="#s11b">§11.5 因果鏈</a>
+<a href="#s12">★ 精選 5 題</a>
+<span style="flex:1"></span>
+<a href="unit-SM-U3-3.html" title="單元總覽：考什麼、公式給／背、逐題公式表" style="background:#e3f2fd;color:#1565c0">📊 單元總覽</a>
+<a href="lecture-SM-U3-3.pdf" target="_blank" title="本講義的列印版" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
+</nav>
+
+<main>
+<section id="s0">
+<h2>§0　全景：一個定義，三種滑動面，四種水</h2>
+
+<div class="lead"><b>一句話：</b>擋土牆的安全係數比的是「剛體的力」，邊坡的安全係數比的是「同一條滑動面上的應力」：
+$$FS=\frac{\tau_f}{\tau_d}=\frac{c'+\sigma_n'\tan\phi'}{\tau_{\text{需要}}}$$
+意思是「土的強度要打幾折，這條滑動面才剛好處於極限平衡」。所有題目只在變兩件事：<b>滑動面的幾何</b>（決定 \(\tau_d\) 與 \(\sigma_n\) 怎麼算），以及<b>水</b>（決定 \(\sigma_n'\) 與驅動力被改了多少）。</div>
+
+<div class="fig"><!--FIG:g0-->
+<svg viewBox="0 0 800 342" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="g0a" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker><marker id="g0b" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1565c0"/></marker></defs>
+<text x="140.0" y="30.0" font-size="13.5" fill="#0d47a1" text-anchor="middle" font-weight="700">① 無限邊坡（淺層、平行坡面）</text>
+<text x="140.0" y="300.0" font-size="12.5" fill="#263238" text-anchor="middle">取一個切片：τ<tspan dy="3.5" font-size="9.2">f</tspan><tspan dy="-3.5"> / τ</tspan><tspan dy="3.5" font-size="9.2">d</tspan></text>
+<text x="400.0" y="30.0" font-size="13.5" fill="#0d47a1" text-anchor="middle" font-weight="700">② 平面楔體（有限、一條直線）</text>
+<text x="400.0" y="300.0" font-size="12.5" fill="#263238" text-anchor="middle">整塊楔體：ΣR / ΣT</text>
+<text x="660.0" y="30.0" font-size="13.5" fill="#0d47a1" text-anchor="middle" font-weight="700">③ 圓弧切片（深層、繞圓心轉）</text>
+<text x="660.0" y="300.0" font-size="12.5" fill="#263238" text-anchor="middle">力矩：ΣM<tspan dy="3.5" font-size="9.2">R</tspan><tspan dy="-3.5"> / ΣM</tspan><tspan dy="3.5" font-size="9.2">D</tspan></text>
+<polygon points="30.0,250.0 238.5,152.8 255.4,189.1 46.9,286.3" fill="#efe3d3" stroke="#6d4c41" stroke-width="1"/>
+<line x1="30.0" y1="250.0" x2="238.5" y2="152.8" stroke="#6d4c41" stroke-width="2"/>
+<line x1="42.7" y1="277.2" x2="251.1" y2="180.0" stroke="#c62828" stroke-width="2" stroke-dasharray="7,4"/>
+<polygon points="120.6,207.7 147.8,195.1 160.5,222.2 133.3,234.9" fill="#ffe0b2" stroke="#ef6c00" stroke-width="1.4"/>
+<line x1="146.9" y1="228.6" x2="119.7" y2="241.3" stroke="#c62828" stroke-width="2" marker-end="url(#g0a)"/>
+<text x="111.4" y="282.6" font-size="11" fill="#c62828" text-anchor="middle">滑動面深 z ≪ 坡長</text>
+<polygon points="278.0,250.0 300.0,250.0 401.6,74.0 509.0,74.0 509.0,272.0 278.0,272.0" fill="#efe3d3" stroke="none" stroke-width="1"/>
+<polygon points="300.0,250.0 401.6,74.0 476.0,74.0" fill="#ffe0b2" stroke="#ef6c00" stroke-width="1.4"/>
+<line x1="300.0" y1="250.0" x2="476.0" y2="74.0" stroke="#c62828" stroke-width="2.2" stroke-dasharray="7,4"/>
+<line x1="409.1" y1="144.9" x2="366.9" y2="187.1" stroke="#c62828" stroke-width="2" marker-end="url(#g0a)"/>
+<text x="480.0" y="162.0" font-size="11" fill="#c62828" text-anchor="start">破壞面 45°</text>
+<text x="395.6" y="68.0" font-size="11" fill="#6d4c41" text-anchor="end">坡面 60°</text>
+<polygon points="540.0,250.0 570.0,250.0 670.0,150.0 780.0,150.0 780.0,270.0 540.0,270.0" fill="#efe3d3" stroke="none" stroke-width="1"/>
+<polygon points="570.0,250.0 574.1,250.8 578.2,251.6 582.4,252.2 586.5,252.7 590.7,253.2 594.9,253.6 599.1,253.9 603.3,254.0 607.5,254.1 611.7,254.2 615.9,254.1 620.0,253.9 624.2,253.6 628.4,253.3 632.6,252.8 636.7,252.3 640.9,251.7 645.0,251.0 649.1,250.2 653.2,249.3 657.3,248.3 661.4,247.2 665.4,246.1 669.4,244.8 673.4,243.5 677.4,242.1 681.3,240.6 685.2,239.0 689.0,237.4 692.8,235.6 696.6,233.8 700.3,231.9 704.0,229.9 707.7,227.8 711.3,225.7 714.8,223.4 718.3,221.1 721.8,218.8 725.2,216.3 728.5,213.8 731.8,211.2 735.1,208.5 738.3,205.8 741.4,203.0 744.4,200.1 747.4,197.2 750.4,194.2 753.2,191.1 756.0,188.0 758.8,184.8 761.4,181.5 764.0,178.2 766.5,174.9 769.0,171.5 771.3,168.0 773.6,164.5 775.9,161.0 778.0,157.3 780.1,153.7 782.0,150.0 782.0,150.0 670.0,150.0 570.0,250.0" fill="#ffe0b2" stroke="#ef6c00" stroke-width="1"/>
+<polyline points="570.0,250.0 574.1,250.8 578.2,251.6 582.4,252.2 586.5,252.7 590.7,253.2 594.9,253.6 599.1,253.9 603.3,254.0 607.5,254.1 611.7,254.2 615.9,254.1 620.0,253.9 624.2,253.6 628.4,253.3 632.6,252.8 636.7,252.3 640.9,251.7 645.0,251.0 649.1,250.2 653.2,249.3 657.3,248.3 661.4,247.2 665.4,246.1 669.4,244.8 673.4,243.5 677.4,242.1 681.3,240.6 685.2,239.0 689.0,237.4 692.8,235.6 696.6,233.8 700.3,231.9 704.0,229.9 707.7,227.8 711.3,225.7 714.8,223.4 718.3,221.1 721.8,218.8 725.2,216.3 728.5,213.8 731.8,211.2 735.1,208.5 738.3,205.8 741.4,203.0 744.4,200.1 747.4,197.2 750.4,194.2 753.2,191.1 756.0,188.0 758.8,184.8 761.4,181.5 764.0,178.2 766.5,174.9 769.0,171.5 771.3,168.0 773.6,164.5 775.9,161.0 778.0,157.3 780.1,153.7 782.0,150.0" fill="none" stroke="#c62828" stroke-width="2.2" stroke-dasharray="7,4"/>
+<line x1="612.4" y1="207.6" x2="612.4" y2="254.1" stroke="#ef6c00" stroke-width="1.2"/>
+<line x1="654.8" y1="165.2" x2="654.8" y2="248.9" stroke="#ef6c00" stroke-width="1.2"/>
+<line x1="697.2" y1="150.0" x2="697.2" y2="233.5" stroke="#ef6c00" stroke-width="1.2"/>
+<line x1="739.6" y1="150.0" x2="739.6" y2="204.5" stroke="#ef6c00" stroke-width="1.2"/>
+<circle cx="610.0" cy="60.0" r="4" fill="#c62828" stroke="none" stroke-width="1"/>
+<text x="616.0" y="56.0" font-size="12" fill="#c62828" text-anchor="start" font-weight="700">O</text>
+<line x1="610.0" y1="60.0" x2="692.8" y2="235.6" stroke="#c62828" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="400.0" y="330.0" font-size="11.5" fill="#607d8b" text-anchor="middle">三種幾何的差別只在「滑動面長什麼樣」；FS 的定義相同：沿滑動面可發揮的抗剪強度 ÷ 維持平衡所需的剪力</text>
+</svg>
+<div class="cap">圖 0-1　三種滑動面（楔體依 <a class="qlink" href="problems-view/SM-2023-2.html" target="_blank">SM-2023-2</a> 的 60°／45° 按比例；其餘為示意）。這張圖攔的錯：用錯分析單元 —— 無限邊坡只取一個切片、不管邊界；楔體要整塊算重量；圓弧要切片、對圓心取矩。</div>
+</div>
+
+<table>
+<thead><tr><th>水扮演的角色</th><th>作用</th><th>題目</th></tr></thead>
+<tbody>
+<tr><td>浮力</td><td>\(\sigma_n'\) 與下滑力同比例減少</td><td>2024-2 ㈡：完全浸水，\(FS\) 不變</td></tr>
+<tr><td>滲流力（孔隙水壓）</td><td>\(\sigma_n'\) 減少、下滑力不減 → \(FS\) 下降</td><td>2014-1（平行滲流）、2021-4（切片 \(u\Delta L\)）</td></tr>
+<tr><td>降低強度</td><td>入滲使 \(c\) 下降（吸力消失、軟化）</td><td>2023-2 ㈡：\(c\) 50 → 5，\(FS\) 3.68 → 1.02</td></tr>
+<tr><td>側向靜水壓</td><td>張力裂縫或塊體背面積水，直接推</td><td>2006-3 ㈡：水壓佔驅動 85%，\(FS\) 1.22 → 0.47</td></tr>
+</tbody>
+</table>
+<p>6 題主考點的計算題<b>全部都有水，或明講「雨水」</b>（2008-4 例外，改考地震）。水是本單元的主角，地震是配角。</p>
+</section>
+
+<section id="s1">
+<h2>§1　無限邊坡（c = 0）：FS 只看兩個角度</h2>
+
+<div class="lead">這一節在怕什麼：<b>算出 \(FS\lt1\) 就以為自己算錯</b>，或把浸水和滲流當成同一件事。</div>
+
+<p>取深度 \(z\)、平行坡面的滑動面上一小段：重量 \(\gamma z\)（每單位水平寬），分解到滑動面：</p>
+$$\sigma_n=\gamma z\cos^2\beta,\qquad \tau_d=\gamma z\sin\beta\cos\beta\quad\Rightarrow\quad FS=\frac{\gamma z\cos^2\beta\tan\phi}{\gamma z\sin\beta\cos\beta}=\frac{\tan\phi}{\tan\beta}$$
+
+<div class="fig"><!--FIG:g1-->
+<svg viewBox="0 0 800 352" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<text x="400.0" y="26.0" font-size="14" fill="#0d47a1" text-anchor="middle" font-weight="700">c = 0 無限邊坡（φ = 35°）：浸水不改變 FS，滲流才會</text>
+<line x1="80.0" y1="300.0" x2="80.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="80.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">15°</text>
+<line x1="145.7" y1="300.0" x2="145.7" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="145.7" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">20°</text>
+<line x1="211.4" y1="300.0" x2="211.4" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="211.4" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">25°</text>
+<line x1="277.1" y1="300.0" x2="277.1" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="277.1" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">30°</text>
+<line x1="342.9" y1="300.0" x2="342.9" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="342.9" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">35°</text>
+<line x1="408.6" y1="300.0" x2="408.6" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="408.6" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">40°</text>
+<line x1="474.3" y1="300.0" x2="474.3" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="474.3" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">45°</text>
+<line x1="540.0" y1="300.0" x2="540.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="540.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">50°</text>
+<line x1="76.0" y1="300.0" x2="80.0" y2="300.0" stroke="#455a64" stroke-width="1"/>
+<text x="72.0" y="304.0" font-size="11" fill="#607d8b" text-anchor="end">0.0</text>
+<line x1="80.0" y1="300.0" x2="540.0" y2="300.0" stroke="#eceff1" stroke-width="1"/>
+<line x1="76.0" y1="251.9" x2="80.0" y2="251.9" stroke="#455a64" stroke-width="1"/>
+<text x="72.0" y="255.9" font-size="11" fill="#607d8b" text-anchor="end">0.5</text>
+<line x1="80.0" y1="251.9" x2="540.0" y2="251.9" stroke="#eceff1" stroke-width="1"/>
+<line x1="76.0" y1="203.8" x2="80.0" y2="203.8" stroke="#455a64" stroke-width="1"/>
+<text x="72.0" y="207.8" font-size="11" fill="#607d8b" text-anchor="end">1.0</text>
+<line x1="80.0" y1="203.8" x2="540.0" y2="203.8" stroke="#eceff1" stroke-width="1"/>
+<line x1="76.0" y1="155.8" x2="80.0" y2="155.8" stroke="#455a64" stroke-width="1"/>
+<text x="72.0" y="159.8" font-size="11" fill="#607d8b" text-anchor="end">1.5</text>
+<line x1="80.0" y1="155.8" x2="540.0" y2="155.8" stroke="#eceff1" stroke-width="1"/>
+<line x1="76.0" y1="107.7" x2="80.0" y2="107.7" stroke="#455a64" stroke-width="1"/>
+<text x="72.0" y="111.7" font-size="11" fill="#607d8b" text-anchor="end">2.0</text>
+<line x1="80.0" y1="107.7" x2="540.0" y2="107.7" stroke="#eceff1" stroke-width="1"/>
+<line x1="76.0" y1="59.6" x2="80.0" y2="59.6" stroke="#455a64" stroke-width="1"/>
+<text x="72.0" y="63.6" font-size="11" fill="#607d8b" text-anchor="end">2.5</text>
+<line x1="80.0" y1="59.6" x2="540.0" y2="59.6" stroke="#eceff1" stroke-width="1"/>
+<line x1="80.0" y1="300.0" x2="540.0" y2="300.0" stroke="#455a64" stroke-width="1.6"/>
+<line x1="80.0" y1="300.0" x2="80.0" y2="50.0" stroke="#455a64" stroke-width="1.6"/>
+<text x="310.0" y="338.0" font-size="12" fill="#607d8b" text-anchor="middle">坡角 β（°）</text>
+<text x="76.0" y="38.0" font-size="12" fill="#607d8b" text-anchor="start">FS</text>
+<polyline points="83.3,53.0 86.6,57.2 89.9,61.3 93.1,65.2 96.4,69.0 99.7,72.7 103.0,76.3 106.3,79.8 109.6,83.2 112.9,86.5 116.1,89.7 119.4,92.8 122.7,95.8 126.0,98.8 129.3,101.7 132.6,104.5 135.9,107.2 139.1,109.9 142.4,112.5 145.7,115.0 149.0,117.5 152.3,119.9 155.6,122.3 158.9,124.6 162.1,126.9 165.4,129.1 168.7,131.2 172.0,133.4 175.3,135.4 178.6,137.5 181.9,139.4 185.1,141.4 188.4,143.3 191.7,145.2 195.0,147.0 198.3,148.8 201.6,150.5 204.9,152.3 208.1,154.0 211.4,155.6 214.7,157.2 218.0,158.8 221.3,160.4 224.6,162.0 227.9,163.5 231.1,165.0 234.4,166.4 237.7,167.9 241.0,169.3 244.3,170.7 247.6,172.0 250.9,173.4 254.1,174.7 257.4,176.0 260.7,177.3 264.0,178.5 267.3,179.8 270.6,181.0 273.9,182.2 277.1,183.4 280.4,184.6 283.7,185.7 287.0,186.8 290.3,187.9 293.6,189.0 296.9,190.1 300.1,191.2 303.4,192.3 306.7,193.3 310.0,194.3 313.3,195.3 316.6,196.3 319.9,197.3 323.1,198.3 326.4,199.2 329.7,200.2 333.0,201.1 336.3,202.0 339.6,202.9 342.9,203.8 346.1,204.7 349.4,205.6 352.7,206.5 356.0,207.3 359.3,208.2 362.6,209.0 365.9,209.8 369.1,210.7 372.4,211.5 375.7,212.3 379.0,213.0 382.3,213.8 385.6,214.6 388.9,215.4 392.1,216.1 395.4,216.9 398.7,217.6 402.0,218.3 405.3,219.0 408.6,219.8 411.9,220.5 415.1,221.2 418.4,221.9 421.7,222.5 425.0,223.2 428.3,223.9 431.6,224.6 434.9,225.2 438.1,225.9 441.4,226.5 444.7,227.2 448.0,227.8 451.3,228.4 454.6,229.1 457.9,229.7 461.1,230.3 464.4,230.9 467.7,231.5 471.0,232.1 474.3,232.7 477.6,233.3 480.9,233.8 484.1,234.4 487.4,235.0 490.7,235.5 494.0,236.1 497.3,236.7 500.6,237.2 503.9,237.8 507.1,238.3 510.4,238.8 513.7,239.4 517.0,239.9 520.3,240.4 523.6,241.0 526.9,241.5 530.1,242.0 533.4,242.5 536.7,243.0 540.0,243.5" fill="none" stroke="#6d4c41" stroke-width="3"/>
+<polyline points="80.0,172.0 83.3,174.2 86.6,176.3 89.9,178.4 93.1,180.4 96.4,182.3 99.7,184.2 103.0,186.0 106.3,187.8 109.6,189.5 112.9,191.2 116.1,192.8 119.4,194.4 122.7,196.0 126.0,197.5 129.3,198.9 132.6,200.4 135.9,201.8 139.1,203.1 142.4,204.5 145.7,205.8 149.0,207.0 152.3,208.3 155.6,209.5 158.9,210.6 162.1,211.8 165.4,212.9 168.7,214.0 172.0,215.1 175.3,216.2 178.6,217.2 181.9,218.2 185.1,219.2 188.4,220.2 191.7,221.1 195.0,222.0 198.3,223.0 201.6,223.8 204.9,224.7 208.1,225.6 211.4,226.4 214.7,227.3 218.0,228.1 221.3,228.9 224.6,229.7 227.9,230.4 231.1,231.2 234.4,231.9 237.7,232.7 241.0,233.4 244.3,234.1 247.6,234.8 250.9,235.5 254.1,236.2 257.4,236.8 260.7,237.5 264.0,238.1 267.3,238.7 270.6,239.4 273.9,240.0 277.1,240.6 280.4,241.2 283.7,241.8 287.0,242.3 290.3,242.9 293.6,243.5 296.9,244.0 300.1,244.6 303.4,245.1 306.7,245.6 310.0,246.2 313.3,246.7 316.6,247.2 319.9,247.7 323.1,248.2 326.4,248.7 329.7,249.1 333.0,249.6 336.3,250.1 339.6,250.6 342.9,251.0 346.1,251.5 349.4,251.9 352.7,252.3 356.0,252.8 359.3,253.2 362.6,253.6 365.9,254.1 369.1,254.5 372.4,254.9 375.7,255.3 379.0,255.7 382.3,256.1 385.6,256.5 388.9,256.9 392.1,257.3 395.4,257.6 398.7,258.0 402.0,258.4 405.3,258.8 408.6,259.1 411.9,259.5 415.1,259.8 418.4,260.2 421.7,260.5 425.0,260.9 428.3,261.2 431.6,261.6 434.9,261.9 438.1,262.2 441.4,262.6 444.7,262.9 448.0,263.2 451.3,263.5 454.6,263.9 457.9,264.2 461.1,264.5 464.4,264.8 467.7,265.1 471.0,265.4 474.3,265.7 477.6,266.0 480.9,266.3 484.1,266.6 487.4,266.9 490.7,267.2 494.0,267.4 497.3,267.7 500.6,268.0 503.9,268.3 507.1,268.6 510.4,268.8 513.7,269.1 517.0,269.4 520.3,269.7 523.6,269.9 526.9,270.2 530.1,270.4 533.4,270.7 536.7,271.0 540.0,271.2" fill="none" stroke="#1565c0" stroke-width="2.6" stroke-dasharray="7,4"/>
+<line x1="80.0" y1="203.8" x2="540.0" y2="203.8" stroke="#c62828" stroke-width="1.3" stroke-dasharray="4,3"/>
+<line x1="342.9" y1="300.0" x2="342.9" y2="60.0" stroke="#90a4ae" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="346.9" y="70.0" font-size="11" fill="#455a64" text-anchor="start">β = φ：FS = 1（休止角）</text>
+<circle cx="434.9" cy="225.2" r="5" fill="#c62828" stroke="#fff" stroke-width="1.5"/>
+<text x="428.9" y="249.2" font-size="12" fill="#c62828" text-anchor="end" font-weight="700">SM-2024-2：β = 42° → 0.78</text>
+<text x="145.7" y="105.0" font-size="12" fill="#6d4c41" text-anchor="start" font-weight="700">乾坡＝完全浸水：tanφ / tanβ</text>
+<text x="264.0" y="276.9" font-size="12" fill="#1565c0" text-anchor="start" font-weight="700">滲流至地表：(γ′/γ<tspan dy="3.4" font-size="8.9">sat</tspan><tspan dy="-3.4">)·tanφ/tanβ</tspan></text>
+<text x="264.0" y="294.2" font-size="11" fill="#1565c0" text-anchor="start">（示意取 γ<tspan dy="3.1" font-size="8.1">sat</tspan><tspan dy="-3.1"> = 20 → γ′/γ</tspan><tspan dy="3.1" font-size="8.1">sat</tspan><tspan dy="-3.1"> ≈ 0.51）</tspan></text>
+<rect x="570.0" y="70.0" width="210.0" height="210.0" fill="#fff3e0" stroke="#ffcc80" stroke-width="1"/>
+<text x="584.0" y="94.0" font-size="12.5" fill="#e65100" text-anchor="start" font-weight="700">為什麼浸水不變？</text>
+<text x="584.0" y="115.0" font-size="12.5" fill="#263238" text-anchor="start">浮力同時減少</text>
+<text x="584.0" y="136.0" font-size="12.5" fill="#263238" text-anchor="start">正向力（抗力）與</text>
+<text x="584.0" y="157.0" font-size="12.5" fill="#263238" text-anchor="start">下滑力，比例相同 → 約掉</text>
+<text x="584.0" y="178.0" font-size="12.5" fill="#263238" text-anchor="start"></text>
+<text x="584.0" y="199.0" font-size="12.5" fill="#e65100" text-anchor="start" font-weight="700">為什麼滲流會變？</text>
+<text x="584.0" y="220.0" font-size="12.5" fill="#263238" text-anchor="start">滲流力順坡向下，</text>
+<text x="584.0" y="241.0" font-size="12.5" fill="#263238" text-anchor="start">只加在驅動側：</text>
+<text x="584.0" y="262.0" font-size="12.5" fill="#263238" text-anchor="start">驅動用 γ<tspan dy="3.5" font-size="9.2">sat</tspan><tspan dy="-3.5">、抗力用 γ′</tspan></text>
+</svg>
+<div class="cap">圖 1-1　由公式取 140 點繪出。<a class="qlink" href="problems-view/SM-2024-2.html" target="_blank">SM-2024-2</a> 刻意給 \(\beta=42^\circ\gt\phi=35^\circ\)，乾與浸水都是 0.78。這張圖攔的錯：「浸水比較危險所以 FS 要變小」—— 靜水只有浮力，兩邊等比例縮小；只有<b>流動</b>的水才把 \(FS\) 打到大約一半。</div>
+</div>
+
+<div class="why"><b>極限檢查：</b>\(\beta=\phi\) → \(FS=1\)，這就是乾砂的<b>休止角</b>；\(z\) 完全約掉 → c = 0 的無限邊坡沒有「臨界深度」，淺處和深處一樣危險（所以砂坡的破壞多是表層剝落）。<br>
+<b>浸水 vs 滲流：</b>完全浸水時，\(\sigma_n'\) 和下滑力都用 \(\gamma'\)，比例不變。水平行坡面流到地表時，滲流力 \(i\gamma_w=\gamma_w\sin\beta\) 順坡往下，只加在驅動側 —— 驅動用 \(\gamma_{sat}\)、抗力用 \(\gamma'\)：
+$$FS_{\text{滲流}}=\frac{\gamma'}{\gamma_{sat}}\cdot\frac{\tan\phi}{\tan\beta}\approx\tfrac12\cdot\frac{\tan\phi}{\tan\beta}$$</div>
+
+<h3>1.1　自由水層的水力坡降：\(i=\sin\theta\)</h3>
+<p>自由水面上壓力水頭為 0，總水頭＝高程水頭。沿流線走 \(\Delta s\)，高程降 \(\Delta s\sin\theta\)，所以 \(i=\Delta h/\Delta s=\sin\theta\)。<a class="qlink" href="problems-view/SM-2024-2.html" target="_blank">SM-2024-2</a> ㈢：\(\theta=30^\circ\) → \(i=0.50\)。寫成 \(\tan\theta=0.577\) 是把分母取成水平距離（Dupuit 近似）；用坡角 \(\beta=42^\circ\) 則是看錯線 —— 題目問的是<b>水面</b>的傾角，不是地表。</p>
+<div class="tens"><b>因果鏈 ①（c = 0 無限邊坡）</b>：取平行坡面切片 → \(\sigma_n=\gamma z\cos^2\beta\)、\(\tau=\gamma z\sin\beta\cos\beta\) → \(z\) 約掉 → \(FS=\tan\phi/\tan\beta\) → 靜水：兩邊都換 \(\gamma'\)，不變 → 滲流：驅動 \(\gamma_{sat}\)、抗力 \(\gamma'\)，約減半。</div>
+</section>
+
+<section id="s2">
+<h2>§2　c′-φ′ 無限邊坡＋平行滲流：孔隙水壓為什麼是 \(\gamma_wh_w\cos^2\beta\)</h2>
+
+<div class="lead">這一節在怕什麼：<b>孔隙水壓直接寫 \(\gamma_wh_w\)</b>，以及把題目的「深度」讀成垂直坡面的厚度。<a class="qlink" href="problems-view/SM-2014-1.html" target="_blank">SM-2014-1</a> 的 6 m、1.5 m 都是<b>鉛直</b>量的。</div>
+
+<div class="fig"><!--FIG:g2-->
+<svg viewBox="0 0 800 370" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="g2a" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1565c0"/></marker><marker id="g2k" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#455a64"/></marker></defs>
+<text x="200.0" y="26.0" font-size="14" fill="#0d47a1" text-anchor="middle" font-weight="700">平行坡面滲流：等勢線垂直坡面</text>
+<polygon points="90.0,300.0 418.4,212.0 367.4,21.7 39.0,109.7" fill="#efe3d3" stroke="none" stroke-width="1"/>
+<polygon points="90.0,300.0 418.4,212.0 380.2,69.3 51.8,157.2" fill="#b3e5fc" stroke="none" stroke-width="1" opacity="0.6"/>
+<line x1="39.0" y1="109.7" x2="367.4" y2="21.7" stroke="#6d4c41" stroke-width="2"/>
+<line x1="51.8" y1="157.2" x2="380.2" y2="69.3" stroke="#1565c0" stroke-width="1.8"/>
+<line x1="90.0" y1="300.0" x2="418.4" y2="212.0" stroke="#c62828" stroke-width="2.4" stroke-dasharray="7,4"/>
+<text x="129.4" y="309.4" font-size="11" fill="#c62828" text-anchor="start">滑動面（岩層介面）</text>
+<line x1="406.9" y1="169.2" x2="351.1" y2="184.1" stroke="#1565c0" stroke-width="1.6" marker-end="url(#g2a)"/>
+<line x1="395.5" y1="126.4" x2="339.6" y2="141.3" stroke="#1565c0" stroke-width="1.6" marker-end="url(#g2a)"/>
+<text x="381.0" y="203.7" font-size="11" fill="#1565c0" text-anchor="middle">流線 ∥ 坡面</text>
+<line x1="221.4" y1="264.8" x2="183.1" y2="122.0" stroke="#6a1b9a" stroke-width="2"/>
+<circle cx="221.4" cy="264.8" r="4" fill="#6a1b9a" stroke="none" stroke-width="1"/>
+<text x="227.4" y="278.8" font-size="12" fill="#6a1b9a" text-anchor="start" font-weight="700">A</text>
+<line x1="183.1" y1="122.0" x2="221.4" y2="122.0" stroke="#9e9e9e" stroke-width="1" stroke-dasharray="3,3"/>
+<line x1="221.4" y1="264.8" x2="221.4" y2="122.0" stroke="#6a1b9a" stroke-width="1.4" stroke-dasharray="3,3"/>
+<line x1="221.4" y1="122.0" x2="221.4" y2="111.8" stroke="#9e9e9e" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="229.4" y="193.4" font-size="11.5" fill="#6a1b9a" text-anchor="start" font-weight="700">h<tspan dy="3.2" font-size="8.5">p</tspan><tspan dy="-3.2"> = h</tspan><tspan dy="3.2" font-size="8.5">w</tspan><tspan dy="-3.2">cos²β</tspan></text>
+<text x="229.4" y="209.4" font-size="11.5" fill="#6a1b9a" text-anchor="start" font-weight="700">= 4.20 m</text>
+<text x="229.4" y="87.8" font-size="11" fill="#757575" text-anchor="start">h<tspan dy="3.1" font-size="8.1">w</tspan><tspan dy="-3.1"> = 4.5 m（鉛直到水面）</tspan></text>
+<text x="177.1" y="162.0" font-size="11" fill="#6a1b9a" text-anchor="end">等勢線 ⊥ 坡面</text>
+<text x="179.1" y="116.0" font-size="12" fill="#6a1b9a" text-anchor="end" font-weight="700">B</text>
+<text x="200.0" y="338.0" font-size="11.5" fill="#263238" text-anchor="middle">u = γ<tspan dy="3.2" font-size="8.5">w</tspan><tspan dy="-3.2">h</tspan><tspan dy="3.2" font-size="8.5">w</tspan><tspan dy="-3.2">cos²β = 9.81×4.5×cos²15° = 41.19 kPa（不是 44.15）</tspan></text>
+<text x="200.0" y="356.0" font-size="11" fill="#607d8b" text-anchor="middle">沿等勢線總水頭相同；B 點在水面上 u = 0，所以 A 的壓力水頭 = B、A 的高程差</text>
+<text x="620.0" y="26.0" font-size="14" fill="#0d47a1" text-anchor="middle" font-weight="700">SM-2014-1：水位越淺，FS 越低</text>
+<line x1="470.0" y1="300.0" x2="470.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="470.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">0</text>
+<line x1="520.0" y1="300.0" x2="520.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="520.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">1</text>
+<line x1="570.0" y1="300.0" x2="570.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="570.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">2</text>
+<line x1="620.0" y1="300.0" x2="620.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="620.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">3</text>
+<line x1="670.0" y1="300.0" x2="670.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="670.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">4</text>
+<line x1="720.0" y1="300.0" x2="720.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="720.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">5</text>
+<line x1="770.0" y1="300.0" x2="770.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="770.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">6</text>
+<line x1="466.0" y1="300.0" x2="470.0" y2="300.0" stroke="#455a64" stroke-width="1"/>
+<text x="462.0" y="304.0" font-size="11" fill="#607d8b" text-anchor="end">1.0</text>
+<line x1="470.0" y1="300.0" x2="770.0" y2="300.0" stroke="#eceff1" stroke-width="1"/>
+<line x1="466.0" y1="256.4" x2="470.0" y2="256.4" stroke="#455a64" stroke-width="1"/>
+<text x="462.0" y="260.4" font-size="11" fill="#607d8b" text-anchor="end">1.2</text>
+<line x1="470.0" y1="256.4" x2="770.0" y2="256.4" stroke="#eceff1" stroke-width="1"/>
+<line x1="466.0" y1="212.7" x2="470.0" y2="212.7" stroke="#455a64" stroke-width="1"/>
+<text x="462.0" y="216.7" font-size="11" fill="#607d8b" text-anchor="end">1.4</text>
+<line x1="470.0" y1="212.7" x2="770.0" y2="212.7" stroke="#eceff1" stroke-width="1"/>
+<line x1="466.0" y1="169.1" x2="470.0" y2="169.1" stroke="#455a64" stroke-width="1"/>
+<text x="462.0" y="173.1" font-size="11" fill="#607d8b" text-anchor="end">1.6</text>
+<line x1="470.0" y1="169.1" x2="770.0" y2="169.1" stroke="#eceff1" stroke-width="1"/>
+<line x1="466.0" y1="125.5" x2="470.0" y2="125.5" stroke="#455a64" stroke-width="1"/>
+<text x="462.0" y="129.5" font-size="11" fill="#607d8b" text-anchor="end">1.8</text>
+<line x1="470.0" y1="125.5" x2="770.0" y2="125.5" stroke="#eceff1" stroke-width="1"/>
+<line x1="466.0" y1="81.8" x2="470.0" y2="81.8" stroke="#455a64" stroke-width="1"/>
+<text x="462.0" y="85.8" font-size="11" fill="#607d8b" text-anchor="end">2.0</text>
+<line x1="470.0" y1="81.8" x2="770.0" y2="81.8" stroke="#eceff1" stroke-width="1"/>
+<line x1="470.0" y1="300.0" x2="770.0" y2="300.0" stroke="#455a64" stroke-width="1.6"/>
+<line x1="470.0" y1="300.0" x2="470.0" y2="60.0" stroke="#455a64" stroke-width="1.6"/>
+<text x="620.0" y="338.0" font-size="12" fill="#607d8b" text-anchor="middle">地下水位深度 d<tspan dy="3.4" font-size="8.9">w</tspan><tspan dy="-3.4">（地表下 m）</tspan></text>
+<text x="466.0" y="48.0" font-size="12" fill="#607d8b" text-anchor="start">FS</text>
+<polyline points="470.0,261.7 472.5,260.4 475.0,259.1 477.5,257.8 480.0,256.5 482.5,255.2 485.0,253.9 487.5,252.6 490.0,251.2 492.5,249.9 495.0,248.6 497.5,247.3 500.0,245.9 502.5,244.6 505.0,243.3 507.5,241.9 510.0,240.6 512.5,239.3 515.0,237.9 517.5,236.6 520.0,235.3 522.5,233.9 525.0,232.6 527.5,231.2 530.0,229.9 532.5,228.5 535.0,227.2 537.5,225.8 540.0,224.5 542.5,223.1 545.0,221.7 547.5,220.4 550.0,219.0 552.5,217.6 555.0,216.3 557.5,214.9 560.0,213.5 562.5,212.2 565.0,210.8 567.5,209.4 570.0,208.0 572.5,206.7 575.0,205.3 577.5,203.9 580.0,202.5 582.5,201.1 585.0,199.7 587.5,198.3 590.0,196.9 592.5,195.5 595.0,194.1 597.5,192.7 600.0,191.3 602.5,189.9 605.0,188.5 607.5,187.1 610.0,185.7 612.5,184.3 615.0,182.9 617.5,181.5 620.0,180.0 622.5,178.6 625.0,177.2 627.5,175.8 630.0,174.3 632.5,172.9 635.0,171.5 637.5,170.1 640.0,168.6 642.5,167.2 645.0,165.7 647.5,164.3 650.0,162.9 652.5,161.4 655.0,160.0 657.5,158.5 660.0,157.1 662.5,155.6 665.0,154.2 667.5,152.7 670.0,151.2 672.5,149.8 675.0,148.3 677.5,146.9 680.0,145.4 682.5,143.9 685.0,142.4 687.5,141.0 690.0,139.5 692.5,138.0 695.0,136.5 697.5,135.1 700.0,133.6 702.5,132.1 705.0,130.6 707.5,129.1 710.0,127.6 712.5,126.1 715.0,124.6 717.5,123.1 720.0,121.6 722.5,120.1 725.0,118.6 727.5,117.1 730.0,115.6 732.5,114.1 735.0,112.5 737.5,111.0 740.0,109.5 742.5,108.0 745.0,106.5 747.5,104.9 750.0,103.4 752.5,101.9 755.0,100.3 757.5,98.8 760.0,97.3 762.5,95.7 765.0,94.2 767.5,92.6 770.0,91.1" fill="none" stroke="#2e7d32" stroke-width="2.8"/>
+<circle cx="545.0" cy="221.7" r="5" fill="#c62828" stroke="#fff" stroke-width="1.5"/>
+<text x="580.0" y="245.5" font-size="12" fill="#c62828" text-anchor="start" font-weight="700">題目 d<tspan dy="3.4" font-size="8.9">w</tspan><tspan dy="-3.4"> = 1.5：1.36</tspan></text>
+<circle cx="545.0" cy="230.5" r="4" fill="#9e9e9e" stroke="#fff" stroke-width="1.5"/>
+<text x="580.0" y="260.7" font-size="11" fill="#757575" text-anchor="start">誤用 u = γ<tspan dy="3.1" font-size="8.1">w</tspan><tspan dy="-3.1">h</tspan><tspan dy="3.1" font-size="8.1">w</tspan><tspan dy="-3.1">：1.32</tspan></text>
+<text x="768.0" y="109.1" font-size="11.5" fill="#2e7d32" text-anchor="end" font-weight="700">無水 1.96</text>
+<text x="474.0" y="282.5" font-size="11.5" fill="#2e7d32" text-anchor="start" font-weight="700">水到地表 1.18</text>
+</svg>
+<div class="cap">圖 2-1　左：平行坡面滲流時流線平行坡面，等勢線垂直坡面（按 \(\beta=15^\circ\)、水下 4.5 m 比例繪；A 到 B 的線與坡面垂直）。A 與 B 在同一條等勢線上，總水頭相同；B 在水面上 \(u=0\)，所以 A 的壓力水頭等於兩點高程差 \(h_w\cos^2\beta\)。右：SM-2014-1 改變水位深度重算（同一組題解式子取 120 點）。這張圖攔的錯：用 A 正上方的水深 \(h_w\) 當壓力水頭 —— 那是靜水的做法。</div>
+</div>
+
+<h3>2.1　分項通式（水位上下單位重不同時一定要用）</h3>
+$$\sigma_v=\gamma_tH_1+\gamma_{sat}H_2,\qquad \tau_d=\sigma_v\sin\beta\cos\beta,\qquad \sigma_n'=\sigma_v\cos^2\beta-\gamma_wH_2\cos^2\beta$$
+$$FS=\frac{c'+\sigma_n'\tan\phi'}{\tau_d}$$
+
+<div class="box"><b>手算範例：SM-2014-1</b>（題目只給含水量與 \(G_s\)，單位重要自己推）<br>
+① 水位下飽和：\(e=wG_s=0.35\times2.64=0.924\)，水位上下 \(e\) 相同。<br>
+② \(\gamma_t=\dfrac{G_s(1+w_1)}{1+e}\gamma_w=16.69\)、\(\gamma_{sat}=\dfrac{G_s(1+w_2)}{1+e}\gamma_w=18.17\) kN/m³。<br>
+③ \(\sigma_v=16.69(1.5)+18.17(4.5)=106.80\) kPa；\(u=9.81(4.5)\cos^215^\circ=41.19\) kPa。<br>
+④ \(\sigma_n'=106.80(0.9330)-41.19=58.45\)；\(\tau_d=106.80\sin15^\circ\cos15^\circ=26.70\) kPa。<br>
+⑤ \(FS=(15+58.45\tan20^\circ)/26.70=1.36\)。<br>
+<b>自我檢查</b>：另一條路 \(\sigma_n'=(\gamma_tH_1+\gamma'H_2)\cos^2\beta=58.46\) ✓；水位降到岩層介面（無水）\(FS=1.96\)，升到地表 \(1.18\)，題目落在中間 ✓。</div>
+
+<div class="why"><b>c 項讓深度重新有意義：</b>\(FS=\dfrac{c'}{\gamma z\sin\beta\cos\beta}+\dfrac{\tan\phi'}{\tan\beta}(\cdots)\)。第一項隨深度變小 —— 淺層 c 很管用，深層靠摩擦。這解釋了為什麼 §3 的淺層楔體只要 c 一降，\(FS\) 就崩。</div>
+<div class="tens"><b>因果鏈 ②（c′-φ′＋滲流）</b>：讀清深度是鉛直 → 三相換算求 \(\gamma_t\)、\(\gamma_{sat}\) → \(\sigma_v\) 分層加 → \(\tau_d=\sigma_v\sin\beta\cos\beta\) → \(u=\gamma_wh_w\cos^2\beta\)（等勢線垂直坡面）→ \(\sigma_n'\) → \(FS\)。</div>
+</section>
+
+<section id="s3">
+<h2>§3　平面楔體：先把幾何算對，再看 c 佔多少</h2>
+
+<div class="lead">這一節在怕什麼：<b>楔體幾何算錯</b>（重量、滑動面長），以及沒看出「淺層破壞面上 c 佔了大半抗力」。</div>
+
+$$FS=\frac{cL+W\cos\theta\tan\phi}{W\sin\theta}$$
+
+<div class="fig"><!--FIG:g3-->
+<svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<text x="400.0" y="26.0" font-size="14" fill="#0d47a1" text-anchor="middle" font-weight="700">SM-2023-2：淺層楔體的抗力大半來自 c —— 雨水入滲把 c 砍掉，FS 從 3.68 掉到 1.02</text>
+<rect x="80.0" y="255.5" width="60.0" height="44.5" fill="#a1887f" stroke="#6d4c41" stroke-width="1"/>
+<rect x="80.0" y="74.5" width="60.0" height="181.0" fill="#90caf9" stroke="#1565c0" stroke-width="1"/>
+<text x="110.0" y="66.5" font-size="12" fill="#c62828" text-anchor="middle" font-weight="700">FS = 3.68</text>
+<text x="110.0" y="318.0" font-size="12" fill="#263238" text-anchor="middle">㈠ c = 50</text>
+<text x="110.0" y="169.0" font-size="11" fill="#1565c0" text-anchor="middle">cL 566</text>
+<text x="110.0" y="281.8" font-size="11" fill="#fff" text-anchor="middle">139</text>
+<rect x="200.0" y="255.5" width="60.0" height="44.5" fill="#a1887f" stroke="#6d4c41" stroke-width="1"/>
+<rect x="200.0" y="237.4" width="60.0" height="18.1" fill="#90caf9" stroke="#1565c0" stroke-width="1"/>
+<text x="230.0" y="229.4" font-size="12" fill="#c62828" text-anchor="middle" font-weight="700">FS = 1.02</text>
+<text x="230.0" y="318.0" font-size="12" fill="#263238" text-anchor="middle">㈡ c = 5</text>
+<text x="230.0" y="250.5" font-size="11" fill="#1565c0" text-anchor="middle">cL 57</text>
+<text x="230.0" y="281.8" font-size="11" fill="#fff" text-anchor="middle">139</text>
+<line x1="70.0" y1="238.8" x2="270.0" y2="238.8" stroke="#c62828" stroke-width="1.6" stroke-dasharray="5,4"/>
+<text x="272.0" y="242.8" font-size="11.5" fill="#c62828" text-anchor="start">驅動 W sin45° = 191.3</text>
+<line x1="70.0" y1="300.0" x2="270.0" y2="300.0" stroke="#455a64" stroke-width="1.4"/>
+<text x="170.0" y="340.0" font-size="11.5" fill="#607d8b" text-anchor="middle">抗力組成（kN/m）：藍 cL、褐 N tanφ</text>
+<line x1="480.0" y1="300.0" x2="480.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="480.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">0</text>
+<line x1="536.0" y1="300.0" x2="536.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="536.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">10</text>
+<line x1="592.0" y1="300.0" x2="592.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="592.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">20</text>
+<line x1="648.0" y1="300.0" x2="648.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="648.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">30</text>
+<line x1="704.0" y1="300.0" x2="704.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="704.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">40</text>
+<line x1="760.0" y1="300.0" x2="760.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="760.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">50</text>
+<line x1="476.0" y1="300.0" x2="480.0" y2="300.0" stroke="#455a64" stroke-width="1"/>
+<text x="472.0" y="304.0" font-size="11" fill="#607d8b" text-anchor="end">0</text>
+<line x1="480.0" y1="300.0" x2="760.0" y2="300.0" stroke="#eceff1" stroke-width="1"/>
+<line x1="476.0" y1="242.5" x2="480.0" y2="242.5" stroke="#455a64" stroke-width="1"/>
+<text x="472.0" y="246.5" font-size="11" fill="#607d8b" text-anchor="end">1</text>
+<line x1="480.0" y1="242.5" x2="760.0" y2="242.5" stroke="#eceff1" stroke-width="1"/>
+<line x1="476.0" y1="185.0" x2="480.0" y2="185.0" stroke="#455a64" stroke-width="1"/>
+<text x="472.0" y="189.0" font-size="11" fill="#607d8b" text-anchor="end">2</text>
+<line x1="480.0" y1="185.0" x2="760.0" y2="185.0" stroke="#eceff1" stroke-width="1"/>
+<line x1="476.0" y1="127.5" x2="480.0" y2="127.5" stroke="#455a64" stroke-width="1"/>
+<text x="472.0" y="131.5" font-size="11" fill="#607d8b" text-anchor="end">3</text>
+<line x1="480.0" y1="127.5" x2="760.0" y2="127.5" stroke="#eceff1" stroke-width="1"/>
+<line x1="476.0" y1="70.0" x2="480.0" y2="70.0" stroke="#455a64" stroke-width="1"/>
+<text x="472.0" y="74.0" font-size="11" fill="#607d8b" text-anchor="end">4</text>
+<line x1="480.0" y1="70.0" x2="760.0" y2="70.0" stroke="#eceff1" stroke-width="1"/>
+<line x1="480.0" y1="300.0" x2="760.0" y2="300.0" stroke="#455a64" stroke-width="1.6"/>
+<line x1="480.0" y1="300.0" x2="480.0" y2="70.0" stroke="#455a64" stroke-width="1.6"/>
+<text x="620.0" y="338.0" font-size="12" fill="#607d8b" text-anchor="middle">破壞面凝聚力 c（kPa）</text>
+<text x="476.0" y="58.0" font-size="12" fill="#607d8b" text-anchor="start">FS</text>
+<polyline points="480.0,258.2 760.0,88.2" fill="none" stroke="#1565c0" stroke-width="2.8"/>
+<line x1="480.0" y1="242.5" x2="760.0" y2="242.5" stroke="#c62828" stroke-width="1.2" stroke-dasharray="4,3"/>
+<circle cx="760.0" cy="88.2" r="4.5" fill="#c62828" stroke="#fff" stroke-width="1.5"/>
+<circle cx="508.0" cy="241.2" r="4.5" fill="#c62828" stroke="#fff" stroke-width="1.5"/>
+<circle cx="480.0" cy="258.2" r="4.5" fill="#c62828" stroke="#fff" stroke-width="1.5"/>
+<text x="750.0" y="82.2" font-size="12" fill="#c62828" text-anchor="end" font-weight="700">3.68</text>
+<text x="516.0" y="259.2" font-size="12" fill="#c62828" text-anchor="start" font-weight="700">c = 5：1.02</text>
+<text x="488.0" y="276.2" font-size="11" fill="#c62828" text-anchor="start">c = 0：0.73</text>
+<text x="592.0" y="277.0" font-size="11.5" fill="#607d8b" text-anchor="start">FS = 1 只需 c = 4.62 kPa</text>
+</svg>
+<div class="cap">圖 3-1　<a class="qlink" href="problems-view/SM-2023-2.html" target="_blank">SM-2023-2</a>：\(H=8\) m、坡面 60°、破壞面 45°，\(W=270.50\) kN/m、\(L=11.31\) m。左：抗力組成按比例；右：FS 對 c 是一條直線。這張圖攔的錯：以為「φ 沒變，強度差不多」—— c 從 50 降到 5，抗力少了 509 kN/m，而摩擦那 139 kN/m 一點都沒動。</div>
+</div>
+
+<p><b>楔體幾何</b>：楔體 ABC 的面積 \(=\tfrac12\times(H\cot\theta-H\cot\alpha)\times H\)；2023-2 為 \(\tfrac12(8-4.619)(8)=13.53\) m²。題目只給高度與角度時（2008-4），三邊用正弦定理推，見 §4。</p>
+
+<h3>3.1　順向坡：滑動面是現成的</h3>
+<div class="why"><b>為什麼順向坡要用平面滑動？</b>層面（弱面）傾向與坡面同向，傾角小於坡角（層面在坡面上「露出」）、又大於層面摩擦角時，塊體可以直接沿層面滑出 —— 不需要剪斷完整岩體。<a class="qlink" href="problems-view/SM-2013-1.html" target="_blank">SM-2013-1</a> ㈠問需要哪些試驗：重點是<b>層面</b>的參數 —— 鑽探與地表調查求層面位態與地下水位；弱面（層泥）直接剪力試驗求 \(c'\)、\(\phi'\)；已滑動或有潛變者做反覆直剪求殘餘強度 \(\phi_r'\)。只答「三軸試驗求 c、φ」是答錯方向。</div>
+<div class="tens"><b>因果鏈 ③（平面楔體）</b>：角度標在哪（坡面／破壞面）→ 面積與 \(L\) → \(W\) → 分解 \(W\sin\theta\)、\(W\cos\theta\) → 抗力 \(cL+N\tan\phi\) → 雨水只改 c 時，FS 隨 c 線性下降。</div>
+</section>
+
+<section id="s4">
+<h2>§4　地震與地錨：擬靜態力要兩個方向都分解</h2>
+
+<div class="lead">這一節在怕什麼：<b>\(k_hW\) 只加在下滑力</b>。水平力對傾斜的滑動面同時有平行分量（增加驅動）與垂直分量（把塊體拉離滑動面、減少正向力）。</div>
+
+$$T_d=W\sin\theta+k_hW\cos\theta,\qquad N=W\cos\theta-k_hW\sin\theta\ (+P_{\text{地錨}})$$
+
+<div class="fig"><!--FIG:g4-->
+<svg viewBox="0 0 800 378" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="g4a" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker><marker id="g4b" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#455a64"/></marker><marker id="g4c" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2e7d32"/></marker><marker id="g4d" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ef6c00"/></marker></defs>
+<text x="200.0" y="26.0" font-size="14" fill="#0d47a1" text-anchor="middle" font-weight="700">SM-2008-4：塊體 ABC（依標註角度按比例）</text>
+<polygon points="30.0,300.0 60.0,300.0 114.6,150.0 253.2,137.9 313.2,132.6 313.2,330.0 30.0,330.0" fill="#e0e0e0" stroke="none" stroke-width="1"/>
+<polygon points="60.0,300.0 114.6,150.0 253.2,137.9" fill="#ffe0b2" stroke="#ef6c00" stroke-width="1.4"/>
+<line x1="60.0" y1="300.0" x2="293.2" y2="104.3" stroke="#c62828" stroke-width="2.4" stroke-dasharray="7,4"/>
+<text x="48.0" y="314.0" font-size="13" fill="#263238" text-anchor="middle" font-weight="700">A</text>
+<text x="100.6" y="144.0" font-size="13" fill="#263238" text-anchor="middle" font-weight="700">B</text>
+<text x="259.2" y="129.9" font-size="13" fill="#263238" text-anchor="middle" font-weight="700">C</text>
+<line x1="142.6" y1="196.0" x2="142.6" y2="266.0" stroke="#455a64" stroke-width="2.4" marker-end="url(#g4b)"/>
+<text x="148.6" y="260.0" font-size="11.5" fill="#263238" text-anchor="start">W = 503.3</text>
+<line x1="142.6" y1="196.0" x2="90.6" y2="196.0" stroke="#c62828" stroke-width="2.4" marker-end="url(#g4a)"/>
+<text x="86.6" y="188.0" font-size="11.5" fill="#c62828" text-anchor="end">k<tspan dy="3.2" font-size="8.5">h</tspan><tspan dy="-3.2">W = 100.7</tspan></text>
+<line x1="138.0" y1="177.1" x2="163.7" y2="207.8" stroke="#2e7d32" stroke-width="2.6" marker-end="url(#g4c)"/>
+<text x="142.0" y="171.1" font-size="11.5" fill="#2e7d32" text-anchor="start" font-weight="700">地錨 ⊥ AC</text>
+<text x="214.9" y="200.4" font-size="11" fill="#c62828" text-anchor="start">AC 40°（泥岩夾層）</text>
+<text x="200.0" y="350.0" font-size="11.5" fill="#263238" text-anchor="middle">FS = (cL + N tanφ)/T<tspan dy="3.2" font-size="8.5">d</tspan><tspan dy="-3.2"> = 0.74；無地震 1.02</tspan></text>
+<text x="615.0" y="26.0" font-size="14" fill="#0d47a1" text-anchor="middle" font-weight="700">k<tspan dy="3.9" font-size="10.4">h</tspan><tspan dy="-3.9"> 兩邊夾擊：驅動↑、正向力↓</tspan></text>
+<line x1="470.0" y1="300.0" x2="470.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="470.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">0.00</text>
+<line x1="518.3" y1="300.0" x2="518.3" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="518.3" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">0.05</text>
+<line x1="566.7" y1="300.0" x2="566.7" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="566.7" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">0.10</text>
+<line x1="615.0" y1="300.0" x2="615.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="615.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">0.15</text>
+<line x1="663.3" y1="300.0" x2="663.3" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="663.3" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">0.20</text>
+<line x1="711.7" y1="300.0" x2="711.7" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="711.7" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">0.25</text>
+<line x1="760.0" y1="300.0" x2="760.0" y2="304.0" stroke="#455a64" stroke-width="1"/>
+<text x="760.0" y="318.0" font-size="11" fill="#607d8b" text-anchor="middle">0.30</text>
+<line x1="466.0" y1="300.0" x2="470.0" y2="300.0" stroke="#455a64" stroke-width="1"/>
+<text x="462.0" y="304.0" font-size="11" fill="#607d8b" text-anchor="end">0.4</text>
+<line x1="470.0" y1="300.0" x2="760.0" y2="300.0" stroke="#eceff1" stroke-width="1"/>
+<line x1="466.0" y1="242.5" x2="470.0" y2="242.5" stroke="#455a64" stroke-width="1"/>
+<text x="462.0" y="246.5" font-size="11" fill="#607d8b" text-anchor="end">0.6</text>
+<line x1="470.0" y1="242.5" x2="760.0" y2="242.5" stroke="#eceff1" stroke-width="1"/>
+<line x1="466.0" y1="185.0" x2="470.0" y2="185.0" stroke="#455a64" stroke-width="1"/>
+<text x="462.0" y="189.0" font-size="11" fill="#607d8b" text-anchor="end">0.8</text>
+<line x1="470.0" y1="185.0" x2="760.0" y2="185.0" stroke="#eceff1" stroke-width="1"/>
+<line x1="466.0" y1="127.5" x2="470.0" y2="127.5" stroke="#455a64" stroke-width="1"/>
+<text x="462.0" y="131.5" font-size="11" fill="#607d8b" text-anchor="end">1.0</text>
+<line x1="470.0" y1="127.5" x2="760.0" y2="127.5" stroke="#eceff1" stroke-width="1"/>
+<line x1="466.0" y1="70.0" x2="470.0" y2="70.0" stroke="#455a64" stroke-width="1"/>
+<text x="462.0" y="74.0" font-size="11" fill="#607d8b" text-anchor="end">1.2</text>
+<line x1="470.0" y1="70.0" x2="760.0" y2="70.0" stroke="#eceff1" stroke-width="1"/>
+<line x1="470.0" y1="300.0" x2="760.0" y2="300.0" stroke="#455a64" stroke-width="1.6"/>
+<line x1="470.0" y1="300.0" x2="470.0" y2="70.0" stroke="#455a64" stroke-width="1.6"/>
+<text x="615.0" y="338.0" font-size="12" fill="#607d8b" text-anchor="middle">水平地震係數 k<tspan dy="3.4" font-size="8.9">h</tspan></text>
+<text x="466.0" y="58.0" font-size="12" fill="#607d8b" text-anchor="start">FS</text>
+<polyline points="470.0,120.7 472.4,122.0 474.8,123.2 477.2,124.5 479.7,125.7 482.1,126.9 484.5,128.2 486.9,129.4 489.3,130.6 491.8,131.8 494.2,133.0 496.6,134.1 499.0,135.3 501.4,136.5 503.8,137.7 506.2,138.8 508.7,140.0 511.1,141.1 513.5,142.2 515.9,143.4 518.3,144.5 520.8,145.6 523.2,146.7 525.6,147.8 528.0,148.9 530.4,150.0 532.8,151.1 535.2,152.2 537.7,153.3 540.1,154.3 542.5,155.4 544.9,156.5 547.3,157.5 549.8,158.6 552.2,159.6 554.6,160.6 557.0,161.7 559.4,162.7 561.8,163.7 564.2,164.7 566.7,165.7 569.1,166.7 571.5,167.7 573.9,168.7 576.3,169.7 578.8,170.7 581.2,171.7 583.6,172.6 586.0,173.6 588.4,174.6 590.8,175.5 593.2,176.5 595.7,177.4 598.1,178.4 600.5,179.3 602.9,180.2 605.3,181.2 607.8,182.1 610.2,183.0 612.6,183.9 615.0,184.8 617.4,185.7 619.8,186.6 622.2,187.5 624.7,188.4 627.1,189.3 629.5,190.2 631.9,191.1 634.3,191.9 636.8,192.8 639.2,193.7 641.6,194.5 644.0,195.4 646.4,196.2 648.8,197.1 651.2,197.9 653.7,198.8 656.1,199.6 658.5,200.4 660.9,201.2 663.3,202.1 665.8,202.9 668.2,203.7 670.6,204.5 673.0,205.3 675.4,206.1 677.8,206.9 680.2,207.7 682.7,208.5 685.1,209.3 687.5,210.1 689.9,210.9 692.3,211.6 694.8,212.4 697.2,213.2 699.6,214.0 702.0,214.7 704.4,215.5 706.8,216.2 709.2,217.0 711.7,217.7 714.1,218.5 716.5,219.2 718.9,220.0 721.3,220.7 723.8,221.4 726.2,222.2 728.6,222.9 731.0,223.6 733.4,224.3 735.8,225.0 738.2,225.7 740.7,226.5 743.1,227.2 745.5,227.9 747.9,228.6 750.3,229.3 752.8,230.0 755.2,230.6 757.6,231.3 760.0,232.0" fill="none" stroke="#c62828" stroke-width="2.8"/>
+<polyline points="470.0,120.7 472.4,121.6 474.8,122.5 477.2,123.3 479.7,124.2 482.1,125.1 484.5,125.9 486.9,126.8 489.3,127.6 491.8,128.4 494.2,129.3 496.6,130.1 499.0,130.9 501.4,131.7 503.8,132.5 506.2,133.3 508.7,134.1 511.1,134.9 513.5,135.7 515.9,136.5 518.3,137.3 520.8,138.1 523.2,138.8 525.6,139.6 528.0,140.4 530.4,141.1 532.8,141.9 535.2,142.7 537.7,143.4 540.1,144.1 542.5,144.9 544.9,145.6 547.3,146.4 549.8,147.1 552.2,147.8 554.6,148.5 557.0,149.2 559.4,150.0 561.8,150.7 564.2,151.4 566.7,152.1 569.1,152.8 571.5,153.5 573.9,154.2 576.3,154.8 578.8,155.5 581.2,156.2 583.6,156.9 586.0,157.6 588.4,158.2 590.8,158.9 593.2,159.6 595.7,160.2 598.1,160.9 600.5,161.5 602.9,162.2 605.3,162.8 607.8,163.5 610.2,164.1 612.6,164.7 615.0,165.4 617.4,166.0 619.8,166.6 622.2,167.2 624.7,167.9 627.1,168.5 629.5,169.1 631.9,169.7 634.3,170.3 636.8,170.9 639.2,171.5 641.6,172.1 644.0,172.7 646.4,173.3 648.8,173.9 651.2,174.5 653.7,175.1 656.1,175.7 658.5,176.2 660.9,176.8 663.3,177.4 665.8,177.9 668.2,178.5 670.6,179.1 673.0,179.6 675.4,180.2 677.8,180.8 680.2,181.3 682.7,181.9 685.1,182.4 687.5,183.0 689.9,183.5 692.3,184.0 694.8,184.6 697.2,185.1 699.6,185.7 702.0,186.2 704.4,186.7 706.8,187.2 709.2,187.8 711.7,188.3 714.1,188.8 716.5,189.3 718.9,189.8 721.3,190.4 723.8,190.9 726.2,191.4 728.6,191.9 731.0,192.4 733.4,192.9 735.8,193.4 738.2,193.9 740.7,194.4 743.1,194.9 745.5,195.3 747.9,195.8 750.3,196.3 752.8,196.8 755.2,197.3 757.6,197.8 760.0,198.2" fill="none" stroke="#ef6c00" stroke-width="1.8" stroke-dasharray="6,4"/>
+<line x1="470.0" y1="70.0" x2="760.0" y2="70.0" stroke="#2e7d32" stroke-width="1.3" stroke-dasharray="4,3"/>
+<text x="760.0" y="64.0" font-size="11" fill="#2e7d32" text-anchor="end">要求 1.2</text>
+<circle cx="663.3" cy="202.1" r="5" fill="#c62828" stroke="#fff" stroke-width="1.5"/>
+<text x="671.3" y="220.1" font-size="12" fill="#c62828" text-anchor="start" font-weight="700">0.74</text>
+<text x="489.3" y="256.9" font-size="11" fill="#c62828" text-anchor="start">實線：正確（兩個分量都算）</text>
+<text x="489.3" y="277.0" font-size="11" fill="#ef6c00" text-anchor="start">虛線：只加在驅動側（高估）</text>
+<text x="615.0" y="366.0" font-size="11.5" fill="#2e7d32" text-anchor="middle">地錨 ⊥ AC：每公尺 346.1 kN → 間距 2 m 每支 692 kN</text>
+</svg>
+<div class="cap">圖 4-1　<a class="qlink" href="problems-view/SM-2008-4.html" target="_blank">SM-2008-4</a>：AC 40°、\(\angle A=30^\circ\)、\(\angle C=35^\circ\)、B 高 7.5 m，按標註角度繪（考卷附圖未按比例，量圖會得到錯的角度）。右圖由同一組式子取 120 點：只把 \(k_hW\) 加在驅動側會高估 FS。這張圖攔的錯：量圖取角度、地震力取向坡內（偏不安全）、以及把每公尺需求當成每支地錨荷重。</div>
+</div>
+
+<div class="box"><b>手算範例：SM-2008-4</b><br>
+① 幾何：\(L_{AB}=7.5/\sin70^\circ=7.981\)；\(\angle B=115^\circ\)，正弦定理 \(L_{AC}=7.981\sin115^\circ/\sin35^\circ=12.61\) m；面積 \(\tfrac12(7.981)(12.61)\sin30^\circ=25.16\) m²，\(W=503.24\) kN/m。<br>
+② \(T_d=503.24\sin40^\circ+100.65\cos40^\circ=400.58\)；\(N=503.24\cos40^\circ-100.65\sin40^\circ=320.81\) kN/m。<br>
+③ \(FS=(10\times12.61+320.81\tan28^\circ)/400.58=0.74\)（無地震時 1.02）。<br>
+④ 地錨只增加正向力 \(P\)：\(126.10+(320.81+P)\tan28^\circ=1.2\times400.58\) → \(P=346.09\) kN/m → 間距 2 m，<b>每支 \(T\ge692.2\) kN</b>。</div>
+
+<div class="why"><b>為什麼垂直滑動面的地錨效率不高？</b>它只能透過 \(\tan\phi\)（這裡 0.53）把拉力轉成抗力，每 1 kN 只換到 0.53 kN。若地錨往上坡方向傾斜，拉力同時抵銷一部分下滑力。本講義以同一組數字試算：地錨偏離法線約 23° 時，所需力降到約 192 kN/m（約為垂直時的 55%）。題目指定「垂直滑動面、只增加正向力」時照題目算；說明題可以拿這點談地錨傾角的選擇。</div>
+<div class="tens"><b>因果鏈 ④（地震與地錨）</b>：正弦定理求邊長與面積 → \(W\) → \(k_hW\) 朝坡外 → 兩個方向分解（驅動 +、正向 −）→ FS → 目標 FS 反算 \(P\)（只進 \(N\tan\phi\)）→ 乘間距得每支荷重。</div>
+</section>
+
+<section id="s5">
+<h2>§5　滑動塊體法：軟弱夾層上的側向滑動</h2>
+
+<div class="lead">這一節在怕什麼：<b>題目只說「以合理方法」，就不知道從哪裡下手</b>。軟弱薄層就是現成的滑動面；它上面的土分成三塊：後方主動楔推、中間塊沿夾層滑、前方被動楔擋。</div>
+
+$$FS=\frac{s_uL+P_P\ (+P_{wP})}{P_A\ (+P_{wA})}$$
+
+<div class="fig"><!--FIG:g5-->
+<svg viewBox="0 0 800 290" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="g5a" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c62828"/></marker><marker id="g5b" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1565c0"/></marker></defs>
+<text x="400.0" y="26.0" font-size="14" fill="#0d47a1" text-anchor="middle" font-weight="700">SM-2006-3 三塊法：中間塊沿軟弱夾層被主動側推、被被動側與夾層 s<tspan dy="3.9" font-size="10.4">u</tspan><tspan dy="-3.9">L 擋</tspan></text>
+<polygon points="40.0,198.0 128.0,198.0 348.0,88.0 436.0,88.0 436.0,253.0 40.0,253.0" fill="#efe3d3" stroke="#6d4c41" stroke-width="1"/>
+<rect x="40.0" y="218.0" width="396.0" height="4.0" fill="#8d6e63" stroke="none" stroke-width="1.5"/>
+<line x1="128.0" y1="198.0" x2="128.0" y2="220.0" stroke="#1565c0" stroke-width="2" stroke-dasharray="5,3"/>
+<line x1="348.0" y1="88.0" x2="348.0" y2="220.0" stroke="#c62828" stroke-width="2" stroke-dasharray="5,3"/>
+<line x1="386.5" y1="176.0" x2="351.3" y2="176.0" stroke="#c62828" stroke-width="2.4" marker-end="url(#g5a)"/>
+<text x="392.0" y="180.0" font-size="12" fill="#c62828" text-anchor="start" font-weight="700">P<tspan dy="3.4" font-size="8.9">A</tspan></text>
+<line x1="89.5" y1="211.2" x2="124.7" y2="211.2" stroke="#1565c0" stroke-width="2.4" marker-end="url(#g5b)"/>
+<text x="87.3" y="215.2" font-size="12" fill="#1565c0" text-anchor="end" font-weight="700">P<tspan dy="3.4" font-size="8.9">P</tspan></text>
+
+<text x="238.0" y="238.0" font-size="11" fill="#6d4c41" text-anchor="middle">夾層 s<tspan dy="3.1" font-size="8.1">u</tspan><tspan dy="-3.1"> = 12 kPa × L = 20 m → T = 240</tspan></text>
+<text x="352.0" y="82.0" font-size="11" fill="#c62828" text-anchor="start">H<tspan dy="3.1" font-size="8.1">1</tspan><tspan dy="-3.1"> = 12</tspan></text>
+<text x="124.0" y="192.0" font-size="11" fill="#1565c0" text-anchor="end">H<tspan dy="3.1" font-size="8.1">2</tspan><tspan dy="-3.1"> = 2</tspan></text>
+<text x="470.0" y="62.0" font-size="12.5" fill="#2e7d32" text-anchor="start" font-weight="700">常時（水在夾層）　FS = 1.22</text>
+<rect x="470.0" y="70.0" width="52.7" height="18.0" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+<text x="526.7" y="84.0" font-size="11" fill="#263238" text-anchor="start">驅動 351</text>
+<rect x="470.0" y="92.0" width="36.0" height="18.0" fill="#bcaaa4" stroke="#6d4c41" stroke-width="1"/>
+<rect x="506.0" y="92.0" width="28.4" height="18.0" fill="#90caf9" stroke="#1565c0" stroke-width="1"/>
+<text x="538.4" y="106.0" font-size="11" fill="#263238" text-anchor="start">抵抗 429</text>
+<text x="470.0" y="142.0" font-size="12.5" fill="#c62828" text-anchor="start" font-weight="700">豪雨（水沿地表）　FS = 0.47</text>
+<rect x="470.0" y="150.0" width="18.8" height="18.0" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+<rect x="488.8" y="150.0" width="105.9" height="18.0" fill="#b3e5fc" stroke="#1565c0" stroke-width="1"/>
+<text x="598.8" y="164.0" font-size="11" fill="#263238" text-anchor="start">驅動 832</text>
+<rect x="470.0" y="172.0" width="36.0" height="18.0" fill="#bcaaa4" stroke="#6d4c41" stroke-width="1"/>
+<rect x="506.0" y="172.0" width="19.6" height="18.0" fill="#90caf9" stroke="#1565c0" stroke-width="1"/>
+<rect x="525.6" y="172.0" width="2.9" height="18.0" fill="#b3e5fc" stroke="#1565c0" stroke-width="1"/>
+<text x="532.5" y="186.0" font-size="11" fill="#263238" text-anchor="start">抵抗 390</text>
+<text x="470.0" y="252.0" font-size="11.5" fill="#1565c0" text-anchor="start" font-weight="700">豪雨時主動側靜水壓 706 佔驅動 85%</text>
+<text x="470.0" y="270.0" font-size="11" fill="#607d8b" text-anchor="start">紅：有效土壓　淺藍：水壓　褐：夾層 s<tspan dy="3.1" font-size="8.1">u</tspan><tspan dy="-3.1">L　藍：被動土壓</tspan></text>
+</svg>
+<div class="cap">圖 5-1　<a class="qlink" href="problems-view/SM-2006-3.html" target="_blank">SM-2006-3</a>（剖面按 1:2 邊坡、開挖 10 m 繪；力的長條依題解數值按比例）。主動側高 12 m、被動側高 2 m、夾層長 20 m。這張圖攔的錯：豪雨時只把土壓換成 \(\gamma'\)（有效土壓反而變小），卻忘了加靜水壓 —— 那才是驅動力的大頭。</div>
+</div>
+
+<ul>
+<li><b>主動側</b>：\(c'=10\) kPa 的砂質土，先求張力裂縫 \(z_c=2c'/(\gamma\sqrt{K_A})\)：常時 1.73 m、豪雨（\(\gamma'\)）3.40 m；裂縫以上不計，常時 \(P_A=351.4\)、豪雨有效土壓只剩 125.6 kN/m。</li>
+<li><b>中間塊</b>：沿夾層用不排水強度 \(s_uL=12\times20=240\) kN/m，與正向力無關（\(\phi=0\)，和 U3-2 的 2025-3 同一個道理）。</li>
+<li><b>被動側</b>：\(K_P=3\)，含 \(2c'\sqrt{K_P}\) 項，常時 189.3 kN/m。</li>
+<li><b>豪雨</b>：題目正本判讀為水位沿地表輪廓（一個情況），兩側加靜水壓：主動側 706.3、被動側 19.6 kN/m → \(FS=0.47\)。</li>
+</ul>
+<div class="trap"><b>陷阱：把「水位沿原地表面、邊坡面、開挖面」拆成三個水位各算一次。</b>觸發信號：㈡的長句。正確認知：三段地表連起來就是豪雨後的水面輪廓，只有一個情況（出自 2006-3 題目正本 #1，已確認）。</div>
+<div class="tens"><b>因果鏈 ⑤（三塊法）</b>：找軟弱層當滑動面 → 切三塊 → 主動側 \(K_A\)、裂縫 → 被動側 \(K_P\)＋\(2c\sqrt{K_P}\) → 中間 \(s_uL\) → 有水：土壓改 \(\gamma'\)、兩側加靜水壓 → FS。</div>
+</section>
+
+<section id="s6">
+<h2>§6　圓弧切片法：考的是量圖與列表，不是公式</h2>
+
+<div class="lead">這一節在怕什麼：<b>以為切片法的難點是公式</b>。<a class="qlink" href="problems-view/SM-2021-4.html" target="_blank">SM-2021-4</a> 考卷把普通切片法公式整式印出，卻<b>沒有給任何切片尺寸</b> —— 寬、高、底長、重量、孔隙水壓全部要依比例尺量。題解 2026-11-15 勘誤前用了一張自編的切片表，FS 寫成 0.867；依量測幾何改為 0.98。</div>
+
+$$FS_{\text{Fellenius}}=\frac{\sum\bigl[c'\Delta L_n+(W_n\cos\alpha_n-u_n\Delta L_n)\tan\phi'\bigr]}{\sum W_n\sin\alpha_n}$$
+
+<div class="fig"><!--FIG:g6-->
+<svg viewBox="0 0 800 356" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<text x="400.0" y="26.0" font-size="14" fill="#0d47a1" text-anchor="middle" font-weight="700">SM-2021-4 普通切片法：每一片的驅動 vs 抵抗（題解量測切片表）</text>
+<line x1="70.0" y1="290.0" x2="630.0" y2="290.0" stroke="#455a64" stroke-width="1.4"/>
+<rect x="80.0" y="107.1" width="34.0" height="182.9" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+<rect x="118.0" y="171.8" width="34.0" height="118.2" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1"/>
+<text x="97.0" y="101.1" font-size="11" fill="#c62828" text-anchor="middle">481</text>
+<text x="135.0" y="165.8" font-size="11" fill="#2e7d32" text-anchor="middle">311</text>
+<text x="116.0" y="308.0" font-size="11.5" fill="#263238" text-anchor="middle">切片 1</text>
+<text x="116.0" y="324.0" font-size="11" fill="#607d8b" text-anchor="middle">α = 60°</text>
+<rect x="190.0" y="74.8" width="34.0" height="215.2" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+<rect x="228.0" y="123.3" width="34.0" height="166.7" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1"/>
+<text x="207.0" y="68.8" font-size="11" fill="#c62828" text-anchor="middle">566</text>
+<text x="245.0" y="117.3" font-size="11" fill="#2e7d32" text-anchor="middle">439</text>
+<text x="226.0" y="308.0" font-size="11.5" fill="#263238" text-anchor="middle">切片 2</text>
+<text x="226.0" y="324.0" font-size="11" fill="#607d8b" text-anchor="middle">α = 42°</text>
+<rect x="300.0" y="144.5" width="34.0" height="145.5" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+<rect x="338.0" y="149.5" width="34.0" height="140.5" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1"/>
+<text x="317.0" y="138.5" font-size="11" fill="#c62828" text-anchor="middle">383</text>
+<text x="355.0" y="143.5" font-size="11" fill="#2e7d32" text-anchor="middle">370</text>
+<text x="336.0" y="308.0" font-size="11.5" fill="#263238" text-anchor="middle">切片 3</text>
+<text x="336.0" y="324.0" font-size="11" fill="#607d8b" text-anchor="middle">α = 30°</text>
+<rect x="410.0" y="240.5" width="34.0" height="49.5" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+<rect x="448.0" y="188.2" width="34.0" height="101.8" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1"/>
+<text x="427.0" y="234.5" font-size="11" fill="#c62828" text-anchor="middle">130</text>
+<text x="465.0" y="182.2" font-size="11" fill="#2e7d32" text-anchor="middle">268</text>
+<text x="446.0" y="308.0" font-size="11.5" fill="#263238" text-anchor="middle">切片 4</text>
+<text x="446.0" y="324.0" font-size="11" fill="#607d8b" text-anchor="middle">α = 13°</text>
+<rect x="520.0" y="290.0" width="34.0" height="0.0" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+<rect x="558.0" y="238.8" width="34.0" height="51.2" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1"/>
+<text x="537.0" y="284.0" font-size="11" fill="#c62828" text-anchor="middle">0</text>
+<text x="575.0" y="232.8" font-size="11" fill="#2e7d32" text-anchor="middle">135</text>
+<text x="556.0" y="308.0" font-size="11.5" fill="#263238" text-anchor="middle">切片 5</text>
+<text x="556.0" y="324.0" font-size="11" fill="#607d8b" text-anchor="middle">α = 0°</text>
+<rect x="80.0" y="54.0" width="14.0" height="12.0" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+<text x="100.0" y="64.0" font-size="11.5" fill="#263238" text-anchor="start">驅動 W sinα</text>
+<rect x="210.0" y="54.0" width="14.0" height="12.0" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1"/>
+<text x="230.0" y="64.0" font-size="11.5" fill="#263238" text-anchor="start">抵抗 c′ΔL + (W cosα − uΔL)tanφ′</text>
+<rect x="620.0" y="80.0" width="170.0" height="190.0" fill="#fff" stroke="#dfe6ea" stroke-width="1"/>
+<text x="705.0" y="102.0" font-size="12.5" fill="#263238" text-anchor="middle">Σ驅動</text>
+<text x="705.0" y="123.0" font-size="12.5" fill="#c62828" text-anchor="middle" font-weight="700">1560.7</text>
+<text x="705.0" y="144.0" font-size="12.5" fill="#263238" text-anchor="middle">Σ抵抗</text>
+<text x="705.0" y="165.0" font-size="12.5" fill="#2e7d32" text-anchor="middle" font-weight="700">1522.0</text>
+<text x="705.0" y="186.0" font-size="12.5" fill="#263238" text-anchor="middle">Fellenius</text>
+<text x="705.0" y="207.0" font-size="12.5" fill="#c62828" text-anchor="middle" font-weight="700">FS = 0.975</text>
+<text x="705.0" y="228.0" font-size="12.5" fill="#607d8b" text-anchor="middle">Bishop 簡化（同表試算）</text>
+<text x="705.0" y="249.0" font-size="12.5" fill="#6a1b9a" text-anchor="middle" font-weight="700">FS ≈ 1.09</text>
+<text x="400.0" y="344.0" font-size="11.5" fill="#607d8b" text-anchor="middle">切片 1（α = 60°）驅動最大、抵抗最小；切片 5（α = 0°）只出抵抗。α 越大的切片越「推」，越平的切片越「擋」</text>
+</svg>
+<div class="cap">圖 6-1　SM-2021-4 題解切片表（依 5 m 比例尺量測，精度約 ±0.2 m）逐片拆開。陡的切片負責「推」、平的切片負責「擋」。右框的 Bishop 值是本講義用同一張表試算，僅供對照，不是題目所求。這張圖攔的錯：以為每一片都要「自己穩定」—— FS 是整條滑動面加總的比值。</div>
+</div>
+
+<h3>6.1　\(\alpha\) 怎麼取</h3>
+<p>\(\alpha_n\) 是切片底面的傾角，等於「圓心 O 到切片底中點的半徑」與鉛直線的夾角。2021-4 的考卷在 O 到每個 \(W_n\) 作用點畫了虛線半徑並標 60°、42°、30°、13°，第 5 片未標，判讀為 0°（\(W_5\) 與鉛直半徑重合）。題解指出考卷所畫圓弧不是以 O 為圓心的正圓，改量弦角會得 FS ≈ 1.37 —— 照考卷標註用。</p>
+
+<h3>6.2　Fellenius vs Bishop：差在切片之間的力</h3>
+<table>
+<thead><tr><th></th><th>普通切片法（Fellenius）</th><th>Bishop 簡化法</th></tr></thead>
+<tbody>
+<tr><td>切片間力</td><td>全部忽略</td><td>計入水平力、忽略垂直剪力</td></tr>
+<tr><td>正向力</td><td>\(N'=W\cos\alpha-u\Delta L\)</td><td>由每片鉛直力平衡求得</td></tr>
+<tr><td>式子</td><td>直接算</td><td>\(FS=\dfrac{\sum[c'b+(W-ub)\tan\phi']/m_\alpha}{\sum W\sin\alpha}\)，\(m_\alpha=\cos\alpha+\dfrac{\sin\alpha\tan\phi'}{FS}\)，FS 在兩邊 → 迭代</td></tr>
+<tr><td>結果</td><td>偏保守，常比 Bishop 低 5%–20%（題解 2021-4 §5）</td><td>同表試算 ≈ 1.09（比 0.975 高約 12%）</td></tr>
+</tbody>
+</table>
+<div class="why"><b>為什麼 Fellenius 會偏低？</b>它把切片當成彼此不相干的小塊，每一片只用自己的重量去壓滑動面。實際上相鄰切片互相推擠，這股力會增加下段切片底面的正向力 → 摩擦更大。忽略它，等於少算了一部分抗力。另一個症狀是 \(W\cos\alpha-u\Delta L\) 在陡片、高水壓時可能變成負的（有效正向力為負，物理上不可能），這時就是 Fellenius 失真的訊號。</div>
+<div class="tens"><b>因果鏈 ⑥（切片法）</b>：依比例尺量切片邊界 → 每片 \(b\)、面積（水位上下分開）→ \(W_n\) → \(\alpha_n\)（半徑與鉛直夾角）→ \(\Delta L=b/\cos\alpha\)、\(u\) 取底中點 → 列表求和 → FS；寫出量測表與不確定度。</div>
+</section>
+
+<section id="s7">
+<h2>§7　門檻與穩定對策</h2>
+<p>本單元考卷只有一次印出門檻：<a class="qlink" href="problems-view/SM-2008-4.html" target="_blank">SM-2008-4</a> 的「地震力作用下 \(FS\ge1.2\)」。其他題只要求算 FS，題解也多半只報數值。作答時補一句與規範門檻比較，並<b>寫明依據</b>（水土保持技術規範、公路邊坡穩定設計規範、建築物基礎構造設計規範各有常時／地震／豪雨的規定值，條文以原文為準）。例如建築物基礎構造設計規範（112 年修正）7.4.4 擋土牆整體穩定：長期 1.5、地震 1.1、考慮最高水位 1.2（最高水位時可不同時考慮地震）。</p>
+<table>
+<thead><tr><th>對策類型</th><th>機制</th><th>工法</th><th>對應題目</th></tr></thead>
+<tbody>
+<tr><td>排水（最優先）</td><td>降低 \(u\)、消除滲流力與裂縫水壓</td><td>地表截排水、橫向排水管、集水井</td><td>2014-1、2006-3、2023-2</td></tr>
+<tr><td>減少驅動</td><td>減少 \(W\sin\theta\)</td><td>坡頂削坡減重、放緩坡度</td><td>2023-2、2024-2</td></tr>
+<tr><td>增加抵抗</td><td>增加正向力或外加抗力</td><td>坡趾壓重（反壓平台）、地錨、抗滑樁、擋土結構</td><td>2008-4</td></tr>
+<tr><td>提高強度</td><td>提高 c、φ</td><td>灌漿、地盤改良；生態工法以根系補強表層（U3-4，24 年未出題）</td><td>—</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="s8">
+<h2>§8　解題決策流程</h2>
+<div class="fig"><!--FIG:g7-->
+<svg viewBox="0 0 760 612" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
+<defs><marker id="g7k" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#455a64"/></marker></defs>
+<rect x="170.0" y="16.0" width="420.0" height="40.0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.4" rx="8"/><text x="380.0" y="40.0" font-size="12.5" fill="#263238" text-anchor="middle">① 讀圖：深度是鉛直還是垂直坡面？角度標在哪？比例尺？</text>
+<line x1="380.0" y1="56.0" x2="380.0" y2="80.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<polygon points="380.0,82.0 500.0,118.0 380.0,154.0 260.0,118.0" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.4"/><text x="380.0" y="122.0" font-size="12" fill="#263238" text-anchor="middle">滑動面形狀？</text>
+<line x1="260.0" y1="118.0" x2="175.0" y2="118.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<text x="218.0" y="108.0" font-size="11" fill="#607d8b" text-anchor="middle">平行坡面</text>
+<rect x="25.0" y="93.0" width="150.0" height="50.0" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.4" rx="8"/><text x="100.0" y="114.0" font-size="12.5" fill="#263238" text-anchor="middle">無限邊坡</text><text x="100.0" y="130.0" font-size="12.5" fill="#263238" text-anchor="middle">取一個切片</text>
+<line x1="380.0" y1="154.0" x2="380.0" y2="190.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<text x="388.0" y="176.0" font-size="11" fill="#607d8b" text-anchor="start">一條直線</text>
+<line x1="500.0" y1="118.0" x2="585.0" y2="118.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<text x="542.0" y="108.0" font-size="11" fill="#607d8b" text-anchor="middle">圓弧</text>
+<rect x="585.0" y="93.0" width="150.0" height="50.0" fill="#ede7f6" stroke="#6a1b9a" stroke-width="1.4" rx="8"/><text x="660.0" y="114.0" font-size="12.5" fill="#263238" text-anchor="middle">切片法</text><text x="660.0" y="130.0" font-size="12.5" fill="#263238" text-anchor="middle">（題目多會給式）</text>
+<rect x="230.0" y="188.0" width="300.0" height="48.0" fill="#fff8e1" stroke="#ef6c00" stroke-width="1.4" rx="8"/><text x="380.0" y="208.0" font-size="12.5" fill="#263238" text-anchor="middle">平面楔體：幾何（正弦定理）→ W、L</text><text x="380.0" y="224.0" font-size="12.5" fill="#263238" text-anchor="middle">軟弱夾層 → 三塊法</text>
+<line x1="100.0" y1="143.0" x2="100.0" y2="186.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<rect x="15.0" y="188.0" width="170.0" height="56.0" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.4" rx="8"/><text x="100.0" y="212.0" font-size="12.5" fill="#263238" text-anchor="middle">分清水的狀態：</text><text x="100.0" y="228.0" font-size="12.5" fill="#263238" text-anchor="middle">乾／浸水／平行滲流</text>
+<rect x="15.0" y="274.0" width="170.0" height="72.0" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.4" rx="8"/><text x="100.0" y="298.0" font-size="12.5" fill="#263238" text-anchor="middle">乾／浸水：tanφ/tanβ</text><text x="100.0" y="314.0" font-size="12.5" fill="#263238" text-anchor="middle">平行滲流：</text><text x="100.0" y="330.0" font-size="12.5" fill="#263238" text-anchor="middle">u = γ<tspan dy="3.5" font-size="9.2">w</tspan><tspan dy="-3.5">h</tspan><tspan dy="3.5" font-size="9.2">w</tspan><tspan dy="-3.5">cos²β</tspan></text>
+<line x1="100.0" y1="244.0" x2="100.0" y2="274.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<line x1="380.0" y1="234.0" x2="380.0" y2="258.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<rect x="230.0" y="258.0" width="300.0" height="44.0" fill="#fff8e1" stroke="#ef6c00" stroke-width="1.4" rx="8"/><text x="380.0" y="284.0" font-size="12.5" fill="#263238" text-anchor="middle">分解：T<tspan dy="3.5" font-size="9.2">d</tspan><tspan dy="-3.5"> = W sinθ (+k</tspan><tspan dy="3.5" font-size="9.2">h</tspan><tspan dy="-3.5">W cosθ)</tspan></text>
+<line x1="380.0" y1="302.0" x2="380.0" y2="326.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<rect x="230.0" y="326.0" width="300.0" height="44.0" fill="#fff8e1" stroke="#ef6c00" stroke-width="1.4" rx="8"/><text x="380.0" y="352.0" font-size="12.5" fill="#263238" text-anchor="middle">N = W cosθ (− k<tspan dy="3.5" font-size="9.2">h</tspan><tspan dy="-3.5">W sinθ) (− U) (+ 地錨)</tspan></text>
+<line x1="660.0" y1="143.0" x2="660.0" y2="186.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<rect x="575.0" y="186.0" width="170.0" height="60.0" fill="#ede7f6" stroke="#6a1b9a" stroke-width="1.4" rx="8"/><text x="660.0" y="212.0" font-size="12.5" fill="#263238" text-anchor="middle">量 b、h、α（列表）</text><text x="660.0" y="228.0" font-size="12.5" fill="#263238" text-anchor="middle">W、ΔL、u 每片算</text>
+<line x1="660.0" y1="246.0" x2="660.0" y2="270.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<rect x="575.0" y="270.0" width="170.0" height="60.0" fill="#ede7f6" stroke="#6a1b9a" stroke-width="1.4" rx="8"/><text x="660.0" y="296.0" font-size="12.5" fill="#263238" text-anchor="middle">Fellenius 直接算</text><text x="660.0" y="312.0" font-size="12.5" fill="#263238" text-anchor="middle">Bishop 迭代 m<tspan dy="3.5" font-size="9.2">α</tspan></text>
+<polyline points="100.0,346.0 100.0,430.0" fill="none" stroke="#455a64" stroke-width="1.6"/>
+<line x1="100.0" y1="430.0" x2="210.0" y2="430.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<line x1="380.0" y1="370.0" x2="380.0" y2="410.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<polyline points="660.0,330.0 660.0,430.0" fill="none" stroke="#455a64" stroke-width="1.6"/>
+<line x1="660.0" y1="430.0" x2="550.0" y2="430.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<rect x="210.0" y="410.0" width="340.0" height="40.0" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.4" rx="8"/><text x="380.0" y="434.0" font-size="12.5" fill="#263238" text-anchor="middle">FS = Σ(c′L + N′tanφ′) / Σ驅動</text>
+<line x1="380.0" y1="450.0" x2="380.0" y2="476.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<polygon points="380.0,478.0 500.0,510.0 380.0,542.0 260.0,510.0" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.4"/><text x="380.0" y="514.0" font-size="12" fill="#263238" text-anchor="middle">FS ≥ 門檻？</text>
+<line x1="500.0" y1="510.0" x2="560.0" y2="510.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<text x="516.0" y="502.0" font-size="11.5" fill="#c62828" text-anchor="start" font-weight="700">否</text>
+<rect x="560.0" y="482.0" width="180.0" height="56.0" fill="#fce4ec" stroke="#c62828" stroke-width="1.4" rx="8"/><text x="650.0" y="506.0" font-size="12.5" fill="#263238" text-anchor="middle">對策：排水、減重、</text><text x="650.0" y="522.0" font-size="12.5" fill="#263238" text-anchor="middle">坡趾加載、地錨／樁</text>
+<line x1="380.0" y1="542.0" x2="380.0" y2="566.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+<text x="388.0" y="558.0" font-size="11.5" fill="#2e7d32" text-anchor="start" font-weight="700">是</text>
+<rect x="170.0" y="566.0" width="420.0" height="40.0" fill="#ede7f6" stroke="#6a1b9a" stroke-width="1.4" rx="8"/><text x="380.0" y="590.0" font-size="12.5" fill="#263238" text-anchor="middle">收尾：寫明門檻依據（常時／地震／豪雨）與量測或假設</text>
+<polyline points="650.0,538.0 650.0,586.0" fill="none" stroke="#455a64" stroke-width="1.6"/>
+<line x1="650.0" y1="586.0" x2="590.0" y2="586.0" stroke="#455a64" stroke-width="1.6" marker-end="url(#g7k)"/>
+</svg>
+<div class="cap">圖 8-1　第一個判斷永遠是滑動面的形狀；第二個判斷是水的狀態。三條路最後都回到同一個 FS 定義。</div>
+</div>
+</section>
+
+<section id="s9">
+<h2>§9　歷屆題 × 觀念對照表</h2>
+<p>I 無限邊坡　W 水的角色　P 平面楔體幾何　E 地震／地錨　B 滑動塊體（三塊法）　C 圓弧切片　R 順向坡調查　T 三相換算</p>
+<table>
+<thead><tr><th>題號</th><th>主／副</th><th>I</th><th>W</th><th>P</th><th>E</th><th>B</th><th>C</th><th>R</th><th>T</th><th>答案（現行題解）</th></tr></thead>
+<tbody>
+<tr><td><a class="qlink" href="problems-view/SM-2006-3.html" target="_blank">SM-2006-3</a></td><td>主</td><td></td><td>●豪雨</td><td></td><td></td><td>●</td><td></td><td></td><td></td><td>1.22／0.47</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2008-4.html" target="_blank">SM-2008-4</a></td><td>主</td><td></td><td></td><td>●</td><td>●</td><td></td><td></td><td></td><td></td><td>0.74；每支 692 kN</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2014-1.html" target="_blank">SM-2014-1</a></td><td>主</td><td>●</td><td>●滲流</td><td></td><td></td><td></td><td></td><td></td><td>●</td><td>1.36</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2021-4.html" target="_blank">SM-2021-4</a></td><td>主</td><td></td><td>●\(u\Delta L\)</td><td></td><td></td><td></td><td>●</td><td></td><td></td><td>0.98</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2023-2.html" target="_blank">SM-2023-2</a></td><td>主</td><td></td><td>●降 c</td><td>●</td><td></td><td></td><td></td><td></td><td></td><td>3.68／1.02</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2024-2.html" target="_blank">SM-2024-2</a></td><td>主</td><td>●</td><td>●浸水、\(i\)</td><td></td><td></td><td></td><td></td><td></td><td></td><td>0.78／0.78／\(i=0.5\)</td></tr>
+<tr><td><a class="qlink" href="problems-view/SM-2013-1.html" target="_blank">SM-2013-1</a></td><td>副</td><td></td><td></td><td></td><td></td><td></td><td></td><td>●</td><td></td><td>說明題</td></tr>
+<tr><th>次數</th><th></th><th>2</th><th>5</th><th>2</th><th>1</th><th>1</th><th>1</th><th>1</th><th>1</th><th></th></tr>
+</tbody>
+</table>
+<p>主考點 6 題分在 2006、2008、2014、2021、2023、2024 六個考年，<b>後半段明顯升溫</b>：近 6 考年出現 3 次。題型幾乎不重複 —— 每一題都是不同的滑動面幾何，所以本單元不能靠背題，要靠 §0 那個定義。</p>
+</section>
+
+<section id="s10">
+<h2>§10　陷阱總表（考前十分鐘掃這一頁）</h2>
+<table>
+<thead><tr><th>#</th><th>觸發信號</th><th>錯誤思維</th><th>正確認知</th><th>出自</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>算出 FS &lt; 1</td><td>一定算錯了</td><td>\(\beta\gt\phi\) 的 c = 0 坡本來就站不住；如實寫出並說明</td><td>2024-2</td></tr>
+<tr><td>2</td><td>邊坡完全浸水</td><td>浸水更危險，FS 下降</td><td>靜水只有浮力，FS 不變；滲流才會下降</td><td>2024-2</td></tr>
+<tr><td>3</td><td>自由水層傾角 θ</td><td>\(i=\tan\theta\) 或用坡角 β</td><td>\(i=\sin\theta\)，分母是沿流線長度</td><td>2024-2</td></tr>
+<tr><td>4</td><td>平行坡面滲流</td><td>\(u=\gamma_wh_w\)</td><td>\(u=\gamma_wh_w\cos^2\beta\)（等勢線垂直坡面）</td><td>2014-1</td></tr>
+<tr><td>5</td><td>圖上標 6 m、1.5 m</td><td>垂直坡面的厚度</td><td>鉛直深度；垂直坡面厚度要乘 \(\cos\beta\)</td><td>2014-1</td></tr>
+<tr><td>6</td><td>只給 \(w\)、\(G_s\)</td><td>沒有單位重算不了</td><td>水位下飽和 → \(e=wG_s\) → 推 \(\gamma_t\)、\(\gamma_{sat}\)</td><td>2014-1</td></tr>
+<tr><td>7</td><td>水位上下單位重不同</td><td>直接套全飽和簡式</td><td>分項 \(\sigma_v=\gamma_tH_1+\gamma_{sat}H_2\) 再分解</td><td>2014-1</td></tr>
+<tr><td>8</td><td>雨水入滲、φ 不變</td><td>強度變化不大</td><td>淺層滑動面上 c 佔大半抗力，FS 3.68 → 1.02</td><td>2023-2</td></tr>
+<tr><td>9</td><td>楔體角度 60°、45°</td><td>對調或量圖</td><td>依標註：坡面 60°、破壞面 45°</td><td>2023-2</td></tr>
+<tr><td>10</td><td>考卷附圖角度</td><td>用量角器量</td><td>依標註角度推算（圖未按比例）</td><td>2008-4</td></tr>
+<tr><td>11</td><td>水平地震力 \(k_hW\)</td><td>只加在下滑力</td><td>同時減少正向力；方向取向坡外</td><td>2008-4</td></tr>
+<tr><td>12</td><td>地錨間距 2 m</td><td>每公尺需求就是每支荷重</td><td>每支 = 每公尺需求 × 間距</td><td>2008-4</td></tr>
+<tr><td>13</td><td>軟弱夾層、「合理方法」</td><td>改用圓弧</td><td>三塊法：主動楔＋中間塊＋被動楔，夾層用 \(s_uL\)</td><td>2006-3</td></tr>
+<tr><td>14</td><td>豪雨水位沿地表</td><td>拆成三個水位；或只改 \(\gamma'\) 不加水壓</td><td>一個情況；兩側加靜水壓（佔驅動 85%）</td><td>2006-3</td></tr>
+<tr><td>15</td><td>切片法題目只給圖</td><td>找不到數值表就自編</td><td>依比例尺量，列出量測表與不確定度</td><td>2021-4</td></tr>
+<tr><td>16</td><td>切片 α</td><td>量圓弧弦角</td><td>照考卷標註（半徑與鉛直的夾角）；未標的依圖判讀並說明</td><td>2021-4</td></tr>
+<tr><td>17</td><td>水位以上的切片</td><td>也計孔隙水壓</td><td>底部在水位以上 \(u=0\)</td><td>2021-4</td></tr>
+<tr><td>18</td><td>順向坡需要哪些試驗</td><td>三軸試驗求 c、φ</td><td>層面位態、弱面直剪、殘餘強度、地下水</td><td>2013-1</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="s11">
+<h2>§11　自我檢測：能回答才算讀懂</h2>
+<details><summary>1. c = 0 無限邊坡的 FS 為什麼和深度無關？</summary><p>正向力與下滑力都與 \(\gamma z\) 成正比，相除後 \(z\) 約掉，只剩 \(\tan\phi/\tan\beta\)。</p></details>
+<details><summary>2. 為什麼完全浸水的砂坡 FS 不變，平行滲流卻約減半？</summary><p>靜水浮力讓正向力與下滑力都改用 \(\gamma'\)，比例不變；滲流力順坡向下只加在驅動側，驅動用 \(\gamma_{sat}\)、抗力用 \(\gamma'\)，FS 乘 \(\gamma'/\gamma_{sat}\approx0.5\)。</p></details>
+<details><summary>3. 平行坡面滲流時，孔隙水壓為什麼要乘 \(\cos^2\beta\)？</summary><p>流線平行坡面，等勢線垂直坡面。滑動面上一點與等勢線在水面上的交點總水頭相同；後者壓力為 0，所以壓力水頭等於兩點高程差 \(h_w\cos^2\beta\)。</p></details>
+<details><summary>4. 自由水層的水力坡降為什麼是 \(\sin\theta\) 不是 \(\tan\theta\)？</summary><p>水面上壓力水頭為 0，水頭損失等於高程降；坡降的分母是沿流線的長度，所以是 \(\sin\theta\)。\(\tan\theta\) 是以水平距離為分母的 Dupuit 近似。</p></details>
+<details><summary>5. 2023-2 的 φ 沒變，c 從 50 降到 5，為什麼 FS 掉了七成多？</summary><p>楔體淺、正向力小，\(N\tan\phi\) 只有 139 kN/m，\(cL\) 有 566 kN/m；c 降低直接拿走大部分抗力。</p></details>
+<details><summary>6. 水平地震力為什麼會「兩邊夾擊」？</summary><p>它在傾斜滑動面上有平行分量（增加下滑）與垂直分量（把塊體拉離滑動面，減少正向力與摩擦）。2008-4 從 1.02 降到 0.74。</p></details>
+<details><summary>7. 垂直滑動面的地錨，為什麼每 1 kN 只換到 \(\tan\phi\) kN 抗力？</summary><p>它只增加正向力，抗力增量 \(=P\tan\phi\)。往上坡傾斜的地錨同時抵銷下滑力，效率較高。</p></details>
+<details><summary>8. 三塊法中，夾層的抗力為什麼不用正向力乘摩擦係數？</summary><p>夾層是軟弱黏土，用不排水強度 \(s_u\)（\(\phi=0\)），抗力 \(=s_uL\)，與正向力無關。</p></details>
+<details><summary>9. 2006-3 豪雨時有效主動土壓變小，FS 為什麼反而從 1.22 降到 0.47？</summary><p>有效土壓由 351 降到 126，但主動側多了 706 kN/m 的靜水壓；水的 \(K=1\)，遠大於土的 \(K_A=1/3\)。</p></details>
+<details><summary>10. 切片法的 \(\alpha_n\) 是什麼角？</summary><p>切片底面的傾角，等於圓心到切片底中點的半徑與鉛直線的夾角；圓心正下方的切片 \(\alpha=0\)，只提供抗力。</p></details>
+<details><summary>11. 普通切片法為什麼通常比 Bishop 保守？</summary><p>它忽略切片間力，少算了相鄰切片推擠所增加的正向力與摩擦；Bishop 計入切片間水平力，以每片鉛直力平衡求正向力。</p></details>
+<details><summary>12. 邊坡穩定對策裡，為什麼「排水」通常排第一？</summary><p>水同時降低有效正向應力、產生滲流力或靜水推力、軟化強度；排水一次處理多個機制，且成本最低。</p></details>
+</section>
+
+<section id="s11b">
+<h2>§11.5　因果鏈重列</h2>
+<ol>
+<li><b>c = 0 無限邊坡</b>：平行切片 → \(z\) 約掉 → \(\tan\phi/\tan\beta\) → 浸水不變、滲流乘 \(\gamma'/\gamma_{sat}\)。</li>
+<li><b>c′-φ′＋滲流</b>：鉛直深度 → 三相換算 → \(\sigma_v\) 分層 → \(\tau=\sigma_v\sin\beta\cos\beta\) → \(u=\gamma_wh_w\cos^2\beta\) → \(\sigma_n'\) → FS。</li>
+<li><b>平面楔體</b>：角度 → 面積、\(L\) → \(W\) → 分解 → \(cL+N\tan\phi\) → c 主導淺層。</li>
+<li><b>地震與地錨</b>：正弦定理 → \(W\) → \(k_hW\) 兩方向分解 → FS → 反算 \(P\) → 乘間距。</li>
+<li><b>三塊法</b>：軟弱層 → 主動楔（裂縫）＋中間 \(s_uL\)＋被動楔 → 有水加靜水壓 → FS。</li>
+<li><b>切片法</b>：量圖列表 → \(W\)、\(\alpha\)、\(\Delta L\)、\(u\) → Fellenius 直接算（Bishop 迭代）→ 寫量測不確定度。</li>
+</ol>
+</section>
+
+<section id="s12">
+<h2>★ §12　精選 5 題</h2>
+<p>貪婪覆蓋率計算後以判斷定案。五題涵蓋 I、W、P、E、B、C、T 七個考點群，三種滑動面幾何都有。</p>
+<table>
+<thead><tr><th>#</th><th>題號</th><th>為什麼選它</th><th>先讀</th><th>做完要能回答</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><a class="qlink" href="problems-view/SM-2014-1.html" target="_blank">SM-2014-1</a>（103 年）</td><td>無限邊坡的完整版：三相換算、分層 \(\sigma_v\)、\(\cos^2\beta\) 孔隙水壓。<b>需要自己建立前置資料</b>（單位重）。</td><td>§2</td><td>\(u\) 為什麼是 41.19 而不是 44.15？</td></tr>
+<tr><td>2</td><td><a class="qlink" href="problems-view/SM-2024-2.html" target="_blank">SM-2024-2</a>（113 年）</td><td><b>觀念鏈題</b>：計算一行，但「浸水不變、滲流才變、坡降用 sin」三個觀念串起整個 §1。最新考年。</td><td>§1</td><td>若圖 2 改成平行滲流到地表，FS 會變多少？</td></tr>
+<tr><td>3</td><td><a class="qlink" href="problems-view/SM-2008-4.html" target="_blank">SM-2008-4</a>（97 年）</td><td>練到最多<b>獨立技能</b>：正弦定理幾何、地震力雙向分解、目標 FS 反算地錨。</td><td>§3、§4</td><td>每支地錨為什麼是 692 kN 而不是 346 kN？</td></tr>
+<tr><td>4</td><td><a class="qlink" href="problems-view/SM-2021-4.html" target="_blank">SM-2021-4</a>（110 年）</td><td>唯一的切片法題，考的是量圖：自己量一次切片表，才知道量測誤差會讓 FS 落在 1 的哪一邊。</td><td>§6</td><td>\(\alpha_5\) 為什麼取 0°？哪一片的 \(u\) 為 0？</td></tr>
+<tr><td>5</td><td><a class="qlink" href="problems-view/SM-2006-3.html" target="_blank">SM-2006-3</a>（95 年）</td><td>沒有給滑動面、要自己選方法；張力裂縫、\(K_A\)／\(K_P\)、\(s_uL\)、靜水壓一題全包（跨 U3-1）。</td><td>§5</td><td>豪雨時為什麼有效土壓變小，FS 卻掉到 0.47？</td></tr>
+</tbody>
+</table>
+<h3>考點群涵蓋度（誠實版）</h3>
+<ul>
+<li>沒練到：順向坡調查與試驗（R，2013-1 說明題）；c 折減的純平面楔體（2023-2，觀念已在 §3 與 2008-4 練到）。</li>
+<li>Bishop 簡化法 24 年未考，本講義只做對照；若出題多半會給式，要會迭代。</li>
+<li>生態工法（U3-4）從未出題，本講義不展開。</li>
+</ul>
+<h3>候補題（依序加）</h3>
+<ol>
+<li><a class="qlink" href="problems-view/SM-2023-2.html" target="_blank">SM-2023-2</a>：楔體幾何與 c 的貢獻，10 分鐘可做完。</li>
+<li><a class="qlink" href="problems-view/SM-2013-1.html" target="_blank">SM-2013-1</a> ㈠：順向坡要做哪些調查與試驗（說明題）。</li>
+</ol>
+<h3>練這五題的正確方法</h3>
+<ol>
+<li><b>先判斷滑動面幾何，再動筆。</b>無限、平面、圓弧、三塊 —— 選錯單元整題白算。</li>
+<li><b>先畫水，再畫力。</b>水位、流向、等勢線畫在圖上，才知道 \(u\) 怎麼取、有沒有側向水壓。</li>
+<li><b>量圖與假設寫成表。</b>2021-4、2006-3 的分數一半在「怎麼得到這些數字」。</li>
+<li><b>FS 算完一定和門檻比，並寫依據。</b>做完回 §10 圈陷阱，應圈掉 14 條以上。</li>
+</ol>
+</section>
+</main>
+
+<footer>
+exam-wiki-SM · unit-lecture 產出 · 資料來源：raw/solutions/（解題內容唯一正本）＋ raw/json/question_index.json<br>
+2026-11-22 新建：7 題（主 6、副 1）；全部圖解由 scripts/lecture-figs/U3-3/gen_figs.py 依 calcs.py 數值繪製（數值與題解 assert 對帳；Bishop 值與傾斜地錨為講義對照試算）；同日補規範 7.4.4 條文
+</footer>
+</body>
+</html>
