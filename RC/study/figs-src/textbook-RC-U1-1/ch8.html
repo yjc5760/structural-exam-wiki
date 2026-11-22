@@ -1,0 +1,102 @@
+<section id="ch8">
+<h2 class="t">第 8 章　設計：從載重到 As——先射一箭，再驗靶</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能在空白紙上寫出：</b>
+$$U=1.2D+1.6L,\quad U=1.2D+1.0L\pm1.0E,\quad U=0.9D\pm1.0E$$
+$$a=d-\sqrt{d^2-\frac{2M_u}{0.85\,\phi f'_c\,b}},\qquad A_s=\frac{0.85f'_c\,a\,b}{f_y}$$
+設計題沒有新物理：<b>第 2 章的分析式倒過來解</b>，再用第 3、4 章檢查。要多記的只有載重因數（數字小卡）。最後，我們會把示範梁的 4-D25「設計」出來。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>載重組合 \(U\)</td><td><span class="tg must">必背</span></td><td>8.1</td></tr>
+<tr><td>由 \(M_u\) 反推 \(A_s\)（含 φ 迭代）</td><td><span class="tg must">必背</span></td><td>8.2、8.3</td></tr>
+<tr><td>設計驗核 \(\phi M_n\ge M_u\)</td><td><span class="tg must">必背</span></td><td>8.5</td></tr>
+<tr><td>鋼筋淨間距、保護層、每層根數</td><td><span class="tg half">別賭</span></td><td>8.4</td></tr>
+</table>
+<p class="note">證據：載重組合只有 96 年印過，93、105 年都要用（<a href="problems-view/RC-2004-2.html">RC-2004-2</a>、<a href="problems-view/RC-2016-1.html">RC-2016-1</a>）。108 年（<a href="problems-view/RC-2019-1.html">RC-2019-1</a>）只提示「φ 介於 0.65 與 0.9」，等於明說要迭代。111 年給了「每層最大根數」表；96、112 年要求依規範排筋卻沒給數字。</p>
+</div>
+
+<h3 class="t">8.1　\(M_u\) 從哪來：載重組合　<span class="tg must">必背</span></h3>
+<p>載重因數是規範決定的數字，但順序有道理：<b>越不確定的載重，放大得越多</b>。</p>
+<table>
+<tr><th style="width:26%">組合</th><th>道理</th><th style="width:26%">本單元考題</th></tr>
+<tr><td>\(1.4D\)</td><td>只有靜載重時；活載重很小才可能控制</td><td>示範梁 21.44（不控制）</td></tr>
+<tr><td>\(1.2D+1.6L\)</td><td>靜載重（自重）算得準 → 1.2；活載重（人、家具）變化大 → 1.6</td><td>RC-2004-2、RC-2007-1、示範梁</td></tr>
+<tr><td>\(1.2D+1.0L\pm1.0E\)</td><td>大地震時剛好滿載的機率低 → 活載重降為 1.0</td><td>RC-2016-1 梁端</td></tr>
+<tr><td>\(0.9D\pm1.0E\)</td><td>這時靜載重是「幫忙抵抗」的一方 → 打九折偏保守</td><td>RC-2016-1 梁端翻成正彎矩</td></tr>
+</table>
+
+{{FIG:fig8_1|圖 8-1｜(a) 示範梁：7 m 簡支，\(w_D=2.5\)（含自重）、\(w_L=1.8\) tf/m → \(w_u=5.88\) tf/m，\(M_u=w_uL^2/8=36.02\) tf·m。(b) RC-2016-1 的兩端固定梁（題目指定端 \(wL^2/12\)、跨中 \(wL^2/24\)）：<b>端彎矩＋跨中彎矩＝\(wL^2/8\)</b>，這個「總彎矩守恆」是檢查彈性分析最快的方法。}}
+
+<div class="box"><b>考題｜RC-2016-1 的四個數字（calcs.py）</b>　\(L=7.5\) m、\(w_D=2\)、\(w_L=1\) tf/m、地震端彎矩 \(M_E=16.5\) tf·m：<br>
+梁端 \(1.2D+1.6L=-18.75\)；\(1.2D+1.0L+1.0E=-32.44\)（控制頂筋）；\(0.9D-1.0E\) → \(-8.44+16.5=+8.06\)（<b>梁端底部受拉</b>）；跨中 \(1.2D+1.6L=+9.375\)（控制底筋，比 8.06 大）。<b>算過才知道不控制，和沒算是兩回事。</b></div>
+<div class="trap"><b>陷阱：地震組合的活載重因數</b>　是 1.0，不是 1.6；也不能只算一個組合——\(1.2D+1.6L\) 與地震組合要比大小，\(0.9D\pm1.0E\) 要看會不會翻號。舊題（91～95 年）可能是 \(1.4D+1.7L\)，依本庫規則一律改用現行組合。</div>
+
+<h3 class="t">8.2　反推 \(A_s\)：把第 2 章倒過來　<span class="tg must">必背</span></h3>
+{{FIG:fig8_2|圖 8-2｜示範梁斷面的 \(\phi M_n\)–\(A_s\) 曲線（第 2 章的分析式 × 0.9）。設計就是<b>從縱軸的 \(M_u=36.02\) 水平找過去，碰到曲線就是需要的 \(A_s=19.57\) cm²</b>；選 4-D25（20.27）往上提供 \(\phi M_n=37.18\) tf·m。}}
+<div class="derive">
+<p><span class="st">①</span> 需求：\(\dfrac{M_u}{\phi}=C_c\cdot z=0.85f'_c\,ab\left(d-\dfrac a2\right)\)　（第 2 章的式子，未知數改成 \(a\)）</p>
+<p><span class="st">②</span> 展開成 \(a\) 的二次式：\(a^2-2da+\dfrac{2M_u}{0.85\phi f'_cb}=0\)</p>
+<p><span class="st">③</span> 取較小根（另一根 \(>d\) 不合理）：\(\boxed{a=d-\sqrt{d^2-\dfrac{2M_u}{0.85\,\phi f'_c\,b}}}\)，再 \(\boxed{A_s=\dfrac{0.85f'_c\,ab}{f_y}}\)</p>
+<p><span class="st">例</span> 示範梁：\(\dfrac{2\times3{,}601{,}500}{0.85\times0.9\times280\times40}=840.7\)；\(a=53-\sqrt{2809-840.7}=53-44.37=8.63\) cm；\(A_s=238\times8.63\times40/4200=\boxed{19.57\ \text{cm}^2}\)</p>
+</div>
+<div class="why"><b>不想解二次式？用迭代</b>（每一輪都看得到 \(a\)，比較不容易錯）：<br>
+猜 \(jd=0.9d=47.7\) → \(A_s=M_u/(\phi f_y\,jd)=19.97\) → \(a=8.81\) → \(jd=d-a/2=48.59\) → \(A_s=19.61\) → 第三輪 19.57。<b>第二輪就到 0.2% 以內</b>。T 形梁 \(a\) 很淺，起手猜 \(0.95d\)。</div>
+<div class="check"><b>極限檢查</b>：根號裡若變成負的（\(2M_u/(0.85\phi f'_cb)>d^2\)），代表<b>單筋混凝土怎樣都壓不住</b>——斷面太小，要加深或改雙筋 ✔。</div>
+
+<h3 class="t">8.3　φ 的雞生蛋問題（RC-2019-1）　<span class="tg must">必背</span></h3>
+<p>求 \(A_s\) 要先知道 φ，φ 又要由 \(\varepsilon_t\)（也就是 \(A_s\)）決定。標準做法：<b>先假設 φ = 0.90 算 \(A_s\)，再驗 \(\varepsilon_t\ge0.005\)</b>；落在過渡區才把 φ 寫成 \(A_s\) 的函數再解一次。</p>
+<div class="box"><b>考題｜RC-2019-1</b>　\(b=50\)、\(d=63\) cm、\(f'_c=210\)、\(f_y=4200\)、\(M_u=85.72\) tf·m，題下提示「φ 介於 0.65 與 0.9」。<br>
+把 \(a\)、\(c\)、\(\varepsilon_t\)、φ 全寫成 \(A_s\) 的函數：\(\varepsilon_t=\dfrac{0.3414}{A_s}-0.003\)、\(\phi=0.2333+\dfrac{28.45}{A_s}\)，代入 \(\phi M_n=M_u\) → 二次式 → \(A_s=44.9\) cm²，驗算 \(\varepsilon_t=0.00460\)、\(\phi=0.867\)、\(\phi M_n=85.72\) ✔。<br>
+<b>但依現行規範這根梁不合格</b>（\(\varepsilon_t<0.005\)）：單筋在 \(\varepsilon_t=0.005\) 時最多只有 \(\phi M_n=85.42\) tf·m，差 0.35%。正確處理是加少量壓力筋或略加深斷面；考卷依舊規範（\(\varepsilon_t\ge0.004\)）命題，答案寫明兩者差異。</div>
+
+<h3 class="t">8.4　排得下嗎：淨距、保護層、每排根數　<span class="tg half">別賭</span></h3>
+{{FIG:fig8_3|圖 8-3｜示範梁 40 cm 寬、保護層 4 cm、箍筋 D10：4-D25 一排的淨距 6.64 cm，遠大於最小淨距 2.54 cm ✔；一排最多可放 6 根（第 5 章的 6-D25 就是這樣排）。鋼筋形心距底 6.22 cm，實際 \(d\approx53.8\)，本書取 53 偏保守。}}
+<div class="derive">
+<p><span class="st">規則</span> 平行鋼筋淨距 \(\ge\max\{2.5\text{ cm},\ d_b,\ \tfrac43\text{粒料最大粒徑}\}\)；上下層淨距 \(\ge2.5\) cm；梁的淨保護層 4 cm（量到箍筋外緣）</p>
+<p><span class="st">每排根數</span> \(n\le\dfrac{b-2(\text{保護層}+d_{\text{箍}})+s}{d_b+s}\)：示範梁 \(\dfrac{40-2(4+0.95)+2.54}{2.54+2.54}=6.4\) → 6 根</p>
+</div>
+<div class="trap"><b>陷阱：排不下改兩排，\(d\) 會變小</b>（<a href="problems-view/RC-2007-1.html">RC-2007-1</a>、<a href="problems-view/RC-2023-2.html">RC-2023-2</a>）<br>
+RC-2007-1：6-D29 排成兩排，形心上移，\(d\) 從 53.5 變 50.69 cm，要回頭重算：\(\phi M_n=71.0\ge M_u=70.4\) tf·m，勉強過關。RC-2023-2：8-D32 在 \(b_w=30\) 每排 4 根，淨距 2.37 cm \(<d_b\)，不合規範（題解 §5 註明三排時 \(\phi M_n=130.6\)）。<b>閱卷看的是你有沒有意識到這個迴路。</b></div>
+
+<h3 class="t">8.5　收尾：示範梁設計完成　<span class="tg must">必背</span></h3>
+{{FIG:fig8_4|圖 8-4｜設計流程。② 是「射一箭」（猜 \(A_s\)），③～⑦ 就是第 2～4 章的分析流程「驗靶」；任何一個菱形沒過，都沿紅線回去修正。}}
+<div class="box"><b>示範梁設計（總結，數字來自 calcs.py）</b><br>
+① \(M_u=36.02\) tf·m（\(1.2D+1.6L\) 控制）　② \(A_{s,req}=19.57\) cm²　③ 選 4-D25（20.27 cm²），一排　④ 淨距 6.64 ✔<br>
+⑤ \(a=8.94\)、\(c=10.52\)、\(\varepsilon_t=0.0121\)（第 2、3 章）　⑥ \(\ge0.005\) ✔ φ = 0.90<br>
+⑦ \(\phi M_n=0.9\times41.31=\boxed{37.18\ \text{tf·m}\ \ge\ M_u=36.02}\) ✔；\(A_s=20.27\ge A_{s,\min}=7.07\) ✔（第 4 章）；\(\mu_\phi=4.96\)（第 7 章）。<br>
+<b>這就是第 0 章介紹的那支示範梁——整本書的公式，在這一題接成了一個完整答案。</b></div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜設計題</div>
+<ol>
+<li><b>畫</b>：彎矩圖（簡支 \(wL^2/8\)；固端 \(wL^2/12\) 與 \(wL^2/24\)，和為 \(wL^2/8\)）。</li>
+<li><b>種子</b>：S3（\(M_u/\phi=0.85f'_cab(d-a/2)\)）＋數字小卡（載重因數）。</li>
+<li><b>推</b>：\(a=d-\sqrt{d^2-2M_u/(0.85\phi f'_cb)}\) → \(A_s\)；或 \(jd=0.9d\) 迭代兩輪。</li>
+<li><b>檢查</b>：排得下（改排要重算 \(d\)）→ \(\varepsilon_t\ge0.005\) → \(\phi M_n\ge M_u\) → \(A_s\ge A_{s,\min}\)。</li>
+</ol>
+</div>
+
+<h3 class="t">8.6　🙈 蓋住重推</h3>
+<details><summary>Q1　不背公式，從 \(M_u\) 求 \(a\)。</summary>
+<p>\(M_u/\phi=0.85f'_cab(d-a/2)\) 展開成 \(a^2-2da+2M_u/(0.85\phi f'_cb)=0\)，取較小根。</p></details>
+<details><summary>Q2　為什麼地震組合的活載重因數是 1.0？</summary>
+<p>大地震與滿載活載重同時發生的機率低；規範在因數上打折。</p></details>
+<details><summary>Q3　設計題算完 \(A_s\)，還有哪三件事？</summary>
+<p>① 排得下嗎（排不下改兩排 → \(d\) 變小 → 重算）；② \(\varepsilon_t\ge0.005\)（拉力控制）；③ \(A_s\ge A_{s,\min}\)。</p></details>
+
+<h3 class="t">8.7　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>地震組合用 \(1.2D+1.6L+1.0E\)</td><td>\(1.2D+1.0L\pm1.0E\)，並與 \(1.2D+1.6L\) 比大小（RC-2016-1）</td></tr>
+<tr><td>2</td><td>只算 \(1.2D+1.0L+1.0E\)</td><td>\(0.9D\pm1.0E\) 可能讓梁端翻成正彎矩</td></tr>
+<tr><td>3</td><td>工作彎矩直接當 \(M_u\)</td><td>先乘載重因數（RC-2007-1：\(M_d\)、\(M_l\) 是工作彎矩）</td></tr>
+<tr><td>4</td><td>過渡區 φ 不迭代</td><td>φ 是 \(A_s\) 的函數，聯立求解（RC-2019-1）；現行規範梁須拉力控制</td></tr>
+<tr><td>5</td><td>排不下改兩排卻不改 \(d\)</td><td>形心上移、\(d\) 變小，回頭重算（RC-2007-1）</td></tr>
+<tr><td>6</td><td>懸臂梁套 \(wL^2/8\)</td><td>懸臂固定端 \(wL^2/2\)、負彎矩（RC-2024-2）</td></tr>
+</table>
+</section>

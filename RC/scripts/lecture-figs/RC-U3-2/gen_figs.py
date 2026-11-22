@@ -83,7 +83,7 @@ def g1():
         b.append(R(x0, ytop, x1 - x0, ybot - ytop, GREY2, GREY, 1.4))
         b.append(R(ox - 20 * s, yg - 40, 40 * s, ytop - yg + 40, "#90a4ae", INK, 1.2))
         b.append(L(ox, yg - 60, ox, yg - 42, INK, 2, marker="g1-dn"))
-        b.append(T(ox + 8, yg - 48, "PD＋PL＝155 tf" if side == 0 else "Pu＝1.2PD＋1.6PL＝216 tf", 12, "start", INK, True))
+        b.append(T(ox + 14, yg - 48, "PD＋PL＝155 tf" if side == 0 else "Pu＝1.2PD＋1.6PL＝216 tf", 12, "start", INK, True))
         b.append(T(x1 + 4, (ytop + ybot) / 2 + 4, "60", 11, "start", MUT))
         q = F25.q_serv * 10 if side == 0 else F25.qu * 10
         kq = 3.0                   # px per tf/m²
@@ -231,8 +231,9 @@ def g4():
     b.append(P(pts, "none", BLUE, 2.4, close=False))
     for d, nm in ((35, "2020-3 樓版"), (45, "2021-3 樁帽"), (50, "2007/2025 基腳")):
         v = c.lam_s(d)
-        b.append(C(X2(d), Y2(v), 4, RED)); b.append(T(X2(d) + 8, Y2(v) + (30 if d == 50 else 16), f"{nm} {v:.3f}", 11, "start", RED, True))
-    b.append(T(X2(25), Y2(1.0) + 22, "d ≤ 25：λs＝1", 11, "middle", MUT))
+        # 標籤放在曲線左下方（曲線往右下降，右側標籤會壓到曲線）（2026-11-22）
+        b.append(C(X2(d), Y2(v), 4, RED)); b.append(T(X2(d) - 8, Y2(v) + (34 if d == 50 else 16), f"{nm} {v:.3f}", 11, "end", RED, True))
+    b.append(T(X2(23), Y2(1.0) + 22, "d ≤ 25：λs＝1", 11, "end", MUT))   # 放在折點左側，避開下降段
     return svg(W, H, b, "穿孔三式係數與尺寸效應")
 
 

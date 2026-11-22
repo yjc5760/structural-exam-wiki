@@ -169,8 +169,12 @@ def f3():
         b.append(L(x0 + 140 * k, yt - 14, x0 + 140 * k, yb + 10, ORG, 1.2, "4 3"))
         b.append(T(x0 + 140 * k, yt - 18, "fca＝140", 11.5, "middle", ORG, True))
         b.append(T(x0 - 6, yt - 18, "fta＝0", 11.5, "end", ORG, True))
-        b.append(T(xt + 6 if st[0] > 0 else x0 + 6, yt + 16, f"頂 {abs(st[0]):.0f}", 12.5, "start", BLUE if st[0] > 0 else RED, True))
-        b.append(T(xb + 6 if st[1] > 0 else x0 + 6, yb - 6, f"底 {abs(st[1]):.0f}", 12.5, "start", BLUE if st[1] > 0 else RED, True))
+        # 應力為 0 的纖維：標籤放在軸線左側，避免壓到應力斜線（2026-11-22）
+        for yy, v, nm in ((yt + 16, st[0], "頂"), (yb - 6, st[1], "底")):
+            if abs(v) > 0.5:
+                b.append(T((xt if nm == "頂" else xb) + 6, yy, f"{nm} {abs(v):.0f}", 12.5, "start", BLUE, True))
+            else:
+                b.append(T(x0 - 8, yy, f"{nm} 0", 12.5, "end", RED, True))
     b.append(T(450, 276, f"F＝{c.F15 / c.TF:.0f} tf、ep＝{c.ep15:.2f} cm、ML,max＝(fca−fta)S＝{c.ML15 / c.TFM:.1f} tf·m → wL,max＝{c.wL15:.3f} tf/m", 13, "middle", INK, True))
     return svg(W, H, b, "RC-2015-4 最優設計四根纖維同時達限")
 
@@ -254,8 +258,8 @@ def f6():
     ya = 95
     b.append(T(30, 30, "(a) 等效載重（作用在混凝土上，自平衡）", 13.5, "start", INK, True))
     b.append(R(xA, ya - 12, xB - xA, 24, GREY2, GREY, 1.3))
-    for i in range(11):
-        xx = xA + 30 + i * 62
+    for i in range(10):            # 第一支避開 A 端力矩弧（弧右緣 xA+54）（2026-11-22）
+        xx = xA + 61 + i * 62
         b.append(L(xx, ya + 50, xx, ya + 16, GRN, 1.6, marker="f6-up"))
     b.append(T((xA + xB) / 2, ya + 66, f"w＝−Pe″＝{c.wq24:.4f} tf/m 向上（合力 22.0 tf）", 12.5, "middle", GRN, True))
     b.append(L(xA, ya - 58, xA, ya - 16, RED, 2, marker="f6-dn"))

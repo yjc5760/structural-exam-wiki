@@ -1,0 +1,114 @@
+<section id="ch6">
+<h2 class="t">第 6 章　T 形梁：先問「壓力區長什麼樣子」，再決定用哪個模型</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能在空白紙上寫出：</b>
+$$b_e=\min\left\{\frac L4,\ b_w+16h_f,\ \text{梁中心距}\right\}\quad\text{（內梁）}$$
+$$a\le h_f:\ \text{寬 }b_e\text{ 的矩形梁}\qquad a>h_f:\ A_{sf}=\frac{0.85f'_c(b_e-b_w)h_f}{f_y},\ \ M_n=A_{sf}f_y\Big(d-\frac{h_f}2\Big)+A_{sw}f_y\Big(d-\frac{a_w}2\Big)$$
+沒有新種子：T 形梁只是把第 1 章那塊長方形（S5）<b>換成 T 字形</b>，\(C=T\)（S3）照用。真正的難處在<b>分類</b>：大部分 T 形梁算完會發現中性軸在翼板裡，根本就是一根矩形梁。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>有效翼板寬 \(b_e\)（三條件取小）</td><td><span class="tg half">別賭</span></td><td>6.1</td></tr>
+<tr><td>中性軸位置判別（先假設 \(a\le h_f\) 再驗證）</td><td><span class="tg must">必背</span></td><td>6.2</td></tr>
+<tr><td>翼板／腹板分解（\(a>h_f\)）</td><td><span class="tg must">必背</span></td><td>6.3</td></tr>
+<tr><td>負彎矩 T 形梁退化為 \(b_w\) 矩形</td><td><span class="tg must">必背</span></td><td>6.4</td></tr>
+</table>
+<p class="note">證據：\(b_e\) 規則 109、110 年以中文寫在題幹裡（<a href="problems-view/RC-2020-1.html">RC-2020-1</a>、<a href="problems-view/RC-2021-1.html">RC-2021-1</a>），但 96 年考 T 形梁設計（<a href="problems-view/RC-2007-1.html">RC-2007-1</a>）沒給——所以「別賭」。分解式與負彎矩處理從未印過；104 年（<a href="problems-view/RC-2015-3.html">RC-2015-3</a>）給你 100 cm 的漂亮翼板，然後要求承受負彎矩。</p>
+</div>
+
+<h3 class="t">6.1　有效翼板寬：翼板不是全部都在出力　<span class="tg half">別賭</span></h3>
+<p>樓版和梁一起澆置時，梁頂的樓版會一起受壓，形成 T 形斷面的「翼板」。但壓力是從腹板經由剪力傳到翼板去的，<b>離腹板越遠，傳過去的越少</b>（剪力遲滯 shear lag）。
+規範用一個「有效寬度」\(b_e\) 的長方形，代替真實的不均勻分布——和第 1 章的應力塊是同一招。</p>
+
+{{FIG:fig6_1|圖 6-1｜上：三根梁中心距 400 cm，翼板的壓應力在腹板處最大、往外遞減（示意曲線）；藍色虛線是「同樣面積、高度等於最大應力」的長方形，它的寬度就是有效翼板寬的意義。下：規範用三個條件取小值代替積分，<b>每個條件防一件事</b>。示範 T 梁由跨度 / 4 控制，\(b_e=200\) cm。}}
+
+<div class="derive">
+<p><span class="st">①</span> 跨度短 → 力來不及攤開 → \(b_e\le L/4\)</p>
+<p><span class="st">②</span> 翼板薄 → 傳不遠 → 每側懸出 \(\le8h_f\)，即 \(b_e\le b_w+16h_f\)</p>
+<p><span class="st">③</span> 鄰梁也要用同一塊版 → \(b_e\le\) 梁中心距（每側懸出 \(\le\) 淨距 / 2）</p>
+<p><span class="st">④</span> 三者都要滿足 → \(\boxed{b_e=\min\{L/4,\ b_w+16h_f,\ \text{梁中心距}\}}\)</p>
+</div>
+<div class="why"><b>邊梁（只有一側有版）</b>：懸出 \(\le\min(6h_f,\ \text{淨距}/2,\ L/12)\)，\(b_e=b_w+\) 該值。記法：一側的版「拉力」只有一半，條件也跟著縮小。<br>
+現行規範（112 年版）以<b>每側懸出量</b>寫法（\(8h_f\)、淨距 / 2、\(\ell_n/8\)）表達；內梁時與傳統三式等價（\(\ell_n/8\times2+b_w\approx L/4\)）。考題 109、110 年就是給每側懸出量的版本。</div>
+
+<div class="check"><b>RC-2020-1 範例</b>：\(L=500\)、\(b_w=50\)、\(h_f=10\)、梁中心距 400：\(\min(125,\ 210,\ 400)=125\) cm。<br>
+陷阱：400 是<b>中心距</b>不是淨距（淨距 350，每側懸出 175，換回去就是 \(50+350=400\)）。</div>
+
+<h3 class="t">6.2　先假設中性軸在翼板裡　<span class="tg must">必背</span></h3>
+{{FIG:fig6_2|圖 6-2｜分岔只問 \(a\) 與 \(h_f\)。左：示範 T 梁（\(b_e=200\)、\(h_f=12\)、6-D25）\(a=2.68\) cm，遠小於翼板厚，壓力區是一塊扁長方形——<b>它就是一根寬 200 cm 的矩形梁</b>。右：RC-2020-1 \(a=12.72>h_f=10\)，壓力區伸進腹板，變成 T 字形。}}
+<div class="derive">
+<p><span class="st">①</span> <b>假設</b> \(a\le h_f\)：壓力區是寬 \(b_e\) 的長方形 → \(a=\dfrac{A_sf_y}{0.85f'_c\,b_e}\)</p>
+<p><span class="st">②</span> <b>驗證</b> \(a\le h_f\)？成立 → 用第 2 章：\(M_n=A_sf_y(d-a/2)\)，收工</p>
+<p><span class="st">③</span> 不成立 → 6.3 的分解</p>
+<p><span class="st">快速判別</span> 比較兩個力：翼板整片受壓能提供 \(0.85f'_c\,b_e\,h_f\)，若 \(A_sf_y\le0.85f'_cb_eh_f\)，中性軸一定在翼板內。示範 T 梁要 \(A_s\ge136\) cm² 才會伸進腹板。</p>
+</div>
+<div class="box"><b>示範 T 梁（數字來自 calcs.py）</b>　\(b_e=200\)、\(b_w=40\)、\(h_f=12\)、\(d=53\) cm，6-D25（30.40 cm²）：<br>
+\(a=\dfrac{30.40\times4200}{0.85\times280\times200}=2.68\le12\) ✔ → \(c=3.16\)、\(\varepsilon_t=0.047\)（極度延性）；\(M_n=30.40\times4200\times(53-1.34)=65.96\) tf·m。<br>
+同樣鋼筋放在 40×60 矩形梁只有 59.11 tf·m：<b>翼板讓力臂變長 11.6%</b>，也讓延性大增。</div>
+
+<div class="trap"><b>陷阱：不驗證就當矩形</b>（RC-2020-1、<a href="problems-view/RC-2011-2.html">RC-2011-2</a>）<br>
+本單元 8 題 T 形梁中，RC-2011-2、RC-2020-1（以及 104 年的負彎矩題）中性軸都不在翼板內。「大部分在翼板」是統計，不是理由——<b>一定要算出 \(a\) 和 \(h_f\) 比一次</b>。</div>
+
+<h3 class="t">6.3　a > hf：把翼板懸出部想成「另一根梁」　<span class="tg must">必背</span></h3>
+{{FIG:fig6_3|圖 6-3｜RC-2020-1 的分解（依比例）。綠色是翼板懸出的兩塊（深度固定 \(h_f\)，合力 \(C_f\) 作用在 \(h_f/2\)），橘色是腹板那塊（寬 \(b_w\)、深 \(a_w\)，合力 \(C_w\) 在 \(a_w/2\)）。<b>兩支壓力各配自己的力臂</b>，拉力筋也拆成 \(A_{sf}\) 與 \(A_{sw}\) 兩份去平衡它們。}}
+<div class="derive">
+<p><span class="st">①</span> 翼板懸出部（寬 \(b_e-b_w\)、深 \(h_f\)）整片受壓：\(C_f=0.85f'_c(b_e-b_w)h_f\)，作用在 \(h_f/2\)</p>
+<p><span class="st">②</span> 拉 \(C_f\) 需要的鋼筋：\(\boxed{A_{sf}=\dfrac{0.85f'_c\,(b_e-b_w)\,h_f}{f_y}}\)</p>
+<p><span class="st">③</span> 剩下的鋼筋 \(A_{sw}=A_s-A_{sf}\) 由腹板平衡：\(a_w=\dfrac{A_{sw}f_y}{0.85f'_c\,b_w}\)（從頂面量起，<b>不是</b> \(h_f+\) 什麼）</p>
+<p><span class="st">④</span> 兩對力偶相加：\(\boxed{M_n=A_{sf}f_y\Big(d-\dfrac{h_f}2\Big)+A_{sw}f_y\Big(d-\dfrac{a_w}2\Big)}\)；中性軸 \(c=a_w/\beta_1\)</p>
+</div>
+
+<div class="box"><b>考題｜RC-2020-1（設計，\(M_u=130\) tf·m，\(f'_c=210\)、\(f_y=4200\)，數字來自 calcs.py）</b><br>
+① \(b_e=125\)。矩形試算（\(\phi=0.9\)）：\(A_s=58.83\)、\(a=11.07>h_f=10\) ✘ → 改分解。<br>
+② \(C_f=0.85\times210\times75\times10=133.9\) tf → \(A_{sf}=31.88\) cm²；\(M_{nf}=133.9\times(64-5)=78.99\) tf·m<br>
+③ 腹板要負擔 \(M_u/\phi-M_{nf}=144.44-78.99=65.46\) tf·m → 解二次式 \(A_{sw}=27.04\) cm²、\(a_w=12.72\) cm<br>
+④ \(A_s=31.88+27.04=\boxed{58.92\ \text{cm}^2}\)；\(c=14.97\)、\(\varepsilon_t=0.0098\) → φ = 0.90 ✔；\(A_{s,\min}=10.67\) ✔</div>
+
+<div class="trap"><b>陷阱：翼板那塊的力臂寫成 \(d-a/2\)</b><br>
+翼板懸出部整片 \(h_f\) 受壓，形心在 \(h_f/2\)；腹板那塊形心才在 \(a_w/2\)。<b>兩塊各配自己的力臂。</b></div>
+<div class="trap"><b>陷阱：配筋比的分母</b>　T 形梁 \(\rho=A_s/(b_wd)\)，用腹板寬（\(A_{s,\min}\) 同理）。</div>
+
+<h3 class="t">6.4　負彎矩：翼板跑到拉力側，T 形梁「退化」成矩形　<span class="tg must">必背</span></h3>
+{{FIG:fig6_4|圖 6-4｜同一根示範 T 梁、同樣 6-D25。左：跨中正彎矩，壓力區在翼板（\(M_n=65.96\)）。右：連續梁支承處負彎矩，頂部受拉、底部受壓——<b>翼板在拉力側，開裂後完全不算（S6）</b>，壓力區是腹板底部寬 40 cm 的長方形，\(M_n=59.11\) tf·m，和 40×60 矩形梁一模一樣。}}
+<div class="derive">
+<p><span class="st">①</span> 看 \(M_u\) 的正負號 → 決定哪一側受壓</p>
+<p><span class="st">②</span> 負彎矩：受拉翼板不計，斷面視為 \(b_w\times h\)，\(d\) 由底面（受壓面）量到頂部拉力筋</p>
+<p><span class="st">③</span> 之後就是第 2、5 章：\(a=A_sf_y/(0.85f'_cb_w)\)；不夠就加壓力筋（在底部）</p>
+</div>
+<div class="box"><b>考題｜RC-2015-3（\(M_u=-150\) tf·m，\(b_w=40\)、\(h=70\)、\(f'_c=350\)，β₁ = 0.80）</b><br>
+單筋上限（拉力控制 \(c=\tfrac38\times63=23.63\)、\(a=18.90\)）只有 \(\phi M_{n,1}=108.4\) tf·m &lt; 150 → 必須加壓力筋：\(A'_s=21.15\)、\(A_s=73.20\) cm²（題解）。若誤用翼板寬 100 cm，斷面寬度用錯 2.5 倍，會以為單筋就夠。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜T 形梁</div>
+<ol>
+<li><b>畫</b>：T 形斷面 → 先看彎矩正負決定壓力在哪 → 在壓力側畫應力塊。</li>
+<li><b>種子</b>：S5（長方形換成 T 字形）＋S3（\(C=T\)）。</li>
+<li><b>推</b>：\(b_e\) 三條件取小 → 假設 \(a\le h_f\) 用 \(b_e\) 算 → 不成立就拆：翼板懸出 \(C_f\)（力臂 \(d-h_f/2\)）＋腹板 \(C_w\)（力臂 \(d-a_w/2\)）。</li>
+<li><b>檢查</b>：\(A_sf_y\) 與 \(0.85f'_cb_eh_f\) 比大小；負彎矩翼板不計；\(\rho\)、\(A_{s,\min}\) 用 \(b_w\)。</li>
+</ol>
+</div>
+
+<h3 class="t">6.5　🙈 蓋住重推</h3>
+<details><summary>Q1　\(b_e\) 的三個條件各在防什麼？</summary>
+<p>\(L/4\)：跨度短、剪力遲滯嚴重；\(b_w+16h_f\)：翼板薄、傳不遠；梁中心距：不能和鄰梁重複使用同一塊版。</p></details>
+<details><summary>Q2　\(a>h_f\) 時中性軸深度是 \(h_f+a_w\) 嗎？</summary>
+<p>不是。\(a_w\) 從頂面量起，壓力區總深度就是 \(a_w\)，\(c=a_w/\beta_1\)。</p></details>
+<details><summary>Q3　不算 \(a\)，怎麼一眼判斷中性軸在不在翼板？</summary>
+<p>比 \(A_sf_y\) 與 \(0.85f'_cb_eh_f\)：前者較小 → 翼板整片受壓就夠平衡 → 在翼板內。</p></details>
+
+<h3 class="t">6.6　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>只算 \(L/4\) 就當 \(b_e\)</td><td>三條件取小；邊梁另一套（RC-2007-1、2020-1）</td></tr>
+<tr><td>2</td><td>把梁中心距當淨距（或反過來）</td><td>RC-2020-1：400 是中心距、淨距 350</td></tr>
+<tr><td>3</td><td>算完 \(b_e\) 直接進兩段式</td><td>先假設 \(a\le h_f\) 驗證（多數題目在翼板內）</td></tr>
+<tr><td>4</td><td>翼板力臂寫 \(d-a/2\)</td><td>翼板懸出 \(d-h_f/2\)、腹板 \(d-a_w/2\)</td></tr>
+<tr><td>5</td><td>\(c=(h_f+a_w)/\beta_1\)</td><td>\(c=a_w/\beta_1\)，\(a_w\) 從頂面量起</td></tr>
+<tr><td>6</td><td>負彎矩仍用 \(b_e\)</td><td>翼板受拉不計，退化成 \(b_w\) 矩形（RC-2015-3）</td></tr>
+<tr><td>7</td><td>\(\rho\)、\(A_{s,\min}\) 用 \(b_e\)</td><td>用 \(b_w\)</td></tr>
+</table>
+</section>
