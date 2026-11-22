@@ -1,0 +1,97 @@
+<section id="ch1">
+<h2 class="k">第 1 章　能力設計與韌性：一串保險絲，選好誰先斷</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能說清楚、並寫出：</b><br>
+① <b>能力設計法</b>的骨架：先選延性構件（梁端撓曲）當保險絲，其他構件用保險絲的<b>最大可能強度</b>設計；<br>
+② 韌性的三個層次：
+$$\mu_\phi=\frac{\phi_u}{\phi_y}\ (\text{斷面}),\qquad \mu_\theta=\frac{\theta_u}{\theta_y}\ (\text{構件}),\qquad \mu_\Delta=\frac{\delta_u}{\delta_y}\ (\text{結構});\qquad \theta_p=(\phi_u-\phi_y)L_p$$
+要用的種子是 <span class="kw">E1 保險絲</span> 和 <span class="kw">E7 曲率 × 長度＝轉角</span>。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>能力設計法流程骨架（強度 → 需求）</td><td><span class="tg must">必背</span></td><td>1.1</td></tr>
+<tr><td>曲率／轉角／位移韌性需求</td><td><span class="tg give">會給</span></td><td>1.2</td></tr>
+<tr><td>塑鉸長度 \(L_p=0.08L+0.0022d_bf_y\ge0.0044d_bf_y\)（公路橋梁耐震規範）</td><td><span class="tg give">會給</span></td><td>1.3</td></tr>
+</table>
+<p class="note">證據：111 年（<a href="problems-view/RC-2022-4.html">RC-2022-4</a>）把公路橋梁耐震規範的塑鉸與韌性五式連參數表整組印出——外部規範的公式，考卷向來會附。能力設計的骨架則是每一題計算的第一步，從沒印過。</p>
+</div>
+
+<h3 class="k">1.1　種子 E1：耐震設計就是裝保險絲　<span class="tg must">必背</span></h3>
+<div class="seed"><div class="seed-h">🌱 種子 E1</div>
+$$\text{選一個延性環節當保險絲（梁端撓曲）}\ \Rightarrow\ \text{其他環節都用保險絲的「最大可能強度」來設計}$$
+</div>
+<p>規範的設計地震力，比建築物在大地震中真正受到的彈性力小很多（除以韌性折減係數）。少掉的那部分，要靠結構<b>降伏後繼續變形、消耗能量</b>來扛。
+但並不是每一種破壞都能「降伏後繼續變形」：剪力破壞、柱壓碎、接頭剪壞、搭接滑脫都是<b>一壞就垮</b>。
+所以要像電路裝保險絲一樣：<b>刻意挑一個會「慢慢壞」的環節</b>（梁端的撓曲降伏），讓它最先壞；其他脆性的環節，都要設計成<b>比保險絲的最大能力還強</b>。</p>
+
+{{FIG:fig1_1|圖 1-1｜左：一串鏈條，強度由最弱的那一環決定。耐震設計刻意讓延性的梁端撓曲（綠）當最弱環，剪力、柱、接頭、搭接（紅）都要比它強。右：力–位移關係。脆性環節先壞（紅）一下就掉；延性環節先降伏（綠）可以一路變形消能。<b>保險絲的「最大能力」要用 1.25\(f_y\) 算</b>（第 2 章），否則保險絲比預期強，反而把別的環節先拉斷。}}
+
+<div class="derive">
+<p><span class="st">①</span> 決定保險絲：梁端彎曲降伏（塑鉸），形成「梁側移機構」——每一層的梁端都轉動、消能分散在整棟樓。</p>
+<p><span class="st">②</span> 算保險絲的上限：\(M_{pr}=A_s(1.25f_y)(d-a/2)\)，\(\phi=1\)（第 2 章）。</p>
+<p><span class="st">③</span> 用自由體推出其他環節的需求：梁剪力 \(V_e\)（第 2 章）、柱彎矩與剪力（第 4 章）、接頭剪力 \(V_{jh}\)（第 5 章）。</p>
+<p><span class="st">④</span> 脆性環節的強度 ≥ 這些需求；構造細則（圍束、間距、搭接位置）保證保險絲本身能轉得夠多（第 3、6 章）。</p>
+</div>
+<div class="why"><b>為什麼保險絲選梁、不選柱？</b>柱若先降伏，塑鉸集中在某一層的柱頂與柱底，形成「軟層機構」——整棟樓的變形集中在那一層，柱又扛著上面所有的重量，很快就垮。梁先降伏則變形分散到每一層，柱還能撐住重量。這就是<b>強柱弱梁</b>（第 4 章）。</div>
+
+<h3 class="k">1.2　種子 E7：韌性是「能變形多少」，分三個層次</h3>
+<div class="seed"><div class="seed-h">🌱 種子 E7</div>
+$$\text{韌性}=\frac{\text{極限（或需求）變形}}{\text{降伏變形}}\qquad\text{曲率（斷面）}\xrightarrow{\times\ \text{長度}}\text{轉角（構件）}\xrightarrow{\times\ \text{力臂}}\text{位移（結構）}$$
+</div>
+<p>U1-1 第 7 章算過 \(\mu_\phi=\phi_u/\phi_y\)——那是<b>斷面</b>的韌性。但地震關心的是整根柱頂能偏移多少（<b>位移</b>）。從曲率走到位移，要把曲率沿著構件長度積分兩次。
+關鍵在於：降伏之後，多出來的曲率<b>只集中在柱底一小段</b>（塑鉸長度 \(L_p\)），所以位移韌性永遠比曲率韌性小。</p>
+
+{{FIG:fig1_2|圖 1-2｜懸臂柱（長 \(L\)＝反曲點到柱底）。左：彎矩圖。中：曲率分布——彈性部分是三角形（頂端 0、底端 \(\phi_y\)），降伏後多出來的 \(\phi-\phi_y\) 集中在柱底 \(L_p\) 範圍（紫色長方形）。右框：結果。頂端位移＝彈性部分 \(\phi_yL^2/3\)（三角形面積 × 形心距離）＋塑鉸轉角 \(\theta_p\times(L-L_p/2)\)。<b>RC-2022-4：\(\mu_\phi=2.50\)，但 \(\mu_\Delta=1.82\)</b>。}}
+
+<div class="derive">
+<p><span class="st">①</span> 降伏位移（彈性三角形曲率，面積矩法）：面積 \(\tfrac12\phi_yL\)，形心距頂端 \(\tfrac23L\) → \(\delta_y=\dfrac{\phi_yL^2}{3}\)。</p>
+<p><span class="st">②</span> 塑鉸轉角：多出來的曲率 × 塑鉸長度：\(\theta_p=(\phi-\phi_y)L_p\)，作用點在塑鉸中點，離頂端 \(L-L_p/2\)。</p>
+<p><span class="st">③</span> 頂端位移：\(\delta=\dfrac{M}{M_y}\delta_y+(\phi-\phi_y)L_p\left(L-\dfrac{L_p}{2}\right)\)（彈性部分隨彎矩略增）。</p>
+<p><span class="st">④</span> \(\boxed{\mu_\phi=\phi/\phi_y,\quad \mu_\Delta=\delta/\delta_y,\quad \mu_\theta=\theta/\theta_y}\)；若轉角定義為 \(\delta/L\)（弦轉角），\(\mu_\theta=\mu_\Delta\)。</p>
+</div>
+
+<div class="box"><b>範例　RC-2022-4</b>（柱淨高 6.4 m → \(L=3.2\) m；D32；\(f_y=4200\)；軸力 270 tf 內插得 \(\phi_y=0.005\)、\(M_y=220\)、\(\phi_u=0.020\)、\(M_u=245\)；需求彎矩 \(M=232.5\) tf·m）<br>
+<span class="st">1</span> 需求曲率（雙線性曲線上內插）：\(\phi_d=0.005+\tfrac{232.5-220}{245-220}\times0.015=0.0125\) rad/m。<br>
+<span class="st">2</span> 塑鉸長度：\(0.08\times3.2+0.0022\times0.0322\times4200=0.554\) m；下限 \(0.0044\times0.0322\times4200=0.595\) m → \(L_p=0.595\) m（下限控制）。<br>
+<span class="st">3</span> \(\delta_y=0.005\times3.2^2/3=1.707\) cm；\(\delta_d=\tfrac{232.5}{220}\times1.707+0.0075\times0.595\times2.902=3.099\) cm。<br>
+<span class="st">4</span> <b>\(\mu_\phi=2.50\)、\(\mu_\theta=\mu=1.82\)</b>。（若代極限點算「容量」：\(\mu_\phi=4.00\)、\(\mu_\Delta=2.63\)。）</div>
+
+<div class="check"><b>極限檢查</b><br>
+・\(L_p\to0\)：塑性曲率沒有長度，\(\delta\approx(M/M_y)\delta_y\)，\(\mu_\Delta\approx1\)——曲率再大也沒用 ✔。這就是為什麼柱底要配足圍束箍筋，讓塑鉸區夠長、夠能轉。<br>
+・\(\mu_\Delta\lt\mu_\phi\) 永遠成立：塑性變形只發生在 \(L_p\)，彈性變形分布在整根 \(L\)。</div>
+<div class="trap"><b>陷阱：需求 vs 容量</b>（RC-2022-4 舊解）<br>
+題目問「韌性<b>需求</b>」又給了實際彎矩 232.5 tf·m，就要在曲線上反求需求曲率 \(\phi_d\)；直接代極限點算的是「容量」。</div>
+<div class="trap"><b>陷阱：\(L\) 取全淨高、\(L_p\) 單位</b><br>
+雙曲率柱的反曲點在中間，懸臂長 \(L=l_u/2\)。\(L_p\) 公式的係數已含單位換算：\(f_y\) 用 kgf/cm²、\(d_b\) 與 \(L\) 用公尺。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜能力設計與韌性</div>
+<ol>
+<li><b>畫</b>：一串鏈條（梁端綠、其他紅）；一根懸臂柱，旁邊畫三角形曲率＋柱底一塊長方形。</li>
+<li><b>種子</b>：E1（保險絲）＋E7（曲率 × 長度）。</li>
+<li><b>推</b>：保險絲 \(M_{pr}\) → 其他構件用它設計；\(\delta_y=\phi_yL^2/3\)、\(\theta_p=(\phi-\phi_y)L_p\)、\(\delta=\delta_y M/M_y+\theta_p(L-L_p/2)\)。</li>
+<li><b>檢查</b>：\(\mu_\Delta\lt\mu_\phi\)；需求用實際彎矩反求曲率。</li>
+</ol>
+</div>
+
+<h3 class="k">1.3　🙈 蓋住重推</h3>
+<details><summary>Q1　為什麼耐震設計要讓梁先降伏，而不是柱？</summary>
+<p>梁端降伏形成梁側移機構，變形與消能分散到每一層；柱降伏易形成軟層機構，變形集中在一層，且柱承載重力，很快崩塌。</p></details>
+<details><summary>Q2　懸臂柱的降伏位移為什麼是 \(\phi_yL^2/3\)？</summary>
+<p>彈性曲率從頂端 0 線性增加到底端 \(\phi_y\)，面積矩法：面積 \(\phi_yL/2\) × 形心到頂端的距離 \(2L/3\)。</p></details>
+<details><summary>Q3　曲率韌性 4，位移韌性為什麼只有 2.6 左右？</summary>
+<p>塑性曲率只發生在柱底 \(L_p\) 範圍，彈性變形卻分布在整根柱；位移被「稀釋」了。</p></details>
+
+<h3 class="k">1.4　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>用分析力直接設計脆性構件</td><td>能力設計：用保險絲的 \(M_{pr}\) 推需求</td></tr>
+<tr><td>2</td><td>韌性需求代極限點</td><td>需求用實際彎矩反求 \(\phi_d\)（RC-2022-4）</td></tr>
+<tr><td>3</td><td>\(L\) 取全淨高</td><td>反曲點在中間，\(L=l_u/2\)</td></tr>
+<tr><td>4</td><td>以為 \(\mu_\Delta=\mu_\phi\)</td><td>塑性只在 \(L_p\)，\(\mu_\Delta\) 較小</td></tr>
+</table>
+</section>

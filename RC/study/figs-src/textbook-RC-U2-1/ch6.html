@@ -1,0 +1,119 @@
+<section id="ch6">
+<h2 class="c">第 6 章　剪力＋扭力：把實心斷面看成一根管子</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能在空白紙上寫出：</b>
+$$T_{cr}=1.06\sqrt{f'_c}\,\frac{A_{cp}^2}{p_{cp}},\qquad T_u\lt\phi T_{th}=\phi\,0.265\sqrt{f'_c}\,\frac{A_{cp}^2}{p_{cp}}\ \Rightarrow\ \text{可不計扭力}$$
+$$\frac{A_t}{s}=\frac{T_u}{2\phi A_of_{yt}\cot\theta},\qquad \sqrt{\left(\frac{V_u}{b_wd}\right)^2+\left(\frac{T_up_h}{1.7A_{oh}^2}\right)^2}\le\phi\left(\frac{V_c}{b_wd}+2.12\sqrt{f'_c}\right)$$
+本單元這一側只考兩件事：<b>扭力能不能忽略</b>、<b>扭剪一起時斷面夠不夠</b>。扭力筋的完整設計屬 U2-2。要用的種子是 <span class="kw">V7 剪流</span>，再加第 1 章的 V2 與第 3 章的 V3。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>扭力可忽略門檻 \(T_u\lt\phi\,0.265\sqrt{f'_c}A_{cp}^2/p_{cp}\)</td><td><span class="tg must">必背</span></td><td>6.3</td></tr>
+<tr><td>剪力＋扭力聯合斷面尺寸檢核</td><td><span class="tg must">必背</span></td><td>6.5</td></tr>
+</table>
+<p class="note">證據：RC-2011-4、RC-2018-1 從 U2-2 那側出題，<a href="problems-view/RC-2023-3.html">RC-2023-3</a> 反過來從 U2-1 這側考「扭力可否忽略」；三題都要先算 \(A_{cp}\)、\(p_{cp}\)，聯合檢核式與門檻 24 年都沒印。</p>
+</div>
+
+<h3 class="c">6.1　種子 V7：扭力是繞斷面一圈的剪流</h3>
+<div class="seed"><div class="seed-h">🌱 種子 V7</div>
+$$q=\frac{T}{2A_o}\qquad(q\text{＝單位長度的剪力，}A_o\text{＝剪流路徑圍成的面積})$$
+</div>
+<p>扭一根實心梁，越靠外圈的混凝土轉得越多、出力越大，中心幾乎不出力。開裂以後更明顯——實心斷面的行為就像一根<b>薄壁管</b>。
+管壁上的剪應力沿著周邊繞一圈，像水在管子裡流，所以叫<b>剪流</b>。</p>
+
+{{FIG:fig6_1|圖 6-1｜把實心斷面看成薄壁管。剪流 \(q\)（橘色箭頭）沿管壁中心線繞一圈，大小處處相同。每一小段 \(ds\) 上的力 \(q\,ds\) 對形心的力矩是 \(q\,ds\cdot r\)，而 \(r\,ds\) 正好是陰影三角形面積的 2 倍——繞一圈加起來 \(T=q\cdot2A_o\)。<b>只要記「面積的兩倍」</b>。}}
+
+<div class="derive">
+<p><span class="st">①</span> 管壁取一小段 \(ds\)，剪力 \(q\,ds\)，對形心的力臂 \(r\)（垂直距離），力矩 \(q\,r\,ds\)。</p>
+<p><span class="st">②</span> \(r\,ds\) 是以形心為頂點、\(ds\) 為底的小三角形面積的 2 倍。</p>
+<p><span class="st">③</span> 繞一圈：\(T=\oint q\,r\,ds=q\cdot2A_o\) → \(\boxed{q=\dfrac{T}{2A_o}}\)　✔ Bredt 公式（薄壁管扭轉）。</p>
+</div>
+
+<h3 class="c">6.2　開裂扭矩：剪流的剪應力碰到開裂強度</h3>
+<p>管壁每一點都是純剪（\(\tau=q/t\)），所以第 1 章的 V1 又出現了：<b>扭力也是斜著拉裂</b>，裂縫繞著梁成螺旋狀。開裂時：</p>
+<div class="derive">
+<p><span class="st">①</span> 管壁剪應力 \(\tau=\dfrac{q}{t}=\dfrac{T}{2A_ot}\)。</p>
+<p><span class="st">②</span> V2：純剪的主拉應力 \(=\tau\)，到 \(1.06\sqrt{f'_c}\) 就開裂（沒有撓曲裂縫先削弱，所以比 0.53 高，是它的 2 倍）。</p>
+<p><span class="st">③</span> 實心斷面開裂前的等效管：\(A_o\approx\tfrac23A_{cp}\)、\(t\approx\tfrac34A_{cp}/p_{cp}\)（規範假設）。</p>
+<p><span class="st">④</span> \(T_{cr}=1.06\sqrt{f'_c}\times2\cdot\tfrac23A_{cp}\cdot\tfrac34\dfrac{A_{cp}}{p_{cp}}\) → \(\boxed{T_{cr}=1.06\sqrt{f'_c}\,\dfrac{A_{cp}^2}{p_{cp}}}\)　✔ 2、2/3、3/4 乘起來剛好是 1。</p>
+</div>
+<div class="why"><b>為什麼是 \(A_{cp}^2/p_{cp}\)</b>：面積大、周長短的斷面（接近正方形）抗扭最有效。同樣 2100 cm²，35×60 的 \(A_{cp}^2/p_{cp}=23{,}211\)；換成細長的 20×105 只有 17{,}640，小了 24%。</div>
+
+<h3 class="c">6.3　扭力可忽略門檻：開裂扭矩的四分之一　<span class="tg must">必背</span></h3>
+<div class="derive">
+<p><span class="st">①</span> 試驗：扭矩小於開裂扭矩的 1/4 時，對剪力與撓曲強度的影響很小（幾個百分點），可以不計。</p>
+<p><span class="st">②</span> \(T_{th}=\tfrac14T_{cr}=\boxed{0.265\sqrt{f'_c}\,\dfrac{A_{cp}^2}{p_{cp}}}\)；\(T_u\lt\phi T_{th}\)（\(\phi=0.75\)）就可以忽略。　✔ 規範 22.7.4。</p>
+</div>
+<div class="why"><b>記法</b>：0.265＝0.53÷2＝1.06÷4。又是 0.53 的家族。MPa 制是 \(\tfrac1{12}\)，<b>直接代 kgf 會低估約 3.2 倍</b>。</div>
+
+{{FIG:fig6_2|圖 6-2｜<a href="problems-view/RC-2023-3.html">RC-2023-3</a>：偏心 \(e\) 的均佈載重同時產生剪力 \(V\) 與扭矩 \(T=V\cdot e\)。臨界斷面 \(V_u=7.43\) tf，扭矩隨 \(e\) 直線增加，碰到 \(\phi T_{th}=0.772\) tf·m 時 \(e_{\max}=10.40\) cm。灰虛線是把 MPa 係數 \(\tfrac1{12}\) 誤代 kgf 的門檻（0.243 tf·m），會把 \(e_{\max}\) 低估成 3.27 cm。}}
+
+<div class="box"><b>範例　RC-2023-3</b>（懸臂 3.5 m、\(w_u=2.5\) tf/m 偏心作用；\(35\times60\)、\(d=53\)、\(f'_c=280\)）<br>
+<span class="st">1</span> 臨界斷面（距固定端支承面 \(d\)，第 4 章三條件成立）：\(V_u=2.5\times(3.50-0.53)=7.43\) tf。\(\phi V_c=12.34\) tf ＞ \(V_u\) ＞ \(\tfrac12\phi V_c\) → 只要最少箍筋。<br>
+<span class="st">2</span> \(A_{cp}=2100\) cm²、\(p_{cp}=190\) cm、\(A_{cp}^2/p_{cp}=23{,}211\) cm³。<br>
+<span class="st">3</span> \(T_{th}=0.265\times16.73\times23{,}211=102{,}922\) kgf·cm；\(\phi T_{th}=77{,}192\) kgf·cm \(=0.772\) tf·m。<br>
+<span class="st">4</span> \(e_{\max}=\phi T_{th}/V_u=77{,}192/7{,}425=10.40\) cm。<b>偏心量 10.4 cm 以內，扭力可以不計。</b></div>
+<div class="trap"><b>陷阱：門檻係數 0.265 vs 0.27 vs 0.266</b><br>
+本庫三題的題解分別用了 0.265（RC-2011-4，由 \(T_{cr}/4\)）、0.27（RC-2018-1）、\(\tfrac1{12}\) 精確換算的 0.266（RC-2023-3，得 10.44 cm）。三者差不到 1%，結論都一樣；本書統一用 0.265（＝0.53/2）。</div>
+
+<h3 class="c">6.4　扭力要設計時：同一肢箍筋要分給扭力和剪力</h3>
+<p>扭力的箍筋量也是「數穿過裂縫的箍筋」（V3）——只是裂縫在管壁上：</p>
+<div class="derive">
+<p><span class="st">①</span> 管壁一側（高 \(y_o\)）承受剪力 \(q\,y_o\)；45° 裂縫水平長 \(y_o\cot\theta\)，穿過 \(y_o\cot\theta/s\) 根箍筋肢，每肢 \(A_tf_{yt}\)。</p>
+<p><span class="st">②</span> 平衡：\(\dfrac{A_tf_{yt}y_o\cot\theta}{s}=\dfrac{T_n}{2A_o}y_o\) → \(\dfrac{A_t}{s}=\dfrac{T_n}{2A_of_{yt}\cot\theta}\)，\(T_n=T_u/\phi\)。</p>
+<p><span class="st">③</span> \(A_o\) 取 \(0.85A_{oh}\)（\(A_{oh}\)：外圍箍筋中心線圍成的面積）。<b>\(A_t\) 是一肢</b>，而剪力的 \(A_v\) 是所有肢合計。</p>
+<p><span class="st">④</span> 外圍箍的每一肢同時承擔：\(\boxed{\dfrac{A_b}{s}\ge\dfrac{A_t}{s}+\dfrac{A_v}{n\,s}}\)（\(n\)＝抗剪肢數）。</p>
+</div>
+
+{{FIG:fig6_3|圖 6-3｜<a href="problems-view/RC-2018-1.html">RC-2018-1</a> 的 50×50 斷面：外圍閉合箍（2 肢）＋2 支繫筋，抗剪計 4 肢、抗扭只計外圍箍。外圍箍的一肢要扛扭力 0.0675 加分到的剪力 0.0158 cm²/cm，合計 0.0833 → D13 的 \(s\le1.267/0.0833=15.2\) cm；內部繫筋只扛剪力，不控制。}}
+
+<div class="box"><b>兩題對照</b><br>
+・<b>RC-2018-1</b>（\(T_u=4\) tf·m、\(V_u=20\) tf、50×50、\(d=43\)、D13 \(f_{yt}=2800\)）：\(\phi T_{th}=1.04\) tf·m ＜ 4 → 要設計扭力。\(A_{oh}=40.73^2=1658.9\)、\(A_o=1410.1\)；\(A_t/s=0.0675\)；\(V_s=20/0.75-19.07=7.60\) tf → \(A_v/s=0.0631\)（4 肢，每肢 0.0158）；外圍箍每肢 0.0833 → <b>\(s=15.2\) cm，取 4 肢 D13@15</b>（\(p_h/8=20.4\)、\(d/2=21.5\) 不控制）。<br>
+・<b>RC-2011-4</b>（\(T_u=T_{cr}\)、35×60、\(d=53\)、2 肢 D13@8）：\(T_{cr}=4.117\) tf·m；\(A_o=1109.5\)、\(A_t/s=0.0883\)；每肢供給 \(1.267/8=0.1584\)，剩下給剪力 \(A_v/s=2\times(0.1584-0.0883)=0.1401\) → \(V_s=20.78\) tf；\(V_u=0.75(16.45+20.78)=27.93\) tf（箍筋控制）。<b>舊解把兩肢算成 \(4A_b/s\)（同一肢重複計算），誤判箍筋充足。</b></div>
+
+<h3 class="c">6.5　扭剪一起時斷面夠不夠：兩種剪應力的合成上限　<span class="tg must">必背</span></h3>
+<p>第 3 章說 \(V_s\) 不能超過 \(4V_c\)，因為斜壓桿會壓碎。扭力在管壁上也產生斜壓應力，兩者疊起來一樣有上限：</p>
+<div class="derive">
+<p><span class="st">①</span> 剪力造成的平均剪應力 \(v=V_u/(b_wd)\)。</p>
+<p><span class="st">②</span> 扭力造成的管壁剪應力 \(\tau_t=\dfrac{T_u}{2A_ot}\)；開裂後取 \(A_o=0.85A_{oh}\)、\(t=A_{oh}/p_h\) → \(\tau_t\approx\dfrac{T_up_h}{1.7A_{oh}^2}\)。</p>
+<p><span class="st">③</span> 實心斷面：\(v\) 在腹板中間最大、\(\tau_t\) 在外圈最大，兩者不在同一點達到峰值，規範用平方和開根號（中空斷面則直接相加）。</p>
+<p><span class="st">④</span> 上限和第 3 章的 \(\phi V_{n,\max}\) 同一把尺：\(\boxed{\sqrt{v^2+\tau_t^2}\le\phi\left(\dfrac{V_c}{b_wd}+2.12\sqrt{f'_c}\right)}\)　✔ 規範 22.7.7.1。</p>
+</div>
+<div class="check"><b>極限檢查</b><br>
+・\(T_u=0\)：式子退化成 \(V_u\le\phi(V_c+2.12\sqrt{f'_c}b_wd)\)——就是第 3 章的斷面上限 ✔。<br>
+・RC-2018-1：\(v=9.30\)、\(\tau_t=13.93\)，\(\sqrt{9.30^2+13.93^2}=16.75\le0.75\times(8.87+35.47)=33.26\) kgf/cm² ✔。<br>
+・RC-2011-4：\(\tau_t=21.74\)，反求 \(V_u\le\sqrt{33.26^2-21.74^2}\times1855=46.69\) tf ＞ 箍筋控制的 27.93 tf → 斷面不控制。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜扭力門檻與合成上限</div>
+<ol>
+<li><b>畫</b>：矩形斷面的一圈管壁，箭頭繞一圈；三角形面積 ×2。</li>
+<li><b>種子</b>：V7（\(q=T/2A_o\)）＋V2（開裂 1.06√f′c）＋V3（數肢數）。</li>
+<li><b>推</b>：\(T_{cr}=1.06\sqrt{f'_c}\cdot2\cdot\tfrac23A_{cp}\cdot\tfrac34A_{cp}/p_{cp}=1.06\sqrt{f'_c}A_{cp}^2/p_{cp}\)；門檻 1/4 → 0.265；合成上限＝第 3 章的 \(V_c+2.12\)。</li>
+<li><b>檢查</b>：\(T_u=0\) 退回第 3 章；kgf 制 0.265 不是 \(\tfrac1{12}\)；\(A_t\) 一肢、\(A_v\) 全部肢。</li>
+</ol>
+</div>
+
+<h3 class="c">6.6　🙈 蓋住重推</h3>
+<details><summary>Q1　為什麼扭力的 \(A_{cp}^2/p_{cp}\) 是「面積平方除以周長」？</summary>
+<p>\(T=\tau\cdot2A_o\cdot t\)，\(A_o\propto A_{cp}\)、\(t\propto A_{cp}/p_{cp}\)，相乘就是 \(A_{cp}^2/p_{cp}\)。</p></details>
+<details><summary>Q2　40×60 斷面、\(f'_c=280\)，扭矩小於多少可以忽略？</summary>
+<p>\(A_{cp}^2/p_{cp}=2400^2/200=28{,}800\)；\(\phi T_{th}=0.75\times0.265\times16.73\times28{,}800=0.958\) tf·m。</p></details>
+<details><summary>Q3　扭剪共用一組閉合箍時，間距怎麼求？</summary>
+<p>外圍箍一肢要扛 \(A_t/s+A_v/(ns)\)，兩者相加後 \(s=A_b/(\ldots)\)；不是扭、剪各算一個間距再取小。</p></details>
+
+<h3 class="c">6.7　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>MPa 係數 \(\tfrac1{12}\)、\(\tfrac13\) 代 kgf</td><td>kgf 制 0.265、1.06（RC-2023-3、2011-4 舊解）</td></tr>
+<tr><td>2</td><td>扭、剪各算間距再取小</td><td>同一肢疊加 \(A_t/s+A_v/(ns)\)（RC-2018-1 舊解）</td></tr>
+<tr><td>3</td><td>兩肢箍筋算成 \(4A_b/s\)</td><td>每肢只有一份 \(A_b\)（RC-2011-4 舊解）</td></tr>
+<tr><td>4</td><td>\(A_o\) 直接用 \(A_{oh}\)</td><td>\(A_o=0.85A_{oh}\)；\(A_{oh}\)、\(p_h\) 量到箍筋中心線</td></tr>
+<tr><td>5</td><td>繫筋也算抗扭</td><td>抗扭只計外圍閉合箍；抗剪才計全部肢</td></tr>
+<tr><td>6</td><td>把 \(T_{cr}\) 當忽略門檻</td><td>門檻是 \(T_{cr}/4\)，還要乘 φ</td></tr>
+</table>
+</section>

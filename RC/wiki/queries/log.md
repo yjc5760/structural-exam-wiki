@@ -2645,3 +2645,18 @@ $T = \tfrac12 \times 15.63 \times 22.5 \times 30 = 5{,}275.125 \to \mathbf{5{,}2
   - 圖源與章節程式碼建置於 `RC/study/figs-src/textbook-RC-U1-1/`（ch0～ch9，含讀法、應變幾何、等效應力塊、單筋分析、設計、雙筋梁、T形梁、深梁與特殊梁、延性與塑性鉸、全書總整理）。
 - 驗證：
   - HTML 渲染自查通過（KaTeX、圖表、表格溢出檢查），PDF 重出無截字。
+
+## 2026-11-22 TEXTBOOK-RC-ALL：教科書等級講義 RC-U1-2 至 RC-U4-2 全數完成上線
+
+- 2026-11-22｜TEXTBOOK-RC-ALL｜做了什麼：
+  - 完成 RC 全科目其餘單元教科書等級講義（向量圖解 × 第一性原理推導）：
+    - `RC-U1-2` 柱強度分析與設計（`textbook-RC-U1-2.html`, `.pdf`）及圖源腳本 `figs-src/textbook-RC-U1-2/`
+    - `RC-U2-1` 剪力強度分析與設計（`textbook-RC-U2-1.html`, `.pdf`）及圖源腳本 `figs-src/textbook-RC-U2-1/`
+    - `RC-U3-2` 樓版與基腳設計（`textbook-RC-U3-2.html`, `.pdf`）及圖源腳本 `figs-src/textbook-RC-U3-2/`
+    - `RC-U3-3` 韌性要求與耐震設計（`textbook-RC-U3-3.html`, `.pdf`）及圖源腳本 `figs-src/textbook-RC-U3-3/`
+    - `RC-U4-1` 預力梁斷面應力分析（`textbook-RC-U4-1.html`, `.pdf`）及圖源腳本 `figs-src/textbook-RC-U4-1/`
+    - `RC-U4-2` 預力量與偏心量設計（`textbook-RC-U4-2.html`, `.pdf`）
+  - 連同先前已交付之 `RC-U1-1`，RC 科目全 7 大單元教科書等級講義（HTML + PDF）已全數產出上線完畢。
+- 驗證：
+  - 各單元圖源與 HTML 編譯注入正確，KaTeX 數學式正常解析無報錯。
+  - Chromium 產出之 PDF 版面整潔，無截字溢出。
