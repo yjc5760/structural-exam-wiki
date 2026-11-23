@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SM-U1-5 剪力強度｜單元總覽</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"></script>
+<style>
+
+:root{--ac:#1565c0;--ac2:#e8f0fe;--ink:#26323a;--mut:#607d8b;--bd:#e0e6ea;--bg:#f4f6f8;
+ --must:#c62828;--must2:#fdecea;--half:#ef6c00;--half2:#fff4e5;--give:#2e7d32;--give2:#e9f5ec}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+ font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.7;-webkit-text-size-adjust:100%}
+main{max-width:1120px;margin:0 auto;padding:0 16px 60px}
+header{background:linear-gradient(135deg,#0d47a1,#1565c0 55%,#1976d2);color:#fff;padding:28px 22px 24px}
+header .in{max-width:1120px;margin:0 auto}
+header .eyebrow{font-size:.78rem;letter-spacing:.14em;opacity:.85;margin:0 0 6px}
+header h1{margin:0 0 8px;font-size:1.6rem;line-height:1.4}
+header p{margin:0;font-size:.93rem;opacity:.94;max-width:80ch}
+header code{background:rgba(255,255,255,.18);color:#fff}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #dde4ea;
+ padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+nav a{font-size:.8rem;text-decoration:none;color:var(--ac);background:var(--ac2);padding:5px 12px;border-radius:20px;white-space:nowrap}
+nav a:hover{background:#d3e3fd}
+nav a.ext{background:#f3e5f5;color:#6a1b9a}
+section{margin:34px 0}
+h2{font-size:1.3rem;margin:0 0 6px;padding-left:11px;border-left:6px solid var(--ac);color:#0d47a1}
+h2 small{font-size:.8rem;color:var(--mut);font-weight:400;margin-left:6px}
+h3{font-size:1.04rem;margin:26px 0 8px;color:#37474f;padding-bottom:4px;border-bottom:2px solid var(--ac2)}
+p.lead{font-size:.93rem;color:#455a64;margin:6px 0 10px}
+code{font-size:.85em;background:#eceff1;padding:0 4px;border-radius:4px}
+a{color:var(--ac)}
+
+/* position strip */
+.pos{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;background:#fff;border:1px solid var(--bd);
+ border-radius:12px;padding:12px 16px;margin:18px 0 0;font-size:.9rem}
+.pos .k{display:flex;align-items:baseline;gap:5px}
+.pos .k b{font-size:1.35rem;color:#0d47a1;font-variant-numeric:tabular-nums}
+.pos .k span{color:var(--mut);font-size:.8rem}
+.pos .go{margin-left:auto;font-size:.82rem}
+.btnbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.btnbar a{padding:5px 14px;border-radius:6px;font-size:.86rem;text-decoration:none}
+.b-lec{background:#6a1b9a;color:#fff}.b-lecp{background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8}
+.b-pdf{background:#eceff1;color:#37474f;border:1px solid #cfd8dc}
+
+/* cards / tables shared */
+.note,.warn{border-radius:10px;padding:11px 15px;margin:12px 0;font-size:.89rem}
+.note{background:var(--ac2);border-left:5px solid var(--ac)}
+.warn{background:var(--half2);border-left:5px solid var(--half)}
+.tw{position:relative;overflow-x:auto;border:1px solid var(--bd);border-radius:10px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:.86rem;background:#fff}
+th,td{border-bottom:1px solid #eceff1;padding:7px 9px;text-align:left;vertical-align:top}
+th{background:#eceff1;color:#37474f;font-size:.8rem}
+td.num,th.num{text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+.up{color:#2e7d32;font-weight:700}.down{color:var(--must);font-weight:700}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:baseline}
+#riskT td:nth-child(-n+5),#riskT th:nth-child(-n+5){white-space:nowrap}
+.risk-hi{background:#ffebee}.risk-md{background:#fff8e1}.risk-lo{background:#f1f8e9}
+
+/* §1 clusters */
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:11px;margin-top:8px}
+.cat{background:#fff;border:1px solid var(--bd);border-left:6px solid;border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.cat:hover{box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.cat b{display:block;font-size:.98rem}.cat span{font-size:.8rem;color:var(--mut)}
+.chartbox{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:12px 14px;margin-top:12px}
+.chartbox h4{margin:0 0 6px;font-size:.88rem;color:var(--mut);font-weight:600}
+.chartbox canvas{width:100%;height:auto;display:block}
+.legend-s{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.78rem;color:#455a64;margin-top:6px}
+
+/* §2 formula */
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.lg{flex:1 1 220px;border-radius:10px;padding:10px 13px;border:1px solid}
+.lg h4{margin:0 0 3px;font-size:.95rem}.lg p{margin:0;font-size:.82rem;line-height:1.6}
+.lg.must{background:var(--must2);border-color:#f5c6c2}.lg.must h4{color:var(--must)}
+.lg.half{background:var(--half2);border-color:#ffd9a8}.lg.half h4{color:var(--half)}
+.lg.give{background:var(--give2);border-color:#bcdfc6}.lg.give h4{color:var(--give)}
+.kpis{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.kpi{flex:1 1 110px;background:#fff;border:1px solid var(--bd);border-radius:10px;padding:10px;text-align:center}
+.kpi .n{font-size:1.55em;font-weight:800;color:#0d47a1;line-height:1.15}
+.kpi .l{font-size:.73rem;color:var(--mut);margin-top:2px}
+.kpi.red .n{color:var(--must)}.kpi.org .n{color:var(--half)}.kpi.grn .n{color:var(--give)}
+details{background:#fff;border:1px solid var(--bd);border-radius:10px;margin:12px 0}
+details>summary{cursor:pointer;padding:10px 14px;font-weight:600;font-size:.92rem;color:#37474f}
+details>.db{padding:0 14px 12px}
+blockquote{margin:8px 0;padding:8px 14px;background:#fafbfc;border-left:4px solid #90a4ae;font-size:.87rem;color:#37474f}
+.ynote{font-size:.72rem;color:#78909c}
+.filters{display:flex;flex-wrap:wrap;gap:6px 12px;margin:12px 0;align-items:center}
+.filters .fg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.filters b{font-size:.76rem;color:var(--mut);margin-right:2px}
+.filters button,.filters select{font:inherit;font-size:.79rem;border:1px solid #cfd8dc;background:#fff;color:#455a64;border-radius:16px;padding:4px 12px;cursor:pointer}
+.filters select{max-width:100%}
+.filters button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.recallbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 12px;padding:8px 12px;background:#fff;border:1px dashed #b0bec5;border-radius:10px;font-size:.83rem;color:#546e7a}
+.recallbar button{font:inherit;font-size:.8rem;border:1px solid var(--ac);background:#fff;color:var(--ac);border-radius:16px;padding:3px 12px;cursor:pointer}
+.recallbar button.on{background:var(--ac);color:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));gap:12px}
+.fc,.qrow>*{min-width:0}
+.fc{background:#fff;border:1px solid var(--bd);border-left:6px solid #90a4ae;border-radius:10px;padding:12px 15px;scroll-margin-top:70px;transition:box-shadow .3s}
+.fc.must{border-left-color:var(--must)}.fc.half{border-left-color:var(--half)}.fc.give{border-left-color:var(--give)}
+.fc.flash{box-shadow:0 0 0 3px #90caf9}
+.fc .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.fc .nm{font-weight:700;font-size:1rem}
+.tag{font-size:.71rem;font-weight:700;border-radius:14px;padding:2px 9px;white-space:nowrap}
+.tag.must{background:var(--must2);color:var(--must)}.tag.half{background:var(--half2);color:var(--half)}.tag.give{background:var(--give2);color:var(--give)}
+.fc .eq{background:#f7f9fb;border-radius:8px;padding:5px 10px;margin:6px 0;overflow-x:auto}
+.fc .meta{font-size:.86rem;color:#455a64;margin:6px 0 0;line-height:1.68}
+.fc .ev{font-size:.78rem;margin-top:8px;padding-top:7px;border-top:1px dashed #dde4ea;color:#607d8b}
+.fc .ev a{display:inline-block;border-radius:4px;padding:0 5px;margin:1px 2px 1px 0;text-decoration:none;font-size:.76rem;background:var(--must2);color:var(--must)}
+.fc .ev a.sec{background:#eceff1;color:#546e7a}
+.fc .ev .ok{display:inline-block;border-radius:4px;padding:0 5px;background:var(--give2);color:var(--give);font-size:.76rem}
+.fc .ev .uses{margin-left:4px;color:#455a64;cursor:pointer;text-decoration:underline dotted}
+.never{color:var(--must);font-weight:700}
+body.recall .fc .eq{position:relative;cursor:pointer;min-height:2.6em}
+body.recall .fc .eq>*{visibility:hidden}
+body.recall .fc .eq::after{content:"✍ 先默寫，再點這裡翻開";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#90a4ae;font-size:.83rem;background:repeating-linear-gradient(45deg,#eef2f5 0 8px,#f7f9fb 8px 16px);border-radius:8px}
+body.recall .fc.rev .eq>*{visibility:visible}
+body.recall .fc.rev .eq::after{display:none}
+body.recall .fc .meta .katex{filter:blur(4px)}
+body.recall .fc.rev .meta .katex{filter:none}
+#mx{min-width:900px;font-size:.8rem}
+#mx th{text-align:center;position:sticky;top:0}
+#mx th:first-child,#mx th:nth-child(2),#mx th:last-child{text-align:left}
+#mx td.c{text-align:center}
+#mx .y{color:var(--give);font-weight:800}#mx .x{color:var(--must);font-weight:800}#mx .n{color:#cfd8dc}
+#mx tr.hl{background:#f2f7fc}
+#mx td.qq{font-size:.8rem;font-weight:600;white-space:nowrap}
+#mx td.qq a{text-decoration:none;border-bottom:1px dotted #90a4ae}
+#mx td.rm{font-size:.76rem;color:#546e7a;line-height:1.55}
+#mx tfoot td{background:#f7f9fb;font-size:.74rem;color:#455a64;text-align:center;border-top:2px solid #cfd8dc}
+#mx tfoot td:first-child{text-align:left;font-weight:700}
+.lgd{display:inline-block;min-width:1.6em;text-align:center;font-weight:800;margin:0 3px 0 8px;border-radius:4px;background:#fff;border:1px solid var(--bd)}
+.lgd.y{color:var(--give)}.lgd.x{color:var(--must)}.lgd.n{color:#b0bec5}
+.strat h4{margin:16px 0 4px;font-size:.98rem;color:#37474f}
+.strat p{margin:0 0 6px;font-size:.9rem;color:#455a64}
+
+/* §3 question table */
+.qhead{display:grid;grid-template-columns:96px 58px 1fr 1.25fr 64px;gap:10px;padding:6px 12px;font-size:.76rem;color:var(--mut);font-weight:600}
+.qrow{display:grid;grid-template-columns:96px 58px 1fr 1.25fr 64px;gap:10px;align-items:start;background:#fff;border:1px solid var(--bd);border-left:6px solid;border-radius:9px;padding:9px 12px;margin-bottom:7px}
+.qrow.sec{background:#fafafa;border-style:dashed;border-left-style:solid}
+.qrow .id a{font-weight:700;text-decoration:none}
+.qrow .id .sub{display:block;font-size:.72rem;color:var(--mut);font-weight:400}
+.qrow .ty{font-size:.72rem;color:#fff;border-radius:10px;padding:1px 8px;text-align:center;justify-self:start;white-space:nowrap}
+.qrow .sum{font-size:.88rem}
+.qrow .sum .cl{display:block;font-size:.74rem;color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font:inherit;font-size:.74rem;border-radius:12px;padding:1px 9px;border:1px solid;cursor:pointer;background:#fff;line-height:1.6}
+.chip.must{color:var(--must);border-color:#f5c6c2;background:var(--must2)}
+.chip.half{color:var(--half);border-color:#ffd9a8;background:var(--half2)}
+.chip.give{color:var(--give);border-color:#bcdfc6;background:var(--give2)}
+.chip.hit{outline:2px solid #1565c0}
+.chips .none{font-size:.76rem;color:var(--mut)}
+.qrow .ico{font-size:.85rem;white-space:nowrap;text-align:right}
+.qrow .ico a{text-decoration:none}
+.count{font-size:.82rem;color:var(--mut);margin:0 0 8px}
+@media(max-width:760px){
+ .qhead{display:none}
+ .qrow{grid-template-columns:auto 1fr auto;gap:6px 10px}
+ .qrow .id{grid-column:1;grid-row:1}.qrow .ty{grid-column:2;grid-row:1;align-self:center}.qrow .ico{grid-column:3;grid-row:1}
+ .tw table{min-width:620px}
+ .qrow .sum,.qrow .chips{grid-column:1/-1}
+ header h1{font-size:1.3rem}
+ .cards{grid-template-columns:1fr}
+ .pos .go{margin-left:0}
+ .katex{display:inline-block;max-width:100%;overflow-x:auto;overflow-y:hidden;vertical-align:middle}
+ .katex-display>.katex{display:block}
+ .filters .fg{max-width:100%}
+ .filters select{width:100%}
+}
+footer{margin-top:40px;padding-top:14px;border-top:1px solid #dde4ea;color:#78909c;font-size:.78rem}
+@media print{
+ nav,.filters,.recallbar,.btnbar,.pos .go{display:none!important}
+ body{background:#fff}header{padding:14px 0;color:#000;background:none;border-bottom:2px solid #0d47a1}
+ header .eyebrow,header p{opacity:1}
+ section{break-inside:auto}.fc,.qrow,.chartbox,tr{break-inside:avoid}
+ body.recall .fc .eq>*{visibility:visible}body.recall .fc .eq::after{display:none}
+ #mx{font-size:7pt;min-width:0}
+ .cards{grid-template-columns:1fr 1fr;gap:8px}.fc{padding:8px 10px}.fc .eq{font-size:.8em}.fc .meta{font-size:.78rem}
+ .qrow{padding:6px 10px;margin-bottom:4px}.chartbox{display:none}.cats{grid-template-columns:1fr 1fr}
+}
+.katex-display{overflow-x:auto;overflow-y:hidden;padding:2px 0}
+.chip.gv{color:var(--give);border-color:#bcdfc6;background:#fff;border-style:dashed}
+</style>
+</head><body>
+
+
+<header><div class="in">
+  <p class="eyebrow">exam-wiki-SM｜土壤力學｜單元總覽</p>
+  <h1>SM-U1-5　土壤強度特性與變形性</h1>
+  <p>一頁回答三件事：<b>這單元考什麼</b>、<b>哪些公式考卷會給、哪些要自己背</b>、<b>每一題要背哪幾條</b>。數字全部可由 <code>raw/json/question_index.json</code> 與題解重算；全科排第幾、哪年有考，看全科熱圖。</p>
+</div></header>
+
+<nav>
+  <a href="#s1">一、考什麼</a>
+  <a href="#s2">二、公式給／背</a>
+  <a href="#s3">三、考題總表</a>
+  <a href="#s4">四、只剩三天</a>
+  <a class="ext" href="lecture-SM-U1-5.html">觀念講義 ▶</a>
+  <a class="ext" href="frequency-SM.html#s-heat">全科熱圖 ▶</a>
+</nav>
+
+<main>
+
+<div class="pos"><div class="k"><b>#3</b><span>全科出題排名（13 子項）</span></div><div class="k"><b>12</b><span>主考點題數（＋副考點 4）</span></div><div class="k"><b>12/24</b><span>有出題的考年</span></div><div class="k"><b>2/6</b><span>近 6 考年（2020–25）共 2 題</span></div>
+  <a class="go" href="frequency-SM.html#s-heat">在全科熱圖看這一列 →</a>
+</div>
+<div class="btnbar">
+  <a class="b-lec" href="lecture-SM-U1-5.html">觀念講義 📘</a>
+  <a class="b-lecp" href="lecture-SM-U1-5.pdf" target="_blank">講義 PDF 🖨️</a>
+  <a class="b-pdf" href="unit-SM-U1-5.pdf" target="_blank">本頁 PDF 🖨️</a>
+</div>
+
+<!-- ============================================================ 一 -->
+<section id="s1">
+<h2>一、這單元考什麼</h2>
+<p class="lead">12 題主考點依「考點結構」分成 3 群，每題只歸一群。點卡片會跳到第三節、只列出那一群的題目。</p>
+<div class="cats" id="cats"></div>
+
+<h3 id="drift">考點漂移：前段 vs. 後段</h3>
+<div class="note">
+📌 <b>三個要記住的數字</b>：① 主考點 12 題、佔全科 12.5%，全科第三；24 個考年有 12 年出題；
+② 空窗兩段：<b>2014–2017</b> 四年、<b>2019–2023</b> 五年，之後 2024-1、2025-2 連兩年出現；
+③ 12 題有 9 題落在該年第一、二題——與 U1-3 一樣是開場題，第一題出現三軸試驗的機率很高。
+</div>
+<p class="lead"><b>考點漂移：前 6 題（2002–2010）vs. 後 6 題（2011–2025）</b></p>
+<p style="font-size:.9em;margin:0 0 10px;color:#78909c">把 12 題主考點依題號排序後對切，前後各 6 題。副考點 4 題不列入本表。</p>
+<div class="tw"><table>
+<thead><tr><th>考點群</th><th class="num">2002–2010</th><th class="num">2011–2025</th><th class="num">變化</th><th>解讀</th></tr></thead>
+<tbody>
+<tr><td><span class="bar" style="width:12px;background:#1565c0"></span> 三軸試驗計算與不排水強度</td><td class="num">2</td><td class="num">4</td><td class="num">↑</td><td>前段是「由 φ′ 推 UU 強度」（2003-4、2010-1）；後段改成直接處理試驗數據：反求現地應力（2012-1）、φcu 與 φ′（2018-2）、莫爾圓與破壞面（2024-1）、CU 推 CD（2025-2）</td></tr>
+<tr><td><span class="bar" style="width:12px;background:#6a1b9a"></span> 孔隙水壓參數與應力路徑</td><td class="num">1</td><td class="num">1</td><td class="num">－</td><td>2008-2（Skempton 求破壞水位）、2013-3（AC／LE 應力路徑）之後 12 年沒有再考</td></tr>
+<tr><td><span class="bar" style="width:12px;background:#2e7d32"></span> 觀念題：試驗選型、取樣與現地試驗</td><td class="num">3</td><td class="num">1</td><td class="num">↓</td><td>2002-4、2006-1、2007-2 三題整題說明；後段只剩 2011-1 名詞解釋——說明題已退成副考點的名詞小題</td></tr>
+</tbody></table></div>
+<div class="chartbox"><h4>年度分布（主考點 12 題，依考點結構堆疊）</h4><canvas id="cvBar" width="1000" height="230"></canvas><div class="legend-s" id="barLg"></div></div>
+<div class="note">
+📌 <b>一句話</b>：從「講清楚試驗」漂到「算清楚莫爾圓」。近兩次（2024-1、2025-2）都是給試驗數據、求 c′ 或 φ′、再預測另一個圍壓——
+主應力式與莫爾圓幾何是這條線的全部工具，而主應力式只在 2025 年印過一次。
+</div>
+
+<h3 id="type">題型走向</h3>
+<p class="lead"><b>分析法與題型走向</b></p>
+<div class="tw"><table>
+<thead><tr><th>期間</th><th class="num">有效應力法</th><th class="num">總應力法</th><th class="num">混合</th><th class="num">概念題</th><th>觀察</th></tr></thead>
+<tbody>
+<tr><td>前段 2002–2010（6 題）</td><td class="num">2</td><td class="num">0</td><td class="num">1</td><td class="num">3</td><td>概念題 3 題（2002-4、2006-1、2007-2）；2008-2 混合（砂層三相＋黏土有效應力）</td></tr>
+<tr><td>後段 2011–2025（6 題）</td><td class="num">5</td><td class="num">0</td><td class="num">0</td><td class="num">1</td><td>只剩 2011-1 名詞解釋是概念題；其餘全是有效應力法計算</td></tr>
+<tr style="background:#fff8e1"><td><b>近 6 考年 2020–2025（2 題）</b></td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td>2024-1（CD）、2025-2（CU→CD）</td></tr>
+</tbody></table></div>
+<div class="note">📌 <b>對複習的直接影響</b>：即使題目問的是「不排水強度」，索引一律標有效應力法——因為解法都要先算 \(\sigma_{v0}'\) 或試驗中的有效主應力。
+主副 16 題有 9 題計算、6 題說明、1 題繪圖（2013-3 應力路徑）。</div>
+
+<h3 id="risk">命題風險排序</h3>
+<p class="lead">依「歷史頻率 × 空窗年數 × 近年趨勢」排序。<b>這是推測不是預言</b>，用途是決定練題順序，不是 all-in 單一考點。最右欄是這類題<b>必背的公式</b>，點了跳到第二節的卡片。</p>
+<div class="tw"><table id="riskT">
+<thead><tr><th>風險</th><th>考點</th><th class="num">歷史題數</th><th>最後出現</th><th class="num">空窗</th><th>理由</th><th>必背公式</th></tr></thead>
+<tbody>
+<tr class="risk-hi"><td><b>高</b></td><td>三軸試驗數據 → c′、φ′ → 預測另一圍壓或另一種試驗</td><td class="num">6</td><td>2025-2</td><td class="num">0 年</td><td>後段 6 題有 4 題是這條線，2024、2025 連兩年；2025 印了主應力式，下一次未必會印</td><td data-f="1,2,17,5"></td></tr>
+<tr class="risk-hi"><td><b>高</b></td><td>破壞面角度與破壞面上的應力</td><td class="num">4</td><td>2024-1</td><td class="num">1 年</td><td>2006-1、2013-3、2018-2、2024-1 都要寫 θf，2024-1 再加破壞面上的 σ、τ；角度要量自哪個面是固定陷阱</td><td data-f="3,4"></td></tr>
+<tr class="risk-md"><td><b>中</b></td><td>孔隙水壓參數（Skempton、Af）與應力路徑</td><td class="num">2＋名詞 1</td><td>2013-3</td><td class="num">12 年</td><td>2008-2、2013-3 之後 12 年沒出；一旦出現，Skempton 式、Af、p–q 定義全部零供給</td><td data-f="12,13,14"></td></tr>
+<tr class="risk-md"><td><b>中</b></td><td>由 φ′ 推 NC 黏土 UU 強度、飽和 UU 的 φu＝0</td><td class="num">3</td><td>2010-1</td><td class="num">15 年</td><td>2003-4、2010-1 同一題型、2007-2 觀念版；不給 Af 就要自己假設，答案隨假設改變</td><td data-f="7,5,6"></td></tr>
+<tr class="risk-lo"><td><b>低</b></td><td>試驗選型、取樣擾動、十字片剪（說明題）</td><td class="num">3＋1 副</td><td>2007-2</td><td class="num">18 年</td><td>整題說明型 18 年沒出；只以名詞解釋形式（2011-1、2019-1）出現</td><td data-f="19,20,10"></td></tr>
+</tbody></table></div>
+<p style="font-size:.88em;color:#78909c">這是推測不是預言：依「歷史頻率 × 空窗年數 × 近年趨勢」排序，用途是決定練題順序。</p>
+</section>
+
+<!-- ============================================================ 二 -->
+<section id="s2">
+<h2>二、公式給／背</h2>
+<p class="lead">以 <b>2002–2025 共 24 份考卷原文</b>為證據，逐條判定哪些考卷會印給你、哪些必須自己寫得出來。這不是公式速查表，是<b>背誦資源的投放決策</b>。</p>
+<p class="lead">結論先講：<b>本單元幾乎零供給。</b>有本單元題目的 14 個考年裡，印過本單元式子的只有 3 年：114 年（2025-2）主應力式、113 年（2024-1）把 θf 當成要證明的結論印在題目裡、106 年（2017-4，副）Su＝10N/16；
+M–C 準則、sinφ′ 捷徑、Su＝qu/2、Skempton 式、有效應力原理<b>24 年一條都沒印過</b>。</p>
+<div class="warn"><b>⚠️ 給參數、不給式子，是本單元的常態。</b>97 年（2008-2）把 c′、φ′、K0、Af 與應力增量比全給，Skempton 式與破壞條件一條不給；
+92、99 年只給 φ′ 就要你求 UU 強度，連 Af 都要自己假設。參數越齊，越是在測你有沒有把式子帶進考場。</div>
+<details><summary>判定方法（展開）</summary><div class="db">
+<p class="lead">考卷交公式有三種擺法，三種都算「有給」：<b>(a) 集中式</b>——最後一題後另闢「※參考公式」區；<b>(b) 隨題式</b>——緊跟該題題目；<b>(c) 內文式</b>——混在題目敘述裡當已知條件。</p>
+<h4>1-1　考卷把公式印出來的三種擺法（三種都算「有給」）</h4>
+<div class="tw"><table>
+<tr><th style="width:14%">擺法</th><th style="width:30%">特徵</th><th>本單元的實例</th></tr>
+<tr><td><b>(a) 集中式</b></td><td>全卷共用的「參考公式」區</td><td>114 年（2025）有集中式，但印的是壓密 \(T_v\)（U1-3），不是本單元</td></tr>
+<tr><td><b>(b) 隨題式</b></td><td>跟在題目下方</td><td>114 年（2025-2）主應力式；106 年（2017-4，副）\(S_u=10N/16\)</td></tr>
+<tr><td><b>(c) 內文式</b></td><td>寫在題目敘述裡</td><td>113 年（2024-1）「請證明……夾角為 \(45^\circ+\phi/2\)」；其餘只給參數（97 年 \(K_0\)、\(A_f\)，102 年 \(K_0\)，97 年 \(S_u/\sigma'_{v0}\)）</td></tr>
+</table></div>
+<p>證據來源：<code>raw/exams/</code> 2002–2025 全 24 份考卷 <code>pdftotext -layout</code> 抽取；有本單元題目的年份以題目正本（<code>-problem.md</code>，轉圖目視寫成、已確認）的「考卷給的公式」逐題核對；含嵌入影像的頁面另轉圖目視（2007、2013、2018、2024 年本頁或 U3-2 頁轉圖，2003、2011 年見 U2-3 單元總覽；2005、2006、2008、2010、2012 年全卷零嵌入影像）。</p>
+<h4>1-2　SM 考卷的免責聲明：方向和 SS 相反</h4>
+<p>96～102 年注意事項寫「相關公式…未提及時，請自行合理推斷與假設」；96 年還寫「若條件不足，請自行作合理假設！」。本單元 92、99 年不給 \(A_f\) 就是這句話的實踐：<b>假設要寫出來，答案才有分</b>。</p>
+<h4>1-3　最該警覺的一件事：題目問的是哪一種摩擦角、哪一個面</h4>
+<p>φ′ 與 \(\phi_{cu}\)（2012-1、2018-2、2013-3）、與最大主應力面還是與水平面的夾角（2024-1 vs 2018-2）——同一張莫爾圓，題目換個問法答案就不同。</p>
+<p class="lead"><b>「用到」的判定</b>：該題題解實際寫出或套用了這條式子才算。卡片上的題號、第三節每題的公式標籤、下方逐年表的 ✗，全部由同一份逐題資料算出。</p>
+</div></details>
+
+<div class="legend">
+<div class="lg must"><h4>必背</h4><p>考卷從未印過；或曾「考了卻沒給」。自己要寫得出來，否則整題卡死。</p></div>
+<div class="lg half"><h4>別賭</h4><p>曾在某些年份印出，但多數年份沒有，或只給形式不給可用的式子。仍建議背。</p></div>
+<div class="lg give"><h4>通常會給</h4><p>需要用到時幾乎必定印在題幹，無「考了卻沒給」的先例。</p></div>
+</div>
+<p class="lead">採<b>保守標準</b>：拿不準就往上歸。把「必背」誤判成「會給」的代價，遠大於多背幾條。</p>
+<div class="kpis" id="fkpi"></div>
+
+<h3>公式逐條分界</h3>
+<p class="lead">每張卡底下列出「考了卻沒給」的<b>題號</b>（灰色＝副考點題），點題號開解析；點「看這幾題」會在第三節篩出用到這條的題目。</p>
+<div class="filters" id="flt"></div>
+<div class="recallbar"><button id="rcToggle" type="button">🙈 回想模式：關</button><span id="rcInfo"></span><button id="rcReset" type="button" hidden>全部蓋回</button></div>
+<div class="cards" id="cards"></div>
+
+<details id="mxBox"><summary>逐年證據表：24 考年 × 公式欄（展開）</summary><div class="db">
+<p class="lead">每格三種狀態：<span class="lgd y">✔</span> 該年考卷印出 <span class="lgd x">✗</span> 該年有本單元題目用到這欄的式子，<b>考卷卻沒印</b> <span class="lgd n">·</span> 該年沒用到。底色列＝該年有本單元題目。</p>
+<div class="tw"><table id="mx">
+<thead><tr><th>考卷年</th><th>單元題號</th><th>M-C準則</th><th>主應力式・sinφ</th><th>破壞面・應力</th><th>Su・φu＝0</th><th>Su推估</th><th>十字片剪・St</th><th>Skempton・Af</th><th>應力路徑・K0</th><th>有效應力・icr</th><th>選型・擾動</th><th>備註</th></tr></thead>
+<tbody></tbody><tfoot></tfoot></table></div>
+<p class="lead" id="mxsum" style="margin-top:10px"></p>
+</div></details>
+
+<h3>背誦策略</h3>
+<div class="strat" id="strat">
+<h4>4-1　如果只背五條</h4>
+<ol>
+<li><b>主應力式 \(\sigma_1'=\sigma_3'\tan^2(45^\circ+\phi'/2)+2c'\tan(45^\circ+\phi'/2)\)</b>——一給五不給；用到它的題：<span data-qs="1" data-count></span>。</li>
+<li><b>\(c'=0\) 的 \(\sin\phi'\) 捷徑</b>——NC 黏土的特權，三題用到，零供給。</li>
+<li><b>θf＝45°＋φ/2 與破壞面上 σ、τ</b>——用到 θf 的題：<span data-qs="3" data-count></span>。</li>
+<li><b>Skempton 式與 \(A_f\)</b>——同時用到兩者的題：<span data-qs="12+13" data-count></span>；零供給。</li>
+<li><b>\(\sigma'=\sigma-u\) 與 \(S_u=q_u/2\)</b>——每一題的第一步與最常見的一步之差。</li>
+</ol>
+<p><b>可以省下的</b>：\(S_u=10N/16\) 這類經驗式（考了會給）。但「由 φ′ 推 NC 黏土 Su」的推導要會，因為 \(A_f\) 不會給。</p>
+<h4>4-2　考場上的四個檢查動作</h4>
+<ol>
+<li><b>先分總應力圓與有效應力圓</b>：兩個圓直徑相同、水平距離就是 \(u_f\)。</li>
+<li><b>看 \(c'\) 是不是 0</b>：NC 黏土直接用 \(\sin\phi'\)；有 \(c'\) 就用主應力式解聯立。</li>
+<li><b>問角度先確認基準面</b>：與最大主應力面 \(45^\circ+\phi/2\)；與水平面要看大主應力方向。</li>
+<li><b>題目沒給 \(A_f\)、\(K_0\)、背壓時寫假設</b>：例如「NC 黏土 \(A_f\approx1\)」「初始孔壓為零」。</li>
+</ol>
+</div>
+</section>
+
+<!-- ============================================================ 三 -->
+<section id="s3">
+<h2>三、考題總表 <small>主 12 ＋ 副 4 ＝ 16 題</small></h2>
+<p class="lead">每題列出題解用到的公式：紅／橘＝考卷沒給、要自己背；綠框虛線＝那年考卷有印。標籤點了會跳到第二節那張卡。虛線灰底＝副考點（主考點在別的子項）。</p>
+<div class="filters" id="qflt">
+  <div class="fg" id="qfCat"><b>考點群</b></div>
+  <div class="fg" id="qfPri"><b>範圍</b></div>
+  <div class="fg"><b>用到公式</b><select id="qfF"><option value="">（不限）</option></select></div>
+</div>
+<p class="count" id="qcount"></p>
+<div class="qhead"><span>題號</span><span>題型</span><span>考什麼</span><span>用到的式子</span><span style="text-align:right">解析／影片</span></div>
+<div id="qlist"></div>
+<div class="note">圖示：📄 解析頁（problems-view）、🎬 解題影片、✅ 已驗證。本單元目前沒有 verificationStatus＝verified 的題目。</div>
+</section>
+
+<!-- ============================================================ 四 -->
+<section id="s4">
+<h2>四、只剩三天</h2>
+<div class="note" style="font-size:.92rem">
+📌 <b>若只剩三天</b>：第一天做 2025-2（CU 推 CD）、2024-1（莫爾圓、θf、破壞面應力）、2018-2（φcu、φ′、Af），把主應力式與 sinφ′ 練到不用想；
+第二天做 2012-1（反求現地應力）、2003-4 或 2010-1（由 φ′ 推 Su）、2008-2（Skempton 求破壞水位）；
+第三天畫 2013-3 的 AC／LE 應力路徑，再把十字片剪、流砂與液化、SUU／UUU 各寫一段。
+原理與圖解見 <a href="lecture-SM-U1-5.html">觀念講義</a>。
+</div>
+</section>
+
+<footer>
+SM-U1-5 單元總覽｜由 <code>scripts/build_unit_page.py</code> 從 <code>study/data/unit-SM-U1-5.json</code> 產生｜2026-11-23<br>
+資料來源：<code>raw/json/question_index.json</code>（96 題／24 考年）、<code>raw/exams/</code> 考卷原文、<code>raw/solutions/SM-YYYY-N/*.md</code>（本單元 16 份題解，逐題核對公式用途）。<br>
+相對於舊版給／背分界頁（archive/study/formula-given-SM-U1-5，年份層級）的證據更正（以西元年表示）：「M–C 準則」移除 2025（2025-2 用主應力式）；「主應力式」移除 2012、2018（兩題用 sinφ′）、新增 2006、2008；「sinφ′」移除 2003（2003-4 用主應力式與 Af＝1 推導）、新增 2013；「θf」2024 改為「有印」（題目印出待證式）、新增 2006；「Su＝qu/2」移除 2020（SM-2020-4 屬 U2-1）、新增 2008（副）；「SHANSEP」移除 2002、2003（題解未寫此式），只留 2008（副）；「Skempton」移除 2003（只假設 Af＝1）、2018（只用 Af 定義）、新增 2010；「p–q」由別賭改必背（從未印出）；「Kf 線」移除 2012、2013（題解未經 Kf 線）；「K0」改為 2008、2013 兩題（值給、式不給），2021 屬 U2-2；「試驗選型」移除 2024、新增 2003（副）；「有效應力」新增 2002、2003、2025。新增卡片：由 φ′ 推 NC 黏土 Su（Af＝1 假設）、Su＝10N/16、靈敏度、臨界水力坡降。註：SM-2003-4、SM-2010-1 題解以 Af＝1 的理論邊界求 UU 強度（考卷未給 Af），屬題解假設，未列為勘誤。
+</footer>
+</main>
+
+<script>
+const D={"Q": [{"id": "SM-2002-4", "cl": "K", "sum": "NC 黏土 20 m 深試體 CU 試驗：壓密壓力低於現地有效應力，結果是否適用、如何重新規劃", "ty": "說明", "f": [17, 19, 20], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SM-2003-1", "cl": "K", "sum": "（副）開挖 8 m 基地：不擾動土樣取樣配置、所需工程性質試驗與參數", "ty": "說明", "f": [19, 20], "pri": 0, "secCat": "U2-4 基礎型式之選擇與評估", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SM-2003-4", "cl": "A", "sum": "NC 黏土 φ′＝30°、12 m 深、未受解壓影響：UU 不排水強度（不給 Af）", "ty": "計算", "f": [1, 5, 7, 17, 20], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "有效應力法"}, {"id": "SM-2006-1", "cl": "K", "sum": "c–φ 土壤極限平衡應力狀態、十字片剪試驗與強度決定、OCR（說明）", "ty": "說明", "f": [0, 1, 3, 10], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SM-2007-2", "cl": "K", "sum": "流砂與液化的機制異同與對策；SUU 與 UUU 三軸試驗的抗剪角與原因", "ty": "說明", "f": [6, 17, 18, 19], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SM-2008-2", "cl": "P", "sum": "儲水槽蓄水使黏土 A 點應力增加：K0＝0.5、Af＝0.7，求水位升到多高時破壞", "ty": "計算", "f": [1, 12, 16, 17], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "混合"}, {"id": "SM-2008-3", "cl": "A", "sum": "（副）連續壁貫入 FS：黏土 Su/σv0′＝0.25，反算被動側改良所需單壓強度 qu", "ty": "計算", "f": [5, 8], "pri": 0, "secCat": "U2-3 開挖之穩定性分析", "ver": 0, "video": 0, "dm": "總應力法"}, {"id": "SM-2010-1", "cl": "A", "sum": "黏土 φ′＝28°、12 m 深：UU 不排水強度；UU 圍壓 50 kPa 時試體孔隙水壓", "ty": "計算", "f": [1, 5, 6, 7, 12, 17], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "有效應力法"}, {"id": "SM-2011-1", "cl": "K", "sum": "名詞解釋：應力路徑、流黏土、臨界水力坡降（另含零空氣孔隙曲線、角變位）", "ty": "說明", "f": [11, 14, 18], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SM-2012-1", "cl": "A", "sum": "NC 黏土同位置 CU（φcu＝22°）與 UU（Su＝50）：反求現地有效覆土壓、取樣深度與 Δuf", "ty": "計算", "f": [2, 17, 19], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "有效應力法"}, {"id": "SM-2013-3", "cl": "P", "sum": "K0＝0.7 不等向壓密 AC 與 LE 試驗：應力路徑、LE 孔壓–應變圖、Af、φ′、φ、破壞面角度", "ty": "繪圖", "f": [2, 3, 12, 13, 14, 16], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "有效應力法"}, {"id": "SM-2017-4", "cl": "A", "sum": "（副）開挖穩定之㈣：以 Su＝10N/16 估不排水強度求隆起安全係數", "ty": "計算", "f": [9], "pri": 0, "secCat": "U2-3 開挖之穩定性分析", "ver": 0, "video": 0, "dm": "混合"}, {"id": "SM-2018-2", "cl": "A", "sum": "NC 黏土 CU 試驗：第二試體破壞軸差、φcu 與 φ′、破壞面與水平面夾角、Af", "ty": "計算", "f": [2, 3, 13, 17], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "有效應力法"}, {"id": "SM-2019-1", "cl": "K", "sum": "（副）名詞解釋之㈢：摩爾-庫倫破壞準則", "ty": "說明", "f": [0], "pri": 0, "secCat": "U1-1 土壤基本性質", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SM-2024-1", "cl": "A", "sum": "CD 試驗（c＝25 kPa）：繪莫爾圓求 φ、證明破壞面角度、破壞面上應力、圍壓 200 kPa 的軸差應力", "ty": "計算", "f": [0, 1, 3, 4], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "有效應力法"}, {"id": "SM-2025-2", "cl": "A", "sum": "兩個 CU 試體求 c′、φ′，預測 CD 試體（圍壓 200）破壞時 Δσ（考卷印主應力式）", "ty": "計算", "f": [1, 17, 19], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "有效應力法"}], "F": [{"g": "A 破壞準則與莫爾圓", "lv": "must", "nm": "Mohr–Coulomb 破壞準則", "sh": "M-C準則", "c": 0, "eq": "$$\\tau_f=c'+\\sigma'\\tan\\phi'\\qquad\\tau_f=c_u\\ \\ (\\phi_u=0)$$", "meta": "24 年零供給。95（2006-1）㈠「試說明 \\(c\\)–\\(\\phi\\) 土壤元素達極限平衡之應力狀態」（10 分）、108（2019-1，副）㈢名詞解釋、113（2024-1）以莫爾圓相切求 φ（\\(R=C\\sin\\phi+c\\cos\\phi\\)，得 26.3°）。要能同時說出：包絡線切於莫爾圓；\\(\\phi=0\\) 時退化成水平線。", "ok": []}, {"g": "A 破壞準則與莫爾圓", "lv": "must", "nm": "主應力形式的破壞準則", "sh": "主應力式", "c": 1, "eq": "$$\\sigma_1'=\\sigma_3'\\tan^2\\!\\Bigl(45^\\circ+\\frac{\\phi'}{2}\\Bigr)+2c'\\tan\\!\\Bigl(45^\\circ+\\frac{\\phi'}{2}\\Bigr)$$", "meta": "<b>24 年只印過一次<\/b>：114 年（2025-2）印在題目下方，要你由兩個 CU 試體求 \\(c'\\)、\\(\\phi'\\)，再預測 CD 試體的 \\(\\Delta\\sigma=160\\) kN/m²。其餘五題要用都沒印：95（2006-1）極限平衡說明、97（2008-2）A 點破壞條件、92（2003-4）與 99（2010-1）由 φ′ 推 UU 強度、113（2024-1）圍壓 200 kPa 時的軸差應力（399.46 kPa）。一給五不給，必須背到能反解 φ′。", "ok": [2025]}, {"g": "A 破壞準則與莫爾圓", "lv": "must", "nm": "c′＝0 的 sinφ′ 捷徑", "sh": "sinφ", "c": 1, "eq": "$$\\sin\\phi'=\\frac{\\sigma_1'-\\sigma_3'}{\\sigma_1'+\\sigma_3'}\\qquad(c'=0;\\ \\text{總應力 }\\phi_{cu}\\text{ 同理})$$", "meta": "正常壓密黏土 \\(c'=0\\) 打開的捷徑，零供給。107（2018-2）求 \\(\\phi_{cu}=17.35^\\circ\\)、\\(\\phi'=34.26^\\circ\\)，第二試體軸差應力依比例得 212.5 kPa；101（2012-1）以總應力圓 \\(\\sin\\phi_{cu}\\) 反求現地有效覆土壓 83.47 kPa、深度 7.80 m；102（2013-3）AC、LE 兩試驗的 φ′ 與 φ。114 年印的完整式在 \\(c'=0\\) 時會退化成這條，但要自己化簡。", "ok": []}, {"g": "A 破壞準則與莫爾圓", "lv": "must", "nm": "破壞面傾角 θf＝45°＋φ/2", "sh": "θf", "c": 2, "eq": "$$\\theta_f=45^\\circ+\\frac{\\phi}{2}\\quad(\\text{與最大主應力面夾角；圓心角 }2\\theta_f=90^\\circ+\\phi)$$", "meta": "113 年（2024-1）㈡題目寫「請證明破壞面與最大主應力面的夾角為 \\(45^\\circ+\\phi/2\\)」——式子印在題目裡，是要證明的結論，㈢可以直接拿來用，故記為「有印」。95（2006-1）、102（2013-3，59.02°）、107（2018-2，與水平面 62.13°）都要自己寫。注意破壞面由<b>有效應力<\/b> φ′ 決定。", "ok": [2024]}, {"g": "A 破壞準則與莫爾圓", "lv": "must", "nm": "破壞面上的正向應力與剪應力", "sh": "σn・τ", "c": 2, "eq": "$$\\sigma_n=\\frac{\\sigma_1+\\sigma_3}{2}-\\frac{\\sigma_1-\\sigma_3}{2}\\sin\\phi,\\qquad \\tau=\\frac{\\sigma_1-\\sigma_3}{2}\\cos\\phi$$$$(\\text{一般面}:\\ \\sigma_n=\\tfrac{\\sigma_1+\\sigma_3}{2}+\\tfrac{\\sigma_1-\\sigma_3}{2}\\cos2\\theta,\\ \\ \\tau=\\tfrac{\\sigma_1-\\sigma_3}{2}\\sin2\\theta)$$", "meta": "113 年（2024-1）㈢（10 分）：破壞面上 \\(\\sigma_{ff}=166.77\\) kPa、\\(\\tau_{ff}=107.55\\) kPa，零供給。題解用圓心與半徑寫成 \\(C-R\\sin\\phi\\)、\\(R\\cos\\phi\\)，與 \\(2\\theta\\) 式等價；記莫爾圓的畫法比記式子可靠。", "ok": []}, {"g": "B 不排水強度", "lv": "must", "nm": "不排水剪力強度 Su＝(σ1−σ3)f/2＝qu/2", "sh": "Su＝qu/2", "c": 3, "eq": "$$S_u=\\frac{(\\sigma_1-\\sigma_3)_f}{2}=\\frac{q_u}{2}\\qquad(\\phi_u=0)$$", "meta": "零供給，本單元最基本的一步：92（2003-4）30.76 kPa、99（2010-1）35.75 kPa 都由它定義；97（2008-3，副）反算改良後「平均單壓強度 \\(q_u\\)」也要先寫 \\(S_u=q_u/2\\)。把 \\(q_u\\) 直接當 \\(S_u\\) 用是全科最常見的一步之差。", "ok": []}, {"g": "B 不排水強度", "lv": "must", "nm": "飽和 UU 的 φu＝0 與 B＝1", "sh": "φu＝0", "c": 3, "eq": "$$S=100\\%:\\ B=1,\\ \\Delta u=\\Delta\\sigma_3\\ \\Rightarrow\\ \\phi_{uu}=0;\\qquad S\\lt100\\%:\\ B\\lt1\\ \\Rightarrow\\ \\phi_{uu}\\gt0$$", "meta": "96 年（2007-2）㈡（12 分）：SUU 與 UUU 的抗剪角各為幾度、原因並繪圖——沒有公式，只有機制。99 年（2010-1）㈡是計算版：UU 加圍壓 50 kPa、試體仍飽和，孔隙水壓 50 kPa。零供給。", "ok": []}, {"g": "B 不排水強度", "lv": "must", "nm": "由 φ′ 推 NC 黏土的 UU 強度（假設 Af）", "sh": "φ′→Su", "c": 4, "eq": "$$A_f=1\\Rightarrow\\sigma_{1f}'=\\sigma_{v0}',\\quad \\sigma_{3f}'=\\sigma_{1f}'\\tan^2\\!\\Bigl(45^\\circ-\\frac{\\phi'}{2}\\Bigr)\\Rightarrow S_u=\\sigma_{v0}'\\frac{\\sin\\phi'}{1+\\sin\\phi'}$$", "meta": "92（2003-4）「NC 黏土 φ′＝30°、12 m 深、未受解壓影響，UU 強度為何」、99（2010-1）同型（φ′＝28°、水位 2 m）——都只給 φ′ 與單位重，<b>連 \\(A_f\\) 都不給<\/b>。題解以 \\(A_f=1\\) 的理論邊界假設得 30.76、35.75 kPa；假設不同答案就不同，作答一定寫明。零供給。", "ok": []}, {"g": "B 不排水強度", "lv": "must", "nm": "正規化不排水強度 Su／σv0′（SHANSEP）", "sh": "Su/σv0′", "c": 4, "eq": "$$\\frac{S_u}{\\sigma_{v0}'}=S\\cdot OCR^{\\,m}\\qquad(\\text{NC}:\\ S\\approx0.22\\sim0.25,\\ m\\approx0.8)$$", "meta": "97 年（2008-3，副，U2-3 主）直接給 \\(S_u/\\sigma'_{v0}=0.25\\)，\\(S_u\\) 隨深度增加——數值給了，式子與 \\(OCR^m\\) 的修正要自己知道。91 年（2002-4）的「壓密壓力要涵蓋現地應力」是同一個正規化觀念，但題解沒有寫這條式子，不計入。", "ok": []}, {"g": "B 不排水強度", "lv": "give", "nm": "由 SPT-N 估 Su＝10N/16", "sh": "10N/16", "c": 4, "eq": "$$S_u=\\frac{10N}{16}\\ (\\mathrm{tf/m^2})\\qquad(\\text{Terzaghi \\& Peck 1959})$$", "meta": "只出現在 106 年（2017-4，副，U2-3 主）一次，題目印出並註明「本案砂土、粘土皆可用」。經驗迴歸各家係數不同，命題委員必須給。沒給的一步是取哪一段的 N 值平均。"}, {"g": "C 現地試驗與靈敏度", "lv": "must", "nm": "十字片剪試驗求 Su 與修正", "sh": "十字片剪", "c": 5, "eq": "$$S_u=\\frac{T}{\\pi\\Bigl(\\dfrac{d^2h}{2}+\\dfrac{d^3}{6}\\Bigr)},\\qquad S_{u,\\text{設計}}=\\mu\\,S_{u,\\text{vane}}\\ (\\text{Bjerrum，隨 PI 增加而減小})$$", "meta": "95 年（2006-1）㈡「試說明十字片剪試驗方法與土壤強度決定方法」（10 分），零供給。原理、式子、Bjerrum 修正、只適用飽和軟弱黏土四層都寫到才拿滿。", "ok": []}, {"g": "C 現地試驗與靈敏度", "lv": "must", "nm": "靈敏度 St 與流黏土", "sh": "靈敏度", "c": 5, "eq": "$$S_t=\\frac{q_{u,\\text{不擾動}}}{q_{u,\\text{重塑}}}\\qquad(S_t\\gt16:\\ \\text{quick clay})$$", "meta": "100 年（2011-1）㈢名詞解釋「流黏土（quick clay）」，零供給。要點：淋溶使鹽分流失、絮狀結構不穩定，重塑後強度幾乎歸零。", "ok": []}, {"g": "D 孔隙水壓與應力路徑", "lv": "must", "nm": "Skempton 孔隙水壓參數式", "sh": "Skempton", "c": 6, "eq": "$$\\Delta u=B\\bigl[\\Delta\\sigma_3+A(\\Delta\\sigma_1-\\Delta\\sigma_3)\\bigr]\\qquad(\\text{飽和 }B=1)$$", "meta": "零供給，三題用到。97 年（2008-2）最典型：給 \\(A_f=0.7\\)、\\(K_0=0.5\\)、\\(1.5\\Delta\\sigma_v=3\\Delta\\sigma_h=\\Delta q\\)，問儲水槽水位升到多高時 A 點破壞（4.26 m）——參數全給、式子不給。102（2013-3）由 AC 試驗推 LE 試驗的孔壓、99（2010-1）\\(B=1\\) 時 \\(\\Delta u=\\Delta\\sigma_3\\)。NC 黏土 \\(A_f\\) 約 0.5～1，重度 OC 可為負。", "ok": []}, {"g": "D 孔隙水壓與應力路徑", "lv": "must", "nm": "破壞時孔壓參數 Af", "sh": "Af", "c": 6, "eq": "$$A_f=\\frac{\\Delta u_f}{(\\Delta\\sigma_1-\\Delta\\sigma_3)_f}$$", "meta": "107（2018-2）㈣ \\(A_f=67/85=0.788\\)（5 分）；102（2013-3）㈢要比較 AC 與 LE 兩試驗的 \\(A_f\\)。零供給。102 年寫明「假設初始孔隙水壓為零」，就是在排除背壓或初始孔壓——有的話要先扣。", "ok": []}, {"g": "D 孔隙水壓與應力路徑", "lv": "must", "nm": "應力路徑座標 p–q（兩種定義）", "sh": "p–q", "c": 7, "eq": "$$\\text{MIT}:\\ p=\\frac{\\sigma_1+\\sigma_3}{2},\\ q=\\frac{\\sigma_1-\\sigma_3}{2}\\qquad \\text{Cambridge}:\\ p'=\\frac{\\sigma_1'+2\\sigma_3'}{3},\\ q=\\sigma_1-\\sigma_3$$", "meta": "100（2011-1）㈡名詞解釋「應力路徑」、102（2013-3）㈠「繪出 AC 與 LE 試驗之總應力與有效應力路徑」（8 分）。零供給，考卷也沒指定用哪一套；題解用 MIT 版。圖上寫明採用的定義。舊版給背頁列「別賭」，本頁依「從未印出」改為必背。", "ok": []}, {"g": "D 孔隙水壓與應力路徑", "lv": "must", "nm": "Kf 線與 Mohr 包絡線的換算", "sh": "Kf線", "c": 7, "eq": "$$\\tan\\alpha=\\sin\\phi',\\qquad a=c'\\cos\\phi'$$", "meta": "本單元題解沒有直接套用：102 年（2013-3）的 φ′、φ 是以 \\(c'=0\\) 的 \\(\\sin\\phi\\) 式求得，沒有經過 \\(K_f\\) 線。但只要題目要你「由應力路徑圖決定 φ′」，這兩條就是最短路徑。", "ok": []}, {"g": "D 孔隙水壓與應力路徑", "lv": "half", "nm": "靜止土壓力係數 K0 與 σh0′＝K0σv0′", "sh": "K0", "c": 7, "eq": "$$\\sigma_{h0}'=K_0\\,\\sigma_{v0}',\\qquad K_0=1-\\sin\\phi'\\ (\\text{NC，Jaky}),\\qquad K_{0,OC}=K_{0,NC}\\,OCR^{0.5}$$", "meta": "值常給、式子不給：97（2008-2）給 \\(K_0=0.5\\) 求初始水平有效應力；102（2013-3）給 \\(K_0=0.7\\)，由此得 \\(\\sigma_{cell}=280\\)、\\(\\sigma_v=400\\) kN/m²，AC 試驗初始軸差 120 kPa。兩次都附數值，但 \\(K_0=1-\\sin\\phi'\\) 從未印過（U2-2 的 2021-3、2024-4 也寫 \\(K_0\\) 卻不定義），歸別賭。", "ok": []}, {"g": "E 有效應力與試驗規劃", "lv": "must", "nm": "有效應力原理 σ′＝σ−u", "sh": "σ′＝σ−u", "c": 8, "eq": "$$\\sigma'=\\sigma-u,\\qquad \\sigma_{v0}'=\\sum\\gamma z-\\gamma_wz_w$$", "meta": "整個單元的地基，24 年零供給，8 題用到：現地有效覆土壓（2002-4 約 200 kPa、2003-4、2010-1、2012-1 83.47 kPa）、試驗中的有效主應力（2018-2、2025-2）、A 點破壞（2008-2）、流砂（2007-2）。UU 改變圍壓時 σ′ 不變——這就是 \\(\\phi_u=0\\) 的全部理由。", "ok": []}, {"g": "E 有效應力與試驗規劃", "lv": "must", "nm": "臨界水力坡降與流砂", "sh": "icr", "c": 8, "eq": "$$i_{cr}=\\frac{\\gamma'}{\\gamma_w}=\\frac{G_s-1}{1+e},\\qquad \\sigma'=0\\ \\Rightarrow\\ \\text{流砂（quick sand）}$$", "meta": "96（2007-2）㈠流砂與液化的機制異同與防治（13 分）、100（2011-1）㈤名詞解釋「臨界水力坡降」，兩題都零供給。106 年（2017-4，U2-3）印過 \\(i_c=\\gamma_{sub}/\\gamma_w\\)，但那年本單元沒有用到它的題。流砂是滲流使 σ′＝0，液化是反覆剪動使孔壓上升——結果相同、成因不同。", "ok": [2017]}, {"g": "E 有效應力與試驗規劃", "lv": "must", "nm": "三軸試驗選型（UU／CU／CD）", "sh": "試驗選型", "c": 9, "eq": "$$\\text{短期快速施載（黏土）}\\to UU\\ (\\text{總應力});\\quad \\text{已壓密再加載}\\to CU;\\quad \\text{長期或砂土}\\to CD\\ (\\text{有效應力})$$", "meta": "沒有數學符號，但決定整題用總應力法還是有效應力法。91（2002-4）CU 結果能否用於基礎設計、92（2003-1，副）不擾動取樣與試驗項目、96（2007-2）SUU 與 UUU、101（2012-1）CU 與 UU 同位置試體、114（2025-2）由 CU 參數預測 CD。零供給。", "ok": []}, {"g": "E 有效應力與試驗規劃", "lv": "must", "nm": "取樣擾動與現地應力還原", "sh": "取樣擾動", "c": 9, "eq": "$$\\sigma_{c,\\text{試驗}}'\\ \\ge\\ \\sigma_{v0}'\\ (\\text{現地})\\quad\\text{否則量到的是過壓密行為}$$", "meta": "91 年（2002-4）整題 25 分：試體取自 20 m，現地 \\(\\sigma_{v0}'\\approx(19.8-9.81)\\times20\\approx200\\) kN/m²，三組壓密壓力 49／73.5／147 都低於它，量到的 \\(c'=15\\) kN/m² 是擾動假象。92（2003-4）「假設未受解壓影響」、92（2003-1，副）取樣配置是同一路。零供給。", "ok": []}], "clusters": {"A": {"icon": "⭕", "name": "三軸試驗計算與不排水強度", "desc": "莫爾圓・主應力式・sinφ′ 捷徑・Su＝Δσ/2・由 φ′ 推 NC 黏土 Su・正規化強度", "color": "#1565c0"}, "P": {"icon": "💧", "name": "孔隙水壓參數與應力路徑", "desc": "Skempton A、B・Af・K0 壓密・AC／LE 應力路徑・p–q 圖", "color": "#6a1b9a"}, "K": {"icon": "🧪", "name": "觀念題：試驗選型、取樣與現地試驗", "desc": "UU／CU／CD 選用・取樣擾動・十字片剪・流砂與液化・名詞解釋", "color": "#2e7d32"}}, "MXR": {"2002": "四：CU 試驗壓密壓力 49／73.5／147 低於現地 σv0′≈200 kPa，判斷是否適用並重新規劃，<b>零公式<\/b>；考卷上「φ′」符號是破碎的小影像。", "2003": "一（副）取樣配置與試驗項目、四 NC 黏土由 φ′ 求 UU 強度，<b>零公式<\/b>，連 Af 都不給。已轉圖確認全卷無公式（U2-3 頁）。", "2004": "本單元無題。", "2005": "本單元無題。", "2006": "一：c–φ 極限平衡、十字片剪、OCR 三小題說明，零公式。全卷零嵌入影像。", "2007": "二：流砂與液化、SUU 與 UUU 抗剪角，零公式。已轉圖確認第 1 頁唯一影像是版樁附圖（2026-11-23）。", "2008": "二：給 c′＝0、φ′＝30°、K0＝0.5、Af＝0.7 與應力增量比，Skempton 式與破壞條件<b>零供給<\/b>；三（副）只給 Su/σv0′＝0.25。全卷零嵌入影像。", "2009": "本單元無題。", "2010": "一：UU 強度與圍壓 50 kPa 的孔壓，零公式；同卷只給承載力 Fsc、Fdc 提示（U2-1）。全卷零嵌入影像。", "2011": "一：五個名詞解釋（含應力路徑、流黏土、臨界水力坡降），零公式。已轉圖確認（U2-3 頁）。", "2012": "一：CU 與 UU 同位置試體反求現地應力與深度，零公式。全卷零嵌入影像。", "2013": "三：K0 壓密 AC／LE 試驗，只給 K0＝0.7 與圖二試驗曲線，<b>零公式<\/b>。已轉圖確認（2026-11-22）。", "2014": "本單元無題。", "2015": "本單元無題。", "2016": "本單元無題。", "2017": "四（副，U2-3 主）印 Su＝10N/16（Terzaghi & Peck）與 ic＝γsub/γw。", "2018": "二：CU 試驗求 φcu、φ′、破壞面角度、Af，<b>零公式<\/b>。已轉圖確認第 1 頁（2026-11-23）。", "2019": "一（副）摩爾-庫倫破壞準則名詞解釋，零公式。", "2020": "本單元無題。", "2021": "本單元無題。", "2022": "本單元無題。", "2023": "本單元無題。", "2024": "★ 一：CD 試驗；㈡ 題目本身印「破壞面與最大主應力面夾角為 45°＋φ/2」（要你證明）。主應力式與破壞面應力式零供給。已轉圖確認（2026-11-23）。", "2025": "★ 二：題目下方印 σ1′＝σ3′tan²(45°＋φ′/2)＋2c′tan(45°＋φ′/2)——<b>24 年唯一一次<\/b>。同卷集中式「參考公式」是壓密 Tv（U1-3）。"}, "mxCols": ["M-C準則", "主應力式・sinφ", "破壞面・應力", "Su・φu＝0", "Su推估", "十字片剪・St", "Skempton・Af", "應力路徑・K0", "有效應力・icr", "選型・擾動"], "base": [], "baseShort": "基本式", "mxNote": "「設參考公式區次數」＝ 24 年中考卷印出任何 SM 公式（集中式、隨題式、內文式皆算）的考年數：96、99、103、105、106、107、108、110、111、113、114 年，共 11 年；只給數值參數（如 97 年 K0＝0.5、Af＝0.7，102 年 K0＝0.7）不計。✗ 由第三節每題的公式用途推出：該題題解實際套用了這條式子、當年考卷又沒印。", "refAreaYears": 11, "NY": 24, "giveCol": false};
+const Q=D.Q, F=D.F, CAT=D.clusters, MXR=D.MXR, BASE=D.base||[];
+const TYC={"計算":"#1565c0","繪圖":"#f57c00","推導":"#6a1b9a","說明":"#546e7a"};
+const YEARS=Object.keys(MXR).map(Number).sort((a,b)=>a-b);
+const NCOL=D.mxCols.length, GIVECOL=D.giveCol===false?-1:NCOL-1;
+const CN=["","一","二","三","四","五","六"];
+const yr=id=>+id.split('-')[1], qn=id=>+id.split('-')[2];
+const lab=id=>yr(id)+'-'+qn(id);
+const pv=id=>'problems-view/'+id+'.html';
+const vid=id=>'../解題過程影片/'+id+'/video/'+id+'.mp4';
+const QM={};Q.forEach(q=>QM[q.id]=q);
+F.forEach((f,i)=>{
+  f.qs=Q.filter(q=>q.f.includes(i)).map(q=>q.id);
+  if(f.lv==='give'){f.ok=[...new Set(f.qs.map(yr))].sort();f.noQs=[];}
+  else{f.ok=f.ok||[];f.noQs=f.qs.filter(id=>!f.ok.includes(yr(id)));}
+  f.no=[...new Set(f.noQs.map(yr))].sort();
+});
+const isPri=id=>QM[id].pri;
+const LVN={must:'必背',half:'別賭',give:'通常會給'};
+function mathIn(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});}
+function chip(i,qid){const f=F[i];const given=qid&&f.lv!=='give'&&f.ok.includes(yr(qid));
+  return '<button class="chip '+(given?'gv':f.lv)+'" data-fi="'+i+'" title="'+f.nm+'（'+(given?'該年考卷有印':LVN[f.lv])+'）">'+f.sh+'</button>';}
+function bindChips(root){root.querySelectorAll('.chip').forEach(c=>c.onclick=()=>openCard(+c.dataset.fi));}
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+/* §1 */
+function drawCats(){
+  const box=document.getElementById('cats');
+  box.innerHTML=Object.keys(CAT).map(k=>{const c=CAT[k];
+    const n=Q.filter(q=>q.cl===k&&q.pri).length,s=Q.filter(q=>q.cl===k&&!q.pri).length;
+    return '<button class="cat" style="border-left-color:'+c.color+'" data-k="'+k+'"><b>'+c.icon+' '+c.name+'（主 '+n+(s?'＋副 '+s:'')+'）</b><span>'+c.desc+'</span></button>';}).join('');
+  box.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{qf={cat:b.dataset.k,pri:'ALL',f:''};syncQF();renderQ();go('s3');});
+}
+function drawBar(){
+  const cv=document.getElementById('cvBar'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  const P=Q.filter(q=>q.pri),ks=Object.keys(CAT),by={};
+  YEARS.forEach(y=>{by[y]={};ks.forEach(k=>by[y][k]=0);});P.forEach(q=>by[yr(q.id)][q.cl]++);
+  const max=Math.max(1,...YEARS.map(y=>ks.reduce((a,k)=>a+by[y][k],0)));
+  const L=34,B=30,T=12,bw=(W-L-10)/YEARS.length;
+  ctx.font='20px sans-serif';ctx.textAlign='right';
+  for(let i=0;i<=max;i++){const yy=H-B-(H-B-T)*i/max;ctx.fillStyle='#90a4ae';ctx.fillText(i,L-8,yy+6);
+    ctx.strokeStyle='#eceff1';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(L,yy);ctx.lineTo(W-10,yy);ctx.stroke();}
+  ctx.textAlign='center';
+  YEARS.forEach((y,i)=>{let acc=0;const x=L+i*bw+bw*.15;
+    ks.forEach(k=>{const v=by[y][k];if(!v)return;const h=(H-B-T)*v/max;ctx.fillStyle=CAT[k].color;ctx.fillRect(x,H-B-acc-h,bw*.7,h-2);acc+=h;});
+    ctx.fillStyle='#78909c';ctx.fillText("'"+String(y).slice(2),x+bw*.35,H-8);});
+  document.getElementById('barLg').innerHTML=ks.map(k=>'<span><span class="dot" style="background:'+CAT[k].color+'"></span>'+CAT[k].name+'</span>').join('');
+}
+function drawRisk(){document.querySelectorAll('td[data-f]').forEach(td=>{
+  td.innerHTML='<div class="chips">'+td.dataset.f.split(',').map(i=>chip(+i)).join('')+'</div>';});}
+
+/* §2 */
+const G=[...new Set(F.map(f=>f.g))];
+let fl={lv:'all',g:'all'};let recall=false;const rev=new Set();
+function openCard(i){
+  if(!(fl.lv==='all'||fl.lv===F[i].lv)||!(fl.g==='all'||fl.g===F[i].g)){fl={lv:'all',g:'all'};syncFlt();draw();}
+  const el=document.getElementById('fc'+i);if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1600);
+}
+function shown(){return F.map((f,i)=>[f,i]).filter(([f])=>(fl.lv==='all'||f.lv===fl.lv)&&(fl.g==='all'||f.g===fl.g));}
+function rcInfo(){const s=shown();const n=s.filter(([f])=>rev.has(f.nm)).length;
+  document.getElementById('rcInfo').textContent=recall?'已翻開 '+n+' / '+s.length+' 條——看名稱先默寫，再點式子對答案。':'開啟後式子會被蓋住：看卡片名稱先在紙上默寫，再點式子翻開。';}
+function qa(id){return '<a href="'+pv(id)+'" target="_blank" class="'+(isPri(id)?'':'sec')+'">'+lab(id)+'</a>';}
+function draw(){
+  const box=document.getElementById('cards');
+  box.innerHTML=shown().map(([f,i])=>{
+    let ev;
+    if(f.lv==='give'){ev='<b>考卷給過：</b>'+f.qs.map(id=>'<span class="ok">'+lab(id)+'</span>').join(' ');}
+    else{
+      ev='<b>考卷給過：</b>'+(f.ok.length?f.ok.map(y=>'<span class="ok">'+y+'</span>').join(' '):'<span class="never">從未</span>');
+      ev+='<br><b>考了卻沒給（'+f.noQs.length+' 題）：</b>'+(f.noQs.length?f.noQs.map(qa).join(''):'—');
+      const g=f.qs.filter(id=>!f.noQs.includes(id));
+      if(g.length)ev+='<br><b>考了、當年有印：</b>'+g.map(id=>'<span class="ok">'+lab(id)+'</span>').join(' ');
+    }
+    if(f.qs.length)ev+=' <span class="uses" data-fi="'+i+'">看這幾題 ↓</span>';
+    return '<div class="fc '+f.lv+(rev.has(f.nm)?' rev':'')+'" id="fc'+i+'" data-nm="'+f.nm+'"><div class="top"><span class="nm">'+f.nm+'</span><span class="tag '+f.lv+'">'+LVN[f.lv]+'</span></div>'+
+      '<div class="eq">'+f.eq+'</div><p class="meta">'+f.meta+'</p><div class="ev">'+ev+'</div></div>';}).join('')||'<p class="lead">（此組合下沒有公式）</p>';
+  mathIn(box);
+  box.querySelectorAll('.fc .eq').forEach(e=>e.onclick=()=>{if(!recall)return;const c=e.closest('.fc');c.classList.toggle('rev');
+    c.classList.contains('rev')?rev.add(c.dataset.nm):rev.delete(c.dataset.nm);rcInfo();});
+  box.querySelectorAll('.uses').forEach(u=>u.onclick=()=>{qf={cat:'ALL',pri:'ALL',f:u.dataset.fi};syncQF();renderQ();go('s3');});
+  rcInfo();
+}
+function syncFlt(){document.querySelectorAll('#flt button').forEach(b=>b.classList.toggle('on',fl[b.dataset.t]===b.dataset.v));}
+function drawFlt(){
+  const fb=document.getElementById('flt');const lvs=[['all','全部'],['must','必背'],['half','別賭'],['give','通常會給']].filter(([k])=>k==='all'||F.some(f=>f.lv===k));
+  fb.innerHTML='<div class="fg"><b>級別</b>'+lvs.map(([k,v])=>'<button data-t="lv" data-v="'+k+'">'+v+'</button>').join('')+
+    '</div><div class="fg"><b>主題</b>'+['all',...G].map(g=>'<button data-t="g" data-v="'+g+'">'+(g==='all'?'全部':g)+'</button>').join('')+'</div>';
+  fb.querySelectorAll('button').forEach(b=>b.onclick=()=>{fl[b.dataset.t]=b.dataset.v;syncFlt();draw();});syncFlt();
+}
+function drawKpi(){
+  const n=k=>F.filter(f=>f.lv===k).length;
+  const uy=new Set(Q.map(q=>yr(q.id))).size;
+  document.getElementById('fkpi').innerHTML=[['',F.length,'本單元條列公式'],['red',n('must'),'必背'],['org',n('half'),'別賭'],['grn',n('give'),'通常會給'],['',uy,'本單元出題年數（含副考點）'],['',D.refAreaYears,D.NY+' 年設參考公式區次數']]
+    .map(([c,v,l])=>'<div class="kpi '+c+'"><div class="n">'+v+'</div><div class="l">'+l+'</div></div>').join('');
+}
+function cell(y,col){
+  if(col===GIVECOL)return F.some(f=>f.c===col&&f.ok.includes(y))?1:0;
+  if(F.some(f=>f.c===col&&f.ok.includes(y)))return 1;
+  return F.some(f=>f.c===col&&f.no.includes(y))?2:0;
+}
+function drawMx(){
+  const ok=Array(NCOL).fill(0),no=Array(NCOL).fill(0);
+  document.querySelector('#mx tbody').innerHTML=YEARS.map(y=>{
+    const qs=Q.filter(q=>yr(q.id)===y).sort((a,b)=>qn(a.id)-qn(b.id));
+    const qq=qs.length?qs.map(q=>'<a href="'+pv(q.id)+'" target="_blank">'+CN[qn(q.id)]+'</a>'+(q.pri?'':'<span class="ynote">（副）</span>')).join('、'):'(—)';
+    let c='';for(let i=0;i<NCOL;i++){const s=cell(y,i);if(s===1)ok[i]++;if(s===2)no[i]++;
+      c+='<td class="c">'+(s===1?'<span class="y">✔</span>':s===2?'<span class="x">✗</span>':'<span class="n">·</span>')+'</td>';}
+    return '<tr class="'+(qs.length?'hl':'')+'"><td><b>'+y+'</b><br><span class="ynote">'+(y-1911)+'年</span></td><td class="qq">'+qq+'</td>'+c+'<td class="rm">'+MXR[y]+'</td></tr>';}).join('');
+  document.querySelector('#mx tfoot').innerHTML='<tr><td colspan="2">'+YEARS.length+' 年合計</td>'+ok.map((v,i)=>'<td>✔ '+v+'<br><span style="color:#c62828">✗ '+no[i]+'</span></td>').join('')+'<td>✗ 合計 '+no.reduce((a,b)=>a+b,0)+' 格</td></tr>';
+  if(GIVECOL<0){const tOk=ok.reduce((a,b)=>a+b,0),tNo=no.reduce((a,b)=>a+b,0);
+    document.getElementById('mxsum').innerHTML='看表底合計：<b>'+NCOL+' 個欄位、'+YEARS.length+' 年共 ✔ '+tOk+' 格、✗ '+tNo+' 格</b>。'+(D.mxNote||'');return;}
+  const mOk=ok.slice(0,GIVECOL).reduce((a,b)=>a+b,0),mNo=no.slice(0,GIVECOL).reduce((a,b)=>a+b,0);
+  document.getElementById('mxsum').innerHTML='看表底合計：<b>'+GIVECOL+' 個力學欄 ✔ '+mOk+' 格、✗ '+mNo+' 格</b>；材料／斷面數值欄 ✔ '+ok[GIVECOL]+' 格、✗ '+no[GIVECOL]+' 格。'+(D.mxNote||'');
+}
+/* strategy placeholders: <span data-qs="2+3" data-count> → 同時用到 2 與 3 的題號 */
+function fillQs(root){root.querySelectorAll('[data-qs]').forEach(s=>{
+  const need=s.dataset.qs.split('+').map(Number);
+  const ids=Q.filter(q=>need.every(i=>q.f.includes(i))).map(q=>q.id).sort((a,b)=>(QM[b].pri-QM[a].pri)||a.localeCompare(b));
+  s.textContent=ids.map(id=>lab(id)+(QM[id].pri?'':'（副）')).join('、')+(s.hasAttribute('data-count')?' 共 '+ids.length+' 題':'');});}
+
+/* §3 */
+let qf={cat:'ALL',pri:'ALL',f:''};
+function drawQF(){
+  document.getElementById('qfCat').insertAdjacentHTML('beforeend',[['ALL','全部'],...Object.keys(CAT).map(k=>[k,CAT[k].name])].map(([k,v])=>'<button data-t="cat" data-v="'+k+'">'+v+'</button>').join(''));
+  document.getElementById('qfPri').insertAdjacentHTML('beforeend',[['ALL','主＋副'],['PRI','僅主考點'],['SEC','僅副考點']].map(([k,v])=>'<button data-t="pri" data-v="'+k+'">'+v+'</button>').join(''));
+  const sel=document.getElementById('qfF');
+  F.forEach((f,i)=>sel.insertAdjacentHTML('beforeend','<option value="'+i+'">'+f.nm+'（'+f.qs.length+' 題）</option>'));
+  document.querySelectorAll('#qflt button').forEach(b=>b.onclick=()=>{qf[b.dataset.t]=b.dataset.v;syncQF();renderQ();});
+  sel.onchange=()=>{qf.f=sel.value;renderQ();};syncQF();
+}
+function syncQF(){document.querySelectorAll('#qflt button').forEach(b=>b.classList.toggle('on',qf[b.dataset.t]===b.dataset.v));document.getElementById('qfF').value=qf.f;}
+function renderQ(){
+  const fi=qf.f===''?null:+qf.f;
+  const sel=Q.filter(q=>(qf.cat==='ALL'||q.cl===qf.cat)&&(qf.pri==='ALL'||(qf.pri==='PRI')===!!q.pri)&&(fi===null||q.f.includes(fi)))
+    .sort((a,b)=>(b.pri-a.pri)||a.id.localeCompare(b.id));
+  document.getElementById('qcount').textContent='顯示 '+sel.length+' / '+Q.length+' 題'+(fi!==null?'——用到「'+F[fi].nm+'」':'');
+  const box=document.getElementById('qlist');
+  box.innerHTML=sel.map(q=>{
+    const fs=q.f.filter(i=>!BASE.includes(i));const c=CAT[q.cl];
+    const chips=fs.length?fs.map(i=>chip(i,q.id).replace('class="chip','class="chip'+(i===fi?' hit':''))).join(''):'<span class="none">'+(q.f.length?'只需'+D.baseShort:(q.pri?'題解未用到本單元公式':'不用本單元公式（主解法見 '+q.secCat+'）'))+'</span>';
+    return '<div class="qrow'+(q.pri?'':' sec')+'" style="border-left-color:'+c.color+'">'+
+      '<span class="id"><a href="'+pv(q.id)+'" target="_blank">'+q.id+'</a>'+(q.pri?'':'<span class="sub">副・'+q.secCat+'</span>')+'</span>'+
+      '<span class="ty" style="background:'+TYC[q.ty]+'">'+q.ty+'</span>'+
+      '<span class="sum">'+q.sum+'<span class="cl">'+c.icon+' '+c.name+(q.dm?'・'+q.dm:'')+'</span></span>'+
+      '<span class="chips">'+chips+'</span>'+
+      '<span class="ico"><a href="'+pv(q.id)+'" target="_blank" title="解析">📄</a>'+(q.video?' <a href="'+vid(q.id)+'" target="_blank" title="解題影片">🎬</a>':'')+(q.ver?' <span title="已驗證">✅</span>':'')+'</span></div>';}).join('');
+  bindChips(box);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  drawCats();drawBar();drawRisk();drawFlt();drawKpi();draw();drawMx();drawQF();renderQ();
+  fillQs(document.getElementById('strat'));fillQs(document.getElementById('s1'));
+  bindChips(document.getElementById('s1'));
+  mathIn(document.getElementById('strat'));mathIn(document.getElementById('s1'));mathIn(document.getElementById('mxsum'));mathIn(document.getElementById('mx'));mathIn(document.getElementById('s2'));mathIn(document.getElementById('s4'));mathIn(document.querySelector('footer'));
+  const tg=document.getElementById('rcToggle'),rs=document.getElementById('rcReset');
+  tg.onclick=()=>{recall=!recall;document.body.classList.toggle('recall',recall);tg.classList.toggle('on',recall);tg.textContent=recall?'🙈 回想模式：開':'🙈 回想模式：關';rs.hidden=!recall;rcInfo();};
+  rs.onclick=()=>{rev.clear();document.querySelectorAll('.fc.rev').forEach(c=>c.classList.remove('rev'));rcInfo();};
+  window.addEventListener('beforeprint',()=>{document.getElementById('mxBox').open=true;});
+});
+</script>
+</body></html>

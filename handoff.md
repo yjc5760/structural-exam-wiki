@@ -1,66 +1,70 @@
 # 交接與進度備忘（handoff.md）
 
-> 更新時間：2026-11-22 22:00
+> 更新時間：2026-11-23 21:15
 
 ---
 
 ## 一、本次工作完成概況
 
-### 1. 土壤力學與基礎工程（SM）單元總覽與觀念講義大升級
-- **單元總覽（Unit Overview）建立與重產**：
-  - 依照 `unit-overview` 規範新建 `SM/study/data/unit-SM-U2-2.json`（19 條公式卡、11 題）、`unit-SM-U3-2.json`（19 條、9 題，首次建立命題分析與給背）、`unit-SM-U3-3.json`（16 條、7 題）。
-  - 編譯產出對應 `unit-SM-U2-2.html/pdf`、`unit-SM-U3-2.html/pdf`、`unit-SM-U3-3.html/pdf`（A4, scale 0.85, 展開 `#mxBox`, Katex 0 錯誤）。
-  - 同步更新既有 `unit-SM-U2-3`，並重新生成全科命題頻率熱圖 `frequency-SM.html`。
-  - 儀表板 `dashboard-data.js` 與 `index.html` 之 `UNIT_PAGES` 清單同步更新。
+### 1. 土壤力學與基礎工程（SM）單元總覽（Unit Overview）全面推進
+- **子項單元總覽（Unit Overview）建立與重產**：
+  - **SM-U1-3（壓密與沈陷）**：新建 `SM/study/data/unit-SM-U1-3.json`（主 22＋副 8、30 條公式卡、4 群）、編譯產生 `study/unit-SM-U1-3.html`／`.pdf`（13 頁）。考卷逐題核對，發現 103 年（SM-2014-4）印製之 $T_v$–$U$ 經驗式漏平方、91 年（SM-2002-1）漏 $H$ 等印錯，均已載明於公式卡與驗算策略中。
+  - **SM-U1-5（土壤剪力強度）**：新建 `SM/study/data/unit-SM-U1-5.json`（主 12＋副 4、21 條公式卡、3 群）、編譯產生 `study/unit-SM-U1-5.html`／`.pdf`（10 頁）。
+  - **SM-U1-1（土壤基本物理性質與分類）**：新建 `SM/study/data/unit-SM-U1-1.json`（主 8＋副 10、19 條公式卡、4 群）、編譯產生 `study/unit-SM-U1-1.html`／`.pdf`（10 頁）。確認三相關係由獨立主考轉化為多數題型解題第一步。
+  - **SM-U3-1（側向土壓力）**：新建 `SM/study/data/unit-SM-U3-1.json`（主 4＋副 13、17 條公式卡、3 群）、編譯產生 `study/unit-SM-U3-1.html`／`.pdf`（9 頁）。
+  - **SM-U2-3（開挖支撐與穩定）逐題公式用途複核**：核對 17 題公式用途，移除僅為估算用途之隆起 2D 卡片，更新說明並重產 `unit-SM-U2-3.html`／`.pdf`。
+  - 所有單元總覽均通過 Playwright 雙視界（1280px / 390px）檢驗，Console 0 錯誤、KaTeX 0 錯誤、無橫向溢出。
 
-- **觀念講義（Lecture）新建與改版**：
-  - 新建 `study/lecture-SM-U3-2.html/pdf`（擋土結構物穩定，9 題，9 張向量解析圖，17 頁）。
-  - 新建 `study/lecture-SM-U3-3.html/pdf`（坡地工程，7 題，8 張向量解析圖，13 頁）。
-  - 改版升級 `study/lecture-SM-U2-2.html/pdf`（深基礎）與 `study/lecture-SM-U2-1.html/pdf`（淺基礎），全面落實第一性原理與向量圖解。
-  - 微調 `lecture-SM-U1-1`（圖 6-2 CH 標籤位置）與 `lecture-SM-U3-1`（圖 7-2 合力標籤防重疊）並重出 PDF。
+### 2. SM 教科書等級講義（Textbook）全系列建置
+- **8 個重點單元教科書與向量製圖管線完工**：
+  - 新建 `SM/study/figs-src/` 獨立章節製圖腳本庫（含數值計算 `calcs.py`、繪圖 `plot.py`、章節模組）。
+  - 完成 8 單元教科書講義及 PDF 輸出：
+    - `textbook-SM-U1-1.html` / `.pdf`（土壤基本性質）
+    - `textbook-SM-U1-3.html` / `.pdf`（壓密與沈陷）
+    - `textbook-SM-U1-5.html` / `.pdf`（剪力強度）
+    - `textbook-SM-U2-2.html` / `.pdf`（深基礎與基樁）
+    - `textbook-SM-U2-3.html` / `.pdf`（深開挖工程）
+    - `textbook-SM-U3-1.html` / `.pdf`（側向土壓力）
+    - `textbook-SM-U3-2.html` / `.pdf`（擋土結構物穩定）
+    - `textbook-SM-U3-3.html` / `.pdf`（邊坡穩定工程）
 
-- **題解勘誤與安全係數修正**：
-  - 勘誤 `SM-2016-4 ㈡`：原解有效寬度 $B'$ 與梯形峰值 $q_{max}$ 混用，修正為純有效寬度法 $q_u/(\Sigma V/B')$，承載力安全係數由 1.89 修正為 2.52（結論仍為小於 3.0 不適宜）。
-  - 狀態維持 `unverified`，更新 `audit-ledger-SM.json` 與 `SM/raw/solutions/SM-2016-4/SM-2016-4.md`。
-
-- **全庫導覽與死連結清理**：
-  - 盤點並修正 54 頁 `problems-view/*.html` 頁首「Ux-y 命題分析」連至已歸檔舊 `study-` 頁之死連結，全面導正連往對應 `lecture-SM-*.html` 觀念講義。
-  - 將 22 頁題目返回鍵改連新上線之 `unit-` 單元總覽頁。
-  - 對照內政部國土管理署 113 年生效之建築物基礎構造設計規範，核對抗滑動、抗傾覆、支承力、抗隆起等各項門檻與安全係數。
-
-### 2. 前段進度回顧（同日完成）
-- **RC 全 7 單元教科書講義與起點頁（`RC/start.html`）建置完工**：
-  - 完成 RC-U1-1 至 RC-U4-2 共 7 份教科書等級講義（HTML + PDF）。
-  - 完成 `RC/start.html` 整合 7 單元資源與 57 支 YouTube 影片連結。
+### 3. 全庫導覽與連結全面導正
+- **題目瀏覽頁（problems-view）導覽校正**：
+  - 修正 46 頁題目瀏覽頁第一顆返回鍵，由重複之「觀念講義」改為連向對應「單元總覽（unit-SM-*.html）」。
+  - 清理全庫舊版歸檔頁面死連結，現行 problems-view 已無任何連至舊版 `study-` 或 `formula-given-` 之失效連結。
+- **全科索引與儀表板同步**：
+  - 重新產出全科命題頻率熱圖 `frequency-SM.html`，教材欄位正確對齊最新 `unit-*.html`。
+  - 更新 `SM/index.html` 之 `UNIT_PAGES`、`SM/README.md`、`SM/SUBJECT.md`、`SM/檔案架構索引表.md` 與 `SM/知識庫使用說明書.md`。
 
 ---
 
 ## 二、本次變更檔案清單
-1. **SM 單元總覽與講義資料庫**：
-   - `SM/study/data/unit-SM-U2-2.json`、`unit-SM-U2-3.json`、`unit-SM-U3-2.json`、`unit-SM-U3-3.json`
-   - `SM/study/unit-SM-*.html` / `*.pdf`（U2-2, U2-3, U3-2, U3-3）
-   - `SM/study/lecture-SM-*.html` / `*.pdf`（U1-1, U1-3, U1-5, U2-1, U2-2, U2-3, U3-1, U3-2, U3-3）
-   - `SM/scripts/lecture-figs/`（U1-1, U2-1, U2-2, U3-2, U3-3 繪圖腳本）
-2. **SM 題解與題目頁面**：
-   - `SM/raw/solutions/SM-2016-4/SM-2016-4.md`（勘誤）
-   - `SM/study/problems-view/*.html`（96 題導覽連結導正）
-   - `SM/raw/json/question_index.json`、`SM/dashboard-data.js`、`SM/index.html`、`SM/study/frequency-SM.html`
-3. **科目紀事與 Wiki 紀錄**：
-   - `SM/SUBJECT.md`、`SM/README.md`、`SM/wiki/queries/log.md`、`SM/wiki/queries/audit-ledger-SM.json`
-   - `SM/檔案架構索引表.md`、`SM/知識庫使用說明書.md`
-4. **交接備忘**：
+1. **SM 單元總覽資料庫與輸出**：
+   - `SM/study/data/unit-SM-U1-1.json`, `unit-SM-U1-3.json`, `unit-SM-U1-5.json`, `unit-SM-U3-1.json`, `unit-SM-U2-3.json`
+   - `SM/study/unit-SM-U1-1.html/pdf`, `unit-SM-U1-3.html/pdf`, `unit-SM-U1-5.html/pdf`, `unit-SM-U3-1.html/pdf`, `unit-SM-U2-3.html/pdf`
+2. **SM 教科書講義與製圖原始碼**：
+   - `SM/study/textbook-SM-U*.html` / `*.pdf`（U1-1, U1-3, U1-5, U2-2, U2-3, U3-1, U3-2, U3-3）
+   - `SM/study/figs-src/`（8 個單元之章節圖檔產生腳本與資料庫）
+3. **SM 題目頁面與觀念講義導覽**：
+   - `SM/study/problems-view/*.html`（導正返回鍵與單元總覽連結）
+   - `SM/study/lecture-SM-U1-1.html`, `lecture-SM-U1-3.html`, `lecture-SM-U1-5.html`, `lecture-SM-U3-1.html`
+   - `SM/study/frequency-SM.html`, `SM/index.html`
+4. **科目紀事與 Wiki 紀錄**：
+   - `SM/SUBJECT.md`, `SM/README.md`, `SM/wiki/queries/log.md`, `SM/檔案架構索引表.md`, `SM/知識庫使用說明書.md`
+5. **交接備忘**：
    - `handoff.md`
 
 ---
 
 ## 三、踩坑與注意事項
-- **偏心基礎承載力計算**：在同時有偏心及傾斜時，若採用 Meyerhof 有效寬度法（$B' = B - 2e$），分母應為均勻底壓 $\Sigma V / B'$，切勿與未折減寬度下的梯形峰值 $q_{max} = \frac{\Sigma V}{B}(1 + \frac{6e}{B})$ 混用。
-- **單元總覽編譯依賴**：`build_unit_page.py` 需確保 JSON 中所有引用的公式卡編號、題目編號與題解內容完全存在，否則校驗會阻擋編譯。
-- **返回導覽一致性**：題目瀏覽頁（problems-view）頂部導航若指向已搬移或已歸檔（archive）之頁面，需及時校正至現行之 `unit-*.html` 或 `lecture-*.html`。
+- **考卷原題印刷疏漏**：
+  - 103 年（SM-2014-4）$T_v$–$U$ 經驗公式 $U \le 60\%$ 段漏印平方，已在單元總覽與解題策略註明需以 $T_v(50\%) = 0.196$ 檢驗考卷公式。
+  - 91 年（SM-2002-1）$\Delta H = \Delta e / (1+e_0)$ 漏印試體高度 $H$，單元總覽已強調第一性原理。
+- **題解假設相依性**：SM-2003-4、SM-2010-1 題解採用 $A_f=1$ 計算 UU 強度，該數值為合理工程假設但考卷未給定，已於 U1-5 公式卡明確標示。
 
 ---
 
 ## 四、下一步建議
-1. **SM 剩餘子項單元總覽改版**：接續將尚未改版的子項（U1-1、U1-3、U1-5、U2-1、U3-1）依照 U2-2/U3-2/U3-3 格式逐步升級為單元總覽。
-2. **起點頁擴充**：比照 `RC/start.html`，為 SM 規劃並建置整合讀書順序與影片資源之 `SM/start.html`。
-3. **跨科目起點頁檢視**：針對 SA（結構分析）、SS（鋼結構）與 SD（耐震設計）評估起點頁與講義鏈結狀態。
+1. **SM-U2-1（淺基礎）單元總覽改版**：目前 SM 科目僅剩 U2-1 尚未改為新版單元總覽（目前儀表板仍指引至舊頁），改版完成後 SM 全科單元總覽即 100% 覆蓋。
+2. **建置 `SM/start.html` 起點頁**：比照 `RC/start.html`，整合 SM 8 大單元總覽、教科書講義、觀念講義與影音資源，提供一站式複習指引。
+3. **推展其他科目（SA / SS / SD）**：評估結構分析（SA）與鋼結構（SS）之單元總覽與教科書講義規劃。

@@ -1,0 +1,100 @@
+<section id="ch4">
+<h2 class="t">第 4 章　水位、分層、超載：列轉折點、切方塊、對牆底取矩</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$\sigma_a=K_a\gamma'z+\gamma_wz_w,\qquad \Delta\sigma_a=qK_a,\qquad P=\sum P_i,\qquad \bar y=\frac{\sum P_iy_i}{P}$$
+要記的是 <span class="kw">S3 有效應力、水的 K＝1</span> 和 <span class="kw">S4 面積＝合力、形心＝作用點</span>。這一章是全單元分數最多的地方：17 題有 13 題要算合力與作用點。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>水位以下：\(\sigma_a=K_a\gamma'z+\gamma_wz_w\)（淨增 \(\tfrac12\gamma_w(1-K_a)x^2\)）</td><td><span class="tg must">必背</span></td><td>4.1</td></tr>
+<tr><td>分層與超載：轉折點清單；\(\Delta\sigma_a=qK_a\)</td><td><span class="tg must">必背</span></td><td>4.2</td></tr>
+<tr><td>合力與作用點 \(P=\sum P_i,\ \bar y=\sum P_iy_i/P\)</td><td><span class="tg must">必背</span></td><td>4.3</td></tr>
+</table>
+<p class="note">證據：水位 7 題用到——93 年（<a href="problems-view/SM-2004-3.html">2004-3</a>）整題就是它；99 年（<a href="problems-view/SM-2010-2.html">2010-2</a>）、104 年（<a href="problems-view/SM-2015-2.html">2015-2</a>）明寫「合力及作用位置」。全部零供給。</p>
+</div>
+
+<h3 class="t">4.1　水位以下：土和水分開算</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S3｜K 只乘有效應力</div>
+$$\sigma_{總}=\underbrace{K\,\sigma_v'}_{\text{土}}+\underbrace{u}_{\text{水，K=1}}$$
+</div>
+<div class="derive">
+<p><span class="st">①</span> 土的側壓來自顆粒互相推擠，看有效應力：水位以下每公尺 \(\sigma_v'\) 只加 \(\gamma'\)。</p>
+<p><span class="st">②</span> 水壓四面八方相等（φ＝0 時 K＝1），直接 \(u=\gamma_wz_w\) 全額加。</p>
+<p><span class="st">③</span> 水位從牆底升高 \(x\)：土壓少了 \(\tfrac12K_a\gamma_wx^2\)，水壓多了 \(\tfrac12\gamma_wx^2\)，<b>淨增 \(\boxed{\tfrac12\gamma_w(1-K_a)x^2}\)</b>。因為 \(K_a\lt1\)，水位上升<b>一定</b>讓推力變大。</p>
+</div>
+
+<h4>範例 A　SM-2004-3：水位升到多高，牆會滑？</h4>
+<div class="box"><b>題目摘要</b>　6 m 重力牆可抵抗 146 kN/m；背填砂 \(\gamma=19.2\) kN/m³、φ＝35°；忽略牆摩擦。牆後水位由底部上升，升到多高 \(x\) 會滑移？（題解取水位下 \(\gamma_{sat}=19.2\)。）</div>
+<div class="derive">
+<p><span class="st">①</span> \(K_a=\tan^2(27.5^\circ)=0.271\)；乾時 \(P_0=\tfrac12\times0.271\times19.2\times6^2=93.65\) kN/m。</p>
+<p><span class="st">②</span> 水位 \(x\)：\(P=93.65+\tfrac12\times9.81\times(1-0.271)x^2=93.65+3.576x^2\)。</p>
+<p><span class="st">③</span> 令 \(P=146\)：\(x^2=14.64\)，\(\boxed{x=3.83\text{ m}}\)。</p>
+</div>
+{{FIG:fig4_1|圖 4-1｜(a) 水位到 3.83 m 時的壓力圖：水位以上綠三角形，水位以下土壓（淡綠）斜率變小、水壓（藍）全額疊上去。(b) 總推力隨 \(x^2\) 增加，乾時 93.65，碰到 146 時 \(x=3.83\) m。}}
+<div class="trap"><b>陷阱：水也乘 \(K_a\)</b>　若把水位下的土當成 \(\gamma_{sat}\) 整個乘 \(K_a\)、不另加水壓，本題推力完全不變（題解 \(\gamma_{sat}=\gamma\)），<b>永遠算不出會滑</b>——這就是「水的 K＝1」最直接的考法。</div>
+
+<h3 class="t">4.2　分層與超載：先列轉折點清單</h3>
+<p>土壓力圖是一段一段的直線，<b>只要算每個轉折點的值</b>，中間連直線。轉折點清單：</p>
+<div class="box">
+<b>地表</b>（有超載就是 \(qK_a\)）→ <b>水位</b>（\(\gamma\to\gamma'\)，水壓開始）→ <b>層界</b>（上下各算一次：\(K\)、\(c\)、分析法可能都變）→ <b>裂縫底 \(z_c\)</b> → <b>牆底</b>
+</div>
+<div class="derive">
+<p><span class="st">①</span> 均佈超載 \(q\)：等於地表多了一層土，每一深度 \(\sigma_v'\) 都加 \(q\)，土壓加 \(qK_a\)——<b>矩形</b>，作用在牆高中點。</p>
+<p><span class="st">②</span> 層界：同一個 \(\sigma_v'\)，上下乘不同的 \(K_a\)（2015-2：黏土 0.4903、砂 0.3333）；或上層有效應力、下層 φ＝0 總應力（2010-2）。</p>
+<p><span class="st">③</span> 每一層先決定：<b>有效應力（\(K\sigma_v'\) ＋ 水）</b>還是 <b>φ＝0 總應力（\(\sigma_v-2S_u\)，不另加水）</b>。</p>
+</div>
+
+<h3 class="t">4.3　合力與作用點：切方塊、對牆底取矩</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S4｜面積＝合力，形心＝作用點</div>
+$$P=\sum P_i,\qquad \bar y=\frac{\sum P_iy_i}{P}\qquad(\text{矩形形心在中點、三角形在底部 }1/3)$$
+</div>
+<h4>範例 B　SM-2010-2：砂＋黏土、水位在中間</h4>
+<div class="box"><b>題目摘要</b>　8 m 牆。上層砂 0～4 m（\(\phi=30^\circ\)，水位 2 m，水上 \(\gamma=17\)、水下 18）；下層黏土 4～8 m（\(c=30\)、\(\phi_u=0\)、\(\gamma=17.5\)）。畫主動土壓力分布、求合力與作用位置。</div>
+<div class="derive">
+<p><span class="st">①</span> 轉折點：0 m → 0；2 m → \(34/3=11.33\)；4 m 砂底 → \(50.38/3=16.79\)＋水 19.62＝36.41；4 m 黏土頂 → \(70-60=10.00\)；8 m → \(140-60=80.00\) kPa。</p>
+<p><span class="st">②</span> 切 6 塊（對牆底的力臂 \(y_i\)）：11.33（6.667）、22.67（5.0）、5.46（4.667）、水 19.62（4.667）、40.00（2.0）、140.00（1.333）。</p>
+<p><span class="st">③</span> \(\boxed{P=239.08\text{ kN/m}}\)；\(\sum P_iy_i=572.60\)；\(\boxed{\bar y=2.395\text{ m}}\)（低於 \(H/3=2.667\)：下層黏土三角形又大又靠下）。</p>
+</div>
+{{FIG:fig4_2|圖 4-2｜SM-2010-2：砂層（綠）＋水（藍）＋黏土（橘），4 m 處砂底 36.41、黏土頂 10.00 的跳躍是分析法切換造成的正常不連續。紫色箭頭是合力 239.08 kN/m，作用在牆底以上 2.395 m。}}
+<p class="note">與題解的差異：題解 \(P=239.07\)，是各塊先四捨五入再相加；本講義不截位得 239.08。</p>
+
+<h4>範例 C　SM-2015-2：黏土（\(c\)、φ）上、砂下、水位在交界</h4>
+<div class="derive">
+<p><span class="st">①</span> 黏土 0～4 m：\(z_c=3.264\) m，4 m 處 6.31 kPa（第 3 章）。</p>
+<p><span class="st">②</span> 砂 4～8 m（\(\gamma'=8.69\)）：頂 \(70/3=23.33\)、底 \(104.76/3=34.92\) kPa；水壓 0 → 39.24 kPa。</p>
+<p><span class="st">③</span> 四塊：2.32（4.245）、93.33（2.0）、23.17（1.333）、水 78.48（1.333）→ \(\boxed{P=197.31\text{ kN/m}}\)、\(\boxed{\bar y=1.683\text{ m}}\)。</p>
+</div>
+{{FIG:fig4_3|圖 4-3｜SM-2015-2：上面 3.26 m 裂縫沒有土壓，砂層的梯形與水壓三角形佔了合力的 98%，合力 197.31 kN/m 落在牆底以上 1.683 m（只有 0.21H）。}}
+<div class="check"><b>作用點檢查</b>：均質、無水、無超載、無凝聚力時 \(\bar y=H/3\)；本單元考題通常落在 0.2H～0.4H。上重下輕（超載、裂縫在下）會偏高；下重（水、軟黏土在下、上層裂縫）會偏低。<b>超出這個範圍，多半是漏了一塊或換了取矩基準</b>。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜畫土壓力圖</div>
+<ol>
+<li><b>畫</b>：牆背剖面，標水位、層界、超載</li>
+<li><b>種子</b>：S3 土乘 K（有效）、水全額；S4 切方塊取矩</li>
+<li><b>推</b>：轉折點清單（層界算兩次）→ 連線 → 切矩形與三角形 → \(P=\sum P_i\)、\(\bar y=\sum P_iy_i/P\)</li>
+<li><b>檢查</b>：\(\bar y\) 在 0.2H～0.4H；水位上升推力一定增加</li>
+</ol>
+</div>
+
+<h3>4.4　🙈 蓋住重推</h3>
+<details><summary>Q1　水位上升為什麼推力一定變大？推出淨增量。</summary>
+<p>土壓少 \(\tfrac12K_a\gamma_wx^2\)、水壓多 \(\tfrac12\gamma_wx^2\)，淨增 \(\tfrac12\gamma_w(1-K_a)x^2\gt0\)，因為 \(K_a\lt1\)。</p></details>
+<details><summary>Q2　超載 \(q\) 的土壓合力作用在哪？</summary>
+<p>\(qK_a\) 沿全高均勻（矩形），合力 \(qK_aH\)，作用在 \(H/2\)。</p></details>
+
+<h3>4.5　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>水位下用 \(\gamma_{sat}\) 乘 \(K_a\)、不加水壓</td><td>土用 \(\gamma'\) 乘 K，水全額另加</td></tr>
+<tr><td>2</td><td>層界只算一個值</td><td>上下各算（K、c、分析法可能都變）</td></tr>
+<tr><td>3</td><td>作用點直接寫 \(H/3\)</td><td>只有均質無水無超載無凝聚力才成立</td></tr>
+<tr><td>4</td><td>「合力」只算土壓不含水</td><td>題目問牆背合力通常含水壓；寫明</td></tr>
+<tr><td>5</td><td>取矩基準忽上忽下</td><td>統一對牆底，\(y_i\) 量到牆底</td></tr>
+</table>
+</section>

@@ -1,0 +1,142 @@
+<section id="ch6">
+<h2 class="c">第 6 章　要沉多久：時間跟排水路徑的平方成正比</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$T_v=\frac{c_vt}{H_{dr}^2},\qquad U=\frac{S_t}{S_\infty},\qquad T_v=\frac{\pi}{4}U^2\ (U\le60\%),\qquad T_v=-0.933\log(1-U)-0.085\ (U&gt;60\%)$$
+而且知道 0.933 與 0.085 <b>是怎麼來的</b>（擴散方程式的第一項）。要記的只有 <span class="kw">種子 S5：排水路徑平方</span>，加上驗算用的 <span class="kw">\(T_{50}=0.197\)、\(T_{90}=0.848\)</span>。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>時間因數 \(T_v=c_vt/H_{dr}^2\)</td><td><span class="tg must">必背</span></td><td>6.1</td></tr>
+<tr><td>排水路徑 \(H_{dr}\)（單面 \(H\)、雙面 \(H/2\)）</td><td><span class="tg must">必背</span></td><td>6.2</td></tr>
+<tr><td>平均壓密度 \(U=S_t/S_\infty=1-\overline{\Delta u}/\Delta u_0\)</td><td><span class="tg must">必背</span></td><td>6.3</td></tr>
+<tr><td>\(T_v\)–\(U\) 兩段式（百分比版）</td><td><span class="tg half">別賭</span></td><td>6.4</td></tr>
+<tr><td>\(T_v\)–\(U\) 兩段式（小數版）</td><td><span class="tg give">會給</span></td><td>6.4</td></tr>
+<tr><td>比例法：\(t_2/t_1=(T_{v2}/T_{v1})(H_{dr2}/H_{dr1})^2\)</td><td><span class="tg must">必背</span></td><td>6.5</td></tr>
+<tr><td>U–\(T_v\) 圖表與等時線圖</td><td><span class="tg give">會給</span></td><td>6.7</td></tr>
+<tr><td>預壓工法：目標壓密度與監測</td><td><span class="tg must">必背</span></td><td>6.7</td></tr>
+</table>
+<p class="note">證據：\(T_v\) 定義是本單元最危險的一條——103（<a href="problems-view/SM-2014-4.html">SM-2014-4</a>）與 110（<a href="problems-view/SM-2021-2.html">SM-2021-2</a>）都印了兩段式卻沒印定義；<b>103 年的兩段式還印錯</b>（\(U\le60\%\) 那條漏了平方）。比例法在 107 年（<a href="problems-view/SM-2018-1.html">SM-2018-1</a>）不給 \(c_v\)、層厚、排水條件，只能靠它。</p>
+</div>
+
+<h3 class="c">6.1　為什麼是 \(H^2\)：水要一路走到排水面</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S5｜排水路徑平方</div>
+$$t\propto\frac{H_{dr}^2}{c_v}\qquad\Longleftrightarrow\qquad T_v=\frac{c_vt}{H_{dr}^2}\ \text{是無因次的「時間」}$$
+</div>
+<p>加載瞬間，黏土裡的水來不及排，整個荷重先由水扛（超額孔隙水壓 \(\Delta u_0=\Delta p\)）。水要從孔隙一路滲到排水面才能離開；水走掉多少，骨架就接手多少，土就沉多少。
+這是一個<b>擴散</b>問題，和熱從冷熱交界面傳進一塊金屬是同一個方程式。擴散有一個鐵律：<b>距離加倍，時間要四倍</b>。</p>
+<div class="derive">
+<p><span class="st">①</span> 擴散方程（Terzaghi 一維壓密）：\(\dfrac{\partial u}{\partial t}=c_v\dfrac{\partial^2u}{\partial z^2}\)，\(c_v=\dfrac{k}{m_v\gamma_w}\)（透水越好、越不可壓縮 → 越快）。</p>
+<p><span class="st">②</span> 單位：\(c_v\) 是 m²/s，\(t\) 是 s，\(H_{dr}\) 是 m。能組成「沒有單位」的組合只有 \(c_vt/H_{dr}^2\)。</p>
+<p><span class="st">③</span> 所以壓密進度 \(U\) 只能是它的函數：\(\boxed{T_v=\dfrac{c_vt}{H_{dr}^2}}\)，\(U=f(T_v)\)——同一個 \(U\) 對應同一個 \(T_v\)，不管是 2.54 cm 的試體還是 10 m 的黏土層。</p>
+</div>
+<div class="check"><b>極限檢查</b>：\(k\to\infty\)（像砂）⇒ \(c_v\to\infty\) ⇒ 瞬間完成 ✔ 砂土沒有「壓密時間」的問題。\(H_{dr}\to0\)（插排水帶、排水砂樁）⇒ 時間以平方下降 ✔ 這就是預壓工法配排水帶的理由。</div>
+
+<h3 class="c">6.2　排水路徑 \(H_{dr}\)：水「最遠」要走多遠</h3>
+
+{{FIG:fig6_1|圖 6-1｜上下皆透水的黏土層（厚 \(H\)），不同 \(T_v\) 時的等時線（超額孔壓 \(u/u_0\) 沿深度分布，由級數解逐點計算；\(T_v\) 以 \(H_{dr}=H/2\) 定義）。<b>中央那一面的孔壓梯度永遠是 0——水不會穿過它</b>，所以上下兩半各自就是一個「單面排水、厚 \(H/2\)」的問題。曲線包圍的面積就是還沒排掉的水，\(U=1-\)面積比。}}
+
+<div class="derive">
+<p><span class="st">①</span> 單面排水（一側為不透水岩盤或黏土）：最遠的水要走過整層 ⇒ \(H_{dr}=H\)。</p>
+<p><span class="st">②</span> 雙面排水（上下都是砂）：對稱，中央是分水嶺 ⇒ \(\boxed{H_{dr}=H/2}\)。</p>
+<p><span class="st">③</span> 同一層土，單面比雙面慢 \((H/(H/2))^2=4\) 倍。</p>
+</div>
+<div class="trap"><b>陷阱：試體與現場的排水條件不同（<a href="problems-view/SM-2025-1.html">SM-2025-1</a>）</b><br>
+壓密試驗的試體上下都有透水石（雙面，\(H_{dr}=2.54/2=1.27\) cm）；現場 10 m 黏土若下方不透水，\(H_{dr}=10\) m。把現場也當雙面，\(t_{90}\) 會從 15.28 年變成 3.82 年。<b>每題算時間前，先寫一行「上＿下＿ ⇒ \(H_{dr}=\)＿」</b>。</div>
+
+<h3 class="c">6.3　平均壓密度 \(U\)：兩種定義是同一件事</h3>
+<div class="derive">
+<p><span class="st">①</span> 沉陷觀點：\(U=\dfrac{S_t}{S_\infty}\)（已沉的 ÷ 最終會沉的）。</p>
+<p><span class="st">②</span> 孔壓觀點：水排掉多少，骨架就接手多少：\(U=1-\dfrac{\overline{\Delta u}(t)}{\Delta u_0}\)（圖 6-1 曲線下面積的比例）。</p>
+<p><span class="st">③</span> 兩者相等的前提：\(m_v\) 在這段應力內近似常數（應變與有效應力增量成正比）。</p>
+</div>
+<div class="why"><b>局部 vs 平均</b>：等時線圖上某一深度的 \(U_z=1-u_z/u_0\) 是「那一點」的壓密度（<a href="problems-view/SM-2016-1.html">SM-2016-1</a> 查 A、B、C 三點求超額孔壓）；沉陷用的是全層平均 \(U\)。排水面附近 \(U_z\) 最大、中央最小。</div>
+
+<h3 class="c">6.4　\(T_v\)–\(U\) 兩段式：從擴散解推出 0.933 與 0.085</h3>
+
+{{FIG:fig6_2|圖 6-2｜精確解 \(U(T_v)\)（黑，級數 200 項）與兩段近似（紅：\(\pi U^2/4\)；橘：對數式）。橫軸為 \(\log T_v\)。<b>前段像「剛開始擴散、離邊界很遠」→ 拋物線；後段只剩最慢的一個波 → 指數衰減 → 取 log</b>。兩段在 \(U\approx60\%\) 交棒，誤差都小於 0.5%。}}
+
+<div class="derive">
+<p><span class="st">①</span> <b>早期</b>（水只從排水面附近排出，另一邊還感覺不到）：半無限域擴散，已排出的量 \(\propto\sqrt{c_vt}\)。精確係數：\(U=2\sqrt{T_v/\pi}\) ⇒ \(\boxed{T_v=\dfrac{\pi}{4}U^2}\)（\(U\le60\%\)）。</p>
+<p><span class="st">②</span> <b>晚期</b>：級數解 \(U=1-\sum\dfrac{2}{M^2}e^{-M^2T_v}\)，\(M=\dfrac{\pi}{2},\dfrac{3\pi}{2},\dots\)；其他項衰減得快得多，只留第一項：\(1-U\approx\dfrac{8}{\pi^2}e^{-\pi^2T_v/4}\)。</p>
+<p><span class="st">③</span> 取對數解 \(T_v\)：\(T_v=-\dfrac{4}{\pi^2}\ln\Bigl[\dfrac{\pi^2}{8}(1-U)\Bigr]=-\underbrace{\dfrac{4\ln10}{\pi^2}}_{0.933}\log(1-U)-\underbrace{\dfrac{4}{\pi^2}\ln\dfrac{\pi^2}{8}}_{0.085}\)。</p>
+<p><span class="st">④</span> \(\boxed{T_v=-0.933\log(1-U)-0.085}\)（小數版）；把 \(1-U\) 寫成 \((100-U\%)/100\)：\(-0.933[\log(100-U\%)-2]-0.085=\boxed{1.781-0.933\log(100-U\%)}\)（百分比版）✔ 兩版完全等價。</p>
+</div>
+<div class="check"><b>自我檢查（考場上驗算考卷的式子）</b><br>
+・\(U=50\%\)：\(\dfrac{\pi}{4}(0.5)^2=0.196\) ✔（\(T_{50}=0.197\)）；若代出 0.393，就是考卷漏了平方（103 年）。<br>
+・\(U=90\%\)：\(1.781-0.933\log10=0.848\) ✔<br>
+・\(U=60\%\)：前段 0.283、後段 0.286，幾乎相等 ✔ 交棒處連續。<br>
+・小數版代百分比（\(U=90\)）會得到 \(\log(-89)\)，無意義 ✔ 同一年只會給其中一版，<b>看清楚 \(U\) 寫的是 0.9 還是 90</b>。</div>
+
+<h3 class="c">6.5　比例法：不知道 \(c_v\) 也能算時間</h3>
+<p>同一層土（\(c_v\) 相同），把 \(T_v\) 定義寫兩次相除，\(c_v\) 就消掉了：</p>
+<div class="derive">
+<p><span class="st">①</span> \(\dfrac{t_2}{t_1}=\dfrac{T_{v2}}{T_{v1}}\Bigl(\dfrac{H_{dr2}}{H_{dr1}}\Bigr)^2\)（同一層土 \(H_{dr}\) 相同時括號＝1）。</p>
+<p><span class="st">②</span> \(U\le60\%\) 時 \(T_v\propto U^2\) ⇒ \(\boxed{\dfrac{t_2}{t_1}=\Bigl(\dfrac{U_2}{U_1}\Bigr)^2}\)，也就是 \(S\propto\sqrt t\)。</p>
+<p><span class="st">③</span> 超過 60% 就不能再用 \(\sqrt t\)：要先算 \(T_v=k\,t\)（\(k=T_{v1}/t_1\)），再用對數式換回 \(U\)。</p>
+</div>
+
+{{FIG:fig6_3|圖 6-3｜<a href="problems-view/SM-2018-1.html">SM-2018-1</a>：200 天沉陷 234 mm、\(U=30\%\) ⇒ \(S_\infty=780\) mm、\(k=T_{v}/t=3.53\times10^{-4}\)/天。1～4 年沉陷 316.1、447.1、536.7、603.0 mm（黑點）。紅虛線是一路用 \(S\propto\sqrt t\) 外推：第 3、4 年會算成 547.5、632.2 mm——<b>越過 \(U=60\%\)（約第 800 天）之後就錯了</b>。}}
+
+<div class="box"><b>例 6-1（<a href="problems-view/SM-2025-1.html">SM-2025-1</a>）試體換現場</b>　試體 25.4 mm 雙面排水，3 分鐘達 50%；現場 10 m 黏土單面排水，\(S_c=20\) cm。求達 90% 與達 9 cm 的時間。</div>
+<div class="derive">
+<p><span class="st">①</span> \(c_v=\dfrac{T_{50}H_{dr,lab}^2}{t_{lab}}=\dfrac{0.1963\times1.27^2}{3}=0.1056\) cm²/min。</p>
+<p><span class="st">②</span> 90%：\(t=\dfrac{0.848\times1000^2}{0.1056}\) ≈ 8.03×10⁶ min ≈ 5578 天 ≈ <b>15.28 年</b>。</p>
+<p><span class="st">③</span> 9 cm ⇒ \(U=9/20=45\%\) ⇒ \(T_v=\tfrac{\pi}{4}(0.45)^2=0.159\) ⇒ ≈ 1.51×10⁶ min ≈ <b>2.87 年</b>。</p>
+<p><span class="st">驗</span>　\((H_{dr,f}/H_{dr,lab})^2=(1000/1.27)^2\approx6.2\times10^5\)：現場比試體慢 62 萬倍，所以 3 分鐘變成 15 年 ✔</p>
+</div>
+
+<h3 class="c">6.6　貫穿範例收尾：<a href="problems-view/SM-2021-2.html">SM-2021-2</a> 的時間</h3>
+<div class="box"><b>例 6-2</b>　接例 5-1：\(S_c=62.28\) cm，5 m 黏土上下皆為砂（雙面），\(c_v=0.001\) cm²/s。求 1、2、3 個月的沉陷與達 50 cm 所需時間。</div>
+<div class="derive">
+<p><span class="st">①</span> \(H_{dr}=500/2=250\) cm。1 個月：\(T_v=\dfrac{0.001\times2{,}592{,}000}{250^2}=0.0415\) ⇒ \(U=\sqrt{4T_v/\pi}=22.98\%\) ⇒ <b>14.31 cm</b>。</p>
+<p><span class="st">②</span> 2 個月：\(T_v=0.0829\)、\(U=32.50\%\) ⇒ <b>20.24 cm</b>；3 個月：\(T_v=0.1244\)、\(U=39.80\%\) ⇒ <b>24.79 cm</b>（＝14.31×√3 ✔ 比例法）。</p>
+<p><span class="st">③</span> 50 cm：\(U=50/62.28=80.28\%\)（&gt;60%）⇒ \(T_v=1.781-0.933\log19.72=0.573\) ⇒ \(t=\dfrac{0.573\times250^2}{0.001}\) s ≈ <b>414 天</b>。</p>
+<p><span class="st">錯</span>　若誤取 \(H_{dr}=5\) m：同一個 \(T_v\) 要 4 倍時間，約 1658 天。</p>
+</div>
+
+{{FIG:fig6_4|圖 6-4｜貫穿範例的沉陷–時間曲線：\(S_\infty=62.28\) cm，30、60、90 天沉陷 14.31、20.24、24.79 cm；50 cm 在約 414 天（紫）。紅虛線為誤取 \(H_{dr}=5\) m（單面）的曲線，同一沉陷需 4 倍時間。}}
+
+<h3 class="c">6.7　等時線圖與預壓工法</h3>
+<p><b>等時線圖</b>（<a href="problems-view/SM-2016-1.html">SM-2016-1</a>、<a href="problems-view/SM-2019-2.html">SM-2019-2</a>）通常會附，用法：先算 \(T_v\)，再算各點的 \(z/H_{dr}\)，從圖查局部 \(U_z\)，超額孔壓 \(u_z=\Delta\sigma(1-U_z)\)。</p>
+<p><b>預壓工法</b>：先加一個比設計荷重大的預壓荷重，等沉陷達到「設計荷重最終會沉的量」就卸載，之後蓋結構物就幾乎不再沉。</p>
+<div class="derive">
+<p><span class="st">①</span> 目標沉陷 \(S_{\text{目標}}=S_c(\text{設計荷重})\)；預壓荷重的最終沉陷 \(S_c(\text{預壓荷重})\)（較大）。</p>
+<p><span class="st">②</span> \(U_{\text{需}}=\dfrac{S_c(\text{設計})}{S_c(\text{預壓})}\) ⇒ 查 \(T_v\) ⇒ \(t=T_vH_{dr}^2/c_v\)。</p>
+<p><span class="st">③</span> 例：<a href="problems-view/SM-2015-1.html">SM-2015-1</a> 8 m NC 黏土加 6 m 砂預載（水位以上 \(\gamma_d=14\) ⇒ 84 kPa），\(S_c=52.46\) cm；80% ⇒ 41.97 cm，\(t=0.567\times400^2/0.003\) s ＝ <b>350 天</b>。</p>
+</div>
+<div class="why"><b>監測項目（<a href="problems-view/SM-2004-4.html">SM-2004-4</a> 說明題）</b>：沉陷板（沉陷量 → 反算 \(U\)）、水壓計（超額孔壓消散 → 直接看 \(U_z\)）、傾度管與側向樁（側向變位，判斷填土速度是否太快、有無剪力破壞）。卸載時機以沉陷與孔壓<b>兩者</b>都達標為準。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜壓密時間</div>
+<ol>
+<li><b>畫</b>：黏土層上下標「透水／不透水」，畫一條等時線（拋物線形狀）。</li>
+<li><b>種子</b>：S5 擴散：\(T_v=c_vt/H_{dr}^2\)；中央不透水面 → \(H_{dr}=H/2\)。</li>
+<li><b>推</b>：早期 \(T_v=\pi U^2/4\)；晚期只留第一項 \(1-U=\frac{8}{\pi^2}e^{-\pi^2T_v/4}\) → 取 log → 0.933、0.085。</li>
+<li><b>檢查</b>：\(T_{50}=0.197\)、\(T_{90}=0.848\)；60% 處兩式約 0.283～0.286。</li>
+</ol>
+</div>
+
+<h3 class="c">6.8　🙈 蓋住重推</h3>
+<details><summary>Q1　不背常數，推出 \(U&gt;60\%\) 的式子。</summary>
+<p>只留級數第一項 \(1-U=\frac{8}{\pi^2}e^{-\pi^2T_v/4}\)（第一個特徵值 \(M=\pi/2\)，係數 \(2/M^2=8/\pi^2\)）。取自然對數：\(T_v=-\frac{4}{\pi^2}[\ln(1-U)+\ln\frac{\pi^2}{8}]\)，換成常用對數 \(\ln=2.303\log\)：\(T_v=-0.933\log(1-U)-0.085\)。</p></details>
+<details><summary>Q2　為什麼雙面排水的層，沉陷用 \(H\) 而時間用 \(H/2\)？</summary>
+<p>沉陷是整層每一處的應變加總，所有厚度都會被壓縮，所以用 \(H\)。時間由「水最遠要走多遠」決定，中央是分水嶺，所以最遠只有 \(H/2\)。</p></details>
+<details><summary>Q3　某層 200 天達 30%，400 天達多少？</summary>
+<p>\(U\le60\%\) 時 \(U\propto\sqrt t\)：\(U=30\%\times\sqrt2=42.4\%\)，仍小於 60%，成立。</p></details>
+
+<h3 class="c">6.9　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念（以及怎麼自己推回來）</th></tr>
+<tr><td>1</td><td>雙面排水仍用 \(H_{dr}=H\)</td><td>中央梯度 0 → 分水嶺 → \(H/2\)；錯一次差 4 倍</td></tr>
+<tr><td>2</td><td>\(U&gt;60\%\) 還用 \(\pi U^2/4\) 或 \(\sqrt t\) 外推</td><td>交棒點 60%；之後用對數式（指數衰減）</td></tr>
+<tr><td>3</td><td>照抄考卷印錯的兩段式</td><td>先代 \(U=50\%\) 驗算是否得 0.197</td></tr>
+<tr><td>4</td><td>小數版代百分比</td><td>小數版常數 −0.085、百分比版 1.781；一年只給一版</td></tr>
+<tr><td>5</td><td>單位：\(c_v\) cm²/s 配 \(H\) 用 m</td><td>先統一成 cm、s，最後換天／年</td></tr>
+<tr><td>6</td><td>預壓的 \(U\) 用「預壓荷重沉陷 ÷ 設計荷重沉陷」</td><td>反了：需達成的是設計荷重的最終沉陷，\(U=S_{c,設計}/S_{c,預壓}&lt;1\)</td></tr>
+</table>
+</section>
