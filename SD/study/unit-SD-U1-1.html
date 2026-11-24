@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SD-U1-1 動力基本原理｜單元總覽</title>
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<script defer src="assets/katex/katex.min.js"></script>
+<script defer src="assets/katex/auto-render.min.js"></script>
+<style>
+
+:root{--ac:#1565c0;--ac2:#e8f0fe;--ink:#26323a;--mut:#607d8b;--bd:#e0e6ea;--bg:#f4f6f8;
+ --must:#c62828;--must2:#fdecea;--half:#ef6c00;--half2:#fff4e5;--give:#2e7d32;--give2:#e9f5ec}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+ font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.7;-webkit-text-size-adjust:100%}
+main{max-width:1120px;margin:0 auto;padding:0 16px 60px}
+header{background:linear-gradient(135deg,#0d47a1,#1565c0 55%,#1976d2);color:#fff;padding:28px 22px 24px}
+header .in{max-width:1120px;margin:0 auto}
+header .eyebrow{font-size:.78rem;letter-spacing:.14em;opacity:.85;margin:0 0 6px}
+header h1{margin:0 0 8px;font-size:1.6rem;line-height:1.4}
+header p{margin:0;font-size:.93rem;opacity:.94;max-width:80ch}
+header code{background:rgba(255,255,255,.18);color:#fff}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #dde4ea;
+ padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+nav a{font-size:.8rem;text-decoration:none;color:var(--ac);background:var(--ac2);padding:5px 12px;border-radius:20px;white-space:nowrap}
+nav a:hover{background:#d3e3fd}
+nav a.ext{background:#f3e5f5;color:#6a1b9a}
+section{margin:34px 0}
+h2{font-size:1.3rem;margin:0 0 6px;padding-left:11px;border-left:6px solid var(--ac);color:#0d47a1}
+h2 small{font-size:.8rem;color:var(--mut);font-weight:400;margin-left:6px}
+h3{font-size:1.04rem;margin:26px 0 8px;color:#37474f;padding-bottom:4px;border-bottom:2px solid var(--ac2)}
+p.lead{font-size:.93rem;color:#455a64;margin:6px 0 10px}
+code{font-size:.85em;background:#eceff1;padding:0 4px;border-radius:4px}
+a{color:var(--ac)}
+
+/* position strip */
+.pos{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;background:#fff;border:1px solid var(--bd);
+ border-radius:12px;padding:12px 16px;margin:18px 0 0;font-size:.9rem}
+.pos .k{display:flex;align-items:baseline;gap:5px}
+.pos .k b{font-size:1.35rem;color:#0d47a1;font-variant-numeric:tabular-nums}
+.pos .k span{color:var(--mut);font-size:.8rem}
+.pos .go{margin-left:auto;font-size:.82rem}
+.btnbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.btnbar a{padding:5px 14px;border-radius:6px;font-size:.86rem;text-decoration:none}
+.b-lec{background:#6a1b9a;color:#fff}.b-lecp{background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8}
+.b-pdf{background:#eceff1;color:#37474f;border:1px solid #cfd8dc}
+
+/* cards / tables shared */
+.note,.warn{border-radius:10px;padding:11px 15px;margin:12px 0;font-size:.89rem}
+.note{background:var(--ac2);border-left:5px solid var(--ac)}
+.warn{background:var(--half2);border-left:5px solid var(--half)}
+.tw{position:relative;overflow-x:auto;border:1px solid var(--bd);border-radius:10px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:.86rem;background:#fff}
+th,td{border-bottom:1px solid #eceff1;padding:7px 9px;text-align:left;vertical-align:top}
+th{background:#eceff1;color:#37474f;font-size:.8rem}
+td.num,th.num{text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+.up{color:#2e7d32;font-weight:700}.down{color:var(--must);font-weight:700}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:baseline}
+#riskT td:nth-child(-n+5),#riskT th:nth-child(-n+5){white-space:nowrap}
+.risk-hi{background:#ffebee}.risk-md{background:#fff8e1}.risk-lo{background:#f1f8e9}
+
+/* §1 clusters */
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:11px;margin-top:8px}
+.cat{background:#fff;border:1px solid var(--bd);border-left:6px solid;border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.cat:hover{box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.cat b{display:block;font-size:.98rem}.cat span{font-size:.8rem;color:var(--mut)}
+.chartbox{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:12px 14px;margin-top:12px}
+.chartbox h4{margin:0 0 6px;font-size:.88rem;color:var(--mut);font-weight:600}
+.chartbox canvas{width:100%;height:auto;display:block}
+.legend-s{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.78rem;color:#455a64;margin-top:6px}
+
+/* §2 formula */
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.lg{flex:1 1 220px;border-radius:10px;padding:10px 13px;border:1px solid}
+.lg h4{margin:0 0 3px;font-size:.95rem}.lg p{margin:0;font-size:.82rem;line-height:1.6}
+.lg.must{background:var(--must2);border-color:#f5c6c2}.lg.must h4{color:var(--must)}
+.lg.half{background:var(--half2);border-color:#ffd9a8}.lg.half h4{color:var(--half)}
+.lg.give{background:var(--give2);border-color:#bcdfc6}.lg.give h4{color:var(--give)}
+.kpis{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.kpi{flex:1 1 110px;background:#fff;border:1px solid var(--bd);border-radius:10px;padding:10px;text-align:center}
+.kpi .n{font-size:1.55em;font-weight:800;color:#0d47a1;line-height:1.15}
+.kpi .l{font-size:.73rem;color:var(--mut);margin-top:2px}
+.kpi.red .n{color:var(--must)}.kpi.org .n{color:var(--half)}.kpi.grn .n{color:var(--give)}
+details{background:#fff;border:1px solid var(--bd);border-radius:10px;margin:12px 0}
+details>summary{cursor:pointer;padding:10px 14px;font-weight:600;font-size:.92rem;color:#37474f}
+details>.db{padding:0 14px 12px}
+blockquote{margin:8px 0;padding:8px 14px;background:#fafbfc;border-left:4px solid #90a4ae;font-size:.87rem;color:#37474f}
+.ynote{font-size:.72rem;color:#78909c}
+.filters{display:flex;flex-wrap:wrap;gap:6px 12px;margin:12px 0;align-items:center}
+.filters .fg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.filters b{font-size:.76rem;color:var(--mut);margin-right:2px}
+.filters button,.filters select{font:inherit;font-size:.79rem;border:1px solid #cfd8dc;background:#fff;color:#455a64;border-radius:16px;padding:4px 12px;cursor:pointer}
+.filters select{max-width:100%}
+.filters button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.recallbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 12px;padding:8px 12px;background:#fff;border:1px dashed #b0bec5;border-radius:10px;font-size:.83rem;color:#546e7a}
+.recallbar button{font:inherit;font-size:.8rem;border:1px solid var(--ac);background:#fff;color:var(--ac);border-radius:16px;padding:3px 12px;cursor:pointer}
+.recallbar button.on{background:var(--ac);color:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));gap:12px}
+.fc,.qrow>*{min-width:0}
+.fc{background:#fff;border:1px solid var(--bd);border-left:6px solid #90a4ae;border-radius:10px;padding:12px 15px;scroll-margin-top:70px;transition:box-shadow .3s}
+.fc.must{border-left-color:var(--must)}.fc.half{border-left-color:var(--half)}.fc.give{border-left-color:var(--give)}
+.fc.flash{box-shadow:0 0 0 3px #90caf9}
+.fc .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.fc .nm{font-weight:700;font-size:1rem}
+.tag{font-size:.71rem;font-weight:700;border-radius:14px;padding:2px 9px;white-space:nowrap}
+.tag.must{background:var(--must2);color:var(--must)}.tag.half{background:var(--half2);color:var(--half)}.tag.give{background:var(--give2);color:var(--give)}
+.fc .eq{background:#f7f9fb;border-radius:8px;padding:5px 10px;margin:6px 0;overflow-x:auto}
+.fc .meta{font-size:.86rem;color:#455a64;margin:6px 0 0;line-height:1.68}
+.fc .ev{font-size:.78rem;margin-top:8px;padding-top:7px;border-top:1px dashed #dde4ea;color:#607d8b}
+.fc .ev a{display:inline-block;border-radius:4px;padding:0 5px;margin:1px 2px 1px 0;text-decoration:none;font-size:.76rem;background:var(--must2);color:var(--must)}
+.fc .ev a.sec{background:#eceff1;color:#546e7a}
+.fc .ev .ok{display:inline-block;border-radius:4px;padding:0 5px;background:var(--give2);color:var(--give);font-size:.76rem}
+.fc .ev .uses{margin-left:4px;color:#455a64;cursor:pointer;text-decoration:underline dotted}
+.never{color:var(--must);font-weight:700}
+body.recall .fc .eq{position:relative;cursor:pointer;min-height:2.6em}
+body.recall .fc .eq>*{visibility:hidden}
+body.recall .fc .eq::after{content:"✍ 先默寫，再點這裡翻開";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#90a4ae;font-size:.83rem;background:repeating-linear-gradient(45deg,#eef2f5 0 8px,#f7f9fb 8px 16px);border-radius:8px}
+body.recall .fc.rev .eq>*{visibility:visible}
+body.recall .fc.rev .eq::after{display:none}
+body.recall .fc .meta .katex{filter:blur(4px)}
+body.recall .fc.rev .meta .katex{filter:none}
+#mx{min-width:900px;font-size:.8rem}
+#mx th{text-align:center;position:sticky;top:0}
+#mx th:first-child,#mx th:nth-child(2),#mx th:last-child{text-align:left}
+#mx td.c{text-align:center}
+#mx .y{color:var(--give);font-weight:800}#mx .x{color:var(--must);font-weight:800}#mx .n{color:#cfd8dc}
+#mx tr.hl{background:#f2f7fc}
+#mx td.qq{font-size:.8rem;font-weight:600;white-space:nowrap}
+#mx td.qq a{text-decoration:none;border-bottom:1px dotted #90a4ae}
+#mx td.rm{font-size:.76rem;color:#546e7a;line-height:1.55}
+#mx tfoot td{background:#f7f9fb;font-size:.74rem;color:#455a64;text-align:center;border-top:2px solid #cfd8dc}
+#mx tfoot td:first-child{text-align:left;font-weight:700}
+.lgd{display:inline-block;min-width:1.6em;text-align:center;font-weight:800;margin:0 3px 0 8px;border-radius:4px;background:#fff;border:1px solid var(--bd)}
+.lgd.y{color:var(--give)}.lgd.x{color:var(--must)}.lgd.n{color:#b0bec5}
+.strat h4{margin:16px 0 4px;font-size:.98rem;color:#37474f}
+.strat p{margin:0 0 6px;font-size:.9rem;color:#455a64}
+
+/* §3 question table */
+.qhead{display:grid;grid-template-columns:96px 58px 1fr 1.25fr 64px;gap:10px;padding:6px 12px;font-size:.76rem;color:var(--mut);font-weight:600}
+.qrow{display:grid;grid-template-columns:96px 58px 1fr 1.25fr 64px;gap:10px;align-items:start;background:#fff;border:1px solid var(--bd);border-left:6px solid;border-radius:9px;padding:9px 12px;margin-bottom:7px}
+.qrow.sec{background:#fafafa;border-style:dashed;border-left-style:solid}
+.qrow .id a{font-weight:700;text-decoration:none}
+.qrow .id .sub{display:block;font-size:.72rem;color:var(--mut);font-weight:400}
+.qrow .ty{font-size:.72rem;color:#fff;border-radius:10px;padding:1px 8px;text-align:center;justify-self:start;white-space:nowrap}
+.qrow .sum{font-size:.88rem}
+.qrow .sum .cl{display:block;font-size:.74rem;color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font:inherit;font-size:.74rem;border-radius:12px;padding:1px 9px;border:1px solid;cursor:pointer;background:#fff;line-height:1.6}
+.chip.must{color:var(--must);border-color:#f5c6c2;background:var(--must2)}
+.chip.half{color:var(--half);border-color:#ffd9a8;background:var(--half2)}
+.chip.give{color:var(--give);border-color:#bcdfc6;background:var(--give2)}
+.chip.hit{outline:2px solid #1565c0}
+.chips .none{font-size:.76rem;color:var(--mut)}
+.qrow .ico{font-size:.85rem;white-space:nowrap;text-align:right}
+.qrow .ico a{text-decoration:none}
+.count{font-size:.82rem;color:var(--mut);margin:0 0 8px}
+@media(max-width:760px){
+ .qhead{display:none}
+ .qrow{grid-template-columns:auto 1fr auto;gap:6px 10px}
+ .qrow .id{grid-column:1;grid-row:1}.qrow .ty{grid-column:2;grid-row:1;align-self:center}.qrow .ico{grid-column:3;grid-row:1}
+ .tw table{min-width:620px}
+ .qrow .sum,.qrow .chips{grid-column:1/-1}
+ header h1{font-size:1.3rem}
+ .cards{grid-template-columns:1fr}
+ .pos .go{margin-left:0}
+ .katex{display:inline-block;max-width:100%;overflow-x:auto;overflow-y:hidden;vertical-align:middle}
+ .katex-display>.katex{display:block}
+ .filters .fg{max-width:100%}
+ .filters select{width:100%}
+}
+footer{margin-top:40px;padding-top:14px;border-top:1px solid #dde4ea;color:#78909c;font-size:.78rem}
+@media print{
+ nav,.filters,.recallbar,.btnbar,.pos .go{display:none!important}
+ body{background:#fff}header{padding:14px 0;color:#000;background:none;border-bottom:2px solid #0d47a1}
+ header .eyebrow,header p{opacity:1}
+ section{break-inside:auto}.fc,.qrow,.chartbox,tr{break-inside:avoid}
+ body.recall .fc .eq>*{visibility:visible}body.recall .fc .eq::after{display:none}
+ #mx{font-size:7pt;min-width:0}
+ .cards{grid-template-columns:1fr 1fr;gap:8px}.fc{padding:8px 10px}.fc .eq{font-size:.8em}.fc .meta{font-size:.78rem}
+ .qrow{padding:6px 10px;margin-bottom:4px}.chartbox{display:none}.cats{grid-template-columns:1fr 1fr}
+}
+.katex-display{overflow-x:auto;overflow-y:hidden;padding:2px 0}
+.chip.gv{color:var(--give);border-color:#bcdfc6;background:#fff;border-style:dashed}
+</style>
+</head><body>
+
+
+<header><div class="in">
+  <p class="eyebrow">exam-wiki-SD｜結構動力｜單元總覽</p>
+  <h1>SD-U1-1　結構動力基本性質及原理</h1>
+  <p>一頁回答三件事：<b>這單元考什麼</b>、<b>哪些公式考卷會給、哪些要自己背</b>、<b>每一題要背哪幾條</b>。數字全部可由 <code>raw/json/question_index.json</code> 與題解重算；全科排第幾、哪年有考，看全科熱圖。</p>
+</div></header>
+
+<nav>
+  <a href="#s1">一、考什麼</a>
+  <a href="#s2">二、公式給／背</a>
+  <a href="#s3">三、考題總表</a>
+  <a href="#s4">四、只剩三天</a>
+  <a class="ext" href="lecture-SD-U1-1.html">觀念講義 ▶</a>
+  <a class="ext" href="frequency-SD.html#s-heat">全科熱圖 ▶</a>
+</nav>
+
+<main>
+
+<div class="pos"><div class="k"><b>#7</b><span>全科出題排名（7 子項）</span></div><div class="k"><b>2</b><span>主考點題數（＋副考點 20）</span></div><div class="k"><b>2/24</b><span>有出題的考年</span></div><div class="k"><b>1/6</b><span>近 6 考年（2020–25）共 1 題</span></div>
+  <a class="go" href="frequency-SD.html#s-heat">在全科熱圖看這一列 →</a>
+</div>
+<div class="btnbar">
+  <a class="b-lec" href="lecture-SD-U1-1.html">觀念講義 📘</a>
+  <a class="b-lecp" href="lecture-SD-U1-1.pdf" target="_blank">講義 PDF 🖨️</a>
+  <a class="b-pdf" href="unit-SD-U1-1.pdf" target="_blank">本頁 PDF 🖨️</a>
+</div>
+
+<!-- ============================================================ 一 -->
+<section id="s1">
+<h2>一、這單元考什麼</h2>
+<p class="lead">2 題主考點依「考點結構」分成 4 群，每題只歸一群。點卡片會跳到第三節、只列出那一群的題目。</p>
+<div class="cats" id="cats"></div>
+
+<h3 id="drift">考點漂移：前段 vs. 後段</h3>
+<div class="note">
+📌 <b>三個要記住的數字</b>：① 主考點只有 2 題（2006-1、2020-1），全科最少；但<b>副考點 20 題</b>，主副合計出現在 15 個考年——基本原理很少單獨成題，卻是 U1-3、U3-2 的地基；
+② 2 題主考點一題寫出一般外力下的完整歷時（含 Duhamel）、一題推導並比較動力放大因子與傳導率，都是推導／說明，沒有數值；
+③ 近 6 年（2020–2025）有 1 題主考點、7 題副考點，副考點集中在 Rayleigh 阻尼（2023-2、2025-3）與振態性質（2021-3、2025-2）。
+</div>
+<p class="lead"><b>考點漂移</b></p>
+<p style="font-size:.9em;margin:0 0 10px;color:#78909c">主考點太少，改看主副合計 22 題依題號對切（前 11、後 11 題）。</p>
+<div class="tw"><table>
+<thead><tr><th>考點群</th><th class="num">2003–2015</th><th class="num">2016–2025</th><th>解讀</th></tr></thead>
+<tbody><tr><td><span class="bar" style="width:12px;background:#1565c0"></span> 自由振動與阻尼</td><td class="num">2</td><td class="num">3</td><td>Rayleigh 阻尼從 2003-3 隔了 20 年，2023、2025 連續出現</td></tr><tr><td><span class="bar" style="width:12px;background:#6a1b9a"></span> 簡諧外力：放大、傳導、吸振</td><td class="num">4</td><td class="num">2</td><td>放大與傳導是最常帶到的原理，主考點 2020-1 就是這一群</td></tr><tr><td><span class="bar" style="width:12px;background:#e65100"></span> 脈衝與一般外力</td><td class="num">3</td><td class="num">0</td><td>脈衝題集中在前期；後期只剩 2021-2 的半正弦</td></tr><tr><td><span class="bar" style="width:12px;background:#2e7d32"></span> 振態性質、能量法與反應譜關係</td><td class="num">2</td><td class="num">6</td><td>振態正交、參與因子、Lagrange 都在近年的 MDOF 題裡以子題出現</td></tr></tbody></table></div>
+<div class="chartbox"><h4>年度分布（主考點 2 題，依考點結構堆疊）</h4><canvas id="cvBar" width="1000" height="230"></canvas><div class="legend-s" id="barLg"></div></div>
+<div class="note">📌 <b>一句話</b>：本單元的分數多半在別的單元裡拿——MDOF 題多問一小題阻尼比或參與因子，脈衝題的第二段就是自由振動。
+近年 8 題（1 主 7 副）有 4 題印了東西——2021-3 的 ω、φ，2023-2 與 2025-3 的阻尼矩陣型式，2024-4 的橋梁週期式——但都不是本單元要你算的那一步。</div>
+
+<h3 id="type">題型走向</h3>
+<p class="lead"><b>題型與分類走向</b></p>
+<div class="tw"><table>
+<thead><tr><th>題型</th><th class="num">動力分析</th><th class="num">規範計算</th><th class="num">混合</th><th class="num">概念題</th><th class="num">主考點計</th><th class="num">副考點</th></tr></thead>
+<tbody><tr><td>計算</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"><b>0</b></td><td class="num">13</td></tr><tr><td>推導</td><td class="num">1</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"><b>1</b></td><td class="num">2</td></tr><tr><td>說明</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num">1</td><td class="num"><b>1</b></td><td class="num">4</td></tr><tr><td>繪圖</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num"><b>0</b></td><td class="num">1</td></tr></tbody></table></div>
+<div class="note">📌 主考點 2 題都是推導或說明；副考點 20 題以計算為主（12 題），多半是 U1-3 計算題的其中一步。（欄位為索引 designMethod，只統計主考點。）</div>
+
+<h3 id="risk">命題風險排序</h3>
+<p class="lead">依「歷史頻率 × 空窗年數 × 近年趨勢」排序。<b>這是推測不是預言</b>，用途是決定練題順序，不是 all-in 單一考點。最右欄是這類題<b>必背的公式</b>，點了跳到第二節的卡片。</p>
+<div class="tw"><table id="riskT">
+<thead><tr><th>風險</th><th>考點</th><th class="num">歷史題數</th><th>最後出現</th><th class="num">空窗</th><th>理由</th><th>必背公式</th></tr></thead>
+<tbody>
+<tr class="risk-hi"><td><b>高</b></td><td>Rayleigh 阻尼：兩點求係數、反求第三振態阻尼比</td><td class="num">3 副</td><td>2025-3</td><td class="num">0 年</td><td>2023、2025 連續出現；考卷只印 \(C=\alpha M+\beta K\)，ξ 的關係式從不印</td><td data-f="8"></td></tr>
+<tr class="risk-hi"><td><b>高</b></td><td>穩態放大、傳導率、共振 \(1/2\xi\)</td><td class="num">1 主＋4 副</td><td>2021-2</td><td class="num">4 年</td><td>主考點 2020-1 與 4 題副考點；只有 2008 年印過 MF</td><td data-f="3,4"></td></tr>
+<tr class="risk-md"><td><b>中</b></td><td>自由振動與對數衰減</td><td class="num">2 副</td><td>2017-1</td><td class="num">8 年</td><td>脈衝題第二段都要用；衰減式只在 2017 以近似暗示</td><td data-f="1,2,0"></td></tr>
+<tr class="risk-md"><td><b>中</b></td><td>一般外力與脈衝（Duhamel、衝量）</td><td class="num">1 主＋3 副</td><td>2021-2</td><td class="num">4 年</td><td>主考點 2006-1 整題就是 Duhamel；2015-3 印過一次（別單元的證明題）</td><td data-f="6,7"></td></tr>
+<tr class="risk-md"><td><b>中</b></td><td>振態正交、參與因子、有效質量</td><td class="num">4 副</td><td>2025-2</td><td class="num">0 年</td><td>近年 MDOF 題的子題；正規化方式考卷常不指定</td><td data-f="9,10"></td></tr>
+<tr class="risk-lo"><td><b>低</b></td><td>TMD、三軸反應譜關係</td><td class="num">2 副</td><td>2018-2</td><td class="num">7 年</td><td>論述或考卷已印</td><td data-f="5,12"></td></tr>
+</tbody></table></div>
+</section>
+
+<!-- ============================================================ 二 -->
+<section id="s2">
+<h2>二、公式給／背</h2>
+<p class="lead">以 <b>2002–2025 共 24 份考卷原文</b>為證據，逐條判定哪些考卷會印給你、哪些必須自己寫得出來。這不是公式速查表，是<b>背誦資源的投放決策</b>。</p>
+<p class="lead">結論先講：<b>本單元 14 條卡片有 9 條 24 年從沒印過；</b>印過的 5 條（MF、Duhamel、橋梁 Rayleigh 式、三軸反應譜關係、SDOF EOM）各只印 1～3 次，而且多半印在別單元的主考點。</p>
+<div class="warn"><b>⚠️ 主考點兩題全部零公式。</b>2006-1 要寫出含 Duhamel 的完整歷時、2020-1 要寫出兩種 EOM、動力放大因子與傳導率並說明曲線——題目要的就是公式本身。</div>
+<details><summary>判定方法（展開）</summary><div class="db">
+<p class="lead">考卷交公式有三種擺法，三種都算「有給」：<b>(a) 集中式</b>——最後一題後另闢「※參考公式」區；<b>(b) 隨題式</b>——緊跟該題題目；<b>(c) 內文式</b>——混在題目敘述裡當已知條件。</p>
+<h4>1-1　考卷把公式印出來的三種擺法（三種都算「有給」）</h4>
+<div class="tw"><table>
+<tr><th style="width:14%">擺法</th><th style="width:30%">特徵</th><th>本單元的實例</th></tr>
+<tr><td><b>(a) 集中式</b></td><td>標題為「參考公式」「提示」的獨立區塊</td><td>2020 年第 3 題前的「參考公式：」CQC（U1-3，非本單元）</td></tr>
+<tr><td><b>(b) 隨題式</b></td><td>寫在題文或附圖裡的式子</td><td>2008-3 的 MF 式與曲線、2015-1 的 EOM、2018-2 的 \(S_{pv}\) 關係、2023-2 與 2025-3 的 \(C=\alpha M+\beta K\)</td></tr>
+<tr><td><b>(c) 內文式</b></td><td>以已知條件給值、給譜、給結果</td><td>2017-1 括號裡的 \(\omega_D\approx\omega\) 等近似；2021-3 方框印出 ω²、φ 的結果</td></tr>
+</table></div>
+<p>證據來源：<code>raw/exams/</code> 2002–2025 全 24 份考卷 <code>pdftotext -layout</code> 抽取（只有 2004、2012、2014、2018、2020 年抽得到「提示」「參考公式」字樣）；各題以題目正本（<code>-problem.md</code> §2「考卷給的公式、附表與參數」，轉圖目視寫成，99 題皆已確認）逐題核對；嵌入影像的公式（2014-2 提示、2016-4 與 2019-3 的反應譜圖、2021-3 方框、2024-4 規範式）依題目正本的目視判讀。24 年中 19 年印過任何 SD 公式或譜式；<b>2005、2006、2013、2016、2019 年整卷零公式</b>。</p>
+<h4>1-2　SD 卷首說明：方向和「免責聲明」相反</h4>
+<p>SD 考卷沒有「請自行選擇適合的公式」那種免責句；2009、2011、2012 年卷首反而寫「相關公式、物理常數、符號意義及設計參數未提及時，請自行依規範作合理推斷或假設」——<b>沒印的要自己依規範補</b>。印了也不等於免背：2025-1 印的是舊版總橫力式、2017-1 括號把 ω 印成 k/M，看得出來才拿得到分。</p>
+<p class="lead"><b>「用到」的判定</b>：該題題解實際寫出或套用了這條式子才算。卡片上的題號、第三節每題的公式標籤、下方逐年表的 ✗，全部由同一份逐題資料算出。</p>
+</div></details>
+
+<div class="legend">
+<div class="lg must"><h4>必背</h4><p>考卷從未印過；或曾「考了卻沒給」。自己要寫得出來，否則整題卡死。</p></div>
+<div class="lg half"><h4>別賭</h4><p>曾在某些年份印出，但多數年份沒有，或只給形式不給可用的式子。仍建議背。</p></div>
+<div class="lg give"><h4>通常會給</h4><p>需要用到時幾乎必定印在題幹，無「考了卻沒給」的先例。</p></div>
+</div>
+<p class="lead">採<b>保守標準</b>：拿不準就往上歸。把「必背」誤判成「會給」的代價，遠大於多背幾條。</p>
+<div class="kpis" id="fkpi"></div>
+
+<h3>公式逐條分界</h3>
+<p class="lead">每張卡底下列出「考了卻沒給」的<b>題號</b>（灰色＝副考點題），點題號開解析；點「看這幾題」會在第三節篩出用到這條的題目。</p>
+<div class="filters" id="flt"></div>
+<div class="recallbar"><button id="rcToggle" type="button">🙈 回想模式：關</button><span id="rcInfo"></span><button id="rcReset" type="button" hidden>全部蓋回</button></div>
+<div class="cards" id="cards"></div>
+
+<details id="mxBox"><summary>逐年證據表：24 考年 × 公式欄（展開）</summary><div class="db">
+<p class="lead">每格三種狀態：<span class="lgd y">✔</span> 該年考卷印出 <span class="lgd x">✗</span> 該年有本單元題目用到這欄的式子，<b>考卷卻沒印</b> <span class="lgd n">·</span> 該年沒用到。底色列＝該年有本單元題目。</p>
+<div class="tw"><table id="mx">
+<thead><tr><th>考卷年</th><th>單元題號</th><th>SDOF 參數・EOM</th><th>自由振動・衰減</th><th>DMF</th><th>傳導率・TMD</th><th>脈衝・Duhamel</th><th>Rayleigh 阻尼</th><th>振態・能量法</th><th>備註</th></tr></thead>
+<tbody></tbody><tfoot></tfoot></table></div>
+<p class="lead" id="mxsum" style="margin-top:10px"></p>
+</div></details>
+
+<h3>背誦策略</h3>
+<div class="strat" id="strat">
+<h4>4-1　如果只背五條</h4>
+<ol>
+<li><b>阻尼自由振動解（含 \(\xi\omega u_0\) 項）</b>——用到它的題：<span data-qs="1" data-count></span>。</li>
+<li><b>動力放大因子與傳導率</b>：\(r=1\) 時 \(1/2\xi\)、\(r=\sqrt2\) 是隔振分界。同時用到兩者的題：<span data-qs="3+4" data-count></span>。</li>
+<li><b>Rayleigh 阻尼</b> \(\xi_i=a_0/2\omega_i+a_1\omega_i/2\) 與兩點同 ξ 的閉合解——<span data-qs="8" data-count></span>。</li>
+<li><b>Duhamel 積分與衝量近似</b>：先算 \(t_d/T\) 決定用哪一個。</li>
+<li><b>參與因子 Γ 與有效質量</b>，以及質量正交性。</li>
+</ol>
+<p><b>可以少花時間的</b>：三軸反應譜關係（2018 年印過）；TMD 最佳參數只在申論出現，寫出調頻條件與質量比即可。</p>
+<h4>4-2　考場上的四個檢查動作</h4>
+<ol>
+<li><b>頻率單位</b>：Hz 換 rad/s 乘 \(2\pi\)（2023-2 題文特別提醒）；ξ 代 0.05，不是 5。</li>
+<li><b>脈衝題先算 \(t_d/T\)</b>：小於約 0.25 用衝量近似，否則分段求解、以端點值接自由振動。</li>
+<li><b>基礎激振分清楚</b>：相對位移看動力放大因子，絕對加速度看傳導率（2020-1）。</li>
+<li><b>振態正規化</b>：題目沒指定時寫明你的正規化方式，Γ 才有意義。</li>
+</ol>
+</div>
+</section>
+
+<!-- ============================================================ 三 -->
+<section id="s3">
+<h2>三、考題總表 <small>主 2 ＋ 副 20 ＝ 22 題</small></h2>
+<p class="lead">每題列出題解用到的公式：紅／橘＝考卷沒給、要自己背；綠框虛線＝那年考卷有印。「基本式」＝第一張卡（SDOF 基本參數），幾乎每題都用，題目列不另標。標籤點了會跳到第二節那張卡。虛線灰底＝副考點（主考點在別的子項）。</p>
+<div class="filters" id="qflt">
+  <div class="fg" id="qfCat"><b>考點群</b></div>
+  <div class="fg" id="qfPri"><b>範圍</b></div>
+  <div class="fg"><b>用到公式</b><select id="qfF"><option value="">（不限）</option></select></div>
+</div>
+<p class="count" id="qcount"></p>
+<div class="qhead"><span>題號</span><span>題型</span><span>考什麼</span><span>用到的式子</span><span style="text-align:right">解析／影片</span></div>
+<div id="qlist"></div>
+<div class="note">圖示：📄 解析頁（problems-view）、🎬 解題影片、✅ 已驗證。本單元目前沒有 verificationStatus＝verified 的題目。</div>
+</section>
+
+<!-- ============================================================ 四 -->
+<section id="s4">
+<h2>四、只剩三天</h2>
+<div class="note" style="font-size:.92rem">
+📌 <b>若只剩三天</b>：第一天做 2006-1（Duhamel 完整式）與 2020-1（兩條放大曲線）；
+第二天做 2017-1、2021-2（衰減、由共振反求 ξ、半正弦脈衝）；
+第三天做 2003-3、2025-3（Rayleigh 阻尼）與 2016-3（正交性）。原理與圖解見 <a href="lecture-SD-U1-1.html">觀念講義</a>。
+</div>
+</section>
+
+<footer>
+SD-U1-1 單元總覽｜由 <code>scripts/build_unit_page.py</code> 從 <code>study/data/unit-SD-U1-1.json</code> 產生｜2026-11-24<br>
+資料來源：<code>raw/json/question_index.json</code>（99 題／24 考年）、<code>raw/exams/</code> 考卷原文、<code>raw/solutions/SD-YYYY-N/*.md</code>（本單元 22 份題解，逐題核對公式用途）。<br>
+SD 科第一版單元總覽（2026-11-24）。取代封存的 <code>archive/study/study-SD-U1-1.html</code> 與 <code>formula-given-SD-U1-1.html</code>（年份層級，未逐題核對）；公式「有印」依題目正本 §2 核對；逐題公式用途依本單元 22 份題解逐份重做：先以每條公式的關鍵字比對題解，列出「宣稱用到卻零命中」與「沒宣稱卻多次命中」兩種差異，再逐份開題解判斷——題解實際寫出或套用才算，「驗算用」「也可用」「§5 延伸」不算。本單元的判斷例：2021-2 算 Duhamel（題解 Step 3 寫出積分式）；2003-2、2004-1 只把 Duhamel 當理由引用、不算；2025-2 的正交性只作驗算、不算；2013-1 ㈣ 實際套用阻尼自由振動解，計入。 本次未修改 <code>question_index.json</code>，主副分類沿用 2026-11-15 版。
+</footer>
+</main>
+
+<script>
+const D={"Q": [{"id": "SD-2003-1", "cl": "R", "ty": "說明", "sum": "（副）四子題問答：頂層集中力時機、振態個數（有效質量 90%）、擬加速度與絕對加速度的差別", "f": [10, 12], "pri": 0, "secCat": "U2-2 建築耐震設計規範", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SD-2003-2", "cl": "P", "ty": "計算", "sum": "（副）分段線性脈衝外力（峰值 2000 N）：衝量、脈衝結束後的自由振動、最大位移", "f": [0, 7, 1], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2003-3", "cl": "V", "ty": "計算", "sum": "（副）五自由度給 T1、T3 的阻尼比 5%：Rayleigh 係數，再求第 2 振態阻尼比", "f": [0, 8], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2003-5", "cl": "R", "ty": "計算", "sum": "（副）五層剪力屋給層間變位：反推側力，Rayleigh 商求 T1、第一振態有效質量", "f": [11, 10], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2004-1", "cl": "P", "ty": "說明", "sum": "（副）四子題問答之㈡：為何地震反應對阻尼比敏感、短脈衝反應卻不敏感", "f": [0, 7], "pri": 0, "secCat": "U2-2 建築耐震設計規範", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SD-2006-1", "cl": "P", "ty": "推導", "sum": "m、c、k、初始位移 d、初速 v、一般外力 p(t)：寫出位移與速度歷時的完整式（齊次解＋Duhamel）", "f": [0, 13, 1, 6], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2006-4", "cl": "H", "ty": "說明", "sum": "（副）TMD 減震原理：調頻條件、質量比、最佳阻尼", "f": [0, 5], "pri": 0, "secCat": "U3-2 隔減震原理", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SD-2008-3", "cl": "H", "ty": "計算", "sum": "（副）考卷給 MF 公式與曲線：共振時阻尼 20% 對 2% 的位移比，阻尼修正係數 BS、B1 的意義", "f": [3], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "混合"}, {"id": "SD-2009-2", "cl": "H", "ty": "計算", "sum": "（副）6,500 lb 機器隔振：傳遞力 700→50 lb 得 TR＝1/14，反推彈簧勁度（ξ＝0）", "f": [0, 4], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2013-1", "cl": "V", "ty": "說明", "sum": "（副）四小題問答之㈣：由振幅衰減求阻尼比（另含隔震、TMD、側推）", "f": [0, 1, 2, 5], "pri": 0, "secCat": "U3-2 隔減震原理", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SD-2015-1", "cl": "H", "ty": "推導", "sum": "（副）考卷給 EOM：穩態特解的振幅與相位角（全符號）", "f": [0, 13, 3], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2016-3", "cl": "R", "ty": "計算", "sum": "（副）給三個振態向量與頂層質量：以質量正交性反求下兩層質量 α、β", "f": [9], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2017-1", "cl": "V", "ty": "計算", "sum": "（副）ξ＝5%、初始位移 v0：三個週期後的振幅（考卷給 ωD≈ω 等近似）", "f": [0, 1, 2], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2018-2", "cl": "R", "ty": "繪圖", "sum": "（副）三軸對數反應譜：Spv 與 Spa、Sd 的關係（考卷印出），規範譜各段在三軸圖上的走向", "f": [12], "pri": 0, "secCat": "U2-3 橋梁耐震設計規範", "ver": 0, "video": 0, "dm": "混合"}, {"id": "SD-2020-1", "cl": "H", "ty": "說明", "sum": "動力放大因子與被動傳導率：寫出兩種 EOM、比較兩組曲線、說明對消能與隔震的意義", "f": [13, 3, 4], "pri": 1, "secCat": "", "ver": 0, "video": 0, "dm": "概念題"}, {"id": "SD-2021-2", "cl": "H", "ty": "計算", "sum": "（副）由準靜態與共振兩組穩態振幅反求阻尼比；半正弦脈衝的最大位移", "f": [0, 3, 1, 6], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2021-3", "cl": "R", "ty": "計算", "sum": "（副）三層剪力屋（考卷印 ω、φ）：一樓初始位移 6 cm 放開，模態展開求位移與層剪力", "f": [9], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2023-2", "cl": "V", "ty": "計算", "sum": "（副）兩層剪力屋：振態質量、參與因子；1 Hz、5 Hz 兩點的 Rayleigh 阻尼", "f": [10, 8], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2024-2", "cl": "R", "ty": "推導", "sum": "（副）吊橋橋面剛性桿＋兩彈簧：動能、應變能、虛功，Lagrange 方程得矩陣 EOM", "f": [13], "pri": 0, "secCat": "U1-2 運動方程式推導", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2024-4", "cl": "R", "ty": "計算", "sum": "（副）簡支梁：考卷印橋梁規範 Rayleigh 式與理論 ω1，以靜力撓度求 β、ζ 並比較", "f": [11], "pri": 0, "secCat": "U2-3 橋梁耐震設計規範", "ver": 0, "video": 0, "dm": "混合"}, {"id": "SD-2025-2", "cl": "R", "ty": "計算", "sum": "（副）兩層剪力屋：頻率、週期、振態、參與係數", "f": [10], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "動力分析"}, {"id": "SD-2025-3", "cl": "V", "ty": "計算", "sum": "（副）給 ω1～ω3 與 ζ1＝ζ3＝5%：Rayleigh 係數 a0、a1 與 ζ2", "f": [8], "pri": 0, "secCat": "U1-3 單自由度、多自由度系統之動態分析及應用", "ver": 0, "video": 0, "dm": "動力分析"}], "F": [{"g": "A 基本參數", "lv": "must", "nm": "SDOF 基本參數", "sh": "ω・ξ・ωD", "c": 0, "eq": "$$\\omega=\\sqrt{\\frac{k}{m}},\\quad T=\\frac{2\\pi}{\\omega},\\quad \\xi=\\frac{c}{2m\\omega}=\\frac{c}{c_{cr}},\\quad \\omega_D=\\omega\\sqrt{1-\\xi^2}$$", "ok": [], "meta": "本單元 10 題用到，24 年沒印過 √(k/m)、ξ＝c/2mω。唯一沾邊的是 2017-1（副）括號裡的 \\(\\omega_D\\approx\\omega\\) 近似，而且同一括號把 ω 印成 k/M（筆誤，見題目正本判讀）。\\(\\omega\\)、\\(f\\)、\\(T\\) 差 \\(2\\pi\\) 要能直接換算。"}, {"g": "B 自由振動", "lv": "must", "nm": "阻尼自由振動解（含初始條件）", "sh": "自由振動解", "c": 1, "eq": "$$u(t)=e^{-\\xi\\omega t}\\Bigl[u_0\\cos\\omega_Dt+\\frac{\\dot u_0+\\xi\\omega u_0}{\\omega_D}\\sin\\omega_Dt\\Bigr]$$", "ok": [], "meta": "5 題用到（2003-2、2006-1、2013-1、2017-1、2021-2），全部沒印。脈衝題（2003-2、2021-2）的第二階段，就是把脈衝結束瞬間的 \\(u\\)、\\(\\dot u\\) 當初始條件代進這條；分子的 \\(\\xi\\omega u_0\\) 最常漏。"}, {"g": "B 自由振動", "lv": "must", "nm": "對數衰減率", "sh": "對數衰減", "c": 1, "eq": "$$\\delta=\\frac1j\\ln\\frac{u_i}{u_{i+j}}=\\frac{2\\pi\\xi}{\\sqrt{1-\\xi^2}}\\approx2\\pi\\xi,\\qquad \\frac{u_j}{u_0}\\approx e^{-2\\pi j\\xi}$$", "ok": [], "meta": "2017-1（副，三個週期後振幅 \\(v_0e^{-6\\pi\\xi}\\)）、2013-1（副，由振幅衰減求 ξ）兩題，都沒印。2017 年考卷在括號給 \\(\\omega_D\\approx\\omega\\)、\\(\\sqrt{1+\\xi^2}\\approx1\\) 等近似，等於暗示要用 \\(e^{-2\\pi j\\xi}\\)。"}, {"g": "C 簡諧外力", "lv": "must", "nm": "穩態振幅、相位與動力放大因子", "sh": "DMF", "c": 2, "eq": "$$R_d=\\frac{1}{\\sqrt{(1-r^2)^2+(2\\xi r)^2}},\\quad \\tan\\phi=\\frac{2\\xi r}{1-r^2},\\quad r=\\frac{\\bar\\omega}{\\omega},\\quad R_d\\big|_{r=1}=\\frac{1}{2\\xi}$$", "ok": [2008], "meta": "2008-3 題文印出 MF 式與三條阻尼曲線（隨題式）；其餘 3 題都沒印——2015-1 只印 EOM、2020-1 只用文字定義放大因子、2021-2 由共振振幅 \\((p_0/k)/2\\xi\\) 反求 ξ，正是 \\(r=1\\) 的特例。"}, {"g": "C 簡諧外力", "lv": "must", "nm": "傳導率（力傳導／基礎激振）", "sh": "TR", "c": 3, "eq": "$$TR=\\frac{\\sqrt{1+(2\\xi r)^2}}{\\sqrt{(1-r^2)^2+(2\\xi r)^2}},\\qquad \\xi=0:\\ TR=\\frac{1}{r^2-1}\\ (r\\gt \\sqrt2\\text{ 才減振})$$", "ok": [], "meta": "2009-2（英制、ξ＝0，\\(TR=1/(r^2-1)\\)）與 2020-1（推導並比較曲線）兩題，24 年沒印過。\\(r>\\sqrt2\\) 才減振、而且此後阻尼越大 TR 越大，是 2020-1 說明題的重點。"}, {"g": "C 簡諧外力", "lv": "must", "nm": "TMD 調頻與 Den Hartog 最佳參數", "sh": "TMD", "c": 3, "eq": "$$\\omega_d\\approx\\omega_n,\\quad \\mu=\\frac{m_d}{M},\\quad f_{opt}=\\frac{1}{1+\\mu},\\quad \\xi_{d,opt}=\\sqrt{\\frac{3\\mu}{8(1+\\mu)^3}}$$", "ok": [], "meta": "2006-4（主考點在 U3-2）、2013-1 ㈡ 兩題論述，零公式。申論至少寫出調頻條件與質量比；Den Hartog 最佳值寫得出來是加分。"}, {"g": "D 脈衝", "lv": "must", "nm": "Duhamel 積分", "sh": "Duhamel", "c": 4, "eq": "$$u(t)=\\frac{1}{m\\omega_D}\\int_0^t p(\\tau)\\,e^{-\\xi\\omega(t-\\tau)}\\sin\\omega_D(t-\\tau)\\,d\\tau$$", "ok": [2015], "meta": "2015-3 題文以 \\(V_1(t)\\) 的形式印過 Duhamel 積分（U1-3 的證明題，不在本單元題目內）。本單元用到的 2006-1（主）、2021-2（副）都沒印——2006-1 要求寫出一般外力下的完整歷時，整條式子就是答案。"}, {"g": "D 脈衝", "lv": "must", "nm": "短脈衝的衝量近似", "sh": "衝量近似", "c": 4, "eq": "$$I=\\int_0^{t_d}p\\,dt,\\qquad u(t)\\approx\\frac{I}{m\\omega}\\sin\\omega t\\quad(t_d/T\\lesssim0.25)$$", "ok": [], "meta": "2003-2（副）、2004-1（副，說明脈衝反應為何對阻尼不敏感）都沒印。適用條件 \\(t_d/T\\) 小要寫出來；2003-2 的 ξ＝30%，純衝量近似會有偏差，題解有比較。"}, {"g": "E 阻尼矩陣", "lv": "must", "nm": "Rayleigh 阻尼：振態阻尼比與兩點求係數", "sh": "Rayleigh阻尼", "c": 5, "eq": "$$\\mathbf C=a_0\\mathbf M+a_1\\mathbf K\\ \\Rightarrow\\ \\xi_i=\\frac{a_0}{2\\omega_i}+\\frac{a_1\\omega_i}{2};\\quad \\xi_1=\\xi_3=\\xi:\\ a_0=\\frac{2\\xi\\omega_1\\omega_3}{\\omega_1+\\omega_3},\\ a_1=\\frac{2\\xi}{\\omega_1+\\omega_3}$$", "ok": [], "meta": "3 題（2003-3、2023-2、2025-3）都沒印 ξ 與係數的關係。2023-2、2025-3 只印 \\(C=\\alpha M+\\beta K\\)（2025 寫成 \\(a_0\\)、\\(a_1\\)）——少給的正是要算的那一步。2023-2 題文另提醒頻率要換成角頻率。"}, {"g": "F 振態性質", "lv": "must", "nm": "振態正交性與模態展開", "sh": "正交性", "c": 6, "eq": "$$\\boldsymbol\\phi_i^T\\mathbf M\\boldsymbol\\phi_j=0,\\ \\ \\boldsymbol\\phi_i^T\\mathbf K\\boldsymbol\\phi_j=0\\ (i\\ne j);\\qquad A_i=\\frac{\\boldsymbol\\phi_i^T\\mathbf M\\,\\mathbf u(0)}{\\boldsymbol\\phi_i^T\\mathbf M\\boldsymbol\\phi_i}$$", "ok": [], "meta": "2016-3（副，三個振態反求兩層質量）、2021-3（副，模態展開的係數）兩題，24 年沒印。2016-3 只用一條正交性就能解完。"}, {"g": "F 振態性質", "lv": "must", "nm": "模態參與因子與有效質量", "sh": "Γ・有效質量", "c": 6, "eq": "$$\\Gamma_n=\\frac{\\boldsymbol\\phi_n^T\\mathbf M\\{1\\}}{\\boldsymbol\\phi_n^T\\mathbf M\\boldsymbol\\phi_n}=\\frac{L_n}{M_n},\\qquad M_n^{eff}=\\frac{L_n^2}{M_n},\\quad \\sum_nM_n^{eff}=\\sum m_i$$", "ok": [], "meta": "4 題用到（2003-1、2003-5、2023-2、2025-2），本單元都沒印；全科唯一印過 \\(L_1\\)、\\(M_1\\) 定義的是 2015-3（U1-3）。2023-2、2025-2 考卷都沒指定振態正規化，Γ 的數值隨正規化改變。"}, {"g": "F 能量法", "lv": "must", "nm": "Rayleigh 商（能量法求基本頻率）", "sh": "Rayleigh商", "c": 6, "eq": "$$\\omega_1^2\\approx\\frac{\\sum F_iu_i}{\\sum m_iu_i^2}\\ \\Bigl(=\\frac{g\\int w\\,u\\,dx}{\\int w\\,u^2dx}\\Bigr),\\quad \\text{上界；以靜力變形為形狀最準}$$", "ok": [2002, 2010, 2024], "meta": "橋梁規範形式 \\(T=2\\pi\\sqrt{\\gamma/\\beta g}\\) 印過三次：2002（2002-3）、2010（2010-3）、2024（2024-4，影像），都是 U2-3 的題，記為有印。離散形式 \\(\\sum Fu/\\sum mu^2\\) 沒印過：2003-5（副）要先由層間變位反推側力再代入。"}, {"g": "F 反應譜", "lv": "half", "nm": "擬速度、擬加速度與譜位移", "sh": "Sv・Sa・Sd", "c": 6, "eq": "$$S_v=\\omega S_d=\\frac{2\\pi}{T}S_d,\\qquad S_a=\\omega^2S_d=\\frac{2\\pi}{T}S_v$$", "ok": [2018], "meta": "2018-2 題文印出 \\(S_{pv}=T\\,S_{pa}/2\\pi=2\\pi S_d/T\\)；2003-1 ㈣（擬加速度與絕對加速度的差別）沒印。U1-3 的反應譜題每題都要 \\(S_d=S_a/\\omega^2\\)，卻從沒印過，見 U1-3 單元總覽。"}, {"g": "A 基本參數", "lv": "must", "nm": "運動方程式（牛頓／Lagrange）", "sh": "EOM", "c": 0, "eq": "$$m\\ddot u+c\\dot u+ku=p(t);\\qquad \\frac{d}{dt}\\frac{\\partial T}{\\partial\\dot q_i}-\\frac{\\partial T}{\\partial q_i}+\\frac{\\partial V}{\\partial q_i}=Q_i$$", "ok": [2015], "meta": "2015-1（副）題文印出 \\(m\\ddot v+c\\dot v+kv=P_0\\sin\\bar\\omega t\\)；2006-1（主）、2020-1（主，直接受力與基礎激振兩種 EOM）、2024-2（副，Lagrange）都要自己寫。"}], "clusters": {"V": {"icon": "〰️", "name": "自由振動與阻尼", "desc": "阻尼自由振動解・對數衰減率・Rayleigh 阻尼係數與振態阻尼比", "color": "#1565c0"}, "H": {"icon": "🎵", "name": "簡諧外力：放大、傳導、吸振", "desc": "穩態振幅與相位・動力放大因子・傳導率與隔振・TMD 調頻", "color": "#6a1b9a"}, "P": {"icon": "⚡", "name": "脈衝與一般外力", "desc": "Duhamel 積分・衝量近似・脈衝後自由振動", "color": "#e65100"}, "R": {"icon": "🧭", "name": "振態性質、能量法與反應譜關係", "desc": "正交性・參與因子與有效質量・Rayleigh 商・Sv＝ωSd、Sa＝ω²Sd・Lagrange 建 EOM", "color": "#2e7d32"}}, "MXR": {"2002": "本單元無題。", "2003": "一（副）零公式（論述）；二（副）零公式（只給脈衝圖）；三（副）零公式（只給 T、ξ）；五（副）零公式（只給 m、k、層間變位）。", "2004": "一（副）零公式（論述）。", "2005": "本單元無題。", "2006": "一零公式、全符號；四（副）零公式（論述）。", "2007": "本單元無題。", "2008": "三（副）★題文印 <b>MF 公式<\/b>與三條阻尼曲線圖。", "2009": "二（副）零公式（英制）。", "2010": "本單元無題。", "2011": "本單元無題。", "2012": "本單元無題。", "2013": "一（副）零公式（論述＋對數衰減）。", "2014": "本單元無題。", "2015": "一（副）★題文印 EOM <b>m v̈＋c v̇＋k v＝P0 sin ω̄t<\/b>。", "2016": "三（副）零公式（只給振態）。", "2017": "一（副）★括號內印 <b>ωD≈ω<\/b> 等近似（ω＝k/M 為筆誤）。", "2018": "二（副）★題文印 <b>Spv＝T·Spa/2π＝2πSd/T<\/b> 與 <b>SaD 四段表<\/b>。", "2019": "本單元無題。", "2020": "一零公式（只用文字定義 DMF、傳導率）。", "2021": "二（副）零公式；三（副）★方框印 <b>ω² 與 φ<\/b>（結果）。", "2022": "本單元無題。", "2023": "二（副）★題文印 <b>C＝αM＋βK<\/b>；ξ 與 α、β 的關係沒印。", "2024": "二（副）零公式；四（副）★影像印 <b>T＝2π√(ζ/βg)<\/b>、β、ζ 與簡支梁 <b>ω1、φ1<\/b>。", "2025": "二（副）★題文印 M、K 矩陣型式（元素未給值）；三（副）★題文印 <b>[c]＝a0[M]＋a1[K]<\/b>；ζ 關係沒印。"}, "mxCols": ["SDOF 參數・EOM", "自由振動・衰減", "DMF", "傳導率・TMD", "脈衝・Duhamel", "Rayleigh 阻尼", "振態・能量法"], "base": [0], "baseShort": "基本式", "mxNote": "「設參考公式區次數」＝24 年中考卷印出任何 SD 公式或譜式（集中式、隨題式、內文式皆算）的考年數：2002、2003、2004、2007、2008、2009、2010、2011、2012、2014、2015、2017、2018、2020、2021、2022、2023、2024、2025，共 19 年。✗ 由第三節每題的公式用途推出：該題題解實際套用了這條式子、當年考卷又沒印。主考點只有 2 題，逐年表大多由副考點撐起。", "refAreaYears": 19, "NY": 24, "giveCol": false};
+const Q=D.Q, F=D.F, CAT=D.clusters, MXR=D.MXR, BASE=D.base||[];
+const TYC={"計算":"#1565c0","繪圖":"#f57c00","推導":"#6a1b9a","說明":"#546e7a"};
+const YEARS=Object.keys(MXR).map(Number).sort((a,b)=>a-b);
+const NCOL=D.mxCols.length, GIVECOL=D.giveCol===false?-1:NCOL-1;
+const CN=["","一","二","三","四","五","六"];
+const yr=id=>+id.split('-')[1], qn=id=>+id.split('-')[2];
+const lab=id=>yr(id)+'-'+qn(id);
+const pv=id=>'problems-view/'+id+'.html';
+const vid=id=>'../解題過程影片/'+id+'/video/'+id+'.mp4';
+const QM={};Q.forEach(q=>QM[q.id]=q);
+F.forEach((f,i)=>{
+  f.qs=Q.filter(q=>q.f.includes(i)).map(q=>q.id);
+  if(f.lv==='give'){f.ok=[...new Set(f.qs.map(yr))].sort();f.noQs=[];}
+  else{f.ok=f.ok||[];f.noQs=f.qs.filter(id=>!f.ok.includes(yr(id)));}
+  f.no=[...new Set(f.noQs.map(yr))].sort();
+});
+const isPri=id=>QM[id].pri;
+const LVN={must:'必背',half:'別賭',give:'通常會給'};
+function mathIn(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});}
+function chip(i,qid){const f=F[i];const given=qid&&f.lv!=='give'&&f.ok.includes(yr(qid));
+  return '<button class="chip '+(given?'gv':f.lv)+'" data-fi="'+i+'" title="'+f.nm+'（'+(given?'該年考卷有印':LVN[f.lv])+'）">'+f.sh+'</button>';}
+function bindChips(root){root.querySelectorAll('.chip').forEach(c=>c.onclick=()=>openCard(+c.dataset.fi));}
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+/* §1 */
+function drawCats(){
+  const box=document.getElementById('cats');
+  box.innerHTML=Object.keys(CAT).map(k=>{const c=CAT[k];
+    const n=Q.filter(q=>q.cl===k&&q.pri).length,s=Q.filter(q=>q.cl===k&&!q.pri).length;
+    return '<button class="cat" style="border-left-color:'+c.color+'" data-k="'+k+'"><b>'+c.icon+' '+c.name+'（主 '+n+(s?'＋副 '+s:'')+'）</b><span>'+c.desc+'</span></button>';}).join('');
+  box.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{qf={cat:b.dataset.k,pri:'ALL',f:''};syncQF();renderQ();go('s3');});
+}
+function drawBar(){
+  const cv=document.getElementById('cvBar'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  const P=Q.filter(q=>q.pri),ks=Object.keys(CAT),by={};
+  YEARS.forEach(y=>{by[y]={};ks.forEach(k=>by[y][k]=0);});P.forEach(q=>by[yr(q.id)][q.cl]++);
+  const max=Math.max(1,...YEARS.map(y=>ks.reduce((a,k)=>a+by[y][k],0)));
+  const L=34,B=30,T=12,bw=(W-L-10)/YEARS.length;
+  ctx.font='20px sans-serif';ctx.textAlign='right';
+  for(let i=0;i<=max;i++){const yy=H-B-(H-B-T)*i/max;ctx.fillStyle='#90a4ae';ctx.fillText(i,L-8,yy+6);
+    ctx.strokeStyle='#eceff1';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(L,yy);ctx.lineTo(W-10,yy);ctx.stroke();}
+  ctx.textAlign='center';
+  YEARS.forEach((y,i)=>{let acc=0;const x=L+i*bw+bw*.15;
+    ks.forEach(k=>{const v=by[y][k];if(!v)return;const h=(H-B-T)*v/max;ctx.fillStyle=CAT[k].color;ctx.fillRect(x,H-B-acc-h,bw*.7,h-2);acc+=h;});
+    ctx.fillStyle='#78909c';ctx.fillText("'"+String(y).slice(2),x+bw*.35,H-8);});
+  document.getElementById('barLg').innerHTML=ks.map(k=>'<span><span class="dot" style="background:'+CAT[k].color+'"></span>'+CAT[k].name+'</span>').join('');
+}
+function drawRisk(){document.querySelectorAll('td[data-f]').forEach(td=>{
+  td.innerHTML='<div class="chips">'+td.dataset.f.split(',').map(i=>chip(+i)).join('')+'</div>';});}
+
+/* §2 */
+const G=[...new Set(F.map(f=>f.g))];
+let fl={lv:'all',g:'all'};let recall=false;const rev=new Set();
+function openCard(i){
+  if(!(fl.lv==='all'||fl.lv===F[i].lv)||!(fl.g==='all'||fl.g===F[i].g)){fl={lv:'all',g:'all'};syncFlt();draw();}
+  const el=document.getElementById('fc'+i);if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1600);
+}
+function shown(){return F.map((f,i)=>[f,i]).filter(([f])=>(fl.lv==='all'||f.lv===fl.lv)&&(fl.g==='all'||f.g===fl.g));}
+function rcInfo(){const s=shown();const n=s.filter(([f])=>rev.has(f.nm)).length;
+  document.getElementById('rcInfo').textContent=recall?'已翻開 '+n+' / '+s.length+' 條——看名稱先默寫，再點式子對答案。':'開啟後式子會被蓋住：看卡片名稱先在紙上默寫，再點式子翻開。';}
+function qa(id){return '<a href="'+pv(id)+'" target="_blank" class="'+(isPri(id)?'':'sec')+'">'+lab(id)+'</a>';}
+function draw(){
+  const box=document.getElementById('cards');
+  box.innerHTML=shown().map(([f,i])=>{
+    let ev;
+    if(f.lv==='give'){ev='<b>考卷給過：</b>'+f.qs.map(id=>'<span class="ok">'+lab(id)+'</span>').join(' ');}
+    else{
+      ev='<b>考卷給過：</b>'+(f.ok.length?f.ok.map(y=>'<span class="ok">'+y+'</span>').join(' '):'<span class="never">從未</span>');
+      ev+='<br><b>考了卻沒給（'+f.noQs.length+' 題）：</b>'+(f.noQs.length?f.noQs.map(qa).join(''):'—');
+      const g=f.qs.filter(id=>!f.noQs.includes(id));
+      if(g.length)ev+='<br><b>考了、當年有印：</b>'+g.map(id=>'<span class="ok">'+lab(id)+'</span>').join(' ');
+    }
+    if(f.qs.length)ev+=' <span class="uses" data-fi="'+i+'">看這幾題 ↓</span>';
+    return '<div class="fc '+f.lv+(rev.has(f.nm)?' rev':'')+'" id="fc'+i+'" data-nm="'+f.nm+'"><div class="top"><span class="nm">'+f.nm+'</span><span class="tag '+f.lv+'">'+LVN[f.lv]+'</span></div>'+
+      '<div class="eq">'+f.eq+'</div><p class="meta">'+f.meta+'</p><div class="ev">'+ev+'</div></div>';}).join('')||'<p class="lead">（此組合下沒有公式）</p>';
+  mathIn(box);
+  box.querySelectorAll('.fc .eq').forEach(e=>e.onclick=()=>{if(!recall)return;const c=e.closest('.fc');c.classList.toggle('rev');
+    c.classList.contains('rev')?rev.add(c.dataset.nm):rev.delete(c.dataset.nm);rcInfo();});
+  box.querySelectorAll('.uses').forEach(u=>u.onclick=()=>{qf={cat:'ALL',pri:'ALL',f:u.dataset.fi};syncQF();renderQ();go('s3');});
+  rcInfo();
+}
+function syncFlt(){document.querySelectorAll('#flt button').forEach(b=>b.classList.toggle('on',fl[b.dataset.t]===b.dataset.v));}
+function drawFlt(){
+  const fb=document.getElementById('flt');const lvs=[['all','全部'],['must','必背'],['half','別賭'],['give','通常會給']].filter(([k])=>k==='all'||F.some(f=>f.lv===k));
+  fb.innerHTML='<div class="fg"><b>級別</b>'+lvs.map(([k,v])=>'<button data-t="lv" data-v="'+k+'">'+v+'</button>').join('')+
+    '</div><div class="fg"><b>主題</b>'+['all',...G].map(g=>'<button data-t="g" data-v="'+g+'">'+(g==='all'?'全部':g)+'</button>').join('')+'</div>';
+  fb.querySelectorAll('button').forEach(b=>b.onclick=()=>{fl[b.dataset.t]=b.dataset.v;syncFlt();draw();});syncFlt();
+}
+function drawKpi(){
+  const n=k=>F.filter(f=>f.lv===k).length;
+  const uy=new Set(Q.map(q=>yr(q.id))).size;
+  document.getElementById('fkpi').innerHTML=[['',F.length,'本單元條列公式'],['red',n('must'),'必背'],['org',n('half'),'別賭'],['grn',n('give'),'通常會給'],['',uy,'本單元出題年數（含副考點）'],['',D.refAreaYears,D.NY+' 年設參考公式區次數']]
+    .map(([c,v,l])=>'<div class="kpi '+c+'"><div class="n">'+v+'</div><div class="l">'+l+'</div></div>').join('');
+}
+function cell(y,col){
+  if(col===GIVECOL)return F.some(f=>f.c===col&&f.ok.includes(y))?1:0;
+  if(F.some(f=>f.c===col&&f.ok.includes(y)))return 1;
+  return F.some(f=>f.c===col&&f.no.includes(y))?2:0;
+}
+function drawMx(){
+  const ok=Array(NCOL).fill(0),no=Array(NCOL).fill(0);
+  document.querySelector('#mx tbody').innerHTML=YEARS.map(y=>{
+    const qs=Q.filter(q=>yr(q.id)===y).sort((a,b)=>qn(a.id)-qn(b.id));
+    const qq=qs.length?qs.map(q=>'<a href="'+pv(q.id)+'" target="_blank">'+CN[qn(q.id)]+'</a>'+(q.pri?'':'<span class="ynote">（副）</span>')).join('、'):'(—)';
+    let c='';for(let i=0;i<NCOL;i++){const s=cell(y,i);if(s===1)ok[i]++;if(s===2)no[i]++;
+      c+='<td class="c">'+(s===1?'<span class="y">✔</span>':s===2?'<span class="x">✗</span>':'<span class="n">·</span>')+'</td>';}
+    return '<tr class="'+(qs.length?'hl':'')+'"><td><b>'+y+'</b><br><span class="ynote">'+(y-1911)+'年</span></td><td class="qq">'+qq+'</td>'+c+'<td class="rm">'+MXR[y]+'</td></tr>';}).join('');
+  document.querySelector('#mx tfoot').innerHTML='<tr><td colspan="2">'+YEARS.length+' 年合計</td>'+ok.map((v,i)=>'<td>✔ '+v+'<br><span style="color:#c62828">✗ '+no[i]+'</span></td>').join('')+'<td>✗ 合計 '+no.reduce((a,b)=>a+b,0)+' 格</td></tr>';
+  if(GIVECOL<0){const tOk=ok.reduce((a,b)=>a+b,0),tNo=no.reduce((a,b)=>a+b,0);
+    document.getElementById('mxsum').innerHTML='看表底合計：<b>'+NCOL+' 個欄位、'+YEARS.length+' 年共 ✔ '+tOk+' 格、✗ '+tNo+' 格</b>。'+(D.mxNote||'');return;}
+  const mOk=ok.slice(0,GIVECOL).reduce((a,b)=>a+b,0),mNo=no.slice(0,GIVECOL).reduce((a,b)=>a+b,0);
+  document.getElementById('mxsum').innerHTML='看表底合計：<b>'+GIVECOL+' 個力學欄 ✔ '+mOk+' 格、✗ '+mNo+' 格</b>；材料／斷面數值欄 ✔ '+ok[GIVECOL]+' 格、✗ '+no[GIVECOL]+' 格。'+(D.mxNote||'');
+}
+/* strategy placeholders: <span data-qs="2+3" data-count> → 同時用到 2 與 3 的題號 */
+function fillQs(root){root.querySelectorAll('[data-qs]').forEach(s=>{
+  const need=s.dataset.qs.split('+').map(Number);
+  const ids=Q.filter(q=>need.every(i=>q.f.includes(i))).map(q=>q.id).sort((a,b)=>(QM[b].pri-QM[a].pri)||a.localeCompare(b));
+  s.textContent=ids.map(id=>lab(id)+(QM[id].pri?'':'（副）')).join('、')+(s.hasAttribute('data-count')?' 共 '+ids.length+' 題':'');});}
+
+/* §3 */
+let qf={cat:'ALL',pri:'ALL',f:''};
+function drawQF(){
+  document.getElementById('qfCat').insertAdjacentHTML('beforeend',[['ALL','全部'],...Object.keys(CAT).map(k=>[k,CAT[k].name])].map(([k,v])=>'<button data-t="cat" data-v="'+k+'">'+v+'</button>').join(''));
+  document.getElementById('qfPri').insertAdjacentHTML('beforeend',[['ALL','主＋副'],['PRI','僅主考點'],['SEC','僅副考點']].map(([k,v])=>'<button data-t="pri" data-v="'+k+'">'+v+'</button>').join(''));
+  const sel=document.getElementById('qfF');
+  F.forEach((f,i)=>sel.insertAdjacentHTML('beforeend','<option value="'+i+'">'+f.nm+'（'+f.qs.length+' 題）</option>'));
+  document.querySelectorAll('#qflt button').forEach(b=>b.onclick=()=>{qf[b.dataset.t]=b.dataset.v;syncQF();renderQ();});
+  sel.onchange=()=>{qf.f=sel.value;renderQ();};syncQF();
+}
+function syncQF(){document.querySelectorAll('#qflt button').forEach(b=>b.classList.toggle('on',qf[b.dataset.t]===b.dataset.v));document.getElementById('qfF').value=qf.f;}
+function renderQ(){
+  const fi=qf.f===''?null:+qf.f;
+  const sel=Q.filter(q=>(qf.cat==='ALL'||q.cl===qf.cat)&&(qf.pri==='ALL'||(qf.pri==='PRI')===!!q.pri)&&(fi===null||q.f.includes(fi)))
+    .sort((a,b)=>(b.pri-a.pri)||a.id.localeCompare(b.id));
+  document.getElementById('qcount').textContent='顯示 '+sel.length+' / '+Q.length+' 題'+(fi!==null?'——用到「'+F[fi].nm+'」':'');
+  const box=document.getElementById('qlist');
+  box.innerHTML=sel.map(q=>{
+    const fs=q.f.filter(i=>!BASE.includes(i));const c=CAT[q.cl];
+    const chips=fs.length?fs.map(i=>chip(i,q.id).replace('class="chip','class="chip'+(i===fi?' hit':''))).join(''):'<span class="none">'+(q.f.length?'只需'+D.baseShort:(q.pri?'題解未用到本單元公式':'不用本單元公式（主解法見 '+q.secCat+'）'))+'</span>';
+    return '<div class="qrow'+(q.pri?'':' sec')+'" style="border-left-color:'+c.color+'">'+
+      '<span class="id"><a href="'+pv(q.id)+'" target="_blank">'+q.id+'</a>'+(q.pri?'':'<span class="sub">副・'+q.secCat+'</span>')+'</span>'+
+      '<span class="ty" style="background:'+TYC[q.ty]+'">'+q.ty+'</span>'+
+      '<span class="sum">'+q.sum+'<span class="cl">'+c.icon+' '+c.name+(q.dm?'・'+q.dm:'')+'</span></span>'+
+      '<span class="chips">'+chips+'</span>'+
+      '<span class="ico"><a href="'+pv(q.id)+'" target="_blank" title="解析">📄</a>'+(q.video?' <a href="'+vid(q.id)+'" target="_blank" title="解題影片">🎬</a>':'')+(q.ver?' <span title="已驗證">✅</span>':'')+'</span></div>';}).join('');
+  bindChips(box);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  drawCats();drawBar();drawRisk();drawFlt();drawKpi();draw();drawMx();drawQF();renderQ();
+  fillQs(document.getElementById('strat'));fillQs(document.getElementById('s1'));
+  bindChips(document.getElementById('s1'));
+  mathIn(document.getElementById('strat'));mathIn(document.getElementById('s1'));mathIn(document.getElementById('mxsum'));mathIn(document.getElementById('mx'));mathIn(document.getElementById('s2'));mathIn(document.getElementById('s4'));mathIn(document.querySelector('footer'));
+  const tg=document.getElementById('rcToggle'),rs=document.getElementById('rcReset');
+  tg.onclick=()=>{recall=!recall;document.body.classList.toggle('recall',recall);tg.classList.toggle('on',recall);tg.textContent=recall?'🙈 回想模式：開':'🙈 回想模式：關';rs.hidden=!recall;rcInfo();};
+  rs.onclick=()=>{rev.clear();document.querySelectorAll('.fc.rev').forEach(c=>c.classList.remove('rev'));rcInfo();};
+  window.addEventListener('beforeprint',()=>{document.getElementById('mxBox').open=true;});
+});
+</script>
+</body></html>

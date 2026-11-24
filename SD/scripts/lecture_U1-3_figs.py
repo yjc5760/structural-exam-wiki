@@ -399,7 +399,7 @@ def fig_exB():
     o.append(axu.frame([0, 0.03, 0.05, 0.1, 0.15, 0.2], [-0.1, -0.05, 0, 0.05, 0.1], "時間 t（s）", "u（cm）",
                        xfmt=lambda v: f"{v:g}", yfmt=lambda v: f"{v:g}"))
     o.append(axu.hline(0, C["ref"], "none"))
-    o.append(axu.hline(ust, C["gry"], "2,3")); o.append(T(axu.X(0.085), axu.Y(ust) - 6, f"u" + sub("st") + f" = p₀/k = {ust:.3f}（R = 1）", 11.5, C["mut"], "start"))
+    o.append(axu.hline(ust, C["gry"], "2,3")); o.append(T(axu.X(0.236), axu.Y(ust) - 6, f"u" + sub("st") + f" = p₀/k = {ust:.3f}（R = 1）", 11.5, C["mut"], "end"))
     o.append(axu.hline(uimp, C["pur"], "6,4")); o.append(T(axu.X(0.085), axu.Y(uimp) + 15, f"衝量近似 {uimp:.4f}（+{(uimp/umax-1)*100:.1f}%）", 11.5, C["pur"], "start"))
     o.append(axu.curve(t, u, C["blu"], 2.4))
     o.append(axu.dot(td, ud, C["ora"], 5))

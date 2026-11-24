@@ -475,7 +475,7 @@ def fig_influence():
     a.arrow((0.0, h1 + h2 + 0.17), (0.5, h1 + h2 + 0.17), C["deform"], 2.6, 8); a.math((0.56, h1 + h2 + 0.17), "u_2", 14, C["deform"], "start")
     a.arrow(pts0["3"], (x3, h1 + h2 - 0.5), C["deform"], 2.6, 8); a.math((x3 + 0.08, h1 + h2 - 0.42), "u_3↓", 14, C["deform"], "start")
     vdim(a, -0.42, 0, h1, "h_1", side=-1); vdim(a, -0.42, h1, h1 + h2, "h_2", side=-1)
-    hdim(a, h1 + h2 + 0.52, 0, x3, "x_3", above=True)
+    hdim(a, h1 + h2 + 0.40, 0, x3, "x_3", above=True)
     a.text_px(W / 2, H - 50, "m_{3} 水平位移 ≡ u_{2}（梁不可伸縮）", 12, C["accent"], weight="700")
     a.text_px(W / 2, H - 28, "u_{3} 定義：向下為正", 12, C["muted"])
 

@@ -55,7 +55,7 @@ details p{border-left:3px solid #e0e0e0;padding-left:12px;margin:8px 0;color:#37
 .qlink{color:#1565c0;text-decoration:none;border-bottom:1px dotted #90caf9;font-weight:600}
 .katex-display{margin:14px 0!important;overflow-x:auto;overflow-y:hidden}
 footer{text-align:center;color:var(--mut);font-size:.83em;padding:26px;border-top:1px solid var(--bd)}
-svg text{font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif}
+svg text:not([font-family]){font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif}
 </style></head>
 <body>
 <header>
@@ -77,8 +77,7 @@ svg text{font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif}
 <a href="#s10">§10 自我檢測</a>
 <a href="#s11">★ 精選 5 題</a>
 <span style="flex:1"></span>
-<a href="study-SD-U2-2.html" style="background:#eceff1;color:#455a64">📊 U2-2 命題分析</a>
-<a href="formula-given-SD-U2-2.html" style="background:#e3f2fd;color:#1565c0">📐 U2-2 給／背分界</a>
+<a href="unit-SD-U2-2.html" title="單元總覽：考什麼、公式給／背、每題要背哪幾條" style="background:#e3f2fd;color:#1565c0">📊 U2-2 單元總覽</a>
 <a href="lecture-SD-U2-2.pdf" target="_blank" style="background:#eceff1;color:#455a64">🖨️ 本頁 PDF</a>
 </nav>
 <main>
@@ -272,6 +271,8 @@ $$P_{50}=1-(1-P_a)^{50}\;\Longrightarrow\;P_a=1-(1-P_{50})^{1/50},\qquad T_R=\fr
 
 $$\frac{V^*}{V}=\frac{I F_u/(4.2\alpha_y)}{I/(1.4\alpha_y)}=\frac{F_u}{4.2/1.4}=\boxed{\frac{F_u}{3}}$$
 
+<div class="why"><b>4.2 與 3.5 是兩類工址，不是兩個週期段。</b>規範 2.10.1：一般工址（含近斷層）除以 \(4.2\alpha_y=1.4\alpha_y\times3\)，臺北盆地除以 \(3.5\alpha_y=1.4\alpha_y\times2.5\)。「3」與「2.5」是設計地震譜值對中小度地震譜值的比（盆地深厚軟弱沉積層，小震相對較大）。所以臺北盆地 \(V^*/V=0.4F_u\)，\(F_u&gt;2.5\) 就由中小度地震控制。本講義其餘各處的 \(F_u/3\) 都指一般工址（<a class="qlink" href="problems-view/SD-2024-3.html" target="_blank">SD-2024-3</a> 舊解曾把兩式寫成短／長週期並取較小者，已勘誤：兩者是分列規定，且設計取 \(V\)、\(V^*\)、\(V_M\) 的最大值）。</div>
+
 <div class="trap">
 <b>「\(V_M&gt;V&gt;V^*\)」不一定成立 —— 這是考過的陷阱（<a class="qlink" href="problems-view/SD-2020-4.html" target="_blank">SD-2020-4</a>）。</b><br>
 由上式，<b>\(F_u&gt;3\) 時 \(V^*&gt;V\)</b>：中小度地震反而控制設計。<br>
@@ -409,6 +410,7 @@ $$\frac{V^*}{V}=\frac{I F_u/(4.2\alpha_y)}{I/(1.4\alpha_y)}=\frac{F_u}{4.2/1.4}=
 </div>
 
 <h3>§2.1　五個因素與生成鏈</h3>
+<div class="trap"><b>SD-2006-3 的「五項」以台灣規範為準</b>：\(S_S^D\)、\(S_1^D\)、近斷層、地盤分類、週期。阻尼比修正（\(B_S,B_1\)）、用途係數 \(I\)、\(F_u\)、\(\alpha_y\) 都<b>不在</b>五項內（阻尼可作加分補充）。把美國 ASCE 7 的場址類別 SA～SF、\(\tfrac23\) 關係、\(T_L\) 段搬來作答，是該題舊解被勘誤的原因。</div>
 
 $$S_{DS}=F_a\,S_S^D,\quad S_{1D}=F_v\,S_1^D
 \;\;\xrightarrow{\;T\;}\;\;
@@ -419,11 +421,11 @@ S_{aD}/B$$
 <table>
 <thead><tr><th style="width:130px">因素</th><th>它代表什麼</th><th>怎樣會讓 \(S_a\) 變大</th></tr></thead>
 <tbody>
-<tr><td>① 震區 \(S_S^D,S_1^D\)</td><td>工址的地震源危害度（機率式地震危害分析 PSHA 的結果）；最大考量地震另列 \(S_S^M,S_1^M\)，依鄉鎮分別查表</td><td>靠近活動斷層、位於高震區（台灣東部）</td></tr>
-<tr><td>② 場址類別 \(F_a,F_v\)</td><td>地盤軟硬造成的放大；剪力波速 \(V_{s,30}\) 或 N 值分類</td><td>地盤越軟 \(F_v\) 越大（<b>對長週期尤其顯著</b>）</td></tr>
-<tr><td>③ 結構週期 \(T\)</td><td>你的結構落在譜的哪一段</td><td><b>不是單調的</b> —— 見下面陷阱</td></tr>
-<tr><td>④ 阻尼比 \(\xi\)</td><td>非 5% 時用 \(B_S,B_1\) 修正</td><td>阻尼<b>越小</b>譜值越高</td></tr>
-<tr><td>⑤ 近斷層效應</td><td>斷層破裂方向性造成的長週期速度脈衝</td><td>距斷層越近，長週期段被放大</td></tr>
+<tr><td>① 震區短週期係數 \(S_S^D\)</td><td>依鄉鎮市區查表 2-1，短週期地震危害度（機率式地震危害分析 PSHA 的結果）→ 決定平台高度 \(S_{DS}\)</td><td>工址位於短週期危害度高的地區</td></tr>
+<tr><td>② 震區一秒週期係數 \(S_1^D\)</td><td>同樣查表 2-1，中長週期危害度 → 決定下降段 \(S_{D1}\) 與轉角 \(T_0^D\)</td><td>危害度高；注意 \(T_0^D\) 變大會讓極短週期譜值略降</td></tr>
+<tr><td>③ 近斷層效應</td><td>工址靠近表列活動斷層時，震區係數依至斷層跡線的距離由表 2-3 內插取代表 2-1 值</td><td>離斷層越近，\(S_{DS}\)、\(S_{D1}\) <b>同時</b>提高</td></tr>
+<tr><td>④ 地盤分類 \(F_a,F_v\)</td><td>第一／二／三類地盤（依 \(V_{S30}\)），臺北盆地另依微分區；\(F_a\) 隨 \(S_S^D\)、\(F_v\) 隨 \(S_1^D\) 查表 2-4</td><td>地盤越軟一般越大（<b>長週期的 \(F_v\) 增幅較明顯</b>；強震時土壤非線性，放大倍率反降）</td></tr>
+<tr><td>⑤ 基本振動週期 \(T\)</td><td>你的結構落在譜的哪一段</td><td><b>不是單調的</b> —— 見下面陷阱</td></tr>
 </tbody>
 </table>
 
@@ -1087,7 +1089,7 @@ $$M_0=\sum F_ih_i+F_t\,H=573.1+1.714\times28=573.1+48.0=\boxed{621.1\ \text{kN}\
 ② <b>P-Δ 效應</b>：位移越大，重力產生的二次彎矩越大，等效勁度下降 → 位移又更大。
 這是正回饋，過了臨界點會失控。<b>層間位移角上限就是規範用來間接管制 P-Δ 的手段。</b><br>
 ③ <b>鄰棟碰撞</b>：位移必須小於防震間距，否則相鄰建築互撞
-（<a class="qlink" href="problems-view/SD-2002-4.html" target="_blank">SD-2002-4</a> 就是算這個，兩棟不同頻率要用 SRSS 而非直接相加）。<br>
+（<a class="qlink" href="problems-view/SD-2002-4.html" target="_blank">SD-2002-4</a> 就是算這個：同一棟內各振態用 SRSS 組合；<b>兩棟之間</b>題目問「才不會碰撞」要保證值，取絕對值和 \(d_A+d_B\)，SRSS \(\sqrt{d_A^2+d_B^2}\) 只是機率性估計，用時要說明。現行規範 2.16.2 對兩棟相加的位移另有 0.6 折減的寫法）。<br>
 <b>一句話：\(V^*\) 保證「不裂」，位移角保證「不歪」，兩者是獨立的要求。</b>
 （<a class="qlink" href="problems-view/SD-2012-3.html" target="_blank">SD-2012-3</a> 的標準答案就是這三點。）
 </div>
@@ -1304,8 +1306,9 @@ $$\text{扭轉不規則判定：}\quad \Delta_{max}&gt;1.2\,\Delta_{avg}=1.2\tim
 
 <h3>§6.2　但動力分析算出來的還要被靜力法「拉回去」</h3>
 
-$$V_d&lt;V_s\;\Longrightarrow\;\text{動力分析結果全部乘以}\;\frac{V_s}{V_d}\;\text{放大}
-\qquad V_d\ge V_s\;\Longrightarrow\;\text{直接採用}$$
+$$V_d&lt;\eta V_s\;\Longrightarrow\;\text{動力分析結果全部乘以}\;\frac{\eta V_s}{V_d}\;\text{放大},\qquad
+\eta=\begin{cases}0.9 & \text{規則性建築物}\\ 1.0 & \text{不規則性建築物}\end{cases}$$
+<p>動力分析值已超過 \(\eta V_s\) 者直接採用（現行規範 3.3 節）。<b>比例不同</b>本身就是考點（<a class="qlink" href="problems-view/SD-2014-3.html" target="_blank">SD-2014-3</a> 問「不同方式的調整」）：規則建築的靜力豎向分配本來就可信，動力分析只需不低太多；不規則建築的模型與反應不確定性大，下限就拉到 100%。</p>
 
 <div class="why">
 <b>四個理由（<a class="qlink" href="problems-view/SD-2014-3.html" target="_blank">SD-2014-3</a>）：</b><br>
@@ -1501,7 +1504,7 @@ RC 韌性細部（U3-1）3 題。<b>純規範題其實只有 15 題，但它們�
 <tr><td>20</td><td>每 3–5 層換斷面</td><td>覺得省材料很合理</td><td>需求平滑、供給階梯 → 強度需求比呈鋸齒：轉換層上一層最先降伏；同一斷面群上段觸發 \(r_i&lt;0.8r_{i+1}\) 弱層判定。應漸進式縮減</td><td><a class="qlink" href="problems-view/SD-2008-2.html" target="_blank">SD-2008-2</a></td></tr>
 <tr><td>21</td><td>對稱結構</td><td>不加偶然偏心</td><td>即使圖面完全對稱，仍須加 \(e_a=\pm0.05D\)（施工變異＋地震動旋轉分量）</td><td><a class="qlink" href="problems-view/SD-2012-3.html" target="_blank">SD-2012-3</a></td></tr>
 <tr><td>22</td><td>扭轉不規則判定</td><td>用質量中心與剛心的距離</td><td>規範判準是<b>位移比</b>：\(\Delta_{max}&gt;1.2\Delta_{avg}\)，不是偏心距</td><td><a class="qlink" href="problems-view/SD-2012-3.html" target="_blank">SD-2012-3</a></td></tr>
-<tr><td>23</td><td>做了動力分析</td><td>結果比靜力小就直接用</td><td>\(V_d&lt;V_s\) 時必須<b>整體放大</b> \(V_s/V_d\)。理由：振態截斷、SRSS 統計性、平滑譜、實務驗證</td><td><a class="qlink" href="problems-view/SD-2014-3.html" target="_blank">SD-2014-3</a></td></tr>
+<tr><td>23</td><td>做了動力分析</td><td>結果比靜力小就直接用</td><td>必須<b>整體放大</b>到靜力值的 90%（規則）／100%（不規則）。理由：振態截斷、SRSS 統計性、平滑譜、實務驗證；不規則者不確定性大，下限較嚴</td><td><a class="qlink" href="problems-view/SD-2014-3.html" target="_blank">SD-2014-3</a></td></tr>
 <tr><td>24</td><td>隔震建築</td><td>照樣套 \(0.4S_{DS}\) 下限</td><td>該下限是防「週期估太長」，而隔震的長週期是設計出來並經試驗驗證的，故可豁免</td><td><a class="qlink" href="problems-view/SD-2014-3.html" target="_blank">SD-2014-3</a></td></tr>
 <tr><td>25</td><td>阻尼從 5% 提到 20%</td><td>以為反應降到 1/4</td><td>\(B\approx1.5\text{–}1.7\)，反應約降到 6 成。\(D_{max}=1/(2\xi)\) 只在純共振成立，真實地震是寬頻的</td><td><a class="qlink" href="problems-view/SD-2012-2.html" target="_blank">SD-2012-2</a><br><span style="font-size:.9em;color:#78909c">（跨 U3-2）</span></td></tr>
 <tr><td>26</td><td>分母的 1.4</td><td>當成載重因子</td><td><b>系統超強</b>：首根構件降伏（\(\alpha_yV\)）→ 全面塑化（\(1.4\alpha_yV\)），來自靜不定結構內力重分配（規範解說 2.2）</td><td><a class="qlink" href="problems-view/SD-2007-1.html" target="_blank">SD-2007-1</a></td></tr>
@@ -1551,7 +1554,7 @@ RC 韌性細部（U3-1）3 題。<b>純規範題其實只有 15 題，但它們�
 <p>因為 \(V_M\) 是<b>總量</b>的要求，但地震會找最弱的一層，把全部非線性變形塞進去。整體強度足夠、某層特別弱，仍會形成層崩塌機制。這一句「總量 vs 分佈」可以直接套用到層間位移角（\(V^*\) 管強度、位移角管勁度）與扭轉檢核。</p></details>
 
 <details><summary>13. 動力分析比較精確，為什麼結果還要被靜力法拉回去？（§6.2）</summary>
-<p>四個理由：振態截斷（丟掉高頻貢獻）、SRSS/CQC 是統計近似（近斷層脈衝會讓各振態高度相關）、設計反應譜是平滑化的平均曲線（真實場址尖峰被磨掉）、等效靜力法是數十年工程實踐驗證的保守基準。規範立場：動力分析可以讓你分配得更合理，但不能讓你把總量做少。</p></details>
+<p>四個理由：振態截斷（丟掉高頻貢獻）、SRSS/CQC 是統計近似（近斷層脈衝會讓各振態高度相關）、設計反應譜是平滑化的平均曲線（真實場址尖峰被磨掉）、等效靜力法是數十年工程實踐驗證的保守基準。規範立場：動力分析可以讓你分配得更合理，但不能讓你把總量做少。下限依規則性分級：規則性建築物調整至靜力值 90%、不規則性 100%（3.3 節）。</p></details>
 
 <details><summary>14. 隔震建築為什麼可以豁免 \(0.4S_{DS}\) 下限？（§6.2）</summary>
 <p>因為那個下限的存在理由是「怕設計者把週期估太長」，屬於<b>估算不確定性</b>的保守補償。而隔震建築的長週期是刻意設計、由支承力學性質決定、且必須做試驗驗證的——不確定性已被消除，保守規定就該放寬。這個「保守規定是為了防不確定性，不確定性消失就該放寬」的邏輯，是規範哲學題的通用答法。</p></details>
@@ -1674,5 +1677,5 @@ RC 韌性細部（U3-1）3 題。<b>純規範題其實只有 15 題，但它們�
 </div>
 </section>
 </main>
-<footer>SD-U2-2 觀念講義｜exam-wiki-SD 知識庫｜先讀本講義 → 再看 Keynote → 考前掃速查頁</footer>
+<footer>SD-U2-2 觀念講義｜structural-exam-wiki／SD｜練題前建立物理直覺用；考什麼、公式要不要背請看 unit-SD-U2-2.html（單元總覽）<br><span style="font-size:.92em">2026-11-24 改版：五因素表依 SD-2006-3 勘誤改台灣規範五項、V* 的 4.2／3.5 為工址別、SD-2002-4 兩棟取絕對值和、動力分析調整 90%／100%（SD-2014-3）；PDF 重出。</span></footer>
 </body></html>

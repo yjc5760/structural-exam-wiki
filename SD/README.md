@@ -35,9 +35,8 @@
 | **視覺化瀏覽題庫** | **雙擊 `index.html`**（題庫搜尋篩選、考點統計、進度追蹤） |
 | 特定題目的解析 | `raw/solutions/SD-YYYY-N/SD-YYYY-N.md` |
 | 題目渲染頁（公式／附圖可讀） | `study/problems-view/SD-YYYY-N.html` |
-| 子項命題分析（這個單元考什麼） | `study/study-SD-UN-n.html`（U1-1、U1-2、U1-3、U2-2、U3-2） |
-| 公式給／背分界 | `study/formula-given-SD-UN-n.html`（+ 同名 `.pdf`；同上 5 個子項） |
-| 單元觀念講義 | `study/lecture-SD-UN-n.html`（+ 同名 `.pdf`；同上 5 個子項） |
+| 單元總覽（考什麼、公式給／背、每題要背哪幾條） | `study/unit-SD-UN-n.html`（+ 同名 `.pdf`；U1-1、U1-2、U1-3、U2-2、U2-3、U3-1、U3-2；資料檔 `study/data/unit-SD-UN-n.json`，`python ../scripts/build_unit_page.py SD-UN-n` 產生）。舊的命題分析、給／背分界兩頁已封存於 `archive/study/` |
+| 單元觀念講義 | `study/lecture-SD-UN-n.html`（+ 同名 `.pdf`；7 個子項全部有。圖由程式依數值繪製：U2-3、U3-1 在 `scripts/lecture-figs/SD-UN-n/`，其餘在 `scripts/` 下各講義的產生器） |
 | 全科出題頻率熱圖 | `study/frequency-SD.html` |
 | 稽核報告 | `wiki/queries/`（目錄 `index.md`） |
 | 操作紀錄 | `wiki/queries/log.md` |

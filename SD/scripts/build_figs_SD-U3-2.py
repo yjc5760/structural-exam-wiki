@@ -196,7 +196,7 @@ def fig_spectrum():
     a.curve(Tl, Sa5(Tl) / 1.5, c=C['orange'], w=2.2, dash='7 5')
     # corner
     f.line(a.X(0.6), a.Y(0), a.X(0.6), a.Y(0.8), c=C['axis'], w=1, dash='3 3')
-    f.text(a.X(0.6) + 4, a.Y(0) - 8, 'T=0.6', 10.5, C['mut'])
+    f.text(a.X(0.6) + 4, a.Y(0.82), 'T=0.6', 10.5, C['mut'])
     f.text(a.X(1.25), a.Y(0.43), 'ξ=5%：S_a = 0.48/T ≤ 0.8', 11.5, C['red'], weight='bold')
     f.text(a.X(0.7), a.Y(0.05), 'ξ=20%：÷B_1=1.5', 11.5, C['orange'], weight='bold')
     p1, p2, p3 = a.P(0.5, 0.8), a.P(2.5, 0.192), a.P(2.5, 0.128)
@@ -266,7 +266,7 @@ def fig_series():
     f.text(gx, 40, '2-DOF 模型', 14, C['ink'], 'middle', 'bold')
     # arrow
     f.line(255, 180, 320, 180, c=C['purple'], w=2.2, arrow='purple')
-    f.lines(287, 150, [('m_b=0', {'anchor': 'middle'}), ('靜態束制', {'anchor': 'middle'})], 11.5, c=C['purple'], lh=15)
+    f.lines(287, 150, [('m_b=0', {'anchor': 'middle'}), ('靜態束制', {'anchor': 'middle'})], 11.5, c=C['purple'], lh=18)
     # right model
     gx = 400
     f.line(330, gy, 470, gy, c=C['ink'], w=2.5)
@@ -802,7 +802,7 @@ def fig_brace():
     f.text(x0 + L / 2 - 10, y0 - H / 2 + 26, '阻尼器（斜撐）', 12, C['teal'], 'middle', 'bold', halo=True, rot=-30)
     # force inset
     fx, fy = 470, 215
-    f.text(fx + 30, 140, '力：沿軸向出力 F_d', 13, C['ink'], 'middle', 'bold')
+    f.text(fx + 30, 116, '力：沿軸向出力 F_d', 13, C['ink'], 'middle', 'bold')
     Fd = 100
     f.line(fx - 40, fy, fx - 40 + Fd * np.cos(th), fy - Fd * np.sin(th), c=C['teal'], w=3, arrow='teal')
     f.line(fx - 40, fy, fx - 40 + Fd * np.cos(th), fy, c=C['red'], w=2.4, arrow='red')
@@ -917,7 +917,7 @@ def fig_dtm():
             f.text(cx, cy + h / 2 + 50, '→ 設計支承本體（剪切變形容量）', 12, C['ink'], 'middle')
     panel(220, 200, '設計位移 D_D', C['blue'], False)
     panel(640, 200, '最大總位移 D_{TM}', C['red'], True)
-    f.text(640, 345, f'D_{{TM}} = D_M[1 + y·12e/(b^2+L^2)]　例：b=20、L=30、e=1.5 m → ×{fac:.2f}', 12, C['red'], 'middle', 'bold')
+    f.text(640, 345, f'D_{{TM}} = D_M[1 + y·12e/(b^2+d^2)]　例：b=20、d=30、e=1.5 m → ×{fac:.2f}', 12, C['red'], 'middle', 'bold')
     f.text(640, 365, 'MCE（2475 年）＋ 扭轉 → 決定隔震溝淨距（撞到即脆性失效）', 12, C['ink'], 'middle')
     f.text(220, 345, '位移與轉角皆為放大示意（角落增量依右式比例繪製）', 11, C['mut'], 'middle')
     return f.render(), dict(fac=fac)

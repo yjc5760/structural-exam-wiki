@@ -357,6 +357,7 @@ Coulomb 理論（可考慮牆背傾角、填土坡度、牆土摩擦角 δ）：
 |------|------|------|
 | 2026-11-01 | **wiki 封存**：`wiki/` 除 `queries/` 外的各層與 `index.md`、`by-year.md` 移至 `archive/wiki/`；`wiki/log.md` 移為 `wiki/queries/log.md`；ingest／compile-all／lint／add-concept 停用；方法論只維護 `raw/solutions/methods/`；`index.html` 導覽、`xcheck.py`、講義 SM-U1-3 路徑同步 | 比照 SS：wiki 衍生層多年未同步、與 raw 勘誤脫節，學習改用 study/ 教材與 raw 正本 |
 | 2026-11-01 | **廢止題解互動圖與補充筆記 PDF；儀表板優化**：刪除 `raw/solutions/` 下 26 份 `*-viz.html`，清除 SM-2020-1 .md／problems-view 引用與 `study/study-SM-*.html` 的 📊 圖示；`question_index.json` 移除 `hasViz`；`dashboard-data.js` 改 5 欄（去 viz、pdf）；`index.html` 完整解析改連 `study/problems-view/`、刪指令速查分頁、修資料夾授權（IDB 改 `smwiki-fs`、TDZ）等；修正解析 KaTeX 渲染錯誤 | 比照 SS 同日處理；圖解改以 `figs/*.svg` 向量圖為準 |
+| 2026-11-24 | **新建起點頁 `start.html`**：依使用者清單建 `study/data/start-links.txt`／`start-links.json`（8 單元：單元總覽、觀念講義、教科書、公式記憶／觀念／教科書影片、各 5 支解題影片），`scripts/build_start.py` 產生 | 清單 `textbook-SM-U13-3` 為筆誤，已改 U3-3；網址改指 structural-exam-wiki（非舊站 exam-wiki-SM）；SM-2025-3 同時列在 U3-2、U3-1，為兩支不同影片 |
 
 ---
 
@@ -375,7 +376,7 @@ Coulomb 理論（可考慮牆背傾角、填土坡度、牆土摩擦角 δ）：
 | 解析標頭 | `**設計法：**` 值須與索引 `designMethod` 一致 | SM 標頭寫 `**分析法：**`（原 repo 08-29 全庫 96 題標頭已與索引同步）。工具若找「設計法」字樣須同時認「分析法」 |
 | 儀表板 | 五科共用樣板＋`scripts/refresh_dashboard.py`（`KB_*`） | **待辦**：暫用原 repo 的 `index.html`／`dashboard-data.js`（`SM_*`、5 欄格式、篩選選單為分析法四值）。改回共用樣板前**不要**對 SM 執行 `refresh_dashboard.py`。已知殘留：「⌨️ 指令清單」卡片讀 `SM/CLAUDE-CODE.md`，該檔已在根目錄（RC 儀表板同樣情形）。根目錄 `index.html` 讀 `window[code+'_QUESTIONS']`，五科入口讀得到 SM 96 題 |
 | 網站網址 | — | **待辦**：舊站 `yjc5760.github.io/exam-wiki-SM` 維持上線；新站上線後在舊站加轉址 |
-| 起點頁 | `start.html`（exam-start-page） | 尚未建立 |
+| 起點頁 | `start.html`（exam-start-page） | 2026-11-24 建立，正本 `study/data/start-links.json` |
 | 一次性腳本 | 共用腳本在根目錄 `scripts/` | `scripts/lecture-figs/U1-1/`（`gen_figs.py`＋`svglib.py`，U1-1 講義附圖）、`scripts/lecture-figs/U2-1/`、`U2-2/`、`U3-2/`、`U3-3/`（`calcs.py`＋`gen_figs.py`，講義附圖；U2-1 另有 `flownet.py`），共用 U1-1 的 `svglib.py`、`study/gen_lecture-SM-U1-5_figs.py`（U1-5 講義附圖，原 repo 就放在 study/，未搬動以免講義內引用失效）；兩者都寫到執行目錄下的 `figs/` |
 | 影片 | — | `影片講義/` 9 份圖文講義（`video/` 約 204 MB，原 repo 即納入 git）；`解題過程影片/` 為 gitignore 的本機資料夾，未建立 |
 | `raw/exams/命題大綱.pdf`、`raw/json/pdf_*.txt` | 命題大綱正本在根目錄 | 原 repo 的副本與考卷文字抽取，屬 raw 證據，保留不動 |
