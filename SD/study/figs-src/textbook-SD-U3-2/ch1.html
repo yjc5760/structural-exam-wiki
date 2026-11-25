@@ -1,0 +1,69 @@
+<section id="ch1">
+<h2>第 1 章　為什麼隔震有效：譜的兩端與串聯彈簧</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$T\uparrow\ \Rightarrow\ S_a=\frac{S_{D1}}{T}\downarrow,\ \ S_d=\frac{T^2}{4\pi^2}S_a=\frac{S_{D1}T}{4\pi^2}\uparrow;\qquad k_{eq}=\frac{kk_b}{k+k_b},\quad T_{sys}^2=T_{eD}^2+T^2$$
+要記的是 <span class="kw">S1 譜的兩端</span> 與 <span class="kw">S2 串聯</span>。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>隔震機制：延長週期、增加阻尼</td><td><span class="tg must">必背</span></td><td>1.1</td></tr>
+<tr><td>隔震層＋上部結構的串聯 SDOF</td><td><span class="tg must">必背</span></td><td>1.2</td></tr>
+<tr><td>隔震 2DOF 反應譜分析（隔震振態 \(B_1\)、上部振態 \(B_S\)）</td><td><span class="tg must">必背</span></td><td>1.3</td></tr>
+</table>
+<p class="note">證據：4 題論述（2007-4、2013-1、2014-3、2020-1）都沒印機制；2004-2、2012-4 的串聯沒印；<a href="problems-view/SD-2011-1.html">2011-1</a> SRSS 式沒印，B₁／B_S 要自己判斷。</p>
+</div>
+
+<h3>1.1　躲到譜的長週期端</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S1　譜的兩端</div>
+$$F=mS_a(T)\downarrow,\qquad u=S_d(T)=\frac{T^2}{4\pi^2}S_a\uparrow\qquad(\text{速度敏感區 }S_aT\text{ 為定值 ⇒ }S_d\propto T)$$
+</div>
+{{FIG:fig1_1|圖 1-1｜同一條譜的兩面（calcs.py 示範值）。週期從 0.5 s 拉到 2.5 s：加速度從 0.8g 降到 0.18g（只剩 23%），位移卻從 5 cm 增到 28 cm。<b>隔震把「力」換成了「位移」，位移集中在隔震層</b>，所以還要用阻尼把位移壓回來。}}
+<div class="why"><b>論述題答法（2013-1、2007-4）</b>：① 延長週期 → 避開地震能量集中的短週期段，上部結構加速度與內力大幅降低；② 變形集中在隔震層，上部結構近似剛體平移，層間變位很小；③ 隔震層提供阻尼（鉛心、摩擦、黏滯）壓低隔震位移；④ 代價：隔震層位移大，需足夠間隙、管線可撓、長週期地震（盆地、近斷層脈衝）要特別檢核。</div>
+<div class="trap"><b>為什麼隔震建築的 \(S_{aD}\) 長週期段不受 \(0.4S_{DS}\) 下限（<a href="problems-view/SD-2014-3.html">2014-3</a>）</b>：該下限是怕設計者把一般建築的週期估太長；隔震的長週期是刻意設計、由支承性質決定、且經試驗驗證，不確定性已被消除。</div>
+
+<h3>1.2　串聯：隔震層＋上部結構（<a href="problems-view/SD-2004-2.html">2004-2</a>、<a href="problems-view/SD-2012-4.html">2012-4</a>）</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S2　串聯彈簧</div>
+$$\text{同一個力通過兩支彈簧：}\ \frac1{k_{eq}}=\frac1{k}+\frac1{k_b}$$
+</div>
+<div class="derive">
+<p><span class="st">①</span> 基礎層質量 \(m_b=0\)（2004-2）：基礎層的方程沒有慣性項，是靜力平衡 ⇒ 隔震彈簧 \(k_b\) 與上部 \(k\) 承受同一個力 ⇒ 串聯，\(k_{eq}=\dfrac{kk_b}{k+k_b}\)。</p>
+<p><span class="st">②</span> \(T=2\pi\sqrt{\dfrac{m}{k_{eq}}}=2\pi\sqrt{\dfrac{m(k+k_b)}{kk_b}}\)；平方：\(T^2=4\pi^2\dfrac mk+4\pi^2\dfrac m{k_b}\) ⇒ \(\boxed{T_{sys}^2=T^2+T_{eD}^2}\)。</p>
+<p><span class="st">③</span> 例：\(T_{eD}=2.5\) s、上部 \(T=0.5\) s ⇒ \(T_{sys}=2.55\) s（只比 2.5 長 2%）：上部越硬，系統越接近「隔震層＋剛體」。</p>
+</div>
+<div class="check"><b>極限檢查</b>：\(k\to\infty\)（上部剛體）：\(T_{sys}=T_{eD}\) ✔；\(k_b\to\infty\)（沒有隔震）：\(T_{sys}=T\) ✔。2012-4 的 \(D'_D=D_D/\sqrt{1+(T/T_{eD})^2}\) 就是從這裡來（第 4 章）。</div>
+
+<h3>1.3　隔震 2DOF：反應譜分析（<a href="problems-view/SD-2011-1.html">SD-2011-1</a>）</h3>
+{{FIG:fig1_2|圖 1-2｜上部 300 tf、基礎層 200 tf 的隔震結構。第 1 振態（\(T=2.0\) s）上部與基礎幾乎同步，有效質量約 100%；第 2 振態（0.25 s）是上部對基礎的相對振動。}}
+<div class="derive">
+<p><span class="st">①</span> 每個振態用自己的阻尼比查 B：隔震振態 \(T_1=2.0\) s、\(\xi=10\%\)，落在長週期段 ⇒ \(S_a=\dfrac{0.6}{2.0\times1.25}=0.24\)；上部振態 \(T_2=0.25\) s、\(\xi=5\%\) ⇒ \(S_a=0.6/1.0=0.6\)。</p>
+<p><span class="st">②</span> \(\Gamma_n\)、\(S_{dn}=S_a gT^2/4\pi^2\)、\(\Gamma_n\boldsymbol\phi_nS_{dn}\)（U1-3 教科書第 4 章）。</p>
+<p><span class="st">③</span> SRSS：隔震層位移 \(\boxed{23.3\ \text{cm}}\)；層間位移（逐振態先相減）\(\boxed{0.955\ \text{cm}}\)；隔震層剪力 \(\boxed{120\ \text{tf}}\)（calcs.py 與題解一致）。</p>
+</div>
+<div class="check"><b>判讀提醒</b>：考卷振態寫 \(\langle1.041,1.000\rangle\)，以「上部、基礎」的順序解讀才得到題解的 23.3 cm（題目正本判讀 #1）；兩種解讀差 0.2 cm，作答時寫明你的假設。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜隔震原理</div>
+<ol>
+<li><b>畫</b>：同一條譜的 \(S_a\) 與 \(S_d\)；軟隔震層疊硬結構。</li>
+<li><b>種子</b>：S1、S2。</li>
+<li><b>推</b>：\(S_a=S_{D1}/T\) ⇒ 力降；\(S_d=S_{D1}T/4\pi^2\) ⇒ 位移增；串聯 ⇒ \(T_{sys}^2=T_{eD}^2+T^2\)。</li>
+<li><b>檢查</b>：上部剛體時 \(T_{sys}=T_{eD}\)。</li>
+</ol>
+</div>
+<h3>1.4　🙈 蓋住重推</h3>
+<details><summary>Q1　（2011-4）高聳建築為什麼不宜隔震？</summary>
+<p>本身週期已長，再隔震延長週期的效益小；高寬比大，隔震層易受拉（上浮）、傾倒力矩大；風載重下也要不晃，與隔震層要軟相衝突。</p></details>
+<details><summary>Q2　軟弱地盤（長週期地震）適合隔震嗎？</summary>
+<p>要小心：地表運動的主要週期本身就長，拉長週期可能反而接近共振；需依工址譜與時歷分析檢核。</p></details>
+<h3>1.5　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>只說「隔震降低地震力」</td><td>也要說位移變大、靠阻尼控制、需間隙</td></tr>
+<tr><td>2</td><td>隔震 2DOF 兩個振態都用 B₁</td><td>隔震振態 B₁、上部振態 B_S，依各自阻尼比</td></tr>
+</table>
+</section>

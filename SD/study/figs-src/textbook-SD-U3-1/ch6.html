@@ -1,0 +1,65 @@
+<section id="ch6">
+<h2>第 6 章　側推分析、位移角、極限層剪力強度</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$F_i=V\frac{w_ih_i^k}{\sum w_jh_j^k},\ k=\begin{cases}1&T\le0.5\text{ s}\\1+\frac{T-0.5}{2}&0.5<T<2.5\\2&T\ge2.5\text{ s}\end{cases};\qquad S_a=\frac{V/W}{\alpha_1},\quad S_d=\frac{\delta_{roof}}{PF_1\phi_{1,roof}}$$
+要記的是 <span class="kw">S6 側推＝第 1 振態的等效單自由度</span>。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>側推側力分布（均勻、倒三角、指數）</td><td><span class="tg must">必背</span></td><td>6.1</td></tr>
+<tr><td>容量曲線轉容量震譜</td><td><span class="tg must">必背</span></td><td>6.2</td></tr>
+<tr><td>層間位移角 0.005、極限層剪力強度</td><td><span class="tg must">必背</span></td><td>6.3</td></tr>
+</table>
+<p class="note">證據：<a href="problems-view/SD-2022-4.html">2022-4</a> 只列五種分布名稱，指數 k 與倒三角式都沒印；2013-1 ㈢ 容量震譜兩式沒印；2004-1、2008-2 位移角與層剪力強度都沒印。</p>
+</div>
+
+<h3>6.1　側推：用一組固定形狀的側力，慢慢推到崩塌</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S6　側推＝第 1 振態的等效單自由度</div>
+$$\text{側力形狀}\approx\mathbf M\boldsymbol\phi_1\ \Rightarrow\ \text{整棟樓的非線性行為}\approx\text{一台台車的非線性行為}$$
+</div>
+{{FIG:fig6_1|圖 6-1｜2022-4 自設例（3 層、等重、層高 3 m、V＝600 kN）。均勻、倒三角、指數（k＝2）由 calcs.py 計算；規範分配與 SRSS 兩欄取自題解自設資料。<b>k 越大，力越往上集中</b>。}}
+<table>
+<tr><th style="width:16%">分布</th><th>算法</th><th style="width:34%">適用與限制</th></tr>
+<tr><td>均勻</td><td>\(F_i\propto w_i\)（k＝0）</td><td>強調下層剪力（軟層、底層降伏後的分布）；高振態不顯著</td></tr>
+<tr><td>倒三角</td><td>\(F_i\propto w_ih_i\)（k＝1）</td><td>短週期、第 1 振態主導、振態近直線</td></tr>
+<tr><td>指數</td><td>\(F_i\propto w_ih_i^k\)，k 依 T 內插</td><td>長週期第 1 振態上半彎曲較大</td></tr>
+<tr><td>經驗（規範）</td><td>倒三角＋頂層 \(F_t\)（U2-2 教科書第 5 章）</td><td>以頂層集中力粗略補償高振態</td></tr>
+<tr><td>振態組合</td><td>各振態側力 SRSS</td><td>可反映高振態；但 SRSS 失去符號，力的分布不平衡</td></tr>
+</table>
+<div class="why"><b>共同限制（2022-4 ㈡）</b>：側力形狀固定，無法隨降伏後振態改變；只代表單一方向、單一振態主導的行為；高樓與不規則結構誤差大，常需兩種分布包絡或改做非線性動力分析。</div>
+
+<h3>6.2　容量曲線 → 容量震譜：一棟樓變一台台車（2013-1 ㈢）</h3>
+{{FIG:fig6_2|圖 6-2｜(a) 側推得到的基底剪力–頂層位移曲線；(b) 換軸後畫在 \(S_a\)–\(S_d\) 平面（ADRS），與需求譜（隨等效阻尼折減）相交於性能點。曲線為示意（形狀由程式產生，非特定案例）。}}
+<div class="derive">
+<p><span class="st">①</span> 第 1 振態下，基底剪力 \(V=M_1^{eff}S_a\) ⇒ \(S_a=\dfrac{V}{M_1^{eff}g}g=\dfrac{V/W}{\alpha_1}\)，\(\alpha_1=M_1^{eff}/M\)（有效質量比）。</p>
+<p><span class="st">②</span> 頂層位移 \(\delta_{roof}=\Gamma_1\phi_{1,roof}S_d\) ⇒ \(S_d=\dfrac{\delta_{roof}}{PF_1\phi_{1,roof}}\)（\(PF_1=\Gamma_1\)）。</p>
+<p><span class="st">③</span> 兩軸都換成「一台台車」的量，就能和反應譜放在同一張圖找交點（性能點），讀出地震下的頂層位移與損傷程度。</p>
+</div>
+
+<h3>6.3　位移角與極限層剪力強度</h3>
+<ul>
+<li><b>層間位移角</b>（<a href="problems-view/SD-2004-1.html">2004-1</a>）：中小度地震 \(V^*\) 下 \(\Delta/h\le0.005\)，保護非結構構件、限制 P–Δ（U2-2 教科書 6.2）。</li>
+<li><b>極限層剪力強度</b>（<a href="problems-view/SD-2008-2.html">2008-2</a>）：每層的「極限層剪力強度 ÷ 設計層剪力」不得小於上一層的 0.8 倍——防止某一層特別弱，使韌性需求集中、形成第 4 章圖 4-2 右邊那種層機構。</li>
+</ul>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜側推</div>
+<ol>
+<li><b>畫</b>：三種側力箭頭（均勻、倒三角、上重）；兩條軸換成 \(S_a\)、\(S_d\)。</li>
+<li><b>種子</b>：S6。</li>
+<li><b>推</b>：\(F\propto wh^k\)；\(V=M^{eff}S_a\) ⇒ \(S_a=(V/W)/\alpha_1\)；\(\delta=\Gamma\phi S_d\) ⇒ \(S_d\)。</li>
+<li><b>檢查</b>：k＝0 均勻、k＝1 倒三角；\(T=1\) s 時 \(k=1.25\)。</li>
+</ol>
+</div>
+<h3>6.4　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>容量曲線直接和反應譜比較</td><td>先換軸（÷α₁、÷PF₁φ_roof）</td></tr>
+<tr><td>2</td><td>指數 k 隨意取</td><td>依週期 1～2 內插</td></tr>
+</table>
+</section>

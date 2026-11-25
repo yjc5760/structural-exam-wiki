@@ -1,0 +1,82 @@
+<section id="ch3">
+<h2 class="t">第 3 章　韌性折減 \(F_u\)、容許韌性容量 \(R_a\)、\((\cdot)_m\) 修正</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$R_a=1+\frac{R-1}{1.5};\qquad F_u=\begin{cases}R_a&T\ge T_0^D\ (\text{等位移})\\\sqrt{2R_a-1}&0.2T_0^D\le T\le0.6T_0^D\ (\text{等能量})\\\text{線性內插}&0.6T_0^D<T<T_0^D\\\to1&T\to0\end{cases}$$
+要記的只有 <span class="kw">S3 等位移、等能量</span>（推導見 <a href="textbook-SD-U1-3.html">U1-3 教科書</a>第 5 章）與 <span class="kw">1.5</span> 這個規範數字。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>\(R_a\)、\(F_u\) 的週期分段</td><td><span class="tg half">別賭</span></td><td>3.1～3.3</td></tr>
+<tr><td>\((S_{aD}/F_u)_m\) 三段修正</td><td><span class="tg half">別賭</span></td><td>3.4</td></tr>
+</table>
+<p class="note">證據：<a href="problems-view/SD-2007-1.html">2007-1</a> 印出 \(F_u=R_a\)、\(\sqrt{2R_a-1}\) 與 \(R_a\)，問的正是推導；2020-4、2025-4 的論述與 2019-3、2021-4 的等位移計算都沒印。</p>
+</div>
+
+<h3 class="t">3.1　長週期 \(F_u=R_a\)：等位移</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S3　等位移、等能量</div>
+$$\text{長週期：}u_{\text{非彈}}=u_{\text{彈}}\Rightarrow F_u=\mu;\qquad \text{中週期：}\tfrac12F_eu_e=F_y(u_m-\tfrac12u_y)\Rightarrow F_u=\sqrt{2\mu-1}$$
+</div>
+<div class="derive">
+<p><span class="st">①</span> \(F_u\equiv\dfrac{F_e}{F_y}\)：彈性需求力 ÷ 降伏強度（「強度可以打幾折」）。</p>
+<p><span class="st">②</span> 長週期，最大位移與強度無關（U1-3 圖 5-3 左）：\(u_m=u_e=\dfrac{F_e}{k}\)，\(u_y=\dfrac{F_y}{k}\) ⇒ \(\mu=\dfrac{u_m}{u_y}=\dfrac{F_e}{F_y}=F_u\)。</p>
+<p><span class="st">③</span> 設計時容許的韌性用 \(R_a\)（下一節），所以 \(\boxed{F_u=R_a}\)。</p>
+</div>
+
+<h3 class="t">3.2　中週期 \(F_u=\sqrt{2R_a-1}\)：等能量</h3>
+<div class="derive">
+<p><span class="st">①</span> 彈性系統吸收的能量 \(\tfrac12F_eu_e=\tfrac12F_u^2F_yu_y\)（\(u_e=F_uu_y\)）。</p>
+<p><span class="st">②</span> 彈塑性系統吸收 \(F_yu_y\cdot\tfrac12+F_y(u_m-u_y)=F_yu_y(\mu-\tfrac12)\)。</p>
+<p><span class="st">③</span> 兩者相等：\(\tfrac12F_u^2=\mu-\tfrac12\) ⇒ \(\boxed{F_u=\sqrt{2\mu-1}}\)，\(\mu\) 換成 \(R_a\)。</p>
+</div>
+<div class="check"><b>極限檢查</b><br>
+・\(R_a=1\)（無韌性）：兩式都得 1 ✔<br>
+・同樣 \(R_a=3\)：等位移打 3 折、等能量只打 \(\sqrt5=2.24\) 折——<b>週期越短，降伏越沒有用</b> ✔<br>
+・\(T\to0\)：結構跟著地面動，降伏也減不了力，\(F_u\to1\) ✔</div>
+{{FIG:fig3_1|圖 3-1｜\(F_u\) 隨週期（RC 特殊抗彎構架 \(R=4.8\)，calcs.py 逐點計算）。長週期 3.533（等位移）、中週期 2.463（等能量）、極短週期降到 1；中間兩段線性內插。灰線是若把全部韌性 \(R\) 都用光的值。}}
+
+<h3 class="t">3.3　\(R_a\)：設計地震只准用掉三分之二的「降伏後韌性」</h3>
+<div class="derive">
+<p><span class="st">①</span> \(R\)＝結構系統的韌性容量（規範依系統給，例 RC 特殊抗彎構架 4.8）。\(R-1\) 是「降伏之後」還能走的韌性。</p>
+<p><span class="st">②</span> 設計地震（475 年）只准用掉其中 \(1/1.5=2/3\)，留 1/3 給最大考量地震：\(\boxed{R_a=1+\dfrac{R-1}{1.5}}\)（臺北盆地軟弱地盤反應較不確定，除以 2.0）。</p>
+<p><span class="st">③</span> 例：\(R=4.8\) ⇒ \(R_a=1+3.8/1.5=3.533\)。</p>
+</div>
+<div class="why"><b>1.5 是規範的判斷，不是推導</b>：它反映「設計地震不該把韌性用到底」。用道理記：分子的 1（彈性部分）不打折，只有降伏後那一段打折。</div>
+<table>
+<tr><th>\(R\)</th><th>1.0</th><th>2.0</th><th>3.2</th><th>4.0</th><th>4.8</th></tr>
+<tr><td>\(R_a\)</td><td>1.000</td><td>1.667</td><td>2.467</td><td>3.000</td><td>3.533</td></tr>
+<tr><td>\(\sqrt{2R_a-1}\)</td><td>1.000</td><td>1.528</td><td>1.983</td><td>2.236</td><td>2.463</td></tr>
+</table>
+
+<h3 class="t">3.4　\((S_{aD}/F_u)_m\)：非彈性越深，等效阻尼越大</h3>
+{{FIG:fig3_2|圖 3-2｜\((\cdot)_m\) 修正。\(S_{aD}/F_u\) 大表示結構被要求深入非彈性，遲滯消能讓等效阻尼高於 5%，可以在 5% 阻尼的譜上再打折（最多 30%）。兩個接點都連續。}}
+<div class="trap"><b>誠實標註</b>：\((\cdot)_m\) 的三段係數是規範校準的結果，不能從第一性原理推導；記「0.3 以下不改、0.8 以上打 7 折、中間直線接起來」即可。考卷印舊式 \(V=\dfrac{IS_{aD}}{1.4\alpha_yF_u}W\)（沒有 \((\cdot)_m\)）時，照現行式作答並註明；\(S_{aD}/F_u\le0.3\) 時兩者相同（2025-1 恰為 0.3）。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜Fu 與 Ra</div>
+<ol>
+<li><b>畫</b>：F–u 圖兩張（同位移、同面積）。</li>
+<li><b>種子</b>：S3。</li>
+<li><b>推</b>：同位移 ⇒ \(F_u=\mu\)；同面積 \(\tfrac12F_u^2=\mu-\tfrac12\) ⇒ \(\sqrt{2\mu-1}\)；\(\mu\to R_a=1+(R-1)/1.5\)。</li>
+<li><b>檢查</b>：\(R_a=1\) 兩式都是 1；短週期 \(F_u\to1\)。</li>
+</ol>
+</div>
+
+<h3>3.5　🙈 蓋住重推</h3>
+<details><summary>Q1　（2007-1）為什麼韌性設計的地震力可以比彈性需求小？</summary>
+<p>允許結構降伏、以韌性（塑性變形）消散能量。長週期時最大位移和強度無關，強度降為 \(1/F_u\) 只換來 \(\mu=F_u\) 的韌性需求；中週期以能量相等換算。</p></details>
+<details><summary>Q2　為什麼中週期不能用等位移？</summary>
+<p>中短週期結構降伏後週期拉長、反應偏離彈性，觀察顯示非彈性位移大於彈性位移；能量相等的假設與觀察較接近，給出較保守（較小）的折減。</p></details>
+
+<h3>3.6　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>\(F_u\) 直接用 \(R\)</td><td>先算 \(R_a\)</td></tr>
+<tr><td>2</td><td>短週期也用 \(R_a\)</td><td>看 \(T/T_0^D\) 分段</td></tr>
+<tr><td>3</td><td>\((\cdot)_m\) 漏掉或接點算錯</td><td>三段，接點連續</td></tr>
+</table>
+</section>

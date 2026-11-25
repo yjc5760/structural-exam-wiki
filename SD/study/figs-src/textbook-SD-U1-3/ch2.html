@@ -1,0 +1,82 @@
+<section id="ch2">
+<h2 class="t">第 2 章　特徵值與振態：每一層都剛好打平的形狀</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$\det(\mathbf K-\omega^2\mathbf M)=0,\qquad (\mathbf K-\omega_n^2\mathbf M)\boldsymbol\phi_n=\mathbf 0,\qquad \text{2DOF：}\frac{\phi_2}{\phi_1}=\frac{K_{11}-\omega_n^2m_1}{-K_{12}}$$
+要記的只有 <span class="kw">S2：振態＝每層的彈簧淨力剛好等於 \(m\omega^2\phi\) 的形狀</span>。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>特徵值問題、2DOF 振態比</td><td><span class="tg must">必背</span></td><td>2.1～2.3</td></tr>
+<tr><td>正交性（用來驗算振態）</td><td><span class="tg must">必背</span></td><td>2.4</td></tr>
+</table>
+<p class="note">證據：特徵值 18 題用到，24 年沒印過；只有 <a href="problems-view/SD-2021-3.html">2021-3</a> 方框印出 ω² 與 φ 的結果。3DOF 剪力屋 \(m,m,m/2\) 的特性式 \(\lambda^3-6\lambda^2+9\lambda-2=0\) 在 <a href="problems-view/SD-2016-4.html">2016-4</a>、<a href="problems-view/SD-2024-1.html">2024-1</a> 出現兩次。</p>
+</div>
+
+<h3 class="t">2.1　為什麼是特徵值問題</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S2　每一層都打平</div>
+$$\mathbf u(t)=\boldsymbol\phi\sin\omega t\ \Rightarrow\ \mathbf K\boldsymbol\phi=\omega^2\mathbf M\boldsymbol\phi$$
+</div>
+<div class="derive">
+<p><span class="st">①</span> 問：有沒有一種形狀，讓整棟樓以同一個頻率、同步擺動（只有大小在變）？代 \(\mathbf u=\boldsymbol\phi\sin\omega t\) 到 \(\mathbf M\ddot{\mathbf u}+\mathbf K\mathbf u=0\)：\((\mathbf K-\omega^2\mathbf M)\boldsymbol\phi\sin\omega t=0\)。</p>
+<p><span class="st">②</span> 要對所有時間成立而且 \(\boldsymbol\phi\ne0\)：矩陣 \(\mathbf K-\omega^2\mathbf M\) 必須「壓扁」某個方向 ⇒ \(\boxed{\det(\mathbf K-\omega^2\mathbf M)=0}\)。</p>
+<p><span class="st">③</span> \(N\) 個自由度 ⇒ \(\omega^2\) 的 \(N\) 次方程 ⇒ \(N\) 個頻率，各配一個形狀 \(\boldsymbol\phi_n\)（只有比例，沒有大小）。</p>
+</div>
+{{FIG:fig2_1|圖 2-1｜範例（SD-2022-3）的兩個振態，以一樓為 1。右框：把第 1 振態代回去，每一層的彈簧淨力都恰好等於 \(\omega^2m\phi\)——<b>這就是「振態」的意思，也是驗算振態最快的方法</b>。}}
+
+<h3 class="t">2.2　範例：兩層樓的頻率與振態（<a href="problems-view/SD-2022-3.html">SD-2022-3</a>）</h3>
+{{FIG:fig2_2|圖 2-2｜\(\det(\mathbf K-\omega^2\mathbf M)\) 對 \(\omega^2\) 的曲線（calcs.py 逐點計算），過零點就是特徵值。}}
+<div class="derive">
+<p><span class="st">①</span> \(\det\begin{bmatrix}3000-100\omega^2&-1500\\-1500&1500-100\omega^2\end{bmatrix}=0\) ⇒ \(\omega^4-45\omega^2+225=0\)。</p>
+<p><span class="st">②</span> \(\omega^2=\dfrac{45\mp\sqrt{45^2-900}}{2}=5.729,\ 39.271\) ⇒ \(\omega=2.394,\ 6.267\) rad/s，\(T=2.625,\ 1.003\) s。</p>
+<p><span class="st">③</span> 振態：取第一列 \((3000-100\omega_n^2)\phi_1-1500\phi_2=0\) ⇒ \(\dfrac{\phi_2}{\phi_1}=\dfrac{3000-100\omega_n^2}{1500}\)：\(\boldsymbol\phi_1=\{1,\ 1.618\}\)、\(\boldsymbol\phi_2=\{1,\ -0.618\}\)。</p>
+</div>
+<div class="check"><b>三個檢查</b><br>
+・第 1 振態全部同號（整棟往同一邊）、第 2 振態有一次變號 ✔（第 \(n\) 振態有 \(n-1\) 個節點）<br>
+・正交：\(100(1)(1)+100(1.618)(-0.618)=100-100=0\) ✔<br>
+・\(\omega_1^2+\omega_2^2=45=\) 跡數 \(\mathrm{tr}(\mathbf M^{-1}\mathbf K)=30+15\) ✔；\(\omega_1^2\omega_2^2=225=\det(\mathbf M^{-1}\mathbf K)\) ✔</div>
+<div class="why"><b>為什麼是黃金比例？</b>等質量、勁度比 2:1（\(k_1=2k_2\)）時，\(\phi_2/\phi_1=1.618\)、\(-0.618\)。等質量、等勁度（2008-1）時是 \(1.618\) 與 \(-0.618\) 的另一組（以頂層為 1：\(\{0.618,1\}\)、\(\{-1.618,1\}\)）。看到 1.618 不必驚訝。</div>
+
+<h3 class="t">2.3　三層 \(m,m,m/2\)：一定要會的特性式</h3>
+{{FIG:fig2_3|圖 2-3｜三層剪力屋（每層 \(k\)，質量由下而上 \(m,m,m/2\)）的三個振態（calcs.py 解特徵值）。特性式可因式分解，三個根都是漂亮的數字。}}
+<div class="derive">
+<p><span class="st">①</span> \(\mathbf K=k\begin{bmatrix}2&-1&0\\-1&2&-1\\0&-1&1\end{bmatrix}\)、\(\mathbf M=m\,\mathrm{diag}(1,1,\tfrac12)\)，令 \(\lambda=\omega^2m/k\)。</p>
+<p><span class="st">②</span> \(\det=\)\((2-\lambda)[(2-\lambda)(1-\tfrac\lambda2)-1]-(1-\tfrac\lambda2)=0\)，乘 \(-2\) 整理：\(\boxed{\lambda^3-6\lambda^2+9\lambda-2=0}\)。</p>
+<p><span class="st">③</span> 試根 \(\lambda=2\) 成立 ⇒ \((\lambda-2)(\lambda^2-4\lambda+1)=0\) ⇒ \(\lambda=2-\sqrt3=0.268\)、\(2\)、\(2+\sqrt3=3.732\)。</p>
+</div>
+<div class="trap"><b>考場技巧</b>：三次式先試 \(\lambda=1,2,\tfrac12\) 等簡單值；試中一個就降成二次式。2016-4 給 \(k=1.15\times10^6\) N/m、\(m=5000\) kg：\(\omega_n^2=\lambda_n k/m\)。</div>
+
+<h3 class="t">2.4　振態正規化與驗算</h3>
+<p>振態只有形狀，大小隨你定：一樓為 1、頂層為 1、或「質量正規化」\(\boldsymbol\phi_n^T\mathbf M\boldsymbol\phi_n=1\)。<b>題目沒指定時，寫明你用哪一種</b>——後面的 \(M_n\)、\(\Gamma_n\) 數值會跟著變，但 \(\Gamma_n\boldsymbol\phi_n\) 與所有物理反應不變（第 4 章）。</p>
+<div class="box"><b>反向題</b>（<a href="problems-view/SD-2016-3.html">2016-3</a>）　給振態求質量：用質量正交 \(\boldsymbol\phi_i^T\mathbf M\boldsymbol\phi_j=0\) 列方程（見 U1-1 教科書 5.1）。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜特徵值</div>
+<ol>
+<li><b>畫</b>：每層的彈簧淨力 vs \(m\omega^2\phi\)。</li>
+<li><b>種子</b>：S2，\(\mathbf K\boldsymbol\phi=\omega^2\mathbf M\boldsymbol\phi\)。</li>
+<li><b>推</b>：\(\det=0\) 求 \(\omega^2\)；代回任一列求比例。</li>
+<li><b>檢查</b>：\(\sum\omega^2=\mathrm{tr}(\mathbf M^{-1}\mathbf K)\)；正交；第 \(n\) 振態 \(n-1\) 次變號。</li>
+</ol>
+</div>
+
+<h3>2.5　🙈 蓋住重推</h3>
+<details><summary>Q1　兩層等質量 \(m\)、等勁度 \(k\)，\(\omega^2\)？</summary>
+<p>\(\lambda^2-3\lambda+1=0\)，\(\lambda=(3\mp\sqrt5)/2=0.382,\ 2.618\)，\(\omega^2=\lambda k/m\)。</p></details>
+<details><summary>Q2　為什麼振態沒有「大小」？</summary>
+<p>\((\mathbf K-\omega^2\mathbf M)\boldsymbol\phi=0\) 是齊次方程，\(\boldsymbol\phi\) 乘任何常數仍成立；大小要由初始條件或外力決定。</p></details>
+<details><summary>Q3　用第二列求振態比例，結果會不同嗎？</summary>
+<p>不會；\(\det=0\) 保證兩列線性相依。用兩列各算一次，也是很好的驗算。</p></details>
+
+<h3>2.6　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>解出 \(\omega^2\) 忘了開根號就當 \(\omega\)</td><td>先標清楚是 \(\omega^2\)（rad²/s²）</td></tr>
+<tr><td>2</td><td>振態不寫正規化方式</td><td>寫明；後續 Γ 依此計算</td></tr>
+<tr><td>3</td><td>質量單位 kN·s²/m 與 kg 混用</td><td>kN·s²/m＝t＝1000 kg；配 kN/m 的 K 用 t</td></tr>
+</table>
+</section>

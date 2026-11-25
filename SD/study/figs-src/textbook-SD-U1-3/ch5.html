@@ -1,0 +1,82 @@
+<section id="ch5">
+<h2 class="c">第 5 章　振態組合與非彈性：峰值不同時、降伏換韌性</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$r\approx\sqrt{\sum_nr_n^2},\qquad r=\Bigl(\sum_i\sum_j\rho_{ij}r_ir_j\Bigr)^{1/2},\qquad \text{長週期 }R=\mu,\qquad \text{中週期 }R=\sqrt{2\mu-1}$$
+要記的是 <span class="kw">S5 最大值不同時發生</span> 與 <span class="kw">S6 長週期等位移</span>。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>SRSS（頻率分離良好）；層間位移逐振態先差再組合</td><td><span class="tg must">必背</span></td><td>5.1</td></tr>
+<tr><td>CQC 全式</td><td><span class="tg give">會給</span></td><td>5.2</td></tr>
+<tr><td>等位移 \(\mu=R\)、等能量 \(\mu=(R^2+1)/2\)</td><td><span class="tg must">必背</span></td><td>5.3</td></tr>
+</table>
+<p class="note">證據：SRSS 10 題都沒印（2022-3 題文只寫「用 SRSS」）；CQC 只考過一次（<a href="problems-view/SD-2020-3.html">2020-3</a>），以「參考公式」印出全式；等位移法則 <a href="problems-view/SD-2019-3.html">2019-3</a>、<a href="problems-view/SD-2021-4.html">2021-4</a> 都沒印。</p>
+</div>
+
+<h3 class="c">5.1　SRSS：最大值不同時發生</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S5　峰值不同時</div>
+$$|r(t)|_{max}\le\sum|r_n|_{max}\quad(\text{絕對值和是上界}),\qquad \text{頻率分離時統計上 }\ r_{max}\approx\sqrt{\sum r_{n,max}^2}$$
+</div>
+<p>反應譜只告訴我們每個振態的<b>最大值</b>，不告訴我們它發生在什麼時刻。各振態的頻率不同，在地震中各自起伏，<b>峰值幾乎不會在同一瞬間到達</b>。</p>
+{{FIG:fig5_1|圖 5-1｜範例結構受一筆合成地震（calcs.py 以濾波白噪音產生，固定亂數種子），二樓層間位移的兩個振態貢獻。兩個峰（藍、紅圓點）不在同一時刻，真實合計峰（紫點）比兩峰直接相加小。20 場平均：SRSS 約為真實值的 0.97 倍，絕對值和高估約 21%。}}
+<div class="derive">
+<p><span class="st">①</span> 把各振態反應看成互不相關的隨機振盪，各自的峰值 \(r_n\)。互不相關的量，「平方」（變異數）可以相加。</p>
+<p><span class="st">②</span> 合計的峰值估計 \(\boxed{r\approx\sqrt{\sum r_n^2}}\)。</p>
+<p><span class="st">③</span> 適用條件：振態頻率分離良好（相鄰比 \(<0.8\) 左右）；否則兩振態步調相近、互相相關，要用 CQC。</p>
+</div>
+<div class="trap"><b>誠實標註</b>：SRSS 是統計估計，不是上界，也不是精確解；個別地震可能比它大或小（圖 5-1 的 20 場中有幾場真實值大於 SRSS）。規範與考題都採用它，因為平均而言最接近。</div>
+
+<h3 class="c">5.2　CQC：頻率接近時把「相關」加回來</h3>
+{{FIG:fig5_2|圖 5-2｜CQC 相關係數 \(\rho_{ij}\) 對頻率比 \(\beta\)。阻尼 5% 時，\(\beta<0.8\) 的 \(\rho\) 都很小；範例 \(\beta=0.382\)，\(\rho=0.0089\)，CQC 與 SRSS 幾乎相同（0.3440 vs 0.3442 m）。<b>頻率接近（\(\beta\to1\)）時 \(\rho\to1\)，CQC 變成代數和</b>。}}
+<div class="derive">
+<p><span class="st">①</span> \(r^2=\sum_i\sum_j\rho_{ij}r_ir_j\)：對角項 \(\rho_{ii}=1\) 就是 SRSS；交叉項帶符號（兩振態同號、反號會加強或抵銷）。</p>
+<p><span class="st">②</span> 等阻尼時 \(\rho_{ij}=\dfrac{8\xi^2(1+\beta)\beta^{3/2}}{(1-\beta^2)^2+4\xi^2\beta(1+\beta)^2}\)——<b>考過就印</b>，認得 \(\beta=\omega_i/\omega_j\)、\(\rho_{ii}=1\) 即可。</p>
+<p><span class="st">③</span> 範例：\(\sqrt{0.3437^2+0.0192^2+2(0.0089)(0.3437)(-0.0192)}=0.3440\) m。</p>
+</div>
+<div class="check"><b>極限檢查</b>：\(\beta\to0\)（頻率差很多）：\(\rho\to0\)，退化成 SRSS ✔；\(\beta=1\)：\(\rho=1\)，\(r=|r_1+r_2|\)（同頻率就是同步）✔</div>
+
+<h3 class="c">5.3　等位移與等能量：降伏省下的力，換成韌性</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S6　長週期等位移</div>
+$$T\text{ 較長：}u_{max,\text{非彈性}}\approx u_{max,\text{彈性}}\ \Rightarrow\ \mu=\frac{u_{max}}{u_y}=\frac{F_e}{F_y}=R$$
+</div>
+{{FIG:fig5_3|圖 5-3｜左：長週期，彈性與彈塑性系統的最大位移相同，強度降為 \(1/R\)，韌性需求 \(\mu=R\)。右：中週期，兩者吸收的能量（面積）相同：\(\tfrac12R^2=\mu-\tfrac12\)，\(\mu=(R^2+1)/2\)。同樣 \(R=4\)，等能量要求的韌性 8.5，遠大於等位移的 4。}}
+<div class="derive">
+<p><span class="st">①</span> 長週期：結構很軟，地面動得快、質量幾乎不跟，最大位移由地面位移決定，和強度無關 ⇒ 等位移（試驗與分析觀察，不是嚴格推導）。</p>
+<p><span class="st">②</span> 中週期：用能量等值近似：彈性能 \(\tfrac12F_eu_e\) ＝ 彈塑性吸能 \(F_y(u_m-\tfrac12u_y)\) ⇒ \(R=\sqrt{2\mu-1}\)。</p>
+<p><span class="st">③</span> 極短週期（\(T\to0\)）：結構跟著地面動，降伏也無法減力 ⇒ \(R\to1\)。（規範的 \(F_u\) 就是這三段，U2-2 教科書第 3 章。）</p>
+</div>
+<div class="box"><b>應用</b>（<a href="problems-view/SD-2019-3.html">2019-3</a> 的做法）　\(T=1\) s、位移韌性 5、只取第 1 振態：① 彈性基底剪力 \(V_e=M_1^{eff}S_a\)；② 等位移 ⇒ 設計 \(V=V_e/5\)；③ 位移不變：樓層位移仍是彈性的 \(\Gamma_1\boldsymbol\phi_1S_d\)，層間位移逐層相減。<br>
+以本書範例類推：第 1 振態彈性 \(V_{b1}=318.6\) kN，若 \(\mu=4\)，設計基底剪力 79.6 kN，頂樓位移仍取 0.344 m。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜組合與非彈性</div>
+<ol>
+<li><b>畫</b>：兩條頻率不同的振盪，峰不同時；F–u 圖上彈性線與彈塑性線。</li>
+<li><b>種子</b>：S5、S6。</li>
+<li><b>推</b>：互不相關 ⇒ 平方相加；頻率接近 ⇒ 加 \(\rho\) 交叉項；長週期同位移 ⇒ \(\mu=R\)，中週期同能量 ⇒ \(\mu=(R^2+1)/2\)。</li>
+<li><b>檢查</b>：SRSS ≤ 絕對值和；\(\beta\to1\) 時 CQC → 代數和。</li>
+</ol>
+</div>
+
+<h3>5.4　🙈 蓋住重推</h3>
+<details><summary>Q1　為什麼不用絕對值和？</summary>
+<p>它假設所有振態同時到峰、同號，物理上幾乎不會發生，過度保守（範例模擬平均高估 21%）。</p></details>
+<details><summary>Q2　（2018-3）規範豎向分配（倒三角）和振態疊加有什麼不同？</summary>
+<p>倒三角＋頂層集中力 \(F_t\) 是「第 1 振態近似＋高振態補償」；振態疊加則各振態分別算再 SRSS，能反映質量、勁度不規則與高振態效應。</p></details>
+<details><summary>Q3　等能量推導裡，\(u_e\) 和 \(u_y\) 的比是多少？</summary>
+<p>彈性反應的位移 \(u_e=F_e/k=Ru_y\)，所以彈性三角形面積 \(\tfrac12R^2F_yu_y\)。</p></details>
+
+<h3>5.5　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>振態最大值直接相加</td><td>SRSS；絕對值和只當上界</td></tr>
+<tr><td>2</td><td>頻率接近仍用 SRSS</td><td>CQC（扭轉耦合、對稱平面結構常見）</td></tr>
+<tr><td>3</td><td>短週期也用 \(\mu=R\)</td><td>中週期用等能量；極短週期 \(R\to1\)</td></tr>
+<tr><td>4</td><td>等位移法則把位移也除 \(R\)</td><td>力除 \(R\)，位移不變</td></tr>
+</table>
+</section>

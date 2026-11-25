@@ -1,0 +1,124 @@
+<section id="ch5">
+<h2>第 5 章　多自由度的基本性質：正交、參與、能量、阻尼矩陣</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$\boldsymbol\phi_i^T\mathbf M\boldsymbol\phi_j=0,\quad \Gamma_n=\frac{L_n}{M_n},\quad M_n^{eff}=\frac{L_n^2}{M_n},\quad \omega^2\approx\frac{\sum F_iu_i}{\sum m_iu_i^2},\quad \xi_n=\frac{a_0}{2\omega_n}+\frac{a_1\omega_n}{2}$$
+要記的只有 <span class="kw">S6 正交</span>；Rayleigh 商用回 <span class="kw">S2</span>（能量版），Rayleigh 阻尼用回 <span class="kw">S3</span>。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>正交性、模態展開係數 \(\dfrac{\boldsymbol\phi_i^T\mathbf M\mathbf u(0)}{M_i}\)</td><td><span class="tg must">必背</span></td><td>5.1、5.2</td></tr>
+<tr><td>\(\Gamma_n=L_n/M_n\)、\(M_n^{eff}=L_n^2/M_n\)、\(\sum M_n^{eff}=\sum m\)</td><td><span class="tg must">必背</span></td><td>5.2</td></tr>
+<tr><td>Rayleigh 商 \(\omega^2\approx\sum F_iu_i/\sum m_iu_i^2\)（上界）</td><td><span class="tg must">必背</span></td><td>5.3</td></tr>
+<tr><td>Rayleigh 阻尼 \(\xi_n=\dfrac{a_0}{2\omega_n}+\dfrac{a_1\omega_n}{2}\)；兩點同 ξ 閉合解</td><td><span class="tg must">必背</span></td><td>5.4</td></tr>
+<tr><td>\(S_v=\omega S_d\)、\(S_a=\omega^2S_d\)</td><td><span class="tg half">別賭</span></td><td>5.5</td></tr>
+</table>
+<p class="note">證據：正交性 2 題（2016-3、2021-3）、參與因子 4 題（2003-1、2003-5、2023-2、2025-2）本單元都沒印；Rayleigh 阻尼 3 題（2003-3、2023-2、2025-3）只印 \(C=a_0M+a_1K\)，<b>少給的正是要算的那一步</b>。三軸關係 2018-2 題文印過。Rayleigh 商只有橋梁規範形式印過（2002、2010、2024，屬 U2-3）。</p>
+</div>
+
+<h3 class="c">5.1　正交性：不同振態各跳各的</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S6　振態正交</div>
+$$\boldsymbol\phi_i^T\mathbf M\boldsymbol\phi_j=0,\qquad \boldsymbol\phi_i^T\mathbf K\boldsymbol\phi_j=0\qquad(i\ne j,\ \omega_i\ne\omega_j)$$
+</div>
+<p>多自由度系統自由振動時，若所有樓層以同一頻率、同一形狀同步擺動，那個形狀叫<b>振態</b> \(\boldsymbol\phi_n\)，滿足 \(\mathbf K\boldsymbol\phi_n=\omega_n^2\mathbf M\boldsymbol\phi_n\)（每一層：彈簧力＝質量×\(\omega^2\)×位移，就是 S2 在每一層成立）。</p>
+<div class="derive">
+<p><span class="st">①</span> 寫兩次：\(\mathbf K\boldsymbol\phi_i=\omega_i^2\mathbf M\boldsymbol\phi_i\)、\(\mathbf K\boldsymbol\phi_j=\omega_j^2\mathbf M\boldsymbol\phi_j\)。第一式左乘 \(\boldsymbol\phi_j^T\)、第二式左乘 \(\boldsymbol\phi_i^T\)。</p>
+<p><span class="st">②</span> \(\mathbf K\)、\(\mathbf M\) 對稱，所以 \(\boldsymbol\phi_j^T\mathbf K\boldsymbol\phi_i=\boldsymbol\phi_i^T\mathbf K\boldsymbol\phi_j\)（同一個純量）。兩式相減：\((\omega_i^2-\omega_j^2)\,\boldsymbol\phi_i^T\mathbf M\boldsymbol\phi_j=0\)。</p>
+<p><span class="st">③</span> 頻率不同 ⇒ \(\boxed{\boldsymbol\phi_i^T\mathbf M\boldsymbol\phi_j=0}\)，代回 ① 也得 \(\boldsymbol\phi_i^T\mathbf K\boldsymbol\phi_j=0\)　✔</p>
+</div>
+<div class="why"><b>白話</b>：振態 \(i\) 的慣性力 \(\omega_i^2\mathbf M\boldsymbol\phi_i\) 在振態 \(j\) 的位移上做的功為零——<b>兩個振態之間不交換能量</b>。所以一個多自由度系統可以拆成好幾個互不相干的單自由度系統，各自用第 1～4 章的方法算（U1-3）。</div>
+{{FIG:fig5_1|圖 5-1｜<a href="problems-view/SD-2016-3.html">SD-2016-3</a>：給三個振態形狀與頂層質量 1000 kg，求下兩層質量 \(\alpha\)、\(\beta\)。第 1 振態分別和第 2、第 3 振態做質量正交，得兩條一次方程。}}
+<div class="derive">
+<p><span class="st">①</span> \(\boldsymbol\phi_1^T\mathbf M\boldsymbol\phi_2=(1)(-1)\alpha+(2)(-1)\beta+(3)(2)(1000)=0\) ⇒ \(\alpha+2\beta=6000\)。</p>
+<p><span class="st">②</span> \(\boldsymbol\phi_1^T\mathbf M\boldsymbol\phi_3=\alpha-2\beta+3000=0\)。</p>
+<p><span class="st">③</span> 聯立：\(\boxed{\alpha=1500\ \text{kg},\ \beta=2250\ \text{kg}}\)。</p>
+</div>
+<div class="trap"><b>誠實標註</b>：用這組質量檢查 \(\boldsymbol\phi_2^T\mathbf M\boldsymbol\phi_3=2750\neq0\)——考卷給的三個振態彼此不完全相容（題解 §5.2）。所以「選哪兩對」會影響答案；考場上寫明你用 φ1–φ2、φ1–φ3 兩條，並註記第三對不成立。</div>
+
+<h3>5.2　模態展開、參與因子、有效質量</h3>
+<p>正交性讓我們能把任何位移形狀「拆」成振態的組合：\(\mathbf u=\sum_n\boldsymbol\phi_nq_n\)。要求某個係數 \(q_i\)，兩邊左乘 \(\boldsymbol\phi_i^T\mathbf M\)，其他振態全被正交性殺掉：</p>
+<div class="derive">
+<p><span class="st">①</span> \(\boldsymbol\phi_i^T\mathbf M\mathbf u=\sum_nq_n\,\boldsymbol\phi_i^T\mathbf M\boldsymbol\phi_n=q_i\,M_i\)，\(M_i=\boldsymbol\phi_i^T\mathbf M\boldsymbol\phi_i\)（振態質量）。</p>
+<p><span class="st">②</span> \(\boxed{q_i=\dfrac{\boldsymbol\phi_i^T\mathbf M\mathbf u}{M_i}}\)：初始位移 \(\mathbf u(0)\) 怎麼分給各振態（<a href="problems-view/SD-2021-3.html">2021-3</a>）。</p>
+<p><span class="st">③</span> 地震時外力 \(-\mathbf M\{1\}\ddot u_g\)（每一層都被地面拖一樣的加速度）。把 \(\{1\}\) 拆成振態：係數 \(\boxed{\Gamma_n=\dfrac{\boldsymbol\phi_n^T\mathbf M\{1\}}{M_n}=\dfrac{L_n}{M_n}}\) 就是<b>參與因子</b>：第 \(n\) 振態被地震「點名」的程度。</p>
+</div>
+<div class="derive">
+<p><span class="st">④</span> 第 \(n\) 振態的基底剪力 \(=\{1\}^T\mathbf M\boldsymbol\phi_n\Gamma_nS_a=L_n\Gamma_nS_a=\dfrac{L_n^2}{M_n}S_a\)。看起來就像質量 \(\boxed{M_n^{eff}=\dfrac{L_n^2}{M_n}}\) 的單自由度。</p>
+<p><span class="st">⑤</span> 把 \(\{1\}=\sum\Gamma_n\boldsymbol\phi_n\) 代進 \(\{1\}^T\mathbf M\{1\}\)，交叉項正交為零 ⇒ \(\boxed{\sum_nM_n^{eff}=\sum_im_i}\)（全部振態的有效質量加起來＝總質量）。</p>
+</div>
+<div class="box"><b>題目</b>（<a href="problems-view/SD-2023-2.html">SD-2023-2 ㈠</a>）　兩層剪力屋，每層 10000 kg，層勁度 \(k_1=200{,}000\)、\(k_2=180{,}000\) N/m。求頻率、振態、振態質量、振態勁度、參與因子。</div>
+<div class="derive">
+<p><span class="st">①</span> \(\mathbf K=\begin{bmatrix}380000&-180000\\-180000&180000\end{bmatrix}\)、\(\mathbf M=10000\mathbf I\)；\(\det(\mathbf K-\omega^2\mathbf M)=0\) ⇒ \(\omega_1=2.722\)、\(\omega_2=6.971\) rad/s（\(f=0.433\)、1.109 Hz）。</p>
+<p><span class="st">②</span> 頂層正規化為 1：\(\boldsymbol\phi_1=\{0.588,\ 1\}^T\)、\(\boldsymbol\phi_2=\{-1.700,\ 1\}^T\)。</p>
+<p><span class="st">③</span> \(M_1=13{,}462\)、\(M_2=38{,}883\) kg；\(K_n=\omega_n^2M_n\)：99,738、1,889,398 N/m；\(L_1=15{,}884\)、\(L_2=-6{,}995\)；\(\Gamma_1=1.180\)、\(\Gamma_2=-0.180\)。</p>
+<p><span class="st">④</span> 有效質量 18,742＋1,258＝20,000 kg ＝ 總質量 ✔（第 1 振態佔 93.7%）。</p>
+</div>
+<div class="trap"><b>陷阱：\(\Gamma\) 隨正規化改變</b>。2023-2、2025-2 考卷都沒指定正規化。把 \(\boldsymbol\phi\) 乘 2，\(\Gamma\) 就變一半；<b>\(\Gamma_n\boldsymbol\phi_n\)、有效質量不變</b>。答案一定寫明你的正規化方式（例：頂層為 1）。</div>
+
+<h3>5.3　Rayleigh 商：能量打平求頻率</h3>
+<p>S2 的能量版：振動時最大動能 \(T_{max}=\tfrac12\omega^2\sum m_iu_i^2\)（速度峰值 \(\omega u_i\)），最大位能 \(V_{max}=\tfrac12\mathbf u^T\mathbf K\mathbf u\)。能量守恆 \(T_{max}=V_{max}\)：</p>
+<div class="derive">
+<p><span class="st">①</span> \(\omega^2=\dfrac{\mathbf u^T\mathbf K\mathbf u}{\mathbf u^T\mathbf M\mathbf u}\)：只要「猜」一個形狀 \(\mathbf u\) 就能估頻率。</p>
+<p><span class="st">②</span> 若 \(\mathbf u\) 是側力 \(\mathbf F\) 作用下的靜變形，\(\mathbf K\mathbf u=\mathbf F\)：\(\boxed{\omega^2\approx\dfrac{\sum F_iu_i}{\sum m_iu_i^2}}\)。拿「各樓層重量當側力」最準：\(\omega^2\approx\dfrac{g\sum W_iu_i}{\sum W_iu_i^2}\)（橋梁規範 \(T=2\pi\sqrt{\gamma/\beta g}\) 就是它，U2-3）。</p>
+<p><span class="st">③</span> 任何猜的形狀都會混進高振態，高振態頻率較高，把 \(\omega^2\) 往上拉 ⇒ <b>Rayleigh 商永遠 ≥ 真正的 \(\omega_1^2\)（上界）</b>。</p>
+</div>
+{{FIG:fig5_2|圖 5-2｜2023-2 的兩層樓，用不同形狀算 Rayleigh 商。均勻形狀 3.162、直線 2.757、重量當側力的靜變形 2.734，精確 2.722 rad/s。<b>全部高於精確值，越像真振態越接近</b>。}}
+<div class="box"><b>反向用法</b>（<a href="problems-view/SD-2003-5.html">SD-2003-5</a>）　題目給五層剪力屋在側力下的層間變位，要你先由 \(F_i=V_i-V_{i+1}\)、\(V_i=k_i\Delta_i\) 反推側力，再代 \(\sum F_iu_i/\sum m_iu_i^2\) 求 \(T_1\)。</div>
+
+<h3 class="t">5.4　Rayleigh 阻尼：兩點夾住、中間下凹</h3>
+<p>多自由度系統需要阻尼矩陣 \(\mathbf C\)，但沒有人量得到每一個元素。常用的做法是取 \(\mathbf C=a_0\mathbf M+a_1\mathbf K\)，好處是它也滿足正交性（\(\mathbf M\)、\(\mathbf K\) 都滿足），各振態仍可分開算。</p>
+<div class="derive">
+<p><span class="st">①</span> 振態阻尼 \(C_n=\boldsymbol\phi_n^T\mathbf C\boldsymbol\phi_n=a_0M_n+a_1K_n=(a_0+a_1\omega_n^2)M_n\)。</p>
+<p><span class="st">②</span> S3 的定義 \(\xi_n=\dfrac{C_n}{2M_n\omega_n}\)：\(\boxed{\xi_n=\dfrac{a_0}{2\omega_n}+\dfrac{a_1\omega_n}{2}}\)。</p>
+<p><span class="st">③</span> 指定兩個振態 \(i\)、\(j\) 的阻尼比都等於 \(\xi\)：兩條一次方程相減，\(\boxed{a_1=\dfrac{2\xi}{\omega_i+\omega_j},\quad a_0=\dfrac{2\xi\,\omega_i\omega_j}{\omega_i+\omega_j}}\)。</p>
+</div>
+{{FIG:fig5_3|圖 5-3｜<a href="problems-view/SD-2025-3.html">SD-2025-3</a>：\(\omega_1=14.5\)、\(\omega_3=46.2\) rad/s 定為 5%。質量項（綠虛線）隨 \(\omega\) 下降、勁度項（藍虛線）隨 \(\omega\) 上升，合起來是一條 U 形曲線。<b>兩點之間的 \(\omega_2=31.1\) 落在凹處，阻尼比 4.34% 小於 5%</b>；兩點之外的高振態阻尼偏大。}}
+<div class="derive">
+<p><span class="st">①</span> \(a_1=\dfrac{2(0.05)}{14.5+46.2}=1.647\times10^{-3}\) s，\(a_0=\dfrac{2(0.05)(14.5)(46.2)}{60.7}=1.104\) s\(^{-1}\)。</p>
+<p><span class="st">②</span> \(\xi_2=\dfrac{1.104}{2(31.1)}+\dfrac{1.647\times10^{-3}(31.1)}{2}=0.0178+0.0256=\boxed{0.0434}\)。</p>
+</div>
+<div class="check"><b>自我檢查</b>：代回 \(\omega_1\)：\(0.0381+0.0119=0.0500\) ✔；兩點中間 \(\xi<5\%\)、兩點外側 \(\xi>5\%\) ✔（U 形）。</div>
+<div class="box"><b>兩點阻尼比不同</b>（<a href="problems-view/SD-2023-2.html">SD-2023-2 ㈡</a>）　1 Hz → 3%、5 Hz → 5%。換角頻率 \(2\pi\)、\(10\pi\) 後解聯立：\(a_0=\pi/12=0.2618\) rad/s、\(a_1=2.918\times10^{-3}\) s。結構第一振態 \(\omega_1=2.722\)（0.433 Hz，在 1 Hz 左邊）：\(\xi_1=0.0481+0.0040=\boxed{0.0521}\)——<b>落在 U 形左支，所以比兩個控制點的 3% 都大</b>。</div>
+<div class="trap"><b>陷阱</b>：Hz 直接代（題文特別提醒要換角頻率）；兩點同 ξ 的閉合解只適用「兩點相同 ξ」，不同時要解聯立。</div>
+
+<h3>5.5　三軸反應譜：位移、速度、加速度只差 \(\omega\)</h3>
+<p>反應譜記錄的是「週期 \(T\) 的單自由度在這筆地震下的最大反應」。若最大位移為 \(S_d\)，把反應想成以 \(\omega\) 振盪的正弦波（S2），速度與加速度的峰值各多乘一個 \(\omega\)：</p>
+$$S_v=\omega S_d=\frac{2\pi}{T}S_d,\qquad S_a=\omega S_v=\omega^2S_d$$
+<p>這裡的 \(S_v\)、\(S_a\) 叫「擬」速度、「擬」加速度（pseudo）：它們由 \(S_d\) 乘 \(\omega\) 得到，不是真的最大速度、加速度。\(S_a\) 的物理意義是 \(kS_d/m\)：<b>最大彈簧力除以質量</b>，所以「\(F=mS_a\)」正是設計要的最大內力。無阻尼時擬加速度恰等於最大絕對加速度；有阻尼時兩者略有差（<a href="problems-view/SD-2003-1.html">2003-1 ㈣</a>）。</p>
+{{FIG:fig5_4|圖 5-4｜三軸（對數）反應譜：橫軸 \(T\)、縱軸 \(S_v\)，斜線是等 \(S_d\)（藍，斜率 −1）與等 \(S_a\)（紅，斜率 +1）。紫線是典型的譜形：短週期段 \(S_a\) 定值、中段 \(S_v\) 定值、長週期段 \(S_d\) 定值。例：\(T=1\) s、\(S_a=0.5g\) → \(S_d=12.4\) cm、\(S_v=78\) cm/s。}}
+<div class="check"><b>極限檢查</b>：\(T\to0\)（極硬）：\(S_d\to0\)，\(S_a\to\) 地表最大加速度（跟著地面動）✔；\(T\to\infty\)（極軟）：\(S_a\to0\)，\(S_d\to\) 地表最大位移（質量不動、地面相對它移動）✔</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜MDOF 性質</div>
+<ol>
+<li><b>畫</b>：兩個振態形狀並排。</li>
+<li><b>種子</b>：S6（兩個特徵方程交叉左乘再相減）；S2 的能量版；S3 的 \(\xi=C/2M\omega\)。</li>
+<li><b>推</b>：拆 \(\{1\}=\sum\Gamma_n\boldsymbol\phi_n\) ⇒ \(\Gamma=L/M\)、\(M^{eff}=L^2/M\)；\(T_{max}=V_{max}\) ⇒ Rayleigh 商；\(C_n=(a_0+a_1\omega_n^2)M_n\) ⇒ \(\xi_n\)。</li>
+<li><b>檢查</b>：\(\sum M^{eff}=\) 總質量；Rayleigh 商 ≥ 精確；Rayleigh 阻尼兩點中間偏小。</li>
+</ol>
+</div>
+
+<h3>5.6　🙈 蓋住重推</h3>
+<details><summary>Q1　為什麼 \(\mathbf C=a_0\mathbf M+a_1\mathbf K\) 可以讓各振態分開算？</summary>
+<p>\(\boldsymbol\phi_i^T\mathbf C\boldsymbol\phi_j=a_0\boldsymbol\phi_i^T\mathbf M\boldsymbol\phi_j+a_1\boldsymbol\phi_i^T\mathbf K\boldsymbol\phi_j=0\)（\(i\ne j\)），阻尼矩陣也對角化，方程不再耦合。</p></details>
+<details><summary>Q2　為什麼 Rayleigh 商是上界？</summary>
+<p>猜的形狀 \(=\sum c_n\boldsymbol\phi_n\)，商 \(=\dfrac{\sum c_n^2\omega_n^2M_n}{\sum c_n^2M_n}\)，是各 \(\omega_n^2\) 的加權平均，所以 ≥ 最小的 \(\omega_1^2\)。</p></details>
+<details><summary>Q3　（2003-1 ㈡）動力分析要取幾個振態？</summary>
+<p>取到有效質量累計達總質量的 90% 以上（建築耐震規範）；這正是 \(\sum M_n^{eff}=\sum m\) 的應用。</p></details>
+<details><summary>Q4　\(S_a\) 以 \(g\) 給，算 \(S_d\) 要注意什麼？</summary>
+<p>先乘 \(g\)（9.81 m/s²）再除 \(\omega^2\)：\(S_d=\dfrac{S_a\,g}{\omega^2}=\dfrac{T^2}{4\pi^2}S_ag\)。</p></details>
+
+<h3>5.7　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>正交性寫成 \(\boldsymbol\phi_i^T\boldsymbol\phi_j=0\)（少了 \(\mathbf M\)）</td><td>對「質量」正交；質量不均時兩者不同</td></tr>
+<tr><td>2</td><td>Γ 不寫正規化</td><td>寫明正規化；用 \(\Gamma\boldsymbol\phi\) 或有效質量自我檢查</td></tr>
+<tr><td>3</td><td>Rayleigh 阻尼代 Hz</td><td>一律 rad/s</td></tr>
+<tr><td>4</td><td>以為 Rayleigh 阻尼讓所有振態都是 5%</td><td>只有指定的兩點是 5%；中間較小、外側較大</td></tr>
+<tr><td>5</td><td>把擬加速度當成絕對加速度</td><td>\(S_a=\omega^2S_d\)；有阻尼時與最大絕對加速度略有差</td></tr>
+</table>
+</section>

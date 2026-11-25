@@ -1,0 +1,84 @@
+<section id="ch3">
+<h2 class="c">第 3 章　模態疊加歷時：拆開算、加回來</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$\mathbf u=\sum_n\boldsymbol\phi_nq_n,\quad M_n\ddot q_n+C_n\dot q_n+K_nq_n=\boldsymbol\phi_n^T\mathbf p(t),\quad q_n(0)=\frac{\boldsymbol\phi_n^T\mathbf M\mathbf u(0)}{M_n},\quad \dot q_n(0^+)=\frac{\boldsymbol\phi_n^T\mathbf I}{M_n}$$
+要記的只有 <span class="kw">S3 正交解耦</span>；每一個 \(q_n\) 的方程就是一台台車（<span class="kw">S1</span>），用 U1-1 的方法解。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>模態座標、解耦方程、初始條件展開</td><td><span class="tg must">必背</span></td><td>3.1、3.2</td></tr>
+<tr><td>脈衝的模態初速 \(\boldsymbol\phi_n^T\mathbf I/M_n\)</td><td><span class="tg must">必背</span></td><td>3.3</td></tr>
+<tr><td>簡諧外力（地動）的模態穩態振幅</td><td><span class="tg must">必背</span></td><td>3.4</td></tr>
+</table>
+<p class="note">證據：8 題用到正交與模態座標；只有 2015-3 印出 \(M_1\)、\(L_1\) 與模態方程。<a href="problems-view/SD-2019-2.html">2019-2</a>、<a href="problems-view/SD-2021-3.html">2021-3</a> 的模態展開係數要自己寫。</p>
+</div>
+
+<h3 class="c">3.1　解耦：一棟樓變成幾台台車</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S3　正交解耦</div>
+$$\mathbf u=\sum_n\boldsymbol\phi_nq_n(t),\qquad \boldsymbol\phi_i^T\mathbf M\boldsymbol\phi_j=\boldsymbol\phi_i^T\mathbf K\boldsymbol\phi_j=0\ (i\ne j)$$
+</div>
+{{FIG:fig3_1|圖 3-1｜任何運動都能寫成振態的組合；代進運動方程、左乘 \(\boldsymbol\phi_n^T\) 後，正交性把其他振態全部消去，剩下一台質量 \(M_n\)、勁度 \(K_n\)、外力 \(\boldsymbol\phi_n^T\mathbf p\) 的台車。}}
+<div class="derive">
+<p><span class="st">①</span> 代入 \(\mathbf M\ddot{\mathbf u}+\mathbf C\dot{\mathbf u}+\mathbf K\mathbf u=\mathbf p\)，左乘 \(\boldsymbol\phi_n^T\)。</p>
+<p><span class="st">②</span> 正交性（阻尼也假設正交，例如 Rayleigh 阻尼）⇒ \(\boxed{M_n\ddot q_n+C_n\dot q_n+K_nq_n=\boldsymbol\phi_n^T\mathbf p}\)，\(K_n=\omega_n^2M_n\)。</p>
+<p><span class="st">③</span> 除以 \(M_n\)：\(\ddot q_n+2\xi_n\omega_n\dot q_n+\omega_n^2q_n=\dfrac{\boldsymbol\phi_n^T\mathbf p}{M_n}\)——標準台車方程。</p>
+</div>
+
+<h3 class="c">3.2　初始條件：把起始形狀拆成振態（<a href="problems-view/SD-2021-3.html">2021-3</a>、<a href="problems-view/SD-2019-2.html">2019-2</a>）</h3>
+<div class="derive">
+<p><span class="st">①</span> \(\mathbf u(0)=\sum\boldsymbol\phi_nq_n(0)\)；左乘 \(\boldsymbol\phi_n^T\mathbf M\) ⇒ \(\boxed{q_n(0)=\dfrac{\boldsymbol\phi_n^T\mathbf M\mathbf u(0)}{M_n}}\)（速度同理）。</p>
+<p><span class="st">②</span> 無阻尼、放手（初速 0）：\(q_n(t)=q_n(0)\cos\omega_nt\)。</p>
+<p><span class="st">③</span> \(\mathbf u(t)=\sum\boldsymbol\phi_nq_n(0)\cos\omega_nt\)；層剪力 \(V_i=k_i(u_i-u_{i-1})\) 也照樣疊加。</p>
+</div>
+<div class="box"><b>2021-3 的答案長相</b>　一樓拉 6 cm 放開，三樓層剪力 \(V_3(t)=k[\cos\omega_1t-2\cos\omega_2t+\cos\omega_3t]\)（cm）。三個餘弦頻率不同，最大值上界取 \(|1|+|2|+|1|=4\)：\(|V_3|_{max}\le4k\) cm（題解）。</div>
+<div class="why"><b>白話</b>：拉一樓再放開，這個起始形狀「像」哪個振態，那個振態就分到比較多。只拉一樓（形狀很不像第 1 振態），高振態會分到很多，所以頂層剪力裡第 2 振態的係數反而最大。</div>
+
+<h3 class="c">3.3　脈衝：每個振態得到自己的那一份衝量（<a href="problems-view/SD-2016-1.html">2016-1</a>）</h3>
+<div class="box"><b>題目</b>　兩層剪力屋 \(\mathbf M=\mathrm{diag}(2m,m)\)、\(\mathbf K=\begin{bmatrix}3k&-k\\-k&k\end{bmatrix}\)，\(m=2000\) kg、\(k=10^5\) N/m；頂層受三角脈衝。求位移反應（近似解即可，說明原因）。</div>
+<div class="derive">
+<p><span class="st">①</span> 頻率振態：\(\omega=5,\ 10\) rad/s；\(\boldsymbol\phi_1=\{1,2\}\)、\(\boldsymbol\phi_2=\{1,-1\}\)；\(M_1=2m+4m=6m=12{,}000\)、\(M_2=3m=6{,}000\) kg。</p>
+<p><span class="st">②</span> 脈衝很短（\(t_d\ll T_1=1.26\) s）⇒ 衝量近似（U1-1 第 4 章），以脈衝形心 \(t_c=0.1\) s 為作用時刻。頂層衝量 \(\mathbf I=\{0,\ I\}\)，\(I=24{,}000\) N·s。</p>
+<p><span class="st">③</span> 模態初速：\(\dot q_1=\dfrac{\boldsymbol\phi_1^T\mathbf I}{M_1}=\dfrac{2I}{12000}=4\) m/s，\(\dot q_2=\dfrac{-I}{6000}=-4\) m/s；\(q_n=\dfrac{\dot q_n}{\omega_n}\sin\omega_n(t-0.1)\)：\(q_1=0.8\sin5(t-0.1)\)、\(q_2=-0.4\sin10(t-0.1)\)。</p>
+<p><span class="st">④</span> 加回來：\(v_1=q_1+q_2=0.8\sin5(t-0.1)-0.4\sin10(t-0.1)\)；\(v_2=2q_1-q_2=1.6\sin5(t-0.1)+0.4\sin10(t-0.1)\) m。</p>
+</div>
+{{FIG:fig3_2|圖 3-2｜頂層位移由兩個振態相加（calcs.py 逐點計算）。兩條虛線的峰不會同時出現，實際最大 1.76 m，小於兩者峰值直接相加的 2.0 m——<b>這就是第 5 章 SRSS 的伏筆</b>。}}
+
+<h3 class="c">3.4　簡諧外力：每個振態各自放大（<a href="problems-view/SD-2013-4.html">2013-4</a>、<a href="problems-view/SD-2022-1.html">2022-1</a>）</h3>
+<div class="derive">
+<p><span class="st">①</span> 地面簡諧 \(\ddot u_g=A\sin\bar\omega t\)：模態外力 \(=-\boldsymbol\phi_n^T\mathbf M\boldsymbol\iota A\sin\bar\omega t=-L_nA\sin\bar\omega t\)。</p>
+<p><span class="st">②</span> 無阻尼穩態：\(q_n=\dfrac{-\Gamma_nA}{\omega_n^2-\bar\omega^2}\sin\bar\omega t=\dfrac{\Gamma_nA}{\bar\omega^2-\omega_n^2}\sin\bar\omega t\)（就是 \(R_d\) 換到模態座標）。</p>
+<p><span class="st">③</span> 有阻尼（2022-1，\(\xi=3\%\)）：振幅 \(\dfrac{|\boldsymbol\phi_n^Tp_0|}{K_n}R_d(r_n,\xi)\)，相位各不同。\(\bar\omega\) 介於 \(\omega_1\)、\(\omega_2\) 之間時（2013-4），兩個振態的係數符號相反——一個在共振「前」、一個在共振「後」。</p>
+</div>
+<div class="trap"><b>陷阱</b>：穩態簡諧反應各振態<b>同頻率</b>（都是 \(\bar\omega\)），無阻尼時同相或反相，可以直接代數相加（求某瞬間的位移、基底彎矩）；這和地震反應譜「峰不同時」不一樣——只有後者需要 SRSS。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜模態疊加</div>
+<ol>
+<li><b>畫</b>：一棟樓 ＝ 幾台台車相加。</li>
+<li><b>種子</b>：S3 正交，S1 台車。</li>
+<li><b>推</b>：左乘 \(\boldsymbol\phi_n^T\)：\(M_n\ddot q_n+K_nq_n=\boldsymbol\phi_n^T\mathbf p\)；初值 \(\boldsymbol\phi_n^T\mathbf M\mathbf u_0/M_n\)；衝量 \(\boldsymbol\phi_n^T\mathbf I/M_n\)。</li>
+<li><b>檢查</b>：\(t=0\) 代回 \(\sum\boldsymbol\phi_nq_n(0)=\mathbf u(0)\)。</li>
+</ol>
+</div>
+
+<h3>3.5　🙈 蓋住重推</h3>
+<details><summary>Q1　2016-1 若脈衝改加在一樓，哪個振態分到比較多？</summary>
+<p>\(\boldsymbol\phi^T\mathbf I\)：第 1 振態 \(1\cdot I\)、第 2 振態 \(1\cdot I\)，但 \(M_1=2M_2\)，所以第 2 振態的模態初速是第 1 振態的 2 倍。</p></details>
+<details><summary>Q2　為什麼需要「阻尼也正交」的假設？</summary>
+<p>若 \(\boldsymbol\phi_i^T\mathbf C\boldsymbol\phi_j\ne0\)，模態方程會透過阻尼項互相耦合，就不能分開解。Rayleigh 阻尼或直接指定振態阻尼比都滿足正交。</p></details>
+<details><summary>Q3　（2008-1 ㈣）振態疊加反應譜法需要建立阻尼矩陣嗎？</summary>
+<p>不需要。只要各振態的阻尼比（決定用哪條反應譜），不需要 \(\mathbf C\) 本身。</p></details>
+
+<h3>3.6　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>\(q_n(0)=\boldsymbol\phi_n^T\mathbf u(0)\)（少了 M、沒除 \(M_n\)）</td><td>\(\boldsymbol\phi_n^T\mathbf M\mathbf u(0)/M_n\)</td></tr>
+<tr><td>2</td><td>脈衝的模態外力用 \(\mathbf I\) 本身</td><td>投影：\(\boldsymbol\phi_n^T\mathbf I\)</td></tr>
+<tr><td>3</td><td>歷時題也用 SRSS</td><td>歷時可以逐時刻精確相加；SRSS 是反應譜（只知峰值）時的近似</td></tr>
+</table>
+</section>

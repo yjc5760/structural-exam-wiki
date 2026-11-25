@@ -1,0 +1,70 @@
+<section id="ch4">
+<h2 class="k">第 4 章　容量設計：\(M_{pr}\)、\(V_e\)、強柱弱梁</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$M_{pr}=A_s(1.25f_y)\Bigl(d-\frac{a_{pr}}2\Bigr)\ (\phi=1),\qquad V_e=\frac{M_{pr,1}+M_{pr,2}}{\ell_n}+\frac{w_u\ell_n}{2},\qquad \sum M_{nc}\ge1.2\sum M_{nb}$$
+要記的只有 <span class="kw">S3 容量設計</span>：先選定保險絲，再用保險絲「可能的最大強度」去設計其他所有東西。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>機率彎矩強度與容量設計剪力；\(V_c=0\) 條件</td><td><span class="tg must">必背</span></td><td>4.1、4.2</td></tr>
+<tr><td>強柱弱梁 1.2</td><td><span class="tg must">必背</span></td><td>4.3</td></tr>
+</table>
+<p class="note">證據：2007-4、<a href="problems-view/SD-2013-2.html">2013-2</a>、<a href="problems-view/SD-2025-4.html">2025-4</a> 都沒印；\(M_{pr}\) 用 1.25fy、φ＝1.0，地震剪力過半時 \(V_c=0\)。</p>
+</div>
+
+<h3 class="k">4.1　\(M_{pr}\)：保險絲可能有多強</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S3　容量設計</div>
+$$\text{保險絲（梁端撓曲塑鉸）的最大可能強度}\ \Longrightarrow\ \text{其他構件（梁剪力、柱、接頭）的設計需求}$$
+</div>
+<div class="derive">
+<p><span class="st">①</span> 設計時用 \(f_y\)、\(\phi\) 是為了「保證最少有這麼強」；容量設計要的卻是「最多可能多強」——實際鋼筋強度高於規定值、應變硬化 ⇒ 用 \(1.25f_y\)、不打折 \(\phi=1\)。</p>
+<p><span class="st">②</span> \(a_{pr}=\dfrac{1.25A_sf_y}{0.85f'_cb}\)，\(M_{pr}=1.25A_sf_y(d-a_{pr}/2)\)。</p>
+<p><span class="st">③</span> 2013-2（calcs.py）：A 端負彎矩 5-D25 → 61.20、B 端負彎矩 6-D25 → 71.21、正彎矩 3-D25 → 38.95 tf·m。<b>用實配鋼筋，不是需求量</b>。</p>
+</div>
+
+<h3 class="k">4.2　\(V_e\)：梁的剪力要比塑鉸形成時更強</h3>
+{{FIG:fig4_1|圖 4-1｜上：側移向右時，A 端正彎矩、B 端負彎矩同時達到 \(M_{pr}\)，加上重力載重。下：剪力大小（紅：此方向，由 A 端 2.36 增到 B 端 32.06 tf；藍虛：反方向，A 端 30.50 tf）；兩端 \(2h\) 塑鉸區的箍筋設計強度 35.25 tf（紫底）。}}
+<div class="derive">
+<p><span class="st">①</span> 梁自由體圖（S1 的梁版）：兩端力矩和 \(\div\ell_n\) 得地震剪力 \(V_{eq}\)，再加重力簡支剪力 \(w_u\ell_n/2\)。</p>
+<p><span class="st">②</span> 兩個側移方向取大：\(V_{eq}=\dfrac{38.95+71.21}{6.40}=17.21\) tf；\(w_u=1.2(2.7)+1.0(1.4)=4.64\) tf/m，\(V_g=14.85\) tf ⇒ \(\boxed{V_e=32.06\ \text{tf}}\)。</p>
+<p><span class="st">③</span> \(V_{eq}/V_e=0.537\ge\tfrac12\)（且軸力小）⇒ 塑鉸區 \(V_c=0\)：反覆塑性轉動後混凝土剪力機制退化，全部由箍筋承擔。</p>
+<p><span class="st">④</span> \(V_s=V_e/0.75=42.75\) tf；\(s_{max}=\min(53/4,\,15,\,6\times2.54)=13.25\) cm ⇒ D13 兩肢 @12 cm：\(\phi V_s=35.25\ge32.06\) ✔；\(2h\) 外剪力 \(32.06-4.64\times1.2=26.49\) tf，可計 \(V_c\)，D13 @25 cm。</p>
+</div>
+<div class="trap"><b>陷阱</b>：① 用需求 \(A_s\) 算 \(M_{pr}\)（偏小、不保守）；② 用分析剪力而不用 \(V_e\)；③ 塑鉸區仍計 \(V_c\)；④ 把設計剪力折減到距柱面 \(d\) 處。</div>
+
+<h3 class="k">4.3　強柱弱梁：讓保險絲在梁、不在柱</h3>
+{{FIG:fig4_2|圖 4-2｜左：強柱弱梁，塑鉸出現在各層梁端與柱底，形成梁機構，要很大的頂層位移才會崩塌。右：柱比梁弱，塑鉸集中在一層柱的上下端，形成層機構（軟層），小變形就崩塌。}}
+<div class="derive">
+<p><span class="st">①</span> 在每個梁柱接頭，柱的彎矩強度和要大於梁的：\(\boxed{\sum M_{nc}\ge1.2\sum M_{nb}}\)。</p>
+<p><span class="st">②</span> 為什麼 1.2 而不是 1.0：梁實際強度可能比 \(M_n\) 高（材料超強、樓板鋼筋參與），高振態會讓柱彎矩分布偏離分析；1.2 是讓「柱不先降伏」有足夠把握的規範係數。</p>
+<p><span class="st">③</span> 柱剪力、梁柱接頭剪力也一樣：以梁端 \(M_{pr}\) 推算柱與接頭的需求（同一個容量設計邏輯）。</p>
+</div>
+<div class="why"><b>論述題答法（2007-4、2025-4）</b>：「小震不壞、中震可修、大震不倒」（U2-2 教科書第 1 章）靠的是韌性；韌性要靠<b>可控制的破壞模式</b>：撓曲優先於剪力（容量設計剪力）、梁優先於柱（強柱弱梁）、構件優先於接頭。每一句都對應一條式子：\(V_e\)、1.2、接頭剪力。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜容量設計</div>
+<ol>
+<li><b>畫</b>：梁自由體圖，兩端 \(M_{pr}\)、重力 \(w_u\)。</li>
+<li><b>種子</b>：S3＋S1。</li>
+<li><b>推</b>：\(M_{pr}\)（1.25fy、φ＝1、實配）→ \(V_e=\sum M_{pr}/\ell_n+w_u\ell_n/2\) → \(V_c=0\) 判斷 → 箍筋；\(\sum M_{nc}\ge1.2\sum M_{nb}\)。</li>
+<li><b>檢查</b>：兩個側移方向取大；用淨跨 \(\ell_n\)。</li>
+</ol>
+</div>
+<h3>4.4　🙈 蓋住重推</h3>
+<details><summary>Q1　為什麼 \(M_{pr}\) 不乘 φ？</summary>
+<p>φ 是為了讓設計強度偏低（保守）；容量設計要的是上限，乘 φ 反而不保守。</p></details>
+<details><summary>Q2　（2007-4）柱剪力破壞與強柱弱梁有什麼關係？</summary>
+<p>強柱弱梁避免柱彎曲降伏；容量設計剪力則避免柱在彎曲降伏前剪壞。兩者都在確保柱維持完整、讓塑鉸出現在梁端。</p></details>
+<h3>4.5　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>\(M_{pr}\) 用 \(f_y\)、乘 0.9</td><td>\(1.25f_y\)、\(\phi=1\)</td></tr>
+<tr><td>2</td><td>\(V_e\) 用跨長 L</td><td>淨跨 \(\ell_n\)</td></tr>
+<tr><td>3</td><td>強柱弱梁寫 1.0</td><td>1.2</td></tr>
+</table>
+</section>

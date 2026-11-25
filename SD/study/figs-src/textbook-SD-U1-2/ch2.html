@@ -1,0 +1,93 @@
+<section id="ch2">
+<h2 class="k">第 2 章　剛體系統：轉動慣量、Lagrange、倒擺</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$I_G=\frac{mL^2}{12},\quad I_O=I_G+md^2;\qquad \mathbf M_{\text{剛性桿}}=\frac m6\begin{bmatrix}2&1\\1&2\end{bmatrix};\qquad \text{倒擺 }mL^2\ddot\theta+(kL^2-mgL)\theta=0$$
+要記的是 <span class="kw">S2 能量</span>（Lagrange）；轉動慣量 \(mL^2/12\) 是材料力學的數字錨點。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>轉動慣量 \(mL^2/12\)、\(m(a^2+b^2)/12\)、平行軸 \(I_G+md^2\)</td><td><span class="tg must">必背</span></td><td>2.1</td></tr>
+<tr><td>Lagrange 方程（動能、位能、虛功）</td><td><span class="tg must">必背</span></td><td>2.2</td></tr>
+<tr><td>重力的負勁度：倒擺 \(k_{eff}=kL^2-mgL>0\)</td><td><span class="tg must">必背</span></td><td>2.3</td></tr>
+</table>
+<p class="note">證據：Lagrange 4 題（2002-1、2004-4、2010-1、2024-2）都要自己寫 T、V、δW；轉動慣量 5 題（2003-4 樓版 \(J=ma^2/6\)、2004-3、2016-2 繞端點 \(ml^2/3\)、2019-1、2024-2）從沒印；<a href="problems-view/SD-2017-2.html">2017-2</a> 題文明言忽略轉動慣量——M 奇異、要靜態濃縮（第 3 章），是同一觀念的反面考法。</p>
+</div>
+
+<h3>2.1　轉動慣量：轉動版的質量</h3>
+<p>平移時「抵抗加速的程度」是 \(m\)；轉動時是 \(I=\int r^2dm\)：<b>質量離轉軸越遠，越難轉</b>。</p>
+{{FIG:fig2_1|圖 2-1｜四個要會寫的轉動慣量。細桿繞中心 \(mL^2/12\)；繞端點時質心離軸 \(L/2\)，平行軸加 \(m(L/2)^2\) 得 \(mL^2/3\)；矩形板繞中心 \(m(a^2+b^2)/12\)（正方形 \(ma^2/6\)，2003-4 的剛性樓版）。}}
+<div class="derive">
+<p><span class="st">①</span> 細桿繞中心：\(I=\int_{-L/2}^{L/2}x^2\,\dfrac mL\,dx=\dfrac mL\cdot\dfrac{2}{3}\Bigl(\dfrac L2\Bigr)^3=\boxed{\dfrac{mL^2}{12}}\)。</p>
+<p><span class="st">②</span> 平行軸：\(I_O=\int(\mathbf r_G+\mathbf r')^2dm=I_G+md^2\)（交叉項 \(\int\mathbf r'dm=0\)，因為 G 是質心）。繞端點：\(\dfrac{mL^2}{12}+\dfrac{mL^2}{4}=\boxed{\dfrac{mL^2}{3}}\)。</p>
+<p><span class="st">③</span> 矩形板：兩個方向各貢獻一根細桿的量 ⇒ \(\dfrac{m(a^2+b^2)}{12}\)。</p>
+</div>
+
+<h3>2.2　剛性桿兩自由度：動能直接給出質量矩陣</h3>
+{{FIG:fig2_3|圖 2-2｜<a href="problems-view/SD-2024-2.html">SD-2024-2</a> 吊橋斷面模型：剛性桿兩端各一支彈簧，自由度取兩端位移 \(u_1\)、\(u_2\)。剛體的運動＝質心平移 \(\bar v\)＋繞質心轉動 \(\theta\)，各寫一份動能。}}
+<div class="derive">
+<p><span class="st">①</span> 幾何：\(\bar v=\dfrac{u_1+u_2}{2}\)，\(\theta=\dfrac{u_2-u_1}{L}\)（小角度）。</p>
+<p><span class="st">②</span> 動能：\(T=\tfrac12m\dot{\bar v}^2+\tfrac12\dfrac{mL^2}{12}\dot\theta^2=\dfrac m8(\dot u_1+\dot u_2)^2+\dfrac m{24}(\dot u_2-\dot u_1)^2=\dfrac m6(\dot u_1^2+\dot u_1\dot u_2+\dot u_2^2)\)。</p>
+<p><span class="st">③</span> Lagrange 的第一項 \(\dfrac{d}{dt}\dfrac{\partial T}{\partial\dot u_i}\) 就是 \(\sum_jM_{ij}\ddot u_j\)，\(M_{ij}=\dfrac{\partial^2T}{\partial\dot u_i\partial\dot u_j}\) ⇒ \(\boxed{\mathbf M=\dfrac m6\begin{bmatrix}2&1\\1&2\end{bmatrix}}\)；位能 \(V=\tfrac12k_1u_1^2+\tfrac12k_2u_2^2\) ⇒ \(\mathbf K=\mathrm{diag}(k_1,k_2)\)。</p>
+<p><span class="st">④</span> 外力（虛功）：中點受 \(p_t\)（向上）與力矩 \(p_\theta\)（逆時針）。\(\delta W=p_t\,\delta\bar v+p_\theta\,\delta\theta=p_t\dfrac{\delta u_1+\delta u_2}{2}+p_\theta\dfrac{\delta u_2-\delta u_1}{L}\) ⇒ \(Q_1=\dfrac{p_t}2-\dfrac{p_\theta}L\)，\(Q_2=\dfrac{p_t}2+\dfrac{p_\theta}L\)。</p>
+</div>
+<div class="check"><b>兩條自我檢查</b><br>
+・\(\mathbf M\) 的元素總和 \(=\dfrac m6(2+1+1+2)=m\)：兩端一起上移 1（剛體平移）時動能 \(=\tfrac12m\)，總質量對 ✔<br>
+・改用 \((\bar v,\theta)\) 座標：\(m\ddot{\bar v}+(k_1+k_2)\bar v+\dfrac{(k_2-k_1)L}{2}\theta=p_t\)；\(k_1=k_2\) 時平移與轉動解耦，符合對稱直覺 ✔</div>
+<div class="why"><b>為什麼非對角項不是 0？</b>只動 \(u_1\) 時，桿子同時平移又轉動，另一端也有加速度需求——一端的慣性會「拖」另一端。<b>用端點當自由度，質量矩陣就會耦合；用質心平移＋轉動當自由度，質量矩陣才是對角的。</b>選哪一組自由度是題目給的，換座標只是驗算。</div>
+
+<h3>2.3　重力的負勁度：倒擺（<a href="problems-view/SD-2010-1.html">SD-2010-1</a>）</h3>
+<p>剛性桿下端鉸接、上端有質量 \(m\)，水平彈簧 \(k\) 拉住。桿子一歪，彈簧拉回、重力卻把它往外拉——重力在這裡是一支<b>負的彈簧</b>。</p>
+{{FIG:fig2_2|圖 2-3｜左：倒擺。右：位能 \(V/(mgL)\) 對 \(\theta\) 的曲線（\(r=kL/mg\)，calcs.py 逐點計算）。<b>\(\theta=0\) 永遠是平衡點，但只有在「谷底」才穩定</b>：\(r>1\) 是谷（綠），\(r=1\) 變平（紫），\(r<1\) 變成峰（紅，一碰就倒）。}}
+<div class="derive">
+<p><span class="st">①</span> 位能：重力 \(mgL\cos\theta\)（質量升高為正），彈簧伸長 \(L\sin\theta\)：\(V=mgL\cos\theta+\tfrac12k(L\sin\theta)^2\)。動能 \(T=\tfrac12mL^2\dot\theta^2\)。</p>
+<p><span class="st">②</span> \(\dfrac{\partial V}{\partial\theta}=-mgL\sin\theta+kL^2\sin\theta\cos\theta\approx(kL^2-mgL)\theta\)（小角度）。</p>
+<p><span class="st">③</span> \(\boxed{mL^2\ddot\theta+(kL^2-mgL)\theta=0}\)，\(\omega^2=\dfrac km-\dfrac gL\)；穩定條件 \(\boxed{k>\dfrac{mg}{L}}\)。</p>
+</div>
+<div class="check"><b>極限檢查</b><br>
+・沒有重力（\(g=0\)）：\(\omega^2=k/m\)，就是質量接彈簧 ✔<br>
+・把擺倒過來掛（一般單擺，質量在下）：重力項變號，\(\omega^2=\dfrac km+\dfrac gL\)，重力幫忙 ✔；\(k=0\) 時 \(\omega=\sqrt{g/L}\) 就是單擺公式 ✔</div>
+<div class="why"><b>「從靜平衡量測可以消去重力」什麼時候不成立？</b>
+台車或吊掛的彈簧：重力是常數力，只造成一個靜位移，從靜平衡量就消失（第 1、4 章）。
+倒擺、擺錘：重力的力臂 \(L\sin\theta\) 隨位移改變，它提供的是<b>勁度</b>（\(\mp mgL\)），不是常數力，<b>消不掉</b>。這和第 5 章「軸壓讓柱子變軟」（幾何勁度）是同一件事。</div>
+
+<h3>2.4　同類題一覽</h3>
+<table>
+<tr><th style="width:15%">題號</th><th>系統</th><th>關鍵一步</th></tr>
+<tr><td><a href="problems-view/SD-2002-1.html">2002-1</a></td><td>柔性基座（旋轉彈簧 \(k_\theta\)）＋上部質量、軸向剛性柱</td><td>自由度取基座轉角與柱頂位移；動能含 \(m(h\dot\theta+\dot u)^2\) 的耦合</td></tr>
+<tr><td><a href="problems-view/SD-2016-2.html">2016-2</a></td><td>兩支剛性梁以四根彈簧連接</td><td>繞端點轉動慣量 \(ml^2/3\)；單位轉角法組 K</td></tr>
+<tr><td><a href="problems-view/SD-2019-1.html">2019-1</a></td><td>剛性梁鉸接＋彈簧懸吊圓球</td><td>梁質量 0 與 \(m\) 兩種情況：梁的 \(mL^2/3\) 加進轉動自由度</td></tr>
+<tr><td><a href="problems-view/SD-2004-3.html">2004-3</a></td><td>梁 AB＋剛性桿 CD＋無質量連桿</td><td>剛性桿的動能以梁的形狀函數表示（第 5 章）</td></tr>
+</table>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜剛體系統</div>
+<ol>
+<li><b>畫</b>：剛體的位置用自由度表示（質心 \(\bar v\)、轉角 \(\theta\)）；標出彈簧伸長與重力高度。</li>
+<li><b>種子</b>：S2，\(T\)、\(V\)、\(\delta W\)。</li>
+<li><b>推</b>：\(T=\tfrac12m\dot{\bar v}^2+\tfrac12I_G\dot\theta^2\) ⇒ \(M_{ij}=\partial^2T/\partial\dot u_i\partial\dot u_j\)；\(V\) 的二次微分 ⇒ K（重力給 \(\mp mgL\)）；\(\delta W\) ⇒ Q。</li>
+<li><b>檢查</b>：M 元素總和＝總質量（剛體平移）；\(g=0\) 回到純彈簧。</li>
+</ol>
+</div>
+
+<h3>2.5　🙈 蓋住重推</h3>
+<details><summary>Q1　均勻細桿繞端點的轉動慣量？</summary>
+<p>\(mL^2/12+m(L/2)^2=mL^2/3\)。</p></details>
+<details><summary>Q2　2024-2 若自由度改成 \(\bar v\) 與 \(\theta\)，質量矩陣？</summary>
+<p>\(\mathrm{diag}(m,\ mL^2/12)\)：質心平移與繞質心轉動的動能沒有交叉項。</p></details>
+<details><summary>Q3　倒擺 \(k=mg/L\) 時會怎樣？</summary>
+<p>\(k_{eff}=0\)，\(\omega=0\)：中性平衡，輕推就停在新位置，不會回來（位能曲線在原點變平）。</p></details>
+
+<h3>2.6　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>剛性桿動能只寫 \(\tfrac12m\bar v^2\)</td><td>要加 \(\tfrac12I_G\dot\theta^2\)（2024-2）</td></tr>
+<tr><td>2</td><td>繞端點仍用 \(mL^2/12\)</td><td>平行軸：\(+md^2\)</td></tr>
+<tr><td>3</td><td>倒擺從靜平衡量就把重力消掉</td><td>重力在倒擺裡是勁度（\(-mgL\)），消不掉</td></tr>
+<tr><td>4</td><td>虛功的力矩項正負號對調</td><td>畫出 \(\delta u_1=1\)、\(\delta u_2=1\) 兩個虛位移，各看 \(p_\theta\) 做正功還是負功</td></tr>
+</table>
+</section>

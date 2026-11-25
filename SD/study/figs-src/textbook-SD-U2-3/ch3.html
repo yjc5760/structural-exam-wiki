@@ -1,0 +1,56 @@
+<section id="ch3">
+<h2 class="t">第 3 章　連續分佈：簡支梁的 β、ζ 與理論頻率比較</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$u(x)=\frac{w}{24EI}x(L^3-2Lx^2+x^3),\quad \beta=\frac{w^2L^5}{120EI},\quad \zeta=\frac{31w^3L^9}{362880E^2I^2},\quad T_{\text{規範}}=2\pi\sqrt{\frac{31}{3024}\cdot\frac{wL^4}{gEI}}$$
+並和理論 \(\omega_1=\dfrac{\pi^2}{L^2}\sqrt{EI/m}\) 比較（比值 0.9993）。要記的是 <span class="kw">S2</span>。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>簡支梁均佈載重撓度曲線、\(u_{max}=5wL^4/384EI\)</td><td><span class="tg must">必背</span></td><td>3.1</td></tr>
+<tr><td>簡支梁理論 \(\omega_1=\dfrac{\pi^2}{L^2}\sqrt{EI/m}\)、\(\phi_1=\sin(\pi x/L)\)</td><td><span class="tg give">會給</span></td><td>3.2</td></tr>
+</table>
+<p class="note">證據：<a href="problems-view/SD-2024-4.html">2024-4</a> 影像印出 \(\omega_1\) 與規範式，撓度曲線沒印；要你積分 β、ζ 並比較（比值 0.9993）。</p>
+</div>
+
+<h3 class="t">3.1　靜撓度：四次微分方程、四個邊界條件</h3>
+<div class="derive">
+<p><span class="st">①</span> \(EIu''''=w\)（梁受均佈載重），積分四次：\(EIu=\dfrac{w x^4}{24}+C_1\dfrac{x^3}{6}+C_2\dfrac{x^2}2+C_3x+C_4\)。</p>
+<p><span class="st">②</span> 簡支：\(u(0)=u(L)=0\)、\(u''(0)=u''(L)=0\) ⇒ \(C_4=0\)、\(C_2=0\)、\(C_1=-wL/2\)、\(C_3=wL^3/24\)。</p>
+<p><span class="st">③</span> \(\boxed{u(x)=\dfrac{w}{24EI}(x^4-2Lx^3+L^3x)}\)；中點 \(u=\dfrac{5wL^4}{384EI}\) ✔（材料力學熟悉的值）。</p>
+</div>
+
+<h3 class="t">3.2　積分 β、ζ，與理論解比較</h3>
+<div class="derive">
+<p><span class="st">①</span> \(\beta=\int_0^Lwu\,dx=\dfrac{w^2}{24EI}\int_0^L(x^4-2Lx^3+L^3x)dx=\dfrac{w^2}{24EI}\cdot\dfrac{L^5}{5}=\boxed{\dfrac{w^2L^5}{120EI}}\)。</p>
+<p><span class="st">②</span> \(\zeta=\int_0^Lwu^2dx=\boxed{\dfrac{31w^3L^9}{362880E^2I^2}}\)（展開平方逐項積分；calcs.py 數值積分 \(8.5428\times10^{-5}\) 與 \(31/362880\) 一致 ✔）。</p>
+<p><span class="st">③</span> \(\dfrac{\zeta}{\beta}=\dfrac{31}{3024}\cdot\dfrac{wL^4}{EI}\) ⇒ \(T_{\text{規範}}=2\pi\sqrt{\dfrac{31}{3024}\dfrac{wL^4}{gEI}}\)。</p>
+<p><span class="st">④</span> 理論：\(m=w/g\)，\(T_1=\dfrac{2\pi}{\omega_1}=2\pi\sqrt{\dfrac{1}{\pi^4}\dfrac{wL^4}{gEI}}\)。比值 \(\dfrac{T_{\text{規範}}}{T_1}=\sqrt{\dfrac{31\pi^4}{3024}}=\boxed{0.9993}\)。</p>
+</div>
+{{FIG:fig3_1|圖 3-1｜均佈載重的靜撓度（藍）和正弦振態（紅虛線）幾乎重合；紫線把差值放大 20 倍才看得出來。所以規範式只比理論週期短 0.07%。}}
+<div class="why"><b>說明合理性（2024-4 ㈡）</b>：① 規範式是 Rayleigh 法，以自重靜撓度近似振態；② 慣性力 \(\omega^2(w/g)\phi\) 和自重 \(w\) 的分布都是均勻的，形狀幾乎相同；③ Rayleigh 法頻率為上界、週期為下界，0.9993 &lt; 1 符合 ✔；④ 誤差千分之一，工程上完全足夠，而且不必解特徵值問題。</div>
+<div class="trap"><b>陷阱</b>：考卷寫 \(u(t)\) 其實要的是 \(u(x)\)（題目正本判讀）；\(\zeta\) 是考卷用的符號（2002 年版用 \(\gamma\)），兩者相同。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜簡支梁</div>
+<ol>
+<li><b>畫</b>：均佈 w、撓度曲線與 sin 重疊。</li>
+<li><b>種子</b>：S2。</li>
+<li><b>推</b>：\(EIu''''=w\)＋四個邊界 ⇒ \(u\)；\(\int u=L^5/120\cdot w/EI\)；\(\zeta/\beta=31/3024\cdot wL^4/EI\)。</li>
+<li><b>檢查</b>：中點 5/384；比值 \(\sqrt{31\pi^4/3024}=0.9993<1\)。</li>
+</ol>
+</div>
+<h3>3.3　🙈 蓋住重推</h3>
+<details><summary>Q1　若用 \(\sin(\pi x/L)\) 代入規範式，週期會等於理論值嗎？</summary>
+<p>會。以真實振態為形狀，Rayleigh 商就是精確值。但「載重 w 的靜撓度」是規範的作法，因為設計時還不知道振態。</p></details>
+<h3>3.4　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>邊界只用 \(u(0)=u(L)=0\)</td><td>簡支還有兩端彎矩為 0（\(u''=0\)）</td></tr>
+<tr><td>2</td><td>比值大於 1 也說合理</td><td>規範週期應略短（頻率上界）</td></tr>
+</table>
+</section>

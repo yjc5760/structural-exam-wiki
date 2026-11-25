@@ -1,0 +1,63 @@
+<section id="ch6">
+<h2>第 6 章　調諧質量阻尼器（TMD）</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$\omega_d=\sqrt{k_d/m_d}\approx\omega_n;\qquad f_{opt}=\frac{1}{1+\mu},\quad\xi_{d,opt}=\sqrt{\frac{3\mu}{8(1+\mu)^3}}\quad(\mu=m_d/M)$$
+要記的是 <span class="kw">S7</span>：在主結構上掛一個小質量，調到和主結構同頻率，讓它的彈簧力去抵銷外力。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>無阻尼吸振器 \(\omega_d=\omega\) ⇒ \(X_0=0\)</td><td><span class="tg must">必背</span></td><td>6.1</td></tr>
+<tr><td>最佳調頻／阻尼（Den Hartog）</td><td><span class="tg give">會給</span></td><td>6.2</td></tr>
+<tr><td>TMD 適用與限制（論述）</td><td><span class="tg must">必背</span></td><td>6.3</td></tr>
+</table>
+<p class="note">證據：<a href="problems-view/SD-2006-4.html">2006-4</a> 問減震原理與「質量過輕的缺點」、2013-1 ㈡ 問颱風舒適性的原理，都是論述、零公式——但能寫出 6.1 的推導最有說服力。Den Hartog 式本庫考題未要求代數字，記住「略低於 1、質量越大越低」即可。推導細節見 <a href="textbook-SD-U1-1.html">U1-1 教科書</a>第 3 章。</p>
+</div>
+
+<h3>6.1　無阻尼吸振器：主結構完全不動（<a href="problems-view/SD-2006-4.html">2006-4</a>）</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S7　小質量調到同頻率</div>
+$$\text{主結構方程的右邊：}F_0\sin\omega t+k_d(x_d-x)\ \Rightarrow\ \text{讓 }k_d(x_d-x)=-F_0\sin\omega t$$
+</div>
+{{FIG:fig6_2|圖 6-1｜外力作用在主結構 \(M\)，吸振器的彈簧力剛好等值反向。}}
+<div class="derive">
+<p><span class="st">①</span> 穩態 \(x=X\sin\omega t\)、\(x_d=X_d\sin\omega t\)。吸振器方程：\((k_d-m_d\omega^2)X_d=k_dX\)。</p>
+<p><span class="st">②</span> 主結構方程：\((K+k_d-M\omega^2)X-k_dX_d=F_0\)。消去 \(X_d\)：\(X=\dfrac{F_0(k_d-m_d\omega^2)}{(K+k_d-M\omega^2)(k_d-m_d\omega^2)-k_d^2}\)。</p>
+<p><span class="st">③</span> 分子為零 ⇔ \(\boxed{\omega_d=\sqrt{k_d/m_d}=\omega}\) ⇒ \(X=0\)；代回 ①（\(X=0\)）：\(k_dX_d=-F_0\)——吸振器的彈簧力 \(k_d(x_d-x)=-F_0\sin\omega t\)，正好抵銷外力。調到主結構共振頻率 \(\omega_n=\sqrt{K/M}\)，就在原本最危險的頻率讓主結構不動。</p>
+</div>
+<div class="check"><b>極限檢查</b>：\(m_d\to0\) 但 \(k_d/m_d\) 固定：吸振器振幅 \(F_0/k_d\to\infty\)——質量太小，行程會爆；實務 μ 取 1%～5% 的原因。<b>2006-4 答法</b>：質量過輕 ⇒ ① 吸振器行程（相對位移）極大、空間與彈簧難以設計；② 兩個新共振峰靠得很近、有效頻寬變窄，主結構頻率稍有估計誤差或變化就失調；③ 可附加的最佳阻尼小（\(\xi_{d,opt}\) 隨 μ 減小），峰值壓不下來（圖 6-2：μ 1% 峰值 9.7，5% 為 5.4）。</div>
+
+<h3>6.2　加上阻尼：一個高峰拆成兩個矮峰</h3>
+{{FIG:fig6_1|圖 6-2｜主結構 ξ = 2%，掛上最佳調頻的 TMD（calcs.py）。無阻尼吸振器在 \(r=1\) 處為零、但兩側長出兩個新共振峰；加阻尼把兩峰壓平。μ = 5% 時峰值從 25 降到 5.4。}}
+<div class="why"><b>為什麼要調得略低（\(f<1\)）</b>：無阻尼吸振器的兩個新峰高度不等；把 \(\omega_d\) 稍微往下調，讓兩峰等高，再選阻尼讓兩峰都在最高點水平——這就是 Den Hartog 的等高點法，結果 \(f_{opt}=1/(1+\mu)\)。</div>
+
+<h3>6.3　TMD 能做什麼、不能做什麼（2013-1 ㈡）</h3>
+<table>
+<tr><th style="width:20%"></th><th>說明</th></tr>
+<tr><td>適合</td><td>單一振態主控、窄頻激振：高樓風振、人行橋、樓板機械振動；台北 101 的球形 TMD 主要對付風</td></tr>
+<tr><td>限制</td><td>只對調到的那個頻率有效（頻寬窄）；地震寬頻、且結構進入非線性後週期變長會「失調」；需大行程空間；μ 1%～5% 的質量本身是載重</td></tr>
+<tr><td>與隔震比較</td><td>隔震改變結構本身（延長週期），對寬頻地震有效；TMD 在原結構上加一個反向振動的子系統</td></tr>
+</table>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜TMD</div>
+<ol>
+<li><b>畫</b>：M＋彈簧＋小 m_d；一個高峰拆兩個矮峰。</li>
+<li><b>種子</b>：S7。</li>
+<li><b>推</b>：2DOF 穩態，主結構振幅分子 \(k_d-m_d\omega^2\)；為零 ⇒ 調頻。</li>
+<li><b>檢查</b>：吸振器振幅 \(F_0/k_d\)，μ 不能太小。</li>
+</ol>
+</div>
+<h3>6.4　🙈 蓋住重推</h3>
+<details><summary>Q1　μ = 2%，最佳調頻比？</summary><p>\(1/1.02=0.980\)；\(\xi_d=\sqrt{0.06/(8\times1.0612)}=8.4\%\)。</p></details>
+<details><summary>Q2　結構在大地震中降伏，TMD 還有效嗎？</summary><p>降伏後勁度下降、週期變長，與 TMD 頻率失調，效果大減；所以 TMD 主要用於風與小震使用性。</p></details>
+<h3>6.5　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>TMD 調到外力頻率以外的值</td><td>調到主結構頻率（略低）</td></tr>
+<tr><td>2</td><td>以為 TMD 對寬頻地震很有效</td><td>窄頻；失調問題</td></tr>
+</table>
+</section>

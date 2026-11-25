@@ -1,0 +1,104 @@
+<section id="ch5">
+<h2 class="c">第 5 章　廣義座標與 Rayleigh 法：猜一個形狀，無限變成一</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$m^*=\int_0^Lm\psi^2dx+\sum M_j\psi_j^2,\quad k^*=\int_0^LEI(\psi'')^2dx+\sum k_j\psi_j^2-N\int_0^L(\psi')^2dx,\quad p^*=\int_0^Lp\,\psi\,dx,\quad \omega^2\approx\frac{k^*}{m^*}$$
+要記的只有 <span class="kw">S4 猜一個形狀</span>，以及「動能、位能、虛功各寫一次」（<span class="kw">S2</span>）。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>廣義質量、廣義勁度、廣義荷重</td><td><span class="tg must">必背</span></td><td>5.1</td></tr>
+<tr><td>Rayleigh 商與上界性質；以靜力撓度當形狀</td><td><span class="tg must">必背</span></td><td>5.2、5.3</td></tr>
+<tr><td>軸力的幾何勁度 \(-N\int(\psi')^2\)、\(N_{cr}\)</td><td><span class="tg must">必背</span></td><td>5.4</td></tr>
+<tr><td>連續梁 PDE、簡支梁 \(\omega_n=\dfrac{n^2\pi^2}{L^2}\sqrt{EI/\bar m}\)</td><td><span class="tg must">必背</span></td><td>5.5</td></tr>
+</table>
+<p class="note">證據：5 題主考點的積分式都沒印。考卷三次印了形狀函數（2004-3 sin、2009-1 Ψ、2017-4 \(x^2/L^2\)），積分式從不給——<b>給了形狀函數 ≠ 給了公式</b>。2023-1 印的是要你證明的結果 \(\omega_n\)、\(\phi_n\)。</p>
+</div>
+
+<h3 class="c">5.1　m*、k*、p*：把連續體壓成一個台車</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S4　假設形狀</div>
+$$u(x,t)=\psi(x)\,Z(t)\qquad(\psi\text{ 給形狀、}Z\text{ 給大小；一個 }Z\text{ 就是一個自由度})$$
+</div>
+<div class="derive">
+<p><span class="st">①</span> <b>動能</b>：每一小段 \(m\,dx\) 的速度 \(\psi\dot Z\)：\(T=\tfrac12\int m\psi^2dx\cdot\dot Z^2\)；集中質量 \(M_j\) 再加 \(\tfrac12M_j\psi_j^2\dot Z^2\) ⇒ \(m^*=\int m\psi^2dx+\sum M_j\psi_j^2\)。</p>
+<p><span class="st">②</span> <b>位能</b>：彎曲應變能 \(\tfrac12\int EI\kappa^2dx\)，曲率 \(\kappa=\psi''Z\) ⇒ \(k^*=\int EI(\psi'')^2dx\)；彈簧 \(k_j\) 加 \(k_j\psi_j^2\)。</p>
+<p><span class="st">③</span> <b>虛功</b>：荷重 \(p\,dx\) 走 \(\psi\,\delta Z\) ⇒ \(p^*=\int p\psi\,dx\)。代 Lagrange：\(\boxed{m^*\ddot Z+k^*Z=p^*(t)}\)。</p>
+</div>
+<div class="why"><b>白話</b>：\(m^*\) 是「把每一點的質量按它跟著動多少（\(\psi^2\)）打折後加總」。端點動 1、根部不動，所以懸臂柱的 \(m^*\) 遠小於總質量 \(\bar mL\)（2009-1 只有 0.236 倍）。\(k^*\) 則是把彎曲的「彎多少」平方後加總。</div>
+<div class="box"><b>題目</b>（<a href="problems-view/SD-2009-1.html">SD-2009-1</a>）　懸臂柱給 \(\Psi(x)=(x/L)^2(3/2-x/2L)\)，均佈質量 \(\bar m\)、勁度 \(EI\)、均佈荷重 \(\bar p(t)\)。求 \(m^*\)、\(k^*\)、\(p^*\)。</div>
+<div class="derive">
+<p><span class="st">①</span> \(m^*=\bar m\int_0^L\Psi^2dx=\dfrac{33}{140}\bar mL=0.236\,\bar mL\)。</p>
+<p><span class="st">②</span> \(\Psi''=\dfrac{3}{L^2}\Bigl(1-\dfrac xL\Bigr)\) ⇒ \(k^*=EI\dfrac{9}{L^4}\int_0^L(1-x/L)^2dx=\boxed{\dfrac{3EI}{L^3}}\)。</p>
+<p><span class="st">③</span> \(p^*=\bar p\int_0^L\Psi dx=\dfrac38\bar pL\)。calcs.py 數值積分得 0.2357、2.9996、0.3750 ✔</p>
+</div>
+<div class="check"><b>檢查</b>：\(k^*=3EI/L^3\) 正是懸臂端點勁度——因為 \(\Psi\) 就是端點受集中力的撓度曲線。認出這一點，就能一眼檢查答案。</div>
+
+<h3 class="c">5.2　形狀怎麼猜：滿足幾何邊界，越像越好</h3>
+{{FIG:fig5_1|圖 5-1｜懸臂柱的四個形狀（端點正規化為 1）。三個猜測都滿足 \(\psi(0)=\psi'(0)=0\)；均佈載重撓度（綠）和真正振態（藍虛線）幾乎重合。}}
+{{FIG:fig5_2|圖 5-2｜用不同形狀算均勻懸臂梁的 \(\omega_1\) 係數（calcs.py 數值積分）。\(x^2/L^2\) 高估 27%，端點集中力撓度高估 1.5%，均佈載重撓度只高估 0.4%。<b>全部高於精確值 3.516——Rayleigh 法是上界。</b>}}
+<div class="derive">
+<p><span class="st">①</span> 必要條件：滿足<b>幾何邊界條件</b>（懸臂 \(\psi(0)=\psi'(0)=0\)；簡支 \(\psi(0)=\psi(L)=0\)）。</p>
+<p><span class="st">②</span> 最好的形狀：「把慣性力當外力」的靜撓度——自重（均佈）或集中重量所造成的撓度曲線（<a href="problems-view/SD-2013-3.html">2013-3</a> 沒給形狀，題解就用均佈載重撓度 \(\psi\propto6L^2x^2-4Lx^3+x^4\)）。</p>
+<p><span class="st">③</span> 為什麼是上界：任何猜測形狀都混進了高振態（U1-1 第 5 章），\(k^*/m^*\) 是各 \(\omega_n^2\) 的加權平均 ≥ \(\omega_1^2\)。<b>考卷問「為何是上界」（<a href="problems-view/SD-2017-4.html">2017-4</a>）答這一句。</b></p>
+</div>
+
+<h3 class="c">5.3　範例：懸臂柱＋頂部質量（<a href="problems-view/SD-2017-4.html">SD-2017-4</a>）</h3>
+<div class="box"><b>題目</b>　橋柱 \(EI\)、均佈質量 \(m\)、高 \(L\)，頂部質量 \(M\)；給 \(\phi(x)=x^2/L^2\)。㈠ 頻率；㈡ 若等於地動頻率會怎樣？</div>
+<div class="derive">
+<p><span class="st">①</span> \(\phi''=2/L^2\) ⇒ \(K^*=\int_0^LEI\dfrac{4}{L^4}dx=\dfrac{4EI}{L^3}\)。</p>
+<p><span class="st">②</span> \(M^*=M\phi(L)^2+\int_0^Lm\dfrac{x^4}{L^4}dx=M+\dfrac{mL}{5}\)。</p>
+<p><span class="st">③</span> \(\boxed{\bar\omega=\sqrt{\dfrac{4EI}{L^3(M+mL/5)}}}\)；㈡ 共振，無阻尼時振幅隨時間線性增長，有阻尼時約放大 \(1/2\xi\)。</p>
+</div>
+<div class="check"><b>極限檢查</b>：\(m\to0\) 只剩頂部質量：\(2\sqrt{EI/ML^3}\)，真值 \(\sqrt{3EI/ML^3}\)，比值 \(2/\sqrt3=1.155\)（高估 15.5%，仍是上界 ✔）。原因：\(x^2/L^2\) 的曲率是常數，真實曲率在頂端為 0——形狀不夠像。</div>
+<div class="box"><b>題目</b>（<a href="problems-view/SD-2013-3.html">SD-2013-3</a>）　懸臂梁中點掛重量 \(W\)（重量要除 \(g\)！）。用均佈載重撓度為形狀，得 \(\omega^2=\dfrac{144EI/5L^3}{104mL/45+289W/256g}\)。兩個極限：\(W\to0\) 時係數 12.46（精確 12.36，+0.8%）；\(mL\to0\) 時 25.51（精確 24，+6.3%）✔ 兩者都在上方。</div>
+
+<h3 class="c">5.4　軸壓：幾何勁度讓柱子變軟（<a href="problems-view/SD-2002-2.html">SD-2002-2</a>）</h3>
+<p>受軸壓 \(N\) 的梁側向變形時，軸力沿著變形後的斜率有一個「推出去」的分量（SS-U1-1 教科書的挫屈種子）。在能量上，軸壓做的功是 \(\tfrac12N\int(u')^2dx\)，讓位能減少：</p>
+<div class="derive">
+<p><span class="st">①</span> \(k^*=\int EI(\psi'')^2dx-N\int(\psi')^2dx\)。</p>
+<p><span class="st">②</span> 簡支 \(\psi=\sin(\pi x/L)\)：\(\int(\psi'')^2=\dfrac{\pi^4}{2L^3}\)、\(\int(\psi')^2=\dfrac{\pi^2}{2L}\)（calcs.py 數值積分 48.705、4.935 ✔）⇒ \(k^*=\dfrac{\pi^4EI}{2L^3}\Bigl(1-\dfrac{N}{N_{cr}}\Bigr)\)，\(\boxed{N_{cr}=\dfrac{\pi^2EI}{L^2}}\)。</p>
+<p><span class="st">③</span> \(m^*=\dfrac{mL}2+M\)（跨中 \(\psi=1\)）⇒ \(\boxed{T=\dfrac{T_0}{\sqrt{1-N/N_{cr}}}}\)，\(T_0=\dfrac2\pi\sqrt{\dfrac{L^3(mL+2M)}{EI}}\)。</p>
+</div>
+{{FIG:fig5_3|圖 5-3｜軸壓比對週期的影響。頻率平方（藍虛線）隨 \(N/N_{cr}\) 線性下降；週期（紅）在 \(N/N_{cr}=0.5\) 時長 1.41 倍、0.75 時 2 倍，<b>\(k^*=0\) 時 \(\omega=0\)、\(T\to\infty\)：動力上的「頻率歸零」就是靜力上的挫屈</b>。}}
+<div class="check"><b>極限檢查</b>：\(N=0\) 回到 \(T_0\) ✔；\(N\to N_{cr}\) 週期無限大 ✔；改成軸拉（\(N<0\)）勁度增加、週期變短（像繃緊的弦）✔</div>
+
+<h3 class="c">5.5　連續梁：不猜形狀，直接解（<a href="problems-view/SD-2023-1.html">SD-2023-1</a>）</h3>
+<div class="derive">
+<p><span class="st">①</span> 取微段 \(dx\)：剪力差 \(=\) 慣性力＋外力，彎矩—曲率 \(M=EI\,w''\)，合起來：\(\boxed{\bar m\dfrac{\partial^2w}{\partial t^2}+EI\dfrac{\partial^4w}{\partial x^4}=p(x,t)}\)。</p>
+<p><span class="st">②</span> 自由振動分離變數 \(w=\phi(x)q(t)\)：\(EI\phi''''/\bar m\phi=-\ddot q/q=\omega^2\)（兩邊各只含 \(x\) 與 \(t\)，必為常數）。</p>
+<p><span class="st">③</span> 簡支 \(\phi(0)=\phi(L)=0\)、\(\phi''(0)=\phi''(L)=0\) ⇒ \(\phi_n=\sin\dfrac{n\pi x}{L}\)，\(\boxed{\omega_n=\dfrac{n^2\pi^2}{L^2}\sqrt{\dfrac{EI}{\bar m}}}\)。模態力 \(Q_n=\int p\,\phi_ndx\)，中點集中力 \(P\) ⇒ \(Q_n=P\sin(n\pi/2)\)。</p>
+</div>
+{{FIG:fig5_4|圖 5-4｜簡支梁前三個振態。頻率依 \(n^2\) 增加（1：4：9）。<b>中點集中力只能推動中點有位移的振態</b>：\(n=2\) 中點為 0，完全不被激發。}}
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜廣義座標</div>
+<ol>
+<li><b>畫</b>：滿足幾何邊界的形狀 \(\psi\)，標出集中質量、彈簧、軸力位置。</li>
+<li><b>種子</b>：S4＋S2。</li>
+<li><b>推</b>：動能 ⇒ \(m^*=\int m\psi^2+\sum M\psi^2\)；位能 ⇒ \(k^*=\int EI\psi''^2+\sum k\psi^2-N\int\psi'^2\)；虛功 ⇒ \(p^*=\int p\psi\)。</li>
+<li><b>檢查</b>：\(k^*\) 是否等於你認得的勁度（端點力撓度 ⇒ \(3EI/L^3\)）；結果必須 ≥ 精確值。</li>
+</ol>
+</div>
+
+<h3>5.6　🙈 蓋住重推</h3>
+<details><summary>Q1　為什麼 \(\psi=x^2/L^2\) 給的頻率比 Ψ 高那麼多？</summary>
+<p>\(x^2\) 的曲率處處相同，懸臂真實曲率在根部最大、端點為 0；形狀越不像，混進越多高振態，Rayleigh 商越偏高。</p></details>
+<details><summary>Q2　懸臂柱頂端加彈簧 \(k_s\)，\(k^*\) 怎麼改？</summary>
+<p>加 \(k_s\psi(L)^2\)（彈簧位能 \(\tfrac12k_s(\psi(L)Z)^2\)）。</p></details>
+<details><summary>Q3　簡支梁受均佈荷重 \(p_0\)，第 1 振態的模態力？</summary>
+<p>\(\int_0^Lp_0\sin(\pi x/L)dx=2p_0L/\pi\)；偶數振態為 0（對稱荷重不激發反對稱振態）。</p></details>
+
+<h3>5.7　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>\(m^*\) 用 \(\int m\psi\,dx\)</td><td>動能是速度平方：\(\int m\psi^2dx\)</td></tr>
+<tr><td>2</td><td>漏了集中質量的 \(M\psi_j^2\)</td><td>端點質量的 \(\psi=1\)，中點質量要代 \(\psi(L/2)\)</td></tr>
+<tr><td>3</td><td>重量 W 直接當質量</td><td>\(W/g\)</td></tr>
+<tr><td>4</td><td>形狀只滿足 \(\psi(0)=0\)</td><td>懸臂還要 \(\psi'(0)=0\)</td></tr>
+<tr><td>5</td><td>說 Rayleigh 法「可能低估」</td><td>永遠是上界；算出低於精確值表示算錯</td></tr>
+</table>
+</section>

@@ -1,0 +1,81 @@
+<section id="ch1">
+<h2>第 1 章　單自由度：四種反應的計算流程</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出四種單自由度題目的解法骨架：</b>
+自由振動（初始條件）、脈衝（衝量或分段）、簡諧（\(R_d\)、\(TR\)）、反應譜（\(S_d=S_a/\omega^2\)、\(F=mS_a\)）。
+要記的只有 <span class="kw">S1 一台台車</span>；推導細節都在 <a href="textbook-SD-U1-1.html">U1-1 教科書</a>，這一章專講「怎麼算到答案」。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:16%">推導在</th></tr>
+<tr><td>\(\omega=\sqrt{k/m}\)、\(T\)、\(f\)、\(\xi=c/2m\omega\)；等效勁度（柱、串並聯）</td><td><span class="tg must">必背</span></td><td>U1-1 第 1 章、U1-2 第 1 章</td></tr>
+<tr><td>自由振動解；\(\xi=0\)：\(u_{max}=\sqrt{u_0^2+(\dot u_0/\omega)^2}\)；對數衰減</td><td><span class="tg must">必背</span></td><td>U1-1 第 2 章</td></tr>
+<tr><td>Duhamel 與衝量近似</td><td><span class="tg must">必背</span></td><td>U1-1 第 4 章</td></tr>
+<tr><td>\(R_d\)、相位、共振 \(1/2\xi\)；基礎激振與 \(TR\)</td><td><span class="tg must">必背</span></td><td>U1-1 第 3 章</td></tr>
+<tr><td>\(S_d=S_a/\omega^2\)、\(F=mS_a\)</td><td><span class="tg must">必背</span></td><td>本章 1.3</td></tr>
+</table>
+<p class="note">證據：SDOF 基本參數 27 題用到、24 年沒印過；自由振動 6 題、基礎激振 6 題都沒印；MF 只有 2008-3 印過。</p>
+</div>
+
+<h3>1.1　先問：題目是哪一種外力？</h3>
+<table>
+<tr><th style="width:16%">外力</th><th style="width:30%">解法骨架</th><th>最常錯在</th><th style="width:20%">代表題</th></tr>
+<tr><td>無（初始條件）</td><td>\(A=u_0\)，\(B=(\dot u_0+\xi\omega u_0)/\omega_D\)</td><td>初始位移的基準（落下質量 \(u_0=-\delta_{st}\)）</td><td>2010-2、2017-1</td></tr>
+<tr><td>脈衝</td><td>先算 \(t_d/T\)：小 → 衝量 \(\dot u_0=I/m\)；大 → 分段＋自由振動找峰</td><td>最大值取在外力結束時</td><td>2003-2、2021-2</td></tr>
+<tr><td>簡諧</td><td>\(U=\dfrac{p_0}{k}R_d\)；地面簡諧 → \(TR\)</td><td>Hz 沒乘 \(2\pi\)；力傳導少了阻尼力</td><td>2005-4、2007-3、2009-2、2011-2</td></tr>
+<tr><td>地震（反應譜）</td><td>\(T\to S_a\to S_d=S_a/\omega^2\)，\(F=mS_a\)</td><td>\(S_a\) 以 g 計沒乘 \(g\)</td><td>2012-1、2018-1</td></tr>
+</table>
+
+<h3>1.2　倒過來用 \(\omega=\sqrt{k/m}\)：由週期反推質量與勁度</h3>
+<div class="box"><b>題目</b>（<a href="problems-view/SD-2012-1.html">SD-2012-1</a>）　結構週期 1.2 s；加質量 1806 kg 後變 1.4 s（勁度不變）。求原質量與勁度。</div>
+{{FIG:fig1_1|圖 1-1｜\(T^2=4\pi^2m/k\)：勁度不變時，<b>週期平方與質量成正比</b>（一條過原點的直線）。兩個點就能決定斜率與原點位置。}}
+<div class="derive">
+<p><span class="st">①</span> \(\dfrac{T_2^2}{T_1^2}=\dfrac{m+\Delta m}{m}\)：\(\dfrac{1.96}{1.44}=1.3611=1+\dfrac{1806}{m}\)。</p>
+<p><span class="st">②</span> \(m=\dfrac{1806}{0.3611}=\boxed{5{,}001\ \text{kg}}\)。</p>
+<p><span class="st">③</span> \(k=\dfrac{4\pi^2m}{T_1^2}=\boxed{137.1\ \text{kN/m}}\)。</p>
+</div>
+<div class="check"><b>同型題</b>：<a href="problems-view/SD-2008-1.html">2008-1</a> 兩層樓由 \(T_1=0.197\)、\(T_2=0.0752\) s 反推 \(k\)：用 \(T_1\) 得 \(3.995\times10^6\)、用 \(T_2\) 得 \(4.000\times10^6\) N/m，兩者一致 ⇒ \(k=4\times10^6\)（\(p=4\)、\(q=6\)）。<b>有兩個資料就用一個算、一個驗。</b></div>
+
+<h3>1.3　反應譜：一張圖讀出位移與力</h3>
+{{FIG:fig1_2|圖 1-2｜反應譜的換算鏈。考卷給 \(S_a\)；位移、力、擬速度全都由它乘除 \(\omega\) 得到。}}
+<div class="derive">
+<p><span class="st">①</span> 反應譜上每一點＝「週期 \(T\)、阻尼 \(\xi\) 的台車在這場地震下的最大反應」。</p>
+<p><span class="st">②</span> 最大位移 \(S_d\)；正弦振盪時加速度峰值多乘 \(\omega^2\)：\(S_a=\omega^2S_d\) ⇒ \(\boxed{S_d=\dfrac{S_a}{\omega^2}=\dfrac{T^2}{4\pi^2}S_a}\)。</p>
+<p><span class="st">③</span> 最大彈簧力 \(F=kS_d=m\omega^2S_d=\boxed{mS_a}\)：<b>設計地震力就是質量乘譜加速度</b>。</p>
+</div>
+<div class="trap"><b>陷阱</b>：\(S_a=0.3g\)、\(T=1\) s：\(S_d=\dfrac{1}{4\pi^2}\times0.3\times9.81=0.0745\) m。忘了乘 \(g\) 會得到 0.0076（差 9.81 倍）。2014-1、2019-3 都考這一步。</div>
+
+<h3>1.4　共振＋降伏：先彈性、再檢查有沒有超過降伏強度（<a href="problems-view/SD-2021-4.html">2021-4</a>）</h3>
+<div class="derive">
+<p><span class="st">①</span> 週期不確定（0.1～0.3 s）時，取地表加速度主要頻率落在範圍內的那個週期——<b>最不利的就是共振</b>，彈性位移約 \(\dfrac{1}{2\xi}\times\) 靜位移（地動簡諧時用 \(\ddot u_g\) 的振幅換成等效力 \(m\ddot u_{g0}\)）。</p>
+<p><span class="st">②</span> 彈性需求力 \(F_e=ku_{el}\) 與降伏強度 \(R_y\) 比較；\(F_e>R_y\) 就降伏。</p>
+<p><span class="st">③</span> 短週期不適用等位移；題解以等能量或時間歷程估韌性需求（結果 \(u_{max}\approx7.45\) cm、韌性 2.61）。等位移與等能量的道理見第 5 章。</p>
+</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜SDOF 計算</div>
+<ol>
+<li><b>畫</b>：台車；寫下外力型式。</li>
+<li><b>種子</b>：S1；\(\omega=\sqrt{k/m}\)。</li>
+<li><b>推</b>：自由→初始條件；脈衝→\(t_d/T\)；簡諧→\(R_d\)、\(TR\)；地震→\(S_d=S_a/\omega^2\)、\(F=mS_a\)。</li>
+<li><b>檢查</b>：單位（重量除 \(g\)、Hz 乘 \(2\pi\)、\(S_a\) 乘 \(g\)）。</li>
+</ol>
+</div>
+
+<h3>1.5　🙈 蓋住重推</h3>
+<details><summary>Q1　質量加倍，反應譜上的設計力一定加倍嗎？</summary>
+<p>不一定。\(F=mS_a\)，質量加倍、週期變 \(\sqrt2\) 倍，\(S_a\) 可能變（下降段時變小），力增加不到兩倍。</p></details>
+<details><summary>Q2　（2007-3）限制樓板加速度 0.05g，要讓結構更硬還是更軟？</summary>
+<p>看外力頻率在共振的哪一側：外力頻率高於結構頻率（\(r>\sqrt2\)）時更軟可降低傳到上部的加速度；反之要更硬，讓 \(r\) 遠小於 1。</p></details>
+
+<h3>1.6　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>\(S_a\) 以 g 計直接除 \(\omega^2\)</td><td>先乘 \(g\)</td></tr>
+<tr><td>2</td><td>加質量題以為 \(T\propto m\)</td><td>\(T^2\propto m\)</td></tr>
+<tr><td>3</td><td>短週期也用等位移法則</td><td>短週期用等能量或時間歷程（第 5 章）</td></tr>
+</table>
+</section>

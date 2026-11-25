@@ -1,0 +1,68 @@
+<section id="ch3">
+<h2 class="k">第 3 章　RC 特殊抗彎構架梁：撓曲配筋與規定</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$R_n=\frac{M_u}{\phi bd^2},\quad \rho=\frac{0.85f'_c}{f_y}\Bigl[1-\sqrt{1-\frac{2R_n}{0.85f'_c}}\Bigr];\quad M_n^+\ge\tfrac12M_n^-,\ M_n^\pm\ge\tfrac14M_{n,max};\ \rho\le0.025;\ s\le\min\bigl(\tfrac d4,6d_b,15\text{ cm}\bigr)$$
+要記的是 <span class="kw">S3 容量設計</span>：梁端是預定的「保險絲」，所有規定都在讓它能大轉角而不脆斷。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>矩形梁撓曲配筋</td><td><span class="tg must">必背</span></td><td>3.1</td></tr>
+<tr><td>特殊抗彎構架梁的幾何與配筋規定</td><td><span class="tg must">必背</span></td><td>3.2、3.3</td></tr>
+</table>
+<p class="note">證據：<a href="problems-view/SD-2013-2.html">2013-2</a>、<a href="problems-view/SD-2022-2.html">2022-2</a> 都沒印；2022-2 整題就是背條文。2013-2 考卷彎矩沒說是否已含載重因數（題目正本判讀），題解視為設計彎矩 \(M_u\)。</p>
+</div>
+
+<h3 class="k">3.1　撓曲配筋：力平衡＋力矩平衡</h3>
+<div class="derive">
+<p><span class="st">①</span> 等值矩形應力塊（試驗等值，不是推導）：壓力 \(C=0.85f'_cab\)；拉力 \(T=A_sf_y\)。平衡 \(C=T\) ⇒ \(a=\dfrac{A_sf_y}{0.85f'_cb}\)。</p>
+<p><span class="st">②</span> 力矩：\(M_n=A_sf_y(d-a/2)\)。令 \(\phi M_n=M_u\)、\(\rho=A_s/bd\) 解二次式 ⇒ \(\boxed{\rho=\dfrac{0.85f'_c}{f_y}\Bigl[1-\sqrt{1-\dfrac{2R_n}{0.85f'_c}}\Bigr]}\)，\(R_n=\dfrac{M_u}{\phi bd^2}\)。</p>
+<p><span class="st">③</span> 例：A 端負彎矩 40 tf·m：\(R_n=\dfrac{4\times10^6}{0.9(40)(53)^2}=39.6\) kgf/cm² ⇒ \(\rho=0.01037\)，\(A_s=21.98\) cm² ⇒ 選 5-D25（25.34 cm²，\(\phi M_n=45.4\) tf·m）。</p>
+</div>
+<table>
+<tr><th>斷面</th><th>\(M_u\)</th><th>需求 \(A_s\)（cm²）</th><th>選配</th><th>\(\phi M_n\)</th></tr>
+<tr><td>A 端 −</td><td>40</td><td>21.98</td><td>5-D25</td><td>45.4</td></tr>
+<tr><td>A 端 +</td><td>20</td><td>10.44</td><td>3-D25</td><td>28.5</td></tr>
+<tr><td>跨中 +</td><td>19</td><td>9.89</td><td>3-D25</td><td>28.5</td></tr>
+<tr><td>B 端 −</td><td>48</td><td>26.99</td><td>6-D25</td><td>53.2</td></tr>
+<tr><td>B 端 +</td><td>17</td><td>8.81</td><td>3-D25（規定控制）</td><td>28.5</td></tr>
+</table>
+<p class="note">calcs.py 計算；\(\varepsilon_t\ge0.005\)，拉力控制 \(\phi=0.9\)。</p>
+{{FIG:fig3_1|圖 3-1｜分析彎矩（黑）與實配設計強度（彩色）。B 端正彎矩只需 8.81 cm²（2-D25 就夠），但規定 \(M_n^+\ge\tfrac12M_n^-\) 要求 \(M_n^+\ge29.6\) tf·m，2-D25 只有 21.6，所以改配 3-D25。}}
+
+<h3 class="k">3.2　為什麼要那些規定：讓保險絲能燒很久</h3>
+<table>
+<tr><th style="width:36%">規定</th><th>防什麼／道理</th></tr>
+<tr><td>\(\rho\le0.025\)；拉力控制</td><td>鋼筋太多 → 中性軸深、混凝土先壓碎，轉角能力小</td></tr>
+<tr><td>上下各至少 2 根連續筋</td><td>地震反覆，彎矩可能正負變號；保持完整性</td></tr>
+<tr><td>柱面 \(M_n^+\ge\tfrac12M_n^-\)</td><td>地震往反方向推時，柱面變成正彎矩，底筋不能太少</td></tr>
+<tr><td>任一斷面 \(M_n^\pm\ge\tfrac14\) 最大柱面 \(M_n\)</td><td>彎矩包絡變化難預測，任何位置都要有基本強度</td></tr>
+<tr><td>梁寬 \(b_w\le c_2+2\min(c_2,0.75c_1)\)、淨跨 \(\ell_n\ge4d\)</td><td>力能有效傳入柱；太深太短的梁剪力主導，不能形成撓曲塑鉸</td></tr>
+<tr><td>柱面起 \(2h\) 閉合箍，\(s\le\min(d/4,6d_b,15\text{ cm})\)，第一支 ≤ 5 cm</td><td>塑鉸區保護層剝落後，箍筋要圍束核心、防縱筋挫屈、承擔全部剪力</td></tr>
+</table>
+{{FIG:fig3_2|圖 3-2｜箍筋區立面。塑鉸區（柱面起 \(2h\)）密箍，外面放寬。}}
+<div class="why"><b>\(6d_b\) 的道理</b>：塑鉸區縱筋在反覆拉壓下會挫屈，箍筋就是它的側撐；間距越小（相對於鋼筋直徑），挫屈長度越短。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜耐震梁</div>
+<ol>
+<li><b>畫</b>：梁的彎矩包絡（兩端正負都有）與箍筋區。</li>
+<li><b>種子</b>：S3，梁端是保險絲。</li>
+<li><b>推</b>：\(C=T\)、\(M_n=A_sf_y(d-a/2)\) ⇒ \(\rho\)；½、¼、0.025、2h、\(d/4\)、\(6d_b\)、15 cm。</li>
+<li><b>檢查</b>：每條規定說得出「防什麼」。</li>
+</ol>
+</div>
+<h3>3.3　🙈 蓋住重推</h3>
+<details><summary>Q1　（2022-2）列出特殊抗彎構架梁的主要規定。</summary>
+<p>幾何：淨跨 ≥ 4d、梁寬限制；撓曲：\(\rho\le0.025\)、上下各 2 根連續、柱面 \(M_n^+\ge\tfrac12M_n^-\)、任一斷面 \(\ge\tfrac14\)；搭接不得在節點內與塑鉸區；橫向：塑鉸區 2h 閉合箍、間距 \(d/4\)、\(6d_b\)、15 cm，第一支 5 cm 內；剪力依 \(M_{pr}\) 容量設計（第 4 章）。</p></details>
+<h3>3.4　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>正彎矩只照分析需求配</td><td>檢核 \(\tfrac12M_n^-\) 與 \(\tfrac14\)</td></tr>
+<tr><td>2</td><td>箍筋間距只看剪力</td><td>塑鉸區另有 \(d/4\)、\(6d_b\)、15 cm 上限</td></tr>
+</table>
+</section>

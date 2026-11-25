@@ -1,0 +1,75 @@
+<section id="ch4">
+<h2>第 4 章　隔震設計程序：\(T_{eD}\)、\(D_D\)、迭代、\(D_{TM}\)、\(D'_D\)</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$T_{eD}=2\pi\sqrt{\frac{W}{K_{eD}g}},\qquad D_D=\frac{g}{4\pi^2}\cdot\frac{S_{aD}T_{eD}^2}{B},\qquad D_{TM}=D_M\Big[1+y\frac{12e}{b^2+d^2}\Big],\qquad D'_D=\frac{D_D}{\sqrt{1+(T/T_{eD})^2}}$$
+沒有新種子：<span class="kw">S1</span>（\(S_d=S_aT^2/4\pi^2\)）＋<span class="kw">S5</span>（割線與迴圈）＋<span class="kw">S3</span>（ξ）＋<span class="kw">S2</span>（串聯）。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>\(T_{eD}\)、\(D_D\)（剛體上部、SDOF）</td><td><span class="tg half">別賭</span></td><td>4.1</td></tr>
+<tr><td>迭代步驟</td><td><span class="tg must">必背</span></td><td>4.2</td></tr>
+<tr><td>\(D_{TM}\) 含扭轉放大</td><td><span class="tg must">必背</span></td><td>4.3</td></tr>
+<tr><td>\(D'_D\)（上部柔性修正）</td><td><span class="tg half">別賭</span></td><td>4.4</td></tr>
+</table>
+<p class="note">證據：<a href="problems-view/SD-2014-2.html">2014-2</a> 提示印 \(D_D\)、\(T_{eD}\)、\(\xi_{eD}\)；<a href="problems-view/SD-2008-4.html">2008-4</a> 印 \(T_{eD}\) 要你推；<a href="problems-view/SD-2012-4.html">2012-4</a> 印 \(D'_D\) 要你說理由、\(D_{TM}\) 只問意義未給式。</p>
+</div>
+
+<h3>4.1　\(T_{eD}\) 與 \(D_D\) 的來歷（<a href="problems-view/SD-2008-4.html">2008-4</a> ㈠）</h3>
+<div class="derive">
+<p><span class="st">①</span> 上部剛體 ⇒ 整棟只有一個自由度（隔震層位移），質量 \(M=W/g\)，彈簧用割線 \(K_{eD}\) ⇒ \(T_{eD}=2\pi\sqrt{M/K_{eD}}=\boxed{2\pi\sqrt{W/(K_{eD}g)}}\)。</p>
+<p><span class="st">②</span> 位移 = 譜位移，再用 B 修正阻尼：\(D_D=S_d=\dfrac{T_{eD}^2}{4\pi^2}\cdot\dfrac{gS_{aD}}{B}\)。長週期段 \(S_{aD}=S_{D1}/T_{eD}\) ⇒ \(D_D=\dfrac{gS_{D1}T_{eD}}{4\pi^2B_1}\)。</p>
+<p><span class="st">③</span> 成立條件（2008-4 要寫）：上部結構為剛體（或遠比隔震層硬）；隔震層以等值線性（割線勁度＋等值阻尼）取代非線性；以基本振態為主、可視為 SDOF；穩態簡諧等值（能量等值的前提）。</p>
+</div>
+<div class="check"><b>量綱</b>：\(W/(K g)\)：kN ÷ (kN/m · m/s²) = s² ✔。若讀成 \((W/K)g\) 量綱錯——2008-4 考卷排版的判讀點。</div>
+
+<h3>4.2　為什麼要迭代（<a href="problems-view/SD-2014-2.html">2014-2</a>）</h3>
+<p>\(K_{eD}\)、\(\xi_{eD}\) 都依賴 \(D\)（第 2 章：位移越大，割線越軟、阻尼越小），但 \(D\) 又是要求的答案——所以先假設、再算、再比。</p>
+{{FIG:fig4_1|圖 4-1｜2014-2 要列的分析步驟。\(n\) 顆支承：\(K_{eD}\)、\(A_{TD}\) 都乘 \(n\)；\(D_y=F_y/k_o\)、\(Q=F_y(1-\alpha)\)、\(k_d=\alpha k_o\)。}}
+{{FIG:fig4_2|圖 4-2｜自設示範數值的迭代（calcs.py）。從 0.200 m 開始，第一次就得 0.204 m，7 次收斂到 \(D_D=0.207\) m、\(T_{eD}=2.93\) s、\(\xi_{eD}=26.8\%\)。}}
+<div class="trap"><b>B 用哪一個</b>：2014-2 題文同時給 \(B_S\)、\(B_1\)、提示只寫 \(B\)——依 \(T_{eD}\) 落在短週期或長週期段決定（隔震幾乎都在長週期段 ⇒ \(B_1\)），作答要寫出判斷。</div>
+
+<h3>4.3　\(D_{TM}\)：最大考量地震＋扭轉</h3>
+<div class="derive">
+<p><span class="st">①</span> \(D_M\)：把 \(S_{aD}\) 換成最大考量地震 \(S_{aM}\)（2500 年）、\(B\) 換 \(B_M\)，其餘同 \(D_D\)。</p>
+<p><span class="st">②</span> 扭轉：剛體轉角 \(\theta\) 讓距剛心 \(y\) 的支承多走 \(y\theta\)。規範以矩形平面的極慣性半徑 \(r^2=(b^2+d^2)/12\) 近似：\(\theta\approx eD/r^2\) ⇒ \(D_{TM}=D_M\Big[1+\dfrac{y\,e}{r^2}\Big]=\boxed{D_M\Big[1+y\dfrac{12e}{b^2+d^2}\Big]}\)（\(D_{TD}\) 同式用 \(D_D\)）。</p>
+<p><span class="st">③</span> 意義（2012-4 ㈠）：\(D_D\)——設計地震下隔震系統剛心的位移，用於隔震層以上構材設計；\(D_{TM}\)——最大考量地震下最不利角落支承的總位移（含實際與意外偏心），控制支承穩定、原型試驗位移與隔震間隙。</p>
+</div>
+
+<h3>4.4　\(D'_D\)：上部結構不是剛體（<a href="problems-view/SD-2012-4.html">2012-4</a> ㈡）</h3>
+{{FIG:fig4_3|圖 4-3｜串聯模型的位移分配（\(r=T/T_{eD}\)）。上部柔性讓總位移變大，但上部分走一部分，隔震層實際只分到 \(D'_D<D_D\)；\(r=0.2\) 時為 0.981。}}
+<div class="derive">
+<p><span class="st">①</span> 第 1 章 S2：系統週期 \(T_{sys}=T_{eD}\sqrt{1+r^2}\)；長週期段 \(S_d\propto T\) ⇒ 總位移 \(=D_D\sqrt{1+r^2}\)。</p>
+<p><span class="st">②</span> 串聯彈簧的變形按柔度分配：隔震層分得 \(\dfrac{1/k_b}{1/k_b+1/k}=\dfrac{T_{eD}^2}{T_{eD}^2+T^2}=\dfrac1{1+r^2}\)。</p>
+<p><span class="st">③</span> \(D'_D=D_D\sqrt{1+r^2}\cdot\dfrac1{1+r^2}=\boxed{\dfrac{D_D}{\sqrt{1+(T/T_{eD})^2}}}\)；上部變形 \(D'_Dr^2\)。</p>
+<p><span class="st">④</span> 用途（規範 9.3.4）：動力分析位移有下限——設計總位移不小於 \(D_{TD}\) 的 90%、最大總位移不小於 \(D_{TM}\) 的 80%，計算下限時可用 \(D'_D\) 代 \(D_D\)。上部有柔性時，靜力 \(D_D\) 高估隔震層位移，下限要跟著放寬。</p>
+</div>
+<div class="check"><b>極限檢查</b>：\(T\to0\)（上部剛體）：\(D'_D=D_D\) ✔；\(T=T_{eD}\)：隔震層與上部各一半變形，\(D'_D=D_D/\sqrt2\)。</div>
+
+<h3>4.5　要壓隔震位移，該加哪一種消能元件（2008-4 ㈡）</h3>
+<div class="why">選<b>液態黏滯元件</b>：\(D_D\propto T_{eD}/B\)——加勁度會縮短週期、讓上部加速度變大；加阻尼只提高 B、不加勁度。黏滯阻尼力與速度同步、與位移差 90°，位移最大時不加力，不改變隔震週期；金屬降伏、摩擦元件會增加有效勁度，黏彈性元件也有儲存勁度。</div>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜隔震設計位移</div>
+<ol>
+<li><b>畫</b>：剛體放在一個割線彈簧上；迴圈。</li>
+<li><b>種子</b>：S1、S5、S3、S2。</li>
+<li><b>推</b>：\(T_{eD}=2\pi\sqrt{M/K}\)；\(D=S_aT^2g/4\pi^2B\)；K、ξ 依 D ⇒ 迭代；扭轉 \(1+ye/r^2\)；串聯分配 ⇒ \(D'_D\)。</li>
+<li><b>檢查</b>：量綱 s²；\(T\to0\) 時 \(D'_D=D_D\)。</li>
+</ol>
+</div>
+<h3>4.6　🙈 蓋住重推</h3>
+<details><summary>Q1　\(T_{eD}=3.0\) s、\(T=1.0\) s，\(D'_D/D_D\)？</summary><p>\(1/\sqrt{1+1/9}=0.949\)；總位移 1.054、上部 0.105（題解數值核對）。</p></details>
+<details><summary>Q2　\(b=d=30\) m、\(e=0.05b=1.5\) m、角落 \(y=15\) m，扭轉放大？</summary><p>\(1+15\times12\times1.5/(900+900)=1.15\)。</p></details>
+<h3>4.7　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>\(K_{eD}\) 只用一顆支承</td><td>全部 \(n\) 顆加總（\(A_{TD}\) 也是）</td></tr>
+<tr><td>2</td><td>以為上部柔性讓隔震層位移變大</td><td>總位移變大，但隔震層分到的變小</td></tr>
+<tr><td>3</td><td>\(D_{TM}\) 用設計地震</td><td>最大考量地震，再乘扭轉放大</td></tr>
+</table>
+</section>

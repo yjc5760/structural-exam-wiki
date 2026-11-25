@@ -1,0 +1,87 @@
+<section id="ch3">
+<h2 class="t">第 3 章　勁度與質量矩陣：推一格、看要多少力</h2>
+
+<div class="lead">
+<b>讀完這一章，你應該能自己寫出：</b>
+$$\mathbf K_{\text{剪力屋}}=\begin{bmatrix}k_1+k_2&-k_2&\\-k_2&k_2+k_3&-k_3\\&-k_3&k_3\end{bmatrix},\qquad \mathbf K^*=\mathbf K_{tt}-\mathbf K_{t0}\mathbf K_{00}^{-1}\mathbf K_{0t}$$
+要記的只有 <span class="kw">S3 單位位移法</span>：K 的第 \(j\) 欄＝「只推第 \(j\) 個自由度一單位，其他全部抓住」時需要的力。
+</div>
+
+<div class="box">
+<b>本章會長出來的公式與考卷標籤</b>
+<table>
+<tr><th>公式</th><th style="width:14%">標籤</th><th style="width:10%">本章</th></tr>
+<tr><td>剪力屋勁度矩陣與集中質量矩陣</td><td><span class="tg must">必背</span></td><td>3.1</td></tr>
+<tr><td>元素勁度 \(\begin{bmatrix}12EI/h^3&-6EI/h^2\\-6EI/h^2&4EI/h\end{bmatrix}\)、梁 \(\dfrac{EI}{\ell}\begin{bmatrix}4&2\\2&4\end{bmatrix}\)；靜態濃縮</td><td><span class="tg must">必背</span></td><td>3.2</td></tr>
+<tr><td>剛性樓版三自由度（平移＋扭轉）</td><td><span class="tg must">必背</span></td><td>3.3</td></tr>
+</table>
+<p class="note">證據：剪力屋 K、M 本單元 7 題都是副考點、全部沒印係數；直接勁度法與濃縮 2 題（<a href="problems-view/SD-2017-2.html">2017-2</a> 主、<a href="problems-view/SD-2022-1.html">2022-1</a>），元素勁度與濃縮式都沒印。</p>
+</div>
+
+<h3 class="t">3.1　剪力屋：一層一層推一格</h3>
+<div class="seed"><div class="seed-h">🌱 種子 S3　單位位移法</div>
+$$K_{ij}=\text{令 }u_j=1\text{、其餘 }u=0\text{ 時，必須施加在第 }i\text{ 個自由度的力}$$
+</div>
+{{FIG:fig3_1|圖 3-1｜三層剪力屋（每層勁度 \(k\)）。每次只推一層一單位、其他樓層抓住不動，量各層需要多少力（紅＝向右、藍＝向左），那一組力就是 K 的一欄。}}
+<div class="derive">
+<p><span class="st">①</span> 推 2 樓 \(u_2=1\)：2 樓柱（層勁度 \(k_2\)）與 3 樓柱（\(k_3\)）都被扭曲；2 樓要推 \(k_2+k_3\)，1 樓被 2 樓柱拉，要用 \(-k_2\) 抓住，3 樓要用 \(-k_3\) 抓住。</p>
+<p><span class="st">②</span> 規律：對角元素＝與該樓層相連的所有層勁度之和；非對角＝相鄰層勁度取負號；不相鄰為 0。</p>
+<p><span class="st">③</span> 質量：剪力屋把質量集中在樓板，\(\mathbf M=\mathrm{diag}(m_1,m_2,m_3)\)（集中質量矩陣，lumped mass）。</p>
+</div>
+<div class="check"><b>三個自我檢查</b>：① K 對稱（Maxwell 互易）；② 每一欄的元素加總 ＝ 該欄只連到地面那根彈簧的力（剛體平移時只有一樓柱受力，所以 \(\mathbf K\{1\}=\{k_1,0,0\}^T\)）；③ 對角元素全為正。</div>
+
+<h3 class="t">3.2　直接勁度法與靜態濃縮：沒有質量的自由度要「吃掉」</h3>
+<p>剪力屋假設梁無限硬。若梁有限勁度（<a href="problems-view/SD-2017-2.html">2017-2</a> 門形構架），柱頂還會轉動，自由度變成側移 \(v_1\) 與兩個節點轉角 \(v_2\)、\(v_3\)。</p>
+{{FIG:fig3_2|圖 3-2｜左：門形構架的三個自由度。右：把轉角濃縮掉之後的側向勁度 \(K^*\)，隨「梁對柱的相對勁度」\(\rho\) 變化（calcs.py 以矩陣運算驗算）。<b>梁無限硬回到剪力屋的 \(2\times12=24\)，梁沒有勁度變成兩根懸臂 \(2\times3=6\)。</b>}}
+<div class="derive">
+<p><span class="st">①</span> 元素勁度（由梁的轉角—撓度關係，傾角變位法）：柱 \(\begin{bmatrix}12EI/h^3&-6EI/h^2\\-6EI/h^2&4EI/h\end{bmatrix}\)；梁兩端轉角 \(\dfrac{EI}{\ell}\begin{bmatrix}4&2\\2&4\end{bmatrix}\)。</p>
+<p><span class="st">②</span> 用單位位移法組裝（2017-2 題解）：</p>
+<p>$$\mathbf K=\begin{bmatrix}\dfrac{24EI_1}{h^3}&-\dfrac{6EI_1}{h^2}&-\dfrac{6EI_1}{h^2}\\-\dfrac{6EI_1}{h^2}&\dfrac{4EI_1}{h}+\dfrac{4EI_2}{\ell}&\dfrac{2EI_2}{\ell}\\-\dfrac{6EI_1}{h^2}&\dfrac{2EI_2}{\ell}&\dfrac{4EI_1}{h}+\dfrac{4EI_2}{\ell}\end{bmatrix},\qquad \mathbf M=\begin{bmatrix}m&0&0\\0&0&0\\0&0&0\end{bmatrix}$$</p>
+<p><span class="st">③</span> 轉角沒有慣量，第 2、3 式是<b>靜力平衡</b>：\(\mathbf K_{0t}v_1+\mathbf K_{00}\mathbf v_0=\mathbf 0\) ⇒ \(\mathbf v_0=-\mathbf K_{00}^{-1}\mathbf K_{0t}v_1\)。代回第 1 式：\(m\ddot v_1+\boxed{(\mathbf K_{tt}-\mathbf K_{t0}\mathbf K_{00}^{-1}\mathbf K_{0t})}\,v_1=0\)。</p>
+<p><span class="st">④</span> 本題對稱（\(v_2=v_3\)），一行就算完：\(K^*=\dfrac{24EI_1}{h^3}-\dfrac{72EI_1^2/h^4}{4EI_1/h+6EI_2/\ell}\)。</p>
+</div>
+<div class="check"><b>極限檢查</b>（圖 3-2 的兩條水平線）<br>
+・\(EI_2\to\infty\)：第二項 → 0，\(K^*=24EI_1/h^3\)（兩根固-固柱）✔<br>
+・\(EI_2\to0\)：\(K^*=24-18=6EI_1/h^3\)（兩根懸臂柱 \(2\times3\)）✔</div>
+<div class="trap"><b>陷阱</b>：\(\mathbf M\) 有零對角元素時不能直接解 \(\det(\mathbf K-\omega^2\mathbf M)=0\) 再說「3 個頻率」——這個系統只有 <b>1 個</b>動力自由度。題目說「不考慮轉動慣量」就是在提示你濃縮（<a href="problems-view/SD-2022-1.html">2022-1</a> L 形構架同理）。</div>
+
+<h3 class="t">3.3　剛性樓版：兩個平移＋一個扭轉（<a href="problems-view/SD-2003-4.html">SD-2003-4</a>）</h3>
+<p>單層立體構架，剛性樓版 \(a\times a\)、質量 \(m\)，四根柱 \(A\)、\(D\) 為 \(2I\)，\(B\)、\(C\) 為 \(I\)。令一根 \(I\) 柱在單一方向的側向勁度為 \(k=12EI/h^3\)。</p>
+<div class="derive">
+<p><span class="st">①</span> 以樓版中心為原點、自由度 \(\{u_x,u_y,\theta\}\)：x 向總勁度 \(2k+k+k+2k=6k\)，y 向同理 \(6k\)。</p>
+<p><span class="st">②</span> 勁度不對稱，剛心偏離質心（題解：剛心在 \(x=-a/6\)），y 平移與扭轉耦合：\(\mathbf K_c=k\begin{bmatrix}6&0&0\\0&6&-a\\0&-a&3a^2\end{bmatrix}\)。</p>
+<p><span class="st">③</span> 質量：\(\mathbf M_c=\mathrm{diag}\Bigl(m,\ m,\ \dfrac{ma^2}{6}\Bigr)\)（正方形板繞中心 \(m(a^2+a^2)/12\)）。</p>
+<p><span class="st">④</span> 考卷要的自由度是三個角點位移 \(u_1,u_2,u_3\)：用座標轉換 \(\mathbf q=\mathbf T\mathbf u\)，\(\mathbf K=\mathbf T^T\mathbf K_c\mathbf T\)、\(\mathbf M=\mathbf T^T\mathbf M_c\mathbf T\)。題解第二行的結果 \(m_{12}=-m/2\)、\(m_{22}=2m/3\)、\(m_{32}=-m/6\)（能量法、座標轉換、平衡法三路一致）。</p>
+</div>
+<div class="why"><b>白話</b>：剛性樓版只有 3 個自由度，不管你選哪三個點來描述，<b>物理是同一塊板</b>。用質心座標寫最乾淨（M 對角），再轉換到題目指定的自由度。質量矩陣出現非對角項，跟第 2 章剛性桿用端點當自由度的道理一樣。</div>
+
+<h3>3.4　反向題：由週期反推勁度（<a href="problems-view/SD-2008-1.html">2008-1</a>）</h3>
+<p>兩層剪力屋每層 1500 kg，給 \(T_1\)、\(T_2\) 求 \(k\)：K 的元素全是 \(k\) 的倍數，特徵方程的兩根 \(\omega^2\) 也都是 \(k/m\) 的倍數，所以「\(\omega_1^2/\omega_2^2\) 只由比例決定、\(\omega_1^2\) 本身決定 \(k\)」。用一個週期求 \(k\)、另一個驗算。</p>
+
+<div class="rebuild">
+<div class="rb-h">🧩 30 秒重建卡｜K、M 組裝</div>
+<ol>
+<li><b>畫</b>：只推第 \(j\) 個自由度一單位，其餘抓住。</li>
+<li><b>種子</b>：S3。</li>
+<li><b>推</b>：每個要抓住的力就是 \(K_{ij}\)；沒有慣量的自由度寫成靜力平衡、代掉（濃縮）。</li>
+<li><b>檢查</b>：對稱；剛體平移 \(\mathbf K\{1\}\) 只剩接地彈簧；梁無限硬回到 24、梁無勁度回到 6。</li>
+</ol>
+</div>
+
+<h3>3.5　🙈 蓋住重推</h3>
+<details><summary>Q1　兩層剪力屋 \(k_1=2k\)、\(k_2=k\)，寫出 K。</summary>
+<p>\(\begin{bmatrix}3k&-k\\-k&k\end{bmatrix}\)。</p></details>
+<details><summary>Q2　為什麼沒有轉動慣量的轉角可以濃縮？</summary>
+<p>它的方程沒有 \(\ddot v\) 項，任何時刻都是靜力平衡，所以它永遠由側移決定，不是獨立的動力自由度。</p></details>
+<details><summary>Q3　2003-4 若四根柱都是 \(I\)，扭轉還會和 y 平移耦合嗎？</summary>
+<p>不會：剛心與質心重合，\(\mathbf K_c\) 的非對角項為 0。</p></details>
+
+<h3>3.6　本章陷阱總表</h3>
+<table>
+<tr><th style="width:5%">#</th><th style="width:33%">錯誤做法</th><th>正確觀念</th></tr>
+<tr><td>1</td><td>非對角元素寫成正號</td><td>推一層，相鄰樓層要「拉住」，取負號</td></tr>
+<tr><td>2</td><td>頂層對角元素寫成 \(k_3+k_4\)</td><td>頂層上面沒有柱，只有 \(k_3\)</td></tr>
+<tr><td>3</td><td>M 有零對角仍求 3 個頻率</td><td>先濃縮；動力自由度數＝有慣量的自由度數</td></tr>
+<tr><td>4</td><td>剛性樓版忽略扭轉</td><td>勁度不對稱就有剛心偏心、平移與扭轉耦合</td></tr>
+</table>
+</section>
