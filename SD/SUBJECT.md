@@ -339,6 +339,8 @@ CQC 組合：X_total = √[ΣΣρᵢⱼ·Xᵢ·Xⱼ]
 |------|------|------|
 | 2026-11-01 | **wiki 封存**：wiki/ 只保留 queries/，其餘（problems、concepts、methods、traps、philosophy、diagnosis、failure-modes、materials、code-ref、index.md、by-year.md）移至 `archive/wiki/`；`wiki/log.md` 移為 `wiki/queries/log.md`；ingest／compile-all／lint／add-concept 停用；方法論只在 raw/solutions/methods/ 維護 | wiki 為早期 AI 編譯之摘要、未逐頁核對（SS 科掃描 84 頁發現 45 項錯誤），且與 raw/solutions、study/ 重複，增加同步負擔 |
 | 2026-11-01 | **廢止互動圖、移除補充筆記 PDF、儀表板優化、公式渲染修正**（比照 SS）：刪除 `raw/solutions/` 下 24 份 `*-viz.html` 與 1 份題目補充 PDF，清除 .md／problems-view 引用；`question_index.json` 移除 `hasViz`；`dashboard-data.js` 改 5 欄（`refresh-dashboard.ps1` 同步）；`index.html`「完整解析」改連 problems-view、刪「指令速查」分頁；新增 `scripts/render_problem_view.py` 並重新渲染 99 頁 problems-view | 互動圖與正本易不同步；problems-view 停在 09-02 版、10-05 勘誤未反映，且舊渲染吞掉 `\\`、`_`、`<` 等 |
+| 2026-11-26 | **新建起點頁 `start.html`**：依使用者清單建 `study/data/start-links.txt`／`start-links.json`（7 單元：單元總覽、觀念講義、教科書、公式記憶／觀念／教科書影片、各 5 支解題影片，共 57 支 YouTube），根目錄 `scripts/build_start.py` 產生 | parse_links 預設網址為舊站 exam-wiki-SD，已改指 structural-exam-wiki；U3-1、U2-3 觀念講義影片非動畫版（歸 `lecture_video`）；SD-2007-1 在 U2-2、U1-2 各一支不同影片 |
+| 2026-11-26 | **儀表板站內閱讀器提示修正**：`index.html` 授權提示與選錯資料夾的 alert 由「選擇 exam-wiki-SD 資料夾」改為「選擇 SD 科目資料夾」（比照共用樣板 `scripts/templates/dashboard-index.html` 用語） | 搬入後已無 exam-wiki-SD 資料夾，舊提示會讓人選錯；頁面標題、副標、頁尾的 exam-wiki-SD 字樣為名稱標籤，未動 |
 
 ---
 
@@ -362,7 +364,7 @@ CQC 組合：X_total = √[ΣΣρᵢⱼ·Xᵢ·Xⱼ]
 | xcheck 封存區 | 根目錄 `scripts/xcheck.py` 註解說「舊目錄不存在時改掃封存處」，但判斷以執行目錄（根目錄）為準，五科在合併後**實際都沒掃到** `XX/archive/wiki/` | 原 repo 版（`archive/exam-wiki-SD-root/xcheck.py`）以科目資料夾為準，實測 SD A=3、SM A=2、SA A=7、RC A=23、SS A=0。**待使用者決定（五科通用）**：要不要掃已凍結的封存區；要掃就把 SD 版那三行併入根目錄，不掃就把根目錄註解改正 |
 | 儀表板 | 五科共用樣板＋`scripts/refresh_dashboard.py`（`KB_*`） | **待辦**：暫用原 repo 的 `index.html`／`dashboard-data.js`（`SD_*`、5 欄格式，篩選選單由 `analysisMethod` 即時歸成 9 類）。要更新資料時在 `SD/` 下執行 `scripts/refresh-dashboard.ps1`（PowerShell，讀 `raw\json\` 相對路徑，優先讀 `analysisMethod`）；改回共用樣板前**不要**對 SD 執行 `refresh_dashboard.py`。分類軸已於 11-11 定案（§3），改用共用樣板的前提已具備，篩選會改成四值。根目錄 `index.html` 讀 `window[code+'_QUESTIONS']`，五科入口讀得到 SD 99 題 |
 | 網站網址 | — | **待辦**：舊站 `yjc5760.github.io/exam-wiki-SD` 維持上線；新站上線後在舊站加轉址 |
-| 起點頁 | `start.html`（exam-start-page） | 尚未建立 |
+| 起點頁 | `start.html`（exam-start-page） | 2026-11-26 建立，正本 `study/data/start-links.json` |
 | 一次性腳本 | 共用腳本在根目錄 `scripts/` | `scripts/` 的 5 支講義附圖產生器＋`structdraw.py`（struct-diagram 的 primitives 副本，被 `lecture_*` 以同目錄 import）；在 `SD/` 下執行 |
 | 影片 | — | `影片講義/` 5 份圖文講義（`video/` 約 199 MB，原 repo 即納入 git）；`解題過程影片/` 為 gitignore 的本機資料夾，原 repo 是空的，未建立 |
 | `raw/exams/命題大綱.pdf`、`raw/json/pdf_*.txt` | 命題大綱正本在根目錄 | 原 repo 的副本與考卷文字抽取，屬 raw 證據，保留不動 |

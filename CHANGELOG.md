@@ -97,3 +97,8 @@
 ## 2026-11-22 SS 觀念講義 5 份正確性檢查與修正
 - 依檢查報告修正 lecture-SS-U1-1、U1-2、U1-3、U1-4、U2-3：Cv 彈性段係數、ASD Fb 式、包覆型 SRC 強度與勁度係數、塊狀剪力依我國極限設計法規範以大小擇一式為主線、U 值表改我國值 0.90/0.85/0.75。
 - 修正 M22 標準孔徑為 24 mm、重繪圖解；相關 Python 繪圖腳本同步更新並重編 5 份 PDF。
+
+## 2026-11-26 五科儀表板站內閱讀器提示修正
+- `SS/`、`SA/`、`RC/`、`SM/`、`SD/` 的 `index.html`：首次授權提示「選擇 exam-wiki-XX 資料夾」與選錯資料夾的 alert「請選擇 exam-wiki-XX 資料夾本身」，改為「選擇 XX 科目資料夾」（比照共用樣板 `scripts/templates/dashboard-index.html`）。
+- 原因：搬入五科合一 repo 後已無 exam-wiki-XX 資料夾，舊提示會讓使用者選錯；閱讀器實際檢查的是所選資料夾下的 `raw/solutions/`，即科目資料夾。
+- 頁面標題、副標、頁尾、匯出 PDF 頁首的 exam-wiki-XX 字樣為名稱標籤，未動。SD 另記於 `SD/SUBJECT.md` §9。
