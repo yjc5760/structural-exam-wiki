@@ -52,6 +52,14 @@
 > 替代：分類一致性改用 `python scripts/audit_classification.py XX XX`（或 `exam-wiki-audit` skill）；跨檔數值一致性用 `python scripts/xcheck.py XX`；
 > 題目頁改由 `scripts/render_problem_view.py` 產生 `study/problems-view/`。舊步驟見 git 歷史或 `SS/archive/exam-wiki-SS-root/CLAUDE-CODE.md`。
 
+> 📥 **下載新年度考卷**（2026-11-28 起；腳本，不算在 12 個指令內）：**使用者在自己電腦的終端機**於根目錄執行
+> `python scripts/fetch_exams.py`——從考選部「考畢試題查詢平臺」自動找出該年結構工程技師那場考試，把五科試題 PDF 存成
+> `XX/raw/exams/XX-YYYY_<科目名>.pdf`，並在各科 `wiki/queries/log.md` 記下來源（考試／類科／科目代碼、MD5）。
+> 預設檢查「現有最新年度＋1」到今年；`--year 2026`、`--years 2002-2026`、`--subject SS,RC`、`--dry-run`、
+> `--check`（有新考卷時結束碼 1，可排程）、`--verify`（比對既有考卷與官網是否一致，不覆蓋）。
+> Cowork／Claude 的沙盒連不到 moex.gov.tw，所以不由 Cowork 執行；Cowork 遇到考卷不存在時，請使用者跑這支腳本。
+> 下載後在 Cowork 說「解析 YYYY 年 XX 考卷」進入 exam-solve。流程已包成 skill `exam-fetch`（說「下載考古題」即載入）。
+
 ### 📊 備考分析類
 
 | 指令 | 觸發語句 | 用途 |
@@ -67,7 +75,7 @@
 |------|---------|------|
 | [FIND](#find) | `find [關鍵字]`（預設五科一起搜） | 快速搜尋含某關鍵字的題目 |
 | [RELATED](#related) | `related XX-XXXX-N` | 找出與某題考點相似的其他題目 |
-| [UNVERIFIED](#unverified) | `unverified XX` | 列出所有有解析但尚未驗證的題目 |
+| [UNVERIFIED](#unverified) | `unverified XX` | 列出所有有解析但尚未驗證的題目（網頁版依盲解狀態分組：`kb/trust.html`） |
 | [QUERY](#query) | 直接提問 | 自由查詢知識庫 |
 
 ---
@@ -343,6 +351,8 @@ solutions/ 已有解析但未驗證：[列出題號]
 **觸發語句：** `find [關鍵字]`（例：`find 塊狀剪力`、`find LTB`）
 
 **用途：** 快速搜尋各科 `raw/solutions/` 下所有 .md 檔案及 `question_index.json`（可加科目代碼縮小範圍），找出含有特定關鍵字的題目。
+搜尋時一併用根目錄 `concept_vocabulary.json` 展開同義詞（例：`Mp` ↔ 塑性彎矩、`剪力屋架` ↔ 剪力建築）。
+不經 Cowork 的網頁版：`kb/search.html`（題意、核心、陷阱、L3、標籤；由 `scripts/build_kb_index.py` 產生）。
 
 **輸出格式：**
 ```

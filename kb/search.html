@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全站搜尋｜結構技師考試知識庫</title>
+<!-- 由 scripts/build_kb_index.py 產生，請勿手改 -->
+<link rel="stylesheet" href="../SS/study/assets/katex/katex.min.css">
+<script defer src="../SS/study/assets/katex/katex.min.js"></script>
+<script defer src="../SS/study/assets/katex/auto-render.min.js"></script>
+<style>:root{--bg:#f5f6f8;--card:#fff;--ink:#1f2937;--mut:#6b7280;--line:#e5e7eb;--ac:#0f766e;--hl:#fef08a}
+@media (prefers-color-scheme:dark){:root{--bg:#111827;--card:#1f2937;--ink:#e5e7eb;--mut:#9ca3af;--line:#374151;--ac:#2dd4bf;--hl:#854d0e}}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
+.wrap{max-width:1100px;margin:0 auto;padding:18px 14px 40px}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}nav a{padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:inherit;text-decoration:none;font-size:.88rem}
+nav a.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+h1{font-size:1.35rem;margin:4px 0}.sub{color:var(--mut);font-size:.87rem;margin:2px 0 14px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+input[type=search]{flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;font-size:1rem;background:var(--card);color:inherit}
+select{padding:7px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:inherit}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;border:1.5px solid var(--c);color:var(--c);font-size:.83rem;cursor:pointer;user-select:none;background:var(--card)}
+.chip.off{opacity:.35}
+.card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--c,var(--ac));border-radius:10px;padding:10px 14px;margin:8px 0}
+.qh{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}.qid{font-weight:800;color:var(--c);text-decoration:none}
+.meta{color:var(--mut);font-size:.82rem}.badge{display:inline-block;padding:0 8px;border-radius:9px;border:1.5px solid var(--b);color:var(--b);font-size:.75rem;font-weight:700;white-space:nowrap;background:var(--card)}
+.fld{font-size:.75rem;color:#fff;background:var(--mut);border-radius:4px;padding:0 5px;margin-right:4px}
+.snip{margin:4px 0;font-size:.9rem}mark{background:var(--hl);color:inherit;border-radius:2px}
+details{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:8px 0;padding:6px 12px}
+summary{cursor:pointer;font-weight:700}details details{border:none;border-left:3px solid var(--c,var(--line));border-radius:0;padding:2px 10px;margin:6px 0}
+ul.items{margin:4px 0 6px;padding-left:20px}ul.items li{margin:3px 0}.t{font-weight:700}
+table{border-collapse:collapse;width:100%;background:var(--card);font-size:.88rem}th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}th{background:rgba(127,127,127,.08)}
+.qlink{display:inline-block;margin:2px 4px 2px 0;font-size:.82rem;text-decoration:none;color:var(--c,var(--ac))}
+.note{font-size:.82rem;color:var(--mut)}code{background:rgba(127,127,127,.15);padding:1px 5px;border-radius:4px}
+.more{display:block;margin:10px auto;padding:8px 18px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:inherit;cursor:pointer}</style></head><body><div class="wrap">
+<nav><a href="search.html" class=on>🔎 全站搜尋</a><a href="traps.html">⚠️ 陷阱字典</a><a href="l3.html">🧠 L3 深層知識</a><a href="concepts.html">🏷️ 概念與跨科</a><a href="trust.html">🛡️ 可信度</a><a href="../index.html">🏠 五科首頁</a></nav><h1>全站搜尋</h1><p class="sub">五科題意、核心觀念、陷阱、L3 深層知識、標籤一次搜；同義詞自動展開（依 concept_vocabulary.json）。資料由正本編譯，勘誤後重跑 <code>python scripts/build_kb_index.py</code>。</p>
+<div class="bar"><input type="search" id="q" placeholder="例：Lb Lp、剪力遲滯、block shear、穿孔剪力、SRSS" autofocus><select id="field"><option value="">全部欄位</option><option value="prob">題意</option><option value="core">核心觀念</option><option value="traps">陷阱</option><option value="l3">L3</option><option value="tags">標籤</option><option value="cc">規範條文</option></select><select id="tier"></select></div><div class="bar" id="subs"></div><p class="note" id="info"></p><div id="out"></div>
+</div>
+<script src="kb-data.js"></script>
+<script>
+const S=KB.subjects, T=KB.tiers;
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const href=id=>`../${id.slice(0,2)}/study/problems-view/${id}.html`;
+const col=id=>S[id.slice(0,2)].color;
+const badge=r=>{const t=T[r.tr];return `<a class="badge" style="--b:${t[2]}" href="trust.html#${r.id}" title="${esc(r.tn)}">${t[0]} ${t[1]}</a>`};
+const qlink=id=>`<a class="qlink" style="--c:${col(id)}" href="${href(id)}">${id}</a>`;
+const topic=t=>esc(t)+' '+esc(KB.topics[t]||'');
+function math(el){if(window.renderMathInElement)try{renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false})}catch(e){}}
+function lazyMath(root){root.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open&&!d.dataset.m){d.dataset.m=1;math(d)}}))}
+
+
+const syn={},orig={};KB.concepts.forEach(c=>{const all=[...new Set([...c.syn,c.label])];all.forEach(s=>{orig[s.toLowerCase()]=s;(syn[s.toLowerCase()]=syn[s.toLowerCase()]||new Set());all.forEach(x=>syn[s.toLowerCase()].add(x.toLowerCase()))})});
+const rx={};const R=v=>rx[v]||(rx[v]=new RegExp(/[a-z]/.test(v)?'(?<![a-z])'+v.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?![a-z])':v.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'));
+const has=(txt,v)=>/[a-z]/.test(v)?R(v).test(txt)&&(R(v).lastIndex=0,true):txt.includes(v);
+const FIELDS={prob:'題意',core:'核心',traps:'陷阱',l3:'L3',tags:'標籤',cc:'條文'};
+const docs=KB.q.map(r=>({r,f:{prob:r.prob,core:r.core,traps:r.traps.map(x=>x.join('：')).join('\n'),l3:r.l3.map(x=>x.join('：')).join('\n'),tags:r.tags.join(' '),cc:r.cc.join(' ')},low:null}));
+docs.forEach(d=>{d.low={};for(const k in d.f)d.low[k]=d.f[k].toLowerCase()});
+const on=new Set(Object.keys(S));
+document.getElementById('subs').innerHTML=Object.entries(S).map(([k,v])=>`<span class="chip" data-s="${k}" style="--c:${v.color}">${k} ${v.name.slice(0,6)}</span>`).join('');
+document.getElementById('tier').innerHTML='<option value="">全部可信度</option>'+Object.entries(T).sort((a,b)=>a[1][3]-b[1][3]).map(([k,v])=>`<option value="${k}">${v[0]} ${v[1]}</option>`).join('');
+document.querySelectorAll('#subs .chip').forEach(c=>c.onclick=()=>{const s=c.dataset.s;on.has(s)?on.delete(s):on.add(s);c.classList.toggle('off');run()});
+const qi=document.getElementById('q'),fi=document.getElementById('field'),ti=document.getElementById('tier'),out=document.getElementById('out'),info=document.getElementById('info');
+let shown=40,last=[];
+function terms(){return qi.value.trim().toLowerCase().split(/\s+/).filter(Boolean).map(t=>[...(syn[t]||new Set([t]))])}
+function snip(text,vars){const low=text.toLowerCase();let pos=-1,len=0;for(const v of vars){const re=R(v);re.lastIndex=0;const m=re.exec(low);const p=m?m.index:-1;if(p>=0&&(pos<0||p<pos)){pos=p;len=v.length}}
+ if(pos<0)return null;const line0=text.lastIndexOf('\n',pos)+1,line1=(text.indexOf('\n',pos)+1||text.length+1)-1;let a=Math.max(line0,pos-70),b=Math.min(line1,pos+len+110);
+ let s=esc(text.slice(a,b));for(const v of vars){if(!v)continue;s=s.replace(R(v),m=>`<mark>${m}</mark>`)}return (a>line0?'…':'')+s+(b<line1?'…':'')}
+function run(){const ts=terms(),fld=fi.value,tier=ti.value;location.hash=qi.value?('q='+encodeURIComponent(qi.value)):'';
+ if(!ts.length){out.innerHTML='';info.textContent=`共 ${KB.q.length} 題；輸入關鍵字開始搜尋（空白分隔＝且；同義詞自動展開，例：Mp、block shear、剪力屋架）`;return}
+ last=docs.filter(d=>on.has(d.r.s)&&(!tier||d.r.tr===tier)&&ts.every(vs=>(fld?[fld]:Object.keys(FIELDS)).some(k=>vs.some(v=>has(d.low[k],v)))));
+ shown=40;render(ts)}
+function render(ts){ts=ts||terms();const vars=ts.flat();
+ info.textContent=`找到 ${last.length} 題`+(ts.some(v=>v.length>1)?'（含同義詞：'+ts.filter(v=>v.length>1).map(v=>v.map(x=>orig[x]||x).join('／')).join('；')+'）':'');
+ out.innerHTML=last.slice(0,shown).map(({r,f})=>{const sn=Object.keys(FIELDS).map(k=>{const s=snip(f[k],vars);return s?`<div class="snip"><span class="fld">${FIELDS[k]}</span>${s}</div>`:''}).filter(Boolean).slice(0,3).join('');
+  return `<div class="card" style="--c:${col(r.id)}"><div class="qh"><a class="qid" href="${href(r.id)}">${r.id}</a><span class="meta">${topic(r.t)}・民國 ${r.roc ?? ''}</span>${badge(r)}</div>${sn}</div>`}).join('')+(last.length>shown?'<button class="more" id="more">顯示更多</button>':'');
+ const m=document.getElementById('more');if(m)m.onclick=()=>{shown+=60;render()};math(out)}
+qi.oninput=()=>{clearTimeout(window._t);window._t=setTimeout(run,180)};fi.onchange=run;ti.onchange=run;
+const h=decodeURIComponent((location.hash.match(/q=([^&]*)/)||[])[1]||'');if(h)qi.value=h;run();
+</script>
+</body></html>

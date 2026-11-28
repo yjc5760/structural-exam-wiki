@@ -79,6 +79,10 @@
 | `SUBJECT.md` | `XX/` | 科目層設定與科目 CHANGELOG，與 `scripts/subject_profiles.json` 同步 |
 | `index.html` | `XX/` | 五科共用樣板副本，不可個別修改（改 `scripts/templates/dashboard-index.html`） |
 | `dashboard-data.js` | `XX/` | 只由 `scripts/refresh_dashboard.py` 產生 |
+| `concept_vocabulary.json` | 根目錄 | 受控概念字典；格式與規則寫在檔內 `_meta`；改完跑 `python scripts/build_kb_index.py --check` |
+| `cross_subject_links.json` | 根目錄 | 跨科單元脈絡；`units` 只能填合法子項 id；`confirmed` 由使用者改 |
+| `kb/*.html`、`kb/kb-data.js` | 根目錄 | 只由 `scripts/build_kb_index.py` 產生，不手改 |
+| 題目瀏覽頁 `<!--trust-->…<!--/trust-->` | `XX/study/problems-view/` | 信任標章，只由 `scripts/build_kb_index.py` 寫入 |
 
 ---
 
@@ -104,11 +108,33 @@
     "結實斷面",
     "Cb係數",
     "塑性彎矩"
+  ],
+  "codeClauses": [                 // 選填（2026-11-28 起）：解析主線用到的規範條文，格式見下
+    "TW-SS@99:F2.1"
   ]
 }
 ```
 
 > ⚠️ 注意：所有 YYYY 均為西元。
+>
+> **tags 寫法**：優先沿用 `concept_vocabulary.json` 已有的寫法；出現新的同義寫法時，把它補進字典的 `synonyms`，不回頭改舊題的 tags。
+
+**`codeClauses` 格式**：`<規範代碼>@<版本>:<條號>`，版本用該規範的民國年或西元年版次，條號照規範原文。
+**只填對照過規範原文的條號**（不確定就不填，不可憑記憶或二手資料推條號）；勘誤或依現行規範改寫解析時順手補，不整批回填。
+規範改版時，`kb/concepts.html`「規範條文反查」可列出引用舊版條文的題目。
+
+| 代碼 | 規範 | 現行版本（以 `XX/SUBJECT.md` §7 為準） |
+|------|------|------|
+| `TW-SS` | 鋼構造建築物鋼結構設計技術規範（極限設計法／容許應力設計法） | `@99` |
+| `TW-RC` | 建築物混凝土結構設計規範 | `@112` |
+| `TW-SEIS` | 建築物耐震設計規範及解說 | `@111` |
+| `TW-BRIDGE-SEIS` | 公路橋梁耐震設計規範 | 依 SD `SUBJECT.md` §7 |
+| `TW-FOUND` | 建築物基礎構造設計規範 | `@112` |
+| `AISC-360`／`AISC-341` | 題目指定 AISC 時 | 題目指定版本（如 `@2016`） |
+| `ACI-318` | 題目指定 ACI 時 | 題目指定版本（如 `@2019`） |
+| `AWS-D1.1` | 銲接 | 引用版本 |
+
+例：`TW-RC@112:18.6.5`、`TW-SEIS@111:2.7`、`AISC-360@2016:F2`。
 
 **`raw/json/concepts.json`**（compile-all 已停用，保留備查，不再維護）
 ```json
@@ -142,7 +168,12 @@
     - 命名無強制規範（例：`老師解答.pdf` 或 `筆記.pdf`）。
     - 放入資料夾後，不需在 .md 內引用；但需對 Cowork 說 `更新儀表板資料`，儀表板的題卡會自動產生「📎 補充筆記 PDF」按鈕。
 
-3.  **struct-diagram 產生的圖解 (`figs/*.svg`)**：
+3.  **驗算腳本 `verify_XX-YYYY-N.py`**（2026-11-28 起，解題與勘誤時產生）：
+    - 從題目正本的給定量重算解析裡的每個數值；頂端註明建立／修改日期與對應的解析版本（頁尾修正日期）。
+    - 最後印出 `MISMATCHES: n`（n = 0 才算驗完），可在根目錄直接重跑：`python XX/raw/solutions/XX-YYYY-N/verify_XX-YYYY-N.py`。
+    - 只用 Python 標準函式庫與 numpy／scipy；不讀寫題目資料夾以外的檔案。
+
+4.  **struct-diagram 產生的圖解 (`figs/*.svg`)**：
     - 插在對應章節正下方，附 alt text 與「*圖 n　…*」圖說；圖說要說出這張圖攔下什麼錯。
     - 範例：
       ```markdown

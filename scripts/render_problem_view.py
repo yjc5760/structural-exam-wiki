@@ -11,6 +11,7 @@
   - 正本有 **分析法：** 且頁首有 <p class="meta2">（SA 頁面）時，同步頁首的分析法欄位
   - [[ID]] 轉為藍色徽章；相對路徑圖片改指 ../../raw/solutions/<id>/
   - 頁面不存在時，以同目錄任一既有頁為版型，並依索引主分類設定單元按鈕
+  - 頁首的信任標章（<!--trust-->…<!--/trust-->）不在 <main> 內，重渲染會保留；狀態更新請跑 scripts/build_kb_index.py
 需要：pip install markdown
 """
 import html, json, re, sys
@@ -113,6 +114,8 @@ def main(ids):
             t = re.sub(r'(<p class="meta2">)(.*?)(</p>)', _meta2, t, count=1, flags=re.S)
         new = re.sub(r"(<main>\n?).*?(\n?</main>)", lambda m: m.group(1) + body + m.group(2), t, count=1, flags=re.S)
         if tpl != page:
+            # 借他題頁面當版型時，拿掉該題的信任標章（由 build_kb_index.py 重新加上，2026-11-28）
+            new = re.sub(r"<!--trust-->.*?<!--/trust-->", "", new, flags=re.S)
             old = tpl.stem
             new = new.replace(f"{old} — 題目解析", f"{qid} — 題目解析").replace(f"<h1>{old} 題目解析</h1>", f"<h1>{qid} 題目解析</h1>")
             new = new.replace(f"raw/solutions/{old}/{old}.md", f"raw/solutions/{qid}/{qid}.md")

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>可信度總覽｜結構技師考試知識庫</title>
+<!-- 由 scripts/build_kb_index.py 產生，請勿手改 -->
+<link rel="stylesheet" href="../SS/study/assets/katex/katex.min.css">
+<script defer src="../SS/study/assets/katex/katex.min.js"></script>
+<script defer src="../SS/study/assets/katex/auto-render.min.js"></script>
+<style>:root{--bg:#f5f6f8;--card:#fff;--ink:#1f2937;--mut:#6b7280;--line:#e5e7eb;--ac:#0f766e;--hl:#fef08a}
+@media (prefers-color-scheme:dark){:root{--bg:#111827;--card:#1f2937;--ink:#e5e7eb;--mut:#9ca3af;--line:#374151;--ac:#2dd4bf;--hl:#854d0e}}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
+.wrap{max-width:1100px;margin:0 auto;padding:18px 14px 40px}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}nav a{padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:inherit;text-decoration:none;font-size:.88rem}
+nav a.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+h1{font-size:1.35rem;margin:4px 0}.sub{color:var(--mut);font-size:.87rem;margin:2px 0 14px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+input[type=search]{flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;font-size:1rem;background:var(--card);color:inherit}
+select{padding:7px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:inherit}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;border:1.5px solid var(--c);color:var(--c);font-size:.83rem;cursor:pointer;user-select:none;background:var(--card)}
+.chip.off{opacity:.35}
+.card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--c,var(--ac));border-radius:10px;padding:10px 14px;margin:8px 0}
+.qh{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}.qid{font-weight:800;color:var(--c);text-decoration:none}
+.meta{color:var(--mut);font-size:.82rem}.badge{display:inline-block;padding:0 8px;border-radius:9px;border:1.5px solid var(--b);color:var(--b);font-size:.75rem;font-weight:700;white-space:nowrap;background:var(--card)}
+.fld{font-size:.75rem;color:#fff;background:var(--mut);border-radius:4px;padding:0 5px;margin-right:4px}
+.snip{margin:4px 0;font-size:.9rem}mark{background:var(--hl);color:inherit;border-radius:2px}
+details{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:8px 0;padding:6px 12px}
+summary{cursor:pointer;font-weight:700}details details{border:none;border-left:3px solid var(--c,var(--line));border-radius:0;padding:2px 10px;margin:6px 0}
+ul.items{margin:4px 0 6px;padding-left:20px}ul.items li{margin:3px 0}.t{font-weight:700}
+table{border-collapse:collapse;width:100%;background:var(--card);font-size:.88rem}th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}th{background:rgba(127,127,127,.08)}
+.qlink{display:inline-block;margin:2px 4px 2px 0;font-size:.82rem;text-decoration:none;color:var(--c,var(--ac))}
+.note{font-size:.82rem;color:var(--mut)}code{background:rgba(127,127,127,.15);padding:1px 5px;border-radius:4px}
+.more{display:block;margin:10px auto;padding:8px 18px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:inherit;cursor:pointer}</style></head><body><div class="wrap">
+<nav><a href="search.html">🔎 全站搜尋</a><a href="traps.html">⚠️ 陷阱字典</a><a href="l3.html">🧠 L3 深層知識</a><a href="concepts.html">🏷️ 概念與跨科</a><a href="trust.html" class=on>🛡️ 可信度</a><a href="../index.html">🏠 五科首頁</a></nav><h1>可信度總覽</h1><p class="sub">標章由各科 <code>wiki/queries/audit-ledger-XX.json</code>（盲解／勘誤／落實檢查）與 <code>verificationStatus</code> 推得，不另存狀態。✅ 只有使用者人工複核後才會出現；其餘清單就是人工驗算的待辦。</p>
+<div id="sum"></div><h2 style="font-size:1.05rem">清單（依處理優先順序）</h2><div id="lists"></div>
+</div>
+<script src="kb-data.js"></script>
+<script>
+const S=KB.subjects, T=KB.tiers;
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const href=id=>`../${id.slice(0,2)}/study/problems-view/${id}.html`;
+const col=id=>S[id.slice(0,2)].color;
+const badge=r=>{const t=T[r.tr];return `<a class="badge" style="--b:${t[2]}" href="trust.html#${r.id}" title="${esc(r.tn)}">${t[0]} ${t[1]}</a>`};
+const qlink=id=>`<a class="qlink" style="--c:${col(id)}" href="${href(id)}">${id}</a>`;
+const topic=t=>esc(t)+' '+esc(KB.topics[t]||'');
+function math(el){if(window.renderMathInElement)try{renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false})}catch(e){}}
+function lazyMath(root){root.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open&&!d.dataset.m){d.dataset.m=1;math(d)}}))}
+
+const DESC={"open": "盲解與解析不同、尚未勘誤也未裁定，最優先處理", "fixed-pending": "已依盲解勘誤，待跑落實檢查", "uncertain": "盲解自己沒把握，需要人看", "changed": "通過盲解後解析又改過，建議重新盲解或落實檢查", "none": "還沒做盲解比對", "ruled": "盲解有分歧，使用者已裁定（可安排人工複核）", "fixed-ok": "勘誤後落實檢查通過（可安排人工複核）", "ai-ok": "AI 盲解與解析一致（可安排人工複核）"};
+const order=Object.entries(T).sort((a,b)=>a[1][3]-b[1][3]).map(x=>x[0]);
+const cnt={};KB.q.forEach(r=>{cnt[r.s]=cnt[r.s]||{};cnt[r.s][r.tr]=(cnt[r.s][r.tr]||0)+1});
+document.getElementById('sum').innerHTML=`<table><tr><th>科目</th>${order.map(k=>`<th style="color:${T[k][2]}">${T[k][0]} ${T[k][1]}</th>`).join('')}<th>合計</th></tr>`+
+ Object.keys(S).map(s=>`<tr><td><b style="color:${S[s].color}">${s}</b></td>${order.map(k=>`<td>${cnt[s]?.[k]||''}</td>`).join('')}<td>${KB.q.filter(r=>r.s===s).length}</td></tr>`).join('')+
+ `<tr><td><b>五科</b></td>${order.map(k=>`<td><b>${KB.q.filter(r=>r.tr===k).length||''}</b></td>`).join('')}<td><b>${KB.q.length}</b></td></tr></table>`;
+document.getElementById('lists').innerHTML=order.filter(k=>k!=='verified').map(k=>{const qs=KB.q.filter(r=>r.tr===k);if(!qs.length)return '';
+ return `<details${T[k][3]<=3?' open':''}><summary style="color:${T[k][2]}">${T[k][0]} ${T[k][1]}（${qs.length} 題）— ${DESC[k]}</summary><table><tr><th>題號</th><th>單元</th><th>紀錄</th></tr>${qs.map(r=>`<tr id="${r.id}"><td>${qlink(r.id)}</td><td class="note">${topic(r.t)}</td><td class="note">${esc(r.tn)}${r.rep?`<br>報告：<code>${r.s}/${esc(r.rep.replace(/^wiki\/queries\//,'wiki/queries/'))}</code>`:''}</td></tr>`).join('')}</table></details>`}).join('');
+if(location.hash){const el=document.getElementById(location.hash.slice(1));if(el){el.closest('details').open=true;el.style.background='rgba(250,204,21,.25)';setTimeout(()=>el.scrollIntoView({block:'center'}),50)}}
+</script>
+</body></html>

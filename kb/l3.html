@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L3 深層知識索引｜結構技師考試知識庫</title>
+<!-- 由 scripts/build_kb_index.py 產生，請勿手改 -->
+<link rel="stylesheet" href="../SS/study/assets/katex/katex.min.css">
+<script defer src="../SS/study/assets/katex/katex.min.js"></script>
+<script defer src="../SS/study/assets/katex/auto-render.min.js"></script>
+<style>:root{--bg:#f5f6f8;--card:#fff;--ink:#1f2937;--mut:#6b7280;--line:#e5e7eb;--ac:#0f766e;--hl:#fef08a}
+@media (prefers-color-scheme:dark){:root{--bg:#111827;--card:#1f2937;--ink:#e5e7eb;--mut:#9ca3af;--line:#374151;--ac:#2dd4bf;--hl:#854d0e}}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
+.wrap{max-width:1100px;margin:0 auto;padding:18px 14px 40px}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}nav a{padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:inherit;text-decoration:none;font-size:.88rem}
+nav a.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+h1{font-size:1.35rem;margin:4px 0}.sub{color:var(--mut);font-size:.87rem;margin:2px 0 14px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+input[type=search]{flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;font-size:1rem;background:var(--card);color:inherit}
+select{padding:7px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:inherit}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;border:1.5px solid var(--c);color:var(--c);font-size:.83rem;cursor:pointer;user-select:none;background:var(--card)}
+.chip.off{opacity:.35}
+.card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--c,var(--ac));border-radius:10px;padding:10px 14px;margin:8px 0}
+.qh{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}.qid{font-weight:800;color:var(--c);text-decoration:none}
+.meta{color:var(--mut);font-size:.82rem}.badge{display:inline-block;padding:0 8px;border-radius:9px;border:1.5px solid var(--b);color:var(--b);font-size:.75rem;font-weight:700;white-space:nowrap;background:var(--card)}
+.fld{font-size:.75rem;color:#fff;background:var(--mut);border-radius:4px;padding:0 5px;margin-right:4px}
+.snip{margin:4px 0;font-size:.9rem}mark{background:var(--hl);color:inherit;border-radius:2px}
+details{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:8px 0;padding:6px 12px}
+summary{cursor:pointer;font-weight:700}details details{border:none;border-left:3px solid var(--c,var(--line));border-radius:0;padding:2px 10px;margin:6px 0}
+ul.items{margin:4px 0 6px;padding-left:20px}ul.items li{margin:3px 0}.t{font-weight:700}
+table{border-collapse:collapse;width:100%;background:var(--card);font-size:.88rem}th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}th{background:rgba(127,127,127,.08)}
+.qlink{display:inline-block;margin:2px 4px 2px 0;font-size:.82rem;text-decoration:none;color:var(--c,var(--ac))}
+.note{font-size:.82rem;color:var(--mut)}code{background:rgba(127,127,127,.15);padding:1px 5px;border-radius:4px}
+.more{display:block;margin:10px auto;padding:8px 18px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:inherit;cursor:pointer}</style></head><body><div class="wrap">
+<nav><a href="search.html">🔎 全站搜尋</a><a href="traps.html">⚠️ 陷阱字典</a><a href="l3.html" class=on>🧠 L3 深層知識</a><a href="concepts.html">🏷️ 概念與跨科</a><a href="trust.html">🛡️ 可信度</a><a href="../index.html">🏠 五科首頁</a></nav><h1>L3 深層知識索引</h1><p class="sub">從每題 §3.5「L3：深層知識（不懂就卡住）」自動抽出。上方「L3 熱點」列出同一觀念在 3 題以上被列為卡關點的項目——最值得先補、也最適合做講義或影片。</p>
+<h2 style="font-size:1.05rem">L3 熱點</h2><div id="hot"></div><h2 style="font-size:1.05rem">逐題 L3</h2><div class="bar"><input type="search" id="f" placeholder="篩選 L3 文字或題號"></div><p class="note" id="info"></p><div id="out"></div>
+</div>
+<script src="kb-data.js"></script>
+<script>
+const S=KB.subjects, T=KB.tiers;
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const href=id=>`../${id.slice(0,2)}/study/problems-view/${id}.html`;
+const col=id=>S[id.slice(0,2)].color;
+const badge=r=>{const t=T[r.tr];return `<a class="badge" style="--b:${t[2]}" href="trust.html#${r.id}" title="${esc(r.tn)}">${t[0]} ${t[1]}</a>`};
+const qlink=id=>`<a class="qlink" style="--c:${col(id)}" href="${href(id)}">${id}</a>`;
+const topic=t=>esc(t)+' '+esc(KB.topics[t]||'');
+function math(el){if(window.renderMathInElement)try{renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false})}catch(e){}}
+function lazyMath(root){root.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open&&!d.dataset.m){d.dataset.m=1;math(d)}}))}
+
+const PAGE_KEY='l3';
+const KEY=PAGE_KEY;
+function build(filter){const f=filter.trim().toLowerCase();let n=0,nq=0;const html=Object.entries(S).map(([s,sv])=>{
+  const units={};KB.q.filter(r=>r.s===s&&r[KEY].length).forEach(r=>{(units[r.t]=units[r.t]||[]).push(r)});
+  const ublocks=Object.keys(units).sort().map(u=>{const qs=units[u].map(r=>{const its=r[KEY].filter(([a,b])=>!f||(a+b+r.id).toLowerCase().includes(f));if(!its.length)return '';n+=its.length;nq++;
+     return `<li><a class="qid" style="--c:${sv.color}" href="${href(r.id)}">${r.id}</a> ${badge(r)}<ul class="items">${its.map(([a,b])=>`<li><span class="t">${esc(a)}</span>${b?'：'+esc(b):''}</li>`).join('')}</ul></li>`}).join('');
+     return qs?`<details style="--c:${sv.color}"${f?' open':''}><summary>${topic(u)}（${units[u].length} 題）</summary><ul class="items" style="list-style:none;padding-left:0">${qs}</ul></details>`:''}).join('');
+  return ublocks?`<details style="--c:${sv.color}"${f?' open':''}><summary style="color:${sv.color}">${s} ${sv.name}</summary>${ublocks}</details>`:''}).join('');
+ document.getElementById('out').innerHTML=html;document.getElementById('info').textContent=`${nq} 題、${n} 條`+(f?`（篩選「${filter}」）`:'');
+ lazyMath(document.getElementById('out'));if(f)math(document.getElementById('out'))}
+const fi=document.getElementById('f');fi.oninput=()=>{clearTimeout(window._t);window._t=setTimeout(()=>build(fi.value),200)};build('');
+
+document.getElementById('hot').innerHTML=Object.entries(S).map(([s,sv])=>{const h=KB.hot[s]||[];if(!h.length)return '';
+ return `<details style="--c:${sv.color}"><summary style="color:${sv.color}">${s} L3 熱點（前 ${h.length} 名）</summary><table><tr><th>觀念</th><th>題數</th><th>題目</th></tr>${h.map(([k,qs])=>`<tr><td>${esc(k)}</td><td>${qs.length}</td><td>${qs.map(qlink).join('')}</td></tr>`).join('')}</table></details>`}).join('');
+</script>
+</body></html>

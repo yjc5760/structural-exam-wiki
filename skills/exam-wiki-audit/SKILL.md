@@ -158,6 +158,10 @@ python audit-tools/pages.py crop <考卷.pdf> <頁> x0 y0 x1 y1 <out.png> 400
 
 落實檢查只產出 `wiki/queries/落實檢查-<科目>-<範圍>-<日期>.md`（每題：勘誤日期、該改的點、是否改到、殘留位置），並更新 ledger `recheck`。
 
+ledger 更新後，在根目錄跑 `python scripts/build_kb_index.py`：題目瀏覽頁的信任標章與 `kb/trust.html` 由 ledger 推得
+（🔴 分歧待處理、🟠 勘誤後待複驗／盲解後有修改、🔵 盲解一致／勘誤已落實…），不另存狀態欄位（2026-11-28 起）。
+該題有 `verify_XX-YYYY-N.py` 時，盲解比對可先重跑它確認解析數值與腳本一致，再做獨立盲解。
+
 最後回覆：一致／分歧題數（落實檢查則為落實／殘留題數）、最嚴重的 3 題（一句話說明錯在哪）、新增檔案路徑清單、建議下一批範圍。
 
 ## 注意

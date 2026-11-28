@@ -67,7 +67,14 @@ XX/raw/solutions/ ＋ question_index              ──→ XX/study/lecture-*�
 Cowork 查詢、稽核、盲解報告、卡關紀錄            ──→ XX/wiki/queries/（直接存入）
 變更紀錄                                         ──→ XX/wiki/queries/log.md（append only）
 
+五科正本（解析 .md、題目正本、question_index、audit-ledger）
+＋ 根目錄 concept_vocabulary.json、cross_subject_links.json
+                                                 ──→ kb/（全站搜尋、陷阱字典、L3 索引、概念與跨科、可信度）＋ 題目瀏覽頁頁首信任標章
+                                                     （scripts/build_kb_index.py；2026-11-28 起）
+
 根目錄 syllabus_taxonomy.json（唯一正本）──→ XX/raw/json/syllabus_taxonomy.json（副本，scripts/sync_taxonomy.py）
+
+考選部考畢試題查詢平臺（wwwq.moex.gov.tw）    ──→ XX/raw/exams/XX-YYYY_<科目名>.pdf（scripts/fetch_exams.py；只新增、不覆蓋，來源記入 log.md）
 
 解題內容唯一來源：XX/raw/solutions/XX-YYYY-N/XX-YYYY-N.md
 題意唯一來源：XX/raw/solutions/XX-YYYY-N/XX-YYYY-N-problem.md（尚未建立者以考卷 PDF 為準）
@@ -93,6 +100,9 @@ Cowork 查詢、稽核、盲解報告、卡關紀錄            ──→ XX/wik
 ├── CLAUDE-SPEC.md           ← 格式／命名／完成標準
 ├── index.html               ← 五科入口頁（GitHub Pages 首頁）
 ├── syllabus_taxonomy.json   ← ⭐ 命題大綱分類正本（XX-Un-m）
+├── concept_vocabulary.json  ← 受控概念字典：同義標籤歸併、上位概念（只供搜尋與反查，不改 tags）
+├── cross_subject_links.json ← 跨科脈絡：只記單元對單元，題目層關聯由腳本自動算
+├── kb/                      ← 五科知識索引頁（只由 scripts/build_kb_index.py 產生，不手改）
 ├── 命題大綱.pdf              ← 考選部命題大綱原件
 ├── scripts/                 ← 五科共用腳本（各科資料夾不再放副本）
 │   ├── subject_profiles.json   ← 科目專屬設定（考卷檔名、designMethod、常見圖解）
@@ -101,11 +111,13 @@ Cowork 查詢、稽核、盲解報告、卡關紀錄            ──→ XX/wik
 │   ├── sync_taxonomy.py        ← 命題大綱正本 → 各科副本
 │   ├── xcheck.py               ← 跨檔一致性掃描（python scripts/xcheck.py XX）
 │   ├── extract_figure.py       ← 從考卷 PDF 擷取附圖
+│   ├── fetch_exams.py          ← 從考選部考畢試題查詢平臺下載新年度考卷（使用者在自己電腦執行）
 │   ├── render_problem_view.py  ← 題解 .md → study/problems-view/
 │   ├── build_unit_page.py ＋ unit_page_template.html ← 單元總覽
 │   ├── build_frequency.py      ← 全科出題頻率熱圖
 │   ├── build_start.py ＋ parse_links.py ＋ start.css ← 起點頁
 │   ├── audit_classification.py ← 主副分類稽核
+│   ├── build_kb_index.py       ← 五科知識索引（kb/）＋題目瀏覽頁信任標章
 │   └── templates/dashboard-index.html ← 五科共用儀表板樣板
 ├── skills/                  ← 配套 Cowork Skills 原始碼與 .skill 打包檔（五科通用）
 │
@@ -214,8 +226,10 @@ Cowork 查詢、稽核、盲解報告、卡關紀錄            ──→ XX/wik
    >    ⚠️ 考卷常為 Adobe-CNS1 CID 字型，`pdftotext` **抽不到中文**，公式與附表也常以影像嵌入；
    >    支承符號、鉸接圓圈、尺寸線只能目視 —— 必須轉圖（300–450 dpi）**逐頁目視判讀**；
    > ② **數值獨立重算**：每個數字以程式重算，並做量綱檢查與雙路徑交叉驗算，不可憑印象改；
+   >    驗算腳本存為該題資料夾的 `verify_XX-YYYY-N.py`（可重跑、最後印 `MISMATCHES: n`，2026-11-28 起），不再用完即丟；
    > ③ **同步全部下游**：`study/problems-view/`（`scripts/render_problem_view.py`）、該題 `figs/`（重跑 `gen_XX-YYYY-N.py`）、
-   >    `raw/json/question_index.json`（tags）、`dashboard-data.js`、`study/` 講義與 `study/data/unit-*.json`（重跑 `scripts/build_unit_page.py`），必要時重出 PDF；
+   >    `raw/json/question_index.json`（tags）、`dashboard-data.js`、`study/` 講義與 `study/data/unit-*.json`（重跑 `scripts/build_unit_page.py`），必要時重出 PDF，
+   >    最後重跑 `python scripts/build_kb_index.py`（kb/ 與信任標章）；
    > ④ 在該科 `wiki/queries/log.md` 記錄**改了什麼、為什麼錯、怎麼驗證的**，並在 .md 頁尾加「修正日期」。
    >
    > **題目正本 `XX-YYYY-N-problem.md` 的條件**（建立流程見 `skills/exam-solve`、`skills/exam-problem-split`）：
@@ -224,9 +238,9 @@ Cowork 查詢、稽核、盲解報告、卡關紀錄            ──→ XX/wik
    > 凍結後要改，須回考卷原圖重判、記 log，並重驗所有依該題意寫成的解析與講義。
    > 本檔只寫考卷有什麼（原文逐字、公式／附表照錄、圖面文字），**不寫解法**；解析 §1 與它衝突時以題目正本為準、勘誤解析。
    >
-   > **不在例外內（仍完整受保護）**：`raw/exams/`（考卷原件）、同資料夾的
+   > **不在例外內（仍完整受保護）**：`raw/exams/`（考卷原件；新年度考卷由 `scripts/fetch_exams.py` 新增或使用者放入，既有檔一律不覆蓋）、同資料夾的
    > `-fig-*.png`／`-fig-*-vector.svg`／`-chart-*.png`／`-eqn-*.png`／`-hand-*.png`（考卷擷取圖與使用者截圖，皆為證據）、
-   > 使用者放入的補充筆記 `*.pdf`。勘誤只准動 `.md` 正本與 Cowork 自己生成的 `gen_XX-YYYY-N.py`、`figs/`（SS 的舊 `*-viz.html` 已停用刪除）。
+   > 使用者放入的補充筆記 `*.pdf`。勘誤只准動 `.md` 正本與 Cowork 自己生成的 `gen_XX-YYYY-N.py`、`verify_XX-YYYY-N.py`、`figs/`（SS 的舊 `*-viz.html` 已停用刪除）。
    >
    > **驗證狀態連動**：解析一經勘誤，該題 `verificationStatus` 必須退回 `unverified`，
    > 由使用者人工複核後才可改回 `verified`。
@@ -248,3 +262,7 @@ Cowork 查詢、稽核、盲解報告、卡關紀錄            ──→ XX/wik
     （檔案卡片，使用者點開按「Save skill」即可安裝），不要只叫使用者自己去 repo 找檔重裝；
     在帳號端直接改過的 skill（例如經由對話中的儲存卡片），要同步寫回 `skills/`，兩邊不可分岔
 13. **規範版本一律用現行最新台灣規範**（題目指定 ACI／AISC 才例外），細節見上方「規範版本」一節
+14. **知識索引只由正本編譯**（2026-11-28 起）：`kb/` 與題目瀏覽頁的信任標章只由 `scripts/build_kb_index.py` 產生，不手改；
+    信任狀態由 audit-ledger 與 `verificationStatus` 推得，不另存欄位。同義標籤補進 `concept_vocabulary.json`（不回頭改舊 tags）；
+    跨科脈絡只寫在 `cross_subject_links.json`（單元層），不寫進題解或分類；規範條文代碼寫在 `question_index.json` 的 `codeClauses`，
+    **只填對照過規範原文的條號**，勘誤或依現行規範改寫解析時順手補，不整批回填

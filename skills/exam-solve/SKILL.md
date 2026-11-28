@@ -35,7 +35,9 @@ description: "結構技師考試知識庫（SS/RC/SA/SD/SM）的解題流程：�
 
 1. 確認科目。使用者沒說科目、對話也看不出來時，先問「哪一科？」，不要猜。
 2. 讀 `CLAUDE.md`、`CLAUDE-SPEC.md`、`XX/SUBJECT.md`。
-3. 確認考卷 `XX/raw/exams/XX-YYYY_<科目名>.pdf` 存在；不存在就請使用者放入，停止。
+3. 確認考卷 `XX/raw/exams/XX-YYYY_<科目名>.pdf` 存在；不存在就請使用者在自己電腦的終端機、知識庫根目錄執行
+   `python scripts/fetch_exams.py --year YYYY`（從考選部考畢試題查詢平臺自動下載五科試題並記錄來源；Cowork 的沙盒連不到 moex.gov.tw），
+   或自行放入，然後停止，等使用者說好了再繼續。
 4. 讀 `XX/raw/json/question_index.json`，找出該年尚無解析（`hasSolution` 不為 true）的題目。已有解析的題目**跳過**，不覆蓋（要改既有解析用 exam-errata；只補題目正本見下方「為既有題目補題目正本」）。
 
 ---
@@ -142,11 +144,13 @@ description: "結構技師考試知識庫（SS/RC/SA/SD/SM）的解題流程：�
 3. 做**三層掃描**（下節），再依 `XX/SUBJECT.md` §8 的設計哲學框架決定路徑。
 4. 依「解析輸出格式」寫 `.md`，存到 `XX/raw/solutions/XX-YYYY-N/XX-YYYY-N.md`。
 5. 計算型題目：**每個數值都用程式算一次**，不要心算或手打；最終答案與程式結果一致才存檔。
+   這支程式存為該題資料夾的 `verify_XX-YYYY-N.py`（格式見 `CLAUDE-SPEC.md` §2.2，最後印 `MISMATCHES: n`；2026-11-28 起）。
 6. **圖解（交給 struct-diagram）**：題目內容屬 `XX/SUBJECT.md` §4 的常見圖解類型時（勁度矩陣、反曲點、P-M 曲線、莫爾圓、應變分佈…），
    列出建議畫哪幾張、每張攔下什麼錯，問使用者要不要畫；使用者同意才載入 `struct-diagram` skill 產圖
    （`gen_XX-YYYY-N.py`＋`figs/*.svg/.png`），並把圖插回 `.md` 對應章節。概念說明題通常不需要圖，不要硬畫。
 7. 更新 `question_index.json`（見「索引更新」）。
 8. 有渲染腳本時（如 `scripts/render_problem_view.py`）重生該題瀏覽頁——題目正本會渲染在解析之前。
+   再於根目錄跑 `python scripts/build_kb_index.py`，讓新題進入全站搜尋、陷阱字典、L3 索引（新題標章為「⚪ 未盲解」）。
 9. 跑「完成檢核」，回報結果後停止。
 
 ### 三層掃描（解題前先做）
@@ -206,6 +210,9 @@ description: "結構技師考試知識庫（SS/RC/SA/SD/SM）的解題流程：�
 | `tags` | ✅ | 至少 3 個具體考點 |
 | `problemStatus` | ✅ | 建立題目正本時 `draft`；使用者確認判讀後 `confirmed` |
 | `verificationStatus` | ❌ | 新題一律 `unverified`；只有使用者驗算後明說，才改成 `verified` |
+| `codeClauses` | 選填 | 主線用到、**已對照規範原文**的條文（`TW-SS@99:F2.1`，代碼表見 `CLAUDE-SPEC.md` §2.1）；沒查原文不填 |
+
+`tags` 優先沿用根目錄 `concept_vocabulary.json` 已有的寫法；新的同義寫法補進字典的 `synonyms`。
 | `hasHandwritten` | ❌ | 使用者放入 hand PNG 後才改 |
 
 ### 完成檢核（每題存檔後逐項確認，回報給使用者）
@@ -216,7 +223,7 @@ description: "結構技師考試知識庫（SS/RC/SA/SD/SM）的解題流程：�
 - [ ] 解析用到的題給參數與所求的量，與題目正本一致（沒有自行重算題目已給的值）
 - [ ] §3.5 VHA 存在；`\boxed{}` 標出中間變數；卡關欄全部留空
 - [ ] 正文沒有純文字公式符號（`Mu`、`Fcr` 要寫成 `$M_u$`、`$F_{cr}$`）
-- [ ] 所有數值有程式重算紀錄；單位一致
+- [ ] 所有數值有程式重算紀錄（`verify_XX-YYYY-N.py`，`MISMATCHES: 0`）；單位一致
 - [ ] 圖片都有 alt text＋圖說；程式圖解在 `figs/` 且同資料夾有 `gen_XX-YYYY-N.py`
 - [ ] `question_index.json` 已更新，`designMethod` 在允許值內，`tags` ≥ 3，`problemStatus` = `confirmed`
 
