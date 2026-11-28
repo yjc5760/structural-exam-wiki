@@ -2514,3 +2514,5 @@ $P \to \infty$ 而溢出 925 處，改為只畫 $P \ge 0.45P_a$ 的視窗後解�
 - **相對舊給背頁的更正**：列在兩頁頁尾（U1-1 合併「單位土粒法」與「鎖不變量」、收尾檢查移到策略；U3-1「φ＝0 基礎抗滑」「牆底揚壓」移到 U3-2、含 c 主被動拆兩卡、K0 本單元題解未用）。
 - **下游**：problems-view 12 頁（U1-1 主 8、U3-1 主 4）第一顆返回鍵由重複的「觀念講義」改為「單元總覽」；`lecture-SM-U1-1／U3-1.html` 導覽加單元總覽（講義 PDF 未重出）；`index.html` `UNIT_PAGES`；`frequency-SM.html` 重產；README、檔案架構索引表、知識庫使用說明書、SUBJECT.md §9／§10。problems-view 已無任何連到 `study-`／`formula-given-` 的死連結。
 - **待辦**：儀表板 `UNIT_PAGES` 只剩 U2-1 指向已歸檔的 `study-`／`formula-given-` 頁（死連結），待 U2-1 改版時處理。
+
+- 2026-11-28｜FETCH-EXAM｜SM-2026：考卷原件由 `scripts/fetch_exams.py` 下載至 `raw/exams/SM-2026_土壤力學與基礎設計.pdf`；來源考選部考畢試題查詢平臺（moex code=115180 c=003 s=0311 q=1；115年專技人員高等考試建築師32類科技師含第二次食品技師大地工程技師考試分階段考試第二階段考試暨普通考試不動產經紀人記帳士考...），266,674 bytes，MD5 72b4b7008c90b1fa45e512038ab3ee31

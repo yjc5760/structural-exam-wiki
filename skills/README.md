@@ -16,7 +16,7 @@
 
 | 類別 | skills |
 |------|--------|
-| 解題與題目正本 | `exam-solve`、`exam-problem-split` |
+| 考卷與解題 | `exam-fetch`（下載新年度考古題）、`exam-solve`、`exam-problem-split` |
 | 品質：盲解、勘誤、稽核 | `exam-wiki-pipeline`、`exam-errata`、`exam-wiki-audit` |
 | 分析與教材 | `subject-frequency-map`、`unit-overview`、`unit-lecture`、`unit-textbook` |
 | 練習與入口 | `exam-practice-sheet`、`add-to-wiki`（改卷、卡關紀錄）、`exam-start-page` |
@@ -33,6 +33,12 @@
 ---
 
 ## Skills 清單
+
+### `exam-fetch.skill`
+
+**功能：** 下載新年度考古題——確認範圍（必要時用內建瀏覽器看官網是否已公布）、在使用者電腦執行 `scripts/fetch_exams.py`（沙盒連不到 moex.gov.tw：有 computer use 時由 Claude 在檔案總管雙擊 `.work` 批次檔代跑，否則給使用者完整指令）、驗收檔案與 log 來源紀錄，再交給 exam-solve
+
+**觸發語句：** `下載考古題`、`下載 YYYY 年考卷`、`有沒有新考題`、`檢查考卷是否和官網一致`
 
 ### `exam-solve.skill`
 
