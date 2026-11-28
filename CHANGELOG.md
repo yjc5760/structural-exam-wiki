@@ -102,3 +102,27 @@
 - `SS/`、`SA/`、`RC/`、`SM/`、`SD/` 的 `index.html`：首次授權提示「選擇 exam-wiki-XX 資料夾」與選錯資料夾的 alert「請選擇 exam-wiki-XX 資料夾本身」，改為「選擇 XX 科目資料夾」（比照共用樣板 `scripts/templates/dashboard-index.html`）。
 - 原因：搬入五科合一 repo 後已無 exam-wiki-XX 資料夾，舊提示會讓使用者選錯；閱讀器實際檢查的是所選資料夾下的 `raw/solutions/`，即科目資料夾。
 - 頁面標題、副標、頁尾、匯出 PDF 頁首的 exam-wiki-XX 字樣為名稱標籤，未動。SD 另記於 `SD/SUBJECT.md` §9。
+
+## 2026-11-28 知識庫升級：全站知識索引、信任標章、驗算腳本留存、概念字典與跨科脈絡
+- 新增 `scripts/build_kb_index.py`：從五科正本（解析 §2／§3／§3.5、題目正本、question_index、audit-ledger）編譯 `kb/` 六檔——`search.html`（五科全站搜尋，同義詞展開）、`traps.html`（陷阱字典 1,678 條／451 題）、`l3.html`（L3 深層知識 1,695 條／452 題＋L3 熱點）、`concepts.html`（概念字典、跨科脈絡、規範條文反查）、`trust.html`（可信度總覽與人工複核待辦）、`kb-data.js`。根目錄 `index.html` 加入口。
+- 489 頁題目瀏覽頁頁首加信任標章（`<!--trust-->…<!--/trust-->`，每頁只動這一行）；狀態由 audit-ledger 與 `verificationStatus` 推得，不另存欄位。首次結果：人工已核 6、盲解一致 293、勘誤已落實 158、分歧已裁定 5、盲解後有修改 26、勘誤後待複驗 1。`render_problem_view.py` 借他題當版型時會拿掉該題標章。
+- 新增根目錄 `concept_vocabulary.json`（167 個概念、同義標籤＋上位概念＋搜尋別名，confirmed 全 false 待審）與 `cross_subject_links.json`（5 條單元層跨科脈絡，待審）；兩者只供索引，不改各科 tags 與分類。
+- 規則：`CLAUDE.md` 新增規則 14，規則 1 勘誤可動檔案加 `verify_XX-YYYY-N.py`、條件 ② 要求留存驗算腳本、條件 ③ 下游加重跑 build_kb_index；`CLAUDE-SPEC.md` 新增 `codeClauses` 欄位與規範代碼表、`verify_*.py` 格式、tags 沿用字典寫法；`CLAUDE-CODE.md` FIND／UNVERIFIED 補網頁版。
+- skills：`exam-errata`（驗算腳本存檔、codeClauses、重跑索引）、`exam-solve`（同）、`exam-wiki-audit`（ledger 更新後重跑索引）改寫並重新打包 `.skill`。
+- 正本缺漏（索引照實呈現、未補）：38 題正本沒有陷阱段落、36 題沒有 L3 段落（SA、SD 為主；另 RC-2006-1 的 L3 寫成變數層而非深層知識，未抽取），`--check` 會逐題列出。
+- 原因：題庫的知識鎖在單題文章裡無法橫向查；盲解結果只在 ledger 看不到；勘誤驗算程式用完即丟；舊 wiki 已證明手抄副本會脫鉤，所以一律改為由正本編譯的衍生視圖。
+
+## 2026-11-28 新增考卷自動下載：scripts/fetch_exams.py
+- 從考選部「考畢試題查詢平臺」（wwwq.moex.gov.tw）下載結構工程技師試題：GET `wFrmExamQandASearch.aspx?y=<年>` 找標籤含「結構工程技師」的類科，以現行六科名稱對得最多者選出高考那場（2002、2003 同年還有檢覈考試，科目名稱不同），再依科目名稱取 `wHandExamQandA_File.ashx?t=Q&code=…&c=…&s=…&q=1`。官網每年的考試／類科／科目代碼都不同，不寫死。
+- 存成 `XX/raw/exams/XX-YYYY_<examFile>.pdf`（檔名取自 `scripts/subject_profiles.json`）；既有考卷一律不覆蓋，`--verify` 只比對、不同時官網版另存 `*.moex-YYYYMMDD.pdf`；每份下載在該科 `wiki/queries/log.md` 記來源代碼與 MD5。
+- 實頁驗證：2002（091310，略過 091091／091261 檢覈）、2010（099220）、2019（108180）、2024（113190）、2025（114180）、2026（115180）。既有 `SS-2019_鋼結構設計.pdf` 與官網檔同為 158,171 bytes，確認本庫考卷即來自此平台。
+- **115 年（2026）結構工程技師試題官網已公布**（考試代碼 115180），本庫尚未收錄。
+- Cowork／Claude 沙盒連不到 moex.gov.tw（網路白名單），腳本由使用者在自己電腦執行；`CLAUDE.md`（資料流、資料夾結構、規則 1 註記）、`CLAUDE-CODE.md`（維護段落）、`skills/exam-solve`（開始前第 3 步）同步，重新打包 `exam-solve.skill`。
+- 同日：下載流程包成 skill `skills/exam-fetch/`（＋`exam-fetch.skill`）：確認範圍 → 給使用者完整指令 → 驗收檔案、頁數與 log 來源 → 交給 exam-solve；`skills/README.md`、`CLAUDE-CODE.md` 列入。
+- 同日：`exam-fetch` 加「computer use 代跑」：device_bash 在 `.work/` 寫批次檔，computer use（檔案總管 click 等級，只雙擊不打字）執行，讀 `.work/fetch.log` 驗收；手動執行改為備案。驗收加「第一頁抬頭目視」。實測下載 115 年五科考卷成功。
+
+## 2026-11-28 五科講義精選題練習卷＋exam-practice-sheet 題首定位修正
+- 依 35 份 `XX/study/lecture-XX-Un-m.html` 末節「時間有限就練這 5 題」的 ①–⑤，產生 173 份單題練習卷（35×5，SS-2023-3、SM-2025-3 兩單元共用）：`XX/study/practice/<題號>-practice.html/.pdf`，各科 `study/practice/精選題索引.md` 列出單元→題號→配分→建議時間。
+- `skills/exam-practice-sheet`：題首／共用公式區的 y 座標改取該行第一個非空白 span 頂端（原取行 bbox）。行內有高公式（如 SD-2023 第四題 k=16π²）時行 bbox 會往上撐到上一行，造成本題切入上一題最後一行、上一題末行被切掉。重新打包 `exam-practice-sheet.skill`。
+- 使用者電腦的 Cowork VM 無 Chromium（playwright 下載被白名單擋），HTML 在本機產生、PDF 於雲端 Chromium 轉印後寫回。
+- 同日：35 份 `XX/study/lecture-XX-Un-m.html` 的「精選 5 題」節，①–⑤ 每題題號旁加「🖨️ 練習卷」按鈕（`a.pdfbtn`，連到 `practice/<題號>-practice.pdf`，新分頁開啟可直接列印；列印講義時按鈕隱藏）；`<head>` 加一段 `#pdfbtn-css` 樣式。只動這兩處，重跑會先移除舊按鈕再加。

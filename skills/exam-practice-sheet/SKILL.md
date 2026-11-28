@@ -93,6 +93,8 @@ pdftoppm -r 45 -png <repo>/study/practice/<名稱>-practice.pdf /tmp/pv
 - RC-2003 是掃描檔且 RC 尚無題目正本 → 只能附整份考卷；補上正本後自動改為單題排版。
 - 2020 年各科題號在文字層是圖片，已由左邊界小圖偵測處理。
 - 少數考卷文字層把括號拆到別行，配分以題目正本為準；SS-2004、SS-2016 的考卷判讀總分不足 100，但 SS 有題目正本，不受影響。
+- 題首 y 取該行第一個非空白 span 頂端（2026-11-28 修正）：SD-2023 第四題行內有 16π²，行 bbox 往上撐到上一行，舊版會把第三題末行切進第四題。
+- 使用者電腦的 Cowork VM 可能沒有 Chromium（playwright 下載被白名單擋）：在本機以 `--no-pdf` 產生 HTML，stage 到雲端用 Chromium 轉 PDF（同 to_pdf 的 KaTeX 本機路由），再 commit 回 `study/practice/`。
 
 ## 產生器原始碼
 
@@ -198,7 +200,9 @@ class Exam:
                 for l in b.get("lines", []):
                     # 考卷常用相容漢字（如 U+F96B 參），先正規化
                     t = unicodedata.normalize("NFKC", "".join(s["text"] for s in l["spans"])).strip()
-                    x, y = l["bbox"][0], l["bbox"][1]
+                    # y 取第一個非空白 span 的頂端：行內有高公式（如 π²）時，行 bbox 會往上撐到上一行
+                    sp = next((s for s in l["spans"] if s["text"].strip()), l["spans"][0]) if l["spans"] else None
+                    x, y = l["bbox"][0], (sp["bbox"][1] if sp else l["bbox"][1])
                     m = RE_MARK.match(t)
                     if m and m.group(1) not in named:
                         named[m.group(1)] = (i, y)
